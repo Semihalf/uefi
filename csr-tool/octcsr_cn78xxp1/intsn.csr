@@ -3498,35 +3498,11 @@ enums:
           reg_name: "PKI_CL(0..3)_ECC_INT"
         description: See PKI_CL(0..3)_ECC_INT[DMEM_PERR].
 
-      - name: PKI_CL(0..3)_ECC_KMEM_SBE
+      - name: PKI_CL(0..3)_ECC_SMEM_SBE
         value: 0x44842 | a<<8
         attributes:
-          bit_name: "KMEM_SBE"
-          bit_num: "2"
-          blk_enum_name: "PKI_INTSN_E"
-          major_name: "PKI"
-          major_val: "(0x44)"
-          reg_addr: "(0x118004400C010|a<<16)"
-          reg_name: "PKI_CL(0..3)_ECC_INT"
-        description: See PKI_CL(0..3)_ECC_INT[KMEM_SBE].
-
-      - name: PKI_CL(0..3)_ECC_KMEM_DBE
-        value: 0x44843 | a<<8
-        attributes:
-          bit_name: "KMEM_DBE"
-          bit_num: "3"
-          blk_enum_name: "PKI_INTSN_E"
-          major_name: "PKI"
-          major_val: "(0x44)"
-          reg_addr: "(0x118004400C010|a<<16)"
-          reg_name: "PKI_CL(0..3)_ECC_INT"
-        description: See PKI_CL(0..3)_ECC_INT[KMEM_DBE].
-
-      - name: PKI_CL(0..3)_ECC_SMEM_SBE
-        value: 0x44844 | a<<8
-        attributes:
           bit_name: "SMEM_SBE"
-          bit_num: "4"
+          bit_num: "2"
           blk_enum_name: "PKI_INTSN_E"
           major_name: "PKI"
           major_val: "(0x44)"
@@ -3535,10 +3511,10 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[SMEM_SBE].
 
       - name: PKI_CL(0..3)_ECC_SMEM_DBE
-        value: 0x44845 | a<<8
+        value: 0x44843 | a<<8
         attributes:
           bit_name: "SMEM_DBE"
-          bit_num: "5"
+          bit_num: "3"
           blk_enum_name: "PKI_INTSN_E"
           major_name: "PKI"
           major_val: "(0x44)"
@@ -3547,10 +3523,10 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[SMEM_DBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM0_SBE
-        value: 0x44846 | a<<8
+        value: 0x44844 | a<<8
         attributes:
           bit_name: "PCAM0_SBE"
-          bit_num: "6"
+          bit_num: "4"
           blk_enum_name: "PKI_INTSN_E"
           major_name: "PKI"
           major_val: "(0x44)"
@@ -3559,10 +3535,10 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[PCAM0_SBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM0_DBE
-        value: 0x44847 | a<<8
+        value: 0x44845 | a<<8
         attributes:
           bit_name: "PCAM0_DBE"
-          bit_num: "7"
+          bit_num: "5"
           blk_enum_name: "PKI_INTSN_E"
           major_name: "PKI"
           major_val: "(0x44)"
@@ -3571,10 +3547,10 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[PCAM0_DBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM1_SBE
-        value: 0x44848 | a<<8
+        value: 0x44846 | a<<8
         attributes:
           bit_name: "PCAM1_SBE"
-          bit_num: "8"
+          bit_num: "6"
           blk_enum_name: "PKI_INTSN_E"
           major_name: "PKI"
           major_val: "(0x44)"
@@ -3583,10 +3559,10 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[PCAM1_SBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM1_DBE
-        value: 0x44849 | a<<8
+        value: 0x44847 | a<<8
         attributes:
           bit_name: "PCAM1_DBE"
-          bit_num: "9"
+          bit_num: "7"
           blk_enum_name: "PKI_INTSN_E"
           major_name: "PKI"
           major_val: "(0x44)"
@@ -4196,6 +4172,48 @@ enums:
           reg_addr: "(0x1540000900C00)"
           reg_name: "PKO_PEB_ERR_INT"
         description: See PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR].
+
+      - name: PKO_MWPBUF_DATA_VAL_ERR
+        value: 0x500F6
+        attributes:
+          bit_name: "MWPBUF_DATA_VAL_ERR"
+          bit_num: "8"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[MWPBUF_DATA_VAL_ERR].
+
+      - name: PKO_DWPBUF_DATA_VAL_ERR
+        value: 0x500F7
+        attributes:
+          bit_name: "DWPBUF_DATA_VAL_ERR"
+          bit_num: "6"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[DWPBUF_DATA_VAL_ERR].
+
+      - name: PKO_DRPBUF_DATA_VAL_ERR
+        value: 0x500F8
+        attributes:
+          bit_name: "DRPBUF_DATA_VAL_ERR"
+          bit_num: "7"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[DRPBUF_DATA_VAL_ERR].
 
       - name: PKO_SENDPKT_LMTDMA_ERR
         value: 0x500F9

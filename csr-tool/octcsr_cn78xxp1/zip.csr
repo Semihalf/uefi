@@ -73,7 +73,7 @@ structs:
         bits: 41..0
         description: |
           When a ZPTR is in an instruction word, ZPTR[ADDR] is either:
-          A direct byte pointer into CN78XX's attached memory, or
+          A direct byte pointer into L2C/DDR attached memory, or
           A pointer to a gather/scatter list in memory.
           When a ZPTR is in a gather/scatter list, ZPTR[ADDR] is:
           A direct byte pointer into the attached memory.
@@ -135,7 +135,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -163,12 +163,10 @@ registers:
       This register controls the maximum number of in-flight X2I data fetch transactions. Writing 0
       to this register causes the ZIP module to temporarily suspend IOI accesses; it is not
       recommended for normal operation, but may be useful for diagnostics.
-    attributes:
-      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -191,7 +189,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -222,7 +220,7 @@ registers:
 
       - name: --
         bits: 55..49
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -258,7 +256,7 @@ registers:
 
       - name: --
         bits: 7..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -279,7 +277,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -300,10 +298,12 @@ registers:
     address: 0x1180038000508
     bus: RSL
     description: This registers defines the priority between instruction queues.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -332,7 +332,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -357,7 +357,7 @@ registers:
     fields:
       - name: --
         bits: 63..53
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -380,7 +380,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -394,7 +394,7 @@ registers:
 
       - name: --
         bits: 47..43
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -408,7 +408,7 @@ registers:
 
       - name: --
         bits: 39..36
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -422,7 +422,7 @@ registers:
 
       - name: --
         bits: 31..27
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -436,7 +436,7 @@ registers:
 
       - name: --
         bits: 23..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -450,7 +450,7 @@ registers:
 
       - name: --
         bits: 15..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -464,7 +464,7 @@ registers:
 
       - name: --
         bits: 7..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -495,7 +495,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -519,7 +519,7 @@ registers:
 
       - name: --
         bits: 7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -543,7 +543,7 @@ registers:
 
       - name: --
         bits: 3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -574,7 +574,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -645,7 +645,7 @@ registers:
 
       - name: --
         bits: 62..35
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -680,7 +680,7 @@ registers:
 
       - name: --
         bits: 62..37
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -711,7 +711,7 @@ registers:
     fields:
       - name: --
         bits: 63..61
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -725,7 +725,7 @@ registers:
 
       - name: --
         bits: 47..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -744,7 +744,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -757,7 +757,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -781,7 +781,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -808,7 +808,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -845,7 +845,7 @@ registers:
 
       - name: --
         bits: 62..52
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -873,7 +873,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

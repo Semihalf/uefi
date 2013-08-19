@@ -11,7 +11,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -90,7 +90,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

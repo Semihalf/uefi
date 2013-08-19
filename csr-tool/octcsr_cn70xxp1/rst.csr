@@ -86,7 +86,7 @@ registers:
 
       - name: --
         bits: 56..37
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -113,7 +113,7 @@ registers:
 
       - name: --
         bits: 23..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -183,7 +183,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -225,7 +225,7 @@ registers:
 
       - name: --
         bits: 5..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -265,7 +265,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -281,7 +281,7 @@ registers:
 
       - name: --
         bits: 7..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -304,7 +304,7 @@ registers:
     fields:
       - name: --
         bits: 63..47
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -326,7 +326,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -377,7 +377,7 @@ registers:
 
       - name: --
         bits: 5..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -443,7 +443,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -465,7 +465,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -492,7 +492,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

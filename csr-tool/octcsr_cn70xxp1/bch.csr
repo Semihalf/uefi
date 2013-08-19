@@ -10,7 +10,7 @@ registers:
     fields:
       - name: --
         bits: 63..23
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -33,7 +33,7 @@ registers:
 
       - name: ONE_CMD
         bits: 17
-        access: ---
+        access: --
         reset: 0
         typical: 0
         description: Execute a single operation at a time.  Diagnostic only.
@@ -53,7 +53,7 @@ registers:
 
       - name: --
         bits: 15..6
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -90,7 +90,7 @@ registers:
     fields:
       - name: --
         bits: 63..58
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -132,7 +132,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -148,7 +148,7 @@ registers:
 
       - name: --
         bits: 15..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -171,7 +171,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -205,7 +205,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -240,7 +240,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

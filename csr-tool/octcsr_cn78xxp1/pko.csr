@@ -450,6 +450,27 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR].
 
+      - name: PKO_MWPBUF_DATA_VAL_ERR
+        value: 0x500F6
+        attributes:
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PDM_STS[MWPBUF_DATA_VAL_ERR].
+
+      - name: PKO_DWPBUF_DATA_VAL_ERR
+        value: 0x500F7
+        attributes:
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PDM_STS[DWPBUF_DATA_VAL_ERR].
+
+      - name: PKO_DRPBUF_DATA_VAL_ERR
+        value: 0x500F8
+        attributes:
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_PDM_STS[DRPBUF_DATA_VAL_ERR].
+
       - name: PKO_SENDPKT_LMTDMA_ERR
         value: 0x500F9
         attributes:
@@ -1401,7 +1422,7 @@ structs:
         description: |
           No L2 Allocate. When clear, PKO allocates all load data into the L2 cache. When set, PKO
           does not allocate blocks containing segment bytes into the L2 cache.
-          [N2] affects performance, but otherwise does not affect CN78XX behavior. It may be
+          [N2] affects performance, but otherwise does not affect PKO behavior. It may be
           advantageous to set [N2] if packet data will not be used after PKO sends the packet, which
           will allow the L2 cache to retain other more useful information.
           Note that PKO always allocates descriptor chunks and gather lists into the L2 cache. Also,
@@ -1759,7 +1780,7 @@ registers:
     fields:
       - name: --
         bits: 63..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1773,7 +1794,7 @@ registers:
 
       - name: --
         bits: 12..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1786,7 +1807,7 @@ registers:
     fields:
       - name: --
         bits: 63..41
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1807,7 +1828,7 @@ registers:
 
       - name: --
         bits: 28..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1858,7 +1879,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1904,7 +1925,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1918,7 +1939,7 @@ registers:
 
       - name: --
         bits: 43..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1959,7 +1980,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1972,7 +1993,7 @@ registers:
     fields:
       - name: --
         bits: 63..51
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2025,7 +2046,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2042,7 +2063,7 @@ registers:
 
       - name: --
         bits: 47..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2055,7 +2076,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2077,7 +2098,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2097,7 +2118,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2177,7 +2198,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2345,7 +2366,7 @@ registers:
 
       - name: --
         bits: 39..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2416,7 +2437,7 @@ registers:
 
       - name: --
         bits: 55..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2439,7 +2460,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2510,7 +2531,7 @@ registers:
 
       - name: --
         bits: 55..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2533,7 +2554,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2546,7 +2567,7 @@ registers:
     fields:
       - name: --
         bits: 63..41
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2572,7 +2593,7 @@ registers:
 
       - name: --
         bits: 31..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2586,7 +2607,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2612,7 +2633,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2625,7 +2646,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2659,7 +2680,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2675,7 +2696,7 @@ registers:
 
       - name: --
         bits: 23..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2738,7 +2759,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2764,7 +2785,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2821,13 +2842,13 @@ registers:
 
 
   - name: PKO_L1_SQ(0..31)_GREEN
-    title: PKO PSE Level 1 Shaping Queue Green State Register (Debug)
+    title: PKO PSE Level 1 Shaping Queue Green State Debug Register
     address: 0x1540000080058 + a*0x200
     bus: NCB
     fields:
       - name: --
         bits: 63..41
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2837,11 +2858,11 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Head pointer. The index of round-robin linked-list head.
+        description: Head pointer. The index of round-robin linked-list head. For internal use only.
 
       - name: --
         bits: 31..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2851,11 +2872,11 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Tail pointer. The index of round-robin linked-list tail.
+        description: Tail pointer. The index of round-robin linked-list tail. For internal use only.
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2867,7 +2888,7 @@ registers:
         typical: 0x0
         description: |
           Active vector. A 10-bit vector, ordered by priority, that indicate which inputs to *this*
-          scheduling queue are active.
+          scheduling queue are active. For internal use only.
 
 
   - name: PKO_L1_SQ(0..31)_YELLOW
@@ -3003,7 +3024,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3017,7 +3038,7 @@ registers:
 
       - name: --
         bits: 15..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3043,7 +3064,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3321,7 +3342,7 @@ registers:
 
       - name: --
         bits: 9..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3462,7 +3483,7 @@ registers:
 
       - name: --
         bits: 45..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3485,7 +3506,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3626,7 +3647,7 @@ registers:
 
       - name: --
         bits: 45..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3649,7 +3670,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3662,7 +3683,7 @@ registers:
     fields:
       - name: --
         bits: 63..41
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3676,7 +3697,7 @@ registers:
 
       - name: --
         bits: 31..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3696,7 +3717,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3710,7 +3731,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3729,7 +3750,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3745,7 +3766,7 @@ registers:
 
       - name: --
         bits: 23..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4033,7 +4054,7 @@ registers:
 
       - name: --
         bits: 24..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4139,7 +4160,7 @@ registers:
 
       - name: --
         bits: 50..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4162,7 +4183,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4268,7 +4289,7 @@ registers:
 
       - name: --
         bits: 50..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4291,7 +4312,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4304,7 +4325,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4318,7 +4339,7 @@ registers:
 
       - name: --
         bits: 31..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4332,7 +4353,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4346,7 +4367,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4395,7 +4416,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4409,7 +4430,7 @@ registers:
 
       - name: --
         bits: 31..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4423,7 +4444,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4461,7 +4482,7 @@ registers:
     fields:
       - name: --
         bits: 63..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4475,7 +4496,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4798,7 +4819,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4960,7 +4981,7 @@ registers:
 
       - name: --
         bits: 42..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4983,7 +5004,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5145,7 +5166,7 @@ registers:
 
       - name: --
         bits: 42..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5168,7 +5189,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5181,7 +5202,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5195,7 +5216,7 @@ registers:
 
       - name: --
         bits: 31..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5209,7 +5230,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5223,7 +5244,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5242,7 +5263,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5258,7 +5279,7 @@ registers:
 
       - name: --
         bits: 23..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5658,7 +5679,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5820,7 +5841,7 @@ registers:
 
       - name: --
         bits: 42..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5843,7 +5864,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6005,7 +6026,7 @@ registers:
 
       - name: --
         bits: 42..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6028,7 +6049,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6041,7 +6062,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6055,7 +6076,7 @@ registers:
 
       - name: --
         bits: 31..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6069,7 +6090,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6083,7 +6104,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6465,7 +6486,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6627,7 +6648,7 @@ registers:
 
       - name: --
         bits: 42..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6650,7 +6671,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6812,7 +6833,7 @@ registers:
 
       - name: --
         bits: 42..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6835,7 +6856,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6848,7 +6869,7 @@ registers:
     fields:
       - name: --
         bits: 63..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6862,7 +6883,7 @@ registers:
 
       - name: --
         bits: 15..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6873,6 +6894,40 @@ registers:
     address: 0x1540000300070 + a*0x200
     bus: NCB
     inherits: PKO_L1_SQ(0..31)_PICK
+
+  - name: PKO_DQ(0..1023)_FIFO
+    title: PKO PSE Descriptor Queue FIFO State Register (Debug)
+    address: 0x1540000300078 + a*0x200
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..15
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: P_CON
+        bits: 14
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Reserved.
+
+      - name: HEAD
+        bits: 13..7
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: See PKO_L2_SQ(0..511)_POINTERS[PREV].
+
+      - name: TAIL
+        bits: 6..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: See PKO_L2_SQ(0..511)_POINTERS[NEXT].
+
 
   - name: PKO_PSE_DQ_ECC_CTL0
     title: PKO PSE DQ RAM ECC Control Register 0
@@ -7010,7 +7065,7 @@ registers:
 
       - name: --
         bits: 36..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7088,7 +7143,7 @@ registers:
 
       - name: --
         bits: 54..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7111,7 +7166,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7189,7 +7244,7 @@ registers:
 
       - name: --
         bits: 54..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7212,7 +7267,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7225,7 +7280,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7282,11 +7337,38 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..6
-        access: ---
+        bits: 63..9
+        access: --
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MWPBUF_DATA_VAL_ERR
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          recieved signal that MWPBUF had data valid error. Throws
+          PKO_INTSN_E::PKO_MWPBUF_DATA_VAL_ERR.
+
+      - name: DRPBUF_DATA_VAL_ERR
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          recieved signal that DRPBUF had data valid error. Throws
+          PKO_INTSN_E::PKO_DRPBUF_DATA_VAL_ERR.
+
+      - name: DWPBUF_DATA_VAL_ERR
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          recieved signal that DWPBUF had data valid error. Throws
+          PKO_INTSN_E::PKO_DWPBUF_DATA_VAL_ERR.
 
       - name: SENDPKT_LMTDMA_ERR
         bits: 5
@@ -7373,7 +7455,7 @@ registers:
 
       - name: --
         bits: 60..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7387,7 +7469,7 @@ registers:
 
       - name: --
         bits: 2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7407,7 +7489,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7434,7 +7516,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7454,7 +7536,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7570,7 +7652,7 @@ registers:
     fields:
       - name: --
         bits: 63..34
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7676,7 +7758,7 @@ registers:
     fields:
       - name: --
         bits: 63..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7722,7 +7804,7 @@ registers:
     fields:
       - name: --
         bits: 63..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7768,7 +7850,7 @@ registers:
     fields:
       - name: --
         bits: 63..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7814,7 +7896,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7847,7 +7929,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -7864,6 +7946,161 @@ registers:
           (PKO_PDM_CFG.PKO_PAD_MINLEN) as follows:
             if( MINPAD )
                 if( send_hdr.total < MINLEN ) send_hdr.total = MINLEN
+
+
+  - name: PKO_PDM_BIST_STATUS
+    title: PKO PDM RAM ECC SBE Status Register 0
+    address: 0x15400008FFF00
+    bus: NCB
+    attributes:
+      mem_to_csr: "True"
+    fields:
+      - name: FLSHB_CACHE_LO_RAM_BIST_STATUS
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for FLSHB_CACHE_LO_RAM.
+
+      - name: FLSHB_CACHE_HI_RAM_BIST_STATUS
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for FLSHB_CACHE_HI_RAM.
+
+      - name: ISRM_CA_IINST_RAM_BIST_STATUS
+        bits: 61
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRM_CA_IINST_RAM.
+
+      - name: ISRM_CA_CM_RAM_BIST_STATUS
+        bits: 60
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRM_CA_CM_RAM.
+
+      - name: ISRM_ST_RAM2_BIST_STATUS
+        bits: 59
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRM_ST_RAM2.
+
+      - name: ISRM_ST_RAM1_BIST_STATUS
+        bits: 58
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRM_ST_RAM1.
+
+      - name: ISRM_ST_RAM0_BIST_STATUS
+        bits: 57
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRM_ST_RAM0.
+
+      - name: ISRD_ST_RAM3_BIST_STATUS
+        bits: 56
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRD_ST_RAM3.
+
+      - name: ISRD_ST_RAM2_BIST_STATUS
+        bits: 55
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRD_ST_RAM2.
+
+      - name: ISRD_ST_RAM1_BIST_STATUS
+        bits: 54
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRD_ST_RAM1.
+
+      - name: ISRD_ST_RAM0_BIST_STATUS
+        bits: 53
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for ISRD_ST_RAM0.
+
+      - name: DRP_HI_RAM_BIST_STATUS
+        bits: 52
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for DRP_HI_RAM.
+
+      - name: DRP_LO_RAM_BIST_STATUS
+        bits: 51
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for DRP_LO_RAM.
+
+      - name: DWP_HI_RAM_BIST_STATUS
+        bits: 50
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for DWP_HI_RAM.
+
+      - name: DWP_LO_RAM_BIST_STATUS
+        bits: 49
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for DWP_LO_RAM.
+
+      - name: MWP_HI_RAM_BIST_STATUS
+        bits: 48
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for MWP_HI_RAM.
+
+      - name: MWP_LO_RAM_BIST_STATUS
+        bits: 47
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for MWP_LO_RAM.
+
+      - name: FILLB_M_DAT_RAM_BIST_STATUS
+        bits: 46
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for FILLB_M_DAT_RAM.
+
+      - name: FILLB_D_DAT_RAM_BIST_STATUS
+        bits: 45
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for FILLB_D_DAT_RAM.
+
+      - name: MINPAD_RAM_BIST_STATUS
+        bits: 44
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for MINPAD_RAM.
+
+      - name: --
+        bits: 43..0
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
 
 
   - name: PKO_PDM_ECC_CTL0
@@ -8156,7 +8393,7 @@ registers:
 
       - name: --
         bits: 3..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8179,7 +8416,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8202,7 +8439,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8357,7 +8594,7 @@ registers:
 
       - name: --
         bits: 43..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8512,7 +8749,7 @@ registers:
 
       - name: --
         bits: 43..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8525,7 +8762,7 @@ registers:
     fields:
       - name: --
         bits: 63..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8577,7 +8814,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8610,7 +8847,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8664,7 +8901,7 @@ registers:
     fields:
       - name: --
         bits: 63..43
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8698,7 +8935,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8753,7 +8990,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8855,7 +9092,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8889,7 +9126,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8923,7 +9160,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8957,7 +9194,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -8991,7 +9228,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9025,7 +9262,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9059,7 +9296,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9093,7 +9330,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9127,7 +9364,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9161,7 +9398,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9188,192 +9425,192 @@ registers:
     fields:
       - name: --
         bits: 63..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: ADD_WORK_FIFO
         bits: 25
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: ADD_WORK_FIFO RAM BIST status.
 
       - name: PDM_PSE_BUF_RAM
         bits: 24
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PDM_PSE_BUF RAM BIST status.
 
       - name: IOBP0_FIFO_RAM
         bits: 23
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: IOBP0_FIFO RAM BIST status.
 
       - name: IOBP1_FIFO_RAM
         bits: 22
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: IOBP1_FIFO RAM BIST status.
 
       - name: STATE_MEM0
         bits: 21
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: STATE_MEM0 RAM BIST status.
 
       - name: STATE_MEM1
         bits: 20
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: STATE_MEM1 RAM BIST status.
 
       - name: STATE_MEM2
         bits: 19
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: STATE_MEM2 RAM BIST status.
 
       - name: STATE_MEM3
         bits: 18
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: STATE_MEM3 RAM BIST status.
 
       - name: IOBP1_UID_FIFO_RAM
         bits: 17
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: IOBP1_UID_FIFO RAM BIST status.
 
       - name: NXT_LINK_PTR_RAM
         bits: 16
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: NXT_LINK_PTR RAM BIST status.
 
       - name: PD_BANK0_RAM
         bits: 15
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PD_BANK0 RAM BIST status.
 
       - name: PD_BANK1_RAM
         bits: 14
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PD_BANK1 RAM BIST status.
 
       - name: PD_BANK2_RAM
         bits: 13
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PD_BANK2 RAM BIST status.
 
       - name: PD_BANK3_RAM
         bits: 12
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PD_BANK3 RAM BIST status.
 
       - name: PD_VAR_BANK_RAM
         bits: 11
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PD_VAR_BANK RAM BIST status.
 
       - name: PDM_RESP_BUF_RAM
         bits: 10
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PDM_RESP_BUF RAM BIST status.
 
       - name: TX_FIFO_PKT_RAM
         bits: 9
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: TX_FIFO_PKT RAM BIST status.
 
       - name: TX_FIFO_HDR_RAM
         bits: 8
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: TX_FIFO_HDR RAM BIST status.
 
       - name: TX_FIFO_CRC_RAM
         bits: 7
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: TX_FIFO_CRC RAM BIST status.
 
       - name: TS_ADDWORK_RAM
         bits: 6
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: TS_ADDWORK RAM BIST status.
 
       - name: SEND_MEM_TS_FIFO
         bits: 5
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: SEND_MEM_TS_FIFO RAM BIST status.
 
       - name: SEND_MEM_STDN_FIFO
         bits: 4
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: SEND_MEM_STDN_FIFO RAM BIST status.
 
       - name: SEND_MEM_FIFO
         bits: 3
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: SEND_MEM_FIFO RAM BIST status.
 
       - name: PKT_MRK_RAM
         bits: 2
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PKT_MRK RAM BIST status.
 
       - name: PEB_ST_INF_RAM
         bits: 1
-        access: RO/H
+        access: RO
         reset: --
         typical: --
         description: PEB_ST_INF RAM BIST status.
 
-      - name: PEM_SM_JMP_RAM
+      - name: PEB_SM_JMP_RAM
         bits: 0
-        access: RO/H
+        access: RO
         reset: --
         typical: --
-        description: PEM_SM_JMP RAM BIST status. 0 = BIST passed; 1 = BIST failed.
+        description: PEB_SM_JMP RAM BIST status. 0 = BIST passed; 1 = BIST failed.
 
 
   - name: PKO_PEB_BIST_DONE
@@ -9383,7 +9620,7 @@ registers:
     fields:
       - name: --
         bits: 63..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9563,13 +9800,13 @@ registers:
         typical: --
         description: PEB_ST_INF RAM BIST done.
 
-      - name: PEM_SM_JMP_RAM
+      - name: PEB_SM_JMP_RAM
         bits: 0
         access: RO/H
         reset: --
         typical: --
         description: |
-          PEM_SM_JMP RAM BIST done.
+          PEB_SM_JMP RAM BIST done.
           1 = BIST complete.
           0 = BIST in progress.
 
@@ -9598,7 +9835,7 @@ registers:
 
       - name: --
         bits: 60..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9908,7 +10145,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9931,7 +10168,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -9954,7 +10191,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10123,7 +10360,7 @@ registers:
 
       - name: --
         bits: 41..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10292,7 +10529,7 @@ registers:
 
       - name: --
         bits: 41..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10305,7 +10542,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10325,7 +10562,7 @@ registers:
     fields:
       - name: --
         bits: 63..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10345,7 +10582,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10365,7 +10602,7 @@ registers:
     fields:
       - name: --
         bits: 63..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10385,7 +10622,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10427,25 +10664,38 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..2
-        access: ---
+        bits: 63..1
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BIST_STATUS
+        bits: 0
+        access: RO
+        reset: 0
+        typical: 0
+        description: C2Q LUT BIST status.
+
+
+  - name: PKO_LUT_BIST_DONE
+    title: PKO LUT BIST Done Register
+    address: 0x1540000B02020
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST_DONE
-        bits: 1
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: FIXME needs work - must indicate done status of each RAM.
-
-      - name: BIST_STATUS
         bits: 0
-        access: RO/H
+        access: RO
         reset: 0
         typical: 0
-        description: FIXME needs work - must indicate status of each RAM.
+        description: C2Q LUT BIST done.
 
 
   - name: PKO_LUT_ECC_CTL0
@@ -10472,7 +10722,7 @@ registers:
 
       - name: --
         bits: 60..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10495,7 +10745,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10518,7 +10768,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10540,7 +10790,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10562,7 +10812,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10575,7 +10825,7 @@ registers:
     fields:
       - name: PTR_CNT
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -10584,7 +10834,7 @@ registers:
 
       - name: --
         bits: 31..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10715,7 +10965,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10740,7 +10990,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10767,7 +11017,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10790,7 +11040,7 @@ registers:
     fields:
       - name: PKO_RDY
         bits: 63
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO ready for configuration.
@@ -10804,56 +11054,56 @@ registers:
 
       - name: C2QLUT_RDY
         bits: 23
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO C2Q LUT block ready for configuration.
 
       - name: PPFI_RDY
         bits: 22
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PPFI block ready for configuration.
 
       - name: IOBP1_RDY
         bits: 21
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO IOBP1 block ready for configuration.
 
       - name: NCB_RDY
         bits: 20
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO NCB block ready for configuration.
 
       - name: PSE_RDY
         bits: 19
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PSE block ready for configuration.
 
       - name: PDM_RDY
         bits: 18
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PDM block ready for configuration.
 
       - name: PEB_RDY
         bits: 17
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PEB block ready for configuration.
 
       - name: CSI_RDY
         bits: 16
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO CSI block ready for configuration.
@@ -10867,7 +11117,7 @@ registers:
 
       - name: C2QLUT_BIST_STATUS
         bits: 3
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: |
@@ -10876,21 +11126,21 @@ registers:
 
       - name: PDM_BIST_STATUS
         bits: 2
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PDM block BIST status. 0 = BIST passed; 1 = BIST failed.
 
       - name: PEB_BIST_STATUS
         bits: 1
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PEB block BIST status. 0 = BIST passed; 1 = BIST failed.
 
       - name: PSE_BIST_STATUS
         bits: 0
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PKO PSE block BIST status. 0 = BIST passed; 1 = BIST failed.
@@ -10903,7 +11153,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -10941,7 +11191,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -11003,7 +11253,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -11016,6 +11266,56 @@ registers:
         description: |
           NCB transaction error occurred (error/unpredictable/undefined). Throws
           PKO_INTSN_E::PKO_NCB_TX_ERR.
+
+
+  - name: PKO_NCB_BIST_STATUS
+    title: PKO NCB RAM BIST Status
+    address: 0x1540000EFFF00
+    bus: NCB
+    attributes:
+      mem_to_csr: "True"
+    fields:
+      - name: NCBI_L2_OUT_RAM_BIST_STATUS
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for NCBI_L2_OUT_RAM.
+
+      - name: NCBI_PP_OUT_RAM_BIST_STATUS
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for NCBI_PP_OUT_RAM.
+
+      - name: NCBO_PDM_CMD_DAT_RAM_BIST_STATUS
+        bits: 61
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for NCBO_PDM_CMD_DAT_RAM.
+
+      - name: NCBI_L2_PDM_PREF_RAM_BIST_STATUS
+        bits: 60
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for NCBI_L2_PDM_PREF_RAM.
+
+      - name: NCBO_PP_FIF_RAM_BIST_STATUS
+        bits: 59
+        access: RO/H
+        reset: 0
+        typical: --
+        description: BIST status for NCBO_PP_FIF_RAM.
+
+      - name: --
+        bits: 58..0
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
 
 
   - name: PKO_NCB_ECC_CTL0
@@ -11098,7 +11398,7 @@ registers:
 
       - name: --
         bits: 48..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -11121,7 +11421,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -11144,7 +11444,7 @@ registers:
 
       - name: --
         bits: 62..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -11194,7 +11494,7 @@ registers:
 
       - name: --
         bits: 58..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -11244,7 +11544,7 @@ registers:
 
       - name: --
         bits: 58..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

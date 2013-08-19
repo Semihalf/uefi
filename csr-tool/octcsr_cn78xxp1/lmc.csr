@@ -58,7 +58,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -124,7 +124,7 @@ registers:
     fields:
       - name: --
         bits: 63..39
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -165,25 +165,34 @@ registers:
     description: This register has additional configuration and control bits for the LMC.
     fields:
       - name: --
-        bits: 63..20
-        access: ---
+        bits: 63..21
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
-      - name: READ_ENA_BPRCH
-        bits: 19
-        access: R/W/H
+      - name: VREFINT_SEQ_DESKEW
+        bits: 20
+        access: R/W
         reset: 0
         typical: 0
-        description: Drive DQx for one cycle longer than normal during write operations.
+        description: |
+          Personality bit to change the operation of what is normally the internal
+          vref training sequence into the deskew training sequence.
+
+      - name: READ_ENA_BPRCH
+        bits: 19
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable pad receiver one cycle longer than normal during read operations.
 
       - name: READ_ENA_FPRCH
         bits: 18
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
-        description: Drive DQX starting one cycle earlier than normal during write operations.
+        description: Enable pad receiver starting one cycle earlier than normal during read operations.
 
       - name: SLOT_CTL_RESET_FORCE
         bits: 17
@@ -207,21 +216,21 @@ registers:
 
       - name: DRIVE_ENA_BPRCH
         bits: 7
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Drive DQx for one cycle longer than normal during write operations.
 
       - name: DRIVE_ENA_FPRCH
         bits: 6
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Drive DQX starting one cycle earlier than normal during write operations.
 
       - name: DLCRAM_FLIP_SYND
         bits: 5..4
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: 0x0
         description: |
@@ -229,7 +238,7 @@ registers:
 
       - name: DLCRAM_COR_DIS
         bits: 3
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: |
@@ -268,7 +277,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -319,7 +328,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -340,7 +349,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -410,7 +419,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -508,7 +517,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -683,7 +692,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -747,11 +756,22 @@ registers:
     description: This register sets timing parameters for DDR4.
     fields:
       - name: --
-        bits: 63..52
-        access: ---
+        bits: 63..53
+        access: --
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MR_WR_USE_DEFAULT_VALUE
+        bits: 52
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, write the value to the MR that is computed from the value set in various CSR
+          fields that would be used during initialization, rather that using the value in the
+          LMC(0..3)_MR_MPR_CTL[MR_WR_ADDR] CSR field.  Useful to re-write the same value or
+          to change single bits without having to compute a whole new value for the MR.
 
       - name: MPR_WHOLE_BYTE_ENABLE
         bits: 51
@@ -886,7 +906,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -919,7 +939,7 @@ registers:
     fields:
       - name: --
         bits: 63..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -937,7 +957,7 @@ registers:
 
       - name: --
         bits: 15..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -963,7 +983,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -998,7 +1018,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1093,7 +1113,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1114,14 +1134,14 @@ registers:
 
       - name: START_BIST
         bits: 1
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Start BIST on DLC memory.
 
       - name: CLEAR_BIST
         bits: 0
-        access: R/W/H
+        access: R/W
         reset: 0
         typical: 0
         description: Start clear BIST on DLC memory.
@@ -1137,7 +1157,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1196,7 +1216,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1308,7 +1328,7 @@ registers:
     fields:
       - name: --
         bits: 63
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1480,7 +1500,7 @@ registers:
 
       - name: REF_ZQCS_INT
         bits: 39..18
-        access: R/W/H
+        access: R/W
         reset: 0x1
         typical: --
         description: |
@@ -1615,7 +1635,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1866,7 +1886,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1983,7 +2003,7 @@ registers:
 
       - name: --
         bits: 7..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1996,7 +2016,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2173,7 +2193,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2431,7 +2451,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2447,7 +2467,7 @@ registers:
 
       - name: --
         bits: 23..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2461,7 +2481,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2477,7 +2497,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2497,7 +2517,7 @@ registers:
     fields:
       - name: --
         bits: 63..51
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2688,7 +2708,7 @@ registers:
     fields:
       - name: --
         bits: 63..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2804,7 +2824,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2865,35 +2885,35 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: DDR_ERR
         bits: 11
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: DDR RAM error alert interrupt.
 
       - name: DLCRAM_DED_ERR
         bits: 10
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: DLC RAM ECC double error detect (DED).
 
       - name: DLCRAM_SEC_ERR
         bits: 9
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: DLC RAM ECC single error correct (SEC).
 
       - name: DED_ERR
         bits: 8..5
-        access: R/W1C
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -2913,7 +2933,7 @@ registers:
 
       - name: SEC_ERR
         bits: 4..1
-        access: R/W1C
+        access: R/W1C/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -2932,7 +2952,7 @@ registers:
 
       - name: NXM_WR_ERR
         bits: 0
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: |
@@ -2964,7 +2984,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3067,7 +3087,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3133,7 +3153,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3182,7 +3202,7 @@ registers:
     fields:
       - name: --
         bits: 63..51
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3429,7 +3449,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3574,7 +3594,7 @@ registers:
     fields:
       - name: --
         bits: 63..53
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3685,7 +3705,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3728,7 +3748,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3764,7 +3784,7 @@ registers:
     fields:
       - name: --
         bits: 63..31
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3860,7 +3880,7 @@ registers:
 
       - name: --
         bits: 17..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3890,7 +3910,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4217,7 +4237,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4233,7 +4253,7 @@ registers:
 
       - name: --
         bits: 23..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4249,7 +4269,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4265,7 +4285,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4428,7 +4448,7 @@ registers:
     fields:
       - name: --
         bits: 63..56
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4523,7 +4543,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4537,7 +4557,7 @@ registers:
 
       - name: --
         bits: 23..22
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4619,6 +4639,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: 0 <= BYTE <= 8. Byte index for which bitmask results are saved in LMC(0..3)_RLEVEL_DBG.
 
 
@@ -4675,7 +4697,7 @@ registers:
     fields:
       - name: --
         bits: 63..47
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4771,7 +4793,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4840,7 +4862,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4863,6 +4885,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          exempt_keyword: "True"
         description: 0 <= BYTE <= 8.
 
 
@@ -4877,7 +4901,7 @@ registers:
     fields:
       - name: --
         bits: 63..46
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4932,7 +4956,7 @@ registers:
     fields:
       - name: --
         bits: 63..45
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5092,7 +5116,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5153,7 +5177,7 @@ registers:
     fields:
       - name: --
         bits: 63..56
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5216,7 +5240,7 @@ registers:
 
       - name: --
         bits: 31..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5289,7 +5313,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

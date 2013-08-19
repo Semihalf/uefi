@@ -41,7 +41,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -66,7 +66,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -86,7 +86,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -151,7 +151,7 @@ registers:
     fields:
       - name: --
         bits: 63..58
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -185,7 +185,7 @@ registers:
 
       - name: --
         bits: 31..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -225,7 +225,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -256,7 +256,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

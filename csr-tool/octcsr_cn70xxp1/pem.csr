@@ -11,7 +11,7 @@ registers:
     fields:
       - name: --
         bits: 63..51
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -69,7 +69,7 @@ registers:
 
       - name: --
         bits: 33..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -203,7 +203,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -360,7 +360,7 @@ registers:
     fields:
       - name: --
         bits: 63..56
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -377,7 +377,7 @@ registers:
 
       - name: --
         bits: 47..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -466,7 +466,7 @@ registers:
 
       - name: --
         bits: 13..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -489,7 +489,7 @@ registers:
 
       - name: --
         bits: 25..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -512,7 +512,7 @@ registers:
 
       - name: --
         bits: 40..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -526,7 +526,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -548,7 +548,7 @@ registers:
     fields:
       - name: --
         bits: 63..46
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -884,7 +884,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -936,7 +936,7 @@ registers:
     fields:
       - name: --
         bits: 63..38
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -952,7 +952,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -965,7 +965,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -988,7 +988,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1045,7 +1045,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1102,7 +1102,7 @@ registers:
     fields:
       - name: --
         bits: 63..46
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1517,7 +1517,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1559,7 +1559,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1611,7 +1611,7 @@ registers:
 
       - name: --
         bits: 47..45
-        access: ---
+        access: --
         reset: --
         typical: --
         description: EEPROM unused data field.
@@ -1646,7 +1646,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1680,7 +1680,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1709,7 +1709,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1720,6 +1720,7 @@ registers:
         reset: --
         typical: --
         description: |
+          This field will overwrite the pin setting for lane swapping.
           When set, lane swapping is performed to/from the SerDes.
           When clear, no lane swapping is performed.
 
@@ -1729,6 +1730,7 @@ registers:
         reset: --
         typical: --
         description: |
+          This field will overwrite the pin settings for host mode.
           When set, the PEM is configured to be a Root Complex.
           When clear, the PEM is configured to be an End Point.
 
@@ -1738,7 +1740,13 @@ registers:
         reset: --
         typical: --
         description: |
-          This field will overwrite the pin settings for speed and lane.
+          This field will overwrite the pin settings for speed and lane
+          configuration. This value is used to set the Maximum Link Width
+          field in the core's Link Capabilities Register (CFG031) to
+          indicate the maximum number of lanes supported. Note that less
+          lanes than the specified maximum can be configured for use via
+          the core's Link Control Register (CFG032) Negotiated Link Width
+          field.
           NOTE - The lower two bits of the MD field must
           be the same across all configured PEMs!
             000 - Gen2 Speed, 2-lanes
@@ -1759,7 +1767,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1793,7 +1801,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1921,7 +1929,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2062,7 +2070,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2203,7 +2211,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

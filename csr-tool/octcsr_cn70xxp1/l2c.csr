@@ -718,7 +718,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -732,7 +732,7 @@ registers:
 
       - name: --
         bits: 28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -746,7 +746,7 @@ registers:
 
       - name: --
         bits: 26..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -760,7 +760,7 @@ registers:
 
       - name: --
         bits: 23..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -798,7 +798,7 @@ registers:
 
       - name: --
         bits: 5..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -905,7 +905,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -957,7 +957,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -973,7 +973,7 @@ registers:
 
       - name: --
         bits: 7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -987,7 +987,7 @@ registers:
 
       - name: --
         bits: 3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1049,7 +1049,7 @@ registers:
 
       - name: --
         bits: 55..47
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1087,7 +1087,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1122,7 +1122,7 @@ registers:
 
       - name: --
         bits: 3..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1156,81 +1156,127 @@ registers:
       (3) if the PPID is outside the range of 0-47,255 or if the PP in question is in reset
       a write will be ignored and reads will timeout the RSL bus.
 
-      (4) Referring to note (1) above, the following rd/sel values are supported:
+      (4) Referring to note (1) above, the following root/rd/sel values are supported:
       NOTE: Put only the "Customer type" in HRM. do not put the "Real type" in HRM.
-      Customer                                                    Real
-      rd     sel     type         Description                                 type
-      ======+=======+==========+==============================================+=========
-      4      2       RO          COP0 UserLocal                                RW
-      7      0       RO          COP0 HWREna                                   RW
-      9      0       RO          COP0 Count                                    RW
-      9      6       RO          COP0 CvmCount                                 RW
-      9      7       RO          COP0 CvmCtl                                   RW
-      11      0       RO          COP0 Compare                                  RW
-      11      6       RW          COP0 PowThrottle                              RW
-      12      0       RO          COP0 Status                                   RW
-      12      1       RO          COP0 IntCtl                                   RO
-      12      2       RO          COP0 SRSCtl                                   RO
-      13      0       RO          COP0 Cause                                    RW
-      14      0       RO          COP0 EPC                                      RW
-      15      0       RO          COP0 PrID                                     RO
-      15      1       RO          COP0 EBase                                    RW
-      16      0       RO          PC Issue Debug Info (see details below)       RO
-      16      1       RO          PC Fetch Debug Info (see details below)       RO
-      16      2       RO          PC Fill Debug Info (see details below)        RO
-      16      3       RO          PC Misc Debug Info (see details below)        RO
-      18      0       RO          COP0 WatchLo0                                 RW
-      19      0       RO          COP0 WatchHi0                                 RW
-      22      0       RO          COP0 MultiCoreDebug                           RW
-      22      1                   COP0 VoltageMonitor                           RW
-      23      0       RO          COP0 Debug                                    RW
-      23      6       RO          COP0 Debug2                                   RO
-      24      0       RO          COP0 DEPC                                     RW
-      25      0       RO          COP0 PerfCnt Control0                         RW
-      25      1       RO          COP0 PerfCnt Counter0                         RW
-      25      2       RO          COP0 PerfCnt Control1                         RW
-      25      3       RO          COP0 PerfCnt Counter1                         RW
-      25      4       RO          COP0 PerfCnt Control2                         RW
-      25      5       RO          COP0 PerfCnt Counter2                         RW
-      25      6       RO          COP0 PerfCnt Control3                         RW
-      25      7       RO          COP0 PerfCnt Counter3                         RW
-      27      0       RO          COP0 CacheErr (icache)                        RW
-      27      2              RO          COP0 IcacheDebug                                RW
-      28      0       RO          COP0 TagLo (icache)                           RW
-      28      1       RO          COP0 DataLo (icache)                          RW
-      29      1       RO          COP0 DataHi (icache)                          RW
-      30      0       RO          COP0 ErrorEPC                                 RW
-      31      0       RO          COP0 DESAVE                                   RW
-      31      2       RO          COP0 Scratch                                  RW
-      31      3       RO          COP0 Scratch1                                 RW
-      31      4       RO          COP0 Scratch2                                 RW
+
+                   Customer                                           Real
+      root rd  sel   type         Description                         type
+      ====+===+===+========+=========================================+====
+       1    4   2     RO     CP0 Root.UserLocal                        RW
+       0    4   2     RO     CP0 Guest.UserLocal                       RW
+       1    7   0     RO     CP0 Root.HWREna                           RW
+       0    7   0     RO     CP0 Guest.HWREna                          RW
+       1    8   1     RO     CP0 Root.BadInstr                         RW
+       0    8   1     RO     CP0 Guest.BadInstr                        RW
+       1    8   2     RO     CP0 Root.BadInstrP                        RW
+       0    8   2     RO     CP0 Guest.BadInstrP                       RW
+       1    9   0     RO     CP0 Root.Count                            RW
+       1    9   6     RO     CP0 Root.CvmCount                         RW
+       1    9   7     RO     CP0 Root.CvmCtl                           RW
+       0    9   7     RO     CP0 Guest.CvmCtl                          RW
+       1   10   5     RO     CP0 Root.GuestCtl0                        RW
+       1   11   0     RO     CP0 Root.Compare                          RW
+       0   11   0     RO     CP0 Guest.Compare                         RW
+       1   11   4     RO     CP0 Root.GuestCtl0Ext                     RW
+       1   11   6     RW     CP0 Root.PowThrottle                      RW
+       1   12   0     RO     CP0 Root.Status                           RW
+       0   12   0     RO     CP0 Guest.Status                          RW
+       1   12   1     RO     CP0 Root.IntCtl                           RO
+       0   12   1     RO     CP0 Guest.IntCtl                          RO
+       1   12   2     RO     CP0 Root.SRSCtl                           RO
+       0   12   2     RO     CP0 Guest.SRSCtl                          RO
+       1   12   6     RO     CP0 Root.GuestCtl0                        RW
+       1   12   7     RO     CP0 Root.GTOffset                         RW
+       1   13   0     RO     CP0 Root.Cause                            RW
+       0   13   0     RO     CP0 Guest.Cause                           RW
+       1   14   0     RO     CP0 Root.EPC                              RW
+       0   14   0     RO     CP0 Guest.EPC                             RW
+       1   15   0     RO     CP0 Root.PrID                             RO
+       0   15   0     RO     CP0 Guest.PrID                            RO
+       1   15   1     RO     CP0 Root.EBase                            RW
+       0   15   1     RO     CP0 Guest.EBase                           RW
+       1   16   0     RO     PC Issue Debug Info (see details below)   RO
+       1   16   1     RO     PC Fetch Debug Info (see details below)   RO
+       1   16   2     RO     PC Fill Debug Info (see details below)    RO
+       1   16   3     RO     PC Misc Debug Info (see details below)    RO
+       1   16   5     RO     PC Committed Info (see details below)     RO
+       1   18   0     RO     CP0 Root.WatchLo0                         RW
+       1   19   0     RO     CP0 Root.WatchHi0                         RW
+       1   22   0     RO     CP0 Root.MultiCoreDebug                   RW
+       1   22   1            CP0 Root.VoltageMonitor                   RW
+       1   22   2     RO     CP0 Root.CvmCountOffset                   RW
+       1   23   0     RO     CP0 Root.Debug                            RW
+       1   23   6     RO     CP0 Root.Debug2                           RO
+       1   24   0     RO     CP0 Root.DEPC                             RW
+       1   25   0     RO     CP0 Root.PerfCnt Control0                 RW
+       1   25   1     RO     CP0 Root.PerfCnt Counter0                 RW
+       1   25   2     RO     CP0 Root.PerfCnt Control1                 RW
+       1   25   3     RO     CP0 Root.PerfCnt Counter1                 RW
+       1   25   4     RO     CP0 Root.PerfCnt Control2                 RW
+       1   25   5     RO     CP0 Root.PerfCnt Counter2                 RW
+       1   25   6     RO     CP0 Root.PerfCnt Control3                 RW
+       1   25   7     RO     CP0 Root.PerfCnt Counter3                 RW
+       1   27   0     RO     CP0 Root.CacheErr (icache)                RW
+       1   27   2     RO     CP0 Root.IcacheDebug                      RO
+       1   28   0     RO     CP0 Root.TagLo (icache)                   RW
+       1   28   1     RO     CP0 Root.DataLo (icache)                  RW
+       1   29   1     RO     CP0 Root.DataHi (icache)                  RW
+       1   30   0     RO     CP0 Root.ErrorEPC                         RW
+       0   30   0     RO     CP0 Guest.ErrorEPC                        RW
+       1   31   0     RO     CP0 Root.DESAVE                           RW
+       1   31   2     RO     CP0 Root.Scratch                          RW
+       0   31   2     RO     CP0 Guest.Scratch                         RW
+       1   31   3     RO     CP0 Root.Scratch1                         RW
+       0   31   3     RO     CP0 Guest.Scratch1                        RW
+       1   31   4     RO     CP0 Root.Scratch2                         RW
+       0   31   4     RO     CP0 Guest.Scratch2                        RW
+       1   31   5     RO     CP0 Root.Scratch3                         RW
+
       PC Issue Debug Info
-      63:2 pc0_5a<63:2> // often VA<63:2> of the next instruction to issue
-      //    but can also be the VA of an instruction executing/replaying on pipe 0
-      //    or can also be a VA being filled into the instruction cache
-      //    or can also be unpredictable
-      // <61:49> RAZ
-      1    illegal      // set when illegal VA
-      0    delayslot    // set when VA is delayslot (prior branch may be either taken or not taken)
+       63:2  issue_address<63:2>   // often VA<63:2> (PC) of the next instruction to issue (5a in
+      pipeline)
+                                   //    but can also be the PC of an instruction
+      executing/replaying
+                                   //    or can also be a PC being filled into the instruction cache
+                                   //    or can also be unpredictable
+                                   // <58:50> is a copy of <49>
+       1     issue_illegal         // set when issue_address is an illegal PC
+       0     issue_delayslot       // set when issue_address is in a delayslot (prior instruction
+      may be either taken or not taken)
+
       PC Fetch Debug Info
-      63:0 fetch_address_3a // VA being fetched from the instruction cache
-      // <61:49>, <1:0> RAZ
+       63:0  fetch_address<63:0>   // VA <63:0> (PC) being fetched from the instruction cache (3a in
+      pipeline)
+                                   // <58:50> is a copy of <49>
+                                   // <1:0> RAZ
+
       PC Fill Debug Info
-      63:0 fill_address_4a<63:2> // VA<63:2> being filled into instruction cache
-      // valid when waiting_for_ifill_4a is set (see PC Misc Debug Info below)
-      // <61:49> RAZ
-      1 illegal               // set when illegal VA
-      0 RAZ
+       63:2  fill_address<63:2>    // VA<63:2> being filled into instruction cache (4a in pipeline)
+                                   // valid when waiting_for_ifill is set (see PC Misc Debug Info
+      below)
+                                   // <58:50> is a copy of <49>
+       1     fill_illegal          // set when fill_address is an illegal PC
+       0     RAZ
+
       PC Misc Debug Info
-      63:3 RAZ
-      2 mem_stall_3a         // stall term from L1 memory system
-      1 waiting_for_pfill_4a // when waiting_for_ifill_4a is set, indicates whether instruction
-      cache fill is due to a prefetch
-      0 waiting_for_ifill_4a // set when there is an outstanding instruction cache fill
+       63:3  RAZ
+       2     mem_stall             // stall term from L1 memory system (3a in pipeline)
+       1     waiting_for_pfill     // when waiting_for_ifill is set, indicates whether instruction
+                                   // cache fill is due to a prefetch (4a in pipeline)
+       0     waiting_for_ifill     // set when there is an outstanding instruction cache fill (4a in
+      pipeline)
+
+      PC Committed Debug Info
+       63    RAZ
+       62:55 commit_ASID           // ASID of commit_address
+       54:49 commit_address<63:59> // VA<63:59> (PC) of the last committed instruction (11a in
+      pipeline)
+       48:0  commit_address<48:0>  // VA<48:0> (PC) of last committed instruction (11a in pipeline)
+                                   // <1:0> RAZ
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1244,7 +1290,7 @@ registers:
 
       - name: --
         bits: 15
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1404,7 +1450,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1426,7 +1472,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1448,7 +1494,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1468,7 +1514,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1482,7 +1528,7 @@ registers:
 
       - name: --
         bits: 3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1547,7 +1593,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1599,7 +1645,7 @@ registers:
 
       - name: --
         bits: 59..56
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1618,7 +1664,7 @@ registers:
 
       - name: --
         bits: 47
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1639,7 +1685,7 @@ registers:
 
       - name: --
         bits: 16..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1685,7 +1731,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1720,7 +1766,7 @@ registers:
     fields:
       - name: --
         bits: 63..34
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1741,7 +1787,7 @@ registers:
 
       - name: --
         bits: 31..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1819,7 +1865,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1921,7 +1967,7 @@ registers:
 
       - name: --
         bits: 59..58
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2018,7 +2064,7 @@ registers:
 
       - name: --
         bits: 57..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2032,7 +2078,7 @@ registers:
 
       - name: --
         bits: 31..18
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2097,7 +2143,7 @@ registers:
 
       - name: --
         bits: 60..39
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2111,7 +2157,7 @@ registers:
 
       - name: --
         bits: 31..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2132,7 +2178,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2179,7 +2225,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2199,7 +2245,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2213,7 +2259,7 @@ registers:
 
       - name: --
         bits: 31..18
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2248,7 +2294,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2310,7 +2356,7 @@ registers:
 
       - name: --
         bits: 59..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2333,7 +2379,7 @@ registers:
 
       - name: --
         bits: 31..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2354,7 +2400,7 @@ registers:
 
       - name: --
         bits: 3..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2388,7 +2434,7 @@ registers:
 
       - name: --
         bits: 61..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2409,7 +2455,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2471,7 +2517,7 @@ registers:
 
       - name: --
         bits: 61..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2485,7 +2531,7 @@ registers:
 
       - name: --
         bits: 31..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2526,7 +2572,7 @@ registers:
 
       - name: --
         bits: 61..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2540,7 +2586,7 @@ registers:
 
       - name: --
         bits: 31..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2576,7 +2622,7 @@ registers:
     fields:
       - name: --
         bits: 63..34
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

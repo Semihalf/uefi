@@ -228,10 +228,10 @@ def build_csr(chip_info, register, raw):
         name = field["name"]
         # Bits is either a single number or a range separated by ".."
         start_bit, stop_bit = parseBitRange(field["bits"])
-        # Field types are now called "access" with "---" standing for
+        # Field types are now called "access" with "--" standing for
         # reserved
         field_type = field["access"]
-        if field_type == "---":
+        if field_type == "--":
             field_type = "RAZ"
         # The new files sometimes use "--" as a name for reserved fields
         if name == "--":

@@ -66,7 +66,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -99,7 +99,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -142,7 +142,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -162,7 +162,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -182,7 +182,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -248,7 +248,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -296,7 +296,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -319,7 +319,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -343,7 +343,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -375,7 +375,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -406,7 +406,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -432,7 +432,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -459,7 +459,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -513,7 +513,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -546,7 +546,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -579,7 +579,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -605,7 +605,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -637,7 +637,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -688,7 +688,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -718,7 +718,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -773,14 +773,51 @@ registers:
           <0>: Lane 0
 
 
-  - name: GSER(0..13)_RX_POLARITY
-    title: GSER RX Polarity Register
+  - name: GSER(0..13)_RX_EIE_FILTER
+    title: GSER RX Electrical Idle Detect Filter Settings Register
     address: 0x1180090000158 + a*0x1000000
     bus: RSL
     fields:
       - name: --
+        bits: 63..16
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: EII_FILT
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          The GSER uses Electrical Idle Inference to determine when a RX lane
+          has reentered Electrical IDLE (EI).  The PHY Electrical IDLE Exit
+          detection supports a minimum pulse width of 400ps, therefore configurations
+          that run faster than 2.5G can indicate EI when the serial lines are still
+          driven.  For rates faster than 2.5G, it takes 16000 UI of consecutive
+          deasserted GSER_RX_EIE_DETSTS.EIESTS for the GSER to infer EI and begin
+          invalidating RX data. In the event of electrical IDLE inference, the
+          following happens:
+            - GSER_RX_EIE_DETSTS.CDRLOCK[LANE] is zeroed
+            - GSER_RX_EIE_DETSTS.EIELTCH[LANE] is zeroed
+            - GSER_RX_EIE_DETSTS.EIESTS[LANE] is zeroed
+            - GSER_RX_COAST.COAST[LANE] is asserted to prevent the CDR from trying to
+              lock on the incoming data stream.
+            - The lane incoming RX data is invalidated.
+          Writing this register to a non-zero value will cause the Electrical
+          Idle Inference to use the EII_FILT count instead of the default settings.
+          Each EII_FILT count represents 20ns of incremental EI Inference Time.
+
+
+  - name: GSER(0..13)_RX_POLARITY
+    title: GSER RX Polarity Register
+    address: 0x1180090000160 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -807,7 +844,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -830,7 +867,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -885,7 +922,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -910,7 +947,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -941,7 +978,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -990,7 +1027,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1013,7 +1050,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1038,7 +1075,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1065,7 +1102,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1093,7 +1130,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1134,7 +1171,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1142,8 +1179,8 @@ registers:
       - name: ANA_SEL
         bits: 8..0
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0x1ff
+        typical: 0x1ff
         description: |
           Used to control the adr_global input to the analog test block.
           Note that the QLM0 register is tied to the analog
@@ -1164,7 +1201,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1230,7 +1267,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1306,7 +1343,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1406,7 +1443,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1465,7 +1502,8 @@ registers:
           1.25G:          0x28
           2.5G:           0x5
           3.125G:         0x24
-          5.0G:           0xa
+          5.0G:           0xa (100 Mhz REFCLK)
+          5.0G:           0x5 (156.25 Mhz REFCLK)
           6.25G:          0xa
           8.0G:           0xa
           10.3215G:       0x24
@@ -1482,7 +1520,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1565,7 +1603,7 @@ registers:
                           100Mhz          125Mhz          156.25Mhz
           1.25G:          0x19            0x14            0x10
           2.5G:           0x19            0x14            0x10
-          3.125G:         NS              0x19            0x14
+          3.125G:         NS              0x19            0xa
           5.0G:           0x19            0x14            0x10
           6.25G:          NS              0x19            0x14
           8.0G:           0x28            0x20            NS
@@ -1584,7 +1622,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1705,7 +1743,7 @@ registers:
 
       - name: --
         bits: 4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1746,7 +1784,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1824,7 +1862,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1879,7 +1917,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1916,7 +1954,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

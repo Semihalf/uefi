@@ -23,56 +23,56 @@ enums:
     description: Enumerates the different errors for returns in LAP_CTL_RTN_S[ERR]; see also LAP0/1_GEN_INT.
     values:
       - name: "NONE"
-        value: 0
+        value: 0x00
         description: No error or LAB is still PROCESSING.
 
       - name: TERMINATE
-        value: 9
+        value: 0x09
         description: ILA interface terminate error. A SOP-SOP can cause packets to terminate with this error code.
 
       - name: EOP_SKIP
-        value: 12
+        value: 0x0C
         description: ILA interface error at EOP. ILA received a packet with an 'Error and end of packet' indication.
 
       - name: PARITY
-        value: 13
+        value: 0x0D
         description: |
           ILA interface parity error. ILK detected a parity error in the data portion of its receive
           FIFO during this packet transfer.
 
       - name: LAB_OUT
-        value: 33
+        value: 0x21
         description: |
           An LMTDMA was requested, but no free LABs are available. Only possible on
           LAP_SEND_LMTDMA_S operations.
 
       - name: LAB_INVALID
-        value: 34
+        value: 0x22
         description: |
           The IOBDMA was requested to an LAB that is in the EMPTY/INVALID state. Only possible on
           LAP_RD_IOBDMA_S operations.
 
       - name: RESP_TIME
-        value: 35
+        value: 0x23
         description: |
           The LAP0/1_TIMEOUT[RESP] timer expired and transitioned this LAB to error state. Only
           possible in non-exception queues.
 
       - name: MISMATCH
-        value: 36
+        value: 0x24
         description: |
           The response packet did not match LAP0/1_EXP(0..15)_DATA and LAP0/1_EXP(0..15)_VALID. Not
           reported if packet also has CRC errors. Only delivered to exception queue.
 
       - name: XID_BAD
-        value: 37
+        value: 0x25
         description: |
           The response packet's transaction ID was targeted to an LAB not in PROCESSING state. Not
           reported if packet also has CRC or MISMATCH errors. Typically indicates TCAM or
           configuration error. Only delivered to exception queue.
 
       - name: TOO_BIG
-        value: 38
+        value: 0x26
         description: The request or response sent too much data to fit in the LAB size.
 
 
@@ -522,7 +522,7 @@ registers:
 
       - name: --
         bits: 62..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -547,7 +547,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -578,7 +578,7 @@ registers:
 
       - name: --
         bits: 5..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -618,7 +618,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -733,7 +733,7 @@ registers:
 
       - name: --
         bits: 5..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -783,7 +783,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -871,7 +871,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -932,7 +932,7 @@ registers:
 
       - name: --
         bits: 15..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -989,7 +989,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1010,7 +1010,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1038,7 +1038,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: ---
+        access: --
         reset: --
         typical: 0x0
         description: Reserved.
@@ -1056,7 +1056,7 @@ registers:
 
       - name: --
         bits: 31..26
-        access: ---
+        access: --
         reset: --
         typical: 0x0
         description: Reserved.
@@ -1082,7 +1082,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: 0x0
         description: Reserved.
@@ -1112,7 +1112,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1126,7 +1126,7 @@ registers:
 
       - name: --
         bits: 31..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1140,7 +1140,7 @@ registers:
 
       - name: --
         bits: 15..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1161,7 +1161,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1175,7 +1175,7 @@ registers:
 
       - name: --
         bits: 31..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1189,7 +1189,7 @@ registers:
 
       - name: --
         bits: 15..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1209,7 +1209,7 @@ registers:
     fields:
       - name: --
         bits: 63..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1225,7 +1225,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1254,7 +1254,7 @@ registers:
 
       - name: --
         bits: 59..23
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1270,7 +1270,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1292,7 +1292,7 @@ registers:
     fields:
       - name: --
         bits: 63..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1308,7 +1308,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1330,7 +1330,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1346,7 +1346,7 @@ registers:
 
       - name: --
         bits: 15..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1368,7 +1368,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1384,7 +1384,7 @@ registers:
 
       - name: --
         bits: 15..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1452,7 +1452,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1478,7 +1478,7 @@ registers:
     fields:
       - name: --
         bits: 63..56
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1494,7 +1494,7 @@ registers:
 
       - name: --
         bits: 47..44
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1508,7 +1508,7 @@ registers:
 
       - name: --
         bits: 35..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1525,7 +1525,7 @@ registers:
 
       - name: --
         bits: 23..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1539,7 +1539,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

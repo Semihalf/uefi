@@ -47,19 +47,19 @@ enums:
     description: Enumerates the values of WQE[CHAN].
     values:
       - name: LOOPBACK_CH(0..63)
-        value: 0x0000 | a
+        value: 0x000 | a
         description: Loopback pipe a. The channel number comes from the PKO pipe field.
 
       - name: DPI_CH(0..63)
-        value: 0x0100 | a
+        value: 0x100 | a
         description: DPI ring a.
 
       - name: ILK(0..1)_CH(0..255)
-        value: 0x0400 | a<<8 | b
+        value: 0x400 | a<<8 | b
         description: Interlaken RX/TX a channel b.
 
       - name: BGX(0..5)_PORT(0..3)_CH(0..15)
-        value: 0x0800 | a<<8 | b<<4 | c
+        value: 0x800 | a<<8 | b<<4 | c
         description: |
           BGX a Port b Channel c. The channel is always 0 when used as a port number, then made non-
           zero as part of the conversion to a channel number per Channels.
@@ -422,36 +422,28 @@ enums:
         value: 0x44841 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[DMEM_PERR].
 
-      - name: PKI_CL(0..3)_ECC_KMEM_SBE
-        value: 0x44842 | a<<8
-        description: See PKI_CL(0..3)_ECC_INT[KMEM_SBE].
-
-      - name: PKI_CL(0..3)_ECC_KMEM_DBE
-        value: 0x44843 | a<<8
-        description: See PKI_CL(0..3)_ECC_INT[KMEM_DBE].
-
       - name: PKI_CL(0..3)_ECC_SMEM_SBE
-        value: 0x44844 | a<<8
+        value: 0x44842 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[SMEM_SBE].
 
       - name: PKI_CL(0..3)_ECC_SMEM_DBE
-        value: 0x44845 | a<<8
+        value: 0x44843 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[SMEM_DBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM0_SBE
-        value: 0x44846 | a<<8
+        value: 0x44844 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[PCAM0_SBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM0_DBE
-        value: 0x44847 | a<<8
+        value: 0x44845 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[PCAM0_DBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM1_SBE
-        value: 0x44848 | a<<8
+        value: 0x44846 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[PCAM1_SBE].
 
       - name: PKI_CL(0..3)_ECC_PCAM1_DBE
-        value: 0x44849 | a<<8
+        value: 0x44847 | a<<8
         description: See PKI_CL(0..3)_ECC_INT[PCAM1_DBE].
 
 
@@ -798,10 +790,11 @@ enums:
         value: 0x15
         description: PKI ran out of FPA buffers while receiving the packet.
 
-      - name: L2_PFCS
+      - name: L2_FRAGMENT
         value: 0x20
         description: |
-          FCS error: PKI detected an FCS error on a received packet.
+          Fragment error: the packet is shorter than allowed and had an FCS error. See Receive
+          Length Errors/Exceptions.
 
       - name: L2_OVERRUN
         value: 0x21
@@ -809,39 +802,38 @@ enums:
           Overrun error: the packet is longer than allowed and had an FCS error. See Receive Length
           Errors/Exceptions.
 
-      - name: L2_OVERSIZE
+      - name: L2_PFCS
         value: 0x22
         description: |
-          Oversize error: the packet is longer than allowed. See Receive Length Errors/Exceptions.
-
-      - name: L2_FRAGMENT
-        value: 0x23
-        description: |
-          Fragment error: the packet is shorter than allowed and had an FCS error. See Receive
-          Length Errors/Exceptions.
-
-      - name: L2_UNDERSIZE
-        value: 0x24
-        description: |
-          Undersize error: the packet is shorter than allowed. See Receive Length Errors/Exceptions.
+          FCS error: PKI detected an FCS error on a received packet.
 
       - name: L2_PUNY
-        value: 0x25
+        value: 0x23
         description: |
           PUNY error: the packet was 4B or less when FCS stripping is enabled. See Receive Length
           Errors/Exceptions.
 
-      - name: L2_LENMISM
-        value: 0x26
-        description: |
-          Length mismatch error: the packet had a length that did not match the length field in the
-          L2 header. See Receive Length Errors/Exceptions.
-
       - name: L2_MAL
-        value: 0x27
+        value: 0x24
         description: |
           L2 header malformed: the packet is not long enough to contain the skipped bytes or L2
           header.
+
+      - name: L2_OVERSIZE
+        value: 0x25
+        description: |
+          Oversize error: the packet is longer than allowed. See Receive Length Errors/Exceptions.
+
+      - name: L2_UNDERSIZE
+        value: 0x26
+        description: |
+          Undersize error: the packet is shorter than allowed. See Receive Length Errors/Exceptions.
+
+      - name: L2_LENMISM
+        value: 0x27
+        description: |
+          Length mismatch error: the packet had a length that did not match the length field in the
+          L2 header. See Receive Length Errors/Exceptions.
 
       - name: IP_NOT
         value: 0x41
@@ -1870,14 +1862,16 @@ structs:
         bits: w2(14)
         description: |
           Refer to Work-Queue Entry Format; Word 2 Cases, word2<14>. WQE[L3M] is set when the outer
-          IPv4 indicates multicast, i.e. the destination address <31:28> = 0xE.
+          IP indicates multicast, i.e. the IPv4 destination address <31:28> = 0xE, or the IPv6 MSB
+          of the 128-bit destination address = 0xFF.
           ...
 
       - name: L3B
         bits: w2(15)
         description: |
           Refer to Work-Queue Entry Format; Word 2 Cases, word2<15>. WQE[L3B] is set when the outer
-          IP indicates broadcast:
+          IP4 indicates broadcast, i.e. the destination address is all ones. Broadcast is not
+          defined for IPv6.
           ...
 
       - name: L3FR
@@ -2168,7 +2162,7 @@ registers:
 
       - name: --
         bits: 62..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2190,7 +2184,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2275,7 +2269,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2299,7 +2293,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2442,7 +2436,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2465,7 +2459,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2576,7 +2570,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2608,7 +2602,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2752,7 +2746,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2773,7 +2767,7 @@ registers:
 
       - name: --
         bits: 23..18
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2873,7 +2867,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2906,7 +2900,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2946,7 +2940,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2972,7 +2966,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3000,7 +2994,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3026,7 +3020,7 @@ registers:
 
       - name: --
         bits: 8..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3052,7 +3046,7 @@ registers:
 
       - name: --
         bits: 4..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3063,7 +3057,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Bpid enable. When set, enables the sending of bpid level backpressure to the CN78XX input
+          Bpid enable. When set, enables the sending of bpid level backpressure to the input
           interface.
           The application should not de-assert this bit after asserting it. The receivers of this
           bit may have been put into backpressure mode and can only be released by PKI informing
@@ -3072,7 +3066,7 @@ registers:
 
       - name: --
         bits: 1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3098,7 +3092,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3124,7 +3118,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3335,7 +3329,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3356,8 +3350,8 @@ registers:
     address: 0x1180044000430
     bus: RSL
     description: |
-      The source and destination initial values (IVs) in tag generation provide a mechanism for each
-      CN78XX to be unique.
+      The source and destination initial values (IVs) in tag generation provide a mechanism for
+      seeding with a random initialization value to reduce cache collision attacks.
     fields:
       - name: DST6
         bits: 63..48
@@ -3407,7 +3401,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3421,7 +3415,7 @@ registers:
 
       - name: --
         bits: 51..49
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3477,7 +3471,7 @@ registers:
 
       - name: --
         bits: 62..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3501,7 +3495,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3511,14 +3505,14 @@ registers:
         access: R/W
         reset: 0x600
         typical: 0x600
-        description: Byte count for max-sized frame check. See MAXLEN in Table 11-2 for adjustments to this value.
+        description: Byte count for max-sized frame check.
 
       - name: MINLEN
         bits: 15..0
         access: R/W
         reset: 0x40
         typical: 0x40
-        description: Byte count for min-sized frame check.See MINLEN in Table 11-2.
+        description: Byte count for min-sized frame check.
 
 
   - name: PKI_LTYPE(0..31)_MAP
@@ -3530,7 +3524,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3577,7 +3571,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3646,7 +3640,7 @@ registers:
     fields:
       - name: --
         bits: 63..53
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3664,7 +3658,7 @@ registers:
 
       - name: --
         bits: 47..36
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3681,7 +3675,7 @@ registers:
 
       - name: --
         bits: 31..27
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3753,7 +3747,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3797,14 +3791,14 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..10
-        access: ---
+        bits: 63..8
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCAM1_DBE
-        bits: 9
+        bits: 7
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -3812,7 +3806,7 @@ registers:
           PCAM1 ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM1_DBE.
 
       - name: PCAM1_SBE
-        bits: 8
+        bits: 6
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -3820,7 +3814,7 @@ registers:
           PCAM1 ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM1_SBE.
 
       - name: PCAM0_DBE
-        bits: 7
+        bits: 5
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -3828,7 +3822,7 @@ registers:
           PCAM0 ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM0_DBE.
 
       - name: PCAM0_SBE
-        bits: 6
+        bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -3836,7 +3830,7 @@ registers:
           PCAM0 ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM0_SBE.
 
       - name: SMEM_DBE
-        bits: 5
+        bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
@@ -3844,28 +3838,12 @@ registers:
           SMEM ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_SMEM_DBE.
 
       - name: SMEM_SBE
-        bits: 4
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: |
-          SMEM ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_SMEM_SBE.
-
-      - name: KMEM_DBE
-        bits: 3
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: |
-          KMEM ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_KMEM_DBE.
-
-      - name: KMEM_SBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
         description: |
-          KMEM ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_KMEM_SBE.
+          SMEM ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_SMEM_SBE.
 
       - name: DMEM_PERR
         bits: 1
@@ -3893,40 +3871,33 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..26
-        access: ---
+        bits: 63..24
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCAM1_FLIP
-        bits: 25..24
+        bits: 23..22
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PCAM1 flip syndrome bits on write.
 
       - name: PCAM0_FLIP
-        bits: 23..22
+        bits: 21..20
         access: R/W
         reset: 0x0
         typical: 0x0
         description: PCAM  flip syndrome bits on write.
 
       - name: SMEM_FLIP
-        bits: 21..20
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: SMEM flip syndrome bits on write.
-
-      - name: KMEM_FLIP
         bits: 19..18
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          KMEM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
+          SMEM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
           test single-bit or double-bit error handling.
 
       - name: DMEM_FLIP
@@ -3944,39 +3915,32 @@ registers:
         description: RF flip parity.
 
       - name: --
-        bits: 15..6
-        access: ---
+        bits: 15..5
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: PCAM1_CDIS
-        bits: 5
+        bits: 4
         access: R/W
         reset: 0
         typical: 0
         description: PCAM1 ECC correction disable.
 
       - name: PCAM0_CDIS
-        bits: 4
+        bits: 3
         access: R/W
         reset: 0
         typical: 0
         description: PCAM0 ECC correction disable.
 
       - name: SMEM_CDIS
-        bits: 3
-        access: R/W
-        reset: 0
-        typical: 0
-        description: SMEM ECC correction disable.
-
-      - name: KMEM_CDIS
         bits: 2
         access: R/W
         reset: 0
         typical: 0
-        description: KMEM ECC correction disable.
+        description: SMEM ECC correction disable.
 
       - name: DMEM_CDIS
         bits: 1
@@ -4002,7 +3966,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4027,7 +3991,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4054,7 +4018,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -4069,7 +4033,7 @@ registers:
 
       - name: --
         bits: 23..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -4084,7 +4048,7 @@ registers:
 
       - name: --
         bits: 15..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -4099,7 +4063,7 @@ registers:
 
       - name: --
         bits: 7..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -4126,7 +4090,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4195,7 +4159,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4299,7 +4263,8 @@ registers:
 
 
   - name: PKI_IMEM(0..2047)
-    title: PKI Cluster IMEM Registers
+    title: |
+      INTERNAL: PKI Cluster IMEM Registers
     address: 0x1180044100000 | a<<3
     bus: RSL
     attributes:
@@ -4314,7 +4279,8 @@ registers:
 
 
   - name: PKI_CL(0..3)_PKIND(0..63)_KMEM(0..15)
-    title: PKI KMEM Registers
+    title: |
+      INTERNAL: PKI KMEM Registers
     address: 0x1180044200000 | a<<16 | b<<8 | c<<3
     bus: RSL
     description: |
@@ -4328,7 +4294,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4355,7 +4321,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4453,7 +4419,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4508,7 +4474,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4547,7 +4513,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4593,7 +4559,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4609,7 +4575,8 @@ registers:
 
 
   - name: PKI_CL(0..3)_SMEM(0..2047)
-    title: PKI SMEM Registers
+    title: |
+      INTERNAL: PKI SMEM Registers
     address: 0x1180044400000 | a<<16 | b<<3
     bus: RSL
     description: |
@@ -4621,7 +4588,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4648,7 +4615,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4677,8 +4644,9 @@ registers:
         reset: 0
         typical: 1
         description: |
-          L2 length error check enable. Check if frame was received with L2 length error, see LENERR
-          in Table 11-2. This check is typically not enabled for incoming packets on the DPI ports.
+          L2 length error check enable. Check if frame was received with L2 length error. This check
+          is typically not enabled for incoming packets on the DPI ports. INTERNAL: Sequencer clears
+          this bit for PKI_BE when SNAP length checks are not appropriate.
 
       - name: LENERR_EQPAD
         bits: 28
@@ -4709,7 +4677,7 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Max frame error check enable. See MAXLEN in Table 11-2.
+        description: Max frame error check enable.
 
       - name: MINERR_EN
         bits: 25
@@ -4717,8 +4685,8 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Min frame error check enable. See MINLEN in Table 11-2. This check is typically not
-          enabled for incoming packets on the DPI ports.
+          Min frame error check enable. This check is typically not enabled for incoming packets on
+          the DPI ports.
 
       - name: QPG_DIS_GRPTAG
         bits: 24
@@ -4824,7 +4792,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4836,8 +4804,7 @@ registers:
         typical: 0x0
         description: |
           Include masked tags using PKI_TAG_INC(0..31)_MASK. Each bit indicates to include the
-          corresponding PKI_TAG_INC_MASK range, see WQE[TAG]. Multiple TAG_INCs may be selected to
-          allow a tag calculation to include data from floating Layer B through Layer G positions.
+          corresponding PKI_TAG_INC_MASK range, see PKI_INST_HDR_S.
 
       - name: RSVDRW27
         bits: 27..25
@@ -4851,7 +4818,9 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Apply PKI_STYLE(0..63)_TAG_MASK to computed tag.
+        description: |
+          Apply PKI_STYLE(0..63)_TAG_MASK to computed tag. INTERNAL: Sequencer must clear for PKI BE
+          when the tag comes from the PKI_INST_HDR_S.
 
       - name: TAG_SRC_LG
         bits: 23
@@ -4893,7 +4862,10 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Include Layer B source address in tuple tag generation.
+        description: |
+          Include Layer B source address in tuple tag generation. INTERNAL: Sequencer must clear
+          TAG_SRC_L* for PKI BE when TCP SYNs are not tagged, or when the tag comes from the
+          PKI_INST_HDR_S.
 
       - name: TAG_DST_LG
         bits: 17
@@ -4935,7 +4907,9 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Include Layer B destination address in tuple tag generation.
+        description: |
+          Include Layer B destination address in tuple tag generation. INTERNAL: Sequencer must
+          clear TAG_SRC_L* for PKI BE when the tag comes from the PKI_INST_HDR_S.
 
       - name: LEN_LG
         bits: 11
@@ -5034,7 +5008,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5190,7 +5164,7 @@ registers:
 
       - name: --
         bits: 62..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5211,7 +5185,7 @@ registers:
 
       - name: --
         bits: 31..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5291,7 +5265,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5398,7 +5372,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5419,7 +5393,7 @@ registers:
 
       - name: --
         bits: 44..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -5441,7 +5415,7 @@ registers:
 
       - name: --
         bits: 28..26
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -5456,7 +5430,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -5490,7 +5464,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5510,7 +5484,7 @@ registers:
 
       - name: --
         bits: 29..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5538,7 +5512,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5561,7 +5535,7 @@ registers:
     fields:
       - name: --
         bits: 63..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5581,7 +5555,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: |
@@ -5606,7 +5580,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5628,7 +5602,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5652,7 +5626,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5674,7 +5648,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5696,7 +5670,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5718,7 +5692,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5740,7 +5714,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5762,7 +5736,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5784,7 +5758,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5806,7 +5780,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5828,7 +5802,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5850,7 +5824,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5872,7 +5846,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5894,7 +5868,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5918,7 +5892,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5942,7 +5916,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5964,7 +5938,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5986,7 +5960,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6008,7 +5982,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6030,7 +6004,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6052,7 +6026,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6076,7 +6050,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6101,7 +6075,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6125,7 +6099,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6149,7 +6123,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6173,7 +6147,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6184,9 +6158,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets with IPv4 or IPv6 L3 multicast destination address, or IPv6 L3 multicast
-          destination address that were dropped due to RED or buffer exhaustion. See WQE[L3M] for
-          the definition of L2 multicast.
+          Number of packets with IPv4 or IPv6 L3 multicast destination address that were dropped due
+          to RED or buffer exhaustion. See WQE[L3M] for the definition of L3 multicast.
 
 
   - name: PKI_STAT(0..63)_STAT18
@@ -6198,7 +6171,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6223,7 +6196,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6246,7 +6219,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6269,7 +6242,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

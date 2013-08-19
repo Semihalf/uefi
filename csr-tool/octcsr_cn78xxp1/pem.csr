@@ -276,15 +276,8 @@ registers:
     bus: RSL
     description: General control and status of the PEM.
     fields:
-      - name: --
-        bits: 63..51
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
       - name: INV_DPAR
-        bits: 50
+        bits: 63
         access: R/W
         reset: 0
         typical: 0
@@ -294,7 +287,7 @@ registers:
           to force a parity error when it is later read.
 
       - name: INV_HPAR
-        bits: 49
+        bits: 62
         access: R/W
         reset: 0
         typical: 0
@@ -304,45 +297,53 @@ registers:
           to force a parity error when it is later read.
 
       - name: INV_RPAR
-        bits: 48
+        bits: 61
         access: R/W
         reset: 0
         typical: 0
         description: |
           Invert the generated parity to be written into the
-          tmost significant Retry Buffer ram block to force
+          most significant Retry Buffer ram block to force
           a parity error when it is later read.
 
       - name: AUTO_SD
-        bits: 47
+        bits: 60
         access: RO
         reset: --
         typical: --
         description: Link Hardware Autonomous Speed Disable.
 
       - name: DNUM
-        bits: 46..42
+        bits: 59..55
         access: RO
         reset: --
         typical: --
         description: Primary bus device number.
 
       - name: PBUS
-        bits: 41..34
+        bits: 54..47
         access: RO
         reset: --
         typical: --
         description: Primary bus number.
 
-      - name: --
-        bits: 33..32
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
+      - name: NO_FWD_PRG
+        bits: 46..31
+        access: R/W
+        reset: 0x0
+        typical: 0x20
+        description: |
+          The time x 0x10000 in core clocks to wait for the
+          TLP FIFOs to be able to unload an entry. If there is
+          no forward progress, such that the timeout occurs,
+          credits will be returned to the SLI and an interrupt
+          (if enabled) will be asserted. Any more TLPs received
+          will be dropped on the floor and the credits
+          associated with those TLPs will be returned, as well.
+          This state will hold until a mac reset is received.
 
       - name: CFG_RTRY
-        bits: 31..16
+        bits: 30..15
         access: R/W
         reset: 0x0
         typical: 0x20
@@ -357,14 +358,14 @@ registers:
           either successful completion or CPL UR.
 
       - name: SPARES
-        bits: 15..12
+        bits: 14..11
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Spares flops.
 
       - name: PM_XTOFF
-        bits: 11
+        bits: 10
         access: R/W/H
         reset: 0
         typical: 0
@@ -373,7 +374,7 @@ registers:
           to the PCIe core pm_xmt_turnoff port. RC mode.
 
       - name: PM_XPME
-        bits: 10
+        bits: 9
         access: R/W/H
         reset: 0
         typical: 0
@@ -382,20 +383,13 @@ registers:
           to the PCIe core pm_xmt_pme port. EP mode.
 
       - name: OB_P_CMD
-        bits: 9
+        bits: 8
         access: R/W/H
         reset: 0
         typical: 0
         description: |
           When WRITTEN with a '1' a single cycle pulse is
           to the PCIe core outband_pwrup_cmd port. EP mode.
-
-      - name: --
-        bits: 8
-        access: R/W
-        reset: 0
-        typical: 0
-        description: Reserved.
 
       - name: --
         bits: 7
@@ -460,197 +454,6 @@ registers:
         reset: 0
         typical: 0
         description: When '1' causes the LSB of the LCRC to be inverted.
-
-
-  - name: PEM(0..3)_BIST_STATUS
-    title: PEM Bist Status
-    address: 0x11800C0000018 + a*0x1000000
-    bus: RSL
-    description: Contains the diffrent interrupt summary bits of the PEM.
-    attributes:
-      dv_bist_all_fail_test: "ALL"
-    fields:
-      - name: --
-        bits: 63..25
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RETRYA
-        bits: 24
-        access: RO
-        reset: 0
-        typical: 0
-        description: Retry Buffer Memory A
-
-      - name: RETRYB
-        bits: 23
-        access: RO
-        reset: 0
-        typical: 0
-        description: Retry Buffer Memory B
-
-      - name: RETRYC
-        bits: 22
-        access: RO
-        reset: 0
-        typical: 0
-        description: Retry Buffer Memory C
-
-      - name: SOT
-        bits: 21
-        access: RO
-        reset: 0
-        typical: 0
-        description: Start of Transfer Memory
-
-      - name: RQHDRA0
-        bits: 20
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Header Memory A0
-
-      - name: RQHDRA1
-        bits: 19
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Header Memory A1
-
-      - name: RQHDRA2
-        bits: 18
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Header Memory A2
-
-      - name: RQHDRB0
-        bits: 17
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Header Memory B0
-
-      - name: RQHDRB1
-        bits: 16
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Header Memory B1
-
-      - name: RQHDRB2
-        bits: 15
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Header Memory B2
-
-      - name: RQDATAA0
-        bits: 14
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory A0
-
-      - name: RQDATAA1
-        bits: 13
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory A1
-
-      - name: RQDATAA2
-        bits: 12
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory A2
-
-      - name: RQDATAA3
-        bits: 11
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory A3
-
-      - name: RQDATAA4
-        bits: 10
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory A4
-
-      - name: RQDATAB0
-        bits: 9
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory B0
-
-      - name: RQDATAB1
-        bits: 8
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory B1
-
-      - name: RQDATAB2
-        bits: 7
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory B2
-
-      - name: RQDATAB3
-        bits: 6
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory B3
-
-      - name: RQDATAB4
-        bits: 5
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory B4
-
-      - name: RQDATAC0
-        bits: 4
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory C0
-
-      - name: RQDATAC1
-        bits: 3
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory C1
-
-      - name: RQDATAC2
-        bits: 2
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory C2
-
-      - name: RQDATAC3
-        bits: 1
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory C3
-
-      - name: RQDATAC4
-        bits: 0
-        access: RO
-        reset: 0
-        typical: 0
-        description: Rx Queue Data Memory C4
 
 
   - name: PEM(0..3)_DIAG_STATUS
@@ -764,7 +567,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -877,7 +680,7 @@ registers:
 
       - name: --
         bits: 11..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -914,7 +717,7 @@ registers:
 
       - name: --
         bits: 11..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -937,7 +740,7 @@ registers:
 
       - name: --
         bits: 13..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -960,7 +763,7 @@ registers:
 
       - name: --
         bits: 25..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -983,7 +786,7 @@ registers:
 
       - name: --
         bits: 44..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1011,11 +814,18 @@ registers:
       Allows PEM_DBG_INFO to generate interrupts when cooresponding enable bit is set."
     fields:
       - name: --
-        bits: 63..52
-        access: ---
+        bits: 63..53
+        access: --
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LOFP_EN
+        bits: 52
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[52] to generate an interrupt.
 
       - name: TPCDBE2
         bits: 51
@@ -1390,7 +1200,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1442,7 +1252,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1458,7 +1268,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1471,7 +1281,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1487,160 +1297,6 @@ registers:
           number is 64.
 
 
-  - name: PEM(0..3)_ECC_ENA
-    address: 0x11800C00000C0 + a*0x1000000
-    bus: RSL
-    description: Contains enables for ECC RAMs
-    fields:
-      - name: --
-        bits: 63..9
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: C_C_ENA
-        bits: 8
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP CPL ctl Fifo
-
-      - name: C_D1_ENA
-        bits: 7
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP CPL data1 Fifo
-
-      - name: C_D0_ENA
-        bits: 6
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP CPL data0 Fifo
-
-      - name: N_C_ENA
-        bits: 5
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP NP ctl Fifo
-
-      - name: N_D1_ENA
-        bits: 4
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP NP data1 Fifo
-
-      - name: N_D0_ENA
-        bits: 3
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP NP data0 Fifo
-
-      - name: P_C_ENA
-        bits: 2
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP Posted ctl Fifo
-
-      - name: P_D1_ENA
-        bits: 1
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP Posted data1 Fifo
-
-      - name: P_D0_ENA
-        bits: 0
-        access: R/W
-        reset: 1
-        typical: 1
-        description: ECC enable for TLP Posted data0 ifo
-
-
-  - name: PEM(0..3)_ECC_SYND_CTRL
-    address: 0x11800C00000C8 + a*0x1000000
-    bus: RSL
-    description: |
-      PEM_ECC_SYND_CTL
-      Contains Syndrome Control for ECC RAMs
-    fields:
-      - name: --
-        bits: 63..18
-        access: ---
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: C_C_SYN
-        bits: 17..16
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP CPL ctl Fifo
-
-      - name: C_D1_SYN
-        bits: 15..14
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP CPL data1 Fifo
-
-      - name: C_D0_SYN
-        bits: 13..12
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP CPL data0 Fifo
-
-      - name: N_C_SYN
-        bits: 11..10
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP NP ctl Fifo
-
-      - name: N_D1_SYN
-        bits: 9..8
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP NP data1 Fifo
-
-      - name: N_D0_SYN
-        bits: 7..6
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP NP data0 Fifo
-
-      - name: P_C_SYN
-        bits: 5..4
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP Posted ctl Fifo
-
-      - name: P_D1_SYN
-        bits: 3..2
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP Posted data1 Fifo
-
-      - name: P_D0_SYN
-        bits: 1..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Syndrome Flip bits for TLP Posted data0 Fifo
-
-
   - name: PEM(0..3)_DBG_INFO
     address: 0x11800C00000D0 + a*0x1000000
     bus: RSL
@@ -1649,11 +1305,18 @@ registers:
       General debug info."
     fields:
       - name: --
-        bits: 63..52
-        access: ---
+        bits: 63..53
+        access: --
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LOFP
+        bits: 52
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Lack of Forward Progress at TLP FIFOs timeout occured.
 
       - name: C_C_DBE
         bits: 51
@@ -2107,7 +1770,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2149,7 +1812,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2201,7 +1864,7 @@ registers:
 
       - name: --
         bits: 47..45
-        access: ---
+        access: --
         reset: --
         typical: --
         description: EEPROM unused data field.
@@ -2236,7 +1899,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2270,7 +1933,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2305,29 +1968,46 @@ registers:
     description: Configuration of the PCIe Application
     fields:
       - name: --
-        bits: 63..4
-        access: ---
+        bits: 63..5
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
       - name: LANESWAP
+        bits: 4
+        access: R/W/H
+        reset: --
+        typical: --
+        description: |
+          This field will overwrite the pin setting for lane swapping.
+          When set, lane swapping is performed to/from the SerDes.
+          When clear, no lane swapping is performed.
+
+      - name: LANES8
         bits: 3
         access: R/W/H
         reset: --
         typical: --
         description: |
-          When set, lane swapping is performed to/from the SerDes.
-          When clear, no lane swapping is performed.
+          This field will overwrite the pin setting for number of lanes.
+          When set, the PEM is configured for a maximum of 8-lanes,
+          When clear, the PEM is configured for a maximum of 4-lanes.
+          This value is used to set the Maximum Link Width field in the
+          core's Link Capabilities Register (CFG031) to indicate the
+          maximum number of lanes supported. Note that less lanes than
+          the specified maximum can be configured for use via the core's
+          Link Control Register (CFG032) Negotiated Link Width field.
 
-      - name: LANES8
+      - name: HOSTMD
         bits: 2
         access: R/W/H
         reset: --
         typical: --
         description: |
-          When set, the PEM is configured for 8-lanes,
-          When clear, the PEM is configured for 4-lanes
+          This field will overwrite the pin settings for host mode.
+          When set, the PEM is configured to be a Root Complex.
+          When clear, the PEM is configured to be an End Point.
 
       - name: MD
         bits: 1..0
@@ -2335,12 +2015,11 @@ registers:
         reset: --
         typical: --
         description: |
-          When both bits are set, the PEM is configured to be a Root Complex.
-          When both bits are not set, the PEM is configured to be a End Point:
+          This field will overwrite the pin settings for speed.
             00 - EP Mode, Gen1 Speed
             01 - EP Mode, Gen2 Speed
             10 - EP Mode, Gen3 Speed
-            11 - RC Mode
+            11 - Rsvd
 
 
   - name: PEM(0..3)_QLM
@@ -2351,7 +2030,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2378,7 +2057,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2412,7 +2091,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2540,7 +2219,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2681,7 +2360,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2813,7 +2492,7 @@ registers:
           interrupt to the SLI as SLI_INT_SUM[MAC#_INT]."
 
 
-  - name: PEM(0..3)_BIST_STATUS2
+  - name: PEM(0..3)_BIST_STATUS
     address: 0x11800C0000440 + a*0x1000000
     bus: RSL
     description: |
@@ -2823,144 +2502,186 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..20
-        access: ---
+        bits: 63..26
+        access: --
         reset: --
         typical: --
         description: Reserved.
 
-      - name: PEAI_P2E
-        bits: 19
+      - name: RETRYC
+        bits: 25
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for the peai__pesc_fifo
+        description: Retry Buffer Memory C
 
-      - name: TLPN_D0
-        bits: 18
+      - name: SOT
+        bits: 24
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for the tlp_n_fifo_data0
+        description: Start of Transfer Memory
 
-      - name: TLPN_D1
-        bits: 17
+      - name: RQHDRB0
+        bits: 23
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for the tlp_n_fifo_data1
+        description: Rx Queue Header Memory Buffer 0
 
-      - name: TLPN_CTL
-        bits: 16
+      - name: RQHDRB1
+        bits: 22
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for the tlp_n_fifo_ctl
+        description: Rx Queue Header Memory Buffer 1
 
-      - name: TLPP_D0
-        bits: 15
+      - name: RQDATAB0
+        bits: 21
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for the tlp_p_fifo_data0
+        description: Rx Queue Data Buffer 0
 
-      - name: TLPP_D1
-        bits: 14
+      - name: RQDATAB1
+        bits: 20
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for the tlp_p_fifo_data1
-
-      - name: TLPP_CTL
-        bits: 13
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for the tlp_p_fifo_ctl
-
-      - name: TLPC_D0
-        bits: 12
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for the tlp_c_fifo_data0
-
-      - name: TLPC_D1
-        bits: 11
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for the tlp_c_fifo_data1
-
-      - name: TLPC_CTL
-        bits: 10
-        access: RO
-        reset: 0
-        typical: 0
-        description: BIST Status for the tlp_c_fifo_ctl
+        description: Rx Queue Data Buffer 1
 
       - name: TLPAN_D0
-        bits: 9
+        bits: 19
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_n_afifo_data0
 
       - name: TLPAN_D1
-        bits: 8
+        bits: 18
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_n_afifo_data1
 
       - name: TLPAN_CTL
-        bits: 7
+        bits: 17
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_n_afifo_ctl
 
       - name: TLPAP_D0
-        bits: 6
+        bits: 16
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_p_afifo_data0
 
       - name: TLPAP_D1
-        bits: 5
+        bits: 15
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_p_afifo_data1
 
       - name: TLPAP_CTL
-        bits: 4
+        bits: 14
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_p_afifo_ctl
 
       - name: TLPAC_D0
-        bits: 3
+        bits: 13
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_c_afifo_data0
 
       - name: TLPAC_D1
-        bits: 2
+        bits: 12
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_c_afifo_data1
 
       - name: TLPAC_CTL
-        bits: 1
+        bits: 11
         access: RO
         reset: 0
         typical: 0
         description: BIST Status for the tlp_c_afifo_ctl
+
+      - name: PEAI_P2E
+        bits: 10
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the peai__pesc_fifo
+
+      - name: TLPN_D0
+        bits: 9
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_fifo_data0
+
+      - name: TLPN_D1
+        bits: 8
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_fifo_data1
+
+      - name: TLPN_CTL
+        bits: 7
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_n_fifo_ctl
+
+      - name: TLPP_D0
+        bits: 6
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_fifo_data0
+
+      - name: TLPP_D1
+        bits: 5
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_fifo_data1
+
+      - name: TLPP_CTL
+        bits: 4
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_p_fifo_ctl
+
+      - name: TLPC_D0
+        bits: 3
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_fifo_data0
+
+      - name: TLPC_D1
+        bits: 2
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_fifo_data1
+
+      - name: TLPC_CTL
+        bits: 1
+        access: RO
+        reset: 0
+        typical: 0
+        description: BIST Status for the tlp_c_fifo_ctl
 
       - name: M2S
         bits: 0
@@ -2968,6 +2689,160 @@ registers:
         reset: 0
         typical: 0
         description: BIST Status for the m2s_fifo
+
+
+  - name: PEM(0..3)_ECC_ENA
+    address: 0x11800C0000448 + a*0x1000000
+    bus: RSL
+    description: Contains enables for TLP FIFO ECC RAMs
+    fields:
+      - name: --
+        bits: 63..9
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: C_C_ENA
+        bits: 8
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP CPL ctl Fifo
+
+      - name: C_D1_ENA
+        bits: 7
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP CPL data1 Fifo
+
+      - name: C_D0_ENA
+        bits: 6
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP CPL data0 Fifo
+
+      - name: N_C_ENA
+        bits: 5
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP NP ctl Fifo
+
+      - name: N_D1_ENA
+        bits: 4
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP NP data1 Fifo
+
+      - name: N_D0_ENA
+        bits: 3
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP NP data0 Fifo
+
+      - name: P_C_ENA
+        bits: 2
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Posted ctl Fifo
+
+      - name: P_D1_ENA
+        bits: 1
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Posted data1 Fifo
+
+      - name: P_D0_ENA
+        bits: 0
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for TLP Posted data0 ifo
+
+
+  - name: PEM(0..3)_ECC_SYND_CTRL
+    address: 0x11800C0000450 + a*0x1000000
+    bus: RSL
+    description: |
+      PEM_ECC_SYND_CTL
+      Contains Syndrome Control for TLP FIFO ECC RAMs
+    fields:
+      - name: --
+        bits: 63..18
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: C_C_SYN
+        bits: 17..16
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP CPL ctl Fifo
+
+      - name: C_D1_SYN
+        bits: 15..14
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP CPL data1 Fifo
+
+      - name: C_D0_SYN
+        bits: 13..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP CPL data0 Fifo
+
+      - name: N_C_SYN
+        bits: 11..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP NP ctl Fifo
+
+      - name: N_D1_SYN
+        bits: 9..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP NP data1 Fifo
+
+      - name: N_D0_SYN
+        bits: 7..6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP NP data0 Fifo
+
+      - name: P_C_SYN
+        bits: 5..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Posted ctl Fifo
+
+      - name: P_D1_SYN
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Posted data1 Fifo
+
+      - name: P_D0_SYN
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for TLP Posted data0 Fifo
 
 
 

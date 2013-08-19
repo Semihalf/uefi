@@ -355,13 +355,14 @@ registers:
           Reference clock select. Choose reference clock source for the SuperSpeed and HighSpeed PLL
           blocks.
           0x0 = Reference clock source for both PLLs come from the USB pads.
-          0x1 = Reference clock source for SuperSpeed PLL is from the USB pads, reference clock
-          source for HighSpeed PLL is PLL_REF_CLK.
+          0x1 = Reserved
           0x2 = Reserved.
           0x3 = Reserved.
-          The PLL_REF_CLK is a 50MHz reference clock from an on-chip PLL. This value can be changed
-          only during UPHY_RST.
+          This value can be changed only during UPHY_RST.
           Note: If REF_CLK_SEL = 0x0, then the reference clock input cannot be spread-spectrum.
+          INTERNAL: For the 0x1 selection, reference clock source for SuperSpeed PLL is from the USB
+          pads, reference clock source for HighSpeed PLL is PLL_REF_CLK. But in 78xx, PLL_REF_CLK
+          cannot be routed to USB without violating jitter requirements
 
       - name: SSC_EN
         bits: 59
@@ -405,16 +406,8 @@ registers:
           corresponds to the frequency-synthesis coefficient.
           [55:53]: modulus - 1,
           [52:47]: 2's complement push amount
-          A value of 0x0 means this feature is disabled. The legal values are as follows:
-          If REF_CLK_SEL = 0x0, then 0x0 is the only legal value.
-          If REF_CLK_SEL = 0x1:
-          0x108 = If the external reference clock is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz, 52MHz,
-          76.8MHz, 96MHz, 104MHz.
-          0x0 = If the external reference clock is another supported frequency (see list in
-          MPLL_MULTIPLIER description).
-          All other values are reserved. This value may only be changed during UPHY_RST.
-          Note: If REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL must
-          all be programmed to the same frequency setting.
+          Must leave at reset value of 0x0.
+          This value may only be changed during UPHY_RST.
 
       - name: MPLL_MULTIPLIER
         bits: 46..40
@@ -422,32 +415,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Multiplies the reference clock to a frequency suitable for intended operating speed. The
-          legal values are:
-          If REF_CLK_SEL = 0x0, then 0x0 is the only legal value.
-          If REF_CLK_SEL = 0x1 then:
-          0x02 = 19.2 MHz on the external reference clock
-          0x7D = 20 MHz on the external reference clock
-          0x68 = 24 MHz on the external reference clock
-          0x64 = 25 MHz on the external reference clock
-          0x60 = 26 MHz on the external reference clock
-          0x41 = 38.4 MHz on the external reference clock
-          0x7D = 40 MHz on the external reference clock
-          0x34 = 48 MHz on the external reference clock
-          0x32 = 50 MHz on the external reference clock
-          0x30 = 52 MHz on the external reference clock
-          0x41 = 76.8 MHz on the external reference clock
-          0x1A = 96 MHz on the external reference clock
-          0x19 = 100 MHz on the external reference clock
-          0x18 = 104 MHz on the external reference clock if REF_CLK_DIV2 is 0x0
-          0x30 = 104 MHz on the external reference clock if REF_CLK_DIV2 is 0x1
-          0x28 = 125 MHz on the external reference clock
-          0x19 = 200 MHz on the external reference clock
-          All other values are reserved.
+          Multiplies the reference clock to a frequency suitable for intended operating speed.
+          Must leave at reset value of 0x0.
           This value may only be changed during UPHY_RST.
-          Note: If REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL must
-          all be programmed to the same frequency setting. When REF_CLK_SEL = 0x0, this value is
-          superceded by the REF_CLK_FSEL<5:3> selection.
+          This value is superceded by the REF_CLK_FSEL<5:3> selection.
 
       - name: REF_SSP_EN
         bits: 39
@@ -468,19 +439,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider. The
-          legal values are:
-          If REF_CLK_SEL = 0x0, then for all reference clock frequencies, 0x0 is the only legal
-          value.
-          If REF_CLK_SEL = 0x1:
-              0x1: if external reference clock is 125MHz, 40MHz, 76.8MHz, or 200MHz.
-              0x0 or 0x1: if external reference clock is 104MHz
-                          (depending on MPLL_MULTIPLIER setting)
-              0x0: if external reference clock is another supported frequency,
-                   (see list in MPLL_MULTIPLIER description).
+          Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
+          Must leave at reset value of 0x0.
           This value can be changed only during UPHY_RST.
-          Note: If REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL must
-          all be programmed to the same frequency setting.
 
       - name: REF_CLK_FSEL
         bits: 37..32
@@ -490,20 +451,16 @@ registers:
         description: |
           Selects the reference clock frequency for the SuperSpeed and HighSpeed PLL blocks. The
           legal values are as follows:
-          If REF_CLK_SEL = 0x0:
           0x27 = External reference clock 100 MHz
           0x2A = External reference clock 24 MHz
           0x31 = External reference clock 20 MHz
           0x38 = External reference clock 19.2 MHz
-          If REF_CLK_SEL = 0x1, then 0x7 is the only legal value.
           All other values are reserved.
           This value may only be changed during UPHY_RST.
-          Note: When REF_CLK_SEL = 0x1, then MPLL_MULTPLIER, REF_CLK_DIV2, and
-          SSC_REF_CLK_SEL must all be programmed to the same frequency setting.
 
       - name: --
         bits: 31
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -545,7 +502,7 @@ registers:
 
       - name: --
         bits: 27
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -582,7 +539,7 @@ registers:
 
       - name: --
         bits: 23..22
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -607,7 +564,7 @@ registers:
 
       - name: --
         bits: 19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -627,7 +584,7 @@ registers:
 
       - name: --
         bits: 17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -649,7 +606,7 @@ registers:
 
       - name: --
         bits: 15
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -665,7 +622,7 @@ registers:
 
       - name: --
         bits: 13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -681,7 +638,7 @@ registers:
 
       - name: --
         bits: 11..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -697,7 +654,7 @@ registers:
 
       - name: --
         bits: 3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -748,7 +705,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -769,7 +726,7 @@ registers:
 
       - name: --
         bits: 39..35
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -797,7 +754,7 @@ registers:
 
       - name: --
         bits: 31..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -818,7 +775,7 @@ registers:
 
       - name: --
         bits: 7..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -874,7 +831,7 @@ registers:
     fields:
       - name: --
         bits: 63..30
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -917,7 +874,7 @@ registers:
 
       - name: --
         bits: 25..22
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -978,7 +935,7 @@ registers:
 
       - name: --
         bits: 15..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1011,7 +968,7 @@ registers:
 
       - name: --
         bits: 0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1029,7 +986,7 @@ registers:
     fields:
       - name: --
         bits: 63..58
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1074,7 +1031,7 @@ registers:
 
       - name: --
         bits: 47..46
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1110,7 +1067,7 @@ registers:
 
       - name: --
         bits: 41
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1173,7 +1130,7 @@ registers:
 
       - name: --
         bits: 31..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1281,7 +1238,7 @@ registers:
 
       - name: --
         bits: 55..42
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1382,7 +1339,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1408,7 +1365,7 @@ registers:
 
       - name: --
         bits: 3..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1479,7 +1436,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1493,7 +1450,7 @@ registers:
 
       - name: --
         bits: 31..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1539,7 +1496,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1553,7 +1510,7 @@ registers:
 
       - name: --
         bits: 31..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1579,7 +1536,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1595,7 +1552,7 @@ registers:
 
       - name: --
         bits: 47..38
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1620,7 +1577,7 @@ registers:
 
       - name: --
         bits: 31..29
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1690,7 +1647,7 @@ registers:
 
       - name: --
         bits: 23..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1719,7 +1676,7 @@ registers:
 
       - name: --
         bits: 62..60
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1750,7 +1707,7 @@ registers:
 
       - name: --
         bits: 46..44
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1766,7 +1723,7 @@ registers:
 
       - name: --
         bits: 39..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1780,7 +1737,7 @@ registers:
 
       - name: --
         bits: 11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1801,7 +1758,7 @@ registers:
 
       - name: --
         bits: 7..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1839,7 +1796,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1867,7 +1824,7 @@ registers:
 
       - name: --
         bits: 31..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1902,7 +1859,7 @@ registers:
 
       - name: --
         bits: 14..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -1982,7 +1939,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2010,7 +1967,7 @@ registers:
 
       - name: --
         bits: 23..19
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2061,7 +2018,7 @@ registers:
 
       - name: --
         bits: 20..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2096,7 +2053,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2131,7 +2088,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2215,7 +2172,7 @@ registers:
 
       - name: --
         bits: 1..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2236,7 +2193,7 @@ registers:
 
       - name: --
         bits: 4..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2253,7 +2210,7 @@ registers:
     fields:
       - name: --
         bits: 31..12
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2295,7 +2252,7 @@ registers:
 
       - name: --
         bits: 6..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2340,7 +2297,7 @@ registers:
     fields:
       - name: --
         bits: 31..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2382,7 +2339,7 @@ registers:
 
       - name: --
         bits: 7..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2412,7 +2369,7 @@ registers:
 
       - name: --
         bits: 1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2433,7 +2390,7 @@ registers:
     fields:
       - name: --
         bits: 31..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2458,7 +2415,7 @@ registers:
     fields:
       - name: --
         bits: 31..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2490,7 +2447,7 @@ registers:
 
       - name: --
         bits: 5..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2547,7 +2504,7 @@ registers:
 
       - name: --
         bits: 5..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2565,7 +2522,7 @@ registers:
     fields:
       - name: --
         bits: 31..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2604,7 +2561,7 @@ registers:
 
       - name: --
         bits: 29..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2767,7 +2724,7 @@ registers:
 
       - name: --
         bits: 2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2809,7 +2766,7 @@ registers:
 
       - name: --
         bits: 27..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2858,7 +2815,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2876,7 +2833,7 @@ registers:
     fields:
       - name: --
         bits: 31..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2915,7 +2872,7 @@ registers:
     fields:
       - name: --
         bits: 31..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2954,7 +2911,7 @@ registers:
     fields:
       - name: --
         bits: 31..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2979,7 +2936,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -2996,7 +2953,7 @@ registers:
     fields:
       - name: --
         bits: 31..14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3020,7 +2977,7 @@ registers:
     fields:
       - name: --
         bits: 31..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3076,7 +3033,7 @@ registers:
     fields:
       - name: --
         bits: 31..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3108,7 +3065,7 @@ registers:
 
       - name: --
         bits: 5..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3167,7 +3124,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3191,7 +3148,7 @@ registers:
     fields:
       - name: --
         bits: 31..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3205,7 +3162,7 @@ registers:
 
       - name: --
         bits: 23..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3267,7 +3224,7 @@ registers:
 
       - name: --
         bits: 28..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3285,7 +3242,7 @@ registers:
 
       - name: --
         bits: 19..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3323,7 +3280,7 @@ registers:
 
       - name: --
         bits: 12..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3337,7 +3294,7 @@ registers:
 
       - name: --
         bits: 3..1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3415,7 +3372,7 @@ registers:
 
       - name: --
         bits: 27..21
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3450,7 +3407,7 @@ registers:
 
       - name: --
         bits: 16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3480,7 +3437,7 @@ registers:
     fields:
       - name: --
         bits: 31..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3561,7 +3518,7 @@ registers:
 
       - name: --
         bits: 27..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3591,7 +3548,7 @@ registers:
     fields:
       - name: --
         bits: 31..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3761,7 +3718,7 @@ registers:
     fields:
       - name: --
         bits: 31..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3854,7 +3811,7 @@ registers:
 
       - name: --
         bits: 28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3893,7 +3850,7 @@ registers:
 
       - name: --
         bits: 13..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3934,7 +3891,7 @@ registers:
     fields:
       - name: --
         bits: 31..30
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3955,7 +3912,7 @@ registers:
 
       - name: --
         bits: 28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -3985,7 +3942,7 @@ registers:
 
       - name: --
         bits: 18..16
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4001,7 +3958,7 @@ registers:
 
       - name: --
         bits: 14..11
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4217,7 +4174,7 @@ registers:
 
       - name: --
         bits: 1
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4256,7 +4213,7 @@ registers:
 
       - name: --
         bits: 27..17
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4276,7 +4233,7 @@ registers:
 
       - name: --
         bits: 11..10
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4319,7 +4276,7 @@ registers:
 
       - name: --
         bits: 19..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4335,7 +4292,7 @@ registers:
 
       - name: --
         bits: 6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4360,7 +4317,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4712,7 +4669,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4928,7 +4885,7 @@ registers:
     fields:
       - name: --
         bits: 31
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -4970,7 +4927,7 @@ registers:
 
       - name: --
         bits: 9..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5039,7 +4996,7 @@ registers:
 
       - name: --
         bits: 22
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5067,7 +5024,7 @@ registers:
 
       - name: --
         bits: 12..6
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5091,7 +5048,7 @@ registers:
     fields:
       - name: --
         bits: 31..28
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5192,7 +5149,7 @@ registers:
 
       - name: --
         bits: 9..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5267,7 +5224,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5307,7 +5264,7 @@ registers:
     fields:
       - name: --
         bits: 31..27
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5377,7 +5334,7 @@ registers:
     fields:
       - name: --
         bits: 31..9
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5534,7 +5491,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5564,7 +5521,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5622,7 +5579,7 @@ registers:
 
       - name: --
         bits: 28..25
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5666,7 +5623,7 @@ registers:
 
       - name: --
         bits: 14
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -5786,7 +5743,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6228,7 +6185,7 @@ registers:
     fields:
       - name: --
         bits: 31..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6269,7 +6226,7 @@ registers:
     fields:
       - name: --
         bits: 31..3
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6308,7 +6265,7 @@ registers:
     fields:
       - name: --
         bits: 31..13
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.
@@ -6322,7 +6279,7 @@ registers:
 
       - name: --
         bits: 7..5
-        access: ---
+        access: --
         reset: --
         typical: --
         description: Reserved.

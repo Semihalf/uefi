@@ -10,7 +10,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -32,7 +32,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -56,7 +56,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -80,7 +80,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -94,7 +94,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -123,7 +123,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -135,6 +135,66 @@ registers:
         typical: 0
         description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 
+
+  - name: DTX_ILK_SEL(0..1)
+    title: DTX ILK Select Register
+    address: 0x11800FE000000 | ((20) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_ILK_ENA(0..1)
+    title: DTX ILK Mask Register
+    address: 0x11800FE000020 | ((20) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_ILK_DAT(0..1)
+    title: DTX ILK Raw Data Register
+    address: 0x11800FE000040 | ((20) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_ILK_CTL
+    title: DTX ILK Control Register
+    address: 0x11800FE0A0060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_ILK_BCST_RSP
+    title: DTX ILK Control Register
+    address: 0x11800FE0A0080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_ILA_SEL(0..1)
+    title: DTX ILA Select Register
+    address: 0x11800FE000000 | ((23) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_ILA_ENA(0..1)
+    title: DTX ILA Mask Register
+    address: 0x11800FE000020 | ((23) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_ILA_DAT(0..1)
+    title: DTX ILA Raw Data Register
+    address: 0x11800FE000040 | ((23) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_ILA_CTL
+    title: DTX ILA Control Register
+    address: 0x11800FE0B8060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_ILA_BCST_RSP
+    title: DTX ILA Control Register
+    address: 0x11800FE0B8080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_PKI_PFE_SEL(0..1)
     title: DTX PKI_PFE Select Register
@@ -286,6 +346,36 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_RAD_SEL(0..1)
+    title: DTX RAD Select Register
+    address: 0x11800FE000000 | ((112) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_RAD_ENA(0..1)
+    title: DTX RAD Mask Register
+    address: 0x11800FE000020 | ((112) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_RAD_DAT(0..1)
+    title: DTX RAD Raw Data Register
+    address: 0x11800FE000040 | ((112) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_RAD_CTL
+    title: DTX RAD Control Register
+    address: 0x11800FE380060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_RAD_BCST_RSP
+    title: DTX RAD Control Register
+    address: 0x11800FE380080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_L2C_CBC(0..3)_SEL(0..1)
     title: DTX L2C_CBC(0..3) Select Register
     address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
@@ -383,7 +473,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -405,7 +495,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -429,7 +519,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -443,7 +533,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: ---
+        access: --
         reset: 0x0
         typical: 0x0
         description: Reserved.
