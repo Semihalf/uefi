@@ -34,7 +34,7 @@ void bdk_reset_octeon(bdk_node_t node)
         bdk_thread_yield();
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         bdk_rst_soft_rst_t rst_soft_rst;
         rst_soft_rst.u64 = 0;
