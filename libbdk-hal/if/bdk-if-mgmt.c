@@ -61,10 +61,7 @@ static int if_num_ports(bdk_node_t node, int interface)
     else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
         return 1;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        /* Simulator currently doesn't support IPD port 24 correctly */
-        return bdk_is_simulation() ? 0 : 1;
-    }
+        return 1;
     else
         return 0;
 }
@@ -85,6 +82,15 @@ static int if_probe(bdk_if_handle_t handle)
         snprintf(handle->name, sizeof(handle->name), "RGMII%d", handle->index);
         handle->name[sizeof(handle->name)-1] = 0;
         handle->ipd_port = 24; /* New for CN70XX */
+        /* The default values in PKO_MEM_PORT_PTRS are wrong. Fix them */
+        BDK_CSR_DEFINE(index, BDK_PKO_REG_READ_IDX);
+        index.u = 0;
+        index.s.index = handle->ipd_port;
+        BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, index.u);
+        BDK_CSR_MODIFY(ptrs, handle->node, BDK_PKO_MEM_PORT_PTRS,
+            ptrs.s.bp_port = 40; /* RGMII0 special value, BP disabled */
+            ptrs.s.eid = 10; /* Engine for RGMII */
+            ptrs.s.pid = handle->ipd_port);
     }
     else
     {
