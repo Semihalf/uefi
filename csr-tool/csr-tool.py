@@ -11,7 +11,6 @@ import csr_list_combiner
 import csr_output_header
 import csr_output_db
 import csr_output_lua
-import csr_output_error_decodes
 
 #
 # Top level script for working with CSRs
@@ -133,8 +132,6 @@ if generate_html:
 
 print "Writing " + OUTPUT_FILENAME_TYPEDEFS
 csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, 0)
-#print "Writing Error decodes"
-#csr_output_error_decodes.write(combined_list)
 
 print "Writing " + OUTPUT_FILENAME_DB
 csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_infos, 0)

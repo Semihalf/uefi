@@ -20,5 +20,4 @@ mkdir -p cisco
 mv bdk-csrs.h ../libbdk-arch/
 mv bdk-csrs.c ../libbdk-arch/
 mv csr_db.lua ../lua-modules/
-#mv cvmx-error-init-*.c ../libbdk-hal/
 
