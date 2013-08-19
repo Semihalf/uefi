@@ -936,8 +936,14 @@ static int do_reset(tg_port_t *tg_port)
     uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->handle);
     int src_inc = bdk_if_get_pknd(tg_port->handle) << 16;
     int dest_inc = bdk_if_get_pknd(connect_to->handle) << 16;
+    const char *name = bdk_if_name(tg_port->handle);
+    int default_speed;
+    if (strstr(name, "GMII")) /* SGMII, RGMII */
+        default_speed = 1000;
+    else
+        default_speed = 10000; /* LOOP, ILK, XAUI */
 
-    tg_port->pinfo.setup.output_rate                = 1000;
+    tg_port->pinfo.setup.output_rate                = default_speed;
     tg_port->pinfo.setup.output_rate_is_mbps        = true;
     tg_port->pinfo.setup.output_enable              = 0;
     tg_port->pinfo.setup.output_count               = 0;
