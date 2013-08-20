@@ -4,17 +4,6 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(ERROR_DECODE);
 
-#define CHECK_ERROR(csr, field)             \
-if (c.s.field) {                            \
-    typedef_##csr w1c;                      \
-    w1c.u = 0;                              \
-    w1c.s.field = c.s.field;                \
-    bdk_csr_write(node, bustype_##csr,      \
-        busnum_##csr, sizeof(typedef_##csr),\
-        csr, w1c.u);                        \
-    display_error(node, basename_##csr, arguments_##csr, #field); \
-}
-
 #define CHECK_CHIP_ERROR(csr, chip, field)  \
 if (c.chip.field) {                         \
     typedef_##csr w1c;                      \
@@ -40,1205 +29,1061 @@ static void display_error(bdk_node_t node, const char *csr_name, int arg1, int a
         bdk_error("N%d %s[%s]\n", node, csr_name, field_name);
 }
 
-static void check_agl(bdk_node_t node)
+static void check_rst_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_INIT(c, node, BDK_CIU_CIB_RST_RAWX(0));
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_RST_RAWX(0), s, int_perstx);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_RST_RAWX(0), s, int_linkx);
+}
+
+static void enable_rst_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_RST_ENX(0),
+        c.s.int_perstx = -1;
+        c.s.int_linkx = -1);
+}
+
+static void check_lmc_cn70xx(bdk_node_t node, int index)
+{
+    {
+        BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+    }
+    {
+        BDK_CSR_INIT(c, node, BDK_CIU_CIB_LMCX_RAWX(index, 0));
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_LMCX_RAWX(index, 0), s, int_ddr_err);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_LMCX_RAWX(index, 0), s, int_dlc_ded);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_LMCX_RAWX(index, 0), s, int_dlc_sec);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_LMCX_RAWX(index, 0), s, int_ded_errx);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_LMCX_RAWX(index, 0), s, int_sec_errx);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_LMCX_RAWX(index, 0), s, int_nxm_wr_err);
+    }
+}
+
+static void enable_lmc_cn70xx(bdk_node_t node, int index)
+{
+    BDK_CSR_MODIFY(c, node, BDK_LMCX_INT_EN(index),
+        c.s.intr_ded_ena = -1;
+        c.s.intr_sec_ena = -1;
+        c.s.intr_nxm_wr_ena = -1);
+    BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_LMCX_ENX(index, 0),
+        c.s.int_ddr_err = -1;
+        c.s.int_dlc_ded = -1;
+        c.s.int_dlc_sec = -1;
+        c.s.int_ded_errx = -1;
+        c.s.int_sec_errx = -1;
+        c.s.int_nxm_wr_err = -1);
+}
+
+static void check_pem_cn70xx(bdk_node_t node, int index)
+{
+    BDK_CSR_INIT(c, node, BDK_PEMX_INT_SUM(index));
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, crs_dr);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, crs_er);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, rdlk);
+    if (c.s.exc)
+    {
+        BDK_CSR_INIT(c, node, BDK_PEMX_DBG_INFO(index));
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, c_c_dbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, c_c_sbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, c_d_dbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, c_d_sbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, n_c_dbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, n_c_sbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, n_d_dbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, n_d_sbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, p_c_dbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, p_c_sbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, p_d_dbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, p_d_sbe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, datq_pe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, hdrq_pe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rtry_pe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, ecrc_e);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rawwpp);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, racpp);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, ramtlp);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rarwdns);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, caar);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, racca);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, racur);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rauc);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rqo);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, fcuv);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rpe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, fcpvwt);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, dpeoosd);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rtwdle);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rdwdle);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, mre);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rte);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, acto);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rvdm);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rumep);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rptamrc);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rpmerc);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rfemrc);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rnfemrc);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rcemrc);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rpoison);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, recrce);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rtlplle);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rtlpmal);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, spoison);
+    }
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, un_bx);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, un_b2);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, un_b1);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, up_bx);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, up_b2);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, up_b1);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, pmem); // FIXME: RO?
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, pmei); // FIXME: RO?
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, se);
+    CHECK_CHIP_ERROR(BDK_PEMX_INT_SUM(index), s, aeri); // FIXME: RO?
+}
+
+static void enable_pem_cn70xx(bdk_node_t node, int index)
+{
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_INT_ENB_INT(index),
+        c.s.crs_dr = -1;
+        c.s.crs_er = -1;
+        c.s.rdlk = -1;
+        c.s.exc = -1;
+        c.s.un_bx = -1;
+        c.s.un_b2 = -1;
+        c.s.un_b1 = -1;
+        c.s.up_bx = -1;
+        c.s.up_b2 = -1;
+        c.s.up_b1 = -1;
+        c.s.pmem = -1;
+        c.s.pmei = -1;
+        c.s.se = -1;
+        c.s.aeri = -1);
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_DBG_INFO_EN(index),
+        c.cn70xx.tpcdbe1 = -1;
+        c.cn70xx.tpcsbe1 = -1;
+        c.cn70xx.tpcdbe0 = -1;
+        c.cn70xx.tpcsbe0 = -1;
+        c.cn70xx.tnfdbe1 = -1;
+        c.cn70xx.tnfsbe1 = -1;
+        c.cn70xx.tnfdbe0 = -1;
+        c.cn70xx.tnfsbe0 = -1;
+        c.cn70xx.tpfdbe1 = -1;
+        c.cn70xx.tpfsbe1 = -1;
+        c.cn70xx.tpfdbe0 = -1;
+        c.cn70xx.tpfsbe0 = -1;
+        c.s.datq_pe = -1;
+        c.s.hdrq_pe = -1;
+        c.s.rtry_pe = -1;
+        c.s.ecrc_e = -1;
+        c.s.rawwpp = -1;
+        c.s.racpp = -1;
+        c.s.ramtlp = -1;
+        c.s.rarwdns = -1;
+        c.s.caar = -1;
+        c.s.racca = -1;
+        c.s.racur = -1;
+        c.s.rauc = -1;
+        c.s.rqo = -1;
+        c.s.fcuv = -1;
+        c.s.rpe = -1;
+        c.s.fcpvwt = -1;
+        c.s.dpeoosd = -1;
+        c.s.rtwdle = -1;
+        c.s.rdwdle = -1;
+        c.s.mre = -1;
+        c.s.rte = -1;
+        c.s.acto = -1;
+        c.s.rvdm = -1;
+        c.s.rumep = -1;
+        c.s.rptamrc = -1;
+        c.s.rpmerc = -1;
+        c.s.rfemrc = -1;
+        c.s.rnfemrc = -1;
+        c.s.rcemrc = -1;
+        c.s.rpoison = -1;
+        c.s.recrce = -1;
+        c.s.rtlplle = -1;
+        c.s.rtlpmal = -1;
+        c.s.spoison = -1);
+}
+
+static void check_ptp_cn70xx(bdk_node_t node)
+{
+    /* No errors need to be reported */
+}
+
+static void enable_ptp_cn70xx(bdk_node_t node)
+{
+    /* No errors need to be reported */
+}
+
+static void check_agl_cn70xx(bdk_node_t node)
 {
     {
         BDK_CSR_INIT(c, node, BDK_AGL_GMX_BAD_REG);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, loststat);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, out_ovr);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, ovrflw);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, ovrflw1);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, txpop);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, txpop1);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, txpsh);
-        CHECK_ERROR(BDK_AGL_GMX_BAD_REG, txpsh1);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_BAD_REG, s, txpsh);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_BAD_REG, s, txpop);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_BAD_REG, s, ovrflw);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_BAD_REG, s, statovr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_BAD_REG, s, loststat);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_BAD_REG, s, out_ovr);
+    }
+    {
+        BDK_CSR_INIT(c, node, BDK_AGL_GMX_RXX_INT_REG(0));
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, wol);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, pause_drp);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, phy_dupx);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, phy_spd);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, phy_link);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, ifgerr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, coldet);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, falerr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, rsverr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, pcterr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, ovrerr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, niberr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, skperr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, rcverr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, lenerr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, alnerr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, fcserr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, jabber);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, maxerr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, carext);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, minerr);
     }
     {
         BDK_CSR_INIT(c, node, BDK_AGL_GMX_TX_INT_REG);
-        CHECK_ERROR(BDK_AGL_GMX_TX_INT_REG, pko_nxa);
-        CHECK_ERROR(BDK_AGL_GMX_TX_INT_REG, undflw);
-    }
-    int max_agl = bdk_if_num_interfaces(node, BDK_IF_MGMT);
-    for (int agl=0; agl<max_agl; agl++)
-    {
-        BDK_CSR_INIT(c, node, BDK_AGL_GMX_RXX_INT_REG(agl));
-        CHECK_ERROR(BDK_AGL_GMX_RXX_INT_REG(agl), ovrerr);
-        CHECK_ERROR(BDK_AGL_GMX_RXX_INT_REG(agl), skperr);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_TX_INT_REG, s, ptp_lost);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_TX_INT_REG, s, late_col);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_TX_INT_REG, s, xsdef);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_TX_INT_REG, s, xscol);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_TX_INT_REG, s, undflw);
+        CHECK_CHIP_ERROR(BDK_AGL_GMX_TX_INT_REG, s, pko_nxa);
     }
 }
 
-static void check_dfa(bdk_node_t node)
+static void enable_agl_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, node, BDK_DFA_ERROR);
-    CHECK_ERROR(BDK_DFA_ERROR, dblovf);
-    CHECK_ERROR(BDK_DFA_ERROR, dc0perr);
-    CHECK_ERROR(BDK_DFA_ERROR, dc1perr);
-    CHECK_ERROR(BDK_DFA_ERROR, dc2perr);
-    CHECK_ERROR(BDK_DFA_ERROR, dfanxm);
-    CHECK_ERROR(BDK_DFA_ERROR, dlc0_ovferr);
-    CHECK_ERROR(BDK_DFA_ERROR, dlc1_ovferr);
-    CHECK_ERROR(BDK_DFA_ERROR, replerr);
+    /* No enables for BDK_AGL_GMX_BAD_REG? */
+    BDK_CSR_MODIFY(c, node, BDK_AGL_GMX_RXX_INT_EN(0),
+        c.s.wol = -1;
+        c.s.pause_drp = -1;
+        c.s.phy_dupx = -1;
+        c.s.phy_spd = -1;
+        c.s.phy_link = -1;
+        c.s.ifgerr = -1;
+        c.s.coldet = -1;
+        c.s.falerr = -1;
+        c.s.rsverr = -1;
+        c.s.pcterr = -1;
+        c.s.ovrerr = -1;
+        c.s.niberr = -1;
+        c.s.skperr = -1;
+        c.s.rcverr = -1;
+        c.s.lenerr = -1;
+        c.s.alnerr = -1;
+        c.s.fcserr = -1;
+        c.s.jabber = -1;
+        c.s.maxerr = -1;
+        c.s.carext = -1;
+        c.s.minerr = -1);
+    BDK_CSR_MODIFY(c, node, BDK_AGL_GMX_TX_INT_EN,
+        c.s.ptp_lost = -1;
+        c.s.late_col = -1;
+        c.s.xsdef = -1;
+        c.s.xscol = -1;
+        c.s.undflw = -1;
+        c.s.pko_nxa = -1);
 }
 
-static void check_dpi(bdk_node_t node)
-{
-    {
-        BDK_CSR_INIT(c, node, BDK_DPI_INT_REG);
-        CHECK_ERROR(BDK_DPI_INT_REG, dmadbo);
-        CHECK_ERROR(BDK_DPI_INT_REG, nderr);
-        CHECK_ERROR(BDK_DPI_INT_REG, nfovr);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_anull);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_badadr);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_badfil);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_badlen);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_inull);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_ovrflw);
-        CHECK_ERROR(BDK_DPI_INT_REG, req_undflw);
-        CHECK_ERROR(BDK_DPI_INT_REG, sprt0_rst);
-        CHECK_ERROR(BDK_DPI_INT_REG, sprt1_rst);
-        CHECK_ERROR(BDK_DPI_INT_REG, sprt2_rst);
-        CHECK_ERROR(BDK_DPI_INT_REG, sprt3_rst);
-    }
-    {
-        BDK_CSR_INIT(c, node, BDK_DPI_PKT_ERR_RSP);
-        CHECK_ERROR(BDK_DPI_PKT_ERR_RSP, pkterr);
-    }
-    {
-        BDK_CSR_INIT(c, node, BDK_DPI_REQ_ERR_RSP);
-        CHECK_ERROR(BDK_DPI_REQ_ERR_RSP, qerr);
-    }
-    {
-        BDK_CSR_INIT(c, node, BDK_DPI_REQ_ERR_RST);
-        CHECK_ERROR(BDK_DPI_REQ_ERR_RST, qerr);
-    }
-}
-
-static void check_fpa(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_FPA_INT_SUM);
-    CHECK_ERROR(BDK_FPA_INT_SUM, fed0_dbe);
-    CHECK_ERROR(BDK_FPA_INT_SUM, fed0_sbe);
-    CHECK_ERROR(BDK_FPA_INT_SUM, fed1_dbe);
-    CHECK_ERROR(BDK_FPA_INT_SUM, fed1_sbe);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free0);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free1);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free2);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free3);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free4);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free5);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free6);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free7);
-    CHECK_ERROR(BDK_FPA_INT_SUM, free8);
-    CHECK_ERROR(BDK_FPA_INT_SUM, paddr_e);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool0th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool1th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool2th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool3th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool4th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool5th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool6th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool7th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, pool8th);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q0_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q0_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q0_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q1_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q1_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q1_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q2_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q2_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q2_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q3_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q3_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q3_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q4_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q4_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q4_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q5_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q5_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q5_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q6_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q6_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q6_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q7_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q7_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q7_und);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q8_coff);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q8_perr);
-    CHECK_ERROR(BDK_FPA_INT_SUM, q8_und);
-}
-
-static void check_gmx(bdk_node_t node, int gmx)
-{
-    int max_index = 4;
-    for (int index=0; index<max_index; index++)
-    {
-        BDK_CSR_INIT(c, node, BDK_GMXX_RXX_INT_REG(gmx, index));
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), bad_seq);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), bad_term);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), carext);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), hg2cc);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), hg2fld);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), loc_fault);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), ovrerr);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), rem_fault);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), skperr);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), undat);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), uneop);
-        CHECK_ERROR(BDK_GMXX_RXX_INT_REG(gmx, index), unsop);
-    }
-    {
-        BDK_CSR_INIT(c, node, BDK_GMXX_TX_INT_REG(gmx));
-        CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxa);
-        CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), pko_nxp);
-        CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), ptp_lost);
-        CHECK_ERROR(BDK_GMXX_TX_INT_REG(gmx), undflw);
-    }
-    {
-        BDK_CSR_INIT(c, node, BDK_GMXX_BAD_REG(gmx));
-        CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), inb_nxa);
-        CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), loststat);
-        CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), out_ovr);
-        CHECK_ERROR(BDK_GMXX_BAD_REG(gmx), statovr);
-    }
-}
-
-static void check_ilk(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_ILK_GBL_INT);
-    CHECK_ERROR(BDK_ILK_GBL_INT, rxf_ctl_perr);
-    CHECK_ERROR(BDK_ILK_GBL_INT, rxf_lnk0_perr);
-    CHECK_ERROR(BDK_ILK_GBL_INT, rxf_lnk1_perr);
-    CHECK_ERROR(BDK_ILK_GBL_INT, rxf_pop_empty);
-    CHECK_ERROR(BDK_ILK_GBL_INT, rxf_push_full);
-
-    for (int ilk=0; ilk<2; ilk++)
-    {
-        {
-            BDK_CSR_INIT(c, node, BDK_ILK_TXX_INT(ilk));
-            CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_pipe);
-            CHECK_ERROR(BDK_ILK_TXX_INT(ilk), bad_seq);
-            /* Disable txf_err due to (ILK-16515) ILK_TX*_INT[TXF_ERR] reads as ILK_TX*_INT_EN[TXF_ERR] */
-            //CHECK_ERROR(BDK_ILK_TXX_INT(ilk), txf_err);
-        }
-        {
-            BDK_CSR_INIT(c, node, BDK_ILK_RXX_INT(ilk));
-            CHECK_ERROR(BDK_ILK_RXX_INT(ilk), crc24_err);
-            CHECK_ERROR(BDK_ILK_RXX_INT(ilk), lane_bad_word);
-            CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_rid);
-            CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_rxf);
-            CHECK_ERROR(BDK_ILK_RXX_INT(ilk), pkt_drop_sop);
-        }
-    }
-    for (int lane=0; lane<8; lane++)
-    {
-        BDK_CSR_INIT(c, node, BDK_ILK_RX_LNEX_INT(lane));
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), bad_64b67b);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), bdry_sync_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), crc32_err);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), dskew_fifo_ovfl);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), scrm_sync_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), serdes_lock_loss);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), stat_msg);
-        CHECK_ERROR(BDK_ILK_RX_LNEX_INT(lane), ukwn_cntl_word);
-    }
-}
-
-static void check_iob(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_IOB_INT_SUM);
-    CHECK_ERROR(BDK_IOB_INT_SUM, np_dat);
-    CHECK_ERROR(BDK_IOB_INT_SUM, np_eop);
-    CHECK_ERROR(BDK_IOB_INT_SUM, np_sop);
-    CHECK_ERROR(BDK_IOB_INT_SUM, p_dat);
-    CHECK_ERROR(BDK_IOB_INT_SUM, p_eop);
-    CHECK_ERROR(BDK_IOB_INT_SUM, p_sop);
-}
-
-static void check_ipd(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_IPD_INT_SUM);
-    CHECK_ERROR(BDK_IPD_INT_SUM, bc_ovr);
-    CHECK_ERROR(BDK_IPD_INT_SUM, bp_sub);
-    CHECK_ERROR(BDK_IPD_INT_SUM, c_coll);
-    CHECK_ERROR(BDK_IPD_INT_SUM, cc_ovr);
-    CHECK_ERROR(BDK_IPD_INT_SUM, d_coll);
-    CHECK_ERROR(BDK_IPD_INT_SUM, dat);
-    CHECK_ERROR(BDK_IPD_INT_SUM, dc_ovr);
-    CHECK_ERROR(BDK_IPD_INT_SUM, eop);
-    CHECK_ERROR(BDK_IPD_INT_SUM, prc_par0);
-    CHECK_ERROR(BDK_IPD_INT_SUM, prc_par1);
-    CHECK_ERROR(BDK_IPD_INT_SUM, prc_par2);
-    CHECK_ERROR(BDK_IPD_INT_SUM, prc_par3);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw0_dbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw0_sbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw1_dbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw1_sbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw2_dbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw2_sbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw3_dbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, pw3_sbe);
-    CHECK_ERROR(BDK_IPD_INT_SUM, sop);
-}
-
-static void check_key(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_KEY_INT_SUM);
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_dbe);
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_sbe);
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn78xx, ked0_dbe);
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn78xx, ked0_sbe);
-    }
-    else
-    {
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked0_dbe);
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked0_sbe);
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked1_dbe);
-        CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn68xx, ked1_sbe);
-    }
-}
-
-static void check_l2c_tad(bdk_node_t node, int tad)
-{
-    BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT(tad));
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2ddbe);
-    CHECK_ERROR(BDK_L2C_TADX_INT(tad), l2dsbe);
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, rddislmc);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, tagdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, tagsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn78xx, wrdislmc);
-    }
-    else
-    {
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, rddislmc);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, tagdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, tagsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, vbfdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, vbfsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(tad), cn68xx, wrdislmc);
-    }
-}
-
-static void check_l2c(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_L2C_INT_REG);
-    CHECK_ERROR(BDK_L2C_INT_REG, bigrd);
-    CHECK_ERROR(BDK_L2C_INT_REG, bigwr);
-    CHECK_ERROR(BDK_L2C_INT_REG, holerd);
-    CHECK_ERROR(BDK_L2C_INT_REG, holewr);
-    if (c.s.tad0) check_l2c_tad(node, 0);
-    if (c.s.tad1) check_l2c_tad(node, 1);
-    if (c.s.tad2) check_l2c_tad(node, 2);
-    if (c.s.tad3) check_l2c_tad(node, 3);
-    CHECK_ERROR(BDK_L2C_INT_REG, vrtadrng);
-    CHECK_ERROR(BDK_L2C_INT_REG, vrtidrng);
-    CHECK_ERROR(BDK_L2C_INT_REG, vrtpe);
-    CHECK_ERROR(BDK_L2C_INT_REG, vrtwr);
-}
-
-static void check_lmc(bdk_node_t node, int lmc)
-{
-    BDK_CSR_INIT(c, node, BDK_LMCX_INT(lmc));
-    CHECK_ERROR(BDK_LMCX_INT(lmc), ded_err);
-    CHECK_ERROR(BDK_LMCX_INT(lmc), nxm_wr_err);
-    CHECK_ERROR(BDK_LMCX_INT(lmc), sec_err);
-}
-
-static void check_mio(bdk_node_t node)
+static void check_agx_cn70xx(bdk_node_t node, int index)
 {
     {
-        BDK_CSR_INIT(c, node, BDK_MIO_BOOT_ERR);
-        CHECK_ERROR(BDK_MIO_BOOT_ERR, adr_err);
-        CHECK_ERROR(BDK_MIO_BOOT_ERR, wait_err);
+        BDK_CSR_INIT(c, node, BDK_GMXX_BAD_REG(index));
+        CHECK_CHIP_ERROR(BDK_GMXX_BAD_REG(index), s, inb_nxa);
+        CHECK_CHIP_ERROR(BDK_GMXX_BAD_REG(index), s, statovr);
+        CHECK_CHIP_ERROR(BDK_GMXX_BAD_REG(index), s, loststat);
+        CHECK_CHIP_ERROR(BDK_GMXX_BAD_REG(index), s, out_ovr);
+    }
+    for (int port=0; port<4; port++)
+    {
+        BDK_CSR_INIT(c, node, BDK_GMXX_RXX_INT_REG(index, port));
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, wol);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, hg2cc);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, hg2fld);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, undat);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, uneop);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, unsop);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, bad_term);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, bad_seq);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, rem_fault);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, loc_fault);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, pause_drp);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, ifgerr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, coldet);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, falerr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, rsverr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, pcterr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, ovrerr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, skperr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, rcverr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, fcserr);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, jabber);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, carext);
+        CHECK_CHIP_ERROR(BDK_GMXX_RXX_INT_REG(index, port), s, minerr);
     }
     {
-        BDK_CSR_INIT(c, node, BDK_MIO_RST_INT);
-        CHECK_ERROR(BDK_MIO_RST_INT, perst0);
-        CHECK_ERROR(BDK_MIO_RST_INT, perst1);
-        CHECK_ERROR(BDK_MIO_RST_INT, rst_link0);
-        CHECK_ERROR(BDK_MIO_RST_INT, rst_link1);
+        BDK_CSR_INIT(c, node, BDK_GMXX_TX_INT_REG(index));
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, xchange);
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, ptp_lost);
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, late_col);
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, xsdef);
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, xscol);
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, undflw);
+        CHECK_CHIP_ERROR(BDK_GMXX_TX_INT_REG(index), s, pko_nxa);
     }
-}
-
-static void check_mix(bdk_node_t node, int mix)
-{
-    BDK_CSR_INIT(c, node, BDK_MIXX_ISR(mix));
-    CHECK_ERROR(BDK_MIXX_ISR(mix), data_drp);
-    CHECK_ERROR(BDK_MIXX_ISR(mix), idblovf);
-    CHECK_ERROR(BDK_MIXX_ISR(mix), irun);
-    CHECK_ERROR(BDK_MIXX_ISR(mix), odblovf);
-    CHECK_ERROR(BDK_MIXX_ISR(mix), orun);
-}
-
-static void check_nand(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_NDF_INT);
-    CHECK_ERROR(BDK_NDF_INT, ecc_1bit);
-    CHECK_ERROR(BDK_NDF_INT, ecc_mult);
-    CHECK_ERROR(BDK_NDF_INT, ovrf);
-    CHECK_ERROR(BDK_NDF_INT, sm_bad);
-    CHECK_ERROR(BDK_NDF_INT, wdog);
-}
-
-static void check_pcm(bdk_node_t node)
-{
-    for (int pcm=0; pcm<4; pcm++)
+    for (int port=0; port<4; port++)
     {
-        BDK_CSR_INIT(c, node, BDK_PCMX_INT_SUM(pcm));
-        CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), fsyncextra);
-        CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), fsyncmissed);
-        CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), rxovf);
-        CHECK_ERROR(BDK_PCMX_INT_SUM(pcm), txempty);
-    }
-}
-
-static void check_pcs(bdk_node_t node, int pcs)
-{
-    int max_index = 4;
-    for (int index=0; index<max_index; index++)
-    {
-        BDK_CSR_INIT(c, node, BDK_PCSX_INTX_REG(pcs, index));
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), an_bad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), an_err);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), dbg_sync);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), rxbad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), rxlock);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), sync_bad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), txbad);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), txfifo);
-        CHECK_ERROR(BDK_PCSX_INTX_REG(pcs, index), txfifu);
-    }
-}
-
-static void check_pcsx(bdk_node_t node, int pcsx)
-{
-    BDK_CSR_INIT(c, node, BDK_PCSXX_INT_REG(pcsx));
-    CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), rxbad);
-    CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), rxsynbad);
-    CHECK_ERROR(BDK_PCSXX_INT_REG(pcsx), txflt);
-}
-
-static void check_pem(bdk_node_t node, int pem)
-{
-    BDK_CSR_INIT(c, node, BDK_PEMX_INT_SUM(pem));
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), crs_dr);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), crs_er);
-    if (c.s.exc)
-    {
-        BDK_CSR_INIT(c, node, BDK_PEMX_DBG_INFO(pem));
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), acto);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), caar);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), dpeoosd);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), ecrc_e);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), fcpvwt);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), fcuv);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), mre);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), racca);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), racpp);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), racur);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), ramtlp);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rarwdns);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rauc);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rawwpp);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rcemrc);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rdwdle);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), recrce);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rfemrc);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rnfemrc);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rpe);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rpoison);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rqo);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtlplle);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), rtwdle);
-        CHECK_ERROR(BDK_PEMX_DBG_INFO(pem), spoison);
-    }
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), rdlk);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), se);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), un_b1);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), un_b2);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), un_bx);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), up_b1);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), up_b2);
-    CHECK_ERROR(BDK_PEMX_INT_SUM(pem), up_bx);
-}
-
-static void check_pip(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_PIP_INT_REG);
-    CHECK_ERROR(BDK_PIP_INT_REG, badtag);
-    CHECK_ERROR(BDK_PIP_INT_REG, beperr);
-    CHECK_ERROR(BDK_PIP_INT_REG, feperr);
-    CHECK_ERROR(BDK_PIP_INT_REG, prtnxa);
-    CHECK_ERROR(BDK_PIP_INT_REG, punyerr);
-    CHECK_ERROR(BDK_PIP_INT_REG, skprunt);
-    CHECK_ERROR(BDK_PIP_INT_REG, todoovr);
-}
-
-static void check_pko(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_PKO_REG_ERROR);
-    CHECK_ERROR(BDK_PKO_REG_ERROR, currzero);
-    CHECK_ERROR(BDK_PKO_REG_ERROR, doorbell);
-    CHECK_ERROR(BDK_PKO_REG_ERROR, loopback);
-    CHECK_ERROR(BDK_PKO_REG_ERROR, parity);
-}
-
-static void check_rad(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_RAD_REG_ERROR);
-    CHECK_ERROR(BDK_RAD_REG_ERROR, doorbell);
-}
-
-static void check_sso_cn68xx(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_SSO_ERR);
-    CHECK_ERROR(BDK_SSO_ERR, awe);
-    CHECK_ERROR(BDK_SSO_ERR, bfp);
-    CHECK_ERROR(BDK_SSO_ERR, fidx_dbe);
-    CHECK_ERROR(BDK_SSO_ERR, fidx_sbe);
-    CHECK_ERROR(BDK_SSO_ERR, fpe);
-    CHECK_ERROR(BDK_SSO_ERR, idx_dbe);
-    CHECK_ERROR(BDK_SSO_ERR, idx_sbe);
-    CHECK_ERROR(BDK_SSO_ERR, iop);
-    CHECK_ERROR(BDK_SSO_ERR, oth_dbe0);
-    CHECK_ERROR(BDK_SSO_ERR, oth_dbe1);
-    CHECK_ERROR(BDK_SSO_ERR, oth_sbe0);
-    CHECK_ERROR(BDK_SSO_ERR, oth_sbe1);
-    CHECK_ERROR(BDK_SSO_ERR, pnd_dbe0);
-    CHECK_ERROR(BDK_SSO_ERR, pnd_dbe1);
-    CHECK_ERROR(BDK_SSO_ERR, pnd_sbe0);
-    CHECK_ERROR(BDK_SSO_ERR, pnd_sbe1);
-}
-
-static void check_sso_cn6xxx(bdk_node_t node)
-{
-    //FIXME
-}
-
-static void check_tim_cn68xx(bdk_node_t node)
-{
-    {
-        BDK_CSR_INIT(c, node, BDK_TIM_INT0);
-        CHECK_ERROR(BDK_TIM_INT0, int0);
+        BDK_CSR_INIT(c, node, BDK_PCSX_INTX_REG(index, port));
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, dbg_sync);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, dup);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, sync_bad);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, an_bad);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, rxlock);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, rxbad);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, rxerr);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, txbad);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, txfifo);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, txfifu);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, an_err);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, xmit);
+        CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, lnkspd);
     }
     {
-        BDK_CSR_INIT(c, node, BDK_TIM_INT_ECCERR);
-        CHECK_ERROR(BDK_TIM_INT_ECCERR, dbe);
-        CHECK_ERROR(BDK_TIM_INT_ECCERR, sbe);
+        BDK_CSR_INIT(c, node, BDK_PCSXX_INT_REG(index));
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, dbg_sync);
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, algnlos);
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, synlos);
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, bitlckls);
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, rxsynbad);
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, rxbad);
+        CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, txflt);
     }
+
 }
 
-static void check_tim_cn6xxx(bdk_node_t node)
+static void enable_agx_cn70xx(bdk_node_t node, int index)
 {
-    BDK_CSR_INIT(c, node, BDK_TIM_REG_ERROR);
-    CHECK_ERROR(BDK_TIM_REG_ERROR, mask);
+    for (int port=0; port<4; port++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GMXX_RXX_INT_EN(index, port),
+            c.s.wol = -1;
+            c.s.hg2cc = -1;
+            c.s.hg2fld = -1;
+            c.s.undat = -1;
+            c.s.uneop = -1;
+            c.s.unsop = -1;
+            c.s.bad_term = -1;
+            c.s.bad_seq = -1;
+            c.s.rem_fault = -1;
+            c.s.loc_fault = -1;
+            c.s.pause_drp = -1;
+            c.s.ifgerr = -1;
+            c.s.coldet = -1;
+            c.s.falerr = -1;
+            c.s.rsverr = -1;
+            c.s.pcterr = -1;
+            c.s.ovrerr = -1;
+            c.s.skperr = -1;
+            c.s.rcverr = -1;
+            c.s.fcserr = -1;
+            c.s.jabber = -1;
+            c.s.carext = -1;
+            c.s.minerr = -1);
+    }
+    BDK_CSR_MODIFY(c, node, BDK_GMXX_TX_INT_EN(index),
+        c.s.xchange = -1;
+        c.s.ptp_lost = -1;
+        c.s.late_col = -1;
+        c.s.xsdef = -1;
+        c.s.xscol = -1;
+        c.s.undflw = -1;
+        c.s.pko_nxp = -1;
+        c.s.pko_nxa = -1);
+    for (int port=0; port<4; port++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_PCSX_INTX_EN_REG(index, port),
+            c.s.dbg_sync_en = -1;
+            c.s.dup = -1;
+            c.s.sync_bad_en = -1;
+            c.s.an_bad_en = -1;
+            c.s.rxlock_en = -1;
+            c.s.rxbad_en = -1;
+            c.s.rxerr_en = -1;
+            c.s.txbad_en = -1;
+            c.s.txfifo_en = -1;
+            c.s.txfifu_en = -1;
+            c.s.an_err_en = -1;
+            c.s.xmit_en = -1;
+            c.s.lnkspd_en = -1);
+    }
+    BDK_CSR_MODIFY(c, node, BDK_PCSXX_INT_EN_REG(index),
+        c.s.dbg_sync_en = -1;
+        c.s.algnlos_en = -1;
+        c.s.synlos_en = -1;
+        c.s.bitlckls_en = -1;
+        c.s.rxsynbad_en = -1;
+        c.s.rxbad_en = -1;
+        c.s.txflt_en = -1);
 }
 
-static void check_usb(bdk_node_t node, int usb)
+static void check_dpi_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_INIT(c, node, BDK_UCTLX_INT_REG(usb));
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), cf_psh_f);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), ec_ovf_e);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), er_psh_f);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), oc_ovf_e);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), or_psh_f);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), pp_psh_f);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), wb_pop_e);
-    CHECK_ERROR(BDK_UCTLX_INT_REG(usb), wb_psh_f);
+    BDK_CSR_INIT(c, node, BDK_DPI_INT_REG);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, sprt3_rst);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, sprt2_rst);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, sprt1_rst);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, sprt0_rst);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_badfil);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_inull);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_anull);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_undflw);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_ovrflw);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_badlen);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, req_badadr);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, dmadbo);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, nfovr);
+    CHECK_CHIP_ERROR(BDK_DPI_INT_REG, s, nderr);
 }
 
-static void check_zip(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_ZIP_ERROR);
-    CHECK_ERROR(BDK_ZIP_ERROR, doorbell);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        BDK_CSR_INIT(c, node, BDK_ZIP_INT_REG);
-        CHECK_ERROR(BDK_ZIP_INT_REG, doorbell0);
-        CHECK_ERROR(BDK_ZIP_INT_REG, doorbell1);
-        CHECK_ERROR(BDK_ZIP_INT_REG, ibdbe);
-        CHECK_ERROR(BDK_ZIP_INT_REG, ibsbe);
-    }
-}
-
-static void check_cn6xxx(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_CIU_INTX_SUM0(0));
-    if (c.s.mii) check_mix(node, 0);
-    if (c.s.pcm) check_pcm(node);
-    if (c.s.rml)
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_BLOCK_INT);
-        if (c.s.agl) check_agl(node);
-        if (c.s.asxpcs0)
-        {
-            check_pcs(node, 0);
-            check_pcsx(node, 0);
-        }
-        if (c.s.asxpcs1)
-        {
-            check_pcs(node, 1);
-            check_pcsx(node, 1);
-        }
-        if (c.s.dfa) check_dfa(node);
-        if (c.s.dpi) check_dpi(node);
-        if (c.s.fpa) check_fpa(node);
-        if (c.s.gmx0) check_gmx(node, 0);
-        if (c.s.gmx1) check_gmx(node, 1);
-        if (c.s.iob) check_iob(node);
-        if (c.s.ipd) check_ipd(node);
-        if (c.s.key) check_key(node);
-        if (c.s.l2c) check_l2c(node);
-        if (c.s.lmc0) check_lmc(node, 0);
-        if (c.s.mio) check_mio(node);
-        if (c.s.pem0) check_pem(node, 0);
-        if (c.s.pem1) check_pem(node, 1);
-        if (c.s.pip) check_pip(node);
-        if (c.s.pko) check_pko(node);
-        if (c.s.pow) check_sso_cn6xxx(node);
-        if (c.s.rad) check_rad(node);
-        if (c.s.tim) check_tim_cn6xxx(node);
-        if (c.s.zip) check_zip(node);
-    }
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_INT_SUM1);
-        if (c.s.mii1) check_mix(node, 1);
-        if (c.s.nand) check_nand(node);
-        if (c.s.usb) check_usb(node, 0);
-    }
-}
-
-static void check_cn68xx(bdk_node_t node)
-{
-    BDK_CSR_INIT(c, node, BDK_CIU_SUM_PPX_IP2(0));
-    if (c.s.io)
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_IO(0));
-        for (int pem=0; pem<2; pem++)
-            if (c.s.pem & (1<<pem))
-                check_pem(node, pem);
-    }
-    if (c.s.mem)
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_MEM(0));
-        for (int lmc=0; lmc<4; lmc++)
-        if (c.s.lmc & (1<<lmc))
-            check_lmc(node, lmc);
-    }
-    if (c.s.mio)
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_MIO(0));
-        if (c.s.mio) check_mio(node);
-        if (c.s.nand) check_nand(node);
-        if (c.s.usb_uctl) check_usb(node, 0);
-    }
-    if (c.s.pkt)
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_PKT(0));
-        if (c.s.agl) check_agl(node);
-        for (int gmx=0; gmx<5; gmx++)
-        {
-            if (c.s.agx & (1<<gmx))
-            {
-                check_gmx(node, gmx);
-                check_pcs(node, gmx);
-                check_pcsx(node, gmx);
-            }
-        }
-        if (c.s.ilk) check_ilk(node);
-        if (c.s.mii) check_mix(node, 0);
-    }
-    if (c.s.rml)
-    {
-        BDK_CSR_INIT(c, node, BDK_CIU_SRC_PPX_IP2_RML(0));
-        if (c.s.dfa) check_dfa(node);
-        if (c.s.dpi) check_dpi(node);
-        if (c.s.fpa) check_fpa(node);
-        if (c.s.ipd) check_ipd(node);
-        if (c.s.key) check_key(node);
-        if (c.s.l2c) check_l2c(node);
-        if (c.s.pip) check_pip(node);
-        if (c.s.pko) check_pko(node);
-        if (c.s.rad) check_rad(node);
-        if (c.s.sso) check_sso_cn68xx(node);
-        if (c.s.tim) check_tim_cn68xx(node);
-        if (c.s.zip) check_zip(node);
-    }
-}
-
-static void enable_dfa(bdk_node_t node)
-{
-    BDK_CSR_MODIFY(c, node, BDK_DFA_INTMSK,
-        c.s.dblina = -1;
-        c.s.dc0pena = -1;
-        c.s.dc1pena = -1;
-        c.s.dc2pena = -1;
-        c.s.dfanxmena = -1;
-        c.s.dlc0_ovfena = -1;
-        c.s.dlc1_ovfena = -1;
-        c.s.replerrena = -1;
-    );
-}
-
-static void enable_dpi(bdk_node_t node)
+static void enable_dpi_cn70xx(bdk_node_t node)
 {
     BDK_CSR_MODIFY(c, node, BDK_DPI_INT_EN,
-        c.s.dmadbo = -1;
-        c.s.nderr = -1;
-        c.s.nfovr = -1;
-        c.s.req_anull = -1;
-        c.s.req_badadr = -1;
-        c.s.req_badfil = -1;
-        c.s.req_badlen = -1;
-        c.s.req_inull = -1;
-        c.s.req_ovrflw = -1;
-        c.s.req_undflw = -1;
-        c.s.sprt0_rst = -1;
+        c.s.sprt3_rst = -1;
+        c.s.sprt2_rst = -1;
         c.s.sprt1_rst = -1;
-    );
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        BDK_CSR_MODIFY(c, node, BDK_DPI_INT_EN,
-            c.s.sprt2_rst = -1;
-            c.s.sprt3_rst = -1;
-        );
-    }
+        c.s.sprt0_rst = -1;
+        c.s.req_badfil = -1;
+        c.s.req_inull = -1;
+        c.s.req_anull = -1;
+        c.s.req_undflw = -1;
+        c.s.req_ovrflw = -1;
+        c.s.req_badlen = -1;
+        c.s.req_badadr = -1;
+        c.s.dmadbo = -1;
+        c.s.nfovr = -1;
+        c.s.nderr = -1);
 }
 
-static void enable_fpa(bdk_node_t node)
+static void check_sli_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_FPA_INT_ENB,
-        c.s.fed0_dbe = -1;
-        c.s.fed0_sbe = -1;
-        c.s.fed1_dbe = -1;
-        c.s.fed1_sbe = -1;
-        c.s.free0 = -1;
-        c.s.free1 = -1;
-        c.s.free2 = -1;
-        c.s.free3 = -1;
-        c.s.free4 = -1;
-        c.s.free5 = -1;
-        c.s.free6 = -1;
-        c.s.free7 = -1;
-        c.s.free8 = -1;
-        c.s.paddr_e = -1;
-        c.s.pool0th = -1;
-        c.s.pool1th = -1;
-        c.s.pool2th = -1;
-        c.s.pool3th = -1;
-        c.s.pool4th = -1;
-        c.s.pool5th = -1;
-        c.s.pool6th = -1;
-        c.s.pool7th = -1;
-        c.s.pool8th = -1;
-        c.s.q0_coff = -1;
-        c.s.q0_perr = -1;
-        c.s.q0_und = -1;
-        c.s.q1_coff = -1;
-        c.s.q1_perr = -1;
-        c.s.q1_und = -1;
-        c.s.q2_coff = -1;
-        c.s.q2_perr = -1;
-        c.s.q2_und = -1;
-        c.s.q3_coff = -1;
-        c.s.q3_perr = -1;
-        c.s.q3_und = -1;
-        c.s.q4_coff = -1;
-        c.s.q4_perr = -1;
-        c.s.q4_und = -1;
-        c.s.q5_coff = -1;
-        c.s.q5_perr = -1;
-        c.s.q5_und = -1;
-        c.s.q6_coff = -1;
-        c.s.q6_perr = -1;
-        c.s.q6_und = -1;
-        c.s.q7_coff = -1;
-        c.s.q7_perr = -1;
-        c.s.q7_und = -1;
-        c.s.q8_coff = -1;
-        c.s.q8_perr = -1;
-        c.s.q8_und = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_SLI_INT_SUM);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, ill_pad);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, sprt3_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, sprt2_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, sprt1_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, sprt0_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pins_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pop_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pdi_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pgl_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pin_bp);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pout_err);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, psldbof);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pidbof);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, dtime);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, dcnt);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, dmafi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, mac2_int);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, cn70xx, mio_int2);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m3_un_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m3_un_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m3_up_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m3_up_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m2_un_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m2_un_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m2_up_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m2_up_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, mac1_int);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, mac0_int);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, mio_int1);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, mio_int0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m1_un_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m1_un_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m1_up_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m1_up_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m0_un_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m0_un_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m0_up_wi);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, m0_up_b0);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, ptime);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, pcnt);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, iob2big);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, bar0_to);
+    CHECK_CHIP_ERROR(BDK_SLI_INT_SUM, s, rml_to);
 }
 
-static void enable_iob(bdk_node_t node)
+static void enable_sli_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_IOB_INT_ENB,
-        c.s.np_dat = -1;
-        c.s.np_eop = -1;
-        c.s.np_sop = -1;
-        c.s.p_dat = -1;
-        c.s.p_eop = -1;
-        c.s.p_sop = -1;
-    );
+    BDK_CSR_MODIFY(c, node, BDK_SLI_INT_ENB_CIU,
+        c.s.ill_pad = -1;
+        c.s.sprt3_err = -1;
+        c.s.sprt2_err = -1;
+        c.s.sprt1_err = -1;
+        c.s.sprt0_err = -1;
+        c.s.pins_err = -1;
+        c.s.pop_err = -1;
+        c.s.pdi_err = -1;
+        c.s.pgl_err = -1;
+        c.s.pin_bp = -1;
+        c.s.pout_err = -1;
+        c.s.psldbof = -1;
+        c.s.pidbof = -1;
+        c.s.dtime = -1;
+        c.s.dcnt = -1;
+        c.s.dmafi = -1;
+        c.s.mio_int2 = -1;
+        c.s.m3_un_wi = -1;
+        c.s.m3_un_b0 = -1;
+        c.s.m3_up_wi = -1;
+        c.s.m3_up_b0 = -1;
+        c.s.m2_un_wi = -1;
+        c.s.m2_un_b0 = -1;
+        c.s.m2_up_wi = -1;
+        c.s.m2_up_b0 = -1;
+        c.s.mio_int1 = -1;
+        c.s.mio_int0 = -1;
+        c.s.m1_un_wi = -1;
+        c.s.m1_un_b0 = -1;
+        c.s.m1_up_wi = -1;
+        c.s.m1_up_b0 = -1;
+        c.s.m0_un_wi = -1;
+        c.s.m0_un_b0 = -1;
+        c.s.m0_up_wi = -1;
+        c.s.m0_up_b0 = -1;
+        c.s.ptime = -1;
+        c.s.pcnt = -1;
+        c.s.iob2big = -1;
+        c.s.bar0_to = -1;
+        c.s.rml_to = -1);
 }
 
-static void enable_ipd(bdk_node_t node)
+static void check_usb_cn70xx(bdk_node_t node, int index)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
-            c.s.pw3_dbe = 1;
-            c.s.pw3_sbe = 1;
-            c.s.pw2_dbe = 1;
-            c.s.pw2_sbe = 1;
-            c.s.pw1_dbe = 1;
-            c.s.pw1_sbe = 1;
-            c.s.pw0_dbe = 1;
-            c.s.pw0_sbe = 1;
-            c.s.dat = 1;
-            c.s.eop = 1;
-            c.s.sop = 1;
-        );
-    }
-    BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
-        c.s.pq_sub = 1;
-        c.s.pq_add = 1;
-        c.s.bc_ovr = 1;
-        c.s.d_coll = 1;
-        c.s.c_coll = 1;
-        c.s.cc_ovr = 1;
-        c.s.dc_ovr = 1;
-        c.s.bp_sub = 1;
-        c.s.prc_par3 = 1;
-        c.s.prc_par2 = 1;
-        c.s.prc_par1 = 1;
-        c.s.prc_par0 = 1;
-    );
+    BDK_CSR_INIT(c, node, BDK_CIU_CIB_USBDRDX_RAWX(index, 0));
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, uahc_dev_int);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, uahc_imanx_ip);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, uahc_usbsts_hse);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_ram2_dbe);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_ram2_sbe);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_ram1_dbe);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_ram1_sbe);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_ram0_dbe);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_ram0_sbe);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_xm_bad_dma);
+    CHECK_CHIP_ERROR(BDK_CIU_CIB_USBDRDX_RAWX(index, 0), s, intstat_xs_ncb_oob);
 }
 
-static void enable_key(bdk_node_t node)
+static void enable_usb_cn70xx(bdk_node_t node, int index)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-        BDK_CSR_MODIFY(c, node, BDK_KEY_INT_ENB,
-            c.cn70xx.key_dbe = -1;
-            c.cn70xx.key_sbe = -1;
-        );
-    else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        /* No interrupt enables? Very bad */
-    }
-    else
-        BDK_CSR_MODIFY(c, node, BDK_KEY_INT_ENB,
-            c.cn68xx.ked0_dbe = -1;
-            c.cn68xx.ked0_sbe = -1;
-            c.cn68xx.ked1_dbe = -1;
-            c.cn68xx.ked1_sbe = -1;
-        );
+    BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_USBDRDX_ENX(index, 0),
+        c.s.uahc_dev_int = -1;
+        c.s.uahc_imanx_ip = -1;
+        c.s.uahc_usbsts_hse = -1;
+        c.s.intstat_ram2_dbe = -1;
+        c.s.intstat_ram2_sbe = -1;
+        c.s.intstat_ram1_dbe = -1;
+        c.s.intstat_ram1_sbe = -1;
+        c.s.intstat_ram0_dbe = -1;
+        c.s.intstat_ram0_sbe = -1;
+        c.s.intstat_xm_bad_dma = -1;
+        c.s.intstat_xs_ncb_oob = -1);
 }
 
-static void enable_l2c_tad(bdk_node_t node, int tad)
+static void check_dfa_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_L2C_TADX_IEN(tad),
-        c.s.l2ddbe = -1;
-        c.s.l2dsbe = -1;
-        c.s.rddislmc = -1;
-        c.s.tagdbe = -1;
-        c.s.tagsbe = -1;
-        c.s.vbfdbe = -1;
-        c.s.vbfsbe = -1;
-        c.s.wrdislmc = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_DFA_ERROR);
+    CHECK_CHIP_ERROR(BDK_DFA_ERROR, s, replerr);
+    CHECK_CHIP_ERROR(BDK_DFA_ERROR, s, dfanxm);
+    CHECK_CHIP_ERROR(BDK_DFA_ERROR, s, cndrd);
+    CHECK_CHIP_ERROR(BDK_DFA_ERROR, s, dlc0_ovferr);
+    CHECK_CHIP_ERROR(BDK_DFA_ERROR, s, dc0perr);
+    CHECK_CHIP_ERROR(BDK_DFA_ERROR, s, dblovf);
 }
 
-static void enable_l2c(bdk_node_t node)
+static void enable_dfa_cn70xx(bdk_node_t node)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_L2C_ENX(0),
-            c.s.cbcx_int_ioccmddbe = 1;
-            c.s.cbcx_int_ioccmdsbe = 1;
-            c.s.cbcx_int_rsddbe = 1;
-            c.s.cbcx_int_rsdsbe = 1;
-            c.s.mcix_int_vbfdbe = 1;
-            c.s.mcix_int_vbfsbe = 1;
-            c.s.tadx_int_rtgdbe = 1;
-            c.s.tadx_int_rtgsbe = 1;
-            c.s.tadx_int_rddislmc = 1;
-            c.s.tadx_int_wrdislmc = 1;
-            c.s.tadx_int_bigrd = 1;
-            c.s.tadx_int_bigwr = 1;
-            c.s.tadx_int_holerd = 1;
-            c.s.tadx_int_holewr = 1;
-            c.s.tadx_int_noway = 1;
-            c.s.tadx_int_tagdbe = 1;
-            c.s.tadx_int_tagsbe = 1;
-            c.s.tadx_int_fbfdbe = 1;
-            c.s.tadx_int_fbfsbe = 1;
-            c.s.tadx_int_sbfdbe = 1;
-            c.s.tadx_int_sbfsbe = 1;
-            c.s.tadx_int_l2ddbe = 1;
-            c.s.tadx_int_l2dsbe = 1;
-        );
-    }
-    else
-    {
-        BDK_CSR_MODIFY(c, node, BDK_L2C_INT_ENA,
-            c.s.bigrd = -1;
-            c.s.bigwr = -1;
-            c.s.holerd = -1;
-            c.s.holewr = -1;
-            c.s.vrtadrng = -1;
-            c.s.vrtidrng = -1;
-            c.s.vrtpe = -1;
-            c.s.vrtwr = -1;
-        );
-        int max_tads = (OCTEON_IS_MODEL(OCTEON_CN68XX)) ? 4 : 1;
-        for (int tad=0; tad<max_tads; tad++)
-            enable_l2c_tad(node, tad);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_DFA_INTMSK,
+        c.s.replerrena = -1;
+        c.s.dfanxmena = -1;
+        c.s.dlc0_ovfena = -1;
+        c.s.dc0pena = -1;
+        c.s.dblina = -1);
 }
 
-static void enable_lmc(bdk_node_t node, int lmc)
+static void check_key_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_LMCX_INT_EN(lmc),
-        c.s.intr_ded_ena = -1;
-        c.s.intr_nxm_wr_ena = -1;
-        c.s.intr_sec_ena = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_KEY_INT_SUM);
+    CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_dbe);
+    CHECK_CHIP_ERROR(BDK_KEY_INT_SUM, cn70xx, key_sbe);
 }
 
-static void enable_mio(bdk_node_t node)
+static void enable_key_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_MIO_BOOT_INT,
-        c.s.adr_int = -1;
-        c.s.wait_int = -1;
-    );
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_RST_ENX(0),
-            c.s.int_perstx = -1;
-            c.s.int_linkx = -1;
-        );
-    }
-    else
-    {
-        BDK_CSR_MODIFY(c, node, BDK_MIO_RST_INT_EN,
-            c.s.perst0 = -1;
-            c.s.perst1 = -1;
-            c.s.rst_link0 = -1;
-            c.s.rst_link1 = -1;
-        );
-    }
+    BDK_CSR_MODIFY(c, node, BDK_KEY_INT_ENB,
+        c.cn70xx.key_dbe = -1;
+        c.cn70xx.key_sbe = -1);
 }
 
-static void enable_nand(bdk_node_t node)
+static void check_rad_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_NDF_INT_EN,
-        c.s.ecc_1bit = -1;
-        c.s.ecc_mult = -1;
-        c.s.ovrf = -1;
-        c.s.sm_bad = -1;
-        c.s.wdog = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_RAD_REG_ERROR);
+    CHECK_CHIP_ERROR(BDK_RAD_REG_ERROR, s, doorbell);
 }
 
-static void enable_pcm(bdk_node_t node)
+static void enable_rad_cn70xx(bdk_node_t node)
 {
-    for (int pcm=0; pcm<4; pcm++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_PCMX_INT_ENA(pcm),
-            c.s.fsyncextra = -1;
-            c.s.fsyncmissed = -1;
-            c.s.rxovf = -1;
-            c.s.txempty = -1;
-        );
-    }
+    BDK_CSR_MODIFY(c, node, BDK_RAD_REG_INT_MASK,
+        c.s.doorbell = -1);
 }
 
-static void enable_pem(bdk_node_t node, int pem)
+static void check_tim_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_PEMX_INT_ENB(pem),
-        c.s.crs_dr = -1;
-        c.s.crs_er = -1;
-        c.s.exc = -1;
-        c.s.rdlk = -1;
-        c.s.se = -1;
-        c.s.un_b1 = -1;
-        c.s.un_b2 = -1;
-        c.s.un_bx = -1;
-        c.s.up_b1 = -1;
-        c.s.up_b2 = -1;
-        c.s.up_bx = -1;
-    );
-    BDK_CSR_MODIFY(c, node, BDK_PEMX_DBG_INFO_EN(pem),
-        c.s.acto = -1;
-        c.s.caar = -1;
-        c.s.dpeoosd = -1;
-        c.s.ecrc_e = -1;
-        c.s.fcpvwt = -1;
-        c.s.fcuv = -1;
-        c.s.mre = -1;
-        c.s.racca = -1;
-        c.s.racpp = -1;
-        c.s.racur = -1;
-        c.s.ramtlp = -1;
-        c.s.rarwdns = -1;
-        c.s.rauc = -1;
-        c.s.rawwpp = -1;
-        c.s.rcemrc = -1;
-        c.s.rdwdle = -1;
-        c.s.recrce = -1;
-        c.s.rfemrc = -1;
-        c.s.rnfemrc = -1;
-        c.s.rpe = -1;
-        c.s.rpmerc = -1;
-        c.s.rpoison = -1;
-        c.s.rptamrc = -1;
-        c.s.rqo = -1;
-        c.s.rte = -1;
-        c.s.rtlplle = -1;
-        c.s.rtwdle = -1;
-        c.s.rumep = -1;
-        c.s.rvdm = -1;
-        c.s.spoison = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_TIM_REG_ERROR);
+    CHECK_CHIP_ERROR(BDK_TIM_REG_ERROR, s, mask);
 }
 
-static void enable_pip(bdk_node_t node)
+static void enable_tim_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_PIP_INT_EN,
-        c.s.badtag = -1;
-        c.s.beperr = -1;
-        c.s.feperr = -1;
-        c.s.prtnxa = -1;
-        c.s.punyerr = -1;
-        c.s.skprunt = -1;
-        c.s.todoovr = -1;
-    );
+    BDK_CSR_MODIFY(c, node, BDK_TIM_REG_INT_MASK,
+        c.s.mask = -1);
 }
 
-static void enable_pko(bdk_node_t node)
+static void check_pko_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_INIT(c, node, BDK_PKO_REG_ERROR);
+    CHECK_CHIP_ERROR(BDK_PKO_REG_ERROR, s, currzero);
+    CHECK_CHIP_ERROR(BDK_PKO_REG_ERROR, s, doorbell);
+    CHECK_CHIP_ERROR(BDK_PKO_REG_ERROR, s, parity);
+}
+
+static void enable_pko_cn70xx(bdk_node_t node)
 {
     BDK_CSR_MODIFY(c, node, BDK_PKO_REG_INT_MASK,
         c.s.currzero = -1;
         c.s.doorbell = -1;
-        c.s.parity = -1;
-    );
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_MODIFY(c, node, BDK_PKO_REG_INT_MASK, c.s.loopback = -1);
+        c.s.parity = -1);
 }
 
-static void enable_rad(bdk_node_t node)
+static void check_pip_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_RAD_REG_INT_MASK,
-        c.s.doorbell = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_PIP_INT_REG);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, punyerr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, lenerr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, maxerr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, minerr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, beperr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, feperr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, todoovr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, skprunt);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, badtag);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, prtnxa);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, bckprs);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, crcerr);
+    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, pktdrp);
 }
 
-static void enable_sso_cn68xx(bdk_node_t node)
+static void enable_pip_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_SSO_ERR_ENB,
-        c.s.awe_ie = -1;
-        c.s.bfp_ie = -1;
-        c.s.fidx_dbe_ie = -1;
-        c.s.fidx_sbe_ie = -1;
-        c.s.fpe_ie = -1;
-        c.s.idx_dbe_ie = -1;
-        c.s.idx_sbe_ie = -1;
+    BDK_CSR_MODIFY(c, node, BDK_PIP_INT_EN,
+        c.s.punyerr = -1;
+        c.s.lenerr = -1;
+        c.s.maxerr = -1;
+        c.s.minerr = -1;
+        c.s.beperr = -1;
+        c.s.feperr = -1;
+        c.s.todoovr = -1;
+        c.s.skprunt = -1;
+        c.s.badtag = -1;
+        c.s.prtnxa = -1;
+        c.s.bckprs = -1;
+        c.s.crcerr = -1;
+        c.s.pktdrp = -1);
+}
+
+static void check_ipd_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_INIT(c, node, BDK_IPD_INT_SUM);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, pq_sub);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, pq_add);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, bc_ovr);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, d_coll);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, c_coll);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, cc_ovr);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, dc_ovr);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, bp_sub);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, prc_par3);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, prc_par2);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, prc_par1);
+    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, prc_par0);
+}
+
+static void enable_ipd_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
+        c.s.pq_sub = -1;
+        c.s.pq_add = -1;
+        c.s.bc_ovr = -1;
+        c.s.d_coll = -1;
+        c.s.c_coll = -1;
+        c.s.cc_ovr = -1;
+        c.s.dc_ovr = -1;
+        c.s.bp_sub = -1;
+        c.s.prc_par3 = -1;
+        c.s.prc_par2 = -1;
+        c.s.prc_par1 = -1;
+        c.s.prc_par0 = -1);
+}
+
+static void check_l2c_cn70xx(bdk_node_t node)
+{
+    {
+        BDK_CSR_INIT(c, node, BDK_L2C_CBCX_INT(0));
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(0), s, ioccmddbe);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(0), s, ioccmdsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(0), s, rsddbe);
+        CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(0), s, rsdsbe);
+    }
+    {
+        BDK_CSR_INIT(c, node, BDK_L2C_MCIX_INT(0));
+        CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT(0), s, vbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT(0), s, vbfsbe);
+    }
+    {
+        BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT(0));
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, rtgdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, rtgsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, wrdislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, rddislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, bigrd);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, bigwr);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, holerd);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, holewr);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, noway);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, tagdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, tagsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, fbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, fbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, sbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, sbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, l2ddbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(0), cn70xx, l2dsbe);
+    }
+    {
+        BDK_CSR_INIT(c, node, BDK_CIU_CIB_L2C_RAWX(0));
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, cbcx_int_ioccmddbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, cbcx_int_ioccmdsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, cbcx_int_rsddbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, cbcx_int_rsdsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, mcix_int_vbfdbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, mcix_int_vbfsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_rtgdbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_rtgsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_rddislmc);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_wrdislmc);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_bigrd);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_bigwr);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_holerd);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_holewr);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_noway);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_tagdbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_tagsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_fbfdbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_fbfsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_sbfdbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_sbfsbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_l2ddbe);
+        CHECK_CHIP_ERROR(BDK_CIU_CIB_L2C_RAWX(0), s, tadx_int_l2dsbe);
+    }
+}
+
+static void enable_l2c_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_MODIFY(c, node, BDK_CIU_CIB_L2C_ENX(0),
+        c.s.cbcx_int_ioccmddbe = -1;
+        c.s.cbcx_int_ioccmdsbe = -1;
+        c.s.cbcx_int_rsddbe = -1;
+        c.s.cbcx_int_rsdsbe = -1;
+        c.s.mcix_int_vbfdbe = -1;
+        c.s.mcix_int_vbfsbe = -1;
+        c.s.tadx_int_rtgdbe = -1;
+        c.s.tadx_int_rtgsbe = -1;
+        c.s.tadx_int_rddislmc = -1;
+        c.s.tadx_int_wrdislmc = -1;
+        c.s.tadx_int_bigrd = -1;
+        c.s.tadx_int_bigwr = -1;
+        c.s.tadx_int_holerd = -1;
+        c.s.tadx_int_holewr = -1;
+        c.s.tadx_int_noway = -1;
+        c.s.tadx_int_tagdbe = -1;
+        c.s.tadx_int_tagsbe = -1;
+        c.s.tadx_int_fbfdbe = -1;
+        c.s.tadx_int_fbfsbe = -1;
+        c.s.tadx_int_sbfdbe = -1;
+        c.s.tadx_int_sbfsbe = -1;
+        c.s.tadx_int_l2ddbe = -1;
+        c.s.tadx_int_l2dsbe = -1);
+}
+
+static void check_pow_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_INIT(c, node, BDK_SSO_ECC_ERR);
+    BDK_CSR_WRITE(node, BDK_SSO_ECC_ERR, c.u);
+    if (c.s.iop)
+        display_error(node, basename_BDK_SSO_ECC_ERR, arguments_BDK_SSO_ECC_ERR, "iop");
+    if (c.s.rpe)
+        display_error(node, basename_BDK_SSO_ECC_ERR, arguments_BDK_SSO_ECC_ERR, "rpe");
+    if (c.s.dbe)
+        display_error(node, basename_BDK_SSO_ECC_ERR, arguments_BDK_SSO_ECC_ERR, "dbe");
+    if (c.s.sbe)
+        display_error(node, basename_BDK_SSO_ECC_ERR, arguments_BDK_SSO_ECC_ERR, "sbe");
+}
+
+static void enable_pow_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_MODIFY(c, node, BDK_SSO_ECC_ERR,
         c.s.iop_ie = -1;
-        c.s.oth_dbe0_ie = -1;
-        c.s.oth_dbe1_ie = -1;
-        c.s.oth_sbe0_ie = -1;
-        c.s.oth_sbe1_ie = -1;
-        c.s.pnd_dbe0_ie = -1;
-        c.s.pnd_dbe1_ie = -1;
-        c.s.pnd_sbe0_ie = -1;
-        c.s.pnd_sbe1_ie = -1;
-    );
+        c.s.rpe_ie = -1;
+        c.s.dbe_ie = -1;
+        c.s.sbe_ie = -1);
 }
 
-static void enable_sso_cn6xxx(bdk_node_t node)
+static void check_fpa_cn70xx(bdk_node_t node)
 {
-    // FIXME
+    BDK_CSR_INIT(c, node, BDK_FPA_INT_SUM);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, paddr_e);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool7th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool6th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool5th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool4th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool3th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool2th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool1th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, pool0th);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q7_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q7_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q7_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q6_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q6_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q6_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q5_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q5_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q5_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q4_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q4_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q4_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q3_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q3_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q3_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q2_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q2_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q2_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q1_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q1_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q1_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q0_perr);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q0_coff);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, q0_und);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, fed1_dbe);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, fed1_sbe);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, fed0_dbe);
+    CHECK_CHIP_ERROR(BDK_FPA_INT_SUM, s, fed0_sbe);
 }
 
-static void enable_tim_cn68xx(bdk_node_t node)
+static void enable_fpa_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_TIM_INT0_EN,
-        c.s.int0_en = -1;
-    );
-    BDK_CSR_MODIFY(c, node, BDK_TIM_INT_ECCERR_EN,
-        c.s.dbe_en = -1;
-        c.s.sbe_en = -1;
-    );
+    BDK_CSR_MODIFY(c, node, BDK_FPA_INT_ENB,
+        c.s.paddr_e = -1;
+        c.s.pool7th = -1;
+        c.s.pool6th = -1;
+        c.s.pool5th = -1;
+        c.s.pool4th = -1;
+        c.s.pool3th = -1;
+        c.s.pool2th = -1;
+        c.s.pool1th = -1;
+        c.s.pool0th = -1;
+        c.s.q7_perr = -1;
+        c.s.q7_coff = -1;
+        c.s.q7_und = -1;
+        c.s.q6_perr = -1;
+        c.s.q6_coff = -1;
+        c.s.q6_und = -1;
+        c.s.q5_perr = -1;
+        c.s.q5_coff = -1;
+        c.s.q5_und = -1;
+        c.s.q4_perr = -1;
+        c.s.q4_coff = -1;
+        c.s.q4_und = -1;
+        c.s.q3_perr = -1;
+        c.s.q3_coff = -1;
+        c.s.q3_und = -1;
+        c.s.q2_perr = -1;
+        c.s.q2_coff = -1;
+        c.s.q2_und = -1;
+        c.s.q1_perr = -1;
+        c.s.q1_coff = -1;
+        c.s.q1_und = -1;
+        c.s.q0_perr = -1;
+        c.s.q0_coff = -1;
+        c.s.q0_und = -1;
+        c.s.fed1_dbe = -1;
+        c.s.fed1_sbe = -1;
+        c.s.fed0_dbe = -1;
+        c.s.fed0_sbe = -1);
 }
 
-static void enable_tim_cn6xxx(bdk_node_t node)
+static void check_iob_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_TIM_REG_INT_MASK,
-        c.s.mask = -1;
-    );
+    BDK_CSR_INIT(c, node, BDK_IOB_INT_SUM);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, outb_mat);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, inb_mat);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, p_dat);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, np_dat);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, p_eop);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, p_sop);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, np_eop);
+    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, np_sop);
 }
 
-static void enable_usb(bdk_node_t node, int usb)
+static void enable_iob_cn70xx(bdk_node_t node)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        // FIXME
-    }
-    else
-    {
-        BDK_CSR_MODIFY(c, node, BDK_UCTLX_INT_ENA(usb),
-            c.s.cf_psh_f = -1;
-            c.s.ec_ovf_e = -1;
-            c.s.er_psh_f = -1;
-            c.s.oc_ovf_e = -1;
-            c.s.or_psh_f = -1;
-            c.s.pp_psh_f = -1;
-            c.s.wb_pop_e = -1;
-            c.s.wb_psh_f = -1;
-        );
-    }
+    BDK_CSR_MODIFY(c, node, BDK_IOB_INT_ENB,
+        c.s.outb_mat = -1;
+        c.s.inb_mat = -1;
+        c.s.p_dat = -1;
+        c.s.np_dat = -1;
+        c.s.p_eop = -1;
+        c.s.p_sop = -1;
+        c.s.np_eop = -1;
+        c.s.np_sop = -1);
 }
 
-static void enable_zip(bdk_node_t node)
+static void check_mio_cn70xx(bdk_node_t node)
 {
-    BDK_CSR_MODIFY(c, node, BDK_ZIP_INT_MASK,
-        c.s.doorbell = -1;
-    );
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_MODIFY(c, node, BDK_ZIP_INT_ENA,
-            c.s.doorbell0 = -1;
-            c.s.doorbell1 = -1;
-            c.s.ibdbe = -1;
-            c.s.ibsbe = -1;
-        );
+    BDK_CSR_INIT(c, node, BDK_MIO_BOOT_ERR);
+    CHECK_CHIP_ERROR(BDK_MIO_BOOT_ERR, s, wait_err);
+    CHECK_CHIP_ERROR(BDK_MIO_BOOT_ERR, s, adr_err);
 }
 
-static void enable_cn6xxx(bdk_node_t node)
+static void enable_mio_cn70xx(bdk_node_t node)
 {
-    /* Interrupts connected to CIU SUM0 */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_INTX_EN0(0),
-        c.s.mii = -1;
-        c.s.pcm = -1;
-        c.s.rml = -1;
-    );
-    /* MIX is enabled in the bdk_if code */
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
-        enable_pcm(node);
-
-    /* Interrupts off of RML */
-    /* AGL, GMX, PCS and PCSX are enabled in the bdk_if code */
-    enable_dpi(node);
-    enable_fpa(node);
-    enable_iob(node);
-    enable_ipd(node);
-    enable_key(node);
-    enable_l2c(node);
-    enable_lmc(node, 0);
-    enable_mio(node);
-    enable_pem(node, 0);
-    enable_pem(node, 1);
-    enable_pip(node);
-    enable_pko(node);
-    enable_rad(node);
-    enable_sso_cn6xxx(node);
-    enable_tim_cn6xxx(node);
-    if (!OCTEON_IS_MODEL(OCTEON_CN70XX))
-        enable_zip(node);
-
-    /* Interrupts connected to CIU SUM1 */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_INTX_EN1(0),
-        c.s.mii1 = -1;
-        c.s.nand = -1;
-        c.s.usb = -1;
-    );
-    if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
-        enable_nand(node);
-    enable_usb(node, 0);
+    BDK_CSR_MODIFY(c, node, BDK_MIO_BOOT_INT,
+        c.s.wait_int = -1;
+        c.s.adr_int = -1);
 }
 
-static void enable_cn68xx(bdk_node_t node)
+static void check_nand_cn70xx(bdk_node_t node)
 {
-    /* Interrupts connected to IO */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_IO(0),
-        c.s.pem = -1;
-    );
-    enable_pem(node, 0);
-    enable_pem(node, 1);
+    BDK_CSR_INIT(c, node, BDK_MIO_EMM_INT);
+    CHECK_CHIP_ERROR(BDK_MIO_EMM_INT, s, switch_err);
+    CHECK_CHIP_ERROR(BDK_MIO_EMM_INT, s, dma_err);
+    CHECK_CHIP_ERROR(BDK_MIO_EMM_INT, s, cmd_err);
+}
 
-    /* Interrupts connected to MEM */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_MEM(0),
-        c.s.lmc = -1;
-    );
-    enable_lmc(node, 0);
-    enable_lmc(node, 1);
-    enable_lmc(node, 2);
-    enable_lmc(node, 3);
+static void enable_nand_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_MODIFY(c, node, BDK_MIO_EMM_INT_EN,
+        c.s.switch_err = -1;
+        c.s.dma_err = -1;
+        c.s.cmd_err = -1);
+}
 
-    /* Interrupts connected to MIO */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_MIO(0),
-        c.s.mio = -1;
-        c.s.nand = -1;
-        c.s.usb_uctl = -1;
-    );
-    enable_mio(node);
-    enable_nand(node);
-    enable_usb(node, 0);
+static void check_wdog_cn70xx(bdk_node_t node)
+{
+    /* No errors need to be reported */
+}
 
-    /* Interrupts connected to PKT */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_PKT(0),
-        c.s.agl = -1;
-        c.s.agx = -1;
-        c.s.ilk = -1;
-        c.s.mii = -1;
-    );
-    /* AGL, MIX, ILK, GMX, PCS and PCSX are enabled in the bdk_if code */
+static void enable_wdog_cn70xx(bdk_node_t node)
+{
+    /* No errors need to be reported */
+}
 
-    /* Interrupts connected to RML */
-    BDK_CSR_MODIFY(c, node, BDK_CIU_EN_PPX_IP2_RML(0),
-        c.s.dfa = -1;
-        c.s.dpi = -1;
-        c.s.fpa = -1;
-        c.s.iob = -1;
-        c.s.ipd = -1;
-        c.s.key = -1;
-        c.s.l2c = -1;
-        c.s.pip = -1;
-        c.s.pko = -1;
-        c.s.rad = -1;
-        c.s.sso = -1;
-        c.s.tim = -1;
-        c.s.zip = -1;
-    );
-    enable_dfa(node);
-    enable_dpi(node);
-    enable_fpa(node);
-    enable_ipd(node);
-    enable_key(node);
-    enable_l2c(node);
-    enable_pip(node);
-    enable_pko(node);
-    enable_rad(node);
-    enable_sso_cn68xx(node);
-    enable_tim_cn68xx(node);
-    enable_zip(node);
+static void check_cn70xx(bdk_node_t node)
+{
+    BDK_CSR_INIT(c, node, BDK_CIU_INT_SUM1);
+    if (c.s.rst) check_rst_cn70xx(node);
+    if (c.s.lmc0) check_lmc_cn70xx(node, 0);
+    if (c.s.pem2) check_pem_cn70xx(node, 2);
+    if (c.s.pem1) check_pem_cn70xx(node, 1);
+    if (c.s.pem0) check_pem_cn70xx(node, 0);
+    if (c.s.ptp) check_ptp_cn70xx(node);
+    if (c.s.agl) check_agl_cn70xx(node);
+    if (c.s.agx1) check_agx_cn70xx(node, 1);
+    if (c.s.agx0) check_agx_cn70xx(node, 0);
+    if (c.s.dpi) check_dpi_cn70xx(node);
+    if (c.s.sli) check_sli_cn70xx(node);
+    if (c.s.usb) check_usb_cn70xx(node, 0);
+    if (c.s.dfa) check_dfa_cn70xx(node);
+    if (c.s.key) check_key_cn70xx(node);
+    if (c.s.rad) check_rad_cn70xx(node);
+    if (c.s.tim) check_tim_cn70xx(node);
+    if (c.s.pko) check_pko_cn70xx(node);
+    if (c.s.pip) check_pip_cn70xx(node);
+    if (c.s.ipd) check_ipd_cn70xx(node);
+    if (c.s.l2c) check_l2c_cn70xx(node);
+    if (c.s.pow) check_pow_cn70xx(node);
+    if (c.s.fpa) check_fpa_cn70xx(node);
+    if (c.s.iob) check_iob_cn70xx(node);
+    if (c.s.mio) check_mio_cn70xx(node);
+    if (c.s.nand) check_nand_cn70xx(node);
+    if (c.s.usb1) check_usb_cn70xx(node, 1);
+    if (c.s.wdog) check_wdog_cn70xx(node);
+}
+
+static void enable_cn70xx(bdk_node_t node)
+{
+    enable_rst_cn70xx(node);
+    enable_lmc_cn70xx(node, 0);
+    enable_pem_cn70xx(node, 2);
+    enable_pem_cn70xx(node, 1);
+    enable_pem_cn70xx(node, 0);
+    enable_ptp_cn70xx(node);
+    enable_agl_cn70xx(node);
+    enable_agx_cn70xx(node, 1);
+    enable_agx_cn70xx(node, 0);
+    enable_dpi_cn70xx(node);
+    enable_sli_cn70xx(node);
+    enable_usb_cn70xx(node, 0);
+    enable_dfa_cn70xx(node);
+    enable_key_cn70xx(node);
+    enable_rad_cn70xx(node);
+    enable_tim_cn70xx(node);
+    enable_pko_cn70xx(node);
+    enable_pip_cn70xx(node);
+    enable_ipd_cn70xx(node);
+    enable_l2c_cn70xx(node);
+    enable_pow_cn70xx(node);
+    enable_fpa_cn70xx(node);
+    enable_iob_cn70xx(node);
+    enable_mio_cn70xx(node);
+    enable_nand_cn70xx(node);
+    enable_usb_cn70xx(node, 1);
+    enable_wdog_cn70xx(node);
 }
 
 void (*bdk_error_check)(bdk_node_t node) = NULL;
 void bdk_error_enable(bdk_node_t node)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
-        enable_cn68xx(node);
-        bdk_error_check = check_cn68xx;
-    }
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        // FIXME: CN78XX error reporting
+        enable_cn70xx(node);
+        bdk_error_check = check_cn70xx;
     }
     else
-    {
-        enable_cn6xxx(node); /* Also CN70XX */
-        bdk_error_check = check_cn6xxx;
-    }
+        bdk_error("Error reporting not implemented for this chip\n");
 }
