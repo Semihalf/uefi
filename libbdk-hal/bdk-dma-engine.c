@@ -64,9 +64,9 @@ int bdk_dma_engine_initialize(bdk_node_t node)
     }
     else
     {
-        dma_control.cn61xx.dwb_denb = BDK_USE_DWB;
-        dma_control.cn61xx.dwb_ichk = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/128;
-        dma_control.cn61xx.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
+        dma_control.cn70xx.dwb_denb = BDK_USE_DWB;
+        dma_control.cn70xx.dwb_ichk = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL)/128;
+        dma_control.cn70xx.fpa_que = BDK_FPA_OUTPUT_BUFFER_POOL;
     }
     dma_control.s.o_es = 1;
     dma_control.s.o_mode = 1;

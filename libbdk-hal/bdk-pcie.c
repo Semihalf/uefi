@@ -119,7 +119,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
         {
             BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
-                c.cn61xx.mrrs = MRRS_CN6XXX);
+                c.cn70xx.mrrs = MRRS_CN6XXX);
         }
     }
 
@@ -418,16 +418,16 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     mem_access_subid.s.esw = 1;     /* Endian-swap for Writes. */
     mem_access_subid.s.wtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
     mem_access_subid.s.rtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-    mem_access_subid.cn61xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
+    mem_access_subid.cn70xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
 
     /* Setup mem access 12-15 for port 0, 16-19 for port 1, supplying 36 bits of address space */
     for (i=12 + pcie_port*4; i<16 + pcie_port*4; i++)
     {
         BDK_CSR_WRITE(node, BDK_SLI_MEM_ACCESS_SUBIDX(i), mem_access_subid.u64);
-        mem_access_subid.cn61xx.ba += 1; /* Set each SUBID to extend the addressable range */
+        mem_access_subid.cn70xx.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN61XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN61XX) && !OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         /* Disable the peer to peer forwarding register. This must be setup
             by the OS after it enumerates the bus and assigns addresses to the
@@ -730,7 +730,7 @@ int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
         if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
         {
             BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
-                c.cn61xx.mrrs = MRRS_CN6XXX);
+                c.cn70xx.mrrs = MRRS_CN6XXX);
         }
     }
 
@@ -744,7 +744,7 @@ int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
         mem_access_subid.s.esw = 0;     /* Endian-swap for Writes. */
         mem_access_subid.s.wtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
         mem_access_subid.s.rtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-        mem_access_subid.cn61xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
+        mem_access_subid.cn70xx.ba = 0;      /* PCIe Adddress Bits <63:34>. */
         BDK_CSR_WRITE(node, BDK_SLI_MEM_ACCESS_SUBIDX(12 + pcie_port*4), mem_access_subid.u64);
     }
     return 0;
