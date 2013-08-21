@@ -8,6 +8,5 @@ fi
 
 TARGET=${BDK_ROOT}/target-bin
 
-${BDK_ROOT}/bin/bdk-update-romfs ${BDK_ROOT}/target-bin/bdk-minimal.bin ${BDK_ROOT}/target-bin/bdk-minimal-no-romfs.bin ${BDK_ROOT}/rom/minimal/*
 ${BDK_ROOT}/bin/bdk-update-romfs ${BDK_ROOT}/target-bin/bdk-full.bin ${BDK_ROOT}/target-bin/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
 

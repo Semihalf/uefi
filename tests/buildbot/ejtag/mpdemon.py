@@ -16,7 +16,7 @@ assert os.environ["BDK_ROOT"], "BDK_ROOT not defined"
 os.environ["OCTEON_REMOTE_PROTOCOL"] = "macraigor:192.168.111.4,1000,2"
 os.environ["OCTEON_REMOTE_CONSOLE"] = "/dev/ttyS8"
 
-BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/target-bin/bdk-minimal.bin"
+BDK_BOOT_IMAGE = os.environ["BDK_ROOT"] + "/target-bin/bdk-full.bin"
 
 # Test CSR operations
 do_command("bdk-remote csr CIU_FUSE", [
@@ -115,6 +115,3 @@ do_command("bdk-remote boot %s" % BDK_BOOT_IMAGE, [], timeout=120)
 do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(0,1))'", [
     "600000000"])
 
-# Test RPC over serial using full image
-#do_command("bdk-remote boot " + os.environ["BDK_ROOT"] + "/target-bin/bdk-full.bin", [], timeout=120)
-#do_command("bdk-lua -l octeon -e 'print(octeon.c.bdk_clock_get_rate(0,1))'", ["800000000"])
