@@ -425,10 +425,10 @@ int main()
     bdk_node_t node = bdk_numa_local();
 
     /* Disable reset on loss of link or prst*/
-    BDK_CSR_MODIFY(c, node, BDK_MIO_RST_CTLX(0),
+    BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0),
         c.s.rst_link = 0;
         c.s.rst_chip = 0);
-    BDK_CSR_MODIFY(c, node, BDK_MIO_RST_CTLX(1),
+    BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1),
         c.s.rst_link = 0;
         c.s.rst_chip = 0);
 
