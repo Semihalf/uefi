@@ -256,6 +256,11 @@ def build_csr(chip_info, register, raw):
         csr.addField(csrField)
     # The CSR should be complete
     csr.validate()
+    # Merge MIO_BOOT_REG_CFG0 into MIO_BOOT_REG_CFGX
+    if csr.name == "mio_boot_reg_cfg0":
+        return
+    if csr.name == "mio_boot_reg_cfg#":
+        csr.range[0][0] = 0
     chip_info.addCsr(csr)
 #
 # Read a single YAML file and add its registers to the supplied csr list
