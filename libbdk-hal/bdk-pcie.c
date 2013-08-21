@@ -290,28 +290,12 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
 
 static int __bdk_pcie_read_soft_prst(bdk_node_t node, int pcie_port)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-    {
-        if (pcie_port)
-            return BDK_CSR_READ(node, BDK_CIU_SOFT_PRST1);
-        else
-            return BDK_CSR_READ(node, BDK_CIU_SOFT_PRST);
-    }
-    else
-        return BDK_CSR_READ(node, BDK_RST_SOFT_PRSTX(pcie_port));
+    return BDK_CSR_READ(node, BDK_RST_SOFT_PRSTX(pcie_port));
 }
 
 static void __bdk_pcie_write_soft_prst(bdk_node_t node, int pcie_port, int soft_prst)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-    {
-        if (pcie_port)
-            BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST1, soft_prst);
-        else
-            BDK_CSR_WRITE(node, BDK_CIU_SOFT_PRST, soft_prst);
-    }
-    else
-        BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), soft_prst);
+    BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), soft_prst);
 }
 
 /**
@@ -325,7 +309,7 @@ static void __bdk_pcie_write_soft_prst(bdk_node_t node, int pcie_port, int soft_
 static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
 {
     int i;
-    bdk_mio_rst_ctlx_t mio_rst_ctl;
+    bdk_rst_ctlx_t rst_ctl;
     bdk_pemx_bar_ctl_t pemx_bar_ctl;
     bdk_pemx_ctl_status_t pemx_ctl_status;
     bdk_pemx_bist_status_t pemx_bist_status;
@@ -343,8 +327,8 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     }
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
-    mio_rst_ctl.u64 = BDK_CSR_READ(node, BDK_MIO_RST_CTLX(pcie_port));
-    if (mio_rst_ctl.s.prtmode != 1)
+    rst_ctl.u64 = BDK_CSR_READ(node, BDK_RST_CTLX(pcie_port));
+    if (!rst_ctl.s.host_mode)
     {
         bdk_dprintf("PCIe: Port %d in endpoint mode.\n", pcie_port);
         return -1;
@@ -369,7 +353,7 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     /* Check and make sure PCIe came out of reset. If it doesn't the board
         probably hasn't wired the clocks up and the interface should be
         skipped */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_RST_CTLX(pcie_port), rst_done, ==, 1, 10000))
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_CTLX(pcie_port), rst_done, ==, 1, 10000))
     {
         bdk_dprintf("PCIe: Port %d stuck in reset, skipping.\n", pcie_port);
         return -1;
@@ -427,7 +411,7 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
         mem_access_subid.s.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN61XX) && !OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (!OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         /* Disable the peer to peer forwarding register. This must be setup
             by the OS after it enumerates the bus and assigns addresses to the
@@ -692,9 +676,9 @@ void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, i
  */
 int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
 {
-    bdk_mio_rst_ctlx_t mio_rst_ctl;
-    mio_rst_ctl.u64 = BDK_CSR_READ(node, BDK_MIO_RST_CTLX(pcie_port));
-    if (mio_rst_ctl.s.prtmode != 0)
+    bdk_rst_ctlx_t rst_ctl;
+    rst_ctl.u64 = BDK_CSR_READ(node, BDK_RST_CTLX(pcie_port));
+    if (rst_ctl.s.host_mode)
         return -1;
 
     /* Enable bus master and memory */

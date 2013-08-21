@@ -198,7 +198,7 @@ static void default_unlock(void)
 static int default_reset(int stop_core __attribute__ ((unused)))
 {
     OCTEON_REMOTE_DEBUG_CALLED();
-    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_SOFT_RST, 1);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_RST_SOFT_RST, 1);
     OCTEON_REMOTE_DEBUG_RETURNED();
     return 0;
 }

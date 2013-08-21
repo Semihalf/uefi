@@ -11,10 +11,7 @@ local qlm_tuning = require("qlm_tuning")
 local m = menu.new("QLM/DLM Menu")
 repeat
     -- Add a configuration option for chips that support it
-    if octeon.is_model(octeon.CN61XX) then
-        require("qlm_menu_cn61xx")
-        m:item("set", "Change QLM/DLM configuration", qlm_setup_cn61xx)
-    elseif octeon.is_model(octeon.CN70XX) then
+    if octeon.is_model(octeon.CN70XX) then
         require("qlm_menu_cn70xx")
         m:item("set", "Change QLM/DLM configuration", qlm_setup_cn70xx)
     elseif octeon.is_model(octeon.CN78XX) then

@@ -125,22 +125,8 @@ void __bdk_init(long base_address)
         }
 
         /* Initialize the is_simulation flag */
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
-        {
-            BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
-            __bdk_is_simulation = (c.u == 0);
-        }
-        else
-        {
-            BDK_CSR_INIT(dbg, node, BDK_SLI_DBG_SELECT);
-            BDK_CSR_DEFINE(tmp, BDK_SLI_DBG_SELECT);
-            tmp = dbg;
-            tmp.s.dbg_sel = 1;
-            BDK_CSR_WRITE(node, BDK_SLI_DBG_SELECT, tmp.u64);
-            tmp.u64 = BDK_CSR_READ(node, BDK_SLI_DBG_SELECT);
-            BDK_CSR_WRITE(node, BDK_SLI_DBG_SELECT, dbg.u64);
-            __bdk_is_simulation = (tmp.s.dbg_sel == 0);
-        }
+        BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
+        __bdk_is_simulation = (c.u == 0);
 
         bdk_set_baudrate(node, 0, 115200, 0);
         bdk_set_baudrate(node, 1, 115200, 0);
@@ -161,10 +147,7 @@ void __bdk_init(long base_address)
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
             l2c_tadx_int.u64 = 0;
-            if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
-                l2c_tadx_int.cn78xx.rddislmc = 1;
-            else
-                l2c_tadx_int.cn70xx.rddislmc = 1;
+            l2c_tadx_int.s.rddislmc = 1;
             BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
             if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             {

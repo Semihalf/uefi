@@ -101,21 +101,7 @@ static int l2_perf(lua_State* L)
 
             /* Read the appropriate counter */
             uint64_t value = 0;
-            switch (counter)
-            {
-                case 0:
-                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC0(tad));
-                    break;
-                case 1:
-                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC1(tad));
-                    break;
-                case 2:
-                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC2(tad));
-                    break;
-                case 3:
-                    value = BDK_CSR_READ(node, BDK_L2C_TADX_PFC3(tad));
-                    break;
-            }
+            value = BDK_CSR_READ(node, BDK_L2C_TADX_PFCX(tad, counter));
 
             /* Figure out what to do based on the counter type */
             int count_type = (tadx_prf.u64 >> (counter*8)) & 0xff;
@@ -319,10 +305,10 @@ static int l2_perf(lua_State* L)
                 break;
         }
         BDK_CSR_WRITE(node, BDK_L2C_TADX_PRF(tad), tadx_prf.u64);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC0(tad), 0);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC1(tad), 0);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC2(tad), 0);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFC3(tad), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 0), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 1), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 2), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 3), 0);
     }
     count_set++;
     if (count_set > 5)

@@ -635,8 +635,8 @@ static void check_key_cn70xx(bdk_node_t node)
 static void enable_key_cn70xx(bdk_node_t node)
 {
     BDK_CSR_MODIFY(c, node, BDK_KEY_INT_ENB,
-        c.cn70xx.key_dbe = -1;
-        c.cn70xx.key_sbe = -1);
+        c.s.key_dbe = -1;
+        c.s.key_sbe = -1);
 }
 
 static void check_rad_cn70xx(bdk_node_t node)

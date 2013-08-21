@@ -79,7 +79,7 @@ obj_$(1) := $$(foreach s,$$(src),obj-$(1)/$$(notdir $$(s:%.c=%.o)))
 obj_$(1) += obj-$(1)/octeon-remote-mips-asm.o
 obj-$(1):
 	mkdir obj-$(1)
-obj-$(1)/octeon-remote-mips-asm.o: mips-octeon2_debug_handler.bin mips-octeon3_debug_handler.bin | obj-$(1)
+obj-$(1)/octeon-remote-mips-asm.o: mips-octeon3_debug_handler.bin | obj-$(1)
 	$$(CC_$(1)) $$(CFLAGS) $$(CFLAGS_$(1)) -c -o $$@ octeon-remote-mips-asm.S
 bdk-lua-$(1): $$(obj_$(1))
 	$$(CC_$(arch)) $$(CFLAGS_$(1)) -o $$@ $$^ $$(LDFLAGS) $$(LDFLAGS_$(1))

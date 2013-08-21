@@ -404,8 +404,6 @@ octeon.is_model()::
 
 Check which OCTEON model you are using. Pass it one of the following:
 
-* octeon.CN61XX
-* octeon.CN68XX
 * octeon.CN70XX
 * octeon.CN78XX
 

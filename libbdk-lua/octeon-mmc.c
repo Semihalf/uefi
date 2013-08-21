@@ -125,19 +125,9 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         }
         if (sts_reg.s.blk_crc_err)
         {
-            BDK_CSR_INIT(mode, node, BDK_MIO_EMM_MODEX(busid));
-            if ((mode.s.bus_width != 2) && (mode.s.bus_width != 6) &&
-                OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_0))
-            {
-                /* (EMMC-16482) x1 and x4 data read CRC errors */
-                /* Ignore this error as CRC checking doesn't work */
-            }
-            else
-            {
-                if (show_debug)
-                    printf("Read/write block CRC error.\n");
-                cmd_error++;
-            }
+            if (show_debug)
+                printf("Read/write block CRC error.\n");
+            cmd_error++;
         }
         if (sts_reg.s.blk_timeout)
         {
@@ -303,9 +293,9 @@ static void print_csd_reg(uint64_t reg_hi, uint64_t reg_lo)
 static void wdog_default()
 {
     bdk_node_t node = bdk_numa_local();
-    BDK_CSR_INIT(mio_rst_boot, node, BDK_MIO_RST_BOOT);
+    BDK_CSR_INIT(rst_boot, node, BDK_RST_BOOT);
     BDK_CSR_INIT(mode_reg, node, BDK_MIO_EMM_MODEX(0));
-    uint64_t sclk = 50000000ull * mio_rst_boot.s.pnr_mul;
+    uint64_t sclk = 50000000ull * rst_boot.s.pnr_mul;
     uint64_t wdog_value = sclk / 10 / (mode_reg.s.clk_hi + mode_reg.s.clk_lo);
     BDK_CSR_WRITE(node, BDK_MIO_EMM_WDOG, wdog_value);
 }
@@ -339,23 +329,6 @@ static int mmc_init(lua_State *L)
     // Disable bus 1, casues the clocking to reset to the default
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     bdk_wait_usec(200000);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX_PASS1_X))
-    {
-        // Disable buses
-        BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
-        BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(8),
-                       c.s.tx_oe = 1);
-        bdk_wait_usec(1000);
-
-        BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, (1<<8));
-
-        bdk_wait_usec(200000);
-
-        BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, (1<<8));
-
-        bdk_wait_usec(2000);
-    }
 
     // Enable bus 1
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x1);

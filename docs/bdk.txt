@@ -826,8 +826,6 @@ octeon.is_model(model)::
 
 Returns true if the current chip matches the supplied model.
 * model = One of the `octeon.CN*` constants.
-** octeon.CN61XX
-** octeon.CN68XX
 ** octeon.CN70XX
 ** octeon.CN78XX
 
@@ -1401,6 +1399,6 @@ include::../rom/full/main.lua[]
 +
 [source,lua]
 ----
-include::../rom/full/board-ebb6100.lua[]
+include::../rom/full/board-ebb7000.lua[]
 ----
 

@@ -16,18 +16,6 @@ static l2_node_state_t l2_node_state[BDK_NUMA_MAX_NODES];
  */
 int bdk_l2c_initialize(bdk_node_t node)
 {
-    if (!OCTEON_IS_MODEL(OCTEON_CN78XX) && !OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        /* Clear the IOB0 FIFO delay if the RCLK/SCLK ratio is less than 3 */
-        uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
-        uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
-        if (rclk < sclk * 3)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_IOB_CTL_STATUS, c.s.fif_dly = 0);
-            BDK_CSR_READ(node, BDK_IOB_CTL_STATUS);
-        }
-    }
-
     /* Tell L2 to give the IOB statically higher priority compared to the
         cores. This avoids conditions where IO blocks might be starved under
         very high L2 loads */
@@ -147,9 +135,7 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
     if (bdk_unlikely(l2_node_state[node].set_bits == 0))
     {
         int l2_set_bits;
-        if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-            l2_set_bits =  9; /* 512 sets */
-        else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             l2_set_bits =  13; /* 8192 sets */
         else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
             l2_set_bits =  13; /* FIXME: Should be 1024 sets */

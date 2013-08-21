@@ -2,9 +2,7 @@
 
 static int if_num_interfaces(bdk_node_t node)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX))
-        return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         return 0; /* Covered by bdk-if-bgx */
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         return 2; /* DLM0 has both GMX connected to it */
@@ -268,7 +266,7 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(gmx_rx_prts, handle->node, BDK_GMXX_RX_PRTS(gmx_block),
             gmx_rx_prts.s.prts = if_num_ports(handle->node, gmx_block));
 
-        if (OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         {
             /* Tell PKO the number of ports on this interface */
             BDK_CSR_MODIFY(pko_mode, handle->node, BDK_PKO_REG_GMX_PORT_MODE,

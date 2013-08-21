@@ -699,8 +699,31 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
-    extern const bdk_qlm_ops_t bdk_qlm_ops_cn61xx;
-    return bdk_qlm_ops_cn61xx.measure_refclock(node, qlm);
+    /* Disable the PTP event counter while we configure it */
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
+    /* Count on rising edge, Choose which QLM to count */
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG,
+        c.s.evcnt_edge = 0;
+        c.s.evcnt_in = 0x10 + qlm);
+    /* Clear MIO_PTP_EVT_CNT */
+    int64_t count = BDK_CSR_READ(node, BDK_MIO_PTP_EVT_CNT);
+    BDK_CSR_WRITE(node, BDK_MIO_PTP_EVT_CNT, -count);
+    /* Set MIO_PTP_EVT_CNT to 1 billion */
+    BDK_CSR_WRITE(node, BDK_MIO_PTP_EVT_CNT, 1000000000);
+    /* Enable the PTP event counter */
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
+    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    /* Wait for 50ms */
+    bdk_wait_usec(50000);
+    /* Read the counter */
+    count = BDK_CSR_READ(node, BDK_MIO_PTP_EVT_CNT);
+    uint64_t stop_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    /* Disable the PTP event counter */
+    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
+    /* Clock counted down, so reverse it */
+    count = 1000000000 - count;
+    /* Return the rate */
+    return count * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
 }
 
 

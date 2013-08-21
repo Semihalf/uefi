@@ -11,7 +11,7 @@ for count=1,100 do
     print("Octeon RCLK:", octeon.c.bdk_clock_get_rate(0,0))
     print("Octeon SCLK:", octeon.c.bdk_clock_get_rate(0,1))
     print("Octeon CIU_FUSE:", octeon.csr.CIU_FUSE.read())
-    print("Is CN61XX?", octeon.is_model(octeon.CN61XX))
+    print("Is CN70XX?", octeon.is_model(octeon.CN70XX))
     print("Lua mem:", octeon.global.collectgarbage("count"))
     print("C mem:", octeon.c.get_sbrk() / 1024)
     collectgarbage()

@@ -2,12 +2,10 @@
 #include <stdio.h>
 
 /* Each chip has its own QLM operation table */
-extern const bdk_qlm_ops_t bdk_qlm_ops_cn61xx;
 extern const bdk_qlm_ops_t bdk_qlm_ops_cn70xx;
 extern const bdk_qlm_ops_t bdk_qlm_ops_cn78xx;
 
 static const bdk_qlm_ops_t *qlm_ops_list[] = {
-    &bdk_qlm_ops_cn61xx,
     &bdk_qlm_ops_cn70xx,
     &bdk_qlm_ops_cn78xx,
     NULL

@@ -1,4 +1,4 @@
--- BDK QLM menu for CN61XX configuration.
+-- BDK QLM menu for CN78XX configuration.
 require("strict")
 require("utils")
 require("menu")

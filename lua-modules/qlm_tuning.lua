@@ -9,46 +9,6 @@ local qlm_tuning = {}
 local node = 0
 qlm_tuning.qlm = 0
 
--- Table of TX biasdrvsel to Amplitude in millivolts
-qlm_tuning.biasdrv = {
-    [4] = 150,
-    [6] = 250,
-    [7] = 300,
-    [8] = 350,
-    [12] = 500,
-    [15] = 600,
-    [17] = 700,
-    [18] = 750,
-    [26] = 1000,
-    [29] = 1100,
-    [31] = 1200,
-}
-
--- Table of TX tcoeff to demphasis in DB*10
-qlm_tuning.tcoeff = {
-    [0] = 0,
-    [1] = -1,
-    [2] = -4,
-    [3] = -7,
-    [4] = -11,
-    [5] = -14,
-    [6] = -17,
-    [7] = -21,
-    [8] = -25,
-    [9] = -29,
-    [10] = -33,
-    [11] = -37,
-    [12] = -43,
-    [13] = -48,
-    [14] = -52,
-    [15] = -59,
-    [16] = -65,
-    [17] = -72,
-    [18] = -79,
-    [19] = -88,
-    [20] = -96,
-}
-
 -- Prompt for which QLM/DLM to edit
 local function select_qlm()
     local num_qlms = octeon.c.bdk_qlm_get_num(node)
@@ -94,109 +54,6 @@ local function select_qlm_list(qlm_list)
         table.insert(qlm_list, qlm_num)
     end
     return qlm_list
-end
-
--- Read a value from the JTAG chain
-local function read_jtag(qlm_num)
-    local lane = select_lane(qlm_num, false)
-    local field = menu.prompt_string("Field")
-    local value = octeon.c.bdk_qlm_jtag_get(qlm_num, lane, field)
-    if value ~= -1 then
-        printf("QLM%d %s[%d]: %d (0x%04x)\n", qlm_num, field, lane, value, value)
-    end
-end
-
--- Write a value to the JTAG chain
-local function write_jtag(qlm_num)
-    local lane = select_lane(qlm_num, true)
-    local field = menu.prompt_string("Field")
-    local value = menu.prompt_number("Value")
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane, field, value)
-end
-
--- Prompt for TX QLM parameters and change them
-local function change_tx(qlm_num, settings, lane_num)
-    local biasdrv
-    local tcoeff
-
-    if not lane_num then
-        lane_num = select_lane(qlm_num, true)
-    end
-
-    if settings then
-        biasdrv = settings["biasdrv"]
-        tcoeff = settings["tcoeff"]
-    else
-        local default_biasdrv
-        local default_tcoeff
-        -- Get current values as the default
-        if lane_num == -1 then
-            default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "biasdrv_hs_ls_byp")
-            default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "tcoeff_hf_ls_byp")
-        else
-            default_biasdrv = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "biasdrv_hs_ls_byp")
-            default_tcoeff = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "tcoeff_hf_ls_byp")
-        end
-
-        printf("\n   biasdrv\tTX Amplitude\n")
-        for _,b in ipairs(table.sorted_keys(qlm_tuning.biasdrv)) do
-            printf("\t%2d\t%4d mV\n", b, qlm_tuning.biasdrv[b])
-        end
-        biasdrv = menu.prompt_number("TX Amplitude(biasdrv)", default_biasdrv, 0, 31)
-
-        printf("\n    tcoeff\tTX Demphasis\n")
-        for _,t in ipairs(table.sorted_keys(qlm_tuning.tcoeff)) do
-            local db = qlm_tuning.tcoeff[t]
-            printf("\t%2d\t-%d.%d db\n", t, db/10, -db%10)
-        end
-        tcoeff = menu.prompt_number("TX Demphasis(tcoeff)", default_tcoeff, 0, 31)
-    end
-
-    -- Write ALL the biasdrvsel fields:
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_hs_ls_byp", biasdrv)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_hf_byp", biasdrv)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_lf_ls_byp", biasdrv)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "biasdrv_lf_byp", biasdrv)
-    -- Write ALL the tcoeff fields:
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_hf_ls_byp", tcoeff)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_hf_byp", tcoeff)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_lf_ls_byp", tcoeff)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "tcoeff_lf_byp", tcoeff)
-    -- Assert serdes_tx_byp to force the new settings to override the QLM default.
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "serdes_tx_byp", 1)
-end
-
--- Prompt for RX QLM parameters and change them
-local function change_rx(qlm_num, settings, lane_num)
-    local rx_cap
-    local rx_eq
-
-    if not lane_num then
-        lane_num = select_lane(qlm_num, true)
-    end
-
-    if settings then
-        rx_cap = settings["rx_cap"]
-        rx_eq = settings["rx_eq"]
-    else
-        local default_rx_cap
-        local default_rx_eq
-        -- Get current values as the default
-        if lane_num == -1 then
-            default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "rx_cap_gen2")
-            default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, 0, "rx_eq_gen2")
-        else
-            default_rx_cap = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_cap_gen2")
-            default_rx_eq = octeon.c.bdk_qlm_jtag_get(qlm_num, lane_num, "rx_eq_gen2")
-        end
-        rx_cap = menu.prompt_number("RX cap(rx_cap)", default_rx_cap, 0, 15)
-        rx_eq = menu.prompt_number("RX eq(rx_eq)", default_rx_eq, 0, 15)
-    end
-
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_cap_gen2", rx_cap)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_cap_gen1", rx_cap)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_eq_gen2", rx_eq)
-    octeon.c.bdk_qlm_jtag_set(qlm_num, lane_num, "rx_eq_gen1", rx_eq)
 end
 
 -- Start PRBS on a list of QLMs
@@ -251,28 +108,6 @@ local function do_prbs(mode)
             output_line(qlm_base, "", function(qlm, lane)
                 return "Lane " .. lane
             end)
-            if octeon.is_model(octeon.CN61XX) then
-                output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
-                    if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
-                        return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
-                    else
-                        return ""
-                    end
-                end)
-                output_line(qlm_base, "TX demphasis(tcoeff)", function(qlm, lane)
-                    if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
-                        return octeon.c.bdk_qlm_jtag_get(qlm, lane, "tcoeff_hf_ls_byp")
-                    else
-                        return ""
-                    end
-                end)
-                output_line(qlm_base, "RX cap", function(qlm, lane)
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_cap_gen2")
-                end)
-                output_line(qlm_base, "RX eq", function(qlm, lane)
-                    return octeon.c.bdk_qlm_jtag_get(qlm, lane, "rx_eq_gen2")
-                end)
-            end
             output_line(qlm_base, "PRBS Errors", function(qlm, lane)
                 local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
                 if v == -1 then
@@ -358,24 +193,11 @@ function qlm_tuning.run()
         local current_qlm = (num_lanes == 2) and "DLM" or "QLM"
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
-        if octeon.is_model(octeon.CN61XX) then
-            m:item("txparm", "Change TX parameters", change_tx, qlm_tuning.qlm)
-            m:item("rxparm", "Change RX parameters", change_rx, qlm_tuning.qlm)
-        end
         m:item("down",   "Reset and power down", octeon.c.bdk_qlm_reset, node, qlm_tuning.qlm)
-        if octeon.is_model(octeon.CN61XX) then
-            m:item("loop1", "Shallow loopback lane 0 and 3", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 1)
-            m:item("loop3", "Shallow loopback lane 1 and 2", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 2)
-        end
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
         m:item("prbs15", "PRBS-15", do_prbs, 15)
         m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
-        if octeon.is_model(octeon.CN61XX) then
-            m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
-            m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
-            m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)
-        end
         m:item("quit",   "Main menu")
     until (m:show() == "quit")
 end

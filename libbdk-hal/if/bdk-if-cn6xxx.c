@@ -58,12 +58,6 @@ static int pki_global_init(bdk_node_t node)
 
     int thresh_pass = 64;
     int thresh_drop = 32;
-    /* Skip RED on CN61XX as we have too few buffers for it to work */
-    if (OCTEON_IS_MODEL(OCTEON_CN61XX) && !__bdk_is_dram_enabled(node))
-    {
-        thresh_pass = 1;
-        thresh_drop = 0;
-    }
 
     for (int queue=0; queue<8; queue++)
     {

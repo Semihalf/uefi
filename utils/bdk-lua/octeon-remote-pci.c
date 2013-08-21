@@ -62,8 +62,7 @@
 #define OCTEON_SLI_ADDR 0x11f0000010000ull
 
 static const char *PCI_DEVICE_FILENAME = "/proc/bus/pci/devices";
-static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0093, /* CN61XX */
-                                            0x177d0095, /* CN78XX */
+static const uint32_t  OCTEON_PCI_IDS[] = { 0x177d0095, /* CN78XX */
                                             0x177d0096, /* CN70XX */
                                             0 };
 
@@ -224,9 +223,6 @@ static int pci_get_device(int device)
         the actual pass number will be read later after the mmaps are setup */
     switch (pci_id & 0xff)
     {
-        case 0x93: /* CN61XX */
-            octeon_pci_model = OCTEON_CN61XX_PASS1_0;
-            break;
         case 0x95: /* CN78XX */
             octeon_pci_model = OCTEON_CN78XX_PASS1_0;
             break;
@@ -780,27 +776,16 @@ static int pci_set_core_state(int core, const octeon_remote_registers_t *registe
  */
 static int pci_reset(int stop_core __attribute__ ((unused)))
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        bdk_rst_boot_t rst_boot;
-        rst_boot.u64 = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT);
-        rst_boot.s.rboot = stop_core;
-        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT, rst_boot.u64);
-        OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT);
-    }
-    else
-    {
-        bdk_mio_rst_boot_t mio_rst_boot;
-        mio_rst_boot.u64 = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_MIO_RST_BOOT);
-        mio_rst_boot.s.rboot = stop_core;
-        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_RST_BOOT, mio_rst_boot.u64);
-        OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_MIO_RST_BOOT);
-    }
+    bdk_rst_boot_t rst_boot;
+    rst_boot.u64 = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT);
+    rst_boot.s.rboot = stop_core;
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT, rst_boot.u64);
+    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_BOOT);
 
     /* HRM specifies that CIU_SOFT_RST should be read before initiating
     ** a reset over PCI */
-    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_SOFT_RST);
-    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_SOFT_RST, 1);
+    OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_SOFT_RST);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_RST_SOFT_RST, 1);
 
     /* Delay here to ensure that no accesses to Octeon are made
     ** while it is in reset.  1 MS is what CN56XX HRM specifies,
@@ -812,21 +797,14 @@ static int pci_reset(int stop_core __attribute__ ((unused)))
 
 static uint64_t pci_read_cop0(int core, int reg, int select)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        bdk_l2c_cop0_adr_t adr;
-        adr.u = 0;
-        adr.s.ppid = core;
-        adr.s.root = 1;
-        adr.s.rd = reg;
-        adr.s.sel = select;
-        OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_ADR, adr.u);
-        return OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_DAT);
-    }
-    else
-    {
-        return OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_MAPX((core<<8)|(reg<<3)|select));
-    }
+    bdk_l2c_cop0_adr_t adr;
+    adr.u = 0;
+    adr.s.ppid = core;
+    adr.s.root = 1;
+    adr.s.rd = reg;
+    adr.s.sel = select;
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_ADR, adr.u);
+    return OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_L2C_COP0_DAT);
 }
 
 /**

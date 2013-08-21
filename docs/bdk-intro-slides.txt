@@ -38,15 +38,14 @@ BDK Features
 
 .Supported chips
 
-* CN63XX
-* CN68XX
-* CN61XX (when released)
+* CN70XX
+* CN78XX
 
 .Unsupported chips
 
 * OCTEON (CN3XXX)
 * OCTEON+ (CN5XXX)
-
+* OCTEON2 (CN6XXX)
 
 Host Installation
 -----------------

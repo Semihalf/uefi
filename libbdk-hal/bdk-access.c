@@ -34,20 +34,10 @@ void bdk_reset_octeon(bdk_node_t node)
         bdk_thread_yield();
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX) || OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        bdk_rst_soft_rst_t rst_soft_rst;
-        rst_soft_rst.u64 = 0;
-        rst_soft_rst.s.soft_rst = 1;
-        BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, rst_soft_rst.u64);
-    }
-    else
-    {
-        bdk_ciu_soft_rst_t ciu_soft_rst;
-        ciu_soft_rst.u64 = 0;
-        ciu_soft_rst.s.soft_rst = 1;
-        BDK_CSR_WRITE(node, BDK_CIU_SOFT_RST, ciu_soft_rst.u64);
-    }
+    bdk_rst_soft_rst_t rst_soft_rst;
+    rst_soft_rst.u64 = 0;
+    rst_soft_rst.s.soft_rst = 1;
+    BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, rst_soft_rst.u64);
 }
 
 

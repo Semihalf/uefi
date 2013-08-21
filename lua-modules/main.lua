@@ -20,9 +20,7 @@ require("octeon")
 -- octeon.c.bdk_set_baudrate(0, 1, 115200, true)
 
 -- Do board specific setup
-if octeon.is_model(octeon.CN61XX) then
-    menu.dofile("board-ebb6100")
-elseif octeon.is_model(octeon.CN70XX) then
+if octeon.is_model(octeon.CN70XX) then
     menu.dofile("board-ebb7000")
 elseif octeon.is_model(octeon.CN78XX) then
     menu.dofile("board-ebb7800")
