@@ -376,7 +376,7 @@ function remote.core(args)
         return
     end
     printf("TLB:\n");
-    for r=1,128 do
+    for r=1,256 do
         local va = state[3][r][1]/4096*4096
         if bit64.bextract(va, 32,63) == 0xc001ffff then
             va = bit64.bor(va, 0x3ffe000000000000)
