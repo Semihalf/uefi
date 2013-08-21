@@ -8,13 +8,13 @@ def write_microcode(input_file, output_file):
     elf = elftools.elf.elffile.ELFFile(inf)
 
     segment = elf.get_segment(0)
-    print segment.header
-    print "Start address 0x%x" % segment.header.p_vaddr
+    #print segment.header
+    #print "Start address 0x%x" % segment.header.p_vaddr
     data = segment.data()
     inf.close()
 
     data_len = len(data)
-    print "Length %d bytes" % data_len
+    #print "Length %d bytes" % data_len
     assert data_len & 7 == 0
     print "Writing %s" % output_file
     outf = open(output_file, "w")
