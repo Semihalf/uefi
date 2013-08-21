@@ -70,9 +70,9 @@ typedef struct __bdk_if_port
     bdk_node_t  node        : 8;
     int         interface   : 8;
     int         index       : 8;    /* ILK can have 256 channels on CN78XX */
-    int         pknd        : 8;    /* 0-63 on both CN68XX and CN78XX, same as ipd_port on others */
+    int         pknd        : 8;    /* 0-63 on CN78XX, same as ipd_port on others */
     int         ipd_port    : 16;   /* Sparse 0-4095 */
-    int         pko_port    : 8;    /* CN78XX uses this as PKO port queue (L1), CN68XX 0-127 */
+    int         pko_port    : 8;    /* CN78XX uses this as PKO port queue (L1) */
     int         pko_queue   : 16;   /* CN78XX has 1024, CN6XXX has 256 */
     int         aura        : 16;   /* CN78XX has 1024, CN6XXX doesn't use */
     bdk_if_flags_t flags    : 8;

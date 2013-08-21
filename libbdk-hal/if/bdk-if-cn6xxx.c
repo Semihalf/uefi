@@ -54,7 +54,6 @@ static int pki_global_init(bdk_node_t node)
 
     /* Don't use clear on read as it has problems on CN68XX pass 1.x */
     BDK_CSR_MODIFY(c, node, BDK_PIP_STAT_CTL,
-        c.s.mode = 0;
         c.s.rdclr = 0);
 
     int thresh_pass = 64;
@@ -95,14 +94,10 @@ static int pki_global_init(bdk_node_t node)
 static int pki_port_init(bdk_if_handle_t handle)
 {
     static int qos = 0;
-    static int next_free_pknd = 0;
 
     if (handle->ipd_port != -1)
     {
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-            handle->pknd = next_free_pknd++;
-        else
-            handle->pknd = handle->ipd_port;
+        handle->pknd = handle->ipd_port;
         if (handle->ipd_port >= 0x1000)
             bdk_fatal("IPD port too large for mapping table\n");
         __bdk_if_ipd_map[handle->ipd_port] = handle;
@@ -124,22 +119,6 @@ static int pki_port_init(bdk_if_handle_t handle)
         tag_config.s.non_tag_type = bdk_config_get(BDK_CONFIG_INPUT_TAG_TYPE);
         tag_config.s.grp = 0);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* Set the default BPID to match the PKND */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PIP_PRT_CFGBX(handle->pknd), c.s.bpid = handle->pknd);
-        /* Don't strip off FCS. We might want to see it when debugging */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PIP_SUB_PKIND_FCSX(handle->pknd/64), c.s.port_bit &= ~(1ull<<(handle->pknd&63)));
-        /* Enable checking of the FCS */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PIP_PRT_CFGX(handle->pknd), c.s.crc_en = !!(handle->flags & BDK_IF_FLAGS_HAS_FCS));
-        /* Backpressure when this port has 256 buffers in use */
-        BDK_CSR_MODIFY(c, handle->node, BDK_IPD_BPIDX_MBUF_TH(handle->pknd),
-            c.s.bp_enb = USE_PER_PORT_BACKPRESSURE;
-            c.s.page_cnt = 1);
-        /* Enable RED dropping */
-        BDK_CSR_MODIFY(c, handle->node, BDK_IPD_RED_BPID_ENABLEX(handle->pknd/64), c.s.prt_enb |= 1ull<<(handle->pknd&63));
-    }
-    else
     {
         /* Don't strip off FCS. We might want to see it when debugging */
         BDK_CSR_MODIFY(c, handle->node, BDK_IPD_SUB_PORT_FCS, c.u64 &= ~(1ull<<(handle->pknd)));
@@ -204,7 +183,6 @@ static int pko_global_init(bdk_node_t node)
     BDK_CSR_WRITE(node, BDK_PKO_REG_CMD_BUF, config.u64);
 
     /* Clear out all queue state */
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_QUEUE_PTRS);
         BDK_CSR_DEFINE(ptrs1, BDK_PKO_REG_QUEUE_PTRS1);
@@ -220,18 +198,6 @@ static int pko_global_init(bdk_node_t node)
             ptrs.s.queue = i & 0x3f;
             BDK_CSR_WRITE(node, BDK_PKO_REG_QUEUE_PTRS1, ptrs1.u64);
             BDK_CSR_WRITE(node, BDK_PKO_MEM_QUEUE_PTRS, ptrs.u64);
-        }
-    }
-    else
-    {
-        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IQUEUE_PTRS);
-        ptrs.u64 = 0;
-        ptrs.s.tail = 1;
-        ptrs.s.ipid = -1;
-        for (int i=0; i<BDK_PKO_MAX_OUTPUT_QUEUES; i++)
-        {
-            ptrs.s.qid = i;
-            BDK_CSR_WRITE(node, BDK_PKO_MEM_IQUEUE_PTRS, ptrs.u64);
         }
     }
     return 0;
@@ -252,10 +218,7 @@ static int pko_port_init(bdk_if_handle_t handle)
     int num_static_queues = 0;
     bdk_pko_next_free_queue += num_queues;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        handle->pko_port = __bdk_pko_alloc_port(handle->node);
-    else
-        handle->pko_port = handle->ipd_port;
+    handle->pko_port = handle->ipd_port;
 
 
     for (int queue=0; queue<num_queues; queue++)
@@ -264,7 +227,6 @@ static int pko_port_init(bdk_if_handle_t handle)
             return -1;
         void *buf_ptr = bdk_cmd_queue_buffer(&handle->cmd_queue[queue]);
 
-        if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
         {
             BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_QUEUE_PTRS);
             BDK_CSR_DEFINE(ptrs1, BDK_PKO_REG_QUEUE_PTRS1);
@@ -287,21 +249,6 @@ static int pko_port_init(bdk_if_handle_t handle)
             BDK_CSR_WRITE(handle->node, BDK_PKO_REG_QUEUE_PTRS1, ptrs1.u64);
             BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_QUEUE_PTRS, ptrs.u64);
         }
-        else
-        {
-            BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IQUEUE_PTRS);
-            ptrs.u64 = 0;
-            ptrs.s.s_tail   = queue == (num_static_queues - 1);
-            ptrs.s.static_p = num_static_queues > 0;
-            ptrs.s.static_q = queue < num_static_queues;
-            ptrs.s.qos_mask = 0xff;
-            ptrs.s.buf_ptr  = bdk_ptr_to_phys(buf_ptr) >> 7;
-            ptrs.s.tail     = queue == (num_queues - 1);
-            ptrs.s.index    = queue;
-            ptrs.s.ipid     = handle->pko_port;
-            ptrs.s.qid      = base_queue + queue;
-            BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IQUEUE_PTRS, ptrs.u64);
-        }
     }
     handle->pko_queue = base_queue;
 
@@ -309,33 +256,6 @@ static int pko_port_init(bdk_if_handle_t handle)
     BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_COUNT1, handle->pko_port);
 
     return 0;
-}
-
-static int __bdk_pko_memory_per_engine(int engine)
-{
-    extern int bdk_pko_next_free_engine;
-    /* CN68XX has 40KB to divide between the engines in 2KB chunks */
-    int size_per_engine = 40 / 2 / bdk_pko_next_free_engine;
-    int size;
-
-    if (engine >= bdk_pko_next_free_engine)
-    {
-        /* Unused engines get no space */
-        size = 0;
-    }
-    else if (engine == bdk_pko_next_free_engine-1)
-    {
-        /* The last engine gets all the space lost by rounding. This means
-            the ILK gets the most space */
-        size = 40 / 2 - engine * size_per_engine;
-    }
-    else
-    {
-        /* All other engines get the same space */
-        size = size_per_engine;
-    }
-
-    return size;
 }
 
 /**
@@ -346,45 +266,13 @@ static int __bdk_pko_memory_per_engine(int engine)
 static int pko_enable(bdk_node_t node)
 {
     extern int bdk_pko_next_free_queue;
-    extern int bdk_pko_next_free_engine;
     bdk_pko_reg_flags_t flags;
 
     /* If we aren't using all of the queues optimize PKO's internal memory */
-    /* <=32 is only supported on CN68XX */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX) && (bdk_pko_next_free_queue <= 32))
-        BDK_CSR_WRITE(node, BDK_PKO_REG_QUEUE_MODE, 3);
-    else if (bdk_pko_next_free_queue <= 64)
+    if (bdk_pko_next_free_queue <= 64)
         BDK_CSR_WRITE(node, BDK_PKO_REG_QUEUE_MODE, 2);
     else if (bdk_pko_next_free_queue <= 128)
         BDK_CSR_WRITE(node, BDK_PKO_REG_QUEUE_MODE, 1);
-
-    /* Optimize the PKO engine memory */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        for (int i=0; i<2; i++)
-        {
-            BDK_CSR_INIT(engine_storage, node, BDK_PKO_REG_ENGINE_STORAGEX(i));
-            engine_storage.s.engine0 = __bdk_pko_memory_per_engine(16*i + 0);
-            engine_storage.s.engine1 = __bdk_pko_memory_per_engine(16*i + 1);
-            engine_storage.s.engine2 = __bdk_pko_memory_per_engine(16*i + 2);
-            engine_storage.s.engine3 = __bdk_pko_memory_per_engine(16*i + 3);
-            engine_storage.s.engine4 = __bdk_pko_memory_per_engine(16*i + 4);
-            engine_storage.s.engine5 = __bdk_pko_memory_per_engine(16*i + 5);
-            engine_storage.s.engine6 = __bdk_pko_memory_per_engine(16*i + 6);
-            engine_storage.s.engine7 = __bdk_pko_memory_per_engine(16*i + 7);
-            engine_storage.s.engine8 = __bdk_pko_memory_per_engine(16*i + 8);
-            engine_storage.s.engine9 = __bdk_pko_memory_per_engine(16*i + 9);
-            engine_storage.s.engine10 = __bdk_pko_memory_per_engine(16*i + 10);
-            engine_storage.s.engine11 = __bdk_pko_memory_per_engine(16*i + 11);
-            engine_storage.s.engine12 = __bdk_pko_memory_per_engine(16*i + 12);
-            engine_storage.s.engine13 = __bdk_pko_memory_per_engine(16*i + 13);
-            engine_storage.s.engine14 = __bdk_pko_memory_per_engine(16*i + 14);
-            engine_storage.s.engine15 = __bdk_pko_memory_per_engine(16*i + 15);
-            BDK_CSR_WRITE(node, BDK_PKO_REG_ENGINE_STORAGEX(i), engine_storage.u64);
-        }
-        /* Enable using the internal storage for all engines */
-        BDK_CSR_WRITE(node, BDK_PKO_REG_ENGINE_THRESH, (1<<bdk_pko_next_free_engine)-1);
-    }
 
     flags.u64 = BDK_CSR_READ(node, BDK_PKO_REG_FLAGS);
     if (flags.s.ena_pko)
@@ -404,19 +292,13 @@ static int pko_enable(bdk_node_t node)
  */
 static int sso_init(bdk_node_t node)
 {
-    const int SSO_RWQ_SIZE = 256;
-    const int SSO_RWQ_COUNT = 8 + 128;
-
     /* Disable tagwait FAU timeout. This needs to be done before anyone might
         start packet output using tags */
-    bdk_iob0_fau_timeout_t fau_to;
+    bdk_iob_fau_timeout_t fau_to;
     fau_to.u64 = 0;
     fau_to.s.tout_val = 0xfff;
     fau_to.s.tout_enb = 0;
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_WRITE(node, BDK_IOB0_FAU_TIMEOUT, fau_to.u64);
-    else
-        BDK_CSR_WRITE(node, BDK_IOB_FAU_TIMEOUT, fau_to.u64);
+    BDK_CSR_WRITE(node, BDK_IOB_FAU_TIMEOUT, fau_to.u64);
 
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
@@ -432,52 +314,6 @@ static int sso_init(bdk_node_t node)
         BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
             c.s.nw_tim = 0);
     }
-
-    /* Only CN68XX needs setup */
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
-        return 0;
-
-    /* Errata FPA-15816 in CN68XX pass 1.x has the pool 8 threshold wrong */
-    BDK_CSR_MODIFY(c, node, BDK_FPA_FPF8_MARKS,
-        c.s.fpf_wr = 164);
-
-    void *buffer = memalign(BDK_CACHE_LINE_SIZE, SSO_RWQ_SIZE*(16+SSO_RWQ_COUNT));
-    if (!buffer)
-    {
-        bdk_error("Failed to allocate buffers for SSO\n");
-        return -1;
-    }
-
-    /* Initialize the SSO memory queues */
-    for (int i=0; i<8; i++)
-    {
-        BDK_CSR_WRITE(node, BDK_SSO_RWQ_HEAD_PTRX(i), bdk_ptr_to_phys(buffer));
-        BDK_CSR_WRITE(node, BDK_SSO_RWQ_TAIL_PTRX(i), bdk_ptr_to_phys(buffer));
-        buffer += SSO_RWQ_SIZE;
-    }
-
-    /* Initialize the RWQ list */
-    for (int i=0; i<SSO_RWQ_COUNT; i++)
-    {
-        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SSO_RWQ_PSH_FPTR, full, ==, 0, 1000))
-        {
-            bdk_error("BDK_SSO_RWQ_PSH_FPTR[FULL] is stuck\n");
-            return -1;
-        }
-
-        BDK_CSR_WRITE(node, BDK_SSO_RWQ_PSH_FPTR, bdk_ptr_to_phys(buffer));
-        buffer += SSO_RWQ_SIZE;
-    }
-
-    /* Enable the SSO RWI/RWO operations */
-    BDK_CSR_MODIFY(c, node, BDK_SSO_CFG,
-        c.s.dwb = BDK_USE_DWB; /* Use 2 cache line DWB for RWQ */
-        c.s.rwen = 1);
-
-    /* Workaround for errata (SSO-16306) Some customers report SSO can hang */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X))
-        BDK_CSR_MODIFY(c, node, BDK_SSO_GWE_CFG, c.cn68xx.gwe_rah = 1);
-
     return 0;
 }
 
@@ -494,9 +330,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     const bdk_wqe_t *wqe = work;
 
     /* Get the IPD port number */
-    int ipd_port = wqe->word2.v1.port;
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
-        ipd_port = wqe->word1.v1.ipprt;
+    int ipd_port = wqe->word1.v1.ipprt;
 
     packet->if_handle = __bdk_if_ipd_map[ipd_port];
     packet->length = wqe->word1.v1.len;

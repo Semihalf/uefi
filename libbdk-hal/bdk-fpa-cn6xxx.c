@@ -48,7 +48,7 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
         uint64_t addr = bdk_ptr_to_phys(buf);
         BDK_CSR_INIT(start_addr, node, BDK_FPA_POOLX_START_ADDR(pool));
         /* Being always helpful, the HW team decided to change the format of the start address on CN78XX */
-        uint64_t start = OCTEON_IS_MODEL(OCTEON_CN78XX) ? start_addr.cn78xx.addr : start_addr.cn68xx.addr;
+        uint64_t start = OCTEON_IS_MODEL(OCTEON_CN78XX) ? start_addr.cn78xx.addr : start_addr.cn70xx.addr;
         if (addr>>7 < start)
         {
             start = addr>>7;
@@ -63,7 +63,7 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
         addr += (num_blocks-1) * block_size;
         BDK_CSR_INIT(end_addr, node, BDK_FPA_POOLX_END_ADDR(pool));
         /* Being always helpful, the HW team decided to change the format of the end address on CN78XX */
-        uint64_t end = OCTEON_IS_MODEL(OCTEON_CN78XX) ? end_addr.cn78xx.addr : end_addr.cn68xx.addr;
+        uint64_t end = OCTEON_IS_MODEL(OCTEON_CN78XX) ? end_addr.cn78xx.addr : end_addr.cn70xx.addr;
         if (addr>>7 > end)
         {
             end = addr>>7;

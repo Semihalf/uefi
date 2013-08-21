@@ -58,8 +58,6 @@ static int if_num_ports(bdk_node_t node, int interface)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        return 1;
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
         return 1;
     else
@@ -188,8 +186,8 @@ static int if_init(bdk_if_handle_t handle)
                 oring1.cn78xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
         else
             BDK_CSR_MODIFY(oring1, handle->node, BDK_MIXX_ORING1(handle->index),
-                oring1.cn68xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
-                oring1.cn68xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
+                oring1.cn61xx.obase = bdk_ptr_to_phys(state->tx_ring)>>3;
+                oring1.cn61xx.osize = MGMT_PORT_NUM_TX_BUFFERS);
 
         /* Setup the RX ring */
         for (int i=0; i<MGMT_PORT_NUM_RX_BUFFERS; i++)
@@ -212,8 +210,8 @@ static int if_init(bdk_if_handle_t handle)
                 iring1.cn78xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
         else
             BDK_CSR_MODIFY(iring1, handle->node, BDK_MIXX_IRING1(handle->index),
-                iring1.cn68xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
-                iring1.cn68xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
+                iring1.cn61xx.ibase = bdk_ptr_to_phys(state->rx_ring)>>3;
+                iring1.cn61xx.isize = MGMT_PORT_NUM_RX_BUFFERS);
         BDK_CSR_WRITE(handle->node, BDK_MIXX_IRING2(handle->index), MGMT_PORT_NUM_RX_BUFFERS);
 
         /* Enable the port HW. Packets are not allowed until bdk_mgmt_port_enable() is called */

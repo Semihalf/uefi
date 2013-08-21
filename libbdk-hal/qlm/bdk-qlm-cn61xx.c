@@ -343,8 +343,6 @@ static void qlm_init(bdk_node_t node)
 {
     extern const __bdk_qlm_jtag_field_t __bdk_qlm_jtag_field_cn61xx[];
     __bdk_qlm_jtag_init(__bdk_qlm_jtag_field_cn61xx);
-    extern void __bdk_qlm_chip_tweak_5Ghz_G16467(void);
-    __bdk_qlm_chip_tweak_5Ghz_G16467();
 }
 
 

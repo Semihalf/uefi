@@ -206,8 +206,8 @@ static int init_link(bdk_if_handle_t handle)
                        control_reg.s.pwr_dn = 0);
     }
 
-    /* CN68XX adds the padding and FCS in PKO, not GMX */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    /* CN78XX adds the padding and FCS in PKO, not GMX */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_APPEND(gmx_block, gmx_index),
             c.s.fcs = 0;
             c.s.pad = 0);
@@ -360,7 +360,7 @@ static int if_init(bdk_if_handle_t handle)
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         /* Configure the PKO internal port mappings */
         int pipe = __bdk_pko_alloc_pipe(handle->node, 1);

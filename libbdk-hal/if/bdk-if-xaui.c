@@ -4,8 +4,6 @@ static int if_num_interfaces(bdk_node_t node)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        return 5;
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         return 0; /* Covered by bdk-if-bgx */
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
@@ -48,16 +46,8 @@ static int if_probe(bdk_if_handle_t handle)
         snprintf(handle->name, sizeof(handle->name), "N%d.XAUI%d", handle->node, handle->interface);
     handle->name[sizeof(handle->name)-1] = 0;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* Use IPD ports 0x840, 0x940, ... */
-        handle->ipd_port = 0x840 + handle->interface*0x100;
-    }
-    else
-    {
-        /* Use IPD ports 0, 4, 8, ... */
-        handle->ipd_port = handle->interface*16 + handle->index;
-    }
+    /* Use IPD ports 0, 4, 8, ... */
+    handle->ipd_port = handle->interface*16 + handle->index;
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
@@ -88,16 +78,6 @@ static int xaui_link_init(bdk_if_handle_t handle)
     /* (4)c Power up the interface */
     BDK_CSR_MODIFY(xauiCtl, handle->node, BDK_PCSXX_CONTROL1_REG(gmx_block),
         xauiCtl.s.lo_pwr = 0);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX_PASS2_X) && (gmx_block != 1))
-    {
-        extern void __bdk_qlm_powerup_G16467_part2(int qlm);
-        /* Note that GMX 1 was skipped as GMX0 is on the same QLM and
-            will always be done first */
-        /* Errata (G-16467) QLM 1/2 speed at 6.25 Gbaud, excessive
-            QLM jitter for 6.25 Gbaud */
-        __bdk_qlm_powerup_G16467_part2(bdk_qlm_get(handle->node, BDK_IF_XAUI, gmx_block));
-    }
 
     /* Wait for PCS to come out of reset */
     if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_PCSXX_CONTROL1_REG(gmx_block), reset, ==, 0, 10000))
@@ -164,7 +144,6 @@ static int xaui_link_init(bdk_if_handle_t handle)
     );
     BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TX_INT_EN(gmx_block),
         c.s.pko_nxa = -1;
-        c.s.pko_nxp = -1;
         c.s.ptp_lost = -1;
         c.s.undflw = -1;
     );
@@ -175,37 +154,6 @@ static int xaui_link_init(bdk_if_handle_t handle)
 static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* Configure the PKO internal port mappings */
-        int pipe = __bdk_pko_alloc_pipe(handle->node, 1);
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_PIPE(gmx_block, 0),
-            c.s.nump = 1;
-            c.s.base = pipe);
-        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-        ptrs.u64 = 0;
-        ptrs.s.qos_mask = 0xff; /* QOS rounds */
-        ptrs.s.crc = 1;         /* Use CRC on packets */
-        ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
-        ptrs.s.pipe = pipe;     /* Which PKO pipe */
-        ptrs.s.intr = gmx_block*4;  /* Which interface */
-        ptrs.s.eid = __bdk_pko_alloc_engine(handle->node);
-        ptrs.s.ipid = handle->pko_port;
-        BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* Setup PKIND */
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, 0),
-            c.s.pknd = handle->pknd);
-
-        /* Setup BPID */
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_BPID_MAPX(gmx_block, 0),
-            c.s.val = 1;
-            c.s.bpid = handle->pknd);
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_BPID_MSK(gmx_block),
-            c.s.msk_or |= 1;
-            c.s.msk_and &= ~1);
-    }
 
     /* Due to errata GMX-700 on CN56XXp1.x and CN52XXp1.x, the interface
         needs to be enabled before IPD otherwise per port backpressure
@@ -241,12 +189,6 @@ static int if_init(bdk_if_handle_t handle)
 
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(handle->node, BDK_GMXX_RXX_JABBER(gmx_block, 0), 65535);
-
-    /* CN68XX adds the padding and FCS in PKO, not GMX */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_APPEND(gmx_block, 0),
-            c.s.fcs = 0;
-            c.s.pad = 0);
 
     xaui_link_init(handle);
     return 0;
@@ -289,12 +231,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         (pcsxx_status1_reg.s.rcv_lnk == 1))
     {
         int qlm = bdk_qlm_get(handle->node, BDK_IF_XAUI, handle->interface);
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        {
-            BDK_CSR_INIT(qlm_cfg, handle->node, BDK_MIO_QLMX_CFG(qlm));
-            result.s.lanes = (qlm_cfg.s.qlm_cfg == 7) ? 2 : 4;
-        }
-        else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX))
             result.s.lanes = 2; /* CN70XX is RXAUI */
         else
             result.s.lanes = 4;

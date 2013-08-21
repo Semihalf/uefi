@@ -162,11 +162,6 @@ void __bdk_config_init(void)
             be left out of the minimal BDK */
         num_packet_buffers = 256;
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* L2 is big, so use more buffers */
-        num_packet_buffers = 1536;
-    }
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         num_packet_buffers = 256;

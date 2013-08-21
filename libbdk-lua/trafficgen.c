@@ -265,31 +265,11 @@ static int trafficgen_do_update(bool do_clear)
             }
             case BDK_IF_ILK:
             {
-                if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-                {
-                    int interface = tg_port->handle->interface;
-                    int pko_port = tg_port->handle->pko_port;
-                    if (pko_port < 64)
-                    {
-                        BDK_CSR_INIT(ilk_rxx_flow, tg_port->handle->node, BDK_ILK_RXX_FLOW_CTL0(interface));
-                        if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
-                            tg_port->pinfo.stats.rx_backpressure++;
-                    }
-                    else
-                    {
-                        BDK_CSR_INIT(ilk_rxx_flow, tg_port->handle->node, BDK_ILK_RXX_FLOW_CTL1(interface));
-                        if (ilk_rxx_flow.s.status & (1ull << (pko_port & 63)))
-                            tg_port->pinfo.stats.rx_backpressure++;
-                    }
-                }
-                else
-                {
-                    int chunk = tg_port->handle->index >> 6;
-                    int bit = tg_port->handle->index & 63;
-                    BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX(tg_port->handle->interface, chunk));
-                    if (ilk_rxx_cha_xonx.u & (1ull << bit))
-                        tg_port->pinfo.stats.rx_backpressure++;
-                }
+                int chunk = tg_port->handle->index >> 6;
+                int bit = tg_port->handle->index & 63;
+                BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX(tg_port->handle->interface, chunk));
+                if (ilk_rxx_cha_xonx.u & (1ull << bit))
+                    tg_port->pinfo.stats.rx_backpressure++;
                 break;
             }
             case BDK_IF_BGX:

@@ -251,7 +251,7 @@ local function do_prbs(mode)
             output_line(qlm_base, "", function(qlm, lane)
                 return "Lane " .. lane
             end)
-            if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+            if octeon.is_model(octeon.CN61XX) then
                 output_line(qlm_base, "TX amplitude(biasdrv)", function(qlm, lane)
                     if octeon.c.bdk_qlm_jtag_get(qlm, lane, "serdes_tx_byp") == 1 then
                         return octeon.c.bdk_qlm_jtag_get(qlm, lane, "biasdrv_hs_ls_byp")
@@ -358,12 +358,12 @@ function qlm_tuning.run()
         local current_qlm = (num_lanes == 2) and "DLM" or "QLM"
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
-        if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+        if octeon.is_model(octeon.CN61XX) then
             m:item("txparm", "Change TX parameters", change_tx, qlm_tuning.qlm)
             m:item("rxparm", "Change RX parameters", change_rx, qlm_tuning.qlm)
         end
         m:item("down",   "Reset and power down", octeon.c.bdk_qlm_reset, node, qlm_tuning.qlm)
-        if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+        if octeon.is_model(octeon.CN61XX) then
             m:item("loop1", "Shallow loopback lane 0 and 3", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 1)
             m:item("loop3", "Shallow loopback lane 1 and 2", octeon.c.bdk_qlm_enable_loop, node, qlm_tuning.qlm, 2)
         end
@@ -371,7 +371,7 @@ function qlm_tuning.run()
         m:item("prbs15", "PRBS-15", do_prbs, 15)
         m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
-        if octeon.is_model(octeon.CN61XX) or octeon.is_model(octeon.CN68XX) then
+        if octeon.is_model(octeon.CN61XX) then
             m:item("read",   "Read JTAG field",     read_jtag, qlm_tuning.qlm)
             m:item("write",  "Write JTAG field",    write_jtag, qlm_tuning.qlm)
             m:item("dump",   "Dump JTAG chain",     octeon.c.bdk_qlm_dump_jtag, qlm_tuning.qlm)

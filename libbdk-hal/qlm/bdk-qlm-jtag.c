@@ -63,7 +63,6 @@ void __bdk_qlm_jtag_init(const __bdk_qlm_jtag_field_t *fields)
     jtgc.s.mux_sel = 0;
     int bypass = (1<<bdk_qlm_get_num(bdk_numa_local()))-1;
     jtgc.s.bypass = bypass;
-    jtgc.s.bypass_ext = bypass >> 4;
     BDK_CSR_WRITE(bdk_numa_local(), BDK_CIU_QLM_JTGC, jtgc.u64);
     BDK_CSR_READ(bdk_numa_local(), BDK_CIU_QLM_JTGC);
 

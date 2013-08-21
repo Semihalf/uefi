@@ -54,7 +54,6 @@ static int if_init(bdk_if_handle_t handle)
         pip_prt_cfg.s.hg_qos = 1;
         pip_prt_cfg.s.skip = header_size);
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
     {
         /* Setup some sample QoS defaults. These can be changed later */
         for (int i=0; i<64; i++)

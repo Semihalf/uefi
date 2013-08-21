@@ -1,6 +1,5 @@
 CHIP_TO_MODEL = {
-    "cn68xx":   "OCTEON_CN68XX", # FIXME: Need pass also if we have CSRs for differnet passes
-    "cn61xx":   "OCTEON_CN61XX",
+    "cn61xx":   "OCTEON_CN61XX", # FIXME: Need pass also if we have CSRs for differnet passes
     "cn78xx":   "OCTEON_CN78XX",
     "cn70xx":   "OCTEON_CN70XX",
 }

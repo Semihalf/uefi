@@ -4,8 +4,6 @@ static int if_num_interfaces(bdk_node_t node)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN61XX))
         return 2;
-    else if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        return 5;
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         return 0; /* Covered by bdk-if-bgx */
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
@@ -44,12 +42,6 @@ static int if_probe(bdk_if_handle_t handle)
         snprintf(handle->name, sizeof(handle->name), "N%d.SGMII%d.%d", handle->node, handle->interface, handle->index);
     handle->name[sizeof(handle->name)-1] = 0;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
-        handle->ipd_port = 0x800 + handle->interface*0x100 + handle->index*0x10;
-    }
-    else
     {
         /* Use IPD ports 0 - 3 */
         handle->ipd_port = handle->interface*16 + handle->index;
@@ -131,12 +123,6 @@ static int init_link(bdk_if_handle_t handle)
                        control_reg.s.pwr_dn = 0);
     }
 
-    /* CN68XX adds the padding and FCS in PKO, not GMX */
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_APPEND(gmx_block, gmx_index),
-            c.s.fcs = 0;
-            c.s.pad = 0);
-
     /* Enable error reporting */
     BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_RXX_INT_EN(gmx_block, gmx_index),
         c.s.bad_seq = -1;
@@ -154,7 +140,6 @@ static int init_link(bdk_if_handle_t handle)
     );
     BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TX_INT_EN(gmx_block),
         c.s.pko_nxa = -1;
-        c.s.pko_nxp = -1;
         c.s.ptp_lost = -1;
         c.s.undflw = -1;
     );
@@ -271,37 +256,6 @@ static int if_init(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-    {
-        /* Configure the PKO internal port mappings */
-        int pipe = __bdk_pko_alloc_pipe(handle->node, 1);
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_PIPE(gmx_block, gmx_index),
-            c.s.nump = 1;
-            c.s.base = pipe);
-        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-        ptrs.u64 = 0;
-        ptrs.s.qos_mask = 0xff; /* QOS rounds */
-        ptrs.s.crc = 1;         /* Use CRC on packets */
-        ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
-        ptrs.s.pipe = pipe;     /* Which PKO pipe */
-        ptrs.s.intr = gmx_block*4 + gmx_index;  /* Which interface */
-        ptrs.s.eid = __bdk_pko_alloc_engine(handle->node);
-        ptrs.s.ipid = handle->pko_port;
-        BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* Setup PKIND */
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index),
-            c.s.pknd = handle->pknd);
-
-        /* Setup BPID */
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_BPID_MAPX(gmx_block, gmx_index),
-            c.s.val = 1;
-            c.s.bpid = handle->pknd);
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_BPID_MSK(gmx_block),
-            c.s.msk_or |= 1<<handle->index;
-            c.s.msk_and &= ~(1<<handle->index));
-    }
 
     if (gmx_index == 0)
     {

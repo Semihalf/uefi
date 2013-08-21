@@ -62,7 +62,7 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
     extern void *octeon_remote_debug_handler2_end;
     extern void *octeon_remote_debug_handler3_begin;
     extern void *octeon_remote_debug_handler3_end;
-    int is_octeon2 = OCTEON_IS_MODEL(OCTEON_CN61XX) || OCTEON_IS_MODEL(OCTEON_CN68XX);
+    int is_octeon2 = OCTEON_IS_MODEL(OCTEON_CN61XX);
     void *handler_begin = (is_octeon2) ? &octeon_remote_debug_handler2_begin : &octeon_remote_debug_handler3_begin;
     void *handler_end = (is_octeon2) ? &octeon_remote_debug_handler2_end : &octeon_remote_debug_handler3_end;
 
@@ -84,9 +84,7 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
         else
         {
             /* The debug stub requires SIZE*(1 + num_cores) */
-            if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-                debug_handler_base = 0x400000 - DEBUG_CORE_STATE_SIZE * (32 + 1);
-            else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+            if (OCTEON_IS_MODEL(OCTEON_CN61XX))
                 debug_handler_base = 0x100000 - DEBUG_CORE_STATE_SIZE * (4 + 1);
             else if (OCTEON_IS_MODEL(OCTEON_CN70XX)) // FIXME: Cache not big enough, now what?
                 debug_handler_base = 0x80000 - DEBUG_CORE_STATE_SIZE * (4 + 1);

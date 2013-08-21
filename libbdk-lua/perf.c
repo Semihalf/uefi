@@ -25,7 +25,7 @@ static int l2_perf(lua_State* L)
         lua_newtable(L);
 
     /* Number of TADs change for each chip */
-    int num_tads = OCTEON_IS_MODEL(OCTEON_CN68XX) ? 4 : 1;
+    int num_tads = OCTEON_IS_MODEL(OCTEON_CN78XX) ? 4 : 1;
     for (int tad=0; tad<num_tads; tad++)
     {
         /* Name the TAD table */

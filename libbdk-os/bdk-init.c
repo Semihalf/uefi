@@ -166,14 +166,11 @@ void __bdk_init(long base_address)
             else
                 l2c_tadx_int.cn70xx.rddislmc = 1;
             BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
-            if (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             {
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(2), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(3), l2c_tadx_int.u64);
-            }
-            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-            {
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(4), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(5), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(6), l2c_tadx_int.u64);

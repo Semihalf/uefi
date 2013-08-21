@@ -23,18 +23,8 @@ int bdk_l2c_initialize(bdk_node_t node)
         uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
         if (rclk < sclk * 3)
         {
-            if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-            {
-                BDK_CSR_MODIFY(c, node, BDK_IOB0_CTL_STATUS, c.s.fif_dly = 0);
-                BDK_CSR_READ(node, BDK_IOB0_CTL_STATUS);
-                BDK_CSR_MODIFY(c, node, BDK_IOB1_CTL_STATUS, c.s.fif_dly = 0);
-                BDK_CSR_READ(node, BDK_IOB1_CTL_STATUS);
-            }
-            else
-            {
-                BDK_CSR_MODIFY(c, node, BDK_IOB_CTL_STATUS, c.s.fif_dly = 0);
-                BDK_CSR_READ(node, BDK_IOB_CTL_STATUS);
-            }
+            BDK_CSR_MODIFY(c, node, BDK_IOB_CTL_STATUS, c.s.fif_dly = 0);
+            BDK_CSR_READ(node, BDK_IOB_CTL_STATUS);
         }
     }
 
@@ -77,8 +67,6 @@ int bdk_l2c_set_hw_way_partition(bdk_node_t node, uint32_t mask)
     mask &= valid_mask;
 
     BDK_CSR_WRITE(node, BDK_L2C_WPAR_IOBX(0), mask);
-    if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-        BDK_CSR_WRITE(node, BDK_L2C_WPAR_IOBX(1), mask);
     return 0;
 }
 
@@ -159,9 +147,7 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
     if (bdk_unlikely(l2_node_state[node].set_bits == 0))
     {
         int l2_set_bits;
-        if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-            l2_set_bits =  11; /* 2048 sets */
-        else if (OCTEON_IS_MODEL(OCTEON_CN61XX))
+        if (OCTEON_IS_MODEL(OCTEON_CN61XX))
             l2_set_bits =  9; /* 512 sets */
         else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             l2_set_bits =  13; /* 8192 sets */

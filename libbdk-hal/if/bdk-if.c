@@ -166,7 +166,7 @@ static int __bdk_if_init_node(bdk_node_t node)
         return -1;
 
     /* Make sure SMI/MDIO is enabled so we can query PHYs */
-    int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN68XX) || OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
+    int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
     for (int i=0; i<num_mdio; i++)
     {
         BDK_CSR_INIT(smix_en, node, BDK_SMIX_EN(i));

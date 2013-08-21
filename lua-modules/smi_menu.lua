@@ -73,7 +73,7 @@ local m = menu.new("SMI/MDIO Menu")
 
 -- Build a list of smi busses
 local smi_busses = 2
-if octeon.is_model(octeon.CN68XX) or octeon.is_model(octeon.CN78XX) then
+if octeon.is_model(octeon.CN78XX) then
     smi_busses = 4
 end
 for bus = 0, smi_busses-1 do

@@ -413,7 +413,6 @@ static void enable_agx_cn70xx(bdk_node_t node, int index)
         c.s.xsdef = -1;
         c.s.xscol = -1;
         c.s.undflw = -1;
-        c.s.pko_nxp = -1;
         c.s.pko_nxa = -1);
     for (int port=0; port<4; port++)
     {

@@ -50,7 +50,6 @@
 #include "bdk-mpi.h"
 #include "bdk-nand.h"
 #include "bdk-pcie.h"
-#include "bdk-pko.h"
 #include "bdk-qlm.h"
 #include "bdk-rng.h"
 #include "bdk-swap.h"
