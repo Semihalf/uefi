@@ -3,6 +3,8 @@
 
 // Module for interfacing with a remote Octeon
 
+#define TLB_SIZE 256
+
 /**
  * oremote.open(protocol, debug)
  * protocol = Remote protocol or nil
@@ -211,7 +213,7 @@ static int oremote_get_running_cores(lua_State* L)
  * Returns table
  * table[1][1-256] = Normal registers
  * table[2][1-256] = COP0 reg * 8 + sel
- * table[3][1-128][1-4] = TLB
+ * table[3][1-TLB_SIZE][1-4] = TLB
  *
  * @param L
  *
@@ -242,10 +244,10 @@ static int oremote_get_core_state(lua_State* L)
         lua_settable(L, -3);
     }
 
-    /* Index 3 = TLB table [128][4] */
+    /* Index 3 = TLB table [TLB_SIZE][4] */
     lua_pushinteger(L, 3);
-    lua_createtable(L, 128, 0);
-    for (int tlb=0; tlb<128; tlb++)
+    lua_createtable(L, TLB_SIZE, 0);
+    for (int tlb=0; tlb<TLB_SIZE; tlb++)
     {
         lua_pushinteger(L, tlb+1);
         lua_createtable(L, 4, 0);
@@ -292,10 +294,10 @@ static int oremote_set_core_state(lua_State* L)
         lua_pop(L, 1);
     }
 
-    /* Index 3 = TLB table [128][4] */
+    /* Index 3 = TLB table [TLB_SIZE][4] */
     lua_pushinteger(L, 3);
     lua_gettable(L, 2);
-    for (int tlb=0; tlb<128; tlb++)
+    for (int tlb=0; tlb<TLB_SIZE; tlb++)
     {
         lua_pushinteger(L, tlb+1);
         lua_gettable(L, -2);
