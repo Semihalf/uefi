@@ -32,7 +32,7 @@ endif
 #
 CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
 CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/mipsisa64-octeon-elf/include
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -Os -g -march=octeon2 -std=gnu99 -fno-asynchronous-unwind-tables
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -Os -g -march=octeon3 -std=gnu99 -fno-asynchronous-unwind-tables
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles
