@@ -21,7 +21,7 @@ require("octeon")
 
 -- Do board specific setup
 if octeon.is_model(octeon.CN70XX) then
-    menu.dofile("board-ebb7000")
+    menu.dofile("board-evb7000")
 elseif octeon.is_model(octeon.CN78XX) then
     menu.dofile("board-ebb7800")
 end

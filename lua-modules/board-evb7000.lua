@@ -1,5 +1,5 @@
--- Configure the BDK for a ebb7000 board.
-print("Configuring for the EBB7000")
+-- Configure the BDK for a evb7000 board.
+print("Configuring for the EVB7000")
 
 local set_config = octeon.c.bdk_config_set
 
