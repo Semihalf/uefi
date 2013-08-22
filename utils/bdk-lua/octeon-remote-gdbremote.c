@@ -1283,8 +1283,8 @@ static int gdbremote_reset(int stop_core)
             break;
     }
 
-    /* Wait for possible response */
-    usleep(500000);
+    /* Wait for possible response. Trace32 seems to need a second */
+    usleep(1000000);
     do
     {
         i = recv(gdb_core[core].sock_fd, response, sizeof(response), MSG_DONTWAIT);
