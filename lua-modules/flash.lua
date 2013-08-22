@@ -6,11 +6,12 @@ require("fileio")
 require("menu")
 
 local option = ""
+local node = 0
 
 while (option ~= "quit") do
     local m = menu.new("Flash Menu")
     m:item("init", "Query for NOR flash", function()
-        octeon.c.bdk_flash_initialize()
+        octeon.c.bdk_flash_initialize(node)
     end)
     -- Only check the first two chip selects as nobody has ever put a flash
     -- on any of the others
