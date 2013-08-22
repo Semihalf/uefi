@@ -3,8 +3,6 @@
 
 // Module for interfacing with a remote Octeon
 
-#define TLB_SIZE 256
-
 /**
  * oremote.open(protocol, debug)
  * protocol = Remote protocol or nil

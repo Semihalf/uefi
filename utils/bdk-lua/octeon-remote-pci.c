@@ -724,7 +724,7 @@ static int pci_get_core_state(int core, octeon_remote_registers_t *registers)
         for (j=0; j<256; j++)
             registers->regs[i][j] = bdk_be64_to_cpu(registers->regs[i][j]);
 
-    for (i=0; i<128; i++)
+    for (i=0; i<TLB_SIZE; i++)
         for (j=0; j<4; j++)
             registers->tlb[i][j] = bdk_be64_to_cpu(registers->tlb[i][j]);
 
@@ -756,7 +756,7 @@ static int pci_set_core_state(int core, const octeon_remote_registers_t *registe
         for (j=0; j<256; j++)
             debug.regs[i][j] = bdk_be64_to_cpu(registers->regs[i][j]);
 
-    for (i=0; i<128; i++)
+    for (i=0; i<TLB_SIZE; i++)
         for (j=0; j<4; j++)
             debug.tlb[i][j] = bdk_be64_to_cpu(registers->tlb[i][j]);
 

@@ -845,7 +845,7 @@ static int macraigor_get_core_state(int core, octeon_remote_registers_t *registe
 
     /* FIXME: The probe will truncate 64bit EntryLo* registers to 32bits */
 
-    int tlb_num = 128;
+    int tlb_num = TLB_SIZE;
     int tlb_per_transfer = 16;
 
     int index;

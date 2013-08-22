@@ -67,10 +67,11 @@ extern "C" {
  * - tlb[*][2] = EntryLo0
  * - tlb[*][3] = EntryLo1
  */
+#define TLB_SIZE 256
 typedef struct
 {
     uint64_t regs[2][256];
-    uint64_t tlb[256][4];
+    uint64_t tlb[TLB_SIZE][4];
 } octeon_remote_registers_t;
 
 /**
