@@ -79,12 +79,12 @@ structs:
           const: "--"
         description: Reserved.
 
-      - name: AURA
+      - name: LAURA
         bits: 25..16
         attributes:
           const: "--"
         description: |
-          Aura number. Local node's aura; the aura<11:10> node number portion is assumed to be the
+          Local node aura number. The aura<11:10> node number portion is assumed to be the
           node to which the operation is sent.
 
       - name: --
@@ -137,12 +137,12 @@ structs:
           const: "--"
         description: Reserved.
 
-      - name: AURA
+      - name: LAURA
         bits: 25..16
         attributes:
           const: "--"
         description: |
-          Aura number. Local node's aura; the aura<11:10> node number portion is assumed to be the
+          Local node aura number. The aura<11:10> node number portion is assumed to be the
           node to which the operation is sent.
 
       - name: --
@@ -224,12 +224,12 @@ structs:
           const: "--"
         description: Free absolute. See Core Requests.
 
-      - name: AURA
+      - name: LAURA
         bits: 25..16
         attributes:
           const: "--"
         description: |
-          Aura number. Local node's aura; the aura<11:10> node number portion is assumed to be the
+          Local node aura number. The aura<11:10> node number portion is assumed to be the
           node to which the operation is sent.
 
       - name: --
