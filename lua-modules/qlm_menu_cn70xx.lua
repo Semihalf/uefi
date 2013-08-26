@@ -51,7 +51,7 @@ function qlm_setup_cn70xx()
 
     local m = menu.new("DLM0 Mode")
     m:item("xa", "RXAUI   lanes 0-1",              setup_dlm0, octeon.QLM_MODE_RXAUI_1X2,       6250, 0)
-    m:item("ss", "SGMII   lane 0, SGMII   lane 1", setup_dlm0, octeon.QLM_MODE_SGMII_SQMII,     1250, 0)
+    m:item("ss", "SGMII   lane 0, SGMII   lane 1", setup_dlm0, octeon.QLM_MODE_SGMII_SGMII,     1250, 0)
     m:item("sq", "SGMII   lane 0, QSGMII  lane 1", setup_dlm0, octeon.QLM_MODE_SGMII_QSGMII,    5000, 0)
     m:item("sd", "SGMII   lane 0, Disable lane 1", setup_dlm0, octeon.QLM_MODE_SGMII_DISABLED,  1250, 0)
     m:item("qs", "QSGMII  lane 0, SGMII   lane 1", setup_dlm0, octeon.QLM_MODE_QSGMII_SGMII,    5000, 0)
