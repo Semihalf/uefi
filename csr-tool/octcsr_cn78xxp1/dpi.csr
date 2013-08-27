@@ -126,6 +126,13 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See DPI_ECC_INT[RAM_SBE<a>].
 
+      - name: DPI_DMA_PP(0..47)_INT
+        value: 0xDF053 + a
+        attributes:
+          exempt_natural_alignment: "a"
+          intsn_lsb_mismatch: "True"
+        description: See DPI_DMA_PP_INT[COMPLETE<a>].
+
 
 structs:
   - name: DPI_DMA_INSTR_HDR_S
@@ -807,6 +814,26 @@ registers:
         reset: 0x0
         typical: 0x0
         description: The SWA VMID for Queue 0.
+
+
+  - name: DPI_DMA_PP_INT
+    title: DPI DMA Per-Core Instruction Completion Interrupt Register
+    address: 0x1DF0000000038
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..48
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: COMPLETE
+        bits: 47..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: DPI DMA per-core instruction completion interrupt.  See DPI_DMA_PP(0..47)_CNT.
 
 
   - name: DPI_CTL
@@ -1868,10 +1895,9 @@ registers:
         description: |
           DPI DMA per-core instruction completion counter. The counter is incremented according to
           conditions described below and is decremented by values written to this field. A CNT of
-          nonzero causes an interrupt in TBD.
-          When DPI_DMA_CONTROL[DICI_MODE] is enabled, every DMA instruction that has the WQP=0 and a
-          PTR value of 1 to 0x30 will increment DPI_DMA_PP(0..47)_CNT value-1 counter. Instructions
-          with WQP=0 and PTR values higher than 0x3F will still send a zero byte write.
+          nonzero causes an interrupt in DPI_DMA_PP_INT.
+          Each DMA instruction that has the DPI_DMA_INSTR_HDR[PT]==CNT and a
+          PTR value of 1 to 0x30 will increment DPI_DMA_PP(0..47)_CNT value-1 counter.
           Hardware reserves the values 0x31 to 0x3F for future use and will treat them as a PTR of 0
           and do nothing.
 

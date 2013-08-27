@@ -894,10 +894,9 @@ registers:
       EID==15 can be used for unused PKO-internal ports.
       BP_PORT==63 means that the PKO-internal port is not backpressured.
       BP_PORTs are assumed to belong to an interface as follows:
-      40 <= BP_PORT < 41 -> AGL        interface
       36 <= BP_PORT < 40 -> loopback   interface
       32 <= BP_PORT < 36 -> PCIe       interface
-      0  <= BP_PORT < 16 -> SGMII/Xaui interface 0
+      0  <= BP_PORT < 16 -> GMX        interface 0
       The reset configuration is the following:
       PID EID(ext port) BP_PORT QOS_MASK STATIC_P
       -------------------------------------------
@@ -986,7 +985,7 @@ registers:
         typical: 0x0
         description: |
           PID listens to BP_PORT for per-packet backpressure
-          Legal BP_PORTs: 0-15, 32-39, 63 (63 means no BP)
+          Legitimate BP_PORTs: 0-15, 32-39, 63 (63 means no BP)
 
       - name: EID
         bits: 9..6

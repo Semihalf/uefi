@@ -165,7 +165,53 @@ registers:
     description: This register has additional configuration and control bits for the LMC.
     fields:
       - name: --
-        bits: 63..21
+        bits: 63..29
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CAL_ENA
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Set to cause LMC to operate in CAL mode.  DRAM mode registers must first be
+          programmed into CAL mode, then set CAL_ENABLE.
+
+      - name: --
+        bits: 27
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PAR_INCLUDE_A17
+        bits: 26
+        access: R/W
+        reset: 1
+        typical: 1
+        description: If set, include A17 in parity calculations in DDR4 mode.
+
+      - name: PAR_INCLUDE_BG1
+        bits: 25
+        access: R/W
+        reset: 1
+        typical: 1
+        description: If set, include BG1 in parity calculations in DDR4 mode.
+
+      - name: GEN_PAR
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Enable parity generation in the DRAM commands, must be set prior to enabling
+          parity in register or DRAM devices
+
+      - name: --
+        bits: 23..21
         access: --
         reset: --
         typical: --

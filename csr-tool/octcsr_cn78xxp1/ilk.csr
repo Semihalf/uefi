@@ -1295,33 +1295,31 @@ registers:
 
       - name: GRNLRTY
         bits: 49..48
-        access: R/W
+        access: RO
         reset: 0x0
         typical: --
-        description: Granularity of a token, where 1 token equal (1<<GRNLRTY) bytes.
+        description: Reserved.
 
       - name: BRST_LIMIT
         bits: 47..32
         access: R/W
         reset: 0x400
         typical: --
-        description: |
-          Size of token bucket, also the maximum quantity of data that can be burst across the
-          interface before invoking rate-limiting logic.
+        description: Reserved.
 
       - name: TIME_LIMIT
         bits: 31..16
         access: R/W
         reset: 0x100
         typical: --
-        description: Number of cycles per time interval. Must be >= 4.
+        description: Reserved.
 
       - name: RATE_LIMIT
         bits: 15..0
         access: R/W
         reset: 0x400
         typical: --
-        description: Number of tokens added to the bucket when the interval timer expires.
+        description: Reserved.
 
 
   - name: ILK_TX(0..1)_DBG

@@ -166,7 +166,7 @@ enums:
           reg_name: "GPIO_MC_INTR(4..7)"
         description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>].
 
-      - name: SW_MBOX(0..512)
+      - name: SW_MBOX(0..511)
         value: 0x04000 + a
         attributes:
           bit_name: ""
@@ -628,6 +628,18 @@ enums:
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
         description: See LAP0/1_GEN_INT[NBR_DBE].
+
+      - name: LAP(0..1)_GEN_XID_BAD
+        value: 0x0C012 + a*0x01000
+        attributes:
+          bit_name: "XID_BAD"
+          bit_num: "18"
+          blk_enum_name: "LAP_INTSN_E"
+          major_name: "LAP(0..1)"
+          major_val: "(0xC+a)"
+          reg_addr: "(0x118000C010010|a<<24)"
+          reg_name: "LAP(0..1)_GEN_INT"
+        description: See LAP0/1_GEN_INT[XID_BAD].
 
       - name: MIX(0..1)_ODBLOVF
         value: 0x10000 + a*0x10
@@ -7513,6 +7525,20 @@ enums:
           reg_addr: "(0x1DF0000000020)"
           reg_name: "DPI_ECC_INT"
         description: See DPI_ECC_INT[RAM_SBE<a>].
+
+      - name: DPI_DMA_PP(0..47)_INT
+        value: 0xDF053 + a
+        attributes:
+          bit_name: "COMPLETE<a>"
+          bit_num: "0+a"
+          blk_enum_name: "DPI_INTSN_E"
+          exempt_natural_alignment: "a"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000038)"
+          reg_name: "DPI_DMA_PP_INT"
+        description: See DPI_DMA_PP_INT[COMPLETE<a>].
 
       - name: BGX(0..5)_CMR(0..3)_INT_PAUSE_DRP
         value: 0xE0000 + a*0x1000 + b*0x40

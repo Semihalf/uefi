@@ -276,8 +276,15 @@ registers:
     bus: RSL
     description: General control and status of the PEM.
     fields:
+      - name: --
+        bits: 63..51
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: INV_DPAR
-        bits: 63
+        bits: 50
         access: R/W
         reset: 0
         typical: 0
@@ -287,7 +294,7 @@ registers:
           to force a parity error when it is later read.
 
       - name: INV_HPAR
-        bits: 62
+        bits: 49
         access: R/W
         reset: 0
         typical: 0
@@ -297,7 +304,7 @@ registers:
           to force a parity error when it is later read.
 
       - name: INV_RPAR
-        bits: 61
+        bits: 48
         access: R/W
         reset: 0
         typical: 0
@@ -307,43 +314,35 @@ registers:
           a parity error when it is later read.
 
       - name: AUTO_SD
-        bits: 60
+        bits: 47
         access: RO
         reset: --
         typical: --
         description: Link Hardware Autonomous Speed Disable.
 
       - name: DNUM
-        bits: 59..55
+        bits: 46..42
         access: RO
         reset: --
         typical: --
         description: Primary bus device number.
 
       - name: PBUS
-        bits: 54..47
+        bits: 41..34
         access: RO
         reset: --
         typical: --
         description: Primary bus number.
 
-      - name: NO_FWD_PRG
-        bits: 46..31
-        access: R/W
-        reset: 0x0
-        typical: 0x20
-        description: |
-          The time x 0x10000 in core clocks to wait for the
-          TLP FIFOs to be able to unload an entry. If there is
-          no forward progress, such that the timeout occurs,
-          credits will be returned to the SLI and an interrupt
-          (if enabled) will be asserted. Any more TLPs received
-          will be dropped on the floor and the credits
-          associated with those TLPs will be returned, as well.
-          This state will hold until a mac reset is received.
+      - name: --
+        bits: 33..32
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: CFG_RTRY
-        bits: 30..15
+        bits: 31..16
         access: R/W
         reset: 0x0
         typical: 0x20
@@ -358,14 +357,14 @@ registers:
           either successful completion or CPL UR.
 
       - name: SPARES
-        bits: 14..11
+        bits: 15..12
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Spares flops.
 
       - name: PM_XTOFF
-        bits: 10
+        bits: 11
         access: R/W/H
         reset: 0
         typical: 0
@@ -374,7 +373,7 @@ registers:
           to the PCIe core pm_xmt_turnoff port. RC mode.
 
       - name: PM_XPME
-        bits: 9
+        bits: 10
         access: R/W/H
         reset: 0
         typical: 0
@@ -383,13 +382,20 @@ registers:
           to the PCIe core pm_xmt_pme port. EP mode.
 
       - name: OB_P_CMD
-        bits: 8
+        bits: 9
         access: R/W/H
         reset: 0
         typical: 0
         description: |
           When WRITTEN with a '1' a single cycle pulse is
           to the PCIe core outband_pwrup_cmd port. EP mode.
+
+      - name: --
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Reserved.
 
       - name: --
         bits: 7
@@ -454,6 +460,37 @@ registers:
         reset: 0
         typical: 0
         description: When '1' causes the LSB of the LCRC to be inverted.
+
+
+  - name: PEM(0..3)_CTL_STATUS2
+    title: PEM Control Status 2
+    address: 0x11800C0000008 + a*0x1000000
+    bus: RSL
+    description: Additional general control and status of the PEM.
+    fields:
+      - name: --
+        bits: 63..16
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: NO_FWD_PRG
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: 0x20
+        description: |
+          The time x 0x10000 in core clocks to wait for the
+          TLP FIFOs to be able to unload an entry. If there is
+          no forward progress, such that the timeout occurs,
+          credits will be returned to the SLI and an interrupt
+          (if enabled) will be asserted. Any more TLPs received
+          will be dropped on the floor and the credits
+          associated with those TLPs will be returned, as well.
+          Note that 0xFFFF is a reserved value that will put
+          the PEM in the 'forward progress stopped' state immediately.
+          This state will hold until a mac reset is received.
 
 
   - name: PEM(0..3)_DIAG_STATUS

@@ -1207,9 +1207,9 @@ structs:
         description: |
           Table Column. Each column is 128-bits wide.
           For PHT:
-          0x0 = Accesses dimensions 5 to 8 using ASE_TBLDAT_PHT_COL0_S.
-          0x1 = Accesses dimensions 1 to 4 using ASE_TBLDAT_PHT_COL1_S.
-          0x2 = Accesses dimension 0 and valids using ASE_TBLDAT_PHT_COL2_S.
+          0x0 = Accesses chunks 5 to 8 using ASE_TBLDAT_PHT_COL0_S.
+          0x1 = Accesses chunks 1 to 4 using ASE_TBLDAT_PHT_COL1_S.
+          0x2 = Accesses chunk 0 and valids using ASE_TBLDAT_PHT_COL2_S.
           Others = reserved.
           For all other tables, set to zero.
 
@@ -1510,65 +1510,65 @@ structs:
       read/write accesses. Indexed by HID. Accessed with TABROW = {HID,SXID}. The PHT outputs the
       mapping from packet header data to key data.
     fields:
-      - name: DIM8_SRC_ST
+      - name: CHUNK8_SRC_ST
         bits: w0(9..0)
-        description: Dimension 8. Starting bit position of the field in the source data (packet header).
+        description: Chunk 8. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM8_SRC_END
+      - name: CHUNK8_SRC_END
         bits: w0(19..10)
-        description: Dimension 8. Ending bit position of the field in the source data (packet header).
+        description: Chunk 8. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM8_DST_ST
+      - name: CHUNK8_DST_ST
         bits: w0(27..20)
-        description: Dimension 8. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 8. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w0(31..28)
         description: Reserved.
 
-      - name: DIM7_SRC_ST
+      - name: CHUNK7_SRC_ST
         bits: w0(41..32)
-        description: Dimension 7. Starting bit position of the field in the source data (packet header).
+        description: Chunk 7. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM7_SRC_END
+      - name: CHUNK7_SRC_END
         bits: w0(51..42)
-        description: Dimension 7. Ending bit position of the field in the source data (packet header).
+        description: Chunk 7. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM7_DST_ST
+      - name: CHUNK7_DST_ST
         bits: w0(59..52)
-        description: Dimension 7. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 7. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w0(63..60)
         description: Reserved.
 
-      - name: DIM6_SRC_ST
+      - name: CHUNK6_SRC_ST
         bits: w1(9..0)
-        description: Dimension 6. Starting bit position of the field in the source data (packet header).
+        description: Chunk 6. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM6_SRC_END
+      - name: CHUNK6_SRC_END
         bits: w1(19..10)
-        description: Dimension 6. Ending bit position of the field in the source data (packet header).
+        description: Chunk 6. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM6_DST_ST
+      - name: CHUNK6_DST_ST
         bits: w1(27..20)
-        description: Dimension 6. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 6. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w1(31..28)
         description: Reserved.
 
-      - name: DIM5_SRC_ST
+      - name: CHUNK5_SRC_ST
         bits: w1(41..32)
-        description: Dimension 5. Starting bit position of the field in the source data (packet header).
+        description: Chunk 5. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM5_SRC_END
+      - name: CHUNK5_SRC_END
         bits: w1(51..42)
-        description: Dimension 5. Ending bit position of the field in the source data (packet header).
+        description: Chunk 5. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM5_DST_ST
+      - name: CHUNK5_DST_ST
         bits: w1(59..52)
-        description: Dimension 5. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 5. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w1(63..60)
@@ -1581,65 +1581,65 @@ structs:
       read/write accesses. Indexed by HID. Accessed with TABROW = {HID,SXID}. The PHT outputs the
       mapping from packet header data to key data.
     fields:
-      - name: DIM4_SRC_ST
+      - name: CHUNK4_SRC_ST
         bits: w0(9..0)
-        description: Dimension 4. Starting bit position of the field in the source data (packet header).
+        description: Chunk 4. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM4_SRC_END
+      - name: CHUNK4_SRC_END
         bits: w0(19..10)
-        description: Dimension 4. Ending bit position of the field in the source data (packet header).
+        description: Chunk 4. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM4_DST_ST
+      - name: CHUNK4_DST_ST
         bits: w0(27..20)
-        description: Dimension 4. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 4. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w0(31..28)
         description: Reserved.
 
-      - name: DIM3_SRC_ST
+      - name: CHUNK3_SRC_ST
         bits: w0(41..32)
-        description: Dimension 3. Starting bit position of the field in the source data (packet header).
+        description: Chunk 3. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM3_SRC_END
+      - name: CHUNK3_SRC_END
         bits: w0(51..42)
-        description: Dimension 3. Ending bit position of the field in the source data (packet header).
+        description: Chunk 3. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM3_DST_ST
+      - name: CHUNK3_DST_ST
         bits: w0(59..52)
-        description: Dimension 3. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 3. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w0(63..60)
         description: Reserved.
 
-      - name: DIM2_SRC_ST
+      - name: CHUNK2_SRC_ST
         bits: w1(9..0)
-        description: Dimension 2. Starting bit position of the field in the source data (packet header).
+        description: Chunk 2. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM2_SRC_END
+      - name: CHUNK2_SRC_END
         bits: w1(19..10)
-        description: Dimension 2. Ending bit position of the field in the source data (packet header).
+        description: Chunk 2. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM2_DST_ST
+      - name: CHUNK2_DST_ST
         bits: w1(27..20)
-        description: Dimension 2. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 2. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w1(31..28)
         description: Reserved.
 
-      - name: DIM1_SRC_ST
+      - name: CHUNK1_SRC_ST
         bits: w1(41..32)
-        description: Dimension 1. Starting bit position of the field in the source data (packet header).
+        description: Chunk 1. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM1_SRC_END
+      - name: CHUNK1_SRC_END
         bits: w1(51..42)
-        description: Dimension 1. Ending bit position of the field in the source data (packet header).
+        description: Chunk 1. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM1_DST_ST
+      - name: CHUNK1_DST_ST
         bits: w1(59..52)
-        description: Dimension 1. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 1. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w1(63..60)
@@ -1652,17 +1652,17 @@ structs:
       read/write accesses. Indexed by HID. Accessed with TABROW = {HID,SXID}. The PHT outputs the
       mapping from packet header data to key data.
     fields:
-      - name: DIM0_SRC_ST
+      - name: CHUNK0_SRC_ST
         bits: w0(9..0)
-        description: Dimension 0. Starting bit position of the field in the source data (packet header).
+        description: Chunk 0. Starting bit position of the field in the source data (packet header).
 
-      - name: DIM0_SRC_END
+      - name: CHUNK0_SRC_END
         bits: w0(19..10)
-        description: Dimension 0. Ending bit position of the field in the source data (packet header).
+        description: Chunk 0. Ending bit position of the field in the source data (packet header).
 
-      - name: DIM0_DST_ST
+      - name: CHUNK0_DST_ST
         bits: w0(27..20)
-        description: Dimension 0. Starting nibble position of the field in the destination data (key data).
+        description: Chunk 0. Starting nibble position of the field in the destination data (key data).
 
       - name: --
         bits: w0(47..28)
@@ -1670,39 +1670,39 @@ structs:
 
       - name: VAL8
         bits: w0(48)
-        description: Dimension 8 is valid.
+        description: Chunk 8 is valid.
 
       - name: VAL7
         bits: w0(49)
-        description: Dimension 7 is valid.
+        description: Chunk 7 is valid.
 
       - name: VAL6
         bits: w0(50)
-        description: Dimension 6 is valid.
+        description: Chunk 6 is valid.
 
       - name: VAL5
         bits: w0(51)
-        description: Dimension 5 is valid.
+        description: Chunk 5 is valid.
 
       - name: VAL4
         bits: w0(52)
-        description: Dimension 4 is valid.
+        description: Chunk 4 is valid.
 
       - name: VAL3
         bits: w0(53)
-        description: Dimension 3 is valid.
+        description: Chunk 3 is valid.
 
       - name: VAL2
         bits: w0(54)
-        description: Dimension 2 is valid.
+        description: Chunk 2 is valid.
 
       - name: VAL1
         bits: w0(55)
-        description: Dimension 1 is valid.
+        description: Chunk 1 is valid.
 
       - name: VAL0
         bits: w0(56)
-        description: Dimension 0 is valid.
+        description: Chunk 0 is valid.
 
       - name: --
         bits: w0(63..57)

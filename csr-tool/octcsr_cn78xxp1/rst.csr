@@ -525,7 +525,11 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: When set, corresponding core has voltage removed to save power.
+        description: |
+          Powerdown Enable.  When both a bit and the corresponding CIU3_PP_RST bit are set, the core
+          has voltage removed to save power.
+          In typical operation these bits are setup during initialization and PP resets are
+          controlled through CIU3_PP_RST.
 
 
   - name: RST_POWER_DBG

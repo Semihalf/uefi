@@ -93,7 +93,7 @@ enums:
           General timer interrupts from the corresponding CIU timer expires, see CIU_TIM(0..9) and
           General Timers. INTERNAL:
 
-      - name: SW_MBOX(0..512)
+      - name: SW_MBOX(0..511)
         value: 0x04000 + a
         attributes:
           cib_rtl_module: "none"
@@ -415,7 +415,7 @@ structs:
         bits: w1(61..52)
         description: |
           SSO Group. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO group number to add work to.
-          Note the upper two bits correspond to a node number, see *TECHPUBS SSO-Chapter-OCI-Sec*.
+          Note the upper two bits correspond to a node number.
 
       - name: --
         bits: w1(63..62)
@@ -512,8 +512,9 @@ registers:
     bus: NCB
     description: |
       This register contains the reset control for each core. A 1 holds a core in reset, 0 release
-      from reset. It resets to all ones when REMOTE_BOOT is enabled, all ones excluding bit 0 clear
-      otherwise.
+      from reset. It resets to all ones when REMOTE_BOOT is enabled or all ones excluding bit 0 when
+      REMOTE_BOOT is disabled. Writes to this register should occur only if the CIU_PP_RST_PENDING
+      register is cleared.
     attributes:
       regtest_skip: "True"
     fields:
@@ -543,6 +544,31 @@ registers:
         attributes:
           regtest_force: "0"
         description: Core reset for core 0, depends on standalone mode.
+
+
+  - name: CIU_PP_RST_PENDING
+    title: CIU Cores Reset Pending Register
+    address: 0x1010000000108
+    bus: NCB
+    description: This register contains the reset status for each core.
+    fields:
+      - name: --
+        bits: 63..48
+        access: --
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEND
+        bits: 47..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Set if corresponding core is waiting to change its reset state. Normally a reset change
+          occurs immediately but if RST_PP_POWER[GATE] bit is set and the core is released from
+          reset a delay of 64K core clocks between each core reset will apply to satisfy power
+          management.
 
 
   - name: CIU_PP_DBG

@@ -34,8 +34,10 @@ structs:
 registers:
   - name: VRM(0..1)_TWS_TWSI_SW
     title: VRM TWSI to Software Register
-    address: 0x118002100008 | a<<24
+    address: 0x1180021000008 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     description: |
       This register allows SW to write data into I2C Controller directly.
       This register is for diagnostic use only.
@@ -156,8 +158,10 @@ registers:
 
   - name: VRM(0..1)_ALT_FUSE
     title: VRM Alternative Fuse Register
-    address: 0x118002100018 | a<<24
+    address: 0x1180021000018 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..40
@@ -204,8 +208,10 @@ registers:
 
   - name: VRM(0..1)_TELEMETRY_READ
     title: VRM Telemetry Read Register
-    address: 0x118002100028 | a<<24
+    address: 0x1180021000028 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
@@ -231,8 +237,10 @@ registers:
 
   - name: VRM(0..1)_TELEMETRY_CMND
     title: VRM Telemetry Command Register
-    address: 0x118002100038 | a<<24
+    address: 0x1180021000038 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..2
@@ -257,8 +265,10 @@ registers:
 
   - name: VRM(0..1)_MISC_INFO
     title: VRM Miscellaneous Register
-    address: 0x118002100048 | a<<24
+    address: 0x1180021000048 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..40
@@ -323,8 +333,10 @@ registers:
 
   - name: VRM(0..1)_TS_TEMP_CONV_CTL
     title: VRM Temp Sensor Analog Alternate Conversion Register
-    address: 0x118002100058 | a<<24
+    address: 0x1180021000058 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..13
@@ -373,8 +385,10 @@ registers:
 
   - name: VRM(0..1)_TS_TEMP_CONV_RESULT
     title: VRM Temp Sensor Result Register
-    address: 0x118002100068 | a<<24
+    address: 0x1180021000068 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..24
@@ -419,8 +433,10 @@ registers:
 
   - name: VRM(0..1)_TS_TEMP_CONV_COEFF_FSM
     title: VRM Temp Sensor Conversion Coefficient and FSM Register
-    address: 0x118002100078 | a<<24
+    address: 0x1180021000078 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..58
@@ -490,8 +506,10 @@ registers:
 
   - name: VRM(0..1)_TS_TEMP_NOFF_MC
     title: VRM Temp Sensor Noff Coefficient Register
-    address: 0x118002100088 | a<<24
+    address: 0x1180021000088 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..28
@@ -526,8 +544,10 @@ registers:
 
   - name: VRM(0..1)_FUSE_BYPASS
     title: VRM Fuse Bypass Register
-    address: 0x118002100098 | a<<24
+    address: 0x1180021000098 + a*0x1000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..3

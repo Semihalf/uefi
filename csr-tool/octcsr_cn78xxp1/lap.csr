@@ -145,6 +145,10 @@ enums:
         value: 0x0C011 + a*0x01000
         description: See LAP0/1_GEN_INT[NBR_DBE].
 
+      - name: LAP(0..1)_GEN_XID_BAD
+        value: 0x0C012 + a*0x01000
+        description: See LAP0/1_GEN_INT[XID_BAD].
+
 
 structs:
   - name: LAP_CTL_REQ_S
@@ -617,11 +621,21 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..18
+        bits: 63..19
         access: --
         reset: --
         typical: --
         description: Reserved.
+
+      - name: XID_BAD
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          A response packet's transaction ID was targeted to an LAB not in PROCESSING state. Not
+          reported if packet also has CRC or MISMATCH errors. Typically indicates TCAM or
+          configuration error. Throws LAP_INTSN_E::LAP(0..1)_GEN_XID_BAD.
 
       - name: NBR_DBE
         bits: 17

@@ -1094,7 +1094,7 @@ registers:
         reset: 0xe4
         typical: 0xe4
         description: |
-          "PCS Lane to Serdes Mapping
+          PCS Lane to Serdes Mapping.
           This is an array of 2-bit values that map each logical PCS Lane to a
           physical serdes lane, as follows:
             ----------+----------------------------------------------------------
@@ -1122,8 +1122,6 @@ registers:
           MARKER_LOCK bit is set in BR_ALGN_STATUS), then the actual detected
           RX PCS lane number is recorded in the corresponding LNx_MAPPING
           field in BR_LANE_MAP.
-          For SGMII, the lane serdes assignments are hardcoded. LMAC 0 will
-          always use lane 0 and is connected to sds 0. Same for LMAC 1, 2, 3."
 
 
   - name: BGX(0..5)_CMR_GLOBAL_CONFIG
@@ -1851,7 +1849,7 @@ registers:
         reset: 0x2
         typical: 0x2
         description: |
-          Number of eight-byte cycles to reserve in the RX FIFO. When When the number of free
+          Number of eight-byte cycles to reserve in the RX FIFO. When the number of free
           entries in the RX FIFO is less than or equal to MARK, incoming packet data is
           dropped. Mark additionally indicates the number of entries to reserve in the RX FIFO for
           closing partially received packets. MARK should typically be programmed to its reset
@@ -1907,7 +1905,9 @@ registers:
         access: R/W
         reset: 0x10
         typical: 0x10
-        description: Low watermark (number of eight-byte cycles to deassert backpressure).
+        description: |
+          Low watermark (number of eight-byte cycles to deassert backpressure). Level is also used
+          to exit the overflow dropping state.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_WEIGHT
@@ -7221,9 +7221,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enable extraction and processing of HG2 message packet from RX flow. Physical logical
+          Enable extraction and processing of HG2 message packet from RX flow. Physical and logical
           PAUSE information is used to PAUSE physical-link, backpressure PKO. This field must be set
-          when HiGig2 messages are present in the receive stream.
+          when HiGig2 messages are present in the receive stream. This bit is also forwarded to CMR
+          so it can generate the required deferring signals to SMU TX and backpressure signals to
+          PKO.
 
       - name: PHYS_EN
         bits: 16
@@ -7245,7 +7247,7 @@ registers:
           16 bit xof enables for recevied HiGig2 messages
           or PFC/CBFC packets. This field is NOT used by SMU at all.
           It is forwarded to CMR without alteration. It appears here
-          for backward compatibility tieh O68.
+          for backward compatibility with O68.
 
 
   - name: BGX(0..5)_SMU(0..3)_CBFC_CTL

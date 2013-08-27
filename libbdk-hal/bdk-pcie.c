@@ -467,10 +467,7 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     /* Allow config retries for 250ms. Count is based off the 5Ghz SERDES
         clock */
     pemx_ctl_status.u64 = BDK_CSR_READ(node, BDK_PEMX_CTL_STATUS(pcie_port));
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        pemx_ctl_status.cn78xx.cfg_rtry = 250 * 5000000 / 0x10000;
-    else
-        pemx_ctl_status.cn70xx.cfg_rtry = 250 * 5000000 / 0x10000;
+    pemx_ctl_status.s.cfg_rtry = 250 * 5000000 / 0x10000;
     BDK_CSR_WRITE(node, BDK_PEMX_CTL_STATUS(pcie_port), pemx_ctl_status.u64);
 
     /* Display the link status */

@@ -504,10 +504,10 @@ registers:
 
       - name: GRNLRTY
         bits: 49..48
-        access: R/W
+        access: RO
         reset: 0x0
         typical: --
-        description: Granularity of a token, where 1 token equal (1<<GRNLRTY) bytes.
+        description: Reserved.
 
       - name: BRST_LIMIT
         bits: 47..32

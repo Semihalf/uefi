@@ -117,16 +117,7 @@ registers:
         typical: 0
         description: |
           Replication Mode Enable
-          *** o63-P2 NEW ***
-          When set, enables replication mode performance enhancement
-          feature. This enables the DFA to communicate address
-          replication information during memory references to the
-          me mory controller.
-          For o63-P2:        This is used by the memory controller
-          to support graph data in multiple banks (or bank sets), so that
-          the least full bank can be selected to minimize the effects of
-          DDR3 bank conflicts (ie: tRC=row cycle time).
-          For o68: This is used by the memory controller to support graph
+          For o78: This is used by the memory controller to support graph
           data in multiple ports (or port sets), so that the least full
           port can be selected to minimize latency effects.
           SWNOTE: Using this mode requires the DFA SW compiler and DFA
@@ -172,7 +163,7 @@ registers:
           6    |  3/8    DTE[15:10]:OFF /DTE[9:0]:ON
           7    |  7/8    DTE[15:2]:OFF  /DTE[1:0]:ON
           NOTE: Higher numbered DTEs are crippled first. For instance,
-          on o63 (with 16 DTEs/cluster), if DTE_CLCRIP=1(1/2), then
+          on o78 (with 16 DTEs/cluster), if DTE_CLCRIP=1(1/2), then
           DTE#s [15:8] within the cluster are crippled and only
           DTE#s [7:0] are available.
           IMPNOTE: The encodings are done in such a way as to later
@@ -323,30 +314,34 @@ registers:
         typical: 0
         description: |
           HFA nonexistent memory access. DTEs (and backdoor CSR HFA memory region reads) have access
-          to the following 38bit L2/DRAM address space, which maps to a 37-bit physical DDR3 SDRAM
-          address space.
+          to the following 40bit L2/DRAM address space, which maps to a 38-bit physical DDR3 SDRAM
+          address space [256GB(max)].
           DR0: 0x0 0000 0000 0000 to 0x0 0000 0FFF FFFF
           maps to lower 256MB of physical DDR3 SDRAM
           DR1: 0x0 0000 2000 0000 to 0x0 0020 0FFF FFFF
           maps to upper 127.75GB of DDR3 SDRAM
+          NOTE: the 2nd 256MB HOLE maps to IO and is unused(nonexistent) for memory.
+
           L2/DRAM address space                     Physical DDR3 SDRAM Address space
-          (38bit address)                           (37bit address)
-          +-----------+ 0x0020.0FFF.FFFF
-          ===   DR1   ===                          +-----------+ 0x001F.FFFF.FFFF
-          (128GB-256MB)
-          |           |                     =>    |           |  (128GB-256MB)
-          +-----------+ 0x0000.1FFF.FFFF          |   DR1
-          256MB   |   HOLE    |   (DO NOT USE)
-          +-----------+ 0x0000.0FFF.FFFF          +-----------+ 0x0000.0FFF.FFFF
-          256MB   |    DR0    |                           |   DR0     |   (256MB)
-          +-----------+ 0x0000.0000.0000          +-----------+ 0x0000.0000.0000
+          (40bit address)                           (38bit address)
+          +-----------+ 0x0040.0FFF.FFFF
+          |           |
+          |   DR1     |                            +-----------+ 0x003F.FFFF.FFFF
+          |           | (256GB-256MB)              |           |
+          |           |                     =>     |   DR1     |
+          +-----------+ 0x0000.1FFF.FFFF           |           | (256GB-256MB)
+          |   HOLE    | 256MB (DO NOT USE)         |           |
+          +-----------+ 0x0000.0FFF.FFFF           +-----------+ 0x0000.0FFF.FFFF
+          |    DR0    | 256MB                      |   DR0     | (256MB)
+          +-----------+ 0x0000.0000.0000           +-----------+ 0x0000.0000.0000
+
           In the event the DFA generates a reference to the L2/DRAM
-          address hole (0x0000.0FFF.FFFF - 0x0000.1FFF.FFFF) or to
-          an address above 0x0020.0FFF.FFFF, the DFANXM programmable
+          address hole (0x0000.0FFF.FFFF - 0x0000.1FFF.FFFF) the DFANXM programmable
           interrupt bit will be set.
           Software Note:
           Both the 1) software HFA graph compiler and the 2) software IOI-direct CSR accesses to HFA
-          memory region must avoid making references to these nonexistent memory regions.
+          memory region must avoid making references to this 2nd 256MB HOLE which is nonexistent
+          memory region.
           If DFANXM is set during a HFA graph walk operation, the walk is prematurely terminated
           with RWORD0[REA]=ERR. If DFANXM is set during a IOI-direct CSR read access to HFA memory
           region, the CSR read response data is forced to
@@ -1737,48 +1732,13 @@ registers:
     title: DFA NCB-Direct CSR access to DFM Memory Space (High QW)
     address: 0x1370700000000
     bus: NCB
-    description: |
-      DFA supports NCB-Direct CSR acccesses to DFM Memory space for debug purposes. Unfortunately,
-      NCB-Direct accesses
-      are limited to QW-size(64bits), whereas the minimum access granularity for DFM Memory space is
-      OW(128bits). To
-      support writes to DFM Memory space, the Hi-QW of data is sourced from the DFA_MEMHIDAT
-      register. Recall, the
-      OW(128b) in DDR3 memory space is fixed format:
-      OWDATA[127:118]: OWECC[9:0] 10bits of in-band OWECC SEC/DED codeword
-      This can be precomputed/written by SW OR
-      if DFM_FNTCTL[ECC_WENA]=1, DFM hardware will auto-compute the 10b OWECC and place in the
-      OWDATA[127:118] before being written to memory.
-      OWDATA[117:0]:   Memory Data (contains fixed MNODE/MONODE arc formats for use by DTEs(thread
-      engines).
-      Or, a user may choose to treat DFM Memory Space as 'scratch pad' in which case the
-      OWDATA[117:0] may contain user-specified information accessible via NCB-Direct CSR mode
-      accesses to DFA Memory Space.
-      NOTE: To write to the DFA_MEMHIDAT register, a device would issue an IOBST directed at the DFA
-      with addr[34:32]=3'b111.
-      To read the DFA_MEMHIDAT register, a device would issue an IOBLD64 directed at the DFA with
-      addr[34:32]=3'b111.
-      NOTE: If DFA_CONFIG[DTECLKDIS]=1 (DFA-DTE clocks disabled), reads/writes to the DFA_MEMHIDAT
-      register do not take effect.
-      NOTE: If FUSE[TBD]="DFA DTE disable" is blown, reads/writes to the DFA_MEMHIDAT register do
-      not take effect.
-      NOTE: PLEASE REMOVE DEFINITION FROM o68 HRM
     fields:
       - name: HIDAT
         bits: 63..0
         access: R/W
         reset: --
         typical: --
-        description: |
-          DFA Hi-QW of Write data during NCB-Direct DFM DDR3
-          Memory accesses.
-          All DFM DDR3 memory accesses are OW(128b) references,
-          and since NCB-Direct Mode writes only support QW(64b),
-          the Hi QW of data must be sourced from a CSR register.
-          NOTE: This single register is 'shared' for ALL DFM
-          DDR3 Memory writes.
-          For o68: This register is UNUSED. Treat as spare bits.
-          NOTE: PLEASE REMOVE DEFINITION FROM o68 HRM
+        description: This register is unused and can be treated as spare bits.
 
 
 

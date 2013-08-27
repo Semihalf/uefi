@@ -3556,6 +3556,16 @@ local csr_db = {
                 {name = "RST0", start = 0, stop = 0},
             }
         },
+        CIU_PP_RST_PENDING = {
+            name = "CIU_PP_RST_PENDING",
+            type = "NCB",
+            width = 8,
+            address = 0x1010000000108,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "PEND", start = 0, stop = 47},
+            }
+        },
         CIU_SISCX = {
             name = "CIU_SISC#",
             type = "NCB",
@@ -4090,6 +4100,16 @@ local csr_db = {
                 {name = "CNT", start = 0, stop = 15},
             }
         },
+        DPI_DMA_PP_INT = {
+            name = "DPI_DMA_PP_INT",
+            type = "NCB",
+            width = 8,
+            address = 0x1df0000000038,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "COMPLETE", start = 0, stop = 47},
+            }
+        },
         DPI_ECC_CTL = {
             name = "DPI_ECC_CTL",
             type = "NCB",
@@ -4582,6 +4602,124 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_IOBN_BCST_RSP = {
+            name = "DTX_IOBN_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe780080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_IOBN_CTL = {
+            name = "DTX_IOBN_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe780060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_IOBN_DATX = {
+            name = "DTX_IOBN_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe780040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_IOBN_ENAX = {
+            name = "DTX_IOBN_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe780020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MASK", start = 0, stop = 35},
+            }
+        },
+        DTX_IOBN_SELX = {
+            name = "DTX_IOBN_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe780000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
+        DTX_IOBP_BCST_RSP = {
+            name = "DTX_IOBP_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe7a0080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_IOBP_CTL = {
+            name = "DTX_IOBP_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe7a0060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_IOBP_DATX = {
+            name = "DTX_IOBP_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe7a0040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_IOBP_ENAX = {
+            name = "DTX_IOBP_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe7a0020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MASK", start = 0, stop = 35},
+            }
+        },
+        DTX_IOBP_SELX = {
+            name = "DTX_IOBP_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe7a0000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_L2C_CBCX_BCST_RSP = {
             name = "DTX_L2C_CBC#_BCST_RSP",
             type = "RSL",
@@ -4850,6 +4988,75 @@ local csr_db = {
             width = 8,
             address = 0x11800fe060000,
             range1 = {0,1},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
+        DTX_LMCX_BCST_RSP = {
+            name = "DTX_LMC#_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe440080,
+            range1 = {0,3},
+            range1_inc = 0x8000,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_LMCX_CTL = {
+            name = "DTX_LMC#_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe440060,
+            range1 = {0,3},
+            range1_inc = 0x8000,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_LMCX_DATX = {
+            name = "DTX_LMC#_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe440040,
+            range1 = {0,3},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_LMCX_ENAX = {
+            name = "DTX_LMC#_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe440020,
+            range1 = {0,3},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MASK", start = 0, stop = 35},
+            }
+        },
+        DTX_LMCX_SELX = {
+            name = "DTX_LMC#_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe440000,
+            range1 = {0,3},
             range1_inc = 0x8000,
             range2 = {0,1},
             range2_inc = 0x8,
@@ -6381,8 +6588,8 @@ local csr_db = {
                 {name = "RESERVED_9_63", start = 9, stop = 63},
                 {name = "REPL_ENA", start = 8, stop = 8},
                 {name = "CLMSKCRIP", start = 4, stop = 7},
-                {name = "CLDTECRIP", start = 1, stop = 3},
-                {name = "DTECLKDIS", start = 0, stop = 0},
+                {name = "HPU_CLCRIP", start = 1, stop = 3},
+                {name = "HPUCLKDIS", start = 0, stop = 0},
             }
         },
         HNA_CONTROL = {
@@ -6507,15 +6714,6 @@ local csr_db = {
                 {name = "DBLOVF", start = 0, stop = 0},
             }
         },
-        HNA_MEMHIDAT = {
-            name = "HNA_MEMHIDAT",
-            type = "NCB",
-            width = 8,
-            address = 0x1470700000000,
-            fields = {
-                {name = "HIDAT", start = 0, stop = 63},
-            }
-        },
         HNA_PFC0_CNT = {
             name = "HNA_PFC0_CNT",
             type = "RSL",
@@ -6534,7 +6732,7 @@ local csr_db = {
                 {name = "RESERVED_14_63", start = 14, stop = 63},
                 {name = "EVSEL", start = 8, stop = 13},
                 {name = "RESERVED_6_7", start = 6, stop = 7},
-                {name = "CLDTE", start = 2, stop = 5},
+                {name = "CLHPU", start = 2, stop = 5},
                 {name = "CLNUM", start = 0, stop = 1},
             }
         },
@@ -6556,7 +6754,7 @@ local csr_db = {
                 {name = "RESERVED_14_63", start = 14, stop = 63},
                 {name = "EVSEL", start = 8, stop = 13},
                 {name = "RESERVED_6_7", start = 6, stop = 7},
-                {name = "CLDTE", start = 2, stop = 5},
+                {name = "CLHPU", start = 2, stop = 5},
                 {name = "CLNUM", start = 0, stop = 1},
             }
         },
@@ -6578,7 +6776,7 @@ local csr_db = {
                 {name = "RESERVED_14_63", start = 14, stop = 63},
                 {name = "EVSEL", start = 8, stop = 13},
                 {name = "RESERVED_6_7", start = 6, stop = 7},
-                {name = "CLDTE", start = 2, stop = 5},
+                {name = "CLHPU", start = 2, stop = 5},
                 {name = "CLNUM", start = 0, stop = 1},
             }
         },
@@ -6600,7 +6798,7 @@ local csr_db = {
                 {name = "RESERVED_14_63", start = 14, stop = 63},
                 {name = "EVSEL", start = 8, stop = 13},
                 {name = "RESERVED_6_7", start = 6, stop = 7},
-                {name = "CLDTE", start = 2, stop = 5},
+                {name = "CLHPU", start = 2, stop = 5},
                 {name = "CLNUM", start = 0, stop = 1},
             }
         },
@@ -9204,7 +9402,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_18_63", start = 18, stop = 63},
+                {name = "RESERVED_19_63", start = 19, stop = 63},
+                {name = "XID_BAD", start = 18, stop = 18},
                 {name = "NBR_DBE", start = 17, stop = 17},
                 {name = "NBR_SBE", start = 16, stop = 16},
                 {name = "EDAT_DBE", start = 15, stop = 15},
@@ -9891,7 +10090,13 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "RESERVED_29_63", start = 29, stop = 63},
+                {name = "CAL_ENA", start = 28, stop = 28},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "PAR_INCLUDE_A17", start = 26, stop = 26},
+                {name = "PAR_INCLUDE_BG1", start = 25, stop = 25},
+                {name = "GEN_PAR", start = 24, stop = 24},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
                 {name = "VREFINT_SEQ_DESKEW", start = 20, stop = 20},
                 {name = "READ_ENA_BPRCH", start = 19, stop = 19},
                 {name = "READ_ENA_FPRCH", start = 18, stop = 18},
@@ -17796,19 +18001,20 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "INV_DPAR", start = 63, stop = 63},
-                {name = "INV_HPAR", start = 62, stop = 62},
-                {name = "INV_RPAR", start = 61, stop = 61},
-                {name = "AUTO_SD", start = 60, stop = 60},
-                {name = "DNUM", start = 55, stop = 59},
-                {name = "PBUS", start = 47, stop = 54},
-                {name = "NO_FWD_PRG", start = 31, stop = 46},
-                {name = "CFG_RTRY", start = 15, stop = 30},
-                {name = "RESERVED_11_14", start = 11, stop = 14},
-                {name = "PM_XTOFF", start = 10, stop = 10},
-                {name = "PM_XPME", start = 9, stop = 9},
-                {name = "OB_P_CMD", start = 8, stop = 8},
-                {name = "RESERVED_7_7", start = 7, stop = 7},
+                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "INV_DPAR", start = 50, stop = 50},
+                {name = "INV_HPAR", start = 49, stop = 49},
+                {name = "INV_RPAR", start = 48, stop = 48},
+                {name = "AUTO_SD", start = 47, stop = 47},
+                {name = "DNUM", start = 42, stop = 46},
+                {name = "PBUS", start = 34, stop = 41},
+                {name = "RESERVED_32_33", start = 32, stop = 33},
+                {name = "CFG_RTRY", start = 16, stop = 31},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "PM_XTOFF", start = 11, stop = 11},
+                {name = "PM_XPME", start = 10, stop = 10},
+                {name = "OB_P_CMD", start = 9, stop = 9},
+                {name = "RESERVED_7_8", start = 7, stop = 8},
                 {name = "NF_ECRC", start = 6, stop = 6},
                 {name = "DLY_ONE", start = 5, stop = 5},
                 {name = "LNK_ENB", start = 4, stop = 4},
@@ -17816,6 +18022,18 @@ local csr_db = {
                 {name = "FAST_LM", start = 2, stop = 2},
                 {name = "INV_ECRC", start = 1, stop = 1},
                 {name = "INV_LCRC", start = 0, stop = 0},
+            }
+        },
+        PEMX_CTL_STATUS2 = {
+            name = "PEM#_CTL_STATUS2",
+            type = "RSL",
+            width = 8,
+            address = 0x11800c0000008,
+            range1 = {0,3},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "NO_FWD_PRG", start = 0, stop = 15},
             }
         },
         PEMX_DBG_INFO = {
@@ -27049,7 +27267,7 @@ local csr_db = {
             name = "VRM#_ALT_FUSE",
             type = "RSL",
             width = 8,
-            address = 0x118002100018,
+            address = 0x1180021000018,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27065,7 +27283,7 @@ local csr_db = {
             name = "VRM#_FUSE_BYPASS",
             type = "RSL",
             width = 8,
-            address = 0x118002100098,
+            address = 0x1180021000098,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27079,7 +27297,7 @@ local csr_db = {
             name = "VRM#_MISC_INFO",
             type = "RSL",
             width = 8,
-            address = 0x118002100048,
+            address = 0x1180021000048,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27097,7 +27315,7 @@ local csr_db = {
             name = "VRM#_TELEMETRY_CMND",
             type = "RSL",
             width = 8,
-            address = 0x118002100038,
+            address = 0x1180021000038,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27109,7 +27327,7 @@ local csr_db = {
             name = "VRM#_TELEMETRY_READ",
             type = "RSL",
             width = 8,
-            address = 0x118002100028,
+            address = 0x1180021000028,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27122,7 +27340,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_CONV_COEFF_FSM",
             type = "RSL",
             width = 8,
-            address = 0x118002100078,
+            address = 0x1180021000078,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27140,7 +27358,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_CONV_CTL",
             type = "RSL",
             width = 8,
-            address = 0x118002100058,
+            address = 0x1180021000058,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27156,7 +27374,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_CONV_RESULT",
             type = "RSL",
             width = 8,
-            address = 0x118002100068,
+            address = 0x1180021000068,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27171,7 +27389,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_NOFF_MC",
             type = "RSL",
             width = 8,
-            address = 0x118002100088,
+            address = 0x1180021000088,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -27185,7 +27403,7 @@ local csr_db = {
             name = "VRM#_TWS_TWSI_SW",
             type = "RSL",
             width = 8,
-            address = 0x118002100008,
+            address = 0x1180021000008,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49041,7 +49259,7 @@ local csr_db = {
             name = "VRM#_ALT_FUSE",
             type = "RSL",
             width = 8,
-            address = 0x118002100018,
+            address = 0x1180021000018,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49057,7 +49275,7 @@ local csr_db = {
             name = "VRM#_FUSE_BYPASS",
             type = "RSL",
             width = 8,
-            address = 0x118002100098,
+            address = 0x1180021000098,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49071,7 +49289,7 @@ local csr_db = {
             name = "VRM#_MISC_INFO",
             type = "RSL",
             width = 8,
-            address = 0x118002100048,
+            address = 0x1180021000048,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49089,7 +49307,7 @@ local csr_db = {
             name = "VRM#_TELEMETRY_CMND",
             type = "RSL",
             width = 8,
-            address = 0x118002100038,
+            address = 0x1180021000038,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49101,7 +49319,7 @@ local csr_db = {
             name = "VRM#_TELEMETRY_READ",
             type = "RSL",
             width = 8,
-            address = 0x118002100028,
+            address = 0x1180021000028,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49114,7 +49332,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_CONV_COEFF_FSM",
             type = "RSL",
             width = 8,
-            address = 0x118002100078,
+            address = 0x1180021000078,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49132,7 +49350,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_CONV_CTL",
             type = "RSL",
             width = 8,
-            address = 0x118002100058,
+            address = 0x1180021000058,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49148,7 +49366,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_CONV_RESULT",
             type = "RSL",
             width = 8,
-            address = 0x118002100068,
+            address = 0x1180021000068,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49163,7 +49381,7 @@ local csr_db = {
             name = "VRM#_TS_TEMP_NOFF_MC",
             type = "RSL",
             width = 8,
-            address = 0x118002100088,
+            address = 0x1180021000088,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -49177,7 +49395,7 @@ local csr_db = {
             name = "VRM#_TWS_TWSI_SW",
             type = "RSL",
             width = 8,
-            address = 0x118002100008,
+            address = 0x1180021000008,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
