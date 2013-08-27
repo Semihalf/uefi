@@ -324,8 +324,8 @@ static int dlm0_setup_tx(bdk_node_t node, int qlm)
 
     // 4. Clear GSER0_DLM0_TX_RESET[TXn_RESET]
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_RESET(0, qlm),
-        c.s.tx0_reset = need0;
-        c.s.tx1_reset = need1);
+        c.s.tx0_reset = !need0;
+        c.s.tx1_reset = !need1);
 
     // 5. Poll GSER0_DLM0_TX_STATUS[TXn_STATUS][0] and
     //    GSER0_DLM0_TX_STATUS[TXn_CM_STATUS][0] until both are set
@@ -387,8 +387,8 @@ static int dlm0_setup_rx(bdk_node_t node, int qlm)
 
     // 4. Clear GSER0_DLM0_RX_RESET[RXn_RESET]
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_RESET(0, qlm),
-        c.s.rx0_reset = need0;
-        c.s.rx1_reset = need1);
+        c.s.rx0_reset = !need0;
+        c.s.rx1_reset = !need1);
     return 0;
 }
 
