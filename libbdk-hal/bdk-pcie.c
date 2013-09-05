@@ -247,6 +247,15 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
     bdk_pciercx_cfg032_t pciercx_cfg032;
     bdk_pciercx_cfg448_t pciercx_cfg448;
 
+    /* For CN7XXX we must turn the PEM on */
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(pcie_port),
+        c.s.pemon = 1);
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pcie_port), pemoor, ==, 1, 100000))
+    {
+        bdk_dprintf("PCIe: Port %d PEM not ready, skipping.\n", pcie_port);
+        return -1;
+    }
+
     /* Bring up the link */
     pem_ctl_status.u64 = BDK_CSR_READ(node, BDK_PEMX_CTL_STATUS(pcie_port));
     pem_ctl_status.s.lnk_enb = 1;
