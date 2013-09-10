@@ -22,7 +22,7 @@ before DRAM is configured.
 * Easy automation of tasks through scripts running on a PC.
 * Fast PC based test development using a remote board.
 * GUI based interactive script debugger.
-* Lua remote procedure calls over serial.
+* Lua remote procedure calls over serial, tcp/ip, PCIe, or EJTAG.
 * Remote booting over PCIe and EJTAG.
 
 
@@ -72,13 +72,13 @@ Development Environment Setup
 Requirements
 ~~~~~~~~~~~~
 
-* PC compatible, Octeon, or PowerPC system running a Linux distribution
+* PC compatible, or Octeon system running a Linux distribution
 supporting 32bit userspace binaries.  Most 64bit Linux distributions are
 also capable of running 32bit binaries.
-** Recommended: Debian 6.0 (Squeeze) 32bit or 64bit.
+** Recommended: Debian 7.0 (Wheezy) 32bit or 64bit.
 
 * Python 2.x, version 2.3 or higher. Python 3.x is not supported.
-** Recommended: Python 2.6+
+** Recommended: Python 2.7+
 
 * A terminal emulation program supporting serial.
 ** Recommended: Minicom
@@ -99,7 +99,7 @@ development PC.  The board's power supply and other necessities are all
 independent from the development PC.
 
 * PC serial COM1 is connected to the OCTEON board's UART0 with a null modem
-	cable.
+	cable. You can also conenct the board to a terminal server.
 +
 CAUTION: Cabling with hardware flow control signals is highly recommended. The BDK
 will work without hardware flow control, but serial performance will be
@@ -112,7 +112,7 @@ degraded.
 TIP: Development can be performed using a single ethernet card. IP address
 management will be more complex.
 
-* The binary *bdk-boot.bin* is burned into the beginning of NOR flash
+* The binary *bdk-full.bin* is burned into the beginning of NOR flash
 connected to OCTEON's bootbus.
 
 Connections for PCIe Target Boards
@@ -205,7 +205,7 @@ $ echo ${PATH}
 [source, sh]
 ----
 $ bdk-lua -v
-Lua 5.2.0 (work5)  Copyright (C) 1994-2010 Lua.org, PUC-Rio
+Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio
 ----
 
 . Make sure Minicom is configured for a baud rate of 115200 and hardware
@@ -379,29 +379,65 @@ of loading the BDK.
 
 .Booting from NOR flash
 
-Burn *target-bin/bdk-boot.bin* to the beginning of the NOR flash
+Burn *target-bin/bdk-full.bin* to the beginning of the NOR flash
 connected to the bootbus chip select 0.
 
 .Booting using *bdk-remote* over PCIe
 [source, sh]
 ----
 $ export OCTEON_REMOTE_PROTOCOL=pci
-$ bdk-remote boot target-bin/bdk-boot.bin
+$ bdk-remote boot target-bin/bdk-full.bin
 ----
 
 .Booting using a pre-existing Uboot
 ----
 Octeon ebb6300# dhcp
 Octeon ebb6300# setenv serverip 192.168.162.148
-Octeon ebb6300# tftpboot 0x400000 bdk-boot.bin
+Octeon ebb6300# tftpboot 0x400000 bdk-full.bin
 Octeon ebb6300# go 0x400000
+----
+
+
+Using the BDK host Scripts to Control the Target
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lua scripts run on the host PC can remotely control the target through
+a serial connection. The serial connection can be either through the
+host's serial port (example /dev/ttyUSB0) or using a TCP/IP socket
+connection to a terminal server. The connection is controlled by a
+environment variable on the host, *OCTEON_REMOTE_CONSOLE*.
+
+. For use through a serial port on the PC
++
+[source, sh]
+----
+# export OCTEON_REMOTE_CONSOLE=<device_file>
+$ export OCTEON_REMOTE_CONSOLE=/dev/ttyUSB0
+----
+
+. For use through a TCP/IP connection to a terminal server
++
+[source, sh]
+----
+# export OCTEON_REMOTE_CONSOLE=<ip_address>:<port>
+$ export OCTEON_REMOTE_CONSOLE=192.168.1.1:22
+----
+
+. It is also possible to use the remote protocol defined by
+*OCTEON_REMOTE_PROTOCOL*. This should only be used if serial
+is not available. It works well over PCIe, but EJTAG is generally
+not worth using.
++
+[source, sh]
+----
+$ export OCTEON_REMOTE_CONSOLE=remote
 ----
 
 
 Interactive Lua on the OCTEON Target
 ------------------------------------
 
-The target side binary *bdk-boot.bin* supplies a text menu based
+The target side binary *bdk-full.bin* supplies a text menu based
 interface to board diagnostic functions.  Each menu expects a numeric
 input selecting a valid choice from the list of options.  Generally
 the last menu choice returns to the previous menu.  The entire
@@ -419,8 +455,8 @@ include::captures/main_menu.capture[]
 Menu choice: (0INS)>
 ----
 
-TIP: Any prompt supporting line editing in *bdk-boot.bin* also
-supports RPC calls.  Whenever *bdk-boot.bin* is waiting for user
+TIP: Any prompt supporting line editing in *bdk-full.bin* also
+supports RPC calls.  Whenever *bdk-full.bin* is waiting for user
 input, you can send a RPC request and get a response.
 
 
@@ -548,10 +584,10 @@ a TCP port number in decimal.
 Builtin TFTP Server
 ~~~~~~~~~~~~~~~~~~~
 
-The BDK contains a TFTP server inside *bdk-boot.bin*.  It is
+The BDK contains a TFTP server inside *bdk-full.bin*.  It is
 available as soon as you configure one of the network interfaces with
 an IP address.  The server is very simplistic, expecting exact path
-names from the remote client.  For getting files from *bdk-boot.bin*,
+names from the remote client.  For getting files from *bdk-full.bin*,
 you will need to specify the full file system path.  For putting
 files, you will need to specify the full remote path as well as
 whatever local path needed for the source of the file.  The following
@@ -1379,7 +1415,7 @@ Lua Startup Sequence on OCTEON
 The following details which Lua scripts are executed on OCTEON during
 boot of the BDK.
 
-. bdk-boot.bin binary boots.
+. bdk-full.bin binary boots.
 
 . */rom/init.lua* is executed.
 +

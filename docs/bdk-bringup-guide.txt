@@ -42,11 +42,11 @@ in order to monitor the boot progress.
 Step 2 - Boot the BDK
 ---------------------
 
-Burn bdk-boot.bin to NOR flash
+Burn bdk-full.bin to NOR flash
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use a flash programmer to burn the image *bdk-boot.bin* to the
-beginning of the NOR flash.  The first byte of *bdk-boot.bin* should
+Use a flash programmer to burn the image *bdk-full.bin* to the
+beginning of the NOR flash.  The first byte of *bdk-full.bin* should
 be at address zero, the second at address one, etc.
 
 Boot over PCIe
@@ -63,7 +63,7 @@ running Linux.
 [source, sh]
 ----
 $ export OCTEON_REMOTE_PROTOCOL=pci
-$ bdk-remote boot target-bin/bdk-boot.bin
+$ bdk-remote boot target-bin/bdk-full.bin
 ----
 
 Boot over EJTAG
