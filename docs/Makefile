@@ -21,5 +21,5 @@ lua-modules: ${BDK_ROOT}/lua-modules/*
 
 .PHONY: copy
 copy:
-	rm -rf /var/www/bdk/*
-	cp -r *.html *slides*.txt images api-docs lua* /var/www/bdk/
+	rm -rf /var/www/bdk3/*
+	cp -r *.html *slides*.txt images api-docs lua* /var/www/bdk3/
