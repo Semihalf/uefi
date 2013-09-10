@@ -1399,6 +1399,6 @@ include::../rom/full/main.lua[]
 +
 [source,lua]
 ----
-include::../rom/full/board-ebb7000.lua[]
+include::../rom/full/board-evb7000.lua[]
 ----
 
