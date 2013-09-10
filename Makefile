@@ -112,7 +112,6 @@ version:
 
 .PHONY: release
 release: all
-	PATH=$(PATH):~creese/bin $(MAKE) -C docs lua-modules
 	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
 	rm -rf $(RELEASE_DIR)
 	# Copy Docs
@@ -123,6 +122,7 @@ release: all
 	rm $(RELEASE_DIR)/docs/bdk-faqs.html
 	cp -a docs/images $(RELEASE_DIR)/docs/
 	cp -a docs/lua-modules $(RELEASE_DIR)/docs/
+	cp -a docs/api-docs $(RELEASE_DIR)/docs/
 	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
 	echo "$(VERSION)" > $(RELEASE_DIR)/version.txt
 	# Copy host binaries
