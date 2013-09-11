@@ -10,6 +10,7 @@
 void __bdk_require_depends(void)
 {
     BDK_REQUIRE(PCIE);
+    BDK_REQUIRE(PCIE_EEPROM);
     BDK_REQUIRE(FS_PCIE);
     BDK_REQUIRE(GPIO);
     BDK_REQUIRE(RNG);

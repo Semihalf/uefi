@@ -5,8 +5,13 @@ require("utils")
 require("menu")
 require("fileio")
 local pcie = require("pcie")
+local bit64 = require("bit64")
 
 local pcie_root = {}
+
+--
+-- PCIe host mode functions
+--
 
 local function do_initialize(pcie_port)
     local node = 0
@@ -65,6 +70,45 @@ local function do_shutdown(pcie_port)
     pcie_root[pcie_port] = nil
 end
 
+--
+-- EEPROM Functions
+--
+
+local function do_eeprom_dump(pcie_port)
+    local node = 0
+    for offset=0,512-8,8 do
+        local data = octeon.c.bdk_pcie_eeprom_read(node, pcie_port, offset)
+        printf("0x%03x: 0x%016x", offset, data)
+        local preamble = bit64.bextract(data, 48, 63)
+        if preamble ~= 0x9da1 then
+            break
+        end
+    end
+end
+
+local function do_eeprom_edit(pcie_port)
+    assert(false, "Not implemented")
+end
+
+local function do_eeprom_write(pcie_port)
+    local node = 0
+    local offset = menu.prompt_number("Offset into EEPROM", 0, 0, 512-8)
+    local data = menu.prompt_number("EEPROM value")
+    assert(octeon.c.bdk_pcie_eeprom_write(node, pcie_port, offset, data) == 0, "EEPROM write failed")
+end
+
+local function do_eeprom_menu(pcie_port)
+    local m = menu.new("PCIe" .. pcie_port .." Menu")
+    local prefix = "PCIe" .. pcie_port
+    m:item("dump", prefix .. ": Display current EEPROM", do_eeprom_dump, pcie_port)
+    m:item("edit", prefix .. ": Change a config register", do_eeprom_edit, pcie_port)
+    m:item("write", prefix .. ": Perform a raw write", do_eeprom_write, pcie_port)
+    m:item("quit", "Main menu")
+    while (m:show() ~= "quit") do
+        -- Spinning on menu
+    end
+end
+
 local function do_port_menu(pcie_port)
     local m = menu.new("PCIe" .. pcie_port .." Menu")
     local prefix = "PCIe" .. pcie_port
@@ -75,11 +119,16 @@ local function do_port_menu(pcie_port)
     m:item("read", prefix .. ": Perform a memory read", do_read, pcie_port)
     m:item("write", prefix .. ": Perform a memory write", do_write, pcie_port)
     m:item("shut", prefix .. ": Shutdown", do_shutdown, pcie_port)
+    m:item("eeprom", prefix .. ": Access EEPROM", do_eeprom_menu, pcie_port)
     m:item("quit", "Main menu")
     while (m:show() ~= "quit") do
         -- Spinning on menu
     end
 end
+
+--
+-- PCIe main menu
+--
 
 local m = menu.new("PCIe Menu")
 local max_ports = 2

@@ -1,5 +1,9 @@
 #include <bdk.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(PCIE_EEPROM);
+
 /**
  * Read the specified offset in the PCIe EEPROM and returns its
  * value. In the case the EEPROM isn't there or can't be read -1
