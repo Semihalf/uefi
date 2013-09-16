@@ -100,7 +100,7 @@ static void check_pem_cn70xx(bdk_node_t node, int index)
         CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, p_d_sbe);
         CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, datq_pe);
         CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, hdrq_pe);
-        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rtry_pe);
+        CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), cn70xx, rtry_pe);
         CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, ecrc_e);
         CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, rawwpp);
         CHECK_CHIP_ERROR(BDK_PEMX_DBG_INFO(index), s, racpp);
@@ -177,7 +177,7 @@ static void enable_pem_cn70xx(bdk_node_t node, int index)
         c.cn70xx.tpfsbe0 = -1;
         c.s.datq_pe = -1;
         c.s.hdrq_pe = -1;
-        c.s.rtry_pe = -1;
+        c.cn70xx.rtry_pe = -1;
         c.s.ecrc_e = -1;
         c.s.rawwpp = -1;
         c.s.racpp = -1;

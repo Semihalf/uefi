@@ -436,6 +436,36 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_PEM(0..3)_SEL(0..1)
+    title: DTX PEM(0..3) Select Register
+    address: 0x11800FE000000 + ((0xC0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_PEM(0..3)_ENA(0..1)
+    title: DTX PEM(0..3) Mask Register
+    address: 0x11800FE000020 + ((0xC0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_PEM(0..3)_DAT(0..1)
+    title: DTX PEM(0..3) Raw Data Register
+    address: 0x11800FE000040 + ((0xC0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_PEM(0..3)_CTL
+    title: DTX PEM(0..3) Control Register
+    address: 0x11800FE000060 + ((0xC0 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_PEM(0..3)_BCST_RSP
+    title: DTX PEM(0..3) Control Register
+    address: 0x11800FE000080 + ((0xC0 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_OSM_SEL(0..1)
     title: DTX OSM Select Register
     address: 0x11800FE000000 | ((220) << 15)|a<<3
@@ -493,6 +523,36 @@ registers:
   - name: DTX_ASE_BCST_RSP
     title: DTX ASE Control Register
     address: 0x11800FE6E8080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_BGX(0..5)_SEL(0..1)
+    title: DTX BGX(0..5) Select Register
+    address: 0x11800FE000000 + ((0xE0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_BGX(0..5)_ENA(0..1)
+    title: DTX BGX(0..5) Mask Register
+    address: 0x11800FE000020 + ((0xE0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_BGX(0..5)_DAT(0..1)
+    title: DTX BGX(0..5) Raw Data Register
+    address: 0x11800FE000040 + ((0xE0 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_BGX(0..5)_CTL
+    title: DTX BGX(0..5) Control Register
+    address: 0x11800FE000060 + ((0xE0 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_BGX(0..5)_BCST_RSP
+    title: DTX BGX(0..5) Control Register
+    address: 0x11800FE000080 + ((0xE0 + (a)) << 15)
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
@@ -644,5 +704,35 @@ registers:
         typical: 0
         description: Swap the high and low 36-bit debug bus outputs.
 
+
+  - name: DTX_PKO_SEL(0..1)
+    title: DTX PKO Select Register
+    address: 0x11800FE000000 | ((340) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_PKO_ENA(0..1)
+    title: DTX PKO Mask Register
+    address: 0x11800FE000020 | ((340) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_PKO_DAT(0..1)
+    title: DTX PKO Raw Data Register
+    address: 0x11800FE000040 | ((340) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_PKO_CTL
+    title: DTX PKO Control Register
+    address: 0x11800FEAA0060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_PKO_BCST_RSP
+    title: DTX PKO Control Register
+    address: 0x11800FEAA0080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
 
 

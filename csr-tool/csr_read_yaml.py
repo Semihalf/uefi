@@ -186,6 +186,7 @@ def build_csr(chip_info, register, raw):
                    "dv_bist_all_fail_test",
                    "dv_fc_scratch",
                    "exempt_natural_alignment",
+                   "exempt_w1c_w",
                    "subblock"])
     #pp.pprint(register)
     # Parse the register name, description, and notes

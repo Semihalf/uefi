@@ -21,7 +21,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -105,7 +105,7 @@ registers:
     fields:
       - name: --
         bits: 63..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -130,7 +130,7 @@ registers:
 
       - name: --
         bits: 23..21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -146,7 +146,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -170,7 +170,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -184,21 +184,21 @@ registers:
           Time counter current value for group @
           HW sets TC_CNT to POW_WQ_INT_THR*[TC_THR] whenever:
           - corresponding POW_WQ_INT_CNT*[IQ_CNT]==0 and
-          corresponding POW_WQ_INT_CNT*[DS_CNT]==0
+            corresponding POW_WQ_INT_CNT*[DS_CNT]==0
           - corresponding POW_WQ_INT[WQ_INT<*>] is written
-          with a 1 by SW
+            with a 1 by SW
           - corresponding POW_WQ_INT[IQ_DIS<*>] is written
-          with a 1 by SW
+            with a 1 by SW
           - corresponding POW_WQ_INT_THR* is written by SW
           - TC_CNT==1 and periodic counter
-          POW_WQ_INT_PC[PC]==0
+            POW_WQ_INT_PC[PC]==0
           Otherwise, HW decrements TC_CNT whenever the
           periodic counter POW_WQ_INT_PC[PC]==0.
           TC_CNT is 0 whenever POW_WQ_INT_THR*[TC_THR]==0.
 
       - name: --
         bits: 23..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -212,7 +212,7 @@ registers:
 
       - name: --
         bits: 11..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -242,7 +242,7 @@ registers:
     fields:
       - name: --
         bits: 63..58
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -256,7 +256,7 @@ registers:
 
       - name: --
         bits: 47..46
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -270,7 +270,7 @@ registers:
 
       - name: --
         bits: 35..34
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -284,7 +284,7 @@ registers:
 
       - name: --
         bits: 23..21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -298,7 +298,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -330,7 +330,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -370,13 +370,12 @@ registers:
     bus: NCB
     description: |
       Contains the bits (1 per group) that set work queue interrupts and are used to clear these
-      interrupts.  Also contains the input queue interrupt temporary disable bits (1 per group).
-      For
+      interrupts.  Also contains the input queue interrupt temporary disable bits (1 per group). For
       more information regarding this register, see the interrupt section.
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -393,7 +392,7 @@ registers:
           Corresponding IQ_DIS bit is cleared by HW whenever:
           - POW_WQ_INT_CNT*[IQ_CNT] is zero, or
           - POW_WQ_INT_CNT*[TC_CNT]==1 when periodic
-          counter POW_WQ_INT_PC[PC]==0
+            counter POW_WQ_INT_PC[PC]==0
 
       - name: WQ_INT
         bits: 15..0
@@ -404,17 +403,17 @@ registers:
           Work queue interrupt bits
           Corresponding WQ_INT bit is set by HW whenever:
           - POW_WQ_INT_CNT*[IQ_CNT] >=
-          POW_WQ_INT_THR*[IQ_THR] and the threshold
-          interrupt is not disabled.
-          IQ_DIS<*>==1 disables the interrupt.
-          POW_WQ_INT_THR*[IQ_THR]==0 disables the int.
+            POW_WQ_INT_THR*[IQ_THR] and the threshold
+            interrupt is not disabled.
+            IQ_DIS<*>==1 disables the interrupt.
+            POW_WQ_INT_THR*[IQ_THR]==0 disables the int.
           - POW_WQ_INT_CNT*[DS_CNT] >=
-          POW_WQ_INT_THR*[DS_THR] and the threshold
-          interrupt is not disabled
-          POW_WQ_INT_THR*[DS_THR]==0 disables the int.
+            POW_WQ_INT_THR*[DS_THR] and the threshold
+            interrupt is not disabled
+            POW_WQ_INT_THR*[DS_THR]==0 disables the int.
           - POW_WQ_INT_CNT*[TC_CNT]==1 when periodic
-          counter POW_WQ_INT_PC[PC]==0 and
-          POW_WQ_INT_THR*[TC_EN]==1 and at least one of:
+            counter POW_WQ_INT_PC[PC]==0 and
+            POW_WQ_INT_THR*[TC_EN]==1 and at least one of:
           - POW_WQ_INT_CNT*[IQ_CNT] > 0
           - POW_WQ_INT_CNT*[DS_CNT] > 0
 
@@ -431,7 +430,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -445,7 +444,7 @@ registers:
 
       - name: --
         bits: 31..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -459,7 +458,7 @@ registers:
 
       - name: --
         bits: 7..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -480,21 +479,25 @@ registers:
       request timeout counter is reset when this register is written.
       There are two new work request timeout cases:
       - WAIT bit clear.  The new work request can timeout if the timer expires before the pre-fetch
-      engine has reached the end of all work queues.  This can occur if the executable work queue
-      entry is deep in the queue and the pre-fetch engine is subject to many resets (i.e. high
+        engine has reached the end of all work queues.  This can occur if the executable work queue
+        entry is deep in the queue and the pre-fetch engine is subject to many resets (i.e. high
       switch,
-      de-schedule, or new work load from other PP's).  Thus, it is possible for a PP to receive a
+        de-schedule, or new work load from other PP's).  Thus, it is possible for a PP to receive a
       work
-      response with the NO_WORK bit set even though there was at least one executable entry in the
-      work queues.  The other (and typical) scenario for receiving a NO_WORK response with the WAIT
-      bit clear is that the pre-fetch engine has reached the end of all work queues without finding
-      executable work.
+        response with the NO_WORK bit set even though there was at least one executable entry in the
+        work queues.  The other (and typical) scenario for receiving a NO_WORK response with the
+      WAIT
+        bit clear is that the pre-fetch engine has reached the end of all work queues without
+      finding
+        executable work.
       - WAIT bit set.  The new work request can timeout if the timer expires before the pre-fetch
-      engine has found executable work.  In this case, the only scenario where the PP will receive a
-      work response with the NO_WORK bit set is if the timer expires.  Note: it is still possible
+        engine has found executable work.  In this case, the only scenario where the PP will receive
+      a
+        work response with the NO_WORK bit set is if the timer expires.  Note: it is still possible
       for
-      a PP to receive a NO_WORK response even though there was at least one executable entry in the
-      work queues.
+        a PP to receive a NO_WORK response even though there was at least one executable entry in
+      the
+        work queues.
       In either case, it's important to note that switches and de-schedules are higher priority
       operations that can cause the pre-fetch engine to reset.  Thus in a system with many switches
       or
@@ -503,7 +506,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -533,27 +536,29 @@ registers:
       queue entries.
       This register also contains the illegal operation error bits and the corresponding interrupt
       enables as follows:
-      <0> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP from PP in NULL_NULL state
-      <1> Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP from PP in NULL state
-      <2> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK from PP with pending tag switch to ORDERED
+       <0> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP from PP in NULL_NULL state
+       <1> Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP from PP in NULL state
+       <2> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK from PP with pending tag switch to ORDERED
       or ATOMIC
-      <3> Received SWTAG/SWTAG_FULL/SWTAG_DESCH from PP with tag specified as NULL_NULL
-      <4> Received SWTAG_FULL/SWTAG_DESCH from PP with tag specified as NULL
-      <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/NULL_RD from PP with GET_WORK
+       <3> Received SWTAG/SWTAG_FULL/SWTAG_DESCH from PP with tag specified as NULL_NULL
+       <4> Received SWTAG_FULL/SWTAG_DESCH from PP with tag specified as NULL
+       <5> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/NULL_RD from PP with
+      GET_WORK pending
+       <6> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/NULL_RD from PP with NULL_RD
       pending
-      <6> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/NULL_RD from PP with NULL_RD
-      pending
-      <7> Received CLR_NSCHED from PP with SWTAG_DESCH/DESCH/CLR_NSCHED pending
-      <8> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/NULL_RD from PP with
+       <7> Received CLR_NSCHED from PP with SWTAG_DESCH/DESCH/CLR_NSCHED pending
+       <8> Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP/GET_WORK/NULL_RD from PP with
       CLR_NSCHED pending
-      <9> Received illegal opcode
+       <9> Received illegal opcode
       <10> Received ADD_WORK with tag specified as NULL_NULL
       <11> Received DBG load from PP with DBG load pending
       <12> Received CSR load from PP with CSR load pending
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 63..45
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -567,7 +572,7 @@ registers:
 
       - name: --
         bits: 31..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -581,7 +586,7 @@ registers:
 
       - name: --
         bits: 15..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -602,7 +607,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -656,7 +661,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -684,7 +689,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -708,7 +713,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -732,7 +737,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -753,7 +758,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -773,7 +778,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -793,7 +798,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -813,7 +818,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -834,7 +839,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -855,7 +860,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -876,7 +881,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -897,7 +902,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -914,10 +919,12 @@ registers:
     address: 0x16700000003A0 + a*0x8
     bus: NCB
     description: Threshold value for triggering input queue interrupts.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -938,7 +945,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -952,7 +959,7 @@ registers:
 
       - name: --
         bits: 10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -966,7 +973,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -983,6 +990,8 @@ registers:
         access: RO
         reset: 0
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: Index memory BIST status
 
       - name: FIDX

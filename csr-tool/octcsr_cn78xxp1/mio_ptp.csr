@@ -22,11 +22,11 @@ registers:
     title: PTP Clock Configuration Register
     address: 0x1070000000F00
     bus: NCB
-    description: This register configures the timestamp architecture. MIO_PTP Registers for address
+    description: This register configures the timestamp architecture. See MIO_PTP Registers for address
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -59,7 +59,7 @@ registers:
 
       - name: --
         bits: 37..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -83,7 +83,7 @@ registers:
 
       - name: --
         bits: 29..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -191,11 +191,11 @@ registers:
     address: 0x1070000000F08
     bus: NCB
     description: |
-      This register provides bits<31:0> of the PTP clock. MIO_PTP Registers for address.
+      This register provides bits<31:0> of the PTP clock.
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -215,8 +215,7 @@ registers:
     bus: NCB
     description: |
       This register provides bits<95:32> of the PTP clock. Writes to MIO_PTP_CLOCK_HI also clear
-      MIO_PTP_CLOCK_LO. To update all 96 bits, write MIO_PTP_CLOCK_HI followed by
-      MIO_PTP_CLOCK_LOMIO_PTP Registers for address.
+      MIO_PTP_CLOCK_LO. To update all 96 bits, write MIO_PTP_CLOCK_HI followed by MIO_PTP_CLOCK_LO.
     fields:
       - name: NANOSEC
         bits: 63..0
@@ -231,7 +230,7 @@ registers:
     title: PTP Clock Compensator Register
     address: 0x1070000000F18
     bus: NCB
-    description: This register provides the compensation value the PTP clock. MIO_PTP Registers for address.
+    description: This register provides the compensation value the PTP clock.
     fields:
       - name: NANOSEC
         bits: 63..32
@@ -254,7 +253,7 @@ registers:
     bus: NCB
     description: |
       This register contains the timestamp latched on MIO_PTP_CLOCK_CFG[TSTMP_EDGE] edge of
-      MIO_PTP_CLOCK_CFG[TSTMP_IN]. MIO_PTP Registers for address.
+      MIO_PTP_CLOCK_CFG[TSTMP_IN].
     fields:
       - name: NANOSEC
         bits: 63..0
@@ -268,7 +267,7 @@ registers:
     title: PTP Event Counter Register
     address: 0x1070000000F28
     bus: NCB
-    description: This register contains the PTP event counter. MIO_PTP Registers for address.
+    description: This register contains the PTP event counter.
     fields:
       - name: CNTR
         bits: 63..0
@@ -285,11 +284,11 @@ registers:
     title: PTP Clock Out Low Register
     address: 0x1070000000F30
     bus: NCB
-    description: This register contains the low bytes of the PTP clock out. MIO_PTP Registers for address.
+    description: This register contains the low bytes of the PTP clock out.
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -309,7 +308,7 @@ registers:
     description: |
       This register contains the high bytes of the PTP clock out. Writes to MIO_PTP_CKOUT_THRESH_HI
       also clear MIO_PTP_CKOUT_THRESH_LO; to update all 96 bits, write MIO_PTP_CKOUT_THRESH_HI
-      followed by MIO_PTP_CKOUT_THRESH_LO. MIO_PTP Registers for address.
+      followed by MIO_PTP_CKOUT_THRESH_LO.
     fields:
       - name: NANOSEC
         bits: 63..0
@@ -323,9 +322,7 @@ registers:
     title: PTP Clock Out High Increment Register
     address: 0x1070000000F40
     bus: NCB
-    description: |
-      This register contains the high bytes of the PTP clock out increment. MIO_PTP Registers for
-      address.
+    description: This register contains the high bytes of the PTP clock out increment.
     fields:
       - name: NANOSEC
         bits: 63..32
@@ -346,7 +343,7 @@ registers:
     title: PTP Clock Out Low Increment Register
     address: 0x1070000000F48
     bus: NCB
-    description: This register contains the low bytes of the PTP clock out increment. MIO_PTP Registers for address.
+    description: This register contains the low bytes of the PTP clock out increment.
     fields:
       - name: NANOSEC
         bits: 63..32
@@ -367,11 +364,11 @@ registers:
     title: PTP PPS Low Register
     address: 0x1070000000F50
     bus: NCB
-    description: This register contains the low bytes of the PTP PPS. MIO_PTP Registers for address.
+    description: This register contains the low bytes of the PTP PPS.
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -391,7 +388,7 @@ registers:
     description: |
       This register contains the high bytes of the PTP PPS. Writes to MIO_PTP_PPS_THRESH_HI also
       clear MIO_PTP_PPS_THRESH_LO; to update all 96 bits write MIO_PTP_PPS_THRESH_HI followed by
-      MIO_PTP_PPS_THRESH_LO. MIO_PTP Registers for address.
+      MIO_PTP_PPS_THRESH_LO.
     fields:
       - name: NANOSEC
         bits: 63..0
@@ -405,7 +402,7 @@ registers:
     title: PTP PPS High Increment Register
     address: 0x1070000000F60
     bus: NCB
-    description: This register contains the high bytes of the PTP PPS increment. MIO_PTP Registers for address.
+    description: This register contains the high bytes of the PTP PPS increment.
     fields:
       - name: NANOSEC
         bits: 63..32
@@ -426,7 +423,7 @@ registers:
     title: PTP PPS Low Increment Register
     address: 0x1070000000F68
     bus: NCB
-    description: This register contains the low bytes of the PTP PPS increment. MIO_PTP Registers for address.
+    description: This register contains the low bytes of the PTP PPS increment.
     fields:
       - name: NANOSEC
         bits: 63..32
@@ -447,11 +444,11 @@ registers:
     title: PTP Event Interrupt Register
     address: 0x1070000000F70
     bus: NCB
-    description: This register contains the PTP event interrupt. MIO_PTP Registers for address.
+    description: This register contains the PTP event interrupt.
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -469,9 +466,7 @@ registers:
     title: PTP Digital PLL Increment Register
     address: 0x1070000000F80
     bus: NCB
-    description: |
-      This register contains the Digital PLL increment. Zero disables the digital PLL. MIO_PTP
-      Registers for address.
+    description: This register contains the Digital PLL increment. Zero disables the digital PLL.
     fields:
       - name: NANOSEC
         bits: 63..32
@@ -492,7 +487,7 @@ registers:
     title: PTP Digital PLL Error Threshold Register
     address: 0x1070000000F88
     bus: NCB
-    description: This register configures the Digital PLL error interrupt. MIO_PTP Registers for address.
+    description: This register configures the Digital PLL error interrupt.
     fields:
       - name: MAX
         bits: 63..32
@@ -513,7 +508,7 @@ registers:
     title: PTP Digital PLL Error Interrupt Register
     address: 0x1070000000F90
     bus: NCB
-    description: This register contains the Digital PLL error event interrupt. MIO_PTP Registers for address.
+    description: This register contains the Digital PLL error event interrupt.
     fields:
       - name: N_SCLK
         bits: 63..32
@@ -524,7 +519,7 @@ registers:
 
       - name: --
         bits: 31..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

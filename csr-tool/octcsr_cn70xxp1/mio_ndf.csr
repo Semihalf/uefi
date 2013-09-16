@@ -69,10 +69,12 @@ registers:
       RST_FF  reset command fifo to make it empty, any command inflight is not aborted before
       reseting
         the fifo. The fifo comes up empty at the end of power on reset."
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -177,7 +179,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -220,7 +222,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -261,7 +263,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -324,7 +326,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -413,7 +415,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -432,7 +434,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

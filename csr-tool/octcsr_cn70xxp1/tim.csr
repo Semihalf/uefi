@@ -23,14 +23,14 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
 
       - name: RESET
         bits: 2
-        access: --
+        access: RAZ
         reset: 0
         typical: 0
         description: Reset oneshot pulse for free-running structures
@@ -72,7 +72,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -101,7 +101,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -139,7 +139,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -161,7 +161,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -189,7 +189,7 @@ registers:
     fields:
       - name: --
         bits: 63..55
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -234,7 +234,7 @@ registers:
     fields:
       - name: --
         bits: 63..43
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -289,7 +289,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -303,7 +303,7 @@ registers:
 
       - name: --
         bits: 46
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -325,7 +325,7 @@ registers:
 
       - name: --
         bits: 23..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -386,7 +386,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED

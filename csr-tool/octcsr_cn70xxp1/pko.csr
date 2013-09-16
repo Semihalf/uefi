@@ -7,17 +7,14 @@ registers:
     address: 0x1180050000000
     bus: RSL
     internal: |
-      When set, ENA_PKO enables the PKO picker and places the PKO in normal operation.  When set,
-      ENA_DWB
-      enables the use of DontWriteBacks during the buffer freeing operations.  When not set,
-      STORE_BE inverts
-      bits[2:0] of the STORE0 byte write address.  When set, RESET causes a 4-cycle reset pulse to
-      the
-      entire box.
+      When set, ENA_PKO enables the PKO picker and places the PKO in normal operation. When set,
+      ENA_DWB enables the use of DontWriteBacks during the buffer freeing operations. When not set,
+      STORE_BE inverts bits[2:0] of the STORE0 byte write address. When set, RESET causes a 4-cycle
+      reset pulse to the entire box.
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -38,14 +35,14 @@ registers:
 
       - name: --
         bits: 6..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
 
       - name: RESET
         bits: 3
-        access: --
+        access: RAZ
         reset: 0
         typical: 0
         description: Reset oneshot pulse
@@ -77,16 +74,14 @@ registers:
     bus: RSL
     internal: |
       Provides the read index during a CSR read operation to any of the CSRs that are physically
-      stored
-      as memories.  The names of these CSRs begin with the prefix "PKO_MEM_".
-      IDX[7:0] is the read index.  INC[7:0] is an increment that is added to IDX[7:0] after any CSR
-      read.
-      The intended use is to initially write this CSR such that IDX=0 and INC=1.  Then, the entire
+      stored as memories. The names of these CSRs begin with the prefix "PKO_MEM_". IDX[7:0] is the
+      read index. INC[7:0] is an increment that is added to IDX[7:0] after any CSR read. The
+      intended use is to initially write this CSR such that IDX=0 and INC=1. Then, the entire
       contents of a CSR memory can be read with consecutive CSR read commands.
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -103,6 +98,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          exempt_keyword: "True"
         description: Index to use for next memory CSR read
 
 
@@ -112,12 +109,11 @@ registers:
     internal: |
       Sets the command buffer parameters
       The size of the command buffer segments is measured in uint64s.  The pool specifies (1 of 8
-      free
-      lists to be used when freeing command buffer segments.
+      free lists to be used when freeing command buffer segments.
     fields:
       - name: --
         bits: 63..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -153,34 +149,25 @@ registers:
       This CSR sets the number of GMX0/GMX1 ports and amount of local storage per engine.
       It has no effect on the number of ports or amount of local storage per engine for PCI, LOOP
       and AGL.
-      When all GMX ports are used (MODE0=2), each GMX engine has 2.5kB of local
-      storage.  Increasing the value of MODEn by 1 decreases the number of GMX ports by a power of 2
-      and
-      increases the local storage per PKO GMX engine by a power of 2.  If one of the modes is 5,
-      then only
-      one of interfaces GM0 or GM1 is present and the storage per engine of the existing interface
-      is
+      When all GMX ports are used (MODE0=2), each GMX engine has 2.5kB of local storage.  Increasing
+      the value of MODEn by 1 decreases the number of GMX ports by a power of 2 and increases the
+      local storage per PKO GMX engine by a power of 2.  If one of the modes is 5, then only one of
+      interfaces GM0 or GM1 is present and the storage per engine of the existing interface is
       doubled.  Modes 0 and 1 are illegal and, if selected, are treated as mode 2.
       MODE[n] GM[n] PCI   LOOP  AGL   GM[n]                      PCI            LOOP           AGL
-      ports ports ports ports storage/engine             storage/engine storage/engine
+              ports ports ports ports storage/engine             storage/engine storage/engine
       storage/engine
-      0       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
-      2.5kB
-      1       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
-      2.5kB
-      2       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB
-      2.5kB
-      3       2     4     4     1     ( 5.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB
-      2.5kB
-      4       1     4     4     1     (10.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB
-      2.5kB
-      5       0     4     4     1     (   0kB                  ) 2.5kB          2.5kB
-      2.5kB
+      0       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
+      1       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
+      2       4     4     4     1     ( 2.5kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
+      3       2     4     4     1     ( 5.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
+      4       1     4     4     1     (10.0kB << (MODE[1-n]==5)) 2.5kB          2.5kB          2.5kB
+      5       0     4     4     1     (   0kB                  ) 2.5kB          2.5kB          2.5kB
       where 0 <= n <= 1
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -206,10 +193,8 @@ registers:
     internal: |
       Sets the number of queues and amount of local storage per queue
       The system has a total of 256 queues and (256*8) words of local command storage.  This CSR
-      sets the
-      number of queues that are used.  Increasing the value of MODE by 1 decreases the number of
-      queues
-      by a power of 2 and increases the local storage per queue by a power of 2.
+      sets the number of queues that are used.  Increasing the value of MODE by 1 decreases the
+      number of queues by a power of 2 and increases the local storage per queue by a power of 2.
       MODEn queues storage/queue
       0     256     64B ( 8 words)
       1     128    128B (16 words)
@@ -217,7 +202,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -239,7 +224,7 @@ registers:
     fields:
       - name: --
         bits: 63..56
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -350,19 +335,15 @@ registers:
       When not enabled, packet data may be sent as soon as it is written into PKO's internal
       buffers.
       When enabled and the packet fits entirely in the PKO's internal buffer, none of the packet
-      data will
-      be sent until all of it has been written into the PKO's internal buffer.  Note that a packet
-      is
-      considered to fit entirely only if the packet's size is <= BUFFER_SIZE-8.  When enabled and
-      the
-      packet does not fit entirely in the PKO's internal buffer, none of the packet data will be
-      sent until
-      at least BUFFER_SIZE-256 bytes of the packet have been written into the PKO's internal buffer
-      (note that BUFFER_SIZE is a function of PKO_REG_GMX_PORT_MODE above)
+      data will be sent until all of it has been written into the PKO's internal buffer.  Note that
+      a packet is considered to fit entirely only if the packet's size is <= BUFFER_SIZE-8.  When
+      enabled and the packet does not fit entirely in the PKO's internal buffer, none of the packet
+      data will be sent until at least BUFFER_SIZE-256 bytes of the packet have been written into
+      the PKO's internal buffer (note that BUFFER_SIZE is a function of PKO_REG_GMX_PORT_MODE above)
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -374,7 +355,7 @@ registers:
         typical: 0x0
         description: |
           Mask[n]=0 disables packet send threshold for engine n
-          Mask[n]=1 enables  packet send threshold for engine n  $PR       NS
+          Mask[n]=1 enables  packet send threshold for engine n
           Bits <13:11> are unused
 
 
@@ -385,7 +366,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -409,7 +390,7 @@ registers:
     fields:
       - name: --
         bits: 63..30
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -526,7 +507,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -560,7 +541,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -640,17 +621,15 @@ registers:
     bus: RSL
     internal: |
       This CSR is used with PKO_MEM_QUEUE_PTRS and PKO_MEM_QUEUE_QOS to allow access to queues
-      128-255
-      and to allow up mapping of up to 16 queues per port.  When programming queues 128-255, the
-      programming sequence must first write PKO_REG_QUEUE_PTRS1 and then write PKO_MEM_QUEUE_PTRS or
-      PKO_MEM_QUEUE_QOS for each queue.
+      128-255 and to allow up mapping of up to 16 queues per port. When programming queues 128-255,
+      the programming sequence must first write PKO_REG_QUEUE_PTRS1 and then write
+      PKO_MEM_QUEUE_PTRS or PKO_MEM_QUEUE_QOS for each queue.
       See the descriptions of PKO_MEM_QUEUE_PTRS and PKO_MEM_QUEUE_QOS for further explanation of
-      queue
-      programming.
+      queue programming.
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -676,19 +655,17 @@ registers:
     internal: |
       Per QID, setting both PREEMPTER=1 and PREEMPTEE=1 is illegal and sets only PREEMPTER=1.
       This CSR is used with PKO_MEM_QUEUE_PTRS and PKO_REG_QUEUE_PTRS1.  When programming queues,
-      the
-      programming sequence must first write PKO_REG_QUEUE_PREEMPT, then PKO_REG_QUEUE_PTRS1 and then
-      PKO_MEM_QUEUE_PTRS for each queue.  Preemption is supported only on queues that are ultimately
-      mapped to engines 0-7.  It is illegal to set preemptee or preempter for a queue that is
-      ultimately
-      mapped to engines 8-11.
+      the programming sequence must first write PKO_REG_QUEUE_PREEMPT, then PKO_REG_QUEUE_PTRS1 and
+      then PKO_MEM_QUEUE_PTRS for each queue.  Preemption is supported only on queues that are
+      ultimately mapped to engines 0-7.  It is illegal to set preemptee or preempter for a queue
+      that is ultimately mapped to engines 8-11.
       Also, PKO_REG_ENGINE_INFLIGHT must be at least 2 for any engine on which preemption is
       enabled.
       See the descriptions of PKO_MEM_QUEUE_PTRS for further explanation of queue programming.
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -720,7 +697,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -740,26 +717,19 @@ registers:
     address: 0x1180050001000
     bus: RSL
     internal: |
-      Sets the queue to port mapping and the initial command buffer pointer, per queue
-      Each queue may map to at most one port.  No more than 16 queues may map to a port.  The set of
-      queues that is mapped to a port must be a contiguous array of queues.  The port to which queue
-      QID
-      is mapped is port PID.  The index of queue QID in port PID's queue list is IDX.  The last
-      queue in
-      port PID's queue array must have its TAIL bit set.  Unused queues must be mapped to port 63.
-      STATIC_Q marks queue QID as having static priority.  STATIC_P marks the port PID to which QID
-      is
-      mapped as having at least one queue with static priority.  If any QID that maps to PID has
-      static
-      priority, then all QID that map to PID must have STATIC_P set.  Queues marked as static
-      priority
-      must be contiguous and begin at IDX 0.  The last queue that is marked as having static
-      priority
-      must have its S_TAIL bit set.
+      Sets the queue to port mapping and the initial command buffer pointer, per queue Each queue
+      may map to at most one port. No more than 16 queues may map to a port. The set of queues that
+      is mapped to a port must be a contiguous array of queues. The port to which queue QID is
+      mapped is port PID. The index of queue QID in port PID's queue list is IDX. The last queue in
+      port PID's queue array must have its TAIL bit set. Unused queues must be mapped to port
+      63. STATIC_Q marks queue QID as having static priority. STATIC_P marks the port PID to which
+      QID is mapped as having at least one queue with static priority. If any QID that maps to PID
+      has static priority, then all QID that map to PID must have STATIC_P set. Queues marked as
+      static priority must be contiguous and begin at IDX 0. The last queue that is marked as having
+      static priority must have its S_TAIL bit set.
       This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: S_TAIL
         bits: 63
@@ -809,6 +779,8 @@ registers:
         access: WO
         reset: X
         typical: 0x0
+        attributes:
+          exempt_keyword: "True"
         description: |
           Index[2:0] (distance from head) in the queue array
 
@@ -832,23 +804,18 @@ registers:
     address: 0x1180050001008
     bus: RSL
     internal: |
-      Sets the QOS mask, per queue.  These QOS_MASK bits are logically and physically the same
-      QOS_MASK
-      bits in PKO_MEM_QUEUE_PTRS.  This CSR address allows the QOS_MASK bits to be written during
-      PKO
-      operation without affecting any other queue state.  The port to which queue QID is mapped is
-      port
-      PID.  Note that the queue to port mapping must be the same as was previously programmed via
-      the
-      PKO_MEM_QUEUE_PTRS CSR.
+      Sets the QOS mask, per queue. These QOS_MASK bits are logically and physically the same
+      QOS_MASK bits in PKO_MEM_QUEUE_PTRS. This CSR address allows the QOS_MASK bits to be written
+      during PKO operation without affecting any other queue state. The port to which queue QID is
+      mapped is port PID. Note that the queue to port mapping must be the same as was previously
+      programmed via the PKO_MEM_QUEUE_PTRS CSR.
       This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..61
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -862,7 +829,7 @@ registers:
 
       - name: --
         bits: 52..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -886,73 +853,71 @@ registers:
     address: 0x1180050001010
     bus: RSL
     internal: |
-      Sets the port to engine mapping, per port.  Ports marked as static priority need not be
-      contiguous,
-      but they must be the lowest numbered PIDs mapped to this EID and must have QOS_MASK=0xff.  If
-      EID==8
-      or EID==9, then PID[1:0] is used to direct the packet to the correct port on that interface.
+      Sets the port to engine mapping, per port. Ports marked as static priority need not be
+      contiguous, but they must be the lowest numbered PIDs mapped to this EID and must have
+      QOS_MASK=0xff. If EID==8 or EID==9, then PID[1:0] is used to direct the packet to the correct
+      port on that interface.
       EID==15 can be used for unused PKO-internal ports.
       BP_PORT==63 means that the PKO-internal port is not backpressured.
       BP_PORTs are assumed to belong to an interface as follows:
-      36 <= BP_PORT < 40 -> loopback   interface
-      32 <= BP_PORT < 36 -> PCIe       interface
-      0  <= BP_PORT < 16 -> GMX        interface 0
+        36 <= BP_PORT < 40 -> loopback   interface
+        32 <= BP_PORT < 36 -> PCIe       interface
+        0  <= BP_PORT < 16 -> GMX        interface 0
       The reset configuration is the following:
-      PID EID(ext port) BP_PORT QOS_MASK STATIC_P
-      -------------------------------------------
-      0   0( 0)             0     0xff        0
-      1   1( 1)             1     0xff        0
-      2   2( 2)             2     0xff        0
-      3   3( 3)             3     0xff        0
-      4   0( 0)             4     0xff        0
-      5   1( 1)             5     0xff        0
-      6   2( 2)             6     0xff        0
-      7   3( 3)             7     0xff        0
-      8   0( 0)             8     0xff        0
-      9   1( 1)             9     0xff        0
-      10   2( 2)            10     0xff        0
-      11   3( 3)            11     0xff        0
-      12   0( 0)            12     0xff        0
-      13   1( 1)            13     0xff        0
-      14   2( 2)            14     0xff        0
-      15   3( 3)            15     0xff        0
-      -------------------------------------------
-      16   4(16)            16     0xff        0
-      17   5(17)            17     0xff        0
-      18   6(18)            18     0xff        0
-      19   7(19)            19     0xff        0
-      20   4(16)            20     0xff        0
-      21   5(17)            21     0xff        0
-      22   6(18)            22     0xff        0
-      23   7(19)            23     0xff        0
-      24   4(16)            24     0xff        0
-      25   5(17)            25     0xff        0
-      26   6(18)            26     0xff        0
-      27   7(19)            27     0xff        0
-      28   4(16)            28     0xff        0
-      29   5(17)            29     0xff        0
-      30   6(18)            30     0xff        0
-      31   7(19)            31     0xff        0
-      -------------------------------------------
-      32   8(32)            32     0xff        0
-      33   8(33)            33     0xff        0
-      34   8(34)            34     0xff        0
-      35   8(35)            35     0xff        0
-      -------------------------------------------
-      36   9(36)            36     0xff        0
-      37   9(37)            37     0xff        0
-      38   9(38)            38     0xff        0
-      39   9(39)            39     0xff        0
-      -------------------------------------------
-      40  10(40)            40     0xff        0
+        PID EID(ext port) BP_PORT QOS_MASK STATIC_P
+        -------------------------------------------
+         0   0( 0)             0     0xff        0
+         1   1( 1)             1     0xff        0
+         2   2( 2)             2     0xff        0
+         3   3( 3)             3     0xff        0
+         4   0( 0)             4     0xff        0
+         5   1( 1)             5     0xff        0
+         6   2( 2)             6     0xff        0
+         7   3( 3)             7     0xff        0
+         8   0( 0)             8     0xff        0
+         9   1( 1)             9     0xff        0
+        10   2( 2)            10     0xff        0
+        11   3( 3)            11     0xff        0
+        12   0( 0)            12     0xff        0
+        13   1( 1)            13     0xff        0
+        14   2( 2)            14     0xff        0
+        15   3( 3)            15     0xff        0
+        -------------------------------------------
+        16   4(16)            16     0xff        0
+        17   5(17)            17     0xff        0
+        18   6(18)            18     0xff        0
+        19   7(19)            19     0xff        0
+        20   4(16)            20     0xff        0
+        21   5(17)            21     0xff        0
+        22   6(18)            22     0xff        0
+        23   7(19)            23     0xff        0
+        24   4(16)            24     0xff        0
+        25   5(17)            25     0xff        0
+        26   6(18)            26     0xff        0
+        27   7(19)            27     0xff        0
+        28   4(16)            28     0xff        0
+        29   5(17)            29     0xff        0
+        30   6(18)            30     0xff        0
+        31   7(19)            31     0xff        0
+        -------------------------------------------
+        32   8(32)            32     0xff        0
+        33   8(33)            33     0xff        0
+        34   8(34)            34     0xff        0
+        35   8(35)            35     0xff        0
+        -------------------------------------------
+        36   9(36)            36     0xff        0
+        37   9(37)            37     0xff        0
+        38   9(38)            38     0xff        0
+        39   9(39)            39     0xff        0
+        -------------------------------------------
+        40  10(40)            40     0xff        0
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..62
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -973,7 +938,7 @@ registers:
 
       - name: --
         bits: 52..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1009,22 +974,18 @@ registers:
     address: 0x1180050001018
     bus: RSL
     internal: |
-      Sets the QOS mask, per port.  These QOS_MASK bits are logically and physically the same
-      QOS_MASK
-      bits in PKO_MEM_PORT_PTRS.  This CSR address allows the QOS_MASK bits to be written during PKO
-      operation without affecting any other port state.  The engine to which port PID is mapped is
-      engine
-      EID.  Note that the port to engine mapping must be the same as was previously programmed via
-      the
-      PKO_MEM_PORT_PTRS CSR.
+      Sets the QOS mask, per port. These QOS_MASK bits are logically and physically the same
+      QOS_MASK bits in PKO_MEM_PORT_PTRS. This CSR address allows the QOS_MASK bits to be written
+      during PKO operation without affecting any other port state. The engine to which port PID is
+      mapped is engine EID. Note that the port to engine mapping must be the same as was previously
+      programmed via the PKO_MEM_PORT_PTRS CSR.
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..61
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1038,7 +999,7 @@ registers:
 
       - name: --
         bits: 52..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1066,13 +1027,12 @@ registers:
     bus: RSL
     internal: |
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed. A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..51
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1093,7 +1053,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1114,13 +1074,12 @@ registers:
       Writing PKO_MEM_PORT_RATE1[PID,RATE_LIM] has the side effect of setting the corresponding
       accumulator to zero.
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1134,7 +1093,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1155,13 +1114,12 @@ registers:
       Total number of packets seen by PKO, per port
       A write to this address will clear the entry whose index is specified as COUNT[5:0].
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1181,13 +1139,12 @@ registers:
       Total number of bytes seen by PKO, per port
       A write to this address will clear the entry whose index is specified as COUNT[5:0].
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.  A read of any entry that has not been
-      previously written is illegal and will result in unpredictable CSR read data.
+      any CSR read operations to this address can be performed.  A read of any entry that has not
+      been previously written is illegal and will result in unpredictable CSR read data.
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1206,8 +1163,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.cmnd[63:0]
       This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: FAU
         bits: 63..36
@@ -1244,8 +1200,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.curr[63:0]
       This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: I
         bits: 63
@@ -1289,8 +1244,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.head[63:0]
       This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: I
         bits: 63
@@ -1334,8 +1288,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.resp[63:0]
       This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: DATA
         bits: 63..0
@@ -1351,8 +1304,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.state[63:0]
       This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: CURR_SIZ
         bits: 63..56
@@ -1429,6 +1381,8 @@ registers:
         access: RO/H
         reset: X
         typical: 0
+        attributes:
+          exempt_keyword: "True"
         description: Internal state
 
       - name: MINOR
@@ -1452,12 +1406,11 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.state[127:64]
       This CSR is a memory of 11 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..56
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1504,8 +1457,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko_prt_psb.port[63:0]
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..37
@@ -1605,8 +1557,7 @@ registers:
     internal: |
       Internal per-queue state intended for debug use only pko_prt_qsb.state[63:0]
       This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: QOS
         bits: 63..59
@@ -1657,12 +1608,11 @@ registers:
     internal: |
       Internal per-queue state intended for debug use only pko_prt_qsb.state[91:64]
       This CSR is a memory of 256 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1676,7 +1626,7 @@ registers:
 
       - name: --
         bits: 33
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1704,7 +1654,7 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1751,12 +1701,11 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko.dat.ptr.ptrs0, pko.dat.ptr.ptrs3
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1770,7 +1719,7 @@ registers:
 
       - name: --
         bits: 31..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1789,12 +1738,11 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko.dat.ptr.ptrs1, pko.dat.ptr.ptrs2
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1808,7 +1756,7 @@ registers:
 
       - name: --
         bits: 31..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1827,12 +1775,11 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko.out.sta.state[22:0]
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: --
         bits: 63..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: RESERVED
@@ -1893,8 +1840,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko.out.ctl.cmnd[63:0]
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: FAU
         bits: 63..36
@@ -1931,8 +1877,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko.out.ctl.head[63:0]
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: I
         bits: 63
@@ -1976,8 +1921,7 @@ registers:
     internal: |
       Internal per-port state intended for debug use only pko.prt.psb.save[63:0]
       This CSR is a memory of 123 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
-      any
-      CSR read operations to this address can be performed.
+      any CSR read operations to this address can be performed.
     fields:
       - name: DATA
         bits: 63..0

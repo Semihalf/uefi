@@ -21,7 +21,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -67,14 +67,14 @@ registers:
     description: This register sets the command-buffer parameters.
     fields:
       - name: --
-        bits: 63..58
-        access: --
+        bits: 63..60
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
 
       - name: AURA
-        bits: 57..48
+        bits: 59..48
         access: R/W
         reset: 0x0
         typical: --
@@ -103,7 +103,7 @@ registers:
 
       - name: --
         bits: 32..0
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -128,7 +128,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -155,7 +155,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -172,6 +172,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          exempt_keyword: "True"
         description: Index to use for next memory CSR read operation.
 
 
@@ -183,7 +185,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -199,7 +201,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -217,7 +219,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -258,7 +260,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -280,7 +282,7 @@ registers:
     fields:
       - name: --
         bits: 63..57
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -294,7 +296,7 @@ registers:
 
       - name: --
         bits: 31..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -308,7 +310,7 @@ registers:
 
       - name: --
         bits: 15..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -408,7 +410,7 @@ registers:
     fields:
       - name: --
         bits: 63..53
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -506,7 +508,7 @@ registers:
 
       - name: --
         bits: 11..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -569,7 +571,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -618,7 +620,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -663,6 +665,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: ICTL index
 
 
@@ -701,7 +705,7 @@ registers:
     fields:
       - name: --
         bits: 63..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -746,6 +750,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: OCTL index
 
 
@@ -756,7 +762,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

@@ -143,7 +143,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -196,7 +196,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -220,7 +220,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -244,7 +244,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -292,7 +292,7 @@ registers:
         description: |
           Drop all requests on given link. Typically set by hardware when link has failed or been
           reinitialized. Cleared by software once pending link traffic is removed. (See
-          OCX_TLK[0..2]_FIFO[0..12]_CNT.)
+          OCX_TLK[0..2]_FIFO[0..13]_CNT.)
 
       - name: UP
         bits: 3
@@ -362,7 +362,7 @@ registers:
 
       - name: --
         bits: 55..51
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -430,7 +430,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -454,7 +454,7 @@ registers:
     fields:
       - name: --
         bits: 63..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -543,7 +543,7 @@ registers:
     fields:
       - name: --
         bits: 63..55
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -610,7 +610,7 @@ registers:
 
       - name: --
         bits: 47..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -630,7 +630,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -746,7 +746,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -762,7 +762,7 @@ registers:
 
       - name: --
         bits: 7..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -796,7 +796,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -830,7 +830,7 @@ registers:
 
       - name: --
         bits: 62..37
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -862,7 +862,7 @@ registers:
 
       - name: --
         bits: 31..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -900,7 +900,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -988,7 +988,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1066,7 +1066,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1109,7 +1109,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1131,7 +1131,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1153,7 +1153,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1175,7 +1175,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1197,7 +1197,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1219,7 +1219,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1241,7 +1241,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1263,7 +1263,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1285,7 +1285,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1308,7 +1308,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1330,7 +1330,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1352,7 +1352,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1374,7 +1374,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1396,7 +1396,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1417,7 +1417,7 @@ registers:
 
       - name: --
         bits: 31..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1451,7 +1451,7 @@ registers:
 
       - name: --
         bits: 62..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1472,7 +1472,7 @@ registers:
 
       - name: --
         bits: 31..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1500,8 +1500,22 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..26
-        access: --
+        bits: 63..42
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SER_LIMIT
+        bits: 41..32
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Reduce latency by limiting the amount of data in flight for each SerDes.
+
+      - name: --
+        bits: 31..26
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1529,7 +1543,7 @@ registers:
 
       - name: --
         bits: 23..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1543,7 +1557,7 @@ registers:
 
       - name: --
         bits: 15..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1584,7 +1598,7 @@ registers:
 
       - name: --
         bits: 2..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1608,8 +1622,8 @@ registers:
           QLM4/5 can only participate in LNK2; therefore
           OCX_QLM4/5_CFG[SER_LOCAL] has no effect.
           During a cold reset, initialized as follows:
-          OCX_QLM2_CFG.SER_LOCAL = pi_qlm_local[0]
-          OCX_QLM3_CFG.SER_LOCAL = pi_qlm_local[1]
+          OCX_QLM2_CFG.SER_LOCAL = pi_oci2_link1
+          OCX_QLM3_CFG.SER_LOCAL = pi_oci3_link1
 
 
   - name: OCX_LNK(0..2)_CFG
@@ -1621,7 +1635,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1645,12 +1659,14 @@ registers:
           LINK 0 may not select QLM4, QLM5.
           LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
           LINK 2 may not select QLM0, QLM1.
-          This field is initialized using the OCI_SPD pins during a cold reset.
+          During a cold reset, this field is initialized to 0x3f when pi_oci_spd == 0xf.
+          During a cold reset, this field is initialized to 0x0  when pi_oci_spd != 0xf.
+          This field is not modified by hardware at any other time.
           This field is not affected by soft or warm reset.
 
       - name: --
         bits: 47..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1675,9 +1691,18 @@ registers:
           LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
           LINK 2 may not select QLM0, QLM1.
 
+          LINK 0 automatically selects QLM0 when QLM_MANUAL[0]=0
+          LINK 0 automatically selects QLM1 when QLM_MANUAL[1]=0
+          LINK 0 automatically selects QLM2 when QLM_MANUAL[2]=0 and OCX_QLM2_CFG.SER_LOCAL=0
+          LINK 1 automatically selects QLM2 when QLM_MANUAL[2]=0 and OCX_QLM2_CFG.SER_LOCAL=1
+          LINK 1 automatically selects QLM3 when QLM_MANUAL[3]=0 and OCX_QLM3_CFG.SER_LOCAL=1
+          LINK 2 automatically selects QLM3 when QLM_MANUAL[3]=0 and OCX_QLM3_CFG.SER_LOCAL=0
+          LINK 3 automatically selects QLM4 when QLM_MANUAL[4]=0
+          LINK 3 automatically selects QLM5 when QLM_MANUAL[5]=0
+
       - name: --
         bits: 31..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1701,7 +1726,7 @@ registers:
 
       - name: --
         bits: 7..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1714,7 +1739,7 @@ registers:
     fields:
       - name: --
         bits: 63..37
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1760,7 +1785,7 @@ registers:
 
       - name: --
         bits: 31..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1810,7 +1835,7 @@ registers:
     fields:
       - name: --
         bits: 63..56
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1838,7 +1863,7 @@ registers:
 
       - name: --
         bits: 31..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1852,7 +1877,7 @@ registers:
 
       - name: --
         bits: 15..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1895,7 +1920,7 @@ registers:
     fields:
       - name: --
         bits: 63..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1923,7 +1948,7 @@ registers:
 
       - name: --
         bits: 31..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1964,7 +1989,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1985,7 +2010,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2007,7 +2032,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2039,7 +2064,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2070,14 +2095,14 @@ registers:
           the unmasked VC and CMD bits match then OCX_TLK(a)_STAT_MAT(b)_CNT is incremented.
 
 
-  - name: OCX_TLK(0..2)_FIFO(0..12)_CNT
+  - name: OCX_TLK(0..2)_FIFO(0..13)_CNT
     title: OCX Transmit Link FIFO Count Registers
     address: 0x1180011010100 + a*0x2000 + b*0x8
     bus: RSL
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2090,14 +2115,14 @@ registers:
         description: TX FIFO count of bus cycles to send.
 
 
-  - name: OCX_TLK(0..2)_LNK_VC(0..12)_CNT
+  - name: OCX_TLK(0..2)_LNK_VC(0..13)_CNT
     title: OCX Transmit Link VC Credits Registers
     address: 0x1180011010200 + a*0x2000 + b*0x8
     bus: RSL
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2107,17 +2132,17 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Link VC credits available for use.
+        description: Link VC credits available for use.  VC13 always reads 1 since credits are not required.
 
 
-  - name: OCX_TLK(0..2)_RTN_VC(0..12)_CNT
+  - name: OCX_TLK(0..2)_RTN_VC(0..13)_CNT
     title: OCX Transmit Link Return VC Credits Registers
     address: 0x1180011010300 + a*0x2000 + b*0x8
     bus: RSL
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2127,7 +2152,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Link VC credits to return.
+        description: Link VC credits to return.  VC13 always reads 0 since credits are never returned.
 
 
   - name: OCX_TLK(0..2)_STAT_IDLE_CNT
@@ -2230,7 +2255,7 @@ registers:
           equal to the number of packets.
 
 
-  - name: OCX_TLK(0..2)_STAT_VC(0..12)_PKT
+  - name: OCX_TLK(0..2)_STAT_VC(0..13)_PKT
     title: OCX Transmit Link Statistics VC Packet Count Registers
     address: 0x1180011010500 + a*0x2000 + b*0x8
     bus: RSL
@@ -2245,7 +2270,7 @@ registers:
           OCX_TLK(a)_STAT_CTL[ENABLE] has been set.
 
 
-  - name: OCX_TLK(0..2)_STAT_VC(0..12)_CON
+  - name: OCX_TLK(0..2)_STAT_VC(0..13)_CON
     title: OCX Transmit Link Statistics VC Conflict Count Registers
     address: 0x1180011010580 + a*0x2000 + b*0x8
     bus: RSL
@@ -2258,6 +2283,7 @@ registers:
         description: |
           Number of conflicts on this VC while OCX_TLK(a)_STAT_CTL[ENABLE] has been set. A conflict
           is indicated when a VC has one or more packets to send and no link credits are available.
+          VC13 does not require credits so no conflicts are ever indicated (ie. reads 0).
 
 
   - name: OCX_RLK(0..2)_ENABLES
@@ -2269,7 +2295,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2279,7 +2305,11 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Master enable for all inbound MCD bits. This bit must be enabled by software.
+        description: |
+          Master enable for all inbound MCD bits. This bit should always be enabled by software once
+          any
+          Authentik validation has occured and before any MCD traffic is generated.  MCD traffic is
+          typically controlled by the OCX_TLK(0..2)_MCD_CTL register.
 
       - name: M_REQ
         bits: 3
@@ -2327,7 +2357,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2348,7 +2378,7 @@ registers:
 
       - name: --
         bits: 31..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2372,12 +2402,17 @@ registers:
     title: OCX Receive MCD Control Registers
     address: 0x1180011018020 + a*0x2000
     bus: RSL
+    description: |
+      This debug register captures which new MCD bits have been received from the link partner.  The
+      MCD bits are
+      received when the both the OCX_RLK(0..2)_ENABLES[MCD] bit is set and the MCD was not
+      previously transmitted.
     attributes:
       uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2408,7 +2443,7 @@ registers:
 
       - name: --
         bits: 62..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2430,7 +2465,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2478,14 +2513,14 @@ registers:
           alignment). Count saturates at max value.
 
 
-  - name: OCX_RLK(0..2)_FIFO(0..12)_CNT
+  - name: OCX_RLK(0..2)_FIFO(0..13)_CNT
     title: OCX Receive Link FIFO Count Registers
     address: 0x1180011018100 + a*0x2000 + b*0x8
     bus: RSL
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2495,7 +2530,9 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: RX FIFO count of 64-bit words to send to core.
+        description: |
+          RX FIFO count of 64-bit words to send to core.  VC13 traffic is used immediately so
+          the FIFO count is always 0. (see OCX_RLK(0..2)_LNK_DATA)
 
 
 

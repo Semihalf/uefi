@@ -80,7 +80,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -198,7 +198,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -233,7 +233,7 @@ registers:
 
       - name: --
         bits: 4..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -279,7 +279,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -369,7 +369,7 @@ registers:
 
       - name: --
         bits: 15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -597,7 +597,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -615,7 +615,7 @@ registers:
 
       - name: --
         bits: 31..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -633,7 +633,7 @@ registers:
 
       - name: --
         bits: 15..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -658,7 +658,7 @@ registers:
     fields:
       - name: --
         bits: 63..31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -861,7 +861,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -915,7 +915,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -966,7 +966,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1015,7 +1015,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1066,7 +1066,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1115,7 +1115,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1166,7 +1166,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1215,7 +1215,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1270,14 +1270,14 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
 
       - name: --
         bits: 31..30
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -1388,7 +1388,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -1563,7 +1563,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1595,31 +1595,31 @@ registers:
       disable' is blown, read/write operations to the DFA_DIFRDPTR register do not take effect.
     fields:
       - name: --
-        bits: 63..40
-        access: --
+        bits: 63..42
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: RDPTR
-        bits: 39..5
+        bits: 41..6
         access: R/W/H
         reset: 0x0
         typical: --
         description: |
-          Represents the 32-byte-aligned address of the current instruction in the HFA Instruction
+          Represents the 64B-aligned address of the current instruction in the HFA Instruction
           FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
           maintained thereafter by HFA hardware. During the seed write operation (by software),
-          RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
+          RDPTR<6>=0, since HFA instruction chunks must be 128B-aligned. During a read
           operation (by software), the most-recent contents of the RDPTR register are returned at
-          the time the IOI-INB bus is driven.
+          the time the NCB-INB bus is driven.
           Since HFA hardware updates this register, its contents are unpredictable in software
           (unless it is guaranteed that no new doorbell register write operations have occurred and
           the doorbell register is read as zero).
 
       - name: --
-        bits: 4..0
-        access: --
+        bits: 5..0
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1642,7 +1642,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1686,7 +1686,7 @@ registers:
 
       - name: --
         bits: 19..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1706,7 +1706,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

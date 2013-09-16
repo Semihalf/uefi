@@ -8,10 +8,13 @@ registers:
     address: 0x1180040000000
     bus: RSL
     description: The RNM's interrupt enable register.
+    attributes:
+      dv_fc_scratch: "ALL"
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -90,7 +93,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

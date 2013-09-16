@@ -26,7 +26,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -60,7 +60,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -90,7 +90,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

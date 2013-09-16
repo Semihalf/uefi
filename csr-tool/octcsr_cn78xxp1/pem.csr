@@ -184,13 +184,9 @@ enums:
         value: 0xC005E + a*0x1000
         description: See See PEM(0..3)_DBG_INFO[ECRC_E].
 
-      - name: PEM(0..3)_ERROR_RTRY_PE
+      - name: PEM(0..3)_ERROR_LOFP
         value: 0xC005F + a*0x1000
-        description: See See PEM(0..3)_DBG_INFO[RTRY_PE].
-
-      - name: PEM(0..3)_ERROR_HDRQ_PE
-        value: 0xC0060 + a*0x1000
-        description: See See PEM(0..3)_DBG_INFO[HDRQ_PE].
+        description: See See PEM(0..3)_DBG_INFO[LOFP].
 
       - name: PEM(0..3)_ERROR_DATQ_PE
         value: 0xC0061 + a*0x1000
@@ -268,6 +264,30 @@ enums:
         value: 0xC0073 + a*0x1000
         description: See See PEM(0..3)_DBG_INFO[C_C_DBE].
 
+      - name: PEM(0..3)_ERROR_RTRY_SBE
+        value: 0xC0074 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTRY_SBE].
+
+      - name: PEM(0..3)_ERROR_RTRY_DBE
+        value: 0xC0075 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[RTRY_DBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B0_SBE
+        value: 0xC0076 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B0_SBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B0_DBE
+        value: 0xC0077 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B0_DBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B1_SBE
+        value: 0xC0078 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B1_SBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B1_DBE
+        value: 0xC0079 + a*0x1000
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B1_DBE].
+
 
 registers:
   - name: PEM(0..3)_CTL_STATUS
@@ -278,7 +298,7 @@ registers:
     fields:
       - name: --
         bits: 63..51
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -293,25 +313,12 @@ registers:
           the most significant Data Queue Buffer ram block
           to force a parity error when it is later read.
 
-      - name: INV_HPAR
-        bits: 49
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Invert the generated parity to be written into the
-          most significant Header Queue Buffer ram block
-          to force a parity error when it is later read.
-
-      - name: INV_RPAR
-        bits: 48
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          Invert the generated parity to be written into the
-          most significant Retry Buffer ram block to force
-          a parity error when it is later read.
+      - name: --
+        bits: 49..48
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: AUTO_SD
         bits: 47
@@ -336,7 +343,7 @@ registers:
 
       - name: --
         bits: 33..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -470,7 +477,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -604,7 +611,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -717,7 +724,7 @@ registers:
 
       - name: --
         bits: 11..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -754,7 +761,7 @@ registers:
 
       - name: --
         bits: 11..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -777,7 +784,7 @@ registers:
 
       - name: --
         bits: 13..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -800,7 +807,7 @@ registers:
 
       - name: --
         bits: 25..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -823,7 +830,7 @@ registers:
 
       - name: --
         bits: 44..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -851,55 +858,90 @@ registers:
       Allows PEM_DBG_INFO to generate interrupts when cooresponding enable bit is set."
     fields:
       - name: --
-        bits: 63..53
-        access: --
+        bits: 63..58
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
-      - name: LOFP_EN
+      - name: QHDRB1DBE
+        bits: 57
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
+
+      - name: QHDRB1SBE
+        bits: 56
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
+
+      - name: QHDRB0DBE
+        bits: 55
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
+
+      - name: QHDRB0SBE
+        bits: 54
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
+
+      - name: RTRYDBE
+        bits: 53
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
+
+      - name: RTRYSBE
         bits: 52
         access: R/W
         reset: 0
         typical: 0
-        description: Allows PEM_DBG_INFO[52] to generate an interrupt.
+        description: Allows PEM_DBG_INFO[5] to generate an interrupt.
 
-      - name: TPCDBE2
+      - name: TCFDBE2
         bits: 51
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[51] to generate an interrupt.
 
-      - name: TPCDBE1
+      - name: TCFSBE2
         bits: 50
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[50] to generate an interrupt.
 
-      - name: TPCDBE0
+      - name: TCFDBE1
         bits: 49
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[49] to generate an interrupt.
 
-      - name: TPCSBE2
+      - name: TCFSBE1
         bits: 48
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[48] to generate an interrupt.
 
-      - name: TPCSBE1
+      - name: TCFDBE0
         bits: 47
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[47] to generate an interrupt.
 
-      - name: TPCSBE0
+      - name: TCFSBE0
         bits: 46
         access: R/W
         reset: 0
@@ -913,28 +955,28 @@ registers:
         typical: 0
         description: Allows PEM_DBG_INFO[45] to generate an interrupt.
 
-      - name: TNFDBE1
+      - name: TNFSBE2
         bits: 44
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[44] to generate an interrupt.
 
-      - name: TNFDBE0
+      - name: TNFDBE1
         bits: 43
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[43] to generate an interrupt.
 
-      - name: TNFSBE2
+      - name: TNFSBE1
         bits: 42
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[42] to generate an interrupt.
 
-      - name: TNFSBE1
+      - name: TNFDBE0
         bits: 41
         access: R/W
         reset: 0
@@ -955,28 +997,28 @@ registers:
         typical: 0
         description: Allows PEM_DBG_INFO[39] to generate an interrupt.
 
-      - name: TPFDBE1
+      - name: TPFSBE2
         bits: 38
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[38] to generate an interrupt.
 
-      - name: TPFDBE0
+      - name: TPFDBE1
         bits: 37
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[37] to generate an interrupt.
 
-      - name: TPFSBE2
+      - name: TPFSBE1
         bits: 36
         access: R/W
         reset: 0
         typical: 0
         description: Allows PEM_DBG_INFO[36] to generate an interrupt.
 
-      - name: TPFSBE1
+      - name: TPFDBE0
         bits: 35
         access: R/W
         reset: 0
@@ -997,14 +1039,14 @@ registers:
         typical: 0
         description: Allows PEM_DBG_INFO[33] to generate an interrupt.
 
-      - name: HDRQ_PE
+      - name: --
         bits: 32
         access: R/W
         reset: 0
         typical: 0
-        description: Allows PEM_DBG_INFO[32] to generate an interrupt.
+        description: Reserved.
 
-      - name: RTRY_PE
+      - name: LOFP_EN
         bits: 31
         access: R/W
         reset: 0
@@ -1237,7 +1279,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1289,7 +1331,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1305,7 +1347,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1318,7 +1360,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1342,18 +1384,53 @@ registers:
       General debug info."
     fields:
       - name: --
-        bits: 63..53
-        access: --
+        bits: 63..58
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
-      - name: LOFP
+      - name: QHDR_B1_DBE
+        bits: 57
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Core Header Queue Bank1 double bit error
+
+      - name: QHDR_B1_SBE
+        bits: 56
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Core Header Queue Bank1 single bit error
+
+      - name: QHDR_B0_DBE
+        bits: 55
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Core Header Queue Bank0 double bit error
+
+      - name: QHDR_B0_SBE
+        bits: 54
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Core Header Queue Bank0 single bit error
+
+      - name: RTRY_DBE
+        bits: 53
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Detected a Core Retry RAM double bit error
+
+      - name: RTRY_SBE
         bits: 52
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Lack of Forward Progress at TLP FIFOs timeout occured.
+        description: Detected a Core Retry RAM single bit error
 
       - name: C_C_DBE
         bits: 51
@@ -1488,19 +1565,19 @@ registers:
         typical: 0
         description: Detected a Data Queue RAM parity error
 
-      - name: HDRQ_PE
+      - name: --
         bits: 32
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Detected a Header Queue RAM parity error
+        description: Reserved.
 
-      - name: RTRY_PE
+      - name: LOFP
         bits: 31
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Detected a Retry RAM parity error
+        description: Lack of Forward Progress at TLP FIFOs timeout occured.
 
       - name: ECRC_E
         bits: 30
@@ -1807,7 +1884,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1849,7 +1926,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1901,7 +1978,7 @@ registers:
 
       - name: --
         bits: 47..45
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: EEPROM unused data field.
@@ -1936,7 +2013,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1970,7 +2047,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2006,7 +2083,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2067,7 +2144,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2094,7 +2171,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2128,7 +2205,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2256,7 +2333,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2397,7 +2474,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2540,7 +2617,7 @@ registers:
     fields:
       - name: --
         bits: 63..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2734,8 +2811,36 @@ registers:
     description: Contains enables for TLP FIFO ECC RAMs
     fields:
       - name: --
-        bits: 63..9
-        access: --
+        bits: 63..35
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: QHDR_B1_ENA
+        bits: 34
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for Core's Q HDR Bank1 RAM
+
+      - name: QHDR_B0_ENA
+        bits: 33
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for Core's Q HDR Bank0 RAM
+
+      - name: RTRY_ENA
+        bits: 32
+        access: R/W
+        reset: 1
+        typical: 1
+        description: ECC enable for Core's RETRY RAM
+
+      - name: --
+        bits: 31..9
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2812,8 +2917,36 @@ registers:
       Contains Syndrome Control for TLP FIFO ECC RAMs
     fields:
       - name: --
-        bits: 63..18
-        access: --
+        bits: 63..38
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: QHDR_B1_SYN
+        bits: 37..36
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for Core's Q HDR Bank1 RAM
+
+      - name: QHDR_B0_SYN
+        bits: 35..34
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for Core's Q HDR Bank0 RAM
+
+      - name: RTRY_SYN
+        bits: 33..32
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Syndrome Flip bits for Core's RETRY RAM
+
+      - name: --
+        bits: 31..18
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

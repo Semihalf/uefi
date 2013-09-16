@@ -66,7 +66,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -99,7 +99,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -142,7 +142,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -162,7 +162,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -182,7 +182,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -248,7 +248,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -296,7 +296,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -308,8 +308,8 @@ registers:
         typical: 0
         description: |
           When asserted, resets all per lane state in the GSER
-          with the exception of the PHY.  It is not expected that
-          SW will need to use this register.
+          with the exception of the PHY and the GSER_CFG.
+          It is not expected that SW will need to use this register.
 
 
   - name: GSER(0..13)_DBG
@@ -319,7 +319,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -343,7 +343,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -374,27 +374,23 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..4
-        access: --
+        bits: 63..1
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: LSRST
-        bits: 3..0
+        bits: 0
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           For links that are not in PCIE mode (including all OCI links),
-          resets specific lane (equivalent to the P2 power state) after
+          resets all 4 lanes (equivalent to the P2 power state) after
           any pending requests (power state change, rate change) are complete.
-          <3>: Lane 3
-          <2>: Lane 2
-          <1>: Lane 1
-          <0>: Lane 0
-          The lane remains in reset state while this signal is asserted.
-          When the signal deasserts, the lane exits the reset state and
+          The lanes remain in reset state while this signal is asserted.
+          When the signal deasserts, the lanes exit the reset state and
           the PHY returns to the power state the PHY was in prior.
           It is not expected that SW will need to use this register.
 
@@ -406,7 +402,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -432,7 +428,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -459,7 +455,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -513,7 +509,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -546,7 +542,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -579,7 +575,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -605,7 +601,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -637,7 +633,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -688,7 +684,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -718,7 +714,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -780,7 +776,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -817,7 +813,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -844,7 +840,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -867,7 +863,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -922,7 +918,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -947,7 +943,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -978,7 +974,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1015,9 +1011,18 @@ registers:
           this is the Equalization Status Message from the RAW PCS.
           It is valid with RXT_ESV is set.
           <13:6>: Figure of merit.
+          an 8-bit output from the PHY  indicating the quality of the received data eye. A
+          higher value indicates better link equalization, with 8'd0 indicating worst
+          equalization setting and 8'd255 indicating the best equalization setting.
           <5:4>:  RX recommended TXPOST direction change.
           <3:2>:  RX recommended TXMAIN direction change.
           <1:0>:  RX recommended TXPRE direction change.
+          Recommended direction change outputs from the PHY for the link partner
+          transmitter coefficients.
+           0x0 = Hold.
+           0x1 = Increment.
+           0x2 = Decrement.
+           0x3 = Hold.
 
 
   - name: GSER(0..13)_BR_TX(0..3)_CTL
@@ -1027,7 +1032,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1050,7 +1055,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1075,7 +1080,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1102,7 +1107,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1130,7 +1135,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1171,7 +1176,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1201,7 +1206,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1267,7 +1272,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1343,7 +1348,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1440,10 +1445,12 @@ registers:
       Global registers are shared across the entire PCS
       The Protocol selects the specific protocol register as
       enumerated by GSER_LMODE_E.
+    attributes:
+      exempt_natural_alignment: "b"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1517,10 +1524,12 @@ registers:
       Global registers are shared across the entire PCS
       The Protocol selects the specific protocol register as
       enumerated by GSER_LMODE_E.
+    attributes:
+      exempt_natural_alignment: "b"
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1619,10 +1628,12 @@ registers:
       Per Lane registers are specific to a paticular lane.
       The Protocol selects the specific protocol register as
       enumerated by GSER_LMODE_E.
+    attributes:
+      exempt_natural_alignment: "c"
     fields:
       - name: --
         bits: 63..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1743,7 +1754,7 @@ registers:
 
       - name: --
         bits: 4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1781,10 +1792,12 @@ registers:
       Per Lane registers are specific to a paticular lane.
       The Protocol selects the specific protocol register as
       enumerated by GSER_LMODE_E.
+    attributes:
+      exempt_natural_alignment: "c"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1862,7 +1875,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1917,7 +1930,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1954,7 +1967,7 @@ registers:
     fields:
       - name: --
         bits: 63..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

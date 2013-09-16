@@ -117,7 +117,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -139,7 +139,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -162,7 +162,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -182,7 +182,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -218,7 +218,7 @@ registers:
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -245,7 +245,7 @@ registers:
 
       - name: --
         bits: 55..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -284,7 +284,7 @@ registers:
 
       - name: --
         bits: 31..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -364,7 +364,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -402,7 +402,7 @@ registers:
 
       - name: --
         bits: 55..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -437,7 +437,7 @@ registers:
 
       - name: --
         bits: 31..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -507,7 +507,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -527,7 +527,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -547,7 +547,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -567,7 +567,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -631,7 +631,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -651,7 +651,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -671,7 +671,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -700,7 +700,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -714,7 +714,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved. For cache line alignment.
@@ -727,7 +727,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -743,7 +743,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved. For cache line alignment.
@@ -756,7 +756,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -778,7 +778,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -798,7 +798,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -815,7 +815,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved. For cache line alignment.
@@ -828,7 +828,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -898,7 +898,7 @@ registers:
 
       - name: --
         bits: 60..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -923,7 +923,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -943,7 +943,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -982,7 +982,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1002,7 +1002,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1022,7 +1022,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1044,7 +1044,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1070,7 +1070,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1111,7 +1111,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1132,7 +1132,7 @@ registers:
     fields:
       - name: --
         bits: 63..30
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1167,7 +1167,7 @@ registers:
 
       - name: --
         bits: 23..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1181,7 +1181,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1195,7 +1195,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1217,7 +1217,7 @@ registers:
     fields:
       - name: --
         bits: 63..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

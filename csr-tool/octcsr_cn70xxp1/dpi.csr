@@ -2,6 +2,183 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: DPI
+description: |
+  CSR MAP
+
+  +----------------------------+
+  | DPI_BIST_STATUS            | 0x000 -- 0
+  +----------------------------+
+  | DPI_INT_REG                | 0x001 -- 1
+  +----------------------------+
+  | DPI_INT_EN                 | 0x002 -- 2
+  +----------------------------+
+  | Spare                      | 0x003 -- 3
+  +----------------------------+
+  | Spare                      | 0x004 -- 4
+  |  was DPI_INT_PRTx_EN       |
+  |  (4 regs)                  | 0x007 -- 7
+  +----------------------------+
+  | DPI_CTL                    | 0x008 -- 8
+  +----------------------------+
+  | DPI_DMA_CONTROL            | 0x009 -- 9
+  +----------------------------+
+  | DPI_REQ_GBL_EN             | 0x00a -- 10
+  | DPI_REQ_ERR_RSP            | 0x00b -- 10
+  | DPI_REQ_ERR_RST            | 0x00c -- 10
+  | DPI_REQ_ERR_RSP_EN         | 0x00d -- 10
+  | DPI_REQ_ERR_RST_EN         | 0x00e -- 10
+  +----------------------------+
+  | DPI_PKT_ERR_RSP            | 0x00f -- 15
+  +----------------------------+
+  | DPI_DMA_ENG*_EN            | 0x010 -- 16
+  |  (6 regs)                  | 0x015 -- 21
+  +----------------------------+
+  | Reserved for Expansion     | 0x016 -- 22
+  |  to 8 DMA Engines          |
+  |  (2 regs)                  | 0x017 -- 23
+  +----------------------------+
+  | Spare                      | 0x018 -- 24
+  |  (40 regs)                 | 0x03f -- 63
+  +----------------------------+-------------------------vvvvvvvvvvv
+  | DPI_DMA*_DBELL             | 0x040 -- 64      mapped to req unit
+  |  (8 regs)                  | 0x047 -- 71
+  +----------------------------+
+  | Reserved for Expansion     | 0x048 -- 72
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x04f -- 79
+  +----------------------------+
+  | DPI_DMA*_IBUFF_SADDR       | 0x050 -- 80
+  |  (8 regs)                  | 0x057 -- 87
+  +----------------------------+
+  | Reserved for Expansion     | 0x058 -- 88
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x05f -- 95
+  +----------------------------+
+  | DPI_DMA*_COUNTS            | 0x060 -- 96
+  |  (8 regs)                  | 0x067 -- 103
+  +----------------------------+
+  | Reserved for Expansion     | 0x068 -- 104
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x06f -- 111
+  +----------------------------+
+  | DPI_DMA*_NADDR             | 0x070 -- 112
+  |  (8 regs)                  | 0x077 -- 119
+  +----------------------------+
+  | Reserved for Expansion     | 0x078 -- 120
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x07f -- 127
+  +----------------------------+
+  | DPI_DMA*_REQBNK0           | 0x080 -- 128
+  |  (8 regs)                  | 0x087 -- 135
+  +----------------------------+
+  | Reserved for Expansion     | 0x088 -- 136
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x08f -- 143
+  +----------------------------+
+  | DPI_DMA*_REQBNK1           | 0x090 -- 144
+  |  (8 regs)                  | 0x097 -- 151
+  +----------------------------+
+  | Reserved for Expansion     | 0x098 -- 152
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x09f -- 159     mapped to req unit
+  +----------------------------+-------------------------^^^^^^^^^^^
+  | Spare                      | 0x0a0 -- 160
+  |  (96 regs)                 | 0x0ff -- 255
+  +----------------------------+
+  | DPI_NCB@_CFG               | 0x100 -- 256
+  +----------------------------+
+  | Reserved for Expansion     | 0x101 -- 257
+  |  to 2 NCB interfaces  |
+  |  (1 reg)                   |
+  +----------------------------+
+  | Spare                      | 0x102 -- 258
+  |  (4 regs)                  | 0x105 -- 261
+  +----------------------------+
+  | DPI_PINT_INFO              | 0x106 -- 262
+  +----------------------------+
+  | DPI_REQ_ERR_SKIP_COMP      | 0x107 -- 263
+  +----------------------------+
+  | Spare                      | 0x108 -- 264
+  |  (8 regs)                  | 0x10f -- 271
+  +----------------------------+
+  | DPI_ENG*_BUF               | 0x110 -- 272
+  |  (6 regs)                  | 0x115 -- 277
+  +----------------------------+
+  | Reserved for Expansion     | 0x116 -- 278
+  |  to 8 DMA Engines          |
+  |  (2 regs)                  | 0x117 -- 279
+  +----------------------------+
+  | Spare                      | 0x118 -- 280
+  |  (8 regs)                  | 0x11f -- 287
+  +----------------------------+
+  | DPI_SLI_PRT@_CFG           | 0x120 -- 288
+  |  (2 regs)                  | 0x121 -- 289
+  +----------------------------+
+  | DPI_SLI_PRT@_CFG           | 0x122 -- 290
+  |  to 4 SLI Ports            |
+  |  (2 regs)                  | 0x123 -- 291
+  +----------------------------+
+  | DPI_SLI_PRT@_ERR           | 0x124 -- 292
+  |  (2 regs)                  | 0x125 -- 293
+  +----------------------------+
+  | DPI_SLI_PRT@_ERR           | 0x126 -- 294
+  |  to 4 SLI Ports            |
+  |  (2 regs)                  | 0x127 -- 295
+  +----------------------------+
+  | DPI_SLI_PRT@_ERR_INFO      | 0x128 -- 296
+  |  (2 regs)                  | 0x129 -- 297
+  +----------------------------+
+  | DPI_SLI_PRT@_ERR_INFO      | 0x12a -- 298
+  |  to 4 SLI Ports            |
+  |  (2 regs)                  | 0x12b -- 299
+  +----------------------------+
+  | Spare                      | 0x12c -- 300
+  |  (4 regs)                  | 0x12f -- 303
+  +----------------------------+
+  | DPI_INFO_REG               | 0x130 -- 304
+  +----------------------------+
+  | Spare                      | 0x131 -- 305
+  |  (15 regs)                 | 0x13f -- 319
+  +----------------------------+
+  | DPI_DMA*_IFLIGHT           | 0x140 -- 320
+  |  (8 regs)                  | 0x147 -- 327
+  +----------------------------+
+  | Reserved for Expansion     | 0x148 -- 328
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x14f -- 335
+  +----------------------------+
+  | DPI_DMA*_ERR_RSP_STATUS    | 0x150 -- 336
+  |  (8 regs)                  | 0x157 -- 343
+  +----------------------------+
+  | Reserved for Expansion     | 0x158 -- 344
+  |  to 16 Req Queues          |
+  |  (8 regs)                  | 0x15f -- 351
+  +----------------------------+
+  | $DPI_DMA_PP*_CNT           | 0x160 -- 352
+  |  (4 regs)                  | 0x163 -- 355
+  +----------------------------+
+  | Reserved for Expansion     | 0x164 -- 356
+  |  to 64 Req PP's            |
+  |  (60 regs)                 | 0x19F -- 415
+  +----------------------------+
+
+  Registers higher then 0x10000 are ncb access to MAC functionality
+  +----------------------------+
+  | Reserved for Expansion     |
+  | $DPI__SRIO_FWD_PATH        | 0x10000 -- 4096 + 0
+  +----------------------------+
+  | Reserved for Expansion     | 0x10001 -- 4096 + 1
+  |  for single regs           |
+  |  (63 regs)                 | 0x1003F -- 4096 + 63
+  +----------------------------+
+  | Reserved for Expansion     |
+  | $DPI_SRIO_RX_BELL          | 0x10040 -- 4096 + 64
+  |  (64 regs)                 | 0x1007F -- 4096 + 127
+  +----------------------------+
+  | Reserved for Expansion     |
+  | $DPI_SRIO_RX_BELL_SEQ      | 0x10080 -- 4096 + 128
+  |  (64 regs)                 | 0x100BF -- 4096 + 191
+  +----------------------------+
 registers:
   - name: DPI_BIST_STATUS
     address: 0x1DF0000000000
@@ -9,7 +186,7 @@ registers:
     fields:
       - name: --
         bits: 63..47
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -31,7 +208,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -78,7 +255,7 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -163,7 +340,7 @@ registers:
 
       - name: --
         bits: 7..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -196,7 +373,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -332,7 +509,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -353,7 +530,7 @@ registers:
     fields:
       - name: --
         bits: 63..62
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -443,7 +620,7 @@ registers:
 
       - name: --
         bits: 55..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -462,7 +639,7 @@ registers:
 
       - name: --
         bits: 47..34
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -555,7 +732,7 @@ registers:
 
       - name: --
         bits: 13..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -567,7 +744,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -588,7 +765,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -612,7 +789,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -637,7 +814,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -659,7 +836,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -682,7 +859,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -703,7 +880,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -730,7 +907,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -755,7 +932,7 @@ registers:
     fields:
       - name: --
         bits: 63..62
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -773,7 +950,7 @@ registers:
 
       - name: --
         bits: 47..41
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -787,7 +964,7 @@ registers:
 
       - name: --
         bits: 39..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -809,7 +986,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -824,7 +1001,7 @@ registers:
     fields:
       - name: --
         bits: 63..39
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -855,7 +1032,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -906,7 +1083,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -933,7 +1110,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -947,7 +1124,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -966,7 +1143,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -988,7 +1165,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1018,7 +1195,7 @@ registers:
     fields:
       - name: --
         bits: 63..37
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1032,7 +1209,7 @@ registers:
 
       - name: --
         bits: 31..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1074,7 +1251,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1093,14 +1270,14 @@ registers:
 
       - name: --
         bits: 23..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1129,7 +1306,7 @@ registers:
 
       - name: --
         bits: 15..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1173,7 +1350,7 @@ registers:
 
       - name: --
         bits: 6..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1210,7 +1387,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1252,7 +1429,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1267,7 +1444,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1298,7 +1475,7 @@ registers:
 
       - name: --
         bits: 7..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1308,6 +1485,8 @@ registers:
         access: RO/H
         reset: 0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Type of transaction that caused the ErrorResponse.
           0=DMA Instruction
@@ -1315,7 +1494,7 @@ registers:
 
       - name: --
         bits: 3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1334,7 +1513,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1348,7 +1527,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1382,7 +1561,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1404,7 +1583,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1439,7 +1618,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

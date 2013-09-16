@@ -32,15 +32,15 @@ structs:
 
 
 registers:
-  - name: VRM(0..1)_TWS_TWSI_SW
+  - name: VRM(0)_TWS_TWSI_SW
     title: VRM TWSI to Software Register
     address: 0x1180021000008 + a*0x1000000
     bus: RSL
-    attributes:
-      exempt_natural_alignment: "a"
     description: |
       This register allows SW to write data into I2C Controller directly.
       This register is for diagnostic use only.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: V
         bits: 63
@@ -156,7 +156,7 @@ registers:
           TWSI configuration-register read (contains result).
 
 
-  - name: VRM(0..1)_ALT_FUSE
+  - name: VRM(0)_ALT_FUSE
     title: VRM Alternative Fuse Register
     address: 0x1180021000018 + a*0x1000000
     bus: RSL
@@ -165,7 +165,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -179,7 +179,7 @@ registers:
 
       - name: MAX_STEP
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: V step.
@@ -206,7 +206,7 @@ registers:
         description: Max voltage. Maximum voltage that gets written to voltage regulator.
 
 
-  - name: VRM(0..1)_TELEMETRY_READ
+  - name: VRM(0)_TELEMETRY_READ
     title: VRM Telemetry Read Register
     address: 0x1180021000028 + a*0x1000000
     bus: RSL
@@ -215,7 +215,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -235,7 +235,7 @@ registers:
         description: Voltage reading from external regulator.
 
 
-  - name: VRM(0..1)_TELEMETRY_CMND
+  - name: VRM(0)_TELEMETRY_CMND
     title: VRM Telemetry Command Register
     address: 0x1180021000038 + a*0x1000000
     bus: RSL
@@ -244,7 +244,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -263,7 +263,7 @@ registers:
           Hardware clears CMND to indicate operation completed.
 
 
-  - name: VRM(0..1)_MISC_INFO
+  - name: VRM(0)_MISC_INFO
     title: VRM Miscellaneous Register
     address: 0x1180021000048 + a*0x1000000
     bus: RSL
@@ -272,7 +272,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -331,7 +331,7 @@ registers:
         description: Last command send to the external voltage regulator.
 
 
-  - name: VRM(0..1)_TS_TEMP_CONV_CTL
+  - name: VRM(0)_TS_TEMP_CONV_CTL
     title: VRM Temp Sensor Analog Alternate Conversion Register
     address: 0x1180021000058 + a*0x1000000
     bus: RSL
@@ -340,7 +340,7 @@ registers:
     fields:
       - name: --
         bits: 63..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -383,7 +383,7 @@ registers:
         description: Controls strobe pin on analog temperature sensor block.
 
 
-  - name: VRM(0..1)_TS_TEMP_CONV_RESULT
+  - name: VRM(0)_TS_TEMP_CONV_RESULT
     title: VRM Temp Sensor Result Register
     address: 0x1180021000068 + a*0x1000000
     bus: RSL
@@ -392,7 +392,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -431,7 +431,7 @@ registers:
           Has valid data after TEMP_VALID transitions.
 
 
-  - name: VRM(0..1)_TS_TEMP_CONV_COEFF_FSM
+  - name: VRM(0)_TS_TEMP_CONV_COEFF_FSM
     title: VRM Temp Sensor Conversion Coefficient and FSM Register
     address: 0x1180021000078 + a*0x1000000
     bus: RSL
@@ -440,7 +440,7 @@ registers:
     fields:
       - name: --
         bits: 63..58
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -454,7 +454,7 @@ registers:
 
       - name: --
         bits: 47..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -471,7 +471,7 @@ registers:
 
       - name: --
         bits: 31..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -489,7 +489,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -504,7 +504,7 @@ registers:
           A 2's complement number.
 
 
-  - name: VRM(0..1)_TS_TEMP_NOFF_MC
+  - name: VRM(0)_TS_TEMP_NOFF_MC
     title: VRM Temp Sensor Noff Coefficient Register
     address: 0x1180021000088 + a*0x1000000
     bus: RSL
@@ -513,7 +513,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -527,7 +527,7 @@ registers:
 
       - name: --
         bits: 15..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -542,7 +542,7 @@ registers:
           It should be such that at 0 degrees C, the difference between NOFF and NCYCLE is 0.
 
 
-  - name: VRM(0..1)_FUSE_BYPASS
+  - name: VRM(0)_FUSE_BYPASS
     title: VRM Fuse Bypass Register
     address: 0x1180021000098 + a*0x1000000
     bus: RSL
@@ -551,7 +551,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

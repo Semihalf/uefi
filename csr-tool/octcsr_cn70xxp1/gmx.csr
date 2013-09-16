@@ -84,10 +84,12 @@ registers:
       consume the tick before another is produced.  If that doesn't
       happen that's when OVRERR will assert.
       (D) In XAUI mode prt0 is used for interrupt logging.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..30
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -204,7 +206,7 @@ registers:
 
       - name: --
         bits: 18..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -266,7 +268,7 @@ registers:
 
       - name: --
         bits: 9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -287,7 +289,7 @@ registers:
 
       - name: --
         bits: 6..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -308,7 +310,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -339,10 +341,12 @@ registers:
     address: 0x1180008000008 + a*0x8000000 + b*0x800
     bus: RSL
     internal: In XAUI mode prt0 is used for checking.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..30
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -443,7 +447,7 @@ registers:
 
       - name: --
         bits: 18..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -500,7 +504,7 @@ registers:
 
       - name: --
         bits: 9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -521,7 +525,7 @@ registers:
 
       - name: --
         bits: 6..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -542,7 +546,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -568,10 +572,12 @@ registers:
     title: Port description
     address: 0x1180008000010 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -592,7 +598,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -612,7 +618,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -691,10 +697,12 @@ registers:
       Since PAUSE packets only apply to fulldup operation, any PAUSE packet
       would constitute an exception which should be handled by the processing
       cores.  PAUSE packets should not be forwarded."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -728,7 +736,7 @@ registers:
 
       - name: --
         bits: 11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -758,14 +766,14 @@ registers:
 
       - name: --
         bits: 8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -850,10 +858,12 @@ registers:
     internal: |
       If GMX_RX_UDD_SKP[LEN] != 0, then LENERR will be forced to zero in HW.
       In XAUI mode prt0 is used for checking.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -874,7 +884,7 @@ registers:
 
       - name: --
         bits: 6..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -895,7 +905,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -930,10 +940,12 @@ registers:
       max_sized_packet = GMX_RX_JABBER[CNT]+((GMX_RX_FRM_CTL[PRE_CHK] &
       !GMX_RX_FRM_CTL[PRE_STRP])*8)
       In XAUI mode prt0 is used for checking.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -971,10 +983,12 @@ registers:
       Half Duplex           drop packet                                apply filters
       packet is unconditionally dropped                accept packet based on DMAC
       where l2_size = MAX(0, total_packet_size GMX_RX_UDD_SKP[LEN] ((GMX_RX_FRM_CTL[PRE_CHK]==1)*8)
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1012,10 +1026,12 @@ registers:
       packet.
       (7) If LEN != 0, then GMX_RX_FRM_CHK[LENERR] will be disabled and GMX_RX_INT_REG[LENERR] will
       be zero
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1034,7 +1050,7 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1058,10 +1074,12 @@ registers:
     title: RX Stats Control register
     address: 0x1180008000050 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1078,10 +1096,12 @@ registers:
     title: RX Min IFG
     address: 0x1180008000058 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1106,10 +1126,12 @@ registers:
     title: The TIME field in a PAUSE Packet which was dropped due to GMX RX FIFO full condition
     address: 0x1180008000068 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1132,10 +1154,12 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1151,10 +1175,12 @@ registers:
   - name: GMX(0..1)_RX(0..3)_STATS_OCTS
     address: 0x1180008000088 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1181,10 +1207,12 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1200,10 +1228,12 @@ registers:
   - name: GMX(0..1)_RX(0..3)_STATS_OCTS_CTL
     address: 0x1180008000098 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1230,10 +1260,12 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1249,10 +1281,12 @@ registers:
   - name: GMX(0..1)_RX(0..3)_STATS_OCTS_DMAC
     address: 0x11800080000A8 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1278,10 +1312,12 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1297,10 +1333,12 @@ registers:
   - name: GMX(0..1)_RX(0..3)_STATS_OCTS_DRP
     address: 0x11800080000B8 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1322,10 +1360,12 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_RX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1376,10 +1416,12 @@ registers:
       @endverbatim
       * XAUI Mode
       In XAUI mode, only GMX_RX0_ADR_CTL is used.  GMX_RX[1,2,3]_ADR_CTL should not be used."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1418,10 +1460,12 @@ registers:
     title: Address Filtering Control Enable
     address: 0x1180008000108 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1474,10 +1518,12 @@ registers:
     title: Address Filtering Control Enable
     address: 0x1180008000110 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1522,6 +1568,8 @@ registers:
     address: 0x1180008000180 + a*0x8000000 + b*0x800
     bus: RSL
     description: GMX_RX_ADR_CAM = Address Filtering Control
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ADR
         bits: 63..0
@@ -1547,6 +1595,8 @@ registers:
     address: 0x1180008000188 + a*0x8000000 + b*0x800
     bus: RSL
     description: GMX_RX_ADR_CAM = Address Filtering Control
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ADR
         bits: 63..0
@@ -1572,6 +1622,8 @@ registers:
     address: 0x1180008000190 + a*0x8000000 + b*0x800
     bus: RSL
     description: GMX_RX_ADR_CAM = Address Filtering Control
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ADR
         bits: 63..0
@@ -1597,6 +1649,8 @@ registers:
     address: 0x1180008000198 + a*0x8000000 + b*0x800
     bus: RSL
     description: GMX_RX_ADR_CAM = Address Filtering Control
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ADR
         bits: 63..0
@@ -1622,6 +1676,8 @@ registers:
     address: 0x11800080001A0 + a*0x8000000 + b*0x800
     bus: RSL
     description: GMX_RX_ADR_CAM = Address Filtering Control
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ADR
         bits: 63..0
@@ -1647,6 +1703,8 @@ registers:
     address: 0x11800080001A8 + a*0x8000000 + b*0x800
     bus: RSL
     description: GMX_RX_ADR_CAM = Address Filtering Control
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ADR
         bits: 63..0
@@ -1677,10 +1735,12 @@ registers:
     internal: |
       In XAUI mode, prt0 is used for checking.  Since XAUI mode uses a single TX FIFO and is higher
       data rate, recommended value is 0x100.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1706,10 +1766,12 @@ registers:
     title: Packet TX Append Control
     address: 0x1180008000218 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1754,10 +1816,12 @@ registers:
     title: Packet TX Slottime Counter
     address: 0x1180008000220 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1778,10 +1842,12 @@ registers:
     title: Packet TX Burst Counter
     address: 0x1180008000228 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1803,10 +1869,12 @@ registers:
     title: Packet SMAC
     address: 0x1180008000230 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1840,10 +1908,12 @@ registers:
       where largest_pkt_size is that largest packet that the system can send
       (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
       of the PAUSE packet (normally 64B).
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1866,10 +1936,12 @@ registers:
     title: Packet TX Min Size Packet (PAD upto min size)
     address: 0x1180008000240 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1912,10 +1984,12 @@ registers:
       where largest_pkt_size is that largest packet that the system can send
       (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
       of the PAUSE packet (normally 64B).
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1938,10 +2012,12 @@ registers:
     title: Packet TX Software Pause
     address: 0x1180008000250 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1960,10 +2036,12 @@ registers:
     title: Packet TX Amount of time remaining to backpressure
     address: 0x1180008000258 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1994,10 +2072,12 @@ registers:
     title: Packet TX Amount of time remaining to backpressure
     address: 0x1180008000260 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2017,10 +2097,12 @@ registers:
     title: TX Stats Control register
     address: 0x1180008000268 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2037,10 +2119,12 @@ registers:
     title: TX Control register
     address: 0x1180008000270 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2073,6 +2157,8 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: XSDEF
         bits: 63..32
@@ -2103,6 +2189,8 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: SCOL
         bits: 63..32
@@ -2134,10 +2222,12 @@ registers:
       counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2160,10 +2250,12 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2189,6 +2281,8 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: HIST1
         bits: 63..32
@@ -2217,6 +2311,8 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: HIST3
         bits: 63..32
@@ -2247,6 +2343,8 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: HIST5
         bits: 63..32
@@ -2277,6 +2375,8 @@ registers:
       bytes.  The octect counts do not include PREAMBLE byte or EXTEND cycles.
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: HIST7
         bits: 63..32
@@ -2309,6 +2409,8 @@ registers:
       as per the 802.3 frame definition.  If the system requires additional data
       before the L2 header, then the MCST and BCST counters may not reflect
       reality and should be ignored by software.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: MCST
         bits: 63..32
@@ -2336,6 +2438,8 @@ registers:
     internal: |
       Cleared either by a write (of any value) or a read when GMX_TX_STATS_CTL[RD_CLR] is set
       Counters will wrap
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: UNDFLW
         bits: 63..32
@@ -2361,10 +2465,12 @@ registers:
   - name: GMX(0..1)_TX(0..3)_SGMII_CTL
     address: 0x1180008000300 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2405,10 +2511,12 @@ registers:
   - name: GMX(0..1)_TX(0..3)_JAM_MODE
     address: 0x1180008000380 + a*0x8000000 + b*0x800
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2432,10 +2540,12 @@ registers:
     description: |
       gmi_tx_bck to gmi_tx_out credit count register
       INTERNAL: Do not add this register to the HRM
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2458,10 +2568,12 @@ registers:
     title: GMX BIST Results
     address: 0x1180008000400 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2506,10 +2618,12 @@ registers:
     address: 0x1180008000410 + a*0x8000000
     bus: RSL
     internal: GMX_RX_PRTS[PRTS] must be set to '1' in XAUI mode.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2537,10 +2651,12 @@ registers:
       register.  The GMX_RX_PRTS controls the depth of the port's
       FIFO so as ports are added or removed, the drop point may change.
       In XAUI mode prt0 is used for checking.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2564,10 +2680,12 @@ registers:
     address: 0x1180008000440 + a*0x8000000 + b*0x8
     bus: RSL
     internal: In XAUI mode, prt0 is used for checking.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2592,10 +2710,12 @@ registers:
     address: 0x1180008000460 + a*0x8000000 + b*0x8
     bus: RSL
     internal: In XAUI mode, prt0 is used for checking.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2619,10 +2739,12 @@ registers:
       port number on the interface, plus 1.  For example, if port 2 is the
       highest architected port, then the programmed value should be 3 since
       there are 3 ports in the system 0, 1, and 2."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2653,10 +2775,12 @@ registers:
       IFG1+IFG2 sum must be 12.  IFG1[1:0] and IFG2[1:0] must be zero.
       For all other systems, IFG1 and IFG2 can be any value in the range of
       1-15.  Allowing for a total possible IFG sum of 2-30."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2688,10 +2812,12 @@ registers:
     title: Packet TX Jam Pattern
     address: 0x1180008000490 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2710,10 +2836,12 @@ registers:
     title: Packet TX collision attempts before dropping frame
     address: 0x1180008000498 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2732,10 +2860,12 @@ registers:
     title: Packet TX Pause Packet DMAC field
     address: 0x11800080004A0 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2752,10 +2882,12 @@ registers:
     title: Packet Interface TX Pause Packet TYPE field
     address: 0x11800080004A8 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2783,10 +2915,12 @@ registers:
       backpressure
       through HiGig2 messages (optionally, when GMX*_HG2_CONTROL[HG2TX_EN]=1) with the HiGig2
       protocol.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2805,7 +2939,7 @@ registers:
 
       - name: --
         bits: 31..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2840,10 +2974,12 @@ registers:
     address: 0x11800080004D0 + a*0x8000000
     bus: RSL
     internal: In XAUI mode, only the lsb (corresponding to port0) of BP is used.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2870,10 +3006,12 @@ registers:
       is clear then no FCS is sent and the GMX cannot corrupt it.  The corrupt FCS
       value is 0xeeeeeeee for SGMII/1000Base-X and 4 bytes of the error
       propagation code in XAUI mode.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2894,10 +3032,12 @@ registers:
     address: 0x11800080004E8 + a*0x8000000
     bus: RSL
     internal: In XAUI mode, only the lsb (corresponding to port0) of DROP and COMMIT are used.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2911,7 +3051,7 @@ registers:
 
       - name: --
         bits: 15..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2928,10 +3068,12 @@ registers:
     title: LFSR used to implement truncated binary exponential backoff
     address: 0x11800080004F8 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2953,10 +3095,12 @@ registers:
     address: 0x1180008000500 + a*0x8000000
     bus: RSL
     internal: In XAUI mode, only the lsb (corresponding to port0) of UNDFLW is used.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3023,7 +3167,7 @@ registers:
 
       - name: --
         bits: 1
-        access: --
+        access: RAZ
         reset: 0
         typical: 0
         description: Reserved.
@@ -3041,10 +3185,12 @@ registers:
     address: 0x1180008000508 + a*0x8000000
     bus: RSL
     internal: In XAUI mode, only the lsb (corresponding to port0) of UNDFLW is used.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3111,7 +3257,7 @@ registers:
 
       - name: --
         bits: 1
-        access: --
+        access: RAZ
         reset: 0
         typical: 0
         description: Reserved.
@@ -3128,10 +3274,12 @@ registers:
     title: NXA Port Address
     address: 0x1180008000510 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3154,10 +3302,12 @@ registers:
     address: 0x1180008000518 + a*0x8000000
     bus: RSL
     internal: In XAUI mode, only the lsb (corresponding to port0) of INB_NXA, LOSTSTAT, OUT_OVR, are used.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3192,7 +3342,7 @@ registers:
 
       - name: --
         bits: 21..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3206,7 +3356,7 @@ registers:
 
       - name: --
         bits: 1..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3228,10 +3378,12 @@ registers:
       real time and can back up the TX engine.
       This counter is the number of cycles in which the TX engine was stalled.  In
       normal operation, it should always be zeros."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3267,10 +3419,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3311,7 +3465,7 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3348,7 +3502,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3378,10 +3532,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3406,10 +3562,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3461,10 +3619,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3501,10 +3661,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3549,10 +3711,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3605,10 +3769,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3632,10 +3798,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3660,6 +3828,8 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: PHYS_EN
         bits: 63..48
@@ -3700,7 +3870,7 @@ registers:
 
       - name: --
         bits: 15..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3748,10 +3918,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3774,10 +3946,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3800,10 +3974,12 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The GMX1 version is not supported and should not be
       documented.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3830,10 +4006,12 @@ registers:
   - name: GMX(0..1)_QSGMII_CTL
     address: 0x1180008000760 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3853,17 +4031,19 @@ registers:
   - name: GMX(0..1)_WOL_CTL
     address: 0x1180008000780 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 47..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3877,7 +4057,7 @@ registers:
 
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3891,7 +4071,7 @@ registers:
 
       - name: --
         bits: 15..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3908,10 +4088,12 @@ registers:
     address: 0x11800080007E0 + a*0x8000000
     bus: RSL
     description: DON'T PUT IN HRM*
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3928,10 +4110,12 @@ registers:
     address: 0x11800080007F0 + a*0x8000000
     bus: RSL
     description: DON'T PUT IN HRM*
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3948,38 +4132,40 @@ registers:
     title: Interface Mode
     address: 0x11800080007F8 + a*0x8000000
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 11..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3995,7 +4181,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4014,7 +4200,7 @@ registers:
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

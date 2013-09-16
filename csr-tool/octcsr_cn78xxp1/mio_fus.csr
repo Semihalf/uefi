@@ -10,7 +10,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -31,7 +31,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -52,7 +52,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -160,12 +160,12 @@ registers:
     address: 0x1180000001418
     bus: RSL
     fields:
-      - name: EMA
+      - name: EMA0
         bits: 63..58
         access: RO
         reset: --
         typical: --
-        description: Fuse information - EMA.
+        description: Fuse information - EMA0.
 
       - name: PLL_CTL
         bits: 57..48
@@ -190,7 +190,7 @@ registers:
 
       - name: --
         bits: 40..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -278,9 +278,16 @@ registers:
         typical: --
         description: Fuse information - HFA disable (HTE)
 
+      - name: EMA1
+        bits: 23..18
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - EMA1.
+
       - name: --
-        bits: 23..0
-        access: --
+        bits: 17..0
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -303,6 +310,7 @@ registers:
         access: RO
         reset: 0
         typical: --
+        description: Reserved.
 
       - name: EAST_RCLK_BYP_SETTING
         bits: 50..39
@@ -344,12 +352,14 @@ registers:
         access: RO
         reset: 0
         typical: --
+        description: Reserved.
 
       - name: TAD_RCLK_BYP_SETTING
         bits: 11..0
         access: RO
         reset: 0x0
         typical: --
+        description: Reserved.
 
 
   - name: MIO_FUS_PDF
@@ -409,7 +419,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -423,7 +433,7 @@ registers:
 
       - name: --
         bits: 15..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -439,7 +449,7 @@ registers:
 
       - name: --
         bits: 11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -474,7 +484,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -495,7 +505,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -533,7 +543,7 @@ registers:
     fields:
       - name: --
         bits: 63..35
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -564,7 +574,7 @@ registers:
 
       - name: --
         bits: 31..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -616,7 +626,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -675,7 +685,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -697,41 +707,6 @@ registers:
           INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM.
 
 
-  - name: MIO_FUS_EMA
-    title: |
-      INTERNAL: MIO Fuse Repair EMA Register
-    address: 0x1180000001550
-    bus: RSL
-    fields:
-      - name: --
-        bits: 63..7
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: --
-        bits: 6..4
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: --
-        bits: 3
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: EMA
-        bits: 2..0
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-
   - name: MIO_FUS_READ_TIMES
     title: MIO Fuse Read Times Register
     address: 0x1180000001570
@@ -746,7 +721,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -807,7 +782,7 @@ registers:
         description: |
           Setup of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in PLL_REF_CLK
           + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0 yields 20 ns
-          plush ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz.
+          plus ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz.
 
 
   - name: MIO_FUS_PLL
@@ -817,7 +792,7 @@ registers:
     fields:
       - name: --
         bits: 63..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -831,7 +806,7 @@ registers:
 
       - name: --
         bits: 11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -889,7 +864,7 @@ registers:
 
       - name: --
         bits: 1..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

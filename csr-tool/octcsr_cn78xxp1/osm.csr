@@ -308,7 +308,7 @@ registers:
     fields:
       - name: --
         bits: 63..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -488,7 +488,7 @@ registers:
     fields:
       - name: --
         bits: 63..37
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -502,7 +502,7 @@ registers:
 
       - name: --
         bits: 31..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -527,7 +527,7 @@ registers:
     fields:
       - name: --
         bits: 63..35
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -541,7 +541,7 @@ registers:
 
       - name: --
         bits: 31..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -562,7 +562,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -594,7 +594,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -634,7 +634,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -657,7 +657,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -668,8 +668,9 @@ registers:
         reset: 1
         typical: 1
         description: |
-          To support ASE running at SCLK/2, OSM can rate-limit responses sent back to ASE. Each
-          request is assigned to either phase 0 or phase 1. When set, OSM does not send back-to-back
+          Reserved. INTERNAL: Must be enabled when ASE is running at SCLK/2. If ASE is running at
+          SCLK/1, this should be disabled for best performance. Mechanism: Each request is assigned
+          to either phase 0 or phase 1. When feature is enabled, OSM does not send back-to-back
           responses for requests on the RWC ports with the same phase. Instead, a idle cycle is
           inserted between the responses. This enable applies to RWC ports.
 
@@ -679,10 +680,11 @@ registers:
         reset: 1
         typical: 1
         description: |
-          To support ASE running at SCLK/2, OSM can rate-limit responses sent back to ASE. Each
-          request is assigned to either phase 0 or phase 1. When set, OSM does not send back-to-back
-          responses for requests on the BWC port with the same phase. Instead a idle cycle is
-          inserted between the responses.
+          Reserved. INTERNAL: Must be enabled when ASE is running at SCLK/2. If ASE is running at
+          SCLK/1, this should be disabled for best performance. Mechanism: Each request is assigned
+          to either phase 0 or phase 1. When feature is enabled, OSM does not send back-to-back
+          responses for requests on the RWC ports with the same phase. Instead, a idle cycle is
+          inserted between the responses. This enable applies to BWC ports.
 
       - name: TWC_RATE_LIMIT
         bits: 0
@@ -690,10 +692,11 @@ registers:
         reset: 1
         typical: 1
         description: |
-          To support ASE running at SCLK/2, OSM can rate-limit responses sent back to ASE. Each
-          request is assigned to either phase 0 or phase 1. When set, OSM does not send back-to-back
-          responses for requests on the TWC port with the same phase. Instead a idle cycle is
-          inserted between the responses.
+          Reserved. INTERNAL: Must be enabled when ASE is running at SCLK/2. If ASE is running at
+          SCLK/1, this should be disabled for best performance. Mechanism: Each request is assigned
+          to either phase 0 or phase 1. When feature is enabled, OSM does not send back-to-back
+          responses for requests on the RWC ports with the same phase. Instead, a idle cycle is
+          inserted between the responses. This enable applies to TWC ports.
 
 
 

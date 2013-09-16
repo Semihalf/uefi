@@ -11,7 +11,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -39,7 +39,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -66,7 +66,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -92,7 +92,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -311,7 +311,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -336,10 +336,12 @@ registers:
       port.
       See also IPD_PORT@_BP_PAGE_CNT2
       See also IPD_PORT@_BP_PAGE_CNT3
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -384,7 +386,7 @@ registers:
     fields:
       - name: --
         bits: 63..31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -416,7 +418,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -437,7 +439,7 @@ registers:
     fields:
       - name: --
         bits: 63..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -459,7 +461,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -582,7 +584,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -700,7 +702,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -717,7 +719,7 @@ registers:
 
       - name: --
         bits: 35..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -948,10 +950,12 @@ registers:
       See also IPD_PORT_BP_COUNTERS2_PAIR@
       See also IPD_PORT_BP_COUNTERS3_PAIR@
       0x1b8-0x2d0
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1015,7 +1019,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1090,7 +1094,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1165,7 +1169,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1240,7 +1244,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1315,7 +1319,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1390,7 +1394,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1465,7 +1469,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1540,7 +1544,7 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1615,7 +1619,7 @@ registers:
     fields:
       - name: --
         bits: 63..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1679,7 +1683,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1707,7 +1711,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1745,7 +1749,7 @@ registers:
     fields:
       - name: --
         bits: 63..61
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1818,7 +1822,7 @@ registers:
     fields:
       - name: --
         bits: 63..39
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1878,7 +1882,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1932,7 +1936,7 @@ registers:
     fields:
       - name: --
         bits: 63..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1953,7 +1957,7 @@ registers:
     fields:
       - name: --
         bits: 63..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1979,10 +1983,12 @@ registers:
       See also IPD_PORT@_BP_PAGE_CNT
       See also IPD_PORT@_BP_PAGE_CNT3
       0x368-0x380
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2016,10 +2022,12 @@ registers:
       See also IPD_PORT_BP_COUNTERS_PAIR@
       See also IPD_PORT_BP_COUNTERS3_PAIR@
       0x388-0x3a0
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2040,7 +2048,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2063,10 +2071,12 @@ registers:
       See also IPD_PORT_BP_COUNTERS_PAIR@
       See also IPD_PORT_BP_COUNTERS2_PAIR@
       0x3b0-0x3c8
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2089,10 +2099,12 @@ registers:
       See also IPD_PORT@_BP_PAGE_CNT
       See also IPD_PORT@_BP_PAGE_CNT2
       0x3d0-408
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2126,10 +2138,12 @@ registers:
       See also IPD_PORT_BP_COUNTERS_PAIR@
       See also IPD_PORT_BP_COUNTERS2_PAIR@
       0x410-0x3c8
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2150,7 +2164,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2293,7 +2307,7 @@ registers:
     fields:
       - name: --
         bits: 63..41
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2324,6 +2338,8 @@ registers:
       Only ports used are: P0-3, p16-19, P24, P32-39. Therefore only IPD_PORT_QOS_INT0 ([63:32] ==
       Reserved), IPD_PORT_QOS_INT2 ([63:32] == Reserved), IPD_PORT_QOS_INT3 ([63:8] == Reserved),
       IPD_PORT_QOS_INT4
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: INTR
         bits: 63..0
@@ -2339,6 +2355,8 @@ registers:
     description: |
       "When the IPD_PORT_QOS_INT@[#] is '1' and IPD_PORT_QOS_INT_ENB@[#] is '1' a interrupt will be
       generated."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: ENB
         bits: 63..0
@@ -2357,6 +2375,8 @@ registers:
       belong to Port-0
       QOS 0-7 respectively followed by port 1 at (8-15), etc..
       Ports 0-3, 32-43
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: WMARK
         bits: 63..32

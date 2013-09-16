@@ -210,6 +210,12 @@ enums:
           cib_rtl_module: "pki_pfe"
         description: See PKI_GEN_INT[DRP_NOAVAIL].
 
+      - name: PKI_GEN_X2P_REQ_OFL
+        value: 0x44007
+        attributes:
+          cib_rtl_module: "pki_pfe"
+        description: See PKI_GEN_INT[X2P_REQ_OFL].
+
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:
@@ -413,6 +419,10 @@ enums:
       - name: PKI_CL(0..3)_INT_IPTINT
         value: 0x44803 | a<<8
         description: See PKI_CL(0..3)_INT[IPTINT].
+
+      - name: PKI_CL(0..3)_INT_TRAPZ
+        value: 0x44804 | a<<8
+        description: See PKI_CL(0..3)_INT[TRAPZ].
 
       - name: PKI_CL(0..3)_ECC_RF_PERR
         value: 0x44840 | a<<8
@@ -915,7 +925,7 @@ enums:
       - name: L4_PORT
         value: 0x64
         description: |
-          Bad L4 Port: The packet is TCP, UDP or SCTP and the port is 0.
+          Bad L4 Port: The packet is TCP, UDP or SCTP and the source or destination port is 0.
 
       - name: TCP_FLAG
         value: 0x65
@@ -1739,14 +1749,16 @@ structs:
         bits: w0(5..0)
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<5:0>. Contains the pkind computed by each
-          interface for the packet. See Port Kinds.
+          interface for the packet; see Port Kinds. WQE[PKND] is relative to the local node; the
+          node is in WQE[AURA]<11:10>
           ...
 
       - name: STYLE
         bits: w0(23..16)
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<23:16>. Contains the 8-bit style computed
-          for the packet. The low 6 bits also indicate the final style; see Styles.
+          for the packet. The low 6 bits also indicate the final style; see Styles. WQE[STYLE] is
+          relative to the local node; the node is in WQE[AURA]<11:10>
           ...
 
       - name: BUFS
@@ -1763,8 +1775,8 @@ structs:
         bits: w0(43..32)
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<43:32>. The logical channel that the packet
-          arrived from, enumerated with PKI_CHAN_E. Channel numbers are assigned by the following
-          algorithm (see also Channels):
+          arrived from, enumerated with PKI_CHAN_E. WQE[CHAN] is relative to the local node; the
+          node is in WQE[AURA]<11:10>.
           ...
 
       - name: APAD
@@ -1780,8 +1792,9 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura including FPA node
           computed for the packet. See Auras for an overview on auras, and QPG for the aura
-          calculation. Note the high two bits correspond to an OCI node number, from
-          PKI_QPG_TBL(0..2047)[AURA_NODE].
+          calculation. Note the high two bits (WQE[AURA]<11:10>) correspond to an OCI node number,
+          from PKI_QPG_TBL(0..2047)[AURA_NODE], and indicate the node on which the packet was
+          received by PKI.
           ...
 
       - name: TAG
@@ -2147,7 +2160,9 @@ registers:
     title: PKI Soft Reset Register
     address: 0x1180044000010
     bus: RSL
-    description: Allows soft reset.
+    internal: |
+      Allows soft reset.  INTERNAL: See Bug18607 PKI_SFT_RST definition for further definition
+      (http://mcbuggin.caveonetworks.com/bug/18607).
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2162,7 +2177,7 @@ registers:
 
       - name: --
         bits: 62..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2172,7 +2187,7 @@ registers:
         access: R/W1/H
         reset: 0
         typical: 0
-        description: Reset. When set to 1 by software, PKI gets a short reset pulse (three cycles in duration).
+        description: Reset. When set to 1 by software, PKI will produce an internal reset pulse.
 
 
   - name: PKI_GEN_INT
@@ -2183,11 +2198,20 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..7
-        access: --
+        bits: 63..8
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: X2P_REQ_OFL
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Set when a device attempts to have more than the allocated requests outstanding to PKI.
+          Throws PKI_INTSN_E::PKI_GEN_X2P_REQ_OFL.
 
       - name: DRP_NOAVAIL
         bits: 6
@@ -2236,9 +2260,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PKI asserted backpressure. PKI can assert backpressure to the receive logic when the to-do
-          list exceeds a high-water mark. When this occurs, PKI can raise an interrupt to software.
-          Throws PKI_INTSN_E::PKI_GEN_BCKPRS.
+          PKI asserted backpressure. Set when PKI was unable to accept the next valid data from
+          BGX/DPI/ILK etc. over X2P due to all internal resources being used up, and PKI will drop
+          the packet. Throws PKI_INTSN_E::PKI_GEN_BCKPRS.
 
       - name: CRCERR
         bits: 1
@@ -2246,9 +2270,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PKI calculated bad CRC. PKI can compute CRC in two places. Each RGMII port computes its
-          own CRC, but PKI can provide an additional check. If PKI computes a bad CRC, PKI raises an
-          interrupt. Throws PKI_INTSN_E::PKI_GEN_CRCERR.
+          PKI calculated bad CRC. If the packet arrived via a BGX interface, the packet had an FCS
+          error. If the packet arrived via PKO internal loopback, the packet had one or more parity
+          errors. Not applicable when the packet arrived via the DPI interface. For ILK interfaces,
+          the following ILK errors can cause packets to terminate with this error code:
+          SERDES_LOCK_LOSS, BDRY_SYNC_LOSS, SCRM_SYNC_LOSS, LANE_ALIGN_FAIL, DESKEW_FIFO_OVFL,
+          CRC24_ERR, UKWN_CNTL_WORD, and BAD_64B67B. Throws PKI_INTSN_E::PKI_GEN_CRCERR.
 
       - name: PKTDRP
         bits: 0
@@ -2269,7 +2296,7 @@ registers:
     fields:
       - name: --
         bits: 63..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2284,6 +2311,30 @@ registers:
           associated with the error.
 
 
+  - name: PKI_X2P_REQ_OFL
+    title: PKI X2P Request Overflow Error Register
+    address: 0x1180044000038
+    bus: RSL
+    attributes:
+      uvm_default_constraint: "True"
+    fields:
+      - name: --
+        bits: 63..4
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: X2P_DID
+        bits: 3..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          When PKI_GEN_INT[X2P_REQ_OFL] is set, this field latches the X2P device id number which
+          attempted to overflow the allowed outstanding requests to PKI.
+
+
   - name: PKI_ECC_INT0
     title: PKI ECC Interrupt 0 Register
     address: 0x1180044000040
@@ -2293,7 +2344,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2436,7 +2487,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2459,7 +2510,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2570,7 +2621,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2602,7 +2653,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2746,7 +2797,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2767,7 +2818,7 @@ registers:
 
       - name: --
         bits: 23..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2867,7 +2918,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2900,7 +2951,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2940,7 +2991,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2966,7 +3017,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2994,7 +3045,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3020,7 +3071,7 @@ registers:
 
       - name: --
         bits: 8..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3046,7 +3097,7 @@ registers:
 
       - name: --
         bits: 4..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3066,7 +3117,7 @@ registers:
 
       - name: --
         bits: 1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3092,7 +3143,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3118,7 +3169,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3329,7 +3380,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3401,7 +3452,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3415,7 +3466,7 @@ registers:
 
       - name: --
         bits: 51..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3471,7 +3522,7 @@ registers:
 
       - name: --
         bits: 62..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3495,7 +3546,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3524,7 +3575,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3571,7 +3622,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3640,7 +3691,7 @@ registers:
     fields:
       - name: --
         bits: 63..53
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3658,7 +3709,7 @@ registers:
 
       - name: --
         bits: 47..36
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3675,7 +3726,7 @@ registers:
 
       - name: --
         bits: 31..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3746,11 +3797,21 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..4
-        access: --
+        bits: 63..5
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: TRAPZ
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PCAM sequencer trapz interrupt. Throws PKI_INTSN_E::PKI_CL(0..3)_INT_TRAPZ. INTERNAL:
+          Caused by TRAP sequence state, may indicate PKI enabled without proper sequencer code
+          loaded in PKI_IMEM(0..2047).
 
       - name: IPTINT
         bits: 3
@@ -3792,7 +3853,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3872,7 +3933,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3916,7 +3977,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3966,7 +4027,7 @@ registers:
     fields:
       - name: --
         bits: 63..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3991,7 +4052,7 @@ registers:
     fields:
       - name: --
         bits: 63..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4018,7 +4079,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -4033,7 +4094,7 @@ registers:
 
       - name: --
         bits: 23..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -4048,7 +4109,7 @@ registers:
 
       - name: --
         bits: 15..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -4063,7 +4124,7 @@ registers:
 
       - name: --
         bits: 7..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -4090,7 +4151,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4159,7 +4220,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4294,7 +4355,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4321,17 +4382,29 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: RSVDRW15
-        bits: 15..7
+        bits: 15..8
         access: R/W
         reset: 0x0
         typical: --
         description: Reserved.
+
+      - name: FCS_PRES
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 1
+        description: |
+          FCS present.
+          0 = FCS not present. FCS may not be checked nor stripped.
+          1 = FCS present; the last four bytes of the packet are part of the FCS and may not be
+          considered part of a IP, TCP or other header for length error checks.
+          PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_CHK or FCS_STRIP] may optionally be set.
 
       - name: MPLS_EN
         bits: 6
@@ -4419,7 +4492,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4474,7 +4547,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4485,8 +4558,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Skip amount from front of packet to first byte covered by FCS start. If PTP_MODE, the
-          8-byte timestamp is prepended to the packet, and FCS_SKIP must be at least 8.
+          Skip amount from front of packet to first byte covered by FCS start. The skip must be
+          even. If PTP_MODE, the 8-byte timestamp is prepended to the packet, and FCS_SKIP must be
+          at least 8.
 
       - name: INST_SKIP
         bits: 7..0
@@ -4496,9 +4570,9 @@ registers:
         description: |
           Skip amount from front of packet to begin parsing at. If
           PKI_CL(0..3)_PKIND(0..63)_CFG[INST_HDR] is set, points at the first byte of the
-          instruction header. If INST_HDR is clear, points at the first byte to begin parsing at. If
-          PTP_MODE, the 8-byte timestamp is prepended to the packet, and INST_SKIP must be at least
-          8.
+          instruction header. If INST_HDR is clear, points at the first byte to begin parsing at.
+          The skip must be even. If PTP_MODE, the 8-byte timestamp is prepended to the packet, and
+          INST_SKIP must be at least 8.
 
 
   - name: PKI_CL(0..3)_PKIND(0..63)_L2_CUSTOM
@@ -4513,7 +4587,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4559,7 +4633,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4588,7 +4662,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4615,7 +4689,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4700,14 +4774,16 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Strip L2 FCS bytes from packet, decrease WQE[LEN] by 4 bytes.
+        description: |
+          Strip L2 FCS bytes from packet, decrease WQE[LEN] by 4 bytes.
+          PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] must be set.
 
       - name: FCS_CHK
         bits: 22
         access: R/W
         reset: 0
         typical: 1
-        description: FCS Checking enabled.
+        description: FCS checking enabled. PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] must be set.
 
       - name: RAWDRP
         bits: 21
@@ -4792,7 +4868,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5008,7 +5084,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5164,7 +5240,7 @@ registers:
 
       - name: --
         bits: 62..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5185,7 +5261,7 @@ registers:
 
       - name: --
         bits: 31..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5265,7 +5341,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5354,8 +5430,8 @@ registers:
         typical: --
         description: |
           Relative number of bytes to advance scan pointer when entry matches. See Parser Skip and
-          Advancing. Must be zero for invalid entries and for TERMs that do not allow an advance as
-          specified in the PKI_PCAM_TERM_E table.
+          Advancing. Must be even. Must be zero for invalid entries and for TERMs that do not allow
+          an advance as specified in the PKI_PCAM_TERM_E table.
 
 
   - name: PKI_QPG_TBL(0..2047)
@@ -5372,7 +5448,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5393,7 +5469,7 @@ registers:
 
       - name: --
         bits: 44..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -5415,7 +5491,7 @@ registers:
 
       - name: --
         bits: 28..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -5430,7 +5506,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -5464,7 +5540,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5484,7 +5560,7 @@ registers:
 
       - name: --
         bits: 29..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5512,7 +5588,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5535,7 +5611,7 @@ registers:
     fields:
       - name: --
         bits: 63..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5555,7 +5631,7 @@ registers:
 
       - name: --
         bits: 15..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -5580,7 +5656,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5602,7 +5678,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5626,7 +5702,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5648,7 +5724,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5670,7 +5746,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5692,7 +5768,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5714,7 +5790,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5736,7 +5812,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5758,7 +5834,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5780,7 +5856,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5802,7 +5878,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5824,7 +5900,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5846,7 +5922,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5868,7 +5944,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5892,7 +5968,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5916,7 +5992,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5938,7 +6014,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5960,7 +6036,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5982,7 +6058,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6004,7 +6080,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6026,7 +6102,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6037,8 +6113,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by more specific
-          length or FCS statistic error registers.
+          Number of non-dropped packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by
+          more specific length or FCS statistic error registers.
 
 
   - name: PKI_STAT(0..63)_STAT13
@@ -6050,7 +6126,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6061,7 +6137,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets with special handling. For profiling and diagnostic use only.
+          Number of packets, dropped or non-dropped, with special handling. For profiling and
+          diagnostic use only.
           INTERNAL: Counts packets completing IPE processing with WQE[SH] set.
 
 
@@ -6075,7 +6152,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6099,7 +6176,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6123,7 +6200,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6147,7 +6224,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6171,7 +6248,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6196,7 +6273,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6219,7 +6296,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -6242,7 +6319,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

@@ -147,6 +147,7 @@ enums:
           bit_name: "INTR"
           bit_num: "0"
           blk_enum_name: "GPIO_INTSN_E"
+          intsn_level_sensitive: "True"
           intsn_lsb_mismatch: "True"
           major_name: "GPIO"
           major_val: "(0x3)"
@@ -160,6 +161,7 @@ enums:
           bit_name: "INTR<b>"
           bit_num: "0+b"
           blk_enum_name: "GPIO_INTSN_E"
+          intsn_level_sensitive: "True"
           major_name: "GPIO"
           major_val: "(0x3)"
           reg_addr: "(0x1070000000C00+a*0x8)"
@@ -3034,6 +3036,19 @@ enums:
           reg_name: "PKI_GEN_INT"
         description: See PKI_GEN_INT[DRP_NOAVAIL].
 
+      - name: PKI_GEN_X2P_REQ_OFL
+        value: 0x44007
+        attributes:
+          bit_name: "X2P_REQ_OFL"
+          bit_num: "7"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pfe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000020)"
+          reg_name: "PKI_GEN_INT"
+        description: See PKI_GEN_INT[X2P_REQ_OFL].
+
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:
@@ -3486,6 +3501,18 @@ enums:
           reg_name: "PKI_CL(0..3)_INT"
         description: See PKI_CL(0..3)_INT[IPTINT].
 
+      - name: PKI_CL(0..3)_INT_TRAPZ
+        value: 0x44804 | a<<8
+        attributes:
+          bit_name: "TRAPZ"
+          bit_num: "4"
+          blk_enum_name: "PKI_INTSN_E"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x118004400C000|a<<16)"
+          reg_name: "PKI_CL(0..3)_INT"
+        description: See PKI_CL(0..3)_INT[TRAPZ].
+
       - name: PKI_CL(0..3)_ECC_RF_PERR
         value: 0x44840 | a<<8
         attributes:
@@ -3594,61 +3621,6 @@ enums:
           reg_addr: "(0x1180047000028)"
           reg_name: "HNA_ERROR"
         description: See HNA_ERROR[DBLOVF].
-
-      - name: HNA_ERROR_DC0PERR(0..2)
-        value: 0x47001 + a
-        attributes:
-          bit_name: "DC0PERR<a>"
-          bit_num: "1+a"
-          blk_enum_name: "HNA_INTSN_E"
-          cib_rtl_module: "hna"
-          exempt_natural_alignment: "a"
-          major_name: "HNA"
-          major_val: "(0x47)"
-          reg_addr: "(0x1180047000028)"
-          reg_name: "HNA_ERROR"
-        description: See HNA_ERROR[DC0PERR<a>].
-
-      - name: HNA_ERROR_DC1PERR(0..2)
-        value: 0x47004 + a
-        attributes:
-          bit_name: "DC1PERR<a>"
-          bit_num: "4+a"
-          blk_enum_name: "HNA_INTSN_E"
-          cib_rtl_module: "hna"
-          major_name: "HNA"
-          major_val: "(0x47)"
-          reg_addr: "(0x1180047000028)"
-          reg_name: "HNA_ERROR"
-        description: See HNA_ERROR[DC1PERR<a>].
-
-      - name: HNA_ERROR_DC2PERR(0..2)
-        value: 0x47007 + a
-        attributes:
-          bit_name: "DC2PERR<a>"
-          bit_num: "7+a"
-          blk_enum_name: "HNA_INTSN_E"
-          cib_rtl_module: "hna"
-          exempt_natural_alignment: "a"
-          major_name: "HNA"
-          major_val: "(0x47)"
-          reg_addr: "(0x1180047000028)"
-          reg_name: "HNA_ERROR"
-        description: See HNA_ERROR[DC2PERR<a>].
-
-      - name: HNA_ERROR_DC3PERR(0..2)
-        value: 0x4700A + a
-        attributes:
-          bit_name: "DC3PERR<a>"
-          bit_num: "10+a"
-          blk_enum_name: "HNA_INTSN_E"
-          cib_rtl_module: "hna"
-          exempt_natural_alignment: "a"
-          major_name: "HNA"
-          major_val: "(0x47)"
-          reg_addr: "(0x1180047000028)"
-          reg_name: "HNA_ERROR"
-        description: See HNA_ERROR[DC3PERR<a>].
 
       - name: HNA_ERROR_DLC0_OVFERR
         value: 0x4700D
@@ -6324,29 +6296,17 @@ enums:
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[ECRC_E].
 
-      - name: PEM(0..3)_ERROR_RTRY_PE
+      - name: PEM(0..3)_ERROR_LOFP
         value: 0xC005F + a*0x1000
         attributes:
-          bit_name: "RTRY_PE"
+          bit_name: "LOFP"
           bit_num: "31"
           blk_enum_name: "PEM_INTSN_E"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[RTRY_PE].
-
-      - name: PEM(0..3)_ERROR_HDRQ_PE
-        value: 0xC0060 + a*0x1000
-        attributes:
-          bit_name: "HDRQ_PE"
-          bit_num: "32"
-          blk_enum_name: "PEM_INTSN_E"
-          major_name: "PEM(0..3)"
-          major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
-          reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[HDRQ_PE].
+        description: See See PEM(0..3)_DBG_INFO[LOFP].
 
       - name: PEM(0..3)_ERROR_DATQ_PE
         value: 0xC0061 + a*0x1000
@@ -6575,6 +6535,78 @@ enums:
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[C_C_DBE].
+
+      - name: PEM(0..3)_ERROR_RTRY_SBE
+        value: 0xC0074 + a*0x1000
+        attributes:
+          bit_name: "RTRY_SBE"
+          bit_num: "52"
+          blk_enum_name: "PEM_INTSN_E"
+          major_name: "PEM(0..3)"
+          major_val: "(0xC0+a)"
+          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_name: "PEM(0..3)_DBG_INFO"
+        description: See See PEM(0..3)_DBG_INFO[RTRY_SBE].
+
+      - name: PEM(0..3)_ERROR_RTRY_DBE
+        value: 0xC0075 + a*0x1000
+        attributes:
+          bit_name: "RTRY_DBE"
+          bit_num: "53"
+          blk_enum_name: "PEM_INTSN_E"
+          major_name: "PEM(0..3)"
+          major_val: "(0xC0+a)"
+          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_name: "PEM(0..3)_DBG_INFO"
+        description: See See PEM(0..3)_DBG_INFO[RTRY_DBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B0_SBE
+        value: 0xC0076 + a*0x1000
+        attributes:
+          bit_name: "QHDR_B0_SBE"
+          bit_num: "54"
+          blk_enum_name: "PEM_INTSN_E"
+          major_name: "PEM(0..3)"
+          major_val: "(0xC0+a)"
+          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_name: "PEM(0..3)_DBG_INFO"
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B0_SBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B0_DBE
+        value: 0xC0077 + a*0x1000
+        attributes:
+          bit_name: "QHDR_B0_DBE"
+          bit_num: "55"
+          blk_enum_name: "PEM_INTSN_E"
+          major_name: "PEM(0..3)"
+          major_val: "(0xC0+a)"
+          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_name: "PEM(0..3)_DBG_INFO"
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B0_DBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B1_SBE
+        value: 0xC0078 + a*0x1000
+        attributes:
+          bit_name: "QHDR_B1_SBE"
+          bit_num: "56"
+          blk_enum_name: "PEM_INTSN_E"
+          major_name: "PEM(0..3)"
+          major_val: "(0xC0+a)"
+          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_name: "PEM(0..3)_DBG_INFO"
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B1_SBE].
+
+      - name: PEM(0..3)_ERROR_QHDR_B1_DBE
+        value: 0xC0079 + a*0x1000
+        attributes:
+          bit_name: "QHDR_B1_DBE"
+          bit_num: "57"
+          blk_enum_name: "PEM_INTSN_E"
+          major_name: "PEM(0..3)"
+          major_val: "(0xC0+a)"
+          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_name: "PEM(0..3)_DBG_INFO"
+        description: See See PEM(0..3)_DBG_INFO[QHDR_B1_DBE].
 
       - name: OSM_INT_STAT_DFA_DBE
         value: 0xDC000
@@ -7342,7 +7374,7 @@ enums:
         description: See DPI_INT_REG[NFOVR].
 
       - name: DPI_INT_DMADBO(0..7)
-        value: 0xDF002 + a
+        value: 0xDF008 + a
         attributes:
           bit_name: "DMADBO<a>"
           bit_num: "8+a"
@@ -7356,12 +7388,11 @@ enums:
         description: See DPI_INT_REG[DMADBO<a>].
 
       - name: DPI_INT_REQ_BADADR
-        value: 0xDF00A
+        value: 0xDF010
         attributes:
           bit_name: "REQ_BADADR"
           bit_num: "16"
           blk_enum_name: "DPI_INTSN_E"
-          intsn_lsb_mismatch: "True"
           major_name: "DPI"
           major_val: "(0xDF)"
           reg_addr: "(0x1DF0000000008)"
@@ -7369,7 +7400,7 @@ enums:
         description: See DPI_INT_REG[REQ_BADADR].
 
       - name: DPI_INT_REQ_BADLEN
-        value: 0xDF00B
+        value: 0xDF011
         attributes:
           bit_name: "REQ_BADLEN"
           bit_num: "17"
@@ -7381,8 +7412,8 @@ enums:
           reg_name: "DPI_INT_REG"
         description: See DPI_INT_REG[REQ_BADLEN].
 
-      - name: DPI_INT_REQ_OVFLW
-        value: 0xDF00C
+      - name: DPI_INT_REQ_OVRFLW
+        value: 0xDF012
         attributes:
           bit_name: "REQ_OVRFLW"
           bit_num: "18"
@@ -7395,7 +7426,7 @@ enums:
         description: See DPI_INT_REG[REQ_OVRFLW].
 
       - name: DPI_INT_REQ_UNDFLW
-        value: 0xDF00D
+        value: 0xDF013
         attributes:
           bit_name: "REQ_UNDFLW"
           bit_num: "19"
@@ -7408,7 +7439,7 @@ enums:
         description: See DPI_INT_REG[REQ_UNDFLW].
 
       - name: DPI_INT_REQ_ANULL
-        value: 0xDF00E
+        value: 0xDF014
         attributes:
           bit_name: "REQ_ANULL"
           bit_num: "20"
@@ -7421,7 +7452,7 @@ enums:
         description: See DPI_INT_REG[REQ_ANULL].
 
       - name: DPI_INT_REQ_INULL
-        value: 0xDF00F
+        value: 0xDF015
         attributes:
           bit_name: "REQ_INULL"
           bit_num: "21"
@@ -7434,7 +7465,7 @@ enums:
         description: See DPI_INT_REG[REQ_INULL].
 
       - name: DPI_INT_REQ_BADFIL
-        value: 0xDF010
+        value: 0xDF016
         attributes:
           bit_name: "REQ_BADFIL"
           bit_num: "22"
@@ -7447,7 +7478,7 @@ enums:
         description: See DPI_INT_REG[REQ_BADFIL].
 
       - name: DPI_INT_SPRT0_RST
-        value: 0xDF011
+        value: 0xDF018
         attributes:
           bit_name: "SPRT0_RST"
           bit_num: "24"
@@ -7460,7 +7491,7 @@ enums:
         description: See DPI_INT_REG[SPRT0_RST].
 
       - name: DPI_INT_SPRT1_RST
-        value: 0xDF012
+        value: 0xDF019
         attributes:
           bit_name: "SPRT1_RST"
           bit_num: "25"
@@ -7473,7 +7504,7 @@ enums:
         description: See DPI_INT_REG[SPRT1_RST].
 
       - name: DPI_INT_SPRT2_RST
-        value: 0xDF013
+        value: 0xDF01A
         attributes:
           bit_name: "SPRT2_RST"
           bit_num: "26"
@@ -7486,7 +7517,7 @@ enums:
         description: See DPI_INT_REG[SPRT2_RST].
 
       - name: DPI_INT_SPRT3_RST
-        value: 0xDF014
+        value: 0xDF01B
         attributes:
           bit_name: "SPRT3_RST"
           bit_num: "27"
@@ -7498,13 +7529,26 @@ enums:
           reg_name: "DPI_INT_REG"
         description: See DPI_INT_REG[SPRT3_RST].
 
-      - name: DPI_ERR_RAM_DBE(0..30)
-        value: 0xDF015 + a
+      - name: DPI_DMA_PP(0..47)_INT
+        value: 0xDF040 + a
+        attributes:
+          bit_name: "COMPLETE<a>"
+          bit_num: "0+a"
+          blk_enum_name: "DPI_INTSN_E"
+          intsn_level_sensitive: "1"
+          intsn_lsb_mismatch: "True"
+          major_name: "DPI"
+          major_val: "(0xDF)"
+          reg_addr: "(0x1DF0000000038)"
+          reg_name: "DPI_DMA_PP_INT"
+        description: See DPI_DMA_PP_INT[COMPLETE<a>].
+
+      - name: DPI_ERR_RAM_DBE(0..14)
+        value: 0xDF080 + a
         attributes:
           bit_name: "RAM_DBE<a>"
-          bit_num: "32+a"
+          bit_num: "0+a"
           blk_enum_name: "DPI_INTSN_E"
-          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
           major_name: "DPI"
           major_val: "(0xDF)"
@@ -7512,33 +7556,18 @@ enums:
           reg_name: "DPI_ECC_INT"
         description: See DPI_ECC_INT[RAM_DBE<a>].
 
-      - name: DPI_ERR_RAM_SBE(0..30)
-        value: 0xDF034 + a
+      - name: DPI_ERR_RAM_SBE(0..14)
+        value: 0xDF0A0 + a
         attributes:
           bit_name: "RAM_SBE<a>"
-          bit_num: "0+a"
+          bit_num: "32+a"
           blk_enum_name: "DPI_INTSN_E"
-          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
           major_name: "DPI"
           major_val: "(0xDF)"
           reg_addr: "(0x1DF0000000020)"
           reg_name: "DPI_ECC_INT"
         description: See DPI_ECC_INT[RAM_SBE<a>].
-
-      - name: DPI_DMA_PP(0..47)_INT
-        value: 0xDF053 + a
-        attributes:
-          bit_name: "COMPLETE<a>"
-          bit_num: "0+a"
-          blk_enum_name: "DPI_INTSN_E"
-          exempt_natural_alignment: "a"
-          intsn_lsb_mismatch: "True"
-          major_name: "DPI"
-          major_val: "(0xDF)"
-          reg_addr: "(0x1DF0000000038)"
-          reg_name: "DPI_DMA_PP_INT"
-        description: See DPI_DMA_PP_INT[COMPLETE<a>].
 
       - name: BGX(0..5)_CMR(0..3)_INT_PAUSE_DRP
         value: 0xE0000 + a*0x1000 + b*0x40

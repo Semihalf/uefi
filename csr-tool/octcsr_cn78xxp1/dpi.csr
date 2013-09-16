@@ -40,98 +40,94 @@ enums:
         description: See DPI_INT_REG[NFOVR].
 
       - name: DPI_INT_DMADBO(0..7)
-        value: 0xDF002 + a
+        value: 0xDF008 + a
         attributes:
           exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[DMADBO<a>].
 
       - name: DPI_INT_REQ_BADADR
-        value: 0xDF00A
-        attributes:
-          intsn_lsb_mismatch: "True"
+        value: 0xDF010
         description: See DPI_INT_REG[REQ_BADADR].
 
       - name: DPI_INT_REQ_BADLEN
-        value: 0xDF00B
+        value: 0xDF011
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[REQ_BADLEN].
 
-      - name: DPI_INT_REQ_OVFLW
-        value: 0xDF00C
+      - name: DPI_INT_REQ_OVRFLW
+        value: 0xDF012
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[REQ_OVRFLW].
 
       - name: DPI_INT_REQ_UNDFLW
-        value: 0xDF00D
+        value: 0xDF013
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[REQ_UNDFLW].
 
       - name: DPI_INT_REQ_ANULL
-        value: 0xDF00E
+        value: 0xDF014
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[REQ_ANULL].
 
       - name: DPI_INT_REQ_INULL
-        value: 0xDF00F
+        value: 0xDF015
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[REQ_INULL].
 
       - name: DPI_INT_REQ_BADFIL
-        value: 0xDF010
+        value: 0xDF016
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[REQ_BADFIL].
 
       - name: DPI_INT_SPRT0_RST
-        value: 0xDF011
+        value: 0xDF018
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[SPRT0_RST].
 
       - name: DPI_INT_SPRT1_RST
-        value: 0xDF012
+        value: 0xDF019
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[SPRT1_RST].
 
       - name: DPI_INT_SPRT2_RST
-        value: 0xDF013
+        value: 0xDF01A
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[SPRT2_RST].
 
       - name: DPI_INT_SPRT3_RST
-        value: 0xDF014
+        value: 0xDF01B
         attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_INT_REG[SPRT3_RST].
 
-      - name: DPI_ERR_RAM_DBE(0..30)
-        value: 0xDF015 + a
+      - name: DPI_DMA_PP(0..47)_INT
+        value: 0xDF040 + a
         attributes:
-          exempt_natural_alignment: "a"
+          intsn_level_sensitive: "1"
+          intsn_lsb_mismatch: "True"
+        description: See DPI_DMA_PP_INT[COMPLETE<a>].
+
+      - name: DPI_ERR_RAM_DBE(0..14)
+        value: 0xDF080 + a
+        attributes:
           intsn_lsb_mismatch: "True"
         description: See DPI_ECC_INT[RAM_DBE<a>].
 
-      - name: DPI_ERR_RAM_SBE(0..30)
-        value: 0xDF034 + a
+      - name: DPI_ERR_RAM_SBE(0..14)
+        value: 0xDF0A0 + a
         attributes:
-          exempt_natural_alignment: "a"
           intsn_lsb_mismatch: "True"
         description: See DPI_ECC_INT[RAM_SBE<a>].
-
-      - name: DPI_DMA_PP(0..47)_INT
-        value: 0xDF053 + a
-        attributes:
-          exempt_natural_alignment: "a"
-          intsn_lsb_mismatch: "True"
-        description: See DPI_DMA_PP_INT[COMPLETE<a>].
 
 
 structs:
@@ -350,7 +346,7 @@ registers:
     fields:
       - name: --
         bits: 63..45
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -371,7 +367,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -414,7 +410,7 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -494,7 +490,7 @@ registers:
 
       - name: --
         bits: 7..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -525,7 +521,7 @@ registers:
     fields:
       - name: --
         bits: 63..28
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -664,33 +660,47 @@ registers:
       dv_fc_scratch: "ALL"
     fields:
       - name: --
-        bits: 63..48
-        access: --
+        bits: 63..33
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: RAM_CDIS
-        bits: 47..32
+        bits: 32
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: RDB RAM ECC correction disable. Each bit corresponds to a different RAM.
 
+      - name: --
+        bits: 31..17
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAM_FLIP1
-        bits: 31..16
+        bits: 16
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding RDB ram
           to test single-bit or double-bit error handling.
 
+      - name: --
+        bits: 15..1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: RAM_FLIP0
-        bits: 15..0
+        bits: 0
         access: R/W
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding RDB ram
           to test single-bit or double-bit error handling.
@@ -701,38 +711,70 @@ registers:
     address: 0x1DF0000000020
     bus: NCB
     description: This register contains ECC error interrupt summary bits.
+    internal: |
+      RAM[14] dpi.pnl.pkt.sli_pkt_msix.msix_vfaddr
+      RAM[13] dpi.pnl.pkt.sli_pkt_msix.msix_vfdata
+      RAM[12] dpi.pnl.pkt.sli_pkt_csr.pcsr_in_done
+      RAM[11] dpi.pnl.pkt.sli_pkt_csr.pcsr_instr_mem
+      RAM[10] dpi.pnl.pkt.sli_pkt_csr.pcsr_pout_size
+      RAM[ 9] dpi.pnl.pkt.sli_pkt_csr.pcsr_slist
+      RAM[ 8] dpi.pnl.pkt.sli_pkt_csr.pout_int
+      RAM[ 7] dpi.pnl.pkt.sli_pkt_csr.pout_signal
+      RAM[ 6] dpi.pnl.pkt.sli_pkt_pof.sli_pkt_poi.poi_fifo
+      RAM[ 5] dpi.pnl.pkt.sli_pkt_pof.sli_pkt_psf.psf_fifo
+      RAM[ 4] dpi.pnl.pkt.sli_pkt_pof.sli_pkt_pdf.pdf_fifo
+      RAM[ 3] dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pbn.pbn_fifo
+      RAM[ 2] dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pfp.pfp_fifo
+      RAM[ 1] dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem1
+      RAM[ 1] dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem0
+      RAM[ 0] dpi.dma.rdb.buff.bnk0a
+      RAM[ 0] dpi.dma.rdb.buff.bnk0b
+      RAM[ 0] dpi.dma.rdb.buff.bnk1a
+      RAM[ 0] dpi.dma.rdb.buff.bnk1b
+      RAM[ 0] dpi.dma.rdb.buff.bnk3a
+      RAM[ 0] dpi.dma.rdb.buff.bnk3b
+      RAM[ 0] dpi.dma.rdb.buff.bnk4a
+      RAM[ 0] dpi.dma.rdb.buff.bnk4b
+      RAM[ 0] dpi.dma.rdb.buff.bnk6a
+      RAM[ 0] dpi.dma.rdb.buff.bnk6b
+      RAM[ 0] dpi.dma.rdb.buff.bnk7a
+      RAM[ 0] dpi.dma.rdb.buff.bnk7b
+      RAM[ 0] dpi.dma.rdb.buff.bnk9a
+      RAM[ 0] dpi.dma.rdb.buff.bnk9b
+      RAM[ 0] dpi.dma.rdb.buff.bnk10a
+      RAM[ 0] dpi.dma.rdb.buff.bnk10b
     fields:
       - name: --
-        bits: 63
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: RAM_DBE
-        bits: 62..32
-        access: R/W1C/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Set when a double-bit error is detected in the corresponding ram. Throws
-          DPI_INTSN_E::DPI_ERR_RAM_DBE.
-
-      - name: --
-        bits: 31
-        access: --
+        bits: 63..47
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: RAM_SBE
-        bits: 30..0
+        bits: 46..32
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
         description: |
           Set when a single-bit error is detected in the corresponding ram. Throws
           DPI_INTSN_E::DPI_ERR_RAM_SBE.
+
+      - name: --
+        bits: 31..15
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RAM_DBE
+        bits: 14..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Set when a double-bit error is detected in the corresponding ram. Throws
+          DPI_INTSN_E::DPI_ERR_RAM_DBE.
 
 
   - name: DPI_NCB_CTL
@@ -741,7 +783,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -823,14 +865,14 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: COMPLETE
         bits: 47..0
-        access: R/W/H
+        access: RO/H
         reset: 0x0
         typical: --
         description: DPI DMA per-core instruction completion interrupt.  See DPI_DMA_PP(0..47)_CNT.
@@ -844,7 +886,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -865,7 +907,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -897,7 +939,7 @@ registers:
 
       - name: --
         bits: 57
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -914,7 +956,7 @@ registers:
 
       - name: --
         bits: 55..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -931,7 +973,7 @@ registers:
 
       - name: --
         bits: 47..34
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1016,7 +1058,7 @@ registers:
 
       - name: --
         bits: 13..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1029,7 +1071,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1051,7 +1093,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1074,7 +1116,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1097,7 +1139,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1119,7 +1161,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1141,7 +1183,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1162,7 +1204,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1188,7 +1230,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1206,7 +1248,7 @@ registers:
 
       - name: --
         bits: 7..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1235,7 +1277,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1267,7 +1309,7 @@ registers:
 
       - name: --
         bits: 62
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1284,7 +1326,7 @@ registers:
 
       - name: --
         bits: 47..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1303,7 +1345,7 @@ registers:
 
       - name: --
         bits: 6..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1319,7 +1361,7 @@ registers:
     fields:
       - name: --
         bits: 63..39
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1347,7 +1389,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1395,7 +1437,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1420,7 +1462,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1434,7 +1476,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1454,7 +1496,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1472,7 +1514,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1496,7 +1538,7 @@ registers:
     fields:
       - name: --
         bits: 63..37
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1510,7 +1552,7 @@ registers:
 
       - name: --
         bits: 31..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1547,7 +1589,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1564,7 +1606,7 @@ registers:
 
       - name: --
         bits: 23..21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1582,7 +1624,7 @@ registers:
 
       - name: --
         bits: 19..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1602,7 +1644,7 @@ registers:
 
       - name: --
         bits: 15..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1633,7 +1675,7 @@ registers:
 
       - name: --
         bits: 6..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1664,7 +1706,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1701,7 +1743,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1715,7 +1757,7 @@ registers:
     fields:
       - name: --
         bits: 63..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1729,7 +1771,7 @@ registers:
 
       - name: --
         bits: 15..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1753,7 +1795,7 @@ registers:
 
       - name: --
         bits: 7..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1763,6 +1805,8 @@ registers:
         access: RO/H
         reset: 0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Type of transaction that caused the ErrorResponse.
           0 = DMA Instruction.
@@ -1770,7 +1814,7 @@ registers:
 
       - name: --
         bits: 3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1790,7 +1834,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1804,7 +1848,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1835,7 +1879,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1857,7 +1901,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1882,7 +1926,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

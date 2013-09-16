@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: MIX
+attributes:
+  block_index: "False"
 enums:
   - name: MIX_INTSN_E
     attributes:
@@ -86,7 +88,7 @@ registers:
 
       - name: --
         bits: 43..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -103,7 +105,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -119,7 +121,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -138,7 +140,7 @@ registers:
 
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -180,7 +182,7 @@ registers:
 
       - name: --
         bits: 43..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -197,7 +199,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -213,7 +215,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -232,7 +234,7 @@ registers:
 
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -264,7 +266,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -390,7 +392,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -432,7 +434,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -467,7 +469,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -495,7 +497,7 @@ registers:
     fields:
       - name: --
         bits: 63..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -529,7 +531,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -668,7 +670,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -690,7 +692,7 @@ registers:
 
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -770,7 +772,7 @@ registers:
     fields:
       - name: --
         bits: 63..21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -787,7 +789,7 @@ registers:
 
       - name: --
         bits: 15..13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -803,7 +805,7 @@ registers:
 
       - name: --
         bits: 7..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -830,7 +832,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.

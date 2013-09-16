@@ -465,7 +465,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -520,7 +520,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -554,7 +554,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -578,7 +578,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -598,7 +598,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -620,7 +620,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -642,7 +642,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -664,7 +664,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -685,73 +685,30 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..7
-        access: --
+        bits: 63..11
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 6..0
+        bits: 10..0
         access: RO
         reset: 0x0
         typical: 0x0
-        description: BIST results. Hardware sets a bit for each memory that fails BIST.
-
-
-  - name: CIU_INT_DBG_SEL
-    title: CIU Interrupt Debug Select Register
-    address: 0x1010000000200
-    bus: NCB
-    fields:
-      - name: --
-        bits: 63..19
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: SEL
-        bits: 18..16
-        access: R/W
-        reset: 0x0
-        typical: --
         description: |
-          Selects if all or the specific interrupt is presented on the debug port.
-          0x0 = erst_n
-          0x1 = start_bist
-          0x2 = toggle at coprocessor clock/2 frequency
-          0x3 = All core interrupt bits are ORed together
-          0x4 = Only the selected virtual core/IRQ is selected
-
-      - name: --
-        bits: 15..10
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: IRQ
-        bits: 9..8
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Which IRQ to select: 0x0=IRQ2, 0x1=IRQ3, 0x2=IRQ4.
-
-      - name: --
-        bits: 7..6
-        access: --
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PP
-        bits: 5..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: Which core to select.
+          BIST results. Hardware sets a bit for each memory that fails BIST. INTERNAL:
+          <10>= ncbo_crd_fif_mem0.
+          <9> = ciu_nbt_sso_req_ram.
+          <8> = ciu_nbt_rsp_ram.
+          <7> = ciu_sso_output_fifo_mem.
+          <6> = ciu_isc_ram2.
+          <5> = ciu_isc_ram1.
+          <4> = ciu_isc_ram0.
+          <3> = ciu_sist_ram.
+          <2> = ciu_idt_ram.
+          <1> = csr req_mem.
+          <0> = ciu3_wdg_ctl_mem.
 
 
   - name: CIU_CONST
@@ -795,7 +752,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -824,7 +781,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -856,7 +813,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -870,7 +827,7 @@ registers:
 
       - name: --
         bits: 31..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -931,7 +888,7 @@ registers:
     fields:
       - name: --
         bits: 63..46
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -954,7 +911,7 @@ registers:
 
       - name: --
         bits: 15..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -976,7 +933,7 @@ registers:
     fields:
       - name: --
         bits: 63..42
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1009,7 +966,7 @@ registers:
     fields:
       - name: --
         bits: 63..37
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1040,7 +997,7 @@ registers:
     fields:
       - name: --
         bits: 63..46
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1106,7 +1063,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1134,7 +1091,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1151,7 +1108,7 @@ registers:
 
       - name: --
         bits: 31..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1196,7 +1153,7 @@ registers:
     fields:
       - name: --
         bits: 63..48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1217,7 +1174,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -1244,7 +1201,7 @@ registers:
     fields:
       - name: --
         bits: 63..52
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1261,7 +1218,7 @@ registers:
 
       - name: --
         bits: 31..10
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1322,7 +1279,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -1365,7 +1322,7 @@ registers:
 
       - name: --
         bits: 13..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1403,7 +1360,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1437,7 +1394,7 @@ registers:
     fields:
       - name: --
         bits: 63..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

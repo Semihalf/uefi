@@ -305,14 +305,14 @@ registers:
     fields:
       - name: --
         bits: 63..49
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: IOBIT
         bits: 48
-        access: --
+        access: RAZ
         reset: 0
         typical: 0
         description: A 1 or 0 can be written here, but this will always read as 0.
@@ -337,7 +337,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -355,7 +355,7 @@ registers:
     fields:
       - name: --
         bits: 63..51
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -405,7 +405,6 @@ registers:
       register. Writing the least-significant byte of this register causes a write operation to take
       place.
     attributes:
-      dv_fc_scratch: "ALL"
       regtest_skip: "True"
     fields:
       - name: WR_DATA
@@ -428,7 +427,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -471,7 +470,7 @@ registers:
     fields:
       - name: --
         bits: 63..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -496,10 +495,12 @@ registers:
     address: 0x11F0000010020 + a*0x10
     bus: PEXP_NCB
     description: These registers contains address index and control bits for access to memory from cores.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..43
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -598,6 +599,8 @@ registers:
         access: R/W
         reset: 0x1fff
         typical: 0xffff
+        attributes:
+          exempt_keyword: "True"
         description: Time to wait. The number of coprocessor-clock cycles to wait for a window access before timing out.
 
 
@@ -609,7 +612,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -645,7 +648,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -724,7 +727,7 @@ registers:
 
       - name: --
         bits: 51..50
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -749,7 +752,7 @@ registers:
 
       - name: --
         bits: 47..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -784,7 +787,7 @@ registers:
 
       - name: --
         bits: 31..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -875,7 +878,7 @@ registers:
 
       - name: --
         bits: 19..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1008,7 +1011,7 @@ registers:
 
       - name: --
         bits: 3..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1036,7 +1039,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1099,7 +1102,7 @@ registers:
 
       - name: --
         bits: 51..50
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1120,7 +1123,7 @@ registers:
 
       - name: --
         bits: 47..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1148,7 +1151,7 @@ registers:
 
       - name: --
         bits: 31..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1218,7 +1221,7 @@ registers:
 
       - name: --
         bits: 19..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1329,7 +1332,7 @@ registers:
 
       - name: --
         bits: 3..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1383,6 +1386,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Whenever the SLI_DMA0/1_TIM[TIM] timer exceeds this value, SLI_INT_SUM[DTIME<x>] is set.
           The SLI_DMA0/1_TIM[TIM] timer increments every SLI clock whenever SLI_DMAx_CNT[CNT] != 0,
@@ -1404,7 +1409,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1429,7 +1434,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1456,7 +1461,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1528,7 +1533,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1584,42 +1589,42 @@ registers:
 
       - name: --
         bits: 24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1696,21 +1701,21 @@ registers:
 
       - name: --
         bits: 8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1766,7 +1771,7 @@ registers:
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1906,7 +1911,7 @@ registers:
     fields:
       - name: --
         bits: 63..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2046,7 +2051,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2131,7 +2136,7 @@ registers:
     fields:
       - name: --
         bits: 63..57
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2145,7 +2150,7 @@ registers:
 
       - name: --
         bits: 48
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2194,7 +2199,7 @@ registers:
     fields:
       - name: --
         bits: 63..60
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2238,7 +2243,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2255,7 +2260,7 @@ registers:
 
       - name: --
         bits: 7..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2271,7 +2276,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2288,7 +2293,7 @@ registers:
 
       - name: --
         bits: 15..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2304,7 +2309,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2321,7 +2326,7 @@ registers:
 
       - name: --
         bits: 23..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2332,10 +2337,13 @@ registers:
     address: 0x11F00000106E0 + a*0x10
     bus: PEXP_NCB
     description: These registers contains control information for access for Port0 through Port3.
+    attributes:
+      exempt_natural_alignment: "a"
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 63..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2364,7 +2372,7 @@ registers:
 
       - name: --
         bits: 15..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2378,7 +2386,7 @@ registers:
 
       - name: --
         bits: 6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2392,7 +2400,7 @@ registers:
 
       - name: --
         bits: 4..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2418,7 +2426,7 @@ registers:
     fields:
       - name: --
         bits: 63..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2480,10 +2488,12 @@ registers:
     address: 0x11F0000011030 + a*0x10
     bus: PEXP_NCB
     description: This register sets the total number and starting number of rings used by the MAC.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2497,7 +2507,7 @@ registers:
 
       - name: --
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2511,7 +2521,7 @@ registers:
 
       - name: --
         bits: 15..7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2532,7 +2542,7 @@ registers:
     fields:
       - name: --
         bits: 63..44
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2829,7 +2839,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2889,6 +2899,8 @@ registers:
     address: 0x11F0000011240
     bus: PEXP_NCB
     description: This register enables sending backpressure to PKO.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: BP_EN
         bits: 63..0
@@ -2973,7 +2985,7 @@ registers:
 
       - name: --
         bits: 3..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3032,6 +3044,8 @@ registers:
     address: 0x11F0000012000 + a*0x10
     bus: PEXPV_NCB
     description: This register contains counters for instructions completed on input rings.
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: PO_INT
         bits: 63
@@ -3155,7 +3169,7 @@ registers:
 
       - name: --
         bits: 2..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3298,7 +3312,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3331,7 +3345,7 @@ registers:
     fields:
       - name: --
         bits: 63..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3359,7 +3373,7 @@ registers:
     fields:
       - name: --
         bits: 63..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3387,7 +3401,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3489,7 +3503,7 @@ registers:
     fields:
       - name: --
         bits: 63..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3539,7 +3553,7 @@ registers:
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3557,7 +3571,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3657,7 +3671,7 @@ registers:
     fields:
       - name: --
         bits: 63..39
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3675,7 +3689,7 @@ registers:
 
       - name: --
         bits: 31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3689,7 +3703,7 @@ registers:
 
       - name: --
         bits: 28..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3838,7 +3852,7 @@ registers:
     fields:
       - name: --
         bits: 63..54
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3848,6 +3862,8 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
+        attributes:
+          exempt_keyword: "True"
         description: |
           Output ring counter time interrupt threshold.
           SLI sets SLI_PKT_TIME_INT[PORT<i>] whenever SLI_PKTi_CNTS[TIMER] > TIME.
@@ -3870,7 +3886,7 @@ registers:
     fields:
       - name: --
         bits: 63..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4072,7 +4088,7 @@ registers:
     fields:
       - name: --
         bits: 63..33
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4157,7 +4173,7 @@ registers:
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: MIO_TWS
+attributes:
+  block_index: "False"
 enums:
   - name: TWS_INTSN_E
     attributes:
@@ -207,7 +209,7 @@ registers:
 
       - name: --
         bits: 61..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -225,10 +227,12 @@ registers:
     address: 0x1180000001010 + a*0x200
     bus: RSL
     description: This register contains the TWSI interrupt-enable mask and the interrupt-source bits.
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -263,7 +267,7 @@ registers:
 
       - name: --
         bits: 7..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -310,7 +314,7 @@ registers:
     fields:
       - name: --
         bits: 63..40
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.

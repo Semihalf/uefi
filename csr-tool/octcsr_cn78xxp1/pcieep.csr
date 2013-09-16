@@ -37,6 +37,8 @@ registers:
     address: 0x30000000004 + a*0x100000000
     bus: PCICONFIGEP
     description: PCIE_CFG001 = Second 32-bits of PCIE type 0 config space (Command/Status Register)
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: DPE
         bits: 31
@@ -100,7 +102,7 @@ registers:
 
       - name: --
         bits: 22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -133,7 +135,7 @@ registers:
 
       - name: --
         bits: 18..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -341,7 +343,7 @@ registers:
 
       - name: --
         bits: 13..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -411,7 +413,7 @@ registers:
 
       - name: --
         bits: 25..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -481,7 +483,7 @@ registers:
 
       - name: --
         bits: 19..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -594,7 +596,7 @@ registers:
 
       - name: --
         bits: 15..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -614,7 +616,7 @@ registers:
     fields:
       - name: --
         bits: 31..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -735,7 +737,7 @@ registers:
 
       - name: --
         bits: 20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -781,6 +783,8 @@ registers:
     description: |
       PCIE_CFG017 = Eighteenth 32-bits of PCIE type 0 config space (Power Management Control and
       Status Register)
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: PMDIA
         bits: 31..24
@@ -805,7 +809,7 @@ registers:
 
       - name: --
         bits: 21..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -845,7 +849,7 @@ registers:
 
       - name: --
         bits: 7..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -861,7 +865,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -893,7 +897,7 @@ registers:
     fields:
       - name: --
         bits: 31..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -978,7 +982,7 @@ registers:
 
       - name: --
         bits: 1..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1004,7 +1008,7 @@ registers:
     fields:
       - name: --
         bits: 31..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1062,7 +1066,7 @@ registers:
     fields:
       - name: --
         bits: 31..30
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1133,7 +1137,7 @@ registers:
     fields:
       - name: --
         bits: 31..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1167,7 +1171,7 @@ registers:
 
       - name: --
         bits: 17..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1183,21 +1187,21 @@ registers:
 
       - name: --
         bits: 14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Undefined
 
       - name: --
         bits: 13
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Undefined
 
       - name: --
         bits: 12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Undefined
@@ -1259,10 +1263,12 @@ registers:
     description: |
       PCIE_CFG030 = Thirty-first 32-bits of PCIE type 0 config space
       (Device Control Register/Device Status Register)
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 31..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1472,7 +1478,7 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1570,12 +1576,13 @@ registers:
         typical: --
         description: |
           "Maximum Link Speed
-          The reset value of this field is controlled by a value sent from
-          the TBD of the TBD register.
-          TBD           RST_VALUE   NOTE
-          ?             0001b       2.5 GHz supported
-          ?             0010b       5.0 GHz and 2.5 GHz supported
-          ?             0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          The reset value of this field is controlled by the value read from
+          the PEM csr PEM(0..3)_CFG.MD.
+          PEM(0..3)_CFG.MD  RST_VALUE   NOTE
+          00                0001b       2.5 GHz supported
+          01                0010b       5.0 GHz and 2.5 GHz supported
+          10                0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          11                0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode)
           This field is writable through PEM#_CFG_WR.
           However, the application must not change this field."
 
@@ -1635,7 +1642,7 @@ registers:
 
       - name: --
         bits: 26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Undefined
@@ -1666,7 +1673,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1751,7 +1758,7 @@ registers:
 
       - name: --
         bits: 2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1773,7 +1780,7 @@ registers:
     fields:
       - name: --
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1819,7 +1826,7 @@ registers:
 
       - name: --
         bits: 17..14
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1914,7 +1921,7 @@ registers:
     fields:
       - name: --
         bits: 31..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1937,7 +1944,7 @@ registers:
 
       - name: --
         bits: 12..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2021,7 +2028,7 @@ registers:
     fields:
       - name: --
         bits: 31..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2031,7 +2038,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Crosslink Supported
+        description: Crosslink Supported.
 
       - name: SLSV
         bits: 7..1
@@ -2039,7 +2046,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Supported Link Speeds Vector
+          "Supported Link Speeds Vector
           Indicates the supported Link speeds of the associated Port.
           For each bit, a value of 1b indicates that the cooresponding
           Link speed is supported; otherwise, the Link speed is not
@@ -2049,16 +2056,17 @@ registers:
           Bit 2 5.0 GT/s
           Bit 3 8.0 GT/s
           Bits 7:4 reserved
-          The reset value of this field is controled by a value sent from
-          the TBD of the TBD register
-          TBD           RST_VALUE   NOTE
-          ?             0001b       2.5 GHz supported
-          ?             0011b       5.0 GHz and 2.5 GHz supported
-          ?             0111b       8.0 GHz, 5.0 GHz and 2.5 GHz supported
+          The reset value of this field is controlled by a value read from
+          the PEM csr PEM(0..3)_CFG.MD.
+          PEM(0..3)_CFG.MD   RST_VALUE   NOTE
+          00                 0001b       2.5 GHz supported
+          01                 0011b       5.0 GHz and 2.5 GHz supported
+          10                 0111b       8.0 GHz, 5.0 GHz and 2.5 GHz supported
+          11                 0111b       8.0 GHz, 5.0 GHz and 2.5 GHz supported (RC Mode)"
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2070,10 +2078,12 @@ registers:
     description: |
       PCIE_CFG040 = Fourty-first 32-bits of PCIE type 0 config space
       (Link Control 2 Register/Link Status 2 Register)
+    attributes:
+      exempt_w1c_w: "True"
     fields:
       - name: --
         bits: 31..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2234,7 +2244,7 @@ registers:
           the upstream component in its training sequences:
           0001: 2.5Gb/s Target Link Speed
           0010: 5Gb/s Target Link Speed
-          0100: 8Gb/s Target Link Speed
+          0100: 8Gb/s Target Link Speed (Not Supported)
           All other encodings are reserved.
           If a value is written to this field that does not correspond to
           a speed included in the Supported Link Speeds field, the
@@ -2243,12 +2253,13 @@ registers:
           used to set the target compliance mode speed when
           software is using the Enter Compliance bit to force a link
           into compliance mode.
-          The reset value of this field is controled by a value sent from
-          the lsb of the MIO_QLM#_SPD register.
-          qlm#_spd[0]   RST_VALUE   NOTE
-          ?             0001b       2.5 GHz supported
-          ?             0010b       5.0 GHz and 2.5 GHz supported
-          ?             0100b       8.0 GHz, 5.0 GHz and 2.5 GHz supported"
+          The reset value of this field is controlled by the value read from
+          the PEM csr PEM(0..3)_CFG.MD.
+          PEM(0..3)_CFG.MD  RST_VALUE   NOTE
+          00                0001b       2.5 GHz supported
+          01                0010b       5.0 GHz and 2.5 GHz supported
+          10                0011b       8.0 GHz, 5.0 GHz and 2.5 GHz supported
+          11                0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode)"
 
 
   - name: PCIEEP(0..3)_CFG044
@@ -2283,7 +2294,7 @@ registers:
 
       - name: --
         bits: 29..27
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2422,7 +2433,7 @@ registers:
     fields:
       - name: --
         bits: 31..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2443,7 +2454,7 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2457,7 +2468,7 @@ registers:
 
       - name: --
         bits: 21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2527,7 +2538,7 @@ registers:
 
       - name: --
         bits: 11..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2541,14 +2552,14 @@ registers:
 
       - name: --
         bits: 3..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -2565,7 +2576,7 @@ registers:
     fields:
       - name: --
         bits: 31..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2586,7 +2597,7 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2600,7 +2611,7 @@ registers:
 
       - name: --
         bits: 21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2670,7 +2681,7 @@ registers:
 
       - name: --
         bits: 11..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2684,14 +2695,14 @@ registers:
 
       - name: --
         bits: 3..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -2708,7 +2719,7 @@ registers:
     fields:
       - name: --
         bits: 31..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2827,14 +2838,14 @@ registers:
 
       - name: --
         bits: 3..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -2851,7 +2862,7 @@ registers:
     fields:
       - name: --
         bits: 31..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2879,7 +2890,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2907,7 +2918,7 @@ registers:
 
       - name: --
         bits: 5..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2929,7 +2940,7 @@ registers:
     fields:
       - name: --
         bits: 31..15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2957,7 +2968,7 @@ registers:
 
       - name: --
         bits: 11..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -2985,7 +2996,7 @@ registers:
 
       - name: --
         bits: 5..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3007,7 +3018,7 @@ registers:
     fields:
       - name: --
         bits: 31..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3021,7 +3032,7 @@ registers:
 
       - name: --
         bits: 10..9
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3178,7 +3189,7 @@ registers:
     fields:
       - name: --
         bits: 31..23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3192,7 +3203,7 @@ registers:
 
       - name: --
         bits: 19..18
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3220,7 +3231,7 @@ registers:
 
       - name: --
         bits: 7..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3280,7 +3291,7 @@ registers:
     fields:
       - name: --
         bits: 31..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3309,7 +3320,7 @@ registers:
     fields:
       - name: --
         bits: 31..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3332,7 +3343,7 @@ registers:
     fields:
       - name: --
         bits: 31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3359,28 +3370,28 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 22..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3407,21 +3418,21 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 6..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 3..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3437,7 +3448,7 @@ registers:
     fields:
       - name: --
         bits: 31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3464,28 +3475,28 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 22..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3512,21 +3523,21 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 6..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 3..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3542,7 +3553,7 @@ registers:
     fields:
       - name: --
         bits: 31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3569,28 +3580,28 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 22..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3617,21 +3628,21 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 6..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 3..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3647,7 +3658,7 @@ registers:
     fields:
       - name: --
         bits: 31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3674,28 +3685,28 @@ registers:
 
       - name: --
         bits: 23
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 22..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 19..16
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 15
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3722,21 +3733,21 @@ registers:
 
       - name: --
         bits: 7
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 6..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: --
         bits: 3..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3789,7 +3800,7 @@ registers:
 
       - name: --
         bits: 20..2
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3822,7 +3833,7 @@ registers:
     fields:
       - name: --
         bits: 31..17
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3836,7 +3847,7 @@ registers:
 
       - name: --
         bits: 15..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3915,7 +3926,7 @@ registers:
     fields:
       - name: --
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -3976,7 +3987,7 @@ registers:
 
       - name: --
         bits: 15..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4028,7 +4039,7 @@ registers:
 
       - name: --
         bits: 13..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: |
@@ -4088,7 +4099,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4103,7 +4114,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4118,7 +4129,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4133,7 +4144,7 @@ registers:
     fields:
       - name: --
         bits: 31..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4199,7 +4210,7 @@ registers:
     fields:
       - name: --
         bits: 31..30
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4219,7 +4230,7 @@ registers:
 
       - name: --
         bits: 3..0
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4234,7 +4245,7 @@ registers:
     fields:
       - name: --
         bits: 31..13
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -4258,7 +4269,7 @@ registers:
 
       - name: --
         bits: 4..3
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -4361,7 +4372,7 @@ registers:
 
       - name: --
         bits: 23..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4424,7 +4435,7 @@ registers:
 
       - name: --
         bits: 14..8
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4448,7 +4459,7 @@ registers:
     fields:
       - name: --
         bits: 31
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4545,7 +4556,7 @@ registers:
     fields:
       - name: --
         bits: 31..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4578,12 +4589,12 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
-      - name: --
+      - name: LINK_RATE
         bits: 11..8
         access: RO/H
         reset: 0x1
@@ -4603,7 +4614,7 @@ registers:
 
       - name: --
         bits: 6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4621,7 +4632,7 @@ registers:
 
       - name: --
         bits: 4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4687,7 +4698,7 @@ registers:
 
       - name: --
         bits: 30..26
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4733,7 +4744,7 @@ registers:
     fields:
       - name: --
         bits: 31..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4915,7 +4926,7 @@ registers:
 
       - name: --
         bits: 14..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -4937,7 +4948,7 @@ registers:
     fields:
       - name: --
         bits: 31..4
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5010,7 +5021,7 @@ registers:
     fields:
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5045,7 +5056,7 @@ registers:
     fields:
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5080,7 +5091,7 @@ registers:
     fields:
       - name: --
         bits: 31..20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5126,7 +5137,7 @@ registers:
 
       - name: --
         bits: 30..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5144,7 +5155,7 @@ registers:
 
       - name: --
         bits: 15..3
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5291,7 +5302,7 @@ registers:
 
       - name: --
         bits: 29..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5314,7 +5325,7 @@ registers:
 
       - name: --
         bits: 20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5353,7 +5364,7 @@ registers:
     fields:
       - name: --
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5376,7 +5387,7 @@ registers:
 
       - name: --
         bits: 20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5415,7 +5426,7 @@ registers:
     fields:
       - name: --
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5438,7 +5449,7 @@ registers:
 
       - name: --
         bits: 20
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5477,7 +5488,7 @@ registers:
     fields:
       - name: --
         bits: 31..21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5590,7 +5601,7 @@ registers:
     fields:
       - name: --
         bits: 31..19
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5624,7 +5635,7 @@ registers:
 
       - name: --
         bits: 15..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5669,7 +5680,7 @@ registers:
 
       - name: --
         bits: 7..1
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5691,7 +5702,7 @@ registers:
     fields:
       - name: --
         bits: 31..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5725,7 +5736,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5793,7 +5804,7 @@ registers:
         typical: 0
         description: Pipe Loopback Enable
 
-      - name: --
+      - name: RXSTATUS
         bits: 30..0
         access: R/W
         reset: 0xff

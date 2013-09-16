@@ -16,7 +16,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -61,7 +61,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -106,7 +106,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -151,7 +151,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -196,7 +196,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -241,7 +241,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -286,7 +286,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -331,7 +331,7 @@ registers:
     fields:
       - name: --
         bits: 63..22
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -371,7 +371,7 @@ registers:
     fields:
       - name: --
         bits: 63..50
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -388,7 +388,7 @@ registers:
 
       - name: --
         bits: 48..44
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -790,7 +790,7 @@ registers:
     fields:
       - name: --
         bits: 63..50
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1261,7 +1261,7 @@ registers:
     fields:
       - name: --
         bits: 63..21
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1359,7 +1359,7 @@ registers:
     fields:
       - name: --
         bits: 63..12
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1391,10 +1391,12 @@ registers:
       The number of page pointers that will be kept local to the FPA for this Queue. FPA Queues are
       assigned in order from Queue 0 to Queue 7, though only Queue 0 through Queue x can be used.
       The sum of the 8 (0-7) FPA_FPF#_SIZE registers must be limited to 2048."
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..11
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1424,10 +1426,12 @@ registers:
     description: |
       FPA_QUE@_PAGES_AVAILABLE = FPA's Queue 0-7 Free Page Available Register
       The number of page pointers that are available in the FPA and local DRAM.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1448,7 +1452,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1500,7 +1504,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1524,7 +1528,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1548,7 +1552,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1572,7 +1576,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1596,7 +1600,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1620,7 +1624,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1644,7 +1648,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1668,7 +1672,7 @@ registers:
     fields:
       - name: --
         bits: 63..25
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1691,7 +1695,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1728,7 +1732,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1766,7 +1770,7 @@ registers:
     fields:
       - name: --
         bits: 63..29
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1785,10 +1789,12 @@ registers:
     description: |
       FPA_POOL@_START_ADDR = FPA's Pool-@ Starting Addres
       Pointers sent to this pool must be equal to or greater than this address.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..33
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1808,10 +1814,12 @@ registers:
     description: |
       FPA_POOL@_END_ADDR = FPA's Pool-@ Ending Addres
       Pointers sent to this pool must be equal to or less than this address.
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..33
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1838,7 +1846,7 @@ registers:
     fields:
       - name: --
         bits: 63..38
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1871,7 +1879,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -1898,7 +1906,7 @@ registers:
     fields:
       - name: --
         bits: 63..32
-        access: --
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
