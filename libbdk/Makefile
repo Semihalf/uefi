@@ -88,14 +88,16 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 clean:
 	rm -f $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o
 distclean: clean
-	rm -f $(deps) bdk.pch $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i
+	rm -f $(deps) bdk.pch $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c $(BDK_ROOT)/libbdk-dram/octeon3_lmc.h $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i
 
 UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot
 UBOOT_INCLUDE=-I $(UBOOT_PATH)/include -I $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon
 $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.o $(BDK_ROOT)/libbdk-dram/lib_octeon_shared.d: CPPFLAGS = -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE) -DBDK -DCAVIUM_ONLY -DOCTEON_SDK_VERSION_STRING="\"BDK Build\""
 $(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE)
-$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c:
+$(BDK_ROOT)/libbdk-dram/lib_octeon_shared.c: $(BDK_ROOT)/libbdk-dram/octeon3_lmc.h
 	ln -fs $(UBOOT_PATH)/arch/mips/cpu/octeon/lib_octeon_shared.c $@
+$(BDK_ROOT)/libbdk-dram/octeon3_lmc.h:
+	ln -fs $(UBOOT_PATH)/arch/mips/cpu/octeon/octeon3_lmc.h $@
 $(BDK_ROOT)/libbdk-lua/lib_octeon_board_table_entry.i:
 	ln -fs $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon/lib_octeon_board_table_entry.h $@
 $(BDK_ROOT)/libbdk-hal/if/bdk_microcode_cn78xx.c: $(BDK_ROOT)/target-bin/ipemainc.elf

@@ -17,6 +17,7 @@
 /docs/lua-modules
 /libbdk-arch/bdk-version.c
 /libbdk-dram/lib_octeon_shared.c
+/libbdk-dram/octeon3_lmc.h
 /libbdk-lua/lib_octeon_board_table_entry.i
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
