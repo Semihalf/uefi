@@ -31,7 +31,7 @@ int main(void)
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         board_name = "evb7000";
-        ddr_clock_hertz = 533000000;
+        ddr_clock_hertz = 400000000;
     }
     else
     {
