@@ -179,7 +179,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     extern void __bdk_reset_vector(void);
     extern void __bdk_reset_vector_data(void);
 
-    /* Install reset vector */
+    BDK_TRACE("Install reset vector\n");
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_ADR, 0);
     int length = (__bdk_reset_vector_data - __bdk_reset_vector)/8;
     if (length > 16)
@@ -197,6 +197,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Now set the address and enable it */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_READ(node, BDK_MIO_BOOT_LOC_CFGX(0));
+    BDK_TRACE("Reset vector installed");
 
     /* Choose all cores by default */
     if (coremask == 0)
@@ -213,10 +214,22 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_octeon_num_cores(node)) - 1;
 
-    /* First send a NMI */
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* We may also need to turn power on (new in Octeon 3) */
+        uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
+        if (power & coremask)
+        {
+            power &= ~coremask;
+            BDK_TRACE("Enabling RST_PP_POWER\n");
+            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
+        }
+    }
+
+    BDK_TRACE("First send a NMI\n");
     BDK_CSR_WRITE(node, BDK_CIU_NMI, coremask);
 
-    /* Then take cores out of reset */
+    BDK_TRACE("Then take cores out of reset\n");
     uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
     if (reset & coremask)
     {
@@ -224,18 +237,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset);
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        /* We may also need to turn power on (new in Octeon 3) */
-        uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
-        if (power & coremask)
-        {
-            reset &= ~coremask;
-            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
-        }
-    }
-
-    /* Wait up to 100us for the cores to boot */
+    BDK_TRACE("Wait up to 100us for the cores to boot\n");
     uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 10000 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
@@ -248,7 +250,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
             node, __bdk_alive_coremask[node], coremask);
         return -1;
     }
-
+    BDK_TRACE("All cores booted\n");
     return 0;
 }
 
