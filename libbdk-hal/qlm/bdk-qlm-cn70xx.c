@@ -247,6 +247,11 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
 
     // 2. Write GSER0_DLM0_REF_CLKDIV2[REF_CLKDIV2] (for now, see Table 3-1 in the databook for value)
     uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
+    if (meas_refclock == 0)
+    {
+        bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
+        return -1;
+    }
     /* If the reference clock is higher than 100Mhz it needs to be divied by 2 */
     if (meas_refclock > 100000000)
     {
