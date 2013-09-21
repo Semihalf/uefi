@@ -138,7 +138,7 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
         if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             l2_set_bits =  13; /* 8192 sets */
         else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-            l2_set_bits =  13; /* FIXME: Should be 1024 sets */
+            l2_set_bits =  10; /* 1024 sets */
         else
         {
             bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
