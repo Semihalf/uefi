@@ -65,11 +65,12 @@ int main(void)
     } while ((ddr_clock_hertz < 100000000) || (ddr_clock_hertz > 1600000000));
     printf("\nUsing DRAM frequency of %d Hz\n", ddr_clock_hertz);
 
-    /* Initialize DRAM */
+    BDK_TRACE("Initialize DRAM\n");
     bdk_dram_config(board_name, ddr_clock_hertz);
-    /* Unlock L2 after DRAM is setup */
+    BDK_TRACE("Unlock L2 after DRAM is setup\n");
     bdk_l2c_flush(bdk_numa_local());
 
+    BDK_TRACE("Searching for next image...\n");
     /* Find Uboot */
     void *image = bdk_phys_to_ptr((1ull<<48) | 0xfc00000);
     int image_size = 0;
@@ -77,8 +78,10 @@ int main(void)
     {
         image += 0x10000;
         uint32_t magic = *(uint32_t*)(image + 8);
+        BDK_TRACE("\tChecking magic 0x%08x at address %p\n", magic, image);
         if (magic == 0x424f4f54) /* BOOT */
         {
+            BDK_TRACE("\tFound at address %p\n", image);
             uint16_t header_len = *(uint16_t*)(image + 16);
             uint32_t data_len = *(uint32_t*)(image + 24);
             image_size = data_len + header_len;
@@ -90,9 +93,18 @@ int main(void)
     if (image_size)
     {
         extern void bdk_write_env(void);
+        BDK_TRACE("Copying image of %d bytes\n", image_size);
         /* Uboot needs to be 4MB aligned */
         memcpy((void*)0xffffffff80400000, image, image_size);
+        BDK_TRACE("Verifing image\n");
+        if (memcmp((void*)0xffffffff80400000, image, image_size))
+        {
+            bdk_error("Image doesn't match\n");
+            return -1;
+        }
+        BDK_TRACE("Saving environment\n");
         bdk_write_env();
+        BDK_TRACE("Jumping into image\n");
         return bdk_jump_address(0xffffffff80400000);
     }
     else
