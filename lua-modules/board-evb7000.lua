@@ -3,8 +3,8 @@ print("Configuring for the EVB7000")
 
 local set_config = octeon.c.bdk_config_set
 
--- RGMII PHY address is 2, on SMI0
-set_config(octeon.CONFIG_PHY_MGMT_PORT0, 2)
+-- RGMII PHY address is 3, on SMI0
+set_config(octeon.CONFIG_PHY_MGMT_PORT0, 3)
 
 -- (Q)SGMII PHY address for interface 0 are 4-7, on SMI1
 set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 4)
