@@ -115,6 +115,29 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
             }
             break;
         }
+        case 0x0007: /* Vitesse */
+        {
+            /* Auxiliary Control and Status, Address 28 (0x1C) */
+            phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, 0x1c);
+            result.s.full_duplex = (phy_status>>5)&1;
+            switch ((phy_status>>3) & 3)
+            {
+                case 0:
+                    result.s.speed = 10;
+                    result.s.up = 1;
+                    break;
+                case 1:
+                    result.s.speed = 100;
+                    result.s.up = 1;
+                    break;
+                default:
+                    result.s.speed = 1000;
+                    break;
+            }
+            phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, 0x01);
+            result.s.up = (phy_status>>2)&1;
+            break;
+        }
         default: /* Treat like Broadcom */
         {
             /* Below we are going to read SMI/MDIO register 0x19 which works
