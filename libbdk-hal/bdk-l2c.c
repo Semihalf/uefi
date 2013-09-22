@@ -161,33 +161,29 @@ int bdk_l2c_get_num_assoc(bdk_node_t node)
     if (bdk_unlikely(l2_node_state[node].ways == 0))
     {
         int l2_assoc;
-        /* Check to see if part of the cache is disabled */
-        BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
-        /* bdk_mio_fus_dat3.s.l2c_crip fuses map as follows
-           <2> will be not used for 63xx
-           <1> disables 1/2 ways
-           <0> disables 1/4 ways
-           They are cumulative, so for 63xx:
-           <1> <0>
-           0 0 16-way 2MB cache
-           0 1 12-way 1.5MB cache
-           1 0 8-way 1MB cache
-           1 1 4-way 512KB cache */
-
-        if (mio_fus_dat3.s.l2c_crip == 3)
-            l2_assoc = 4;
-        else if (mio_fus_dat3.s.l2c_crip == 2)
-            l2_assoc = 8;
-        else if (mio_fus_dat3.s.l2c_crip == 1)
-            l2_assoc = 12;
-        else
-            l2_assoc = 16;
-
-        /* CN70XX always is 4 way */
+        /* Get the starting number of associations */
         if (OCTEON_IS_MODEL(OCTEON_CN70XX))
             l2_assoc = 4;
-
-        l2_node_state[node].ways = l2_assoc;
+        else
+            l2_assoc = 16;
+        /* The l2 can be reduced in 25% increments */
+        BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
+        switch (mio_fus_dat3.s.l2c_crip)
+        {
+            case 3: /* 1/4 size */
+                l2_assoc *= 1;
+                break;
+            case 2: /* 1/2 size */
+                l2_assoc *= 2;
+                break;
+            case 1: /* 3/4 size */
+                l2_assoc *= 3;
+                break;
+            default: /* Full size */
+                l2_assoc *= 4;
+                break;
+        }
+        l2_node_state[node].ways = l2_assoc/4;
     }
     return l2_node_state[node].ways;
 }
