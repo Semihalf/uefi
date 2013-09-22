@@ -9,7 +9,9 @@ local function setup_dlmx_ref(qlm, default_option)
     local m = menu.new("DLM%d Reference clock" % qlm)
     m:item("c0", "Common reference clock 0 (DLMC_REF_CLK0_P/N)")
     m:item("c1", "Common reference clock 1 (DLMC_REF_CLK1_P/N)")
-    m:item("e0", "External reference clock 0 (DLM0_REF_CLK_P/N)")
+    if qlm == 0 then
+        m:item("e0", "External reference clock 0 (DLM0_REF_CLK_P/N)")
+    end
     local ref = m:show(default_option)
     if ref == "c0" then
         octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).ref_use_pad = 0
