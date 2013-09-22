@@ -199,7 +199,9 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
             return 156250000;
         }
     }
-    return qlm_ops->measure_refclock(node, qlm);
+    int ref_clock = qlm_ops->measure_refclock(node, qlm);
+    BDK_TRACE("QLM%d: Ref clock %d Hz\n", qlm, ref_clock);
+    return ref_clock;
 }
 
 
