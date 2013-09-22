@@ -255,14 +255,17 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
     /* If the reference clock is higher than 100Mhz it needs to be divied by 2 */
     if (meas_refclock > 100000000)
     {
+        BDK_TRACE("QLM%d: Dividing ref clock by 2\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
             c.s.ref_clkdiv2 = 1);
-        meas_refclock /= 2;
+        bdk_wait_usec(50000);
+        meas_refclock = bdk_qlm_measure_clock(node, qlm);
     }
 
     // 3. Write GSER0_DLM0_MPLL_MULTIPLIER[MPLL_MULTIPLIER] (for now, see Table 3-1 in the databook for value)
     uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
     mult /= meas_refclock;
+    BDK_TRACE("QLM%d: Setting multiplier to %lu\n", qlm, mult);
     BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
 
     // 4. Write GSER0_DLM0_MPLL_HALF_RATE[MPLL_HALF_RATE] (for now, see Table 3-1 in the databook for value)
@@ -270,20 +273,28 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
     // Do nothing
 
     // 5. Clear GSER0_DLM0_TEST_POWERDOWN[TEST_POWERDOWN]
+    BDK_TRACE("QLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
         c.s.test_powerdown = 0);
 
     // 6. Set GSER0_DLM0_REF_SSP_EN[REF_SSP_EN]
     if (qlm == 0)
+    {
+        BDK_TRACE("QLM%d: Enabling spread spectrum ref clock\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
                 c.s.ref_ssp_en = 1);
+    }
 
     // 7. Set GSER0_DLM0_MPLL_EN[MPLL_EN]
     if (qlm == 0)
+    {
+        BDK_TRACE("QLM%d: Setting GSERX_DLMX_MPLL_EN[MPLL_EN]\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
             c.s.mpll_en = 1);
+    }
 
     // 8. Clear GSER0_DLM0_PHY_RESET[PHY_RESET]
+    BDK_TRACE("QLM%d: Clearing PHY_RESET\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
         c.s.phy_reset = 0);
 
@@ -293,6 +304,7 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
         bdk_error("PLL for DLM%d failed to lock\n", qlm);
         return -1;
     }
+    BDK_TRACE("QLM%d: PLL is up\n", qlm);
     return 0;
 }
 
