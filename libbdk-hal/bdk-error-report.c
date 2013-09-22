@@ -949,8 +949,8 @@ static void enable_fpa_cn70xx(bdk_node_t node)
 static void check_iob_cn70xx(bdk_node_t node)
 {
     BDK_CSR_INIT(c, node, BDK_IOB_INT_SUM);
-    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, outb_mat);
-    CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, inb_mat);
+    //CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, outb_mat);
+    //CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, inb_mat);
     CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, p_dat);
     CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, np_dat);
     CHECK_CHIP_ERROR(BDK_IOB_INT_SUM, s, p_eop);
@@ -962,8 +962,8 @@ static void check_iob_cn70xx(bdk_node_t node)
 static void enable_iob_cn70xx(bdk_node_t node)
 {
     BDK_CSR_MODIFY(c, node, BDK_IOB_INT_ENB,
-        c.s.outb_mat = -1;
-        c.s.inb_mat = -1;
+        //c.s.outb_mat = -1;
+        //c.s.inb_mat = -1;
         c.s.p_dat = -1;
         c.s.np_dat = -1;
         c.s.p_eop = -1;
@@ -1080,8 +1080,8 @@ void bdk_error_enable(bdk_node_t node)
 {
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
-        //enable_cn70xx(node);
-        //bdk_error_check = check_cn70xx;
+        enable_cn70xx(node);
+        bdk_error_check = check_cn70xx;
     }
     else
         bdk_error("Error reporting not implemented for this chip\n");
