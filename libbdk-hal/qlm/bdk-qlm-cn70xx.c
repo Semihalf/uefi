@@ -252,8 +252,11 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
         bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
         return -1;
     }
-    /* If the reference clock is higher than 100Mhz it needs to be divied by 2 */
-    if (meas_refclock > 100000000)
+    /* If the reference clock is higher than 100Mhz it needs to be divied by 2.
+       Here we check if the clock is over 90Mhz as when we measure we may get
+       slightly less that 100Mhz (99.9xx). Dividing by 2 gives the multiplier
+       more to work with getting the right frequency */
+    if (meas_refclock > 90000000)
     {
         BDK_TRACE("QLM%d: Dividing ref clock by 2\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
