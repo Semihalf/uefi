@@ -508,16 +508,19 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     //      to be configured, this bit must reflect which DLM it is logically
     //      tied to. This bit sets multiplexing logic in GSER, and it is used
     //      by the RST logic to determine when the MAC can come out of reset.
-    //      0 = PEM1 is tied to DLM1 (for 3 × 1 PCIe mode).
+    //      0 = PEM1 is tied to DLM1 (for 3 x 1 PCIe mode).
     //      1 = PEM1 is tied to DLM2 (for all other PCIe modes).
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
-        c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
-        c.s.pipe_port_sel =
-            (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
-            (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
-            (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
-            (mode == BDK_QLM_MODE_PCIE_2X1) ? 3 : /* PEM0-1 */
-            0); /* PCIe disabled */
+    if (qlm == 1)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
+            c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
+            c.s.pipe_port_sel =
+                (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
+                (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
+                (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
+                (mode == BDK_QLM_MODE_PCIE_2X1) ? 2 : /* PEM0-1 */
+                0); /* PCIe disabled */
+    }
 
     // 5. Clear GSER(0)_DLM(1..2)_TEST_POWERDOWN. Configurations that use only
     // DLM1 need not clear GSER(0)_DLM2_TEST_POWERDOWN
@@ -536,18 +539,32 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     // appropriate bits based on the configuration (reset is active high).
     if (qlm == 1)
     {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0),
-            c.s.pipe0_rst = 0; /* PEM0 always on */
-            c.s.pipe1_rst = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1); /* PEM1 on lane 2 */
+        /* PEM0 always on */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
+        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
+        /* PEM1 on lane 2 if mode is 2x1 */
+        int pem1 = (mode == BDK_QLM_MODE_PCIE_2X1);
+        if (pem1)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
+        }
     }
     else
     {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0),
-            c.s.pipe1_rst = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : /* PEM1 on lane 4, PEM2 on lane 5 */
-                            (mode == BDK_QLM_MODE_PCIE_1X2) ? 0 : /* PEM1 on lane 4-5 */
-                            1; /* No PEM1 */
-            c.s.pipe2_rst = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : /* PEM2 on lane 5 */
-                            1); /* No PEM2 */
+        int pem1 = ((mode == BDK_QLM_MODE_PCIE_2X1) || /* PEM1 on lane 4, PEM2 on lane 5 */
+                    (mode == BDK_QLM_MODE_PCIE_1X2));  /* PEM1 on lane 4-5 */
+        int pem2 = (mode == BDK_QLM_MODE_PCIE_2X1);
+        if (pem1)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
+        }
+        if (pem2)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe2_rst = 0);
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2), c.s.pemon = 1);
+        }
     }
     return 0;
 }
