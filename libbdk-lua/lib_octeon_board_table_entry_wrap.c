@@ -2757,6 +2757,57 @@ fail:
 }
 
 
+static int _wrap_ddr3_custom_config_t_ctl_ctl_set(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t arg2 ;
+  
+  SWIG_check_num_args("ctl_ctl",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ctl_ctl",1,"ddr3_custom_config_t *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("ctl_ctl",2,"uint8_t");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_ctl_ctl_set",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (uint8_t)lua_tonumber(L, 2);
+  if (arg1) (arg1)->ctl_ctl = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_ddr3_custom_config_t_ctl_ctl_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
+  uint8_t result;
+  
+  SWIG_check_num_args("ctl_ctl",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ctl_ctl",1,"ddr3_custom_config_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
+    SWIG_fail_ptr("ddr3_custom_config_t_ctl_ctl_get",1,SWIGTYPE_p_ddr3_custom_config_t);
+  }
+  
+  result = (uint8_t) ((arg1)->ctl_ctl);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_ddr3_custom_config_t_min_cas_latency_set(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
@@ -3684,6 +3735,7 @@ static swig_lua_attribute swig_ddr3_custom_config_t_attributes[] = {
     { "dqx_ctl", _wrap_ddr3_custom_config_t_dqx_ctl_get, _wrap_ddr3_custom_config_t_dqx_ctl_set},
     { "ck_ctl", _wrap_ddr3_custom_config_t_ck_ctl_get, _wrap_ddr3_custom_config_t_ck_ctl_set},
     { "cmd_ctl", _wrap_ddr3_custom_config_t_cmd_ctl_get, _wrap_ddr3_custom_config_t_cmd_ctl_set},
+    { "ctl_ctl", _wrap_ddr3_custom_config_t_ctl_ctl_get, _wrap_ddr3_custom_config_t_ctl_ctl_set},
     { "min_cas_latency", _wrap_ddr3_custom_config_t_min_cas_latency_get, _wrap_ddr3_custom_config_t_min_cas_latency_set},
     { "offset_en", _wrap_ddr3_custom_config_t_offset_en_get, _wrap_ddr3_custom_config_t_offset_en_set},
     { "offset_udimm", _wrap_ddr3_custom_config_t_offset_udimm_get, _wrap_ddr3_custom_config_t_offset_udimm_set},
