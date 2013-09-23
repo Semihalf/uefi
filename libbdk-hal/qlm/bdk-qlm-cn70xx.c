@@ -240,12 +240,18 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 
 static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
 {
-    /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
-    // 1. Write GSER0_DLM0_REF_USE_PAD[REF_USE_PAD] (depending on which ref clock input is desired)
+    // 1. Write GSER(0)_DLM(0)_REF_USE_PAD[REF_USE_PAD] = 1 (to select
+    // reference-clock input).
 
     /* Reference clock was already chosen before we got here */
 
-    // 2. Write GSER0_DLM0_REF_CLKDIV2[REF_CLKDIV2] (for now, see Table 3-1 in the databook for value)
+    // 2. Write GSER(0)_DLM(0)_REFCLK_SEL[REFCLK_SEL] if required for
+    // reference-clock selection.
+
+    /* Reference clock was already chosen before we got here */
+
+    // 3. If required, write GSER(0)_DLM(0)_REF_CLKDIV2[REF_CLKDIV2] (must be
+    // set if reference clock ? 100 MHz).
     uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
     if (meas_refclock == 0)
     {
@@ -253,61 +259,58 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
         return -1;
     }
     /* If the reference clock is higher than 100Mhz it needs to be divied by 2.
-       Here we check if the clock is over 90Mhz as when we measure we may get
-       slightly less that 100Mhz (99.9xx). Dividing by 2 gives the multiplier
-       more to work with getting the right frequency */
-    if (meas_refclock > 90000000)
+       Use 101Mhz as the limit to account for measurement inaccuracy */
+    if (meas_refclock > 101000000)
     {
-        BDK_TRACE("QLM%d: Dividing ref clock by 2\n", qlm);
+        BDK_TRACE("DLM%d: Dividing ref clock by 2\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
             c.s.ref_clkdiv2 = 1);
         bdk_wait_usec(50000);
         meas_refclock /= 2;
     }
 
-    // 3. Write GSER0_DLM0_MPLL_MULTIPLIER[MPLL_MULTIPLIER] (for now, see Table 3-1 in the databook for value)
+    // 4. Write GSER(0)_DLM(0)_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. See Table
+    // 21-1 for programming values.
     uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
     mult /= meas_refclock;
-    BDK_TRACE("QLM%d: Setting multiplier to %lu\n", qlm, mult);
+    BDK_TRACE("DLM%d: Setting multiplier to %lu\n", qlm, mult);
     BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
 
-    // 4. Write GSER0_DLM0_MPLL_HALF_RATE[MPLL_HALF_RATE] (for now, see Table 3-1 in the databook for value)
-    // Synopsys says the mpll_half_rate is deprecated
-    // Do nothing
-
-    // 5. Clear GSER0_DLM0_TEST_POWERDOWN[TEST_POWERDOWN]
-    BDK_TRACE("QLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
+    // 5. Clear GSER(0)_DLM(0)_TEST_POWERDOWN[TEST_POWERDOWN] = 0.
+    BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
         c.s.test_powerdown = 0);
 
-    // 6. Set GSER0_DLM0_REF_SSP_EN[REF_SSP_EN]
+    // 6. Set GSER(0)_DLM(0)_REF_SSP_EN[REF_SSP_EN] = 1.
     if (qlm == 0)
     {
-        BDK_TRACE("QLM%d: Enabling spread spectrum ref clock\n", qlm);
+        /* This register only exists on DLM0 */
+        BDK_TRACE("DLM%d: Enabling spread spectrum ref clock\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
                 c.s.ref_ssp_en = 1);
     }
 
-    // 7. Set GSER0_DLM0_MPLL_EN[MPLL_EN]
+    // 7. Set GSER(0)_DLM(0)_MPLL_EN[MPLL_EN] = 1.
     if (qlm == 0)
     {
-        BDK_TRACE("QLM%d: Setting GSERX_DLMX_MPLL_EN[MPLL_EN]\n", qlm);
+        BDK_TRACE("DLM%d: Setting GSERX_DLMX_MPLL_EN[MPLL_EN]\n", qlm);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
             c.s.mpll_en = 1);
     }
 
-    // 8. Clear GSER0_DLM0_PHY_RESET[PHY_RESET]
-    BDK_TRACE("QLM%d: Clearing PHY_RESET\n", qlm);
+    // 8. Clear GSER(0)_DLM(0)_PHY_RESET[PHY_RESET] = 0.
+    BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
         c.s.phy_reset = 0);
 
-    // 9. Poll until the MPLL locks
+    // 9. Poll until the MPLL locks. Wait for
+    // GSER(0)_DLM(0)_MPLL_STATUS[MPLL_STATUS] = 1.
     if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_MPLL_STATUS(0, qlm), mpll_status, ==, 1, 10000))
     {
         bdk_error("PLL for DLM%d failed to lock\n", qlm);
         return -1;
     }
-    BDK_TRACE("QLM%d: PLL is up\n", qlm);
+    BDK_TRACE("DLM%d: PLL is up\n", qlm);
     return 0;
 }
 
@@ -321,35 +324,35 @@ static int dlm0_setup_tx(bdk_node_t node, int qlm)
     int need1 = (inf_mode1.s.mode != GMX_INF_MODE_DISABLED) ||
                  (inf_mode0.s.mode == GMX_INF_MODE_RXAUI);
 
-    /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
-    // 1. Write GSER0_DLM0_TX_RATE[TXn_RATE] (for now, see Table 3-1 in the databook for value)
+    // 1. Write GSER(0)_DLM(0)_TX_RATE[TXn_RATE]. Set according to required
+    // data rate (see Table 21-1)
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_RATE(0, qlm),
         c.s.tx0_rate = (inf_mode0.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0;
         c.s.tx1_rate = (inf_mode1.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0);
 
-    // 2. Set GSER0_DLM0_TX_EN[TXn_EN]
+    // 2. Set GSER(0)_DLM(0)_TX_EN[TXn_EN] = 1.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_EN(0, qlm),
         c.s.tx0_en = need0;
         c.s.tx1_en = need1);
 
-    // 2.1 set GSER0_DLM0_TX_CM_EN[TXn_CM_EN]
+    // 3. Set GSER(0)_DLM(0)_TX_CM_EN[TXn_CM_EN] = 1.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_CM_EN(0, qlm),
         c.s.tx0_cm_en = need0;
         c.s.tx1_cm_en = need1);
 
-    // 3. Set GSER0_DLM0_TX_DATA_EN[TXn_DATA_EN]
+    // 4. Set GSER(0)_DLM(0)_TX_DATA_EN[TXn_DATA_EN] = 1.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_DATA_EN(0, qlm),
         c.s.tx0_data_en = need0;
         c.s.tx1_data_en = need1);
 
-    // 4. Clear GSER0_DLM0_TX_RESET[TXn_RESET]
+    // 5. Clear GSER(0)_DLM(0)_TX_RESET[TXn_RESET] = 0.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_RESET(0, qlm),
         c.s.tx0_reset = !need0;
         c.s.tx1_reset = !need1);
 
-    // 5. Poll GSER0_DLM0_TX_STATUS[TXn_STATUS][0] and
-    //    GSER0_DLM0_TX_STATUS[TXn_CM_STATUS][0] until both are set
-    // This will prevent AGX from transmitting until the PHY is ready.
+    // 6. Poll GSER(0)_DLM(0)_TX_STATUS[TXn_STATUS, TXn_CM_STATUS] until both
+    // are set to 1. This prevents GMX from transmitting until the DLM is
+    // ready.
     if (!bdk_is_simulation() && need0)
     {
         if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_DLMX_TX_STATUS(0, qlm), tx0_status, ==, 1, 10000))
@@ -389,23 +392,24 @@ static int dlm0_setup_rx(bdk_node_t node, int qlm)
     int need1 = (inf_mode1.s.mode != GMX_INF_MODE_DISABLED) ||
                  (inf_mode0.s.mode == GMX_INF_MODE_RXAUI);
 
-    /* This sequnce is from http://mawiki.caveonetworks.com/wiki/70xx/SERDES#DLM0:_.2APreliminary.2A_Bring_Up_Sequence */
-    // 1. Write GSER0_DLM0_RX_RATE[RXn_RATE] (for now, see Table 3-1 in the databook for value)
+    // 1. Write GSER(0)_DLM(0)_RX_RATE[RXn_RATE] (must match the
+    // GSER(0)_DLM(0)_TX_RATE[TXn_RATE] setting).
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_RATE(0, qlm),
         c.s.rx0_rate = (inf_mode0.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0;
         c.s.rx1_rate = (inf_mode1.s.mode == GMX_INF_MODE_SGMII) ? 2 : 0);
 
-    // 2. Set GSER0_DLM0_RX_PLL_EN[RXn_PLL_EN]
+    // 2. Set GSER(0)_DLM(0)_RX_PLL_EN[RXn_PLL_EN] = 1.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_PLL_EN(0, qlm),
         c.s.rx0_pll_en = need0;
         c.s.rx1_pll_en = need1);
 
-    // 3. Set GSER0_DLM0_RX_DATA_EN[RXn_DATA_EN]
+    // 3. Set GSER(0)_DLM(0)_RX_DATA_EN[RXn_DATA_EN] = 1.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_DATA_EN(0, qlm),
         c.s.rx0_data_en = need0;
         c.s.rx1_data_en = need1);
 
-    // 4. Clear GSER0_DLM0_RX_RESET[RXn_RESET]
+    // 4. Clear GSER(0)_DLM(0)_RX_RESET[RXn_RESET] = 0. Now the GMX can be
+    // enabled: set GMX(0..1)_INF_MODE[EN] = 1.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_RESET(0, qlm),
         c.s.rx0_reset = !need0;
         c.s.rx1_reset = !need1);
@@ -414,15 +418,43 @@ static int dlm0_setup_rx(bdk_node_t node, int qlm)
 
 static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
 {
-    // 1. Write GSER0_DLM2_MPLL_MULTIPLIER - use values in Table 3-1 in the databook
-    // 2. Clear GSER0_DLM2_TEST_POWERDOWN
-    // 3. Clear GSER0_DLM2_PHY_RESET
-    if (dlm_setup_pll(node, qlm, baud_mhz))
-        return -1;
-    // 4. Set GSER0_SATA_CFG.SATA_EN to configure DLM2 muxing correctly
+    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
+    if (meas_refclock == 0)
+    {
+        bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
+        meas_refclock = 100000000;
+        //return -1;
+    }
+
+    // 1. Write GSER(0)_DLM2_REFCLK_SEL[REFCLK_SEL] if required for
+    // reference-clock selection.
+
+    /* Reference clock was already chosen before we got here */
+
+    // 2. Write GSER(0)_DLM2_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. For a
+    // 100MHz reference clock, set to 0x1E. See Table 21-2 for
+    // programming values.
+    uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
+    mult /= meas_refclock;
+    BDK_TRACE("DLM%d: Setting multiplier to %lu\n", qlm, mult);
+    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
+
+    // 3. Clear GSER(0)_DLM2_TEST_POWERDOWN[TEST_POWERDOWN] = 0.
+    BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
+        c.s.test_powerdown = 0);
+
+    // 4. Clear GSER(0)_DLM2_PHY_RESET.
+    BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
+        c.s.phy_reset = 0);
+
+    // 5. Set GSER(0)_SATA_CFG[SATA_EN] = 1 to configure DLM2 multiplexing.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_CFG(0),
         c.s.sata_en = 1);
-    // 5. Clear GSER0_SATA_LANE_RST - clear either or both lane 0 & 1 resets
+
+    // 6. Clear either/both lane0 and lane1 resets:
+    // GSER(0)_SATA_LANE_RST[L0_RST, L1_RST] = 0.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_LANE_RST(0),
         c.s.l0_rst = 0;
         c.s.l1_rst = 0);
@@ -431,56 +463,77 @@ static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
 
 static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int gen2, int root)
 {
-    // 1. Reference Clock Source
-    //      - the QLM defaults to use the common reference clock inputs (dlm[01]c_ref_clk[np]) as opposed to the pads (dlm[0]_ref_clk[np]).
-    //      - this can be overridden by writing the GSER0_DLM0_REF_USE_PAD register.
-    // 2. Reference clock speed
-    //      - the pi_pcie_ref_spd input will cause the GSER0_DLM[12]_MPLL_MULTIPLIER to initialize with the correct value
-    //      - the GSER0_DLM[12]_MPLL_MULTIPLIER can be written with 7'd25 for a 100Mhz or 7'd40 for a 125Mhz Reference Clock
-    if (dlm_setup_pll(node, qlm, gen2 ? 5000 : 2500))
-        return -1;
-    if ((qlm==1) && (mode == BDK_QLM_MODE_PCIE_1X4))
+    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
+    if (meas_refclock == 0)
     {
-        /* Setp DLM2 PLL at same time as DLM1 */
-        if (dlm_setup_pll(node, 2, gen2 ? 5000 : 2500))
-            return -1;
+        bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
+        meas_refclock = 100000000;
+        //return -1;
     }
 
-    // 3. Configure the PCIE PIPE
-    //      - write the GSER0_PCIE_PIPE_PORT_SEL register to configure the PCIE PIPE.
-    //      - GSER0_PCIE_PIPE_PORT_SEL[PIPE_PORT_SEL]
-    //  - GSER0_PCIE_PIPE_PORT_SEL[CFG_PEM1_DLM2]
-    //      If PEM1 is to be configured, this bit must reflect which DLM it is logically tied to.  This bit sets muxing
-    //      logic in GSER, and it used by the RST logic to determine when the MAC can come out of reset.
-    if (qlm == 1)
+    // 1. Write GSER0_DLM(1..2)_REFCLK_SEL[REFCLK_SEL] if required for
+    // reference-clock selection
+
+    /* Reference clock was already chosen before we got here */
+
+    // 2. If required, write GSER0_DLM(1..2)_REF_CLKDIV2[REF_CLKDIV2] = 1 (must
+    // be set if reference clock >= 100 MHz)
+    if (meas_refclock > 101000000)
     {
-        // Case                               PIPE_PORT_SEL
-        // -------------------------------------------------
-        // 1 x4 PCIe Configuration                 01
-        // 2 x2 PCIe Configuration                 10
-        // 3 x1 PCIe Configuration                 11
-        // 1 x2 PCIe and 2 x1 SATA Configuration   10
-        // 2 x1 PCIe and 2 x1 SATA Configuration   11
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
-            c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
-            c.s.pipe_port_sel =
-                (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
-                (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
-                (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
-                (mode == BDK_QLM_MODE_PCIE_2X1) ? 3 : /* PEM0-1 */
-                0); /* PCIe disabled */
+        /* Use 101Mhz as the limit to account for measurement inaccuracy */
+        BDK_TRACE("DLM%d: Dividing ref clock by 2\n", qlm);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
+            c.s.ref_clkdiv2 = 1);
+        bdk_wait_usec(50000);
+        meas_refclock /= 2;
     }
 
-    // 4. Clear GSER0_DLM[12]_TEST_POWERDOWN
-    //      - configurations that only use DLM1 need not clear GSER0_DLM2_TEST_POWERDOWN
-    // Already done in dlm_setup_pll()
+    // 3. Write GSER0_DLM(1..2)_MPLL_MULTIPLIER[MPLL_MULTIPLIER].
+    //      for a 100MHz reference clock, set to 0x19.
+    //      for a 125MHz reference clock, set to 0x28.
+    //      See Table 21-3 for programming values.
+    int mult = (meas_refclock > 90000000) ? 0x19 : 0x28;
+    BDK_TRACE("DLM%d: Setting multiplier to %d\n", qlm, mult);
+    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
 
-    // 5. Clear GSER0_DLM[12]_PHY_RESET
-    //      - configurations that only use DLM1 need not clear GSER0_DLM2_PHY_RESET
-    // Already done in dlm_setup_pll()
+    // 4. Configure the PCIE PIPE:
+    //  a. Write GSER0_PCIE_PIPE_PORT_SEL[PIPE_PORT_SEL] to configure the
+    //      PCIE PIPE.
+    //      0x0 = disables all pipes
+    //      0x1 = enables pipe0 only (PEM0 4-lane)
+    //      0x2 = enables pipes 0 and 1 (PEM0 and PEM1 2-lanes each)
+    //      0x3 = enables pipes 0, 1, 2, and 3 (PEM0, PEM1, and PEM3 are
+    //          one-lane each)
+    //  b. Configure GSER0_PCIE_PIPE_PORT_SEL[CFG_PEM1_DLM2]. If PEM1 is
+    //      to be configured, this bit must reflect which DLM it is logically
+    //      tied to. This bit sets multiplexing logic in GSER, and it is used
+    //      by the RST logic to determine when the MAC can come out of reset.
+    //      0 = PEM1 is tied to DLM1 (for 3 × 1 PCIe mode).
+    //      1 = PEM1 is tied to DLM2 (for all other PCIe modes).
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
+        c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
+        c.s.pipe_port_sel =
+            (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
+            (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
+            (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
+            (mode == BDK_QLM_MODE_PCIE_2X1) ? 3 : /* PEM0-1 */
+            0); /* PCIe disabled */
 
-    // 6. Write the GSER0_PCIE_PIPE_RST register to take the appropriate PIPE out of reset
-    // - there is a PIPE[0123]_RST bit for each PIPE.  Clear (reset is active high) the appropriate bits based on the configuration.
+    // 5. Clear GSER(0)_DLM(1..2)_TEST_POWERDOWN. Configurations that use only
+    // DLM1 need not clear GSER(0)_DLM2_TEST_POWERDOWN
+    BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
+        c.s.test_powerdown = 0);
+
+    // 6. Clear GSER(0)_DLM(1..2)_PHY_RESET. Configurations that use only DLM1
+    // need not clear GSER(0)_DLM2_PHY_RESET
+    BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
+        c.s.phy_reset = 0);
+
+    // 7. Write the GSER(0)_PCIE_PIPE_RST register to take the appropriate
+    // PIPE out of reset. There is a PIPEn_RST bit for each PIPE. Clear the
+    // appropriate bits based on the configuration (reset is active high).
     if (qlm == 1)
     {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0),
@@ -644,7 +697,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 case BDK_QLM_MODE_SATA_2X1:
                     /* DLM2 is SATA. PCIE2 is disabled */
-                    if (dlm2_setup_sata(node, qlm, 6000))
+                    if (dlm2_setup_sata(node, qlm, 3000))
                         return -1;
                     break;
                 case BDK_QLM_MODE_PCIE_1X4:
