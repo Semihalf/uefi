@@ -99,7 +99,9 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 case 1: /* PCIe1 can be DLM1 1 lane(1), DLM2 1 lane(0) or 2 lanes(0-1) */
                     if (qlm_mode1 == BDK_QLM_MODE_PCIE_2X1)
                         return 1;
-                    else if (qlm_mode2 == BDK_QLM_MODE_PCIE_1X1)
+                    else if (qlm_mode2 == BDK_QLM_MODE_PCIE_1X2)
+                        return 2;
+                    else if (qlm_mode2 == BDK_QLM_MODE_PCIE_2X1)
                         return 2;
                     else
                         return -1;
