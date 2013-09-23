@@ -259,7 +259,7 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
         BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
             c.s.ref_clkdiv2 = 1);
         bdk_wait_usec(50000);
-        meas_refclock = bdk_qlm_measure_clock(node, qlm);
+        meas_refclock /= 2;
     }
 
     // 3. Write GSER0_DLM0_MPLL_MULTIPLIER[MPLL_MULTIPLIER] (for now, see Table 3-1 in the databook for value)
@@ -696,10 +696,6 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
     /* Measure the reference clock */
     uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
     uint64_t mhz = meas_refclock / 1000000;
-    /* Divide it by two if the DLM is configure that way */
-    BDK_CSR_INIT(dlmx_ref_clkdiv2, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm));
-    if (dlmx_ref_clkdiv2.s.ref_clkdiv2)
-        mhz /= 2;
     /* Multiply to get the final frequency */
     BDK_CSR_INIT(dlmx_mpll_multiplier, node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm));
     mhz *= dlmx_mpll_multiplier.s.mpll_multiplier;
