@@ -671,7 +671,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 case BDK_QLM_MODE_PCIE_1X4:
                     /* DLM0+DLM1 is PCIE0 */
                     pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_4LANE : PEM_CFG_MD_GEN2_4LANE;
-                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                    if (dlmx_setup_pcie(node, 1, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                        return -1;
+                    if (dlmx_setup_pcie(node, 2, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
                         return -1;
                     break;
                 case BDK_QLM_MODE_PCIE_1X2:
