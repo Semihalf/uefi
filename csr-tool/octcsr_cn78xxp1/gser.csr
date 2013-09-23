@@ -110,9 +110,10 @@ registers:
         reset: --
         typical: --
         description: |
-          For bootable PCIe links, this is loaded with the pi_pcieN_ref_spd pin
-          at cold reset and indicates a 125 Mhz Reference clock.  It is not
-          used for non-PCIe links.
+          For bootable PCIe links, this is loaded with pi_pcieN_refclk_125
+          at cold reset and indicates a 125 Mhz Reference clock when set.
+          For non-bootable PCIe links, this bit is set to zero at cold reset
+          and indicates a 100Mhz reference clock.  It is not used for non-PCIe links.
 
       - name: COM_CLK_SEL
         bits: 1
@@ -487,7 +488,7 @@ registers:
           For non-OCI links, this registers defaults to 625G_REFCLK15625_RXAUI.
           For OCI links, the value is mapped at reset from the GSER_SPD and the
           appropriate table updates are performed so the rate is obtained for the
-          paticular reference clock.
+          particular reference clock.
           It is recommended that the PHY be in reset when reconfiguring the LMODE
           (GSER_PHY_CTL.PHY_RESET is set).  If the LMODE is modified when the PHY
           is out of reset, the GSER_RXTX_STAT.LMC can be used to determine when the
@@ -1147,9 +1148,9 @@ registers:
         typical: 0x0
         description: |
           Used to control the B-side DAC input to the analog test block.
-          Note that the QLM0 register is tied to the analog
+          Note that the QLM4 register is tied to the analog
           test block, for non-OCI links.
-          Note that the OCI0 register is tied to the analog
+          Note that the OCI4 register is tied to the analog
           test block, for OCI links.
           The other QLM GSER_ANA_DAC_B registers are unused.
           It is not expected that software will need to use this register.
@@ -1161,9 +1162,9 @@ registers:
         typical: 0x0
         description: |
           Used to control A-side DAC input to the analog test block.
-          Note that the QLM0 register is tied to the analog
+          Note that the QLM4 register is tied to the analog
           test block, for non-OCI links.
-          Note that the OCI0 register is tied to the analog
+          Note that the OCI4 register is tied to the analog
           test block, for OCI links.
           The other QLM GSER_ANA_DAC_A registers are unused.
           It is not expected that software will need to use this register.
@@ -1196,13 +1197,207 @@ registers:
           It is not expected that software will need to use this register.
 
 
+  - name: GSER(0..13)_LANE(0..3)_RX_CTLE_CTRL
+    title: GSER Lane RX Pre-Correlation Control
+    address: 0x1180090440058 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: RAW PCS Per Lane RX CTLE Control Register.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_RX_CTLE_BIAS_CTRL
+        bits: 15..14
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: |
+          CTLE bias trim bits.
+          00: -10%
+          01:   0%
+          10:  +5%
+          11: +10%.
+
+      - name: PCS_SDS_RX_CTLE_ZERO
+        bits: 13..10
+        access: R/W
+        reset: 0x6
+        typical: 0x6
+        description: Equalizer peaking control.
+
+      - name: RX_CTLE_POLE_OVRRD_EN
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Equalizer pole adjustment override enable.
+
+      - name: RX_CTLE_POLE_OVRRD_VAL
+        bits: 8..5
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: |
+          Equalizer pole adjustment override value.
+          RX pre-correlation sample counter control
+          bit 3:    Optimize CTLE during training.
+          bit 2:    Turn off DFE1 for edge samplers.
+          bits 1:0:
+            00:     ~ 5dB of peaking at 4.0 GHz.
+            01:     ~10dB of peaking at 5.0 GHz.
+            10:     ~15dB of peaking at 5.5 GHz.
+            11:     ~20dB of peaking at 6.0 GHz.
+
+      - name: PCS_SDS_RX_CTLE_POLE_MAX
+        bits: 4..3
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Maximum pole value (for VMA adaption,
+          not applicable in manual mode).
+
+      - name: PCS_SDS_RX_CTLE_POLE_MIN
+        bits: 2..1
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Minimum pole value (for VMA adaption,
+          not applicable in manual mode).
+
+      - name: PCS_SDS_RX_CTLE_POLE_STEP
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Step pole value (for VMA adaption,
+          not applicable in manual mode).
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_PRECORR_CTRL
+    title: GSER Lane RX Pre-Correlation Control
+    address: 0x1180090440060 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      RAW PCS Per Lane RX Pre-Correlation Control Register.
+      It is not expected that SW will need to use this register.
+    fields:
+      - name: --
+        bits: 63..5
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_PRECORR_DISABLE
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable RX precorrelation calculation.
+
+      - name: RX_PRECORR_EN_OVRRD_EN
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for RX pre-correlation calculation enable.
+
+      - name: RX_PRECORR_EN_OVRRD_VAL
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override value for RX pre-correlation calculation enable.
+
+      - name: PCS_SDS_RX_PRECORR_SCNT_CTRL
+        bits: 1..0
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          RX pre-correlation sample counter control
+          00: load max sample counter with 12'1ff
+          01: load max sample counter with 12'3ff
+          10: load max sample counter with 12'7ff
+          11: load max sample counter with 12'fff.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_VMA_CTRL
+    title: GSER Lane RX VMA Control
+    address: 0x1180090440200 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      RAW PCS Per Lane RX VMA Control Register.
+      It is not expected that SW will need to use this register.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: VMA_FINE_CFG_SEL_OVRRD_EN
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable override of VMA fine configuration selection.
+
+      - name: VMA_FINE_CFG_SEL_OVRRD_VAL
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override value of VMA fine configuration selection.
+          0: Coarse Mode
+          1: Fine Mode.
+
+      - name: RX_FOM_DIV_DELTA
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: TX Figure of Merit Delta Division-Mode Enable.
+
+      - name: RX_VNA_CTRL_18_16
+        bits: 12..10
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: RX VMA Loop Control.
+
+      - name: RX_VNA_CTRL_9_0
+        bits: 9..0
+        access: R/W
+        reset: 0x300
+        typical: 0x300
+        description: |
+          RX VMA Loop Control.
+          bits 9:8: Parameter settling wait time
+          bit    7: Limit CTLE peak to max value.
+          bit    6: Long Reach enabled
+          bit    5: Short Reach enabled
+          bit    4: Training done override enable
+          bit    3: Training done override value
+          bits 2:0: VMA Clock Modulation.
+
+
   - name: GSER(0..13)_LANE(0..3)_RX_VALBBD_CTRL_0
     title: GSER Lane RX Adaptive Equalizer Control Register 0
     address: 0x1180090440240 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
       RAW PCS Per Lane Coarse Adaptive Equalizer Control 0 Register
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
     fields:
       - name: --
         bits: 63..14
@@ -1268,7 +1463,7 @@ registers:
     bus: RSL
     description: |
       RAW PCS Per Lane Coarse Adaptive Equalizer Control 1 Register
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
     fields:
       - name: --
         bits: 63..15
@@ -1344,7 +1539,7 @@ registers:
     bus: RSL
     description: |
       RAW PCS Per Lane Equalizer Control 2 Register
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
     fields:
       - name: --
         bits: 63..6
@@ -1625,7 +1820,7 @@ registers:
     bus: RSL
     description: |
       RAW PCS Per Lane Global Settings Mode 0 Register
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
       The Protocol selects the specific protocol register as
       enumerated by GSER_LMODE_E.
     attributes:
@@ -1789,7 +1984,7 @@ registers:
     address: 0x11800904E0048 + a*0x1000000 + b*0x100000 + c*0x20
     bus: RSL
     description: |
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
       The Protocol selects the specific protocol register as
       enumerated by GSER_LMODE_E.
     attributes:
@@ -1802,7 +1997,7 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: VMA_KR_SEL
+      - name: VMA_FINE_CFG_SEL
         bits: 15
         access: R/W/H
         reset: --
@@ -1870,7 +2065,7 @@ registers:
     bus: RSL
     description: |
       RAW PCS Per Lane Coarse VMA Control Configuration 0 Register
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
       It is not expected that software will need to access this register.
     fields:
       - name: --
@@ -1925,7 +2120,7 @@ registers:
     bus: RSL
     description: |
       RAW PCS Per Lane Coarse VMA Control Configuration 1 Register
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
       It is not expected that software will need to access this register.
     fields:
       - name: --
@@ -1962,7 +2157,7 @@ registers:
     address: 0x11800904E01C0 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      Per Lane registers are specific to a paticular lane.
+      Per Lane registers are specific to a particular lane.
       It is not expected that software will need to access this register.
     fields:
       - name: --
@@ -1992,6 +2187,168 @@ registers:
         reset: 0x1
         typical: 0x1
         description: CTLE PRE-peak gain step size in VMA Coarse Mode
+
+
+  - name: GSER(0..13)_LANE(0..3)_VMA_FINE_CTRL_0
+    title: GSER Lane VMA Fine Control 0 Register
+    address: 0x11800904E01C8 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      Per Lane registers are specific to a particular lane.
+      It is not expected that software will need to access this register.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_SDLL_IQ_MAX_FINE
+        bits: 15..12
+        access: R/W
+        reset: 0xe
+        typical: 0xe
+        description: |
+          RX Slice DLL IQ maximum value in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: RX_SDLL_IQ_MIN_FINE
+        bits: 11..8
+        access: R/W
+        reset: 0x2
+        typical: 0x2
+        description: |
+          RX Slice DLL IQ minimum value in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: RX_SDLL_IQ_STEP_FINE
+        bits: 7..6
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: |
+          RX Slice DLL IQ step size in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: VMA_WINDOW_WAIT_FINE
+        bits: 5..3
+        access: R/W
+        reset: 0x2
+        typical: 0x2
+        description: |
+          Adaptation window wait setting (in VMA Fine mode); used
+          to control the number of samples taken during the collection
+          of statistics (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: LMS_WAIT_TIME_FINE
+        bits: 2..0
+        access: R/W
+        reset: 0x2
+        typical: 0x2
+        description: |
+          LMS wait time setting (in VMA Fine mode); used
+          to control the number of samples taken during the collection
+          of statistics (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+
+  - name: GSER(0..13)_LANE(0..3)_VMA_FINE_CTRL_1
+    title: GSER Lane VMA Fine Control 1 Register
+    address: 0x11800904E01D0 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      Per Lane registers are specific to a particular lane.
+      It is not expected that software will need to access this register.
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_CTLE_PEAK_MAX_FINE
+        bits: 9..6
+        access: R/W
+        reset: 0xf
+        typical: 0xf
+        description: |
+          RX CTLE Peak maximum value in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: RX_CTLE_PEAK_MIN_FINE
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          RX CTLE Peak minimum value in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: RX_CTLE_PEAK_STEP_FINE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          RX CTLE Peak step size in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+
+  - name: GSER(0..13)_LANE(0..3)_VMA_FINE_CTRL_2
+    title: GSER Lane VMA Fine Control 2 Register
+    address: 0x11800904E01D8 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      Per Lane registers are specific to a particular lane.
+      It is not expected that software will need to access this register.
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_PRECTLE_PEAK_MAX_FINE
+        bits: 9..6
+        access: R/W
+        reset: 0xf
+        typical: 0xf
+        description: |
+          RX PRE-CTLE Peak maximum value in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: RX_PRECTLE_PEAK_MIN_FINE
+        bits: 5..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          RX PRE-CTLE Peak minimum value in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
+
+      - name: RX_PRECTLE_PEAK_STEP_FINE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          RX PRE-CTLE Peak step size in VMA Fine mode (valid when
+          GSER_LANE_P_MODE_1.VMA_FINE_CFG_SEL=1
+          and GSER_LANE_P_MODE_1.VMA_MM=0).
 
 
 

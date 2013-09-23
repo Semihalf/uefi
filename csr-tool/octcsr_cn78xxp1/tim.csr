@@ -209,25 +209,18 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..5
+        bits: 63..4
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: TSTMP_MEM
-        bits: 4
-        access: RO/H
-        reset: --
-        typical: 0
-        description: BIST result of the Time Stamp memory.
-
-      - name: FPA_FIFO
         bits: 3
         access: RO/H
         reset: --
         typical: 0
-        description: BIST result of the FPA FIFO.
+        description: BIST result of the Time Stamp memory.
 
       - name: WQE_FIFO
         bits: 2

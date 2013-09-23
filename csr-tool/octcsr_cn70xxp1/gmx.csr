@@ -8,7 +8,7 @@ enums:
       width: "2"
     description: Enumerates the values for GMX(0..1)_INF_MODE[MODE]
     values:
-      - name: Disabled
+      - name: DISABLED
         value: 0x0
         description: |
           The interface is disabled.

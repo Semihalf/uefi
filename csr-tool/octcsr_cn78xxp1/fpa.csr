@@ -300,7 +300,10 @@ registers:
         access: R/W1/H
         reset: 0
         typical: 0
-        description: Reset. When set to 1 by software, FPA gets a short reset pulse (three cycles in duration).
+        description: |
+          Reset. When set to 1 by software, FPA gets a short reset pulse (three cycles in duration).
+          Following a write to this register and prior to performing another FPA operation, software
+          must write SSO_BIST_STATUS0 (or any register on the same IOI bus as FPA) and read it back.
 
 
   - name: FPA_ERR_INT

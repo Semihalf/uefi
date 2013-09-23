@@ -891,18 +891,13 @@ enums:
         value: 0x61
         description: |
           Malformed L4:
-          IPv4/TCP
-          ipv4_total_length < IP_header(20B+options) + (TCP_data_offset * 4)
-          or
-          TCP_data_offset < 5
-          IPv6/TCP
-          ipv6_payload_length < TCP_data_offset * 4
-          or
-          TCP_data_offset < 5
-          IPv4/UDP
-          ipv4_total_length < IP_header(20B+options) + UDP_header(8B)
-          IPv6/UDP
-          ipv6_payload_length < UDP_header(8B)
+          TCP
+          received packet length - crc
+          < WQE[LFPTR] + (TCP_data_offset * 4)
+          or TCP_data_offset < 5
+          UDP
+          received_packet_length - crc
+          < WQE[LFPTR] + UDP_header_length (8B)
 
       - name: L4_CHK
         value: 0x62

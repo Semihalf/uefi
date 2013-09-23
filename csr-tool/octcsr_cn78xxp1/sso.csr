@@ -1160,7 +1160,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Enable OCLA backpressure stalls. For diagnostic use only. INTERNAL:
+          Enable OCLA backpressure stalls. For diagnostic use only.
+          INTERNAL:
           <55> NCBB input fifo stall (ncbo.)
           <54> Work-slot response. (arbrsp.)
           <53> Work-slot switching of descheduled work entries. (arbx.)
@@ -2481,6 +2482,8 @@ registers:
     title: SSO Short Form Tag Latency Perf-Count Register
     address: 0x16700000020A0
     bus: NCB
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: COUNT
         bits: 63..0
@@ -3388,6 +3391,8 @@ registers:
     description: |
       Counts the number of work schedules for each group. The counter rolls over through zero when
       the maximum value is exceeded.
+    attributes:
+      dv_fc_scratch: "a=(0)"
     fields:
       - name: CNT
         bits: 63..0

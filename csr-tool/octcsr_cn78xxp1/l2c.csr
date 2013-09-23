@@ -1718,45 +1718,41 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Sub-block dirty bits. INTERNAL: 70xx does not implement true sub-block dirty bits,
-          therefore when L2C_TAD_TAG is written, it is set to all ones if DIRTY is 1, or all zeroes
-          if DIRTY is zero. LTGL2I will always result in similar legal values being loaded.
+        description: Sub-block dirty bits.  Ignored/loaded with 0 for RTG accesses.
 
       - name: --
-        bits: 59..57
+        bits: 59..58
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BUSINFO
-        bits: 56..48
+        bits: 57..49
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: The bus information bits
-
-      - name: --
-        bits: 47
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
+        description: The bus information bits.  Ignored/loaded with 0 for RTG accesses.
 
       - name: ECC
-        bits: 46..40
+        bits: 48..42
         access: R/W/H
         reset: 0x0
         typical: --
-        description: The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags.
+        description: |
+          The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the
+          tags.
 
       - name: TAG
-        bits: 39..20
+        bits: 41..20
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: The tag. The tag is the corresponding bits from the L2C+LMC internal L2/DRAM byte address.
+        description: |
+          The tag. TAG[39:20] is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+          address. TAG[41:40] is the OCI node of the address. The RTG must always have the
+          TAG[41:40] == to
+          the current node or operation is undefined.
 
       - name: --
         bits: 19..4
@@ -1772,21 +1768,17 @@ registers:
         typical: 0
         description: |
           The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-          is undefined.
+          is undefined.  Ignored/loaded with 0 for RTG accesses.
 
-      - name: VALID
-        bits: 2
+      - name: TS
+        bits: 2..1
         access: R/W/H
-        reset: 0
-        typical: 0
-        description: The valid bit
-
-      - name: DIRTY
-        bits: 1
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: The dirty bit
+        reset: 0x0
+        typical: 0x0
+        description: |
+          The TAG state. 0 - Invalid; 1 - Shared; 2 - Exclusive. Note that a local address will
+          never have the value of 2 (Exclusive) as that state is encoded as Shared in the TAG and
+          Invalid in the RTG.
 
       - name: LOCK
         bits: 0
@@ -1795,7 +1787,7 @@ registers:
         typical: 0
         description: |
           The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-          undefined.
+          undefined.  Ignored/loaded with 0 for RTG accesses.
 
 
   - name: L2C_TAD(0..7)_INT
@@ -2020,18 +2012,18 @@ registers:
         description: Logged information is for a HOLEWR error.
 
       - name: --
-        bits: 59..58
+        bits: 59
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: CMD
-        bits: 57..51
+        bits: 58..51
         access: RO/H
         reset: 0x0
         typical: --
-        description: XMC command of request causing error.
+        description: XMC command of request causing error. FIXME, needs better description for OCI
 
       - name: SOURCE
         bits: 50..44

@@ -795,11 +795,18 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..2
+        bits: 63..3
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: RX_TRN_VAL
+        bits: 2
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: The control channel of a link training was recieved without any errors.
 
       - name: RX_SCRM_SYNC
         bits: 1
@@ -1389,6 +1396,44 @@ registers:
           OCX_OLE_LNEx_INT_EN[STAT_CNT_OVFL]=1
 
 
+  - name: OCX_LNE(0..23)_STAT13
+    title: OCX Lane Statistic 13 Register
+    address: 0x11800110080A8 + a*0x100
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TRN_BAD_CNT
+        bits: 15..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+
+
+  - name: OCX_LNE(0..23)_STAT14
+    title: OCX Lane Statistic 14 Register
+    address: 0x11800110080B0 + a*0x100
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TRN_PRBS_BAD_CNT
+        bits: 15..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+
+
   - name: OCX_LNE(0..23)_TRN_LD
     title: OCX Lane Training Local Device Register
     address: 0x11800110080C0 + a*0x100
@@ -1541,12 +1586,12 @@ registers:
           1 during cold reset when OCI_SPD<3:0> pins indicate speed > 6.25 GBAUD. Otherwise,
           initialized to 0 during a cold reset. This field is not affected by soft or warm reset.
 
-      - name: --
+      - name: SER_LANE_READY
         bits: 23..20
-        access: RAZ
-        reset: --
+        access: R/W/H
+        reset: 0x0
         typical: --
-        description: Reserved.
+        description: SerDes lanes that are ready for bundling into the link.
 
       - name: SER_LANE_BAD
         bits: 19..16
@@ -1732,17 +1777,116 @@ registers:
         description: Reserved.
 
 
+  - name: OCX_FRC(0..5)_STAT0
+    title: OCX FRC 0-5 Statistics Registers 0
+    address: 0x118001100FA00 + a*0x8
+    bus: RSL
+    attributes:
+      uvm_default_constraint: "True"
+    fields:
+      - name: --
+        bits: 63..21
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ALIGN_CNT
+        bits: 20..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          Indicates the number of alignment sequences received (i.e. those that do not violate the
+          current alignment).
+
+
+  - name: OCX_FRC(0..5)_STAT1
+    title: OCX FRC 0-5 Statistics Registers 1
+    address: 0x118001100FA80 + a*0x8
+    bus: RSL
+    attributes:
+      uvm_default_constraint: "True"
+    fields:
+      - name: --
+        bits: 63..21
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ALIGN_ERR_CNT
+        bits: 20..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          Indicates the number of alignment sequences received in error (i.e. those that violate the
+          current alignment).
+
+
+  - name: OCX_FRC(0..5)_STAT2
+    title: OCX FRC 0-5 Statistics Registers 2
+    address: 0x118001100FB00 + a*0x8
+    bus: RSL
+    attributes:
+      uvm_default_constraint: "True"
+    fields:
+      - name: --
+        bits: 63..21
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ALIGN_DONE
+        bits: 20..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Indicates the number of attempt at alignment that succeeded.
+
+
+  - name: OCX_FRC(0..5)_STAT3
+    title: OCX FRC 0-5 Statistics Registers 3
+    address: 0x118001100FB80 + a*0x8
+    bus: RSL
+    attributes:
+      uvm_default_constraint: "True"
+    fields:
+      - name: --
+        bits: 63..21
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ALIGN_FAIL
+        bits: 20..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: Indicates the number of attempt at alignment that failed.
+
+
   - name: OCX_LNE_DBG
     title: OCX Lane Debug Register
     address: 0x118001100FF00
     bus: RSL
     fields:
       - name: --
-        bits: 63..37
+        bits: 63..38
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: FRC_STATS_ENA
+        bits: 37
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable FRC statistic counters.
 
       - name: RX_DIS_PSH_SKIP
         bits: 36

@@ -131,7 +131,7 @@ registers:
           DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
           DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
           DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
-          DORM_CRYPTO = 1, NOCRYPTO = 1 Authenik mode.
+          DORM_CRYPTO = 1, NOCRYPTO = 1 Authentik mode.
 
       - name: --
         bits: 25..24
@@ -223,11 +223,11 @@ registers:
         typical: --
         description: |
           Fuse information - L2C cripple:
-          0x0 = 16-way, 2MB cache
-          0x1 = 12-way, 1.5MB cache
-          0x2 = 8-way, 1MB cache
-          0x3 = 4-way, 512KB cache
-          0x4-0x7 = reserved
+          0x0 = Full cache (16-way, 16 MB)
+          0x1 = 3/4 ways (12-way, 12 MB)
+          0x2 = 1/2 ways (8-way, 8 MB)
+          0x3 = 1/4 ways (4-way, 4MB)
+          0x4-0x7 = Reserved
 
       - name: SPARE
         bits: 31

@@ -196,6 +196,36 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_ZIP_SEL(0..1)
+    title: DTX ZIP Select Register
+    address: 0x11800FE000000 | ((56) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_ZIP_ENA(0..1)
+    title: DTX ZIP Mask Register
+    address: 0x11800FE000020 | ((56) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_ZIP_DAT(0..1)
+    title: DTX ZIP Raw Data Register
+    address: 0x11800FE000040 | ((56) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_ZIP_CTL
+    title: DTX ZIP Control Register
+    address: 0x11800FE1C0060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_ZIP_BCST_RSP
+    title: DTX ZIP Control Register
+    address: 0x11800FE1C0080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_PKI_PFE_SEL(0..1)
     title: DTX PKI_PFE Select Register
     address: 0x11800FE000000 | ((68) << 15)|a<<3

@@ -3833,7 +3833,7 @@ enums:
           major_name: "PKO"
           major_val: "(0x50)"
           mem_to_csr: "True"
-          reg_addr: "(0x15400008FFFD8)"
+          reg_addr: "(0x15400008FFFE0)"
           reg_name: "PKO_PDM_ECC_DBE_STS_CMB0"
         description: See PKO_PDM_ECC_DBE_STS_CMB0[PDM_DBE_CMB0].
 
@@ -4157,11 +4157,39 @@ enums:
           reg_name: "PKO_PEB_ERR_INT"
         description: See PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR].
 
+      - name: PKO_PSE_PQ_DRAIN
+        value: 0x50040
+        attributes:
+          bit_name: "INTR"
+          bit_num: "0"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pse_pq"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000000140)"
+          reg_name: "PKO_DRAIN_IRQ"
+        description: See PKO_DRAIN_IRQ[INTR].
+
+      - name: PKO_QCMD_IOBX_ERR
+        value: 0x50078
+        attributes:
+          bit_name: "QCMD_IOBX_ERR"
+          bit_num: "25"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_pdm"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000800008)"
+          reg_name: "PKO_PDM_STS"
+        description: See PKO_PDM_STS[QCMD_IOBX_ERR].
+
       - name: PKO_MWPBUF_DATA_VAL_ERR
-        value: 0x500F6
+        value: 0x500F5
         attributes:
           bit_name: "MWPBUF_DATA_VAL_ERR"
-          bit_num: "8"
+          bit_num: "34"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4172,10 +4200,10 @@ enums:
         description: See PKO_PDM_STS[MWPBUF_DATA_VAL_ERR].
 
       - name: PKO_DWPBUF_DATA_VAL_ERR
-        value: 0x500F7
+        value: 0x500F6
         attributes:
           bit_name: "DWPBUF_DATA_VAL_ERR"
-          bit_num: "6"
+          bit_num: "32"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4186,10 +4214,10 @@ enums:
         description: See PKO_PDM_STS[DWPBUF_DATA_VAL_ERR].
 
       - name: PKO_DRPBUF_DATA_VAL_ERR
-        value: 0x500F8
+        value: 0x500F7
         attributes:
           bit_name: "DRPBUF_DATA_VAL_ERR"
-          bit_num: "7"
+          bit_num: "33"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4200,10 +4228,10 @@ enums:
         description: See PKO_PDM_STS[DRPBUF_DATA_VAL_ERR].
 
       - name: PKO_SENDPKT_LMTDMA_ERR
-        value: 0x500F9
+        value: 0x500F8
         attributes:
           bit_name: "SENDPKT_LMTDMA_ERR"
-          bit_num: "5"
+          bit_num: "20"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4214,10 +4242,10 @@ enums:
         description: See PKO_PDM_STS[SENDPKT_LMTDMA_ERR].
 
       - name: PKO_SENDPKT_LMTST_ERR
-        value: 0x500FA
+        value: 0x500F9
         attributes:
           bit_name: "SENDPKT_LMTST_ERR"
-          bit_num: "4"
+          bit_num: "15"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4228,10 +4256,10 @@ enums:
         description: See PKO_PDM_STS[SENDPKT_LMTST_ERR].
 
       - name: PKO_FPA_NO_PTRS
-        value: 0x500FB
+        value: 0x500FA
         attributes:
           bit_name: "FPA_NO_PTRS"
-          bit_num: "3"
+          bit_num: "14"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4242,7 +4270,7 @@ enums:
         description: See PKO_PDM_STS[FPA_NO_PTRS].
 
       - name: PKO_NCB_TX_ERR
-        value: 0x500FC
+        value: 0x500FB
         attributes:
           bit_name: "NCB_TX_ERROR"
           bit_num: "0"
@@ -4255,11 +4283,11 @@ enums:
           reg_name: "PKO_NCB_INT"
         description: See PKO_NCB_INT[NCB_TX_ERROR].
 
-      - name: PKO_CP_ERR_PKT_DROP
-        value: 0x500FD
+      - name: PKO_CP_SENDPKT_ERR_DROP
+        value: 0x500FC
         attributes:
-          bit_name: "CP_PKT_DRP"
-          bit_num: "1"
+          bit_name: "CP_SENDPKT_ERR_DROP"
+          bit_num: "3"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"
@@ -4267,13 +4295,13 @@ enums:
           major_val: "(0x50)"
           reg_addr: "(0x1540000800008)"
           reg_name: "PKO_PDM_STS"
-        description: See PKO_PDM_STS[CP_PKT_DRP].
+        description: See PKO_PDM_STS[CP_SENDPKT_ERR_DROP].
 
       - name: PKO_CP_SENDPKT_ERR_NO_DRP
-        value: 0x500FE
+        value: 0x500FD
         attributes:
           bit_name: "CP_SENDPKT_ERR_NO_DRP"
-          bit_num: "2"
+          bit_num: "9"
           blk_enum_name: "PKO_INTSN_E"
           cib_rtl_module: "pko_pdm"
           intsn_lsb_mismatch: "True"

@@ -4025,7 +4025,9 @@ registers:
         typical: 0
         description: |
           BASE-R training restart. Writing a 1 to this bit restarts the training process if the
-          TRAIN_EN bit in this register is also set. This is a self-clearing bit.
+          TRAIN_EN bit in this register is also set. This is a self-clearing bit. Software should
+          wait a minimum of 1.7ms after BGX(0..5)_SPU(0..3)_INT[TRAINING_FAILURE] is set before
+          restarting the training process.
 
 
   - name: BGX(0..5)_SPU(0..3)_BR_PMD_STATUS
