@@ -762,17 +762,13 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
  */
 static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-    /* Return zero if the PLL hasn't locked */
-    BDK_CSR_INIT(dlmx_mpll, node, BDK_GSERX_DLMX_MPLL_STATUS(0, qlm));
-    if (!bdk_is_simulation() && (dlmx_mpll.s.mpll_status == 0))
-        return 0;
     /* Measure the reference clock */
     uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
-    uint64_t mhz = meas_refclock / 1000000;
     /* Multiply to get the final frequency */
     BDK_CSR_INIT(dlmx_mpll_multiplier, node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm));
-    mhz *= dlmx_mpll_multiplier.s.mpll_multiplier;
-    return mhz;
+    uint64_t freq = meas_refclock * dlmx_mpll_multiplier.s.mpll_multiplier;
+    freq = (freq + 500000) / 1000000;
+    return freq;
 }
 
 
