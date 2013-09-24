@@ -754,6 +754,9 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
     /* Multiply to get the final frequency */
     BDK_CSR_INIT(dlmx_mpll_multiplier, node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm));
     uint64_t freq = meas_refclock * dlmx_mpll_multiplier.s.mpll_multiplier;
+    /* Double the GBaud as CN70XX clocks on both clock edges */
+    freq <<= 1;
+    /* Round to the nearest MHz */
     freq = (freq + 500000) / 1000000;
     return freq;
 }
