@@ -223,6 +223,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
             power &= ~coremask;
             BDK_TRACE("Enabling RST_PP_POWER\n");
             BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
+            bdk_wait_usec(1000); /* A delay seems to be needed here */
         }
     }
 
