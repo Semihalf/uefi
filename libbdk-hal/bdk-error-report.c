@@ -236,9 +236,6 @@ static void check_agl_cn70xx(bdk_node_t node)
         BDK_CSR_INIT(c, node, BDK_AGL_GMX_RXX_INT_REG(0));
         CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, wol);
         CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, pause_drp);
-        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, phy_dupx);
-        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, phy_spd);
-        CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, phy_link);
         CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, ifgerr);
         CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, coldet);
         CHECK_CHIP_ERROR(BDK_AGL_GMX_RXX_INT_REG(0), s, falerr);
@@ -273,9 +270,6 @@ static void enable_agl_cn70xx(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_AGL_GMX_RXX_INT_EN(0),
         c.s.wol = -1;
         c.s.pause_drp = -1;
-        c.s.phy_dupx = -1;
-        c.s.phy_spd = -1;
-        c.s.phy_link = -1;
         c.s.ifgerr = -1;
         c.s.coldet = -1;
         c.s.falerr = -1;
