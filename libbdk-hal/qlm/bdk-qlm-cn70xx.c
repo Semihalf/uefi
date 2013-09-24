@@ -245,7 +245,6 @@ static int dlm_set_mult(bdk_node_t node, int qlm, int baud_mhz)
     BDK_CSR_INIT(clkdiv2, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm));
     if (clkdiv2.s.ref_clkdiv2 == 0)
     {
-        BDK_TRACE("DLM%d: Dividing ref clock by 2\n", qlm);
         clkdiv2.s.ref_clkdiv2 = 1;
         BDK_CSR_WRITE(node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm), clkdiv2.u);
         bdk_wait_usec(10000);
@@ -255,12 +254,11 @@ static int dlm_set_mult(bdk_node_t node, int qlm, int baud_mhz)
     if (meas_refclock == 0)
     {
         bdk_error("DLM%d: Reference clock not running\n", qlm);
-        meas_refclock = 50000000;
+        return -1;
     }
 
     uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
     mult /= meas_refclock;
-    BDK_TRACE("DLM%d: Setting multiplier to %lu\n", qlm, mult);
     BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
     return 0;
 }
@@ -282,36 +280,28 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
 
     /* Done as part of mult setup, next line */
 
-    // 4. Write GSER(0)_DLM(0)_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. See Table
-    // 21-1 for programming values.
-    dlm_set_mult(node, qlm, baud_mhz);
-
     // 5. Clear GSER(0)_DLM(0)_TEST_POWERDOWN[TEST_POWERDOWN] = 0.
-    BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
         c.s.test_powerdown = 0);
 
     // 6. Set GSER(0)_DLM(0)_REF_SSP_EN[REF_SSP_EN] = 1.
-    if (qlm == 0)
-    {
-        /* This register only exists on DLM0 */
-        BDK_TRACE("DLM%d: Enabling spread spectrum ref clock\n", qlm);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
-                c.s.ref_ssp_en = 1);
-    }
-
-    // 7. Set GSER(0)_DLM(0)_MPLL_EN[MPLL_EN] = 1.
-    if (qlm == 0)
-    {
-        BDK_TRACE("DLM%d: Setting GSERX_DLMX_MPLL_EN[MPLL_EN]\n", qlm);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
-            c.s.mpll_en = 1);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_SSP_EN(0, qlm),
+            c.s.ref_ssp_en = 1);
 
     // 8. Clear GSER(0)_DLM(0)_PHY_RESET[PHY_RESET] = 0.
-    BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
         c.s.phy_reset = 0);
+
+    // 4. Write GSER(0)_DLM(0)_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. See Table
+    // 21-1 for programming values.
+    /* NOTE: This was moved here as we can't measure clocks until the above
+       steps are done */
+    if (dlm_set_mult(node, qlm, baud_mhz))
+        return -1;
+
+    // 7. Set GSER(0)_DLM(0)_MPLL_EN[MPLL_EN] = 1.
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_MPLL_EN(0, qlm),
+        c.s.mpll_en = 1);
 
     // 9. Poll until the MPLL locks. Wait for
     // GSER(0)_DLM(0)_MPLL_STATUS[MPLL_STATUS] = 1.
@@ -320,7 +310,6 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
         bdk_error("PLL for DLM%d failed to lock\n", qlm);
         return -1;
     }
-    BDK_TRACE("DLM%d: PLL is up\n", qlm);
     return 0;
 }
 
@@ -433,23 +422,23 @@ static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
 
     /* Reference clock was already chosen before we got here */
 
-    // 2. Write GSER(0)_DLM2_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. For a
-    // 100MHz reference clock, set to 0x1E. See Table 21-2 for
-    // programming values.
-    dlm_set_mult(node, qlm, baud_mhz);
-
     // 3. Clear GSER(0)_DLM2_TEST_POWERDOWN[TEST_POWERDOWN] = 0.
-    BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
         c.s.test_powerdown = 0);
-    BDK_TRACE("DLM%d: Setting GSERX_SATA_REF_SSP_EN[REF_SSP_EN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_REF_SSP_EN(0),
         c.s.ref_ssp_en = 1);
 
     // 4. Clear GSER(0)_DLM2_PHY_RESET.
-    BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
         c.s.phy_reset = 0);
+
+    // 2. Write GSER(0)_DLM2_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. For a
+    // 100MHz reference clock, set to 0x1E. See Table 21-2 for
+    // programming values.
+    /* NOTE: This was moved here as we can't measure clocks until the above
+       steps are done */
+    if (dlm_set_mult(node, qlm, baud_mhz))
+        return -1;
 
     // 5. Set GSER(0)_SATA_CFG[SATA_EN] = 1 to configure DLM2 multiplexing.
     BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_CFG(0),
@@ -474,12 +463,6 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     // be set if reference clock >= 100 MHz)
 
     /* Done as part of mult setup, next line */
-
-    // 3. Write GSER0_DLM(1..2)_MPLL_MULTIPLIER[MPLL_MULTIPLIER].
-    //      for a 100MHz reference clock, set to 0x19.
-    //      for a 125MHz reference clock, set to 0x28.
-    //      See Table 21-3 for programming values.
-    dlm_set_mult(node, qlm, 2500);
 
     // 4. Configure the PCIE PIPE:
     //  a. Write GSER0_PCIE_PIPE_PORT_SEL[PIPE_PORT_SEL] to configure the
@@ -509,15 +492,21 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
 
     // 5. Clear GSER(0)_DLM(1..2)_TEST_POWERDOWN. Configurations that use only
     // DLM1 need not clear GSER(0)_DLM2_TEST_POWERDOWN
-    BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
         c.s.test_powerdown = 0);
 
     // 6. Clear GSER(0)_DLM(1..2)_PHY_RESET. Configurations that use only DLM1
     // need not clear GSER(0)_DLM2_PHY_RESET
-    BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_PHY_RESET(0, qlm),
         c.s.phy_reset = 0);
+
+    // 3. Write GSER0_DLM(1..2)_MPLL_MULTIPLIER[MPLL_MULTIPLIER].
+    //      for a 100MHz reference clock, set to 0x19.
+    //      for a 125MHz reference clock, set to 0x28.
+    //      See Table 21-3 for programming values.
+    /* NOTE: This was moved here as we can't measure clocks until the above
+       steps are done */
+    dlm_set_mult(node, qlm, 2500);
 
     // 7. Write the GSER(0)_PCIE_PIPE_RST register to take the appropriate
     // PIPE out of reset. There is a PIPEn_RST bit for each PIPE. Clear the
