@@ -91,6 +91,11 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     return result;
 }
 
+static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
+{
+    return 0;
+}
+
 const __bdk_if_ops_t __bdk_if_ops_loop = {
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
@@ -99,5 +104,6 @@ const __bdk_if_ops_t __bdk_if_ops_loop = {
     .if_enable = if_enable,
     .if_disable = if_disable,
     .if_link_get = if_link_get,
+    .if_loopback = if_loopback,
 };
 
