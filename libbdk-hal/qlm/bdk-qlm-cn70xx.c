@@ -442,6 +442,9 @@ static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
     BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TEST_POWERDOWN(0, qlm),
         c.s.test_powerdown = 0);
+    BDK_TRACE("DLM%d: Setting GSERX_SATA_REF_SSP_EN[REF_SSP_EN]\n", qlm);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_SATA_REF_SSP_EN(0),
+        c.s.ref_ssp_en = 1);
 
     // 4. Clear GSER(0)_DLM2_PHY_RESET.
     BDK_TRACE("DLM%d: Clearing PHY_RESET\n", qlm);
