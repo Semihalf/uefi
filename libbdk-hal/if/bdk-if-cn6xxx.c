@@ -294,20 +294,11 @@ static int sso_init(bdk_node_t node)
     fau_to.s.tout_enb = 0;
     BDK_CSR_WRITE(node, BDK_IOB_FAU_TIMEOUT, fau_to.u64);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        /* Set work timeout to 1023 * 1k cycles */
-        BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
-            c.s.nw_tim = 1023);
-    }
-    else
-    {
-        /* Set work timeout to 1k cycles. Due to a bug in Octeon 2, reads
-            from scratch will always wait for get_work to complete, so we
-            want this fast */
-        BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
-            c.s.nw_tim = 0);
-    }
+    /* Set work timeout to 1k cycles. Due to a bug in Octeon 2, reads
+        from scratch will always wait for get_work to complete, so we
+        want this fast */
+    BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
+        c.s.nw_tim = 0);
     return 0;
 }
 

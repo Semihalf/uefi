@@ -602,7 +602,7 @@ static int bdk_if_dispatch(void)
             /* Store zero before doing async get work so we can tell when
                 it is done */
             bdk_scratch_write64(BDK_IF_SCR_WORK, 0);
-            sso_get_work_async(BDK_IF_SCR_WORK, 1);
+            sso_get_work_async(BDK_IF_SCR_WORK, 0);
         }
 
         /* Check devices that msut be polled if no work was available */
