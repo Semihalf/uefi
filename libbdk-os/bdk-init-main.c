@@ -120,6 +120,18 @@ void __bdk_init_main(int arg, void *arg1)
                 }
             }
         }
+
+        /* Make sure SMI/MDIO is enabled so we can query PHYs */
+        int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
+        for (int i=0; i<num_mdio; i++)
+        {
+            BDK_CSR_INIT(smix_en, node, BDK_SMIX_EN(i));
+            if (!smix_en.s.en)
+            {
+                smix_en.s.en = 1;
+                BDK_CSR_WRITE(node, BDK_SMIX_EN(i), smix_en.u64);
+            }
+        }
     }
 
     /* Core 0 start main as another thread. We create a new thread so that

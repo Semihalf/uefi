@@ -165,18 +165,6 @@ static int __bdk_if_init_node(bdk_node_t node)
         bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS)))
         return -1;
 
-    /* Make sure SMI/MDIO is enabled so we can query PHYs */
-    int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
-    for (int i=0; i<num_mdio; i++)
-    {
-        BDK_CSR_INIT(smix_en, node, BDK_SMIX_EN(i));
-        if (!smix_en.s.en)
-        {
-            smix_en.s.en = 1;
-            BDK_CSR_WRITE(node, BDK_SMIX_EN(i), smix_en.u64);
-        }
-    }
-
     /* Setup the SSO */
     result = __bdk_if_global_ops.sso_init(node);
     if (result)
