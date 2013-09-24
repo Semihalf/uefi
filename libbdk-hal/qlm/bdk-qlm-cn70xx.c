@@ -240,6 +240,31 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     }
 }
 
+static int dlm_set_mult(bdk_node_t node, int qlm, int baud_mhz)
+{
+    BDK_CSR_INIT(clkdiv2, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm));
+    if (clkdiv2.s.ref_clkdiv2 == 0)
+    {
+        BDK_TRACE("DLM%d: Dividing ref clock by 2\n", qlm);
+        clkdiv2.s.ref_clkdiv2 = 1;
+        BDK_CSR_WRITE(node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm), clkdiv2.u);
+        bdk_wait_usec(10000);
+    }
+
+    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
+    if (meas_refclock == 0)
+    {
+        bdk_error("DLM%d: Reference clock not running\n", qlm);
+        meas_refclock = 50000000;
+    }
+
+    uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
+    mult /= meas_refclock;
+    BDK_TRACE("DLM%d: Setting multiplier to %lu\n", qlm, mult);
+    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
+    return 0;
+}
+
 static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
 {
     // 1. Write GSER(0)_DLM(0)_REF_USE_PAD[REF_USE_PAD] = 1 (to select
@@ -254,29 +279,12 @@ static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
 
     // 3. If required, write GSER(0)_DLM(0)_REF_CLKDIV2[REF_CLKDIV2] (must be
     // set if reference clock ? 100 MHz).
-    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
-    if (meas_refclock == 0)
-    {
-        bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
-        return -1;
-    }
-    /* If the reference clock is higher than 100Mhz it needs to be divied by 2.
-       Use 101Mhz as the limit to account for measurement inaccuracy */
-    if (meas_refclock > 101000000)
-    {
-        BDK_TRACE("DLM%d: Dividing ref clock by 2\n", qlm);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
-            c.s.ref_clkdiv2 = 1);
-        bdk_wait_usec(50000);
-        meas_refclock /= 2;
-    }
+
+    /* Done as part of mult setup, next line */
 
     // 4. Write GSER(0)_DLM(0)_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. See Table
     // 21-1 for programming values.
-    uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
-    mult /= meas_refclock;
-    BDK_TRACE("DLM%d: Setting multiplier to %lu\n", qlm, mult);
-    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
+    dlm_set_mult(node, qlm, baud_mhz);
 
     // 5. Clear GSER(0)_DLM(0)_TEST_POWERDOWN[TEST_POWERDOWN] = 0.
     BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
@@ -420,14 +428,6 @@ static int dlm0_setup_rx(bdk_node_t node, int qlm)
 
 static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
 {
-    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
-    if (meas_refclock == 0)
-    {
-        bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
-        meas_refclock = 100000000;
-        //return -1;
-    }
-
     // 1. Write GSER(0)_DLM2_REFCLK_SEL[REFCLK_SEL] if required for
     // reference-clock selection.
 
@@ -436,10 +436,7 @@ static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
     // 2. Write GSER(0)_DLM2_MPLL_MULTIPLIER[MPLL_MULTIPLIER]. For a
     // 100MHz reference clock, set to 0x1E. See Table 21-2 for
     // programming values.
-    uint64_t mult = (uint64_t)baud_mhz * 1000000 + (meas_refclock/2);
-    mult /= meas_refclock;
-    BDK_TRACE("DLM%d: Setting multiplier to %lu\n", qlm, mult);
-    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
+    dlm_set_mult(node, qlm, baud_mhz);
 
     // 3. Clear GSER(0)_DLM2_TEST_POWERDOWN[TEST_POWERDOWN] = 0.
     BDK_TRACE("DLM%d: Clearing GSERX_DLMX_TEST_POWERDOWN[TEST_POWERDOWN]\n", qlm);
@@ -465,14 +462,6 @@ static int dlm2_setup_sata(bdk_node_t node, int qlm, int baud_mhz)
 
 static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int gen2, int root)
 {
-    uint64_t meas_refclock = bdk_qlm_measure_clock(node, qlm);
-    if (meas_refclock == 0)
-    {
-        bdk_error("DLM%d: Reference clock not running, skipping PLL setup\n", qlm);
-        meas_refclock = 100000000;
-        //return -1;
-    }
-
     // 1. Write GSER0_DLM(1..2)_REFCLK_SEL[REFCLK_SEL] if required for
     // reference-clock selection
 
@@ -480,23 +469,14 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
 
     // 2. If required, write GSER0_DLM(1..2)_REF_CLKDIV2[REF_CLKDIV2] = 1 (must
     // be set if reference clock >= 100 MHz)
-    if (meas_refclock > 101000000)
-    {
-        /* Use 101Mhz as the limit to account for measurement inaccuracy */
-        BDK_TRACE("DLM%d: Dividing ref clock by 2\n", qlm);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_REF_CLKDIV2(0, qlm),
-            c.s.ref_clkdiv2 = 1);
-        bdk_wait_usec(50000);
-        meas_refclock /= 2;
-    }
+
+    /* Done as part of mult setup, next line */
 
     // 3. Write GSER0_DLM(1..2)_MPLL_MULTIPLIER[MPLL_MULTIPLIER].
     //      for a 100MHz reference clock, set to 0x19.
     //      for a 125MHz reference clock, set to 0x28.
     //      See Table 21-3 for programming values.
-    int mult = (meas_refclock > 90000000) ? 0x19 : 0x28;
-    BDK_TRACE("DLM%d: Setting multiplier to %d\n", qlm, mult);
-    BDK_CSR_WRITE(node, BDK_GSERX_DLMX_MPLL_MULTIPLIER(0, qlm), mult);
+    dlm_set_mult(node, qlm, 2500);
 
     // 4. Configure the PCIE PIPE:
     //  a. Write GSER0_PCIE_PIPE_PORT_SEL[PIPE_PORT_SEL] to configure the
