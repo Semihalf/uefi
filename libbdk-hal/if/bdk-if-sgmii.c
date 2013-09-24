@@ -390,10 +390,8 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     int speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
-        /* Divide speed by four to account for QSGMII multiplexing */
-        BDK_CSR_INIT(inf_mode, handle->node, BDK_GMXX_INF_MODE(gmx_block));
-        if (inf_mode.s.mode == 2)
-            speed >>= 2;
+        /* Divide speed by four to account for QSGMII clocking */
+        speed >>= 2;
     }
 
     if (bdk_is_simulation())
