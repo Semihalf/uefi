@@ -686,9 +686,7 @@ static void check_pip_cn70xx(bdk_node_t node)
     CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, skprunt);
     CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, badtag);
     CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, prtnxa);
-    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, bckprs);
     CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, crcerr);
-    CHECK_CHIP_ERROR(BDK_PIP_INT_REG, s, pktdrp);
 }
 
 static void enable_pip_cn70xx(bdk_node_t node)
@@ -704,9 +702,7 @@ static void enable_pip_cn70xx(bdk_node_t node)
         c.s.skprunt = -1;
         c.s.badtag = -1;
         c.s.prtnxa = -1;
-        c.s.bckprs = -1;
-        c.s.crcerr = -1;
-        c.s.pktdrp = -1);
+        c.s.crcerr = -1);
 }
 
 static void check_ipd_cn70xx(bdk_node_t node)
