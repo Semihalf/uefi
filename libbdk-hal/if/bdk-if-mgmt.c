@@ -140,6 +140,8 @@ static int if_init(bdk_if_handle_t handle)
     {
         agl_prtx_ctl.s.dllrst = 0;
         agl_prtx_ctl.s.clktx_byp = 0;
+        agl_prtx_ctl.s.clkrx_byp = 1;
+        agl_prtx_ctl.s.clkrx_set = 0;
     }
     BDK_CSR_WRITE(handle->node, BDK_AGL_PRTX_CTL(handle->index), agl_prtx_ctl.u64);
     BDK_CSR_READ(handle->node, BDK_AGL_PRTX_CTL(handle->index));  /* Force write out before wait */
@@ -148,10 +150,6 @@ static int if_init(bdk_if_handle_t handle)
     bdk_wait(256 * clock_scale);
 
     /* The rest of the config is common between RGMII/MII */
-
-    /* Enable the interface */
-    BDK_CSR_MODIFY(agl_prtx_ctl, handle->node, BDK_AGL_PRTX_CTL(handle->index),
-        agl_prtx_ctl.s.enable = 1);
 
     /* Read the value back to force the previous write */
     /* Enable the componsation controller */
@@ -349,6 +347,14 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
     /* Enable the link. */
     agl_gmx_prtx.s.en = 1;
     BDK_CSR_WRITE(handle->node, BDK_AGL_GMX_PRTX_CFG(handle->index), agl_gmx_prtx.u64);
+
+
+    BDK_CSR_MODIFY(c, handle->node, BDK_AGL_PRTX_CTL(handle->index),
+        c.s.clkrst = 1;
+    );
+    BDK_CSR_MODIFY(c, handle->node, BDK_AGL_PRTX_CTL(handle->index),
+        c.s.enable = 1;
+    );
 
     /* Enable error reporting */
     BDK_CSR_MODIFY(c, handle->node, BDK_AGL_GMX_RXX_INT_EN(handle->index),
