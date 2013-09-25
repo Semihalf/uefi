@@ -265,6 +265,17 @@ static int dlm_set_mult(bdk_node_t node, int qlm, int baud_mhz)
 
 static int dlm_setup_pll(bdk_node_t node, int qlm, int baud_mhz)
 {
+    /* Hardware defaults are invalid */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_AMPLITUDE(0, qlm),
+        c.s.tx0_amplitude = 65;
+        c.s.tx1_amplitude = 65);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_TX_PREEMPH(0, qlm),
+        c.s.tx0_preemph = 22;
+        c.s.tx1_preemph = 22);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_DLMX_RX_EQ(0, qlm),
+        c.s.rx0_eq = 0;
+        c.s.rx1_eq = 0);
+
     // 1. Write GSER(0)_DLM(0)_REF_USE_PAD[REF_USE_PAD] = 1 (to select
     // reference-clock input).
 
