@@ -128,8 +128,8 @@ void __bdk_init(long base_address)
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
         __bdk_is_simulation = (c.u == 0);
 
-        bdk_set_baudrate(node, 0, 115200, 0);
-        bdk_set_baudrate(node, 1, 115200, 0);
+        bdk_set_baudrate(node, 0, BDK_UART_BAUDRATE, 0);
+        bdk_set_baudrate(node, 1, BDK_UART_BAUDRATE, 0);
         bdk_fs_set_uart_node(node);
 
         if (BDK_SHOW_BOOT_BANNERS)

@@ -54,4 +54,7 @@ extern void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_fl
 #define BDK_SHOW_BOOT_BANNERS 1
 #endif
 
+#define BDK_UART_BAUDRATE 115200
+//#define BDK_UART_BAUDRATE 921600
+
 /** @}  */

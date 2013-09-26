@@ -116,7 +116,7 @@ void __bdk_init_main(int arg, void *arg1)
                 else
                 {
                     printf("Enabling hardware flow control on UART%d\n", i);
-                    bdk_set_baudrate(node, i, 115200, 1);
+                    bdk_set_baudrate(node, i, BDK_UART_BAUDRATE, 1);
                 }
             }
         }
