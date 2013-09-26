@@ -31,7 +31,7 @@ uint64_t cvmx_clock_get_rate_node(int node, int clock)
 
 uint64_t cvmx_clock_get_rate(int clock)
 {
-    return cvmx_clock_get_rate_node(bdk_numa_local(), BDK_CLOCK_RCLK);
+    return cvmx_clock_get_rate_node(bdk_numa_local(), clock);
 }
 
 void octeon_delay_cycles(uint64_t cycles)
