@@ -860,13 +860,14 @@ enums:
         description: |
           IP malformed header: the packet is not long enough to contain the IP header.
           IPv4 packet
-          received packet length - crc < WQE[LCPTR]+IPv4_parsed_header_length
+          received packet length - fcs_pres_size < WQE[LCPTR]+IPv4_parsed_header_length
           or
           ipv4_header_length < 5
           or
           ipv4_total_length < 20
           IPv6 packet
-          received packet length - crc < WQE[LCPTR]+IPv6_header(40 bytes)
+          received packet length - fcs_pres_size < WQE[LCPTR]+IPv6_header(40 bytes)
+          where fcs_pres_size = (PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] ? 4:0).
 
       - name: IP_MALD
         value: 0x44
@@ -874,13 +875,14 @@ enums:
           IP malformed payload: the packet is not long enough to contain the payload bytes indicated
           by the IP header.
           IPv4 packet
-          received packet length - crc
+          received packet length - fcs_strip_size
           <  WQE[LCPTR]+IPv4_total_length
           IPv6 packet
-          received packet length - crc
+          received packet length - fcs_strip_size
           < WQE[LCPTR] + IPv6_header(40) + ipv6_payload_lengthIP_ML
           Note this check also covers IPv6 extension headers, as extension headers are included in
           the payload length field.
+          where fcs_strip_size = (PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_STRIP] ? 4:0).
 
       - name: IP_HOP
         value: 0x45
@@ -892,12 +894,13 @@ enums:
         description: |
           Malformed L4:
           TCP
-          received packet length - crc
+          received packet length - fcs_pres_size
           < WQE[LFPTR] + (TCP_data_offset * 4)
           or TCP_data_offset < 5
           UDP
-          received_packet_length - crc
+          received_packet_length - fcs_pres_size
           < WQE[LFPTR] + UDP_header_length (8B)
+          where fcs_pres_size = (PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] ? 4:0).
 
       - name: L4_CHK
         value: 0x62
@@ -3065,21 +3068,11 @@ registers:
         description: When set, disable caching any FPA buffers, and immediately return any cached buffers to the FPA.
 
       - name: --
-        bits: 8..7
+        bits: 8..6
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: PKI_FULL
-        bits: 6
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          PKI full. When this bit is set to 1, the PKI drives the PKI_BUFF_FULL line to the IOB
-          arbiter, telling it to not give grants to IOI devices sending packet data; when it is
-          clear to 0, the PKI acts normally.
 
       - name: PKT_OFF
         bits: 5
@@ -3716,8 +3709,8 @@ registers:
         typical: --
         description: |
           Bit-mask of clusters in this cluster group. A given cluster can only be enabled in a
-          single cluster group. A value of 0 disables the cluster group, all packets to this group
-          will be dropped. IGC(0)'s entry resets to 0xF, all other entries to 0x0.
+          single cluster group. Behavior is undefined for an ICG which receives traffic with a
+          [CLUSTERS] of 0x0. IGC(0)'s entry resets to 0xF, all other entries to 0x0.
 
       - name: --
         bits: 31..27

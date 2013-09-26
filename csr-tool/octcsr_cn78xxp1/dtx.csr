@@ -26,7 +26,7 @@ registers:
 
 
   - name: DTX_LAP(0..1)_ENA(0..1)
-    title: DTX LAP(0..1) Mask Register
+    title: DTX LAP(0..1) Data Enable Register
     address: 0x11800FE000020 + ((0x0C + (a)) << 15) + (b*8)
     bus: RSL
     fields:
@@ -37,7 +37,7 @@ registers:
         typical: 0x0
         description: Reserved.
 
-      - name: MASK
+      - name: ENA
         bits: 35..0
         access: R/W
         reset: 0x0
@@ -45,8 +45,8 @@ registers:
         attributes:
           dv_uvm_cov_val_disable: "True"
         description: |
-          Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-          will drive each bit.
+          Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+          only one block will drive each bit.
 
 
   - name: DTX_LAP(0..1)_DAT(0..1)
@@ -136,6 +136,36 @@ registers:
         description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 
 
+  - name: DTX_OCX_TOP_DTXDID_SEL(0..1)
+    title: DTX OCX_TOP_DTXDID Select Register
+    address: 0x11800FE000000 | ((17) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_OCX_TOP_DTXDID_ENA(0..1)
+    title: DTX OCX_TOP_DTXDID Data Enable Register
+    address: 0x11800FE000020 | ((17) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_OCX_TOP_DTXDID_DAT(0..1)
+    title: DTX OCX_TOP_DTXDID Raw Data Register
+    address: 0x11800FE000040 | ((17) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_OCX_TOP_DTXDID_CTL
+    title: DTX OCX_TOP_DTXDID Control Register
+    address: 0x11800FE088060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_OCX_TOP_DTXDID_BCST_RSP
+    title: DTX OCX_TOP_DTXDID Control Register
+    address: 0x11800FE088080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_ILK_SEL(0..1)
     title: DTX ILK Select Register
     address: 0x11800FE000000 | ((20) << 15)|a<<3
@@ -143,7 +173,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ILK_ENA(0..1)
-    title: DTX ILK Mask Register
+    title: DTX ILK Data Enable Register
     address: 0x11800FE000020 | ((20) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -173,7 +203,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ILA_ENA(0..1)
-    title: DTX ILA Mask Register
+    title: DTX ILA Data Enable Register
     address: 0x11800FE000020 | ((23) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -196,6 +226,66 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_OCX_LNK_DTXDID(0..2)_SEL(0..1)
+    title: DTX OCX_LNK_DTXDID(0..2) Select Register
+    address: 0x11800FE000000 + ((0x30 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_OCX_LNK_DTXDID(0..2)_ENA(0..1)
+    title: DTX OCX_LNK_DTXDID(0..2) Data Enable Register
+    address: 0x11800FE000020 + ((0x30 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_OCX_LNK_DTXDID(0..2)_DAT(0..1)
+    title: DTX OCX_LNK_DTXDID(0..2) Raw Data Register
+    address: 0x11800FE000040 + ((0x30 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_OCX_LNK_DTXDID(0..2)_CTL
+    title: DTX OCX_LNK_DTXDID(0..2) Control Register
+    address: 0x11800FE000060 + ((0x30 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_OCX_LNK_DTXDID(0..2)_BCST_RSP
+    title: DTX OCX_LNK_DTXDID(0..2) Control Register
+    address: 0x11800FE000080 + ((0x30 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_OCX_OLE(0..2)_SEL(0..1)
+    title: DTX OCX_OLE(0..2) Select Register
+    address: 0x11800FE000000 + ((0x34 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_OCX_OLE(0..2)_ENA(0..1)
+    title: DTX OCX_OLE(0..2) Data Enable Register
+    address: 0x11800FE000020 + ((0x34 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_OCX_OLE(0..2)_DAT(0..1)
+    title: DTX OCX_OLE(0..2) Raw Data Register
+    address: 0x11800FE000040 + ((0x34 + (a)) << 15) + (b*8)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_OCX_OLE(0..2)_CTL
+    title: DTX OCX_OLE(0..2) Control Register
+    address: 0x11800FE000060 + ((0x34 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_OCX_OLE(0..2)_BCST_RSP
+    title: DTX OCX_OLE(0..2) Control Register
+    address: 0x11800FE000080 + ((0x34 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_ZIP_SEL(0..1)
     title: DTX ZIP Select Register
     address: 0x11800FE000000 | ((56) << 15)|a<<3
@@ -203,7 +293,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ZIP_ENA(0..1)
-    title: DTX ZIP Mask Register
+    title: DTX ZIP Data Enable Register
     address: 0x11800FE000020 | ((56) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -233,7 +323,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PKI_PFE_ENA(0..1)
-    title: DTX PKI_PFE Mask Register
+    title: DTX PKI_PFE Data Enable Register
     address: 0x11800FE000020 | ((68) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -263,7 +353,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PKI_PBE_ENA(0..1)
-    title: DTX PKI_PBE Mask Register
+    title: DTX PKI_PBE Data Enable Register
     address: 0x11800FE000020 | ((69) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -293,7 +383,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_L2C_TAD(0..7)_ENA(0..1)
-    title: DTX L2C_TAD(0..7) Mask Register
+    title: DTX L2C_TAD(0..7) Data Enable Register
     address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -323,7 +413,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_L2C_MCI(0..3)_ENA(0..1)
-    title: DTX L2C_MCI(0..3) Mask Register
+    title: DTX L2C_MCI(0..3) Data Enable Register
     address: 0x11800FE000020 + ((0x5c + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -353,7 +443,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_USBH(0..0)_ENA(0..1)
-    title: DTX USBH(0..0) Mask Register
+    title: DTX USBH(0..0) Data Enable Register
     address: 0x11800FE000020 + ((0x68 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -383,7 +473,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_RAD_ENA(0..1)
-    title: DTX RAD Mask Register
+    title: DTX RAD Data Enable Register
     address: 0x11800FE000020 | ((112) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -413,7 +503,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_L2C_CBC(0..3)_ENA(0..1)
-    title: DTX L2C_CBC(0..3) Mask Register
+    title: DTX L2C_CBC(0..3) Data Enable Register
     address: 0x11800FE000020 + ((0x84 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -443,7 +533,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_LMC(0..3)_ENA(0..1)
-    title: DTX LMC(0..3) Mask Register
+    title: DTX LMC(0..3) Data Enable Register
     address: 0x11800FE000020 + ((0x88 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -473,7 +563,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PEM(0..3)_ENA(0..1)
-    title: DTX PEM(0..3) Mask Register
+    title: DTX PEM(0..3) Data Enable Register
     address: 0x11800FE000020 + ((0xC0 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -503,7 +593,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_OSM_ENA(0..1)
-    title: DTX OSM Mask Register
+    title: DTX OSM Data Enable Register
     address: 0x11800FE000020 | ((220) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -533,7 +623,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ASE_ENA(0..1)
-    title: DTX ASE Mask Register
+    title: DTX ASE Data Enable Register
     address: 0x11800FE000020 | ((221) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -563,7 +653,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_BGX(0..5)_ENA(0..1)
-    title: DTX BGX(0..5) Mask Register
+    title: DTX BGX(0..5) Data Enable Register
     address: 0x11800FE000020 + ((0xE0 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -593,7 +683,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_IOBN_ENA(0..1)
-    title: DTX IOBN Mask Register
+    title: DTX IOBN Data Enable Register
     address: 0x11800FE000020 | ((240) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -623,7 +713,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_IOBP_ENA(0..1)
-    title: DTX IOBP Mask Register
+    title: DTX IOBP Data Enable Register
     address: 0x11800FE000020 | ((244) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
@@ -669,7 +759,7 @@ registers:
 
 
   - name: DTX_BROADCAST_ENA(0..1)
-    title: DTX BROADCAST Mask Register
+    title: DTX BROADCAST Data Enable Register
     address: 0x11800FE7F0020 | a<<3
     bus: RSL
     fields:
@@ -680,7 +770,7 @@ registers:
         typical: 0x0
         description: Reserved.
 
-      - name: MASK
+      - name: ENA
         bits: 35..0
         access: R/W
         reset: 0x0
@@ -688,8 +778,8 @@ registers:
         attributes:
           dv_uvm_cov_val_disable: "True"
         description: |
-          Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-          will drive each bit.
+          Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+          only one block will drive each bit.
 
 
   - name: DTX_BROADCAST_CTL
@@ -742,7 +832,7 @@ registers:
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PKO_ENA(0..1)
-    title: DTX PKO Mask Register
+    title: DTX PKO Data Enable Register
     address: 0x11800FE000020 | ((340) << 15)|a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)

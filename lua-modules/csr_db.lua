@@ -4420,7 +4420,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_ASE_SELX = {
@@ -4487,7 +4487,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_BGXX_SELX = {
@@ -4526,7 +4526,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_BROADCAST_SELX = {
@@ -4585,7 +4585,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_ILA_SELX = {
@@ -4644,7 +4644,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_ILK_SELX = {
@@ -4703,7 +4703,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_IOBN_SELX = {
@@ -4762,7 +4762,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_IOBP_SELX = {
@@ -4829,7 +4829,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_L2C_CBCX_SELX = {
@@ -4898,7 +4898,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_L2C_MCIX_SELX = {
@@ -4967,7 +4967,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_L2C_TADX_SELX = {
@@ -5036,7 +5036,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_LAPX_SELX = {
@@ -5105,7 +5105,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_LMCX_SELX = {
@@ -5117,6 +5117,203 @@ local csr_db = {
             range1_inc = 0x8000,
             range2 = {0,1},
             range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
+        DTX_OCX_LNK_DTXDIDX_BCST_RSP = {
+            name = "DTX_OCX_LNK_DTXDID#_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe180080,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_LNK_DTXDIDX_CTL = {
+            name = "DTX_OCX_LNK_DTXDID#_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe180060,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_LNK_DTXDIDX_DATX = {
+            name = "DTX_OCX_LNK_DTXDID#_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe180040,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_LNK_DTXDIDX_ENAX = {
+            name = "DTX_OCX_LNK_DTXDID#_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe180020,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_LNK_DTXDIDX_SELX = {
+            name = "DTX_OCX_LNK_DTXDID#_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe180000,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
+        DTX_OCX_OLEX_BCST_RSP = {
+            name = "DTX_OCX_OLE#_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe1a0080,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_OLEX_CTL = {
+            name = "DTX_OCX_OLE#_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe1a0060,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_OLEX_DATX = {
+            name = "DTX_OCX_OLE#_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe1a0040,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_OLEX_ENAX = {
+            name = "DTX_OCX_OLE#_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe1a0020,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_OLEX_SELX = {
+            name = "DTX_OCX_OLE#_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe1a0000,
+            range1 = {0,2},
+            range1_inc = 0x8000,
+            range2 = {0,1},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
+        DTX_OCX_TOP_DTXDID_BCST_RSP = {
+            name = "DTX_OCX_TOP_DTXDID_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe088080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_TOP_DTXDID_CTL = {
+            name = "DTX_OCX_TOP_DTXDID_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe088060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_TOP_DTXDID_DATX = {
+            name = "DTX_OCX_TOP_DTXDID_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe088040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_TOP_DTXDID_ENAX = {
+            name = "DTX_OCX_TOP_DTXDID_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe088020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_TOP_DTXDID_SELX = {
+            name = "DTX_OCX_TOP_DTXDID_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe088000,
+            range1 = {0,1},
+            range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_24_63", start = 24, stop = 63},
                 {name = "VALUE", start = 0, stop = 23},
@@ -5166,7 +5363,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_OSM_SELX = {
@@ -5233,7 +5430,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PEMX_SELX = {
@@ -5294,7 +5491,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PKI_PBE_SELX = {
@@ -5353,7 +5550,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PKI_PFE_SELX = {
@@ -5412,7 +5609,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PKO_SELX = {
@@ -5471,7 +5668,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_RAD_SELX = {
@@ -5538,7 +5735,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_USBHX_SELX = {
@@ -5599,7 +5796,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_ZIP_SELX = {
@@ -18989,8 +19186,7 @@ local csr_db = {
                 {name = "RESERVED_11_63", start = 11, stop = 63},
                 {name = "FPA_WAIT", start = 10, stop = 10},
                 {name = "FPA_CAC_DIS", start = 9, stop = 9},
-                {name = "RESERVED_7_8", start = 7, stop = 8},
-                {name = "PKI_FULL", start = 6, stop = 6},
+                {name = "RESERVED_6_8", start = 6, stop = 8},
                 {name = "PKT_OFF", start = 5, stop = 5},
                 {name = "RESERVED_3_4", start = 3, stop = 4},
                 {name = "PBP_EN", start = 2, stop = 2},
@@ -31656,7 +31852,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_AGL_SELX = {
@@ -31693,7 +31889,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_BROADCAST_SELX = {
@@ -31752,7 +31948,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_DFA_SELX = {
@@ -31811,7 +32007,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_DPI_SELX = {
@@ -31870,7 +32066,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_FPA_SELX = {
@@ -31937,7 +32133,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_GMXX_SELX = {
@@ -31998,7 +32194,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_IOB_SELX = {
@@ -32057,7 +32253,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_IPD_SELX = {
@@ -32124,7 +32320,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_L2C_CBCX_SELX = {
@@ -32193,7 +32389,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_L2C_MCIX_SELX = {
@@ -32262,7 +32458,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_L2C_TADX_SELX = {
@@ -32331,7 +32527,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_LMCX_SELX = {
@@ -32392,7 +32588,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_MIO_SELX = {
@@ -32459,7 +32655,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PCSX_SELX = {
@@ -32528,7 +32724,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PEMX_SELX = {
@@ -32589,7 +32785,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PIP_SELX = {
@@ -32648,7 +32844,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_PKO_SELX = {
@@ -32707,7 +32903,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_POW_SELX = {
@@ -32766,7 +32962,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_RST_SELX = {
@@ -32825,7 +33021,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_SATA_SELX = {
@@ -32884,7 +33080,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_SLI_SELX = {
@@ -32943,7 +33139,7 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_TIM_SELX = {
@@ -33010,7 +33206,7 @@ local csr_db = {
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "MASK", start = 0, stop = 35},
+                {name = "ENA", start = 0, stop = 35},
             }
         },
         DTX_USBDRDX_SELX = {

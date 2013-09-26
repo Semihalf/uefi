@@ -155,18 +155,18 @@ registers:
           performance counters.
           HPU_CLCRIP | #HPUs crippled(per cluster)
           -----------+-----------------------------
-          0       |  0      HPU[11:0]:ON
-          1       |  6      HPU[11:6]:OFF  /HPU[5:0]:ON
-          2       |  3      HPU[11:9]:OFF  /HPU[8:0]:ON
-          3       |  9      HPU[11:3]:OFF  /HPU[2:0]:ON
-          4       |  1      HPU[11]:OFF    /HPU[10:0]:ON
-          5       |  8      HPU[11:4]:OFF  /HPU[3:0]:ON
-          6       |  4      HPU[11:8]:OFF  /HPU[7:0]:ON
-          7       |  11     HPU[11:1]:OFF  /HPU[0]:ON
+             0       |  0      HPU[9:0]:ON                   All engines enabled
+             1       |  1      HPU[9]:OFF    /HPU[8:0]:ON    (n-1) engines enabled
+             2       |  3      HPU[9:7]:OFF  /HPU[6:0]:ON    (n-3) engines enabled
+             3       |  4      HPU[9:6]:OFF  /HPU[5:0]:ON    (n-4) engines enabled
+             4       |  5      HPU[9:5]:OFF  /HPU[4:0]:ON    (n-5) engines enabled
+             5       |  6      HPU[9:4]:OFF  /HPU[3:0]:ON    (n-6) engines enabled
+             6       |  8      HPU[9:2]:OFF  /HPU[1:0]:ON    (n-8) engines enabled
+             7       |  9      HPU[9:1]:OFF  /HPU[0]:ON      (n-9) single engine enabled
           NOTE: Higher numbered HPUs are crippled first. For instance,
-          on o78 (with 12 HPUs/cluster), if HPU_CLCRIP=1, then
-          HPU#s [11:6] within the cluster are crippled and only
-          HPU#s [5:0] are available.
+          on o78 (with 10 HPUs/cluster), if HPU_CLCRIP=0x1, then
+          HPU#s [9] within the cluster are crippled and only
+          HPU#s [8:0] are available.
           IMPNOTE: The encodings are done in such a way as to later
           be used with fuses (for future revisions which will disable
           some #of HPUs). Blowing a fuse has the effect that there will
@@ -1279,9 +1279,9 @@ registers:
     description: |
       Description:
       NOTE: To write to the HNA_DBELL register, a device would issue an IOBST directed at the HNA
-      with addr[34:32]=3'b00x.
+      with addr[34:32] = 0x0 or 0x1.
       To read the HNA_DBELL register, a device would issue an IOBLD64 directed at the HNA with
-      addr[34:32]=3'b00x.
+      addr[34:32] = 0x0 or 0x1.
       NOTE: If HNA_CONFIG[HPUCLKDIS]=1 (HNA-HPU clocks disabled), reads/writes to the HNA_DBELL
       register do not take effect.
       NOTE: If FUSE[TBD]="HNA HPU disable" is blown, reads/writes to the HNA_DBELL register do not
@@ -1321,9 +1321,9 @@ registers:
     description: |
       Description:
       NOTE: To write to the HNA_DIFRDPTR register, a device would issue an IOBST directed at the HNA
-      with addr[34:32]=3'b01x.
+      with addr[34:32] = 0x2 or 0x3.
       To read the HNA_DIFRDPTR register, a device would issue an IOBLD64 directed at the HNA with
-      addr[34:32]=3'b01x.
+      addr[34:32] = 0x2 or 0x3.
       NOTE: If HNA_CONFIG[HPUCLKDIS]=1 (HNA-HPU clocks disabled), reads/writes to the HNA_DIFRDPTR
       register do not take effect.
       NOTE: If FUSE[TBD]="HNA HPU disable" is blown, reads/writes to the HNA_DIFRDPTR register do
@@ -1373,9 +1373,9 @@ registers:
     description: |
       Description:
       NOTE: To write to the HNA_DIFCTL register, a device would issue an IOBST directed at the HNA
-      with addr[34:32]=3'b110.
+      with addr[34:32]=0x6.
       To read the HNA_DIFCTL register, a device would issue an IOBLD64 directed at the HNA with
-      addr[34:32]=3'b110.
+      addr[34:32]=0x6.
       NOTE: This register is intended to ONLY be written once (at power-up). Any future writes could
       cause the HNA and FPA HW to become unpredictable.
       NOTE: If HNA_CONFIG[HPUCLKDIS]=1 (HNA-HPU clocks disabled), reads/writes to the HNA_DIFCTL

@@ -4321,7 +4321,7 @@ $DTX_MIO_SEL(0..1)   Address=(0x11800FE000000|((0) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_MIO_ENA = DTX MIO Mask Register
+ * DTX_MIO_ENA = DTX MIO Data Enable Register
  * 
  *  
  * 
@@ -4331,8 +4331,8 @@ $DTX_MIO_ENA(0..1)   Address=(0x11800FE000020|((0) << 15)|a<<3)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:36> NS    --      0x0        0x0        Reserved.                                         
- <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-                                             will drive each bit.
+ <35:0>  ENA   R/W     0x0        0x0        Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                             only one block will drive each bit.
                                              Attribute: -dv_uvm_cov_val_disable=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -4399,7 +4399,7 @@ $DTX_RST_SEL(0..1)   Address=(0x11800FE000000|((6) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_RST_ENA = DTX RST Mask Register
+ * DTX_RST_ENA = DTX RST Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4449,7 +4449,7 @@ $DTX_GMX(0..1)_SEL(0..1)   Address=(0x11800FE000000+((0x08 + (a)*8) << 15)+(b*8)
 
 
  * 
- * DTX_GMX_ENA = DTX GMX(0..1) Mask Register
+ * DTX_GMX_ENA = DTX GMX(0..1) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4499,7 +4499,7 @@ $DTX_FPA_SEL(0..1)   Address=(0x11800FE000000|((40) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_FPA_ENA = DTX FPA Mask Register
+ * DTX_FPA_ENA = DTX FPA Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4549,7 +4549,7 @@ $DTX_DFA_SEL(0..1)   Address=(0x11800FE000000|((55) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_DFA_ENA = DTX DFA Mask Register
+ * DTX_DFA_ENA = DTX DFA Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4599,7 +4599,7 @@ $DTX_L2C_TAD(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x48 + (a)) << 15)+(b*
 
 
  * 
- * DTX_L2C_TAD_ENA = DTX L2C_TAD(0..0) Mask Register
+ * DTX_L2C_TAD_ENA = DTX L2C_TAD(0..0) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4649,7 +4649,7 @@ $DTX_IPD_SEL(0..1)   Address=(0x11800FE000000|((79) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_IPD_ENA = DTX IPD Mask Register
+ * DTX_IPD_ENA = DTX IPD Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4699,7 +4699,7 @@ $DTX_PKO_SEL(0..1)   Address=(0x11800FE000000|((80) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_PKO_ENA = DTX PKO Mask Register
+ * DTX_PKO_ENA = DTX PKO Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4749,7 +4749,7 @@ $DTX_TIM_SEL(0..1)   Address=(0x11800FE000000|((88) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_TIM_ENA = DTX TIM Mask Register
+ * DTX_TIM_ENA = DTX TIM Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4799,7 +4799,7 @@ $DTX_L2C_MCI(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x5c + (a)) << 15)+(b*
 
 
  * 
- * DTX_L2C_MCI_ENA = DTX L2C_MCI(0..0) Mask Register
+ * DTX_L2C_MCI_ENA = DTX L2C_MCI(0..0) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4849,7 +4849,7 @@ $DTX_POW_SEL(0..1)   Address=(0x11800FE000000|((103) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_POW_ENA = DTX POW Mask Register
+ * DTX_POW_ENA = DTX POW Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4899,7 +4899,7 @@ $DTX_USBDRD(0..1)_SEL(0..1)   Address=(0x11800FE000000+((0x68 + (a)) << 15)+(b*8
 
 
  * 
- * DTX_USBDRD_ENA = DTX USBDRD(0..1) Mask Register
+ * DTX_USBDRD_ENA = DTX USBDRD(0..1) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4949,7 +4949,7 @@ $DTX_SATA_SEL(0..1)   Address=(0x11800FE000000|((108) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_SATA_ENA = DTX SATA Mask Register
+ * DTX_SATA_ENA = DTX SATA Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -4999,7 +4999,7 @@ $DTX_L2C_CBC(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x84 + (a)) << 15)+(b*
 
 
  * 
- * DTX_L2C_CBC_ENA = DTX L2C_CBC(0..0) Mask Register
+ * DTX_L2C_CBC_ENA = DTX L2C_CBC(0..0) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5049,7 +5049,7 @@ $DTX_LMC(0..0)_SEL(0..1)   Address=(0x11800FE000000+((0x88 + (a)) << 15)+(b*8)) 
 
 
  * 
- * DTX_LMC_ENA = DTX LMC(0..0) Mask Register
+ * DTX_LMC_ENA = DTX LMC(0..0) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5099,7 +5099,7 @@ $DTX_PIP_SEL(0..1)   Address=(0x11800FE000000|((160) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_PIP_ENA = DTX PIP Mask Register
+ * DTX_PIP_ENA = DTX PIP Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5149,7 +5149,7 @@ $DTX_PCS(0..1)_SEL(0..1)   Address=(0x11800FE000000+((0xB0 + (a)*8) << 15)+(b*8)
 
 
  * 
- * DTX_PCS_ENA = DTX PCS(0..1) Mask Register
+ * DTX_PCS_ENA = DTX PCS(0..1) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5199,7 +5199,7 @@ $DTX_PEM(0..2)_SEL(0..1)   Address=(0x11800FE000000+((0xC0 + (a)) << 15)+(b*8)) 
 
 
  * 
- * DTX_PEM_ENA = DTX PEM(0..2) Mask Register
+ * DTX_PEM_ENA = DTX PEM(0..2) Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5249,7 +5249,7 @@ $DTX_AGL_SEL(0..1)   Address=(0x11800FE000000|((224) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_AGL_ENA = DTX AGL Mask Register
+ * DTX_AGL_ENA = DTX AGL Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5299,7 +5299,7 @@ $DTX_IOB_SEL(0..1)   Address=(0x11800FE000000|((240) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_IOB_ENA = DTX IOB Mask Register
+ * DTX_IOB_ENA = DTX IOB Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5355,7 +5355,7 @@ $DTX_BROADCAST_SEL(0..1)   Address=(0x11800FE7F0000|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_BROADCAST_ENA = DTX BROADCAST Mask Register
+ * DTX_BROADCAST_ENA = DTX BROADCAST Data Enable Register
  * 
  *  
  * 
@@ -5365,8 +5365,8 @@ $DTX_BROADCAST_ENA(0..1)   Address=(0x11800FE7F0020|a<<3)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:36> NS    --      0x0        0x0        Reserved.                                         
- <35:0>  MASK  R/W     0x0        0x0        Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-                                             will drive each bit.
+ <35:0>  ENA   R/W     0x0        0x0        Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                             only one block will drive each bit.
                                              Attribute: -dv_uvm_cov_val_disable=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -5401,7 +5401,7 @@ $DTX_SLI_SEL(0..1)   Address=(0x11800FE000000|((287) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_SLI_ENA = DTX SLI Mask Register
+ * DTX_SLI_ENA = DTX SLI Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  
@@ -5451,7 +5451,7 @@ $DTX_DPI_SEL(0..1)   Address=(0x11800FE000000|((479) << 15)|a<<3)   Bus=(RSL)
 
 
  * 
- * DTX_DPI_ENA = DTX DPI Mask Register
+ * DTX_DPI_ENA = DTX DPI Data Enable Register
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  * 
  *  

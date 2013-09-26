@@ -26,7 +26,7 @@ registers:
 
 
   - name: DTX_MIO_ENA(0..1)
-    title: DTX MIO Mask Register
+    title: DTX MIO Data Enable Register
     address: 0x11800FE000020 | ((0) << 15)|a<<3
     bus: RSL
     fields:
@@ -37,7 +37,7 @@ registers:
         typical: 0x0
         description: Reserved.
 
-      - name: MASK
+      - name: ENA
         bits: 35..0
         access: R/W
         reset: 0x0
@@ -45,8 +45,8 @@ registers:
         attributes:
           dv_uvm_cov_val_disable: "True"
         description: |
-          Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-          will drive each bit.
+          Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+          only one block will drive each bit.
 
 
   - name: DTX_MIO_DAT(0..1)
@@ -143,7 +143,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_RST_ENA(0..1)
-    title: DTX RST Mask Register
+    title: DTX RST Data Enable Register
     address: 0x11800FE000020 | ((6) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -173,7 +173,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_GMX(0..1)_ENA(0..1)
-    title: DTX GMX(0..1) Mask Register
+    title: DTX GMX(0..1) Data Enable Register
     address: 0x11800FE000020 + ((0x08 + (a)*8) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -203,7 +203,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_FPA_ENA(0..1)
-    title: DTX FPA Mask Register
+    title: DTX FPA Data Enable Register
     address: 0x11800FE000020 | ((40) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -233,7 +233,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_DFA_ENA(0..1)
-    title: DTX DFA Mask Register
+    title: DTX DFA Data Enable Register
     address: 0x11800FE000020 | ((55) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -263,7 +263,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_L2C_TAD(0..0)_ENA(0..1)
-    title: DTX L2C_TAD(0..0) Mask Register
+    title: DTX L2C_TAD(0..0) Data Enable Register
     address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -293,7 +293,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_IPD_ENA(0..1)
-    title: DTX IPD Mask Register
+    title: DTX IPD Data Enable Register
     address: 0x11800FE000020 | ((79) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -323,7 +323,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_PKO_ENA(0..1)
-    title: DTX PKO Mask Register
+    title: DTX PKO Data Enable Register
     address: 0x11800FE000020 | ((80) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -353,7 +353,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_TIM_ENA(0..1)
-    title: DTX TIM Mask Register
+    title: DTX TIM Data Enable Register
     address: 0x11800FE000020 | ((88) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -383,7 +383,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_L2C_MCI(0..0)_ENA(0..1)
-    title: DTX L2C_MCI(0..0) Mask Register
+    title: DTX L2C_MCI(0..0) Data Enable Register
     address: 0x11800FE000020 + ((0x5c + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -413,7 +413,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_POW_ENA(0..1)
-    title: DTX POW Mask Register
+    title: DTX POW Data Enable Register
     address: 0x11800FE000020 | ((103) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -443,7 +443,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_USBDRD(0..1)_ENA(0..1)
-    title: DTX USBDRD(0..1) Mask Register
+    title: DTX USBDRD(0..1) Data Enable Register
     address: 0x11800FE000020 + ((0x68 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -473,7 +473,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_SATA_ENA(0..1)
-    title: DTX SATA Mask Register
+    title: DTX SATA Data Enable Register
     address: 0x11800FE000020 | ((108) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -503,7 +503,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_L2C_CBC(0..0)_ENA(0..1)
-    title: DTX L2C_CBC(0..0) Mask Register
+    title: DTX L2C_CBC(0..0) Data Enable Register
     address: 0x11800FE000020 + ((0x84 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -533,7 +533,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_LMC(0..0)_ENA(0..1)
-    title: DTX LMC(0..0) Mask Register
+    title: DTX LMC(0..0) Data Enable Register
     address: 0x11800FE000020 + ((0x88 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -563,7 +563,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_PIP_ENA(0..1)
-    title: DTX PIP Mask Register
+    title: DTX PIP Data Enable Register
     address: 0x11800FE000020 | ((160) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -593,7 +593,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_PCS(0..1)_ENA(0..1)
-    title: DTX PCS(0..1) Mask Register
+    title: DTX PCS(0..1) Data Enable Register
     address: 0x11800FE000020 + ((0xB0 + (a)*8) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -623,7 +623,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_PEM(0..2)_ENA(0..1)
-    title: DTX PEM(0..2) Mask Register
+    title: DTX PEM(0..2) Data Enable Register
     address: 0x11800FE000020 + ((0xC0 + (a)) << 15) + (b*8)
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -653,7 +653,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_AGL_ENA(0..1)
-    title: DTX AGL Mask Register
+    title: DTX AGL Data Enable Register
     address: 0x11800FE000020 | ((224) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -683,7 +683,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_IOB_ENA(0..1)
-    title: DTX IOB Mask Register
+    title: DTX IOB Data Enable Register
     address: 0x11800FE000020 | ((240) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -729,7 +729,7 @@ registers:
 
 
   - name: DTX_BROADCAST_ENA(0..1)
-    title: DTX BROADCAST Mask Register
+    title: DTX BROADCAST Data Enable Register
     address: 0x11800FE7F0020 | a<<3
     bus: RSL
     fields:
@@ -740,7 +740,7 @@ registers:
         typical: 0x0
         description: Reserved.
 
-      - name: MASK
+      - name: ENA
         bits: 35..0
         access: R/W
         reset: 0x0
@@ -748,8 +748,8 @@ registers:
         attributes:
           dv_uvm_cov_val_disable: "True"
         description: |
-          Mask of which bits to drive onto the low/high 36-bit debug buses. Normally only one block
-          will drive each bit.
+          Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+          only one block will drive each bit.
 
 
   - name: DTX_BROADCAST_CTL
@@ -802,7 +802,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_SLI_ENA(0..1)
-    title: DTX SLI Mask Register
+    title: DTX SLI Data Enable Register
     address: 0x11800FE000020 | ((287) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
@@ -832,7 +832,7 @@ registers:
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_DPI_ENA(0..1)
-    title: DTX DPI Mask Register
+    title: DTX DPI Data Enable Register
     address: 0x11800FE000020 | ((479) << 15)|a<<3
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
