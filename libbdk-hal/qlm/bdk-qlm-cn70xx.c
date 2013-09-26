@@ -574,11 +574,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         {
             BDK_CSR_INIT(inf_mode0, node, BDK_GMXX_INF_MODE(0));
             BDK_CSR_INIT(inf_mode1, node, BDK_GMXX_INF_MODE(1));
-            if (inf_mode0.s.en || inf_mode1.s.en)
-            {
-                bdk_error("DLM0 already configured\n");
-                return -1;
-            }
             switch (mode)
             {
                 case BDK_QLM_MODE_RXAUI_1X2:
