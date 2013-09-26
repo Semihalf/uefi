@@ -8,24 +8,16 @@ local set_config = octeon.c.bdk_config_set
 set_config(octeon.CONFIG_PHY_MGMT_PORT0, 3)
 
 -- (Q)SGMII PHY address for interface 0 are 4-7, on SMI1
-set_config(octeon.CONFIG_PHY_IF0_PORT0, 0x1000)
-set_config(octeon.CONFIG_PHY_IF0_PORT1, 0x1000)
-set_config(octeon.CONFIG_PHY_IF0_PORT2, 0x1000)
-set_config(octeon.CONFIG_PHY_IF0_PORT3, 0x1000)
---set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 4)
---set_config(octeon.CONFIG_PHY_IF0_PORT1, 256 + 5)
---set_config(octeon.CONFIG_PHY_IF0_PORT2, 256 + 6)
---set_config(octeon.CONFIG_PHY_IF0_PORT3, 256 + 7)
+set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 4)
+set_config(octeon.CONFIG_PHY_IF0_PORT1, 256 + 5)
+set_config(octeon.CONFIG_PHY_IF0_PORT2, 256 + 6)
+set_config(octeon.CONFIG_PHY_IF0_PORT3, 256 + 7)
 
 -- (Q)SGMII PHY address for interface 1 are 8-11, on SMI1
-set_config(octeon.CONFIG_PHY_IF1_PORT0, 0x1000)
-set_config(octeon.CONFIG_PHY_IF1_PORT1, 0x1000)
-set_config(octeon.CONFIG_PHY_IF1_PORT2, 0x1000)
-set_config(octeon.CONFIG_PHY_IF1_PORT3, 0x1000)
---set_config(octeon.CONFIG_PHY_IF1_PORT0, 256 + 8)
---set_config(octeon.CONFIG_PHY_IF1_PORT1, 256 + 9)
---set_config(octeon.CONFIG_PHY_IF1_PORT2, 256 + 10)
---set_config(octeon.CONFIG_PHY_IF1_PORT3, 256 + 11)
+set_config(octeon.CONFIG_PHY_IF1_PORT0, 256 + 8)
+set_config(octeon.CONFIG_PHY_IF1_PORT1, 256 + 9)
+set_config(octeon.CONFIG_PHY_IF1_PORT2, 256 + 10)
+set_config(octeon.CONFIG_PHY_IF1_PORT3, 256 + 11)
 
 -- RXAUI PHY address is 18, hex 0x12, on SMI1
 -- set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 18)
@@ -77,18 +69,20 @@ local function setup_vitesse_phy(mdio_bus, phy_addr, qsgmii)
     local reg0 = octeon.c.bdk_mdio_read(node, mdio_bus, phy_addr, 0)
     reg0 = bit64.binsert(reg0, 1, 15, 15)
     octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 0, reg0)
-
+    -- Reg 16E3, bit 7 auto negotiation
+    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 3)
+    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 16, 0x80)
+    -- Select main registers
+    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0)
     -- Near end loopback (Octeon side)
     if false then
-    reg0 = octeon.c.bdk_mdio_read(node, mdio_bus, phy_addr, 0)
+        reg0 = octeon.c.bdk_mdio_read(node, mdio_bus, phy_addr, 0)
         reg0 = bit64.binsert(reg0, 1, 14, 14)
         octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 0, reg0)
     end
 
     -- Far end loopback (External side)
     if false then
-        -- Select main registers
-        octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0)
         reg23 = octeon.c.bdk_mdio_read(node, mdio_bus, phy_addr, 23)
         reg23 = bit64.binsert(reg23, 1, 3, 3)
         octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 23, reg23)
