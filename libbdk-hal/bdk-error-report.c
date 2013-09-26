@@ -708,9 +708,6 @@ static void enable_pip_cn70xx(bdk_node_t node)
 static void check_ipd_cn70xx(bdk_node_t node)
 {
     BDK_CSR_INIT(c, node, BDK_IPD_INT_SUM);
-    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, pq_sub);
-    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, pq_add);
-    CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, bc_ovr);
     CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, d_coll);
     CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, c_coll);
     CHECK_CHIP_ERROR(BDK_IPD_INT_SUM, s, cc_ovr);
@@ -725,9 +722,6 @@ static void check_ipd_cn70xx(bdk_node_t node)
 static void enable_ipd_cn70xx(bdk_node_t node)
 {
     BDK_CSR_MODIFY(c, node, BDK_IPD_INT_ENB,
-        c.s.pq_sub = -1;
-        c.s.pq_add = -1;
-        c.s.bc_ovr = -1;
         c.s.d_coll = -1;
         c.s.c_coll = -1;
         c.s.cc_ovr = -1;
