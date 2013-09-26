@@ -44,12 +44,6 @@ end
 
 -- Chip specific configuration prompting for CN70XX
 function qlm_setup_cn70xx()
-    if ((octeon.c.bdk_qlm_get_mode(node, 0) ~= octeon.QLM_MODE_DISABLED) or
-        (octeon.c.bdk_qlm_get_mode(node, 1) ~= octeon.QLM_MODE_DISABLED) or
-        (octeon.c.bdk_qlm_get_mode(node, 2) ~= octeon.QLM_MODE_DISABLED)) then
-        assert(false, "DLMs already configured once. You must reset before reconfig")
-    end
-
     setup_dlmx_ref(0, "e0")
     setup_dlmx_ref(1, "c0")
     setup_dlmx_ref(2, "c0")
