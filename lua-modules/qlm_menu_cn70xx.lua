@@ -27,6 +27,9 @@ end
 
 local function setup_dlm0(mode, speed, flags)
     assert(0 == octeon.c.bdk_qlm_set_mode(node, 0, mode, speed, flags), "Setting DLM0 mode failed")
+    if rawget(_G, "setup_dlm0_hook") then
+        setup_dlm0_hook(mode, speed, flags)
+    end
 end
 
 local function setup_gpio_output(gpio, mode)
