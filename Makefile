@@ -3,6 +3,8 @@ $(error Define BDK_ROOT in the environment)
 endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
+TFTPBOOT?=/tftpboot/
+
 .PHONY: all
 all: version
 	$(MAKE) -C libc
@@ -10,6 +12,12 @@ all: version
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
 	$(BDK_ROOT)/bin/bdk-update-all
+
+#
+# Split docs out from all to allow build to reach tftp when docs fails.
+#
+.PHONY: docs
+docs: all
 	$(MAKE) -C docs
 
 .PHONY: clean
@@ -26,7 +34,8 @@ distclean: clean
 
 .PHONY: tftp
 tftp: all
-	cp target-bin/*.bin /tftpboot/
+	cp target-bin/*.bin $(TFTPBOOT)
+	cp bdk-boot/*.bin   $(TFTPBOOT)
 
 .PHONY: suid
 suid: all
