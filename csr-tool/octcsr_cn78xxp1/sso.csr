@@ -50,6 +50,12 @@ enums:
           cib_rtl_module: "sso_aw"
         description: See SSO_ERR0[AWEMPTY].
 
+      - name: SSO_ERR0_ADDWQ_DROPPED
+        value: 0x67005
+        attributes:
+          cib_rtl_module: "sso_aw"
+        description: See SSO_ERR0[ADDWQ_DROPPED].
+
       - name: SSO_ERR0_WES_SBE
         value: 0x67020
         attributes:
@@ -1183,7 +1189,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Enable single-stepping WS CAM arbiter, once per 16 clocks. For diagnostic use only.
+        description: Enable single-stepping WS CAM arbiter, twice per 16 clocks. For diagnostic use only.
 
       - name: NCBO_STEP_EN
         bits: 2
@@ -1238,11 +1244,18 @@ registers:
     description: This register controls the operation of the get-work examiner (GWE).
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..9
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DIS_WGT_CREDIT
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable group weight credits. When set, groups have infinite weight credit.
 
       - name: WS_RETRIES
         bits: 7..0
@@ -1715,11 +1728,20 @@ registers:
           Single-bit error for WES RAM. Throws SSO_INTSN_E::SSO_ERR0_WES_SBE.
 
       - name: --
-        bits: 31..5
+        bits: 31..6
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: ADDWQ_DROPPED
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Add work dropped due to wrong command/DID requested. Throws
+          SSO_INTSN_E::SSO_ERR0_ADD_WQDROPPED.
 
       - name: AWEMPTY
         bits: 4
@@ -2555,7 +2577,7 @@ registers:
       - name: RSVD_FREE
         bits: 26..16
         access: R/W/H
-        reset: 0x200
+        reset: 0x300
         typical: --
         attributes:
           dv_uvm_force_compare: "True"

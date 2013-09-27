@@ -4495,6 +4495,19 @@ enums:
           reg_name: "SSO_ERR0"
         description: See SSO_ERR0[AWEMPTY].
 
+      - name: SSO_ERR0_ADDWQ_DROPPED
+        value: 0x67005
+        attributes:
+          bit_name: "ADDWQ_DROPPED"
+          bit_num: "5"
+          blk_enum_name: "SSO_INTSN_E"
+          cib_rtl_module: "sso_aw"
+          major_name: "SSO"
+          major_val: "(0x67)"
+          reg_addr: "(0x1670000001240)"
+          reg_name: "SSO_ERR0"
+        description: See SSO_ERR0[ADDWQ_DROPPED].
+
       - name: SSO_ERR0_WES_SBE
         value: 0x67020
         attributes:

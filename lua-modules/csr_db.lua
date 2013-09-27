@@ -25609,7 +25609,8 @@ local csr_db = {
                 {name = "FFF_SBE", start = 34, stop = 34},
                 {name = "WES_DBE", start = 33, stop = 33},
                 {name = "WES_SBE", start = 32, stop = 32},
-                {name = "RESERVED_5_31", start = 5, stop = 31},
+                {name = "RESERVED_6_31", start = 6, stop = 31},
+                {name = "ADDWQ_DROPPED", start = 5, stop = 5},
                 {name = "AWEMPTY", start = 4, stop = 4},
                 {name = "GRPDIS", start = 3, stop = 3},
                 {name = "BFP", start = 2, stop = 2},
@@ -25859,7 +25860,8 @@ local csr_db = {
             width = 8,
             address = 0x1670000001098,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "DIS_WGT_CREDIT", start = 8, stop = 8},
                 {name = "WS_RETRIES", start = 0, stop = 7},
             }
         },
