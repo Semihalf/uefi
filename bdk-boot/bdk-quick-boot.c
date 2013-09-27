@@ -26,17 +26,16 @@ int main(void)
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         board_name = "ebb7800";
-        ddr_clock_hertz = 667000000;
+        ddr_clock_hertz = 400 * 1000000;
     }
     else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         board_name = "evb7000";
-        ddr_clock_hertz = 400000000;
+        ddr_clock_hertz = 666 * 1000000;
     }
     else
     {
-        board_name = "ebb6100";
-        ddr_clock_hertz = 533000000;
+        bdk_fatal("Unsupported chip\n");
     }
 
     /* Prompt the user for a different DRAM frequency than our default. Wait
@@ -66,11 +65,22 @@ int main(void)
     printf("\nUsing DRAM frequency of %d Hz\n", ddr_clock_hertz);
 
     BDK_TRACE("Initialize DRAM\n");
-    bdk_dram_config(board_name, ddr_clock_hertz);
+    int dram_mb = bdk_dram_config(board_name, ddr_clock_hertz);
+    if (dram_mb <= 0)
+        bdk_fatal("DRAM initialization failed\n");
     BDK_TRACE("Unlock L2 after DRAM is setup\n");
     bdk_l2c_flush(bdk_numa_local());
+    printf("Clearing DRAM...\n");
+    uint64_t dram_bytes = (uint64_t)dram_mb << 20;
+    uint64_t start = bdk_l2c_get_cache_size_bytes(bdk_numa_local());
+    uint64_t end = 256 << 20;
+    if (end > dram_bytes)
+        end = dram_bytes;
+    bdk_zero_memory(bdk_phys_to_ptr(start), end - start);
+    if (dram_bytes > end)
+        bdk_zero_memory(bdk_phys_to_ptr(512<<20), dram_bytes - (256<<20));
 
-    BDK_TRACE("Searching for next image...\n");
+    printf("Searching for next image...\n");
     /* Find Uboot */
     void *image = bdk_phys_to_ptr((1ull<<48) | 0xfc00000);
     int image_size = 0;
@@ -104,7 +114,7 @@ int main(void)
         }
         BDK_TRACE("Saving environment\n");
         bdk_write_env();
-        BDK_TRACE("Jumping into image\n");
+        printf("Jumping into image\n");
         return bdk_jump_address(0xffffffff80400000);
     }
     else
