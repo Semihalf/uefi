@@ -142,7 +142,7 @@ void __bdk_init(long base_address)
         {
             if (BDK_SHOW_BOOT_BANNERS)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);
-            bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_num_sets(node) * bdk_l2c_get_num_assoc(node) * BDK_CACHE_LINE_SIZE);
+            bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));

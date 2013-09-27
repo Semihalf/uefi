@@ -95,7 +95,7 @@ void bdk_l2c_flush(bdk_node_t node)
         for(int assoc=0; assoc < n_assoc; assoc++)
         {
             uint64_t address = (1ull<<63) | (assoc << assoc_shift) | (set << set_shift);
-            BDK_CACHE_WBIL2I(address, 0);
+            BDK_CACHE_WBIL2(address, 0);
         }
     }
 }
