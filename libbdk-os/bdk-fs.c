@@ -405,7 +405,14 @@ int bdk_jump_address(uint64_t paddress)
         errno = EBADF;
         return -1;
     }
-    return ptr();
+    asm volatile (
+        ".set push\n"
+        ".set noreorder\n"
+        "j       %0\n"
+        "cache   0, ($0)\n"
+        ".set pop\n"
+        : : "d" (ptr) : "memory");
+    return 0; // Not reached
 }
 
 /**
