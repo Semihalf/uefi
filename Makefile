@@ -34,8 +34,8 @@ distclean: clean
 
 .PHONY: tftp
 tftp: all
+	cp bdk-boot/bdk-quick-boot.bin $(TFTPBOOT)
 	cp target-bin/*.bin $(TFTPBOOT)
-	cp bdk-boot/*.bin   $(TFTPBOOT)
 
 .PHONY: suid
 suid: all
