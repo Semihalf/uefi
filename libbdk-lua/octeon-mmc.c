@@ -330,6 +330,20 @@ static int mmc_init(lua_State *L)
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     bdk_wait_usec(200000);
 
+    // Disable buses and reset device using GPIO8
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
+    BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(8),
+                   c.s.tx_oe = 1);
+    bdk_wait_usec(1000);
+
+    BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, 1<<8);
+
+    bdk_wait_usec(200000);
+
+    BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, 1<<8);
+
+    bdk_wait_usec(2000);
+
     // Enable bus 1
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x1);
 
