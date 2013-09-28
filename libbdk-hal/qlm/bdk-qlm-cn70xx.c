@@ -92,6 +92,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 case 0: /* PCIe0 can be DLM1 with 1, 2, or 4 lanes */
                     if ((qlm_mode1 == BDK_QLM_MODE_PCIE_1X4) || /* Using DLM 1-2 */
                         (qlm_mode1 == BDK_QLM_MODE_PCIE_1X2) || /* Using DLM 1 */
+                        (qlm_mode1 == BDK_QLM_MODE_PCIE_2X1) || /* Using DLM 1, lane 0 */
                         (qlm_mode1 == BDK_QLM_MODE_PCIE_1X1)) /* Using DLM 1, lane 0. Lane 1 not used */
                         return 1;
                     else
@@ -524,31 +525,78 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     // appropriate bits based on the configuration (reset is active high).
     if (qlm == 1)
     {
-        /* PEM0 always on */
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
-        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
-        /* PEM1 on lane 2 if mode is 2x1 */
-        int pem1 = (mode == BDK_QLM_MODE_PCIE_2X1);
-        if (pem1)
+        switch (mode)
         {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
+            case BDK_QLM_MODE_PCIE_1X4: /* PEM0 on DLM1 & DLM2 */
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
+                    c.cn70xx.hostmd = root;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_4LANE : PEM_CFG_MD_GEN1_4LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
+                break;
+            case BDK_QLM_MODE_PCIE_1X2: /* PEM0 on DLM1 */
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
+                    c.cn70xx.hostmd = root;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_2LANE : PEM_CFG_MD_GEN1_2LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
+                break;
+            case BDK_QLM_MODE_PCIE_2X1: /* PEM0 and PEM1 on DLM1 */
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
+                    c.cn70xx.hostmd = root;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
+                    c.cn70xx.hostmd = 1;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
+                break;
+            case BDK_QLM_MODE_PCIE_1X1: /* PEM0 on DLM1 using lane 0 */
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
+                    c.cn70xx.hostmd = root;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
+                break;
+            default:
+                break;
         }
     }
     else
     {
-        int pem1 = ((mode == BDK_QLM_MODE_PCIE_2X1) || /* PEM1 on lane 4, PEM2 on lane 5 */
-                    (mode == BDK_QLM_MODE_PCIE_1X2));  /* PEM1 on lane 4-5 */
-        int pem2 = (mode == BDK_QLM_MODE_PCIE_2X1);
-        if (pem1)
+        switch (mode)
         {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
-        }
-        if (pem2)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe2_rst = 0);
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2), c.s.pemon = 1);
+            case BDK_QLM_MODE_PCIE_1X2: /* PEM1 on DLM2 */
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
+                    c.cn70xx.hostmd = 1;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_2LANE : PEM_CFG_MD_GEN1_2LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
+                break;
+            case BDK_QLM_MODE_PCIE_2X1: /* PEM1 and PEM 2 on DLM2 */
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
+                    c.cn70xx.hostmd = 1;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
+                    c.cn70xx.hostmd = 1;
+                    c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
+                BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(2), c.s.rst_drv = 1);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe2_rst = 0);
+                BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2), c.s.pemon = 1);
+                break;
+            default:
+                break;
         }
     }
     return 0;
@@ -568,6 +616,8 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
+    int gen2 = flags&BDK_QLM_MODE_FLAG_GEN2;
+    int rc = !(flags&BDK_QLM_MODE_FLAG_ENDPOINT);
     switch (qlm)
     {
         case 0:
@@ -644,35 +694,18 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
         case 1:
         {
-            BDK_CSR_INIT(pem_cfg0, node, BDK_PEMX_CFG(0));
-            BDK_CSR_INIT(pem_cfg1, node, BDK_PEMX_CFG(1));
             switch (mode)
             {
-                case BDK_QLM_MODE_PCIE_1X4:
-                    /* DLM0+DLM1 is PCIE0 */
-                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_4LANE : PEM_CFG_MD_GEN2_4LANE;
-                    if (dlmx_setup_pcie(node, 1, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                case BDK_QLM_MODE_PCIE_1X4: /* PEM0 on DLM1 & DLM2 */
+                    if (dlmx_setup_pcie(node, 1, mode, gen2, rc))
                         return -1;
-                    if (dlmx_setup_pcie(node, 2, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                    if (dlmx_setup_pcie(node, 2, mode, gen2, rc))
                         return -1;
                     break;
-                case BDK_QLM_MODE_PCIE_1X2:
-                    /* DLM0 is PCIE0 */
-                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_2LANE : PEM_CFG_MD_GEN2_2LANE;
-                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
-                        return -1;
-                    break;
-                case BDK_QLM_MODE_PCIE_2X1:
-                    /* DLM0 is PCIE0+PCIE1 */
-                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
-                    pem_cfg1.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
-                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
-                        return -1;
-                    break;
-                case BDK_QLM_MODE_PCIE_1X1:
-                    /* DLM0+DLM1 is PCIE0 */
-                    pem_cfg0.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
-                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                case BDK_QLM_MODE_PCIE_1X2: /* PEM0 on DLM1 */
+                case BDK_QLM_MODE_PCIE_2X1: /* PEM0 & PEM1 on DLM1 */
+                case BDK_QLM_MODE_PCIE_1X1: /* PEM0 on DLM1, only one lane */
+                    if (dlmx_setup_pcie(node, qlm, mode, gen2, rc))
                         return -1;
                     break;
                 case BDK_QLM_MODE_DISABLED:
@@ -681,17 +714,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     bdk_error("DLM1 illegal mode specified\n");
                     return -1;
             }
-            // FIXME: Lane swap?
-            pem_cfg0.cn70xx.hostmd = (flags&BDK_QLM_MODE_FLAG_ENDPOINT) ? 0 : 1;
-            pem_cfg1.cn70xx.hostmd = 1; /* PEM1 doesn't support EP mode */
-            BDK_CSR_WRITE(node, BDK_PEMX_CFG(0), pem_cfg0.u);
-            BDK_CSR_WRITE(node, BDK_PEMX_CFG(1), pem_cfg1.u);
             return 0;
         }
         case 2:
         {
-            BDK_CSR_INIT(pem_cfg1, node, BDK_PEMX_CFG(1));
-            BDK_CSR_INIT(pem_cfg2, node, BDK_PEMX_CFG(2));
             switch (mode)
             {
                 case BDK_QLM_MODE_SATA_2X1:
@@ -703,17 +729,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     /* DLM2 is PCIE0. PCIE1-2 are disabled */
                     /* Do nothing as setup was done with DLM 1 */
                     break;
-                case BDK_QLM_MODE_PCIE_1X2:
-                    /* DLM2 is PCIE1. PCIE2 is disabled */
-                    pem_cfg1.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_2LANE : PEM_CFG_MD_GEN2_2LANE;
-                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
-                        return -1;
-                    break;
-                case BDK_QLM_MODE_PCIE_2X1:
-                    /* DLM2 is PCIE1 and PCIE2 */
-                    pem_cfg1.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
-                    pem_cfg2.cn70xx.md = (flags&BDK_QLM_MODE_FLAG_GEN1) ? PEM_CFG_MD_GEN1_1LANE : PEM_CFG_MD_GEN2_1LANE;
-                    if (dlmx_setup_pcie(node, qlm, mode, flags&BDK_QLM_MODE_FLAG_GEN2, !(flags&BDK_QLM_MODE_FLAG_ENDPOINT)))
+                case BDK_QLM_MODE_PCIE_1X2: /* PEM1 on DLM2 */
+                case BDK_QLM_MODE_PCIE_2X1: /* PEM1 & PEM2 on DLM2 */
+                    if (dlmx_setup_pcie(node, qlm, mode, gen2, rc))
                         return -1;
                     break;
                 case BDK_QLM_MODE_DISABLED:
@@ -722,11 +740,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     bdk_error("DLM2 illegal mode specified\n");
                     return -1;
             }
-            // FIXME: Lane swap?
-            pem_cfg1.cn70xx.hostmd = 1; /* PEM1 doesn't support EP mode */
-            pem_cfg2.cn70xx.hostmd = 1; /* PEM1 doesn't support EP mode */
-            BDK_CSR_WRITE(node, BDK_PEMX_CFG(1), pem_cfg1.u);
-            BDK_CSR_WRITE(node, BDK_PEMX_CFG(2), pem_cfg2.u);
             return 0;
         }
         default:
