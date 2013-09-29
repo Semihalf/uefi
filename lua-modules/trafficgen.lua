@@ -672,8 +672,24 @@ function TrafficGen.new()
         return tab
     end
 
+    function self:get_stats()
+        local stats = do_update(false)
+        local result = {}
+        for _,port in ipairs(default_ports) do
+            result[port] = stats[port]
+        end
+        return result
+    end
+
     -- Run traffic gen interactively
     function self:run()
+        printf(SCROLL_FULL .. GOTO_BOTTOM)
+        printf("\n\nBDK Traffic Generator\n\n")
+        printf("Type \"help\" for a list of commands\n")
+        octeon.c.bdk_init_nodes();
+        -- Allow the user to do some trafficgen specific customization. First argument
+        -- is trafficgen, so the script can add/remove comamnds or modify trafficgen.
+        utils.run("autorun-trafficgen", self)
         local tab = self:build_tab()
         is_running = true
         while is_running do
@@ -705,15 +721,5 @@ function TrafficGen.new()
 
     return self
 end
-
-printf(SCROLL_FULL .. GOTO_BOTTOM)
-printf("\n\nBDK Traffic Generator\n\n")
-printf("Type \"help\" for a list of commands\n")
-octeon.c.bdk_init_nodes();
-local tg = TrafficGen.new()
--- Allow the user to do some trafficgen specific customization. First argument
--- is trafficgen, so the script can add/remove comamnds or modify trafficgen.
-utils.run("autorun-trafficgen", tg)
-tg:run()
 
 return TrafficGen

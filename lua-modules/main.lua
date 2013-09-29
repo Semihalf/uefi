@@ -28,6 +28,12 @@ end
 -- Allow the user to do some board specific customization
 utils.run("autorun-board")
 
+local function do_trafficgen()
+    local trafficgen = require("trafficgen")
+    local tg = trafficgen.new()
+    return tg:run()
+end
+
 local m = menu.new("Main Menu")
 m:item("config","Configuration options",    menu.dofile, "config_menu")
 m:item("file",  "File options",             menu.dofile, "file")
@@ -41,7 +47,7 @@ m:item("mpi",   "SPI/MPI options",          menu.dofile, "mpi_menu")
 m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 if octeon.trafficgen then
-    m:item("tg",    "Traffic Generator",    menu.dofile, "trafficgen")
+    m:item("tg",    "Traffic Generator",    do_trafficgen)
 end
 m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon, 0)
 if octeon.global then
