@@ -78,8 +78,8 @@ all_pass = all_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 65524, 1000, 100)
 --
 -- MMC Tests
 --
-local capacity = octeon.mmc.init()
-if capacity > 0 then
+local status, capacity = pcall(octeon.mmc.init)
+if status and (capacity > 0) then
     print("MMC Init test: PASS")
 else
     print("MMC capacity", capacity)
@@ -107,8 +107,6 @@ end
 print("")
 if all_pass then
     print("All tested summary: PASS")
-else
-    print("All tested summary: FAIL")
 end
 print("")
 
