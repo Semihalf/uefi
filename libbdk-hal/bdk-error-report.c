@@ -162,6 +162,7 @@ static void enable_pem_cn70xx(bdk_node_t node, int index)
         c.s.pmei = -1;
         c.s.se = -1;
         c.s.aeri = -1);
+#if 0 // Conditionally clocked?
     BDK_CSR_MODIFY(c, node, BDK_PEMX_DBG_INFO_EN(index),
         c.cn70xx.tpcdbe1 = -1;
         c.cn70xx.tpcsbe1 = -1;
@@ -209,6 +210,7 @@ static void enable_pem_cn70xx(bdk_node_t node, int index)
         c.s.rtlplle = -1;
         c.s.rtlpmal = -1;
         c.s.spoison = -1);
+#endif
 }
 
 static void check_ptp_cn70xx(bdk_node_t node)
