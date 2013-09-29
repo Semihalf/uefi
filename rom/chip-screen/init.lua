@@ -10,6 +10,9 @@ print("Copyright (C) 2013 Cavium Networks")
 print("Version ".. require("bdk-version"))
 print("")
 
+
+local coremask = menu.prompt_number("Coremask: ", 0xf)
+
 -- Do board specific setup
 if octeon.is_model(octeon.CN70XX) then
     menu.dofile("screen-evb7000")
@@ -17,9 +20,11 @@ elseif octeon.is_model(octeon.CN78XX) then
     menu.dofile("screen-ebb7800")
 end
 
--- Go multicore
--- octeon.c.bdk_init_nodes();
-octeon.c.bdk_init_cores(0, 0x1);
+
+
+-- Go multicore, based on coremask provided by script.
+printf("Using coremask: 0x%x\n", coremask)
+octeon.c.bdk_init_cores(0, coremask)
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
     print("")
