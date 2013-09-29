@@ -102,6 +102,10 @@ int bdk_dram_config_raw(const ddr_config_table_t *ddr_config_table, int ddr_cloc
         return -1;
     }
 
+    /* Clear any DRAM errors set during init */
+    cvmx_write_csr(CVMX_CIU_CIB_LMCX_RAWX(0,0), cvmx_read_csr(CVMX_CIU_CIB_LMCX_RAWX(0,0)));
+    cvmx_write_csr(CVMX_LMCX_INT(0), cvmx_read_csr(CVMX_LMCX_INT(0)));
+
     /* Store the amount of memory in the environment */
     char buffer[8];
     snprintf(buffer, sizeof(buffer), "%d", mbytes);

@@ -145,6 +145,13 @@ void __bdk_init(long base_address)
             bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
+            if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            {
+                BDK_CSR_DEFINE(ciu_cib_l2c_rawx, BDK_CIU_CIB_L2C_RAWX(0));
+                ciu_cib_l2c_rawx.u64 = 0;
+                ciu_cib_l2c_rawx.s.tadx_int_rddislmc = 1;
+                BDK_CSR_WRITE(node, BDK_CIU_CIB_L2C_RAWX(0), ciu_cib_l2c_rawx.u64);
+            }
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
             l2c_tadx_int.u64 = 0;
             l2c_tadx_int.s.rddislmc = 1;
