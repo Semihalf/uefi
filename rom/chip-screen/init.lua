@@ -18,9 +18,10 @@ elseif octeon.is_model(octeon.CN78XX) then
 end
 
 -- Go multicore
-octeon.c.bdk_init_nodes();
+-- octeon.c.bdk_init_nodes();
+octeon.c.bdk_init_cores(0, 0x1);
 
-local function tg_run(tg, ports, size, count, rate)
+local function tg_run(tg, ports, size, count, rate, to_secs)
     print("")
     tg:command("default %s" % ports)
     tg:command("clear all")
@@ -28,7 +29,7 @@ local function tg_run(tg, ports, size, count, rate)
     tg:command("count %d" % count)
     tg:command("tx_percent %d" % rate)
     tg:command("start")
-    octeon.c.bdk_wait_usec(2000000)
+    octeon.c.bdk_wait_usec(to_secs * 1000000)
     tg:command("rx_octets_total")
     local stats = tg:get_stats()
     local ports_pass = true
@@ -53,28 +54,6 @@ local function tg_run(tg, ports, size, count, rate)
 end
 
 local all_pass = true
-
---
--- Network Traffic Tests
---
-
-local trafficgen = require("trafficgen")
-local tg = trafficgen.new()
--- Wait for PHY link messages
-octeon.c.bdk_wait_usec(5000000)
-
-all_pass = all_pass and tg_run(tg, "LOOP0-LOOP3", 60, 10000, 1000)
-all_pass = all_pass and tg_run(tg, "LOOP0-LOOP3", 1500, 10000, 1000)
-all_pass = all_pass and tg_run(tg, "LOOP0-LOOP3", 65524, 10000, 1000)
-
-all_pass = all_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 60, 10000, 100)
-all_pass = all_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 1500, 10000, 100)
-all_pass = all_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 65524, 1000, 100)
-
-all_pass = all_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 60, 10000, 100)
-all_pass = all_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 1500, 10000, 100)
-all_pass = all_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 65524, 1000, 100)
-
 --
 -- MMC Tests
 --
@@ -100,6 +79,32 @@ if rc then
 else
     print("PCIe init: FAIL")
 end
+
+
+--
+-- Network Traffic Tests
+--
+local tg_pass = true
+local trafficgen = require("trafficgen")
+local tg = trafficgen.new()
+-- Wait for PHY link messages while testing loop ports
+tg_pass = tg_run(tg, "LOOP0-LOOP3", 60, 10000, 1000, 2)
+tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 1500, 10000, 1000, 2)
+tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 65524, 10000, 1000, 4)
+all_pass = all_pass and tg_pass
+-- octeon.c.bdk_wait_usec(5000000)
+
+
+tg_pass = tg_run(tg, "SGMII0.0-SGMII0.3", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 65524, 1000, 100, 2)
+all_pass = all_pass and tg_pass
+
+tg_pass = tg_run(tg, "SGMII1.0-SGMII1.3", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 65524, 1000, 100, 2)
+all_pass = all_pass and tg_pass
+
 
 --
 -- Summary
