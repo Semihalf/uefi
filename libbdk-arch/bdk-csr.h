@@ -78,9 +78,9 @@ static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int bu
                 case 1:
                     return *(volatile uint8_t *)address;
                 case 2:
-                    return *(volatile uint16_t *)address;
+                    return bdk_le16_to_cpu(*(volatile uint16_t *)address);
                 case 4:
-                    return *(volatile uint32_t *)address;
+                    return bdk_le32_to_cpu(*(volatile uint32_t *)address);
                 default:
                     return *(volatile uint64_t *)address;
             }
@@ -120,10 +120,10 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
                     *(volatile uint8_t *)address = value;
                     break;
                 case 2:
-                    *(volatile uint16_t *)address = value;
+                    *(volatile uint16_t *)address = bdk_cpu_to_le16(value);
                     break;
                 case 4:
-                    *(volatile uint32_t *)address = value;
+                    *(volatile uint32_t *)address = bdk_cpu_to_le32(value);
                     break;
                 default:
                     *(volatile uint64_t *)address = value;

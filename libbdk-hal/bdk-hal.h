@@ -53,7 +53,6 @@
 #include "bdk-pcie-eeprom.h"
 #include "bdk-qlm.h"
 #include "bdk-rng.h"
-#include "bdk-swap.h"
 #include "bdk-twsi.h"
 #include "bdk-access-native.h"
 

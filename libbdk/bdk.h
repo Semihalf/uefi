@@ -19,8 +19,6 @@
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"
 #include "bdk-functions.h"
-#else
-#include "../libbdk-hal/bdk-swap.h"
 #endif
 #include "../libbdk-lua/bdk-lua.h"
 
