@@ -492,8 +492,10 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
     //      1 = PEM1 is tied to DLM2 (for all other PCIe modes).
     if (qlm == 1)
     {
+        /* cfg_pem1_dlm2 is only set when in 3x1. It is not set when
+            PEM1 is x2 in DLM2. Confusing */
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_PORT_SEL(0),
-            c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_2X1) ? 0 : 1;
+            c.s.cfg_pem1_dlm2 = (mode == BDK_QLM_MODE_PCIE_1X1) ? 1 : 0;
             c.s.pipe_port_sel =
                 (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
                 (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
@@ -532,6 +534,7 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                     c.cn70xx.hostmd = root;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_4LANE : PEM_CFG_MD_GEN1_4LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                /* PEM0 is on DLM1&2, which is pipe0 */
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
                 break;
@@ -540,6 +543,7 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                     c.cn70xx.hostmd = root;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_2LANE : PEM_CFG_MD_GEN1_2LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                /* PEM0 is on DLM1&2, which is pipe0 */
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
                 break;
@@ -548,12 +552,14 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                     c.cn70xx.hostmd = root;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                /* PEM0 is on DLM1, which is pipe0 */
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
                     c.cn70xx.hostmd = 1;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1), c.s.rst_drv = 1);
+                /* PEM1 is on DLM2, which is pipe1 */
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
                 break;
@@ -562,6 +568,7 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                     c.cn70xx.hostmd = root;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0), c.s.rst_drv = 1);
+                /* PEM0 is on DLM1 lane 0, which is pipe0 */
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe0_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0), c.s.pemon = 1);
                 break;
@@ -578,6 +585,7 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                     c.cn70xx.hostmd = 1;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_2LANE : PEM_CFG_MD_GEN1_2LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1), c.s.rst_drv = 1);
+                /* PEM1 is on DLM2 lane 0, which is pipe1 */
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
                 break;
@@ -586,13 +594,15 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                     c.cn70xx.hostmd = 1;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(1), c.s.rst_drv = 1);
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe1_rst = 0);
+                /* PEM1 is on DLM2 lane 0, which is pipe2 */
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe2_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1), c.s.pemon = 1);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
                     c.cn70xx.hostmd = 1;
                     c.s.md = gen2 ? PEM_CFG_MD_GEN2_1LANE : PEM_CFG_MD_GEN1_1LANE);
                 BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(2), c.s.rst_drv = 1);
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe2_rst = 0);
+                /* PEM2 is on DLM2 lane 1, which is pipe3 */
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_PCIE_PIPE_RST(0), c.s.pipe3_rst = 0);
                 BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2), c.s.pemon = 1);
                 break;
             default:
