@@ -220,9 +220,9 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
                     return c;
                 }
                 case 2:
-                    return octeon_remote_read_mem16(address);
+                    return bdk_be16_to_cpu(octeon_remote_read_mem16(address));
                 case 4:
-                    return octeon_remote_read_mem32(address);
+                    return bdk_be32_to_cpu(octeon_remote_read_mem32(address));
                 default:
                     return octeon_remote_read_mem64(address);
             }
@@ -263,10 +263,10 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
                     break;
                 }
                 case 2:
-                    octeon_remote_write_mem16(address, value);
+                    octeon_remote_write_mem16(address, bdk_cpu_to_be16(value));
                     break;
                 case 4:
-                    octeon_remote_write_mem32(address, value);
+                    octeon_remote_write_mem32(address, bdk_cpu_to_be32(value));
                     break;
                 default:
                     octeon_remote_write_mem64(address, value);
