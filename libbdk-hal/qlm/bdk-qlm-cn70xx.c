@@ -500,7 +500,7 @@ static int dlmx_setup_pcie(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int g
                 (mode == BDK_QLM_MODE_PCIE_1X4) ? 1 : /* PEM0 only */
                 (mode == BDK_QLM_MODE_PCIE_1X2) ? 2 : /* PEM0-1 */
                 (mode == BDK_QLM_MODE_PCIE_1X1) ? 3 : /* PEM0-2 */
-                (mode == BDK_QLM_MODE_PCIE_2X1) ? 2 : /* PEM0-1 */
+                (mode == BDK_QLM_MODE_PCIE_2X1) ? 3 : /* PEM0-1, needs 4 pipe mode */
                 0); /* PCIe disabled */
     }
 
