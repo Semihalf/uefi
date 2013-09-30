@@ -161,6 +161,7 @@ registers:
     address: 0x1180021000018 + a*0x1000000
     bus: RSL
     attributes:
+      dv_fc_scratch: "ALL"
       exempt_natural_alignment: "a"
     fields:
       - name: --

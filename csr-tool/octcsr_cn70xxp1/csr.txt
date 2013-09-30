@@ -102,6 +102,7 @@ happen that's when OVRERR will assert.
  * AGL_GMX_RX_INT_EN = Interrupt Enable
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $AGL_GMX_RX(0..0)_INT_EN   Address=(0x11800E0000008+a*0x800)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -1957,6 +1958,7 @@ $BCH_CTL   Address=(0x1180071000000)   Bus=(RSL)
  * BCH_CMD_BUF = Command Buffer Register
  * 
  *  This register sets the command-buffer parameters.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $BCH_CMD_BUF   Address=(0x1180071000008)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -3571,6 +3573,7 @@ $DPI_INT_REG   Address=(0x1DF0000000008)   Bus=(NCB)
  * DPI_INT_EN
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $DPI_INT_EN   Address=(0x1DF0000000010)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -5517,6 +5520,7 @@ $DTX_DPI_BCST_RSP   Address=(0x11800FEEF8080)   Bus=(RSL)
  *  for Queue 0. The value of FPF_RD and FPF_WR should have at least a 33 difference. Recommend
  *  value
  *  is FPF_RD == (FPA_FPF#_SIZE[FPF_SIZ] * .25) and FPF_WR == (FPA_FPF#_SIZE[FPF_SIZ] * .75)"
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $FPA_FPF0_MARKS   Address=(0x1180028000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -6590,6 +6594,7 @@ happen that's when OVRERR will assert.
  * GMX_RX_INT_EN = Interrupt Enable
  * 
  *  
+ *  Attribute: -dv_fc_scratch=a.
  *  Attribute: -exempt_natural_alignment=a.
  * 
 $GMX(0..1)_RX(0..3)_INT_EN   Address=(0x1180008000008+a*0x8000000+b*0x800)   Bus=(RSL)
@@ -9396,7 +9401,7 @@ $GSER(0)_DLM(0)_REF_SSP_EN   Address=(0x1180090001048+a+b)   Bus=(RSL)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  NS         RAZ     NS         NS         Reserved.                                         
- <0>     REF_SSP_EN R/W     0x1        NS         This signal should always be set.                 
+ <0>     REF_SSP_EN R/W     0x0        NS         Enables the PHY's internal reference clock.       
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -9759,6 +9764,7 @@ $GSER(0)_DLM(0)_TX_RESET   Address=(0x1180090003038+a+b)   Bus=(RSL)
  * GSER_DLM_TX_TERM_OFFSET = GSER DLM Transmit Term Offset Register
  * 
  *  DLM Transmitter Termination Offset.
+ *  Attribute: -dv_fc_scratch=a.
  * 
 $GSER(0)_DLM(0..2)_TX_TERM_OFFSET   Address=(0x1180090003040+a+b*0x80000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -11117,6 +11123,7 @@ $INTSN_ALL_E
  *  FAU Timeout = Fetch and Add Unit Tag-Switch Timeout
  *  How many clokc ticks the FAU unit will wait for a tag-switch before timeing out.
  *  for Queue 0.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $IOB_FAU_TIMEOUT   Address=(0x11800F0000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -11755,6 +11762,7 @@ $IOB_CHIP_CUR_PWR   Address=(0x11800F0000828)   Bus=(RSL)
  * IPD_1ST_MBUFF_SKIP = IPD First MBUFF Word Skip Size
  * 
  *  The number of words that the IPD will skip when writing the first MBUFF.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $IPD_1ST_MBUFF_SKIP   Address=(0x14F0000000000)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -13970,6 +13978,7 @@ $L2C_INV(0..0)_PFC   Address=(0x1180080800820+a*0x40)   Bus=(RSL)
  * L2C_IOC_PFC = Level 2 Cache IOC Performance Counter Register
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $L2C_IOC(0)_PFC   Address=(0x1180080800828+a*0x40)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -16379,6 +16388,7 @@ $LMC(0..0)_CHAR_CTL   Address=(0x1180088000220|a<<24)   Bus=(RSL)
  * 
  *  This register provides an assortment of various control fields needed to characterize the DDR3
  *  interface.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $LMC(0..0)_CHAR_MASK0   Address=(0x1180088000228|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -18553,6 +18563,7 @@ $MIO_PTP_CKOUT_HI_INCR   Address=(0x1070000000F40)   Bus=(NCB)
  * MIO_PTP_CKOUT_LO_INCR = PTP Clock Out Lo Increment
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $MIO_PTP_CKOUT_LO_INCR   Address=(0x1070000000F48)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -22426,6 +22437,7 @@ $MIO_FUS_RCMD   Address=(0x1180000001500)   Bus=(RSL)
  * MIO_FUS_WADR = MIO Fuse Read Command Register
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $MIO_FUS_WADR   Address=(0x1180000001508)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -22607,9 +22619,9 @@ $MIO_FUS_PLL   Address=(0x1180000001580)   Bus=(RSL)
  Pos     Name         Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:15> NS           RAZ     NS         NS         Reserved.                                         
- <14:12> CORE_STATUS  RO      NS         NS         Core clock PLL status information.                
+ <14:12> CORE_STATUS  RO/H    NS         NS         Core clock PLL status information.                
  <11>    NS           RAZ     NS         NS         Reserved.                                         
- <10:8>  PNR_STATUS   RO      NS         NS         PNR clock PLL status information.                 
+ <10:8>  PNR_STATUS   RO/H    NS         NS         PNR clock PLL status information.                 
  <7>     C_COUT_RST   R/W     0x0        NS         Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
                                                     least 10 ref-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
                                                     should remain under reset for at least 10 ref-clock cycles after C_COUT_SEL changes.
@@ -22818,6 +22830,7 @@ $NDF_INT   Address=(0x1070001000020)   Bus=(NCB)
  * NDF_INT_EN
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $NDF_INT_EN   Address=(0x1070001000028)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -28575,6 +28588,7 @@ $PCS(0..1)_LOG_ANL(0..3)_REG   Address=(0x11800B0001090+a*0x8000000+b*0x400)   B
  * 
  *  PCS SERDES Credit Count
  *  INTERNAL: Do not add this register to the HRM
+ *  Attribute: -dv_fc_scratch=a.
  * 
 $PCS(0..1)_SERDES_CRDT_CNT(0..3)_REG   Address=(0x11800B00010A0+a*0x8000000+b*0x400)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -29044,6 +29058,7 @@ documented.
  * 
  *  PCSX SERDES Credit Count
  *  INTERNAL: Do not add this register to the HRM
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $PCSX(0..1)_SERDES_CRDT_CNT_REG   Address=(0x11800B0000880+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -30030,6 +30045,7 @@ algorithm decides to drop a packet, PIP will assert an interrupt."
  * 
  *  Determines if hardward should raise an interrupt to software
  *  when an exception event occurs.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $PIP_INT_EN   Address=(0x11800A0000010)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -31836,6 +31852,7 @@ See the descriptions of PKO_MEM_QUEUE_PTRS for further explanation of queue prog
  * PKO_REG_PREEMPT
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $PKO_REG_PREEMPT   Address=(0x1180050000110)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -33038,6 +33055,7 @@ $POW_DS_PC   Address=(0x1670000000398)   Bus=(NCB)
  * POW_IQ_THR
  * 
  *  Threshold value for triggering input queue interrupts.
+ *  Attribute: -dv_fc_scratch=ALL.
  *  Attribute: -exempt_natural_alignment=a.
  * 
 $POW_IQ_THR(0..7)   Address=(0x16700000003A0+a*0x8)   Bus=(NCB)
@@ -33743,6 +33761,7 @@ $RST_BOOT   Address=(0x1180006001600)   Bus=(RSL)
  * RST_DELAY = RST Delay Register
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $RST_DELAY   Address=(0x1180006001608)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -35568,6 +35587,7 @@ $SLI_INT_ENB_PORT(0..2)   Address=(0x11F0000010340+a*0x10)   Bus=(PEXP_NCB)
  * SLI_SCRATCH_1 = SLI's Scratch 1
  * 
  *  A general purpose 64 bit register for SW use.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $SLI_SCRATCH_1   Address=(0x11F00000103C0)   Bus=(PEXP_NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -37415,6 +37435,7 @@ bits (mask'[15:0] = mask[15:0] & ~write_data[15:0]).
  * TIM_REG_INT_MASK
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $TIM_REG_INT_MASK   Address=(0x1180058000090)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -38156,6 +38177,7 @@ $USBDRD(0..1)_UCTL_BIST_STATUS   Address=(0x1180068000008+a*0x1000000)   Bus=(RS
  *  Accessible by: always
  *  Reset by: IOI reset (srst_n)
  *  This register is spare.
+ *  Attribute: -dv_fc_scratch=ALL.
  * 
 $USBDRD(0..1)_UCTL_SPARE0   Address=(0x1180068000010+a*0x1000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -41981,6 +42003,7 @@ $VRM(0)_TWS_TWSI_SW   Address=(0x1180021000008+a*0x1000000)   Bus=(RSL)
  * VRM_ALT_FUSE = VRM Alternative Fuse Register
  * 
  *  
+ *  Attribute: -dv_fc_scratch=ALL.
  *  Attribute: -exempt_natural_alignment=a.
  * 
 $VRM(0)_ALT_FUSE   Address=(0x1180021000018+a*0x1000000)   Bus=(RSL)

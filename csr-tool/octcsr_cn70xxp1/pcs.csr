@@ -1271,6 +1271,8 @@ registers:
     description: |
       PCS SERDES Credit Count
       INTERNAL: Do not add this register to the HRM
+    attributes:
+      dv_fc_scratch: "a"
     fields:
       - name: --
         bits: 63..5

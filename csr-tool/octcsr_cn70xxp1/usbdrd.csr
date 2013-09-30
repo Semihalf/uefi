@@ -955,6 +955,8 @@ registers:
       Accessible by: always
       Reset by: IOI reset (srst_n)
       This register is spare.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: SPARE
         bits: 63..0

@@ -8,6 +8,8 @@ registers:
     address: 0x14F0000000000
     bus: NCB
     description: The number of words that the IPD will skip when writing the first MBUFF.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..6

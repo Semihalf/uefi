@@ -323,6 +323,8 @@ registers:
   - name: NDF_INT_EN
     address: 0x1070001000028
     bus: NCB
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..7

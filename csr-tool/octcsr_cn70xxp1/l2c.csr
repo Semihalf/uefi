@@ -1417,6 +1417,8 @@ registers:
     title: Level 2 Cache IOC Performance Counter Register
     address: 0x1180080800828 + a*0x40
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: COUNT
         bits: 63..0

@@ -10,6 +10,8 @@ registers:
       FAU Timeout = Fetch and Add Unit Tag-Switch Timeout
       How many clokc ticks the FAU unit will wait for a tag-switch before timeing out.
       for Queue 0.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..13

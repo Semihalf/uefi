@@ -13,6 +13,8 @@ registers:
       for Queue 0. The value of FPF_RD and FPF_WR should have at least a 33 difference. Recommend
       value
       is FPF_RD == (FPA_FPF#_SIZE[FPF_SIZ] * .25) and FPF_WR == (FPA_FPF#_SIZE[FPF_SIZ] * .75)"
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..24

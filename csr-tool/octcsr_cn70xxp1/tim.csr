@@ -158,6 +158,8 @@ registers:
     internal: |
       Note that this CSR is present only in chip revisions beginning with pass2.
       When mask bit is set, the interrupt is enabled.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..16

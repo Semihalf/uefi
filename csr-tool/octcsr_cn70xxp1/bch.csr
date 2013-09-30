@@ -87,6 +87,8 @@ registers:
     address: 0x1180071000008
     bus: RSL
     description: This register sets the command-buffer parameters.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..58

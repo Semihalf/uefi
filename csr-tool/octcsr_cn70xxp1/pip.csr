@@ -186,6 +186,8 @@ registers:
     description: |
       Determines if hardward should raise an interrupt to software
       when an exception event occurs.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..13

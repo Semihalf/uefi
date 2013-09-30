@@ -920,6 +920,7 @@ registers:
     bus: NCB
     description: Threshold value for triggering input queue interrupts.
     attributes:
+      dv_fc_scratch: "ALL"
       exempt_natural_alignment: "a"
     fields:
       - name: --

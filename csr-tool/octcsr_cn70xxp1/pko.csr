@@ -694,6 +694,8 @@ registers:
   - name: PKO_REG_PREEMPT
     address: 0x1180050000110
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..16

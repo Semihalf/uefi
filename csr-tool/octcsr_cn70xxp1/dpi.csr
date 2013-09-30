@@ -370,6 +370,8 @@ registers:
   - name: DPI_INT_EN
     address: 0x1DF0000000010
     bus: NCB
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..28

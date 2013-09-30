@@ -3216,6 +3216,8 @@ registers:
     title: PTP Clock Out Lo Increment
     address: 0x1070000000F48
     bus: NCB
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: NANOSEC
         bits: 63..32

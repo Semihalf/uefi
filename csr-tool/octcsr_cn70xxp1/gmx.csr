@@ -342,6 +342,7 @@ registers:
     bus: RSL
     internal: In XAUI mode prt0 is used for checking.
     attributes:
+      dv_fc_scratch: "a"
       exempt_natural_alignment: "a"
     fields:
       - name: --

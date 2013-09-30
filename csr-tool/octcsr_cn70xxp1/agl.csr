@@ -219,6 +219,8 @@ registers:
     title: Interrupt Enable
     address: 0x11800E0000008 + a*0x800
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..30

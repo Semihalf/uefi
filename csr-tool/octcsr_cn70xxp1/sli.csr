@@ -1372,6 +1372,8 @@ registers:
     address: 0x11F00000103C0
     bus: PEXP_NCB
     description: A general purpose 64 bit register for SW use.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: DATA
         bits: 63..0

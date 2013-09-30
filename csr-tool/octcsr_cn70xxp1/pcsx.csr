@@ -863,6 +863,8 @@ registers:
     internal: |
       o70 supports a single RXAUI interface.  The PCSX1 version is not supported and should not be
       documented.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..5

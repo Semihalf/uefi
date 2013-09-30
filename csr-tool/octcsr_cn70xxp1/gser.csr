@@ -324,9 +324,9 @@ registers:
       - name: REF_SSP_EN
         bits: 0
         access: R/W
-        reset: 1
+        reset: 0
         typical: --
-        description: This signal should always be set.
+        description: Enables the PHY's internal reference clock.
 
 
   - name: GSER(0)_DLM(0..2)_REF_USE_PAD
@@ -1023,6 +1023,8 @@ registers:
     address: 0x1180090003040 + a + b*0x80000
     bus: RSL
     description: DLM Transmitter Termination Offset.
+    attributes:
+      dv_fc_scratch: "a"
     fields:
       - name: --
         bits: 63..13

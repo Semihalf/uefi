@@ -3836,6 +3836,8 @@ registers:
     description: |
       This register provides an assortment of various control fields needed to characterize the DDR3
       interface.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: MASK
         bits: 63..0

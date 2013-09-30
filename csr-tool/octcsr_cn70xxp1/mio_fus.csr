@@ -478,6 +478,8 @@ registers:
     title: MIO Fuse Read Command Register
     address: 0x1180000001508
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..6
@@ -796,7 +798,7 @@ registers:
 
       - name: CORE_STATUS
         bits: 14..12
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: Core clock PLL status information.
@@ -810,7 +812,7 @@ registers:
 
       - name: PNR_STATUS
         bits: 10..8
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: PNR clock PLL status information.
