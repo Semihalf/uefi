@@ -129,10 +129,10 @@ function qlm_setup_cn70xx()
         assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_2X1, 5000, flags), "Setting DLM2 mode failed")
     elseif pcie_mode == "1x2" then
         assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X2, 5000, flags), "Setting DLM1 mode failed")
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3125, flags), "Setting DLM2 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3000, flags), "Setting DLM2 mode failed")
     elseif pcie_mode == "2x1" then
         assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_2X1, 5000, flags), "Setting DLM1 mode failed")
-        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3125, flags), "Setting DLM2 mode failed")
+        assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_SATA_2X1, 3000, flags), "Setting DLM2 mode failed")
     else
         assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_DISABLED, 0, 0), "Setting DLM1 mode failed")
         assert(0 == octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_DISABLED, 0, 0), "Setting DLM2 mode failed")

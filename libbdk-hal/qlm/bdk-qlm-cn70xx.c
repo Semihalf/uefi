@@ -732,7 +732,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 case BDK_QLM_MODE_SATA_2X1:
                     /* DLM2 is SATA. PCIE2 is disabled */
-                    if (dlm2_setup_sata(node, qlm, 3000))
+                    if (dlm2_setup_sata(node, qlm, baud_mhz))
                         return -1;
                     break;
                 case BDK_QLM_MODE_PCIE_1X4:
