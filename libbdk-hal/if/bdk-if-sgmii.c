@@ -62,16 +62,46 @@ static int init_link(bdk_if_handle_t handle)
 {
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
+    int phy_addr = bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index);
     int forced_speed_mbps = 0;  /* Default to no forced speed, use autonegotiation */
-
+    int redo_link;
 
     /* Check for special PHY address values that indicate a forced speed, and no MDIO
        connection to the PHY.  In these cases we will also force the SGMII speed, and not
        do SGMII autonegotiation. Only 1000/100 Mbits/second are supported.*/
-    if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1000))
+    if (phy_addr == BDK_IF_PHY_FIXED_1GB)
         forced_speed_mbps = 1000;
-    else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1001))
+    else if (phy_addr == BDK_IF_PHY_FIXED_100MB)
         forced_speed_mbps = 100;
+
+    if (bdk_is_simulation())
+    {
+        BDK_TRACE("%s: Simulator skipping link init\n", handle->name);
+        redo_link = 0;
+    }
+    else if (!forced_speed_mbps)
+    {
+        /* First read of status register */
+        BDK_CSR_INIT(pcs_status, handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index));
+        /* Re-read the status as the link status bit is sticky and resets on read */
+        pcs_status.u = BDK_CSR_READ(handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index));
+        if (pcs_status.s.an_cpt)
+        {
+            BDK_TRACE("%s: Serdes auto neg complete\n", handle->name);
+            BDK_TRACE("%s: Serdes link %s\n", handle->name, pcs_status.s.lnk_st ? "Up" : "Down");
+            redo_link = (pcs_status.s.lnk_st == 0);
+        }
+        else
+        {
+            BDK_TRACE("%s: Serdes auto neg not complete\n", handle->name);
+            redo_link = 1;
+        }
+    }
+    else
+        redo_link = 1;
+
+    if (!redo_link)
+        return 0;
 
     /* Disable error reporting */
     BDK_CSR_WRITE(handle->node, BDK_GMXX_RXX_INT_EN(gmx_block, gmx_index), 0);
@@ -82,36 +112,28 @@ static int init_link(bdk_if_handle_t handle)
         Write PCS*_MR*_CONTROL_REG[RESET]=1 (while not changing the value of
             the other PCS*_MR*_CONTROL_REG bits).
         Read PCS*_MR*_CONTROL_REG[RESET] until it changes value to zero. */
-    if (!bdk_is_simulation())
+    BDK_TRACE("%s: Reset PCS\n", handle->name);
+    BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
+        control_reg.s.reset = 1);
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index), reset, ==, 0, 10000))
     {
-        BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
-            control_reg.s.reset = 1);
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index), reset, ==, 0, 10000))
-        {
-            bdk_dprintf("SGMII%d%d: Timeout waiting for reset finish\n", handle->interface, handle->index);
-            return -1;
-        }
+        bdk_dprintf("%s: Timeout waiting for reset finish\n", handle->name);
+        return -1;
     }
 
     if (!forced_speed_mbps)
     {
+        BDK_TRACE("%s: Reset serdes auto neg\n", handle->name);
         /* Write PCS*_MR*_CONTROL_REG[RST_AN]=1 to ensure a fresh sgmii negotiation starts. */
         BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
             control_reg.s.rst_an = 1;
             control_reg.s.an_en = 1;
             control_reg.s.pwr_dn = 0);
-
-        /* Wait for PCS*_MR*_STATUS_REG[AN_CPT] to be set, indicating that
-            sgmii autonegotiation is complete. In MAC mode this isn't an ethernet
-            link, but a link between Octeon and the PHY */
-        if (!bdk_is_simulation() &&
-            BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index), an_cpt, ==, 1, 10000))
-        {
-            return -1;
-        }
+        return -1;
     }
     else
     {
+        BDK_TRACE("%s: Configuring fixed coded speed %d Mbps\n", handle->name, forced_speed_mbps);
         /* A forced interface speed was selected, so configure this for the SGMII link as well,
            and don't do SGMII autonegotiation. */
         BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
@@ -121,7 +143,7 @@ static int init_link(bdk_if_handle_t handle)
                        control_reg.s.pwr_dn = 0);
     }
 
-    /* Enable error reporting */
+    BDK_TRACE("%s: Enable error reporting\n", handle->name);
     BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_RXX_INT_EN(gmx_block, gmx_index),
         c.s.bad_seq = -1;
         c.s.bad_term = -1;
@@ -173,6 +195,9 @@ static int init_link_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
     int gmx_block = __bdk_if_get_gmx_block(handle);
     int gmx_index = __bdk_if_get_gmx_index(handle);
     int is_enabled;
+    BDK_TRACE("%s: Called init_link_speed %d Mbps, %s Duplex, Link %s\n",
+        handle->name, link_info.s.speed, link_info.s.full_duplex ? "Full" : "Half",
+        link_info.s.up ? "Up" : "Down");
 
     /* Disable GMX before we make any changes. Remember the enable state */
     BDK_CSR_MODIFY(gmxx_prtx_cfg, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index),
@@ -183,7 +208,7 @@ static int init_link_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
     if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index), rx_idle, ==, 1, 10000) ||
         BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index), tx_idle, ==, 1, 10000))
     {
-        bdk_dprintf("SGMII%d%d: Timeout waiting for idle\n", handle->interface, handle->index);
+        bdk_dprintf("%s: Timeout waiting for idle\n", handle->name);
         return -1;
     }
 
@@ -340,7 +365,7 @@ static int if_init(bdk_if_handle_t handle)
         if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == -1) &&
             !pcsx_miscx_ctl_reg.s.mac_phy)
         {
-            bdk_dprintf("SGMII%d%d: Forcing PHY mode as PHY address is not set\n", gmx_block, gmx_index);
+            bdk_dprintf("%s: Forcing PHY mode as PHY address is not set\n", handle->name);
             pcsx_miscx_ctl_reg.s.mac_phy = 1;
             BDK_CSR_WRITE(handle->node, BDK_PCSX_MISCX_CTL_REG(gmx_block, gmx_index), pcsx_miscx_ctl_reg.u64);
         }
@@ -429,13 +454,9 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
             BDK_CSR_INIT(pcsx_mrx_status_reg, handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index));
             if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
             {
-                /* Read a second time as the lnk_st bit is sticky */
-                pcsx_mrx_status_reg.u64 = BDK_CSR_READ(handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index));
-                if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
-                {
-                    if (init_link(handle) != 0)
-                        return result;
-                }
+                BDK_TRACE("SERDES low level link down\n");
+                if (init_link(handle) != 0)
+                    return result;
             }
 
             /* Read the autoneg results */
@@ -482,6 +503,9 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
     int status = init_link(handle);
     if (status == 0)
         status = init_link_speed(handle, link_info);
+    /* Force link down for any errors */
+    if (status)
+        handle->link_info.u64 = 0;
 }
 
 

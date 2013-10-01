@@ -13,6 +13,9 @@
 /* CVMSEG location to use for async work */
 #define BDK_IF_SCR_WORK 0
 
+#define BDK_IF_PHY_FIXED_1GB 0x1000
+#define BDK_IF_PHY_FIXED_100MB 0x1001
+
 /**
  * Enumeration of different interfaces in Octeon.
  */

@@ -16,7 +16,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
 
     /* A PHY address with the special value 0x1000 represents a PHY we can't
         connect to through MDIO which is assumed to be at 1Gbps */
-    if (phy_addr == 0x1000)
+    if (phy_addr == BDK_IF_PHY_FIXED_1GB)
     {
         result.s.up = 1;
         result.s.full_duplex = 1;
@@ -26,7 +26,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
 
     /* A PHY address with the special value 0x1001 represents a PHY we can't
         connect to through MDIO which is assumed to be at 100Mbps */
-    if (phy_addr == 0x1001)
+    if (phy_addr == BDK_IF_PHY_FIXED_100MB)
     {
         result.s.up = 1;
         result.s.full_duplex = 1;
