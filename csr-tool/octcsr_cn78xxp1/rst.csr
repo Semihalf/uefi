@@ -58,7 +58,7 @@ registers:
         reset: --
         typical: 0
         description: |
-          When set, Authentik/eMMC boot ROM is visible in the boot bus address space.  This field
+          When set, Authentik/eMMC boot ROM is visible in the boot bus address space. This field
           resets to 1 in an Authentik part or when booting from eMMC. Else, resets to 0.
 
       - name: CKILL_PPDIS
@@ -506,14 +506,13 @@ registers:
           If the RST_CTL*[HOST_MODE] = 0, SOFT_PRST resets to 0.
           If the RST_CTL*[HOST_MODE] = 1, SOFT_PRST resets to 1.
           When CN78XX is configured to drive PERST*_L (i.e.
-          RST_CTL0/1[RST_DRV] = 1), this controls the output value on PERST*_L.
+          RST_CTL(0..3)[RST_DRV] = 1), this controls the output value on PERST*_L.
 
 
   - name: RST_PP_POWER
     title: RST Core Power Gating Control Register
     address: 0x1180006001700
     bus: RSL
-    description: These bits should only be changed when the corresponding core is in reset (CIU3_PP_RST).
     fields:
       - name: --
         bits: 63..48
@@ -528,10 +527,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Powerdown Enable.  When both a bit and the corresponding CIU3_PP_RST bit are set, the core
-          has voltage removed to save power.
-          In typical operation these bits are setup during initialization and PP resets are
-          controlled through CIU3_PP_RST.
+          Powerdown enable. When both a bit and the corresponding CIU3_PP_RST bit are set, the core
+          has voltage removed to save power. In typical operation these bits are setup during
+          initialization and PP resets are controlled through CIU3_PP_RST. These bits may only be
+          changed when the corresponding core is in reset using CIU3_PP_RST.
 
 
   - name: RST_POWER_DBG

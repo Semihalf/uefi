@@ -54,7 +54,34 @@ registers:
       Description: This register specifies the HNA HPU programmable controls.
     fields:
       - name: --
-        bits: 63..23
+        bits: 63..25
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: STK_LL_DIS
+        bits: 24
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Stack Linked-List Disable.
+          When set, the linked-list mechanism for run stack
+          and save stack structures will be disabled.  In this mode,
+          the linked-list chunk boundary checking is not done, and
+          therefore the previous/next pointers are non-existent.  The
+          stacks are effectively in an infinite linear buffer, bounded
+          only by the maximum sizes provided in the instruction
+          (IWORD3[RUNSTACKSZ] and IWORD6[SVSTACKSZ]).  There is no
+          space reserved for the previous and next pointers, and
+          [STK_CHKSZ] will be ignored.
+
+          When the STK_LL_DIS is cleared, the stack linked-list mechanism
+          will operate as per spec.
+
+      - name: --
+        bits: 23
         access: RAZ
         reset: --
         typical: --
@@ -180,7 +207,7 @@ registers:
       - name: HPUCLKDIS
         bits: 0
         access: R/W/H
-        reset: 1
+        reset: 0
         typical: 0
         description: |
           HNA Clock Disable Source
@@ -300,23 +327,23 @@ registers:
           Packet Data buffer Parity error
           Forces parity error on next Packet data buffer read.
 
-      - name: RSFLIPSYN
+      - name: SVFLIPSYN
         bits: 9..8
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          Run Stack Flip Syndrome Control
-          Forces 1-bit/2-bit errors on next Run Stack Read.
+          Save stack flip syndrome control.
+          Forces 1-bit/2-bit errors on next save stack read.
 
-      - name: SVFLIPSYN
+      - name: RSFLIPSYN
         bits: 7..6
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          Save Stack Flip Syndrome Control
-          Forces 1-bit/2-bit errors on next Save Stack Read.
+          Run stack flip syndrome control.
+          Forces 1-bit/2-bit errors on next run stack read.
 
       - name: CLID
         bits: 5..4
@@ -1411,7 +1438,7 @@ registers:
       - name: LDWB
         bits: 12
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: |
           Load Don't Write Back.

@@ -292,6 +292,18 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
 
+      - name: L2C_CBC(0..3)_INT_MIBSBE
+        value: 0x80C04 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[MIBSBE].
+
+      - name: L2C_CBC(0..3)_INT_MIBDBE
+        value: 0x80C05 | (a << 8)
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[MIBDBE].
+
 
   - name: L2C_TAD_PRF_SEL_E
     attributes:
@@ -806,11 +818,21 @@ registers:
           To disable set to 0. All other values are reserved.
 
       - name: --
-        bits: 5..2
+        bits: 5..3
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DISSBLKDTY
+        bits: 2
+        access: R/W
+        reset: 1
+        typical: 0
+        description: |
+          Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
+          sub-blocks when possible. NOTE: in an OCI system all nodes must use the same setting of
+          DISSBLKDTY or operation is undefined. FIXME: should reset to 0, once verif supports it.
 
       - name: DISECC
         bits: 1
@@ -913,11 +935,25 @@ registers:
       trigger the VBFSBE/VBFDBE error.
     fields:
       - name: --
-        bits: 63..10
+        bits: 63..14
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: XMDMSKFLIP
+        bits: 13..12
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Generate an ECC error in the XMD MSK.
+
+      - name: MIBFLIP
+        bits: 11..10
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Generate an ECC error in the MIB. See note above.
 
       - name: L2DFLIP
         bits: 9..8
@@ -1040,11 +1076,43 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..7
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CAS_FDX
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, L2 STC/CAS operations performed at the home will immediately bring the block
+          exclusive into the home. Default operation is to first request the block shared and only
+          invalidate the remote if the compare succeeds.
+
+      - name: RLDD_PSHA
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, RLDD will be assumed to return a shared response (PSHA). Default operation will
+          assume an exclusive response (PEMD). Note that an incorrect assumption only causes an
+          extra tag write to be done upon receiving the response.
+
+      - name: LOCK_LOCAL
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, L2 atomic operations (excluding CAS/STC) to remote addresses which miss at the
+          requester will be performed locally on the requesting node. Default operation will instead
+          send the atomic request to be performed on the home node. Note that CAS/STC operations
+          which miss at the requester will always be performed at the home node regardless of this
+          setting.
 
       - name: IOFRCL
         bits: 3
@@ -1207,9 +1275,10 @@ registers:
       - name: DISBIG
         bits: 0
         access: R/W
-        reset: 0
+        reset: 1
         typical: 0
         description: |
+          FIXME: should reset to 0.
           Disable the BIG/HOLE logic. When set, the BIG/HOLE is logic disabled completely. When
           clear, BIGWR and HOLEWR block stores and BIGRD/HOLERD is reported.
 
@@ -1788,6 +1857,41 @@ registers:
         description: |
           The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
           undefined.  Ignored/loaded with 0 for RTG accesses.
+
+
+  - name: L2C_TAD(0..7)_DLL
+    title: L2C TAD DLL Observability Register
+    address: 0x1180080A00018 + a*0x40000
+    bus: RSL
+    description: Register for DLL observability
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DLL_SETTING
+        bits: 15..4
+        access: RO/H
+        reset: 0x0
+        typical: 0x1
+        description: DLL setting.
+
+      - name: DLL_STATE
+        bits: 3..1
+        access: RO/H
+        reset: 0x0
+        typical: 0x1
+        description: DLL state.
+
+      - name: DLL_LOCK
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: DLL locked.
 
 
   - name: L2C_TAD(0..7)_INT
@@ -2498,6 +2602,41 @@ registers:
         description: BIST failure status for VBF0-1.
 
 
+  - name: L2C_CBC(0..3)_DLL
+    title: L2C CBC DLL Observability Register
+    address: 0x1180080E00018 + a*0x40000
+    bus: RSL
+    description: Register for DLL observability
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DLL_SETTING
+        bits: 15..4
+        access: RO/H
+        reset: 0x0
+        typical: 0x1
+        description: DLL setting.
+
+      - name: DLL_STATE
+        bits: 3..1
+        access: RO/H
+        reset: 0x0
+        typical: 0x1
+        description: DLL state.
+
+      - name: DLL_LOCK
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: DLL locked.
+
+
   - name: L2C_CBC(0..3)_INT
     title: Level 2 Cache CBC Interrupt Registers
     address: 0x1180080E00028 + a*0x40000
@@ -2505,11 +2644,25 @@ registers:
     description: This register is for CBC-based interrupts.
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..6
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MIBDBE
+        bits: 5
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: MIB double-bit error occurred. See L2C_CBC(2..3)_MIBERR for logged information.
+
+      - name: MIBSBE
+        bits: 4
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: MIB double-bit error occurred. See L2C_CBC(2..3)_MIBERR for logged information.
 
       - name: IOCCMDDBE
         bits: 3
@@ -2672,11 +2825,18 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..34
+        bits: 63..39
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MIBFL
+        bits: 38..34
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN})
 
       - name: IOCCMDFL
         bits: 33..32
@@ -2691,6 +2851,73 @@ registers:
         reset: 0x0
         typical: 0x0
         description: BIST failure status for RSDQW0-31.
+
+
+  - name: L2C_CBC(2..3)_MIBERR
+    title: Level 2 Cache MIB Error Information Registers
+    address: 0x1180080E007E0 + a*0x40000
+    bus: RSL
+    description: |
+      This register records error information for all CBC MIB errors.
+      An error locks the INDEX, and SYN fields and set the bit corresponding to the error received.
+      MIBDBE errors take priority and overwrite an earlier logged MIBSBE error. Only one of
+      MIBSBE/MIBDBE is set at any given time and serves to document which error the INDEX/SYN is
+      associated with.
+      The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+    fields:
+      - name: MIBDBE
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN corresponds to a double-bit MIB ECC error.
+
+      - name: MIBSBE
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: INDEX/SYN corresponds to a single-bit MIB ECC error.
+
+      - name: --
+        bits: 61..40
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SYN
+        bits: 39..32
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Error syndrome.
+
+      - name: --
+        bits: 31..3
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MEMID
+        bits: 2..1
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Indicates the memory that had the error.
+          0x0 = Error from MXB_VC_MRN, MXB_VC_MFN, MXB_VC_MPN VCs.
+          0x1 = Error from MXB_VC_MRD, MXB_VC_MPD VCs.
+          0x2 = Error from MXB_VC_IRM VC.
+          0x3 = Error from MXB_VC_IPM VC.
+
+      - name: MIBNUM
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Indicates the CBC that had the error.
 
 
 

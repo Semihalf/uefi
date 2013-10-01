@@ -183,7 +183,7 @@ registers:
 
   - name: SLI_MAC_NUMBER
     title: SLI MAC Number
-    address: 0x13E00
+    address: 0x3E00
     bus: PEXP
     description: When read from a MAC port it returns the MAC's port number.
     fields:

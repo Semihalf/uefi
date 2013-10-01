@@ -179,7 +179,7 @@ registers:
       - name: DTECLKDIS
         bits: 0
         access: R/W
-        reset: 1
+        reset: 0
         typical: 0
         description: |
           HFA clock disable source. When set, the HFA clocks for HTE (thread engine) operations are
@@ -1663,26 +1663,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: |
-          Memory segmentation base address. For debug purposes, back door accesses to the HFA memory
-          are supported via IOI-direct CSR accesses to the HFA memory region (if addr[34:32]=5).
-          However due to the existing IOI address decoding scheme, the address only offers a 4GB
-          extent into the HFA memory region. Therefore, the MSEGBASE CSR field provides the
-          additional upper memory address bits to allow access to the full extent of memory (128GB
-          MAX).
-          For HFA memory region read IOI-direct CSR accesses, the 38-bit L2/DRAM memory byte address
-          is generated as follows:
-          memaddr[37:0] = {DFA_DIFCTL[MSEGBASE],ncb_addr[31:3],3'b0}
-          See the upper 6 bits of the memory address are sourced from DFA_DIFCTL[MSEGBASE] CSR
-          field. The lower 4GB address offset is directly referenced using the IOI address bits
-          during the reference itself.
-          The DFA_DIFCTL[MSEGBASE] is shared amongst all references. As such, if multiple cores are
-          accessing different segments in memory, there must be a software mutual exclusive lock
-          during each HFA memory region access to avoid collisions between cores using the same
-          MSEGBASE CSR field.
-          See also DFA_ERROR[DFANXM] programmable interrupt which is flagged if software tries to
-          access non-existent memory space (address hole or upper unused region of 38bit address
-          space).
+        description: Reserved.
 
       - name: --
         bits: 19..13
@@ -1694,7 +1675,7 @@ registers:
       - name: LDWB
         bits: 12
         access: R/W
-        reset: 0
+        reset: 1
         typical: --
         description: |
           Load Don't Write Back.

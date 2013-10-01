@@ -345,18 +345,31 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..45
+        bits: 63..51
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 44..0
+        bits: 50..0
         access: RO
         reset: 0x0
         typical: 0x0
-        description: BIST results. Hardware sets a bit in BIST for memory that fails.
+        description: |
+          BIST results. Hardware sets a bit in BIST for memory that fails.
+          INTERNAL:
+            dpi.dma.rdb.buff.bnk{2,5,8,11}
+            dpi.dma.rdb.buff.bnk{0a,1a,3a,4a,6a,7a,9a,10a, 0b,1b,3b,4b,6b,7b,9b,10b}
+            dpi.dma.rdb.slif.stm.tmem
+            dpi.dma.req.mem.bnk{0,1}
+            dpi.dma.spi.ipkt{0,1}.inb_bnk1
+            dpi.dma.spi.ipkt{0,1}.inb_bnk0
+            dpi.dma.dsi.dsi1.rspf.rsp_dpr_mem{0,1}
+            dpi.dma.dsi.dsi0.rspf.rsp_dpr_mem{0,1}
+            dpi.dma.ncbo.drf16x64m2_bist
+            dpi.dma.ncbi.wrfif_bnk1
+            dpi.dma.ncbi.wrfif_bnk0
 
 
   - name: DPI_INT_REG
@@ -513,142 +526,6 @@ registers:
           IOI decode error. This bit is set when the DPI received an IOI transaction on the outbound
           bus to the DPI device ID, but the command was not recognized. Throws
           DPI_INTSN_E::DPI_INT_NDERR.
-
-
-  - name: DPI_INT_EN
-    address: 0x1DF0000000010
-    bus: NCB
-    fields:
-      - name: --
-        bits: 63..28
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: SPRT3_RST
-        bits: 27
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset.
-          this bit is set.
-
-      - name: SPRT2_RST
-        bits: 26
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset.
-          this bit is set.
-
-      - name: SPRT1_RST
-        bits: 25
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset.
-          this bit is set.
-
-      - name: SPRT0_RST
-        bits: 24
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: |
-          DMA instruction was dropped because the source or
-          destination port was in reset.
-          this bit is set.
-
-      - name: --
-        bits: 23
-        access: R/W
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: REQ_BADFIL
-        bits: 22
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction unexpected fill
-
-      - name: REQ_INULL
-        bits: 21
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction filled with NULL pointer
-
-      - name: REQ_ANULL
-        bits: 20
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction filled with bad instruction
-
-      - name: REQ_UNDFLW
-        bits: 19
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction FIFO underflow
-
-      - name: REQ_OVRFLW
-        bits: 18
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction FIFO overflow
-
-      - name: REQ_BADLEN
-        bits: 17
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction fetch with length
-
-      - name: REQ_BADADR
-        bits: 16
-        access: R/W/H
-        reset: 0
-        typical: 0
-        description: DMA instruction fetch with bad pointer
-
-      - name: DMADBO
-        bits: 15..8
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        description: DMAx doorbell overflow.
-
-      - name: --
-        bits: 7..2
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Reserved.
-
-      - name: NFOVR
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: CSR Fifo Overflow
-
-      - name: NDERR
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: NCB Decode Error
 
 
   - name: DPI_ECC_CTL

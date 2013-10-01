@@ -1638,7 +1638,9 @@ registers:
     description: |
       These registers provide a count of all packets received that were recognized as flow-control
       or PAUSE packets. PAUSE packets with any kind of error are counted in BGX*_CMR*_RX_STAT8
-      (error stats register). Pause packets can be optionally dropped or forwarded based on
+      (error stats register) and does not include those reported in BGX(0..5)_CMR(0..3)_RX_STAT6
+      nor BGX(0..5)_CMR(0..3)_RX_STAT4.
+      Pause packets can be optionally dropped or forwarded based on
       BGX_SMU_RX_FRM_CTL[CTL_DRP]. This count increments regardless of whether the packet is
       dropped. PAUSE packets are never counted in BGX*_CMR*_RX_STAT0.
     attributes:
@@ -1695,7 +1697,8 @@ registers:
     description: |
       These registers provide a count of all packets received that were dropped by the DMAC filter.
       Packets that match the DMAC are dropped and counted here regardless of whether they were ERR
-      packets. These packets are never counted in BGX*_CMR*_RX_STAT0. Eight-byte packets as the
+      packets, but does not include those reported in BGX(0..5)_CMR(0..3)_RX_STAT6.
+      These packets are never counted in BGX*_CMR*_RX_STAT0. Eight-byte packets as the
       result of truncation or other means are not be dropped by CN78XX and will never appear in this
       count.
     attributes:
@@ -1810,6 +1813,19 @@ registers:
     description: |
       These registers provide a count of all packets received with some error that were not dropped
       either due to the DMAC filter or lack of room in the receive FIFO.
+      This does not include packets which were counted in
+      BGX(0..5)_CMR(0..3)_RX_STAT2, BGX(0..5)_CMR(0..3)_RX_STAT4 nor
+      BGX(0..5)_CMR(0..3)_RX_STAT6 nor BGX(0..5)_CMR(0..3)_RX_STAT8.
+      Which statistics are updated on errors and drops are shown below:
+      if dropped {
+        if !errored STAT8
+        if overflow STAT6
+        else if dmac drop STAT4
+        else if filter drop STAT2
+      } else {
+        if errored STAT2
+        else STAT8
+      }
     attributes:
       rtlgen_soft_reset: "cmr_soft_reset[b]"
       subblock: "CMR"

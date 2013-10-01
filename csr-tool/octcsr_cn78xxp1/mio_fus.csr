@@ -49,6 +49,8 @@ registers:
     title: MIO Fuse Data2 Register
     address: 0x1180000001410
     bus: RSL
+    attributes:
+      dv_force_no_compare: "UVM"
     fields:
       - name: --
         bits: 63..48
@@ -285,8 +287,29 @@ registers:
         typical: --
         description: Fuse information - EMA1.
 
+      - name: NOHNA_DTE
+        bits: 17
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HNA disable (DTE).
+
+      - name: HNA_INFO_DTE
+        bits: 16..14
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HNA information (DTE).
+
+      - name: HNA_INFO_CLM
+        bits: 13..10
+        access: RO
+        reset: --
+        typical: --
+        description: Fuse information - HNA information (cluster mask).
+
       - name: --
-        bits: 17..0
+        bits: 9..0
         access: RAZ
         reset: --
         typical: --

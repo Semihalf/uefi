@@ -35212,7 +35212,7 @@ $SLI_WIN_RD_DATA   Address=(0x40)   Bus=(PEXP)
  * 
  *  When read from a MAC port it returns the MAC's port number.
  * 
-$SLI_MAC_NUMBER   Address=(0x13E00)   Bus=(PEXP)
+$SLI_MAC_NUMBER   Address=(0x3E00)   Bus=(PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -35230,7 +35230,7 @@ $SLI_MAC_NUMBER   Address=(0x13E00)   Bus=(PEXP)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -exempt_w1c_w=True.
  * 
-$SLI_CTL_PORT(0..2)   Address=(0x11F0000010050+a*0x10)   Bus=(PEXP_NCB)
+$SLI_CTL_PORT(0..2)   Address=((0x11F0000010050+a*0x10), (0x50+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
@@ -35282,7 +35282,7 @@ $SLI_CTL_PORT(0..2)   Address=(0x11F0000010050+a*0x10)   Bus=(PEXP_NCB)
  *  Contains address index and control bits for access to memory from Core PPs.
  *  Attribute: -exempt_natural_alignment=a.
  * 
-$SLI_MEM_ACCESS_SUBID(12..27)   Address=(0x11F0000010020+a*0x10)   Bus=(PEXP_NCB)
+$SLI_MEM_ACCESS_SUBID(12..27)   Address=((0x11F0000010020+a*0x10), (0x20+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -35331,7 +35331,7 @@ $SLI_MEM_ACCESS_SUBID(12..27)   Address=(0x11F0000010020+a*0x10)   Bus=(PEXP_NCB
  *  a timeout to an RML register
  *  occurs on the RML 0xFFFF timer before the timeout for a BAR0 access from the MAC.
  * 
-$SLI_WINDOW_CTL   Address=(0x11F00000102E0)   Bus=(PEXP_NCB)
+$SLI_WINDOW_CTL   Address=((0x11F00000102E0), (0x2E0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35351,7 +35351,7 @@ $SLI_WINDOW_CTL   Address=(0x11F00000102E0)   Bus=(PEXP_NCB)
  * 
  *  Contains control for access to the MAC address space.
  * 
-$SLI_MEM_ACCESS_CTL   Address=(0x11F00000102F0)   Bus=(PEXP_NCB)
+$SLI_MEM_ACCESS_CTL   Address=((0x11F00000102F0), (0x2F0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -35373,7 +35373,7 @@ $SLI_MEM_ACCESS_CTL   Address=(0x11F00000102F0)   Bus=(PEXP_NCB)
  * 
  *  Set when an interrupt condition occurs, write '1' to clear. FIXME, THIS CSR IS GONE
  * 
-$SLI_INT_SUM   Address=(0x11F0000010330)   Bus=(PEXP_NCB)
+$SLI_INT_SUM   Address=((0x11F0000010330), (0x330))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
@@ -35494,7 +35494,7 @@ $SLI_INT_SUM   Address=(0x11F0000010330)   Bus=(PEXP_NCB)
  * 
  *  Used to allow the generation of interrupts (MSI/INTA) to the PORT X
  * 
-$SLI_INT_ENB_PORT(0..2)   Address=(0x11F0000010340+a*0x10)   Bus=(PEXP_NCB)
+$SLI_INT_ENB_PORT(0..2)   Address=((0x11F0000010340+a*0x10), (0x340+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
@@ -35589,7 +35589,7 @@ $SLI_INT_ENB_PORT(0..2)   Address=(0x11F0000010340+a*0x10)   Bus=(PEXP_NCB)
  *  A general purpose 64 bit register for SW use.
  *  Attribute: -dv_fc_scratch=ALL.
  * 
-$SLI_SCRATCH_1   Address=(0x11F00000103C0)   Bus=(PEXP_NCB)
+$SLI_SCRATCH_1   Address=((0x11F00000103C0), (0x3C0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35603,7 +35603,7 @@ $SLI_SCRATCH_1   Address=(0x11F00000103C0)   Bus=(PEXP_NCB)
  * 
  *  A general purpose 64 bit register for SW use.
  * 
-$SLI_SCRATCH_2   Address=(0x11F00000103D0)   Bus=(PEXP_NCB)
+$SLI_SCRATCH_2   Address=((0x11F00000103D0), (0x3D0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35618,7 +35618,7 @@ $SLI_SCRATCH_2   Address=(0x11F00000103D0)   Bus=(PEXP_NCB)
  *  SLI_DMAx_INT_LEVEL = SLI DMAx Interrupt Level
  *  Thresholds for DMA count and timer interrupts.
  * 
-$SLI_DMA(0..1)_INT_LEVEL   Address=(0x11F00000103E0+a*0x10)   Bus=(PEXP_NCB)
+$SLI_DMA(0..1)_INT_LEVEL   Address=((0x11F00000103E0+a*0x10), (0x3E0+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35641,7 +35641,7 @@ $SLI_DMA(0..1)_INT_LEVEL   Address=(0x11F00000103E0+a*0x10)   Bus=(PEXP_NCB)
  *  SLI_DMAx_CNT = SLI DMA Count
  *  The DMA Count value.
  * 
-$SLI_DMA(0..1)_CNT   Address=(0x11F0000010400+a*0x10)   Bus=(PEXP_NCB)
+$SLI_DMA(0..1)_CNT   Address=((0x11F0000010400+a*0x10), (0x400+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35663,7 +35663,7 @@ $SLI_DMA(0..1)_CNT   Address=(0x11F0000010400+a*0x10)   Bus=(PEXP_NCB)
  *  SLI_DMAx_TIM = SLI DMA Timer
  *  The DMA Timer value.
  * 
-$SLI_DMA(0..1)_TIM   Address=(0x11F0000010420+a*0x10)   Bus=(PEXP_NCB)
+$SLI_DMA(0..1)_TIM   Address=((0x11F0000010420+a*0x10), (0x420+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35684,7 +35684,7 @@ $SLI_DMA(0..1)_TIM   Address=(0x11F0000010420+a*0x10)   Bus=(PEXP_NCB)
  *  access(i.e. MAC memory space)
  *  that requires the value of this register to be updated.
  * 
-$SLI_CTL_STATUS   Address=(0x11F0000010570)   Bus=(PEXP_NCB)
+$SLI_CTL_STATUS   Address=((0x11F0000010570), (0x570))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -35706,7 +35706,7 @@ $SLI_CTL_STATUS   Address=(0x11F0000010570)   Bus=(PEXP_NCB)
  * 
  *  Results from BIST runs of SLI's memories.
  * 
-$SLI_BIST_STATUS   Address=(0x11F0000010580)   Bus=(PEXP_NCB)
+$SLI_BIST_STATUS   Address=((0x11F0000010580), (0x580))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -35750,7 +35750,7 @@ $SLI_BIST_STATUS   Address=(0x11F0000010580)   Bus=(PEXP_NCB)
  * 
  *  The EXEC data out fifo-count and the data unload counter.
  * 
-$SLI_DATA_OUT_CNT   Address=(0x11F00000105F0)   Bus=(PEXP_NCB)
+$SLI_DATA_OUT_CNT   Address=((0x11F00000105F0), (0x5F0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -35776,7 +35776,7 @@ $SLI_DATA_OUT_CNT   Address=(0x11F00000105F0)   Bus=(PEXP_NCB)
  * 
  *  The data from the last initiated window read by MAC 0.
  * 
-$SLI_LAST_WIN_RDATA0   Address=(0x11F0000010600)   Bus=(PEXP_NCB)
+$SLI_LAST_WIN_RDATA0   Address=((0x11F0000010600), (0x600))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35790,7 +35790,7 @@ $SLI_LAST_WIN_RDATA0   Address=(0x11F0000010600)   Bus=(PEXP_NCB)
  * 
  *  The data from the last initiated window read by MAC 1.
  * 
-$SLI_LAST_WIN_RDATA1   Address=(0x11F0000010610)   Bus=(PEXP_NCB)
+$SLI_LAST_WIN_RDATA1   Address=((0x11F0000010610), (0x610))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35804,7 +35804,7 @@ $SLI_LAST_WIN_RDATA1   Address=(0x11F0000010610)   Bus=(PEXP_NCB)
  * 
  *  State machines in SLI. For debug.
  * 
-$SLI_STATE1   Address=(0x11F0000010620)   Bus=(PEXP_NCB)
+$SLI_STATE1   Address=((0x11F0000010620), (0x620))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35821,7 +35821,7 @@ $SLI_STATE1   Address=(0x11F0000010620)   Bus=(PEXP_NCB)
  * 
  *  State machines in SLI. For debug.
  * 
-$SLI_STATE2   Address=(0x11F0000010630)   Bus=(PEXP_NCB)
+$SLI_STATE2   Address=((0x11F0000010630), (0x630))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35842,7 +35842,7 @@ $SLI_STATE2   Address=(0x11F0000010630)   Bus=(PEXP_NCB)
  * 
  *  State machines in SLI. For debug.
  * 
-$SLI_STATE3   Address=(0x11F0000010640)   Bus=(PEXP_NCB)
+$SLI_STATE3   Address=((0x11F0000010640), (0x640))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35860,7 +35860,7 @@ $SLI_STATE3   Address=(0x11F0000010640)   Bus=(PEXP_NCB)
  * 
  *  Register where MSI writes are directed from the MAC.
  * 
-$SLI_PCIE_MSI_RCV_B1   Address=(0x11F0000010650)   Bus=(PEXP_NCB)
+$SLI_PCIE_MSI_RCV_B1   Address=((0x11F0000010650), (0x650))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35880,7 +35880,7 @@ $SLI_PCIE_MSI_RCV_B1   Address=(0x11F0000010650)   Bus=(PEXP_NCB)
  * 
  *  Register where MSI writes are directed from the MAC.
  * 
-$SLI_PCIE_MSI_RCV_B2   Address=(0x11F0000010660)   Bus=(PEXP_NCB)
+$SLI_PCIE_MSI_RCV_B2   Address=((0x11F0000010660), (0x660))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35900,7 +35900,7 @@ $SLI_PCIE_MSI_RCV_B2   Address=(0x11F0000010660)   Bus=(PEXP_NCB)
  * 
  *  Register where MSI writes are directed from the MAC.
  * 
-$SLI_PCIE_MSI_RCV_B3   Address=(0x11F0000010670)   Bus=(PEXP_NCB)
+$SLI_PCIE_MSI_RCV_B3   Address=((0x11F0000010670), (0x670))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35920,7 +35920,7 @@ $SLI_PCIE_MSI_RCV_B3   Address=(0x11F0000010670)   Bus=(PEXP_NCB)
  * 
  *  The data from the last initiated window read by MAC 2.
  * 
-$SLI_LAST_WIN_RDATA2   Address=(0x11F00000106C0)   Bus=(PEXP_NCB)
+$SLI_LAST_WIN_RDATA2   Address=((0x11F00000106C0), (0x6C0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35934,7 +35934,7 @@ $SLI_LAST_WIN_RDATA2   Address=(0x11F00000106C0)   Bus=(PEXP_NCB)
  * 
  *  The data from the last initiated window read by MAC 3.
  * 
-$SLI_LAST_WIN_RDATA3   Address=(0x11F00000106D0)   Bus=(PEXP_NCB)
+$SLI_LAST_WIN_RDATA3   Address=((0x11F00000106D0), (0x6D0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -35949,7 +35949,7 @@ $SLI_LAST_WIN_RDATA3   Address=(0x11F00000106D0)   Bus=(PEXP_NCB)
  *  SLI_PKT[0..31]_OUT_SIZE = SLI Packet Out Size
  *  Contains the BSIZE and ISIZE for output packet ports.
  * 
-$SLI_PKT(0..31)_OUT_SIZE   Address=(0x11F0000010C00+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_OUT_SIZE   Address=((0x11F0000010C00+a*0x10), (0xC00+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35966,7 +35966,7 @@ $SLI_PKT(0..31)_OUT_SIZE   Address=(0x11F0000010C00+a*0x10)   Bus=(PEXP_NCB)
  * 
  *  Enables the instruction fetch for a Packet-ring.
  * 
-$SLI_PKT_INSTR_ENB   Address=(0x11F0000011000)   Bus=(PEXP_NCB)
+$SLI_PKT_INSTR_ENB   Address=((0x11F0000011000), (0x1000))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35981,7 +35981,7 @@ $SLI_PKT_INSTR_ENB   Address=(0x11F0000011000)   Bus=(PEXP_NCB)
  * 
  *  Enables the output packet engines.
  * 
-$SLI_PKT_OUT_ENB   Address=(0x11F0000011010)   Bus=(PEXP_NCB)
+$SLI_PKT_OUT_ENB   Address=((0x11F0000011010), (0x1010))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -35999,7 +35999,7 @@ $SLI_PKT_OUT_ENB   Address=(0x11F0000011010)   Bus=(PEXP_NCB)
  * 
  *  Determines if instructions are 64 or 32 byte in size for a Packet-ring.
  * 
-$SLI_PKT_INSTR_SIZE   Address=(0x11F0000011020)   Bus=(PEXP_NCB)
+$SLI_PKT_INSTR_SIZE   Address=((0x11F0000011020), (0x1020))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -36015,7 +36015,7 @@ $SLI_PKT_INSTR_SIZE   Address=(0x11F0000011020)   Bus=(PEXP_NCB)
  * 
  *  The ROR field for the TLP when fetching Scatter List.
  * 
-$SLI_PKT_SLIST_ROR   Address=(0x11F0000011030)   Bus=(PEXP_NCB)
+$SLI_PKT_SLIST_ROR   Address=((0x11F0000011030), (0x1030))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36037,7 +36037,7 @@ $SLI_PKT_SLIST_ROR   Address=(0x11F0000011030)   Bus=(PEXP_NCB)
  * 
  *  The NS field for the TLP when fetching Scatter List.
  * 
-$SLI_PKT_SLIST_NS   Address=(0x11F0000011040)   Bus=(PEXP_NCB)
+$SLI_PKT_SLIST_NS   Address=((0x11F0000011040), (0x1040))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36059,7 +36059,7 @@ $SLI_PKT_SLIST_NS   Address=(0x11F0000011040)   Bus=(PEXP_NCB)
  * 
  *  The Endian Swap for Scatter List Read.
  * 
-$SLI_PKT_SLIST_ES   Address=(0x11F0000011050)   Bus=(PEXP_NCB)
+$SLI_PKT_SLIST_ES   Address=((0x11F0000011050), (0x1050))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36080,7 +36080,7 @@ $SLI_PKT_SLIST_ES   Address=(0x11F0000011050)   Bus=(PEXP_NCB)
  * 
  *  Controls using the Info-Pointer to store length and data.
  * 
-$SLI_PKT_IPTR   Address=(0x11F0000011070)   Bus=(PEXP_NCB)
+$SLI_PKT_IPTR   Address=((0x11F0000011070), (0x1070))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36096,7 +36096,7 @@ $SLI_PKT_IPTR   Address=(0x11F0000011070)   Bus=(PEXP_NCB)
  * 
  *  Used to detemine address and attributes for packet data writes.
  * 
-$SLI_PKT_DPADDR   Address=(0x11F0000011080)   Bus=(PEXP_NCB)
+$SLI_PKT_DPADDR   Address=((0x11F0000011080), (0x1080))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36122,7 +36122,7 @@ $SLI_PKT_DPADDR   Address=(0x11F0000011080)   Bus=(PEXP_NCB)
  * 
  *  The ROR field for the TLP when writing Packet Data.
  * 
-$SLI_PKT_DATA_OUT_ROR   Address=(0x11F0000011090)   Bus=(PEXP_NCB)
+$SLI_PKT_DATA_OUT_ROR   Address=((0x11F0000011090), (0x1090))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36145,7 +36145,7 @@ $SLI_PKT_DATA_OUT_ROR   Address=(0x11F0000011090)   Bus=(PEXP_NCB)
  * 
  *  The NS field for the TLP when writing packet data.
  * 
-$SLI_PKT_DATA_OUT_NS   Address=(0x11F00000110A0)   Bus=(PEXP_NCB)
+$SLI_PKT_DATA_OUT_NS   Address=((0x11F00000110A0), (0x10A0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36168,7 +36168,7 @@ $SLI_PKT_DATA_OUT_NS   Address=(0x11F00000110A0)   Bus=(PEXP_NCB)
  * 
  *  The Endian Swap for writing Data Out.
  * 
-$SLI_PKT_DATA_OUT_ES   Address=(0x11F00000110B0)   Bus=(PEXP_NCB)
+$SLI_PKT_DATA_OUT_ES   Address=((0x11F00000110B0), (0x10B0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36190,7 +36190,7 @@ $SLI_PKT_DATA_OUT_ES   Address=(0x11F00000110B0)   Bus=(PEXP_NCB)
  * 
  *  Control the updating of the SLI_PKT#_CNT register.
  * 
-$SLI_PKT_OUT_BMODE   Address=(0x11F00000110D0)   Bus=(PEXP_NCB)
+$SLI_PKT_OUT_BMODE   Address=((0x11F00000110D0), (0x10D0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36209,7 +36209,7 @@ $SLI_PKT_OUT_BMODE   Address=(0x11F00000110D0)   Bus=(PEXP_NCB)
  * 
  *  Assigns Packet Ports to MAC ports.
  * 
-$SLI_PKT_PCIE_PORT   Address=(0x11F00000110E0)   Bus=(PEXP_NCB)
+$SLI_PKT_PCIE_PORT   Address=((0x11F00000110E0), (0x10E0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36228,7 +36228,7 @@ $SLI_PKT_PCIE_PORT   Address=(0x11F00000110E0)   Bus=(PEXP_NCB)
  *  SLI_PKT_INT_LEVELS = SLI's Packet Interrupt Levels
  *  Output packet interrupt levels.
  * 
-$SLI_PKT_INT_LEVELS   Address=(0x11F0000011120)   Bus=(PEXP_NCB)
+$SLI_PKT_INT_LEVELS   Address=((0x11F0000011120), (0x1120))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36249,7 +36249,7 @@ $SLI_PKT_INT_LEVELS   Address=(0x11F0000011120)   Bus=(PEXP_NCB)
  * 
  *  The packets rings that are interrupting because of Packet Counters.
  * 
-$SLI_PKT_CNT_INT   Address=(0x11F0000011130)   Bus=(PEXP_NCB)
+$SLI_PKT_CNT_INT   Address=((0x11F0000011130), (0x1130))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36268,7 +36268,7 @@ $SLI_PKT_CNT_INT   Address=(0x11F0000011130)   Bus=(PEXP_NCB)
  * 
  *  The packets rings that are interrupting because of Packet Timers.
  * 
-$SLI_PKT_TIME_INT   Address=(0x11F0000011140)   Bus=(PEXP_NCB)
+$SLI_PKT_TIME_INT   Address=((0x11F0000011140), (0x1140))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36287,7 +36287,7 @@ $SLI_PKT_TIME_INT   Address=(0x11F0000011140)   Bus=(PEXP_NCB)
  * 
  *  Enable for the packets rings that are interrupting because of Packet Counters.
  * 
-$SLI_PKT_CNT_INT_ENB   Address=(0x11F0000011150)   Bus=(PEXP_NCB)
+$SLI_PKT_CNT_INT_ENB   Address=((0x11F0000011150), (0x1150))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36306,7 +36306,7 @@ $SLI_PKT_CNT_INT_ENB   Address=(0x11F0000011150)   Bus=(PEXP_NCB)
  * 
  *  The packets rings that are interrupting because of Packet Timers.
  * 
-$SLI_PKT_TIME_INT_ENB   Address=(0x11F0000011160)   Bus=(PEXP_NCB)
+$SLI_PKT_TIME_INT_ENB   Address=((0x11F0000011160), (0x1160))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36325,7 +36325,7 @@ $SLI_PKT_TIME_INT_ENB   Address=(0x11F0000011160)   Bus=(PEXP_NCB)
  * 
  *  Control for reads for gather list and instructions.
  * 
-$SLI_PKT_INPUT_CONTROL   Address=(0x11F0000011170)   Bus=(PEXP_NCB)
+$SLI_PKT_INPUT_CONTROL   Address=((0x11F0000011170), (0x1170))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -36415,7 +36415,7 @@ $SLI_PKT_INPUT_CONTROL   Address=(0x11F0000011170)   Bus=(PEXP_NCB)
  *  "Value that when the SLI_PKT#_SLIST_BAOFF_DBELL[DBELL} value is less then that backpressure
  *  for the rings will be applied."
  * 
-$SLI_PKT_OUTPUT_WMARK   Address=(0x11F0000011180)   Bus=(PEXP_NCB)
+$SLI_PKT_OUTPUT_WMARK   Address=((0x11F0000011180), (0x1180))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36431,7 +36431,7 @@ $SLI_PKT_OUTPUT_WMARK   Address=(0x11F0000011180)   Bus=(PEXP_NCB)
  * 
  *  The number of instruction allowed to be read at one time.
  * 
-$SLI_PKT_INSTR_RD_SIZE   Address=(0x11F00000111A0)   Bus=(PEXP_NCB)
+$SLI_PKT_INSTR_RD_SIZE   Address=((0x11F00000111A0), (0x11A0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -36455,7 +36455,7 @@ $SLI_PKT_INSTR_RD_SIZE   Address=(0x11F00000111A0)   Bus=(PEXP_NCB)
  * 
  *  Assigns Packet Input rings to MAC ports.
  * 
-$SLI_PKT_IN_PCIE_PORT   Address=(0x11F00000111B0)   Bus=(PEXP_NCB)
+$SLI_PKT_IN_PCIE_PORT   Address=((0x11F00000111B0), (0x11B0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36474,7 +36474,7 @@ $SLI_PKT_IN_PCIE_PORT   Address=(0x11F00000111B0)   Bus=(PEXP_NCB)
  *  SLI_PKT_PORT_IN_RST = SLI Packet Port In Reset
  *  Vector bits related to ring-port for ones that are reset.
  * 
-$SLI_PKT_PORT_IN_RST   Address=(0x11F00000111F0)   Bus=(PEXP_NCB)
+$SLI_PKT_PORT_IN_RST   Address=((0x11F00000111F0), (0x11F0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -36491,7 +36491,7 @@ $SLI_PKT_PORT_IN_RST   Address=(0x11F00000111F0)   Bus=(PEXP_NCB)
  * 
  *  Keeps track of the number of instructions read into the FIFO and Packets sent to IPD.
  * 
-$SLI_PKT_IN_INSTR_COUNTS   Address=(0x11F0000011200)   Bus=(PEXP_NCB)
+$SLI_PKT_IN_INSTR_COUNTS   Address=((0x11F0000011200), (0x1200))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -36508,7 +36508,7 @@ $SLI_PKT_IN_INSTR_COUNTS   Address=(0x11F0000011200)   Bus=(PEXP_NCB)
  * 
  *  Which input rings have backpressure applied.
  * 
-$SLI_PKT_IN_BP   Address=(0x11F0000011210)   Bus=(PEXP_NCB)
+$SLI_PKT_IN_BP   Address=((0x11F0000011210), (0x1210))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36528,7 +36528,7 @@ $SLI_PKT_IN_BP   Address=(0x11F0000011210)   Bus=(PEXP_NCB)
  * 
  *  Control for packets.
  * 
-$SLI_PKT_CTL   Address=(0x11F0000011220)   Bus=(PEXP_NCB)
+$SLI_PKT_CTL   Address=((0x11F0000011220), (0x1220))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -36551,7 +36551,7 @@ $SLI_PKT_CTL   Address=(0x11F0000011220)   Bus=(PEXP_NCB)
  *  "SLI_PKT[0..31]_SLIST_BADDR = SLI Packet ring# Scatter List Base Address
  *  Start of Scatter List for output packet pointers - MUST be 16 byte alligned"
  * 
-$SLI_PKT(0..31)_SLIST_BADDR   Address=(0x11F0000011400+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_SLIST_BADDR   Address=((0x11F0000011400+a*0x10), (0x1400+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36568,7 +36568,7 @@ $SLI_PKT(0..31)_SLIST_BADDR   Address=(0x11F0000011400+a*0x10)   Bus=(PEXP_NCB)
  *  Doorbell
  *  The doorbell and base address offset for next read."
  * 
-$SLI_PKT(0..31)_SLIST_BAOFF_DBELL   Address=(0x11F0000011800+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_SLIST_BAOFF_DBELL   Address=((0x11F0000011800+a*0x10), (0x1800+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36592,7 +36592,7 @@ $SLI_PKT(0..31)_SLIST_BAOFF_DBELL   Address=(0x11F0000011800+a*0x10)   Bus=(PEXP
  *  "SLI_PKT[0..31]_SLIST_FIFO_RSIZE = SLI Packet ring# Scatter List FIFO and Ring Size.
  *  The number of scatter pointer pairs in the scatter list."
  * 
-$SLI_PKT(0..31)_SLIST_FIFO_RSIZE   Address=(0x11F0000011C00+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_SLIST_FIFO_RSIZE   Address=((0x11F0000011C00+a*0x10), (0x1C00+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36609,7 +36609,7 @@ $SLI_PKT(0..31)_SLIST_FIFO_RSIZE   Address=(0x11F0000011C00+a*0x10)   Bus=(PEXP_
  *  "SLI_PKT_IN_DONE[0..31]_CNTS = SLI Instruction Done ring# Counts
  *  Counters for instructions completed on Input rings."
  * 
-$SLI_PKT_IN_DONE(0..31)_CNTS   Address=(0x11F0000012000+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT_IN_DONE(0..31)_CNTS   Address=((0x11F0000012000+a*0x10), (0x2000+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36627,7 +36627,7 @@ $SLI_PKT_IN_DONE(0..31)_CNTS   Address=(0x11F0000012000+a*0x10)   Bus=(PEXP_NCB)
  *  "SLI_PKT[0..31]_CNTS = SLI Packet ring# Counts
  *  The counters for output rings."
  * 
-$SLI_PKT(0..31)_CNTS   Address=(0x11F0000012400+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_CNTS   Address=((0x11F0000012400+a*0x10), (0x2400+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36658,7 +36658,7 @@ $SLI_PKT(0..31)_CNTS   Address=(0x11F0000012400+a*0x10)   Bus=(PEXP_NCB)
  *  "SLI_PKT[0..31]_INSTR_BADDR = SLI Packet ring# Instruction Base Address
  *  Start of Instruction for input packets."
  * 
-$SLI_PKT(0..31)_INSTR_BADDR   Address=(0x11F0000012800+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_INSTR_BADDR   Address=((0x11F0000012800+a*0x10), (0x2800+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36675,7 +36675,7 @@ $SLI_PKT(0..31)_INSTR_BADDR   Address=(0x11F0000012800+a*0x10)   Bus=(PEXP_NCB)
  *  Doorbell
  *  The doorbell and base address offset for next read."
  * 
-$SLI_PKT(0..31)_INSTR_BAOFF_DBELL   Address=(0x11F0000012C00+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_INSTR_BAOFF_DBELL   Address=((0x11F0000012C00+a*0x10), (0x2C00+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36695,7 +36695,7 @@ $SLI_PKT(0..31)_INSTR_BAOFF_DBELL   Address=(0x11F0000012C00+a*0x10)   Bus=(PEXP
  *  "SLI_PKT[0..31]_INSTR_FIFO_RSIZE = SLI Packet ring# Instruction FIFO and Ring Size.
  *  Fifo field and ring size for Instructions."
  * 
-$SLI_PKT(0..31)_INSTR_FIFO_RSIZE   Address=(0x11F0000013000+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_INSTR_FIFO_RSIZE   Address=((0x11F0000013000+a*0x10), (0x3000+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36714,7 +36714,7 @@ $SLI_PKT(0..31)_INSTR_FIFO_RSIZE   Address=(0x11F0000013000+a*0x10)   Bus=(PEXP_
  *  "SLI_PKT[0..31]_INSTR_HEADER = SLI Packet ring# Instruction Header.
  *  VAlues used to build input packet header."
  * 
-$SLI_PKT(0..31)_INSTR_HEADER   Address=(0x11F0000013400+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_INSTR_HEADER   Address=((0x11F0000013400+a*0x10), (0x3400+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -36784,7 +36784,7 @@ $SLI_PKT(0..31)_INSTR_HEADER   Address=(0x11F0000013400+a*0x10)   Bus=(PEXP_NCB)
  *  The counters and thresholds for input packets to apply backpressure to processing of the
  *  packets."
  * 
-$SLI_PKT(0..31)_IN_BP   Address=(0x11F0000013800+a*0x10)   Bus=(PEXP_NCB)
+$SLI_PKT(0..31)_IN_BP   Address=((0x11F0000013800+a*0x10), (0x3800+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36810,7 +36810,7 @@ $SLI_PKT(0..31)_IN_BP   Address=(0x11F0000013800+a*0x10)   Bus=(PEXP_NCB)
  * 
  *  Contains bits [63:0] of the 256 bits of MSI interrupts.
  * 
-$SLI_MSI_RCV0   Address=(0x11F0000013C10)   Bus=(PEXP_NCB)
+$SLI_MSI_RCV0   Address=((0x11F0000013C10), (0x3C10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36824,7 +36824,7 @@ $SLI_MSI_RCV0   Address=(0x11F0000013C10)   Bus=(PEXP_NCB)
  * 
  *  Contains bits [127:64] of the 256 bits of MSI interrupts.
  * 
-$SLI_MSI_RCV1   Address=(0x11F0000013C20)   Bus=(PEXP_NCB)
+$SLI_MSI_RCV1   Address=((0x11F0000013C20), (0x3C20))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36838,7 +36838,7 @@ $SLI_MSI_RCV1   Address=(0x11F0000013C20)   Bus=(PEXP_NCB)
  * 
  *  Contains bits [191:128] of the 256 bits of MSI interrupts.
  * 
-$SLI_MSI_RCV2   Address=(0x11F0000013C30)   Bus=(PEXP_NCB)
+$SLI_MSI_RCV2   Address=((0x11F0000013C30), (0x3C30))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36852,7 +36852,7 @@ $SLI_MSI_RCV2   Address=(0x11F0000013C30)   Bus=(PEXP_NCB)
  * 
  *  Contains bits [255:192] of the 256 bits of MSI interrupts.
  * 
-$SLI_MSI_RCV3   Address=(0x11F0000013C40)   Bus=(PEXP_NCB)
+$SLI_MSI_RCV3   Address=((0x11F0000013C40), (0x3C40))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36866,7 +36866,7 @@ $SLI_MSI_RCV3   Address=(0x11F0000013C40)   Bus=(PEXP_NCB)
  * 
  *  Used to enable the interrupt generation for the bits in the SLI_MSI_RCV0.
  * 
-$SLI_MSI_ENB0   Address=(0x11F0000013C50)   Bus=(PEXP_NCB)
+$SLI_MSI_ENB0   Address=((0x11F0000013C50), (0x3C50))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36880,7 +36880,7 @@ $SLI_MSI_ENB0   Address=(0x11F0000013C50)   Bus=(PEXP_NCB)
  * 
  *  Used to enable the interrupt generation for the bits in the SLI_MSI_RCV1.
  * 
-$SLI_MSI_ENB1   Address=(0x11F0000013C60)   Bus=(PEXP_NCB)
+$SLI_MSI_ENB1   Address=((0x11F0000013C60), (0x3C60))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36894,7 +36894,7 @@ $SLI_MSI_ENB1   Address=(0x11F0000013C60)   Bus=(PEXP_NCB)
  * 
  *  Used to enable the interrupt generation for the bits in the SLI_MSI_RCV2.
  * 
-$SLI_MSI_ENB2   Address=(0x11F0000013C70)   Bus=(PEXP_NCB)
+$SLI_MSI_ENB2   Address=((0x11F0000013C70), (0x3C70))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36908,7 +36908,7 @@ $SLI_MSI_ENB2   Address=(0x11F0000013C70)   Bus=(PEXP_NCB)
  * 
  *  Used to enable the interrupt generation for the bits in the SLI_MSI_RCV3.
  * 
-$SLI_MSI_ENB3   Address=(0x11F0000013C80)   Bus=(PEXP_NCB)
+$SLI_MSI_ENB3   Address=((0x11F0000013C80), (0x3C80))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -36924,7 +36924,7 @@ $SLI_MSI_ENB3   Address=(0x11F0000013C80)   Bus=(PEXP_NCB)
  *  At reset, the mapping function is one-to-one, that is MSI_INT 1 maps to CIU_INT 1, 2 to 2, 3
  *  to 3, etc.
  * 
-$SLI_MSI_WR_MAP   Address=(0x11F0000013C90)   Bus=(PEXP_NCB)
+$SLI_MSI_WR_MAP   Address=((0x11F0000013C90), (0x3C90))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -36944,7 +36944,7 @@ $SLI_MSI_WR_MAP   Address=(0x11F0000013C90)   Bus=(PEXP_NCB)
  * 
  *  Used to read the mapping function of the SLI_PCIE_MSI_RCV to SLI_MSI_RCV registers.
  * 
-$SLI_MSI_RD_MAP   Address=(0x11F0000013CA0)   Bus=(PEXP_NCB)
+$SLI_MSI_RD_MAP   Address=((0x11F0000013CA0), (0x3CA0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -36962,7 +36962,7 @@ $SLI_MSI_RD_MAP   Address=(0x11F0000013CA0)   Bus=(PEXP_NCB)
  * 
  *  Register where MSI writes are directed from the MAC.
  * 
-$SLI_PCIE_MSI_RCV   Address=(0x11F0000013CB0)   Bus=(PEXP_NCB)
+$SLI_PCIE_MSI_RCV   Address=((0x11F0000013CB0), (0x3CB0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -36981,7 +36981,7 @@ $SLI_PCIE_MSI_RCV   Address=(0x11F0000013CB0)   Bus=(PEXP_NCB)
  * 
  *  Used to enable the various interrupting conditions of SLI
  * 
-$SLI_INT_ENB_CIU   Address=(0x11F0000013CD0)   Bus=(PEXP_NCB)
+$SLI_INT_ENB_CIU   Address=((0x11F0000013CD0), (0x3CD0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
@@ -37064,7 +37064,7 @@ $SLI_INT_ENB_CIU   Address=(0x11F0000013CD0)   Bus=(PEXP_NCB)
  * 
  *  Used to clear bits in SLI_MSI_ENB0.
  * 
-$SLI_MSI_W1C_ENB0   Address=(0x11F0000013CF0)   Bus=(PEXP_NCB)
+$SLI_MSI_W1C_ENB0   Address=((0x11F0000013CF0), (0x3CF0))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37080,7 +37080,7 @@ $SLI_MSI_W1C_ENB0   Address=(0x11F0000013CF0)   Bus=(PEXP_NCB)
  * 
  *  Used to clear bits in SLI_MSI_ENB1.
  * 
-$SLI_MSI_W1C_ENB1   Address=(0x11F0000013D00)   Bus=(PEXP_NCB)
+$SLI_MSI_W1C_ENB1   Address=((0x11F0000013D00), (0x3D00))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37096,7 +37096,7 @@ $SLI_MSI_W1C_ENB1   Address=(0x11F0000013D00)   Bus=(PEXP_NCB)
  * 
  *  Used to clear bits in SLI_MSI_ENB2.
  * 
-$SLI_MSI_W1C_ENB2   Address=(0x11F0000013D10)   Bus=(PEXP_NCB)
+$SLI_MSI_W1C_ENB2   Address=((0x11F0000013D10), (0x3D10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37112,7 +37112,7 @@ $SLI_MSI_W1C_ENB2   Address=(0x11F0000013D10)   Bus=(PEXP_NCB)
  * 
  *  Used to clear bits in SLI_MSI_ENB3.
  * 
-$SLI_MSI_W1C_ENB3   Address=(0x11F0000013D20)   Bus=(PEXP_NCB)
+$SLI_MSI_W1C_ENB3   Address=((0x11F0000013D20), (0x3D20))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37128,7 +37128,7 @@ $SLI_MSI_W1C_ENB3   Address=(0x11F0000013D20)   Bus=(PEXP_NCB)
  * 
  *  Used to set bits in SLI_MSI_ENB0.
  * 
-$SLI_MSI_W1S_ENB0   Address=(0x11F0000013D30)   Bus=(PEXP_NCB)
+$SLI_MSI_W1S_ENB0   Address=((0x11F0000013D30), (0x3D30))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37145,7 +37145,7 @@ $SLI_MSI_W1S_ENB0   Address=(0x11F0000013D30)   Bus=(PEXP_NCB)
  *  SLI_MSI_W1S_ENB0 = SLI MSI Write 1 To Set Enable1
  *  Used to set bits in SLI_MSI_ENB1.
  * 
-$SLI_MSI_W1S_ENB1   Address=(0x11F0000013D40)   Bus=(PEXP_NCB)
+$SLI_MSI_W1S_ENB1   Address=((0x11F0000013D40), (0x3D40))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37161,7 +37161,7 @@ $SLI_MSI_W1S_ENB1   Address=(0x11F0000013D40)   Bus=(PEXP_NCB)
  * 
  *  Used to set bits in SLI_MSI_ENB2.
  * 
-$SLI_MSI_W1S_ENB2   Address=(0x11F0000013D50)   Bus=(PEXP_NCB)
+$SLI_MSI_W1S_ENB2   Address=((0x11F0000013D50), (0x3D50))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37177,7 +37177,7 @@ $SLI_MSI_W1S_ENB2   Address=(0x11F0000013D50)   Bus=(PEXP_NCB)
  * 
  *  Used to set bits in SLI_MSI_ENB3.
  * 
-$SLI_MSI_W1S_ENB3   Address=(0x11F0000013D60)   Bus=(PEXP_NCB)
+$SLI_MSI_W1S_ENB3   Address=((0x11F0000013D60), (0x3D60))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
@@ -37197,7 +37197,7 @@ $SLI_MSI_W1S_ENB3   Address=(0x11F0000013D60)   Bus=(PEXP_NCB)
  *  ports to be reset to the value
  *  in this register.
  * 
-$SLI_MAC_CREDIT_CNT   Address=(0x11F0000013D70)   Bus=(PEXP_NCB)
+$SLI_MAC_CREDIT_CNT   Address=((0x11F0000013D70), (0x3D70))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -37234,7 +37234,7 @@ $SLI_MAC_CREDIT_CNT   Address=(0x11F0000013D70)   Bus=(PEXP_NCB)
  *  making an access(i.e. MAC memory space) that requires the value of this register to be
  *  updated.
  * 
-$SLI_S2M_PORT(0..2)_CTL   Address=(0x11F0000013D80+a*0x10)   Bus=(PEXP_NCB)
+$SLI_S2M_PORT(0..2)_CTL   Address=((0x11F0000013D80+a*0x10), (0x3D80+a*0x10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -37276,7 +37276,7 @@ $SLI_S2M_PORT(0..2)_CTL   Address=(0x11F0000013D80+a*0x10)   Bus=(PEXP_NCB)
  *  ports to be reset to the value
  *  in this register.
  * 
-$SLI_MAC_CREDIT_CNT2   Address=(0x11F0000013E10)   Bus=(PEXP_NCB)
+$SLI_MAC_CREDIT_CNT2   Address=((0x11F0000013E10), (0x3E10))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       

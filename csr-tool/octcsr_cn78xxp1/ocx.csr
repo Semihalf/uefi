@@ -306,7 +306,9 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Link has valid lanes and is exchanging information.
+        description: |
+          Link has valid lanes and is exchanging information.  This bit will never be set if
+          OCX_LNK(0..2)_CFG[QLM_SELECT] is zero.
 
       - name: ID
         bits: 1..0
@@ -536,6 +538,48 @@ registers:
       This register has the same bit fields as OCX_WIN_RD_DATA.
     inherits: OCX_WIN_RD_DATA
 
+  - name: OCX_COM_BIST_STATUS
+    title: OCX COM Memory Bist Status
+    address: 0x11800110000F0
+    bus: RSL
+    description: |
+      Contains Status from last Memory BIST for all RX FIFO Memories.  BIST status for TX FIFO
+      Memories
+      and REPLAY Memories are organized by link and are located in OCX_TLK(0..2)_BIST_STATUS.
+    fields:
+      - name: --
+        bits: 63..36
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: STATUS
+        bits: 35..0
+        access: RO/H
+        reset: 0x1
+        typical: --
+        description: |
+          35:34 - Link 2 VC4/VC2      RX FIFOs
+          33:32 - Link 2 VC10/VC8/VC6 RX FIFOs
+          31:30 - Link 1 VC4/VC2      RX FIFOs
+          29:28 - Link 1 VC10/VC8/VC6 RX FIFOs
+          27:26 - Link 0 VC4/VC2      RX FIFOs
+          25:24 - Link 0 VC10/VC8/VC6 RX FIFOs
+          23:22 - Link 2 VC12         RX FIFOs
+          21:20 - Link 2 VC1/VC0      RX FIFOs
+          19:18 - Link 2 VC5/VC3      RX FIFOs
+          17:16 - Link 2 VC11/VC9/VC7 RX FIFOs
+          15:14 - Link 1 VC12         RX FIFOs
+          13:12 - Link 1 VC1/VC0      RX FIFOs
+          11:10 - Link 1 VC5/VC3      RX FIFOs
+           9: 8 - Link 1 VC11/VC9/VC7 RX FIFOs
+           7: 6 - Link 0 VC12         RX FIFOs
+           5: 4 - Link 0 VC1/VC0      RX FIFOs
+           3: 2 - Link 0 VC5/VC3      RX FIFOs
+           1: 0 - Link 0 VC11/VC9/VC7 RX FIFOs
+
+
   - name: OCX_COM_INT
     title: OCX COM Interrupt Register
     address: 0x1180011000100
@@ -553,14 +597,20 @@ registers:
         access: R/W1C/H
         reset: 1
         typical: --
-        description: I/O request or response cannot be send because Node ID is invalid. Transaction has been dropped.
+        description: |
+          I/O request or response cannot be sent because a link was not found with a packet Node ID
+          matching the OCX_COM_LINK(0..2)_CTL[ID]
+          with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped.
 
       - name: MEM_BADID
         bits: 53
         access: R/W1C/H
         reset: 1
         typical: --
-        description: Memory request or response cannot be send because Node ID is invalid. Transaction has been dropped.
+        description: |
+          Memory request or response cannot be send because a link was not found with a packet Node
+          ID matching the OCX_COM_LINK(0..2)_CTL[ID]
+          with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped.
 
       - name: COPR_BADID
         bits: 52
@@ -568,8 +618,10 @@ registers:
         reset: 1
         typical: --
         description: |
-          Scheduler add work or buffer pool return cannot be sent because Node ID is invalid.
-          Transaction has been dropped.
+          Scheduler add work or buffer pool return cannot be sent because a link was not found with
+          a Node ID matching the
+          OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has
+          been dropped.
 
       - name: WIN_REQ_BADID
         bits: 51
@@ -578,7 +630,9 @@ registers:
         typical: --
         description: |
           Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
-          cannot be sent because Node ID is invalid. Transaction has been dropped.
+          cannot be sent because a link was not found with a request Node ID matching the
+          OCX_COM_LINK(0..2)_CTL[ID]
+          with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has been dropped.
 
       - name: WIN_REQ_TOUT
         bits: 50
@@ -1744,6 +1798,8 @@ registers:
           LINK 2 automatically selects QLM3 when QLM_MANUAL[3]=0 and OCX_QLM3_CFG.SER_LOCAL=0
           LINK 3 automatically selects QLM4 when QLM_MANUAL[4]=0
           LINK 3 automatically selects QLM5 when QLM_MANUAL[5]=0
+          NOTE:  A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+          link partner
 
       - name: --
         bits: 31..10
@@ -2053,6 +2109,32 @@ registers:
         reset: --
         typical: --
         description: Block Subcount. Should always increment 0,1,2,3,0.. except during TX PHY stall.
+
+
+  - name: OCX_TLK(0..2)_BIST_STATUS
+    title: OCX Link REPLAY Memories and TX FIFOs BIST Status
+    address: 0x1180011010008 + a*0x2000
+    bus: RSL
+    description: |
+      Contains Status from last Memory BIST for all TX FIFO Memories and REPLAY Memories in this
+      link.
+      RX FIFO Status can be found in OCX_COM_BIST_STATUS
+    fields:
+      - name: --
+        bits: 63..15
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: STATUS
+        bits: 14..0
+        access: RO/H
+        reset: 0x1
+        typical: --
+        description: |
+          "14:13 - REPLAY Memories BIST Status [1:0]
+          12:0  - TX_FIFO[12:0] by Link VC#"
 
 
   - name: OCX_TLK(0..2)_ECC_CTL

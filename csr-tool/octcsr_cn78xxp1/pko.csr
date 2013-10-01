@@ -190,35 +190,43 @@ enums:
 
       - name: DQBADSTATE
         value: 0x8
-        description: PKO could not enqueue the descriptor because the queue was not ready to enqueue descriptors.
+        description: |
+          PKO could not enqueue the descriptor because the queue was not ready to enqueue
+          descriptors.
+          INTERNAL: Not used in hardware, currently.
 
       - name: DQNOFPABUF
         value: 0x9
         description: |
           PKO could not enqueue the descriptor because FPA could not allocate a free FPA buffer to
-          hold the descriptor.
+          hold the descriptor. IMPORTANT: This is a fatal error, and will require a reset. If this
+          happens to a Queue-open or Queue-close command, the PDM internal state could be
+          incoherrent. If this status is seen, it is an indication reset is needed. The interrupt
+          PKO_INTSN_E::PKO_FPA_NO_PTRS will be signalled as soon as the FPA returns the condition of
+          having no pointers.
 
       - name: DQALREADYCREATED
         value: 0xC
         description: |
-          PKO could not do the command because the DQ was already created. (For example, can't
-          double open a DQ).
+          This is a non-fatal error. PKO could not do the command because the DQ was already
+          created. (For example, it is illegal to double open a DQ).
 
       - name: DQNOTCREATED
         value: 0xD
         description: |
-          PKO could not do the command because the DQ was not already created. (For example, can't
-          close a DQ that is not created).
+          This is a non-fatal error. PKO could not do the command because the DQ was not already
+          created. (For example, it is illegal to close a DQ that is not created).
 
       - name: DQNOTEMPTY
         value: 0xE
         description: |
-          PKO could not do the command because the DQ was not empty. (For example, can't close a DQ
-          that is not empty).
+          This is a non-fatal error. PKO could not do the command because the DQ was not empty. (For
+          example, it is illegal to close a DQ that is not empty).
 
       - name: DQSENDPKTDROP
         value: 0xF
         description: |
+          This is a non-fatal error.
           PKO dropped the send-packet command due to illegal construction.
           Check PKO_PDM_STS[CP_SENDPKT_ERR_DROP]
           bits to indicated an error. Corresponding interrupts will fire.
@@ -1407,7 +1415,7 @@ structs:
           exceed 2^16 - 8 bytes (65528 bytes). PKO or an interface may append outside
           FCS to a packet. PKO appends outside FCS to the packet when PKO_MACm_CFG[FCS_ENA]
           is set, and zero pads (when necessary, to force the pre-outside-FCS packet
-          to be at least PKO_PDM_CFG[MINLEN] bytes) when PKO_MACm_CFG[FIXME] is set,
+          to be at least PKO_PDM_CFG[MINLEN] bytes) when PKO_MACm_CFG[MIN_PAD_ENA] is set,
           where m is the MAC that the packet uses.
 
       - name: L3PTR
@@ -2736,6 +2744,25 @@ registers:
         typical: --
         description: Reserved.
 
+
+  - name: PKO_PQA_DEBUG
+    title: PKO PSE PQA Internal Debug Register (Debug Only)
+    address: 0x1540000000128
+    bus: NCB
+    fields:
+      - name: DBG_VEC
+        bits: 63..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Debug Vector.
+
+
+  - name: PKO_PQB_DEBUG
+    title: PKO PSE PQB Internal Debug Register (Debug Only)
+    address: 0x1540000000130
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
 
   - name: PKO_PSE_PQ_BIST_STATUS
     title: PSE PQ BIST status information register
@@ -4182,6 +4209,18 @@ registers:
         description: Reserved.
 
 
+  - name: PKO_L1_SQA_DEBUG
+    title: PKO PSE Level 1 SQ-A Internal Debug Register (Debug Only)
+    address: 0x1540000080128
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
+  - name: PKO_L1_SQB_DEBUG
+    title: PKO PSE Level 1 SQ-B Internal Debug Register (Debug Only)
+    address: 0x1540000080130
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
   - name: PKO_PSE_SQ1_BIST_STATUS
     title: PSE SQ1 BIST status information register
     address: 0x1540000080138
@@ -5110,6 +5149,18 @@ registers:
         typical: --
         description: Reserved.
 
+
+  - name: PKO_L2_SQA_DEBUG
+    title: PKO PSE Level 2 SQ-A Internal Debug Register (Debug Only)
+    address: 0x1540000100128
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
+  - name: PKO_L2_SQB_DEBUG
+    title: PKO PSE Level 2 SQ-B Internal Debug Register (Debug Only)
+    address: 0x1540000100130
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
 
   - name: PKO_PSE_SQ2_BIST_STATUS
     title: PSE SQ2 BIST status information register
@@ -6301,6 +6352,18 @@ registers:
         typical: --
         description: Reserved.
 
+
+  - name: PKO_L3_SQA_DEBUG
+    title: PKO PSE Level 3 SQ-A Internal Debug Register (Debug Only)
+    address: 0x1540000180128
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
+  - name: PKO_L3_SQB_DEBUG
+    title: PKO PSE Level 3 SQ-B Internal Debug Register (Debug Only)
+    address: 0x1540000180130
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
 
   - name: PKO_PSE_SQ3_BIST_STATUS
     title: PSE SQ3 BIST status information register
@@ -7506,6 +7569,18 @@ registers:
         description: Reserved.
 
 
+  - name: PKO_L4_SQA_DEBUG
+    title: PKO PSE Level 4 SQ-A Internal Debug Register (Debug Only)
+    address: 0x1540000200128
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
+  - name: PKO_L4_SQB_DEBUG
+    title: PKO PSE Level 4 SQ-B Internal Debug Register (Debug Only)
+    address: 0x1540000200130
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
   - name: PKO_PSE_SQ4_BIST_STATUS
     title: PSE SQ4 BIST status information register
     address: 0x1540000200138
@@ -8657,6 +8732,18 @@ registers:
         description: Reserved.
 
 
+  - name: PKO_L5_SQA_DEBUG
+    title: PKO PSE Level 5 SQ-A Internal Debug Register (Debug Only)
+    address: 0x1540000280128
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
+  - name: PKO_L5_SQB_DEBUG
+    title: PKO PSE Level 5 SQ-B Internal Debug Register (Debug Only)
+    address: 0x1540000280130
+    bus: NCB
+    inherits: PKO_PQA_DEBUG
+
   - name: PKO_PSE_SQ5_BIST_STATUS
     title: PSE SQ5 BIST status information register
     address: 0x1540000280138
@@ -9314,6 +9401,19 @@ registers:
         reset: --
         typical: --
         description: Reserved.
+
+
+  - name: PKO_DQ_DEBUG
+    title: PKO PSE DQ Internal Debug Register (Debug Only)
+    address: 0x1540000300128
+    bus: NCB
+    fields:
+      - name: DBG_VEC
+        bits: 63..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Debug Vector.
 
 
   - name: PKO_PSE_DQ_BIST_STATUS
