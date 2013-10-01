@@ -481,11 +481,12 @@ function TrafficGen.new()
             for _,port in ipairs(port_range) do
                 octeon.trafficgen.set_config(port, new_config)
                 expected_packets = expected_packets + output_count
-                if (port:sub(1,5) == "SGMII") or (port:sub(1,4) == "XAUI") or (port:sub(1,5) == "HIGIG") or (port:sub(1,3) == "ILK") or (port:sub(1,4) == "MGMT") then
+                if (port:sub(1,4) == "LOOP") then
+                    -- Loop doesn't have the 4 bytes of ethernet CRC
+                    expected_octets = expected_octets + output_count * size
+                else
                     -- Account for the extra 4 bytes of ethernet CRC
                     expected_octets = expected_octets + output_count * (size+4)
-                else
-                    expected_octets = expected_octets + output_count * size
                 end
             end
             -- Limit to five seconds per size
