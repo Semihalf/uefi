@@ -75,14 +75,15 @@ end
 -- PCIe
 --
 local pcie = require("pcie")
-local rc = pcie.initialize(0, 0)
-if rc then
+local status, rc = pcall(pcie.initialize, 0, 0)
+if status then
     rc:scan()
     rc:enumerate()
     rc:display()
     print("PCIe init: PASS")
 else
     print("PCIe init: FAIL")
+    all_pass = false
 end
 
 
