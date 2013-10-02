@@ -62,6 +62,7 @@ local all_pass = true
 --
 -- MMC Tests
 --
+print("test start: mmc")
 local status, capacity = pcall(octeon.mmc.init)
 if status and (capacity > 0) then
     print("MMC Init test: PASS")
@@ -70,10 +71,12 @@ else
     print("MMC Init test: FAIL")
     all_pass = false
 end
+print("test end: mmc")
 
 --
 -- PCIe
 --
+print("test start: PCIe")
 local pcie = require("pcie")
 local status, rc = pcall(pcie.initialize, 0, 0)
 if status then
@@ -85,11 +88,13 @@ else
     print("PCIe init: FAIL")
     all_pass = false
 end
+print("test end: PCIe")
 
 
 --
 -- Network Traffic Tests
 --
+print("test start: traffic")
 local tg_pass = true
 local trafficgen = require("trafficgen")
 local tg = trafficgen.new()
@@ -110,6 +115,7 @@ tg_pass = tg_run(tg, "SGMII1.0-SGMII1.3", 60, 10000, 100, 2)
 tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 1500, 10000, 100, 2)
 tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 65524, 1000, 100, 2)
 all_pass = all_pass and tg_pass
+print("test end: traffic")
 
 
 --
