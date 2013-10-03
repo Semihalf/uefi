@@ -166,6 +166,15 @@ void __bdk_init(long base_address)
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(6), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(7), l2c_tadx_int.u64);
             }
+            /* The locked region isn't considered dirty by L2. Do read
+               read/write of each cache line to force each to be dirty */
+            volatile uint8_t *ptr = bdk_phys_to_ptr(1);
+            uint8_t *end = bdk_phys_to_ptr(bdk_l2c_get_cache_size_bytes(node));
+            while (ptr < end)
+            {
+                *ptr = *ptr;
+                ptr += 128;
+            }
         }
 
         if (BDK_SHOW_BOOT_BANNERS)
