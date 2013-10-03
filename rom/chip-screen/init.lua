@@ -125,5 +125,6 @@ print("")
 if all_pass then
     print("All tested summary: PASS")
 end
+print("Octeon Chip Screen complete.")
 print("")
 
