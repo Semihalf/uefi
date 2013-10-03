@@ -139,8 +139,6 @@ static int if_init(bdk_if_handle_t handle)
     if (is_rgmii) // RGMII Initialization
     {
         agl_prtx_ctl.s.dllrst = 0;
-        agl_prtx_ctl.s.clktx_byp = 0;
-        agl_prtx_ctl.s.clkrx_byp = 1;
         agl_prtx_ctl.s.clkrx_set = 0;
     }
     BDK_CSR_WRITE(handle->node, BDK_AGL_PRTX_CTL(handle->index), agl_prtx_ctl.u64);

@@ -6,6 +6,9 @@ local set_config = octeon.c.bdk_config_set
 
 -- RGMII PHY address is 3, on SMI0
 set_config(octeon.CONFIG_PHY_MGMT_PORT0, 3)
+-- The EVB7000 has an issue with the RGMII PHY where RX bypass
+-- mode is required. Most other boards won' need this
+octeon.csr.AGL_PRTX_CTL(0).CLKRX_BYP = 1
 
 -- (Q)SGMII PHY address for interface 0 are 4-7, on SMI1
 set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 4)
