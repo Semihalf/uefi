@@ -37,7 +37,7 @@ end
 local m = menu.new("Main Menu")
 m:item("config","Configuration options",    menu.dofile, "config_menu")
 m:item("file",  "File options",             menu.dofile, "file")
-m:item("flash", "Flash options",            menu.dofile, "flash")
+m:item("flash", "Flash and MMC/SD",         menu.dofile, "flash")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
 m:item("qlm",   "QLM options",              menu.dofile, "qlm_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
