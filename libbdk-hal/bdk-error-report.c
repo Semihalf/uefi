@@ -1067,6 +1067,7 @@ void bdk_error_enable(bdk_node_t node)
     if (OCTEON_IS_MODEL(OCTEON_CN70XX))
     {
         enable_cn70xx(node);
+        check_cn70xx(node);
         bdk_error_check = check_cn70xx;
     }
     else
