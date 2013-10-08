@@ -138,7 +138,12 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
         if (OCTEON_IS_MODEL(OCTEON_CN78XX))
             l2_set_bits =  13; /* 8192 sets */
         else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-            l2_set_bits =  10; /* 1024 sets */
+        {
+            if (bdk_is_simulation())
+                l2_set_bits =  12; /* Enlarge os sim can run as cache is too small */
+            else
+                l2_set_bits =  10; /* 1024 sets */
+        }
         else
         {
             bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
