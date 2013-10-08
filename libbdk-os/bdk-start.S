@@ -178,6 +178,7 @@ __init:
     or      t0, 1<<7    /* KX */
     or      t0, 1<<29   /* CU1 */
     MTC0    t0, COP0_STATUS
+    CTC1    zero, $31
 
     /* Figure out the location of code as an offset from our link address */
     dla     t1, 1f          /* VA of label 1 */
