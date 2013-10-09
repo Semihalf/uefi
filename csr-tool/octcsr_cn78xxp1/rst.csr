@@ -183,6 +183,8 @@ registers:
     title: RST Delay Register
     address: 0x1180006001608
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..32

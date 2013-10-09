@@ -344,6 +344,8 @@ registers:
     address: 0x1070000000F48
     bus: NCB
     description: This register contains the low bytes of the PTP clock out increment.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: NANOSEC
         bits: 63..32

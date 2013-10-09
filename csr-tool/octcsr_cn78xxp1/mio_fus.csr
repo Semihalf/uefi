@@ -741,6 +741,8 @@ registers:
       Prior to issuing a read to the fuse banks (via MIO_FUS_RCMD), this register should be written
       with the timing parameters that will be read.
       This register should not be written while MIO_FUS_RCMD[PEND] = 1.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..32

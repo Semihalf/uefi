@@ -166,7 +166,7 @@ enums:
   - name: PKI_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different interrupts from PKI.
+    description: Enumerates the different interrupts from PKI; see Interrupt Source Numbers.
     values:
       - name: PKI_GEN_PKTDRP
         value: 0x44000
@@ -782,6 +782,11 @@ enums:
         description: |
           ILK parity error: ILK detected a parity error in the data portion of its receive FIFO
           during this packet transfer.
+
+      - name: RE_DMAPKT
+        value: 0x0F
+        description: |
+          DMA packet error: The packet experienced one or more errors during the DMA read operation.
 
       - name: RE_PKIPAR
         value: 0x13
@@ -1587,7 +1592,7 @@ structs:
         bits: 44
         description: |
           Invert Free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
-          buffer returns as described in .
+          buffer returns as described in Packet-Output Processing Unit (PKO).
 
       - name: --
         bits: 47..45
@@ -2171,7 +2176,12 @@ registers:
         typical: 0
         description: |
           When 1, PKI is busy completing reset. No access except the reading of this bit should
-          occur to the PKI until this is clear.
+          occur to the PKI until this is clear. INTERNAL: The BUSY bit for this implementation is a
+          placeholder and is not required to be implemented in HW. The soft reset pulse is short
+          enough that we can guarantee that reset will complete below a subsequent RSL reference can
+          be made. It is still useful for this bit to exist in case that property every changes and
+          the reset requires a longer duration. For this implementation, SW will check the bit which
+          will always report not BUSY allowing SW to proceed with its flow.
 
       - name: --
         bits: 62..1
@@ -2259,8 +2269,8 @@ registers:
         typical: 0
         description: |
           PKI asserted backpressure. Set when PKI was unable to accept the next valid data from
-          BGX/DPI/ILK etc. over X2P due to all internal resources being used up, and PKI will drop
-          the packet. Throws PKI_INTSN_E::PKI_GEN_BCKPRS.
+          BGX/DPI/ILK etc. over X2P due to all internal resources being used up, and PKI will
+          backpressure X2P. Throws PKI_INTSN_E::PKI_GEN_BCKPRS.
 
       - name: CRCERR
         bits: 1
@@ -2289,8 +2299,6 @@ registers:
     title: PKI Packet Error Register
     address: 0x1180044000030
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..7
@@ -2313,8 +2321,6 @@ registers:
     title: PKI X2P Request Overflow Error Register
     address: 0x1180044000038
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..4
@@ -3126,8 +3132,6 @@ registers:
     address: 0x1180044000110
     bus: RSL
     description: Controls how the PKI statistics counters are handled.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..2
@@ -3523,6 +3527,29 @@ registers:
         description: Resulting data from matching line's PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191), or zero if no match.
 
 
+  - name: PKI_PIX_DIAG
+    title: |
+      INTERNAL: PKI PIX Diagnostic Register
+    address: 0x1180044000580
+    bus: RSL
+    attributes:
+      uvm_default_constraint: "True"
+    fields:
+      - name: --
+        bits: 63..4
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: NOSCHED
+        bits: 3..0
+        access: R/W1C/H
+        reset: 0x0
+        typical: 0x0
+        description: Asserted when PFE requests an ICG with no enabled CLUSTERS.
+
+
   - name: PKI_FRM_LEN_CHK(0..1)
     title: PKI Frame Length Check Registers
     address: 0x1180044004000 | a<<3
@@ -3588,7 +3615,6 @@ registers:
       register.
     attributes:
       arch_max: "16"
-      uvm_default_constraint: "True"
     fields:
       - name: SOP
         bits: 63..0
@@ -3606,7 +3632,6 @@ registers:
     bus: RSL
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..12
@@ -4063,7 +4088,6 @@ registers:
       INTERNAL: This register is in BE.
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..27
@@ -4256,7 +4280,7 @@ registers:
           The number of eight-byte words from the top of the first MBUF that the PKI stores the next
           pointer. If [DIS_WQ_DAT]=1, any value is legal. If [DIS_WQ_DAT]=0, legal values must
           satisfy:
-          FIRST_SKIP + 18 <= PKI_STYLE(0..63)_BUF[MB_SIZE]
+          FIRST_SKIP <= PKI_STYLE(0..63)_BUF[MB_SIZE] - 18.
           FIRST_SKIP must be at least 0x4, but 0x5 is recommended minimum. 0x4 will drop WQE WORD4,
           for use in backward compatible applications.
           WQE_SKIP * (128/8) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry words
@@ -4269,7 +4293,7 @@ registers:
         typical: 0x0
         description: |
           The number of eight-byte words from the top of any MBUF that is not the first MBUF that
-          PKI writes the next-pointer to. Legal values are 0 to PKI_STYLE(0..63)_BUF[MB_SIZE] - 16.
+          PKI writes the next-pointer to. Legal values are 0 to PKI_STYLE(0..63)_BUF[MB_SIZE] - 18.
 
       - name: OPC_MODE
         bits: 15..14

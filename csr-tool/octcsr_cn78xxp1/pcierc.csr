@@ -1686,8 +1686,8 @@ registers:
       - name: L0EL
         bits: 14..12
         access: RO/WRSL
-        reset: 0x6
-        typical: 0x6
+        reset: 0x5
+        typical: 0x5
         description: |
           "L0s Exit Latency
           The default value is the value you specify during hardware
@@ -4629,8 +4629,8 @@ registers:
       - name: N_FTS_CC
         bits: 23..16
         access: R/W
-        reset: 0x80
-        typical: 0x80
+        reset: 0x3f
+        typical: 0x3f
         description: |
           N_FTS when common clock is used.
           The number of Fast Training Sequence ordered sets to be
@@ -4643,8 +4643,8 @@ registers:
       - name: N_FTS
         bits: 15..8
         access: R/W
-        reset: 0x80
-        typical: 0x80
+        reset: 0x3f
+        typical: 0x3f
         description: |
           N_FTS
           The number of Fast Training Sequence ordered sets to be
@@ -5664,8 +5664,8 @@ registers:
       - name: N_FTS
         bits: 7..0
         access: R/W
-        reset: 0x80
-        typical: 0x80
+        reset: 0x7d
+        typical: 0x7d
         description: |
           N_FTS
           Sets the Number of Fast Training Sequences (N_FTS) that

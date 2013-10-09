@@ -161,6 +161,7 @@ registers:
     address: 0x1180021000018 + a*0x1000000
     bus: RSL
     attributes:
+      dv_fc_scratch: "ALL"
       exempt_natural_alignment: "a"
     fields:
       - name: --
@@ -462,7 +463,7 @@ registers:
       - name: COEFF_A
         bits: 37..32
         access: R/W
-        reset: 0x0
+        reset: 0x1f
         typical: --
         description: |
           Coefficient A value for polynomial fit.
@@ -479,7 +480,7 @@ registers:
       - name: COEFF_B
         bits: 24..16
         access: R/W
-        reset: 0x1
+        reset: 0x100
         typical: --
         description: |
           Coefficient B value for polynomial fit. It should be a positive number and between 1 and

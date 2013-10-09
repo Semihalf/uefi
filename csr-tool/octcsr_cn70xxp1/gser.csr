@@ -1283,28 +1283,37 @@ registers:
         access: R/W
         reset: 1
         typical: --
-        description: Pipe 3 Reset.  Setting this bit will put Pipe 3 into reset.
+        description: |
+          Pipe 3 Reset.  Setting this bit will put Pipe 3 into reset.
+          PEM2 is always tied to Pipe 3.
 
       - name: PIPE2_RST
         bits: 2
         access: R/W
         reset: 1
         typical: --
-        description: Pipe 2 Reset.  Setting this bit will put Pipe 2 into reset.
+        description: |
+          Pipe 2 Reset.  Setting this bit will put Pipe 2 into reset.
+          PEM1 is tied to Pipe 2 in 3x1 PCIe mode (GSER_PCIE_PIPE_PORT_SEL.PIPE_PORT_SEL
+          is set to 4-pipe mode, and GSER_PCIE_PIPE_PORT_SEL.CFG_PEM1_DLM2 is also set).
 
       - name: PIPE1_RST
         bits: 1
         access: R/W
         reset: 1
         typical: --
-        description: Pipe 1 Reset.  Setting this bit will put Pipe 1 into reset.
+        description: |
+          Pipe 1 Reset.  Setting this bit will put Pipe 1 into reset.
+          PEM1 is tied to Pipe 1 in 2x2 PCIe or 2x1 PCIe with SATA modes.
 
       - name: PIPE0_RST
         bits: 0
         access: R/W/H
         reset: 0
         typical: --
-        description: Pipe 0 Reset.  Setting this bit will put Pipe 0 into reset.
+        description: |
+          Pipe 0 Reset.  Setting this bit will put Pipe 0 into reset.
+          PEM0 is always tied to Pipe 0.
 
 
   - name: GSER(0)_PCIE_PIPE_RST_STS
@@ -1323,46 +1332,49 @@ registers:
       - name: PIPE3_RST
         bits: 3
         access: RO
-        reset: 1
+        reset: 0
         typical: --
         description: |
           Reflects the current state of the pipe3_rst_n which includes
           the rst__pem2_pcs_rst_n term from the reset controller.  Note that
-          when PIPE3_RST is asserted, no Pipe clocks are generated to PEM3 and
-          any RSL reads to the application side registers will time out.
+          when PIPE3_RST is asserted (active low), no Pipe clocks are generated
+          to PEM3 and any RSL reads to the application side registers will time out.
 
       - name: PIPE2_RST
         bits: 2
         access: RO
-        reset: 1
+        reset: 0
         typical: --
         description: |
           Reflects the current state of the pipe2_rst_n which includes
           the rst__pem2_pcs_rst_n term from the reset controller.  Note that
-          when PIPE2_RST is asserted, no Pipe clocks are generated to PEM1 and
-          any RSL reads to the application side registers will time out.
+          when PIPE2_RST is asserted (active low) and PEM1 is being used in
+          3x1 PCIe mode (4-Pipe Mode with CFG_PEM1_DLM2 set), no Pipe clocks
+          are generated to PEM1 and any RSL reads to the application side
+          registers will time out.
 
       - name: PIPE1_RST
         bits: 1
         access: RO
-        reset: 1
+        reset: 0
         typical: --
         description: |
           Reflects the current state of the pipe1_rst_n which includes
           the rst__pem1_pcs_rst_n term from the reset controller.  Note that
-          when PIPE1_RST is asserted, no Pipe clocks are generated to PEM1 and
-          any RSL reads to the application side registers will time out.
+          when PIPE1_RST is asserted (active low) and PEM1 is being used in
+          2x2 PCIe or 2x1 PCIe with SATA, no Pipe clocks are generated to PEM1
+          and any RSL reads to the application side registers will time out.
 
       - name: PIPE0_RST
         bits: 0
         access: RO
-        reset: 0
+        reset: --
         typical: --
         description: |
           Reflects the current state of the pipe0_rst_n which includes
           the rst__pem0_pcs_rst_n term from the reset controller.  Note that
-          when PIPE0_RST is asserted, no Pipe clocks are generated to PEM0 and
-          any RSL reads to the application side registers will time out.
+          when PIPE0_RST is asserted (active low), no Pipe clocks are generated
+          to PEM0 and any RSL reads to the application side registers will time out.
 
 
   - name: GSER(0)_PCIE_PIPE_CRST
@@ -1405,11 +1417,11 @@ registers:
         reset: 0
         typical: --
         description: |
-          The PIPE/PHY configuration for PEM1 when in 4-Pipe Mode.
-          Used as status for determining which DLM PEM1 is tied to.
+          The PIPE (Pipe1 or Pipe2) and PHY (DLM1 or DLM2) configuration for PEM1
+          when in 4-Pipe Mode.
           This bit should not be set in Single Pipe or 2-Pipe Mode.
-          0: PEM1 is tied to DLM1.  This is 3x1 PCIe mode when all 4 PIPES are enabled.
-          1: PEM1 is tied to DLM2.  This is 2x1 PCIe mode with SATA
+          0: PEM1 is tied to Pipe1/DLM1.  This is 3x1 PCIe mode when all 4 PIPES are enabled.
+          1: PEM1 is tied to Pipe2/DLM2.  This is 2x1 PCIe mode with SATA
 
       - name: PIPE_PORT_SEL
         bits: 1..0
@@ -1419,11 +1431,11 @@ registers:
         description: |
           PIPE enable request.  Change only when phy_reset is asserted.
           00: Disables all PIPEs
-          01: Single Pipe Mode. Enables PIPE0 only.
+          01: Single Pipe Mode. Enables PIPE0 (PEM0) only.
               This is 1x4 PCIe mode.
-          10: 2-Pipe Mode.  Enables PIPEs 0 and 1.
+          10: 2-Pipe Mode.  Enables PIPEs 0 (PEM0) and 1 (PEM1).
               This is 2x2 PCIe mode or 1x2 PCIe mode with SATA.
-          11: 4-Pipe Mode. Enables PIPEs 0, 1, 2, and 3.
+          11: 4-Pipe Mode. Enables PIPEs 0 (PEM0), 1, 2 (PEM1), and 3 (PEM2).
               This is 2x1 PCIe mode with SATA or 3x1 PCIe mode.
 
 

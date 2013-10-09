@@ -1148,15 +1148,16 @@ registers:
 
       - name: SER_LIMIT
         bits: 42..33
-        access: R/W
-        reset: 0x190
+        access: R/W/H
+        reset: 0x0
         typical: --
         description: |
-          Reduce latency by limiting the amount of data in flight for each SerDes.
-          SER_LIMIT >= (((17 + NUM_LANES) * (BAUD/SCLK/20)) + 4) * 20.
+          Reduce latency by limiting the amount of data in flight for each SerDes. If 0x0, hardware
+          will compute it. Otherwise, SER_LIMIT must be set as follows:
+          SER_LIMIT >= 148 + (BAUD / SCLK) * (12 + (NUM_LANES/2))
           For instance, for sclk=1.1GHz,BAUD=10.3125,NUM_LANES=16 :
-          SER_LIMIT >= (((17+16)*(10.3125/1.1/20))+4)*20
-          SER_LIMIT >= 390
+          SER_LIMIT >= 148 + (10.3125 / 1.1 * (12 + (12/2))
+          SER_LIMIT >= 317
 
       - name: PKT_BUSY
         bits: 32

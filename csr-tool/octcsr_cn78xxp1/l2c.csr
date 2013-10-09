@@ -818,11 +818,18 @@ registers:
           To disable set to 0. All other values are reserved.
 
       - name: --
-        bits: 5..3
+        bits: 5..4
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DISLDWB
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs.
 
       - name: DISSBLKDTY
         bits: 2
@@ -1076,11 +1083,24 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..7
+        bits: 63..9
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: INV_MODE
+        bits: 8..7
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Describes how aggressive to be when waiting for local invalidates before sending OCI
+          responses which act like commits at the remote. 0 - conservative mode, waits until all
+          local invalidates have been sent by their respective CBCs to the PPs. 1 - moderate mode,
+          waits until all local invalidates have been sent to their respective CBCs, but not
+          necessarily actually sent to the PPs themselves. 2 - aggressive mode, does not wait for
+          local invalidates to begin their processing.
 
       - name: CAS_FDX
         bits: 6
@@ -1566,6 +1586,8 @@ registers:
     title: Level 2 Cache IOC Performance Counter Register
     address: 0x1180080800828 + a*0x40
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: COUNT
         bits: 63..0
@@ -1866,11 +1888,46 @@ registers:
     description: Register for DLL observability
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..36
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PD_POS_RCLK_REFCLK
+        bits: 35
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Phase detector output.
+
+      - name: PDL_RCLK_REFCLK
+        bits: 34
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Phase detector output.
+
+      - name: PDR_RCLK_REFCLK
+        bits: 33
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Phase detector output.
+
+      - name: CLK_INVERT
+        bits: 32
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Clock invert.
+
+      - name: DLY_ELEM_ENABLE
+        bits: 31..16
+        access: RO/H
+        reset: 0x0
+        typical: 0x1
+        description: Delay element enable.
 
       - name: DLL_SETTING
         bits: 15..4
@@ -2609,11 +2666,46 @@ registers:
     description: Register for DLL observability
     fields:
       - name: --
-        bits: 63..16
+        bits: 63..36
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PD_POS_RCLK_REFCLK
+        bits: 35
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Phase detector output.
+
+      - name: PDL_RCLK_REFCLK
+        bits: 34
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Phase detector output.
+
+      - name: PDR_RCLK_REFCLK
+        bits: 33
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Phase detector output.
+
+      - name: CLK_INVERT
+        bits: 32
+        access: RO/H
+        reset: 0
+        typical: 1
+        description: Clock invert.
+
+      - name: DLY_ELEM_ENABLE
+        bits: 31..16
+        access: RO/H
+        reset: 0x0
+        typical: 0x1
+        description: Delay element enable.
 
       - name: DLL_SETTING
         bits: 15..4

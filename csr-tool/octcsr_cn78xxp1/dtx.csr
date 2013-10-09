@@ -226,6 +226,36 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_FPA_SEL(0..1)
+    title: DTX FPA Select Register
+    address: 0x11800FE000000 | ((40) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_FPA_ENA(0..1)
+    title: DTX FPA Data Enable Register
+    address: 0x11800FE000020 | ((40) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_FPA_DAT(0..1)
+    title: DTX FPA Raw Data Register
+    address: 0x11800FE000040 | ((40) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_FPA_CTL
+    title: DTX FPA Control Register
+    address: 0x11800FE140060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_FPA_BCST_RSP
+    title: DTX FPA Control Register
+    address: 0x11800FE140080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_OCX_LNK_DTXDID(0..2)_SEL(0..1)
     title: DTX OCX_LNK_DTXDID(0..2) Select Register
     address: 0x11800FE000000 + ((0x30 + (a)) << 15) + (b*8)
@@ -283,6 +313,36 @@ registers:
   - name: DTX_OCX_OLE(0..2)_BCST_RSP
     title: DTX OCX_OLE(0..2) Control Register
     address: 0x11800FE000080 + ((0x34 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_DFA_SEL(0..1)
+    title: DTX DFA Select Register
+    address: 0x11800FE000000 | ((55) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_DFA_ENA(0..1)
+    title: DTX DFA Data Enable Register
+    address: 0x11800FE000020 | ((55) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_DFA_DAT(0..1)
+    title: DTX DFA Raw Data Register
+    address: 0x11800FE000040 | ((55) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_DFA_CTL
+    title: DTX DFA Control Register
+    address: 0x11800FE1B8060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_DFA_BCST_RSP
+    title: DTX DFA Control Register
+    address: 0x11800FE1B8080
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
@@ -403,6 +463,36 @@ registers:
   - name: DTX_L2C_TAD(0..7)_BCST_RSP
     title: DTX L2C_TAD(0..7) Control Register
     address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_TIM_SEL(0..1)
+    title: DTX TIM Select Register
+    address: 0x11800FE000000 | ((88) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_TIM_ENA(0..1)
+    title: DTX TIM Data Enable Register
+    address: 0x11800FE000020 | ((88) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_TIM_DAT(0..1)
+    title: DTX TIM Raw Data Register
+    address: 0x11800FE000040 | ((88) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_TIM_CTL
+    title: DTX TIM Control Register
+    address: 0x11800FE2C0060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_TIM_BCST_RSP
+    title: DTX TIM Control Register
+    address: 0x11800FE2C0080
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 

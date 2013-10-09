@@ -9927,9 +9927,14 @@ $GSER(0)_PCIE_PIPE_RST   Address=(0x1180090080448+a)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:4>  NS        RAZ     NS         NS         Reserved.                                         
  <3>     PIPE3_RST R/W     0x1        NS         Pipe 3 Reset.  Setting this bit will put Pipe 3 into reset.
+                                                 PEM2 is always tied to Pipe 3.
  <2>     PIPE2_RST R/W     0x1        NS         Pipe 2 Reset.  Setting this bit will put Pipe 2 into reset.
+                                                 PEM1 is tied to Pipe 2 in 3x1 PCIe mode (GSER_PCIE_PIPE_PORT_SEL.PIPE_PORT_SEL
+                                                 is set to 4-pipe mode, and GSER_PCIE_PIPE_PORT_SEL.CFG_PEM1_DLM2 is also set).
  <1>     PIPE1_RST R/W     0x1        NS         Pipe 1 Reset.  Setting this bit will put Pipe 1 into reset.
+                                                 PEM1 is tied to Pipe 1 in 2x2 PCIe or 2x1 PCIe with SATA modes.
  <0>     PIPE0_RST R/W/H   0x0        NS         Pipe 0 Reset.  Setting this bit will put Pipe 0 into reset.
+                                                 PEM0 is always tied to Pipe 0.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -9944,22 +9949,25 @@ $GSER(0)_PCIE_PIPE_RST_STS   Address=(0x1180090080450+a)   Bus=(RSL)
  Pos     Name      Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:4>  NS        RAZ     NS         NS         Reserved.                                         
- <3>     PIPE3_RST RO      0x1        NS         Reflects the current state of the pipe3_rst_n which includes
+ <3>     PIPE3_RST RO      0x0        NS         Reflects the current state of the pipe3_rst_n which includes
                                                  the rst__pem2_pcs_rst_n term from the reset controller.  Note that
-                                                 when PIPE3_RST is asserted, no Pipe clocks are generated to PEM3 and
-                                                 any RSL reads to the application side registers will time out.
- <2>     PIPE2_RST RO      0x1        NS         Reflects the current state of the pipe2_rst_n which includes
+                                                 when PIPE3_RST is asserted (active low), no Pipe clocks are generated
+                                                 to PEM3 and any RSL reads to the application side registers will time out.
+ <2>     PIPE2_RST RO      0x0        NS         Reflects the current state of the pipe2_rst_n which includes
                                                  the rst__pem2_pcs_rst_n term from the reset controller.  Note that
-                                                 when PIPE2_RST is asserted, no Pipe clocks are generated to PEM1 and
-                                                 any RSL reads to the application side registers will time out.
- <1>     PIPE1_RST RO      0x1        NS         Reflects the current state of the pipe1_rst_n which includes
+                                                 when PIPE2_RST is asserted (active low) and PEM1 is being used in
+                                                 3x1 PCIe mode (4-Pipe Mode with CFG_PEM1_DLM2 set), no Pipe clocks
+                                                 are generated to PEM1 and any RSL reads to the application side
+                                                 registers will time out.
+ <1>     PIPE1_RST RO      0x0        NS         Reflects the current state of the pipe1_rst_n which includes
                                                  the rst__pem1_pcs_rst_n term from the reset controller.  Note that
-                                                 when PIPE1_RST is asserted, no Pipe clocks are generated to PEM1 and
-                                                 any RSL reads to the application side registers will time out.
- <0>     PIPE0_RST RO      0x0        NS         Reflects the current state of the pipe0_rst_n which includes
+                                                 when PIPE1_RST is asserted (active low) and PEM1 is being used in
+                                                 2x2 PCIe or 2x1 PCIe with SATA, no Pipe clocks are generated to PEM1
+                                                 and any RSL reads to the application side registers will time out.
+ <0>     PIPE0_RST RO      NS         NS         Reflects the current state of the pipe0_rst_n which includes
                                                  the rst__pem0_pcs_rst_n term from the reset controller.  Note that
-                                                 when PIPE0_RST is asserted, no Pipe clocks are generated to PEM0 and
-                                                 any RSL reads to the application side registers will time out.
+                                                 when PIPE0_RST is asserted (active low), no Pipe clocks are generated
+                                                 to PEM0 and any RSL reads to the application side registers will time out.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -9989,18 +9997,18 @@ $GSER(0)_PCIE_PIPE_PORT_SEL   Address=(0x1180090080460+a)   Bus=(RSL)
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:3>  NS            RAZ     NS         NS         Reserved.                                         
- <2>     CFG_PEM1_DLM2 R/W     0x0        NS         The PIPE/PHY configuration for PEM1 when in 4-Pipe Mode.
-                                                     Used as status for determining which DLM PEM1 is tied to.
+ <2>     CFG_PEM1_DLM2 R/W     0x0        NS         The PIPE (Pipe1 or Pipe2) and PHY (DLM1 or DLM2) configuration for PEM1
+                                                     when in 4-Pipe Mode.
                                                      This bit should not be set in Single Pipe or 2-Pipe Mode.
-                                                     0: PEM1 is tied to DLM1.  This is 3x1 PCIe mode when all 4 PIPES are enabled.
-                                                     1: PEM1 is tied to DLM2.  This is 2x1 PCIe mode with SATA
+                                                     0: PEM1 is tied to Pipe1/DLM1.  This is 3x1 PCIe mode when all 4 PIPES are enabled.
+                                                     1: PEM1 is tied to Pipe2/DLM2.  This is 2x1 PCIe mode with SATA
  <1:0>   PIPE_PORT_SEL R/W     0x0        NS         PIPE enable request.  Change only when phy_reset is asserted.
                                                      00: Disables all PIPEs
-                                                     01: Single Pipe Mode. Enables PIPE0 only.
+                                                     01: Single Pipe Mode. Enables PIPE0 (PEM0) only.
                                                          This is 1x4 PCIe mode.
-                                                     10: 2-Pipe Mode.  Enables PIPEs 0 and 1.
+                                                     10: 2-Pipe Mode.  Enables PIPEs 0 (PEM0) and 1 (PEM1).
                                                          This is 2x2 PCIe mode or 1x2 PCIe mode with SATA.
-                                                     11: 4-Pipe Mode. Enables PIPEs 0, 1, 2, and 3.
+                                                     11: 4-Pipe Mode. Enables PIPEs 0 (PEM0), 1, 2 (PEM1), and 3 (PEM2).
                                                          This is 2x1 PCIe mode with SATA or 3x1 PCIe mode.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -14175,7 +14183,7 @@ $L2C_TAD(0..0)_DLL   Address=(0x1180080A00018+a*0x40000)   Bus=(RSL)
  <63:16> NS          RAZ     NS         NS         Reserved.                                         
  <15:4>  DLL_SETTING RO/H    0x0        0x1        DLL setting.                                      
  <3:1>   DLL_STATE   RO/H    0x0        0x1        DLL state.                                        
- <0>     DLL_LOCK    RO/H    0x0        0x1        ==1, DLL is locked.                               
+ <0>     DLL_LOCK    RO/H    0x0        0x1        DLL locked.                                       
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -31989,18 +31997,18 @@ The reset configuration is the following:
   17   5(17)            17     0xff        0
   18   6(18)            18     0xff        0
   19   7(19)            19     0xff        0
-  20   4(16)            20     0xff        0
-  21   5(17)            21     0xff        0
-  22   6(18)            22     0xff        0
-  23   7(19)            23     0xff        0
-  24   4(16)            24     0xff        0
-  25   5(17)            25     0xff        0
-  26   6(18)            26     0xff        0
-  27   7(19)            27     0xff        0
-  28   4(16)            28     0xff        0
-  29   5(17)            29     0xff        0
-  30   6(18)            30     0xff        0
-  31   7(19)            31     0xff        0
+  20   4(16)             -     0xff        0
+  21   5(17)             -     0xff        0
+  22   6(18)             -     0xff        0
+  23   7(19)             -     0xff        0
+  24   4(16)             -     0xff        0
+  25   5(17)             -     0xff        0
+  26   6(18)             -     0xff        0
+  27   7(19)             -     0xff        0
+  28   4(16)             -     0xff        0
+  29   5(17)             -     0xff        0
+  30   6(18)             -     0xff        0
+  31   7(19)             -     0xff        0
   -------------------------------------------
   32   8(32)            32     0xff        0
   33   8(33)            33     0xff        0
@@ -32012,7 +32020,7 @@ The reset configuration is the following:
   38   9(38)            38     0xff        0
   39   9(39)            39     0xff        0
   -------------------------------------------
-  40  10(40)            40     0xff        0
+  40  10(24)             -     0xff        0
 This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
 any CSR read operations to this address can be performed.  A read of any entry that has not
 been previously written is illegal and will result in unpredictable CSR read data.
@@ -32034,7 +32042,7 @@ $PKO_MEM_PORT_QOS   Address=(0x1180050001018)   Bus=(RSL)
  <60:53> QOS_MASK R/W/H   NS         0x0        Mask to control priority across 8 QOS rounds      
  <52:10> NS       RAZ     NS         NS         RESERVED                                          
  <9:6>   EID      R/W/H   NS         0x0        Engine ID to which this port is mapped            
-                                                Legal EIDs: 0-3, 8-11
+                                                Legal EIDs: 0-10
  <5:0>   PID      R/W/H   NS         0x0        Port ID[5:0]                                      
 
 Notes:
@@ -35371,7 +35379,7 @@ $SLI_MEM_ACCESS_CTL   Address=((0x11F00000102F0), (0x2F0))   Bus=(NCB, PEXP)
  * 
  * SLI_INT_SUM = SLI Interrupt Summary Register
  * 
- *  Set when an interrupt condition occurs, write '1' to clear. FIXME, THIS CSR IS GONE
+ *  Set when an interrupt condition occurs, write '1' to clear.
  * 
 $SLI_INT_SUM   Address=((0x11F0000010330), (0x330))   Bus=(NCB, PEXP)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -42140,11 +42148,11 @@ $VRM(0)_TS_TEMP_CONV_COEFF_FSM   Address=(0x1180021000078+a*0x1000000)   Bus=(RS
  <63:58> NS      RAZ     NS         NS         Reserved.                                         
  <57:48> T_FSM   R/W     0xfa       NS         Sets time interval for FSM update.                
  <47:38> NS      RAZ     NS         NS         Reserved.                                         
- <37:32> COEFF_A R/W     0x0        NS         Coefficient A value for polynomial fit.           
+ <37:32> COEFF_A R/W     0x1f       NS         Coefficient A value for polynomial fit.           
                                                <37> is a sign bit to flip the shifted results.
                                                <36:32> dictates the amount of right shift.
  <31:25> NS      RAZ     NS         NS         Reserved.                                         
- <24:16> COEFF_B R/W     0x1        NS         Coefficient B value for polynomial fit. It should be a positive number and between 1 and
+ <24:16> COEFF_B R/W     0x100      NS         Coefficient B value for polynomial fit. It should be a positive number and between 1 and
                                                2.
                                                <24> is the integer part should always be 1.
                                                <23:16> form the fractional part.

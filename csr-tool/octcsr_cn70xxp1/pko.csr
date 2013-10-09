@@ -889,18 +889,18 @@ registers:
         17   5(17)            17     0xff        0
         18   6(18)            18     0xff        0
         19   7(19)            19     0xff        0
-        20   4(16)            20     0xff        0
-        21   5(17)            21     0xff        0
-        22   6(18)            22     0xff        0
-        23   7(19)            23     0xff        0
-        24   4(16)            24     0xff        0
-        25   5(17)            25     0xff        0
-        26   6(18)            26     0xff        0
-        27   7(19)            27     0xff        0
-        28   4(16)            28     0xff        0
-        29   5(17)            29     0xff        0
-        30   6(18)            30     0xff        0
-        31   7(19)            31     0xff        0
+        20   4(16)             -     0xff        0
+        21   5(17)             -     0xff        0
+        22   6(18)             -     0xff        0
+        23   7(19)             -     0xff        0
+        24   4(16)             -     0xff        0
+        25   5(17)             -     0xff        0
+        26   6(18)             -     0xff        0
+        27   7(19)             -     0xff        0
+        28   4(16)             -     0xff        0
+        29   5(17)             -     0xff        0
+        30   6(18)             -     0xff        0
+        31   7(19)             -     0xff        0
         -------------------------------------------
         32   8(32)            32     0xff        0
         33   8(33)            33     0xff        0
@@ -912,7 +912,7 @@ registers:
         38   9(38)            38     0xff        0
         39   9(39)            39     0xff        0
         -------------------------------------------
-        40  10(40)            40     0xff        0
+        40  10(24)             -     0xff        0
       This CSR is a memory of 41 entries, and thus, the PKO_REG_READ_IDX CSR must be written before
       any CSR read operations to this address can be performed.  A read of any entry that has not
       been previously written is illegal and will result in unpredictable CSR read data.
@@ -1013,7 +1013,7 @@ registers:
         typical: 0x0
         description: |
           Engine ID to which this port is mapped
-          Legal EIDs: 0-3, 8-11
+          Legal EIDs: 0-10
 
       - name: PID
         bits: 5..0

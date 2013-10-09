@@ -1757,7 +1757,7 @@ registers:
         access: RO/H
         reset: 0
         typical: 1
-        description: ==1, DLL is locked.
+        description: DLL locked.
 
 
   - name: L2C_TAD(0..0)_INT
