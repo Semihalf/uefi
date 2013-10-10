@@ -17,7 +17,7 @@ all: version
 # Split docs out from all to allow build to reach tftp when docs fails.
 #
 .PHONY: docs
-docs: all
+docs:
 	$(MAKE) -C docs
 
 .PHONY: clean
@@ -120,7 +120,7 @@ version:
 	echo "const char bdk_version_str[] = \"$(FULL_VERSION)\";" > libbdk-arch/bdk-version.c
 
 .PHONY: release
-release: all
+release: all docs
 	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
 	rm -rf $(RELEASE_DIR)
 	# Copy Docs
