@@ -139,10 +139,10 @@ into an existing directory.
 [source, sh]
 ----
 $ cd ~
-# This example used BDK version 2011.3, build r58169
-$ tar -zxf octeon-bdk-2011.03-r58169.tgz
-$ ls octeon-bdk-2011.03
-bin  docs  examples  readme.txt  rom  target-bin  version.txt
+# This example used BDK version 2013.10, build r89325
+$ tar -zxf octeon3-bdk-2013.10-r89325.tgz
+$ ls octeon3-bdk-2013.10
+bin  docs  lua-modules  readme.txt  rom  target-bin  version.txt
 ----
 
 Environment Variables

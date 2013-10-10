@@ -148,8 +148,6 @@ release: all docs
 	cp bin/bdk-luac $(RELEASE_DIR)/bin/bdk-luac
 	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
 	cp -a bin/bdk-menu $(RELEASE_DIR)/bin/
-	# Copy host examples
-	cp -r examples $(RELEASE_DIR)/
 	# Copy target binaries
 	mkdir -p $(RELEASE_DIR)/
 	cp -a target-bin $(RELEASE_DIR)/target-bin
