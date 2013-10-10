@@ -1,17 +1,6 @@
 =================================
 DDR Menu
 =================================
- 1) Load current DDR config using "ebb6300" board settings
- 2) Load current DDR config using "ebb6800" board settings
- 3) Load current DDR config from a file
- 4) Save current DDR config to a file
- 5) Display current DDR config
- 6) Change DDR clock frequency
- 7) Set SPD TWSI addresses
- 8) Toggle verbose output (Currently OFF)
- 9) Set environment variable
-10) Get environment variable
-11) Initialize DDR controller using current config
-12) Test DDR from 64MB to 128MB
-13) Test DDR over a specified range
-14) Main menu
+ 1) Test DDR from 64MB to 128MB
+ 2) Test DDR over a specified range
+ 3) Main menu

@@ -1,16 +1,17 @@
 =================================
 Main Menu
 =================================
- 1) Configuration options
- 2) File options
- 3) Flash options
- 4) DDR options
- 5) PCIe options
- 6) TWSI options
- 7) SMI/MDIO options
- 8) GPIO options
- 9) Interactive Lua prompt
-10) TCP/IP networking
-11) Traffic Generator
-12) Reboot
+ 1) SERDES configuration
+ 2) Software configuration
+ 3) File options
+ 4) Flash and MMC/SD
+ 5) DDR options
+ 6) PCIe options
+ 7) TWSI options
+ 8) SMI/MDIO options
+ 9) SPI/MPI options
+10) GPIO options
+11) Interactive Lua prompt
+12) Traffic Generator
+13) Reboot
 
