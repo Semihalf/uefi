@@ -102,12 +102,6 @@ This can be used to probe and configure any type of hardware inside or
 connected to OCTEON.  Scripting using Lua is cover in another
 document.
 
-TCP/IP networking::
-
-The BDK contains a full TCP/IP stack with servers for TFTP and Telnet.
-Use this menu option to configure an IP address on an OCTEON network
-interface.
-
 Traffic Generator::
 
 This menu option starts a simple traffic generator on OCTEON.  It can
@@ -156,87 +150,4 @@ Generating Ethernet Traffic
 ---------------------------
 
 include::sections/traffic-gen.txt[]
-
-
-Access the BDK through Telnet
------------------------------
-
-The BDK contains a full TCP/IP stack with a builtin Telnet server.
-The server is automatically started on boot, but is not accessible
-until an IPv4 address is assigned to an Ethernet interface.  IPv4
-addresses are controlled by the TCP/IP networking menu.  Once an IPv4
-address is assigned, any Telnet client may connect to the BDK through
-port 23, the standard Telnet port.
-
-CAUTION: The builtin traffic generator interferes with TCP/IP.  If you
-use TCP/IP, do not use the builtin traffic generator.  Using the
-generator will disrupt TCP/IP and stop all connections.
-
-.Sample TCP/IP Networking Menu
-----
-include::captures/tcp_menu.capture[]
-----
-
-Show all port configurations::
-
-This option list all supported Ethernet devices and their current IPv4
-configuration.
-
-Configure MGMT0 with a static IP 10.0.0.2/24::
-
-This option allows you to quickly assign a fixed IPv4 address to
-management port 0.  This can be useful in a private network setup
-where two machines are directly connected.  OCTEON will use 10.0.0.2,
-while the host machine will likely use 10.0.0.1.  This option should
-not be used on anything other than a small, private, test network.
-
-Configure a network port with DHCP::
-
-Use DHCP to automatically configure an Ethernet device.  A prompt will
-ask for which interface to configure.  The valid options are shown in
-the list for "Show all port configurations".
-
-Configure a network port with a static IP::
-
-Statically configure an Ethernet interface with pre determined IPv4
-address.  Prompts will request the device to configure, the IP address
-in dot notation, the netmask in dot notation, and the gateway in dot
-notation.
-
-Configure a network port with auto IP::
-
-Dynamically assigns a local 169.254.*.* based on the zero
-configuration method used by Microsoft Windows and Mac OS X.  This
-address is suitable for private networks, but should normally not be
-used on corporate LANs.  Note that configuring this method takes time
-to perform a number of ARPs and wait for responses.  The resulting
-address is not available for several seconds.
-
-
-Access the BDK through TFTP
----------------------------
-
-In addition to the builtin Telnet server, the BDK also contains a TFTP
-server.  Once a valid IPv4 address is configured, the TFTP server can
-be used to transfer files to and from the BDK.  Most any TFTP client
-should work.  If you are running Linux, the recommended TFTP client is
-HPA enhanced TFTP client.  For Debian systems, this can be installed
-with:
-
-.Installing a TFTP client on Debian
-----
-aptitude install tftp-hpa
-----
-
-.Sample TFTP transfer (OCTEON -> Host)
-[source, sh]
-----
-tftp 169.254.1.240 -m binary -c get /rom/ilua.lua
-----
-
-.Sample TFTP transfer (Host -> OCTEON)
-[source, sh]
-----
-tftp 169.254.1.240 -m binary -c put myscript.lua /ram/myscript.lua
-----
 

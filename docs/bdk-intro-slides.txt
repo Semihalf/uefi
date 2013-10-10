@@ -153,7 +153,7 @@ Configuring DRAM (Part 1)
 .Loading a DDR configuration
 * Configuration must be loaded before any other operations
 * Can be loaded from an EVB config, or from a file
-** files can be loaded over xmodem/tftp
+** files can be loaded over xmodem
 
 .Modifying a DDR configuration
 * DIMM SPD addresses can be set on per-interface basis
@@ -191,32 +191,6 @@ include::captures/ddr_menu.capture[]
 ----
 
 
-Access the BDK through the Network
-----------------------------------
-
-.Telnet
-
-* The BDK contains a full TCP/IP stack with a builtin Telnet server
-
-.TFTP
-
-* The BDK contains a TFTP server
-
-.Sample TFTP transfer (OCTEON -> Host)
-[source, sh]
-----
-tftp 169.254.1.240 -m binary -c get /rom/ilua.lua
-----
-
-.Sample TFTP transfer (Host -> OCTEON)
-[source, sh]
-----
-tftp 169.254.1.240 -m binary -c put myscript.lua /ram/myscript.lua
-----
-
-CAUTION: The builtin traffic generator interfers with TCP/IP.
-
-
 The Virtual File System
 -----------------------
 
@@ -232,7 +206,6 @@ The Virtual File System
 |/dev/mem	| DRAM.
 |/dev/pcie/0	| Read and write access to memory on PCIe port 0.
 |/dev/pcie/1	| Read and write access to memory on PCIe port 1.
-|/tcp/host:port	| TCP connection to the supplied host and port.
 |=======================
 
 

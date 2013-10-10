@@ -467,34 +467,6 @@ history.  Line editing can also be used for any input using the
 * Use ESC-d<movement> to delete, ESC-~ to change case, ESC-u to undo (one level).
 * See the vi man page for more info on the operation of various commands.
 
-Configuring the TCP/IP Network Stack
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The BDK contains a port of *lwip*, a light weight TCP/IP stack.  Once
-a network interface is configured properly, TCP/IP networking can be
-used to transfer data and view the console.  Configuration of the
-network interfaces is performed through the 'TCP/IP Networking' option
-in the main menu.  The BDK supports static IP addresses, DHCP, and the
-zero configuration standard.
-
-.TCP/IP Networking Menu
-----
-include::captures/tcp_menu.capture[]
-----
-
-The simplest way of using networking is to directly connect the board
-under test to the development PC using a cable between first
-management port and a dedicated ethernet port on the PC.  On the PC,
-configure the ethernet port for IP address 10.0.0.1.  On the BDK,
-choose option 2.
-
-.Configure an extra ethernet device for direct connection
-[source, sh]
-----
-/usr/bin/ifconfig eth1 10.0.0.1
-----
-
-TIP: More information about lwip can be found at link:http://savannah.nongnu.org/projects/lwip/[lwIP - A Lightweight TCP/IP stack].
 
 The Virtual File System
 -----------------------
@@ -557,44 +529,6 @@ PCIe bus address.
 
 Read and write access to memory on PCIe port 1.  The file location is a raw
 PCIe bus address.
-
-/tcp/host:port::
-
-Opens a TCP connection to the supplied host and port.  File read/write
-operations are mapped to TCP read and write.  This can be used in
-combination with 'netcat' (nc) on a PC to transfer data using TCP/IP.
-If the network interface was configured using DHCP, then name based
-lookups are supported for *host*.  Note that *host* must be a *fully
-qualified host name* or an IP address in *x.x.x.x* format.  *Port* is
-a TCP port number in decimal.
-
-
-Builtin TFTP Server
-~~~~~~~~~~~~~~~~~~~
-
-The BDK contains a TFTP server inside *bdk-full.bin*.  It is
-available as soon as you configure one of the network interfaces with
-an IP address.  The server is very simplistic, expecting exact path
-names from the remote client.  For getting files from *bdk-full.bin*,
-you will need to specify the full file system path.  For putting
-files, you will need to specify the full remote path as well as
-whatever local path needed for the source of the file.  The following
-examples are using the *tftp-hpa* client supplied with Debian.  Most
-other tftp clients are capable of similar operations although the
-syntax differs per client.
-
-.Sample TFTP transfer (OCTEON -> Host)
-[source, sh]
-----
-tftp 169.254.1.240 -m binary -c get /rom/ilua.lua
-----
-
-.Sample TFTP transfer (Host -> OCTEON)
-[source, sh]
-----
-tftp 169.254.1.240 -m binary -c put myscript.lua /ram/myscript.lua
-----
-
 
 
 Lua Modules
