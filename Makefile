@@ -157,6 +157,7 @@ release: all docs
 	cp -a rom $(RELEASE_DIR)/
 	# Copy lua-modules dir
 	cp -a lua-modules $(RELEASE_DIR)/
+	rm $(RELEASE_DIR)/lua-modules/*.luadoc
 	# Delete svn dirs
 	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
 	# Create release tar
