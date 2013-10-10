@@ -35,11 +35,11 @@ local function do_trafficgen()
 end
 
 local m = menu.new("Main Menu")
-m:item("config","Configuration options",    menu.dofile, "config_menu")
+m:item("qlm",   "SERDES configuration",     menu.dofile, "qlm_menu")
+m:item("config","Software configuration",   menu.dofile, "config_menu")
 m:item("file",  "File options",             menu.dofile, "file")
 m:item("flash", "Flash and MMC/SD",         menu.dofile, "flash")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
-m:item("qlm",   "QLM options",              menu.dofile, "qlm_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
 m:item("twsi",  "TWSI options",             menu.dofile, "twsi_menu")
 m:item("smi",   "SMI/MDIO options",         menu.dofile, "smi_menu")
