@@ -30,7 +30,7 @@ int main(void)
     const int ddr_clock_hertz = 400 * 1000000;
     setenv("ddr_ranks", "1",  1);
     setenv("limit_dram_mbytes", "64",  1);
-    setenv("ddr_verbose", "yes",  1);
+    //setenv("ddr_verbose", "yes",  1);
 
     printf("Initializing DRAM with conservative settings...\n");
     int dram_mb = bdk_dram_config(board_name, ddr_clock_hertz);
@@ -87,6 +87,16 @@ int main(void)
 
     printf("Unlock L2 before jumping to second stage...\n");
     bdk_l2c_flush(bdk_numa_local());
+    /* Clear the L2C_TADX_INT[noway] bit as it will be set during the
+       image load */
+    BDK_CSR_DEFINE(ciu_cib_l2c_rawx, BDK_CIU_CIB_L2C_RAWX(0));
+    ciu_cib_l2c_rawx.u = 0;
+    ciu_cib_l2c_rawx.s.tadx_int_noway = 1;
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_CIU_CIB_L2C_RAWX(0), ciu_cib_l2c_rawx.u);
+    BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
+    l2c_tadx_int.u = 0;
+    l2c_tadx_int.s.noway = 1;
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_L2C_TADX_INT(0), l2c_tadx_int.u);
 
     /* This is needed for Uboot, but the BDK doesn't need it */
     //BDK_TRACE("Saving environment\n");
