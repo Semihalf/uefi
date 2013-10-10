@@ -153,6 +153,7 @@ release: all docs
 	# Copy target binaries
 	mkdir -p $(RELEASE_DIR)/
 	cp -a target-bin $(RELEASE_DIR)/target-bin
+	rm $(RELEASE_DIR)/target-bin/ipemainc.elf
 	# Copy rom dir
 	cp -a rom $(RELEASE_DIR)/
 	# Copy lua-modules dir
