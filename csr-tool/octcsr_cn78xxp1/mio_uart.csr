@@ -8,7 +8,7 @@ enums:
   - name: MIO_UART_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts.
+    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
     values:
       - name: MIO_UART(0..1)_IID
         value: 0x08000 + a*0x40
@@ -16,7 +16,7 @@ enums:
           intsn_complex: "1"
           intsn_level_sensitive: "1"
         description: |
-          See MIO_UART0/1_IIR[IID]; note this is not a simple R/W1C interrupt bit. INTERNAL:
+          See MIO_UART(0..1)_IIR[IID]; note this is not a simple R/W1C interrupt bit. INTERNAL:
 
 
 registers:
@@ -27,7 +27,7 @@ registers:
     description: |
       The receive buffer register is a read-only register that contains the data byte received on
       the serial input port (SIN). The data in this register is valid only if the
-      MIO_UART0/1_LSR[DR] bit is set (
+      MIO_UART(0..1)_LSR[DR] bit is set (
     fields:
       - name: --
         bits: 63..8
@@ -170,8 +170,9 @@ registers:
         typical: --
         description: |
           Divisor latch address bit. Setting this bit enables reading and writing of the divisor
-          latch register (MIO_UART0/1_DLL and MIO_UART0/1_DLH) to set the baud rate of the UART.
-          This bit must be cleared after initial baud-rate setup in order to access other registers.
+          latch register (MIO_UART(0..1)_DLL and MIO_UART(0..1)_DLH) to set the baud rate of the
+          UART. This bit must be cleared after initial baud-rate setup in order to access other
+          registers.
 
       - name: BRK
         bits: 6
@@ -179,9 +180,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          Break control bit. Setting this bit when not in loopback mode (i.e. MIO_UART0/1_MCR[LOOP]
-          = 0) sends a break signal by holding the UART0/1_SOUT line low. When in loopback mode, the
-          break condition is internally looped back to the receiver.
+          Break control bit. Setting this bit when not in loopback mode (i.e.
+          MIO_UART(0..1)_MCR[LOOP] = 0) sends a break signal by holding the UART0/1_SOUT line low.
+          When in loopback mode, the break condition is internally looped back to the receiver.
 
       - name: --
         bits: 5
@@ -333,8 +334,8 @@ registers:
         description: |
           Error in receiver FIFO bit. This bit is active only when FIFOs are enabled. It is set when
           there is at least one parity error, framing error, or break indication in the FIFO. This
-          bit is cleared when MIO_UART0/1_LSR is read and the character with the error is at the top
-          of the receiver FIFO and there are no subsequent errors in the FIFO.
+          bit is cleared when MIO_UART(0..1)_LSR is read and the character with the error is at the
+          top of the receiver FIFO and there are no subsequent errors in the FIFO.
 
       - name: TEMT
         bits: 6
@@ -343,9 +344,9 @@ registers:
         typical: --
         description: |
           Transmitter empty bit. In FIFO mode, this bit is set whenever
-          MIO_UART0/1_TSR and the FIFO are both empty. In nonFIFO mode, this bit is set whenever
-          MIO_UART0/1_THR and MIO_UART0/1_TSR are both empty. This bit is typically used to make
-          sure it is safe to change control registers. Changing control registers while the
+          MIO_UART(0..1)_TSR and the FIFO are both empty. In nonFIFO mode, this bit is set whenever
+          MIO_UART(0..1)_THR and MIO_UART(0..1)_TSR are both empty. This bit is typically used to
+          make sure it is safe to change control registers. Changing control registers while the
           transmitter is busy can result in corrupt data being transmitted.
 
       - name: THRE
@@ -356,12 +357,12 @@ registers:
         description: |
           Transmitter holding register empty bit. When programmable THRE interrupt mode is disabled,
           this bit indicates that the UART can accept a new character for transmission. This bit is
-          set whenever data is transferred from MIO_UART0/1_THR to the transmitter shift register
-          and no new data has been written to MIO_UART0/1_THR. This also causes a THRE interrupt to
-          occur, if the THRE interrupt is enabled.
+          set whenever data is transferred from MIO_UART(0..1)_THR to the transmitter shift register
+          and no new data has been written to MIO_UART(0..1)_THR. This also causes a THRE interrupt
+          to occur, if the THRE interrupt is enabled.
           When FIFOs and programmable THRE Interrupt mode are enabled, this bit's functionality is
           switched to indicate the transmitter FIFO is full, and no longer controls THRE Interrupts,
-          which are then controlled by the MIO_UART0/1_FCR[TXTRIG] threshold setting.
+          which are then controlled by the MIO_UART(0..1)_FCR[TXTRIG] threshold setting.
 
       - name: BI
         bits: 4
@@ -380,7 +381,7 @@ registers:
           framing error occurs when the receiver does not detect a valid STOP bit in the received
           data. In FIFO mode, since the framing error is associated with a character received, it is
           revealed when the character with the framing error is at the top of the FIFO. This bit is
-          reset when a reas of the MIO_UART0/1 is performed.
+          reset when a reset of the MIO_UART(0..1) is performed.
 
       - name: PE
         bits: 2
@@ -389,10 +390,10 @@ registers:
         typical: --
         description: |
           Parity error bit. This bit is set whenever there is a parity error in the receiver if the
-          parity-enable bit (MIO_UART0/1_LCR[PEN]) is set. In FIFO mode, since the parity error is
-          associated with a character received, it is revealed when the character with the parity
-          error arrives at the top of the FIFO. This bit is reset when a reas of the MIO_UART0/1 is
-          performed.
+          parity-enable bit (MIO_UART(0..1)_LCR[PEN]) is set. In FIFO mode, since the parity error
+          is associated with a character received, it is revealed when the character with the parity
+          error arrives at the top of the FIFO. This bit is reset when a reset of the MIO_UART(0..1)
+          is performed.
 
       - name: OE
         bits: 1
@@ -403,10 +404,11 @@ registers:
           Overrun error bit. When set, this bit indicates an overrun error has occurred because a
           new data character was received before the previous data was read. In nonFIFO mode, this
           bit is set when a new character arrives in the receiver before the previous character was
-          read from MIO_UART0/1_RBR. When this happens, the data in MIO_UART0/1_RBR is overwritten.
-          In FIFO mode, an overrun error occurs when the FIFO is full and a new character arrives at
-          the receiver. The data in the FIFO is retained and the data in the receive shift register
-          is lost. This bit is reset when a reas of the MIO_UART0/1 is performed.
+          read from MIO_UART(0..1)_RBR. When this happens, the data in MIO_UART(0..1)_RBR is
+          overwritten. In FIFO mode, an overrun error occurs when the FIFO is full and a new
+          character arrives at the receiver. The data in the FIFO is retained and the data in the
+          receive shift register is lost. This bit is reset when a reset of the MIO_UART(0..1) is
+          performed.
 
       - name: DR
         bits: 0
@@ -415,8 +417,9 @@ registers:
         typical: --
         description: |
           Data ready bit. When set, this bit indicates the receiver contains at least one character
-          in the MIO_UART0/1_RBR or the receiver FIFO. This bit is cleared when the MIO_UART0/1_RBR
-          is read in nonFIFO mode, or when the receiver FIFO is empty in FIFO mode.
+          in the MIO_UART0/1_RBR or the receiver FIFO. This bit is cleared when the
+          MIO_UART(0..1)_RBR is read in nonFIFO mode, or when the receiver FIFO is empty in FIFO
+          mode.
 
 
   - name: MIO_UART(0..1)_MSR
@@ -442,7 +445,7 @@ registers:
         description: |
           Data-carrier-detect input bit. This bit is the complement of the modem-control line dcd_n.
           In loopback mode, this bit is the same as
-          MIO_UART0/1_MCR[OUT2].
+          MIO_UART(0..1)_MCR[OUT2].
 
       - name: RI
         bits: 6
@@ -451,7 +454,7 @@ registers:
         typical: --
         description: |
           Ring indicator input bit. This bit is the complement of the modem-control line ri_n. In
-          loopback mode, this bit is the same as MIO_UART0/1_MCR[OUT1].
+          loopback mode, this bit is the same as MIO_UART(0..1)_MCR[OUT1].
 
       - name: DSR
         bits: 5
@@ -460,7 +463,7 @@ registers:
         typical: --
         description: |
           Data-set-ready input bit. This bit is the complement of the modem-control line dsr_n. In
-          loopback mode, this bit is the same as MIO_UART0/1_MCR[DTR].
+          loopback mode, this bit is the same as MIO_UART(0..1)_MCR[DTR].
 
       - name: CTS
         bits: 4
@@ -469,7 +472,7 @@ registers:
         typical: --
         description: |
           Clear-to-send input bit. This bit is the complement of the modem-control line cts_n. In
-          loopback mode, this bit is the same as MIO_UART0/1_MCR[RTS].
+          loopback mode, this bit is the same as MIO_UART(0..1)_MCR[RTS].
 
       - name: DDCD
         bits: 3
@@ -478,8 +481,8 @@ registers:
         typical: --
         description: |
           Delta data-carrier-detect. Records whether the dcd_n line has changed since the last time
-          the user read the MIO_UART0/1_MSR. In loopback mode, reflects changes in
-          MIO_UART0/1_MCR[OUT2].
+          the user read the MIO_UART(0..1)_MSR. In loopback mode, reflects changes in
+          MIO_UART(0..1)_MCR[OUT2].
 
       - name: TERI
         bits: 2
@@ -489,8 +492,8 @@ registers:
         description: |
           Trailing edge of ring indicator. Indicates ri_n has changed from an active-low, to an
           inactive-high state since the last time the user read the
-          MIO_UART0/1_MSR. In loopback mode, reflects state changes from high to low in
-          MIO_UART0/1_MCR[OUT1].
+          MIO_UART(0..1)_MSR. In loopback mode, reflects state changes from high to low in
+          MIO_UART(0..1)_MCR[OUT1].
 
       - name: DDSR
         bits: 1
@@ -499,7 +502,8 @@ registers:
         typical: --
         description: |
           Delta data-set-ready. Records whether the dsr_n line has changed since the last time the
-          user read the MIO_UART0/1_MSR. In loopback mode, reflects changes in MIO_UART0/1_MCR[DTR].
+          user read the MIO_UART(0..1)_MSR. In loopback mode, reflects changes in
+          MIO_UART(0..1)_MCR[DTR].
 
       - name: DCTS
         bits: 0
@@ -508,7 +512,8 @@ registers:
         typical: --
         description: |
           Delta clear-to-send. Records whether the cts_n line has changed since the last time the
-          user read the MIO_UART0/1_MSR. In loopback mode, reflects changes in MIO_UART0/1_MCR[RTS].
+          user read the MIO_UART(0..1)_MSR. In loopback mode, reflects changes in
+          MIO_UART(0..1)_MCR[RTS].
 
 
   - name: MIO_UART(0..1)_SCR
@@ -540,8 +545,8 @@ registers:
     bus: RSL
     description: |
       The transmit holding register is a write-only register that contains data to be transmitted on
-      the serial output port (UART0/1_SOUT). Data can be written to MIO_UART0/1_THR any time that
-      MIO_UART0/1_LSR[THRE] = 1.
+      the serial output port (UART0/1_SOUT). Data can be written to MIO_UART(0..1)_THR any time that
+      MIO_UART(0..1)_LSR[THRE] = 1.
     fields:
       - name: --
         bits: 63..8
@@ -644,10 +649,11 @@ registers:
     bus: RSL
     description: |
       The 8-bit divisor latch high register in conjunction with the 8-bit divisor latch low
-      (MIO_UART0/1_DLL) register form a 16-bit, read/write, Divisor Latch register that contains the
-      baud-rate divisor for the UART. It is accessed by first setting MIO_UART0/1_LCR[DLAB] (bit 7)
-      (refer to MIO UART Line Control Register). The output baud rate is equal to the coprocessor-
-      clock frequency divided by sixteen times the value of the baud-rate divisor, as follows:
+      (MIO_UART(0..1)_DLL) register form a 16-bit, read/write, Divisor Latch register that contains
+      the baud-rate divisor for the UART. It is accessed by first setting MIO_UART(0..1)_LCR[DLAB]
+      (bit 7) (refer to MIO UART Line Control Register). The output baud rate is equal to the
+      coprocessor-clock frequency divided by sixteen times the value of the baud-rate divisor, as
+      follows:
       baud rate = coprocessor-clock frequency / (16 * divisor).
       Note that once both divisor latch registers are set, at least eight coprocessor-clock cycles
       should be allowed to pass before transmitting or receiving data.
@@ -673,10 +679,11 @@ registers:
     bus: RSL
     description: |
       The 8-bit divisor latch high register in conjunction with the 8-bit divisor latch low
-      (MIO_UART0/1_DLL) register form a 16-bit, read/write, Divisor Latch register that contains the
-      baud-rate divisor for the UART. It is accessed by first setting MIO_UART0/1_LCR[DLAB] (bit 7)
-      (refer to MIO UART Line Control Register). The output baud rate is equal to the coprocessor-
-      clock frequency divided by sixteen times the value of the baud-rate divisor, as follows:
+      (MIO_UART(0..1)_DLL) register form a 16-bit, read/write, Divisor Latch register that contains
+      the baud-rate divisor for the UART. It is accessed by first setting MIO_UART(0..1)_LCR[DLAB]
+      (bit 7) (refer to MIO UART Line Control Register). The output baud rate is equal to the
+      coprocessor-clock frequency divided by sixteen times the value of the baud-rate divisor, as
+      follows:
       baud rate = coprocessor-clock frequency / (16 * divisor).
       Note that once both divisor latch registers are set, at least eight coprocessor-clock cycles
       should be allowed to pass before transmitting or receiving data.
@@ -703,10 +710,10 @@ registers:
     description: |
       The FIFO access register is used to enable a FIFO-access mode for testing, so that the receive
       FIFO can be written by software and the transmit FIFO can be read by software when the FIFOs
-      are enabled. When FIFOs are not enabled it allows the MIO_UART0/1_RBR to be written by
-      software and the MIO_UART0/1_THR to be read by software. Note, that when the FIFO-access mode
-      is enabled/disabled, the control portion of the receive FIFO and transmit FIFO is reset and
-      the FIFOs are treated as empty.
+      are enabled. When FIFOs are not enabled it allows the MIO_UART(0..1)_RBR to be written by
+      software and the MIO_UART(0..1)_THR to be read by software. Note, that when the FIFO-access
+      mode is enabled/disabled, the control portion of the receive FIFO and transmit FIFO is reset
+      and the FIFOs are treated as empty.
     fields:
       - name: --
         bits: 63..1
@@ -731,7 +738,7 @@ registers:
     bus: RSL
     description: |
       The transmit FIFO read register is only valid when FIFO-access mode is enabled (i.e.
-      MIO_UART0/1_FAR[FAR] = 1).
+      MIO_UART(0..1)_FAR[FAR] = 1).
     fields:
       - name: --
         bits: 63..8
@@ -751,7 +758,7 @@ registers:
           consecutive read pops the transmit FIFO and gives the next data value that is currently at
           the top of the FIFO.
           When FIFOs are not enabled, this field gives the data in
-          MIO_UART0/1_THR.
+          MIO_UART(0..1)_THR.
 
 
   - name: MIO_UART(0..1)_RFW
@@ -760,7 +767,7 @@ registers:
     bus: RSL
     description: |
       The receive FIFO write register is only valid when FIFO-access mode is enabled (i.e.
-      MIO_UART0/1_FAR[FAR] = 1).
+      MIO_UART(0..1)_FAR[FAR] = 1).
     fields:
       - name: --
         bits: 63..10
@@ -792,7 +799,7 @@ registers:
           Receive FIFO write data.
           When FIFOs are enabled, this field provides write data to the receive FIFO. Each
           consecutive write pushes the new data to the next write location in the receive FIFO.
-          When FIFOs are not enabled, this field provides write data to the MIO_UART0/1_RBR.
+          When FIFOs are not enabled, this field provides write data to the MIO_UART(0..1)_RBR.
 
 
   - name: MIO_UART(0..1)_USR
@@ -801,7 +808,7 @@ registers:
     bus: RSL
     description: |
       The receive FIFO write register is only valid when FIFO-access mode is enabled (i.e.
-      MIO_UART0/1_FAR[FAR] = 1).
+      MIO_UART(0..1)_FAR[FAR] = 1).
     fields:
       - name: --
         bits: 63..5
@@ -909,7 +916,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Shadow copy of the TX FIFO reset bit (MIO_UART0/1_FCR[TXFR]). This bit can be used to
+          Shadow copy of the TX FIFO reset bit (MIO_UART(0..1)_FCR[TXFR]). This bit can be used to
           remove the burden on software having to store previously written FCR values (which are
           pretty static) just to reset the transmit FIFO
 
@@ -919,9 +926,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          Shadow copy of the RX FIFO reset bit (MIO_UART0/1_FCR[RXFR]). This can be used to remove
-          the burden on software having to store previously written FCR values (which are pretty
-          static) just to reset the receive FIFO.
+          Shadow copy of the RX FIFO reset bit (MIO_UART(0..1)_FCR[RXFR]). This can be used to
+          remove the burden on software having to store previously written FCR values (which are
+          pretty static) just to reset the receive FIFO.
 
       - name: USR
         bits: 0
@@ -937,8 +944,8 @@ registers:
     bus: RSL
     description: |
       The shadow request to send register is a shadow register for the
-      MIO_UART0/1_MCR[RTS] bit that can be used to remove the burden of having to perform a read-
-      modify-write on MIO_UART0/1_MCR.
+      MIO_UART(0..1)_MCR[RTS] bit that can be used to remove the burden of having to perform a read-
+      modify-write on MIO_UART(0..1)_MCR.
     fields:
       - name: --
         bits: 63..1
@@ -961,8 +968,8 @@ registers:
     bus: RSL
     description: |
       The shadow break control register is a shadow register for the
-      MIO_UART0/1_LCR[BRK] bit that can be used to remove the burden of having to perform a read-
-      modify-write on MIO_UART0/1_LCR.
+      MIO_UART(0..1)_LCR[BRK] bit that can be used to remove the burden of having to perform a read-
+      modify-write on MIO_UART(0..1)_LCR.
     fields:
       - name: --
         bits: 63..1
@@ -984,9 +991,10 @@ registers:
     address: 0x1180000000A30 + a*0x400
     bus: RSL
     description: |
-      The shadow FIFO enable register is a shadow register for MIO_UART0/1_FCR[EN] that can be used
-      to remove the burden of having to store the previously written value to MIO_UART0/1_FCR in
-      memory and having to mask this value so that only the FIFO enable bit gets updated.
+      The shadow FIFO enable register is a shadow register for MIO_UART(0..1)_FCR[EN] that can be
+      used to remove the burden of having to store the previously written value to
+      MIO_UART(0..1)_FCR in memory and having to mask this value so that only the FIFO enable bit
+      gets updated.
     fields:
       - name: --
         bits: 63..1
@@ -1009,8 +1017,8 @@ registers:
     bus: RSL
     description: |
       The shadow RX trigger register is a shadow register for the RX trigger bits
-      (MIO_UART0/1_FCR[RXTRIG]) that can be used to remove the burden of having to store the
-      previously written value to MIO_UART0/1_FCR in memory and having to mask this value so that
+      (MIO_UART(0..1)_FCR[RXTRIG]) that can be used to remove the burden of having to store the
+      previously written value to MIO_UART(0..1)_FCR in memory and having to mask this value so that
       only the RX trigger bits get updated.
     fields:
       - name: --
@@ -1034,8 +1042,8 @@ registers:
     bus: RSL
     description: |
       The shadow TX trigger register is a shadow register for the TX trigger bits
-      (MIO_UART0/1_FCR[TXTRIG]) that can be used to remove the burden of having to store the
-      previously written value to MIO_UART0/1_FCR in memory and having to mask this value so that
+      (MIO_UART(0..1)_FCR[TXTRIG]) that can be used to remove the burden of having to store the
+      previously written value to MIO_UART(0..1)_FCR in memory and having to mask this value so that
       only the TX trigger bits get updated.
     fields:
       - name: --

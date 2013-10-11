@@ -1203,7 +1203,7 @@ registers:
        1   18   0     RO     CP0 Root.WatchLo0                         RW
        1   19   0     RO     CP0 Root.WatchHi0                         RW
        1   22   0     RO     CP0 Root.MultiCoreDebug                   RW
-       1   22   1            CP0 Root.VoltageMonitor                   RW
+       1   22   1            CP0 Root.ImplDebug                        R0
        1   22   2     RO     CP0 Root.CvmCountOffset                   RW
        1   23   0     RO     CP0 Root.Debug                            RW
        1   23   6     RO     CP0 Root.Debug2                           RO

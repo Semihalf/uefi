@@ -8,19 +8,19 @@ enums:
   - name: TWS_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts.
+    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
     values:
       - name: MIO_TWS(0..1)_INT_ST
         value: 0x0B000 + a*0x100
-        description: See MIO_TWS0/1_INT[ST_INT].
+        description: See MIO_TWS(0..1)_INT[ST_INT].
 
       - name: MIO_TWS(0..1)_INT_TS
         value: 0x0B001 + a*0x100
-        description: See MIO_TWS0/1_INT[TS_INT].
+        description: See MIO_TWS(0..1)_INT[TS_INT].
 
       - name: MIO_TWS(0..1)_INT_CORE
         value: 0x0B002 + a*0x100
-        description: See MIO_TWS0/1_INT[CORE_INT].
+        description: See MIO_TWS(0..1)_INT[CORE_INT].
 
 
 registers:

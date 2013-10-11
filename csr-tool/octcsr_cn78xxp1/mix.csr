@@ -280,7 +280,7 @@ registers:
           TimeStamp interrupt threshold. When the number of pending Timestamp interrupts
           (MIX(0..1)_TSCTL[TSCNT] is greater than
           MIX(0..1)_CTL[TS_THRESH], then a programmable TimeStamp interrupt is issued (see
-          MIX(0..1)_INTR[TS]).
+          MIX(0..1)_INTR[TS].
           For CN78XX, since the implementation only supports four outstanding timestamp interrupts,
           this field should only be programmed from [0..3].
 
@@ -538,11 +538,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Timestamp interrupt. Throws MIX_INTSN_E::MIX(0..1)_INT_TS. This bit is set and the
-          interrupt
-          generated when the number of pending timestamp interrupts (MIX(0..1)_TSCTL[TSCNT]) is
-          greater
-          than the timestamp interrupt threshold (MIX(0..1)_CTL[TS_THRESH]) value.
+          Timestamp interrupt. Throws MIX_INTSN_E:MIX(0..1)_INT_TS. This bit is set and the
+          interrupt generated when the number of pending timestamp interrupts
+          (MIX(0..1)_TSCTL[TSCNT]) is greater than the timestamp interrupt threshold
+          (MIX(0..1)_CTL[TS_THRESH]) value.
 
       - name: ORUN
         bits: 6
@@ -579,7 +578,7 @@ registers:
         typical: 0
         description: |
           Data was dropped due to RX FIFO full. Throws MIX_INTSN_E::MIX(0..1)_INT_DATA_DRP. If this
-          event does occur, the DATA_DRP is set and the interrupt is generated.
+          event does occur, DATA_DRP is set and the interrupt is generated.
 
       - name: IRTHRESH
         bits: 3
@@ -634,7 +633,7 @@ registers:
           If software attempts to write to MIX(0..1)_ORING2[ODBELL] with a value greater than the
           remaining number of O-Ring buffer entries
           (MIX(0..1)_REMCNT[OREMCNT]), then the following occurs:
-          The MIX(0..1)_ORING2[ODBELL] write operation is IGNORED
+          The MIX(0..1)_IRING2[ODBELL] write operation is IGNORED
           ODBLOVF is set and the interrupt is generated.
           Software should keep track of the number of I-Ring entries in use (i.e. the cumulative
           number of ODBELL write operations), and ensure that future ODBELL write operations don't
@@ -690,7 +689,7 @@ registers:
           Remaining O-Ring buffer count. Reflects the number of unused/remaining O-Ring entries that
           hardware currently detects in the O-Ring buffer. Hardware uses this value to detect O-Ring
           doorbell overflows. (See MIX(0..1)_ISR[ODBLOVF].)
-          When software writes the MIX(0..1)_IRING1[OSIZE], OREMCNT is loaded with the
+          When software writes the MIX(0..1)_ORING1[OSIZE], OREMCNT is loaded with the
           MIX(0..1)_ORING2[OSIZE] value. (Note: [OSIZE] should only be written at power-on, when it
           is known that no O-Ring entries are currently in use by hardware.) When software writes to
           the ODBELL register, OREMCNT is decremented by the CSR write value. When software writes
@@ -717,7 +716,7 @@ registers:
           MIX(0..1)_TSCTL[TSCNT] to indicate the total number of pending timestamp interrupts.
           If the number of pending timestamp interrupts (MIX(0..1)_TSCTL[TSCNT]) is greater than the
           MIX(0..1)_CTL[TS_THRESH] value, then a programmable interrupt is also triggered (see
-          MIX(0..1)_ISR[TS]).
+          MIX(0..1)_ISR[TS].
           Software then reads MIX(0..1)_TSTAMP[TSTAMP], and must then write MIX(0..1)_TSCTL, which
           will decrement MIX(0..1)_TSCTL[TSCNT] to indicate that a single timestamp interrupt has
           been serviced.
@@ -728,8 +727,8 @@ registers:
           number of outstanding timestamp requests in flight (TSTOT), as well as the number of
           available timestamp entries (TSAVL).
           A MIX_TSTAMP read when
-          MIX_TSCTL[TSCNT] = 0 will result in a return value of all zeroes. Software should only
-          read this register when
+          MIX(0..1)_TSCTL[TSCNT] = 0 will result in a return value of all zeroes. Software should
+          only read this register when
           MIX(0..1)_ISR[TS] = 1 (or when MIX(0..1)_TSCTL[TSCNT] != 0) to retrieve the timestamp
           value recorded by hardware. If software reads the TSTAMP when hardware has not recorded a
           valid timestamp, then an all zeroes value is returned.

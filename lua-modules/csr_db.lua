@@ -4634,6 +4634,65 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_HNA_BCST_RSP = {
+            name = "DTX_HNA_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe238080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_HNA_CTL = {
+            name = "DTX_HNA_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe238060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_HNA_DATX = {
+            name = "DTX_HNA_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe238040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_HNA_ENAX = {
+            name = "DTX_HNA_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe238020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_HNA_SELX = {
+            name = "DTX_HNA_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe238000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_ILA_BCST_RSP = {
             name = "DTX_ILA_BCST_RSP",
             type = "RSL",
@@ -9579,8 +9638,7 @@ local csr_db = {
             width = 8,
             address = 0x1180080800010,
             fields = {
-                {name = "RESERVED_14_63", start = 14, stop = 63},
-                {name = "XMDMSKFLIP", start = 12, stop = 13},
+                {name = "RESERVED_12_63", start = 12, stop = 63},
                 {name = "MIBFLIP", start = 10, stop = 11},
                 {name = "L2DFLIP", start = 8, stop = 9},
                 {name = "L2TFLIP", start = 6, stop = 7},
@@ -43837,7 +43895,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000828,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_13_63", start = 13, stop = 63},
@@ -43855,7 +43913,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000870,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_1_63", start = 1, stop = 63},
@@ -43867,7 +43925,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000850,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_4_63", start = 4, stop = 63},
@@ -43882,7 +43940,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000800,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
@@ -43902,7 +43960,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000818,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_2_63", start = 2, stop = 63},
@@ -43914,7 +43972,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000860,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_7_63", start = 7, stop = 63},
@@ -43932,7 +43990,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000858,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_7_63", start = 7, stop = 63},
@@ -43950,7 +44008,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000868,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_7_63", start = 7, stop = 63},
@@ -43966,7 +44024,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000848,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_4_63", start = 4, stop = 63},
@@ -43981,7 +44039,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000838,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
@@ -43996,7 +44054,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000880,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_5_63", start = 5, stop = 63},
@@ -44008,7 +44066,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000810,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_2_63", start = 2, stop = 63},
@@ -44021,7 +44079,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000808,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_8_63", start = 8, stop = 63},
@@ -44037,7 +44095,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000820,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
@@ -44056,7 +44114,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000840,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_10_63", start = 10, stop = 63},
@@ -44071,7 +44129,7 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800b0000830,
-            range1 = {0,1},
+            range1 = {0,0},
             range1_inc = 0x8000000,
             fields = {
                 {name = "RESERVED_14_63", start = 14, stop = 63},

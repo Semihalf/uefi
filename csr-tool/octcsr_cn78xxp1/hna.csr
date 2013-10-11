@@ -50,8 +50,7 @@ registers:
     title: HNA Configuration Register
     address: 0x1180047000000
     bus: RSL
-    description: |
-      Description: This register specifies the HNA HPU programmable controls.
+    description: This register specifies the HNA HPU programmable controls.
     fields:
       - name: --
         bits: 63..25
@@ -118,7 +117,7 @@ registers:
           This field specifies the low watermark for the run stack. Valid Range: [0..15]
           Once the run stack goes below the low water mark, HNA will fill entries from the
           global run stack head to the local run stack tail.
-          The granularity of this field is represented as #of 128B cachelines.
+          The granularity of this field is represented as number of 128B cachelines.
           NOTE: This field can only be changed at initialization/power on time before
           the HNA is fed instructions."
 
@@ -132,7 +131,7 @@ registers:
           This field specifies the hi watermark for the run stack. Valid Range: [0..15]
           Once the local run stack level goes above the hi water mark, the HNA will spill
           entries from the local run stack tail to the global run stack head (in DDR memory).
-          The granularity of this field is represented as #of 128B cachelines.
+          The granularity of this field is represented as number of 128B cachelines.
           NOTE: This field can only be changed at initialization/power on time before
           the HNA is fed instructions."
 
@@ -174,10 +173,10 @@ registers:
         typical: 0x0
         description: |
           "HPU Cluster Cripple
-          Encoding which represents #of HPUs to cripple for each
+          Encoding which represents number of HPUs to cripple for each
           cluster. Typically HPU_CLCRIP=0 which enables all HPUs
           within each cluster. However, when the HNA performance
-          counters are used, SW may want to limit the #of HPUs
+          counters are used, SW may want to limit the number of HPUs
           per cluster available, as there are only 4 parallel
           performance counters.
           HPU_CLCRIP | #HPUs crippled(per cluster)
@@ -196,7 +195,7 @@ registers:
           HPU#s [8:0] are available.
           IMPNOTE: The encodings are done in such a way as to later
           be used with fuses (for future revisions which will disable
-          some #of HPUs). Blowing a fuse has the effect that there will
+          some number of HPUs). Blowing a fuse has the effect that there will
           always be fewer HPUs available. [ie: we never want a customer
           to blow additional fuses to get more HPUs].
           SWNOTE: The MIO_FUS___HNA_NUMHPU_CRIPPLE[2:0] fuse bits will
@@ -230,7 +229,7 @@ registers:
     address: 0x1180047000008
     bus: RSL
     description: |
-      "Description: This register specifies the HPU CSR#, cluster#=CLID and HPU#=HPUID used during a
+      "This register specifies the HPU CSR#, cluster#=CLID and HPU#=HPUID used during a
       a CSR READ of the HNA_HPU_CSR register."
     fields:
       - name: --
@@ -271,7 +270,7 @@ registers:
     address: 0x1180047000010
     bus: RSL
     description: |
-      "Description: To read one of the HPU internal CSRs for debug (ie: HPU_STATUS, DBG_CURSTK,
+      "To read one of the HPU internal CSRs for debug (ie: HPU_STATUS, DBG_CURSTK,
       DBG_GENERAL),
       first a CSR WRITE of the HNA_HPU_DBG is done to specify the HPU CSR#, cluster#=CLID and
       HPU#=HPUID,
@@ -291,7 +290,7 @@ registers:
     address: 0x1180047000018
     bus: RSL
     description: |
-      "Description: Used by SW to force Parity or ECC errors on some internal HPU data structures.
+      "Used by SW to force Parity or ECC errors on some internal HPU data structures.
       A CSR WRITE of this register will force either a Parity or ECC error on the next access
       at cluster#=CLID, HPU#=HPUID."
     fields:
@@ -364,8 +363,7 @@ registers:
     title: HNA Control Register
     address: 0x1180047000020
     bus: RSL
-    description: |
-      Description: This register specifies the HNA CTL/HNC programmable controls.
+    description: This register specifies the HNA CTL/HNC programmable controls.
     fields:
       - name: --
         bits: 63..13
@@ -459,8 +457,7 @@ registers:
     title: HNA Error Status Register
     address: 0x1180047000028
     bus: RSL
-    description: |
-      Description: This register contains error status information.
+    description: This register contains error status information.
     fields:
       - name: --
         bits: 63..20
@@ -592,14 +589,15 @@ registers:
 
 
   - name: HNA_SBD_DBG0
-    title: "HNA Scoreboard Debug #0 Register"
+    title: HNA Scoreboard Debug 0 Register
     address: 0x1180047000040
     bus: RSL
     description: |
-      Description: When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down. Otherwise, the contents of this register are the 'active' contents of the
       HNA Scoreboard at the time of the CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      INTERNAL: VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the
+      behavioral
       model) on the reads unless the HPU Engine specified by HNA_CONTROL[SBDNUM] has previously been
       assigned an instruction.
     fields:
@@ -609,7 +607,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "HNA ScoreBoard #0 Data
+          "HNA ScoreBoard 0 Data.
           [63:38]   (26) rptr[28:3]: Result Base Pointer (QW-aligned)
           [37:22]   (16) Cumulative Result Write Counter (for HDR write)
           [21]       (1) Waiting for GRdRsp EOT
@@ -635,14 +633,15 @@ registers:
 
 
   - name: HNA_SBD_DBG1
-    title: "HNA Scoreboard Debug #1 Register"
+    title: HNA Scoreboard Debug 1 Register
     address: 0x1180047000048
     bus: RSL
     description: |
-      Description: When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down. Otherwise, the contents of this register are the 'active' contents of the
       HNA Scoreboard at the time of the CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      INTERNAL: VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the
+      behavioral
       model) on the reads unless the HPU Engine specified by HNA_CONTROL[SBDNUM] has previously been
       assigned an instruction.
     fields:
@@ -652,21 +651,22 @@ registers:
         reset: --
         typical: --
         description: |
-          "HNA ScoreBoard #1 Data
+          "HNA ScoreBoard 1 Data.
           [63:56]   (8) UNUSED
           [55:16]  (40) Packet Data Pointer
           [15:0]   (16) Packet Data Counter"
 
 
   - name: HNA_SBD_DBG2
-    title: "HNA Scoreboard Debug #2 Register"
+    title: HNA Scoreboard Debug 2 Register
     address: 0x1180047000050
     bus: RSL
     description: |
-      Description: When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down. Otherwise, the contents of this register are the 'active' contents of the
       HNA Scoreboard at the time of the CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      INTERNAL: VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the
+      behavioral
       model) on the reads unless the HPU Engine specified by HNA_CONTROL[SBDNUM] has previously been
       assigned an instruction.
     fields:
@@ -676,7 +676,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "HNA ScoreBoard #2 Data
+          "HNA ScoreBoard 2 Data.
           [63:45] (19) UNUSED
           [44:42]  (3) Instruction Type
           [41:5]  (37) rwptr[39:3]: Result Write Pointer
@@ -684,14 +684,15 @@ registers:
 
 
   - name: HNA_SBD_DBG3
-    title: "HNA Scoreboard Debug #3 Register"
+    title: HNA Scoreboard Debug 3 Register
     address: 0x1180047000058
     bus: RSL
     description: |
-      Description: When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
+      When the HNA_CONTROL[SBDLCK] bit is written '1', the contents of this register
       are locked down. Otherwise, the contents of this register are the 'active' contents of the
       HNA Scoreboard at the time of the CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
+      INTERNAL: VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the
+      behavioral
       model) on the reads unless the HPU Engine specified by HNA_CONTROL[SBDNUM] has previously been
       assigned an instruction.
     fields:
@@ -701,19 +702,18 @@ registers:
         reset: --
         typical: --
         description: |
-          "HNA ScoreBoard #3 Data
+          "HNA ScoreBoard 3 Data.
           [63:52] (11) rptr[39:29]: Result Base Pointer (QW-aligned)
           [52:16] (37) glptr[39:3]: Gather List Pointer
           [15:0]  (16) glcnt Gather List Counter"
 
 
   - name: HNA_PFC_GCTL
-    title: HNA Performance Counter Global Control
+    title: |
+      INTERNAL: HNA Performance Counter Global Control
     address: 0x1180047000080
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description: Global control across all performance counters."
+    description: Global control across all performance counters.
     fields:
       - name: --
         bits: 63..12
@@ -728,7 +728,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #3 Read Clear
+          "Performance Counter 3 Read Clear.
           If this bit is set, CSR reads to the HNA_PFC3_CNT
           will clear the count value. This allows SW to maintain
           'cumulative' counters to avoid HW wraparound."
@@ -739,7 +739,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #2 Read Clear
+          "Performance Counter 2 Read Clear.
           If this bit is set, CSR reads to the HNA_PFC2_CNT
           will clear the count value. This allows SW to maintain
           'cumulative' counters to avoid HW wraparound."
@@ -750,7 +750,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #1 Read Clear
+          "Performance Counter 1 Read Clear.
           If this bit is set, CSR reads to the HNA_PFC1_CNT
           will clear the count value. This allows SW to maintain
           'cumulative' counters to avoid HW wraparound."
@@ -761,7 +761,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #0 Read Clear
+          "Performance Counter 0 Read Clear.
           If this bit is set, CSR reads to the HNA_PFC0_CNT
           will clear the count value. This allows SW to maintain
           'cumulative' counters to avoid HW wraparound."
@@ -772,7 +772,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #3 Write Clear
+          "Performance Counter 3 Write Clear.
           If this bit is set, CSR writes to the HNA_PFC3_CNT
           will clear the count value.
           If this bit is clear, CSR writes to the HNA_PFC3_CNT
@@ -784,7 +784,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #2 Write Clear
+          "Performance Counter 2 Write Clear.
           If this bit is set, CSR writes to the HNA_PFC2_CNT
           will clear the count value.
           If this bit is clear, CSR writes to the HNA_PFC2_CNT
@@ -796,7 +796,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #1 Write Clear
+          "Performance Counter 1 Write Clear.
           If this bit is set, CSR writes to the HNA_PFC1_CNT
           will clear the count value.
           If this bit is clear, CSR writes to the HNA_PFC1_CNT
@@ -808,7 +808,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter #0 Write Clear
+          "Performance Counter 0 Write Clear.
           If this bit is set, CSR writes to the HNA_PFC0_CNT
           will clear the count value.
           If this bit is clear, CSR writes to the HNA_PFC0_CNT
@@ -820,7 +820,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter 3 Enable
+          "Performance Counter 3 Enable.
           When this bit is set, the performance counter #3
           is enabled."
 
@@ -830,7 +830,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter 2 Enable
+          "Performance Counter 2 Enable.
           When this bit is set, the performance counter #2
           is enabled."
 
@@ -840,7 +840,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter 1 Enable
+          "Performance Counter 1 Enable.
           When this bit is set, the performance counter #1
           is enabled."
 
@@ -850,18 +850,16 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Performance Counter 0 Enable
+          "Performance Counter 0 Enable.
           When this bit is set, the performance counter #0
           is enabled."
 
 
   - name: HNA_PFC0_CTL
-    title: "HNA Performance Counter#0 Control"
+    title: |
+      INTERNAL: HNA Performance Counter 0 Control Register
     address: 0x1180047000088
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: --
         bits: 63..14
@@ -890,7 +888,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#0 Cluster HPU Selector
+          "Performance Counter 0 Cluster HPU Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster's HPU# for all events
           associated with Performance Counter#0."
@@ -901,19 +899,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#0 Cluster Selector
+          "Performance Counter 0 Cluster Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster# for all events
           associated with Performance Counter#0."
 
 
   - name: HNA_PFC0_CNT
-    title: "HNA Performance Counter #0"
+    title: |
+      INTERNAL: HNA Performance Counter 0 Register
     address: 0x1180047000090
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: PFCNT
         bits: 63..0
@@ -921,7 +917,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "HNA Performance Counter #0
+          "HNA Performance Counter 0.
           When HNA_PFC_GCTL[CNT0ENA]=1, the event selected
           by HNA_PFC0_CTL[EVSEL] is counted.
           See also HNA_PFC_GCTL[CNT0WCLR] and HNA_PFC_GCTL
@@ -930,12 +926,10 @@ registers:
 
 
   - name: HNA_PFC1_CTL
-    title: "HNA Performance Counter#1 Control"
+    title: |
+      INTERNAL: HNA Performance Counter 1 Control Register
     address: 0x1180047000098
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: --
         bits: 63..14
@@ -964,7 +958,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#1 Cluster HPU Selector
+          "Performance Counter 1 Cluster HPU Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster's HPU# for all events
           associated with Performance Counter#1."
@@ -975,19 +969,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#1 Cluster Selector
+          "Performance Counter 1 Cluster Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster# for all events
           associated with Performance Counter#1."
 
 
   - name: HNA_PFC1_CNT
-    title: "HNA Performance Counter #1"
+    title: |
+      INTERNAL: HNA Performance Counter 1 Register
     address: 0x11800470000A0
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: PFCNT
         bits: 63..0
@@ -995,7 +987,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "HNA Performance Counter #1
+          "HNA Performance Counter 1.
           When HNA_PFC_GCTL[CNT1ENA]=1, the event selected
           by HNA_PFC1_CTL[EVSEL] is counted.
           See also HNA_PFC_GCTL[CNT1WCLR] and HNA_PFC_GCTL
@@ -1004,12 +996,10 @@ registers:
 
 
   - name: HNA_PFC2_CTL
-    title: "HNA Performance Counter#2 Control"
+    title: |
+      INTERNAL: HNA Performance Counter 2 Control Register
     address: 0x11800470000A8
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: --
         bits: 63..14
@@ -1038,7 +1028,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#2 Cluster HPU Selector
+          "Performance Counter#2 Cluster HPU Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster's HPU# for all events
           associated with Performance Counter#2."
@@ -1049,19 +1039,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#2 Cluster Selector
+          "Performance Counter#2 Cluster Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster# for all events
           associated with Performance Counter#2."
 
 
   - name: HNA_PFC2_CNT
-    title: "HNA Performance Counter #2"
+    title: |
+      INTERNAL: HNA Performance Counter 2 Register
     address: 0x11800470000B0
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: PFCNT
         bits: 63..0
@@ -1069,7 +1057,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "HNA Performance Counter #2
+          "HNA Performance Counter 2.
           When HNA_PFC_GCTL[CNT2ENA]=1, the event selected
           by HNA_PFC2_CTL[EVSEL] is counted.
           See also HNA_PFC_GCTL[CNT2WCLR] and HNA_PFC_GCTL
@@ -1078,12 +1066,10 @@ registers:
 
 
   - name: HNA_PFC3_CTL
-    title: "HNA Performance Counter#3 Control"
+    title: |
+      INTERNAL: HNA Performance Counter 3 Control Register
     address: 0x11800470000B8
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: --
         bits: 63..14
@@ -1097,7 +1083,7 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: "Performance Counter#3 Event Selector (64 total)"
+        description: Performance Counter 3 Event Selector (64 total)
 
       - name: --
         bits: 7..6
@@ -1112,7 +1098,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#3 Cluster HPU Selector
+          "Performance Counter 3 Cluster HPU Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster's HPU# for all events
           associated with Performance Counter#3."
@@ -1123,19 +1109,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Performance Counter#3 Cluster Selector
+          "Performance Counter 3 Cluster Selector.
           When HNA_PFC_GCTL[PMODE]=0 (per-cluster HPU), this field
           is used to select/monitor the cluster# for all events
-          associated with Performance Counter#3."
+          associated with Performance Counter 3."
 
 
   - name: HNA_PFC3_CNT
-    title: "HNA Performance Counter #3"
+    title: |
+      INTERNAL: HNA Performance Counter 3 Register
     address: 0x11800470000C0
     bus: RSL
-    description: |
-      "*FOR INTERNAL USE ONLY*
-      Description:"
     fields:
       - name: PFCNT
         bits: 63..0
@@ -1143,7 +1127,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "HNA Performance Counter #3
+          "HNA Performance Counter 3.
           When HNA_PFC_GCTL[CNT3ENA]=1, the event selected
           by HNA_PFC3_CTL[EVSEL] is counted.
           See also HNA_PFC_GCTL[CNT3WCLR] and HNA_PFC_GCTL
@@ -1247,7 +1231,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "SC#1 Bist Results for cumulative HNC1 RAMs
+          "SC1 Bist Results for cumulative HNC1 RAMs
           0: GOOD (or bist in progress/never run)
           1: BAD"
 
@@ -1257,7 +1241,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "SC#0 Bist Results for cumulative HNC0 RAMs
+          "SC0 Bist Results for cumulative HNC0 RAMs
           0: GOOD (or bist in progress/never run)
           1: BAD"
 
@@ -1461,7 +1445,7 @@ registers:
         reset: 0x3
         typical: --
         description: |
-          "Represents the # of 64B instructions contained
+          "Represents the number of 64B instructions contained
           within each HNA instruction chunk. At Power-on,
           SW will seed the SIZE register with a fixed
           chunk-size. (Must be at least 3)

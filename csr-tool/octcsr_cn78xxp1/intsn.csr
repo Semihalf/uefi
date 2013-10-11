@@ -256,7 +256,7 @@ enums:
           reg_addr: "0"
           reg_name: ""
         description: |
-          See MIO_UART0/1_IIR[IID]; note this is not a simple R/W1C interrupt bit. INTERNAL:
+          See MIO_UART(0..1)_IIR[IID]; note this is not a simple R/W1C interrupt bit. INTERNAL:
 
       - name: MIO_EMM_DMA_DONE
         value: 0x09000
@@ -413,7 +413,7 @@ enums:
           major_val: "(0xB)"
           reg_addr: "(0x1180000001010+a*0x200)"
           reg_name: "MIO_TWS(0..1)_INT"
-        description: See MIO_TWS0/1_INT[ST_INT].
+        description: See MIO_TWS(0..1)_INT[ST_INT].
 
       - name: MIO_TWS(0..1)_INT_TS
         value: 0x0B001 + a*0x100
@@ -425,7 +425,7 @@ enums:
           major_val: "(0xB)"
           reg_addr: "(0x1180000001010+a*0x200)"
           reg_name: "MIO_TWS(0..1)_INT"
-        description: See MIO_TWS0/1_INT[TS_INT].
+        description: See MIO_TWS(0..1)_INT[TS_INT].
 
       - name: MIO_TWS(0..1)_INT_CORE
         value: 0x0B002 + a*0x100
@@ -437,7 +437,7 @@ enums:
           major_val: "(0xB)"
           reg_addr: "(0x1180000001010+a*0x200)"
           reg_name: "MIO_TWS(0..1)_INT"
-        description: See MIO_TWS0/1_INT[CORE_INT].
+        description: See MIO_TWS(0..1)_INT[CORE_INT].
 
       - name: LAP(0..1)_GEN_LABS_OUT
         value: 0x0C000 + a*0x01000

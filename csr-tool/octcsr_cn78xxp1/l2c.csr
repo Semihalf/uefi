@@ -730,6 +730,344 @@ enums:
         value: 0x6B
         description: I/O multi-quadword store with multi-quadword load, with commit.
 
+  - name: OCI_MREQ_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    description:
+    values:
+      - name: RLDD
+        value: 0x0
+        description: Remote Load Data.
+
+      - name: RLDI
+        value: 0x1
+        description: Remote Load Instruction.
+
+      - name: RLDT
+        value: 0x2
+        description: Remote Load Immediate.
+
+      - name: RLDY
+        value: 0x3
+        description: Remote Load Immediate. Allocate in Home node.
+
+      - name: RLDWB
+        value: 0x4
+        description: Remote Load Immediate, and do not Write Back.
+
+      - name: RLDX
+        value: 0x5
+        description: Remote Load Exclusive (intent to modify).
+
+      - name: RC2D_O
+        value: 0x6
+        description: Remote Change to Dirty - Line is O
+
+      - name: RC2D_S
+        value: 0x7
+        description: Remote Change to Dirty - Line in S  
+
+      - name: RSTT
+        value: 0x8
+        description: Remote Store Immediate.
+
+      - name: RSTY
+        value: 0x9
+        description: Remote Store Immediate. Allocate in Home node.
+
+      - name: RSTP
+        value: 0xA
+        description: Store partial.
+
+      - name: RSAA
+        value: 0xB
+        description: Atomic Add, 64/32.
+
+      - name: RSAAM1
+        value: 0xC
+        description: Atomic Decrement by 1, 64/32.
+
+      - name: RFAA
+        value: 0xD
+        description: Atomic Fetch and Add, 64/32.
+
+      - name: RINC
+        value: 0xE
+        description:  Atomic increment, 64/32/16/8.
+
+      - name: RDEC
+        value: 0xF
+        description: Atomic decrement, 64/32/16/8.
+
+      - name: RFAS
+        value: 0x10
+        description: Atomic Fetch and swap 64/32.
+
+      - name: RSET
+        value: 0x11
+        description: Atomic Fetch and Set, 64/32/16/8.
+
+      - name: RCLR
+        value: 0x12
+        description: Atomic fetch and Clear, 64/32/16/8.
+
+      - name: RCAS
+        value: 0x13
+        description: Atomic Compare and swap, 64/32/16/8 Line I not allocating.
+
+      - name: RCAS_I
+        value: 0x14
+        description: Atomic Compare and swap, 64/32/16/8 Line I allocating.
+
+      - name: RCAS_O
+        value: 0x15
+        description: Atomic Compare and swap, 64/32/16/8 (and the compare has matched but state is O at the requester).
+
+      - name: RCAS_S
+        value: 0x16
+        description: Atomic Compare and swap, 64/32/16/8 (and the compare has matched but state is S at the requester).
+
+      - name: RSTC
+        value: 0x17
+        description: Conditional Store - Line I not allocating.
+
+      - name: RSTC_I
+        value: 0x18
+        description: Conditional Store - Line I but allocating.
+
+      - name: RSTC_O
+        value: 0x19
+        description: Conditional Store - Line O.
+
+      - name: RSTC_S
+        value: 0x1A
+        description: Conditional Store - Line S.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+  - name: OCI_MFWD_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    description:
+    values:
+      - name: FLDRO_E
+        value: 0x0
+        description: Forward Read Data - ROWNED_MODE=1 (home RTG state is E).
+                                                                            
+      - name: FLDRO_O                                                       
+        value: 0x1                                                          
+        description: Forward Read Data - ROWNED_MODE=1 (home RTG state is O).
+
+      - name: FLDRS_E
+        value: 0x2
+        description: Forward Read Data - ROWNED_MODE=0 (home RTG state is E).
+                                                                            
+      - name: FLDRS_O                                                       
+        value: 0x3                                                          
+        description: Forward Read Data - ROWNED_MODE=0 (home RTG state is O).
+
+      - name: FLDRS_EH
+        value: 0x4
+        description: Forward Home Read data (home RTG state is E).
+                                                                 
+      - name: FLDRS_OH                                           
+        value: 0x5                                               
+        description: Forward Home Read data (home RTG state is O).
+
+      - name: FLDT_E
+        value: 0x6
+        description: Forward Read Through (home RTG state is E).
+
+      - name: FLDX_E
+        value: 0x7
+        description: Forward Read Exclusive (home RTG state is E).
+                                                                 
+      - name: FLDX_O                                             
+        value: 0x8                                               
+        description: Forward Read Exclusive (home RTG state is O).
+
+      - name: FLDX_EH
+        value: 0x9
+        description: Forward Home Read exclusive (home RTG state is E).
+                                                                      
+      - name: FLDX_OH                                                 
+        value: 0xA                                                    
+        description: Forward Home Read exclusive (home RTG state is O).
+
+      - name: FEVX_EH
+        value: 0xB
+        description: Forward for Home Eviction (home RTG state is E).
+                                                                    
+      - name: FEVX_OH                                               
+        value: 0xC                                                  
+        description: Forward for Home Eviction (home RTG state is O).
+
+      - name: SINV
+        value: 0xD
+        description: Shared invalidate.
+
+      - name: SINV_H
+        value: 0xE
+        description: Shared Invalidate Home is requester.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+  - name: OCI_MRSP_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    description:
+    values:
+      - name: VICD
+        value: 0x0
+        description: Vic from E or O to I.
+
+      - name: VICC
+        value: 0x1
+        description: Vic from E or O to S.
+
+      - name: VICS
+        value: 0x2
+        description: Vic from S to I.
+
+      - name: VICDHI
+        value: 0x3
+        description: Home forced VICD.
+
+      - name: HAKD
+        value: 0x4
+        description: To Home Ack.
+
+      - name: HAKN_S
+        value: 0x5
+        description: To Home Ack, state is S.
+
+      - name: HAKI
+        value: 0x6
+        description: To Home Ack - VICx in progress, state is I.
+
+      - name: HAKS
+        value: 0x7
+        description: To Home Ack - VICx in progress, state is S.
+
+      - name: HAKV
+        value: 0x8
+        description: To Home Ack - VICS in progress.
+
+      - name: PSHA
+        value: 0x9
+        description: Response w Data - to S/I.
+
+      - name: PEMD
+        value: 0xA
+        description: Response to request, from "owning node".
+
+      - name: PATM
+        value: 0xB
+        description: Response w Data - (Atomic Requests).
+
+      - name: PACK
+        value: 0xC
+        description: Response Ack (wo data).
+
+      - name: P2DF
+        value: 0xD
+        description: Response Faul.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+  - name: OCI_IREQ_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    description:
+    values:
+      - name: IOBLD
+        value: 0x0
+        description: IO load request of 8, 16, 32, or 64 bits.
+
+      - name: SLILD
+        value: 0x1
+        description: SLI-initiated IO load request of 8, 16, 32, or 64 bits.
+
+      - name: IOBST
+        value: 0x2
+        description: IO store request of 8, 16, 32, or 64 bits.
+
+      - name: IOBSTA
+        value: 0x3
+        description: Same as IOBST8, IOBST16, IOBST32, and IOBST64, destination node will respond with an IOACK.
+
+      - name: SLIST
+        value: 0x4
+        description: SLI-initiated IO store request of 8, 16, 32, or 64 bits.
+
+      - name: IOBDMA
+        value: 0x5
+        description: Vector IO load request.
+
+      - name: IOBDMAA
+        value: 0x6
+        description: Same as IOBDMA, destination node will respond with IOACK.
+
+      - name: LMTST
+        value: 0x7
+        description: Vector IO store request.
+
+      - name: LMTSTA
+        value: 0x8
+        description: Same as LMTST, destination node will respond with IOACK.
+
+      - name: LMTDMA
+        value: 0x9
+        description: Vector IO store and load request.
+
+      - name: LMTDMAA
+        value: 0xA
+        description: Same as LMTDMA, destination node will respond with IOACK.
+
+      - name: IOBADDR
+        value: 0xB
+        description: Same as IOBDMA without response, or LMTST without any data.
+
+      - name: IOBADDRA
+        value: 0xC
+        description: Same as IOBADDR, destination node will respond with IOACK.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+  - name: OCI_IRSP_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    description:
+    values:
+      - name: IOBRSP
+        value: 0x0
+        description: IO response to an IOBLD*, IOBDMA, or LMTDMA.
+
+      - name: IOBACK
+        value: 0x1
+        description: A response indicating that the IO request has passed the point where subsequently-generated IO requests will follow the request.
+
+      - name: SLIRSP
+        value: 0x2
+        description: Response to a SLILD*.
+
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
 
 registers:
   - name: L2C_CTL
@@ -942,18 +1280,11 @@ registers:
       trigger the VBFSBE/VBFDBE error.
     fields:
       - name: --
-        bits: 63..14
+        bits: 63..12
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: XMDMSKFLIP
-        bits: 13..12
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Generate an ECC error in the XMD MSK.
 
       - name: MIBFLIP
         bits: 11..10
@@ -1369,7 +1700,7 @@ registers:
        1   18   0     RO     CP0 Root.WatchLo0                         RW
        1   19   0     RO     CP0 Root.WatchHi0                         RW
        1   22   0     RO     CP0 Root.MultiCoreDebug                   RW
-       1   22   1            CP0 Root.VoltageMonitor                   RW
+       1   22   1            CP0 Root.ImplDebug                        R0
        1   22   2     RO     CP0 Root.CvmCountOffset                   RW
        1   23   0     RO     CP0 Root.Debug                            RW
        1   23   6     RO     CP0 Root.Debug2                           RO

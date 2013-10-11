@@ -3,7 +3,7 @@
 ---
 name: PCSX
 registers:
-  - name: PCSX(0..1)_CONTROL1_REG
+  - name: PCSX(0..0)_CONTROL1_REG
     title: Control Register1
     address: 0x11800B0000800 + a*0x8000000
     bus: RSL
@@ -92,7 +92,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCSX(0..1)_STATUS1_REG
+  - name: PCSX(0..0)_STATUS1_REG
     title: Status Register1
     address: 0x11800B0000808 + a*0x8000000
     bus: RSL
@@ -148,7 +148,7 @@ registers:
         description: Reserved.
 
 
-  - name: PCSX(0..1)_SPD_ABIL_REG
+  - name: PCSX(0..0)_SPD_ABIL_REG
     title: Speed ability register
     address: 0x11800B0000810 + a*0x8000000
     bus: RSL
@@ -178,7 +178,7 @@ registers:
         description: Always 1, 10Gb/s supported
 
 
-  - name: PCSX(0..1)_CONTROL2_REG
+  - name: PCSX(0..0)_CONTROL2_REG
     title: Control Register2
     address: 0x11800B0000818 + a*0x8000000
     bus: RSL
@@ -203,7 +203,7 @@ registers:
         description: Always 2'b01, 10GBASE-X only supported
 
 
-  - name: PCSX(0..1)_STATUS2_REG
+  - name: PCSX(0..0)_STATUS2_REG
     title: Status Register2
     address: 0x11800B0000820 + a*0x8000000
     bus: RSL
@@ -279,7 +279,7 @@ registers:
         description: Always 0, no 10GBASE-R capability
 
 
-  - name: PCSX(0..1)_10GBX_STATUS_REG
+  - name: PCSX(0..0)_10GBX_STATUS_REG
     title: 10gbx_status_reg
     address: 0x11800B0000828 + a*0x8000000
     bus: RSL
@@ -344,7 +344,7 @@ registers:
         description: 1=Rcv lane 0 code grp synchronized, 0=not sync'ed
 
 
-  - name: PCSX(0..1)_TX_RX_STATES_REG
+  - name: PCSX(0..0)_TX_RX_STATES_REG
     title: Transmit Receive States Register
     address: 0x11800B0000830 + a*0x8000000
     bus: RSL
@@ -425,7 +425,7 @@ registers:
         description: Transmit state machine state state
 
 
-  - name: PCSX(0..1)_RX_SYNC_STATES_REG
+  - name: PCSX(0..0)_RX_SYNC_STATES_REG
     title: Receive Sync States Register
     address: 0x11800B0000838 + a*0x8000000
     bus: RSL
@@ -469,7 +469,7 @@ registers:
         description: Receive lane 0 code grp sync state machine state
 
 
-  - name: PCSX(0..1)_TX_RX_POLARITY_REG
+  - name: PCSX(0..0)_TX_RX_POLARITY_REG
     title: TX_RX polarity reg
     address: 0x11800B0000840 + a*0x8000000
     bus: RSL
@@ -517,7 +517,7 @@ registers:
         description: 1 is inverted polarity, 0 is normal polarity
 
 
-  - name: PCSX(0..1)_MISC_CTL_REG
+  - name: PCSX(0..0)_MISC_CTL_REG
     address: 0x11800B0000848 + a*0x8000000
     bus: RSL
     description: |
@@ -571,7 +571,7 @@ registers:
           during data packet reception.
 
 
-  - name: PCSX(0..1)_BIT_LOCK_STATUS_REG
+  - name: PCSX(0..0)_BIT_LOCK_STATUS_REG
     address: 0x11800B0000850 + a*0x8000000
     bus: RSL
     description: PCSX Bit Lock Status Register
@@ -615,7 +615,7 @@ registers:
         description: Receive Lane 0 bit lock status
 
 
-  - name: PCSX(0..1)_INT_REG
+  - name: PCSX(0..0)_INT_REG
     address: 0x11800B0000858 + a*0x8000000
     bus: RSL
     description: |
@@ -689,7 +689,7 @@ registers:
         description: None defined at this time, always 0x0
 
 
-  - name: PCSX(0..1)_INT_EN_REG
+  - name: PCSX(0..0)_INT_EN_REG
     address: 0x11800B0000860 + a*0x8000000
     bus: RSL
     description: PCSX Interrupt Enable Register
@@ -754,7 +754,7 @@ registers:
         description: Enable TXFLT   interrupt
 
 
-  - name: PCSX(0..1)_LOG_ANL_REG
+  - name: PCSX(0..0)_LOG_ANL_REG
     address: 0x11800B0000868 + a*0x8000000
     bus: RSL
     description: |
@@ -829,7 +829,7 @@ registers:
           1    1   Packet size 16k bytes
 
 
-  - name: PCSX(0..1)_BIST_STATUS_REG
+  - name: PCSX(0..0)_BIST_STATUS_REG
     address: 0x11800B0000870 + a*0x8000000
     bus: RSL
     description: PCSX Bist Status Register
@@ -854,7 +854,7 @@ registers:
           pcsx.tx_sm.drf8x36m1_async_bist
 
 
-  - name: PCSX(0..1)_SERDES_CRDT_CNT_REG
+  - name: PCSX(0..0)_SERDES_CRDT_CNT_REG
     address: 0x11800B0000880 + a*0x8000000
     bus: RSL
     description: |

@@ -436,6 +436,36 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_HNA_SEL(0..1)
+    title: DTX HNA Select Register
+    address: 0x11800FE000000 | ((71) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_HNA_ENA(0..1)
+    title: DTX HNA Data Enable Register
+    address: 0x11800FE000020 | ((71) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_HNA_DAT(0..1)
+    title: DTX HNA Raw Data Register
+    address: 0x11800FE000040 | ((71) << 15)|a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_HNA_CTL
+    title: DTX HNA Control Register
+    address: 0x11800FE238060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_HNA_BCST_RSP
+    title: DTX HNA Control Register
+    address: 0x11800FE238080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_L2C_TAD(0..7)_SEL(0..1)
     title: DTX L2C_TAD(0..7) Select Register
     address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)

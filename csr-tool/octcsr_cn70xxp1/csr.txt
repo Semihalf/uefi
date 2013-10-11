@@ -13807,7 +13807,7 @@ $L2C_BIG_CTL   Address=(0x1180080800030)   Bus=(RSL)
  *   1   18   0     RO     CP0 Root.WatchLo0                         RW
  *   1   19   0     RO     CP0 Root.WatchHi0                         RW
  *   1   22   0     RO     CP0 Root.MultiCoreDebug                   RW
- *   1   22   1            CP0 Root.VoltageMonitor                   RW
+ *   1   22   1            CP0 Root.ImplDebug                        R0
  *   1   22   2     RO     CP0 Root.CvmCountOffset                   RW
  *   1   23   0     RO     CP0 Root.Debug                            RW
  *   1   23   6     RO     CP0 Root.Debug2                           RO
@@ -28657,7 +28657,7 @@ $PCS(0..1)_MAC_CRDT_CNT(0..3)_REG   Address=(0x11800B00010B0+a*0x8000000+b*0x400
  * 
  *  
  * 
-$PCSX(0..1)_CONTROL1_REG   Address=(0x11800B0000800+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_CONTROL1_REG   Address=(0x11800B0000800+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -28692,7 +28692,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_STATUS1_REG   Address=(0x11800B0000808+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_STATUS1_REG   Address=(0x11800B0000808+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -28719,7 +28719,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_SPD_ABIL_REG   Address=(0x11800B0000810+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_SPD_ABIL_REG   Address=(0x11800B0000810+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -28740,7 +28740,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_CONTROL2_REG   Address=(0x11800B0000818+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_CONTROL2_REG   Address=(0x11800B0000818+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -28761,7 +28761,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_STATUS2_REG   Address=(0x11800B0000820+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_STATUS2_REG   Address=(0x11800B0000820+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -28790,7 +28790,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_10GBX_STATUS_REG   Address=(0x11800B0000828+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_10GBX_STATUS_REG   Address=(0x11800B0000828+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
@@ -28816,7 +28816,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_TX_RX_STATES_REG   Address=(0x11800B0000830+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_TX_RX_STATES_REG   Address=(0x11800B0000830+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -28845,7 +28845,7 @@ documented.
  * 
  *  
  * 
-$PCSX(0..1)_RX_SYNC_STATES_REG   Address=(0x11800B0000838+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_RX_SYNC_STATES_REG   Address=(0x11800B0000838+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -28870,7 +28870,7 @@ documented.
  *  TX lane polarity vector [3:0] = XOR_TXPLRT<5:2>  ^  {4{TXPLRT<0>}};
  *  In short keep <1:0> to 2'b00, and use <5:2> and <9:6> fields to define per lane polarities
  * 
-$PCSX(0..1)_TX_RX_POLARITY_REG   Address=(0x11800B0000840+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_TX_RX_POLARITY_REG   Address=(0x11800B0000840+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
@@ -28894,7 +28894,7 @@ documented.
  *  PCSX Misc Control Register
  *  LN_SWAP for XAUI is to simplify interconnection layout between devices
  * 
-$PCSX(0..1)_MISC_CTL_REG   Address=(0x11800B0000848+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_MISC_CTL_REG   Address=(0x11800B0000848+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -28921,7 +28921,7 @@ documented.
  * 
  *  PCSX Bit Lock Status Register
  * 
-$PCSX(0..1)_BIT_LOCK_STATUS_REG   Address=(0x11800B0000850+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_BIT_LOCK_STATUS_REG   Address=(0x11800B0000850+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
@@ -28950,7 +28950,7 @@ documented.
  *  indicating an invalid code group was received on one of the 4 receive lanes.
  *  This interrupt should be always disabled and used only for link problem debugging help.
  * 
-$PCSX(0..1)_INT_REG   Address=(0x11800B0000858+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_INT_REG   Address=(0x11800B0000858+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
@@ -28977,7 +28977,7 @@ documented.
  * 
  *  PCSX Interrupt Enable Register
  * 
-$PCSX(0..1)_INT_EN_REG   Address=(0x11800B0000860+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_INT_EN_REG   Address=(0x11800B0000860+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
@@ -29009,7 +29009,7 @@ documented.
  *  For full description see document at .../rtl/pcs/readme_logic_analyzer.txt
  *  Attribute: -exempt_w1c_w=True.
  * 
-$PCSX(0..1)_LOG_ANL_REG   Address=(0x11800B0000868+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_LOG_ANL_REG   Address=(0x11800B0000868+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field     Field   Reset      Typical    Field                                             
  Pos     Name      Type    Value      Value      Description                                       
@@ -29045,7 +29045,7 @@ documented.
  * 
  *  PCSX Bist Status Register
  * 
-$PCSX(0..1)_BIST_STATUS_REG   Address=(0x11800B0000870+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_BIST_STATUS_REG   Address=(0x11800B0000870+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
@@ -29068,7 +29068,7 @@ documented.
  *  INTERNAL: Do not add this register to the HRM
  *  Attribute: -dv_fc_scratch=ALL.
  * 
-$PCSX(0..1)_SERDES_CRDT_CNT_REG   Address=(0x11800B0000880+a*0x8000000)   Bus=(RSL)
+$PCSX(0..0)_SERDES_CRDT_CNT_REG   Address=(0x11800B0000880+a*0x8000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
