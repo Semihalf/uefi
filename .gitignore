@@ -25,6 +25,7 @@
 /bdk-boot/bdk-boot-nor-stage1-cn70xx
 /bdk-boot/bdk-full-no-romfs
 /bdk-boot/bdk-reset-rtl
+/bdk-boot/bdk-xmodem-load
 /tests/hw-and-sim/crypto/crypto
 /tests/hw-and-sim/passthrough/passthrough
 /tests/hw-only/pcie-dma-test/pcie-dma-test

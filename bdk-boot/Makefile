@@ -7,6 +7,8 @@ TARGETS += bdk-full-no-romfs
 TARGETS += ${DIR}/bdk-full-no-romfs.bin
 TARGETS += bdk-boot-nor-stage1-cn70xx
 TARGETS += ${DIR}/bdk-boot-nor-stage1-cn70xx.bin
+TARGETS += bdk-xmodem-load
+TARGETS += $(BDK_ROOT)/target-bin/bdk-xmodem-load.bin
 
 .PHONY: all
 all: ${TARGETS}
@@ -19,8 +21,12 @@ ${DIR}/bdk-full-no-romfs.bin: bdk-full-no-romfs.bin
 ${DIR}/bdk-boot-nor-stage1-cn70xx.bin: bdk-boot-nor-stage1-cn70xx.bin
 	cp bdk-boot-nor-stage1-cn70xx.bin ${DIR}/
 
+$(BDK_ROOT)/target-bin/bdk-xmodem-load.bin: bdk-xmodem-load.bin
+	cp bdk-xmodem-load.bin $(BDK_ROOT)/target-bin/
+
 bdk-full-no-romfs: bdk-full-no-romfs.o $(BDK_ROOT)/libbdk/libbdk.a
 bdk-boot-nor-stage1-cn70xx: bdk-boot-nor-stage1-cn70xx.o $(BDK_ROOT)/libbdk/libbdk.a
+bdk-xmodem-load: bdk-xmodem-load.o $(BDK_ROOT)/libbdk/libbdk.a
 
 bdk-reset-rtl: bdk-reset-rtl.S
 	$(CC) -nostdlib -nostartfiles -Ttext=0xBFC00000 -o $@ $^

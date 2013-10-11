@@ -15,3 +15,12 @@ This is an example image based on rom/chip-screen. It is not likely
 useful as is, but serves as an example of what can be done using
 custom Lua scripts.
 
+bdk-xmodem-load.bin:
+
+This image runs from L2 cache and uploads files through Xmodem. Files
+can be written to parallel NOR, MMC, eMMC, SD, and SPI NOR. The most
+common way to use this image is by booting over EJTAG. Once booted,
+a menu is presented of options. The initial baudrate is 115200, no
+parity, 1 stop bit.
+
+        $ bdk-remote boot target-bin/bdk-xmodem-load.bin
