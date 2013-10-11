@@ -30,6 +30,14 @@ of verifying hardware.
 This document gives a short overview of the major changes incorporated into
 each BDK release.
 
+Chip specific information
+-------------------------
+
+. link:bdk-cn70xx.html[CN70XX and CN71XX]
++
+This document covers booting the BDK on CN70XX and CN71XX. It presents
+a short step by step guide to get started.
+
 Scripting
 ---------
 

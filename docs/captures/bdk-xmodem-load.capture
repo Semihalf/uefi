@@ -1,0 +1,21 @@
+Bringup and Diagnostic Kit (BDK)
+Locking L2 cache
+Transferring to thread scheduler
+Hardware flow control enabled on UART0
+Hardware flow control disabled on UART1
+Switching to main
+BDK version: 2013.10-r89434
+
+BDK Xmodem file load utility
+
+This utility can load files through Xmodem into:
+        Parallel NOR
+
+
+=================================
+Main Menu
+=================================
+ 1) Change baud rate and flow control
+ 2) Load file into parallel NOR
+ 5) Soft reset Octeon
+(INS)Menu choice:
