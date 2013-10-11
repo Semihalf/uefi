@@ -433,6 +433,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
+                bdk_thread_yield();
                 status = __bdk_flash_read8(flash, offset);
             }
 
@@ -459,6 +460,7 @@ int bdk_flash_erase_block(int chip_id, int region, int block)
                     bdk_spinlock_unlock(&flash_lock);
                     return -1;
                 }
+                bdk_thread_yield();
                 status = __bdk_flash_read8(flash, offset);
             }
 
@@ -536,6 +538,7 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
                         bdk_spinlock_unlock(&flash_lock);
                         return -1;
                     }
+                    bdk_thread_yield();
                     if (flash->bus_16bit)
                         status = __bdk_flash_read16(flash, offset);
                     else
@@ -583,6 +586,7 @@ int bdk_flash_write(int chip_id, int offset, const void *data, int len)
                         bdk_spinlock_unlock(&flash_lock);
                         return -1;
                     }
+                    bdk_thread_yield();
                     status = __bdk_flash_read8(flash, offset);
                 }
 
