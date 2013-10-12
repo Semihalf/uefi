@@ -360,6 +360,7 @@ static void check_agx_cn70xx(bdk_node_t node, int index)
         CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, xmit);
         CHECK_CHIP_ERROR(BDK_PCSX_INTX_REG(index, port), s, lnkspd);
     }
+    if (index == 0)
     {
         BDK_CSR_INIT(c, node, BDK_PCSXX_INT_REG(index));
         CHECK_CHIP_ERROR(BDK_PCSXX_INT_REG(index), s, dbg_sync);
@@ -427,14 +428,15 @@ static void enable_agx_cn70xx(bdk_node_t node, int index)
             c.s.xmit_en = -1;
             c.s.lnkspd_en = -1);
     }
-    BDK_CSR_MODIFY(c, node, BDK_PCSXX_INT_EN_REG(index),
-        c.s.dbg_sync_en = -1;
-        c.s.algnlos_en = -1;
-        c.s.synlos_en = -1;
-        c.s.bitlckls_en = -1;
-        c.s.rxsynbad_en = -1;
-        c.s.rxbad_en = -1;
-        c.s.txflt_en = -1);
+    if (index == 0)
+        BDK_CSR_MODIFY(c, node, BDK_PCSXX_INT_EN_REG(index),
+            c.s.dbg_sync_en = -1;
+            c.s.algnlos_en = -1;
+            c.s.synlos_en = -1;
+            c.s.bitlckls_en = -1;
+            c.s.rxsynbad_en = -1;
+            c.s.rxbad_en = -1;
+            c.s.txflt_en = -1);
 }
 
 static void check_dpi_cn70xx(bdk_node_t node)
