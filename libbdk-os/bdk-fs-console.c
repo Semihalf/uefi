@@ -149,7 +149,6 @@ const __bdk_fs_ops_t bdk_fs_console_ops =
     .unlink = NULL,
     .open = console_open,
     .close = NULL,
-    .lseek = NULL,
     .read = console_read,
     .write = console_write,
 };

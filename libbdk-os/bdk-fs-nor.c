@@ -118,7 +118,6 @@ static const __bdk_fs_ops_t bdk_fs_nor_ops =
     .unlink = NULL,
     .open = nor_open,
     .close = NULL,
-    .lseek = NULL,
     .read = nor_read,
     .write = nor_write,
 };

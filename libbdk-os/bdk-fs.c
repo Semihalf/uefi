@@ -269,24 +269,19 @@ off_t lseek(int handle, off_t offset, int whence)
         return -1;
     }
 
-    if (file->ops->lseek)
-        return file->ops->lseek(file, offset, whence);
-    else
+    switch (whence)
     {
-        switch (whence)
-        {
-            case SEEK_SET:
-                file->location = offset;
-                break;
-            case SEEK_CUR:
-                file->location += offset;
-                break;
-            case SEEK_END:
-                // FIXME: Implement SEEK_END
-                break;
-        }
-        return file->location;
+        case SEEK_SET:
+            file->location = offset;
+            break;
+        case SEEK_CUR:
+            file->location += offset;
+            break;
+        case SEEK_END:
+            // FIXME: Implement SEEK_END
+            break;
     }
+    return file->location;
 }
 
 

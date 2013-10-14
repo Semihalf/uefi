@@ -134,7 +134,6 @@ static const __bdk_fs_ops_t bdk_fs_remote_ops =
     .unlink = NULL,
     .open = remote_open,
     .close = NULL,
-    .lseek = NULL,
     .read = remote_read,
     .write = remote_write,
 };

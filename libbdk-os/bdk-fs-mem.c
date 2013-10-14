@@ -30,7 +30,6 @@ static const __bdk_fs_ops_t bdk_fs_mem_ops =
     .unlink = NULL,
     .open = mem_open,
     .close = NULL,
-    .lseek = NULL,
     .read = mem_read,
     .write = mem_write,
 };

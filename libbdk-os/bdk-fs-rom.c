@@ -90,7 +90,6 @@ static const __bdk_fs_ops_t bdk_fs_rom_ops =
     .unlink = NULL,
     .open = rom_open,
     .close = NULL,
-    .lseek = NULL,
     .read = rom_read,
     .write = NULL,
     .mmap = rom_mmap,

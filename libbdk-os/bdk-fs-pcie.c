@@ -100,7 +100,6 @@ static const __bdk_fs_ops_t bdk_fs_pcie_ops =
     .unlink = NULL,
     .open = pcie_open,
     .close = NULL,
-    .lseek = NULL,
     .read = pcie_read,
     .write = pcie_write,
 };

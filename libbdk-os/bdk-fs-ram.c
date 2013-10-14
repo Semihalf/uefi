@@ -145,7 +145,6 @@ static const __bdk_fs_ops_t bdk_fs_ram_ops =
     .unlink = ram_unlink,
     .open = ram_open,
     .close = NULL,
-    .lseek = NULL,
     .read = ram_read,
     .write = ram_write,
     .mmap = ram_mmap,

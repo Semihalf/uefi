@@ -77,7 +77,6 @@ const __bdk_fs_ops_t bdk_fs_uart_ops =
     .unlink = NULL,
     .open = uart_open,
     .close = NULL,
-    .lseek = NULL,
     .read = uart_read,
     .write = uart_write,
 };
