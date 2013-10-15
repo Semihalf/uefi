@@ -135,16 +135,18 @@ int main(void)
         "\n"
         "This utility can load files through Xmodem into:\n"
         "\tParallel NOR\n"
-#if 0
         "\tMMC, eMMC, or SD\n"
+#if 0
         "\tSPI NOR\n"
 #endif
         "\n", bdk_version_string());
 
     extern int bdk_fs_xmodem_init(void);
     extern int bdk_fs_nor_init(void);
+    extern int bdk_fs_mmc_init(void);
     bdk_fs_xmodem_init();
     bdk_fs_nor_init();
+    bdk_fs_mmc_init();
 
     while (1)
     {
@@ -155,8 +157,8 @@ int main(void)
             "=================================\n"
             " 1) Change baud rate and flow control\n"
             " 2) Load file into parallel NOR\n"
-#if 0
             " 3) Load file into MMC, eMMC, or SD\n"
+#if 0
             " 4) Load file into SPI NOR\n"
 #endif
             " 5) Soft reset Octeon\n");
@@ -183,22 +185,42 @@ int main(void)
             }
             case 2: /* pNOR */
             {
-                    const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
-                    int offset = atoi(offset_str);
-                    if ((offset < 0) || (offset > (1 << 30)))
-                        bdk_error("Illegal offset\n");
-                    else
-                    {
-                        printf("\n");
-                        bdk_flash_initialize(bdk_numa_local());
-                        printf("\n");
-                        do_upload("/dev/nor/0", offset);
-                    }
-                    break;
+                const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
+                int offset = atoi(offset_str);
+                if ((offset < 0) || (offset > (1 << 30)))
+                    bdk_error("Illegal offset\n");
+                else
+                {
+                    printf("\n");
+                    bdk_flash_initialize(bdk_numa_local());
+                    printf("\n");
+                    do_upload("/dev/nor/0", offset);
+                }
+                break;
             }
             case 3: /* eMMC / SD */
-                bdk_error("MMC, eMMC, and SD not implemented yet\n");
+            {
+                const char *chip_str = bdk_readline("Chip select [0]: ", NULL, 0);
+                int chip_sel = atoi(chip_str);
+                if ((chip_sel < 0) || (chip_sel >= 4))
+                {
+                    bdk_error("Illegal chip select\n");
+                    break;
+                }
+
+                const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
+                int offset = atoi(offset_str);
+                if ((offset < 0) || (offset > (1 << 30)))
+                {
+                    bdk_error("Illegal offset\n");
+                    break;
+                }
+                printf("\n");
+                char filename[32];
+                sprintf(filename, "/dev/mmc/%d", chip_sel);
+                do_upload(filename, offset);
                 break;
+            }
             case 4: /* SPI NOR */
                 bdk_error("SPI NOR not implemented yet\n");
                 break;
