@@ -22,15 +22,12 @@ static bdk_spinlock_t write_lock;
  * stall during slow erase cycles.
  *
  * @author creese (10/10/2013)
- * @param offset   Offset into the file we're start at
- * @param filename File to write to
+ * @param unused Unused param
+ * @param handle File handle for writing
  */
-static void write_thread(int offset, void *filename)
+static void write_thread(int unused, void *handle)
 {
-    /* Open the output file */
-    FILE *outf = fopen(filename, "w");
-    fseek(outf, offset, SEEK_SET);
-
+    FILE *outf = (FILE*)handle;
     while (write_needed)
     {
         /* Wait for data */
@@ -66,17 +63,34 @@ static void write_thread(int offset, void *filename)
  */
 static void do_upload(const char *dest_file, int offset)
 {
+    /* Open the output file */
+    FILE *outf = fopen(dest_file, "w");
+    if (!outf)
+    {
+        bdk_error("Failed to open %s\n", dest_file);
+        return;
+    }
+    fseek(outf, offset, SEEK_SET);
+
     /* Create a thread that does the write so Xmodem doesn't stall
        during slow flash accesses */
     write_count = 0;
     write_needed = 1;
     BDK_SYNCW;
-    bdk_thread_create(bdk_numa_local(), 0, write_thread, offset, (void*)dest_file, 0);
+    bdk_thread_create(bdk_numa_local(), 0, write_thread, 0, (void*)outf, 0);
     /* Let the thread start */
     bdk_thread_yield();
 
     /* Open xmodem for reading the file */
     FILE *inf = fopen("/xmodem", "r");
+    if (!inf)
+    {
+        bdk_error("Failed to open /xmodem\n");
+        BDK_SYNCW;
+        write_needed = 0;
+        BDK_SYNCW;
+        return;
+    }
 
     /* Loop until the file is done */
     while (!feof(inf))
