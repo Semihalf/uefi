@@ -669,8 +669,25 @@ int64_t bdk_mmc_initialize(int chip_sel)
 
     bdk_wait_usec(2000);
 
-    // Enable bus 1
+    // Enable bus
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
+
+    // Change the clock to run at 1Mhz
+    uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
+    sclk /= 1000000; /* Want 1Mhz */
+    sclk /= 2; /* Half is time hi/lo */
+    BDK_CSR_INIT(emm_mode, node, BDK_MIO_EMM_MODEX(chip_sel));
+    BDK_CSR_DEFINE(emm_switch, BDK_MIO_EMM_SWITCH);
+    emm_switch.u = 0;
+    emm_switch.s.bus_id = chip_sel;
+    emm_switch.s.switch_exe = 0;
+    emm_switch.s.hs_timing = emm_mode.s.hs_timing;
+    emm_switch.s.bus_width = emm_mode.s.bus_width;
+    emm_switch.s.power_class = emm_mode.s.power_class;
+    emm_switch.s.clk_hi = sclk;
+    emm_switch.s.clk_lo = sclk;
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_SWITCH, emm_switch.u);
+    bdk_wait_usec(2000);
 
     // Assume card is eMMC
     card_state[chip_sel].card_is_sd = 0;
