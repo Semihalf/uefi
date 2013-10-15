@@ -200,6 +200,8 @@ function remote.boot(args)
     oremote.reset(1)
     -- Write the image to L2
     oremote.write_mem(0, d)
+    -- Disabled the ROM
+    oremote.csr.RST_BOOT.ROMEN = 0
     -- Setup the Bootbus moveable region
     oremote.csr.MIO_BOOT_LOC_CFGX(0).write(0x81fc0000)
     oremote.csr.MIO_BOOT_LOC_ADR.write(0);
