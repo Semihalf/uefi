@@ -17,5 +17,6 @@ Main Menu
 =================================
  1) Change baud rate and flow control
  2) Load file into parallel NOR
+ 3) Load file into MMC, eMMC, or SD
  5) Soft reset Octeon
 (INS)Menu choice:
