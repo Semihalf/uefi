@@ -48,6 +48,7 @@
 #include "bdk-l2c.h"
 #include "bdk-mdio.h"
 #include "bdk-mpi.h"
+#include "bdk-mmc.h"
 #include "bdk-nand.h"
 #include "bdk-pcie.h"
 #include "bdk-pcie-eeprom.h"

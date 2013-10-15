@@ -118,6 +118,8 @@ int bdk_lua_start(void)
     bdk_fs_mem_init();
     extern int bdk_fs_nor_init(void);
     bdk_fs_nor_init();
+    extern int bdk_fs_mmc_init(void);
+    bdk_fs_mmc_init();
     if (BDK_IS_REQUIRED(FS_PCIE))
     {
         extern int bdk_fs_pcie_init(void) BDK_WEAK;
