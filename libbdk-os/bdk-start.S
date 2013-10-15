@@ -188,49 +188,8 @@ __init:
     dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
     li      t0, 0xc0400000  /* Skip relocate if we're already there */
     beq     t0, s0, after_relocate
-
-    /* See if we're running from a bootbus address */
-    dsra    t0, ra, 28              /* Shift PC 28 bits, leaving the top nibble */
-    li      t1, 0xfffffffb          /* Bootbus address starts with 0xb, sign extended */
-    bne     t0, t1, skip_l2_disidxalias /* only run the next code if we're not in flash */
      nop
 
-#if 0 /* FIXME: Do we want to speedup flash in early boot? */
-    /* Speed up flash.  Here we use a hardcoded value that will
-        work up to 1 GHz.  The speed will be adjusted again once
-        the actual speed of the CPU is determined, but this setting here
-        makes things much faster, as the hardware default at boot is
-        very slow.
-        PAGEM[63]     = Old value
-        WAITM[62]     = Old value
-        PAGES[61:60]  = Old value
-        ALE[59:54]    = 0x04
-        PAGE[53:48]   = 0x07
-        WAIT[47:42]   = 0x3F
-        PAUSE[41:36]  = 0x00
-        WR_HLD[35:30] = 0x09
-        RD_HLD[29:24] = 0x07
-        OE[17:12]     = 0x0D
-        CE[11:6]      = 0x0D
-        ADR[5:0]      = 0x03 */
-    dli     t1, 0x8001180000000040  /* MIO_BOOT_REG_TIM0 */
-    ld      t0, (t1)
-    dli     t2, 0xf<<60
-    and     t0, t2
-    dli     t2, 0x0107fc024724d343
-    or      t0, t2
-    sd      t0, (t1)
-#endif
-
-    /* Disable L2 indexed aliasing if we're running from flash. Indexed
-        aliasing won't allow us to lock a linear range into L2 */
-    dli     t0, 0x8001180080800000  /* L2C_CTL address */
-    ld      t1, (t0)                /* Load L2C_CTL */
-    ori     t1, 1                   /* Set L2C_CTL[disidxalias] */
-    sd      t1, (t0)                /* Store L2C_CTL */
-    ld      $0, (t0)                /* Read L2C_CTL to make sure the update is complete */
-
-skip_l2_disidxalias:
     /* Copy copy_code to L2 at address 0 */
     li      a0, 0x80000100  /* Where we are putting copy_code */
     dla     a1, copy_code   /* Load the address of the copy_code */

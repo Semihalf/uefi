@@ -198,10 +198,6 @@ function remote.boot(args)
 
     -- Reset and stop the cores
     oremote.reset(1)
-    -- Disable L2 aliasing
-    if oremote.csr.L2C_CTL.DISIDXALIAS == 0 then
-        oremote.csr.L2C_CTL.DISIDXALIAS = 1
-    end
     -- Write the image to L2
     oremote.write_mem(0, d)
     -- Setup the Bootbus moveable region
