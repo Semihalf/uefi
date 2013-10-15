@@ -25,6 +25,7 @@ typedef struct
     int block_size;
     int use_crc;
     uint8_t packetno;
+    uint8_t pending_ack;
     int length;
     uint8_t buffer[1024];
 } xmodem_state_t;
@@ -129,6 +130,13 @@ static void xmodemReceive(xmodem_state_t *state)
 {
     int retry = 0;
     dbg_printf("xmodemReceive looking for block number %d\n", 0xff & state->packetno);
+
+    if (state->pending_ack)
+    {
+        state->pending_ack = 0;
+        dbg_printf("xmodemReceive ACK\n");
+        _outbyte(state, ACK);
+    }
 
     state->use_crc = 1;
 
@@ -259,8 +267,7 @@ start:
             goto retry;
     }
 done:
-    dbg_printf("xmodemReceive ACK\n");
-    _outbyte(state, ACK);
+    state->pending_ack = 1;
     state->packetno++;
     return;
 
