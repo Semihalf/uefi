@@ -136,17 +136,17 @@ int main(void)
         "This utility can load files through Xmodem into:\n"
         "\tParallel NOR\n"
         "\tMMC, eMMC, or SD\n"
-#if 0
-        "\tSPI NOR\n"
-#endif
+        "\tSPI EEPROM or NOR\n"
         "\n", bdk_version_string());
 
     extern int bdk_fs_xmodem_init(void);
     extern int bdk_fs_nor_init(void);
     extern int bdk_fs_mmc_init(void);
+    extern int bdk_fs_mpi_init(void);
     bdk_fs_xmodem_init();
     bdk_fs_nor_init();
     bdk_fs_mmc_init();
+    bdk_fs_mpi_init();
 
     while (1)
     {
@@ -158,9 +158,7 @@ int main(void)
             " 1) Change baud rate and flow control\n"
             " 2) Load file into parallel NOR\n"
             " 3) Load file into MMC, eMMC, or SD\n"
-#if 0
-            " 4) Load file into SPI NOR\n"
-#endif
+            " 4) Load file into SPI EEPROM or NOR\n"
             " 5) Soft reset Octeon\n");
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         switch (atoi(input))
@@ -222,8 +220,38 @@ int main(void)
                 break;
             }
             case 4: /* SPI NOR */
-                bdk_error("SPI NOR not implemented yet\n");
+            {
+                const char *chip_str = bdk_readline("Chip select [0]: ", NULL, 0);
+                int chip_sel = atoi(chip_str);
+                if ((chip_sel < 0) || (chip_sel >= 4))
+                {
+                    bdk_error("Illegal chip select\n");
+                    break;
+                }
+
+                const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
+                int offset = atoi(offset_str);
+                if ((offset < 0) || (offset > (1 << 30)))
+                {
+                    bdk_error("Illegal offset\n");
+                    break;
+                }
+
+                const char *width_str = bdk_readline("Address width in bits [16]: ", NULL, 0);
+                int width = atoi(width_str);
+                if (*width_str == 0)
+                    width = 16;
+                if ((width < 8) || (width > 32))
+                {
+                    bdk_error("Illegal address width\n");
+                    break;
+                }
+                printf("\n");
+                char filename[64];
+                sprintf(filename, "/dev/mpi/cs%d-l,2wire,idle-h,msb,%dbit,10", chip_sel, width);
+                do_upload(filename, offset);
                 break;
+            }
             case 5: /* Soft reset */
                 printf("Performing a soft reset\n");
                 bdk_reset_octeon(bdk_numa_local());
