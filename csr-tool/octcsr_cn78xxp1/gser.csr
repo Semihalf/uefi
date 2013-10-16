@@ -1603,8 +1603,7 @@ registers:
           1.25G: 0x28
           2.5G: 0x5
           3.125G: 0x24
-          5.0G: 0xA (100 MHz REFCLK)
-          5.0G: 0x5 (156.25 MHz REFCLK)
+          5.0G: 0xA
           6.25G: 0xA
           8.0G: 0xA
           10.3215G: 0x24

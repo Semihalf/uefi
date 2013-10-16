@@ -6,20 +6,20 @@ enums:
   - name: GPIO_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts.
+    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
     values:
       - name: GPIO_INTR(0..15)
         value: 0x03000 + a
         attributes:
           intsn_level_sensitive: "True"
           intsn_lsb_mismatch: "True"
-        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR].
+        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR]. This interrupt is level sensitive.
 
       - name: GPIO_MC_INTR(4..7)_PP(0..47)
-        value: 0x03800 + (a-4)*0x100 + b
+        value: 0x03800 + (a-0x4)*0x100 + b
         attributes:
           intsn_level_sensitive: "True"
-        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>].
+        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>]. This interrupt is level sensitive.
 
 
   - name: GPIO_OUTSEL_E

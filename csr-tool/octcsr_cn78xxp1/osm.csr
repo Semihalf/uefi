@@ -152,7 +152,7 @@ enums:
   - name: OSM_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different interrupts from OSM.
+    description: Enumerates the different interrupts from OSM; see Interrupt Source Numbers.
     values:
       - name: OSM_INT_STAT_DFA_DBE
         value: 0xDC000

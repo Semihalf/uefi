@@ -1576,7 +1576,7 @@ registers:
         description: |
           Represents the cumulative total of pending HFA instructions that software has previously
           written into the HFA instruction FIFO (DIF) in main memory. Each HFA instruction contains
-          a fixed size 32B instruction word which is executed by the HFA hardware.
+          a fixed size 64B instruction word which is executed by the HFA hardware.
           The DBL register can hold up to 1M-1 (220-1) pending HFA instruction requests. During a
           read (by software), the 'most recent' contents of the DFA_DBELL register are returned at
           the time the IOI-INB bus is driven.
@@ -1698,7 +1698,7 @@ registers:
         reset: 0x3
         typical: --
         description: |
-          Represents the number of 32-byte instructions contained within each HFA instruction chunk.
+          Represents the number of 64-byte instructions contained within each HFA instruction chunk.
           At power-on, software seeds the SIZE register with a fixed chunk-size (must be at least
           0x3). HFA hardware uses this field to determine the size of each HFA instruction chunk, in
           order to:

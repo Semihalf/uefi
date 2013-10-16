@@ -6,7 +6,7 @@ enums:
   - name: MIO_BOOT_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts.
+    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
     values:
       - name: MIO_BOOT_ERR_ADR_ERR
         value: 0x0A000
@@ -20,11 +20,11 @@ enums:
         value: 0x0A040 + a*0x40
         attributes:
           exempt_natural_alignment: "a"
-        description: See MIO_BOOT_DMA_INT0/1[DONE].
+        description: See MIO_BOOT_DMA_INT(0..1)[DONE].
 
       - name: MIO_BOOT_DMA(0..1)_DMARQ
         value: 0x0A081 + a*0x40
-        description: See MIO_BOOT_DMA_INT0/1[DMARQ].
+        description: See MIO_BOOT_DMA_INT(0..1)[DMARQ].
 
 
 registers:
@@ -52,7 +52,7 @@ registers:
           0 = disabled, 1 = BOOT_DMACK[0], 2 = BOOT_DMACK[1].
           This is useful for CF cards in PC card memory mode that support DMA because the -REG and
           -DMACK pins are shared.
-          The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIMn[DMACK_PI].
+          The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIM(0..1)[DMACK_PI].
 
       - name: TIM_MULT
         bits: 41..40
@@ -143,7 +143,7 @@ registers:
         typical: --
         description: |
           Region 0 size. Region size is specified in 64K blocks and in 'block-1' notation (i.e. 0 =
-          1 64K block, 1 = 2 64K blocks, etc.).
+          one 64K block, 1 = two 64K blocks, etc.).
 
       - name: BASE
         bits: 15..0
@@ -277,7 +277,7 @@ registers:
         typical: --
         description: |
           Region 1-7 size. Region size is specified in 64K blocks and in 'block-1' notation (i.e. 0
-          = 1 64K block, 1 = 2 64K blocks, etc.).
+          = one 64K block, 1 = two 64K blocks, etc.).
 
       - name: BASE
         bits: 15..0

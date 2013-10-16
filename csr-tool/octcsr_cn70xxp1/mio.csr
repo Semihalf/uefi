@@ -1472,7 +1472,7 @@ registers:
       release.
       Resets to all 1's when REMOTE_BOOT is enabled, 0xe otherwise.  Writes to this register should
       occur
-      only if the CIU3_PP_RST_PENDING register is cleared.
+      only if the CIU_PP_RST_PENDING register is cleared.
       On pass 2, RST_PP_POWER register can be statically set and writes to this register will
       automatically enable/disable power
       saving when RST_PP_POWER[GATE] is enabled.

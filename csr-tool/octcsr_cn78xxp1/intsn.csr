@@ -153,10 +153,10 @@ enums:
           major_val: "(0x3)"
           reg_addr: "(0x1070000000A00+a*0x8)"
           reg_name: "GPIO_INTR(0..15)"
-        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR].
+        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR]. This interrupt is level sensitive.
 
       - name: GPIO_MC_INTR(4..7)_PP(0..47)
-        value: 0x03800 + (a-4)*0x100 + b
+        value: 0x03800 + (a-0x4)*0x100 + b
         attributes:
           bit_name: "INTR<b>"
           bit_num: "0+b"
@@ -166,7 +166,7 @@ enums:
           major_val: "(0x3)"
           reg_addr: "(0x1070000000C00+a*0x8)"
           reg_name: "GPIO_MC_INTR(4..7)"
-        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>].
+        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>]. This interrupt is level sensitive.
 
       - name: SW_MBOX(0..511)
         value: 0x04000 + a
@@ -256,7 +256,8 @@ enums:
           reg_addr: "0"
           reg_name: ""
         description: |
-          See MIO_UART(0..1)_IIR[IID]; note this is not a simple R/W1C interrupt bit. INTERNAL:
+          See MIO_UART(0..1)_IIR[IID]; note this interrupt is level sensitive and is not a simple
+          R/W1C interrupt bit.
 
       - name: MIO_EMM_DMA_DONE
         value: 0x09000
@@ -389,7 +390,7 @@ enums:
           major_val: "(0xA)"
           reg_addr: "(0x1180000000138+a*0x8)"
           reg_name: "MIO_BOOT_DMA_INT(0..1)"
-        description: See MIO_BOOT_DMA_INT0/1[DONE].
+        description: See MIO_BOOT_DMA_INT(0..1)[DONE].
 
       - name: MIO_BOOT_DMA(0..1)_DMARQ
         value: 0x0A081 + a*0x40
@@ -401,7 +402,7 @@ enums:
           major_val: "(0xA)"
           reg_addr: "(0x1180000000138+a*0x8)"
           reg_name: "MIO_BOOT_DMA_INT(0..1)"
-        description: See MIO_BOOT_DMA_INT0/1[DMARQ].
+        description: See MIO_BOOT_DMA_INT(0..1)[DMARQ].
 
       - name: MIO_TWS(0..1)_INT_ST
         value: 0x0B000 + a*0x100
@@ -440,7 +441,7 @@ enums:
         description: See MIO_TWS(0..1)_INT[CORE_INT].
 
       - name: LAP(0..1)_GEN_LABS_OUT
-        value: 0x0C000 + a*0x01000
+        value: 0x0C000 + a*0x1000
         attributes:
           bit_name: "LABS_OUT"
           bit_num: "0"
@@ -449,10 +450,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[LABS_OUT].
+        description: See LAP(0..1)_GEN_INT[LABS_OUT].
 
       - name: LAP(0..1)_GEN_LOST_EXC
-        value: 0x0C001 + a*0x01000
+        value: 0x0C001 + a*0x1000
         attributes:
           bit_name: "LOST_EXC"
           bit_num: "1"
@@ -461,10 +462,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[LOST_EXC].
+        description: See LAP(0..1)_GEN_INT[LOST_EXC].
 
       - name: LAP(0..1)_GEN_NEW_EXC
-        value: 0x0C002 + a*0x01000
+        value: 0x0C002 + a*0x1000
         attributes:
           bit_name: "NEW_EXC"
           bit_num: "2"
@@ -473,10 +474,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[NEW_EXC].
+        description: See LAP(0..1)_GEN_INT[NEW_EXC].
 
       - name: LAP(0..1)_GEN_TIMEOUT
-        value: 0x0C003 + a*0x01000
+        value: 0x0C003 + a*0x1000
         attributes:
           bit_name: "TIMEOUT"
           bit_num: "3"
@@ -485,10 +486,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[TIMEOUT].
+        description: See LAP(0..1)_GEN_INT[TIMEOUT].
 
       - name: LAP(0..1)_GEN_LAB_SBE
-        value: 0x0C006 + a*0x01000
+        value: 0x0C006 + a*0x1000
         attributes:
           bit_name: "LAB_SBE"
           bit_num: "6"
@@ -497,10 +498,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[LAB_SBE].
+        description: See LAP(0..1)_GEN_INT[LAB_SBE].
 
       - name: LAP(0..1)_GEN_LAB_DBE
-        value: 0x0C007 + a*0x01000
+        value: 0x0C007 + a*0x1000
         attributes:
           bit_name: "LAB_DBE"
           bit_num: "7"
@@ -509,10 +510,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[LAB_DBE].
+        description: See LAP(0..1)_GEN_INT[LAB_DBE].
 
       - name: LAP(0..1)_GEN_STA_SBE
-        value: 0x0C008 + a*0x01000
+        value: 0x0C008 + a*0x1000
         attributes:
           bit_name: "STA_SBE"
           bit_num: "8"
@@ -521,10 +522,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[STA_SBE].
+        description: See LAP(0..1)_GEN_INT[STA_SBE].
 
       - name: LAP(0..1)_GEN_STA_DBE
-        value: 0x0C009 + a*0x01000
+        value: 0x0C009 + a*0x1000
         attributes:
           bit_name: "STA_DBE"
           bit_num: "9"
@@ -533,10 +534,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[STA_DBE].
+        description: See LAP(0..1)_GEN_INT[STA_DBE].
 
       - name: LAP(0..1)_GEN_NXT_SBE
-        value: 0x0C00A + a*0x01000
+        value: 0x0C00A + a*0x1000
         attributes:
           bit_name: "NXT_SBE"
           bit_num: "10"
@@ -545,10 +546,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[NXT_SBE].
+        description: See LAP(0..1)_GEN_INT[NXT_SBE].
 
       - name: LAP(0..1)_GEN_NXT_DBE
-        value: 0x0C00B + a*0x01000
+        value: 0x0C00B + a*0x1000
         attributes:
           bit_name: "NXT_DBE"
           bit_num: "11"
@@ -557,10 +558,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[NXT_DBE].
+        description: See LAP(0..1)_GEN_INT[NXT_DBE].
 
       - name: LAP(0..1)_GEN_EMSK_SBE
-        value: 0x0C00C + a*0x01000
+        value: 0x0C00C + a*0x1000
         attributes:
           bit_name: "EMSK_SBE"
           bit_num: "12"
@@ -569,10 +570,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[EMSK_SBE].
+        description: See LAP(0..1)_GEN_INT[EMSK_SBE].
 
       - name: LAP(0..1)_GEN_EMSK_DBE
-        value: 0x0C00D + a*0x01000
+        value: 0x0C00D + a*0x1000
         attributes:
           bit_name: "EMSK_DBE"
           bit_num: "13"
@@ -581,10 +582,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[EMSK_DBE].
+        description: See LAP(0..1)_GEN_INT[EMSK_DBE].
 
       - name: LAP(0..1)_GEN_EDAT_SBE
-        value: 0x0C00E + a*0x01000
+        value: 0x0C00E + a*0x1000
         attributes:
           bit_name: "EDAT_SBE"
           bit_num: "14"
@@ -593,10 +594,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[EDAT_SBE].
+        description: See LAP(0..1)_GEN_INT[EDAT_SBE].
 
       - name: LAP(0..1)_GEN_EDAT_DBE
-        value: 0x0C00F + a*0x01000
+        value: 0x0C00F + a*0x1000
         attributes:
           bit_name: "EDAT_DBE"
           bit_num: "15"
@@ -605,10 +606,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[EDAT_DBE].
+        description: See LAP(0..1)_GEN_INT[EDAT_DBE].
 
       - name: LAP(0..1)_GEN_NBR_SBE
-        value: 0x0C010 + a*0x01000
+        value: 0x0C010 + a*0x1000
         attributes:
           bit_name: "NBR_SBE"
           bit_num: "16"
@@ -617,10 +618,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[NBR_SBE].
+        description: See LAP(0..1)_GEN_INT[NBR_SBE].
 
       - name: LAP(0..1)_GEN_NBR_DBE
-        value: 0x0C011 + a*0x01000
+        value: 0x0C011 + a*0x1000
         attributes:
           bit_name: "NBR_DBE"
           bit_num: "17"
@@ -629,10 +630,10 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[NBR_DBE].
+        description: See LAP(0..1)_GEN_INT[NBR_DBE].
 
       - name: LAP(0..1)_GEN_XID_BAD
-        value: 0x0C012 + a*0x01000
+        value: 0x0C012 + a*0x1000
         attributes:
           bit_name: "XID_BAD"
           bit_num: "18"
@@ -641,7 +642,7 @@ enums:
           major_val: "(0xC+a)"
           reg_addr: "(0x118000C010010|a<<24)"
           reg_name: "LAP(0..1)_GEN_INT"
-        description: See LAP0/1_GEN_INT[XID_BAD].
+        description: See LAP(0..1)_GEN_INT[XID_BAD].
 
       - name: MIX(0..1)_ODBLOVF
         value: 0x10000 + a*0x10
@@ -1843,7 +1844,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[PCNT].
+        description: See SLI_INT_SUM[PCNT]. This interrupt is level sensitive.
 
       - name: SLI_INT_PTIME
         value: 0x1F005
@@ -1856,7 +1857,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[PTIME].
+        description: See SLI_INT_SUM[PTIME]. This interrupt is level sensitive.
 
       - name: SLI_INT_MIO_INT2
         value: 0x1F006
@@ -1869,7 +1870,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT2].
+        description: See SLI_INT_SUM[MIO_INT2]. This interrupt is level sensitive.
 
       - name: SLI_INT_MIO_INT3
         value: 0x1F007
@@ -1882,7 +1883,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT3].
+        description: See SLI_INT_SUM[MIO_INT3]. This interrupt is level sensitive.
 
       - name: SLI_INT_M0_UP_B0
         value: 0x1F008
@@ -1991,7 +1992,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT0].
+        description: See SLI_INT_SUM[MIO_INT0]. This interrupt is level sensitive.
 
       - name: SLI_INT_MIO_INT1
         value: 0x1F011
@@ -2004,7 +2005,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT1].
+        description: See SLI_INT_SUM[MIO_INT1]. This interrupt is level sensitive.
 
       - name: SLI_INT_M2_UP_B0
         value: 0x1F014
@@ -2149,7 +2150,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DCNT<0>].
+        description: See SLI_INT_SUM[DCNT<0>]. This interrupt is level sensitive.
 
       - name: SLI_INT_DCNT1
         value: 0x1F023
@@ -2162,7 +2163,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DCNT<1>].
+        description: See SLI_INT_SUM[DCNT<1>]. This interrupt is level sensitive.
 
       - name: SLI_INT_DTIME0
         value: 0x1F024
@@ -2175,7 +2176,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DTIME<0>].
+        description: See SLI_INT_SUM[DTIME<0>]. This interrupt is level sensitive.
 
       - name: SLI_INT_DTIME1
         value: 0x1F025
@@ -2188,7 +2189,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DTIME<1>].
+        description: See SLI_INT_SUM[DTIME<1>]. This interrupt is level sensitive.
 
       - name: SLI_INT_PIDBOF
         value: 0x1F030
@@ -5290,7 +5291,7 @@ enums:
         description: See RAD_REG_ERROR[DOORBELL].
 
       - name: L2C_TAD(0..7)_INT_L2DSBE
-        value: 0x80000 | (a << 8)
+        value: 0x80000 | a<<8
         attributes:
           bit_name: "L2DSBE"
           bit_num: "0"
@@ -5303,7 +5304,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[L2DSBE].
 
       - name: L2C_TAD(0..7)_INT_L2DDBE
-        value: 0x80001 | (a << 8)
+        value: 0x80001 | a<<8
         attributes:
           bit_name: "L2DDBE"
           bit_num: "1"
@@ -5316,7 +5317,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[L2DDBE].
 
       - name: L2C_TAD(0..7)_INT_SBFSBE
-        value: 0x80002 | (a << 8)
+        value: 0x80002 | a<<8
         attributes:
           bit_name: "SBFSBE"
           bit_num: "2"
@@ -5329,7 +5330,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[SBFSBE].
 
       - name: L2C_TAD(0..7)_INT_SBFDBE
-        value: 0x80003 | (a << 8)
+        value: 0x80003 | a<<8
         attributes:
           bit_name: "SBFDBE"
           bit_num: "3"
@@ -5342,7 +5343,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[SBFDBE].
 
       - name: L2C_TAD(0..7)_INT_FBFSBE
-        value: 0x80004 | (a << 8)
+        value: 0x80004 | a<<8
         attributes:
           bit_name: "FBFSBE"
           bit_num: "4"
@@ -5355,7 +5356,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[FBFSBE].
 
       - name: L2C_TAD(0..7)_INT_FBFDBE
-        value: 0x80005 | (a << 8)
+        value: 0x80005 | a<<8
         attributes:
           bit_name: "FBFDBE"
           bit_num: "5"
@@ -5368,7 +5369,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[FBFDBE].
 
       - name: L2C_TAD(0..7)_INT_TAGSBE
-        value: 0x80006 | (a << 8)
+        value: 0x80006 | a<<8
         attributes:
           bit_name: "TAGSBE"
           bit_num: "8"
@@ -5381,7 +5382,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[TAGSBE].
 
       - name: L2C_TAD(0..7)_INT_TAGDBE
-        value: 0x80007 | (a << 8)
+        value: 0x80007 | a<<8
         attributes:
           bit_name: "TAGDBE"
           bit_num: "9"
@@ -5394,7 +5395,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[TAGDBE].
 
       - name: L2C_TAD(0..7)_INT_NOWAY
-        value: 0x80008 | (a << 8)
+        value: 0x80008 | a<<8
         attributes:
           bit_name: "NOWAY"
           bit_num: "10"
@@ -5407,7 +5408,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[NOWAY].
 
       - name: L2C_TAD(0..7)_INT_HOLEWR
-        value: 0x80009 | (a << 8)
+        value: 0x80009 | a<<8
         attributes:
           bit_name: "HOLEWR"
           bit_num: "11"
@@ -5420,7 +5421,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[HOLEWR].
 
       - name: L2C_TAD(0..7)_INT_HOLERD
-        value: 0x8000A | (a << 8)
+        value: 0x8000A | a<<8
         attributes:
           bit_name: "HOLERD"
           bit_num: "12"
@@ -5433,7 +5434,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[HOLERD].
 
       - name: L2C_TAD(0..7)_INT_BIGWR
-        value: 0x8000B | (a << 8)
+        value: 0x8000B | a<<8
         attributes:
           bit_name: "BIGWR"
           bit_num: "13"
@@ -5446,7 +5447,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[BIGWR].
 
       - name: L2C_TAD(0..7)_INT_BIGRD
-        value: 0x8000C | (a << 8)
+        value: 0x8000C | a<<8
         attributes:
           bit_name: "BIGRD"
           bit_num: "14"
@@ -5459,7 +5460,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[BIGRD].
 
       - name: L2C_TAD(0..7)_INT_WRDISLMC
-        value: 0x8000D | (a << 8)
+        value: 0x8000D | a<<8
         attributes:
           bit_name: "WRDISLMC"
           bit_num: "16"
@@ -5472,7 +5473,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[WRDISLMC].
 
       - name: L2C_TAD(0..7)_INT_RDDISLMC
-        value: 0x8000E | (a << 8)
+        value: 0x8000E | a<<8
         attributes:
           bit_name: "RDDISLMC"
           bit_num: "15"
@@ -5485,7 +5486,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[RDDISLMC].
 
       - name: L2C_TAD(0..7)_INT_RTGSBE
-        value: 0x8000F | (a << 8)
+        value: 0x8000F | a<<8
         attributes:
           bit_name: "RTGSBE"
           bit_num: "32"
@@ -5498,7 +5499,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[RTGSBE].
 
       - name: L2C_TAD(0..7)_INT_RTGDBE
-        value: 0x80010 | (a << 8)
+        value: 0x80010 | a<<8
         attributes:
           bit_name: "RTGDBE"
           bit_num: "33"
@@ -5511,7 +5512,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[RTGDBE].
 
       - name: L2C_TAD(0..7)_INT_WRDISOCI
-        value: 0x80011 | (a << 8)
+        value: 0x80011 | a<<8
         attributes:
           bit_name: "WRDISOCI"
           bit_num: "35"
@@ -5524,7 +5525,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[WRDISOCI].
 
       - name: L2C_TAD(0..7)_INT_RDDISOCI
-        value: 0x80012 | (a << 8)
+        value: 0x80012 | a<<8
         attributes:
           bit_name: "RDDISOCI"
           bit_num: "34"
@@ -5537,7 +5538,7 @@ enums:
         description: See L2C_TAD(0..7)_INT[RDDISOCI].
 
       - name: L2C_MCI(0..3)_INT_VBFSBE
-        value: 0x80800 | (a << 8)
+        value: 0x80800 | a<<8
         attributes:
           bit_name: "VBFSBE"
           bit_num: "0"
@@ -5550,7 +5551,7 @@ enums:
         description: See L2C_MCI(0..3)_INT[VBFSBE].
 
       - name: L2C_MCI(0..3)_INT_VBFDBE
-        value: 0x80801 | (a << 8)
+        value: 0x80801 | a<<8
         attributes:
           bit_name: "VBFDBE"
           bit_num: "1"
@@ -5563,7 +5564,7 @@ enums:
         description: See L2C_MCI(0..3)_INT[VBFDBE].
 
       - name: L2C_CBC(0..3)_INT_RSDSBE
-        value: 0x80C00 | (a << 8)
+        value: 0x80C00 | a<<8
         attributes:
           bit_name: "RSDSBE"
           bit_num: "0"
@@ -5576,7 +5577,7 @@ enums:
         description: See L2C_CBC(0..3)_INT[RSDSBE].
 
       - name: L2C_CBC(0..3)_INT_RSDDBE
-        value: 0x80C01 | (a << 8)
+        value: 0x80C01 | a<<8
         attributes:
           bit_name: "RSDDBE"
           bit_num: "1"
@@ -5589,7 +5590,7 @@ enums:
         description: See L2C_CBC(0..3)_INT[RSDDBE].
 
       - name: L2C_CBC(0..3)_INT_IOCCMDSBE
-        value: 0x80C02 | (a << 8)
+        value: 0x80C02 | a<<8
         attributes:
           bit_name: "IOCCMDSBE"
           bit_num: "2"
@@ -5602,7 +5603,7 @@ enums:
         description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
 
       - name: L2C_CBC(0..3)_INT_IOCCMDDBE
-        value: 0x80C03 | (a << 8)
+        value: 0x80C03 | a<<8
         attributes:
           bit_name: "IOCCMDDBE"
           bit_num: "3"
@@ -5615,7 +5616,7 @@ enums:
         description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
 
       - name: L2C_CBC(0..3)_INT_MIBSBE
-        value: 0x80C04 | (a << 8)
+        value: 0x80C04 | a<<8
         attributes:
           bit_name: "MIBSBE"
           bit_num: "4"
@@ -5628,7 +5629,7 @@ enums:
         description: See L2C_CBC(0..3)_INT[MIBSBE].
 
       - name: L2C_CBC(0..3)_INT_MIBDBE
-        value: 0x80C05 | (a << 8)
+        value: 0x80C05 | a<<8
         attributes:
           bit_name: "MIBDBE"
           bit_num: "5"

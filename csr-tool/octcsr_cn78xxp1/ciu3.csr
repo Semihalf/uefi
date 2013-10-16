@@ -11,7 +11,7 @@ enums:
       enumerations mathematically; the offset between cores is always 3.
     values:
       - name: PP(0..47)_IP(2..4)
-        value: 0x000 + a*3 + (b-2)
+        value: 0x000 + a*0x3 + (b-0x2)
         description: Core a, IP b
 
 
@@ -1143,7 +1143,7 @@ registers:
 
   - name: CIU_IDT(0..255)_PP(0..0)
     title: CIU IDT Core Select Registers
-    address: 0x1010000120000 + a*0x20 + b*8
+    address: 0x1010000120000 + a*0x20 + b*0x8
     bus: NCB
     description: |
       Entry zero of the IDT is reserved to mean 'no interrupt' and is not writable by software. The

@@ -40,25 +40,25 @@ enums:
         value: 0x1F004
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[PCNT].
+        description: See SLI_INT_SUM[PCNT]. This interrupt is level sensitive.
 
       - name: SLI_INT_PTIME
         value: 0x1F005
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[PTIME].
+        description: See SLI_INT_SUM[PTIME]. This interrupt is level sensitive.
 
       - name: SLI_INT_MIO_INT2
         value: 0x1F006
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[MIO_INT2].
+        description: See SLI_INT_SUM[MIO_INT2]. This interrupt is level sensitive.
 
       - name: SLI_INT_MIO_INT3
         value: 0x1F007
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[MIO_INT3].
+        description: See SLI_INT_SUM[MIO_INT3]. This interrupt is level sensitive.
 
       - name: SLI_INT_M0_UP_B0
         value: 0x1F008
@@ -96,13 +96,13 @@ enums:
         value: 0x1F010
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[MIO_INT0].
+        description: See SLI_INT_SUM[MIO_INT0]. This interrupt is level sensitive.
 
       - name: SLI_INT_MIO_INT1
         value: 0x1F011
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[MIO_INT1].
+        description: See SLI_INT_SUM[MIO_INT1]. This interrupt is level sensitive.
 
       - name: SLI_INT_M2_UP_B0
         value: 0x1F014
@@ -152,25 +152,25 @@ enums:
         value: 0x1F022
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[DCNT<0>].
+        description: See SLI_INT_SUM[DCNT<0>]. This interrupt is level sensitive.
 
       - name: SLI_INT_DCNT1
         value: 0x1F023
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[DCNT<1>].
+        description: See SLI_INT_SUM[DCNT<1>]. This interrupt is level sensitive.
 
       - name: SLI_INT_DTIME0
         value: 0x1F024
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[DTIME<0>].
+        description: See SLI_INT_SUM[DTIME<0>]. This interrupt is level sensitive.
 
       - name: SLI_INT_DTIME1
         value: 0x1F025
         attributes:
           intsn_level_sensitive: "1"
-        description: See SLI_INT_SUM[DTIME<1>].
+        description: See SLI_INT_SUM[DTIME<1>]. This interrupt is level sensitive.
 
       - name: SLI_INT_PIDBOF
         value: 0x1F030

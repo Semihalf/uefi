@@ -5833,7 +5833,7 @@ registers:
           40GBASE-R), this field specifies the expected alignment marker receive period per lane,
           i.e. the expected number of received 66b non-marker blocks between consecutive markers on
           the same lane. The default value corresponds to a period of 16363 blocks (exclusive) as
-          specified in 802.3ba-2010.
+          specified in 802.3ba-2010. Must be greater than 64.
 
 
   - name: BGX(0..5)_SPU_MEM_STATUS

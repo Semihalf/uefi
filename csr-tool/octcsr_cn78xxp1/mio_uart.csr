@@ -16,7 +16,8 @@ enums:
           intsn_complex: "1"
           intsn_level_sensitive: "1"
         description: |
-          See MIO_UART(0..1)_IIR[IID]; note this is not a simple R/W1C interrupt bit. INTERNAL:
+          See MIO_UART(0..1)_IIR[IID]; note this interrupt is level sensitive and is not a simple
+          R/W1C interrupt bit.
 
 
 registers:

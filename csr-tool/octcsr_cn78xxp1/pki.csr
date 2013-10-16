@@ -2175,7 +2175,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When 1, PKI is busy completing reset. No access except the reading of this bit should
+          When set, PKI is busy completing reset. No access except the reading of this bit should
           occur to the PKI until this is clear. INTERNAL: The BUSY bit for this implementation is a
           placeholder and is not required to be implemented in HW. The soft reset pulse is short
           enough that we can guarantee that reset will complete below a subsequent RSL reference can
@@ -2184,7 +2184,23 @@ registers:
           will always report not BUSY allowing SW to proceed with its flow.
 
       - name: --
-        bits: 62..1
+        bits: 62..33
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ACTIVE
+        bits: 32
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          When set, PKI is actively processing packet traffic. It is recommenced that software wait
+          until ACTIVE is clear before setting RST. INTERNAL: ACTIVE is an OR of PKI_ACTIVE0..2.
+
+      - name: --
+        bits: 31..1
         access: RAZ
         reset: --
         typical: --
@@ -2202,8 +2218,6 @@ registers:
     title: PKI General Interrupt Register
     address: 0x1180044000020
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..8
@@ -2343,8 +2357,6 @@ registers:
     title: PKI ECC Interrupt 0 Register
     address: 0x1180044000040
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..16
@@ -2486,8 +2498,6 @@ registers:
     title: PKI ECC Interrupt 1 Register
     address: 0x1180044000048
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..18
@@ -2620,8 +2630,6 @@ registers:
     title: PKI ECC Interrupt 2 Register
     address: 0x1180044000050
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..2
@@ -2652,8 +2660,6 @@ registers:
     address: 0x1180044000060
     bus: RSL
     description: This register allows inserting ECC errors for testing.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..24
@@ -2796,8 +2802,6 @@ registers:
     address: 0x1180044000068
     bus: RSL
     description: This register allows inserting ECC errors for testing.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..27
@@ -2917,8 +2921,6 @@ registers:
     address: 0x1180044000070
     bus: RSL
     description: This register allows inserting ECC errors for testing.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..3
@@ -2951,7 +2953,6 @@ registers:
     description: BIST status register.
     attributes:
       dv_bist_all_fail_test: "ALL"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..33
@@ -2991,7 +2992,6 @@ registers:
     description: BIST status register.
     attributes:
       dv_bist_all_fail_test: "ALL"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..20
@@ -3017,7 +3017,6 @@ registers:
     description: BIST status register.
     attributes:
       dv_bist_all_fail_test: "ALL"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..25
@@ -3033,9 +3032,16 @@ registers:
         typical: 0x0
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
-          register collects status for PKI_PIX.
+          register collects status for PKI_PIX (verif/vkits/pki/pki_mem_info_table.sv).
           24: IMEM
-          23..16: IPEC IPEs
+          23: IPEC3 / IPEs 10 .. 19 (RegFile + DMEM)
+          22: IPEC3 / IPEs  0 ..  9 (RegFile + DMEM)
+          21: IPEC2 / IPEs 10 .. 19 (RegFile + DMEM)
+          20: IPEC2 / IPEs  0 ..  9 (RegFile + DMEM)
+          19: IPEC1 / IPEs 10 .. 19 (RegFile + DMEM)
+          18: IPEC1 / IPEs  0 ..  9 (RegFile + DMEM)
+          17: IPEC0 / IPEs 10 .. 19 (RegFile + DMEM)
+          16: IPEC0 / IPEs  0 ..  9 (RegFile + DMEM)
           15..12: IPEC SMEM
           11..8: IPEC PCAM ECC
           7..4: IPEC PCAM RES
@@ -3238,8 +3244,6 @@ registers:
       INTERNAL: Changes in these bits should cause the SDK to reload appropriate versions of the
       sequencer code, with appropriate segments disabled.
       Global configuration information that applies to all pkinds.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: RSVDRW63
         bits: 63..10
@@ -3363,12 +3367,91 @@ registers:
           1 = HiGig parsing may be used.
 
 
+  - name: PKI_ACTIVE0
+    title: PKI Active 0 Register
+    address: 0x1180044000220
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PFE_ACTIVE
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PFE active. For internal use; software should use PKI_SFT_RST[ACTIVE].
+
+
+  - name: PKI_ACTIVE1
+    title: PKI Active 1 Register
+    address: 0x1180044000230
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FPC_ACTIVE
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PBE FPC and FPA bus active. For internal use; software should use PKI_SFT_RST[ACTIVE].
+
+      - name: IOBP_ACTIVE
+        bits: 2
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PBE PMW and IOBP bus active. For internal use; software should use PKI_SFT_RST[ACTIVE].
+
+      - name: SWS_ACTIVE
+        bits: 1
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PBE SWS active. For internal use; software should use PKI_SFT_RST[ACTIVE].
+
+      - name: PBTAG_ACTIVE
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: --
+        description: PBE pbtags active. For internal use; software should use PKI_SFT_RST[ACTIVE].
+
+
+  - name: PKI_ACTIVE2
+    title: PKI Active 2 Register
+    address: 0x1180044000240
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..5
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PIX_ACTIVE
+        bits: 4..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: PIX control and ICG active. For internal use; software should use PKI_SFT_RST[ACTIVE].
+
+
   - name: PKI_CLKEN
     title: PKI Clock Enable Register
     address: 0x1180044000410
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..1
@@ -3437,8 +3520,8 @@ registers:
     address: 0x1180044000500
     bus: RSL
     description: |
-      For diagnostic use only, perform a PCAM lookup against the provided cluster and PCAM and load
-      results into PKI_PCAM_RESULT.
+      For diagnostic use only, perform a PCAM lookup against the provided cluster and PCAM instance
+      and loads results into PKI_PCAM_RESULT.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -3500,8 +3583,6 @@ registers:
       For diagnostic use only, return PCAM results for the most recent write to PKI_PCAM_LOOKUP. The
       read will stall until the lookup is completed. INTERNAL: Read stall is implemented by delaying
       the PKI_PCAM_LOOKUP write acknowledge until the PCAM is free and the lookup can be issued.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: CONFLICT
         bits: 63
@@ -3509,15 +3590,29 @@ registers:
         reset: --
         typical: --
         description: |
-          Conflict. The lookup resulted in multiple entries matching PKI_PCAM_LOOKUP[DATA] and
-          [TERM], or zero if no match.
+          Conflict. The lookup resulted in multiple entries matching PKI_PCAM_LOOKUP[DATA], [TERM]
+          and [STYLE], or zero if no match.
 
       - name: --
-        bits: 62..32
+        bits: 62..41
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MATCH
+        bits: 40
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Resulting match.
+
+      - name: ENTRY
+        bits: 39..32
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Resulting matching entry number, unpredictable unless [MATCH] set.
 
       - name: RESULT
         bits: 31..0
@@ -3527,13 +3622,32 @@ registers:
         description: Resulting data from matching line's PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191), or zero if no match.
 
 
+  - name: PKI_PFE_DIAG
+    title: |
+      INTERNAL: PKI PFE Diagnostic Register
+    address: 0x1180044000560
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: BAD_RID
+        bits: 0
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: Asserted when PFE sees and drops an X2P transaction with a RID > 95.
+
+
   - name: PKI_PIX_DIAG
     title: |
       INTERNAL: PKI PIX Diagnostic Register
     address: 0x1180044000580
     bus: RSL
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..4
@@ -3546,7 +3660,7 @@ registers:
         bits: 3..0
         access: R/W1C/H
         reset: 0x0
-        typical: 0x0
+        typical: --
         description: Asserted when PFE requests an ICG with no enabled CLUSTERS.
 
 
@@ -3684,7 +3798,6 @@ registers:
     attributes:
       arch_max: "256"
       dv_fc_scratch: "a=(0)"
-      uvm_default_constraint: "True"
     fields:
       - name: EN
         bits: 63..0
@@ -3807,7 +3920,6 @@ registers:
     bus: RSL
     attributes:
       arch_max: "16"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..5
@@ -3862,7 +3974,6 @@ registers:
     bus: RSL
     attributes:
       arch_max: "16"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..8
@@ -3942,7 +4053,6 @@ registers:
     bus: RSL
     attributes:
       arch_max: "16"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..24
@@ -4805,7 +4915,7 @@ registers:
         description: |
           Allow RAW packet drop.
           0 = Never drop packets with WQE[RAW] set.
-          1 = Allow the PKI to drop RAW packets based on QoS.
+          1 = Allow the PKI to drop RAW packets based on PKI_AURA(0..1023)_CFG[ENA_RED/ENA_DROP].
 
       - name: DROP
         bits: 20
@@ -4814,7 +4924,7 @@ registers:
         typical: 0
         description: |
           Force packet dropping.
-          0 = Drop packet based on QoS.
+          0 = Drop packet based on PKI_AURA(0..1023)_CFG[ENA_RED/ENA_DROP].
           1 = Always drop the packet. Overrides NODROP, RAWDRP.
 
       - name: NODROP
@@ -4824,8 +4934,8 @@ registers:
         typical: 0
         description: |
           Disable QoS packet drop.
-          0 = Allowed to drop packet based on QoS.
-          1 = Never drop the packet based on QoS. Overrides RAWDRP.
+          0 = Allowed to drop packet based on PKI_AURA(0..1023)_CFG[ENA_RED/ENA_DROP].
+          1 = Never drop the packet. Overrides RAWDRP.
 
       - name: QPG_DIS_PADD
         bits: 18
@@ -6160,7 +6270,6 @@ registers:
     bus: RSL
     attributes:
       arch_max: "256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..48

@@ -9548,11 +9548,31 @@ registers:
         description: Reserved.
 
       - name: --
-        bits: 21..11
+        bits: 21..13
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DIS_LPD_W2R_FILL
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Set to disable the write to read fill caused by LPD in the PDM. If disabled, must wait for
+          FPD bit from PEB, which is a performance penalty when the time is large for the PEB
+          request to make it back to PDM. For diagnostic use only.
+
+      - name: EN_FR_W2R_PTR_SWP
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Set to enable pointer swap on a fill response when we go in-sync (only one cacheline in
+          DQ).
+          For diagnostic use only.
 
       - name: DIS_FLSH_CACHE
         bits: 10
@@ -9820,7 +9840,10 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Raw data to write into the memory, or the raw data read out from the memory.
+        description: |
+          Raw data to write into the memory, or the raw data read out from the memory.
+          Note that the ISR RAMs are only 57 bits wide, so [56:0] are the only bits that can be read
+          or written to them. The PBUFs are 64 bits wide.
 
 
   - name: PKO_PDM_MEM_ADDR
@@ -9863,7 +9886,10 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Memory bank select. Selects the bank to write to.
+        description: |
+          Memory bank select. Selects the bank to write to. Note that bit 0 is the only bit used in
+          the PBUF's because there are only 2 banks per each PBUF. In the ISRM bank sel 3 is
+          illegal.
 
 
   - name: PKO_PDM_MEM_RW_CTL
@@ -10432,6 +10458,118 @@ registers:
             2: DESC DAT FIFO LOW not full
             1: MP DAT FIFO not full
             0: PSE CMD RESP FIFO has credit
+
+
+  - name: PKO_PDM_ISRD_DBG_DQ
+    title: |
+      INTERNAL: PKO PDM ISRD DQ Debug Register
+    address: 0x1540000800290
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..46
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEBRD_SIC_DQ
+        bits: 45..36
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
+
+      - name: --
+        bits: 35..34
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PEBFILL_SIC_DQ
+        bits: 33..24
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
+
+      - name: --
+        bits: 23..22
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FR_SIC_DQ
+        bits: 21..12
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
+
+      - name: --
+        bits: 11..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CP_SIC_DQ
+        bits: 9..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
+
+
+  - name: PKO_PDM_ISRM_DBG_DQ
+    title: |
+      INTERNAL: PKO PDM ISRM DQ Debug Register
+    address: 0x1540000800298
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..34
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ACK_SIC_DQ
+        bits: 33..24
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
+
+      - name: --
+        bits: 23..22
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FR_SIC_DQ
+        bits: 21..12
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
+
+      - name: --
+        bits: 11..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CP_SIC_DQ
+        bits: 9..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: CP SIC's DQ number.
 
 
   - name: PKO_PDM_CFG_DBG

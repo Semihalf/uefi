@@ -915,7 +915,7 @@ registers:
 
   - name: ILK_RX(0..1)_CHA(0..255)
     title: ILK RX Channel-Port-Kind Registers
-    address: 0x1180014002000 + a*0x0001000 + b*0x8
+    address: 0x1180014002000 + a*0x1000 + b*0x8
     bus: RSL
     fields:
       - name: --
@@ -1565,7 +1565,7 @@ registers:
         typical: --
         description: |
           Number of packets transmitted per channel. Wraps on overflow. On overflow, sets
-          ILK_TX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_TX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_TX(0..1)_BYTE_CNT(0..255)
@@ -1587,7 +1587,7 @@ registers:
         typical: --
         description: |
           Number of bytes transmitted per channel. Wraps on overflow. On overflow, sets
-          ILK_TX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_TX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_CFG0
@@ -2034,7 +2034,7 @@ registers:
         description: |
           Indicates the number of CRC24 matches received. Wraps on overflow if
           ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT1
@@ -2057,7 +2057,7 @@ registers:
         description: |
           Indicates the number of bursts with a detected CRC error. Wraps on overflow if
           ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT2
@@ -2080,7 +2080,7 @@ registers:
         description: |
           Indicates the number of bursts received that terminated without an EOP and contained fewer
           than BurstMax words. Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..30
@@ -2097,7 +2097,7 @@ registers:
         description: |
           Indicates the number of bursts correctly received. (i.e. good CRC24, not in violation of
           BurstMax or BurstShort). Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1.
-          Otherwise, saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          Otherwise, saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT3
@@ -2120,7 +2120,7 @@ registers:
         description: |
           Indicates the number of bursts received longer than the BurstMax parameter. Wraps on
           overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On
-          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT4
@@ -2143,7 +2143,7 @@ registers:
         description: |
           Indicates the number of bursts received that violate the BurstShort parameter. Wraps on
           overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On
-          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT5
@@ -2166,7 +2166,7 @@ registers:
         description: |
           Indicates the number of alignment sequences received (i.e. those that do not violate the
           current alignment). Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT6
@@ -2189,7 +2189,7 @@ registers:
         description: |
           Indicates the number of alignment sequences received in error (i.e. those that violate the
           current alignment). Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT7
@@ -2212,7 +2212,7 @@ registers:
         description: |
           Indicates the number of bad 64B/67B code words.Wraps on overflow if
           ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT8
@@ -2235,7 +2235,7 @@ registers:
         description: |
           Indicates the number of packets dropped due to the lack of reassembly IDs or because
           ILK_RX(0..1)_CFG1[PKT_ENA] = 0. Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1.
-          Otherwise, saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          Otherwise, saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
       - name: PKT_DROP_RXF_CNT
         bits: 15..0
@@ -2245,7 +2245,7 @@ registers:
         description: |
           Indicates the number of packets dropped due to RX_FIFO_CNT >= RX_FIFO_MAX. Wraps on
           overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1.Otherwise, saturates. On
-          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT9
@@ -2441,7 +2441,7 @@ registers:
         typical: --
         description: |
           Number of packets received per channel. Wraps on overflow. On overflow, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_BYTE_CNT(0..255)
@@ -2463,7 +2463,7 @@ registers:
         typical: --
         description: |
           Number of bytes received per channel. Wraps on overflow. On overflow, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_LNE_STS_MSG
@@ -2774,7 +2774,7 @@ registers:
         typical: --
         description: |
           Indicates the number of times the lane lost clock-data-recovery. On overflow, saturates
-          and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT1
@@ -2796,7 +2796,7 @@ registers:
         typical: --
         description: |
           Indicates the number of times a lane lost word-boundary synchronization. On overflow,
-          saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT2
@@ -2818,7 +2818,7 @@ registers:
         typical: --
         description: |
           Indicates the number of good synchronization words. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..18
@@ -2834,7 +2834,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bad synchronization words. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT3
@@ -2856,7 +2856,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bad 64B/67B words, meaning bit <65> or bit <64> has been
-          corrupted. On overflow, saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          corrupted. On overflow, saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT4
@@ -2878,7 +2878,7 @@ registers:
         typical: --
         description: |
           Indicates the number of control words received. SOn overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..27
@@ -2894,7 +2894,7 @@ registers:
         typical: --
         description: |
           Indicates the number of data words received. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT5
@@ -2916,7 +2916,7 @@ registers:
         typical: --
         description: |
           Indicates the number of unknown control words.On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT6
@@ -2939,7 +2939,7 @@ registers:
         description: |
           Indicates the number of times scrambler synchronization was lost (due to either four
           consecutive bad sync words or three consecutive scrambler-state mismatches). On overflow,
-          saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT7
@@ -2961,7 +2961,7 @@ registers:
         typical: --
         description: |
           Indicates the number of scrambler-state matches received. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT8
@@ -2983,7 +2983,7 @@ registers:
         typical: --
         description: |
           Indicates the number of good skip words. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT9
@@ -3005,7 +3005,7 @@ registers:
         typical: --
         description: |
           Indicates the number of errors in the lane CRC. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..27
@@ -3021,7 +3021,45 @@ registers:
         typical: --
         description: |
           Indicates the number of CRC32 matches received. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL]=1.
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+
+
+  - name: ILK_RX_LNE(0..15)_STAT10
+    title: ILK RX Lane Statistics Registers 10
+    address: 0x1180014038068 + a*0x400
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..43
+        access: RAZ
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: PRBS_BAD
+        bits: 42..32
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Indicates the number of training frames with bad PRBS. On overflow, saturates and sets
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+
+      - name: --
+        bits: 31..11
+        access: RAZ
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: PRBS_GOOD
+        bits: 10..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Indicates the number of training frames with correct PRBS. On overflow, saturates and sets
+          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_LNE(0..15)_TRN_LD

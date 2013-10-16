@@ -6,7 +6,7 @@ enums:
   - name: SSO_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different SSO-generated interrupts.
+    description: Enumerates the different SSO-generated interrupts; see Interrupt Source Numbers.
     values:
       - name: SSO_GRP(0..255)_AQ
         value: 0x60000 + a
@@ -421,7 +421,7 @@ structs:
         bits: 63..56
         attributes:
           const: ""
-        description: CVMSEG LM address to return to. See .
+        description: CVMSEG LM address to return to. See IOBDMA Operations.
 
 
   - name: SSO_ALLOC_WE_LD_S
@@ -577,7 +577,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See .
+        description: CVMSEG LM address to return to. See IOBDMA Operations.
 
 
   - name: SSO_CSR_WR_DMA_S
@@ -703,7 +703,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See .
+        description: CVMSEG LM address to return to. See IOBDMA Operations.
 
 
   - name: SSO_GET_WORK_LD_S
@@ -3539,7 +3539,7 @@ registers:
 
   - name: SSO_PP(0..47)_S(0..1)_GRPMSK(0..3)
     title: SSO Core Group Mask Registers
-    address: 0x1670040001000 + a*0x10000 + b*0x20 + c*8
+    address: 0x1670040001000 + a*0x10000 + b*0x20 + c*0x8
     bus: NCB
     description: |
       These registers select which group or groups a core belongs to. There are 2 sets of masks per
@@ -3891,14 +3891,14 @@ registers:
           additional conflicts on this tag chain.
 
       - name: --
-        bits: 62..61
+        bits: 62..60
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: INDEX
-        bits: 60..48
+        bits: 59..48
         access: RO/H
         reset: 0x0
         typical: --
@@ -3950,21 +3950,19 @@ registers:
           Prior SSO entry in the tag list when HEAD==0 and TT is not UNTAGGED nor EMPTY, otherwise
           unpredictable.
 
-      - name: --
-        bits: 12..11
-        access: RAZ
-        reset: --
+      - name: LINK_INDEX_VLD
+        bits: 12
+        access: RO/H
+        reset: 0
         typical: --
-        description: Reserved.
+        description: LINK_INDEX is valid when TAIL==1 and TT is ATOMIC, otherwise unpredictable.
 
       - name: LINK_INDEX
-        bits: 10..0
+        bits: 11..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          Next SSO entry in the tag list when TAIL==0 and TT is not UNTAGGED nor EMPTY, otherwise
-          unpredictable.
+        description: Next SSO entry in the tag list when TAILC==0 and TT is ATOMIC, otherwise unpredictable.
 
 
   - name: SSO_IPL_FREE(0..4)
@@ -4283,14 +4281,23 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: The previous entry in the tag chain. Unpredictable if the entry is at the head of the list.
+        description: |
+          The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
+          or the head of a conflicted tag chain.
 
       - name: --
-        bits: 15..12
+        bits: 15..13
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: NEXT_INDEX_VLD
+        bits: 12
+        access: RO/H
+        reset: --
+        typical: --
+        description: The NEXT_INDEX is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain.
 
       - name: NEXT_INDEX
         bits: 11..0

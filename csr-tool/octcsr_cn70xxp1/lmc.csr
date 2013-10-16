@@ -383,7 +383,8 @@ registers:
           DDR*_DIMM*_CKE* signals activated (if they weren't already active).
           RDIMM register control words 0-15 will be written to RANKMASK-selected RDIMMs when
           LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding LMC(0..0)_DIMM_CTL[DIMM*_WMASK] bits are
-          set. (Refer to LMC(0..0)_DIMM0/1_PARAMS and LMC(0..0)_DIMM_CTL descriptions below for more
+          set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions below for
+          more
           details.)
           MR0, MR1, MR2, and MR3 will be written to selected ranks.
 
@@ -413,7 +414,8 @@ registers:
           In DDR3 mode, RDIMM register control words 0-15 will be written to RANKMASK-selected
           RDIMMs when LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding
           LMC(0..0)_DIMM_CTL[DIMM*_WMASK]
-          bits are set. (Refer to LMC(0..0)_DIMM0/1_PARAMS and LMC(0..0)_DIMM_CTL descriptions below
+          bits are set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions
+          below
           for more details.)
 
           0x8 = MRW

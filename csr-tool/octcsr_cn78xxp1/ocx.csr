@@ -164,11 +164,10 @@ registers:
           ID Valid associated with the chip. This register is used by the link initialization
           software to help assign IDs and is transmitted over OCI. The FIXED field set during a cold
           reset to the value of the OCI_FIXED_ID pin. The value is also be readable in the
-          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[2]] for each lane.  The FIXED pin of the link partner
-          can
-          be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT[2]] on each valid
-          lane
-          or remotely reading the OCX_COM_NODE[FIXED] on the link partner.
+          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[2]] for each lane.
+          The FIXED field of the link partner can be examined by locally reading the
+          OCX_LNE(0..23)_STS_MSG[RX_META_DAT[2]] on each valid lane or remotely reading the
+          OCX_COM_NODE[FIXED] on the link partner.
 
       - name: ID
         bits: 1..0
@@ -180,11 +179,10 @@ registers:
           determine what traffic is transmitted over OCI. The value should not match the
           OCX_COM_LINK(0..2)_CTL[ID] of any active link. The ID field is set during a cold reset to
           the value of the OCI_NODE_ID pins. The value is also be readable in the
-          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[1:0]] for each lane.  The FIXED pin of the link partner
-          can
-          be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT[1:0]] on each valid
-          lane
-          or remotely reading the OCX_COM_NODE[ID] on the link partner.
+          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[1:0]] for each lane.
+          The ID field of the link partner can be examined by locally reading the
+          OCX_LNE(0..23)_STS_MSG[RX_META_DAT[1:0]] on each valid lane or remotely reading the
+          OCX_COM_NODE[ID] on the link partner.
 
 
   - name: OCX_COM_DUAL_SORT

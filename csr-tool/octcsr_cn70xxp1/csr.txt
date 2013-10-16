@@ -14724,7 +14724,8 @@ $LMC(0..0)_SEQ_CTL   Address=(0x1180088000048|a<<24)   Bus=(RSL)
                                                     DDR*_DIMM*_CKE* signals activated (if they weren't already active).
                                                     RDIMM register control words 0-15 will be written to RANKMASK-selected RDIMMs when
                                                     LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding LMC(0..0)_DIMM_CTL[DIMM*_WMASK] bits are
-                                                    set. (Refer to LMC(0..0)_DIMM0/1_PARAMS and LMC(0..0)_DIMM_CTL descriptions below for more
+                                                    set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions below for
+                                                    more
                                                     details.)
                                                     MR0, MR1, MR2, and MR3 will be written to selected ranks.
                                                     
@@ -14754,7 +14755,8 @@ $LMC(0..0)_SEQ_CTL   Address=(0x1180088000048|a<<24)   Bus=(RSL)
                                                     In DDR3 mode, RDIMM register control words 0-15 will be written to RANKMASK-selected
                                                     RDIMMs when LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding
                                                     LMC(0..0)_DIMM_CTL[DIMM*_WMASK]
-                                                    bits are set. (Refer to LMC(0..0)_DIMM0/1_PARAMS and LMC(0..0)_DIMM_CTL descriptions below
+                                                    bits are set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions
+                                                    below
                                                     for more details.)
                                                     
                                                     0x8 = MRW
@@ -17691,7 +17693,7 @@ $CIU_MBOX_CLR(0..3)   Address=(0x1070000000680+a*0x8)   Bus=(NCB)
  *  release.
  *  Resets to all 1's when REMOTE_BOOT is enabled, 0xe otherwise.  Writes to this register should
  *  occur
- *  only if the CIU3_PP_RST_PENDING register is cleared.
+ *  only if the CIU_PP_RST_PENDING register is cleared.
  *  On pass 2, RST_PP_POWER register can be statically set and writes to this register will
  *  automatically enable/disable power
  *  saving when RST_PP_POWER[GATE] is enabled.

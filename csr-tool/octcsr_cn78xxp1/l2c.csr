@@ -143,163 +143,163 @@ enums:
     description: Enumerates the different interrupts from L2C.
     values:
       - name: L2C_TAD(0..7)_INT_L2DSBE
-        value: 0x80000 | (a << 8)
+        value: 0x80000 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[L2DSBE].
 
       - name: L2C_TAD(0..7)_INT_L2DDBE
-        value: 0x80001 | (a << 8)
+        value: 0x80001 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[L2DDBE].
 
       - name: L2C_TAD(0..7)_INT_SBFSBE
-        value: 0x80002 | (a << 8)
+        value: 0x80002 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[SBFSBE].
 
       - name: L2C_TAD(0..7)_INT_SBFDBE
-        value: 0x80003 | (a << 8)
+        value: 0x80003 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[SBFDBE].
 
       - name: L2C_TAD(0..7)_INT_FBFSBE
-        value: 0x80004 | (a << 8)
+        value: 0x80004 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[FBFSBE].
 
       - name: L2C_TAD(0..7)_INT_FBFDBE
-        value: 0x80005 | (a << 8)
+        value: 0x80005 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[FBFDBE].
 
       - name: L2C_TAD(0..7)_INT_TAGSBE
-        value: 0x80006 | (a << 8)
+        value: 0x80006 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[TAGSBE].
 
       - name: L2C_TAD(0..7)_INT_TAGDBE
-        value: 0x80007 | (a << 8)
+        value: 0x80007 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[TAGDBE].
 
       - name: L2C_TAD(0..7)_INT_NOWAY
-        value: 0x80008 | (a << 8)
+        value: 0x80008 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[NOWAY].
 
       - name: L2C_TAD(0..7)_INT_HOLEWR
-        value: 0x80009 | (a << 8)
+        value: 0x80009 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[HOLEWR].
 
       - name: L2C_TAD(0..7)_INT_HOLERD
-        value: 0x8000A | (a << 8)
+        value: 0x8000A | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[HOLERD].
 
       - name: L2C_TAD(0..7)_INT_BIGWR
-        value: 0x8000B | (a << 8)
+        value: 0x8000B | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[BIGWR].
 
       - name: L2C_TAD(0..7)_INT_BIGRD
-        value: 0x8000C | (a << 8)
+        value: 0x8000C | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[BIGRD].
 
       - name: L2C_TAD(0..7)_INT_WRDISLMC
-        value: 0x8000D | (a << 8)
+        value: 0x8000D | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[WRDISLMC].
 
       - name: L2C_TAD(0..7)_INT_RDDISLMC
-        value: 0x8000E | (a << 8)
+        value: 0x8000E | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[RDDISLMC].
 
       - name: L2C_TAD(0..7)_INT_RTGSBE
-        value: 0x8000F | (a << 8)
+        value: 0x8000F | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[RTGSBE].
 
       - name: L2C_TAD(0..7)_INT_RTGDBE
-        value: 0x80010 | (a << 8)
+        value: 0x80010 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[RTGDBE].
 
       - name: L2C_TAD(0..7)_INT_WRDISOCI
-        value: 0x80011 | (a << 8)
+        value: 0x80011 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[WRDISOCI].
 
       - name: L2C_TAD(0..7)_INT_RDDISOCI
-        value: 0x80012 | (a << 8)
+        value: 0x80012 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[RDDISOCI].
 
       - name: L2C_MCI(0..3)_INT_VBFSBE
-        value: 0x80800 | (a << 8)
+        value: 0x80800 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_MCI(0..3)_INT[VBFSBE].
 
       - name: L2C_MCI(0..3)_INT_VBFDBE
-        value: 0x80801 | (a << 8)
+        value: 0x80801 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_MCI(0..3)_INT[VBFDBE].
 
       - name: L2C_CBC(0..3)_INT_RSDSBE
-        value: 0x80C00 | (a << 8)
+        value: 0x80C00 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[RSDSBE].
 
       - name: L2C_CBC(0..3)_INT_RSDDBE
-        value: 0x80C01 | (a << 8)
+        value: 0x80C01 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[RSDDBE].
 
       - name: L2C_CBC(0..3)_INT_IOCCMDSBE
-        value: 0x80C02 | (a << 8)
+        value: 0x80C02 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
 
       - name: L2C_CBC(0..3)_INT_IOCCMDDBE
-        value: 0x80C03 | (a << 8)
+        value: 0x80C03 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
 
       - name: L2C_CBC(0..3)_INT_MIBSBE
-        value: 0x80C04 | (a << 8)
+        value: 0x80C04 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[MIBSBE].
 
       - name: L2C_CBC(0..3)_INT_MIBDBE
-        value: 0x80C05 | (a << 8)
+        value: 0x80C05 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[MIBDBE].
@@ -387,6 +387,346 @@ enums:
       - name: DBE
         value: 0x3
         description: TAG double-bit error.
+
+
+  - name: OCI_IREQ_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    values:
+      - name: IOBLD
+        value: 0x00
+        description: IO load request of 8, 16, 32, or 64 bits.
+
+      - name: SLILD
+        value: 0x01
+        description: SLI-initiated IO load request of 8, 16, 32, or 64 bits.
+
+      - name: IOBST
+        value: 0x02
+        description: IO store request of 8, 16, 32, or 64 bits.
+
+      - name: IOBSTA
+        value: 0x03
+        description: Same as IOBST8, IOBST16, IOBST32, and IOBST64, destination node will respond with an IOACK.
+
+      - name: SLIST
+        value: 0x04
+        description: SLI-initiated IO store request of 8, 16, 32, or 64 bits.
+
+      - name: IOBDMA
+        value: 0x05
+        description: Vector IO load request.
+
+      - name: IOBDMAA
+        value: 0x06
+        description: Same as IOBDMA, destination node will respond with IOACK.
+
+      - name: LMTST
+        value: 0x07
+        description: Vector IO store request.
+
+      - name: LMTSTA
+        value: 0x08
+        description: Same as LMTST, destination node will respond with IOACK.
+
+      - name: LMTDMA
+        value: 0x09
+        description: Vector IO store and load request.
+
+      - name: LMTDMAA
+        value: 0x0A
+        description: Same as LMTDMA, destination node will respond with IOACK.
+
+      - name: IOBADDR
+        value: 0x0B
+        description: Same as IOBDMA without response, or LMTST without any data.
+
+      - name: IOBADDRA
+        value: 0x0C
+        description: Same as IOBADDR, destination node will respond with IOACK.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+
+  - name: OCI_IRSP_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    values:
+      - name: IOBRSP
+        value: 0x00
+        description: IO response to an IOBLD*, IOBDMA, or LMTDMA.
+
+      - name: IOBACK
+        value: 0x01
+        description: |
+          A response indicating that the IO request has passed the point where subsequently-
+          generated IO requests will follow the request.
+
+      - name: SLIRSP
+        value: 0x02
+        description: Response to a SLILD*.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+
+  - name: OCI_MFWD_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    values:
+      - name: FLDRO_E
+        value: 0x00
+        description: Forward Read Data - ROWNED_MODE=1 (home RTG state is E).
+
+      - name: FLDRO_O
+        value: 0x01
+        description: Forward Read Data - ROWNED_MODE=1 (home RTG state is O).
+
+      - name: FLDRS_E
+        value: 0x02
+        description: Forward Read Data - ROWNED_MODE=0 (home RTG state is E).
+
+      - name: FLDRS_O
+        value: 0x03
+        description: Forward Read Data - ROWNED_MODE=0 (home RTG state is O).
+
+      - name: FLDRS_EH
+        value: 0x04
+        description: Forward Home Read data (home RTG state is E).
+
+      - name: FLDRS_OH
+        value: 0x05
+        description: Forward Home Read data (home RTG state is O).
+
+      - name: FLDT_E
+        value: 0x06
+        description: Forward Read Through (home RTG state is E).
+
+      - name: FLDX_E
+        value: 0x07
+        description: Forward Read Exclusive (home RTG state is E).
+
+      - name: FLDX_O
+        value: 0x08
+        description: Forward Read Exclusive (home RTG state is O).
+
+      - name: FLDX_EH
+        value: 0x09
+        description: Forward Home Read exclusive (home RTG state is E).
+
+      - name: FLDX_OH
+        value: 0x0A
+        description: Forward Home Read exclusive (home RTG state is O).
+
+      - name: FEVX_EH
+        value: 0x0B
+        description: Forward for Home Eviction (home RTG state is E).
+
+      - name: FEVX_OH
+        value: 0x0C
+        description: Forward for Home Eviction (home RTG state is O).
+
+      - name: SINV
+        value: 0x0D
+        description: Shared invalidate.
+
+      - name: SINV_H
+        value: 0x0E
+        description: Shared Invalidate Home is requester.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+
+  - name: OCI_MREQ_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    values:
+      - name: RLDD
+        value: 0x00
+        description: Remote Load Data.
+
+      - name: RLDI
+        value: 0x01
+        description: Remote Load Instruction.
+
+      - name: RLDT
+        value: 0x02
+        description: Remote Load Immediate.
+
+      - name: RLDY
+        value: 0x03
+        description: Remote Load Immediate. Allocate in Home node.
+
+      - name: RLDWB
+        value: 0x04
+        description: Remote Load Immediate, and do not Write Back.
+
+      - name: RLDX
+        value: 0x05
+        description: Remote Load Exclusive (intent to modify).
+
+      - name: RC2D_O
+        value: 0x06
+        description: Remote Change to Dirty - Line is O
+
+      - name: RC2D_S
+        value: 0x07
+        description: Remote Change to Dirty - Line in S
+
+      - name: RSTT
+        value: 0x08
+        description: Remote Store Immediate.
+
+      - name: RSTY
+        value: 0x09
+        description: Remote Store Immediate. Allocate in Home node.
+
+      - name: RSTP
+        value: 0x0A
+        description: Store partial.
+
+      - name: RSAA
+        value: 0x0B
+        description: Atomic Add, 64/32.
+
+      - name: RSAAM1
+        value: 0x0C
+        description: Atomic Decrement by 1, 64/32.
+
+      - name: RFAA
+        value: 0x0D
+        description: Atomic Fetch and Add, 64/32.
+
+      - name: RINC
+        value: 0x0E
+        description: Atomic increment, 64/32/16/8.
+
+      - name: RDEC
+        value: 0x0F
+        description: Atomic decrement, 64/32/16/8.
+
+      - name: RFAS
+        value: 0x10
+        description: Atomic Fetch and swap 64/32.
+
+      - name: RSET
+        value: 0x11
+        description: Atomic Fetch and Set, 64/32/16/8.
+
+      - name: RCLR
+        value: 0x12
+        description: Atomic fetch and Clear, 64/32/16/8.
+
+      - name: RCAS
+        value: 0x13
+        description: Atomic Compare and swap, 64/32/16/8 Line I not allocating.
+
+      - name: RCAS_I
+        value: 0x14
+        description: Atomic Compare and swap, 64/32/16/8 Line I allocating.
+
+      - name: RCAS_O
+        value: 0x15
+        description: Atomic Compare and swap, 64/32/16/8 (and the compare has matched but state is O at the requester).
+
+      - name: RCAS_S
+        value: 0x16
+        description: Atomic Compare and swap, 64/32/16/8 (and the compare has matched but state is S at the requester).
+
+      - name: RSTC
+        value: 0x17
+        description: Conditional Store - Line I not allocating.
+
+      - name: RSTC_I
+        value: 0x18
+        description: Conditional Store - Line I but allocating.
+
+      - name: RSTC_O
+        value: 0x19
+        description: Conditional Store - Line O.
+
+      - name: RSTC_S
+        value: 0x1A
+        description: Conditional Store - Line S.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
+
+
+  - name: OCI_MRSP_CMD_E
+    attributes:
+      parent_block_override: "L2C"
+      width: "5"
+    values:
+      - name: VICD
+        value: 0x00
+        description: Vic from E or O to I.
+
+      - name: VICC
+        value: 0x01
+        description: Vic from E or O to S.
+
+      - name: VICS
+        value: 0x02
+        description: Vic from S to I.
+
+      - name: VICDHI
+        value: 0x03
+        description: Home forced VICD.
+
+      - name: HAKD
+        value: 0x04
+        description: To Home Ack.
+
+      - name: HAKN_S
+        value: 0x05
+        description: To Home Ack, state is S.
+
+      - name: HAKI
+        value: 0x06
+        description: To Home Ack - VICx in progress, state is I.
+
+      - name: HAKS
+        value: 0x07
+        description: To Home Ack - VICx in progress, state is S.
+
+      - name: HAKV
+        value: 0x08
+        description: To Home Ack - VICS in progress.
+
+      - name: PSHA
+        value: 0x09
+        description: Response w Data - to S/I.
+
+      - name: PEMD
+        value: 0x0A
+        description: Response to request, from "owning node".
+
+      - name: PATM
+        value: 0x0B
+        description: Response w Data - (Atomic Requests).
+
+      - name: PACK
+        value: 0x0C
+        description: Response Ack (wo data).
+
+      - name: P2DF
+        value: 0x0D
+        description: Response Faul.
+
+      - name: IDLE
+        value: 0x1F
+        description: No operation.
 
 
   - name: RSC_CMD_E
@@ -730,344 +1070,6 @@ enums:
         value: 0x6B
         description: I/O multi-quadword store with multi-quadword load, with commit.
 
-  - name: OCI_MREQ_CMD_E
-    attributes:
-      parent_block_override: "L2C"
-      width: "5"
-    description:
-    values:
-      - name: RLDD
-        value: 0x0
-        description: Remote Load Data.
-
-      - name: RLDI
-        value: 0x1
-        description: Remote Load Instruction.
-
-      - name: RLDT
-        value: 0x2
-        description: Remote Load Immediate.
-
-      - name: RLDY
-        value: 0x3
-        description: Remote Load Immediate. Allocate in Home node.
-
-      - name: RLDWB
-        value: 0x4
-        description: Remote Load Immediate, and do not Write Back.
-
-      - name: RLDX
-        value: 0x5
-        description: Remote Load Exclusive (intent to modify).
-
-      - name: RC2D_O
-        value: 0x6
-        description: Remote Change to Dirty - Line is O
-
-      - name: RC2D_S
-        value: 0x7
-        description: Remote Change to Dirty - Line in S  
-
-      - name: RSTT
-        value: 0x8
-        description: Remote Store Immediate.
-
-      - name: RSTY
-        value: 0x9
-        description: Remote Store Immediate. Allocate in Home node.
-
-      - name: RSTP
-        value: 0xA
-        description: Store partial.
-
-      - name: RSAA
-        value: 0xB
-        description: Atomic Add, 64/32.
-
-      - name: RSAAM1
-        value: 0xC
-        description: Atomic Decrement by 1, 64/32.
-
-      - name: RFAA
-        value: 0xD
-        description: Atomic Fetch and Add, 64/32.
-
-      - name: RINC
-        value: 0xE
-        description:  Atomic increment, 64/32/16/8.
-
-      - name: RDEC
-        value: 0xF
-        description: Atomic decrement, 64/32/16/8.
-
-      - name: RFAS
-        value: 0x10
-        description: Atomic Fetch and swap 64/32.
-
-      - name: RSET
-        value: 0x11
-        description: Atomic Fetch and Set, 64/32/16/8.
-
-      - name: RCLR
-        value: 0x12
-        description: Atomic fetch and Clear, 64/32/16/8.
-
-      - name: RCAS
-        value: 0x13
-        description: Atomic Compare and swap, 64/32/16/8 Line I not allocating.
-
-      - name: RCAS_I
-        value: 0x14
-        description: Atomic Compare and swap, 64/32/16/8 Line I allocating.
-
-      - name: RCAS_O
-        value: 0x15
-        description: Atomic Compare and swap, 64/32/16/8 (and the compare has matched but state is O at the requester).
-
-      - name: RCAS_S
-        value: 0x16
-        description: Atomic Compare and swap, 64/32/16/8 (and the compare has matched but state is S at the requester).
-
-      - name: RSTC
-        value: 0x17
-        description: Conditional Store - Line I not allocating.
-
-      - name: RSTC_I
-        value: 0x18
-        description: Conditional Store - Line I but allocating.
-
-      - name: RSTC_O
-        value: 0x19
-        description: Conditional Store - Line O.
-
-      - name: RSTC_S
-        value: 0x1A
-        description: Conditional Store - Line S.
-
-      - name: IDLE
-        value: 0x1F
-        description: No operation.
-
-  - name: OCI_MFWD_CMD_E
-    attributes:
-      parent_block_override: "L2C"
-      width: "5"
-    description:
-    values:
-      - name: FLDRO_E
-        value: 0x0
-        description: Forward Read Data - ROWNED_MODE=1 (home RTG state is E).
-                                                                            
-      - name: FLDRO_O                                                       
-        value: 0x1                                                          
-        description: Forward Read Data - ROWNED_MODE=1 (home RTG state is O).
-
-      - name: FLDRS_E
-        value: 0x2
-        description: Forward Read Data - ROWNED_MODE=0 (home RTG state is E).
-                                                                            
-      - name: FLDRS_O                                                       
-        value: 0x3                                                          
-        description: Forward Read Data - ROWNED_MODE=0 (home RTG state is O).
-
-      - name: FLDRS_EH
-        value: 0x4
-        description: Forward Home Read data (home RTG state is E).
-                                                                 
-      - name: FLDRS_OH                                           
-        value: 0x5                                               
-        description: Forward Home Read data (home RTG state is O).
-
-      - name: FLDT_E
-        value: 0x6
-        description: Forward Read Through (home RTG state is E).
-
-      - name: FLDX_E
-        value: 0x7
-        description: Forward Read Exclusive (home RTG state is E).
-                                                                 
-      - name: FLDX_O                                             
-        value: 0x8                                               
-        description: Forward Read Exclusive (home RTG state is O).
-
-      - name: FLDX_EH
-        value: 0x9
-        description: Forward Home Read exclusive (home RTG state is E).
-                                                                      
-      - name: FLDX_OH                                                 
-        value: 0xA                                                    
-        description: Forward Home Read exclusive (home RTG state is O).
-
-      - name: FEVX_EH
-        value: 0xB
-        description: Forward for Home Eviction (home RTG state is E).
-                                                                    
-      - name: FEVX_OH                                               
-        value: 0xC                                                  
-        description: Forward for Home Eviction (home RTG state is O).
-
-      - name: SINV
-        value: 0xD
-        description: Shared invalidate.
-
-      - name: SINV_H
-        value: 0xE
-        description: Shared Invalidate Home is requester.
-
-      - name: IDLE
-        value: 0x1F
-        description: No operation.
-
-  - name: OCI_MRSP_CMD_E
-    attributes:
-      parent_block_override: "L2C"
-      width: "5"
-    description:
-    values:
-      - name: VICD
-        value: 0x0
-        description: Vic from E or O to I.
-
-      - name: VICC
-        value: 0x1
-        description: Vic from E or O to S.
-
-      - name: VICS
-        value: 0x2
-        description: Vic from S to I.
-
-      - name: VICDHI
-        value: 0x3
-        description: Home forced VICD.
-
-      - name: HAKD
-        value: 0x4
-        description: To Home Ack.
-
-      - name: HAKN_S
-        value: 0x5
-        description: To Home Ack, state is S.
-
-      - name: HAKI
-        value: 0x6
-        description: To Home Ack - VICx in progress, state is I.
-
-      - name: HAKS
-        value: 0x7
-        description: To Home Ack - VICx in progress, state is S.
-
-      - name: HAKV
-        value: 0x8
-        description: To Home Ack - VICS in progress.
-
-      - name: PSHA
-        value: 0x9
-        description: Response w Data - to S/I.
-
-      - name: PEMD
-        value: 0xA
-        description: Response to request, from "owning node".
-
-      - name: PATM
-        value: 0xB
-        description: Response w Data - (Atomic Requests).
-
-      - name: PACK
-        value: 0xC
-        description: Response Ack (wo data).
-
-      - name: P2DF
-        value: 0xD
-        description: Response Faul.
-
-      - name: IDLE
-        value: 0x1F
-        description: No operation.
-
-  - name: OCI_IREQ_CMD_E
-    attributes:
-      parent_block_override: "L2C"
-      width: "5"
-    description:
-    values:
-      - name: IOBLD
-        value: 0x0
-        description: IO load request of 8, 16, 32, or 64 bits.
-
-      - name: SLILD
-        value: 0x1
-        description: SLI-initiated IO load request of 8, 16, 32, or 64 bits.
-
-      - name: IOBST
-        value: 0x2
-        description: IO store request of 8, 16, 32, or 64 bits.
-
-      - name: IOBSTA
-        value: 0x3
-        description: Same as IOBST8, IOBST16, IOBST32, and IOBST64, destination node will respond with an IOACK.
-
-      - name: SLIST
-        value: 0x4
-        description: SLI-initiated IO store request of 8, 16, 32, or 64 bits.
-
-      - name: IOBDMA
-        value: 0x5
-        description: Vector IO load request.
-
-      - name: IOBDMAA
-        value: 0x6
-        description: Same as IOBDMA, destination node will respond with IOACK.
-
-      - name: LMTST
-        value: 0x7
-        description: Vector IO store request.
-
-      - name: LMTSTA
-        value: 0x8
-        description: Same as LMTST, destination node will respond with IOACK.
-
-      - name: LMTDMA
-        value: 0x9
-        description: Vector IO store and load request.
-
-      - name: LMTDMAA
-        value: 0xA
-        description: Same as LMTDMA, destination node will respond with IOACK.
-
-      - name: IOBADDR
-        value: 0xB
-        description: Same as IOBDMA without response, or LMTST without any data.
-
-      - name: IOBADDRA
-        value: 0xC
-        description: Same as IOBADDR, destination node will respond with IOACK.
-
-      - name: IDLE
-        value: 0x1F
-        description: No operation.
-
-  - name: OCI_IRSP_CMD_E
-    attributes:
-      parent_block_override: "L2C"
-      width: "5"
-    description:
-    values:
-      - name: IOBRSP
-        value: 0x0
-        description: IO response to an IOBLD*, IOBDMA, or LMTDMA.
-
-      - name: IOBACK
-        value: 0x1
-        description: A response indicating that the IO request has passed the point where subsequently-generated IO requests will follow the request.
-
-      - name: SLIRSP
-        value: 0x2
-        description: Response to a SLILD*.
-
-
-      - name: IDLE
-        value: 0x1F
-        description: No operation.
 
 registers:
   - name: L2C_CTL
@@ -1414,14 +1416,41 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..9
+        bits: 63..17
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
+      - name: SHTOIOEN
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, any PP issues any of an IO load, acking store, IOBDMA, LMTDMA, acking IOBADDR,
+          or acking LMTST to a node that doesn't exist (existence defined by the ENAOCI bits),
+          then the hardware sets the SHTO CSR field.
+
+      - name: SHTOEN
+        bits: 15..13
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: When set, if the corresponding OCI link is down, the hardware sets the SHTO CSR field.
+
+      - name: SHTO
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Use short timeout intervals. When set, PP will use SDIDTTO for both DID and commit counter
+          timeouts, rather than DIDTTO/DIDTTO2. Similarly, L2C will use short instead of long
+          timeout (FIXME -  more info needed)
+
       - name: INV_MODE
-        bits: 8..7
+        bits: 11..10
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -1434,7 +1463,7 @@ registers:
           local invalidates to begin their processing.
 
       - name: CAS_FDX
-        bits: 6
+        bits: 9
         access: R/W
         reset: 0
         typical: 0
@@ -1444,7 +1473,7 @@ registers:
           invalidate the remote if the compare succeeds.
 
       - name: RLDD_PSHA
-        bits: 5
+        bits: 8
         access: R/W
         reset: 0
         typical: 0
@@ -1454,7 +1483,7 @@ registers:
           extra tag write to be done upon receiving the response.
 
       - name: LOCK_LOCAL
-        bits: 4
+        bits: 7
         access: R/W
         reset: 0
         typical: 0
@@ -1466,7 +1495,7 @@ registers:
           setting.
 
       - name: IOFRCL
-        bits: 3
+        bits: 6
         access: R/W
         reset: 1
         typical: 0
@@ -1476,7 +1505,7 @@ registers:
           expected to be 0.
 
       - name: GKSEGNODE
-        bits: 2..1
+        bits: 5..4
         access: R/W
         reset: --
         typical: 0x0
@@ -1486,12 +1515,13 @@ registers:
           software.
 
       - name: ENAOCI
-        bits: 0
+        bits: 3..0
         access: R/W
-        reset: 0
-        typical: 0
+        reset: 0x0
+        typical: 0x0
         description: |
-          Enable OCI processing. When set, perform OCI processing. When clear, OCI references cause
+          Enable OCI processing (one per node_id). When set, perform OCI processing. When clear, OCI
+          references cause
           RDDISOCI/WRDISOCI interrupts (NYI).
 
 
@@ -2453,7 +2483,7 @@ registers:
 
   - name: L2C_TAD(0..7)_PFC(0..3)
     title: Level 2 Cache TAD Performance Counter Registers
-    address: 0x1180080A00400 + a*0x40000 + b*8
+    address: 0x1180080A00400 + a*0x40000 + b*0x8
     bus: RSL
     fields:
       - name: COUNT

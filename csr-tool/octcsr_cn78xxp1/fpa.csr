@@ -6,7 +6,7 @@ enums:
   - name: FPA_INTSN_E
     attributes:
       width: "20"
-    description: Enumerates the different FPA generated interrupts.
+    description: Enumerates the different FPA generated interrupts; see Interrupt Source Numbers.
     values:
       - name: FPA_ERR_CNT_ADD
         value: 0x28000
@@ -125,7 +125,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See .
+        description: CVMSEG LM address to return to. See IOBDMA Operations.
 
 
   - name: FPA_ALLOC_LD_S
