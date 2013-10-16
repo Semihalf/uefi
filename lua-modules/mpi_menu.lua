@@ -81,92 +81,95 @@ local function mpi_display()
     end
 end
 
-local function mpi_read()
-    chip_select = menu.prompt_number("Chip select", chip_select, 0, 3)
-    addr_width = menu.prompt_number("Address width in bytes", addr_width, 1, 4)
-    local addr = menu.prompt_number("Address", 0)
-    -- read_cmd = menu.prompt_number("Read command", read_cmd, 0x00, 0xff)
-    local count = menu.prompt_number("Bytes to read", 1, 1)
-    filename = menu.prompt_string("Save to file", filename)
-
-    local f = fileio.open(filename, "w")
-
-    -- Issue the read command
-    local cmd = bit64.lshift(read_cmd, addr_width*8) + addr
-    local result = octeon.c.bdk_mpi_transfer(node, chip_select, true, addr_width+1, cmd, 0)
-    assert(result == 0, "SPI/MPI transfer failed")
-
-    -- Read the data in a loop
-    while count > 0 do
-        local rx_size = (count > 8) and 8 or count
-        result = octeon.c.bdk_mpi_transfer(node, chip_select, rx_size < count, 0, 0, rx_size)
-        for i=1,rx_size do
-            local data = bit64.rshift(result, (rx_size - i)*8)
-            data = bit64.band(data, 0xff)
-            f:write(string.char(data))
-        end
-        count = count - rx_size
-    end
-    f:close()
+local function mpi_view(filename)
+    local offset = menu.prompt_number("Starting offset")
+    local length = menu.prompt_number("Bytes to display")
+    fileio.hexdump(filename, offset, length)
 end
 
-local function mpi_write()
-    chip_select = menu.prompt_number("Chip select", chip_select, 0, 3)
-    addr_width = menu.prompt_number("Address width in bytes", addr_width, 1, 4)
-    local addr = menu.prompt_number("Address", 0)
-    -- write_cmd = menu.prompt_number("Write command", write_cmd, 0x00, 0xff)
-    filename = menu.prompt_string("Read from file", filename)
+local function mpi_write(filename)
+    local source = menu.prompt_filename("Enter source filename")
+    local offset = menu.prompt_number("Starting offset")
+    fileio.copy(source, nil, filename, offset)
+end
 
-    -- Read the status register
-    local result = octeon.c.bdk_mpi_transfer(node, chip_select, true, 1, read_status, 1)
-    assert(bit64.band(result, 1) == 0, "SPI/MPI device stuck in write")
-
-    -- Enable writing
-    local result = octeon.c.bdk_mpi_transfer(node, chip_select, true, 1, write_enable, 0)
-    assert(result == 0, "SPI/MPI transfer failed")
-
-    local f = fileio.open(filename, "r")
-
-    -- Issue the write command without any data. Leave CS selected
-    local cmd = bit64.lshift(write_cmd, addr_width*8) + addr
-    result = octeon.c.bdk_mpi_transfer(node, chip_select, true, addr_width+1, cmd, 0)
-    assert(result == 0, "SPI/MPI transfer failed")
-
-    -- Write the data in a loop
+local function mpi_device()
+    -- MPI/SPI filenames are of the format:
+    -- /dev/mpi/cs0-[hl],[12]wire,idle-[rhl]-[ml]sb-##bit-<freq>
+    -- cs0 = Chip select to use [0-3]
+    -- [hl] = Chip select is active High or Low
+    -- [12] = Use 1 wire half duplex or 2 wire full duplex
+    -- [rhl] = Should the clock continue to Run when idle, go High, or go Low
+    -- [ml] = MSB or LSB first
+    -- ## = Address width (16, 24, or 32)
+    -- <freq> = Clock frequency in Mhz
+    local m = menu.new("SPI/MPI Device Menu")
+    local chip_sel = 0
+    local chip_hi = false
+    local wire = 2
+    local idle = "h"
+    local msb = true
+    local address_width = 16
+    local freq = 10
     repeat
-        local data = f:read(8)
-        if data then
-            local tx_data = 0
-            for i=1,#data do
-                tx_data = bit64.lshift(tx_data, 8)
-                tx_data = tx_data + data:byte(i)
-            end
-            result = octeon.c.bdk_mpi_transfer(node, chip_select, true, #data, tx_data, 0)
-            assert(result == 0, "SPI/MPI transfer failed")
-        end
-    until data == nil
-    f:close()
+        m:item("cs", "Select chip select (CS%d)" % chip_sel,
+               function()
+                   chip_sel = menu.prompt_number("Chip select to use", chip_sel, 0, 3)
+               end)
+        m:item("hl", "Select chip select type (Active %s)" % (chip_hi and "high" or "low"),
+               function()
+                   chip_hi = menu.prompt_yes_no("Is the chip select active high", chip_hi)
+               end)
+        m:item("12", "Use one or two data wires (%d wire)" % wire,
+               function()
+                   wire = menu.prompt_number("Use 1 wire or 2 (in + out)", wire, 1, 2)
+               end)
+        m:item("rhl", "Idle clock type (%s)" % (((idle == "r") and "Run") or ((idle == "h") and "Hi" or "Low")),
+               function()
+                   local run = menu.prompt_yes_no("Should the clock run when idle", idle == "r")
+                   if run then
+                       idle = "r"
+                   else
+                       if menu.prompt_yes_no("Should the clock be high when idle", idle == "h") then
+                           idle = "h"
+                       else
+                           idle = "l"
+                       end
+                   end
+               end)
+        m:item("ml", "Endian order (%s)" % (msb and "MSB" or "LSB"),
+               function()
+                   msb = menu.prompt_yes_no("Shift bits MSB first", msb)
+               end)
+        m:item("add", "Address width (%d)" % address_width,
+               function()
+                   address_width = menu.prompt_number("Address width in bits", address_width, 8, 32)
+               end)
+        m:item("freq", "Frequency (%d MHz)" % freq,
+               function()
+                   freq = menu.prompt_number("Frequency in Mhz", freq, 1, 50)
+               end)
 
-    -- Read the status register, waiting for write complete
-    repeat
-        local result = octeon.c.bdk_mpi_transfer(node, chip_select, true, 1, read_status, 1)
-        local busy = bit64.band(result, 1)
-    until busy == 0
-
-    -- Disable writing
-    result = octeon.c.bdk_mpi_transfer(node, chip_select, true, 1, write_disable, 0)
-    assert(result == 0, "SPI/MPI transfer failed")
+        local filename = "/dev/mpi/cs%d-%s,%dwire,idle-%s,%ssb,%dbit,%d" %
+            {chip_sel,
+             chip_hi and "h" or "l",
+             wire, idle,
+             msb and "m" or "l",
+             address_width,
+             freq}
+        m:item("read", "View device contents", mpi_view, filename)
+        m:item("write", "Write to device", mpi_write, filename)
+        m:item("quit", "Main menu")
+    until m:show() == "quit"
 end
 
 local m = menu.new("SPI/MPI Menu")
 repeat
+    m:item("dev", "Access an EEPROM or NOR flash", mpi_device)
     m:item("init", "Initialize", mpi_init)
     if init_complete then
         m:item("tran", "Perform a single transfer", mpi_transfer)
-        m:item("dis", "Bulk read and hex display", mpi_display)
-        m:item("read", "Bulk read", mpi_read)
-        m:item("write", "Bulk write", mpi_write)
-        m:item("quit", "Main menu")
     end
+    m:item("quit", "Main menu")
 until m:show() == "quit"
 
