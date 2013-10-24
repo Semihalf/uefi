@@ -165,6 +165,10 @@ __init:
     dmtc0 $0, COP0_KSCRATCH2
     dmtc0 $0, COP0_KSCRATCH3
 
+    dmfc0 t0, COP0_CVMCTL
+    and   t0, 1 << 27  /* nomul */
+    bnez  t0, nomul
+    nop
     /* Clear extended multiplier for RTL sim */
     MTM0 $0
     MTM1 $0
@@ -172,6 +176,7 @@ __init:
     MTP0 $0
     MTP1 $0
     MTP2 $0
+nomul:
 
     /* Enable 64bit addressing and FP */
     MFC0    t0, COP0_STATUS
