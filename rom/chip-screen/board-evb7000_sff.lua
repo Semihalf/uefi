@@ -2,26 +2,62 @@
 print("Configuring for the EVB7000_sff")
 local bit64 = require("bit64")
 
+
+function gpio_read(gpio)
+    local state = octeon.c.bdk_gpio_read(0)
+    if bit64.btest(state, bit64.lshift(1, gpio)) then
+        return 1
+    else
+        return 0
+    end
+end
+
+local g1 = gpio_read(1)
+local g2 = gpio_read(2)
+local g3 = gpio_read(3)
+
+printf("GPIO[1-3]: %d %d %d\n", g1, g2, g3)
+
+if (g2 == 0 and g3 == 1) then
+    printf("Testing SATA/mini-PCIe\n")
+elseif (g2 ==1 and g3 == 0) then
+    printf("Testing PCIe 1x4\n")
+else
+    printf("ERROR: Invalid configuration - must be PCIe 1x4, or mini-PCIe/SATA\n")
+end
+
+if (g1 == 1) then
+    printf("Testing RXAUI\n")
+else
+    printf("Testing QSGMII\n")
+end
+
+
+
 local set_config = octeon.c.bdk_config_set
 octeon.c.bdk_gpio_initialize(0, 9, 1, 0);
 
 -- RGMII PHY address is 4, on SMI0
 set_config(octeon.CONFIG_PHY_MGMT_PORT0, 4)
 
--- (Q)SGMII PHY address for interface 0 are 0-3, on SMI0
-set_config(octeon.CONFIG_PHY_IF0_PORT0, 0)
-set_config(octeon.CONFIG_PHY_IF0_PORT1, 1)
-set_config(octeon.CONFIG_PHY_IF0_PORT2, 2)
-set_config(octeon.CONFIG_PHY_IF0_PORT3, 3)
+if (g1 == 0) then
+    -- (Q)SGMII PHY address for interface 0 are 0-3, on SMI0
+    set_config(octeon.CONFIG_PHY_IF0_PORT0, 0)
+    set_config(octeon.CONFIG_PHY_IF0_PORT1, 1)
+    set_config(octeon.CONFIG_PHY_IF0_PORT2, 2)
+    set_config(octeon.CONFIG_PHY_IF0_PORT3, 3)
 
--- (Q)SGMII PHY address for interface 1 are 4-7, on SMI1
-set_config(octeon.CONFIG_PHY_IF1_PORT0, 256 + 4)
-set_config(octeon.CONFIG_PHY_IF1_PORT1, 256 + 5)
-set_config(octeon.CONFIG_PHY_IF1_PORT2, 256 + 6)
-set_config(octeon.CONFIG_PHY_IF1_PORT3, 256 + 7)
+    -- (Q)SGMII PHY address for interface 1 are 4-7, on SMI1
+    set_config(octeon.CONFIG_PHY_IF1_PORT0, 256 + 4)
+    set_config(octeon.CONFIG_PHY_IF1_PORT1, 256 + 5)
+    set_config(octeon.CONFIG_PHY_IF1_PORT2, 256 + 6)
+    set_config(octeon.CONFIG_PHY_IF1_PORT3, 256 + 7)
+else
+    -- RXAUI PHY address is 18, hex 0x12, on SMI1
+    set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 18)
+end
 
--- RXAUI PHY address is 18, hex 0x12, on SMI1
--- set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 18)
+
 
 -- TWSI info
 -- DDR0 converter: Address 0x31
@@ -325,4 +361,6 @@ function setup_dlm0_hook(mode, speed, flags)
         setup_vitesse_phy(1, phy_addr, qsgmii_lane1)
     end
 end
+
+
 

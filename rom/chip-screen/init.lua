@@ -64,15 +64,28 @@ local all_pass = true
 -- MMC Tests
 --
 print("test start: mmc")
-local status, capacity = pcall(octeon.mmc.init)
-if status and (capacity > 0) then
-    print("MMC Init test: PASS")
+local capacity = octeon.c.bdk_mmc_initialize(0)
+if (capacity > 0) then
+    print("MMC0 Init test: PASS")
 else
-    print("MMC capacity", capacity)
-    print("MMC Init test: FAIL")
+    print("MMC0 capacity:", capacity)
+    print("MMC0 Init test: FAIL")
     all_pass = false
 end
+
+if (board_name == "evb7000_sff") then
+-- EMMC on SFF board
+    capacity = octeon.c.bdk_mmc_initialize(1)
+    if (capacity > 0) then
+        print("MMC1 Init test: PASS")
+    else
+        print("MMC1 capacity:", capacity)
+        print("MMC1 Init test: FAIL")
+        all_pass = false
+    end
+end
 print("test end: mmc")
+
 
 --
 -- PCIe
