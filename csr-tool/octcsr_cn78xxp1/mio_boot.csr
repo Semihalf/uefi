@@ -4,9 +4,10 @@
 name: MIO_BOOT
 enums:
   - name: MIO_BOOT_INTSN_E
+    title: MIO Boot Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different generated interrupts.
     values:
       - name: MIO_BOOT_ERR_ADR_ERR
         value: 0x0A000

@@ -945,7 +945,7 @@ registers:
           IPD_QUE0_FREE_PAGE_CNT is larger than this value.
 
 
-  - name: IPD_PORT_BP_COUNTERS_PAIR(0..3,16..19,24, 32..35)
+  - name: IPD_PORT_BP_COUNTERS_PAIR(0..3,16..19,24,32..35)
     address: 0x14F00000001B8 + a*0x8
     bus: NCB
     description: |
@@ -2368,7 +2368,7 @@ registers:
         description: Enable bits.
 
 
-  - name: IPD_PORT_QOS_(0..31,128..159, 192..199, 256..383)_CNT
+  - name: IPD_PORT_QOS_(0..31,128..159,192..199,256..383)_CNT
     address: 0x14F0000000888 + a*0x8
     bus: NCB
     description: |

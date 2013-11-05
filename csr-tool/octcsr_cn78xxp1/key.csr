@@ -4,6 +4,7 @@
 name: KEY
 enums:
   - name: KEY_INTSN_E
+    title: KEY Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different KEY generated interrupts.

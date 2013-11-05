@@ -4,6 +4,7 @@
 name: SLI
 enums:
   - name: SLI_INTSN_E
+    title: SLI Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different SLI-generated interrupts.
@@ -589,10 +590,9 @@ registers:
         reset: 0x7fff
         typical: 0x7fff
         description: |
-          When a command acknowledge or a request to fetch read-data is expected from the OCI, The
-          SLI will
-          wait this many sclks before determining the OCI is not going to respond and timeout the
-          request.
+          OCX time. When a command acknowledge or a request to fetch read data is expected from OCI,
+          SLI waits this many SCLKs before determining that the OCI is not going to respond and
+          timeout the request.
 
       - name: TIME
         bits: 31..0
@@ -763,10 +763,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Whenever SLI_DMAx_CNT[CNT] is not 0, the SLI_DMAx_TIM[TIM] timer increments every SLI
-          clock. DTIME<x> is set whenever SLI_DMAx_TIM[TIM] > SLI_DMAx_INT_LEVEL[TIME]. DTIME<x> is
-          normally cleared by clearing SLI_DMAx_CNT[CNT] (which also clears SLI_DMAx_TIM[TIM]).
-          Throws SLI_INTSN_E::SLI_INT_DTIME.
+          Whenever SLI_DMA(0..1)_CNT[CNT] is not 0, the SLI_DMA(0..1)_TIM[TIM] timer increments
+          every SLI clock. DTIME<x> is set whenever SLI_DMA(0..1)_TIM[TIM] >
+          SLI_DMA(0..1)_INT_LEVEL[TIME]. DTIME<x> is normally cleared by clearing
+          SLI_DMA(0..1)_CNT[CNT] (which also clears SLI_DMA(0..1)_TIM[TIM]). Throws
+          SLI_INTSN_E::SLI_INT_DTIME.
 
       - name: DCNT
         bits: 35..34
@@ -774,8 +775,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          DCNT<x> is set whenever SLI_DMAx_CNT[CNT] > SLI_DMAx_INT_LEVEL[CNT]. DCNT<x> is normally
-          cleared by decreasing SLI_DMAx_CNT[CNT]. Throws SLI_INTSN_E::SLI_INT_DCNT.
+          DCNT<x> is set whenever SLI_DMAx_CNT[CNT] > SLI_DMA(0..1)_INT_LEVEL[CNT]. DCNT<x> is
+          normally cleared by decreasing SLI_DMA(0..1)_CNT[CNT]. Throws SLI_INTSN_E::SLI_INT_DCNT.
 
       - name: DMAFI
         bits: 33..32
@@ -1389,16 +1390,17 @@ registers:
         attributes:
           exempt_keyword: "True"
         description: |
-          Whenever the SLI_DMA0/1_TIM[TIM] timer exceeds this value, SLI_INT_SUM[DTIME<x>] is set.
-          The SLI_DMA0/1_TIM[TIM] timer increments every SLI clock whenever SLI_DMAx_CNT[CNT] != 0,
-          and is cleared when SLI_INT_SUM[DTIME<x>] is written with one.
+          Whenever the SLI_DMA(0..1)_TIM[TIM] timer exceeds this value, SLI_INT_SUM[DTIME<x>] is
+          set. The SLI_DMA(0..1)_TIM[TIM] timer increments every SLI clock whenever
+          SLI_DMA(0..1)_CNT[CNT] != 0, and is cleared when SLI_INT_SUM[DTIME<x>] is written with
+          one.
 
       - name: CNT
         bits: 31..0
         access: R/W
         reset: 0x0
         typical: --
-        description: Whenever SLI_DMA0/1_CNT[CNT] exceeds this value, SLI_INT_SUM[DCNT<x>] is set.
+        description: Whenever SLI_DMA(0..1)_CNT[CNT] exceeds this value, SLI_INT_SUM[DCNT<x>] is set.
 
 
   - name: SLI_DMA(0..1)_CNT
@@ -1423,7 +1425,7 @@ registers:
           The DMA counter. Writing this field will cause the written value to be subtracted from
           DMA. Hardware optionally increments this field after it completes an OUTBOUND or EXTERNAL-
           ONLY DMA instruction. These increments may cause interrupts. Refer to
-          SLI_DMA0/1_INT_LEVEL and SLI_INT_SUM[DCNT,DTIME].
+          SLI_DMA(0..1)_INT_LEVEL and SLI_INT_SUM[DCNT,DTIME].
 
 
   - name: SLI_DMA(0..1)_TIM
@@ -1446,7 +1448,7 @@ registers:
         typical: --
         description: |
           The DMA timer value. The timer increments when
-          SLI_DMA0/1_CNT[CNT]!=0 and clears when SLI_DMA0/1_CNT[CNT]=0.
+          SLI_DMA(0..1)_CNT[CNT]!=0 and clears when SLI_DMA(0..1)_CNT[CNT]=0.
 
 
   - name: SLI_CTL_STATUS
@@ -1522,7 +1524,7 @@ registers:
 
 
   - name: SLI_BIST_STATUS
-    title: SLI's BIST Status Register
+    title: SLI BIST Status Register
     address: 0x11F0000010580
     bus: PEXP_NCB
     description: |
@@ -2230,7 +2232,7 @@ registers:
         access: RO/H
         reset: 0x1
         typical: --
-        description: NSM0 State
+        description: NSM0 state.
 
 
   - name: SLI_PCIE_MSI_RCV_B1
@@ -2255,8 +2257,8 @@ registers:
         typical: --
         description: |
           A write to this register results in a bit in one of the SLI_MSI_RCVn registers being set.
-          Which bit is set depends on what is previously written using the SLI_MSI_WR_MAP register.
-          If nothing is previously written, the bit set is the reset value of the MAP.
+          Which bit is set depends on what is previously written using SLI_MSI_WR_MAP. If nothing is
+          previously written, the bit set is the reset value of the MAP.
 
       - name: --
         bits: 7..0
@@ -2453,15 +2455,21 @@ registers:
     address: 0x11F0000011000
     bus: PEXP_NCB
     description: |
-      "This register enables the instruction fetch for a packet ring. This is the PF version also
-      see SLI_PKT#_INPUT_CONTROL[ENB]."
+      ""This register enables the instruction fetch for a packet ring. This is the PF version also
+      see SLI_PKT#_INPUT_CONTROL[ENB]." The bit cooresponding to the a ring in Reset will be
+      cleared."
     fields:
       - name: ENB
         bits: 63..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: --
-        description: Packet ring enable. When ENB<i>=1, instruction input ring i is enabled.
+        description: |
+          Packet ring enable. When ENB<i>=1, instruction input ring i is enabled. When the ring is
+          in reset, caused by a failing read associated with the ring, the ring being put into reset
+          by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is associated
+          with being in reset, will cause this bit to clear and be able to be set againg till the
+          reset condition is removed.
 
 
   - name: SLI_PKT_OUT_ENB
@@ -2469,18 +2477,22 @@ registers:
     address: 0x11F0000011010
     bus: PEXP_NCB
     description: |
-      "This register enables the output packet engines. This is the PF version. Also see
-      SLI_PKT#_OUTPUT_CONTROL[ENB]."
+      ""This register enables the output packet engines. This is the PF version. Also see
+      SLI_PKT#_OUTPUT_CONTROL[ENB]."The bit cooresponding to the a ring in Reset will be cleared."
     fields:
       - name: ENB
         bits: 63..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: --
         description: |
-          Packet output enable. When ENB<i>=1, packet output ring i is enabled. If an error occurs
-          on reading pointers for an output ring, the ring is disabled by clearing to 0 the bit
-          associated with the ring.
+          Packet output enable. When ENB<i>=1, packet output ring i is enabled.
+          When the ring is in reset, caused by a failing read associated with the ring, the ring
+          being put into
+          reset by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is
+          associated with
+          being in reset, will cause this bit to clear and be able to be set againg till the reset
+          condition is removed.
 
 
   - name: SLI_PKT_MAC(0..3)_RINFO
@@ -2748,14 +2760,14 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: When set Packet Out Info memory will have an ECC not generated and checked.
+        description: When set packet-out-info memory will have an ECC not generated and checked.
 
 
   - name: SLI_PKT_CNT_INT
-    title: SLI Packet Counter Interrupt
+    title: SLI Packet Counter Interrupt Register
     address: 0x11F0000011130
     bus: PEXPV_NCB
-    description: The packets rings that are interrupting because of Packet Counters.
+    description: This register specifies which packet rings are interrupting because of packet counters.
     fields:
       - name: RING
         bits: 63..0
@@ -2771,10 +2783,10 @@ registers:
 
 
   - name: SLI_PKT_TIME_INT
-    title: SLI Packet Timer Interrupt
+    title: SLI Packet Timer Interrupt Register
     address: 0x11F0000011140
     bus: PEXPV_NCB
-    description: The packets rings that are interrupting because of Packet Timers.
+    description: This register specifies which packets' rings are interrupting because of packet timers.
     fields:
       - name: RING
         bits: 63..0
@@ -2782,11 +2794,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Output ring packet timer interrupt bits
-          SLI sets RING<i> whenever
-          SLI_PKTi_CNTS[TIMER] > SLI_PKT_INT_LEVELS[TIME].
-          SLI_PKT_TIME_INT_ENB[RING<i>] is the corresponding
-          enable.
+          Output ring packet timer interrupt bits SLI sets RING<i> whenever SLI_PKTi_CNTS[TIMER] >
+          SLI_PKT_INT_LEVELS[TIME]. SLI_PKT_TIME_INT_ENB[RING<i>] is the corresponding enable.
 
 
   - name: SLI_PKT_IN_INT
@@ -2805,9 +2814,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Set when SLI_PKT_IN_DONE#_CNTS[CNT[15:0]] is updated to be equal to
-          SLI_PKT_IN_DONE#_CNTS[WMARK[15:0]] and SLI_PKT_IN_DONE#_CNTS[CINT_ENB] is set. Cleared
-          when SLI_PKT_IN_DONE#_CNTS[PI_INT] is cleared."
+          Set when SLI_PKT_IN_DONE(0..63)_CNTS[CNT[15:0]] is updated to be equal to
+          SLI_PKT_IN_DONE(0..63)_CNTS[WMARK[15:0]] and SLI_PKT_IN_DONE(0..63)_CNTS[CINT_ENB] is set.
+          Cleared when SLI_PKT_IN_DONE(0..63)_CNTS[PI_INT] is cleared.
 
 
   - name: SLI_PKT_INT
@@ -2913,7 +2922,7 @@ registers:
 
 
   - name: SLI_PKT_MAC0_SIG0
-    title: SLI Packet MAC0 Signalling CSR0 Register
+    title: SLI Packet MAC0 Signaling CSR0 Register
     address: 0x11F0000011300
     bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC0 and any VF.
@@ -2927,7 +2936,7 @@ registers:
 
 
   - name: SLI_PKT_MAC0_SIG1
-    title: SLI Packet MAC0 Signalling CSR1 Register
+    title: SLI Packet MAC0 Signaling CSR1 Register
     address: 0x11F0000011310
     bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC0 and any VF.
@@ -2941,7 +2950,7 @@ registers:
 
 
   - name: SLI_PKT_MAC1_SIG0
-    title: SLI Packet MAC1 Signalling CSR0 Register
+    title: SLI Packet MAC1 Signaling CSR0 Register
     address: 0x11F0000011320
     bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC1 and any VF.
@@ -2955,7 +2964,7 @@ registers:
 
 
   - name: SLI_PKT_MAC1_SIG1
-    title: SLI Packet MAC1 Signalling CSR1 Register
+    title: SLI Packet MAC1 Signaling CSR1 Register
     address: 0x11F0000011330
     bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. This CSR can be R/W by the PF from MAC1 and any VF.
@@ -3085,9 +3094,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "When the value of SLI_PKT_IN_DONE#_CNTS[CNT[15:0]] is updated to be equal to
-          SLI_PKT_IN_DONE#_CNTS[WMARK[15:0]] and SLI_PKT_IN_DONE#_CNTS[CINT_ENB] is also set, the
-          corresponding bit in SLI_PKT_IN_INT[RING[#]] will be set."
+          "When the value of SLI_PKT_IN_DONE(0..63)_CNTS[CNT[15:0]] is updated to be equal to
+          SLI_PKT_IN_DONE(0..63)_CNTS[WMARK[15:0]] and SLI_PKT_IN_DONE(0..63)_CNTS[CINT_ENB] is also
+          set, the corresponding bit in SLI_PKT_IN_INT[RING[#]] will be set."
 
       - name: CNT
         bits: 31..0
@@ -3134,8 +3143,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Timer, incremented every 1024 coprocessor-clock cycles when SLI_PKTS(0..63)_CNTS[CNT] is
-          not zero. This field is cleared when SLI_PKTS(0..63)_CNTS[CNT] goes to 0. This field is
+          Timer, incremented every 1024 coprocessor-clock cycles when SLI_PKT(0..63)_CNTS[CNT] is
+          not zero. This field is cleared when SLI_PKT(0..63)_CNTS[CNT] goes to 0. This field is
           also cleared when SLI_PKT_TIME_INT is cleared. The first increment of this count can occur
           between 0 to 1023 coprocessor-clock cycles.
 
@@ -3644,9 +3653,7 @@ registers:
         access: R/W/H
         reset: 0x80
         typical: 0x80
-        description: |
-          Port2 C-TLP FIFO Credits.
-          Legal values are 0x25 to 0x80.
+        description: Port 2 C-TLP FIFO credits. Legal values are 0x25 to 0x80.
 
       - name: P2_NCNT
         bits: 15..8
@@ -3746,10 +3753,17 @@ registers:
 
       - name: ENB
         bits: 22
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: --
-        description: When ENB=1, instruction input ring i is enabled.
+        description: |
+          Packet output enable. When ENB<i>=1, packet output ring i is enabled.
+          When the ring is in reset, caused by a failing read associated with the ring, the ring
+          being put into
+          reset by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is
+          associated with
+          being in reset, will cause this bit to clear and be able to be set againg till the reset
+          condition is removed.
 
       - name: PBP_DHI
         bits: 21..9
@@ -3757,15 +3771,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          PBP_DHI replaces address bits that are used
-          for parse mode and skip-length when
-          SLI_PKTi_INSTR_HEADER[PBP]=1.
-          PBP_DHI becomes either MACADD<63:55> or MACADD<59:51>
-          for the instruction DPTR reads in this case.
-          The instruction DPTR reads are called
-          "First Direct" or "First Indirect" in the HRM.
-          When PBP=1, if "First Direct" and USE_CSR=0, PBP_DHI
-          becomes MACADD<59:51>, else MACADD<63:55>.
+          PBP_DHI replaces address bits that are used for parse mode and skip-length when
+          SLI_PKTi_INSTR_HEADER[PBP] = 1. PBP_DHI becomes either MACADD<63:55> or MACADD<59:51> for
+          the instruction DPTR read operations in this case. The instruction DPTR read operations
+          are called first direct or first indirect. When PBP = 1, if first direct and USE_CSR = 0,
+          PBP_DHI becomes MACADD<59:51>, else MACADD<63:55>.
 
       - name: D_NSR
         bits: 8
@@ -4011,12 +4021,17 @@ registers:
 
       - name: ENB
         bits: 0
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: --
         description: |
-          When ENB=1, packet output ring is enabled. If an error occurs on reading pointers or a FLR
-          occurs that the ring belongs to, this bit will be cleared to 0. Also see SLI_PKT_OUT_ENB.
+          Packet input enable. When ENB=1, packet input ring is enabled.
+          When the ring is in reset, caused by a failing read associated with the ring, the ring
+          being put into
+          reset by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is
+          associated with
+          being in reset, will cause this bit to clear and be able to be set againg till the reset
+          condition is removed.
 
 
   - name: SLI_PKT(0..63)_VF_SIG

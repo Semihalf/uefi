@@ -4,6 +4,7 @@
 name: LBK
 enums:
   - name: LBK_INTSN_E
+    title: LBK Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.

@@ -131,7 +131,7 @@ registers:
           DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
           DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
           DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
-          DORM_CRYPTO = 1, NOCRYPTO = 1 Authenik mode.
+          DORM_CRYPTO = 1, NOCRYPTO = 1 Authentik mode.
 
       - name: --
         bits: 25..24
@@ -165,7 +165,9 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Fuse information - EMA0.
+        description: |
+          Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow
+          of these fuses will XOR with this value.
 
       - name: PLL_CTL
         bits: 57..48
@@ -283,7 +285,9 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Fuse information - EMA1.
+        description: |
+          Fuse information - EMA1. INTERNAL: dflt value is 0x11. Soft or hard blow
+          of these fuses will XOR with this value.
 
       - name: --
         bits: 17..0
@@ -376,6 +380,20 @@ registers:
     title: MIO Fuse TGG Register
     address: 0x1180000001430
     bus: RSL
+    description: |
+      This register exists to support Authentik. Authentik code should read
+      this register, then clear VAL to prevent other software from observing the
+      value of the TGG fuses.
+      INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD.
+      Whenever the fuse corresponding to VAL (TGG<63>) is blown, it is not possible to
+      blow any of TGG<62:0>. The fuse corresponding to VAL must be the one and only
+      lock down bit for TGG<62:0> - no other fuse lockdown bit can prevent blowing
+      TGG<62:0>. It must always be possible to blow the fuse corresponding to
+      VAL when it is not already blown. If an Authentik part may be converted
+      to a non-Authentik part (via some JTAG mechanism or any other mechanism),
+      it must not be possible to read the TGG fuse values from the Authentik
+      part by performing this conversion -> the reset value of VAL should be zero in this
+      converted case.
     fields:
       - name: VAL
         bits: 63
@@ -383,15 +401,9 @@ registers:
         reset: --
         typical: --
         description: |
-          Out of reset, VAL will return the TGG<63> fuse. Software may write this CSR bit to zero
-          (to hide the value of the TGG fuses). Software cannot write the valid bit to a one, so it
-          is not possible to read the value of the TGG fuses after the valid bit is clear. It is
-          never possible to read the value of the TGG fuses directly (ie. the only way to read the
-          value of the TGG fuses is via the MIO_FUS_TGG CSR.) Whenever the fuse corresponding to the
-          valid bit (ie. TGG<63>) is blown, it is not possible to blow the other 63 TGG fuses. (ie.
-          only when the TGG<63> fuse is not blown, the other 63 TGG fuses can be blown. The TGG<63>
-          fuse is the one and only fuse lockdown bit for the other 63 fuses TGG fuses. No other fuse
-          lockdown bits can prevent blowing the 63 fuses.
+          Software may write VAL to zero, but cannot write VAL to a one. When VAL is
+          a 1, DAT reads the corresponding TGG fuses. When VAL is a zero, DAT reads as
+          zeroes. The reset value of this VAL bit is normally its fuse setting (i.e. TGG<63>).
 
       - name: DAT
         bits: 62..0
@@ -400,7 +412,7 @@ registers:
         typical: --
         description: |
           When VAL is clear, DAT will always read as zero, regardless of the value of the TGG<62:0>
-          fuses. When VAL is set, DAT will return the value of the other 63 TGG fuses.
+          fuses. When VAL is set, DAT will return the value of the TGG<62:0> fuses.
 
 
   - name: MIO_FUS_RCMD

@@ -120,6 +120,7 @@ def build_struct(chip_info, struct):
                "name",          # Name of the structure (text)
                "description",   # Optional description (text)
                "fields",        # Structure fields (sub tree)
+               "title",
                "attributes"])   # Optional attributes (sub tree)
     name = struct["name"]
     description = struct.get("description", "")
@@ -174,6 +175,7 @@ def build_csr(chip_info, register, raw):
         check_keys("register[attributes]", register["attributes"], [
                    "arch_max",
                    "dv_force_no_compare",
+                   "dv_uvm_no_create",
                    "exempt_name_length",
                    "min_stride",
                    "mem_to_csr",

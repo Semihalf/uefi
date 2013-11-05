@@ -4,9 +4,10 @@
 name: DFA
 enums:
   - name: DFA_INTSN_E
+    title: DFA Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different DFA generated interrupts.
+    description: Enumerates the different interrupts.
     values:
       - name: DFA_ERROR_DBLOVF
         value: 0x37000
@@ -107,8 +108,9 @@ registers:
           When software writes DLCSTART_BIST=0->1, a BIST is executed for the DLC sub-block RAMs
           which contains DCLK domain asynchronous RAMs. Note the following:
           This bit should only be written after DCLK has been enabled by software and is stable.
-          (See LMC initialization routine for details on how to enable the DDR3 memory (DCLK)--which
-          requires LMC PLL init, clock divider, and proper DLL initialization sequence.)
+          (See LMC initialization routine for details on how to enable the DDR3/4 memory
+          (DCLK)--which requires LMC PLL init, clock divider, and proper DLL initialization
+          sequence.)
 
       - name: REPL_ENA
         bits: 8
@@ -116,17 +118,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Replication Mode Enable
-          For o78: This is used by the memory controller to support graph
-          data in multiple ports (or port sets), so that the least full
-          port can be selected to minimize latency effects.
-          SWNOTE: Using this mode requires the DFA SW compiler and DFA
-          driver to be aware of the address replication changes.
-          This involves changes to the MLOAD/GWALK DFA instruction format
-          (see: IWORD2.SREPL), as well as changes to node arc and metadata
-          definitions which now support an additional REPL field.
-          When clear, replication mode is disabled, and DFA will interpret
-          DFA instructions and node-arc formats which DO NOT have
+          Replication mode enable.
+          This is used by the memory controller to support graph data in multiple ports (or port
+          sets), so that the least full port can be selected to minimize latency effects.
+          Software Note: Using this mode requires the HFA software compiler and HFA driver to be
+          aware of the address replication changes. This involves changes to the MLOAD/GWALK HFA
+          instruction format (See IWORD2.SREPL), as well as changes to node arc and metadata
+          definitions which support an additional REPL field. When clear, replication mode is
+          disabled, and HFA interprets HFA instructions and node-arc formats which do not have
           address replication information.
 
       - name: CLMSKCRIP
@@ -146,35 +145,24 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Encoding which represents #of DTEs to cripple for each
-          cluster. Typically DTE_CLCRIP=0 which enables all DTEs
-          within each cluster. However, when the DFA performance
-          counters are used, SW may want to limit the #of DTEs
-          per cluster available, as there are only 4 parallel
-          performance counters.
-          DTE_CLCRIP | #DTEs crippled(per cluster)
-          ------------+-----------------------------
-          0    |  0      DTE[15:0]:ON
-          1    |  1/2    DTE[15:8]:OFF  /DTE[7:0]:ON
-          2    |  1/4    DTE[15:12]:OFF /DTE[11:0]:ON
-          3    |  3/4    DTE[15:4]:OFF  /DTE[3:0]:ON
-          4    |  1/8    DTE[15:14]:OFF /DTE[13:0]:ON
-          5    |  5/8    DTE[15:6]:OFF  /DTE[5:0]:ON
-          6    |  3/8    DTE[15:10]:OFF /DTE[9:0]:ON
-          7    |  7/8    DTE[15:2]:OFF  /DTE[1:0]:ON
-          NOTE: Higher numbered DTEs are crippled first. For instance,
-          on o78 (with 16 DTEs/cluster), if DTE_CLCRIP=1(1/2), then
-          DTE#s [15:8] within the cluster are crippled and only
-          DTE#s [7:0] are available.
-          IMPNOTE: The encodings are done in such a way as to later
-          be used with fuses (for future o2 revisions which will disable
-          some #of DTEs). Blowing a fuse has the effect that there will
-          always be fewer DTEs available. [ie: we never want a customer
-          to blow additional fuses to get more DTEs].
-          SWNOTE: The MIO_FUS___DFA_NUMDTE_CRIPPLE[2:0] fuse bits will
-          be forced into this register at reset. Any fuse bits that
-          contain '1' will be disallowed during a write and will always
-          be read as '1'."
+          Encoding that represents the number of HTEs to cripple for each cluster. Typically
+          DTE_CLCRIP = 0, which enables all HTEs within each cluster. However, when the HFA
+          performance counters are used, software may want to limit the number of HTEs per cluster
+          available, as there are only four parallel performance counters.
+          DTE_CLCRIP No. of HTEs crippled (per cluster)
+          0 0 HTE[15:0]:ON
+          1 1/2 HTE[15:8]:OFF  /HTE[7:0]:ON
+          2 1/4 HTE[15:12]:OFF /HTE[11:0]:ON
+          3 3/4 HTE[15:4]:OFF  /HTE[3:0]:ON
+          4 1/8 HTE[15:14]:OFF /HTE[13:0]:ON
+          5 5/8 HTE[15:6]:OFF  /HTE[5:0]:ON
+          6 3/8 HTE[15:10]:OFF /HTE[9:0]:ON
+          7 7/8 HTE[15:2]:OFF  /HTE[1:0]:ON
+          Higher numbered HTEs are crippled first. For instance, on CN78XX (with 16 HTEs/cluster),
+          if DTE_CLCRIP = 1 (1/4), then [15:8] within the cluster are crippled and only HTE numbers
+          [7:0] are available.
+          The MIO_FUS_DFA_NUMDTE_CRIPPLE[3:0] fuse bits are forced into this register at reset. Any
+          fuse bits that contain 1 are disallowed during a write and are always read as 1.
 
       - name: DTECLKDIS
         bits: 0
@@ -209,11 +197,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "SBD Debug Entry#
-          INTERNAL:
-          DFA Scoreboard debug control
-          Selects which one of 48 DFA Scoreboard entries is
-          latched into the DFA_SBD_DBG[0-3] registers."
+          Reserved. INTERNAL: DFA Scoreboard debug control. Selects which one of 48 DFA Scoreboard
+          entries is latched into the DFA_SBD_DBG[0-3] registers.
 
       - name: SBDLCK
         bits: 5
@@ -221,15 +206,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DFA Scoreboard LOCK Strobe
-          INTERNAL:
-          DFA Scoreboard debug control
-          When written with a '1', the DFA Scoreboard Debug
-          registers (DFA_SBD_DBG[0-3]) are all locked down.
-          This allows SW to lock down the contents of the entire
-          SBD for a single instant in time. All subsequent reads
-          of the DFA scoreboard registers will return the data
-          from that instant in time.
+          Reserved. INTERNAL: DFA Scoreboard LOCK stribe. When written with a '1', the DFA
+          Scoreboard Debug registers (DFA_SBD_DBG[0-3]) are all locked down. This allows SW to lock
+          down the contents of the entire SBD for a single instant in time. All subsequent reads of
+          the DFA scoreboard registers will return the data from that instant in time.
 
       - name: --
         bits: 4..3
@@ -244,10 +224,9 @@ registers:
         reset: 1
         typical: 1
         description: |
-          NCB-NRP Arbiter Mode
-          (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR
-          NOTE: This should only be written to a different value
-          during power-on SW initialization.
+          Reserved. INTERNAL: NCB-NRP Arbiter Mode.
+          (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR.
+          NOTE: This should only be written to a different value during power-on SW initialization.
 
       - name: QMODE
         bits: 1
@@ -255,10 +234,9 @@ registers:
         reset: 1
         typical: 1
         description: |
-          NCB-NRQ Arbiter Mode
+          Reserved. INTERNAL: NCB-NRQ Arbiter Mode.
           (0=Fixed Priority {LP=IRF,RWF,PRF,HP=GRF}/1=RR
-          NOTE: This should only be written to a different value
-          during power-on SW initialization.
+          NOTE: This should only be written to a different value during power-on SW initialization.
 
       - name: IMODE
         bits: 0
@@ -266,10 +244,9 @@ registers:
         reset: 1
         typical: 1
         description: |
-          NCB-Inbound Arbiter
+          Reserved. INTERNAL: NCB-Inbound Arbiter.
           (0=FP {LP=NRQ,HP=NRP}, 1=RR)
-          NOTE: This should only be written to a different value
-          during power-on SW initialization.
+          NOTE: This should only be written to a different value during power-on SW initialization.
 
 
   - name: DFA_ERROR
@@ -289,7 +266,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: OSM reported an Error with the response data.
+        description: OSM reported an error with the response data.
 
       - name: REPLERR
         bits: 18
@@ -300,8 +277,8 @@ registers:
           HFA illegal replication factor error. HFA only supports 1*, 2*, and 4* port replication.
           Legal configurations for memory are to support 2 port or 4 port configurations.
           The REPLERR interrupt is set in the following illegal configuration cases:
-          An 8x replication factor is detected for any memory reference.
-          A 4x replication factor is detected for any memory reference when only 2 memory ports are
+          An 8* replication factor is detected for any memory reference.
+          A 4* replication factor is detected for any memory reference when only 2 memory ports are
           enabled.
           If REPLERR is set during a HFA graph walk operation, the walk prematurely terminates with
           RWORD0[REA]=ERR. If REPLERR is set during a IOI-direct CSR read access to HFA memory
@@ -313,35 +290,19 @@ registers:
         reset: 0
         typical: 0
         description: |
-          HFA nonexistent memory access. DTEs (and backdoor CSR HFA memory region reads) have access
-          to the following 40bit L2/DRAM address space, which maps to a 38-bit physical DDR3 SDRAM
-          address space [256GB(max)].
+          HFA nonexistent memory access. HTEs (and backdoor CSR HFA memory region reads) have access
+          to the following 40-bit L2/DRAM address space, which maps to a 38-bit physical DDR3/4
+          SDRAM address space.
           DR0: 0x0 0000 0000 0000 to 0x0 0000 0FFF FFFF
-          maps to lower 256MB of physical DDR3 SDRAM
+          maps to lower 256MB of physical DDR3/4 SDRAM
           DR1: 0x0 0000 2000 0000 to 0x0 0020 0FFF FFFF
-          maps to upper 127.75GB of DDR3 SDRAM
-          NOTE: the 2nd 256MB HOLE maps to IO and is unused(nonexistent) for memory.
-
-          L2/DRAM address space                     Physical DDR3 SDRAM Address space
-          (40bit address)                           (38bit address)
-          +-----------+ 0x0040.0FFF.FFFF
-          |           |
-          |   DR1     |                            +-----------+ 0x003F.FFFF.FFFF
-          |           | (256GB-256MB)              |           |
-          |           |                     =>     |   DR1     |
-          +-----------+ 0x0000.1FFF.FFFF           |           | (256GB-256MB)
-          |   HOLE    | 256MB (DO NOT USE)         |           |
-          +-----------+ 0x0000.0FFF.FFFF           +-----------+ 0x0000.0FFF.FFFF
-          |    DR0    | 256MB                      |   DR0     | (256MB)
-          +-----------+ 0x0000.0000.0000           +-----------+ 0x0000.0000.0000
-
-          In the event the DFA generates a reference to the L2/DRAM
-          address hole (0x0000.0FFF.FFFF - 0x0000.1FFF.FFFF) the DFANXM programmable
+          maps to upper 127.75GB of DDR3/4 SDRAM
+          In the event the HFA generates a reference to the L2/DRAM address hole (0x0000.0FFF.FFFF -
+          0x0000.1FFF.FFFF) or to an address above 0x0020.0FFF.FFFF, the DFANXM programmable
           interrupt bit will be set.
           Software Note:
           Both the 1) software HFA graph compiler and the 2) software IOI-direct CSR accesses to HFA
-          memory region must avoid making references to this 2nd 256MB HOLE which is nonexistent
-          memory region.
+          memory region must avoid making references to these nonexistent memory regions.
           If DFANXM is set during a HFA graph walk operation, the walk is prematurely terminated
           with RWORD0[REA]=ERR. If DFANXM is set during a IOI-direct CSR read access to HFA memory
           region, the CSR read response data is forced to
@@ -354,18 +315,16 @@ registers:
         reset: 0
         typical: 0
         description: |
-          If Any of the cluster's detected a Parity error on RAM1
-          this additional bit further specifies that the
-          RAM1 parity error was detected during a CND-RD
-          (Cache Node Metadata Read).
-          INTERNAL: For CNDRD Parity Error, the previous CNA arc fetch
-          information is written to RWORD1+ as follows:
+          If any of the clusters detected a parity error on RAM1, this additional bit further
+          specifies that the RAM1 parity error was detected during a CND-RD (cache node metadata
+          read).
+          This bit is set if ANY node cluster's RAM1 accesses detect a CNDRD error.
+          INTERNAL: For CNDRD Parity Error, the previous CNA arc fetch information is written to
+          RWORD1+ as follows:
           RWORD1+[NTYPE]=MNODE
           RWORD1+[NDNID]=cna.ndnid
           RWORD1+[NHMSK]=cna.hmsk
           RWORD1+[NNPTR]=cna.nnptr[13:0]
-          NOTE: This bit is set if ANY node cluster's RAM1 accesses
-          detect a CNDRD error.
 
       - name: --
         bits: 15
@@ -434,16 +393,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Doorbell Overflow detected - Status bit
-          When set, the 20b accumulated doorbell register
-          had overflowed (SW wrote too many doorbell requests).
-          If the DBLINA had previously been enabled(set),
-          an interrupt will be posted. Software can clear
-          the interrupt by writing a 1 to this register bit.
-          NOTE: Detection of a Doorbell Register overflow
-          is a catastrophic error which may leave the DFA
-          HW in an unrecoverable state.
-          Throws DFA_INTSN_E::DFA_ERROR_DBLOVF.
+          Doorbell overflow detected - status bit. When set, the 20b accumulated doorbell register
+          had overflowed (software wrote too many doorbell requests). If the DBLINA had previously
+          been enabled (set), an interrupt will be posted. Software can clear the interrupt by
+          writing a 1 to this register bit.
+          Detection of a doorbell register overflow is a catastrophic error that may leave the HFA
+          hardware in an unrecoverable state.
 
 
   - name: DFA_DEBUG0
@@ -452,16 +407,12 @@ registers:
     address: 0x1180037000040
     bus: RSL
     description: |
-      "INTERNAL: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
-      are locked down.
-      Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
-      the time of the
-      CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
-      model)
-      on the reads unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has previously been
-      assigned an
-      instruction."
+      When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register are locked
+      down. Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard
+      at the time of the CSR read.
+      VERIFICATION NOTE: Read data is unsafe. X's (undefined data) can propagate (in the behavioral
+      model) on the reads unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has previously been
+      assigned an instruction.
     fields:
       - name: SBD0
         bits: 63..0
@@ -469,8 +420,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "DFA ScoreBoard #0 Data
-          (DFA Scoreboard Debug)
+          DFA ScoreBoard 0 Data (DFA Scoreboard Debug).
           [63:38]   (26) rptr[28:3]: Result Base Pointer (QW-aligned)
           [37:22]   (16) Cumulative Result Write Counter (for HDR write)
           [21]       (1) Waiting for GRdRsp EOT
@@ -492,7 +442,7 @@ registers:
           [3]        (1) Resultant write STF/P Mode
           [2]        (1) Packet Data LDT mode
           [1]        (1) Gather Mode
-          [0]        (1) Valid"
+          [0]        (1) Valid
 
 
   - name: DFA_DEBUG1
@@ -501,16 +451,12 @@ registers:
     address: 0x1180037000048
     bus: RSL
     description: |
-      "INTERNAL: When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
-      are locked down.
-      Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
-      the time of the
-      CSR read.
+      When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register are locked
+      down. Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard
+      at the time of the CSR read.
       VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
-      model)
-      on the reads unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has previously been
-      assigned an
-      instruction."
+      model) on the reads unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has previously been
+      assigned an instruction.
     fields:
       - name: SBD1
         bits: 63..0
@@ -518,11 +464,10 @@ registers:
         reset: --
         typical: --
         description: |
-          "DFA ScoreBoard #1 Data
-          DFA Scoreboard Debug Data
-          [63:56]   (8) UNUSED
-          [55:16]  (40) Packet Data Pointer
-          [15:0]   (16) Packet Data Counter"
+          DFA Scoreboard 1 Debug Data.
+          [63:56]   (8) Reserved.
+          [55:16]  (40) Packet Data Pointer.
+          [15:0]   (16) Packet Data Counter.
 
 
   - name: DFA_DEBUG2
@@ -530,16 +475,11 @@ registers:
     address: 0x1180037000050
     bus: RSL
     description: |
-      When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
-      are locked down.
-      Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
-      the time of the
-      CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
-      model)
-      on the reads unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has previously been
-      assigned an
-      instruction.
+      When DFA_CONTROL[SBDLCK] is written to 1, the contents of this register are locked down.
+      Otherwise, the contents of this register are the active contents of the HFA scoreboard at the
+      time of the CSR read. VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can
+      propagate (in the behavioral model) on the reads unless the DTE Engine specified by
+      DFA_CONTROL[SBDNUM] has previously been assigned an instruction.
     fields:
       - name: SBD2
         bits: 63..0
@@ -548,10 +488,10 @@ registers:
         typical: --
         description: |
           HFA scoreboard 2 data.
-          <63:45> (19) UNUSED
-          <44:42> (3) Instruction type
-          <41:5> (37) rwptr<39:3>: Result write pointer
-          <4:0> (5) prwcnt<4:0>: Pending result write counter
+          <63:45> (19) Reserved.
+          <44:42> (3) Instruction type.
+          <41:5> (37) rwptr<39:3>: Result write pointer.
+          <4:0> (5) prwcnt<4:0>: Pending result write counter.
 
 
   - name: DFA_DEBUG3
@@ -559,16 +499,11 @@ registers:
     address: 0x1180037000058
     bus: RSL
     description: |
-      When the DFA_CONTROL[SBDLCK] bit is written '1', the contents of this register
-      are locked down.
-      Otherwise, the contents of this register are the 'active' contents of the DFA Scoreboard at
-      the time of the
-      CSR read.
-      VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can propagate (in the behavioral
-      model)
-      on the reads unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has previously been
-      assigned an
-      instruction.
+      When DFA_CONTROL[SBDLCK] is written to 1, the contents of this register are locked down.
+      Otherwise, the contents of this register are the active contents of the HFA Scoreboard at the
+      time of the CSR read. VERIFICATION NOTE: Read data is unsafe. X's(undefined data) can
+      propagate (in the behavioral model) on the reads unless the DTE Engine specified by
+      DFA_CONTROL[SBDNUM] has previously been assigned an instruction.
     fields:
       - name: SBD3
         bits: 63..0
@@ -577,9 +512,9 @@ registers:
         typical: --
         description: |
           HFA scoreboard 3 data.
-          <63:52> (11) rptr<39:29>: Result base pointer (QW-aligned)
-          <52:16> (37) glptr<39:3>: Gather list pointer
-          <15:0> (16) glcnt Gather list counter
+          <63:52> (11) rptr<39:29>: Result base pointer (QW-aligned).
+          <52:16> (37) glptr<39:3>: Gather list pointer.
+          <15:0> (16) glcnt Gather list counter.
 
 
   - name: DFA_DTCFADR
@@ -587,13 +522,8 @@ registers:
     address: 0x1180037000060
     bus: RSL
     description: |
-      "DFA Node Cache Failing Address/Control Error Capture information.
-      This register contains useful information to help in isolating a Node Cache RAM failure.
-      NOTE: The first detected PERR failure is captured in DFA_DTCFADR (locked down), until the
-      corresponding PERR Interrupt is cleared by writing one (W1C). (see: DFA_ERR[DC0PERR[2:0]]).
-      NOTE: In the rare event that multiple parity errors are detected in the same cycle from
-      multiple
-      clusters, the FADR register will be locked down for the least signicant cluster # (0->3)."
+      This register contains HFA graph-cache failing address/control error capture information. It
+      contains useful information to help in isolating a graph-cache RAM failure.
     fields:
       - name: --
         bits: 63..44
@@ -694,13 +624,13 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Ending DNODE Selector
-          When ENODE=0/1(*DNODE), this field is used to further
-          specify the Ending DNODE transition sub-type:
+          Ending DNODE Selector.
+          When ENODE=0/1(*DNODE), this field is used to further specify the Ending DNODE transition
+          su.b-type:
           0: ALL DNODE sub-types
-          1: ->D2e (explicit DNODE transition node-arc alone transitions to DNODE)
-          2: ->D2i (implicit DNODE transition:arc-present triggers transition)
-          3: ->D1r (rescan DNODE transition)
+          1: ->D2e (explicit DNODE transition node-arc alone transitions to DNODE).
+          2: ->D2i (implicit DNODE transition:arc-present triggers transition).
+          3: ->D1r (rescan DNODE transition).
 
       - name: ENODE
         bits: 19..16
@@ -709,9 +639,8 @@ registers:
         typical: 0x0
         description: |
           Ending Node Selector
-          When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the ENODE
-          field is used to select Ending Node, and the SNODE
-          field is used to select the Starting Node.
+          When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the ENODE field is used to select Ending
+          Node, and the SNODE field is used to select the Starting Node.
           0: LDNODE
           1: SDNODE
           2: LCNODE
@@ -730,9 +659,8 @@ registers:
         typical: 0x0
         description: |
           Starting Node Selector
-          When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the SNODE
-          field is used to select Starting Node, and the ENODE
-          field is used to select the Ending Node.
+          When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the SNODE field is used to select Starting
+          Node, and the ENODE field is used to select the Ending Node.
           0: LDNODE
           1: SDNODE
           2: LCNODE
@@ -872,7 +800,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "Performance Counter#0 Event Selector
+          "Performance Counter 0 Event Selector.
           // Events [0-31] are based on PMODE(0:per cluster-DTE 1:per graph)
           0:  #Total Cycles
           1:  #LDNODE visits
@@ -900,7 +828,7 @@ registers:
           22: #cycles cluster is busy
           23: #GWALK instructions
           24: #CLOAD instructions
-          25: #MLOAD instructions  [NOTE: If PMODE = 1 (per-graph) the MLOAD IWORD0.VGID is used to
+          25: #MLOAD instructions [NOTE: If PMODE = 1 (per-graph) the MLOAD IWORD0.VGID is used to
           discern graph number].
           26: #GFREE instructions
           27-30: Reserved
@@ -977,7 +905,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "Performance Counter#1 Event Selector
+          "Performance Counter 1 Event Selector.
           0:  #Cycles
           1:  #LDNODE visits
           2:  #SDNODE visits
@@ -1077,7 +1005,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "Performance Counter#2 Event Selector
+          "Performance Counter 2 Event Selector.
           0:  #Cycles
           1:  #LDNODE visits
           2:  #SDNODE visits
@@ -1177,7 +1105,7 @@ registers:
         reset: --
         typical: --
         description: |
-          "Performance Counter#3 Event Selector
+          "Performance Counter 3 Event Selector.
           0:  #Cycles
           1:  #LDNODE visits
           2:  #SDNODE visits
@@ -1287,10 +1215,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for MRP RAM(s) (per-DLC)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST results for MRP RAM(s) (per-DLC)
 
       - name: GFB
         bits: 27..24
@@ -1304,10 +1229,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for STX3 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST Results for STX3 RAM(s)
 
       - name: STX2
         bits: 21..20
@@ -1335,10 +1257,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Bist Results for DTX3 RAM(s)
-          0: GOOD (or bist in progress/never run)
-          1: BAD
+        description: BIST Results for DTX3 RAM(s)
 
       - name: DTX2
         bits: 13..12
@@ -1398,30 +1317,21 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#3 Bist Results for RAM3 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 3 BIST results for RAM3 RAM
 
       - name: DC3RAM2
         bits: 22
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#3 Bist Results for RAM2 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 3 BIST results for RAM2 RAM
 
       - name: DC3RAM1
         bits: 21
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          "Cluster#3 Bist Results for RAM1 RAM
-          0: GOOD (or bist in progress/never run)
-          1: BAD"
+        description: Cluster 3 BIST results for RAM1 RAM
 
       - name: DLC1RAM
         bits: 20
@@ -1556,8 +1466,8 @@ registers:
     bus: NCB
     description: |
       To write to DFA_DBELL, a device issues an IOBST request directed at the HFA with addr[34:33] =
-      0x0. To read the DFA_DBELL register, a device issues an IOBLD64 request directed at the HFA
-      with addr[34:33] = 0x0.
+      0x0. To read DFA_DBELL, a device issues an IOBLD64 request directed at the HFA with
+      addr[34:33] = 0x0.
       If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90]= 'HFA HTE
       disable' is blown, read/write operations to DFA_DBELL do not take effect.
     fields:
@@ -1576,8 +1486,8 @@ registers:
         description: |
           Represents the cumulative total of pending HFA instructions that software has previously
           written into the HFA instruction FIFO (DIF) in main memory. Each HFA instruction contains
-          a fixed size 64B instruction word which is executed by the HFA hardware.
-          The DBL register can hold up to 1M-1 (220-1) pending HFA instruction requests. During a
+          a fixed size 64-byte instruction word which is executed by the HFA hardware.
+          The DBL register can hold up to 1M-1 (2^20-1) pending HFA instruction requests. During a
           read (by software), the 'most recent' contents of the DFA_DBELL register are returned at
           the time the IOI-INB bus is driven.
           Since HFA hardware updates this register, its contents are unpredictable in software.
@@ -1588,11 +1498,11 @@ registers:
     address: 0x1370200000000
     bus: NCB
     description: |
-      To write to the DFA_DIFRDPTR register, a device issues an IOBST request directed at the HFA
-      with addr[34:33] = 0x1. To read the DFA_DIFRDPTR register, a device issues an IOBLD64 request
-      directed at the HFA with addr[34:33] = 0x1.
+      To write to DFA_DIFRDPTR, a device issues an IOBST request directed at the HFA with
+      addr[34:33] = 0x1. To read DFA_DIFRDPTR, a device issues an IOBLD64 request directed at the
+      HFA with addr[34:33] = 0x1.
       If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] = 'HFA HTE
-      disable' is blown, read/write operations to the DFA_DIFRDPTR register do not take effect.
+      disable' is blown, read/write operations to DFA_DIFRDPTR do not take effect.
     fields:
       - name: --
         bits: 63..42
@@ -1607,12 +1517,12 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Represents the 64B-aligned address of the current instruction in the HFA Instruction
+          Represents the 64-byte-aligned address of the current instruction in the HFA Instruction
           FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
           maintained thereafter by HFA hardware. During the seed write operation (by software),
-          RDPTR<6>=0, since HFA instruction chunks must be 128B-aligned. During a read
+          RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
           operation (by software), the most-recent contents of the RDPTR register are returned at
-          the time the NCB-INB bus is driven.
+          the time the IOI-INB bus is driven.
           Since HFA hardware updates this register, its contents are unpredictable in software
           (unless it is guaranteed that no new doorbell register write operations have occurred and
           the doorbell register is read as zero).
@@ -1630,13 +1540,12 @@ registers:
     address: 0x1370600000000
     bus: NCB
     description: |
-      To write to the DFA_DIFCTL register, a device issues an IOBST request directed at the HFA with
-      addr[34:32] = 0x6. To read the DFA_DIFCTL register, a device issues an IOBLD64 request
-      directed at the HFA with addr[34:32] = 0x6. This register is intended to only be written once
-      (at power-up). Any future write operations could cause the HFA and FPA hardware to become
-      unpredictable.
-      If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] =  'HFA HTE
-      disable' is blown, read/write operations to the DFA_DIFCTL register do not take effect.
+      To write to DFA_DIFCTL, a device issues an IOBST request directed at the HFA with addr[34:32]
+      = 0x6. To read DFA_DIFCTL, a device issues an IOBLD64 request directed at the HFA with
+      addr[34:32] = 0x6. This register is intended to only be written once (at power-up). Any future
+      write operations could cause the HFA and FPA hardware to become unpredictable.
+      If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] = 'HFA HTE
+      disable' is blown, read/write operations to DFA_DIFCTL do not take effect.
     attributes:
       dv_fc_scratch: "ALL"
     fields:
@@ -1653,10 +1562,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Represents the 16bit Aura-id  used by DFA HW
-          when the DFA instruction chunk is recycled back
-          to the Free Page List maintained by the FPA HW
-          (once the DFA instruction has been issued).
+          Represents the 16-bit Aura ID used by HFA hardware when the HFA instruction chunk is
+          recycled back to the free page list maintained by the FPA hardware (once the HFA
+          instruction has been issued).
 
       - name: MSEGBASE
         bits: 25..20
@@ -1678,12 +1586,11 @@ registers:
         reset: 1
         typical: --
         description: |
-          Load Don't Write Back.
-          When set, the HW will issue LDWB command towards the cache when
-          fetching last word of instructions, as a result the line will not be written back when
+          Load don't write back. When set, the hardware issues LDWB command towards the cache when
+          fetching the last word of instructions; as a result the line will not be written back when
           replaced.
-          When clear, the HW will issue regular load towards cache which will cause
-          the line to be written back before being replaced.
+          When clear, the hardware issues regular load towards the cache, which will cause the line
+          to be written back before being replaced.
 
       - name: --
         bits: 11..9
@@ -1710,7 +1617,7 @@ registers:
 
 
   - name: DFA_MEMHIDAT
-    title: DFA NCB-Direct CSR access to DFM Memory Space (High QW)
+    title: HFA NCB-Direct Memory Space Register
     address: 0x1370700000000
     bus: NCB
     fields:

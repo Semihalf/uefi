@@ -38,6 +38,7 @@ enums:
 
 
   - name: ASE_INTSN_E
+    title: ASE Interrupt Source Enumeration
     attributes:
       width: "20"
     description: |

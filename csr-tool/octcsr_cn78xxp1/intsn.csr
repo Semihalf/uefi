@@ -3440,6 +3440,136 @@ enums:
           reg_name: "PKI_ECC_INT1"
         description: See PKI_ECC_INT1[PKTWQ_DBE].
 
+      - name: PKI_ECC1_PLC_SBE
+        value: 0x44112
+        attributes:
+          bit_name: "PLC_SBE"
+          bit_num: "18"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[PLC_SBE].
+
+      - name: PKI_ECC1_PLC_DBE
+        value: 0x44113
+        attributes:
+          bit_name: "PLC_DBE"
+          bit_num: "19"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[PLC_DBE].
+
+      - name: PKI_ECC1_BPID_SBE
+        value: 0x4411A
+        attributes:
+          bit_name: "BPID_SBE"
+          bit_num: "26"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[BPID_SBE].
+
+      - name: PKI_ECC1_BPID_DBE
+        value: 0x4411B
+        attributes:
+          bit_name: "BPID_DBE"
+          bit_num: "27"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[BPID_DBE].
+
+      - name: PKI_ECC1_DOA_SBE
+        value: 0x4411C
+        attributes:
+          bit_name: "DOA_SBE"
+          bit_num: "28"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[DOA_SBE].
+
+      - name: PKI_ECC1_DOA_DBE
+        value: 0x4411D
+        attributes:
+          bit_name: "DOA_DBE"
+          bit_num: "29"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[DOA_DBE].
+
+      - name: PKI_ECC1_WQEOUT_SBE
+        value: 0x4411E
+        attributes:
+          bit_name: "WQEOUT_SBE"
+          bit_num: "30"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[WQEOUT_SBE].
+
+      - name: PKI_ECC1_WQEOUT_DBE
+        value: 0x4411F
+        attributes:
+          bit_name: "WQEOUT_DBE"
+          bit_num: "31"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[WQEOUT_DBE].
+
+      - name: PKI_ECC1_SWS_SBE
+        value: 0x44120
+        attributes:
+          bit_name: "SWS_SBE"
+          bit_num: "32"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[SWS_SBE].
+
+      - name: PKI_ECC1_SWS_DBE
+        value: 0x44121
+        attributes:
+          bit_name: "SWS_DBE"
+          bit_num: "33"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pbe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000048)"
+          reg_name: "PKI_ECC_INT1"
+        description: See PKI_ECC_INT1[SWS_DBE].
+
       - name: PKI_ECC2_IMEM_SBE
         value: 0x44200
         attributes:
@@ -5589,32 +5719,6 @@ enums:
           reg_name: "L2C_CBC(0..3)_INT"
         description: See L2C_CBC(0..3)_INT[RSDDBE].
 
-      - name: L2C_CBC(0..3)_INT_IOCCMDSBE
-        value: 0x80C02 | a<<8
-        attributes:
-          bit_name: "IOCCMDSBE"
-          bit_num: "2"
-          blk_enum_name: "L2C_INTSN_E"
-          intsn_lsb_mismatch: "True"
-          major_name: "L2C"
-          major_val: "(0x80)"
-          reg_addr: "(0x1180080E00028+a*0x40000)"
-          reg_name: "L2C_CBC(0..3)_INT"
-        description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
-
-      - name: L2C_CBC(0..3)_INT_IOCCMDDBE
-        value: 0x80C03 | a<<8
-        attributes:
-          bit_name: "IOCCMDDBE"
-          bit_num: "3"
-          blk_enum_name: "L2C_INTSN_E"
-          intsn_lsb_mismatch: "True"
-          major_name: "L2C"
-          major_val: "(0x80)"
-          reg_addr: "(0x1180080E00028+a*0x40000)"
-          reg_name: "L2C_CBC(0..3)_INT"
-        description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
-
       - name: L2C_CBC(0..3)_INT_MIBSBE
         value: 0x80C04 | a<<8
         attributes:
@@ -5640,6 +5744,32 @@ enums:
           reg_addr: "(0x1180080E00028+a*0x40000)"
           reg_name: "L2C_CBC(0..3)_INT"
         description: See L2C_CBC(0..3)_INT[MIBDBE].
+
+      - name: L2C_CBC(0..3)_INT_IOWRDISOCI
+        value: 0x80C06 | a<<8
+        attributes:
+          bit_name: "IOWRDISOCI"
+          bit_num: "7"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[IOWRDISOCI].
+
+      - name: L2C_CBC(0..3)_INT_IORDDISOCI
+        value: 0x80C07 | a<<8
+        attributes:
+          bit_name: "IORDDISOCI"
+          bit_num: "6"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[IORDDISOCI].
 
       - name: LMC(0..3)_INT_NXM_WR_ERR
         value: 0x88000 + a*0x1000
@@ -5842,6 +5972,7 @@ enums:
           bit_name: "AERI"
           bit_num: "0"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5854,6 +5985,7 @@ enums:
           bit_name: "SE"
           bit_num: "1"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5866,6 +5998,7 @@ enums:
           bit_name: "PMEI"
           bit_num: "2"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5878,6 +6011,7 @@ enums:
           bit_name: "UP_B1"
           bit_num: "4"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5890,6 +6024,7 @@ enums:
           bit_name: "UP_B2"
           bit_num: "5"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5902,6 +6037,7 @@ enums:
           bit_name: "UP_BX"
           bit_num: "6"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5914,6 +6050,7 @@ enums:
           bit_name: "UN_B1"
           bit_num: "7"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5926,6 +6063,7 @@ enums:
           bit_name: "UN_B2"
           bit_num: "8"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5938,6 +6076,7 @@ enums:
           bit_name: "UN_BX"
           bit_num: "9"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5950,6 +6089,7 @@ enums:
           bit_name: "RDLK"
           bit_num: "11"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5962,6 +6102,7 @@ enums:
           bit_name: "CRS_ER"
           bit_num: "12"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5974,6 +6115,7 @@ enums:
           bit_name: "CRS_DR"
           bit_num: "13"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5986,6 +6128,7 @@ enums:
           bit_name: "INTA"
           bit_num: "60"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5998,6 +6141,7 @@ enums:
           bit_name: "INTB"
           bit_num: "61"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -6010,6 +6154,7 @@ enums:
           bit_name: "INTC"
           bit_num: "62"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -6022,6 +6167,7 @@ enums:
           bit_name: "INTD"
           bit_num: "63"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -6034,6 +6180,7 @@ enums:
           bit_name: "SPOISON"
           bit_num: "0"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6046,6 +6193,7 @@ enums:
           bit_name: "RTLPMAL"
           bit_num: "1"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6058,6 +6206,7 @@ enums:
           bit_name: "RTLPLLE"
           bit_num: "2"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6070,6 +6219,7 @@ enums:
           bit_name: "RECRCE"
           bit_num: "3"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6082,6 +6232,7 @@ enums:
           bit_name: "RPOISON"
           bit_num: "4"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6094,6 +6245,7 @@ enums:
           bit_name: "RCEMRC"
           bit_num: "5"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6106,6 +6258,7 @@ enums:
           bit_name: "RNFEMRC"
           bit_num: "6"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6118,6 +6271,7 @@ enums:
           bit_name: "RFEMRC"
           bit_num: "7"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6130,6 +6284,7 @@ enums:
           bit_name: "RPMERC"
           bit_num: "8"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6142,6 +6297,7 @@ enums:
           bit_name: "RPTAMRC"
           bit_num: "9"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6154,6 +6310,7 @@ enums:
           bit_name: "RUMEP"
           bit_num: "10"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6166,6 +6323,7 @@ enums:
           bit_name: "RVDM"
           bit_num: "11"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6178,6 +6336,7 @@ enums:
           bit_name: "ACTO"
           bit_num: "12"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6190,6 +6349,7 @@ enums:
           bit_name: "RTE"
           bit_num: "13"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6202,6 +6362,7 @@ enums:
           bit_name: "MRE"
           bit_num: "14"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6214,6 +6375,7 @@ enums:
           bit_name: "RDWDLE"
           bit_num: "15"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6226,6 +6388,7 @@ enums:
           bit_name: "RTWDLE"
           bit_num: "16"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6238,6 +6401,7 @@ enums:
           bit_name: "DPEOOSD"
           bit_num: "17"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6250,6 +6414,7 @@ enums:
           bit_name: "FCPVWT"
           bit_num: "18"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6262,6 +6427,7 @@ enums:
           bit_name: "RPE"
           bit_num: "19"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6274,6 +6440,7 @@ enums:
           bit_name: "FCUV"
           bit_num: "20"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6286,6 +6453,7 @@ enums:
           bit_name: "RQO"
           bit_num: "21"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6298,6 +6466,7 @@ enums:
           bit_name: "RAUC"
           bit_num: "22"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6310,6 +6479,7 @@ enums:
           bit_name: "RACUR"
           bit_num: "23"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6322,6 +6492,7 @@ enums:
           bit_name: "RACCA"
           bit_num: "24"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6334,6 +6505,7 @@ enums:
           bit_name: "CAAR"
           bit_num: "25"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6346,6 +6518,7 @@ enums:
           bit_name: "RARWDNS"
           bit_num: "26"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6358,6 +6531,7 @@ enums:
           bit_name: "RAMTLP"
           bit_num: "27"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6370,6 +6544,7 @@ enums:
           bit_name: "RACPP"
           bit_num: "28"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6382,6 +6557,7 @@ enums:
           bit_name: "RAWWPP"
           bit_num: "29"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6394,6 +6570,7 @@ enums:
           bit_name: "ECRC_E"
           bit_num: "30"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6406,6 +6583,7 @@ enums:
           bit_name: "LOFP"
           bit_num: "31"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6418,6 +6596,7 @@ enums:
           bit_name: "DATQ_PE"
           bit_num: "33"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6430,6 +6609,7 @@ enums:
           bit_name: "P_D0_SBE"
           bit_num: "34"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6442,6 +6622,7 @@ enums:
           bit_name: "P_D0_DBE"
           bit_num: "35"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6454,6 +6635,7 @@ enums:
           bit_name: "P_D1_SBE"
           bit_num: "36"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6466,6 +6648,7 @@ enums:
           bit_name: "P_D1_DBE"
           bit_num: "37"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6478,6 +6661,7 @@ enums:
           bit_name: "P_C_SBE"
           bit_num: "38"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6490,6 +6674,7 @@ enums:
           bit_name: "P_C_DBE"
           bit_num: "39"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6502,6 +6687,7 @@ enums:
           bit_name: "N_D0_SBE"
           bit_num: "40"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6514,6 +6700,7 @@ enums:
           bit_name: "N_D0_DBE"
           bit_num: "41"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6526,6 +6713,7 @@ enums:
           bit_name: "N_D1_SBE"
           bit_num: "42"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6538,6 +6726,7 @@ enums:
           bit_name: "N_D1_DBE"
           bit_num: "43"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6550,6 +6739,7 @@ enums:
           bit_name: "N_C_SBE"
           bit_num: "44"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6562,6 +6752,7 @@ enums:
           bit_name: "N_C_DBE"
           bit_num: "45"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6574,6 +6765,7 @@ enums:
           bit_name: "C_D0_SBE"
           bit_num: "46"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6586,6 +6778,7 @@ enums:
           bit_name: "C_D0_DBE"
           bit_num: "47"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6598,6 +6791,7 @@ enums:
           bit_name: "C_D1_SBE"
           bit_num: "48"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6610,6 +6804,7 @@ enums:
           bit_name: "C_D1_DBE"
           bit_num: "49"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6622,6 +6817,7 @@ enums:
           bit_name: "C_C_SBE"
           bit_num: "50"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6634,6 +6830,7 @@ enums:
           bit_name: "C_C_DBE"
           bit_num: "51"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6646,6 +6843,7 @@ enums:
           bit_name: "RTRY_SBE"
           bit_num: "52"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6658,6 +6856,7 @@ enums:
           bit_name: "RTRY_DBE"
           bit_num: "53"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6670,6 +6869,7 @@ enums:
           bit_name: "QHDR_B0_SBE"
           bit_num: "54"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6682,6 +6882,7 @@ enums:
           bit_name: "QHDR_B0_DBE"
           bit_num: "55"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6694,6 +6895,7 @@ enums:
           bit_name: "QHDR_B1_SBE"
           bit_num: "56"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"
@@ -6706,6 +6908,7 @@ enums:
           bit_name: "QHDR_B1_DBE"
           bit_num: "57"
           blk_enum_name: "PEM_INTSN_E"
+          cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0+a*0x1000000)"

@@ -1473,7 +1473,7 @@ registers:
       Resets to all 1's when REMOTE_BOOT is enabled, 0xe otherwise.  Writes to this register should
       occur
       only if the CIU_PP_RST_PENDING register is cleared.
-      On pass 2, RST_PP_POWER register can be statically set and writes to this register will
+      On 70XX pass 2, RST_PP_POWER register can be statically set and writes to this register will
       automatically enable/disable power
       saving when RST_PP_POWER[GATE] is enabled.
     fields:
@@ -1644,7 +1644,8 @@ registers:
     description: |
       This register contains the reset status for each core. A 1 indicated the core is waiting to
       change it's reset state.
-      (Pass 2) Normally a reset change occurs immediately but if RST_PP_POWER[GATE] bit is set and
+      On 70XX pass 2, normally a reset change occurs immediately but if RST_PP_POWER[GATE] bit is
+      set and
       the core is released from reset
       a delay of 64K core clocks per PP will occur to satisify power management.
     fields:
@@ -3187,7 +3188,7 @@ registers:
       - name: NANOSEC
         bits: 63..0
         access: R/W
-        reset: 0xffffffffffffffffL
+        reset: all-ones
         typical: 0x0
         description: Nanoseconds
 
@@ -3266,7 +3267,7 @@ registers:
       - name: NANOSEC
         bits: 63..0
         access: R/W
-        reset: 0xffffffffffffffffL
+        reset: all-ones
         typical: 0x0
         description: Nanoseconds
 
@@ -10727,9 +10728,9 @@ registers:
           following pattern will be output:
           BOOT_AD[7:0] pulled up to 1
           BOOT_CE_N[7:0] driven to 1
-          BOOT_ALE[0] driven to 0
-          BOOT_OE_L driven to 1
-          BOOT_WE_L driven to 1
+          BOOT_ALE[0] driven to 1
+          BOOT_OE_L driven to 0
+          BOOT_WE_L driven to 0
 
       - name: --
         bits: 15..5

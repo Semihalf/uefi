@@ -14,6 +14,7 @@ description: |
     RLK2 CSRs 0x1C000 - 0x1DFFF
 enums:
   - name: OCX_INTSN_E
+    title: OCX Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from OCX.

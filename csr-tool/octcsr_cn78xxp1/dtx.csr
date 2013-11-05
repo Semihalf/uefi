@@ -4,13 +4,15 @@
 name: DTX
 registers:
   - name: DTX_LAP(0..1)_SEL(0..1)
-    title: DTX LAP(0..1) Select Register
-    address: 0x11800FE000000 + ((0x0C + (a)) << 15) + (b*8)
+    title: DTX LAP Select Register
+    address: 0x11800FE060000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -26,13 +28,15 @@ registers:
 
 
   - name: DTX_LAP(0..1)_ENA(0..1)
-    title: DTX LAP(0..1) Data Enable Register
-    address: 0x11800FE000020 + ((0x0C + (a)) << 15) + (b*8)
+    title: DTX LAP Data Enable Register
+    address: 0x11800FE060020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -50,13 +54,15 @@ registers:
 
 
   - name: DTX_LAP(0..1)_DAT(0..1)
-    title: DTX LAP(0..1) Raw Data Register
-    address: 0x11800FE000040 + ((0x0C + (a)) << 15) + (b*8)
+    title: DTX LAP Raw Data Register
+    address: 0x11800FE060040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -74,13 +80,15 @@ registers:
 
 
   - name: DTX_LAP(0..1)_CTL
-    title: DTX LAP(0..1) Control Register
-    address: 0x11800FE000060 + ((0x0C + (a)) << 15)
+    title: DTX LAP Control Register
+    address: 0x11800FE060060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -94,7 +102,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -117,13 +125,15 @@ registers:
 
 
   - name: DTX_LAP(0..1)_BCST_RSP
-    title: DTX LAP(0..1) Control Register
-    address: 0x11800FE000080 + ((0x0C + (a)) << 15)
+    title: DTX LAP Control Register
+    address: 0x11800FE060080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     fields:
       - name: --
         bits: 63..1
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -138,19 +148,19 @@ registers:
 
   - name: DTX_OCX_TOP_DTXDID_SEL(0..1)
     title: DTX OCX_TOP_DTXDID Select Register
-    address: 0x11800FE000000 | ((17) << 15)|a<<3
+    address: 0x11800FE088000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_OCX_TOP_DTXDID_ENA(0..1)
     title: DTX OCX_TOP_DTXDID Data Enable Register
-    address: 0x11800FE000020 | ((17) << 15)|a<<3
+    address: 0x11800FE088020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_OCX_TOP_DTXDID_DAT(0..1)
     title: DTX OCX_TOP_DTXDID Raw Data Register
-    address: 0x11800FE000040 | ((17) << 15)|a<<3
+    address: 0x11800FE088040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -166,21 +176,51 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_LBK_SEL(0..1)
+    title: DTX LBK Select Register
+    address: 0x11800FE090000 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_LBK_ENA(0..1)
+    title: DTX LBK Data Enable Register
+    address: 0x11800FE090020 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_LBK_DAT(0..1)
+    title: DTX LBK Raw Data Register
+    address: 0x11800FE090040 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_LBK_CTL
+    title: DTX LBK Control Register
+    address: 0x11800FE090060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_LBK_BCST_RSP
+    title: DTX LBK Control Register
+    address: 0x11800FE090080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_ILK_SEL(0..1)
     title: DTX ILK Select Register
-    address: 0x11800FE000000 | ((20) << 15)|a<<3
+    address: 0x11800FE0A0000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ILK_ENA(0..1)
     title: DTX ILK Data Enable Register
-    address: 0x11800FE000020 | ((20) << 15)|a<<3
+    address: 0x11800FE0A0020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_ILK_DAT(0..1)
     title: DTX ILK Raw Data Register
-    address: 0x11800FE000040 | ((20) << 15)|a<<3
+    address: 0x11800FE0A0040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -198,19 +238,19 @@ registers:
 
   - name: DTX_ILA_SEL(0..1)
     title: DTX ILA Select Register
-    address: 0x11800FE000000 | ((23) << 15)|a<<3
+    address: 0x11800FE0B8000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ILA_ENA(0..1)
     title: DTX ILA Data Enable Register
-    address: 0x11800FE000020 | ((23) << 15)|a<<3
+    address: 0x11800FE0B8020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_ILA_DAT(0..1)
     title: DTX ILA Raw Data Register
-    address: 0x11800FE000040 | ((23) << 15)|a<<3
+    address: 0x11800FE0B8040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -226,111 +266,101 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
-  - name: DTX_FPA_SEL(0..1)
-    title: DTX FPA Select Register
-    address: 0x11800FE000000 | ((40) << 15)|a<<3
-    bus: RSL
-    inherits: DTX_LAP(0..1)_SEL(0..1)
-
-  - name: DTX_FPA_ENA(0..1)
-    title: DTX FPA Data Enable Register
-    address: 0x11800FE000020 | ((40) << 15)|a<<3
-    bus: RSL
-    inherits: DTX_LAP(0..1)_ENA(0..1)
-
-  - name: DTX_FPA_DAT(0..1)
-    title: DTX FPA Raw Data Register
-    address: 0x11800FE000040 | ((40) << 15)|a<<3
-    bus: RSL
-    inherits: DTX_LAP(0..1)_DAT(0..1)
-
-  - name: DTX_FPA_CTL
-    title: DTX FPA Control Register
-    address: 0x11800FE140060
-    bus: RSL
-    inherits: DTX_LAP(0..1)_CTL
-
-  - name: DTX_FPA_BCST_RSP
-    title: DTX FPA Control Register
-    address: 0x11800FE140080
-    bus: RSL
-    inherits: DTX_LAP(0..1)_BCST_RSP
-
   - name: DTX_OCX_LNK_DTXDID(0..2)_SEL(0..1)
-    title: DTX OCX_LNK_DTXDID(0..2) Select Register
-    address: 0x11800FE000000 + ((0x30 + (a)) << 15) + (b*8)
+    title: DTX OCX_LNK_DTXDID Select Register
+    address: 0x11800FE180000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_OCX_LNK_DTXDID(0..2)_ENA(0..1)
-    title: DTX OCX_LNK_DTXDID(0..2) Data Enable Register
-    address: 0x11800FE000020 + ((0x30 + (a)) << 15) + (b*8)
+    title: DTX OCX_LNK_DTXDID Data Enable Register
+    address: 0x11800FE180020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_OCX_LNK_DTXDID(0..2)_DAT(0..1)
-    title: DTX OCX_LNK_DTXDID(0..2) Raw Data Register
-    address: 0x11800FE000040 + ((0x30 + (a)) << 15) + (b*8)
+    title: DTX OCX_LNK_DTXDID Raw Data Register
+    address: 0x11800FE180040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_OCX_LNK_DTXDID(0..2)_CTL
-    title: DTX OCX_LNK_DTXDID(0..2) Control Register
-    address: 0x11800FE000060 + ((0x30 + (a)) << 15)
+    title: DTX OCX_LNK_DTXDID Control Register
+    address: 0x11800FE180060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_OCX_LNK_DTXDID(0..2)_BCST_RSP
-    title: DTX OCX_LNK_DTXDID(0..2) Control Register
-    address: 0x11800FE000080 + ((0x30 + (a)) << 15)
+    title: DTX OCX_LNK_DTXDID Control Register
+    address: 0x11800FE180080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_OCX_OLE(0..2)_SEL(0..1)
-    title: DTX OCX_OLE(0..2) Select Register
-    address: 0x11800FE000000 + ((0x34 + (a)) << 15) + (b*8)
+    title: DTX OCX_OLE Select Register
+    address: 0x11800FE1A0000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_OCX_OLE(0..2)_ENA(0..1)
-    title: DTX OCX_OLE(0..2) Data Enable Register
-    address: 0x11800FE000020 + ((0x34 + (a)) << 15) + (b*8)
+    title: DTX OCX_OLE Data Enable Register
+    address: 0x11800FE1A0020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_OCX_OLE(0..2)_DAT(0..1)
-    title: DTX OCX_OLE(0..2) Raw Data Register
-    address: 0x11800FE000040 + ((0x34 + (a)) << 15) + (b*8)
+    title: DTX OCX_OLE Raw Data Register
+    address: 0x11800FE1A0040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_OCX_OLE(0..2)_CTL
-    title: DTX OCX_OLE(0..2) Control Register
-    address: 0x11800FE000060 + ((0x34 + (a)) << 15)
+    title: DTX OCX_OLE Control Register
+    address: 0x11800FE1A0060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_OCX_OLE(0..2)_BCST_RSP
-    title: DTX OCX_OLE(0..2) Control Register
-    address: 0x11800FE000080 + ((0x34 + (a)) << 15)
+    title: DTX OCX_OLE Control Register
+    address: 0x11800FE1A0080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_DFA_SEL(0..1)
     title: DTX DFA Select Register
-    address: 0x11800FE000000 | ((55) << 15)|a<<3
+    address: 0x11800FE1B8000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_DFA_ENA(0..1)
     title: DTX DFA Data Enable Register
-    address: 0x11800FE000020 | ((55) << 15)|a<<3
+    address: 0x11800FE1B8020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_DFA_DAT(0..1)
     title: DTX DFA Raw Data Register
-    address: 0x11800FE000040 | ((55) << 15)|a<<3
+    address: 0x11800FE1B8040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -348,19 +378,19 @@ registers:
 
   - name: DTX_ZIP_SEL(0..1)
     title: DTX ZIP Select Register
-    address: 0x11800FE000000 | ((56) << 15)|a<<3
+    address: 0x11800FE1C0000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ZIP_ENA(0..1)
     title: DTX ZIP Data Enable Register
-    address: 0x11800FE000020 | ((56) << 15)|a<<3
+    address: 0x11800FE1C0020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_ZIP_DAT(0..1)
     title: DTX ZIP Raw Data Register
-    address: 0x11800FE000040 | ((56) << 15)|a<<3
+    address: 0x11800FE1C0040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -378,19 +408,19 @@ registers:
 
   - name: DTX_PKI_PFE_SEL(0..1)
     title: DTX PKI_PFE Select Register
-    address: 0x11800FE000000 | ((68) << 15)|a<<3
+    address: 0x11800FE220000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PKI_PFE_ENA(0..1)
     title: DTX PKI_PFE Data Enable Register
-    address: 0x11800FE000020 | ((68) << 15)|a<<3
+    address: 0x11800FE220020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_PKI_PFE_DAT(0..1)
     title: DTX PKI_PFE Raw Data Register
-    address: 0x11800FE000040 | ((68) << 15)|a<<3
+    address: 0x11800FE220040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -408,19 +438,19 @@ registers:
 
   - name: DTX_PKI_PBE_SEL(0..1)
     title: DTX PKI_PBE Select Register
-    address: 0x11800FE000000 | ((69) << 15)|a<<3
+    address: 0x11800FE228000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PKI_PBE_ENA(0..1)
     title: DTX PKI_PBE Data Enable Register
-    address: 0x11800FE000020 | ((69) << 15)|a<<3
+    address: 0x11800FE228020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_PKI_PBE_DAT(0..1)
     title: DTX PKI_PBE Raw Data Register
-    address: 0x11800FE000040 | ((69) << 15)|a<<3
+    address: 0x11800FE228040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -436,21 +466,51 @@ registers:
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
+  - name: DTX_PKI_PIX_SEL(0..1)
+    title: DTX PKI_PIX Select Register
+    address: 0x11800FE230000 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_PKI_PIX_ENA(0..1)
+    title: DTX PKI_PIX Data Enable Register
+    address: 0x11800FE230020 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_PKI_PIX_DAT(0..1)
+    title: DTX PKI_PIX Raw Data Register
+    address: 0x11800FE230040 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_PKI_PIX_CTL
+    title: DTX PKI_PIX Control Register
+    address: 0x11800FE230060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_PKI_PIX_BCST_RSP
+    title: DTX PKI_PIX Control Register
+    address: 0x11800FE230080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_HNA_SEL(0..1)
     title: DTX HNA Select Register
-    address: 0x11800FE000000 | ((71) << 15)|a<<3
+    address: 0x11800FE238000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_HNA_ENA(0..1)
     title: DTX HNA Data Enable Register
-    address: 0x11800FE000020 | ((71) << 15)|a<<3
+    address: 0x11800FE238020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_HNA_DAT(0..1)
     title: DTX HNA Raw Data Register
-    address: 0x11800FE000040 | ((71) << 15)|a<<3
+    address: 0x11800FE238040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -467,50 +527,60 @@ registers:
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_L2C_TAD(0..7)_SEL(0..1)
-    title: DTX L2C_TAD(0..7) Select Register
-    address: 0x11800FE000000 + ((0x48 + (a)) << 15) + (b*8)
+    title: DTX L2C_TAD Select Register
+    address: 0x11800FE240000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_L2C_TAD(0..7)_ENA(0..1)
-    title: DTX L2C_TAD(0..7) Data Enable Register
-    address: 0x11800FE000020 + ((0x48 + (a)) << 15) + (b*8)
+    title: DTX L2C_TAD Data Enable Register
+    address: 0x11800FE240020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_L2C_TAD(0..7)_DAT(0..1)
-    title: DTX L2C_TAD(0..7) Raw Data Register
-    address: 0x11800FE000040 + ((0x48 + (a)) << 15) + (b*8)
+    title: DTX L2C_TAD Raw Data Register
+    address: 0x11800FE240040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_L2C_TAD(0..7)_CTL
-    title: DTX L2C_TAD(0..7) Control Register
-    address: 0x11800FE000060 + ((0x48 + (a)) << 15)
+    title: DTX L2C_TAD Control Register
+    address: 0x11800FE240060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_L2C_TAD(0..7)_BCST_RSP
-    title: DTX L2C_TAD(0..7) Control Register
-    address: 0x11800FE000080 + ((0x48 + (a)) << 15)
+    title: DTX L2C_TAD Control Register
+    address: 0x11800FE240080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_TIM_SEL(0..1)
     title: DTX TIM Select Register
-    address: 0x11800FE000000 | ((88) << 15)|a<<3
+    address: 0x11800FE2C0000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_TIM_ENA(0..1)
     title: DTX TIM Data Enable Register
-    address: 0x11800FE000020 | ((88) << 15)|a<<3
+    address: 0x11800FE2C0020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_TIM_DAT(0..1)
     title: DTX TIM Raw Data Register
-    address: 0x11800FE000040 | ((88) << 15)|a<<3
+    address: 0x11800FE2C0040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -527,80 +597,130 @@ registers:
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_L2C_MCI(0..3)_SEL(0..1)
-    title: DTX L2C_MCI(0..3) Select Register
-    address: 0x11800FE000000 + ((0x5c + (a)) << 15) + (b*8)
+    title: DTX L2C_MCI Select Register
+    address: 0x11800FE2E0000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_L2C_MCI(0..3)_ENA(0..1)
-    title: DTX L2C_MCI(0..3) Data Enable Register
-    address: 0x11800FE000020 + ((0x5c + (a)) << 15) + (b*8)
+    title: DTX L2C_MCI Data Enable Register
+    address: 0x11800FE2E0020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_L2C_MCI(0..3)_DAT(0..1)
-    title: DTX L2C_MCI(0..3) Raw Data Register
-    address: 0x11800FE000040 + ((0x5c + (a)) << 15) + (b*8)
+    title: DTX L2C_MCI Raw Data Register
+    address: 0x11800FE2E0040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_L2C_MCI(0..3)_CTL
-    title: DTX L2C_MCI(0..3) Control Register
-    address: 0x11800FE000060 + ((0x5c + (a)) << 15)
+    title: DTX L2C_MCI Control Register
+    address: 0x11800FE2E0060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_L2C_MCI(0..3)_BCST_RSP
-    title: DTX L2C_MCI(0..3) Control Register
-    address: 0x11800FE000080 + ((0x5c + (a)) << 15)
+    title: DTX L2C_MCI Control Register
+    address: 0x11800FE2E0080 + (a<<15)
+    bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_SSO_SEL(0..1)
+    title: DTX SSO Select Register
+    address: 0x11800FE338000 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_SSO_ENA(0..1)
+    title: DTX SSO Data Enable Register
+    address: 0x11800FE338020 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_SSO_DAT(0..1)
+    title: DTX SSO Raw Data Register
+    address: 0x11800FE338040 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_SSO_CTL
+    title: DTX SSO Control Register
+    address: 0x11800FE338060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_SSO_BCST_RSP
+    title: DTX SSO Control Register
+    address: 0x11800FE338080
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_USBH(0..0)_SEL(0..1)
-    title: DTX USBH(0..0) Select Register
-    address: 0x11800FE000000 + ((0x68 + (a)) << 15) + (b*8)
+    title: DTX USBH Select Register
+    address: 0x11800FE340000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_USBH(0..0)_ENA(0..1)
-    title: DTX USBH(0..0) Data Enable Register
-    address: 0x11800FE000020 + ((0x68 + (a)) << 15) + (b*8)
+    title: DTX USBH Data Enable Register
+    address: 0x11800FE340020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_USBH(0..0)_DAT(0..1)
-    title: DTX USBH(0..0) Raw Data Register
-    address: 0x11800FE000040 + ((0x68 + (a)) << 15) + (b*8)
+    title: DTX USBH Raw Data Register
+    address: 0x11800FE340040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_USBH(0..0)_CTL
-    title: DTX USBH(0..0) Control Register
-    address: 0x11800FE000060 + ((0x68 + (a)) << 15)
+    title: DTX USBH Control Register
+    address: 0x11800FE340060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_USBH(0..0)_BCST_RSP
-    title: DTX USBH(0..0) Control Register
-    address: 0x11800FE000080 + ((0x68 + (a)) << 15)
+    title: DTX USBH Control Register
+    address: 0x11800FE340080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_RAD_SEL(0..1)
     title: DTX RAD Select Register
-    address: 0x11800FE000000 | ((112) << 15)|a<<3
+    address: 0x11800FE380000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_RAD_ENA(0..1)
     title: DTX RAD Data Enable Register
-    address: 0x11800FE000020 | ((112) << 15)|a<<3
+    address: 0x11800FE380020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_RAD_DAT(0..1)
     title: DTX RAD Raw Data Register
-    address: 0x11800FE000040 | ((112) << 15)|a<<3
+    address: 0x11800FE380040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -617,110 +737,140 @@ registers:
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_L2C_CBC(0..3)_SEL(0..1)
-    title: DTX L2C_CBC(0..3) Select Register
-    address: 0x11800FE000000 + ((0x84 + (a)) << 15) + (b*8)
+    title: DTX L2C_CBC Select Register
+    address: 0x11800FE420000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_L2C_CBC(0..3)_ENA(0..1)
-    title: DTX L2C_CBC(0..3) Data Enable Register
-    address: 0x11800FE000020 + ((0x84 + (a)) << 15) + (b*8)
+    title: DTX L2C_CBC Data Enable Register
+    address: 0x11800FE420020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_L2C_CBC(0..3)_DAT(0..1)
-    title: DTX L2C_CBC(0..3) Raw Data Register
-    address: 0x11800FE000040 + ((0x84 + (a)) << 15) + (b*8)
+    title: DTX L2C_CBC Raw Data Register
+    address: 0x11800FE420040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_L2C_CBC(0..3)_CTL
-    title: DTX L2C_CBC(0..3) Control Register
-    address: 0x11800FE000060 + ((0x84 + (a)) << 15)
+    title: DTX L2C_CBC Control Register
+    address: 0x11800FE420060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_L2C_CBC(0..3)_BCST_RSP
-    title: DTX L2C_CBC(0..3) Control Register
-    address: 0x11800FE000080 + ((0x84 + (a)) << 15)
+    title: DTX L2C_CBC Control Register
+    address: 0x11800FE420080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_LMC(0..3)_SEL(0..1)
-    title: DTX LMC(0..3) Select Register
-    address: 0x11800FE000000 + ((0x88 + (a)) << 15) + (b*8)
+    title: DTX LMC Select Register
+    address: 0x11800FE440000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_LMC(0..3)_ENA(0..1)
-    title: DTX LMC(0..3) Data Enable Register
-    address: 0x11800FE000020 + ((0x88 + (a)) << 15) + (b*8)
+    title: DTX LMC Data Enable Register
+    address: 0x11800FE440020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_LMC(0..3)_DAT(0..1)
-    title: DTX LMC(0..3) Raw Data Register
-    address: 0x11800FE000040 + ((0x88 + (a)) << 15) + (b*8)
+    title: DTX LMC Raw Data Register
+    address: 0x11800FE440040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_LMC(0..3)_CTL
-    title: DTX LMC(0..3) Control Register
-    address: 0x11800FE000060 + ((0x88 + (a)) << 15)
+    title: DTX LMC Control Register
+    address: 0x11800FE440060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_LMC(0..3)_BCST_RSP
-    title: DTX LMC(0..3) Control Register
-    address: 0x11800FE000080 + ((0x88 + (a)) << 15)
+    title: DTX LMC Control Register
+    address: 0x11800FE440080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_PEM(0..3)_SEL(0..1)
-    title: DTX PEM(0..3) Select Register
-    address: 0x11800FE000000 + ((0xC0 + (a)) << 15) + (b*8)
+    title: DTX PEM Select Register
+    address: 0x11800FE600000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PEM(0..3)_ENA(0..1)
-    title: DTX PEM(0..3) Data Enable Register
-    address: 0x11800FE000020 + ((0xC0 + (a)) << 15) + (b*8)
+    title: DTX PEM Data Enable Register
+    address: 0x11800FE600020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_PEM(0..3)_DAT(0..1)
-    title: DTX PEM(0..3) Raw Data Register
-    address: 0x11800FE000040 + ((0xC0 + (a)) << 15) + (b*8)
+    title: DTX PEM Raw Data Register
+    address: 0x11800FE600040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_PEM(0..3)_CTL
-    title: DTX PEM(0..3) Control Register
-    address: 0x11800FE000060 + ((0xC0 + (a)) << 15)
+    title: DTX PEM Control Register
+    address: 0x11800FE600060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_PEM(0..3)_BCST_RSP
-    title: DTX PEM(0..3) Control Register
-    address: 0x11800FE000080 + ((0xC0 + (a)) << 15)
+    title: DTX PEM Control Register
+    address: 0x11800FE600080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_OSM_SEL(0..1)
     title: DTX OSM Select Register
-    address: 0x11800FE000000 | ((220) << 15)|a<<3
+    address: 0x11800FE6E0000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_OSM_ENA(0..1)
     title: DTX OSM Data Enable Register
-    address: 0x11800FE000020 | ((220) << 15)|a<<3
+    address: 0x11800FE6E0020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_OSM_DAT(0..1)
     title: DTX OSM Raw Data Register
-    address: 0x11800FE000040 | ((220) << 15)|a<<3
+    address: 0x11800FE6E0040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -738,19 +888,19 @@ registers:
 
   - name: DTX_ASE_SEL(0..1)
     title: DTX ASE Select Register
-    address: 0x11800FE000000 | ((221) << 15)|a<<3
+    address: 0x11800FE6E8000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_ASE_ENA(0..1)
     title: DTX ASE Data Enable Register
-    address: 0x11800FE000020 | ((221) << 15)|a<<3
+    address: 0x11800FE6E8020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_ASE_DAT(0..1)
     title: DTX ASE Raw Data Register
-    address: 0x11800FE000040 | ((221) << 15)|a<<3
+    address: 0x11800FE6E8040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -767,50 +917,60 @@ registers:
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_BGX(0..5)_SEL(0..1)
-    title: DTX BGX(0..5) Select Register
-    address: 0x11800FE000000 + ((0xE0 + (a)) << 15) + (b*8)
+    title: DTX BGX Select Register
+    address: 0x11800FE700000 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_BGX(0..5)_ENA(0..1)
-    title: DTX BGX(0..5) Data Enable Register
-    address: 0x11800FE000020 + ((0xE0 + (a)) << 15) + (b*8)
+    title: DTX BGX Data Enable Register
+    address: 0x11800FE700020 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_BGX(0..5)_DAT(0..1)
-    title: DTX BGX(0..5) Raw Data Register
-    address: 0x11800FE000040 + ((0xE0 + (a)) << 15) + (b*8)
+    title: DTX BGX Raw Data Register
+    address: 0x11800FE700040 + (a<<15) + b*0x8
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
   - name: DTX_BGX(0..5)_CTL
-    title: DTX BGX(0..5) Control Register
-    address: 0x11800FE000060 + ((0xE0 + (a)) << 15)
+    title: DTX BGX Control Register
+    address: 0x11800FE700060 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_CTL
 
   - name: DTX_BGX(0..5)_BCST_RSP
-    title: DTX BGX(0..5) Control Register
-    address: 0x11800FE000080 + ((0xE0 + (a)) << 15)
+    title: DTX BGX Control Register
+    address: 0x11800FE700080 + (a<<15)
     bus: RSL
+    attributes:
+      exempt_natural_alignment: "a"
     inherits: DTX_LAP(0..1)_BCST_RSP
 
   - name: DTX_IOBN_SEL(0..1)
     title: DTX IOBN Select Register
-    address: 0x11800FE000000 | ((240) << 15)|a<<3
+    address: 0x11800FE780000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_IOBN_ENA(0..1)
     title: DTX IOBN Data Enable Register
-    address: 0x11800FE000020 | ((240) << 15)|a<<3
+    address: 0x11800FE780020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_IOBN_DAT(0..1)
     title: DTX IOBN Raw Data Register
-    address: 0x11800FE000040 | ((240) << 15)|a<<3
+    address: 0x11800FE780040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -828,19 +988,19 @@ registers:
 
   - name: DTX_IOBP_SEL(0..1)
     title: DTX IOBP Select Register
-    address: 0x11800FE000000 | ((244) << 15)|a<<3
+    address: 0x11800FE7A0000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_IOBP_ENA(0..1)
     title: DTX IOBP Data Enable Register
-    address: 0x11800FE000020 | ((244) << 15)|a<<3
+    address: 0x11800FE7A0020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_IOBP_DAT(0..1)
     title: DTX IOBP Raw Data Register
-    address: 0x11800FE000040 | ((244) << 15)|a<<3
+    address: 0x11800FE7A0040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -863,7 +1023,7 @@ registers:
     fields:
       - name: --
         bits: 63..24
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -885,7 +1045,7 @@ registers:
     fields:
       - name: --
         bits: 63..36
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -909,7 +1069,7 @@ registers:
     fields:
       - name: --
         bits: 63..5
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -923,7 +1083,7 @@ registers:
 
       - name: --
         bits: 3..2
-        access: --
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -945,21 +1105,81 @@ registers:
         description: Swap the high and low 36-bit debug bus outputs.
 
 
+  - name: DTX_SLI_SEL(0..1)
+    title: DTX SLI Select Register
+    address: 0x11800FE8F8000 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_SLI_ENA(0..1)
+    title: DTX SLI Data Enable Register
+    address: 0x11800FE8F8020 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_SLI_DAT(0..1)
+    title: DTX SLI Raw Data Register
+    address: 0x11800FE8F8040 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_SLI_CTL
+    title: DTX SLI Control Register
+    address: 0x11800FE8F8060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_SLI_BCST_RSP
+    title: DTX SLI Control Register
+    address: 0x11800FE8F8080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_FPA_SEL(0..1)
+    title: DTX FPA Select Register
+    address: 0x11800FE940000 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_FPA_ENA(0..1)
+    title: DTX FPA Data Enable Register
+    address: 0x11800FE940020 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_FPA_DAT(0..1)
+    title: DTX FPA Raw Data Register
+    address: 0x11800FE940040 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_FPA_CTL
+    title: DTX FPA Control Register
+    address: 0x11800FE940060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_FPA_BCST_RSP
+    title: DTX FPA Control Register
+    address: 0x11800FE940080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
   - name: DTX_PKO_SEL(0..1)
     title: DTX PKO Select Register
-    address: 0x11800FE000000 | ((340) << 15)|a<<3
+    address: 0x11800FEAA0000 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_SEL(0..1)
 
   - name: DTX_PKO_ENA(0..1)
     title: DTX PKO Data Enable Register
-    address: 0x11800FE000020 | ((340) << 15)|a<<3
+    address: 0x11800FEAA0020 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_ENA(0..1)
 
   - name: DTX_PKO_DAT(0..1)
     title: DTX PKO Raw Data Register
-    address: 0x11800FE000040 | ((340) << 15)|a<<3
+    address: 0x11800FEAA0040 | a<<3
     bus: RSL
     inherits: DTX_LAP(0..1)_DAT(0..1)
 
@@ -972,6 +1192,36 @@ registers:
   - name: DTX_PKO_BCST_RSP
     title: DTX PKO Control Register
     address: 0x11800FEAA0080
+    bus: RSL
+    inherits: DTX_LAP(0..1)_BCST_RSP
+
+  - name: DTX_DPI_SEL(0..1)
+    title: DTX DPI Select Register
+    address: 0x11800FEEF8000 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_SEL(0..1)
+
+  - name: DTX_DPI_ENA(0..1)
+    title: DTX DPI Data Enable Register
+    address: 0x11800FEEF8020 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_ENA(0..1)
+
+  - name: DTX_DPI_DAT(0..1)
+    title: DTX DPI Raw Data Register
+    address: 0x11800FEEF8040 | a<<3
+    bus: RSL
+    inherits: DTX_LAP(0..1)_DAT(0..1)
+
+  - name: DTX_DPI_CTL
+    title: DTX DPI Control Register
+    address: 0x11800FEEF8060
+    bus: RSL
+    inherits: DTX_LAP(0..1)_CTL
+
+  - name: DTX_DPI_BCST_RSP
+    title: DTX DPI Control Register
+    address: 0x11800FEEF8080
     bus: RSL
     inherits: DTX_LAP(0..1)_BCST_RSP
 

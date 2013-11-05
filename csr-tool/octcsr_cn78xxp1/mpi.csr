@@ -4,6 +4,7 @@
 name: MPI
 enums:
   - name: MPI_INTSN_E
+    title: MPI/SPI Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.
@@ -298,6 +299,8 @@ registers:
     title: MPI/SPI Wide Data Register
     address: 0x1070000001040
     bus: NCB
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: DATA
         bits: 63..0

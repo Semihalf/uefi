@@ -155,9 +155,7 @@ registers:
   - name: TIM_REG_INT_MASK
     address: 0x1180058000090
     bus: RSL
-    internal: |
-      Note that this CSR is present only in chip revisions beginning with pass2.
-      When mask bit is set, the interrupt is enabled.
+    internal: When mask bit is set, the interrupt is enabled.
     attributes:
       dv_fc_scratch: "ALL"
     fields:

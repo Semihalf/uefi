@@ -4,6 +4,7 @@
 name: OCLA
 enums:
   - name: OCLA_INTSN_E
+    title: OCLA Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.
@@ -234,14 +235,14 @@ registers:
     fields:
       - name: FSM1_STATE
         bits: 63..60
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: FSM1 current state.
 
       - name: FSM0_STATE
         bits: 59..56
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: FSM0 current state.
@@ -391,14 +392,14 @@ registers:
     fields:
       - name: FSM1_STATE
         bits: 63..60
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: See OCLA(0..4)_STATE_INT[FSM1_STATE].
 
       - name: FSM0_STATE
         bits: 59..56
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: See OCLA(0..4)_STATE_INT[FSM0_STATE].
@@ -1017,7 +1018,10 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Bitmask of which bits in OCLA(0..4)_MAT(0..3)_VALUE(0..1) are to be compared.
+        description: |
+          Bitmask of which bits in OCLA(0..4)_MAT(0..3)_VALUE(0..1) are to be compared.
+          0 = Do not compare bit.
+          1 = Compare bit.
 
 
   - name: OCLA(0..4)_MAT(0..3)_COUNT

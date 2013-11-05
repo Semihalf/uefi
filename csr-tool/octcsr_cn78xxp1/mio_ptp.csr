@@ -4,6 +4,7 @@
 name: MIO_PTP
 enums:
   - name: MIO_PTP_INTSN_E
+    title: PTP Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.

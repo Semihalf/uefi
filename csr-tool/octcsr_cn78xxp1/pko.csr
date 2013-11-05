@@ -4,6 +4,7 @@
 name: PKO
 enums:
   - name: PKO_AURAALG_E
+    title: PKO Aura Modify Algorithm Enumeration
     attributes:
       width: "4"
     description: |
@@ -40,6 +41,7 @@ enums:
 
 
   - name: PKO_CKL4ALG_E
+    title: PKO Checksum L4 Algorithm Enumeration
     attributes:
       width: "2"
     description: Enumerates the different L4 checksum algorithms for PKO_SEND_HDR_S[CKL4].
@@ -62,6 +64,7 @@ enums:
 
 
   - name: PKO_COLORALG_E
+    title: PKO Color Algorithm Enumeration
     attributes:
       width: "2"
     description: Enumerates the different shaper update and internal color algorithms of PKO_SEND_EXT_S[COL].
@@ -106,6 +109,7 @@ enums:
 
 
   - name: PKO_COLORRESULT_E
+    title: PKO Color Result Enumeration
     attributes:
       width: "2"
     description: Enumerates the different colors of PKO_MEM_RESULT_S[COLOR].
@@ -128,6 +132,7 @@ enums:
 
 
   - name: PKO_CPSENDDROP_E
+    title: PKO Send-Packet Drop Error Codes Enumeration
     attributes:
       width: "3"
     description: |
@@ -156,6 +161,7 @@ enums:
 
 
   - name: PKO_DQOP_E
+    title: PKO DQ Operation Enumeration
     attributes:
       width: "2"
     description: Enumerates the different IOBDMA/LMTDMA operation codes and PKO_QUERY_RTN_S[DQOP] values.
@@ -178,6 +184,7 @@ enums:
 
 
   - name: PKO_DQSTATUS_E
+    title: PKO Descriptor Status Enumeration
     attributes:
       width: "4"
     description: Enumerates the different descriptor queue command results. See PKO_QUERY_RTN_S[DQSTATUS].
@@ -234,6 +241,7 @@ enums:
 
 
   - name: PKO_INTSN_E
+    title: PKO Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different PKO-generated interrupts.
@@ -577,6 +585,7 @@ enums:
 
 
   - name: PKO_MEMALG_E
+    title: PKO Memory Modify Algorithm Enumeration
     attributes:
       width: "4"
     description: Enumerates the different algorithms for modifying memory, see PKO_SEND_MEM_S[ALG].
@@ -644,6 +653,7 @@ enums:
 
 
   - name: PKO_MEMDSZ_E
+    title: PKO Memory Data Size Enumeration
     attributes:
       width: "2"
     description: Enumerates the datum size for modifying memory, see PKO_SEND_MEM_S[DSZ].
@@ -664,6 +674,7 @@ enums:
 
 
   - name: PKO_REDALG_E
+    title: PKO Red Algorithm Enumeration
     attributes:
       width: "2"
     description: Enumerates the different algorithms of PKO_SEND_EXT_S[RA].
@@ -688,6 +699,7 @@ enums:
 
 
   - name: PKO_SENDCRCALG_E
+    title: PKO Send CRC Algorithm Enumeration
     attributes:
       width: "2"
     description: Enumerates the CRC algorithm used, see PKO_SEND_CRC_S[ALG].
@@ -706,6 +718,7 @@ enums:
 
 
   - name: PKO_SENDSUBDC_E
+    title: PKO Send Subdescriptor Operation Enumeration
     attributes:
       width: "4"
     description: |
@@ -768,6 +781,7 @@ enums:
 
 structs:
   - name: PKO_CSR_RD_DMA_S
+    title: CSR Read IOBDMA Operations
     description: |
       Structure of the real IOBDMA address (i.e. the store data for the instruction that initiates
       an IOBDMA) that initiates CSR Read operation. The IOBDMA result word is the CSR read data.
@@ -2167,8 +2181,15 @@ registers:
         typical: 0x0
         description: y_valid vector.
 
+      - name: --
+        bits: 31..28
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: LINK_VV
-        bits: 31..0
+        bits: 27..0
         access: RO/H
         reset: 0x0
         typical: 0x0
@@ -2898,6 +2919,19 @@ registers:
           when the DRAIN command reaches the PQ level. Subsequent interrupt messages are only
           generated
           after this bit has been cleared by writing 1. Throws PKO_INTSN_E::PKO_PSE_PQ_DRAIN.
+
+
+  - name: PKO_PQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE PQ CSR Bus Debug Register
+    address: 0x15400000001F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
 
 
   - name: PKO_L1_SQ(0..31)_TOPOLOGY
@@ -4396,6 +4430,19 @@ registers:
           SQ[5:1] work table
 
 
+  - name: PKO_L1_SQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE Level 1 SQ CSR Bus Debug Register
+    address: 0x15400000801F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
+
+
   - name: PKO_L2_SQ(0..511)_TOPOLOGY
     title: PKO PSE Level 2 Shaping Queue Topology Register
     address: 0x1540000100000 + a*0x200
@@ -5289,6 +5336,19 @@ registers:
         reset: --
         typical: --
         description: Work table.
+
+
+  - name: PKO_L2_SQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE Level 2 SQ CSR Bus Debug Register
+    address: 0x15400001001F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
 
 
   - name: PKO_L3_SQ(0..511)_TOPOLOGY
@@ -6548,6 +6608,19 @@ registers:
         description: Work table
 
 
+  - name: PKO_L3_SQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE Level 3 SQ CSR Bus Debug Register
+    address: 0x15400001801F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
+
+
   - name: PKO_L4_SQ(0..1023)_TOPOLOGY
     title: PKO PSE Level 4 Shaping Queue Topology Register
     address: 0x1540000200000 + a*0x200
@@ -7772,6 +7845,19 @@ registers:
         description: Work table.
 
 
+  - name: PKO_L4_SQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE Level 4 SQ CSR Bus Debug Register
+    address: 0x15400002001F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
+
+
   - name: PKO_L5_SQ(0..1023)_TOPOLOGY
     title: PKO PSE Level 5 Shaping Queue Topology Register
     address: 0x1540000280000 + a*0x200
@@ -8943,6 +9029,19 @@ registers:
         description: Work table.
 
 
+  - name: PKO_L5_SQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE Level 5 SQ CSR Bus Debug Register
+    address: 0x15400002801F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
+
+
   - name: PKO_DQ(0..1023)_TOPOLOGY
     title: PKO PSE Descriptor Queue Topology Register
     address: 0x1540000300000 + a*0x200
@@ -9533,6 +9632,19 @@ registers:
         typical: --
         description: |
           Result table 0 - DQ FIFO[127:0].
+
+
+  - name: PKO_DQ_CSR_BUS_DEBUG
+    title: |
+      INTERNAL: PKO PSE DQ CSR Bus Debug Register
+    address: 0x15400003001F8
+    bus: NCB
+    fields:
+      - name: CSR_BUS_DEBUG
+        bits: 63..0
+        access: RO
+        reset: all-ones
+        typical: all-ones
 
 
   - name: PKO_PDM_CFG
@@ -10570,6 +10682,292 @@ registers:
         reset: 0x0
         typical: --
         description: CP SIC's DQ number.
+
+
+  - name: PKO_PDM_FILLB_DBG0
+    title: |
+      INTERNAL: PKO PDM Fill Buffer Debug Register 0
+    address: 0x15400008002A0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..57
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PD_SEQ
+        bits: 56..52
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next Packet Descriptor fill request
+
+      - name: RESP_PD_SEQ
+        bits: 51..47
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next response to be written into Packet Descriptor Buffer RAM
+
+      - name: D_RSP_LO_RAM_ADDR_SEL
+        bits: 46..45
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Source of read/write address to Low PD Fill buffer RAM.
+          0x0 = No access.
+          0x1 = Read access sourced by PD Fill Buffer Response FIFO (feeding DRPBUF).
+          0x2 = Write access sourced by IOBP0.
+          0x3 = Write access sourced by Flush Buffer.
+
+      - name: D_RSP_HI_RAM_ADDR_SEL
+        bits: 44..43
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Source of read/write address to High PD Fill buffer RAM.
+          0x0 = No access.
+          0x1 = Read  access sourced by PD Fill Buffer Response FIFO (feeding DRPBUF).
+          0x2 = Write access sourced by IOBP0.
+          0x3 = Write access sourced by Flush Buffer.
+
+      - name: D_RSP_RD_SEQ
+        bits: 42..38
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next response to be read from Packet Descriptor Buffer RAM
+
+      - name: D_RSP_FIFO_RD_SEQ
+        bits: 37..33
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next PD Fill response to be sent to DRPBUF
+
+      - name: D_FILL_REQ_FIFO_VAL
+        bits: 32
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Fill Buffer PD read request FIFO has a valid entry
+
+      - name: D_RSP_RAM_VALID
+        bits: 31..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Fill Buffer Packet Descriptor RAM valid flags
+
+
+  - name: PKO_PDM_FILLB_DBG1
+    title: |
+      INTERNAL: PKO PDM Fill Buffer Debug Register 1
+    address: 0x15400008002A8
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..57
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MP_SEQ
+        bits: 56..52
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next Meta-Packet Cache-line fill request
+
+      - name: RESP_MP_SEQ
+        bits: 51..47
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next response to be written into Meta-Packet Buffer RAM
+
+      - name: M_RSP_LO_RAM_ADDR_SEL
+        bits: 46..45
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Source of read/write address to Low MP Fill buffer RAM.
+          0x0 = No access.
+          0x1 = Read  access sourced by MP Fill Buffer Response FIFO (feeding DRPBUF).
+          0x2 = Write access sourced by IOBP0.
+          0x3 = Write access sourced by Flush Buffer.
+
+      - name: M_RSP_HI_RAM_ADDR_SEL
+        bits: 44..43
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Source of read/write address to High MP Fill buffer RAM.
+          0x0 = No access.
+          0x1 = Read access sourced by MP Fill Buffer Response FIFO (feeding DRPBUF).
+          0x2 = Write access sourced by IOBP0.
+          0x3 = Write access sourced by Flush Buffer.
+
+      - name: M_RSP_RD_SEQ
+        bits: 42..38
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next response to be read from Meta-Packet Buffer RAM
+
+      - name: M_RSP_FIFO_RD_SEQ
+        bits: 37..33
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Sequence number for next MP Fill response to be sent to DRPBUF
+
+      - name: M_FILL_REQ_FIFO_VAL
+        bits: 32
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Fill Buffer MP read request FIFO has a valid entry
+
+      - name: M_RSP_RAM_VALID
+        bits: 31..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Fill Buffer Meta-Packet RAM valid flags
+
+
+  - name: PKO_PDM_FILLB_DBG2
+    title: |
+      INTERNAL: PKO PDM Fill Buffer Debug Register 2
+    address: 0x15400008002B0
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..9
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FILLB_SM
+        bits: 8..4
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Fill Buffer State Machine
+
+      - name: --
+        bits: 3
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: IOBP0_CREDIT_CNTR
+        bits: 2..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: IOBP0 Read Request credit counter
+
+
+  - name: PKO_PDM_FLSHB_DBG0
+    title: |
+      INTERNAL: PKO PDM Flush Buffer Debug Register 0
+    address: 0x15400008002B8
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..44
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FLSHB_SM
+        bits: 43..37
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Flush Buffer State Machine
+
+      - name: FLSHB_CTL_SM
+        bits: 36..28
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Flush Buffer Control State Machine
+
+      - name: CAM_HPTR
+        bits: 27..23
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Flush Buffer CAM Head Pointer
+
+      - name: CAM_TPTR
+        bits: 22..18
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Flush Buffer CAM Tail Pointer
+
+      - name: EXPECTED_STDNS
+        bits: 17..12
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Number of Store Done Responses still pending
+
+      - name: D_FLSHB_EOT_CNTR
+        bits: 11..9
+        access: RAZ
+        reset: --
+        typical: --
+        description: Number of Packet Descriptor Flush requests pending
+
+      - name: M_FLSHB_EOT_CNTR
+        bits: 8..6
+        access: RAZ
+        reset: --
+        typical: --
+        description: Number of Meta-packet Flush requests pending
+
+      - name: NCBI_CREDIT_CNTR
+        bits: 5..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: NCBI FIFO credit counter
+
+
+  - name: PKO_PDM_FLSHB_DBG1
+    title: |
+      INTERNAL: PKO PDM Flush Buffer Debug Register 1
+    address: 0x15400008002C0
+    bus: NCB
+    fields:
+      - name: CAM_STDN
+        bits: 63..32
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Flush Buffer Entry Store Done Request flags
+
+      - name: CAM_VALID
+        bits: 31..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Flush Buffer Entry Valid flags
 
 
   - name: PKO_PDM_CFG_DBG

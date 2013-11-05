@@ -34,8 +34,7 @@ description: |
     1 11 011                   |     Octeon III CBC3 registers
     -+--+---+----+---+-----+---+---
 attributes:
-  dv_fc_regs_extends: |
-    "l2c_pkg::l2c_rsl_reg_block_c"
+  dv_fc_regs_extends: "l2c_pkg::l2c_rsl_reg_block_c"
 enums:
   - name: IOC_CMD_E
     attributes:
@@ -143,142 +142,142 @@ enums:
     description: Enumerates the different interrupts from L2C.
     values:
       - name: L2C_TAD(0..0)_INT_L2DSBE
-        value: 0x80000 | (a << 8)
+        value: 0x80000 | a<<8
         attributes:
           cib_rtl_minor_width: "3"
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[L2DSBE].
 
       - name: L2C_TAD(0..0)_INT_L2DDBE
-        value: 0x80001 | (a << 8)
+        value: 0x80001 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[L2DDBE].
 
       - name: L2C_TAD(0..0)_INT_SBFSBE
-        value: 0x80002 | (a << 8)
+        value: 0x80002 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[SBFSBE].
 
       - name: L2C_TAD(0..0)_INT_SBFDBE
-        value: 0x80003 | (a << 8)
+        value: 0x80003 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[SBFDBE].
 
       - name: L2C_TAD(0..0)_INT_FBFSBE
-        value: 0x80004 | (a << 8)
+        value: 0x80004 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[FBFSBE].
 
       - name: L2C_TAD(0..0)_INT_FBFDBE
-        value: 0x80005 | (a << 8)
+        value: 0x80005 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[FBFDBE].
 
       - name: L2C_TAD(0..0)_INT_TAGSBE
-        value: 0x80006 | (a << 8)
+        value: 0x80006 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[TAGSBE].
 
       - name: L2C_TAD(0..0)_INT_TAGDBE
-        value: 0x80007 | (a << 8)
+        value: 0x80007 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[TAGDBE].
 
       - name: L2C_TAD(0..0)_INT_NOWAY
-        value: 0x80008 | (a << 8)
+        value: 0x80008 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[NOWAY].
 
       - name: L2C_TAD(0..0)_INT_HOLEWR
-        value: 0x80009 | (a << 8)
+        value: 0x80009 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[HOLEWR].
 
       - name: L2C_TAD(0..0)_INT_HOLERD
-        value: 0x8000A | (a << 8)
+        value: 0x8000A | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[HOLERD].
 
       - name: L2C_TAD(0..0)_INT_BIGWR
-        value: 0x8000B | (a << 8)
+        value: 0x8000B | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[BIGWR].
 
       - name: L2C_TAD(0..0)_INT_BIGRD
-        value: 0x8000C | (a << 8)
+        value: 0x8000C | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[BIGRD].
 
       - name: L2C_TAD(0..0)_INT_WRDISLMC
-        value: 0x8000D | (a << 8)
+        value: 0x8000D | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[WRDISLMC].
 
       - name: L2C_TAD(0..0)_INT_RDDISLMC
-        value: 0x8000E | (a << 8)
+        value: 0x8000E | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[RDDISLMC].
 
       - name: L2C_TAD(0..0)_INT_RTGSBE
-        value: 0x8000F | (a << 8)
+        value: 0x8000F | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[RTGSBE].
 
       - name: L2C_TAD(0..0)_INT_RTGDBE
-        value: 0x80010 | (a << 8)
+        value: 0x80010 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..0)_INT[RTGDBE].
 
       - name: L2C_MCI(0..0)_INT_VBFSBE
-        value: 0x80800 | (a << 8)
+        value: 0x80800 | a<<8
         attributes:
           cib_rtl_minor_width: "4"
           intsn_lsb_mismatch: "True"
         description: See L2C_MCI(0..0)_INT[VBFSBE].
 
       - name: L2C_MCI(0..0)_INT_VBFDBE
-        value: 0x80801 | (a << 8)
+        value: 0x80801 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_MCI(0..0)_INT[VBFDBE].
 
       - name: L2C_CBC(0..0)_INT_RSDSBE
-        value: 0x80C00 | (a << 8)
+        value: 0x80C00 | a<<8
         attributes:
           cib_rtl_minor_width: "4"
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..0)_INT[RSDSBE].
 
       - name: L2C_CBC(0..0)_INT_RSDDBE
-        value: 0x80C01 | (a << 8)
+        value: 0x80C01 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..0)_INT[RSDDBE].
 
       - name: L2C_CBC(0..0)_INT_IOCCMDSBE
-        value: 0x80C02 | (a << 8)
+        value: 0x80C02 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..0)_INT[IOCCMDSBE].
 
       - name: L2C_CBC(0..0)_INT_IOCCMDDBE
-        value: 0x80C03 | (a << 8)
+        value: 0x80C03 | a<<8
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..0)_INT[IOCCMDDBE].
@@ -329,21 +328,21 @@ enums:
         value: 0x09
         description: LFB Wait VAB (each cycle adds number of LFBs waiting for VAB).
 
-      - name: QD(0..0)_IDX
-        value: 0x80 | (a << 4)
-        description: Quad(0..0) index bus inuse.
+      - name: QD(0..1)_IDX
+        value: 0x80 | a<<4
+        description: Quad(0..1) index bus inuse.
 
-      - name: QD(0..0)_RDAT
-        value: 0x81 | (a << 4)
-        description: Quad(0..0) read data bus inuse.
+      - name: QD(0..1)_RDAT
+        value: 0x81 | a<<4
+        description: Quad(0..1) read data bus inuse.
 
-      - name: QD(0..0)_BNKS
-        value: 0x82 | (a << 4)
-        description: Quad(0..0) number of banks inuse (0-4/cycle).
+      - name: QD(0..1)_BNKS
+        value: 0x82 | a<<4
+        description: Quad(0..1) number of banks inuse (0-4/cycle).
 
-      - name: QD(0..0)_WDAT
-        value: 0x83 | (a << 4)
-        description: Quad(0..0) write data flops inuse (0-4/cycle).
+      - name: QD(0..1)_WDAT
+        value: 0x83 | a<<4
+        description: Quad(0..1) write data flops inuse (0-4/cycle).
 
 
   - name: L2C_TAG_ERRPRIO_E
@@ -1096,7 +1095,7 @@ registers:
         bits: 7..4
         access: R/W
         reset: 0x9
-        typical: 0x9
+        typical: 0x4
         description: |
           Amount of configured DRAM.
           0x0 = reserved.
@@ -1567,31 +1566,7 @@ registers:
       0x90 -Quad 1 index bus inuse
       0x91 -Quad 1 read data bus inuse
       0x92 -Quad 1 # banks inuse (0-4/cycle)
-      0x93 -Quad 1 wdat flops inuse (0-4/cycle)
-      0xA0 -Quad 2 index bus inuse
-      0xA1 -Quad 2 read data bus inuse
-      0xA2 -Quad 2 # banks inuse (0-4/cycle)
-      0xA3 -Quad 2 wdat flops inuse (0-4/cycle)
-      0xB0 -Quad 3 index bus inuse
-      0xB1 -Quad 3 read data bus inuse
-      0xB2 -Quad 3 # banks inuse (0-4/cycle)
-      0xB3 -Quad 3 wdat flops inuse (0-4/cycle)
-      0xC0 -Quad 4 index bus inuse
-      0xC1 -Quad 4 read data bus inuse
-      0xC2 -Quad 4 # banks inuse (0-4/cycle)
-      0xC3 -Quad 4 wdat flops inuse (0-4/cycle)
-      0xD0 -Quad 5 index bus inuse
-      0xD1 -Quad 5 read data bus inuse
-      0xD2 -Quad 5 # banks inuse (0-4/cycle)
-      0xD3 -Quad 5 wdat flops inuse (0-4/cycle)
-      0xE0 -Quad 6 index bus inuse
-      0xE1 -Quad 6 read data bus inuse
-      0xE2 -Quad 6 # banks inuse (0-4/cycle)
-      0xE3 -Quad 6 wdat flops inuse (0-4/cycle)
-      0xF0 -Quad 7 index bus inuse
-      0xF1 -Quad 7 read data bus inuse
-      0xF2 -Quad 7 # banks inuse (0-4/cycle)
-      0xF3 -Quad 7 wdat flops inuse (0-4/cycle)"
+      0x93 -Quad 1 wdat flops inuse (0-4/cycle)"
     fields:
       - name: --
         bits: 63..32
@@ -1917,7 +1892,7 @@ registers:
 
   - name: L2C_TAD(0..0)_PFC(0..3)
     title: Level 2 Cache TAD Performance Counter Registers
-    address: 0x1180080A00400 + a*0x40000 + b*8
+    address: 0x1180080A00400 + a*0x40000 + b*0x8
     bus: RSL
     fields:
       - name: COUNT

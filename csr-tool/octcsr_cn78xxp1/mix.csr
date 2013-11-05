@@ -3,12 +3,14 @@
 ---
 name: MIX
 attributes:
-  block_index: "False"
+  block_index_affects_offset: "True"
+  dv_testbuilder_ignore_block_index: "True"
 enums:
   - name: MIX_INTSN_E
+    title: MIX Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different MIX-generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different MIX-generated interrupts.
     values:
       - name: MIX(0..1)_ODBLOVF
         value: 0x10000 + a*0x10
@@ -611,7 +613,7 @@ registers:
           the remaining number of I-Ring buffer entries
           (MIX(0..1)_REMCNT[IREMCNT]), then the following occurs:
           The MIX(0..1)_IRING2[IDBELL] write is IGNORED
-          The ODBLOVF is set and an interrupt is generated.
+          IDBLOVF is set and the interrupt is generated.
           Software should keep track of the # of I-Ring entries in use (i.e. the cumulative number
           of IDBELL write operations), and ensure that future IDBELL write operations don't exceed
           the size of the I-Ring Buffer (MIX(0..1)_IRING2[ISIZE]). Software must reclaim I-Ring

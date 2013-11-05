@@ -4,6 +4,7 @@
 name: DPI
 enums:
   - name: DPI_HDR_PT_E
+    title: DPI Header Pointer Type Enumeration
     attributes:
       width: "2"
     description: Enumerates the pointer type.
@@ -27,6 +28,7 @@ enums:
 
 
   - name: DPI_INTSN_E
+    title: DPI Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different DPI-generated interrupts.
@@ -340,7 +342,9 @@ registers:
     title: DPI BIST Status Register
     address: 0x1DF0000000000
     bus: NCB
-    description: This is the built-in self-test (BIST) status register.
+    description: |
+      This is the built-in self-test (BIST) status register. Each bit is the BIST result of an
+      individual memory (per bit, 0 = pass and 1 = fail).
     attributes:
       dv_bist_all_fail_test: "ALL"
     fields:
@@ -359,17 +363,17 @@ registers:
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails.
           INTERNAL:
-            dpi.dma.rdb.buff.bnk{2,5,8,11}
-            dpi.dma.rdb.buff.bnk{0a,1a,3a,4a,6a,7a,9a,10a, 0b,1b,3b,4b,6b,7b,9b,10b}
-            dpi.dma.rdb.slif.stm.tmem
-            dpi.dma.req.mem.bnk{0,1}
-            dpi.dma.spi.ipkt{0,1}.inb_bnk1
-            dpi.dma.spi.ipkt{0,1}.inb_bnk0
-            dpi.dma.dsi.dsi1.rspf.rsp_dpr_mem{0,1}
-            dpi.dma.dsi.dsi0.rspf.rsp_dpr_mem{0,1}
-            dpi.dma.ncbo.drf16x64m2_bist
-            dpi.dma.ncbi.wrfif_bnk1
-            dpi.dma.ncbi.wrfif_bnk0
+          dpi.dma.rdb.buff.bnk{2,5,8,11}
+          dpi.dma.rdb.buff.bnk{0a,1a,3a,4a,6a,7a,9a,10a, 0b,1b,3b,4b,6b,7b,9b,10b}
+          dpi.dma.rdb.slif.stm.tmem
+          dpi.dma.req.mem.bnk{0,1}
+          dpi.dma.spi.ipkt{0,1}.inb_bnk1
+          dpi.dma.spi.ipkt{0,1}.inb_bnk0
+          dpi.dma.dsi.dsi1.rspf.rsp_dpr_mem{0,1}
+          dpi.dma.dsi.dsi0.rspf.rsp_dpr_mem{0,1}
+          dpi.dma.ncbo.drf16x64m2_bist
+          dpi.dma.ncbi.wrfif_bnk1
+          dpi.dma.ncbi.wrfif_bnk0
 
 
   - name: DPI_INT_REG
@@ -529,7 +533,7 @@ registers:
 
 
   - name: DPI_ECC_CTL
-    title: DPI ECC Control 0 Register
+    title: DPI ECC Control Register
     address: 0x1DF0000000018
     bus: NCB
     description: This register allows inserting ECC errors for testing.
@@ -563,7 +567,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding RDB ram
+          Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding RDB RAM
           to test single-bit or double-bit error handling.
 
       - name: --
@@ -579,12 +583,12 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding RDB ram
+          Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding RDB RAM
           to test single-bit or double-bit error handling.
 
 
   - name: DPI_ECC_INT
-    title: DPI ECC Control 1 Register
+    title: DPI ECC Interrupt Register
     address: 0x1DF0000000020
     bus: NCB
     description: This register contains ECC error interrupt summary bits.
@@ -655,8 +659,10 @@ registers:
 
 
   - name: DPI_NCB_CTL
+    title: DPI NCB Control Register
     address: 0x1DF0000000028
     bus: NCB
+    description: This register provides NCB unit control.
     fields:
       - name: --
         bits: 63..1
@@ -674,65 +680,65 @@ registers:
 
 
   - name: DPI_SWA_Q_VMID
+    title: DPI SWA Queue VMID Register
     address: 0x1DF0000000030
     bus: NCB
-    description: This register defines.
     fields:
       - name: VMID7
         bits: 63..56
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 7.
+        description: The SWA VMID for queue 7.
 
       - name: VMID6
         bits: 55..48
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 6.
+        description: The SWA VMID for queue 6.
 
       - name: VMID5
         bits: 47..40
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 5.
+        description: The SWA VMID for queue 5.
 
       - name: VMID4
         bits: 39..32
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 4.
+        description: The SWA VMID for queue 4.
 
       - name: VMID3
         bits: 31..24
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 3.
+        description: The SWA VMID for queue 3.
 
       - name: VMID2
         bits: 23..16
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 2.
+        description: The SWA VMID for queue 2.
 
       - name: VMID1
         bits: 15..8
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 1.
+        description: The SWA VMID for queue 1.
 
       - name: VMID0
         bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: The SWA VMID for Queue 0.
+        description: The SWA VMID for queue 0.
 
 
   - name: DPI_DMA_PP_INT
@@ -752,7 +758,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: DPI DMA per-core instruction completion interrupt.  See DPI_DMA_PP(0..47)_CNT.
+        description: DPI DMA per-core instruction completion interrupt. See DPI_DMA_PP(0..47)_CNT.
 
 
   - name: DPI_CTL
@@ -870,11 +876,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          Load Dont Write Back
-          When set, the HW will be able to issue LDWB commands to the cache.  As
-          a result the line will not be written back when replaced.  When clear,
-          the HW will issue regular load commands to the cache which will cause
-          the line to be written back before being replaced.
+          Load don't write back. When set, the hardware is able to issue LDWB commands to the cache.
+          As a result, the line will not be written back when replaced. When clear, the hardware
+          issues regular load commands to the cache which cause the line to be written back before
+          being replaced.
 
       - name: AURA_ICHK
         bits: 31..20
@@ -882,8 +887,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The AURA that the Instruction Chunk for DMA operations page will be
-          returned to when freed.
+          AURA instruction chunk. The AURA that the instruction chunk for DMA operations page will
+          be returned to when freed.
 
       - name: O_ADD1
         bits: 19
@@ -1006,7 +1011,7 @@ registers:
         description: |
           Indicates which instruction queue dropped an instruction because the source or destination
           was in reset. Software must clear the bit before the corresponding instruction queue will
-          continue processing instructions if DPI_REQ_ERR_RST_EN[EN] is set.
+          continue processing instructions if DPI_REQ_ERR_RSP_EN[EN] is set.
 
 
   - name: DPI_REQ_ERR_RSP_EN
@@ -1386,8 +1391,8 @@ registers:
         description: |
           Indicates which instruction queue should skip the completion phase once a port reset is
           detected as indicated by DPI_REQ_ERR_RST. All completions to the effected instruction
-          queue are skipped as long as DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or
-          DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are set.
+          queue are skipped as long as DPI_REQ_ERR_RSP[QERR<ique>] & DPI_REQ_ERR_RSP_EN<ique> or
+          DPI_REQ_ERR_RST[QERR<ique>] & DPI_REQ_ERR_RST_EN<ique> are set.
 
       - name: --
         bits: 15..8
@@ -1404,8 +1409,8 @@ registers:
         description: |
           Indicates which instruction queue should skip the completion phase once an ErrorResponse
           is detected as indicated by DPI_REQ_ERR_RSP. All completions to the effected instruction
-          queue are skipped as long as DPI_REQ_ERR_RSP[QERR<ique>] & EN_RSP<ique> or
-          DPI_REQ_ERR_RST[QERR<ique>] & EN_RST<ique> are set.
+          queue are skipped as long as DPI_REQ_ERR_RSP[QERR<ique>] & DPI_REQ_ERR_RSP_EN<ique> or
+          DPI_REQ_ERR_RST[QERR<ique>] & DPI_REQ_ERR_RST_EN<ique> are set.
 
 
   - name: DPI_ENG(0..5)_BUF
@@ -1479,7 +1484,7 @@ registers:
         description: |
           When set, HALT indicates that the MAC has detected a reset condition. No further
           instructions that reference the MAC from any instruction queue will be issued until the
-          MAC comes out of reset and HALT is cleared in SLI_CTL_PORT0/1[DIS_PORT].
+          MAC comes out of reset and HALT is cleared in SLI_CTL_PORT(0..3)[DIS_PORT].
 
       - name: --
         bits: 23..21
@@ -1497,7 +1502,7 @@ registers:
           Read only copy of the QLM CFG pin. 0 = MAC is DPI; 1 = reserved.
           Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
           normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
-          GSERx_CFG can be used for more complete QLM configuration information.
+          GSER(0..13)_CFG can be used for more complete QLM configuration information.
 
       - name: --
         bits: 19..17
@@ -1566,7 +1571,7 @@ registers:
           Maximum payload size.
           0 = 128B.
           1 = 256B.
-          The MPS size must not exceed the size selected by DPI*_CFG030[MPS].
+          The MPS size must not exceed the size selected by PCIE*_CFG030[MPS].
 
       - name: MRRS_LIM
         bits: 3
@@ -1599,7 +1604,7 @@ registers:
           0x1 = 256B.
           0x2 = 512B.
           0x3 = 1024B.
-          The MRRS size must not exceed the size selected by DPI*_CFG030[MRRS].
+          The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS].
 
 
   - name: DPI_SLI_PRT(0..3)_ERR
@@ -1817,10 +1822,9 @@ registers:
           DPI DMA per-core instruction completion counter. The counter is incremented according to
           conditions described below and is decremented by values written to this field. A CNT of
           nonzero causes an interrupt in DPI_DMA_PP_INT.
-          Each DMA instruction that has the DPI_DMA_INSTR_HDR[PT]==CNT and a
-          PTR value of 1 to 0x30 will increment DPI_DMA_PP(0..47)_CNT value-1 counter.
-          Hardware reserves the values 0x31 to 0x3F for future use and will treat them as a PTR of 0
-          and do nothing.
+          Each DMA instruction that has the DPI_DMA_INSTR_HDR_S[PT]==CNT and a PTR value of 1 to
+          0x30 will increment DPI_DMA_PP(0..47)_CNT value -1 counter. Hardware reserves the values
+          0x31 to 0x3F for future use, treats them as a PTR of 0, and does nothing.
 
 
 

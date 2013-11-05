@@ -4,300 +4,447 @@
 name: PEM
 enums:
   - name: PEM_INTSN_E
+    title: PEM Interrupt Source Enumeration
     attributes:
       width: "20"
     description: PEM Interrupt sources
     values:
       - name: PEM(0..3)_ERROR_AERI
         value: 0xC0000 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[AERI].
 
       - name: PEM(0..3)_ERROR_SE
         value: 0xC0001 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[SE].
 
       - name: PEM(0..3)_ERROR_PMEI
         value: 0xC0002 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[PMEI].
 
       - name: PEM(0..3)_ERROR_UP_B1
         value: 0xC0004 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[UP_B1].
 
       - name: PEM(0..3)_ERROR_UP_B2
         value: 0xC0005 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[UP_B2].
 
       - name: PEM(0..3)_ERROR_UP_BX
         value: 0xC0006 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[UP_BX].
 
       - name: PEM(0..3)_ERROR_UN_B1
         value: 0xC0007 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[UN_B1].
 
       - name: PEM(0..3)_ERROR_UN_B2
         value: 0xC0008 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[UN_B2].
 
       - name: PEM(0..3)_ERROR_UN_BX
         value: 0xC0009 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[UN_BX].
 
       - name: PEM(0..3)_ERROR_RDLK
         value: 0xC000B + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[RDLK].
 
       - name: PEM(0..3)_ERROR_CRS_ER
         value: 0xC000C + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[CRS_ER].
 
       - name: PEM(0..3)_ERROR_CRS_DR
         value: 0xC000D + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[CRS_DR].
 
       - name: PEM(0..3)_ERROR_INTA
         value: 0xC003C + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[INTA]
 
       - name: PEM(0..3)_ERROR_INTB
         value: 0xC003D + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[INTB]
 
       - name: PEM(0..3)_ERROR_INTC
         value: 0xC003E + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[INTC]
 
       - name: PEM(0..3)_ERROR_INTD
         value: 0xC003F + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int0"
         description: See PEM(0..3)_INT_SUM[INTD]
 
       - name: PEM(0..3)_ERROR_SPOISON
         value: 0xC0040 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[SPOISON].
 
       - name: PEM(0..3)_ERROR_RTLPMAL
         value: 0xC0041 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RTLPMAL].
 
       - name: PEM(0..3)_ERROR_RTLPLLE
         value: 0xC0042 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RTLPLLE].
 
       - name: PEM(0..3)_ERROR_RECRCE
         value: 0xC0043 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RECRCE].
 
       - name: PEM(0..3)_ERROR_RPOISON
         value: 0xC0044 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RPOISON].
 
       - name: PEM(0..3)_ERROR_RCEMRC
         value: 0xC0045 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RCEMRC].
 
       - name: PEM(0..3)_ERROR_RNFEMRC
         value: 0xC0046 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RNFEMRC].
 
       - name: PEM(0..3)_ERROR_RFEMRC
         value: 0xC0047 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RFEMRC].
 
       - name: PEM(0..3)_ERROR_RPMERC
         value: 0xC0048 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RPMERC].
 
       - name: PEM(0..3)_ERROR_RPTAMRC
         value: 0xC0049 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RPTAMRC].
 
       - name: PEM(0..3)_ERROR_RUMEP
         value: 0xC004A + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RUMEP].
 
       - name: PEM(0..3)_ERROR_RVDM
         value: 0xC004B + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RVDM].
 
       - name: PEM(0..3)_ERROR_ACTO
         value: 0xC004C + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[ACTO].
 
       - name: PEM(0..3)_ERROR_RTE
         value: 0xC004D + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RTE].
 
       - name: PEM(0..3)_ERROR_MRE
         value: 0xC004E + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[MRE].
 
       - name: PEM(0..3)_ERROR_RDWDLE
         value: 0xC004F + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RDWDLE].
 
       - name: PEM(0..3)_ERROR_RTWDLE
         value: 0xC0050 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RTWDLE].
 
       - name: PEM(0..3)_ERROR_DPEOOSD
         value: 0xC0051 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[DPEOOSD].
 
       - name: PEM(0..3)_ERROR_FCPVWT
         value: 0xC0052 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[FCPVWT].
 
       - name: PEM(0..3)_ERROR_RPE
         value: 0xC0053 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RPE].
 
       - name: PEM(0..3)_ERROR_FCUV
         value: 0xC0054 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[FCUV].
 
       - name: PEM(0..3)_ERROR_RQO
         value: 0xC0055 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RQO].
 
       - name: PEM(0..3)_ERROR_RAUC
         value: 0xC0056 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RAUC].
 
       - name: PEM(0..3)_ERROR_RACUR
         value: 0xC0057 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RACUR].
 
       - name: PEM(0..3)_ERROR_RACCA
         value: 0xC0058 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RACCA].
 
       - name: PEM(0..3)_ERROR_CAAR
         value: 0xC0059 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[CAAR].
 
       - name: PEM(0..3)_ERROR_RARWDNS
         value: 0xC005A + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RARWDNS].
 
       - name: PEM(0..3)_ERROR_RAMTLP
         value: 0xC005B + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RAMTLP].
 
       - name: PEM(0..3)_ERROR_RACPP
         value: 0xC005C + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RACPP].
 
       - name: PEM(0..3)_ERROR_RAWWPP
         value: 0xC005D + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[RAWWPP].
 
       - name: PEM(0..3)_ERROR_ECRC_E
         value: 0xC005E + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[ECRC_E].
 
       - name: PEM(0..3)_ERROR_LOFP
         value: 0xC005F + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[LOFP].
 
       - name: PEM(0..3)_ERROR_DATQ_PE
         value: 0xC0061 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[DATQ_PE].
 
       - name: PEM(0..3)_ERROR_P_D0_SBE
         value: 0xC0062 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[P_D0_SBE].
 
       - name: PEM(0..3)_ERROR_P_D0_DBE
         value: 0xC0063 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[P_D0_DBE].
 
       - name: PEM(0..3)_ERROR_P_D1_SBE
         value: 0xC0064 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[P_D1_SBE].
 
       - name: PEM(0..3)_ERROR_P_D1_DBE
         value: 0xC0065 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[P_D1_DBE].
 
       - name: PEM(0..3)_ERROR_P_C_SBE
         value: 0xC0066 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[P_C_SBE].
 
       - name: PEM(0..3)_ERROR_P_C_DBE
         value: 0xC0067 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[P_C_DBE].
 
       - name: PEM(0..3)_ERROR_N_D0_SBE
         value: 0xC0068 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[N_D0_SBE].
 
       - name: PEM(0..3)_ERROR_N_D0_DBE
         value: 0xC0069 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[N_D0_DBE].
 
       - name: PEM(0..3)_ERROR_N_D1_SBE
         value: 0xC006A + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[N_D1_SBE].
 
       - name: PEM(0..3)_ERROR_N_D1_DBE
         value: 0xC006B + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[N_D1_DBE].
 
       - name: PEM(0..3)_ERROR_N_C_SBE
         value: 0xC006C + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[N_C_SBE].
 
       - name: PEM(0..3)_ERROR_N_C_DBE
         value: 0xC006D + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[N_C_DBE].
 
       - name: PEM(0..3)_ERROR_C_D0_SBE
         value: 0xC006E + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[C_D0_SBE].
 
       - name: PEM(0..3)_ERROR_C_D0_DBE
         value: 0xC006F + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[C_D0_DBE].
 
       - name: PEM(0..3)_ERROR_C_D1_SBE
         value: 0xC0070 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[C_D1_SBE].
 
       - name: PEM(0..3)_ERROR_C_D1_DBE
         value: 0xC0071 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[C_D1_DBE].
 
       - name: PEM(0..3)_ERROR_C_C_SBE
         value: 0xC0072 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[C_C_SBE].
 
       - name: PEM(0..3)_ERROR_C_C_DBE
         value: 0xC0073 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See PEM(0..3)_DBG_INFO[C_C_DBE].
 
       - name: PEM(0..3)_ERROR_RTRY_SBE
         value: 0xC0074 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[RTRY_SBE].
 
       - name: PEM(0..3)_ERROR_RTRY_DBE
         value: 0xC0075 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[RTRY_DBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B0_SBE
         value: 0xC0076 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B0_SBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B0_DBE
         value: 0xC0077 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B0_DBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B1_SBE
         value: 0xC0078 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B1_SBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B1_DBE
         value: 0xC0079 + a*0x1000
+        attributes:
+          cib_rtl_module: "pem_int1"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B1_DBE].
 
 
@@ -1912,7 +2059,7 @@ registers:
 
       - name: PMEI
         bits: 2
-        access: RO/H
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: |
@@ -1930,7 +2077,7 @@ registers:
 
       - name: AERI
         bits: 0
-        access: RO/H
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: |

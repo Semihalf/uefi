@@ -4,6 +4,7 @@
 name: HNA
 enums:
   - name: HNA_INTSN_E
+    title: HNA Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different HNA generated interrupts.

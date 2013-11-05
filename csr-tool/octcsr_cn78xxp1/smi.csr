@@ -8,6 +8,8 @@ registers:
     address: 0x1180000001828
     bus: RSL
     description: Enables the SMI interface. SMI Registers for the register address.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..11
@@ -87,7 +89,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: PHY address
+        description: PHY address.
 
       - name: --
         bits: 7..5
@@ -101,7 +103,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: PHY register offset
+        description: PHY register offset.
 
 
   - name: SMI(0..3)_WR_DAT
@@ -136,7 +138,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Write data
+        description: Write data.
 
 
   - name: SMI(0..3)_RD_DAT
@@ -171,7 +173,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Read data
+        description: Read data.
 
 
   - name: SMI(0..3)_CLK
@@ -217,10 +219,10 @@ registers:
           Read data sampling mode.
           According to the 802.3 specification, on read operations, the STA transitions SMIn_MDC and
           the PHY drives SMIn_MDIO with some delay relative to that edge. This is Edge1.
-          The STA then samples SMIn_MDIO on the next rising edge of SMIn_MDC. This is Edge2. CN78XX
-          can sample the read data relative to either edge.
-          0 = sample time is relative to Edge2
-          1 = sample time is relative to Edge1
+          The STA then samples SMIn_MDIO on the next rising edge of SMIn_MDC. This is Edge2. The
+          read data can be sampled relative to either edge.
+          0 = Sample time is relative to Edge2.
+          1 = Sample time is relative to Edge1.
 
       - name: --
         bits: 14
@@ -288,8 +290,8 @@ registers:
         typical: 1
         description: |
           SMI/MDIO interface enable:
-          1 = enable interface
-          0 = disable interface: no transactions, no SMIn_MDC transitions
+          1 = Enable interface.
+          0 = Disable interface: no transactions, no SMIn_MDC transitions.
 
 
 

@@ -248,7 +248,9 @@ enums:
           major_val: "(0x6C)"
           reg_addr: "0"
           reg_name: ""
-        description: See SATA_UAHC_GBL_IS[IPS] and SATA_UAHC_PX_IS.
+        description: |
+          See SATA_UAHC_GBL_IS[IPS] and SATA_UAHC_P(0..1)_IS.
+          This interrupt is level sensitive.
 
       - name: SATA_UCTL_UAHC_PME_REQ_IP
         value: 0x6C020
@@ -264,14 +266,11 @@ enums:
           reg_addr: "0"
           reg_name: ""
         description: |
-          See SATA_UAHC_PX_IS[CPDS] and
-          SATA_UAHC_PX_IS[DMPS] and
-          SATA_UAHC_PX_IS[PCS] and
-          SATA_UAHC_PX_IS[SDBS] and
-          SATA_UAHC_PX_SNTF[PMN]
+          See SATA_UAHC_P(0..1)_IS[CPDS,DMPS,PCS,SDBS] and SATA_UAHC_P(0..1)_SNTF[PMN].
+          This interrupt is level sensitive.
 
       - name: L2C_TAD(0..0)_INT_L2DSBE
-        value: 0x80000 | (a << 8)
+        value: 0x80000 | a<<8
         attributes:
           bit_name: "L2DSBE"
           bit_num: "0"
@@ -285,7 +284,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[L2DSBE].
 
       - name: L2C_TAD(0..0)_INT_L2DDBE
-        value: 0x80001 | (a << 8)
+        value: 0x80001 | a<<8
         attributes:
           bit_name: "L2DDBE"
           bit_num: "1"
@@ -298,7 +297,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[L2DDBE].
 
       - name: L2C_TAD(0..0)_INT_SBFSBE
-        value: 0x80002 | (a << 8)
+        value: 0x80002 | a<<8
         attributes:
           bit_name: "SBFSBE"
           bit_num: "2"
@@ -311,7 +310,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[SBFSBE].
 
       - name: L2C_TAD(0..0)_INT_SBFDBE
-        value: 0x80003 | (a << 8)
+        value: 0x80003 | a<<8
         attributes:
           bit_name: "SBFDBE"
           bit_num: "3"
@@ -324,7 +323,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[SBFDBE].
 
       - name: L2C_TAD(0..0)_INT_FBFSBE
-        value: 0x80004 | (a << 8)
+        value: 0x80004 | a<<8
         attributes:
           bit_name: "FBFSBE"
           bit_num: "4"
@@ -337,7 +336,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[FBFSBE].
 
       - name: L2C_TAD(0..0)_INT_FBFDBE
-        value: 0x80005 | (a << 8)
+        value: 0x80005 | a<<8
         attributes:
           bit_name: "FBFDBE"
           bit_num: "5"
@@ -350,7 +349,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[FBFDBE].
 
       - name: L2C_TAD(0..0)_INT_TAGSBE
-        value: 0x80006 | (a << 8)
+        value: 0x80006 | a<<8
         attributes:
           bit_name: "TAGSBE"
           bit_num: "8"
@@ -363,7 +362,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[TAGSBE].
 
       - name: L2C_TAD(0..0)_INT_TAGDBE
-        value: 0x80007 | (a << 8)
+        value: 0x80007 | a<<8
         attributes:
           bit_name: "TAGDBE"
           bit_num: "9"
@@ -376,7 +375,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[TAGDBE].
 
       - name: L2C_TAD(0..0)_INT_NOWAY
-        value: 0x80008 | (a << 8)
+        value: 0x80008 | a<<8
         attributes:
           bit_name: "NOWAY"
           bit_num: "10"
@@ -389,7 +388,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[NOWAY].
 
       - name: L2C_TAD(0..0)_INT_HOLEWR
-        value: 0x80009 | (a << 8)
+        value: 0x80009 | a<<8
         attributes:
           bit_name: "HOLEWR"
           bit_num: "11"
@@ -402,7 +401,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[HOLEWR].
 
       - name: L2C_TAD(0..0)_INT_HOLERD
-        value: 0x8000A | (a << 8)
+        value: 0x8000A | a<<8
         attributes:
           bit_name: "HOLERD"
           bit_num: "12"
@@ -415,7 +414,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[HOLERD].
 
       - name: L2C_TAD(0..0)_INT_BIGWR
-        value: 0x8000B | (a << 8)
+        value: 0x8000B | a<<8
         attributes:
           bit_name: "BIGWR"
           bit_num: "13"
@@ -428,7 +427,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[BIGWR].
 
       - name: L2C_TAD(0..0)_INT_BIGRD
-        value: 0x8000C | (a << 8)
+        value: 0x8000C | a<<8
         attributes:
           bit_name: "BIGRD"
           bit_num: "14"
@@ -441,7 +440,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[BIGRD].
 
       - name: L2C_TAD(0..0)_INT_WRDISLMC
-        value: 0x8000D | (a << 8)
+        value: 0x8000D | a<<8
         attributes:
           bit_name: "WRDISLMC"
           bit_num: "16"
@@ -454,7 +453,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[WRDISLMC].
 
       - name: L2C_TAD(0..0)_INT_RDDISLMC
-        value: 0x8000E | (a << 8)
+        value: 0x8000E | a<<8
         attributes:
           bit_name: "RDDISLMC"
           bit_num: "15"
@@ -467,7 +466,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[RDDISLMC].
 
       - name: L2C_TAD(0..0)_INT_RTGSBE
-        value: 0x8000F | (a << 8)
+        value: 0x8000F | a<<8
         attributes:
           bit_name: "RTGSBE"
           bit_num: "32"
@@ -480,7 +479,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[RTGSBE].
 
       - name: L2C_TAD(0..0)_INT_RTGDBE
-        value: 0x80010 | (a << 8)
+        value: 0x80010 | a<<8
         attributes:
           bit_name: "RTGDBE"
           bit_num: "33"
@@ -493,7 +492,7 @@ enums:
         description: See L2C_TAD(0..0)_INT[RTGDBE].
 
       - name: L2C_MCI(0..0)_INT_VBFSBE
-        value: 0x80800 | (a << 8)
+        value: 0x80800 | a<<8
         attributes:
           bit_name: "VBFSBE"
           bit_num: "0"
@@ -507,7 +506,7 @@ enums:
         description: See L2C_MCI(0..0)_INT[VBFSBE].
 
       - name: L2C_MCI(0..0)_INT_VBFDBE
-        value: 0x80801 | (a << 8)
+        value: 0x80801 | a<<8
         attributes:
           bit_name: "VBFDBE"
           bit_num: "1"
@@ -520,7 +519,7 @@ enums:
         description: See L2C_MCI(0..0)_INT[VBFDBE].
 
       - name: L2C_CBC(0..0)_INT_RSDSBE
-        value: 0x80C00 | (a << 8)
+        value: 0x80C00 | a<<8
         attributes:
           bit_name: "RSDSBE"
           bit_num: "0"
@@ -534,7 +533,7 @@ enums:
         description: See L2C_CBC(0..0)_INT[RSDSBE].
 
       - name: L2C_CBC(0..0)_INT_RSDDBE
-        value: 0x80C01 | (a << 8)
+        value: 0x80C01 | a<<8
         attributes:
           bit_name: "RSDDBE"
           bit_num: "1"
@@ -547,7 +546,7 @@ enums:
         description: See L2C_CBC(0..0)_INT[RSDDBE].
 
       - name: L2C_CBC(0..0)_INT_IOCCMDSBE
-        value: 0x80C02 | (a << 8)
+        value: 0x80C02 | a<<8
         attributes:
           bit_name: "IOCCMDSBE"
           bit_num: "2"
@@ -560,7 +559,7 @@ enums:
         description: See L2C_CBC(0..0)_INT[IOCCMDSBE].
 
       - name: L2C_CBC(0..0)_INT_IOCCMDDBE
-        value: 0x80C03 | (a << 8)
+        value: 0x80C03 | a<<8
         attributes:
           bit_name: "IOCCMDDBE"
           bit_num: "3"

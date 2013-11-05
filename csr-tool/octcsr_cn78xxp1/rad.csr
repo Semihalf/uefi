@@ -4,6 +4,7 @@
 name: RAD
 enums:
   - name: RAD_INTSN_E
+    title: RAD Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different RAD generated interrupts.

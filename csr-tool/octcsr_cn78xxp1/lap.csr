@@ -4,6 +4,7 @@
 name: LAP
 enums:
   - name: LAP_CMD_E
+    title: LAP Command Enumeration
     attributes:
       width: "4"
     description: Enumerates the values of the operation structure command field.
@@ -18,6 +19,7 @@ enums:
 
 
   - name: LAP_ERR_E
+    title: LAP Error Enumeration
     attributes:
       width: "6"
     description: Enumerates the different errors for returns in LAP_CTL_RTN_S[ERR]; see also LAP(0..1)_GEN_INT.
@@ -78,9 +80,10 @@ enums:
 
 
   - name: LAP_INTSN_E
+    title: LAP Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different LAP-generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different LAP-generated interrupts.
     values:
       - name: LAP(0..1)_GEN_LABS_OUT
         value: 0x0C000 + a*0x1000
@@ -559,7 +562,7 @@ registers:
 
       - name: NBR
         bits: 8
-        access: RO/H
+        access: RO
         reset: X
         typical: 0
         description: |
@@ -567,7 +570,7 @@ registers:
 
       - name: EDAT
         bits: 7
-        access: RO/H
+        access: RO
         reset: X
         typical: 0
         description: |
@@ -575,7 +578,7 @@ registers:
 
       - name: EMSK
         bits: 6
-        access: RO/H
+        access: RO
         reset: X
         typical: 0
         description: |
@@ -590,7 +593,7 @@ registers:
 
       - name: LAB_DAT
         bits: 3..2
-        access: RO/H
+        access: RO
         reset: X
         typical: 0x0
         description: |
@@ -598,7 +601,7 @@ registers:
 
       - name: CTL_NXT
         bits: 1
-        access: RO/H
+        access: RO
         reset: X
         typical: 0
         description: |
@@ -606,7 +609,7 @@ registers:
 
       - name: CTL_STA
         bits: 0
-        access: RO/H
+        access: RO
         reset: X
         typical: 0
         description: |

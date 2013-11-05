@@ -4,6 +4,7 @@
 name: MIO_EMM
 enums:
   - name: MIO_EMM_INTSN_E
+    title: eMMC Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts.
@@ -192,9 +193,9 @@ registers:
           from eMMC or NOR Flash. When set, the following pattern will be output:
           BOOT_AD<7:0> pulled up to 1
           BOOT_CE_<7:0>_L driven to 1
-          BOOT_ALE driven to 0
-          BOOT_OE_L driven to 1
-          BOOT_WE_L driven to 1
+          BOOT_ALE driven to 1
+          BOOT_OE_L driven to 0
+          BOOT_WE_L driven to 0
 
       - name: --
         bits: 15..4
@@ -850,13 +851,13 @@ registers:
           DAT[ 7: 1]  CRC7
           DAT[    0]  End bit
           RSP_TYPE = 5
-          DAT[63:46]   0x0
+          DAT[63:46]  0x0
           DAT[45:40]  CMD40 ('10100')
           DAT[39:24]  RCA[31:16]
           DAT[   23]  Status
           DAT[22:16]  Register address
           DAT[15: 8]  Not defined. May be used for IRQ data
-          DAT[ 7: 1] CRC7
+          DAT[ 7: 1]  CRC7
           DAT[    0]  End bit
 
 

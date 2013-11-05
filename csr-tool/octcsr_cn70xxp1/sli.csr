@@ -3543,7 +3543,7 @@ registers:
         bits: 63..0
         access: R/W/H
         reset: 0x0
-        typical: 0xffffffffffffffffL
+        typical: all-ones
         description: |
           Enables bit [63:0] of SLI_MSI_RCV0.
 
@@ -3558,7 +3558,7 @@ registers:
         bits: 63..0
         access: R/W/H
         reset: 0x0
-        typical: 0xffffffffffffffffL
+        typical: all-ones
         description: |
           Enables bit [63:0] of SLI_MSI_RCV1.
 
@@ -3573,7 +3573,7 @@ registers:
         bits: 63..0
         access: R/W/H
         reset: 0x0
-        typical: 0xffffffffffffffffL
+        typical: all-ones
         description: |
           Enables bit [63:0] of SLI_MSI_RCV2.
 
@@ -3588,7 +3588,7 @@ registers:
         bits: 63..0
         access: R/W/H
         reset: 0x0
-        typical: 0xffffffffffffffffL
+        typical: all-ones
         description: |
           Enables bit [63:0] of SLI_MSI_RCV3.
 

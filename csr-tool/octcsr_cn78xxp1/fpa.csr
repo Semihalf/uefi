@@ -4,9 +4,10 @@
 name: FPA
 enums:
   - name: FPA_INTSN_E
+    title: FPA Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different FPA generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different FPA generated interrupts.
     values:
       - name: FPA_ERR_CNT_ADD
         value: 0x28000
@@ -125,7 +126,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: FPA_ALLOC_LD_S
@@ -1288,9 +1289,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: |
-          Backpressure will be indicated if the average shifted level is equal to or less than this
-          value. (It may be desirable to configure fast or no averaging when using backpressure.)
+        description: Backpressure will be indicated if the immediate shifted level is equal to or less than this value.
 
       - name: DROP
         bits: 23..16

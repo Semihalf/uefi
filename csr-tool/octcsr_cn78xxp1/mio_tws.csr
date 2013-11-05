@@ -3,12 +3,14 @@
 ---
 name: MIO_TWS
 attributes:
-  block_index: "False"
+  block_index_affects_offset: "True"
+  dv_testbuilder_ignore_block_index: "True"
 enums:
   - name: TWS_INTSN_E
+    title: TWSI Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different generated interrupts.
     values:
       - name: MIO_TWS(0..1)_INT_ST
         value: 0x0B000 + a*0x100
@@ -71,7 +73,7 @@ registers:
         typical: --
         description: |
           Extended internal address. Sends an additional internal address byte (the MSB of IA is
-          from MIO_TWS_SW_TWSI_EXT[IA]).
+          from MIO_TWS(0..1)_SW_TWSI_EXT[IA]).
 
       - name: OP
         bits: 60..57
@@ -115,7 +117,7 @@ registers:
         description: |
           Size override. If this bit is set, use the SIZE field to determine the master-mode
           operation size rather than what OP specifies. For operations greater than four bytes, the
-          additional data is contained in MIO_TWS_SW_TWSI_EXT[D].
+          additional data is contained in MIO_TWS(0..1)_SW_TWSI_EXT[D].
 
       - name: SIZE
         bits: 54..52
@@ -287,7 +289,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          MIO_TWS_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. Throws
+          MIO_TWS(0..1)_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. Throws
           TWS_INTSN_E::MIO_TWS_INT_TS.
 
       - name: ST_INT
@@ -296,7 +298,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          MIO_TWS_SW_TWSI register-update interrupt. Ignored when the HLC is disabled. Throws
+          MIO_TWS(0..1)_SW_TWSI register-update interrupt. Ignored when the HLC is disabled. Throws
           TWS_INTSN_E::MIO_TWS_INT_ST.
 
 
@@ -308,9 +310,11 @@ registers:
       This register contains an additional byte of internal address and four additional bytes of
       data to be used with TWSI master-mode operations.
       The IA field is sent as the first byte of internal address when performing master-mode
-      combined-read/write-with-IA operations and MIO_TWS_SW_TWSI[EIA] is set. The D field extends
-      the data field of MIO_TWS_SW_TWSI for a total of 8 bytes (SOVR must be set to perform
-      operations greater than 4 bytes).
+      combined-read/write-with-IA operations and MIO_TWS(0..1)_SW_TWSI[EIA] is set. The D field
+      extends the data field of MIO_TWS(0..1)_SW_TWSI for a total of 8 bytes (SOVR must be set to
+      perform operations greater than 4 bytes).
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..40
@@ -326,7 +330,7 @@ registers:
         typical: --
         description: |
           Extended internal address. Sent as the first byte of internal address when performing
-          master-mode combined-read/write-with-IA operations and MIO_TWS_SW_TWSI[EIA] is set.
+          master-mode combined-read/write-with-IA operations and MIO_TWS(0..1)_SW_TWSI[EIA] is set.
 
       - name: DATA
         bits: 31..0
@@ -334,8 +338,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Extended data. Extends the data field of MIO_TWS_SW_TWSI for a total of eight bytes
-          (MIO_TWS_SW_TWSI[SOVR] must be set to 1 to perform operations greater than four bytes).
+          Extended data. Extends the data field of MIO_TWS(0..1)_SW_TWSI for a total of eight bytes
+          (MIO_TWS(0..1)_SW_TWSI[SOVR] must be set to 1 to perform operations greater than four
+          bytes).
 
 
 

@@ -4,9 +4,10 @@
 name: SSO
 enums:
   - name: SSO_INTSN_E
+    title: SSO Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different SSO-generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different SSO-generated interrupts.
     values:
       - name: SSO_GRP(0..255)_AQ
         value: 0x60000 + a
@@ -421,7 +422,7 @@ structs:
         bits: 63..56
         attributes:
           const: ""
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: SSO_ALLOC_WE_LD_S
@@ -577,7 +578,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: SSO_CSR_WR_DMA_S
@@ -703,7 +704,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: SSO_GET_WORK_LD_S
@@ -1178,11 +1179,18 @@ registers:
           <48> Work-slot pushes to AQ, CQ, DQ. (arbq.)
 
       - name: --
-        bits: 47..4
+        bits: 47..5
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DISABLE_PW
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable PREP_WORK operations and treat as a NOP. For diagnostic use only.
 
       - name: ARBC_STEP_EN
         bits: 3

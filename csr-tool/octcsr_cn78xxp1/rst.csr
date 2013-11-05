@@ -4,6 +4,7 @@
 name: RST
 enums:
   - name: RST_INTSN_E
+    title: RST Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from RST.

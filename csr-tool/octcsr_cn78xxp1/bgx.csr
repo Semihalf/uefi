@@ -129,6 +129,7 @@ attributes:
   subblocks: "CMR,GMP,SMU,SPU"
 enums:
   - name: BGX_INTSN_E
+    title: BGX Interrupt Source Enumeration
     attributes:
       subblock: "META"
       width: "20"
@@ -5925,7 +5926,7 @@ registers:
 
   - name: BGX(0..5)_SPU_SDS(0..3)_SKEW_STATUS
     title: BGX SPU SerDes Lane Skew Status Registers
-    address: 0x11800E0010320 + a*0x1000000 + b*8
+    address: 0x11800E0010320 + a*0x1000000 + b*0x8
     bus: RSL
     description: This register provides SerDes lane skew status. One register per physical SerDes lane.
     attributes:
@@ -5948,7 +5949,7 @@ registers:
 
   - name: BGX(0..5)_SPU_SDS(0..3)_STATES
     title: BGX SPU SerDes States Registers
-    address: 0x11800E0010340 + a*0x1000000 + b*8
+    address: 0x11800E0010340 + a*0x1000000 + b*0x8
     bus: RSL
     description: This register provides SerDes lane states. One register per physical SerDes lane.
     attributes:
@@ -9111,7 +9112,6 @@ registers:
           Include the skip bytes in the FCS calculation.
           0 = all skip bytes are included in FCS
           1 = the skip bytes are not included in FCS
-          When BGX(0..5)_GMP_GMI_TX(0..3)_CTL[HG_EN] is set, this field must be 0.
           The skip bytes are part of the packet and are sent through the IOI packet interface and
           are handled by PKI. The system can determine if the UDD bytes are included in the FCS
           check by using the FCSSEL field, if the FCS check is enabled.
@@ -9132,9 +9132,6 @@ registers:
           Amount of user-defined data before the start of the L2C data, in bytes.
           Setting to 0 means L2C comes first; maximum value is 64.
           LEN must be 0x0 in half-duplex operation.
-          When BGX(0..5)_GMP_GMI_TX(0..3)_CTL[HG_EN] is set, this field must be set to 12 or 16
-          (depending on HiGig header size) to account for the HiGig header.
-          LEN = 12 selects HiGig/HiGig+; LEN = 16 selects HiGig2.
 
 
   - name: BGX(0..5)_GMP_GMI_RX(0..3)_IFG

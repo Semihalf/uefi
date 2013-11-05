@@ -4,6 +4,7 @@
 name: ILK
 enums:
   - name: ILK_INTSN_E
+    title: ILK Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different ILK-generated interrupts.
@@ -374,10 +375,10 @@ registers:
 
       - name: SER_RESET_N
         bits: 23..8
-        access: RAZ
+        access: R/W
         reset: 0x0
         typical: --
-        description: Reserved.
+        description: SerDes lane reset.
 
       - name: SER_PWRUP
         bits: 7..4

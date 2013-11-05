@@ -70,6 +70,7 @@ description: |
   see the PHY Databook.
 enums:
   - name: UCTL_DMA_READ_CMD_E
+    title: UCTL DMA Read Command Enumeration
     attributes:
       width: "2"
     description: Enumerate IOI inbound command selections for DMA reads.
@@ -88,6 +89,7 @@ enums:
 
 
   - name: UCTL_DMA_WRITE_CMD_E
+    title: UCTL DMA Write Command Enumeration
     attributes:
       width: "1"
     description: Enumerate IOI inbound command selections for DMA writes.
@@ -102,6 +104,7 @@ enums:
 
 
   - name: UCTL_ECC_ERR_SOURCE_E
+    title: UCTL ECC Error Source Enumeration
     attributes:
       width: "4"
     description: Enumerate sources of ECC error log information.
@@ -152,6 +155,7 @@ enums:
 
 
   - name: UCTL_ENDIAN_MODE_E
+    title: UCTL Endian-Mode Enumeration
     attributes:
       width: "2"
     description: Enumerate endian mode selections.
@@ -181,6 +185,7 @@ enums:
 
 
   - name: UCTL_INTSN_E
+    title: UCTL Interrupt Source Number Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.
@@ -273,6 +278,7 @@ enums:
 
 
   - name: UCTL_XM_BAD_DMA_TYPE_E
+    title: UCTL XM Bad DMA Type Enumeration
     attributes:
       width: "4"
     description: Enumerate type of DMA error seen.
@@ -385,7 +391,7 @@ registers:
         typical: 0x0
         description: |
           Spread-spectrum clock range. Selects the range of spread-spectrum modulation when SSC_EN
-          is asserted and the PHY is spreading the SuperSpeed transmit clocks.
+          is asserted and the PHY is spreading the SS transmit clocks.
           Applies a fixed offset to the phase accumulator.
           0x0 = -4980 ppm downspread of clock
           0x1 = -4492 ppm
@@ -452,11 +458,11 @@ registers:
           Selects the reference clock frequency for the SuperSpeed and HighSpeed PLL blocks. The
           legal values are as follows:
           0x27 = External reference clock 100 MHz
-          0x2A = External reference clock 24 MHz
-          0x31 = External reference clock 20 MHz
-          0x38 = External reference clock 19.2 MHz
           All other values are reserved.
           This value may only be changed during UPHY_RST.
+          INTERNAL: 0x2A = External reference clock 24 MHz
+                    0x31 = External reference clock 20 MHz
+                    0x38 = External reference clock 19.2 MHz
 
       - name: --
         bits: 31
@@ -575,10 +581,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Disables the USB3 (SuperSpeed) portion of this PHY. When set to 1, this signal stops
-          reporting connect/disconnect events on the port and keeps the port in disabled state. This
-          could be used for security reasons where hardware can disable a port regardless of whether
-          xHCI driver enables a port or not.
+          Disables the USB3 (SS) portion of this PHY. When set to 1, this signal stops reporting
+          connect/disconnect events on the port and keeps the port in disabled state. This could be
+          used for security reasons where hardware can disable a port regardless of whether xHCI
+          driver enables a port or not.
           UAHC(0)_HCSPARAMS1[MAXPORTS] is not affected by this signal.
           This is a strap signal; it should be modified only when UPHY_RST is asserted.
 
@@ -595,10 +601,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Disables USB2 (HighSpeed/FullSpeed/LowSpeed) portion of this PHY. When set to 1, this
-          signal stops reporting connect/disconnect events on the port and keeps the port in
-          disabled state. This could be used for security reasons where hardware can disable a port
-          regardless of whether xHCI driver enables a port or not.
+          Disables USB2 (HS/FS/LS) portion of this PHY. When set to 1, this signal stops reporting
+          connect/disconnect events on the port and keeps the port in disabled state. This could be
+          used for security reasons where hardware can disable a port regardless of whether xHCI
+          driver enables a port or not.
           UAHC(0)_HCSPARAMS1[MAXPORTS] is not affected by this signal.
           This is a strap signal; it should only be modified when UPHY_RST is asserted.
           If Port0 is required to be disabled, ensure that the utmi_clk[0] is running at the normal
@@ -617,7 +623,7 @@ registers:
         reset: 0
         typical: 1
         description: |
-          PHY SuperSpeed block power enable.
+          PHY SS block power enable.
           This is a strap signal; it should only be modified when UPHY_RST is asserted.
 
       - name: --
@@ -633,7 +639,7 @@ registers:
         reset: 0
         typical: 1
         description: |
-          PHY HighSpeed block power enable
+          PHY HS block power enable.
           This is a strap signal; it should only be modified when UPHY_RST is asserted.
 
       - name: --
@@ -1012,7 +1018,7 @@ registers:
         typical: 0x3
         description: |
           Squelch threshold adjustment. Adjusts the voltage level for the threshold used to detect
-          valid HighSpeed data.
+          valid HS data.
           A positive binary bit setting change results in a -5% incremental change in threshold
           voltage level, while a negative binary bit setting change results in a +5% incremental
           change in threshold voltage level.
@@ -1023,8 +1029,7 @@ registers:
         reset: 0x3
         typical: 0x3
         description: |
-          FullSpeed/LowSpeed source impedance adjustment. Adjusts the LowSpeed and FullSpeed single-
-          ended source
+          LS/FS source impedance adjustment. Adjusts the low- and full-speed single-ended source
           impedance while driving high. This parameter control is encoded in thermometer code.
           A positive thermometer code change results in a -2.5% incremental change in source
           impedance. A negative thermometer code change results in +2.5% incremental change in
@@ -1044,8 +1049,8 @@ registers:
         reset: 0x3
         typical: 0x3
         description: |
-          Transmitter HighSpeed crossover adjustment. This bus adjusts the voltage at which the DP0
-          and DM0 signals cross while transmitting in HighSpeed mode.
+          Transmitter high-speed crossover adjustment. This bus adjusts the voltage at which the DP0
+          and DM0 signals cross while transmitting in HS mode.
           11 = default setting
           10 = +15 mV
           01 = -15 mV
@@ -1057,14 +1062,14 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          HighSpeed transmitter pre-emphasis current control. Controls the amount of current
-          sourced to DP0 and DM0 after a J-to-K or K-to-J transition. The HighSpeed transmitter
+          High-speed transmitter pre-emphasis current control. Controls the amount of current
+          sourced to DP0 and DM0 after a J-to-K or K-to-J transition. The high-speed transmitter
           pre-emphasis current is defined in terms of unit amounts. One unit amount is approximately
           600 A and is defined as 1* pre-emphasis current.
-          0x3 = HighSpeed TX pre-emphasis circuit sources 3* pre-emphasis current.
-          0x2 = HighSpeed TX pre-emphasis circuit sources 2* pre-emphasis current.
-          0x1 = HighSpeed TX pre-emphasis circuit sources 1* pre-emphasis current.
-          0x0 = HighSpeed TX pre-emphasis is disabled.
+          0x3 = high-speed TX pre-emphasis circuit sources 3* pre-emphasis current.
+          0x2 = high-speed TX pre-emphasis circuit sources 2* pre-emphasis current.
+          0x1 = high-speed TX pre-emphasis circuit sources 1* pre-emphasis current.
+          0x0 = high-speed TX pre-emphasis is disabled (design default).
           If these signals are not used, set them to 0x0.
 
       - name: --
@@ -1080,8 +1085,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          HighSpeed transmitter pre-emphasis duration control. Controls the duration for which the
-          HighSpeed pre-emphasis current is sourced onto DP0 or DM0. The HighSpeed transmitter
+          High-speed transmitter pre-emphasis duration control. Controls the duration for which the
+          high-speed pre-emphasis current is sourced onto DP0 or DM0. The high-speed transmitter
           pre-emphasis duration is defined in terms of unit amounts. One unit of pre-emphasis
           duration is approximately 580 ps and is defined as 1* pre-emphasis duration. This signal
           is valid only if either TX_PREEMP_AMP_TUNE0[1] or TX_PREEMP_AMP_TUNE0[0] is set to 1.
@@ -1112,10 +1117,10 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          HighSpeed transmitter rise-/fall-time adjustment. Adjusts the rise/fall times of the
-          HighSpeed waveform. A positive binary bit setting change results in a -4% incremental
-          change in the HighSpeed rise/fall time. A negative binary bit setting change results in a
-          +4% incremental change in the HighSpeed rise/fall time.
+          HS transmitter rise-/fall-time adjustment. Adjusts the rise/fall times of the high-speed
+          waveform. A positive binary bit setting change results in a -4% incremental change in the
+          high-speed rise/fall time. A negative binary bit setting change results in a +4%
+          incremental change in the HS rise/fall time.
 
       - name: TX_VREF_TUNE
         bits: 35..32
@@ -1123,8 +1128,8 @@ registers:
         reset: 0x3
         typical: 0x3
         description: |
-          HighSpeed DC voltage-level adjustment. Adjusts the HighSpeed DC level voltage.
-          A positive binary bit setting change results in a +1.25% incremental change in HighSpeed
+          High-speed DC voltage-level adjustment. Adjusts the high-speed DC level voltage.
+          A positive binary bit setting change results in a +1.25% incremental change in high-speed
           DC voltage level, while a negative binary bit setting change results in a -1.25%
           incremental change in HighSpeed DC voltage level.
           The default bit setting is intended to create a HighSpeed transmit
@@ -1155,7 +1160,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Places the HighSpeed PHY in loopback mode, which concurrently enables HighSpeed receive
+          Places the high-speed PHY in loopback mode, which concurrently enables high-speed receive
           and transmit logic.
 
       - name: ATERESET
@@ -1565,13 +1570,13 @@ registers:
         reset: 0x20
         typical: 0x20
         description: |
-          HighSpeed jitter adjustment. Indicates the correction required to accommodate mac3 clock
-          and utmi clock jitter to measure 125us duration. With FLA tied to 0x0, the HighSpeed
+          High-speed jitter adjustment. Indicates the correction required to accommodate mac3 clock
+          and utmi clock jitter to measure 125us duration. With FLA tied to 0x0, the high speed
           125us micro-frame is counted for 123933ns. The value needs to be programmed in terms of
-          HighSpeed bit times in a 30 MHz cycle. Default value that needs to be driven is 0x20
+          high-speed bit times in a 30 MHz cycle. Default value that needs to be driven is 0x20
           (assuming 30 MHz perfect clock).
           FLA connects to the FLADJ register defined in the xHCI spec in the PCI configuration
-          space. Each count is equal to 16 HighSpeed bit times. By default when this register is
+          space. Each count is equal to 16 high-speed bit times. By default when this register is
           set to 0x20, it gives 125us interval. Now, based on the clock accuracy, you can decrement
           the count or increment the count to get the 125 us uSOF window.
           This is a strap signal; it should only be modified when UAHC is in reset (soft-reset
@@ -2755,7 +2760,7 @@ registers:
 
 
   - name: UAHC(0)_PORTPMSC_20(0)
-    title: xHCI Port Power Management Status/Control Registers (HighSpeed)
+    title: xHCI Port Power Management Status/Control Register (HighSpeed)
     address: 0x1680000000424 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
@@ -2814,7 +2819,7 @@ registers:
 
 
   - name: UAHC(0)_PORTLI_20(0)
-    title: xHCI Port Link Information Registers (HighSpeed)
+    title: xHCI Port Link Information Register (HighSpeed)
     address: 0x1680000000428 + a*0x10000000000 + b*0x10
     bus: NCB
     description: For information on this register, refer to the xHCI Specification, v1.0, section 5.4.10.
@@ -2828,7 +2833,7 @@ registers:
 
 
   - name: UAHC(0)_PORTHLPMC_20(0)
-    title: xHCI Port Hardware LPM Control Registers (HighSpeed)
+    title: xHCI Port Hardware LPM Control Register (HighSpeed)
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
@@ -2868,7 +2873,7 @@ registers:
 
 
   - name: UAHC(0)_PORTPMSC_SS(1)
-    title: xHCI Port Power Management Status/Control Registers (SuperSpeed)
+    title: xHCI Port Power Management Status/Control Register (SuperSpeed)
     address: 0x1680000000424 + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
@@ -2910,7 +2915,7 @@ registers:
 
 
   - name: UAHC(0)_PORTLI_SS(1)
-    title: xHCI Port Link Information Registers (SuperSpeed)
+    title: xHCI Port Link Register (SuperSpeed)
     address: 0x1680000000428 + a*0x10000000000 + b*0x10
     bus: NCB
     description: For information on this register, refer to the xHCI Specification, v1.0, section 5.4.10.
@@ -2931,7 +2936,7 @@ registers:
 
 
   - name: UAHC(0)_PORTHLPMC_SS(1)
-    title: xHCI Port Hardware LPM Control Registers (SuperSpeed)
+    title: xHCI Port Hardware LPM Control Register (SuperSpeed)
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
@@ -3080,7 +3085,7 @@ registers:
 
 
   - name: UAHC(0)_ERDP(0)
-    title: xHCI Event Ring Dequeue Pointer Registers
+    title: xHCI Event Ring Dequeue Pointer Register
     address: 0x1680000000478 + a*0x10000000000 + b*0x20
     bus: NCB
     description: |
@@ -3417,7 +3422,7 @@ registers:
         access: RO
         reset: 0
         typical: --
-        description: HighSpeed only.
+        description: High-speed only.
 
       - name: --
         bits: 16
@@ -3650,9 +3655,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: INCR256BRSTENA
         bits: 7
@@ -3771,9 +3774,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
 
   - name: UAHC(0)_GTXTHRCFG
@@ -3803,9 +3804,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: USBTXPKTCNTSEL
         bits: 29
@@ -3858,9 +3857,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: --
         bits: 13..11
@@ -3891,15 +3888,16 @@ registers:
       burst causing unnecessary performance reduction. This register allows the configuration of
       threshold and burst size control. This feature is enabled by USBRXPKTCNTSEL.
       Receive Path:
-      * The Rx Threshold is controlled by USBRXPKTCNT and the Rx burst size is controlled
-        by USBMAXRXBURSTSIZE.
-      * Selecting optimal Rx FIFO size, Rx Threshold, and Rx burst size avoids Rx burst aborts due
-        to overrun if the system bus is slower than USB. Once in a while overrun is OK, and there
-        is no functional issue.
-      * Some devices do not support terminating ACK retry. With these devices Host cannot set ACK=0
-        and Retry=0 and do retry later and you have to retry immediately. For such devices,
-        minimize retry due to underrun. Setting threshold and burst size guarantees this.
-      * A larger Rx threshold affects the performance since the scheduler is idle during this time.
+      The RX threshold is controlled by USBRXPKTCNT and the RX burst size is controlled by
+      USBMAXRXBURSTSIZE.
+      Selecting optimal RX FIFO size, RX Threshold, and RX burst size avoids RX burst aborts due to
+      overrun if the system bus is slower than USB. Once in a while overrun is OK, and there is no
+      functional issue.
+      Some devices do not support terminating ACK retry. With these devices, host cannot set ACK=0
+      and Retry=0 and do retry later and you have to retry immediately. For such devices, minimize
+      retry due to underrun. Setting threshold and burst size guarantees this.
+      A larger RX threshold affects the performance since the scheduler is idle during this time.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4042,12 +4040,12 @@ registers:
         typical: 0x0
         description: |
           Frame scale down. Scales down device view of a SOF/USOF/ITP duration.
-          For SuperSpeed/HighSpeed mode:
-          0x3 = interval is 15.625 us
-          0x2 = interval is 31.25 us
-          0x1 = interval is 62.5 us
-          0x0 = interval is 125 us
-          For FullSpeed mode, the scale-down value is multiplied by 8.
+          For SS/HS mode:
+          0x3 = Interval is 15.625 us
+          0x2 = Interval is 31.25 us
+          0x1 = Interval is 62.5 us
+          0x0 = Interval is 125 us
+          For FS mode, the scale-down value is multiplied by 8.
 
       - name: PRTCAPDIR
         bits: 13..12
@@ -4083,9 +4081,9 @@ registers:
         typical: 0
         description: |
           Synchronize ITP to reference clock. In host mode, if this bit is set to:
-          0 = the core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever
+          0 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever
           there is a SuperSpeed port that is not in Rx.Detect, SS.Disable, and U3 state.
-          1 = the core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever the
+          1 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever the
           other non-SuperSpeed ports are not in suspended state.
           This feature is useful because it saves power by suspending UTMI/ULPI when SuperSpeed only
           is active and it helps resolve when the PHY does not transmit a host resume unless it is
@@ -4123,8 +4121,8 @@ registers:
         typical: 0
         description: |
           Debug attach. When this bit is set:
-          SuperSpeed link proceeds directly to the polling-link state (after RUN/STOP in the DCTL
-          register is asserted) without checking remote termination.
+          SS link proceeds directly to the polling-link state (after RUN/STOP in the DCTL register
+          is asserted) without checking remote termination.
           Link LFPS polling timeout is infinite
           Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish).
 
@@ -4144,7 +4142,7 @@ registers:
           Scale-down mode. When scale-down mode is enabled for simulation, the core uses scaled-down
           timing values, resulting in faster simulations. When scale-down mode is disabled, actual
           timing values are used. This is required for hardware operation.
-          HighSpeed/FullSpeed/LowSpeed modes:
+          HS/FS/LS modes:
           0x0 = disables all scale-downs. Actual timing values are used.
           0x1 = enables scale-down of all timing values. These include:
           speed enumeration
@@ -4152,9 +4150,9 @@ registers:
           suspend and resume
           0x2 = N/A
           0x3 = enables bits <0> and <1> scale-down timing values.
-          SuperSpeed mode:
+          SS mode:
           0x0 = disables all scale-downs. Actual timing values are used.
-          0x1 = enables scaled down SuperSpeed timing and repeat values including:
+          0x1 = enables scaled down SS timing and repeat values including:
           number of TxEq training sequences reduce to eight
           LFPS polling burst time reduce to 100 ns
           LFPS warm reset receive reduce to 30 us.
@@ -4483,9 +4481,9 @@ registers:
         typical: 0
         description: |
           No extra delay between SOF and the first packet.
-          Some HighSpeed devices misbehave when the host sends a packet immediately after an SOF.
-          However, adding an extra delay between an SOF and the first packet can reduce the USB data
-          rate and performance.
+          Some HS devices misbehave when the host sends a packet immediately after an SOF. However,
+          adding an extra delay between an SOF and the first packet can reduce the USB data rate and
+          performance.
           This bit is used to control whether the host should wait for 2 us before it sends the
           first packet after a SOF, or not. You can set this bit to 1 to improve the performance if
           those problematic devices are not a concern in your host environment.
@@ -4519,9 +4517,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Reserving 85% bandwidth for HighSpeed periodic EPs. By default, host controller reserves
-          80% of the bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to
-          85% to accommodate two HighSpeed, high-bandwidth ISOC EPs.
+          Reserving 85% bandwidth for HS periodic EPs. By default, host controller reserves 80% of
+          the bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to 85% to
+          accommodate two high-speed, high-bandwidth ISOC EPs.
           USB 2.0 required 80% bandwidth allocated for ISOC traffic. If two high bandwidth ISOC
           devices (HD webcams) are connected, and if each requires 1024-bytes * 3 packets per
           microframe, then the bandwidth required is around 82%. If this bit is set to 1, it is
@@ -4561,16 +4559,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enable Check for LFPS Overlap During Remote Ux Exit.
-          If this bit is set to:
-            1: The SuperSpeed link when exiting U1/U2/U3 waits for either
-            the remote link LFPS or TS1/TS2 training symbols before it
-            confirms that the LFPS handshake is complete. This is done to
-            handle the case where the LFPS glitch causes the link to start
-            exiting from the low power state. Looking for the LFPS overlap
-            makes sure that the link partner also sees the LFPS.
-            0: When the link exists U1/U2/U3 because of a remote exit, it
-            does not look for an LFPS overlap.
+          Enable check for LFPS overlap during remote Ux Exit. If this bit is set to:
+          1: The SuperSpeed link, when exiting U1/U2/U3, waits for either the remote link LFPS or
+          TS1/TS2 training symbols before it confirms that the LFPS handshake is complete. This is
+          done to handle the case where the LFPS glitch causes the link to start exiting from the
+          low power state. Looking for the LFPS overlap makes sure that the link partner also sees
+          the LFPS.
+          0: When the link exists U1/U2/U3 because of a remote exit, it does not look for an LFPS
+          overlap.
 
       - name: EXTCAPSUPTEN
         bits: 12
@@ -4590,15 +4586,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Insert extra delay between FullSpeed bulk OUT transactions. Some FullSpeed devices are
-          slow to receive bulk OUT data and can get stuck when there are consecutive bulk OUT
-          transactionswith short inter-transaction delays. This bit is used to control whether the
-          host inserts extra delay between consecutive bulk OUT transactions to a FullSpeed
-          endpoint.
-          1 = host inserts about 12us extra delay between consecutive bulk OUT transactions to an
-          FullSpeed endpoint to work around the device issue.
+          Insert extra delay between FS bulk OUT transactions. Some FS devices are slow to receive
+          bulk OUT data and can get stuck when there are consecutive bulk OUT transactions with
+          short inter-transaction delays. This bit is used to control whether the host inserts extra
+          delay between consecutive bulk OUT transactions to a FS endpoint.
+          1 = host inserts about 12us extra delay between consecutive bulk OUT transactions to an FS
+          endpoint to work around the device issue.
           0 = host does not insert extra delay.
-          Setting this bit to 1 reduces the bulk OUT transfer performance for most of the FullSpeed
+          Setting this bit to 1 reduces the bulk OUT transfer performance for most of the FS
           devices.
 
       - name: DTCT
@@ -4693,7 +4688,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: SuperSpeed USB instance number for port 1
+        description: SS USB instance number for port 1
 
 
   - name: UAHC(0)_GHWPARAMS0
@@ -4959,7 +4954,7 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: USB 1.1 FullSpeed serial transceiver interface.
+        description: USB 1.1 full-speed serial transceiver interface.
 
       - name: HSPHY_INTERFACE
         bits: 3..2
@@ -4967,7 +4962,7 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          HighSpeed PHY interface: 0x1 = UTMI+.
+          High-Speed PHY interface: 0x1 = UTMI+.
 
       - name: SSPHY_INTERFACE
         bits: 1..0
@@ -5027,7 +5022,7 @@ registers:
         access: RO
         reset: 0x1
         typical: 0x1
-        description: Number of SuperSpeed bus instances.
+        description: Number of SS bus instances.
 
       - name: HIBER_SCRATCHBUFS
         bits: 16..13
@@ -5269,9 +5264,8 @@ registers:
     address: 0x168000000C164 + a*0x10000000000
     bus: NCB
     description: |
-      In multi-port host configuration, the port-number is defined by
-      UAHC(0)_GDBGFIFOSPACE[SELECT][3:0].
-      Value of this register may change immediately after reset.
+      In multiport host configuration, the port number is defined by
+      UAHC(0)_GDBGFIFOSPACE[SELECT]<3:0>. Value of this register may change immediately after reset.
       See description in DBGFIFOSPACE.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
@@ -5359,9 +5353,8 @@ registers:
         reset: --
         typical: --
         description: |
-          This field indicates the bit error rate information for the port
-          selected in the GDBGFIFOSPACE.PortSelect field.
-
+          This field indicates the bit-error-rate information for the port selected in
+          UAHC(0)_GDBGFIFOSPACE[SELECT] (port-select).
           This field is for debug purposes only.
 
 
@@ -5411,9 +5404,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: LATRACEPORTMUXSELECT
         bits: 23..16
@@ -5442,9 +5433,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: HOSTSELECT
         bits: 13..0
@@ -5491,7 +5480,7 @@ registers:
 
 
   - name: UAHC(0)_GPRTBIMAP_HS
-    title: UAHC HighSpeed Port-to-Bus Instance Mapping Register
+    title: UAHC High-Speed Port-to-Bus Instance Mapping Register
     address: 0x168000000C180 + a*0x10000000000
     bus: NCB
     description: |
@@ -5603,9 +5592,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: ULPIEXTVBUSINDICATOR
         bits: 18
@@ -5660,9 +5647,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: ENBLSLPM
         bits: 8
@@ -5683,7 +5668,7 @@ registers:
         access: WO
         reset: 0
         typical: 0
-        description: USB 2.0 HighSpeed PHY or USB 1.1 FullSpeed Serial Transceiver Select
+        description: USB 2.0 HS PHY or USB 1.1 FS Serial Transceiver Select
 
       - name: SUSPHY
         bits: 6
@@ -5691,15 +5676,15 @@ registers:
         reset: 1
         typical: 1
         description: |
-          Suspend USB2.0 HighSpeed/FullSpeed/LowSpeed PHY. When set, USB2.0 PHY enters suspend mode
-          if suspend conditions are valid.
+          Suspend USB2.0 HS/FS/LS PHY. When set, USB2.0 PHY enters suspend mode if suspend
+          conditions are valid.
 
       - name: FSINTF
         bits: 5
         access: RO
         reset: 0
         typical: 0
-        description: FullSpeed serial-interface select. Always reads as 0x0.
+        description: Full-speed serial-interface select. Always reads as 0x0.
 
       - name: ULPI_UTMI_SEL
         bits: 4
@@ -5727,20 +5712,20 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          High/FullSpeed timeout calibration.
+          HS/FS timeout calibration.
           The number of PHY clock cycles, as indicated by the application in this field, is
-          multiplied by a bit-time factor; this factor is added to the HighSpeed/FullSpeed
+          multiplied by a bit-time factor; this factor is added to the high-speed/full-speed
           interpacket timeout duration in the core to account for additional delays introduced by
           the PHY. This might be required, since the delay introduced by the PHY in generating the
           linestate condition can vary among PHYs.
-          The USB standard timeout value for HighSpeed operation is 736 to 816 (inclusive) bit
-          times. The USB standard timeout value for FullSpeed operation is 16 to 18 (inclusive) bit
+          The USB standard timeout value for high-speed operation is 736 to 816 (inclusive) bit
+          times. The USB standard timeout value for full-speed operation is 16 to 18 (inclusive) bit
           times. The application must program this field based on the speed of connection.
           The number of bit times added per PHY clock are:
-          HighSpeed operation:
+          high-speed operation:
           - one 30-MHz PHY clock = 16 bit times
           - one 60-MHz PHY clock = 8 bit times
-          FullSpeed operation:
+          full-speed operation:
           - one 30-MHz PHY clock = 0.4 bit times
           - one 60-MHz PHY clock = 0.2 bit times
           - one 48-MHz PHY clock = 0.25 bit times
@@ -5782,9 +5767,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USB3 PHY Soft Reset (PHYSoftRst)
-          After setting this bit to 1, the software needs to clear this bit.
-          INTERNAL: For more information, refer to Synopsys Databook Figure 5-8 on page 253.
+          USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
+          this bit to 1, the software needs to clear this bit.
 
       - name: HSTPRTCMPL
         bits: 30
@@ -5792,16 +5776,15 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Host port compliance. Setting this bit to 1 enables placing the SuperSpeed port link into
-          a compliance state, which allows testing of the PIPE PHY compliance patterns without
-          having to have a test fixture on the USB 3.0 cable. By default, this bit should be set
-          to 0.
-          In compliance-lab testing, the SuperSpeed port link enters compliance after failing the
-          first polling sequence after power on. Set this bit to 0, when you run compliance tests.
+          Host port compliance. Setting this bit to 1 enables placing the SS port link into a
+          compliance state, which allows testing of the PIPE PHY compliance patterns without having
+          to have a test fixture on the USB 3.0 cable. By default, this bit should be set to 0.
+          In compliance-lab testing, the SS port link enters compliance after failing the first
+          polling sequence after power on. Set this bit to 0, when you run compliance tests.
           The sequence for using this functionality is as follows:
           Disconnect any plugged in devices.
-          Set UAHC(0)_USBCMD[HCRST] = 1 or power-on-chip reset.
-          Set UAHC(0)_PORTSC[PP] = 0.
+          Set UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
+          Set UAHC_PORTSC[PP] = 0.
           Set HSTPRTCMPL = 1. This places the link into compliance state.
           To advance the compliance pattern, follow this sequence (toggle HSTPRTCMPL):
           Set HSTPRTCMPL = 0.
@@ -5839,9 +5822,8 @@ registers:
           UX exit in Px:
           1 = the core does U1/U2/U3 exit in PHY power state P1/P2/P3 respectively
           0 = the core does U1/U2/U3 exit in PHY power state P0 (default behavior)
-          This bit is added for SuperSpeed PHY workaround where SuperSpeed PHY injects a glitch
-          on pipe3_RxElecIdle while receiving Ux exit LFPS, and pipe3_PowerDown change is in
-          progress.
+          This bit is added for SS PHY workaround where SS PHY injects a glitch on pipe3_RxElecIdle
+          while receiving Ux exit LFPS, and pipe3_PowerDown change is in progress.
           INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to '0'
           for Synopsys PHY.
 
@@ -6037,19 +6019,17 @@ registers:
         reset: 0
         typical: 0
         description: |
-          RX_DETECT to Polling.LFPS Control
-            * 0x0 (Default): Enables a 400us delay to start Polling LFPS after
-              RX_DETECT. This allows VCM offset to settle to a proper level.
-            * 0x1: Disables the 400us delay to start Polling LFPS after RX_DETECT.
+          RX_DETECT to Polling.
+          0 = Enables a 400us delay to start polling LFPS after RX_DETECT. This allows VCM offset to
+          settle to a proper level.
+          1 = Disables the 400us delay to start polling LFPS after RX_DETECT.
 
       - name: RESERVED_0
         bits: 7
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Reserved.
-          Read must ignore.
+        description: Reserved. Read must ignore.
 
       - name: TXSWING
         bits: 6
@@ -6125,9 +6105,8 @@ registers:
     bus: NCB
     description: |
       The application can program the internal RAM start address/depth of the each RxFIFO as shown
-      below. It is recommended that software use the default value. In Host mode, per-port
-      registers are implemented.
-      One register per FIFO.
+      below. It is recommended that software use the default value. In Host mode, per-port registers
+      are implemented. One register per FIFO.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
       INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
       page 238.
@@ -6190,10 +6169,9 @@ registers:
       The TX DMA arbiter prioritizes the SuperSpeed group or HighSpeed/FullSpeed/LowSpeed group
       according to the ratio programmed in the UAHC(0)_GDMAHLRATIO register.
       For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
-      the entire packet is completed.
-      The register size corresponds to the number of configured USB bus instances; for example, in
-      the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
-      FullSpeed/LowSpeed).
+      the entire packet is completed. The register size corresponds to the number of configured USB
+      bus instances; for example, in the default configuration, there are 3 USB bus instances (1
+      SuperSpeed, 1 HighSpeed, and 1 FullSpeed/LowSpeed).
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -6231,10 +6209,9 @@ registers:
       The RX DMA arbiter prioritizes the SuperSpeed group or HighSpeed/FullSpeed/LowSpeed group
       according to the ratio programmed in the UAHC(0)_GDMAHLRATIO register.
       For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
-      the entire packet is completed.
-      The register size corresponds to the number of configured USB bus instances; for example, in
-      the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
-      FullSpeed/LowSpeed).
+      the entire packet is completed. The register size corresponds to the number of configured USB
+      bus instances; for example, in the default configuration, there are 3 USB bus instances (1
+      SuperSpeed, 1 HighSpeed, and 1 FullSpeed/LowSpeed).
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -6268,12 +6245,13 @@ registers:
       packets, HighSpeed/FullSpeed/LowSpeed gets priority for 1 packet, SuperSpeed gets priority for
       4 packets, HighSpeed/FullSpeed/LowSpeed gets priority for 1 packet, and so on.
       If FIFOs from both speed groups are not requesting access simultaneously then,
-       * if SuperSpeed got grants 4 out of the last 4 times, then HighSpeed/FullSpeed/LowSpeed get
-         the priority on any future request.
-       * if HighSpeed/FullSpeed/LowSpeed got the grant last time, SuperSpeed gets the priority on
-         the next request.
-       * if there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant
-         is always awarded; there is no idle.
+      If SuperSpeed got grants 4 out of the last 4 times, then HighSpeed/FullSpeed/LowSpeed get the
+      priority on any future request.
+      If HighSpeed/FullSpeed/LowSpeed got the grant last time, SuperSpeed gets the priority on the
+      next request.
+      If there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant is
+      always awarded; there is no idle.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -6316,7 +6294,7 @@ registers:
       functionality. It provides the option to override the sideband signal fladj_30mhz_reg. In
       addition, it enables running SOF or ITP frame timer counters completely off of the REF_CLK.
       This facilitates hardware LPM in host mode with the SOF or ITP counters being run off of the
-      ref_clk signal.
+      REF_CLK signal.
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:

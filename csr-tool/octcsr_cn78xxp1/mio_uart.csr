@@ -3,12 +3,14 @@
 ---
 name: MIO_UART
 attributes:
-  block_index: "False"
+  block_index_affects_offset: "True"
+  dv_testbuilder_ignore_block_index: "True"
 enums:
   - name: MIO_UART_INTSN_E
+    title: MIO UART Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different generated interrupts; see Interrupt Source Numbers.
+    description: Enumerates the different generated interrupts.
     values:
       - name: MIO_UART(0..1)_IID
         value: 0x08000 + a*0x40
@@ -156,6 +158,8 @@ registers:
     description: |
       The line control register controls the format of the data that is transmitted and received by
       the UART. It is always readable and writable.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..8

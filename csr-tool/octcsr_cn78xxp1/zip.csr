@@ -4,6 +4,7 @@
 name: ZIP
 enums:
   - name: ZIP_INTSN_E
+    title: ZIP Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different ZIP generated interrupts.
@@ -67,6 +68,7 @@ enums:
 
 structs:
   - name: ZIP_ZPTR_S
+    title: ZIP Generic Pointer (ZPTR) Structure
     description: ZPTR structures are the generic format of pointers in the ZIP instruction words (IWORD*).
     fields:
       - name: ADDR

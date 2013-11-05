@@ -164,9 +164,10 @@ enums:
 
 
   - name: PKI_INTSN_E
+    title: PKI Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different interrupts from PKI; see Interrupt Source Numbers.
+    description: Enumerates the different interrupts from PKI.
     values:
       - name: PKI_GEN_PKTDRP
         value: 0x44000
@@ -395,6 +396,66 @@ enums:
         attributes:
           cib_rtl_module: "pki_pbe"
         description: See PKI_ECC_INT1[PKTWQ_DBE].
+
+      - name: PKI_ECC1_PLC_SBE
+        value: 0x44112
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[PLC_SBE].
+
+      - name: PKI_ECC1_PLC_DBE
+        value: 0x44113
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[PLC_DBE].
+
+      - name: PKI_ECC1_BPID_SBE
+        value: 0x4411A
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[BPID_SBE].
+
+      - name: PKI_ECC1_BPID_DBE
+        value: 0x4411B
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[BPID_DBE].
+
+      - name: PKI_ECC1_DOA_SBE
+        value: 0x4411C
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[DOA_SBE].
+
+      - name: PKI_ECC1_DOA_DBE
+        value: 0x4411D
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[DOA_DBE].
+
+      - name: PKI_ECC1_WQEOUT_SBE
+        value: 0x4411E
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[WQEOUT_SBE].
+
+      - name: PKI_ECC1_WQEOUT_DBE
+        value: 0x4411F
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[WQEOUT_DBE].
+
+      - name: PKI_ECC1_SWS_SBE
+        value: 0x44120
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[SWS_SBE].
+
+      - name: PKI_ECC1_SWS_DBE
+        value: 0x44121
+        attributes:
+          cib_rtl_module: "pki_pbe"
+        description: See PKI_ECC_INT1[SWS_DBE].
 
       - name: PKI_ECC2_IMEM_SBE
         value: 0x44200
@@ -2164,7 +2225,7 @@ registers:
     address: 0x1180044000010
     bus: RSL
     internal: |
-      Allows soft reset.  INTERNAL: See Bug18607 PKI_SFT_RST definition for further definition
+      Allows soft reset.  INTERNAL: See bug18607, PKI_SFT_RST definition, for further definition
       (http://mcbuggin.caveonetworks.com/bug/18607).
     attributes:
       uvm_default_constraint: "True"
@@ -2500,11 +2561,98 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..18
+        bits: 63..34
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: SWS_DBE
+        bits: 33
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC double bit error. Throws PKI_INTSN_E::PKI_ECC1_SWS_DBE.
+
+      - name: SWS_SBE
+        bits: 32
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC single bit error. Throws PKI_INTSN_E::PKI_ECC1_SWS_SBE.
+
+      - name: WQEOUT_DBE
+        bits: 31
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC double bit error. Throws PKI_INTSN_E::PKI_ECC1_WQEOUT_DBE.
+
+      - name: WQEOUT_SBE
+        bits: 30
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC single bit error. Throws PKI_INTSN_E::PKI_ECC1_WQEOUT_SBE.
+
+      - name: DOA_DBE
+        bits: 29
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC double bit error. Throws PKI_INTSN_E::PKI_ECC1_DOA_DBE.
+
+      - name: DOA_SBE
+        bits: 28
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC single bit error. Throws PKI_INTSN_E::PKI_ECC1_DOA_SBE.
+
+      - name: BPID_DBE
+        bits: 27
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC double bit error. Throws PKI_INTSN_E::PKI_ECC1_BPID_DBE.
+
+      - name: BPID_SBE
+        bits: 26
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC single bit error. Throws PKI_INTSN_E::PKI_ECC1_BPID_SBE.
+
+      - name: --
+        bits: 25..20
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PLC_DBE
+        bits: 19
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC double bit error. Throws PKI_INTSN_E::PKI_ECC1_PLC_DBE.
+
+      - name: PLC_SBE
+        bits: 18
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          PLC ECC single bit error. Throws PKI_INTSN_E::PKI_ECC1_PLC_SBE.
 
       - name: PKTWQ_DBE
         bits: 17
@@ -2804,11 +2952,88 @@ registers:
     description: This register allows inserting ECC errors for testing.
     fields:
       - name: --
-        bits: 63..27
+        bits: 63..51
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: SWS_FLIP
+        bits: 50..49
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: SWS flip syndrome bits on write.
+
+      - name: SWS_CDIS
+        bits: 48
+        access: R/W
+        reset: 0
+        typical: 0
+        description: SWS ECC correction disable.
+
+      - name: WQEOUT_FLIP
+        bits: 47..46
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: WQEOUT flip syndrome bits on write.
+
+      - name: WQEOUT_CDIS
+        bits: 45
+        access: R/W
+        reset: 0
+        typical: 0
+        description: WQEOUT ECC correction disable.
+
+      - name: DOA_FLIP
+        bits: 44..43
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: DOA flip syndrome bits on write.
+
+      - name: DOA_CDIS
+        bits: 42
+        access: R/W
+        reset: 0
+        typical: 0
+        description: DOA ECC correction disable.
+
+      - name: BPID_FLIP
+        bits: 41..40
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: BPID flip syndrome bits on write.
+
+      - name: BPID_CDIS
+        bits: 39
+        access: R/W
+        reset: 0
+        typical: 0
+        description: BPID ECC correction disable.
+
+      - name: --
+        bits: 38..30
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PLC_FLIP
+        bits: 29..28
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: PLC flip syndrome bits on write.
+
+      - name: PLC_CDIS
+        bits: 27
+        access: R/W
+        reset: 0
+        typical: 0
+        description: PLC ECC correction disable.
 
       - name: PKTWQ_FLIP
         bits: 26..25
@@ -2994,20 +3219,34 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..20
+        bits: 63..17
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 19..0
+        bits: 16..0
         access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
           register collects status for PKI_PBE.
+          <16>     SWS
+          <15>     WQEOUT
+          <14>     DOA
+          <13>     BPID
+          <12..10> RSVD
+          <9>      PLC
+          <8>      PKTWQ
+          <7..6>   RSVD
+          <5>      TAG
+          <4>      AURA
+          <3>      CHAN
+          <2>      PBTAG
+          <1>      STYLEWQ
+          <0>      QPG
 
 
   - name: PKI_BIST_STATUS2
@@ -3591,7 +3830,7 @@ registers:
         typical: --
         description: |
           Conflict. The lookup resulted in multiple entries matching PKI_PCAM_LOOKUP[DATA], [TERM]
-          and [STYLE], or zero if no match.
+          and [STYLE], or zero if no conflict.
 
       - name: --
         bits: 62..41
@@ -3612,14 +3851,16 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Resulting matching entry number, unpredictable unless [MATCH] set.
+        description: Resulting matching entry number, unpredictable unless [MATCH] set and [CONFLICT] is clear.
 
       - name: RESULT
         bits: 31..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: Resulting data from matching line's PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191), or zero if no match.
+        description: |
+          Resulting data from matching line's PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191), or zero if no
+          match.  Unpredictable unless [MATCH] set and [CONFLICT] is clear.
 
 
   - name: PKI_PFE_DIAG
@@ -4054,8 +4295,16 @@ registers:
     attributes:
       arch_max: "16"
     fields:
+      - name: PCAM_EN
+        bits: 63
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          PCAM ECC checking enable. INTERNAL: This enables the PCAM scrubber.
+
       - name: --
-        bits: 63..24
+        bits: 62..24
         access: RAZ
         reset: --
         typical: --

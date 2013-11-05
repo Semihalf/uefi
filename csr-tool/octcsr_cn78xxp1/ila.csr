@@ -4,6 +4,7 @@
 name: ILA
 enums:
   - name: ILA_INTSN_E
+    title: ILA Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different ILA-generated interrupts.
@@ -253,8 +254,15 @@ registers:
         typical: --
         description: Enable TX-RX internal loopback.
 
+      - name: TXF_BYP_DIS
+        bits: 60
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Disable TXF bypass.
+
       - name: --
-        bits: 60..56
+        bits: 59..56
         access: RAZ
         reset: 0x0
         typical: --
@@ -356,18 +364,11 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..44
+        bits: 63..43
         access: RAZ
         reset: 0x0
         typical: --
         description: Reserved.
-
-      - name: TXF_BYP_DIS
-        bits: 43
-        access: R/W
-        reset: 0
-        typical: --
-        description: TX-FIFO bypass disable.
 
       - name: SER_LIMIT
         bits: 42..33

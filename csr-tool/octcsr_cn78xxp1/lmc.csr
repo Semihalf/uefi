@@ -4,6 +4,7 @@
 name: LMC
 enums:
   - name: LMC_INTSN_E
+    title: LMC Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different LMC-generated interrupts.
@@ -176,7 +177,7 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Read to get a sample of the DRAM error_alert_n pin.
+        description: Read to get a sample of the DDR*_ERROR_ALERT_L signal.
 
       - name: EA_INT_POLARITY
         bits: 44
@@ -184,9 +185,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set to invert error_alert_n interrupt polarity.  When clear, interrupt will be signaled
-          on the rising edge of error_alert_n.  When set, interrupt will be signeld on the falling
-          edge of error_alert_n.
+          Set to invert DDR*_ERROR_ALERT_L interrupt polarity. When clear, interrupt is signaled on
+          the rising edge of DDR*_ERROR_ALERT_L. When set, interrupt is signalled on the falling
+          edge of DDR*_ERROR_ALERT_L.
 
       - name: --
         bits: 43
@@ -201,9 +202,8 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          Mask applied to parity for address bits 14, 13, and 12.  Clear to exclude these
-          address bits from the parity calculation, necessary if the DRAM device does not
-          have these pins.
+          Mask applied to parity for address bits 14, 13, and 12. Clear to exclude these address
+          bits from the parity calculation, necessary if the DRAM device does not have these pins.
 
       - name: --
         bits: 39..38
@@ -225,11 +225,13 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When LMC(0..3)_EXT_CONFIG[MRS_CMD_OVERRIDE] is set, use this bit to select which
-          style of operation for MRS and RCW commands.  If clear, select operation where
-          signals other than CS are active before and after the CS_N active cycle.  When set,
-          select operation where the other command signals (RAS_N,CAS_N,WE_n,ADDR,etc) all are
-          active only during the cycle where the CS_N is also active.
+          When MRS_CMD_OVERRIDE is set, use this bit to select which style of operation for MRS and
+          RCW commands.
+          If this bit is clear, select operation where signals other than CS are active before and
+          after the CS_N active cycle.
+          When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
+          DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+          CS_N is also active.
 
       - name: --
         bits: 35..33
@@ -244,10 +246,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set this bit to cause all data to be inverted before writing or reading to/from
-          DRAM - this effectively uses the scramble logic to instead invert all the data,
-          so this bit must not be set if data scrambling is enabled.  May be useful if
-          data inversion will result in lower power.
+          Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
+          effectively uses the scramble logic to instead invert all the data, so this bit must not
+          be set if data scrambling is enabled. May be useful if data inversion will result in lower
+          power.
 
       - name: --
         bits: 31..30
@@ -262,10 +264,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          Set this bit to change the behavior of the LMC to return to a completely
-          idle command (no CS active, no command pins active, and address/ba/bg all low)
-          on the interface after an active command, rather than only forcing the CS
-          inactive between commands.
+          Set this bit to change the behavior of the LMC to return to a completely idle command (no
+          CS active, no command pins active, and address/bank address/bank group all low) on the
+          interface after an active command, rather than only forcing the CS inactive between
+          commands.
 
       - name: CAL_ENA
         bits: 28
@@ -273,8 +275,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Set to cause LMC to operate in CAL mode.  DRAM mode registers must first be
-          programmed into CAL mode, then set CAL_ENABLE.
+          Set to cause LMC to operate in CAL mode. First set LMC(0..3)_MODEREG_PARAMS3[CAL], then
+          set CAL_ENA.
 
       - name: --
         bits: 27
@@ -303,8 +305,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Enable parity generation in the DRAM commands, must be set prior to enabling
-          parity in register or DRAM devices
+          Enable parity generation in the DRAM commands; must be set prior to enabling parity in
+          register or DRAM devices.
 
       - name: --
         bits: 23..21
@@ -319,8 +321,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Personality bit to change the operation of what is normally the internal
-          vref training sequence into the deskew training sequence.
+          Personality bit to change the operation of what is normally the internal Vref training
+          sequence into the deskew training sequence.
 
       - name: READ_ENA_BPRCH
         bits: 19
@@ -910,7 +912,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: BG1 part of address select for MRS in DDR4 mode.
+        description: BG1 part of the address select for MRS in DDR4 mode.
 
       - name: --
         bits: 55..53
@@ -927,8 +929,8 @@ registers:
         description: |
           When set, write the value to the MR that is computed from the value set in various CSR
           fields that would be used during initialization, rather that using the value in the
-          LMC(0..3)_MR_MPR_CTL[MR_WR_ADDR] CSR field.  Useful to re-write the same value or
-          to change single bits without having to compute a whole new value for the MR.
+          LMC(0..3)_MR_MPR_CTL[MR_WR_ADDR]. Useful to rewrite the same value or to change single
+          bits without having to compute a whole new value for the MR.
 
       - name: MPR_WHOLE_BYTE_ENABLE
         bits: 51
@@ -1110,7 +1112,7 @@ registers:
           Encoding used to determine which memory address bit position represents the low order DDR
           ROW address. Refer to
           LMC(0..3)_CONFIG[ROW_LSB].
-          Refer to Cache-block Read Transaction Example.
+          Refer to Cache-block Read Transaction Example, Cache-block Read Transaction Example.
 
       - name: --
         bits: 15..4
@@ -1305,18 +1307,17 @@ registers:
 
 
   - name: LMC(0..3)_ECC_PARITY_TEST
-    title: LMC Test Mode
+    title: LMC ECC Parity Test Registers
     address: 0x1180088000108 | a<<24
     bus: RSL
     description: |
-      This register has bits to control the ECC and CA Parity errors creation during test modes.
-      ECC error is generated by enabling the CA_PARITY_CORRUPT_ENA bit of this register and
-      selecting any ECC_CORRUPT_IDX index of the dataword from the cacheline to be
-      corrupted. User can select which bit of the 128-bits dataword to corrupt by asserting
-      any of the CHAR_MASK0 and CHAR_MASK2 bits. (CHAR_MASK0 and CHAR_MASK2 corresponds to the
-      lower and upper 64-bit signal that can corrupt any individual bit of the data).
-
-      CA Parity error is generated by enabling CA_PARITY_CORRUPT_ENA bit of this register and
+      This register has bits to control the ECC and CA parity errors creation during test modes. ECC
+      error is generated by enabling the CA_PARITY_CORRUPT_ENA bit of this register and selecting
+      any ECC_CORRUPT_IDX index of the dataword from the cacheline to be corrupted. User can select
+      which bit of the 128-bits dataword to corrupt by asserting any of the CHAR_MASK0 and
+      CHAR_MASK2 bits. (CHAR_MASK0 and CHAR_MASK2 corresponds to the lower and upper 64-bit signal
+      that can corrupt any individual bit of the data).
+      CA parity error is generated by enabling CA_PARITY_CORRUPT_ENA bit of this register and
       selecting the DDR command that the parity is to be corrupted with through CA_PARITY_SEL.
     fields:
       - name: --
@@ -1331,14 +1332,14 @@ registers:
         access: R/W/H
         reset: 0
         typical: 0
-        description: enables the ECC data corruption.
+        description: Enables the ECC data corruption.
 
       - name: ECC_CORRUPT_IDX
         bits: 10..8
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: selects the cacheline index that the dataword is to be corrupted with
+        description: Selects the cacheline index that the dataword is to be corrupted with.
 
       - name: --
         bits: 7..6
@@ -1352,14 +1353,14 @@ registers:
         access: R/W/H
         reset: 0
         typical: 0
-        description: enables the CA Parity bit corruption.
+        description: Enables the CA parity bit corruption.
 
       - name: CA_PARITY_SEL
         bits: 4..0
         access: R/W
         reset: 0x0
         typical: 0x2
-        description: selects the type of DDR command to corrupt the parity bit.
+        description: Selects the type of DDR command to corrupt the parity bit.
 
 
   - name: LMC(0..3)_DIMM(0..1)_DDR4_PARAMS1
@@ -1833,7 +1834,7 @@ registers:
           For example, for a DIMM made of Samsung's K4B1G0846C-F7 1GB (16M * 8 bit * 8 bank) DDR3
           parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
           16. So, row = mem_adr<29:16>.
-          Refer to Cache-block Read Transaction Example."
+          Refer to Cache-block Read Transaction Example, Cache-block Read Transaction Example."
 
       - name: ECC_ENA
         bits: 1
@@ -3468,7 +3469,7 @@ registers:
         typical: 0x3
         description: |
           Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
-          0 = Deskew read clock toggles every 4 DCLK
+          0 = Deskew read clock toggles every 4 DCLKs
           1 = Deskew read clock toggles every 8 DCLKs
           2 = Deskew read clock toggles every 12 DCLKs
           3 = Deskew read clock toggles every 16 DCLKs
@@ -3490,7 +3491,7 @@ registers:
         description: |
           Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
           0 = 8 bits per byte lane, no DBI
-          1 = 9 bits ber byte lane, including DBI
+          1 = 9 bits per byte lane, including DBI
 
       - name: DSK_DBG_BYTE_SEL
         bits: 32..29
@@ -3498,7 +3499,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Reserved. INTERNAL: Deskew debug byte select for read operation.  Values 0-3 correspond to
+          Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
           byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7.
 
       - name: DSK_DBG_BIT_SEL
@@ -3559,7 +3560,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          PHY deskew reset. When set, the deskew reset signal goes active if the vrefint/deskew
+          PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
           training sequence is in the idle state.
 
       - name: PHY_DSK_BYP

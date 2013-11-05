@@ -4,6 +4,7 @@
 name: CIU3
 enums:
   - name: CIU_DEST_E
+    title: CIU Destination Enumeration
     attributes:
       width: "9"
     description: |
@@ -16,6 +17,7 @@ enums:
 
 
   - name: CIU_DEST_IO_E
+    title: CIU IO Destination Enumeration
     attributes:
       width: "5"
     description: Enumerates the different destination I/O interrupts.
@@ -32,9 +34,10 @@ enums:
 
 
   - name: CIU_INTSN_E
+    title: CIU Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different interrupts from CIU itself; see Interrupt Source Numbers.
+    description: Enumerates the different interrupts from CIU itself.
     values:
       - name: CIB_NONE
         value: 0x00000
@@ -103,11 +106,12 @@ enums:
 
 
   - name: CIU_INTSN_MAJOR_E
+    title: Master Interrupt Source Number Enumeration
     attributes:
       width: "8"
     description: |
       INTERNAL: Where possible, these numbers match the RSLDID assignments in chip_defines.vh.
-      Enumerates the upper 8 bits of interrupt source numbers; see Interrupt Source Numbers.
+      Enumerates the upper 8 bits of interrupt source numbers.
     values:
       - name: CIB
         value: 0x00
@@ -382,6 +386,7 @@ enums:
 
 structs:
   - name: CIU_ISCMEM_S
+    title: Interrupt Source Memory Entry Structure
     description: This structure specifies the layout of the in-memory entry for SSO delivery.
     fields:
       - name: TAG
@@ -424,6 +429,8 @@ structs:
 
 
   - name: CIU_PP_INT_S
+    title: |
+      INTERNAL: Core Interrupt Delivery Structure
     description: This structure specifies the layout of RTL interrupt delivery. It is not visible to software.
     fields:
       - name: RST
@@ -548,7 +555,7 @@ registers:
 
   - name: CIU_PP_RST_PENDING
     title: CIU Cores Reset Pending Register
-    address: 0x1010000000108
+    address: 0x1010000000110
     bus: NCB
     description: This register contains the reset status for each core.
     fields:
@@ -1276,6 +1283,8 @@ registers:
     address: 0x1010080000000 + a*0x8
     bus: NCB
     description: Sparse table indexed by INTSN.
+    attributes:
+      dv_uvm_no_create: "True"
     fields:
       - name: --
         bits: 63..24
@@ -1357,6 +1366,8 @@ registers:
     title: CIU Interrupt Source Clear Registers
     address: 0x1010090000000 + a*0x8
     bus: NCB
+    attributes:
+      dv_uvm_no_create: "True"
     fields:
       - name: --
         bits: 63..3
@@ -1391,6 +1402,8 @@ registers:
     title: CIU Interrupt Source Set Registers
     address: 0x10100A0000000 + a*0x8
     bus: NCB
+    attributes:
+      dv_uvm_no_create: "True"
     fields:
       - name: --
         bits: 63..3

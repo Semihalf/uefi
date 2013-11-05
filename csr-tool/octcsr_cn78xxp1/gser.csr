@@ -4,6 +4,7 @@
 name: GSER
 enums:
   - name: GSER_LMODE_E
+    title: GSER Lane Mode Enumeration
     attributes:
       width: "4"
     description: Enumerates the SerDes lane modes. See GSER(0..13)_LANE_MODE[LMODE].
@@ -175,6 +176,26 @@ registers:
         description: When set, power downs all circuitry in PHY for IDDQ testing
 
 
+  - name: GSER(0..13)_SCRATCH
+    title: GSER General Purpose Scratch Register
+    address: 0x1180090000020 + a*0x1000000
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SCRATCH
+        bits: 15..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: General purpose scratch register.
+
+
   - name: GSER(0..13)_CFG
     title: GSER Configuration Register
     address: 0x1180090000080 + a*0x1000000
@@ -259,23 +280,23 @@ registers:
           For SPD settings that configure a non-default reference clock, hardware updates the PLL
           settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
           For non-OCI links, this field is not used.
-          config  refclk      link rate       LMODE
-          0x0:    100Mhz      1.25Gbps        R_125G_REFCLK15625_KX
-          0x1:    100Mhz      2.5Gbps         R_25G_REFCLK100
-          0x2:    100Mhz      5Gbps           R_5G_REFCLK100
-          0x3:    100Mhz      8Gbps           R_8G_REFCLK100
-          0x4:    125Mhz      1.25Gbps        R_125G_REFCLK15625_KX
-          0x5:    125Mhz      2.5Gbps         R_25G_REFCLK125
-          0x6:    125Mhz      3.125Gbps       R_3125G_REFCLK15625_XAUI
-          0x7:    125Mhz      5Gbps           R_5G_REFCLK125
-          0x8:    125Mhz      6.25Gbps        R_625G_REFCLK15625_RXAUI
-          0x9:    125Mhz      8Gbps           R_8G_REFCLK125
-          0xA:    156.25Mhz   2.5Gbps         R_25G_REFCLK100
-          0xB:    156.25Mhz   3.125Gbps       R_3125G_REFCLK15625_XAUI
-          0xC:    156.25Mhz   5Gbps           R_5G_REFCLK125
-          0xD:    156.25Mhz   6.25Gbps        R_625G_REFCLK15625_RXAUI
-          0xE:    126.25Mhz   10.3125Gbps     R_103215G_REFCLK15625_KR
-          0xF:    SW_MODE
+          Config REFCLK Link rate LMODE
+          0x0: 100 MHz 1.25 Gbps R_125G_REFCLK15625_KX
+          0x1: 100 MHz 2.5Gbps R_25G_REFCLK100
+          0x2: 100 MHz 5Gbps R_5G_REFCLK100
+          0x3: 100 MHz 8Gbps R_8G_REFCLK100
+          0x4: 125 MHz 1.25Gbps R_125G_REFCLK15625_KX
+          0x5: 125 MHz 2.5Gbps R_25G_REFCLK125
+          0x6: 125 MHz 3.125Gbps R_3125G_REFCLK15625_XAUI
+          0x7: 125 MHz 5Gbps R_5G_REFCLK125
+          0x8: 125 MHz 6.25Gbps R_625G_REFCLK15625_RXAUI
+          0x9: 125 MHz 8Gbps R_8G_REFCLK125
+          0xA: 156.25 MHz 2.5Gbps R_25G_REFCLK100
+          0xB: 156.25 MHz 3.125Gbps R_3125G_REFCLK15625_XAUI
+          0xC: 156.25 MHz 5Gbps R_5G_REFCLK125
+          0xD: 156.25 MHz 6.25Gbps R_625G_REFCLK15625_RXAUI
+          0xE: 126.25 MHz 10.3125Gbps R_103215G_REFCLK15625_KR
+          0xF: SW_MODE
           Note that a value of 0xF is called SW_MODE. The OCI link does not come up configured.
           Software can come up and configure the interface at a later time.
 
@@ -1563,14 +1584,14 @@ registers:
           PLL charge pump enable. This field must be set appropriately if running a
           GSER(0..13)_LANE_MODE[LMODE] with a non-default reference clock. A 'NS' indicates that the
           rate is not supported at the specified reference clock. Recommended settings:
-                          100Mhz          125Mhz          156.25Mhz
-          1.25G:          0x1             0x1             0x1
-          2.5G:           0x4             0x3             0x3
-          3.125G:         NS              0x1             0x1
-          5.0G:           0x4             0x3             0x3
-          6.25G:          NS              0x1             0x1
-          8.0G:           0x3             0x2             NS
-          10.3215G:       NS              NS              0x1
+          100MHz 125MHz 156.25MHz
+          1.25G: 0x1 0x1 0x1
+          2.5G: 0x4 0x3 0x3
+          3.125G: NS 0x1 0x1
+          5.0G: 0x4 0x3 0x3
+          6.25G: NS 0x1 0x1
+          8.0G: 0x3 0x2 NS
+          10.3215G: NS NS 0x1
 
       - name: PLL_RLOOP
         bits: 11..9
@@ -1636,14 +1657,14 @@ registers:
           running a GSER(0..13)_LANE_MODE[LMODE] with a non-default reference clock. A 'NS'
           indicates that the rate is not supported at the specified reference clock. Recommended
           settings:
-                          100Mhz          125Mhz          156.25Mhz
-          1.25G:          0x1             0x1             0x1
-          2.5G:           0x0             0x0             0x0
-          3.125G:         NS              0x1             0x1
-          5.0G:           0x0             0x0             0x0
-          6.25G:          NS              0x0             0x0
-          8.0G:           0x0             0x0             NS
-          10.3215G:       NS              NS              0x1
+          100MHz 125MHz 156.25MHz
+          1.25G: 0x1 0x1 0x1
+          2.5G: 0x0 0x0 0x0
+          3.125G: NS 0x1 0x1
+          5.0G: 0x0 0x0 0x0
+          6.25G: NS 0x0 0x0
+          8.0G: 0x0 0x0 NS
+          10.3215G: NS NS 0x1
 
       - name: PLL_CPADJ
         bits: 12..11
@@ -1654,14 +1675,14 @@ registers:
           PLL charge adjust. This field must be set appropriately if running a
           GSER(0..13)_LANE_MODE[LMODE] with a non-default reference clock. A 'NS' indicates that the
           rate is not supported at the specified reference clock. Recommended settings:
-                          100Mhz          125Mhz          156.25Mhz
-          1.25G:          0x2             0x2             0x3
-          2.5G:           0x2             0x1             0x2
-          3.125G:         NS              0x2             0x2
-          5.0G:           0x2             0x1             0x2
-          6.25G:          NS              0x2             0x2
-          8.0G:           0x2             0x1             NS
-          10.3215G:       NS              NS              0x2
+          100MHz 125MHz 156.25MHz
+          1.25G: 0x2 0x2 0x3
+          2.5G: 0x2 0x1 0x2
+          3.125G: NS 0x2 0x2
+          5.0G: 0x2 0x1 0x2
+          6.25G: NS 0x2 0x2
+          8.0G: 0x2 0x1 NS
+          10.3215G: NS NS 0x2
 
       - name: PLL_PCIE3EN
         bits: 10
@@ -1693,14 +1714,14 @@ registers:
           appropriately if running a GSER(0..13)_LANE_MODE[LMODE] with a non-default reference
           clock. A 'NS' indicates that the rate is not supported at the specified reference clock.
           Recommended settings:
-                          100Mhz          125Mhz          156.25Mhz
-          1.25G:          0x19            0x14            0x10
-          2.5G:           0x19            0x14            0x10
-          3.125G:         NS              0x19            0xa
-          5.0G:           0x19            0x14            0x10
-          6.25G:          NS              0x19            0x14
-          8.0G:           0x28            0x20            NS
-          10.3215G:       NS              NS              0x21
+          100MHz 125MHz 156.25MHz
+          1.25G: 0x19 0x14 0x10
+          2.5G: 0x19 0x14 0x10
+          3.125G: NS 0x19 0x14
+          5.0G: 0x19 0x14 0x10
+          6.25G: NS 0x19 0x14
+          8.0G: 0x28 0x20 NS
+          10.3215G: NS NS 0x21
 
 
   - name: GSER(0..13)_LANE(0..3)_P(0..11)_MODE_0

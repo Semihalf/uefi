@@ -1720,7 +1720,7 @@ registers:
 
       - name: MLS
         bits: 3..0
-        access: RO/WRSL/H
+        access: RO/WRSL
         reset: --
         typical: --
         description: |
@@ -2586,7 +2586,7 @@ registers:
 
       - name: SLSV
         bits: 7..1
-        access: RO/WRSL/H
+        access: RO/WRSL
         reset: --
         typical: --
         description: |
@@ -2782,7 +2782,7 @@ registers:
 
       - name: TLS
         bits: 3..0
-        access: R/W/H
+        access: R/W
         reset: --
         typical: --
         description: |

@@ -4,6 +4,7 @@
 name: IOBN
 enums:
   - name: IOBN_INTSN_E
+    title: IOBN Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different IOBN-generated interrupts.

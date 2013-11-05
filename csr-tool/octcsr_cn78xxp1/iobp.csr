@@ -4,6 +4,7 @@
 name: IOBP
 enums:
   - name: IOBP_INTSN_E
+    title: IOBP Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different IOBP-generated interrupts.

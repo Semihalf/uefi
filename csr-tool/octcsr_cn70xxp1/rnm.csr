@@ -149,7 +149,6 @@ registers:
     address: 0x1180040000020
     bus: RSL
     description: The RNM's fuse serial number register
-    internal: Added RNM_SERIAL_NUM in pass 2.0
     fields:
       - name: DAT
         bits: 63..0

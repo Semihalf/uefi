@@ -34,10 +34,11 @@ description: |
     1 11 011                   |     Octeon III CBC3 registers
     -+--+---+----+---+-----+---+---
 attributes:
-  dv_fc_regs_extends: |
-    "l2c_pkg::l2c_rsl_reg_block_c"
+  dv_fc_regs_extends: "l2c_pkg::l2c_rsl_reg_block_c"
 enums:
   - name: IOC_CMD_E
+    title: |
+      INTERNAL: IOC Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "4"
@@ -81,6 +82,8 @@ enums:
 
 
   - name: IOR_CMD_E
+    title: |
+      INTERNAL: IOR Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "2"
@@ -104,6 +107,7 @@ enums:
 
 
   - name: L2C_DAT_ERRPRIO_E
+    title: L2C Quad Error Priority Enumeration
     attributes:
       width: "3"
     description: Enumerates the different quad error priorities
@@ -138,6 +142,7 @@ enums:
 
 
   - name: L2C_INTSN_E
+    title: L2C Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from L2C.
@@ -280,18 +285,6 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[RSDDBE].
 
-      - name: L2C_CBC(0..3)_INT_IOCCMDSBE
-        value: 0x80C02 | a<<8
-        attributes:
-          intsn_lsb_mismatch: "True"
-        description: See L2C_CBC(0..3)_INT[IOCCMDSBE].
-
-      - name: L2C_CBC(0..3)_INT_IOCCMDDBE
-        value: 0x80C03 | a<<8
-        attributes:
-          intsn_lsb_mismatch: "True"
-        description: See L2C_CBC(0..3)_INT[IOCCMDDBE].
-
       - name: L2C_CBC(0..3)_INT_MIBSBE
         value: 0x80C04 | a<<8
         attributes:
@@ -304,8 +297,21 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[MIBDBE].
 
+      - name: L2C_CBC(0..3)_INT_IOWRDISOCI
+        value: 0x80C06 | a<<8
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[IOWRDISOCI].
+
+      - name: L2C_CBC(0..3)_INT_IORDDISOCI
+        value: 0x80C07 | a<<8
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[IORDDISOCI].
+
 
   - name: L2C_TAD_PRF_SEL_E
+    title: L2C TAD Performance Counter Select Enumeration
     attributes:
       width: "8"
     description: Enumerates the different TAD performance counter selects.
@@ -351,23 +357,24 @@ enums:
         description: LFB Wait VAB (each cycle adds number of LFBs waiting for VAB).
 
       - name: QD(0..7)_IDX
-        value: 0x80 | (a << 4)
+        value: 0x80 | a<<4
         description: Quad(0..7) index bus inuse.
 
       - name: QD(0..7)_RDAT
-        value: 0x81 | (a << 4)
+        value: 0x81 | a<<4
         description: Quad(0..7) read data bus inuse.
 
       - name: QD(0..7)_BNKS
-        value: 0x82 | (a << 4)
+        value: 0x82 | a<<4
         description: Quad(0..7) number of banks inuse (0-4/cycle).
 
       - name: QD(0..7)_WDAT
-        value: 0x83 | (a << 4)
+        value: 0x83 | a<<4
         description: Quad(0..7) write data flops inuse (0-4/cycle).
 
 
   - name: L2C_TAG_ERRPRIO_E
+    title: L2C Tag Error Priority Enumeration
     attributes:
       width: "2"
     description: Enumerates the different TAG error priorities.
@@ -730,6 +737,8 @@ enums:
 
 
   - name: RSC_CMD_E
+    title: |
+      INTERNAL: RSC Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "3"
@@ -769,6 +778,8 @@ enums:
 
 
   - name: XMC_CMD_E
+    title: |
+      INTERNAL: XMC Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "7"
@@ -1266,9 +1277,9 @@ registers:
       Flip ECC bits to generate single-bit or double-bit ECC errors in all instances of a given
       memory type. Encodings are as follows.
       0x0 = No error.
-      0x1 = Single-bit error on ecc[0].
-      0x2 = Single-bit error on ecc[1].
-      0x3 = Double-bit error on ecc[1:0].
+      0x1 = Single-bit error on ECC[0].
+      0x2 = Single-bit error on ECC[1].
+      0x3 = Double-bit error on ECC[1:0].
       L2DFLIP allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors for the purposes
       of testing error handling code. When one (or both) of these bits are set, a PL2 that misses in
       the L2 will fill with the appropriate error in the first two OWs of the fill. Software can
@@ -1323,12 +1334,12 @@ registers:
         typical: 0x0
         description: Generate an ECC error in all corresponding CBC XMD memories.
 
-      - name: IOCCMDFLIP
+      - name: --
         bits: 1..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Generate an ECC error in all corresponding IOCCMD memories.
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
 
   - name: L2C_TAD_CTL
@@ -1344,11 +1355,32 @@ registers:
       If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB - 3.
     fields:
       - name: --
-        bits: 63..28
+        bits: 63..31
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: WTLMCWRDN
+        bits: 30
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Be more conservative with LFB done relative to LMC writes.
+
+      - name: WTINVDN
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Be more conservative with LFB done relative to invalidates.
+
+      - name: WTFILLDN
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Be more conservative with LFB done relative to fills.
 
       - name: EXLRQ
         bits: 27..24
@@ -1416,11 +1448,37 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..27
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LNGTOLEN
+        bits: 26..22
+        access: R/W
+        reset: 0x1c
+        typical: 0x0
+        description: |
+          Selects the bit in the counter for the long timeout value (timeout used when SHTO bit is
+          clear). Values supported
+          are between 11 and 29 (for a timeout values between 2^11 and 2^29). Actual timeout is
+          between 1x and 2x this interval.
+          For example if LNGTOLEN = 28 (the reset value), the timeout is between 256M and 512M core
+          clocks.
+
+      - name: SHTOLEN
+        bits: 21..17
+        access: R/W
+        reset: 0xe
+        typical: 0x0
+        description: |
+          Selects the bit in the counter for the Short timeout value (timeout used when SHTO bit is
+          set). Values supported
+          are between 9 and 29 (for a timeout values between 2^9 and 2^29). Actual timeout is
+          between 1x and 2x this interval.
+          For example if SHTOLEN = 14 (the reset value), the timeout is between 16K and 32K core
+          clocks.
 
       - name: SHTOIOEN
         bits: 16
@@ -1441,7 +1499,7 @@ registers:
 
       - name: SHTO
         bits: 12
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1502,7 +1560,7 @@ registers:
         description: |
           When set, L2C services all I/O read and write operations on the local node, regardless of
           the value of the node ID bits in the physical address. During normal operation this bit is
-          expected to be 0.
+          expected to be 0. Will only transition from 1 to 0, never from 0 to 1.
 
       - name: GKSEGNODE
         bits: 5..4
@@ -1517,12 +1575,11 @@ registers:
       - name: ENAOCI
         bits: 3..0
         access: R/W
-        reset: 0x0
+        reset: 0xf
         typical: 0x0
         description: |
           Enable OCI processing (one per node_id). When set, perform OCI processing. When clear, OCI
-          references cause
-          RDDISOCI/WRDISOCI interrupts (NYI).
+          references cause RDDISOCI/WRDISOCI interrupts (NYI). FIXME,should reset to 0?
 
 
   - name: L2C_XMC_CMD
@@ -2207,23 +2264,21 @@ registers:
           the current node or operation is undefined.
 
       - name: --
-        bits: 19..4
+        bits: 19..6
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
-      - name: USED
-        bits: 3
+      - name: NODE
+        bits: 5..4
         access: R/W/H
-        reset: 0
-        typical: 0
-        description: |
-          The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-          is undefined.  Ignored/loaded with 0 for RTG accesses.
+        reset: 0x0
+        typical: 0x0
+        description: The node ID for the remote which holds this block. Ignored/loaded with 0 for TAG accesses.
 
       - name: TS
-        bits: 2..1
+        bits: 3..2
         access: R/W/H
         reset: 0x0
         typical: 0x0
@@ -2231,6 +2286,15 @@ registers:
           The TAG state. 0 - Invalid; 1 - Shared; 2 - Exclusive. Note that a local address will
           never have the value of 2 (Exclusive) as that state is encoded as Shared in the TAG and
           Invalid in the RTG.
+
+      - name: USED
+        bits: 1
+        access: R/W/H
+        reset: 0
+        typical: 0
+        description: |
+          The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+          is undefined.  Ignored/loaded with 0 for RTG accesses.
 
       - name: LOCK
         bits: 0
@@ -3097,11 +3161,31 @@ registers:
     description: This register is for CBC-based interrupts.
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..8
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: IOWRDISOCI
+        bits: 7
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI] clear. See
+          L2C_CBC(0..3)_IODISOCIERR for logged information. This interrupts applies to IOBST8,
+          IOBST16, IOBST32, IOBST64, IOBADDR, LMTST, and LMTDMA XMC commands.
+
+      - name: IORDDISOCI
+        bits: 6
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI] clear. See
+          L2C_CBC(0..3)_IODISOCIERR for logged information. This interrupts applies to IOBLD8,
+          IOBLD16, IOBLD32, IOBLD64, IOBDMA, and LMTDMA XMC commands.
 
       - name: MIBDBE
         bits: 5
@@ -3117,19 +3201,12 @@ registers:
         typical: 0
         description: MIB double-bit error occurred. See L2C_CBC(2..3)_MIBERR for logged information.
 
-      - name: IOCCMDDBE
-        bits: 3
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: IOCCMD double-bit error occurred. See L2C_CBC(0..3)_IOCERR for logged information.
-
-      - name: IOCCMDSBE
-        bits: 2
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: IOCCMD single-bit error occurred. See L2C_CBC(0..3)_IOCERR for logged information.
+      - name: --
+        bits: 3..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved. Formerly IOCCMDSBE and IOCCMDDBE.
 
       - name: RSDDBE
         bits: 1
@@ -3150,55 +3227,14 @@ registers:
     title: Level 2 Cache CBC Error Information Registers
     address: 0x1180080E007E8 + a*0x40000
     bus: RSL
-    description: |
-      This register records error information for all CBC IOC errors.
-      An error locks the INDEX, and SYN fields and set the bit corresponding to the error received.
-      CMDDBE errors take priority and overwrite an earlier logged CMDSBE error. Only one of
-      CMDSBE/CMDDBE is set at any given time and serves to document which error the INDEX/SYN is
-      associated with.
-      The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+    description: Reserved.
     fields:
-      - name: CMDDBE
-        bits: 63
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: INDEX/SYN corresponds to a double-bit IOCCMD ECC error.
-
-      - name: CMDSBE
-        bits: 62
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: INDEX/SYN corresponds to a single-bit IOCCMD ECC error.
-
       - name: --
-        bits: 61..40
+        bits: 63..0
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: SYN
-        bits: 39..32
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: Error syndrome.
-
-      - name: --
-        bits: 31..3
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: XMCNUM
-        bits: 2..0
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: Indicates the XMC that had the error.
 
 
   - name: L2C_CBC(0..3)_RSDERR
@@ -3278,25 +3314,18 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..39
+        bits: 63..37
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: MIBFL
-        bits: 38..34
+        bits: 36..32
         access: RO
         reset: 0x0
         typical: 0x0
         description: BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN})
-
-      - name: IOCCMDFL
-        bits: 33..32
-        access: RO
-        reset: 0x0
-        typical: 0x0
-        description: BIST failure status for IOCCMD0-1.
 
       - name: RSDFL
         bits: 31..0
@@ -3304,6 +3333,60 @@ registers:
         reset: 0x0
         typical: 0x0
         description: BIST failure status for RSDQW0-31.
+
+
+  - name: L2C_CBC(0..3)_IODISOCIERR
+    title: Level 2 Cache IODISOCI Error Information Registers
+    address: 0x1180080E07D80 + a*0x40000
+    bus: RSL
+    description: |
+      This register records error information associated with IORDDISOCI/IOWRDISOCI
+      interrupts. IOWRDISOCI events take priority over previously captured IORDDISOCI events. Of the
+      available IO transactions, some commands will either set IORDDISOCI, set IOWRDISOCI, or set
+      both IORDDISOCI and IOWRDISOCI. See L2C_CBC(0..3)_INT for information about which IO
+      transactions may result in IORDDISOCI/IOWRDISOCI interrupts.
+    fields:
+      - name: --
+        bits: 63..59
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CMD
+        bits: 58..52
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: XMC Command (See XMC_CMD_E for encodings).
+
+      - name: PPVID
+        bits: 51..46
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: CMB Source PPVID.
+
+      - name: NODE
+        bits: 45..44
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Destination Node ID.
+
+      - name: DID
+        bits: 43..36
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Destination Device ID.
+
+      - name: ADDR
+        bits: 35..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: I/O Address.
 
 
   - name: L2C_CBC(2..3)_MIBERR

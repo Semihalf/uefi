@@ -4,6 +4,7 @@
 name: TIM
 enums:
   - name: TIM_INTSN_E
+    title: TIM Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different TIM generated interrupts.

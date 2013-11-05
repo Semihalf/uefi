@@ -8,6 +8,7 @@ attributes:
   rtlgen_reset_n: "srst_d2_n"
 enums:
   - name: OSM_ADDR_ERR_SOURCE_E
+    title: OSM Address Error Source Enumeration
     attributes:
       width: "3"
     description: Enumerates the address error source.
@@ -46,6 +47,7 @@ enums:
 
 
   - name: OSM_BANK_ASSIGN_E
+    title: OSM Bank Assignment Enumeration
     attributes:
       width: "3"
     description: Enumerates the bank assignment.
@@ -76,6 +78,7 @@ enums:
 
 
   - name: OSM_ECC_ERR_SOURCE_E
+    title: OSM ECC Error Source Enumeration
     attributes:
       width: "5"
     description: Enumerates the ECC error source.
@@ -150,9 +153,10 @@ enums:
 
 
   - name: OSM_INTSN_E
+    title: OSM Interrupt Source Enumeration
     attributes:
       width: "20"
-    description: Enumerates the different interrupts from OSM; see Interrupt Source Numbers.
+    description: Enumerates the different interrupts from OSM.
     values:
       - name: OSM_INT_STAT_DFA_DBE
         value: 0xDC000
