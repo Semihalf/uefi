@@ -11,11 +11,12 @@ print("Version ".. require("bdk-version"))
 print("")
 
 
+local board_name = menu.prompt_string("Board type: ", "evb7000")
 local coremask = menu.prompt_number("Coremask: ", 0xf)
 
 -- Do board specific setup
 if octeon.is_model(octeon.CN70XX) then
-    menu.dofile("screen-evb7000")
+    menu.dofile("screen-"..board_name)
 elseif octeon.is_model(octeon.CN78XX) then
     menu.dofile("screen-ebb7800")
 end
