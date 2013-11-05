@@ -21,24 +21,3 @@ setup_dlm0_hook(octeon.QLM_MODE_QSGMII_QSGMII, 2500, 0)
 -- DLM1 & DLM2 in PCIe x4 host gen2
 assert(0 == octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_PCIE_1X4,
     5000, octeon.QLM_MODE_FLAG_GEN2), "Setting DLM1&2 mode failed")
-
--- Setup Vitesse PHYs in loopback
-local mdio_bus = 1
-for phy_addr=4,7 do
-    -- Select main registers
-    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0)
-    -- Near end loopback (Octeon side)
-    reg0 = octeon.c.bdk_mdio_read(node, mdio_bus, phy_addr, 0)
-    reg0 = bit64.binsert(reg0, 1, 14, 14)
-    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 0, reg0)
-end
-mdio_bus = 0
-for phy_addr=0,3 do
-    -- Select main registers
-    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0)
-    -- Near end loopback (Octeon side)
-    reg0 = octeon.c.bdk_mdio_read(node, mdio_bus, phy_addr, 0)
-    reg0 = bit64.binsert(reg0, 1, 14, 14)
-    octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 0, reg0)
-end
-

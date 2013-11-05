@@ -11,7 +11,7 @@ print("Version ".. require("bdk-version"))
 print("")
 
 
-local board_name = menu.prompt_string("Board type: ", "evb7000")
+local board_name = menu.prompt_string("Board type: ", "evb7000_sff")
 local coremask = menu.prompt_number("Coremask: ", 0xf)
 
 -- Do board specific setup
