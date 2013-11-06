@@ -10,9 +10,9 @@ octeon.csr.GSERX_DLMX_REFCLK_SEL(0,0).refclk_sel = 0
 -- DLM1 uses C0 reference clock
 octeon.csr.GSERX_DLMX_REF_USE_PAD(0,1).ref_use_pad = 0
 octeon.csr.GSERX_DLMX_REFCLK_SEL(0,1).refclk_sel = 0
--- DLM2 uses C1 reference clock
+-- DLM2 uses C0 reference clock
 octeon.csr.GSERX_DLMX_REF_USE_PAD(0,2).ref_use_pad = 0
-octeon.csr.GSERX_DLMX_REFCLK_SEL(0,2).refclk_sel = 1
+octeon.csr.GSERX_DLMX_REFCLK_SEL(0,2).refclk_sel = 0
 
 -- DLM0 in QSGMII
 assert(0 == octeon.c.bdk_qlm_set_mode(node, 0, octeon.QLM_MODE_QSGMII_QSGMII,
