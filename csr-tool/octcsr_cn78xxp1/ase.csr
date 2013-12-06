@@ -12,6 +12,7 @@ attributes:
   rtlgen_reset_n: "srst_n"
 enums:
   - name: ASE_ENDIAN_E
+    title: ASE Endian Enumeration
     attributes:
       width: "2"
     description: Enumerates the endian mode selection.
@@ -254,6 +255,7 @@ enums:
 
 
   - name: ASE_LUE_ERROR_ID_E
+    title: ASE LUE Error Identification Enumeration
     attributes:
       width: "6"
     description: |
@@ -342,6 +344,7 @@ enums:
 
 
   - name: ASE_LUF_ERROR_ID_E
+    title: ASE LUF Error Identification Enumeration
     attributes:
       width: "4"
     description: |
@@ -395,6 +398,7 @@ enums:
 
 
   - name: ASE_REQ_CMD_E
+    title: ASE Request Command Enumeration
     attributes:
       width: "5"
     description: Enumerates the ASE request type.
@@ -433,6 +437,7 @@ enums:
 
 
   - name: ASE_REQ_TABID_E
+    title: ASE Request Table Identification Enumeration
     attributes:
       width: "4"
     description: Enumerates the ASE request Table ID.
@@ -480,6 +485,7 @@ enums:
 
 
   - name: ASE_RSP_ERR_E
+    title: ASE Response Error Enumeration
     attributes:
       width: "1"
     description: Enumerates the ASE response error.
@@ -500,6 +506,7 @@ enums:
 
 
   - name: ASE_RSP_RSP_E
+    title: ASE Response Type Enumeration
     attributes:
       width: "5"
     description: Enumerates the ASE response type.

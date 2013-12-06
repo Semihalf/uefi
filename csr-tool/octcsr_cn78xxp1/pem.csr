@@ -13,6 +13,7 @@ enums:
         value: 0xC0000 + a*0x1000
         attributes:
           cib_rtl_module: "pem_int0"
+          intsn_level_sensitive: "1"
         description: See PEM(0..3)_INT_SUM[AERI].
 
       - name: PEM(0..3)_ERROR_SE
@@ -25,6 +26,7 @@ enums:
         value: 0xC0002 + a*0x1000
         attributes:
           cib_rtl_module: "pem_int0"
+          intsn_level_sensitive: "1"
         description: See PEM(0..3)_INT_SUM[PMEI].
 
       - name: PEM(0..3)_ERROR_UP_B1
@@ -481,21 +483,21 @@ registers:
 
       - name: AUTO_SD
         bits: 47
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: Link Hardware Autonomous Speed Disable.
 
       - name: DNUM
         bits: 46..42
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: Primary bus device number.
 
       - name: PBUS
         bits: 41..34
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: Primary bus number.
@@ -666,11 +668,18 @@ registers:
     description: Selection control for the cores diagnostic bus.
     fields:
       - name: --
-        bits: 63..6
+        bits: 63..9
         access: RO/H
         reset: --
         typical: --
         description: Reserved.
+
+      - name: PWRDWN
+        bits: 8..6
+        access: RO/H
+        reset: --
+        typical: --
+        description: Current mac_phy_powerdown state.
 
       - name: PM_DST
         bits: 5..3
@@ -1795,14 +1804,20 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: The value of the pi_select_laneswap pin
+        description: |
+          The value of the pi_select_laneswap pin. When set,
+          lane swapping is performed to/from the SerDes.
+          When clear, no lane swapping is performed.
 
       - name: PILANES8
         bits: 2
         access: RO/H
         reset: --
         typical: --
-        description: The value of the pi_select_8lanes pin
+        description: |
+          The value of the pi_select_8lanes pin. When set, the
+          PEM is configured for a maximum of 8-lanes, When clear,
+          the PEM is configured for a maximum of 4-lanes.
 
       - name: PIMODE
         bits: 1..0
@@ -1810,7 +1825,11 @@ registers:
         reset: X
         typical: --
         description: |
-          The value of the pi_select_mode[1:0] pins
+          The value of the pi_select_mode[1:0] pins.
+            00 - EP mode, Gen1 Speed
+            01 - EP mode, Gen2 Speed
+            10 - EP mode, Gen3 Speed
+            11 - RC mode, defaults to Gen3 Speed
 
 
   - name: PEM(0..3)_CFG
@@ -1867,10 +1886,12 @@ registers:
         reset: --
         typical: --
         description: |
-          This field will overwrite the pin settings for speed.
-            00 - EP Mode, Gen1 Speed
-            01 - EP Mode, Gen2 Speed
-            10 - EP Mode, Gen3 Speed
+          This field will overwrite the pin settings for speed. Note
+          the HOSTMD field of this CSR must be set to maintain Root
+          Complex configuration when the MD field is changed.
+            00 - Gen1 Speed
+            01 - Gen2 Speed
+            10 - Gen3 Speed
             11 - Rsvd
 
 
@@ -1906,6 +1927,8 @@ registers:
     address: 0x11800C0000420 + a*0x1000000
     bus: RSL
     description: PEM is configured and ready
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..2
@@ -2059,7 +2082,7 @@ registers:
 
       - name: PMEI
         bits: 2
-        access: R/W1C/H
+        access: RO/H
         reset: 0
         typical: 0
         description: |
@@ -2077,7 +2100,7 @@ registers:
 
       - name: AERI
         bits: 0
-        access: R/W1C/H
+        access: RO/H
         reset: 0
         typical: 0
         description: |
@@ -2091,8 +2114,6 @@ registers:
     description: |
       "PEM#_BIST_STATUS2 = PEM BIST Status Register
       Results from BIST runs of PEM's memories."
-    attributes:
-      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..26

@@ -4,6 +4,7 @@
 name: INTSN
 enums:
   - name: INTSN_ALL_E
+    title: Generated All-Chip Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Master list of CIU interrupt sources

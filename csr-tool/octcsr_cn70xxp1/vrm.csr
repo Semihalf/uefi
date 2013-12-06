@@ -4,6 +4,7 @@
 name: VRM
 structs:
   - name: VRM_TWS_TWSI_SW_S
+    title: VRM TWSI Software Write Structure
     description: Format for software to write data to external regulator.
     fields:
       - name: DATA

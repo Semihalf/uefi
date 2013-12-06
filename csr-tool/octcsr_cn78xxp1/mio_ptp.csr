@@ -192,7 +192,8 @@ registers:
     address: 0x1070000000F08
     bus: NCB
     description: |
-      This register provides bits<31:0> of the PTP clock.
+      This register provides bits<31:0> of the PTP clock.  MIO_PTP_CLOCK_CFG[PTP_EN] needs to be
+      enabled before writing this register.
     fields:
       - name: --
         bits: 63..32
@@ -217,6 +218,7 @@ registers:
     description: |
       This register provides bits<95:32> of the PTP clock. Writes to MIO_PTP_CLOCK_HI also clear
       MIO_PTP_CLOCK_LO. To update all 96 bits, write MIO_PTP_CLOCK_HI followed by MIO_PTP_CLOCK_LO.
+      MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before writing this register.
     fields:
       - name: NANOSEC
         bits: 63..0
@@ -231,7 +233,9 @@ registers:
     title: PTP Clock Compensator Register
     address: 0x1070000000F18
     bus: NCB
-    description: This register provides the compensation value the PTP clock.
+    description: |
+      This register provides the compensation value the PTP clock. MIO_PTP_CLOCK_CFG[PTP_EN] needs
+      to be enabled before writing this register.
     fields:
       - name: NANOSEC
         bits: 63..32

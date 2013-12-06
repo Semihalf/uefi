@@ -20,6 +20,8 @@ description: |
   91e0 reserved
   0x13DA0 - 0x13DF0 reserved for ports 2 - 7
   13e20 reserved
+attributes:
+  dv_fc_scratch_exempt: "PEXP"
 registers:
   - name: SLI_WIN_WR_ADDR
     address: 0x0
@@ -381,7 +383,6 @@ registers:
         description: |
           Causes all byte reads to be zero length reads.
           Returns to the EXEC a zero for all read data.
-          This must be zero for sRIO ports.
 
       - name: PORT
         bits: 41..39
@@ -430,9 +431,6 @@ registers:
           For PCIe:
           - ADDRTYPE<0> is the relaxed-order attribute
           - ADDRTYPE<1> is the no-snoop attribute
-          For sRIO:
-          - ADDRTYPE<1:0> help select an SRIO*_S2M_TYPE*
-            entry
 
       - name: RTYPE
         bits: 31..30
@@ -444,9 +442,6 @@ registers:
           For PCIe:
           - ADDRTYPE<0> is the relaxed-order attribute
           - ADDRTYPE<1> is the no-snoop attribute
-          For sRIO:
-          - ADDRTYPE<1:0> help select an SRIO*_S2M_TYPE*
-            entry
 
       - name: BA
         bits: 29..0
@@ -2227,8 +2222,7 @@ registers:
           fetch buffer/info pairs from packet output ring i
           (from address SLI_PKTi_SLIST_BADDR+ in MAC memory
           space.)
-          ADDRTYPE<0> is the relaxed-order attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<0> is the relaxed-order attribute for PCIe.
 
 
   - name: SLI_PKT_SLIST_NS
@@ -2256,8 +2250,7 @@ registers:
           fetch buffer/info pairs from packet output ring i
           (from address SLI_PKTi_SLIST_BADDR+ in MAC memory
           space.)
-          ADDRTYPE<1> is the relaxed-order attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<1> is the relaxed-order attribute for PCIe.
 
 
   - name: SLI_PKT_SLIST_ES
@@ -2364,8 +2357,7 @@ registers:
           ADDRTYPE<0> if SLI_PKT_DPADDR[DPTR<i>]=1, else
           MACADD<60>.
           In the latter case,ADDRTYPE<0> comes from DPTR<60>.
-          ADDRTYPE<0> is the relaxed-order attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<0> is the relaxed-order attribute for PCIe.
 
 
   - name: SLI_PKT_DATA_OUT_NS
@@ -2394,8 +2386,7 @@ registers:
           ADDRTYPE<1> if SLI_PKT_DPADDR[DPTR<i>]=1, else
           MACADD<61>.
           In the latter case,ADDRTYPE<1> comes from DPTR<61>.
-          ADDRTYPE<1> is the no-snoop attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<1> is the no-snoop attribute for PCIe.
 
 
   - name: SLI_PKT_DATA_OUT_ES
@@ -2718,8 +2709,7 @@ registers:
           fetched for any packet input ring.
           ADDRTYPE<1> if USE_CSR=1, else MACADD<61>.
           In the latter case, ADDRTYPE<1> comes from DPTR<61>.
-          ADDRTYPE<1> is the no-snoop attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<1> is the no-snoop attribute for PCIe.
 
       - name: D_ESR
         bits: 7..6
@@ -2750,8 +2740,7 @@ registers:
           fetched for any packet input ring.
           ADDRTYPE<0> if USE_CSR=1, else MACADD<60>.
           In the latter case, ADDRTYPE<0> comes from DPTR<60>.
-          ADDRTYPE<0> is the relaxed-order attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<0> is the relaxed-order attribute for PCIe.
 
       - name: USE_CSR
         bits: 4
@@ -2774,8 +2763,7 @@ registers:
           ADDRTYPE<1> for packet input instruction reads and
           gather list (i.e. DPI component) reads from MAC
           memory space.
-          ADDRTYPE<1> is the no-snoop attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<1> is the no-snoop attribute for PCIe.
 
       - name: ESR
         bits: 2..1
@@ -2798,8 +2786,7 @@ registers:
           ADDRTYPE<0> for packet input instruction reads and
           gather list (i.e. DPI component) reads from MAC
           memory space.
-          ADDRTYPE<0> is the relaxed-order attribute for PCIe
-          , helps select an SRIO*_S2M_TYPE* entry with sRIO.
+          ADDRTYPE<0> is the relaxed-order attribute for PCIe.
 
 
   - name: SLI_PKT_OUTPUT_WMARK
@@ -4374,8 +4361,6 @@ registers:
           determine if an IOBDMA is too large.
           For a PCIe MAC, this field should not exceed
           PCIE*_CFG030[MRRS].
-          For a sRIO MAC, this field should indicate a size
-          of 256B or smaller.
 
 
   - name: SLI_MAC_CREDIT_CNT2

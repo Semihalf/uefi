@@ -3,6 +3,7 @@
 ---
 name: MIO
 attributes:
+  dv_fc_scratch_exempt: "RSL"
   multiple_dids: "0x0,0x7"
 registers:
   - name: CIU_INT(0..7,32)_SUM0
@@ -255,8 +256,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          MIO RST interrupt. |(CIU_CIB_RST_RAW(0) & CIU_CIB_RST_EN(0))
-          See CIU_CIB_RST_RAW(0) and CIU_CIB_RST_EN(0)
+          RST interrupt. Value equals ((CIU_CIB_RST_RAW & CIU_CIB_RST_EN) != 0).
+          See CIU_CIB_RST_RAW and CIU_CIB_RST_EN.
 
       - name: --
         bits: 62..60
@@ -285,8 +286,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          LMC0 interrupt. |(CIU_CIB_LMC(0)_RAW[0] & CIU_CIB_LMC(0)_EN[0])
-          See CIU_CIB_LMC(0)_RAW[0] and CIU_CIB_LMC(0)_EN[0]
+          LMC0 interrupt. Value equals ((CIU_CIB_LMC(0)_RAW & CIU_CIB_LMC(0)_EN) != 0).
+          See CIU_CIB_LMC(0)_RAW and CIU_CIB_LMC(0)_EN.
 
       - name: --
         bits: 51
@@ -405,8 +406,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USBDRD0 Interrupt.  (CIU_CIB_USBDRD(0)_RAW[0] & CIU_CIB_USBDRD(0)_EN)
-          See CIU_CIB_USBDRD(0)_RAW[0] and CIU_CIB_USBDRD(0)_EN[0]
+          USBDRD0 Interrupt.  Value equals ((CIU_CIB_USBDRD(0)_RAW & CIU_CIB_USBDRD(0)_EN) != 0).
+          See CIU_CIB_USBDRD(0)_RAW and CIU_CIB_USBDRD(0)_EN.
 
       - name: DFA
         bits: 32
@@ -484,8 +485,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          L2C interrupt. |(CIU_CIB_L2C_RAW[0..2] & CIU_CIB_L2C_EN[0..2])
-          See CIU_CIB_L2C_RAW[0..2] and CIU_CIB_L2C_EN[0..2].
+          L2C interrupt. Value equals ((CIU_CIB_L2C_RAW & CIU_CIB_L2C_EN) != 0).
+          See CIU_CIB_L2C_RAW and CIU_CIB_L2C_EN.
 
       - name: POW
         bits: 23
@@ -547,8 +548,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USBDRD1 Interrupt.  (CIU_CIB_USBDRD(1)_RAW[0] & CIU_CIB_USBDRD1(1)_EN[0])
-          See CIU_CIB_USBDRD(1)_RAW[0] and CIU_CIB_USBDRD(1)_EN[0]
+          USBDRD1 Interrupt.  Value equals ((CIU_CIB_USBDRD(1)_RAW & CIU_CIB_USBDRD(1)_EN) != 0).
+          See CIU_CIB_USBDRD(1)_RAW and CIU_CIB_USBDRD(1)_EN.
 
       - name: --
         bits: 16
@@ -5424,8 +5425,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          MIO RST interrupt
-          See MIO_RST_INT
+          RST interrupt. Value equals ((CIU_CIB_RST_RAW & CIU_CIB_RST_EN) != 0).
+          See CIU_CIB_RST_RAW and CIU_CIB_RST_EN.
 
       - name: --
         bits: 62..60
@@ -5454,8 +5455,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          LMC0 interrupt
-          See LMC0_INT
+          LMC0 interrupt. Value equals ((CIU_CIB_LMC(0)_RAW & CIU_CIB_LMC(0)_EN) != 0).
+          See CIU_CIB_LMC(0)_RAW and CIU_CIB_LMC(0)_EN.
 
       - name: --
         bits: 51
@@ -5531,7 +5532,7 @@ registers:
         description: |
           DPI DMA instruction completion interrupt.
           This bit is different for each CIU_SUM1_PPx.
-          TBD, See DPI DMA instruction completion
+          See DPI_DMA_PP*_CNT.
 
       - name: --
         bits: 39..38
@@ -5584,8 +5585,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USBDRD0 interrupt. (CIU_CIB_USBDRD(0)_RAW[0] & CIU_CIB_USBDRD(0)_EN(0))
-          See CIU_CIB_USBDRD(0)_RAW[0] and CIU_CIB_USBDRD(0)_EN(0)
+          USBDRD0 interrupt.  Value equals ((CIU_CIB_USBDRD(0)_RAW & CIU_CIB_USBDRD(0)_EN) != 0).
+          See CIU_CIB_USBDRD(0)_RAW and CIU_CIB_USBDRD(0)_EN.
 
       - name: DFA
         bits: 32
@@ -5663,8 +5664,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          L2C interrupt
-          See L2C_INT_REG
+          L2C interrupt. Value equals ((CIU_CIB_L2C_RAW & CIU_CIB_L2C_EN) != 0).
+          See CIU_CIB_L2C_RAW and CIU_CIB_L2C_EN.
 
       - name: POW
         bits: 23
@@ -5726,8 +5727,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          USBDRD1 interrupts. |(CIU_CIB_USBDRD(1)_RAW[0] & CIU_CIB_USBDRD1(1)_EN[0]).
-          See CIU_CIB_USBDRD(1)_RAW[0] and CIU_CIB_USBDRD(1)_EN[0].
+          USBDRD1 interrupt.  Value equals ((CIU_CIB_USBDRD(1)_RAW & CIU_CIB_USBDRD(1)_EN) != 0).
+          See CIU_CIB_USBDRD(1)_RAW and CIU_CIB_USBDRD(1)_EN.
 
       - name: --
         bits: 16
@@ -5786,14 +5787,14 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: BCH interrupt. TBD.
+        description: BCH interrupt. See BCH_GEN_INT.
 
       - name: AGL_DRP
         bits: 18
         access: R/W1C
         reset: 0
         typical: 0
-        description: AGL parket drop interrupt. TBD.
+        description: AGL parket drop interrupt. Set any time AGL drops a packet.
 
       - name: OCLA
         bits: 17
@@ -5801,8 +5802,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          OCLA interrupt summary. |(CIU_CIB_OCLA(0)_RAW[0] & CIU_CIB_OCLA(0)_EN[0]).
-          See  CIU_CIB_OCLA(0)_RAW[0]  and  CIU_CIB_OCLA(0)_EN[0].
+          OCLA interrupt summary. Value equals ((CIU_CIB_OCLA(0)_RAW & CIU_CIB_OCLA(0)_EN) != 0).
+          See CIU_CIB_OCLA(0)_RAW and CIU_CIB_OCLA(0)_EN.
 
       - name: SATA
         bits: 16
@@ -5810,8 +5811,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          SATA interrupt summary. |(CIU_CIB_SATA(0)_RAW[0] & CIU_CIB_SATA(0)_EN(0)).
-          See  CIU_CIB_SATA(0)_RAW[0]  and  CIU_CIB_SATA(0)_EN(0).
+          SATA interrupt summary. Value equals ((CIU_CIB_SATA(0)_RAW & CIU_CIB_SATA(0)_EN) != 0).
+          See CIU_CIB_SATA(0)_RAW and CIU_CIB_SATA(0)_EN.
 
       - name: --
         bits: 15..10
@@ -5898,7 +5899,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: SATA_UNTL interrupt enable
+        description: SATA interrupt enable
 
       - name: --
         bits: 15..10
@@ -5978,7 +5979,7 @@ registers:
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Write 1 to set SATA_UCTL interrupt enable
+        description: Write 1 to set SATA interrupt enable
 
       - name: --
         bits: 15..10
@@ -6058,7 +6059,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Write 1 to clear SATA_UCTL interrupt enable
+        description: Write 1 to clear SATA interrupt enable
 
       - name: --
         bits: 15..10
@@ -6114,161 +6115,207 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_CBC(0..0)_INT[IOCCMDDBE] set.
+        description: |
+          Set when L2C_CBC0_INT[IOCCMDDBE] set. Edge-sensitive interrupt, so software should clear
+          [CBCX_INT_IOCCMDDBE] before clearing L2C_CBC0_INT[IOCCMDDBE].
 
       - name: CBCX_INT_IOCCMDSBE
         bits: 21
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_CBC(0..0)_INT[IOCCMDSBE] set.
+        description: |
+          Set when L2C_CBC0_INT[IOCCMDSBE] set. Edge-sensitive interrupt, so software should clear
+          [CBCX_INT_IOCCMDSBE] before clearing L2C_CBC0_INT[IOCCMDSBE].
 
       - name: CBCX_INT_RSDDBE
         bits: 20
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_CBC(0..0)_INT[RSDDBE] set.
+        description: |
+          Set when L2C_CBC0_INT[RSDDBE] set. Edge-sensitive interrupt, so software should clear
+          [CBCX_INT_RSDDBE] before clearing L2C_CBC0_INT[RSDDBE].
 
       - name: CBCX_INT_RSDSBE
         bits: 19
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_CBC(0..0)_INT[RSDSBE] set.
+        description: |
+          Set when L2C_CBC0_INT[RSDSBE] set. Edge-sensitive interrupt, so software should clear
+          [CBCX_INT_RSDSBE] before clearing L2C_CBC0_INT[RSDSBE].
 
       - name: MCIX_INT_VBFDBE
         bits: 18
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_MCI(0..0)_INT[VBFDBE] set.
+        description: |
+          Set when L2C_MCI0_INT[VBFDBE] set. Edge-sensitive interrupt, so software should clear
+          [MCIX_INT_VBFDBE] before clearing L2C_MCI0_INT[VBFDBE].
 
       - name: MCIX_INT_VBFSBE
         bits: 17
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_MCI(0..0)_INT[VBFSBE] set.
+        description: |
+          Set when L2C_MCI0_INT[VBFSBE] set. Edge-sensitive interrupt, so software should clear
+          [MCIX_INT_VBFSBE] before clearing L2C_MCI0_INT[VBFSBE].
 
       - name: TADX_INT_RTGDBE
         bits: 16
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[RTGDBE] set.
+        description: |
+          Set when L2C_TAD0_INT[RTGDBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_RTGDBE] before clearing L2C_TAD0_INT[RTGDBE].
 
       - name: TADX_INT_RTGSBE
         bits: 15
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[RTGSBE] set.
+        description: |
+          Set when L2C_TAD0_INT[RTGSBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_RTGSBE] before clearing L2C_TAD0_INT[RTGSBE].
 
       - name: TADX_INT_RDDISLMC
         bits: 14
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[RDDISLMC] set.
+        description: |
+          Set when L2C_TAD0_INT[RDDISLMC] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_RDDISLMC] before clearing L2C_TAD0_INT[RDDISLMC].
 
       - name: TADX_INT_WRDISLMC
         bits: 13
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[WRDISLMC] set.
+        description: |
+          Set when L2C_TAD0_INT[WRDISLMC] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_WRDISLMC] before clearing L2C_TAD0_INT[WRDISLMC].
 
       - name: TADX_INT_BIGRD
         bits: 12
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[BIGRD] set.
+        description: |
+          Set when L2C_TAD0_INT[BIGRD] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_BIGRD] before clearing L2C_TAD0_INT[BIGRD].
 
       - name: TADX_INT_BIGWR
         bits: 11
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[BIGWR] set.
+        description: |
+          Set when L2C_TAD0_INT[BIGWR] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_BIGWR] before clearing L2C_TAD0_INT[BIGWR].
 
       - name: TADX_INT_HOLERD
         bits: 10
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[HOLERD] set.
+        description: |
+          Set when L2C_TAD0_INT[HOLERD] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_HOLERD] before clearing L2C_TAD0_INT[HOLERD].
 
       - name: TADX_INT_HOLEWR
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[HOLEWR] set.
+        description: |
+          Set when L2C_TAD0_INT[HOLEWR] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_HOLEWR] before clearing L2C_TAD0_INT[HOLEWR].
 
       - name: TADX_INT_NOWAY
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[NOWAY] set.
+        description: |
+          Set when L2C_TAD0_INT[NOWAY] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_NOWAY] before clearing L2C_TAD0_INT[NOWAY].
 
       - name: TADX_INT_TAGDBE
         bits: 7
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[TAGDBE] set.
+        description: |
+          Set when L2C_TAD0_INT[TAGDBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_TAGDBE] before clearing L2C_TAD0_INT[TAGDBE].
 
       - name: TADX_INT_TAGSBE
         bits: 6
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[TAGSBE] set.
+        description: |
+          Set when L2C_TAD0_INT[TAGSBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_TAGSBE] before clearing L2C_TAD0_INT[TAGSBE].
 
       - name: TADX_INT_FBFDBE
         bits: 5
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[FBFDBE] set.
+        description: |
+          Set when L2C_TAD0_INT[FBFDBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_FBFDBE] before clearing L2C_TAD0_INT[FBFDBE].
 
       - name: TADX_INT_FBFSBE
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[FBFSBE] set.
+        description: |
+          Set when L2C_TAD0_INT[FBFSBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_FBFSBE] before clearing L2C_TAD0_INT[FBFSBE].
 
       - name: TADX_INT_SBFDBE
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[SBFDBE] set.
+        description: |
+          Set when L2C_TAD0_INT[SBFDBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_SBFDBE] before clearing L2C_TAD0_INT[SBFDBE].
 
       - name: TADX_INT_SBFSBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[SBFSBE] set.
+        description: |
+          Set when L2C_TAD0_INT[SBFSBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_SBFSBE] before clearing L2C_TAD0_INT[SBFSBE].
 
       - name: TADX_INT_L2DDBE
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[L2DDBE] set.
+        description: |
+          Set when L2C_TAD0_INT[L2DDBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_L2DDBE] before clearing L2C_TAD0_INT[L2DDBE].
 
       - name: TADX_INT_L2DSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when L2C_TAD(0..0)_INT[L2DSBE] set.
+        description: |
+          Set when L2C_TAD0_INT[L2DSBE] set. Edge-sensitive interrupt, so software should clear
+          [TADX_INT_L2DSBE] before clearing L2C_TAD0_INT[L2DSBE].
 
 
   - name: CIU_CIB_L2C_EN(0)
@@ -6460,42 +6507,54 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when LMC(0..0)_INT[DDR_ERR] set.
+        description: |
+          Set when LMC0_INT[DDR_ERR] set. Edge-sensitive interrupt, so software should clear
+          [INT_DDR_ERR] before clearing LMC0_INT[DDR_ERR].
 
       - name: INT_DLC_DED
         bits: 10
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when LMC(0..0)_INT[DLCRAM_DED_ERR] set.
+        description: |
+          Set when LMC0_INT[DLCRAM_DED_ERR] set. Edge-sensitive interrupt, so software should clear
+          [INT_DLC_DED] before clearing LMC0_INT[DLCRAM_DED_ERR].
 
       - name: INT_DLC_SEC
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when LMC(0..0)_INT[DLCRAM_SEC_ERR] set.
+        description: |
+          Set when LMC0_INT[DLCRAM_SEC_ERR] set. Edge-sensitive interrupt, so software should clear
+          [INT_DLC_SEC] before clearing LMC0_INT[DLCRAM_SEC_ERR].
 
       - name: INT_DED_ERRX
         bits: 8..5
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Set when LMC(0..0)_INT[DED_ERR<b>] set.
+        description: |
+          Set when LMC0_INT[DED_ERR<b>] set. Edge-sensitive interrupts, so software should clear
+          [INT_DED_ERRX<b>] before clearing LMC0_INT[DED_ERR<b>].
 
       - name: INT_SEC_ERRX
         bits: 4..1
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Set when LMC(0..0)_INT[SEC_ERR<b>] set.
+        description: |
+          Set when LMC0_INT[SEC_ERR<b>] set. Edge-sensitive interrupts, so software should clear
+          [INT_SEC_ERRX<b>] before clearing LMC0_INT[SEC_ERR<b>].
 
       - name: INT_NXM_WR_ERR
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when LMC(0..0)_INT[NXM_WR_ERR] set.
+        description: |
+          Set when LMC0_INT[NXM_WR_ERR] set. Edge-sensitive interrupt, so software should clear
+          [INT_NXM_WR_ERR] before clearing LMC0_INT[NXM_WR_ERR].
 
 
   - name: CIU_CIB_LMC(0)_EN(0)
@@ -6568,14 +6627,18 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Set when RST_INT[PERST<a>] set.
+        description: |
+          Set when RST_INT[PERST<a>] set. Edge-sensitive interrupts, so software should clear
+          [INT_PERSTX<a>] before clearing RST_INT[PERST<a>].
 
       - name: INT_LINKX
         bits: 2..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Set when RST_INT[RST_LINK<a>] set.
+        description: |
+          Set when RST_INT[RST_LINK<a>] set. Edge-sensitive interrupts, so software should clear
+          [INT_LINKX<a>] before clearing RST_INT[RST_LINK<a>].
 
 
   - name: CIU_CIB_RST_EN(0)
@@ -6621,32 +6684,48 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when SATA_UAHC_PX_IS[CPDS],
-          SATA_UAHC_PX_IS[DMPS],
-          SATA_UAHC_PX_IS[PCS],
-          SATA_UAHC_PX_IS[SDBS], or
-          SATA_UAHC_PX_SNTF[PMN] set.
+          Summary for chip-internal level-sensitive interrupt that is asserted any of
+          SATA_UAHC_P_IS[CPDS,DMPS,PCS] are set, and also asserts when both SATA_UAHC_P_IS[SDBS] and
+          SATA_UAHC_PX_SNTF[PMN] are set.
+          Hardware sets [UAHC_PME_REQ_IP] sometime after the underlying interrupt condition changes
+          from de-asserting to asserting, and clears [UAHC_PME_REQ_IP] sometime after the underlying
+          interrupt condition changes from asserting to de-asserting.
+          R/W1C, but software need not clear [UAHC_PME_REQ_IP], and perhaps should only ever clear
+          [UAHC_PME_REQ_IP]
+          when the underlying interrupt condition is known to be asserted.
 
       - name: UAHC_INTRQ_IP
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when SATA_UAHC_GBL_IS[IPS] or SATA_UAHC_PX_IS set.
+        description: |
+          Summary for chip-internal level-sensitive interrupt that is asserted when any bit in
+          SATA_UAHC_GBL_IS[IPS] is set.
+          Hardware sets [UAHC_INTRQ_IP] sometime after the underlying interrupt condition changes
+          from de-asserting to asserting, and clears [UAHC_INTRQ_IP] sometime after the underlying
+          interrupt condition changes from asserting to de-asserting.
+          R/W1C, but software need not clear [UAHC_INTRQ_IP], and perhaps should only ever clear
+          [UAHC_INTRQ_IP]
+          when the underlying interrupt condition is known to be asserted.
 
       - name: INTSTAT_XM_BAD_DMA
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when SATA_UCTL_INTSTAT[XM_BAD_DMA] set.
+        description: |
+          Set when SATA_UCTL_INTSTAT[XM_BAD_DMA] set. Edge-sensitive interrupt, so software should
+          clear [INTSTAT_XM_BAD_DMA] before clearing SATA_UCTL_INTSTAT[XM_BAD_DMA].
 
       - name: INTSTAT_XS_NCB_OOB
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when SATA_UCTL_INTSTAT[XS_NCB_OOB] set.
+        description: |
+          Set when SATA_UCTL_INTSTAT[XS_NCB_OOB] set. Edge-sensitive interrupt, so software should
+          clear [INTSTAT_XS_NCB_OOB] before clearing SATA_UCTL_INTSTAT[XS_NCB_OOB].
 
 
   - name: CIU_CIB_SATA_EN(0)
@@ -6705,77 +6784,128 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT]
+        description: |
+          Summary for chip-internal level-sensitive interrupt that is asserted when corresponding
+          (USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT]!=0).
+          Hardware sets [UAHC_DEV_INT] sometime after corresponding
+          USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT] changes
+          from zero, and clears [UAHC_DEV_INT] sometime after corresponding
+          USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT] changes to zero.
+          R/W1C, but software need not clear [UAHC_DEV_INT], and perhaps should only ever clear
+          [UAHC_DEV_INT]
+          when corresponding USBDRD(0..1)_UAHC_GEVNTCOUNT[EVNTCOUNT] is known to be non-zero.
 
       - name: UAHC_IMANX_IP
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UAHC_IMAN(0..0)[IP] set.
+        description: |
+          Summary for chip-internal level-sensitive interrupt that is asserted when corresponding
+          USBDRD(0..1)_UAHC_IMAN(0..0)[IP] is set.
+          Hardware sets [UAHC_IMANX_IP] sometime after corresponding
+          USBDRD(0..1)_UAHC_IMAN(0..0)[IP] changes
+          0->1, and clears [UAHC_IMANX_IP] sometime after corresponding
+          USBDRD(0..1)_UAHC_IMAN(0..0)[IP] changes 1->0.
+          R/W1C, but software need not clear [UAHC_IMANX_IP], and perhaps should only ever clear
+          [UAHC_IMANX_IP]
+          when corresponding USBDRD(0..1)_UAHC_IMAN(0..0)[IP] is known to be set.
 
       - name: UAHC_USBSTS_HSE
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UAHC_USBSTS[HSE] set.
+        description: |
+          Summary for chip-internal level-sensitive interrupt that is asserted when corresponding
+          USBDRD(0..1)_UAHC_USBSTS[HSE] is set.
+          Hardware sets [UAHC_USBSTS_HSE] sometime after corresponding USBDRD(0..1)_UAHC_USBSTS[HSE]
+          changes
+          0->1, and clears [UAHC_USBSTS_HSE] sometime after corresponding
+          USBDRD(0..1)_UAHC_USBSTS[HSE] changes 1->0.
+          R/W1C, but software need not clear [UAHC_USBSTS_HSE], and perhaps should only ever clear
+          [UAHC_USBSTS_HSE]
+          when corresponding USBDRD(0..1)_UAHC_USBSTS[HSE] is known to be set.
 
       - name: INTSTAT_RAM2_DBE
         bits: 7
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE] set. Edge-sensitive interrupt,
+          so software should clear [INTSTAT_RAM2_DBE] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE].
 
       - name: INTSTAT_RAM2_SBE
         bits: 6
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE] set. Edge-sensitive interrupt,
+          so software should clear [INTSTAT_RAM2_SBE] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE].
 
       - name: INTSTAT_RAM1_DBE
         bits: 5
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE] set. Edge-sensitive interrupt,
+          so software should clear [INTSTAT_RAM1_DBE] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE].
 
       - name: INTSTAT_RAM1_SBE
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE] set. Edge-sensitive interrupt,
+          so software should clear [INTSTAT_RAM1_SBE] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE].
 
       - name: INTSTAT_RAM0_DBE
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE] set. Edge-sensitive interrupt,
+          so software should clear [INTSTAT_RAM0_DBE] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE].
 
       - name: INTSTAT_RAM0_SBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE] set. Edge-sensitive interrupt,
+          so software should clear [INTSTAT_RAM0_SBE] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE].
 
       - name: INTSTAT_XM_BAD_DMA
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA] set. Edge-sensitive
+          interrupt, so software should clear [INTSTAT_XM_BAD_DMA] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA].
 
       - name: INTSTAT_XS_NCB_OOB
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB] set.
+        description: |
+          Set when corresponding USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB] set. Edge-sensitive
+          interrupt, so software should clear [INTSTAT_XS_NCB_OOB] before clearing corresponding
+          USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB].
 
 
   - name: CIU_CIB_USBDRD(0..1)_EN(0)
@@ -6883,70 +7013,90 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[DDRFULL] set.
+        description: |
+          Set when OCLA0_STATE_INT[DDRFULL] set. Edge-sensitive interrupt, so software should clear
+          [STATE_DDRFULL] before clearing OCLA0_STATE_INT[DDRFULL].
 
       - name: STATE_WMARK
         bits: 13
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[WMARK] set.
+        description: |
+          Set when OCLA0_STATE_INT[WMARK] set. Edge-sensitive interrupt, so software should clear
+          [STATE_WMARK] before clearing OCLA0_STATE_INT[WMARK].
 
       - name: STATE_OVERFULL
         bits: 12
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[OVERFULL] set.
+        description: |
+          Set when OCLA0_STATE_INT[OVERFULL] set. Edge-sensitive interrupt, so software should clear
+          [STATE_OVERFULL] before clearing OCLA0_STATE_INT[OVERFULL].
 
       - name: STATE_TRIGFULL
         bits: 11
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[TRIGFULL] set.
+        description: |
+          Set when OCLA0_STATE_INT[TRIGFULL] set. Edge-sensitive interrupt, so software should clear
+          [STATE_TRIGFULL] before clearing OCLA0_STATE_INT[TRIGFULL].
 
       - name: STATE_CAPTURED
         bits: 10
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[CAPTURED] set.
+        description: |
+          Set when OCLA0_STATE_INT[CAPTURED] set. Edge-sensitive interrupt, so software should clear
+          [STATE_CAPTURED] before clearing OCLA0_STATE_INT[CAPTURED].
 
       - name: STATE_FSM1_INT
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[FSM1_INT] set.
+        description: |
+          Set when OCLA0_STATE_INT[FSM1_INT] set. Edge-sensitive interrupt, so software should clear
+          [STATE_FSM1_INT] before clearing OCLA0_STATE_INT[FSM1_INT].
 
       - name: STATE_FSM0_INT
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[FSM0_INT] set.
+        description: |
+          Set when OCLA0_STATE_INT[FSM0_INT] set. Edge-sensitive interrupt, so software should clear
+          [STATE_FSM0_INT] before clearing OCLA0_STATE_INT[FSM0_INT].
 
       - name: STATE_MCDX
         bits: 7..5
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Set when OCLA(0)_STATE_INT[MCD<b>] set.
+        description: |
+          Set when OCLA0_STATE_INT[MCD<b>] set. Edge-sensitive interrupts, so software should clear
+          [STATE_MCDX<b>] before clearing OCLA0_STATE_INT[MCD<b>].
 
       - name: STATE_TRIG
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Set when OCLA(0)_STATE_INT[TRIG] set.
+        description: |
+          Set when OCLA0_STATE_INT[TRIG] set. Edge-sensitive interrupt, so software should clear
+          [STATE_TRIG] before clearing OCLA0_STATE_INT[TRIG].
 
       - name: STATE_OVFLX
         bits: 3..0
         access: R/W1C/H
         reset: 0x0
         typical: 0x0
-        description: Set when OCLA(0)_STATE_INT[OVFL<b>] set.
+        description: |
+          Set when OCLA0_STATE_INT[OVFL<b>] set. Edge-sensitive interrupts, so software should clear
+          [STATE_OVFLX<b>] before clearing OCLA0_STATE_INT[OVFL<b>].
 
 
   - name: CIU_CIB_OCLA(0)_EN(0)
@@ -10726,30 +10876,18 @@ registers:
           SW should set BOOT_FAIL when an unrecoverable error occurs
           while attempt to boot.   When set, the
           following pattern will be output:
-          BOOT_AD[7:0] pulled up to 1
+          BOOT_AD[7:0] driven to 0
           BOOT_CE_N[7:0] driven to 1
           BOOT_ALE[0] driven to 1
           BOOT_OE_L driven to 0
           BOOT_WE_L driven to 0
 
       - name: --
-        bits: 15..5
+        bits: 15..4
         access: RAZ
         reset: 0x0
         typical: --
         description: Reserved.
-
-      - name: LOCKOUT
-        bits: 4
-        access: R/W
-        reset: 0
-        typical: --
-        description: |
-          eMMC Lockout.  Setting this bit keeps the eMMC controller from
-          requesting the boot bus.  This setting will allow NDF
-          even when the BUS_ENA bits have been set.  Care must be taken
-          to only set this bit when both the eMMC controller and the
-          shared NDF DMA engine are idle.
 
       - name: BUS_ENA
         bits: 3..0

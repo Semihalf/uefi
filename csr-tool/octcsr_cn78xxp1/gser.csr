@@ -180,6 +180,8 @@ registers:
     title: GSER General Purpose Scratch Register
     address: 0x1180090000020 + a*0x1000000
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..16

@@ -48,6 +48,8 @@ description: |
   UAHC registers may also be accessed by presenting an NCB-type address over
   RSL. Registers accessed this way are statically mapped from UAHC's
   little-endian mode to the RSL's big-endian.
+attributes:
+  dv_fc_scratch_exempt: "RSL,NCB"
 enums:
   - name: SATA_UCTL_DMA_READ_CMD_E
     title: SATA UCTL DMA Read Command Enumeration

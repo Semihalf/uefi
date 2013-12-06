@@ -4,6 +4,7 @@
 name: MIX
 attributes:
   block_index_affects_offset: "True"
+  dv_fc_scratch_exempt: "NCB"
   dv_testbuilder_ignore_block_index: "True"
 enums:
   - name: MIX_INTSN_E

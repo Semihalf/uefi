@@ -786,6 +786,8 @@ registers:
       INTERNAL: HFA Performance Counter 0 Control Register
     address: 0x1180037000088
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..14

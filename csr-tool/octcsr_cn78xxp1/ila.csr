@@ -424,11 +424,34 @@ registers:
         description: Packet transmit enable. When zero, the TX-link stops transmitting packets, as per RX_LINK_FC_PKT.
 
       - name: --
-        bits: 19..9
+        bits: 19..12
         access: RAZ
         reset: 0x0
         typical: --
         description: Reserved.
+
+      - name: TX_LINK_FC_JAM
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: --
+        description: Reserved.
+
+      - name: RX_LINK_FC_PKT
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Flow-control received in burst/idle control words cause TX-link to stop transmitting at
+          the end of a packet instead of the end of a burst.
+
+      - name: RX_LINK_FC_IGN
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Ignore flow-control status received in burst/idle control words.
 
       - name: RMATCH
         bits: 8

@@ -13,6 +13,8 @@ enums:
     values:
       - name: PP(0..47)_IP(2..4)
         value: 0x000 + a*0x3 + (b-0x2)
+        attributes:
+          exempt_equation_subtraction: "True"
         description: Core a, IP b
 
 
@@ -109,7 +111,7 @@ enums:
     title: Master Interrupt Source Number Enumeration
     attributes:
       width: "8"
-    description: |
+    internal: |
       INTERNAL: Where possible, these numbers match the RSLDID assignments in chip_defines.vh.
       Enumerates the upper 8 bits of interrupt source numbers.
     values:
@@ -122,133 +124,133 @@ enums:
       - name: CIU
         value: 0x01
         attributes:
-          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E"
         description: CIU
 
       - name: CIU_TIMER
         value: 0x02
         attributes:
-          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E"
         description: Timer interrupts
 
       - name: GPIO
         value: 0x03
         attributes:
-          see_enumeration: "GPIO_INTSN_E on"
-        description: GPIO interrupts
+          see_enumeration: "GPIO_INTSN_E"
+        description: GPIO interrupts; see .
 
       - name: SW
         value: 0x04
         attributes:
-          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
+          see_enumeration: "CIU_INTSN_E"
         description: Software interrupts
 
       - name: MPI
         value: 0x05
         attributes:
-          see_enumeration: "MPI_INTSN_E on"
-        description: MPI interrupts
+          see_enumeration: "MPI_INTSN_E"
+        description: MPI interrupts; see .
 
       - name: RST
         value: 0x06
         attributes:
-          see_enumeration: "RST_INTSN_E on"
-        description: Reset interrupts
+          see_enumeration: "RST_INTSN_E"
+        description: Reset interrupts; see .
 
       - name: MIO_PTP
         value: 0x07
         attributes:
-          see_enumeration: "MIO_PTP_INTSN_E on"
-        description: PTP interrupts
+          see_enumeration: "MIO_PTP_INTSN_E"
+        description: PTP interrupts; see .
 
       - name: MIO_UART
         value: 0x08
         attributes:
-          see_enumeration: "MIO_UART_INTSN_E on"
-        description: UART interrupts
+          see_enumeration: "MIO_UART_INTSN_E"
+        description: UART interrupts; see .
 
       - name: MIO_EMM
         value: 0x09
         attributes:
-          see_enumeration: "MIO_EMM_INTSN_E on"
-        description: eMMC interrupts
+          see_enumeration: "MIO_EMM_INTSN_E"
+        description: eMMC interrupts; see .
 
       - name: MIO_BOOT
         value: 0x0A
         attributes:
-          see_enumeration: "MIO_BOOT_INTSN_E on"
-        description: Boot-Bus interrupts
+          see_enumeration: "MIO_BOOT_INTSN_E"
+        description: Boot-Bus interrupts; see .
 
       - name: MIO_TWS
         value: 0x0B
         attributes:
-          see_enumeration: "TWS_INTSN_E on"
-        description: TWSI interrupts
+          see_enumeration: "TWS_INTSN_E"
+        description: TWSI interrupts; see .
 
       - name: LAP(0..1)
         value: 0x0C + a
         attributes:
-          see_enumeration: "LAP_INTSN_E on"
+          see_enumeration: "LAP_INTSN_E"
         description: LAP interrupts; see .
 
       - name: MIX
         value: 0x10
         attributes:
-          see_enumeration: "MIX_INTSN_E on"
-        description: MIX interrupts
+          see_enumeration: "MIX_INTSN_E"
+        description: MIX interrupts; see .
 
       - name: OCX
         value: 0x11
         attributes:
-          see_enumeration: "OCX_INTSN_E on TBD"
-        description: OCX interrupts; see TBD
+          see_enumeration: "OCX_INTSN_E"
+        description: OCX interrupts; see .
 
       - name: LBK
         value: 0x12
         attributes:
-          see_enumeration: "LBK_INTSN_E on"
-        description: Loopback interrupts; see .
+          see_enumeration: "LBK_INTSN_E"
+        description: Loopback interrupts; see Loopback Interface Unit (LBK).
 
       - name: ILK
         value: 0x14
         attributes:
-          see_enumeration: "ILK_INTSN_E on"
+          see_enumeration: "ILK_INTSN_E"
         description: Interlaken interrupts; see .
 
       - name: ILA
         value: 0x17
         attributes:
-          see_enumeration: "ILA_INTSN_E on"
-        description: Interlaken-LA interrupts; see .
+          see_enumeration: "ILA_INTSN_E"
+        description: Interlaken-LA interrupts; see Interlaken Look-Aside (ILA) Interface.
 
       - name: SLI_MSI
         value: 0x1E
         attributes:
-          see_enumeration: "SLI_INTSN_E on"
-        description: SLI MSI interrupts; see .
+          see_enumeration: "SLI_INTSN_E"
+        description: SLI MSI interrupts; see CN78XX Receiving Message-Signaled Interrupts.
 
       - name: SLI
         value: 0x1F
         attributes:
-          see_enumeration: "SLI_INTSN_E on"
+          see_enumeration: "SLI_INTSN_E"
         description: SLI interrupts; see .
 
       - name: KEY
         value: 0x20
         attributes:
-          see_enumeration: "KEY_INTSN_E on"
-        description: KEY interrupts; see .
+          see_enumeration: "KEY_INTSN_E"
+        description: KEY interrupts; see Key Memory Unit (KEY).
 
       - name: FPA
         value: 0x28
         attributes:
-          see_enumeration: "FPA_INTSN_E on"
+          see_enumeration: "FPA_INTSN_E"
         description: FPA interrupts; see .
 
       - name: FPA_AURA
         value: 0x29
         attributes:
-          see_enumeration: "FPA_INTSN_E on"
+          see_enumeration: "FPA_INTSN_E"
         description: FPA aura interrupts; see .
 
       - name: DFA
@@ -260,134 +262,135 @@ enums:
       - name: ZIP
         value: 0x38
         attributes:
-          see_enumeration: "ZIP_INTSN_E on"
-        description: ZIP interface interrupts; see .
+          see_enumeration: "ZIP_INTSN_E"
+        description: ZIP interface interrupts; see ZIP Compression/Decompression Coprocessor.
 
       - name: PKI
         value: 0x44
         attributes:
-          see_enumeration: "PKI_INTSN_E on"
+          see_enumeration: "PKI_INTSN_E"
         description: Packet input interrupts; see .
 
       - name: HNA
         value: 0x47
         attributes:
           see_enumeration: "HNA_INTSN_E on TBD"
-        description: HNA interrupts; see TBD.
+        description: HNA interrupts; see .
 
       - name: PKO
         value: 0x50
         attributes:
-          see_enumeration: "PKO_INTSN_E on TBD"
+          see_enumeration: "PKO_INTSN_E"
         description: PKO interrupts; see .
 
       - name: PKO_Q
         value: 0x52
         attributes:
-          see_enumeration: "PKO_INTSN_E on TBD"
+          see_enumeration: "PKO_INTSN_E"
         description: PKO queue interrupts; see .
 
       - name: TIM
         value: 0x58
         attributes:
-          see_enumeration: "TIM_INTSN_E on"
+          see_enumeration: "TIM_INTSN_E"
         description: Timer interrupts; see .
 
       - name: SSO_TGQ
         value: 0x60
         attributes:
-          see_enumeration: "SSO_INTSN_E on"
+          see_enumeration: "SSO_INTSN_E"
         description: SSO group interrupts; see .
 
       - name: SSO_EXE
         value: 0x61
         attributes:
-          see_enumeration: "SSO_INTSN_E on"
+          see_enumeration: "SSO_INTSN_E"
         description: SSO group interrupts; see .
 
       - name: SSO
         value: 0x67
         attributes:
-          see_enumeration: "SSO_INTSN_E on"
+          see_enumeration: "SSO_INTSN_E"
         description: SSO interrupts; see .
 
       - name: UCTL(0)
         value: 0x68 + a
         attributes:
-          see_enumeration: "UCTL_INTSN_E on"
+          see_enumeration: "UCTL_INTSN_E"
         description: USB controller interrupts; see .
 
       - name: RAD
         value: 0x70
         attributes:
-          see_enumeration: "RAD_INTSN_E on"
-        description: RAID interrupts; see .
+          see_enumeration: "RAD_INTSN_E"
+        description: RAID interrupts; see RAID Unit (RAD).
 
       - name: L2C
         value: 0x80
         attributes:
-          see_enumeration: "L2C_INTSN_E on TBD"
+          see_enumeration: "L2C_INTSN_E"
         description: L2C interrupts; see .
 
       - name: LMC(0..3)
         value: 0x88 + a
         attributes:
-          see_enumeration: "LMC_INTSN_E on"
+          see_enumeration: "LMC_INTSN_E"
         description: LMC interrupts; see .
 
       - name: OCLA(0..5)
         value: 0xA8 + a
         attributes:
-          see_enumeration: "OCLA_INTSN_E on"
-        description: OCLA interrupts; see .
+          see_enumeration: "OCLA_INTSN_E"
+        description: OCLA interrupts; see On-Chip Logic Analyzer Unit (OCLA).
 
       - name: PEM(0..3)
         value: 0xC0 + a
         attributes:
-          see_enumeration: "PEM_INTSN_E on"
+          see_enumeration: "PEM_INTSN_E"
         description: PEM interrupts; see .
 
       - name: OSM
         value: 0xDC
         attributes:
-          see_enumeration: "OSM_INTSN_E on TBD"
-        description: OSM interrupts; see TBD.
+          see_enumeration: "OSM_INTSN_E"
+        description: OSM interrupts; see .
 
       - name: ASE
         value: 0xDD
         attributes:
-          see_enumeration: "ASE_INTSN_E on TBD"
-        description: ASE interrupts; see TBD.
+          see_enumeration: "ASE_INTSN_E"
+        description: ASE interrupts; see .
 
       - name: DPI
         value: 0xDF
         attributes:
-          see_enumeration: "DPI_INTSN_E on"
-        description: (DPI interrupts; see .
+          see_enumeration: "DPI_INTSN_E"
+        description: DPI interrupts; see .
 
       - name: BGX(0..5)
         value: 0xE0 + a
         attributes:
-          see_enumeration: "BGX_INTSN_E on TBD"
+          see_enumeration: "BGX_INTSN_E"
         description: BGX interface interrupts; see .
 
       - name: IOBN
         value: 0xF0
         attributes:
-          see_enumeration: "IOBN_INTSN_E on TBD"
+          see_enumeration: "IOBN_INTSN_E"
         description: IOBN interrupts; see .
 
       - name: IOBP
         value: 0xF1
         attributes:
-          see_enumeration: "IOBP_INTSN_E on TBD"
+          see_enumeration: "IOBP_INTSN_E"
         description: IOBP interrupts; see .
 
 
 structs:
   - name: CIU_ISCMEM_S
-    title: Interrupt Source Memory Entry Structure
-    description: This structure specifies the layout of the in-memory entry for SSO delivery.
+    title: |
+      INTERNAL: Interrupt Source Memory Entry Structure
+    description: Deprecated. This structure specifies the layout of the in-memory entry for SSO delivery.
     fields:
       - name: TAG
         bits: w0(31..0)
@@ -914,7 +917,8 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Number of SSO events waiting to be sent to SSO.
+        description: |
+          Reserved. INTERNAL: Deprecated. Number of SSO events waiting to be sent to SSO.
 
       - name: --
         bits: 15..1
@@ -1284,6 +1288,7 @@ registers:
     bus: NCB
     description: Sparse table indexed by INTSN.
     attributes:
+      dv_testbuilder_no_create: "True"
       dv_uvm_no_create: "True"
     fields:
       - name: --
@@ -1325,9 +1330,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Transaction needs to be sent to SSO. CIU internal state for diagnostic use. [SSO_PEND]
-          will be cleared when the entry is transmitted to SSO, or by a software clear of [SSO],
-          [RAW] or [EN].
+          Reserved. INTERNAL: Deprecated. Transaction needs to be sent to SSO. CIU internal state
+          for diagnostic use. [SSO_PEND] will be cleared when the entry is transmitted to SSO, or by
+          a software clear of [SSO], [RAW] or [EN].
 
       - name: --
         bits: 13..3
@@ -1343,7 +1348,8 @@ registers:
         typical: 0
         attributes:
           regtest_force: "0"
-        description: Use SSO delivery.
+        description: |
+          Reserved. INTERNAL: Deprecated. Use SSO delivery.
 
       - name: EN
         bits: 1
@@ -1367,6 +1373,7 @@ registers:
     address: 0x1010090000000 + a*0x8
     bus: NCB
     attributes:
+      dv_testbuilder_no_create: "True"
       dv_uvm_no_create: "True"
     fields:
       - name: --
@@ -1381,7 +1388,8 @@ registers:
         access: R/W1C
         reset: 0
         typical: 0
-        description: Use SSO work-queue-entry delivery.
+        description: |
+          Reserved. INTERNAL: Deprecated. Use SSO work-queue-entry delivery.
 
       - name: EN
         bits: 1
@@ -1403,6 +1411,7 @@ registers:
     address: 0x10100A0000000 + a*0x8
     bus: NCB
     attributes:
+      dv_testbuilder_no_create: "True"
       dv_uvm_no_create: "True"
     fields:
       - name: --
@@ -1417,7 +1426,8 @@ registers:
         access: R/W1S
         reset: 0
         typical: 0
-        description: Use SSO work-queue-entry delivery.
+        description: |
+          Reserved. INTERNAL: Deprecated. Use SSO work-queue-entry delivery.
 
       - name: EN
         bits: 1

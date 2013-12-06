@@ -156,6 +156,7 @@ enums:
 
 structs:
   - name: LAP_CTL_REQ_S
+    title: LAP Request Control Structure
     description: This structure specifies the layout of word 0 of each request.
     fields:
       - name: --
@@ -201,6 +202,7 @@ structs:
 
 
   - name: LAP_CTL_RTN_S
+    title: LAP Return Control Structure
     description: This structure specifies the layout of word 0 of each return.
     fields:
       - name: LAB
@@ -277,6 +279,7 @@ structs:
 
 
   - name: LAP_RD_IOBDMA_S
+    title: LAP Read IOBDMA Operation Structure
     description: IOBDMA return operations are created with an address formed with this structure.
     fields:
       - name: --
@@ -361,10 +364,11 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: LAP_RD_LD_S
+    title: LAP Read Load Operation Structure
     description: IO read loads are created with an address formed with this structure.
     fields:
       - name: --
@@ -431,6 +435,7 @@ structs:
 
 
   - name: LAP_SEND_LMTDMA_S
+    title: LMTDMA Send Operation Address Structure
     description: LMTDMA send operations are created with an address formed with this structure.
     fields:
       - name: --
@@ -507,7 +512,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
 registers:

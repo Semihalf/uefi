@@ -37,6 +37,8 @@ attributes:
   dv_fc_regs_extends: "l2c_pkg::l2c_rsl_reg_block_c"
 enums:
   - name: IOC_CMD_E
+    title: |
+      INTERNAL: IOC Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "4"
@@ -80,6 +82,8 @@ enums:
 
 
   - name: IOR_CMD_E
+    title: |
+      INTERNAL: IOR Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "2"
@@ -103,6 +107,7 @@ enums:
 
 
   - name: L2C_DAT_ERRPRIO_E
+    title: L2C Quad Error Priority Enumeration
     attributes:
       width: "3"
     description: Enumerates the different quad error priorities
@@ -137,6 +142,7 @@ enums:
 
 
   - name: L2C_INTSN_E
+    title: L2C Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from L2C.
@@ -284,6 +290,7 @@ enums:
 
 
   - name: L2C_TAD_PRF_SEL_E
+    title: L2C TAD Performance Counter Select Enumeration
     attributes:
       width: "8"
     description: Enumerates the different TAD performance counter selects.
@@ -294,39 +301,39 @@ enums:
 
       - name: L2T_HIT
         value: 0x01
-        description: L2 Tag Hit.
+        description: L2 tag hit.
 
       - name: L2T_MISS
         value: 0x02
-        description: L2 Tag Miss.
+        description: L2 tag miss.
 
       - name: L2T_NOALLOC
         value: 0x03
-        description: L2 Tag No-Allocate (forced).
+        description: L2 tag no-allocate (forced).
 
       - name: L2_VIC
         value: 0x04
-        description: L2 Victim.
+        description: L2 victim.
 
       - name: SC_FAIL
         value: 0x05
-        description: Store-Conditional Fail.
+        description: Store-conditional fail.
 
       - name: SC_PASS
         value: 0x06
-        description: Store-Conditional Pass.
+        description: Store-conditional pass.
 
       - name: LFB_OCC
         value: 0x07
-        description: LFB Occupancy (each cycle adds number of LFBs valid).
+        description: LFB occupancy (each cycle adds number of LFBs valid).
 
       - name: WAIT_LFB
         value: 0x08
-        description: LFB Wait LFB (each cycle adds number of LFBs waiting for other LFBs).
+        description: LFB wait LFB (each cycle adds number of LFBs waiting for other LFBs).
 
       - name: WAIT_VAB
         value: 0x09
-        description: LFB Wait VAB (each cycle adds number of LFBs waiting for VAB).
+        description: LFB wait VAB (each cycle adds number of LFBs waiting for VAB).
 
       - name: QD(0..1)_IDX
         value: 0x80 | a<<4
@@ -346,6 +353,7 @@ enums:
 
 
   - name: L2C_TAG_ERRPRIO_E
+    title: L2C Tag Error Priority Enumeration
     attributes:
       width: "2"
     description: Enumerates the different TAG error priorities.
@@ -368,6 +376,8 @@ enums:
 
 
   - name: RSC_CMD_E
+    title: |
+      INTERNAL: RSC Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "3"
@@ -407,6 +417,8 @@ enums:
 
 
   - name: XMC_CMD_E
+    title: |
+      INTERNAL: XMC Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "7"
@@ -887,9 +899,9 @@ registers:
       Flip ECC bits to generate single-bit or double-bit ECC errors in all instances of a given
       memory type. Encodings are as follows.
       0x0 = No error.
-      0x1 = Single-bit error on ecc[0].
-      0x2 = Single-bit error on ecc[1].
-      0x3 = Double-bit error on ecc[1:0].
+      0x1 = Single-bit error on ECC[0].
+      0x2 = Single-bit error on ECC[1].
+      0x3 = Double-bit error on ECC[1:0].
       L2DFLIP allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors for the purposes
       of testing error handling code. When one (or both) of these bits are set, a PL2 that misses in
       the L2 will fill with the appropriate error in the first two OWs of the fill. Software can
@@ -1065,7 +1077,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: OCI node to use for simulated ADD bus request.
+        description: Must be zero.
 
       - name: ADDR
         bits: 39..0
@@ -1111,13 +1123,11 @@ registers:
           0xA = 256 GB.
           0xB = 512 GB.
           0xC-0xF= reserved.
-          Violations of this limit causes L2C to set L2C_INT_REG[BIGRD/BIGWR].
+          Violations of this limit causes L2C to set L2C_TAD*_INT[BIGRD/BIGWR].
           BIGRD interrupts can occur during normal operation as the cores are allowed to prefetch to
           nonexistent memory locations. Therefore, BIGRD is for informational purposes only.
           When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store operation, L2C_TAD(0..0)_ERR is
           loaded. L2C_TAD(0..0)_ERR is not locked for a BIGRD, however.
-          The BIG logic only applies to local addresses. A command for a remote address does not
-          cause a BIGRD/BIGWR on the requesting node.
 
       - name: --
         bits: 3..1
@@ -1546,27 +1556,7 @@ registers:
     title: Level 2 Cache TAD Performance Counter Control Registers
     address: 0x1180080A00008 + a*0x40000
     bus: RSL
-    description: |
-      "(1) All four counters are equivalent and can use any of the defined selects.
-      (2) the CNTnSEL legal values are:
-      0x00 -Nothing (disabled)
-      0x01 -L2 Tag Hit
-      0x02 -L2 Tag Miss
-      0x03 -L2 Tag NoAlloc (forced no-allocate)
-      0x04 -L2 Victim
-      0x05 -SC Fail
-      0x06 -SC Pass
-      0x07 -LFB Occupancy (each cycle adds # of LFBs valid)
-      0x08 -LFB Wait LFB (each cycle adds # LFBs waiting for other LFBs)
-      0x09 -LFB Wait VAB (each cycle adds # LFBs waiting for VAB)
-      0x80 -Quad 0 index bus inuse
-      0x81 -Quad 0 read data bus inuse
-      0x82 -Quad 0 # banks inuse (0-4/cycle)
-      0x83 -Quad 0 wdat flops inuse (0-4/cycle)
-      0x90 -Quad 1 index bus inuse
-      0x91 -Quad 1 read data bus inuse
-      0x92 -Quad 1 # banks inuse (0-4/cycle)
-      0x93 -Quad 1 wdat flops inuse (0-4/cycle)"
+    description: All four counters are equivalent and can use any of the defined selects.
     fields:
       - name: --
         bits: 63..32
@@ -1580,28 +1570,28 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..0)_PFC3
+        description: Selects event to count for L2C_TAD(0..0)_PFC3. Enumerated by L2C_TAD_PRF_SEL_E.
 
       - name: CNT2SEL
         bits: 23..16
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..0)_PFC2
+        description: Selects event to count for L2C_TAD(0..0)_PFC2. Enumerated by L2C_TAD_PRF_SEL_E.
 
       - name: CNT1SEL
         bits: 15..8
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..0)_PFC1
+        description: Selects event to count for L2C_TAD(0..0)_PFC1. Enumerated by L2C_TAD_PRF_SEL_E.
 
       - name: CNT0SEL
         bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..0)_PFC0
+        description: Selects event to count for L2C_TAD(0..0)_PFC0. Enumerated by L2C_TAD_PRF_SEL_E.
 
 
   - name: L2C_TAD(0..0)_TAG
@@ -1701,10 +1691,10 @@ registers:
 
 
   - name: L2C_TAD(0..0)_DLL
-    title: L2C TAD DLL Observability Register
+    title: Level 2 Cache TAD DLL Observability Register
     address: 0x1180080A00018 + a*0x40000
     bus: RSL
-    description: Register for DLL observability
+    description: This register provides the parameters for DLL observability.
     fields:
       - name: --
         bits: 63..16
@@ -1732,7 +1722,8 @@ registers:
         access: RO/H
         reset: 0
         typical: 1
-        description: DLL locked.
+        description: |
+          DLL lock: 1 = locked, 0 = unlocked.
 
 
   - name: L2C_TAD(0..0)_INT
@@ -1970,10 +1961,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          OCI Node of XMC request causing error. For BIG* errors NODE will always be the node
-          logging the error (BIG* errors are logged at the home node). For HOLE* errors, NODE could
-          be any OCI node in the system (HOLE* errors are logged at the requester node).
+        description: Always zero.
 
       - name: ADDR
         bits: 39..0

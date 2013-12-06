@@ -176,6 +176,7 @@ def build_csr(chip_info, register, raw):
                    "arch_max",
                    "dv_force_no_compare",
                    "dv_uvm_no_create",
+                   "dv_testbuilder_no_create",
                    "exempt_name_length",
                    "min_stride",
                    "mem_to_csr",

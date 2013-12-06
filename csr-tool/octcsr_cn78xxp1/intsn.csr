@@ -4,6 +4,7 @@
 name: INTSN
 enums:
   - name: INTSN_ALL_E
+    title: Generated All-Chip Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Master list of CIU interrupt sources
@@ -161,6 +162,7 @@ enums:
           bit_name: "INTR<b>"
           bit_num: "0+b"
           blk_enum_name: "GPIO_INTSN_E"
+          exempt_equation_subtraction: "True"
           intsn_level_sensitive: "True"
           major_name: "GPIO"
           major_val: "(0x3)"
@@ -3741,7 +3743,7 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[PCAM1_DBE].
 
       - name: HNA_ERROR_DBLOVF
-        value: 0x47000
+        value: 0x047000
         attributes:
           bit_name: "DBLOVF"
           bit_num: "0"
@@ -3753,8 +3755,99 @@ enums:
           reg_name: "HNA_ERROR"
         description: See HNA_ERROR[DBLOVF].
 
+      - name: HNA_ERROR_SVSTCK_SBE
+        value: 0x047001
+        attributes:
+          bit_name: "HPU_SVSTCK_SBE"
+          bit_num: "1"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HPU_SVSTCK_SBE].
+
+      - name: HNA_ERROR_SVSTCK_DBE
+        value: 0x047002
+        attributes:
+          bit_name: "HPU_SVSTCK_DBE"
+          bit_num: "2"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HPU_SVSTCK_DBE].
+
+      - name: HNA_ERROR_RNSTCK_SBE
+        value: 0x047003
+        attributes:
+          bit_name: "HPU_RNSTCK_SBE"
+          bit_num: "3"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HPU_RNSTCK_SBE].
+
+      - name: HNA_ERROR_RNSTCK_DBE
+        value: 0x047004
+        attributes:
+          bit_name: "HPU_RNSTCK_DBE"
+          bit_num: "4"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HPU_RNSTCK_DBE].
+
+      - name: HNA_ERROR_PDB_PAR_ERR
+        value: 0x047005
+        attributes:
+          bit_name: "HPU_PDB_PAR_ERR"
+          bit_num: "5"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HPU_PDB_PAR_ERR].
+
+      - name: HNA_ERROR_INST_ERR
+        value: 0x04700B
+        attributes:
+          bit_name: "HNA_INST_ERR"
+          bit_num: "11"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HNA_INST_ERR].
+
+      - name: HNA_ERROR_HNC_OVFERR
+        value: 0x04700C
+        attributes:
+          bit_name: "HNC_OVFERR"
+          bit_num: "12"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HNC_OVFERR].
+
       - name: HNA_ERROR_DLC0_OVFERR
-        value: 0x4700D
+        value: 0x04700D
         attributes:
           bit_name: "DLC0_OVFERR"
           bit_num: "13"
@@ -3767,7 +3860,7 @@ enums:
         description: See HNA_ERROR[DLC0_OVFERR].
 
       - name: HNA_ERROR_DLC1_OVFERR
-        value: 0x4700E
+        value: 0x04700E
         attributes:
           bit_name: "DLC1_OVFERR"
           bit_num: "14"
@@ -3779,8 +3872,34 @@ enums:
           reg_name: "HNA_ERROR"
         description: See HNA_ERROR[DLC1_OVFERR].
 
+      - name: HNA_ERROR_DLC0_DBE
+        value: 0x04700F
+        attributes:
+          bit_name: "DLC0_DBE"
+          bit_num: "15"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DLC0_DBE].
+
+      - name: HNA_ERROR_DLC1_DBE
+        value: 0x047010
+        attributes:
+          bit_name: "DLC1_DBE"
+          bit_num: "16"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[DLC1_DBE].
+
       - name: HNA_ERROR_HNANXM
-        value: 0x47011
+        value: 0x047011
         attributes:
           bit_name: "HNANXM"
           bit_num: "17"
@@ -3793,7 +3912,7 @@ enums:
         description: See HNA_ERROR[HNANXM].
 
       - name: HNA_ERROR_REPLERR
-        value: 0x47012
+        value: 0x047012
         attributes:
           bit_name: "REPLERR"
           bit_num: "18"
@@ -3806,7 +3925,7 @@ enums:
         description: See HNA_ERROR[REPLERR].
 
       - name: HNA_ERROR_OSMERR
-        value: 0x47013
+        value: 0x047013
         attributes:
           bit_name: "OSMERR"
           bit_num: "19"
@@ -3817,6 +3936,19 @@ enums:
           reg_addr: "(0x1180047000028)"
           reg_name: "HNA_ERROR"
         description: See HNA_ERROR[OSMERR].
+
+      - name: HNA_ERROR_HNC_PARERR
+        value: 0x047014
+        attributes:
+          bit_name: "HNC_PARERR"
+          bit_num: "20"
+          blk_enum_name: "HNA_INTSN_E"
+          cib_rtl_module: "hna"
+          major_name: "HNA"
+          major_val: "(0x47)"
+          reg_addr: "(0x1180047000028)"
+          reg_name: "HNA_ERROR"
+        description: See HNA_ERROR[HNC_PARERR].
 
       - name: PKO_LUT_SBE_CMB0
         value: 0x50000
@@ -5537,32 +5669,6 @@ enums:
           reg_name: "L2C_TAD(0..7)_INT"
         description: See L2C_TAD(0..7)_INT[NOWAY].
 
-      - name: L2C_TAD(0..7)_INT_HOLEWR
-        value: 0x80009 | a<<8
-        attributes:
-          bit_name: "HOLEWR"
-          bit_num: "11"
-          blk_enum_name: "L2C_INTSN_E"
-          intsn_lsb_mismatch: "True"
-          major_name: "L2C"
-          major_val: "(0x80)"
-          reg_addr: "(0x1180080A00028+a*0x40000)"
-          reg_name: "L2C_TAD(0..7)_INT"
-        description: See L2C_TAD(0..7)_INT[HOLEWR].
-
-      - name: L2C_TAD(0..7)_INT_HOLERD
-        value: 0x8000A | a<<8
-        attributes:
-          bit_name: "HOLERD"
-          bit_num: "12"
-          blk_enum_name: "L2C_INTSN_E"
-          intsn_lsb_mismatch: "True"
-          major_name: "L2C"
-          major_val: "(0x80)"
-          reg_addr: "(0x1180080A00028+a*0x40000)"
-          reg_name: "L2C_TAD(0..7)_INT"
-        description: See L2C_TAD(0..7)_INT[HOLERD].
-
       - name: L2C_TAD(0..7)_INT_BIGWR
         value: 0x8000B | a<<8
         attributes:
@@ -5667,6 +5773,19 @@ enums:
           reg_name: "L2C_TAD(0..7)_INT"
         description: See L2C_TAD(0..7)_INT[RDDISOCI].
 
+      - name: L2C_TAD(0..7)_INT_LFBTO
+        value: 0x80013 | a<<8
+        attributes:
+          bit_name: "LFBTO"
+          bit_num: "17"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080A00028+a*0x40000)"
+          reg_name: "L2C_TAD(0..7)_INT"
+        description: See L2C_TAD(0..7)_INT[LFBTO].
+
       - name: L2C_MCI(0..3)_INT_VBFSBE
         value: 0x80800 | a<<8
         attributes:
@@ -5770,6 +5889,32 @@ enums:
           reg_addr: "(0x1180080E00028+a*0x40000)"
           reg_name: "L2C_CBC(0..3)_INT"
         description: See L2C_CBC(0..3)_INT[IORDDISOCI].
+
+      - name: L2C_CBC(0..3)_INT_HOLEWR
+        value: 0x80C08 | a<<8
+        attributes:
+          bit_name: "HOLEWR"
+          bit_num: "8"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[HOLEWR].
+
+      - name: L2C_CBC(0..3)_INT_HOLERD
+        value: 0x80C09 | a<<8
+        attributes:
+          bit_name: "HOLERD"
+          bit_num: "9"
+          blk_enum_name: "L2C_INTSN_E"
+          intsn_lsb_mismatch: "True"
+          major_name: "L2C"
+          major_val: "(0x80)"
+          reg_addr: "(0x1180080E00028+a*0x40000)"
+          reg_name: "L2C_CBC(0..3)_INT"
+        description: See L2C_CBC(0..3)_INT[HOLERD].
 
       - name: LMC(0..3)_INT_NXM_WR_ERR
         value: 0x88000 + a*0x1000
@@ -5973,6 +6118,7 @@ enums:
           bit_num: "0"
           blk_enum_name: "PEM_INTSN_E"
           cib_rtl_module: "pem_int0"
+          intsn_level_sensitive: "1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"
@@ -5999,6 +6145,7 @@ enums:
           bit_num: "2"
           blk_enum_name: "PEM_INTSN_E"
           cib_rtl_module: "pem_int0"
+          intsn_level_sensitive: "1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428+a*0x1000000)"

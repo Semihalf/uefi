@@ -464,11 +464,18 @@ registers:
     description: These parameters are written into the DDR4 mode registers.
     fields:
       - name: --
-        bits: 63..40
+        bits: 63..41
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: VREFDQ_TRAIN_EN
+        bits: 40
+        access: R/W
+        reset: 0
+        typical: --
+        description: Vref training mode enable, used for all ranks.
 
       - name: VREF_RANGE_11
         bits: 39
@@ -3687,10 +3694,12 @@ registers:
         typical: 0x1
         description: |
           Observe DLL settings for selected byte.
-          0001: byte 0
-          ...
-          1001: byte 8
-          0000,1010-1111: Reserved
+          0011: byte 4
+          0100: byte 3
+          0101: byte 2
+          0110: byte 1
+          0111: byte 0
+          0000-0010,1000-1111: Reserved
 
       - name: OFFSET_ENA
         bits: 14
@@ -4081,8 +4090,8 @@ registers:
           LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
           See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
           LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
-          used during write operations, only values MR1[RTT_NOM] = 1 (RQZ/4), 2 (RQZ/2), or 3
-          (RQZ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RQZ/12) and 5 (RQZ/8) are also
+          used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
+          (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
           allowed.
 
       - name: DIC_11
@@ -4164,8 +4173,8 @@ registers:
           LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
           See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and LMC(0..0)_RESET_CTL [DDR3PWARM,
           DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is used during write operations,
-          only values MR1[RTT_NOM] = 1 (RQZ/4), 2 (RQZ/2), or 3 (RQZ/6) are allowed. Otherwise,
-          values MR1[RTT_NOM] = 4 (RQZ/12) and 5 (RQZ/8) are also allowed.
+          only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3 (RZQ/6) are allowed. Otherwise,
+          values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also allowed.
 
       - name: DIC_10
         bits: 32..31
@@ -4249,8 +4258,8 @@ registers:
           LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
           See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and
           LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
-          used during write operations, only values MR1[RTT_NOM] = 1 (RQZ/4), 2 (RQZ/2), or 3
-          (RQZ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RQZ/12) and 5 (RQZ/8) are also
+          used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
+          (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
           allowed.
 
       - name: DIC_01
@@ -4325,8 +4334,8 @@ registers:
           LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
           LMC(0..0)_RESET_CTL[DDR3PWARM,
           DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is used during write operations,
-          only values MR1[RTT_NOM] = 1 (RQZ/4), 2 (RQZ/2), or 3 (RQZ/6) are allowed. Otherwise,
-          values MR1[RTT_NOM] = 4 (RQZ/12) and 5 (RQZ/8) are also allowed.
+          only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3 (RZQ/6) are allowed. Otherwise,
+          values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also allowed.
 
       - name: DIC_00
         bits: 8..7
@@ -4628,8 +4637,8 @@ registers:
     address: 0x1180088000280 | a<<24 | b<<3
     bus: RSL
     description: |
-      Four of these CSRs exist per LMC, one for each rank. Deskew setting is measured in units of
-      1/2 CK, so the BYTEn values can range over 16 CK cycles. Each CSR is written by hardware
+      Four of these CSRs exist per LMC, one for each rank. Read level setting is measured in units
+      of 1/4 CK, so the BYTEn values can range over 16 CK cycles. Each CSR is written by hardware
       during a read-leveling sequence for the rank. (Hardware sets STATUS to 3 after hardware read-
       leveling completes for the rank.)
       If hardware is unable to find a match per LMC(0..0)_RLEVEL_CTL[OFFSET_EN] and
@@ -4670,7 +4679,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Deskew setting.
+          "Read level setting.
           When ECC DRAM is not present in 64-bit mode (i.e. when DRAM is not attached to chip
           signals DDR#_CBS_0_* and DDR#_CB<7:0>), software should write BYTE8 to a value that does
           not increase the range of possible BYTE* values. The easiest way to do this is to set
@@ -4682,56 +4691,56 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE6
         bits: 41..36
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE5
         bits: 35..30
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE4
         bits: 29..24
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE3
         bits: 23..18
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE2
         bits: 17..12
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE1
         bits: 11..6
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
       - name: BYTE0
         bits: 5..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting.
+        description: Read level setting.
 
 
   - name: LMC(0..0)_RLEVEL_CTL
@@ -4860,8 +4869,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Bitmask generated during deskew settings sweep. BITMASK[n] = 0 means deskew setting n
-          failed; BITMASK[n] = 1 means deskew setting n passed for 0 <= n <= 63.
+          Bitmask generated during read level settings sweep. BITMASK[n] = 0 means read level
+          setting n failed; BITMASK[n] = 1 means read level setting n passed for 0 <= n <= 63.
 
 
   - name: LMC(0..0)_WLEVEL_RANK(0..3)
@@ -4869,7 +4878,8 @@ registers:
     address: 0x11800880002C0 | a<<24 | b<<3
     bus: RSL
     description: |
-      Four of these CSRs exist per LMC, one for each rank. Deskew setting is measured in units of
+      Four of these CSRs exist per LMC, one for each rank. Write level setting is measured in units
+      of
       1/8 CK, so the below BYTEn values can range over 4 CK cycles. Assuming
       LMC(0..0)_WLEVEL_CTL[SSET]=0, the BYTEn<2:0> values are not used during write-leveling, and
       they are overwritten by the hardware as part of the write-leveling sequence. (Hardware sets
@@ -4919,7 +4929,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          "Deskew setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM is not
+          "Write level setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM
+          is not
           present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_CBS_0_* and
           DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the range
           of possible BYTE* values. The easiest way to do this is to set
@@ -4931,56 +4942,56 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE7 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE7 must be zero during normal operation.
 
       - name: BYTE6
         bits: 34..30
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE6 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE6 must be zero during normal operation.
 
       - name: BYTE5
         bits: 29..25
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE5 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE5 must be zero during normal operation.
 
       - name: BYTE4
         bits: 24..20
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE4 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE4 must be zero during normal operation.
 
       - name: BYTE3
         bits: 19..15
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE3 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE3 must be zero during normal operation.
 
       - name: BYTE2
         bits: 14..10
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE2 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE2 must be zero during normal operation.
 
       - name: BYTE1
         bits: 9..5
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE1 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE1 must be zero during normal operation.
 
       - name: BYTE0
         bits: 4..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Deskew setting. Bit 0 of BYTE0 must be zero during normal operation.
+        description: Write level setting. Bit 0 of BYTE0 must be zero during normal operation.
 
 
   - name: LMC(0..0)_WLEVEL_CTL
@@ -5002,7 +5013,7 @@ registers:
         typical: 0x0
         description: |
           LMC writes a decoded value to MR1[Rtt_Nom] of the rank during write leveling. Per JEDEC
-          DDR3 specifications, only values MR1[Rtt_Nom] = 1 (RQZ/4), 2 (RQZ/2), or 3 (RQZ/6) are
+          DDR3 specifications, only values MR1[Rtt_Nom] = 1 (RZQ/4), 2 (RZQ/2), or 3 (RZQ/6) are
           allowed during write leveling with output buffer enabled.
           000: LMC writes 001 (RZQ/4) to MR1[Rtt_Nom].
           001: LMC writes 010 (RZQ/2) to MR1[Rtt_Nom].
@@ -5070,12 +5081,12 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Bitmask generated during deskew settings sweep. If LMC(0..0)_WLEVEL_CTL[SSET]=0,
-          BITMASK<n>=0 means deskew setting n failed; BITMASK<n>=1 means deskew setting n passed for
-          0 <= n <= 7. BITMASK contains the first 8 results of the total 16 collected by LMC during
-          the write-leveling sequence.
-          If LMC(0..0)_WLEVEL_CTL[SSET]=1, BITMASK<0>=0 means curr deskew setting failed;
-          BITMASK<0>=1 means curr deskew setting passed.
+          Bitmask generated during write level settings sweep. If LMC(0..0)_WLEVEL_CTL[SSET]=0,
+          BITMASK<n>=0 means write level setting n failed; BITMASK<n>=1 means write level setting n
+          passed for 0 <= n <= 7. BITMASK contains the first 8 results of the total 16 collected
+          by LMC during the write-leveling sequence.
+          If LMC(0..0)_WLEVEL_CTL[SSET]=1, BITMASK<0>=0 means curr write level setting failed;
+          BITMASK<0>=1 means curr write level setting passed.
 
       - name: BYTE
         bits: 3..0

@@ -2420,7 +2420,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: PKO channel for the calendar table entry. Unused if CTL != 0x0.
+        description: PKO channel for the calendar table entry. Unused if CTL == 0x1.
 
 
   - name: ILK_RX(0..1)_PKT_CNT(0..255)

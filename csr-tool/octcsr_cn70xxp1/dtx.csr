@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: DTX
+attributes:
+  dv_fc_scratch_exempt: "RSL"
 registers:
   - name: DTX_MIO_SEL(0..1)
     title: DTX MIO Select Register

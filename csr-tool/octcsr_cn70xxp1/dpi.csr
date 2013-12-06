@@ -1296,7 +1296,7 @@ registers:
           4B granularity.  In this mode, the HW may break
           a given read into 3 operations to satisify
           PCIe rules.
-          If the port is a SRIO port, the HW follows the
+          INTERNAL: If the port is a SRIO port, the HW follows the
           SRIO read rules from the SRIO specification and
           only issues 32*n, 16, and 8 byte  operations
           on the SRIO bus.
@@ -1368,7 +1368,7 @@ registers:
           1 = 256B
           For PCIe MACs, this MPS size must not exceed
           the size selected by PCIE*_CFG030[MPS].
-          For sRIO MACs, all MPS values are allowed.
+          INTERNAL: For sRIO MACs, all MPS values are allowed.
 
       - name: MRRS_LIM
         bits: 3
@@ -1407,7 +1407,7 @@ registers:
           3 = 1024B
           For PCIe MACs, this MRRS size must not exceed
           the size selected by PCIE*_CFG030[MRRS].
-          For sRIO MACs, this MRRS size must be <= 256B.
+          INTERNAL: For sRIO MACs, this MRRS size must be <= 256B.
 
 
   - name: DPI_SLI_PRT(0..2)_ERR

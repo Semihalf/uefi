@@ -325,12 +325,20 @@ registers:
     address: 0x1180000001420
     bus: RSL
     fields:
-      - name: --
-        bits: 63..52
+      - name: GLOBAL_RCLK_BYP_SELECT
+        bits: 63
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: Reserved.
+
+      - name: GLOBAL_RCLK_BYP_SETTING
+        bits: 62..52
+        access: RO
+        reset: 0x0
+        typical: --
+        description: |
+          Bits 11:1. Reserved.
 
       - name: EAST_RCLK_BYP_SELECT
         bits: 51

@@ -1522,7 +1522,7 @@ registers:
           L2 length error check enable
           Frame was received with length error
           Typically, this check will not be enabled for
-          incoming packets on the DPI and sRIO ports
+          incoming packets on the DPI ports
           because the CRC bytes may not normally be
           present.
 
@@ -1545,7 +1545,7 @@ registers:
           Min frame error check enable
           Frame was received with length < min_length
           Typically, this check will not be enabled for
-          incoming packets on the DPI and sRIO ports
+          incoming packets on the DPI ports
           because the CRC bytes may not normally be
           present.
           min_length is defined by PIP_FRM_LEN_CHK[MINLEN]
@@ -1713,7 +1713,6 @@ registers:
         description: |
           Enable HiGig parsing
           Should not be set for DPI ports (ports 32-35)
-          Should not be set for sRIO ports (ports 40-47)
           Should not be set for ports in which PTP_MODE=1
           When HIGIG_EN=1:
           DSA_EN field below must be zero
@@ -1728,7 +1727,6 @@ registers:
         typical: 0
         description: |
           Enable DSA tag parsing
-          Should not be set for sRIO (ports 40-47)
           Should not be set for ports in which PTP_MODE=1
           When DSA_EN=1:
           HIGIG_EN field above must be zero
@@ -2232,7 +2230,6 @@ registers:
     bus: RSL
     internal: |
       DPI does not check FCS, therefore FCS will never increment on DPI ports 32-35
-      sRIO does not check FCS, therefore FCS will never increment on sRIO ports 40-47
     attributes:
       exempt_natural_alignment: "a"
     fields:
@@ -2256,7 +2253,6 @@ registers:
     bus: RSL
     internal: |
       DPI does not check FCS, therefore FRAG will never increment on DPI ports 32-35
-      sRIO does not check FCS, therefore FRAG will never increment on sRIO ports 40-47
     attributes:
       exempt_natural_alignment: "a"
     fields:
@@ -2280,10 +2276,6 @@ registers:
     bus: RSL
     internal: |
       DPI does not check FCS, therefore JABBER will never increment on DPI ports 32-35
-      sRIO does not check FCS, therefore JABBER will never increment on sRIO ports 40-47 due to FCS
-      errors
-      sRIO does use the JABBER opcode to communicate sRIO error, therefore JABBER can increment
-      under the sRIO error conditions
     attributes:
       exempt_natural_alignment: "a"
     fields:

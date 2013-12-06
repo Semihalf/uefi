@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: MIO_EMM
+attributes:
+  dv_fc_scratch_exempt: "RSL"
 enums:
   - name: MIO_EMM_INTSN_E
     title: eMMC Interrupt Source Enumeration
@@ -48,8 +50,8 @@ registers:
     address: 0x1180000000180
     bus: RSL
     description: |
-      This register controls the DMA engine used with the eMMC/SD flash controller. Sixty-four-bit
-      operations must be used to access this register.
+      This register controls the internal DMA engine used with the eMMC/SD flash controller.
+      Sixty-four-bit operations must be used to access this register.
     fields:
       - name: EN
         bits: 63
@@ -191,7 +193,7 @@ registers:
         description: |
           Software should set BOOT_FAIL when an unrecoverable error occurs while attempting to boot
           from eMMC or NOR Flash. When set, the following pattern will be output:
-          BOOT_AD<7:0> pulled up to 1
+          BOOT_AD<31:0> driven to 0
           BOOT_CE_<7:0>_L driven to 1
           BOOT_ALE driven to 1
           BOOT_OE_L driven to 0
@@ -211,15 +213,14 @@ registers:
         typical: --
         description: |
           eMMC bus enable mask
-          Setting bit0 of BUS_ENA causes BOOT_CE[1] to become dedicated eMMC bus 0 command (ie.
+          Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (ie.
           disabling any NOR use)
-          Setting bit1 of BUS_ENA causes BOOT_CE[2] to become dedicated eMMC bus 1 command (ie.
+          Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (ie.
           disabling any NOR use).
-          Setting bit2 of BUS_ENA causes BOOT_CE[3] to become dedicated eMMC bus 2 command (ie.
+          Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (ie.
           disabling any NOR use).
-          Setting bit3 of BUS_ENA causes BOOT_CE[4] to become dedicated eMMC bus 3 command (ie.
-          disabling any NOR use).
-          Setting any bit of BUS_ENA causes BOOT_CE[5] to become the eMMC clock for both bus0 and
+          Bit3 of BUS_ENA is reserved.
+          Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
           bus1.
 
 
@@ -425,11 +426,22 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..62
+        bits: 63
         access: RAZ
-        reset: 0x0
+        reset: 0
         typical: --
         description: Reserved.
+
+      - name: SKIP_BUSY
+        bits: 62
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Controls when dma is completed.
+          0 = DMA doesn't complete until card has dropped the BUSY signal
+          1 = Complete DMA after last transfer regardless of the BUSY signal.  Status of signal
+          can be read in MIO_EMM_RSP_STS[RSP_BUSYBIT].
 
       - name: BUS_ID
         bits: 61..60
@@ -519,11 +531,22 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..62
+        bits: 63
         access: RAZ
-        reset: 0x0
+        reset: 0
         typical: --
         description: Reserved.
+
+      - name: SKIP_BUSY
+        bits: 62
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Controls when command is completed.
+          0 = Command doesn't complete until card has dropped the BUSY signal
+          1 = Complete command regardless of the BUSY signal.  Status of signal
+          can be read in MIO_EMM_RSP_STS[RSP_BUSYBIT].
 
       - name: BUS_ID
         bits: 61..60
@@ -670,8 +693,17 @@ registers:
           MIO_EMM_DMA[DAT_NULL] = 1. Hardware will then clear DMA_PEND and perform the DMA
           operation.
 
+      - name: ACC_TIMEOUT
+        bits: 55
+        access: RO/H
+        reset: 0
+        typical: --
+        description: |
+          The DMA operation took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT] sclks to complete.  Valid
+          when DMA_PEND=1.
+
       - name: --
-        bits: 55..29
+        bits: 54..29
         access: RAZ
         reset: 0x0
         typical: --
@@ -725,7 +757,7 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Debug only. eMMC protocol utilizes DAT0 as a busy signal during block writes and R1b responses.
+        description: Current value of DAT0 as a busy signal during block writes and R1b responses.
 
       - name: STP_TIMEOUT
         bits: 19
@@ -1107,6 +1139,30 @@ registers:
         reset: --
         typical: --
         description: Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX.
+
+
+  - name: MIO_EMM_ACCESS_WDOG
+    title: MIO eMMC Access Watchdog Register
+    address: 0x11800000020F0
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..32
+        access: RAZ
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: CLK_CNT
+        bits: 31..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: |
+          Number of sclks to allow for a DMA operation to complete before HW will halt the
+          operation.
+          HW will inject and error on the next 512 byte block boundary.   The pending DMA operation
+          can be resumed or terminated.  A value of zero disables timer.
 
 
 

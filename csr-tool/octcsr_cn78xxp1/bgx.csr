@@ -707,6 +707,7 @@ enums:
 
 
   - name: BGX_SPU_BR_TRAIN_CST_E
+    title: BGX Training Coefficient Status Enumeration
     attributes:
       subblock: "SPU"
       width: "2"
@@ -738,6 +739,7 @@ enums:
 
 
   - name: BGX_SPU_BR_TRAIN_CUP_E
+    title: BGX Training Coefficient Enumeration
     attributes:
       subblock: "SPU"
       width: "2"
@@ -762,6 +764,7 @@ enums:
 
 structs:
   - name: BGX_SPU_BR_LANE_TRAIN_STATUS_S
+    title: BGX Lane Training Status Structure
     attributes:
       subblock: "SPU"
     description: |
@@ -788,6 +791,7 @@ structs:
 
 
   - name: BGX_SPU_BR_TRAIN_CUP_S
+    title: BGX Lane Training Coeffiecient Structure
     attributes:
       subblock: "SPU"
     description: |
@@ -835,6 +839,7 @@ structs:
 
 
   - name: BGX_SPU_BR_TRAIN_REP_S
+    title: BGX Training Report Structure
     attributes:
       subblock: "SPU"
     description: |
@@ -871,6 +876,7 @@ structs:
 
 
   - name: BGX_SPU_SDS_CU_S
+    title: BGX Training Coeffiecient Structure
     attributes:
       subblock: "SPU"
     description: |
@@ -903,6 +909,7 @@ structs:
 
 
   - name: BGX_SPU_SDS_SKEW_STATUS_S
+    title: BGX Skew Status Structure
     attributes:
       subblock: "SPU"
     description: |
@@ -942,6 +949,7 @@ structs:
 
 
   - name: BGX_SPU_SDS_SR_S
+    title: BGX Lane Training Coeffiecient Structure
     attributes:
       subblock: "SPU"
     description: Similar to BGX_SPU_BR_TRAIN_REP_S format, but with reserved fields and RX_READY fields removed.
@@ -1550,7 +1558,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Port kind for this LMAC
+        description: |
+          Port kind for this LMAC.  Only bits [5:0] are used.  Bits [7:6] are not used and should
+          not be changed from the reset value of 0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_PAUSE_DROP_TIME

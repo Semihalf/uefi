@@ -2,16 +2,16 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: OCX
-description: |
-  I/O MAP
-    COM  CSRs 0x00000 - 0x07FFF (Includes WIN)
-    LNE  CSRs 0x08000 - 0x0FFFF
-    TLK0 CSRs 0x10000 - 0x11FFF
-    TLK1 CSRs 0x12000 - 0x13FFF
-    TLK2 CSRs 0x14000 - 0x15FFF
-    RLK0 CSRs 0x18000 - 0x19FFF
-    RLK1 CSRs 0x1A000 - 0x1BFFF
-    RLK2 CSRs 0x1C000 - 0x1DFFF
+internal: |
+  INTERNAL: I/O MAP:
+  COM  CSRs 0x00000 - 0x07FFF (Includes WIN)
+  LNE  CSRs 0x08000 - 0x0FFFF
+  TLK0 CSRs 0x10000 - 0x11FFF
+  TLK1 CSRs 0x12000 - 0x13FFF
+  TLK2 CSRs 0x14000 - 0x15FFF
+  RLK0 CSRs 0x18000 - 0x19FFF
+  RLK1 CSRs 0x1A000 - 0x1BFFF
+  RLK2 CSRs 0x1C000 - 0x1DFFF
 enums:
   - name: OCX_INTSN_E
     title: OCX Interrupt Source Enumeration
@@ -152,23 +152,22 @@ registers:
       - name: FIXED_PIN
         bits: 3
         access: RO/H
-        reset: 0
+        reset: --
         typical: --
         description: The current value of the OCI_FIXED_ID pin.
 
       - name: FIXED
         bits: 2
         access: R/W
-        reset: 0
+        reset: --
         typical: --
         description: |
           ID Valid associated with the chip. This register is used by the link initialization
           software to help assign IDs and is transmitted over OCI. The FIXED field set during a cold
-          reset to the value of the OCI_FIXED_ID pin. The value is also be readable in the
-          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[2]] for each lane.
-          The FIXED field of the link partner can be examined by locally reading the
-          OCX_LNE(0..23)_STS_MSG[RX_META_DAT[2]] on each valid lane or remotely reading the
-          OCX_COM_NODE[FIXED] on the link partner.
+          reset to the value of the OCI_FIXED_ID pin. The value is also readable in the
+          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[2]] for each lane. The FIXED field of the link partner
+          can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT[2]] on each
+          valid lane or remotely reading the OCX_COM_NODE[FIXED] on the link partner.
 
       - name: ID
         bits: 1..0
@@ -179,11 +178,10 @@ registers:
           Node ID associated with the chip. This register is used by the rest of the chip to
           determine what traffic is transmitted over OCI. The value should not match the
           OCX_COM_LINK(0..2)_CTL[ID] of any active link. The ID field is set during a cold reset to
-          the value of the OCI_NODE_ID pins. The value is also be readable in the
-          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[1:0]] for each lane.
-          The ID field of the link partner can be examined by locally reading the
-          OCX_LNE(0..23)_STS_MSG[RX_META_DAT[1:0]] on each valid lane or remotely reading the
-          OCX_COM_NODE[ID] on the link partner.
+          the value of the OCI_NODE_ID pins. The value is also readable in the
+          OCX_LNE(0..23)_STS_MSG[TX_META_DAT[1:0]] for each lane. The ID field of the link partner
+          can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT[1:0]] on each
+          valid lane or remotely reading the OCX_COM_NODE[ID] on the link partner.
 
 
   - name: OCX_COM_DUAL_SORT
@@ -256,7 +254,7 @@ registers:
         description: |
           Reserved. INTERNAL: Diagnostic data loopback.Set to force outgoing link to inbound port.
           All data and link credits are returned and appear to come from link partner. Typically
-          SERDES should be disabled during this operation.
+          SerDes should be disabled during this operation.
 
       - name: REINIT
         bits: 7
@@ -306,7 +304,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Link has valid lanes and is exchanging information.  This bit will never be set if
+          Link has valid lanes and is exchanging information. This bit will never be set if
           OCX_LNK(0..2)_CFG[QLM_SELECT] is zero.
 
       - name: ID
@@ -330,6 +328,8 @@ registers:
       For diagnostic use only. This register is typically written by hardware after accesses to the
       SLI_WIN_WR_DATA register. Contains the data to write to the address located in the OCX_WIN_CMD
       Register.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: WR_DATA
         bits: 63..0
@@ -385,7 +385,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Operation Type 0=Store 1=Load Operation.
+        description: Operation Type 0=Store 1=Load operation.
 
       - name: ADDR
         bits: 47..0
@@ -395,15 +395,15 @@ registers:
         description: |
           The address used in both the load and store operations
           <47:40> = NCB_ID
-          <39:38> = 0, Not Used
+          <39:38> = 0, Not used
           <37:36> = OCI_ID
           <35:0> = Address
           When <47:43> == SLI & <42:40> == 0 bits <39:0> are:
-          <39:38> = 0, Not Used
+          <39:38> = 0, Not used
           <37:36> = OCI_ID
-          <35:32> = 0, Not Used
+          <35:32> = 0, Not used
           <31:24> = RSL_ID
-          <23:0> = RSL Register Offset
+          <23:0> = RSL register offset
           Note: <2:0> are ignored in a store operation
 
 
@@ -542,9 +542,9 @@ registers:
     address: 0x11800110000F0
     bus: RSL
     description: |
-      Contains Status from last Memory BIST for all RX FIFO Memories.  BIST status for TX FIFO
-      Memories
-      and REPLAY Memories are organized by link and are located in OCX_TLK(0..2)_BIST_STATUS.
+      Contains status from last memory BIST for all RX FIFO memories. BIST status for TX FIFO
+      memories and REPLAY Memories are organized by link and are located in
+      OCX_TLK(0..2)_BIST_STATUS.
     fields:
       - name: --
         bits: 63..36
@@ -559,24 +559,24 @@ registers:
         reset: 0x1
         typical: --
         description: |
-          35:34 - Link 2 VC4/VC2      RX FIFOs
-          33:32 - Link 2 VC10/VC8/VC6 RX FIFOs
-          31:30 - Link 1 VC4/VC2      RX FIFOs
-          29:28 - Link 1 VC10/VC8/VC6 RX FIFOs
-          27:26 - Link 0 VC4/VC2      RX FIFOs
-          25:24 - Link 0 VC10/VC8/VC6 RX FIFOs
-          23:22 - Link 2 VC12         RX FIFOs
-          21:20 - Link 2 VC1/VC0      RX FIFOs
-          19:18 - Link 2 VC5/VC3      RX FIFOs
-          17:16 - Link 2 VC11/VC9/VC7 RX FIFOs
-          15:14 - Link 1 VC12         RX FIFOs
-          13:12 - Link 1 VC1/VC0      RX FIFOs
-          11:10 - Link 1 VC5/VC3      RX FIFOs
-           9: 8 - Link 1 VC11/VC9/VC7 RX FIFOs
-           7: 6 - Link 0 VC12         RX FIFOs
-           5: 4 - Link 0 VC1/VC0      RX FIFOs
-           3: 2 - Link 0 VC5/VC3      RX FIFOs
-           1: 0 - Link 0 VC11/VC9/VC7 RX FIFOs
+          35:34   - Link 2 VC4/VC2         RX FIFOs
+          33:32   - Link 2 VC10/VC8/VC6    RX FIFOs
+          31:30   - Link 1 VC4/VC2         RX FIFOs
+          29:28   - Link 1 VC10/VC8/VC6    RX FIFOs
+          27:26   - Link 0 VC4/VC2         RX FIFOs
+          25:24   - Link 0 VC10/VC8/VC6    RX FIFOs
+          23:22   - Link 2 VC12            RX FIFOs
+          21:20   - Link 2 VC1/VC0         RX FIFOs
+          19:18   - Link 2 VC5/VC3         RX FIFOs
+          17:16   - Link 2 VC11/VC9/VC7    RX FIFOs
+          15:14   - Link 1 VC12            RX FIFOs
+          13:12   - Link 1 VC1/VC0         RX FIFOs
+          11:10   - Link 1 VC5/VC3         RX FIFOs
+          9:8   - Link 1 VC11/VC9/VC7    RX FIFOs
+          7:6   - Link 0 VC12            RX FIFOs
+          5:4   - Link 0 VC1/VC0         RX FIFOs
+          3:2   - Link 0 VC5/VC3         RX FIFOs
+          1:0   - Link 0 VC11/VC9/VC7    RX FIFOs
 
 
   - name: OCX_COM_INT
@@ -859,7 +859,7 @@ registers:
         access: R/W/H
         reset: 0
         typical: --
-        description: The control channel of a link training was recieved without any errors.
+        description: The control channel of a link training was received without any errors.
 
       - name: RX_SCRM_SYNC
         bits: 1
@@ -1058,7 +1058,7 @@ registers:
         access: R/W
         reset: 1
         typical: --
-        description: Enable bit for Bad 64B/67B codeword encountered.
+        description: Enable bit for bad 64B/67B codeword encountered.
 
       - name: STAT_CNT_OVFL
         bits: 7
@@ -1708,9 +1708,9 @@ registers:
         typical: --
         description: |
           Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
-          OCX_QLM2_CFG[SER_LOCAL] = 1.
-          Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
           OCX_QLM2_CFG[SER_LOCAL] = 0.
+          Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
+          OCX_QLM2_CFG[SER_LOCAL] = 1.
           Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
           OCX_QLM3_CFG[SER_LOCAL] = 1.
           Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
@@ -1788,7 +1788,6 @@ registers:
           LINK 0 may not select QLM4, QLM5.
           LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
           LINK 2 may not select QLM0, QLM1.
-
           LINK 0 automatically selects QLM0 when QLM_MANUAL[0]=0
           LINK 0 automatically selects QLM1 when QLM_MANUAL[1]=0
           LINK 0 automatically selects QLM2 when QLM_MANUAL[2]=0 and OCX_QLM2_CFG.SER_LOCAL=0
@@ -1797,7 +1796,7 @@ registers:
           LINK 2 automatically selects QLM3 when QLM_MANUAL[3]=0 and OCX_QLM3_CFG.SER_LOCAL=0
           LINK 3 automatically selects QLM4 when QLM_MANUAL[4]=0
           LINK 3 automatically selects QLM5 when QLM_MANUAL[5]=0
-          NOTE:  A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+          NOTE: A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
           link partner
 
       - name: --
@@ -1961,10 +1960,10 @@ registers:
         description: |
           The quantity of data received on each lane including one sync word, scrambler state, diag
           word, zero or more skip words, and the data payload.
-          0 = 2048 words.
-          1 = 1024 words.
-          2 = 512 words.
-          3 = 128 words.
+          0x0 = 2048 words.
+          0x1 = 1024 words.
+          0x2 = 512 words.
+          0x3 = 128 words.
 
       - name: RX_DIS_UKWN
         bits: 33
@@ -2007,10 +2006,10 @@ registers:
         description: |
           The quantity of data sent on each lane including one sync word, scrambler state, diag
           word, zero or more skip words, and the data payload.
-          0 = 2048 words.
-          1 = 1024 words.
-          2 = 512 words.
-          3 = 128 words.
+          0x0 = 2048 words.
+          0x1 = 1024 words.
+          0x2 = 512 words.
+          0x3 = 128 words.
 
       - name: TX_DIS_DISPR
         bits: 1
@@ -2111,13 +2110,12 @@ registers:
 
 
   - name: OCX_TLK(0..2)_BIST_STATUS
-    title: OCX Link REPLAY Memories and TX FIFOs BIST Status
+    title: OCX Link REPLAY Memories and TX FIFOs BIST Status Register
     address: 0x1180011010008 + a*0x2000
     bus: RSL
     description: |
-      Contains Status from last Memory BIST for all TX FIFO Memories and REPLAY Memories in this
-      link.
-      RX FIFO Status can be found in OCX_COM_BIST_STATUS
+      Contains status from last memory BIST for all TX FIFO memories and REPLAY memories in this
+      link. RX FIFO status can be found in OCX_COM_BIST_STATUS.
     fields:
       - name: --
         bits: 63..15
@@ -2357,7 +2355,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Link VC credits available for use.  VC13 always reads 1 since credits are not required.
+        description: Link VC credits available for use. VC13 always reads 1 since credits are not required.
 
 
   - name: OCX_TLK(0..2)_RTN_VC(0..13)_CNT
@@ -2377,7 +2375,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Link VC credits to return.  VC13 always reads 0 since credits are never returned.
+        description: Link VC credits to return. VC13 always reads 0 since credits are never returned.
 
 
   - name: OCX_TLK(0..2)_STAT_IDLE_CNT
@@ -2403,7 +2401,7 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: Number of Data blocks transferred over the OCI Link while OCX_TLK(a)_STAT_CTL[ENABLE] has been set.
+        description: Number of data blocks transferred over the OCI Link while OCX_TLK(a)_STAT_CTL[ENABLE] has been set.
 
 
   - name: OCX_TLK(0..2)_STAT_SYNC_CNT
@@ -2417,7 +2415,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of sync (control) blocks transferred over the OCI Link while
+          Number of sync (control) blocks transferred over the OCI link while
           OCX_TLK(a)_STAT_CTL[ENABLE] has been set.
 
 
@@ -2476,7 +2474,7 @@ registers:
         typical: --
         description: |
           Number of commands on this VC that have been transfered over the OCI link while
-          OCX_TLK(a)_STAT_CTL[ENABLE] has been set.  For VCs 6 thru 13 the number of commands is
+          OCX_TLK(a)_STAT_CTL[ENABLE] has been set. For VCs 6 thru 13 the number of commands is
           equal to the number of packets.
 
 
@@ -2531,9 +2529,8 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Master enable for all inbound MCD bits. This bit should always be enabled by software once
-          any
-          Authentik validation has occured and before any MCD traffic is generated.  MCD traffic is
+          Master enable for all inbound MCD bits. This bit must be enabled by software. once any
+          Authentik validation has occured and before any MCD traffic is generated. MCD traffic is
           typically controlled by the OCX_TLK(0..2)_MCD_CTL register.
 
       - name: M_REQ
@@ -2628,10 +2625,9 @@ registers:
     address: 0x1180011018020 + a*0x2000
     bus: RSL
     description: |
-      This debug register captures which new MCD bits have been received from the link partner.  The
-      MCD bits are
-      received when the both the OCX_RLK(0..2)_ENABLES[MCD] bit is set and the MCD was not
-      previously transmitted.
+      This debug register captures which new MCD bits have been received from the link partner. The
+      MCD bits are received when the both the OCX_RLK(0..2)_ENABLES[MCD] bit is set and the MCD was
+      not previously transmitted.
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -2756,8 +2752,8 @@ registers:
         reset: --
         typical: --
         description: |
-          RX FIFO count of 64-bit words to send to core.  VC13 traffic is used immediately so
-          the FIFO count is always 0. (see OCX_RLK(0..2)_LNK_DATA)
+          RX FIFO count of 64-bit words to send to core. VC13 traffic is used immediately so the
+          FIFO count is always 0. (see OCX_RLK(0..2)_LNK_DATA).
 
 
 

@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PCIEEP
+attributes:
+  dv_fc_scratch_exempt: "PCICONFIGEP"
 registers:
   - name: PCIEEP(0..3)_CFG000
     address: 0x30000000000 + a*0x100000000

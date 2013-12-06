@@ -1959,6 +1959,320 @@ registers:
         description: The PHY version high.
 
 
+  - name: GSER(0)_PHY(0..2)_OVRD_IN_LO
+    title: GSER PHY Overide Input Low Register
+    address: 0x1180090400088 + a + b*0x80000
+    bus: RSL
+    description: PHY Overide Input Low Register.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RES_ACK_IN_OVRD
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide enable for RES_ACK_IN input.
+          It is not expected SW will need to set this bit.
+
+      - name: RES_ACK_IN
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide value for RES_ACK_IN input.
+          It is not expected SW will need to set this bit.
+
+      - name: RES_REQ_IN_OVRD
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide enable for RES_REW_IN input.
+          It is not expected SW will need to set this bit.
+
+      - name: RES_REQ_IN
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide value for RES_REQ_IN input.
+          It is not expected SW will need to set this bit.
+
+      - name: RTUNE_REQ_OVRD
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide enable for RTUNE_REQ input.
+          It is not expected SW will need to set this bit.
+
+      - name: RTUNE_REQ
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide value for RTUNE_REQ input.
+          It is not expected SW will need to set this bit.
+
+      - name: MPLL_MULTIPLIER_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide enable for MPLL_MULTIPLIER.
+          It is not expected SW will need to set this bit.
+
+      - name: MPLL_MULTIPLIER
+        bits: 8..2
+        access: R/W
+        reset: 0x19
+        typical: --
+        description: |
+          Overide value for MPLL_MULTIPLIER inputs.
+          It is not expected SW will need to set these bits.
+
+      - name: MPLL_EN_OVRD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide enable for MPLL_EN input.
+          For EP Mode PEMs, SW should set this bit after reset.
+
+      - name: MPLL_EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          Overide value for MPLL_EN input.
+          For EP Mode PEMs, SW should set this bit after reset.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE0_TX_OVRD_IN_LO
+    title: GSER PHY Lane 0 TX Override Input Low
+    address: 0x1180090408000 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE0 TX Override Input Low
+    fields:
+      - name: --
+        bits: 63..12
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_BEACON_EN_OVRD
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_beacon_en.
+
+      - name: TX_BEACON_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_beacon_en.
+
+      - name: TX_CM_EN_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_cm_en.
+
+      - name: TX_CM_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_cm_en.
+
+      - name: TX_EN_OVRD
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_en.
+
+      - name: TX_EN
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_en.
+
+      - name: TX_DATA_EN_OVRD
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_data_en.
+
+      - name: TX_DATA_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_data_en.
+
+      - name: TX_INVERT_OVRD
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_invert.
+
+      - name: TX_INVERT
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_invert.
+
+      - name: LOOPBK_EN_OVRD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for loopbk_en.
+
+      - name: LOOPBK_EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for loopbk_en.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE0_RX_OVRD_IN_LO
+    title: GSER PHY Lane 0 RX Override Input Low
+    address: 0x1180090408028 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE0 TX Override Input Low
+    fields:
+      - name: --
+        bits: 63..14
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_LOS_EN_OVRD
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_los_en.
+
+      - name: RX_LOS_EN
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_los_en.
+
+      - name: RX_TERM_EN_OVRD
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_term_en.
+
+      - name: RX_TERM_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_term_en.
+
+      - name: RX_BIT_SHIFT_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_bit_shift.
+
+      - name: RX_BIT_SHIFT_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_bit_shift.
+
+      - name: RX_ALIGN_EN_OVRD
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_align_en.
+
+      - name: RX_ALIGN_EN
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_align_en.
+
+      - name: RX_DATA_EN_OVRD
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_data_en.
+
+      - name: RX_DATA_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_data_en.
+
+      - name: RX_PLL_EN_OVRD
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_pll_en.
+
+      - name: RX_PLL_EN
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_pll_en.
+
+      - name: RX_INVERT_OVRD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_invert.
+
+      - name: RX_INVERT
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_invert.
+
+
   - name: GSER(0)_PHY(0..2)_LANE0_TXDEBUG
     title: GSER PHY Lane N TX DEBUG Register
     address: 0x1180090408080 + a + b*0x80000
@@ -2122,6 +2436,286 @@ registers:
           by 128 to get the actual count.
 
 
+  - name: GSER(0)_PHY(0..2)_LANE0_LOOPBACK
+    title: GSER PHY Lane 0 LOOPBACK Register
+    address: 0x1180090408170 + a + b*0x80000
+    bus: RSL
+    description: PHY Lane 0 Loopback Control.
+    fields:
+      - name: --
+        bits: 63..8
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OVRD_TX_LB
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables override of tx_lb_en pin.
+
+      - name: TX_LB_EN_REG
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Value of tx_lb_en pin when OVRD_TX_LB is enabled.
+
+      - name: ATB_VPTX
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Places vptx0 on atb_s_p and gd on atb_s_m.
+
+      - name: ATB_VREG_TX
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Places vreg_tx on atb_s_p and gd on atb_s_m.
+
+      - name: ATB_VDCCP
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Places vddc_m on atb_s_p.
+
+      - name: ATB_VDCCM
+        bits: 2
+        access: RAZ
+        reset: 0
+        typical: 0
+        description: Places vdcc_m on atb_s_m.
+
+      - name: --
+        bits: 1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL_PMIX_CLK
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Selects pmix_clk for Tx clock for ATE test mode.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_TX_OVRD_IN_LO
+    title: GSER PHY Lane 1 TX Override Input Low
+    address: 0x1180090408800 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE1 TX Override Input Low
+    fields:
+      - name: --
+        bits: 63..12
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_BEACON_EN_OVRD
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_beacon_en.
+
+      - name: TX_BEACON_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_beacon_en.
+
+      - name: TX_CM_EN_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_cm_en.
+
+      - name: TX_CM_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_cm_en.
+
+      - name: TX_EN_OVRD
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_en.
+
+      - name: TX_EN
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_en.
+
+      - name: TX_DATA_EN_OVRD
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_data_en.
+
+      - name: TX_DATA_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_data_en.
+
+      - name: TX_INVERT_OVRD
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_invert.
+
+      - name: TX_INVERT
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_invert.
+
+      - name: LOOPBK_EN_OVRD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for loopbk_en.
+
+      - name: LOOPBK_EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for loopbk_en.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_RX_OVRD_IN_LO
+    title: GSER PHY Lane 1 RX Override Input Low
+    address: 0x1180090408828 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE1 TX Override Input Low
+    fields:
+      - name: --
+        bits: 63..14
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_LOS_EN_OVRD
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_los_en.
+
+      - name: RX_LOS_EN
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_los_en.
+
+      - name: RX_TERM_EN_OVRD
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_term_en.
+
+      - name: RX_TERM_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_term_en.
+
+      - name: RX_BIT_SHIFT_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_bit_shift.
+
+      - name: RX_BIT_SHIFT_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_bit_shift.
+
+      - name: RX_ALIGN_EN_OVRD
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_align_en.
+
+      - name: RX_ALIGN_EN
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_align_en.
+
+      - name: RX_DATA_EN_OVRD
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_data_en.
+
+      - name: RX_DATA_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_data_en.
+
+      - name: RX_PLL_EN_OVRD
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_pll_en.
+
+      - name: RX_PLL_EN
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_pll_en.
+
+      - name: RX_INVERT_OVRD
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for rx_invert.
+
+      - name: RX_INVERT
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for rx_invert.
+
+
   - name: GSER(0)_PHY(0..2)_LANE1_TXDEBUG
     title: GSER PHY Lane N TX DEBUG Register
     address: 0x1180090408880 + a + b*0x80000
@@ -2214,14 +2808,14 @@ registers:
     description: PHY LANE1 TX LBERT Control.
     fields:
       - name: --
-        bits: 63..4
+        bits: 63..5
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: SYNC
-        bits: 3
+        bits: 4
         access: R/W
         reset: 0
         typical: --
@@ -2232,7 +2826,7 @@ registers:
           to a zero.
 
       - name: MODE
-        bits: 2..0
+        bits: 3..0
         access: R/W
         reset: 0x0
         typical: --
@@ -2248,6 +2842,7 @@ registers:
           5: d[n] = d[n-10]
           6: d[n] = !d[n-10]
           7: d[n] = !d[n-20]
+          15-8: Reserved.
 
 
   - name: GSER(0)_PHY(0..2)_LANE1_RX_LBERT_ERR
@@ -2282,6 +2877,76 @@ registers:
         description: |
           Current error count if OV14 field is active, then multiply count
           by 128 to get the actual count.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_LOOPBACK
+    title: GSER PHY Lane 1 LOOPBACK Register
+    address: 0x1180090408970 + a + b*0x80000
+    bus: RSL
+    description: PHY Lane 1 Loopback Control.
+    fields:
+      - name: --
+        bits: 63..8
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OVRD_TX_LB
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enables override of tx_lb_en pin.
+
+      - name: TX_LB_EN_REG
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Value of tx_lb_en pin when OVRD_TX_LB is enabled.
+
+      - name: ATB_VPTX
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Places vptx0 on atb_s_p and gd on atb_s_m.
+
+      - name: ATB_VREG_TX
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Places vreg_tx on atb_s_p and gd on atb_s_m.
+
+      - name: ATB_VDCCP
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Places vddc_m on atb_s_p.
+
+      - name: ATB_VDCCM
+        bits: 2
+        access: RAZ
+        reset: 0
+        typical: 0
+        description: Places vdcc_m on atb_s_m.
+
+      - name: --
+        bits: 1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SEL_PMIX_CLK
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Selects pmix_clk for Tx clock for ATE test mode.
 
 
 

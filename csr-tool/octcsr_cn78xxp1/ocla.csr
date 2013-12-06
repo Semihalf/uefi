@@ -54,6 +54,7 @@ enums:
 
 structs:
   - name: OCLA_CAP_CTL_S
+    title: OCLA Capture Control Structure
     description: |
       Control packets are indicated by an entry's bit 37 being set, and described by the
       OCLA_CAP_CTL_S structure:
@@ -93,6 +94,7 @@ structs:
 
 
   - name: OCLA_CAP_DAT_S
+    title: OCLA Capture Data Structure
     description: |
       Data packets are indicated by an entry's bit 37 being clear, and described by the
       OCLA_CAP_DAT_S structure:
@@ -183,6 +185,8 @@ registers:
     title: OCLA General Control Registers
     address: 0x11800A8000060 | a<<24
     bus: RSL
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..4
@@ -274,14 +278,14 @@ registers:
 
       - name: FSM1_ENA
         bits: 33
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: FSM1 sequencing enabled.
 
       - name: FSM0_ENA
         bits: 32
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: FSM0 sequencing enabled.

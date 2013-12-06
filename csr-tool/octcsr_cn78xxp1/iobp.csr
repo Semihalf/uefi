@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: IOBP
+attributes:
+  dv_fc_scratch_exempt: "RSL"
 enums:
   - name: IOBP_INTSN_E
     title: IOBP Interrupt Source Enumeration

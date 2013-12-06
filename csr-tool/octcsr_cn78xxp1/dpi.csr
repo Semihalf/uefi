@@ -134,6 +134,7 @@ enums:
 
 structs:
   - name: DPI_DMA_INSTR_HDR_S
+    title: DPI DMA Instruction Header Structure
     attributes:
       allow_missing_bits: "True"
     description: DPI DMA Instruction Header Format
@@ -291,6 +292,7 @@ structs:
 
 
   - name: DPI_DMA_LOCAL_PTR_S
+    title: DPI DMA Local Pointer Structure
     attributes:
       allow_missing_bits: "True"
     description: DPI DMA Local Pointer Format
@@ -638,7 +640,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Set when a single-bit error is detected in the corresponding ram. Throws
+          Set when a single-bit error is detected in the corresponding RAM. Throws
           DPI_INTSN_E::DPI_ERR_RAM_SBE.
 
       - name: --
@@ -654,7 +656,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Set when a double-bit error is detected in the corresponding ram. Throws
+          Set when a double-bit error is detected in the corresponding RAM. Throws
           DPI_INTSN_E::DPI_ERR_RAM_DBE.
 
 

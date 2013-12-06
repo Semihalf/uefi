@@ -329,6 +329,7 @@ enums:
 
 
   - name: SSO_OP_E
+    title: SSO Operation Code Enumeration
     attributes:
       width: "4"
     description: Enumerates the different SSO operation codes.
@@ -367,6 +368,7 @@ enums:
 
 
   - name: SSO_TT_E
+    title: SSO Tag Type Enumeration
     attributes:
       width: "2"
     description: Enumerates the different SSO tag types.
@@ -392,6 +394,7 @@ enums:
 
 structs:
   - name: SSO_ALLOC_WE_DMA_S
+    title: SSO Alloc Work IOBDMA Address Structure
     description: ALLOC_WE operations form an IOBDMA with this structure.
     fields:
       - name: --
@@ -426,6 +429,7 @@ structs:
 
 
   - name: SSO_ALLOC_WE_LD_S
+    title: SSO Alloc Work Load Address Structure
     description: ALLOC_WE operations form a load addresses with this structure.
     fields:
       - name: --
@@ -454,6 +458,7 @@ structs:
 
 
   - name: SSO_ALLOC_WE_RTN_S
+    title: SSO Alloc Work Return Structure
     description: ALLOC_WE operations return load or IOBDMA data formed with this structure.
     fields:
       - name: STATE
@@ -466,6 +471,7 @@ structs:
 
 
   - name: SSO_CLR_NSCHED_DATA_S
+    title: SSO Clear No-Schedule Store Data Structure
     description: Store CLR_NSCHED operations form store data with this structure.
     fields:
       - name: WQP
@@ -498,6 +504,7 @@ structs:
 
 
   - name: SSO_CLR_NSCHED_ST_S
+    title: SSO Clear No-Schedule Store Address Structure
     description: Store CLR_NSCHED operations form a store address with this structure.
     fields:
       - name: --
@@ -540,6 +547,7 @@ structs:
 
 
   - name: SSO_CSR_RD_DMA_S
+    title: SSO CSR Read IOBDMA Address Structure
     description: |
       CSR_RD operations form an IOBDMA with this structure. CSR_RD operations may be used to
       background read a single configuration register.
@@ -582,6 +590,7 @@ structs:
 
 
   - name: SSO_CSR_WR_DMA_S
+    title: SSO CSR Write LMTST Address Structure
     description: |
       CSR_WR operations form an LMTST with this structure. CSR_WR operations may be used to
       efficiently update many configuration registers simultaneously, such as
@@ -627,6 +636,7 @@ structs:
 
 
   - name: SSO_GET_WORK_DMA_S
+    title: SSO Get Work IOBDMA Address Structure
     description: GET_WORK load operations form an IOBDMA with this structure.
     fields:
       - name: --
@@ -708,6 +718,7 @@ structs:
 
 
   - name: SSO_GET_WORK_LD_S
+    title: SSO Get Work Load Address Structure
     description: GET_WORK load operations form a load addresses with this structure.
     fields:
       - name: --
@@ -795,6 +806,7 @@ structs:
 
 
   - name: SSO_GET_WORK_RTN1_S
+    title: SSO Get Work Return Word 1 Structure
     description: |
       GET_WORK operations return IOBDMA data word 1 formed with this structure. This is only
       returned if IOBDMA is used and the IOBDMA requested a two-word return.
@@ -814,6 +826,7 @@ structs:
 
 
   - name: SSO_GET_WORK_RTN_S
+    title: SSO Get Work Return Word 0 Structure
     description: GET_WORK operations return load or IOBDMA data formed with this structure.
     fields:
       - name: WQP
@@ -858,6 +871,7 @@ structs:
 
 
   - name: SSO_PREP_WORK_DMA_S
+    title: SSO Prep Work Address Structure
     description: |
       PREP_WORK operations form an IOBADDR request with this structure. Note this format closely
       coincides with SSO_GET_WORK_LD_S.
@@ -918,6 +932,7 @@ structs:
 
 
   - name: SSO_SW_DATA_S
+    title: SSO Switch Store Data Structure
     description: Store SWTAG, SWTAG_DESCHED, ADDWQ and UPD_WQP_GRP operations form store data with this structure.
     fields:
       - name: WQP
@@ -968,6 +983,7 @@ structs:
 
 
   - name: SSO_SW_ST_S
+    title: SSO Switch Store Address Structure
     description: |
       Store SWTAG, SWTAG_DESCHED, ADDWQ and UPD_WQP_GRP operations form a store addresses with this
       structure.
@@ -3816,14 +3832,14 @@ registers:
       - name: HEAD
         bits: 35
         access: RO/H
-        reset: 1
+        reset: --
         typical: --
         description: Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state.
 
       - name: TAIL
         bits: 34
         access: RO/H
-        reset: 1
+        reset: --
         typical: --
         description: Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state.
 
@@ -3931,14 +3947,14 @@ registers:
       - name: HEAD
         bits: 27
         access: RO/H
-        reset: 1
+        reset: --
         typical: --
         description: Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state.
 
       - name: TAIL
         bits: 26
         access: RO/H
-        reset: 1
+        reset: --
         typical: --
         description: Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state.
 

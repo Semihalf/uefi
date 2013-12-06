@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: DFA
+attributes:
+  dv_fc_scratch_exempt: "RSL"
 registers:
   - name: DFA_CONFIG
     address: 0x1180037000000
@@ -451,8 +453,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          "RAM[3:1] Parity Error Enabled Node Cluster #0"
+        description: "RAM[3:1] Parity Error Enabled Node Cluster #0"
 
       - name: DBLINA
         bits: 0

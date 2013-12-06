@@ -595,6 +595,8 @@ registers:
     title: OSM Bank Control
     address: 0x11800DC001000 + a*0x8
     bus: RSL
+    attributes:
+      dv_fc_scratch: "a=(0)"
     fields:
       - name: --
         bits: 63..3

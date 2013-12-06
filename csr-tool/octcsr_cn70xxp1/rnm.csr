@@ -45,7 +45,16 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: "?"
+        description: |
+          Select entropy input to RNM FIFO.
+          0x0 = 0-7 0x8 = 64-71
+          0x1 = 8-15 0x9 = 72-79
+          0x2 = 16-23 0xA = 80-87
+          0x3 = 24-31 0xB = 88-95
+          0x4 = 32-39 0xC = 96-103
+          0x5 = 40-47 0xD = 104-111
+          0x6 = 48-55 0xE = 112-119
+          0x7 = 56-63 0xF = 120-127
 
       - name: EXP_ENT
         bits: 4

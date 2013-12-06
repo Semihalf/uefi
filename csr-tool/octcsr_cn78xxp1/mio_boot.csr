@@ -406,6 +406,8 @@ registers:
     description: |
       The region n timing register (one register for each of seven regions) contains page-mode,
       wait-mode, and timing parameters for region n.
+    attributes:
+      dv_fc_scratch: "a=(7)"
     fields:
       - name: PAGEM
         bits: 63

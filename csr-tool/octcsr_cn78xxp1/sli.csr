@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: SLI
+attributes:
+  dv_fc_scratch_exempt: "PEXP,PEXPV_NCB"
 enums:
   - name: SLI_INTSN_E
     title: SLI Interrupt Source Enumeration
@@ -301,6 +303,8 @@ registers:
       Contains the address to be writen to when a write operation is started by writing the
       SLI_WIN_WR_DATA register (see below).
       This register should NOT be used to write SLI_* registers.
+      If SLI_S2M_PORT(0..3)_CTL[LCL_NODE] the MAC that it is set for will not be able to write
+      WR_ADDR[37:36] which will always be written with the chips OCI-ID.
     attributes:
       regtest_skip: "True"
     fields:
@@ -351,6 +355,8 @@ registers:
     description: |
       This register contains the address to be read when the SLI_WIN_RD_DATA register is read. This
       register should NOT be used to read SLI_* registers.
+      If SLI_S2M_PORT(0..3)_CTL[LCL_NODE] the MAC that it is set for will not be able to write
+      RD_ADDR[37:36] which will always be written with the chips OCI-ID.
     attributes:
       regtest_skip: "True"
     fields:
@@ -598,7 +604,7 @@ registers:
         bits: 31..0
         access: R/W
         reset: 0x1fff
-        typical: 0xffff
+        typical: 0x1fff
         attributes:
           exempt_keyword: "True"
         description: Time to wait. The number of coprocessor-clock cycles to wait for a window access before timing out.
@@ -1587,7 +1593,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for CPL Port 1
+        description: BIST Status for CPL Port 1.
 
       - name: --
         bits: 24
@@ -1699,7 +1705,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: BIST Status for P2N Port1 P1
+        description: BIST Status for P2N Port1 P1.
 
       - name: --
         bits: 8
@@ -2697,14 +2703,16 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Used to flip the synd for packet-out-pointer memory.
+        description: |
+          Reserved. INTERNAL: Placeholder. ECC not implemented due to critical path.
 
       - name: PFP_ECC
         bits: 12
         access: R/W
         reset: 1
         typical: 1
-        description: When set packet-out-pointer memory will have an ECC not generated and checked.
+        description: |
+          Reserved. INTERNAL: Placeholder. ECC not implemented due to critical path.
 
       - name: PBN_FS
         bits: 11..10

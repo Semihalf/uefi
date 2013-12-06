@@ -201,18 +201,6 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[NOWAY].
 
-      - name: L2C_TAD(0..7)_INT_HOLEWR
-        value: 0x80009 | a<<8
-        attributes:
-          intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[HOLEWR].
-
-      - name: L2C_TAD(0..7)_INT_HOLERD
-        value: 0x8000A | a<<8
-        attributes:
-          intsn_lsb_mismatch: "True"
-        description: See L2C_TAD(0..7)_INT[HOLERD].
-
       - name: L2C_TAD(0..7)_INT_BIGWR
         value: 0x8000B | a<<8
         attributes:
@@ -260,6 +248,12 @@ enums:
         attributes:
           intsn_lsb_mismatch: "True"
         description: See L2C_TAD(0..7)_INT[RDDISOCI].
+
+      - name: L2C_TAD(0..7)_INT_LFBTO
+        value: 0x80013 | a<<8
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_TAD(0..7)_INT[LFBTO].
 
       - name: L2C_MCI(0..3)_INT_VBFSBE
         value: 0x80800 | a<<8
@@ -309,6 +303,18 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See L2C_CBC(0..3)_INT[IORDDISOCI].
 
+      - name: L2C_CBC(0..3)_INT_HOLEWR
+        value: 0x80C08 | a<<8
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[HOLEWR].
+
+      - name: L2C_CBC(0..3)_INT_HOLERD
+        value: 0x80C09 | a<<8
+        attributes:
+          intsn_lsb_mismatch: "True"
+        description: See L2C_CBC(0..3)_INT[HOLERD].
+
 
   - name: L2C_TAD_PRF_SEL_E
     title: L2C TAD Performance Counter Select Enumeration
@@ -322,55 +328,55 @@ enums:
 
       - name: L2T_HIT
         value: 0x01
-        description: L2 Tag Hit.
+        description: L2 tag hit.
 
       - name: L2T_MISS
         value: 0x02
-        description: L2 Tag Miss.
+        description: L2 tag miss.
 
       - name: L2T_NOALLOC
         value: 0x03
-        description: L2 Tag No-Allocate (forced).
+        description: L2 tag no-allocate (forced).
 
       - name: L2_VIC
         value: 0x04
-        description: L2 Victim.
+        description: L2 victim.
 
       - name: SC_FAIL
         value: 0x05
-        description: Store-Conditional Fail.
+        description: Store-conditional fail.
 
       - name: SC_PASS
         value: 0x06
-        description: Store-Conditional Pass.
+        description: Store-conditional pass.
 
       - name: LFB_OCC
         value: 0x07
-        description: LFB Occupancy (each cycle adds number of LFBs valid).
+        description: LFB occupancy (each cycle adds number of LFBs valid).
 
       - name: WAIT_LFB
         value: 0x08
-        description: LFB Wait LFB (each cycle adds number of LFBs waiting for other LFBs).
+        description: LFB wait LFB (each cycle adds number of LFBs waiting for other LFBs).
 
       - name: WAIT_VAB
         value: 0x09
-        description: LFB Wait VAB (each cycle adds number of LFBs waiting for VAB).
+        description: LFB wait VAB (each cycle adds number of LFBs waiting for VAB).
 
       - name: QD(0..7)_IDX
         value: 0x80 | a<<4
-        description: Quad(0..7) index bus inuse.
+        description: Quad(0..7) index bus in use.
 
       - name: QD(0..7)_RDAT
         value: 0x81 | a<<4
-        description: Quad(0..7) read data bus inuse.
+        description: Quad(0..7) read data bus in use.
 
       - name: QD(0..7)_BNKS
         value: 0x82 | a<<4
-        description: Quad(0..7) number of banks inuse (0-4/cycle).
+        description: Quad(0..7) number of banks in use (0-4/cycle).
 
       - name: QD(0..7)_WDAT
         value: 0x83 | a<<4
-        description: Quad(0..7) write data flops inuse (0-4/cycle).
+        description: Quad(0..7) write data flops in use (0-4/cycle).
 
 
   - name: L2C_TAG_ERRPRIO_E
@@ -397,6 +403,8 @@ enums:
 
 
   - name: OCI_IREQ_CMD_E
+    title: |
+      INTERNAL: OCI IREQ Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "5"
@@ -459,6 +467,8 @@ enums:
 
 
   - name: OCI_IRSP_CMD_E
+    title: |
+      INTERNAL: OCI IRSP Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "5"
@@ -483,6 +493,8 @@ enums:
 
 
   - name: OCI_MFWD_CMD_E
+    title: |
+      INTERNAL: OCI MFWD Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "5"
@@ -553,6 +565,8 @@ enums:
 
 
   - name: OCI_MREQ_CMD_E
+    title: |
+      INTERNAL: OCI MREQ Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "5"
@@ -671,6 +685,8 @@ enums:
 
 
   - name: OCI_MRSP_CMD_E
+    title: |
+      INTERNAL: OCI MRSP Command Enumeration
     attributes:
       parent_block_override: "L2C"
       width: "5"
@@ -1448,11 +1464,48 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..27
+        bits: 63..30
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LOCK_LOCAL_CAS
+        bits: 29
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, L2 CAS operations to remote addresses which miss at the requester will be
+          performed
+          locally (if possible) on the requesting node. Default operation will instead send the CAS
+          request
+          to be performed on the home node. For STC ops LOCK_LOCAL_STC.
+
+      - name: LOCK_LOCAL_STC
+        bits: 28
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, L2 STC operations to remote addresses which miss at the requester will be
+          performed
+          locally (if possible) on the requesting node. Default operation will instead send the STC
+          request
+          to be performed on the home node. For CAS ops LOCK_LOCAL_CAS.
+
+      - name: LOCK_LOCAL_PP
+        bits: 27
+        access: R/W
+        reset: 1
+        typical: 0
+        description: |
+          When clear, L2 atomic operations (excluding CAS/STC) pp initiated requests to remote
+          addresses
+          which miss at the requester will send the atomic request to be performed on the home node.
+          Default operation will instead  be performed locally on the requesting node.
+          For request initiated by IOB & for STC & CAS ops, see
+          LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
 
       - name: LNGTOLEN
         bits: 26..22
@@ -1461,11 +1514,10 @@ registers:
         typical: 0x0
         description: |
           Selects the bit in the counter for the long timeout value (timeout used when SHTO bit is
-          clear). Values supported
-          are between 11 and 29 (for a timeout values between 2^11 and 2^29). Actual timeout is
-          between 1x and 2x this interval.
-          For example if LNGTOLEN = 28 (the reset value), the timeout is between 256M and 512M core
-          clocks.
+          clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
+          2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
+          (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
+          disables this timer.
 
       - name: SHTOLEN
         bits: 21..17
@@ -1473,12 +1525,11 @@ registers:
         reset: 0xe
         typical: 0x0
         description: |
-          Selects the bit in the counter for the Short timeout value (timeout used when SHTO bit is
-          set). Values supported
-          are between 9 and 29 (for a timeout values between 2^9 and 2^29). Actual timeout is
-          between 1x and 2x this interval.
-          For example if SHTOLEN = 14 (the reset value), the timeout is between 16K and 32K core
-          clocks.
+          Selects the bit in the counter for the short timeout value (timeout used when SHTO bit is
+          set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
+          Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
+          value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
+          timer.
 
       - name: SHTOIOEN
         bits: 16
@@ -1487,8 +1538,8 @@ registers:
         typical: 0
         description: |
           When set, any PP issues any of an IO load, acking store, IOBDMA, LMTDMA, acking IOBADDR,
-          or acking LMTST to a node that doesn't exist (existence defined by the ENAOCI bits),
-          then the hardware sets the SHTO CSR field.
+          or acking LMTST to a node that doesn't exist (existence defined by the ENAOCI bits), then
+          the hardware sets the SHTO CSR field.
 
       - name: SHTOEN
         bits: 15..13
@@ -1503,9 +1554,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Use short timeout intervals. When set, PP will use SDIDTTO for both DID and commit counter
+          Use short timeout intervals. When set, core uses SDIDTTO for both DID and commit counter
           timeouts, rather than DIDTTO/DIDTTO2. Similarly, L2C will use short instead of long
-          timeout (FIXME -  more info needed)
+          timeout.
 
       - name: INV_MODE
         bits: 11..10
@@ -1514,11 +1565,12 @@ registers:
         typical: 0x0
         description: |
           Describes how aggressive to be when waiting for local invalidates before sending OCI
-          responses which act like commits at the remote. 0 - conservative mode, waits until all
-          local invalidates have been sent by their respective CBCs to the PPs. 1 - moderate mode,
-          waits until all local invalidates have been sent to their respective CBCs, but not
-          necessarily actually sent to the PPs themselves. 2 - aggressive mode, does not wait for
-          local invalidates to begin their processing.
+          responses which act like commits at the remote.
+          0x0 = Conservative mode, waits until all local invalidates have been sent by their
+          respective CBCs to the cores.
+          0x1 = Moderate mode, waits until all local invalidates have been sent to their respective
+          CBCs, but not necessarily actually sent to the cores themselves.
+          0x2 = Aggressive mode, does not wait for local invalidates to begin their processing.
 
       - name: CAS_FDX
         bits: 9
@@ -1536,21 +1588,23 @@ registers:
         reset: 0
         typical: 0
         description: |
-          When set, RLDD will be assumed to return a shared response (PSHA). Default operation will
-          assume an exclusive response (PEMD). Note that an incorrect assumption only causes an
-          extra tag write to be done upon receiving the response.
+          When set, RLDD is assumed to return a shared response (PSHA). Default operation assumes an
+          exclusive response (PEMD). Note that an incorrect assumption only causes an extra tag
+          write to be done upon receiving the response.
 
-      - name: LOCK_LOCAL
+      - name: LOCK_LOCAL_IOB
         bits: 7
         access: R/W
-        reset: 0
+        reset: 1
         typical: 0
         description: |
-          When set, L2 atomic operations (excluding CAS/STC) to remote addresses which miss at the
-          requester will be performed locally on the requesting node. Default operation will instead
-          send the atomic request to be performed on the home node. Note that CAS/STC operations
-          which miss at the requester will always be performed at the home node regardless of this
-          setting.
+          When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
+          which miss at the requester will be performed locally on the requesting node. When clear
+          the
+          operation will instead send the atomic request to be performed on the home node.
+          For request initiated by PP & for STC & CAS ops see
+          LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
+          Default is set to 1 (local locks).
 
       - name: IOFRCL
         bits: 6
@@ -1580,6 +1634,8 @@ registers:
         description: |
           Enable OCI processing (one per node_id). When set, perform OCI processing. When clear, OCI
           references cause RDDISOCI/WRDISOCI interrupts (NYI). FIXME,should reset to 0?
+          Also causes RDDISOCI/WRDISOCI interrupts on memory access to nodes whose corresponding
+          ENAOCI[node] bit is 0.
 
 
   - name: L2C_XMC_CMD
@@ -1698,10 +1754,12 @@ registers:
           Violations of this limit causes L2C to set L2C_INT_REG[BIGRD/BIGWR].
           BIGRD interrupts can occur during normal operation as the cores are allowed to prefetch to
           nonexistent memory locations. Therefore, BIGRD is for informational purposes only.
-          When a HOLERD/BIGRD occurs or HOLEWR/BIGWR blocks a store operation, L2C_TAD(0..7)_ERR is
-          loaded. L2C_TAD(0..7)_ERR is not locked for a BIGRD, however.
+          When a RDDISOCI/BIGRD occurs or WRDISOCI/BIGWR blocks a store operation, L2C_TAD(0..7)_ERR
+          is
+          loaded. L2C_TAD(0..7)_ERR is not locked for a RDDISOCI/BIGRD, however.
           The BIG logic only applies to local addresses. A command for a remote address does not
-          cause a BIGRD/BIGWR on the requesting node.
+          cause a BIGRD/BIGWR on the requesting node. Similary RDDISOCI/WRDISOCI is always for a
+          remote address.
 
       - name: --
         bits: 3..1
@@ -2134,51 +2192,7 @@ registers:
     title: Level 2 Cache TAD Performance Counter Control Registers
     address: 0x1180080A00008 + a*0x40000
     bus: RSL
-    description: |
-      "(1) All four counters are equivalent and can use any of the defined selects.
-      (2) the CNTnSEL legal values are:
-      0x00 -Nothing (disabled)
-      0x01 -L2 Tag Hit
-      0x02 -L2 Tag Miss
-      0x03 -L2 Tag NoAlloc (forced no-allocate)
-      0x04 -L2 Victim
-      0x05 -SC Fail
-      0x06 -SC Pass
-      0x07 -LFB Occupancy (each cycle adds # of LFBs valid)
-      0x08 -LFB Wait LFB (each cycle adds # LFBs waiting for other LFBs)
-      0x09 -LFB Wait VAB (each cycle adds # LFBs waiting for VAB)
-      0x80 -Quad 0 index bus inuse
-      0x81 -Quad 0 read data bus inuse
-      0x82 -Quad 0 # banks inuse (0-4/cycle)
-      0x83 -Quad 0 wdat flops inuse (0-4/cycle)
-      0x90 -Quad 1 index bus inuse
-      0x91 -Quad 1 read data bus inuse
-      0x92 -Quad 1 # banks inuse (0-4/cycle)
-      0x93 -Quad 1 wdat flops inuse (0-4/cycle)
-      0xA0 -Quad 2 index bus inuse
-      0xA1 -Quad 2 read data bus inuse
-      0xA2 -Quad 2 # banks inuse (0-4/cycle)
-      0xA3 -Quad 2 wdat flops inuse (0-4/cycle)
-      0xB0 -Quad 3 index bus inuse
-      0xB1 -Quad 3 read data bus inuse
-      0xB2 -Quad 3 # banks inuse (0-4/cycle)
-      0xB3 -Quad 3 wdat flops inuse (0-4/cycle)
-      0xC0 -Quad 4 index bus inuse
-      0xC1 -Quad 4 read data bus inuse
-      0xC2 -Quad 4 # banks inuse (0-4/cycle)
-      0xC3 -Quad 4 wdat flops inuse (0-4/cycle)
-      0xD0 -Quad 5 index bus inuse
-      0xD1 -Quad 5 read data bus inuse
-      0xD2 -Quad 5 # banks inuse (0-4/cycle)
-      0xD3 -Quad 5 wdat flops inuse (0-4/cycle)
-      0xE0 -Quad 6 index bus inuse
-      0xE1 -Quad 6 read data bus inuse
-      0xE2 -Quad 6 # banks inuse (0-4/cycle)
-      0xE3 -Quad 6 wdat flops inuse (0-4/cycle)
-      0xF0 -Quad 7 index bus inuse
-      0xF1 -Quad 7 read data bus inuse
-      0xF2 -Quad 7 # banks inuse (0-4/cycle)
-      0xF3 -Quad 7 wdat flops inuse (0-4/cycle)"
+    description: All four counters are equivalent and can use any of the defined selects.
     fields:
       - name: --
         bits: 63..32
@@ -2192,28 +2206,28 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC3
+        description: Selects event to count for L2C_TAD(0..7)_PFC3. Enumerated by L2C_TAD_PRF_SEL_E.
 
       - name: CNT2SEL
         bits: 23..16
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC2
+        description: Selects event to count for L2C_TAD(0..7)_PFC2. Enumerated by L2C_TAD_PRF_SEL_E.
 
       - name: CNT1SEL
         bits: 15..8
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC1
+        description: Selects event to count for L2C_TAD(0..7)_PFC1. Enumerated by L2C_TAD_PRF_SEL_E.
 
       - name: CNT0SEL
         bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x1
-        description: Selects event to count for L2C_TAD(0..7)_PFC0
+        description: Selects event to count for L2C_TAD(0..7)_PFC0. Enumerated by L2C_TAD_PRF_SEL_E.
 
 
   - name: L2C_TAD(0..7)_TAG
@@ -2227,7 +2241,9 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Sub-block dirty bits.  Ignored/loaded with 0 for RTG accesses.
+        description: |
+          Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+          must be 0 or operation is undefined.
 
       - name: --
         bits: 59..58
@@ -2260,8 +2276,7 @@ registers:
         description: |
           The tag. TAG[39:20] is the corresponding bits from the L2C+LMC internal L2/DRAM byte
           address. TAG[41:40] is the OCI node of the address. The RTG must always have the
-          TAG[41:40] == to
-          the current node or operation is undefined.
+          TAG[41:40] == to the current node or operation is undefined.
 
       - name: --
         bits: 19..6
@@ -2275,7 +2290,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: The node ID for the remote which holds this block. Ignored/loaded with 0 for TAG accesses.
+        description: The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses.
 
       - name: TS
         bits: 3..2
@@ -2283,9 +2298,12 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          The TAG state. 0 - Invalid; 1 - Shared; 2 - Exclusive. Note that a local address will
-          never have the value of 2 (Exclusive) as that state is encoded as Shared in the TAG and
-          Invalid in the RTG.
+          The tag state.
+          0x0 = Invalid.
+          0x1 = Shared.
+          0x2 = Exclusive.
+          Note that a local address will never have the value of exclusive as that state is incloded
+          as shared in the TAG and invalid in the RTG.
 
       - name: USED
         bits: 1
@@ -2307,10 +2325,10 @@ registers:
 
 
   - name: L2C_TAD(0..7)_DLL
-    title: L2C TAD DLL Observability Register
+    title: Level 2 Cache TAD DLL Observability Register
     address: 0x1180080A00018 + a*0x40000
     bus: RSL
-    description: Register for DLL observability
+    description: This register provides the parameters for DLL observability.
     fields:
       - name: --
         bits: 63..36
@@ -2373,7 +2391,8 @@ registers:
         access: RO/H
         reset: 0
         typical: 1
-        description: DLL locked.
+        description: |
+          DLL lock: 1 = locked, 0 = unlocked.
 
 
   - name: L2C_TAD(0..7)_INT
@@ -2394,14 +2413,29 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: (NYI) Illegal write operation to a remote node with L2C_TAD_CTL[ENAOCI] clear.
+        description: |
+          Illegal write operation to a remote node with L2C_TAD_CTL[ENAOCI] clear.
+          When DISOCIWR/BIGWR blocks a store operation, L2C_TAD(0..7)_ERR is loaded.
+          L2C_TAD(0..7)_ERR
+          is locked for a DISOCIWR/BIGWR, however. The BIG logic only applies to local addresses.
+          A command for a remote address does not cause a BIGRD/BIGWR on the requesting node.
 
       - name: RDDISOCI
         bits: 34
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: (NYI) Illegal read operation to a remote node with L2C_TAD_CTL[ENAOCI] clear.
+        description: |
+          Illegal read operation to a remote node with L2C_TAD_CTL[ENAOCI] clear.
+          Read reference to a disabled OCI node. (a read to a node whose ENAOCI[node] bit is clear).
+          Note RDDISOCI interrupts can occur during normal operation as the cores are allowed to
+          prefetch to
+          nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
+          When a RDDISOCI/BIGRD occurs or WRDISOCI/BIGWR blocks a store operation, L2C_TAD(0..7)_ERR
+          is
+          loaded. L2C_TAD(0..7)_ERR is not locked for a RDDISOCI/BIGRD, however.
+          The BIG logic only applies to local addresses. A command for a remote address does not
+          cause a BIGRD/BIGWR on the requesting node.
 
       - name: RTGDBE
         bits: 33
@@ -2418,11 +2452,22 @@ registers:
         description: RTG single-bit error
 
       - name: --
-        bits: 31..17
+        bits: 31..18
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: LFBTO
+        bits: 17
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
+          occurs L2C_TAD(0..7)_TIMEOUT is loaded. L2C_TAD(0..7)_TIMEOUT is loaded with info from the
+          first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
+          capture info from the lowest LFB number that timed out.
 
       - name: WRDISLMC
         bits: 16
@@ -2452,19 +2497,12 @@ registers:
         typical: 0
         description: Write reference past L2C_BIG_CTL[MAXDRAM] occurred.
 
-      - name: HOLERD
-        bits: 12
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Read reference to 256MB hole occurred.
-
-      - name: HOLEWR
-        bits: 11
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        description: Write reference to 256MB hole occurred.
+      - name: --
+        bits: 12..11
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: NOWAY
         bits: 10
@@ -2560,14 +2598,156 @@ registers:
         description: Current counter value
 
 
+  - name: L2C_TAD(0..7)_TIMETWO
+    title: Level 2 Cache LFB Timeout Count
+    address: 0x1180080A007C0 + a*0x40000
+    bus: RSL
+    description: This register records the number of LFB entries that have timed out.
+    fields:
+      - name: --
+        bits: 63..33
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SID
+        bits: 32..29
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Source id of the original request, that is 'source' of request. This is only valid if
+          the request is a local request (valid if  L2C_TAD(0..7)_TIMEOUT[CMD] is an  XMC request
+          and not relevant if it is an OCI request).
+
+      - name: BUSID
+        bits: 28..25
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: Busid of the original request, that is 'source' of request.
+
+      - name: VABST
+        bits: 24..22
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          this is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
+          INFOVAB is set.
+
+      - name: LFBST
+        bits: 21..8
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          this is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
+          INFOVAB is set.
+
+      - name: TOCNT
+        bits: 7..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          This is a running count of the LFB that has timed out ... the count will saturate at 0xFF.
+          Will clear when the  LFBTO interrupt is cleared.
+
+
+  - name: L2C_TAD(0..7)_TIMEOUT
+    title: Level 2 Cache LFB timeoutT Info Registers
+    address: 0x1180080A007C8 + a*0x40000
+    bus: RSL
+    description: |
+      This register records error information for an LFBTO (LFB TimeOut). The first LFBTO
+      error will lock the register until the logged error type s cleared. If multiple
+      LFBs timed out simultaneously, then this will contain the information form the
+      lowest LFB number that has timed-out. The address can be for the original transaction address
+      or the replacement address (if both could have timed out, then the transaction address will
+      be here).
+    fields:
+      - name: INFOLFB
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged address information is for the LFB original transation.
+
+      - name: INFOVAB
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
+          then both could have timed out, but info captured is from the original LFB.
+
+      - name: --
+        bits: 61..57
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LFBNUM
+        bits: 56..52
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: The LFB number of the entry that timed out, and have its info captures in this register.
+
+      - name: CMD
+        bits: 51..44
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: XMC command of request causing error. FIXME, needs better description for OCI
+
+      - name: NODE
+        bits: 43..40
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Home Node of the address causing the error. Similar the ADDR below, this can be the
+          request address
+          (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear & INFOVAB is
+          set).
+
+      - name: ADDR
+        bits: 39..7
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Cache line address causing the error. This can be either the request address or the
+          replacement
+          (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear & INFOVAB is
+          set).
+          This address is a physical address. L2C performs hole removal and index aliasing (if
+          enabled)
+          on the written address and uses that for the command. This hole-removed/index-aliased
+          address
+          is what is returned on a read of L2C_XMC_CMD.
+
+      - name: --
+        bits: 6..0
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+
   - name: L2C_TAD(0..7)_ERR
     title: Level 2 Cache TAD Request Error Info Registers
     address: 0x1180080A007D0 + a*0x40000
     bus: RSL
     description: |
-      This register records error information for HOLE* and BIG* interrupts. The first non-BIGRD
-      error will lock the register until the logged error type is cleared; BIGRD never locks the
-      register.
+      This register records error information for *DISOCI and BIG* interrupts. The first
+      WRDISOCI/BIGWR error will lock the register until the logged error type is cleared;
+      RDDISOCI/BIGRD never locks the register.
     fields:
       - name: BIGRD
         bits: 63
@@ -2583,19 +2763,19 @@ registers:
         typical: 0
         description: Logged information is for a BIGWR error.
 
-      - name: HOLERD
+      - name: RDDISOCI
         bits: 61
         access: RO/H
         reset: 0
         typical: 0
-        description: Logged information is for a HOLERD error.
+        description: Logged information is for a RDDISOCI error.
 
-      - name: HOLEWR
+      - name: WRDISOCI
         bits: 60
         access: RO/H
         reset: 0
         typical: 0
-        description: Logged information is for a HOLEWR error.
+        description: Logged information is for a WRDISOCI error.
 
       - name: --
         bits: 59
@@ -2617,8 +2797,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          XMC 'source' of request causing error. If SOURCE<6>==0, SOURCE<5:0> = PPID else
-          SOURCE<3:0> is BUSID of IOB which made the request.
+          XMC source of request causing error. If SOURCE<6>==0, SOURCE<5:0> = PPID else SOURCE<3:0>
+          is BUSID of IOB which made the request.
 
       - name: NODE
         bits: 43..40
@@ -2626,9 +2806,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          OCI Node of XMC request causing error. For BIG* errors NODE will always be the node
-          logging the error (BIG* errors are logged at the home node). For HOLE* errors, NODE could
-          be any OCI node in the system (HOLE* errors are logged at the requester node).
+          OCI Node of XMC request causing error. For BIG* errors NODE is always the node that
+          generated request causing the error (BIG* errors are logged at the home node). For *DISOCI
+          errors, is the NODE the request is directed to (DISOCI request is always the current
+          Node).
 
       - name: ADDR
         bits: 39..0
@@ -3052,8 +3233,6 @@ registers:
       using a separate CSR write operation.
       CLEAR_BIST must not be changed after writing START_BIST to 1 until the BIST operation
       completes (indicated by START_BIST returning to 0) or operation is undefined.
-    attributes:
-      dv_bist_all_fail_test: "ALL"
     fields:
       - name: START_BIST
         bits: 63
@@ -3161,11 +3340,25 @@ registers:
     description: This register is for CBC-based interrupts.
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..10
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: HOLERD
+        bits: 9
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Read reference to 256MB hole occurred.
+
+      - name: HOLEWR
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: Write reference to 256MB hole occurred.
 
       - name: IOWRDISOCI
         bits: 7
@@ -3174,7 +3367,7 @@ registers:
         typical: 0
         description: |
           Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI] clear. See
-          L2C_CBC(0..3)_IODISOCIERR for logged information. This interrupts applies to IOBST8,
+          L2C_CBC(0..3)_IODISOCIERR for logged information. This interrupt applies to IOBST8,
           IOBST16, IOBST32, IOBST64, IOBADDR, LMTST, and LMTDMA XMC commands.
 
       - name: IORDDISOCI
@@ -3184,7 +3377,7 @@ registers:
         typical: 0
         description: |
           Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI] clear. See
-          L2C_CBC(0..3)_IODISOCIERR for logged information. This interrupts applies to IOBLD8,
+          L2C_CBC(0..3)_IODISOCIERR for logged information. This interrupt applies to IOBLD8,
           IOBLD16, IOBLD32, IOBLD64, IOBDMA, and LMTDMA XMC commands.
 
       - name: MIBDBE
@@ -3221,6 +3414,125 @@ registers:
         reset: 0
         typical: 0
         description: RSD single-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
+
+
+  - name: L2C_CBC(0..3)_HOLEERR
+    title: Level 2 Cache TAD Request Error Info Registers
+    address: 0x1180080E007D0 + a*0x40000
+    bus: RSL
+    description: |
+      This register records error information for HOLE* interrupts. The first HOLEWR error locks the
+      register until the logged error type is cleared; HOLERD never locks the register.
+    fields:
+      - name: HOLERD
+        bits: 63
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged information is for a HOLERD error.
+
+      - name: HOLEWR
+        bits: 62
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: Logged information is for a HOLEWR error.
+
+      - name: --
+        bits: 61..59
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CMD
+        bits: 58..51
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: XMC command of request causing error. FIXME, needs better description for OCI
+
+      - name: SOURCE
+        bits: 50..44
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          XMC 'source' of request causing error. If SOURCE<6>==0, SOURCE<5:0> = PPID else
+          SOURCE<3:0> is BUSID of IOB which made the request.
+
+      - name: NODE
+        bits: 43..40
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          OCI Node of XMC request causing error.
+          For HOLE* errors, is the NODE the request is directed to.
+
+      - name: ADDR
+        bits: 39..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          XMC address causing the error. This field is the physical address after hole removal and
+          index aliasing (if enabled). (The hole is between DR0 and DR1. Remove the hole by
+          subtracting 256MB from all L2/DRAM physical addresses >= 512 MB.)
+
+
+  - name: L2C_CBC(0..3)_IODISOCIERR
+    title: Level 2 Cache IODISOCI Error Information Registers
+    address: 0x1180080E007D8 + a*0x40000
+    bus: RSL
+    description: |
+      This register records error information associated with IORDDISOCI/IOWRDISOCI interrupts.
+      IOWRDISOCI events take priority over previously captured IORDDISOCI events. Of the available
+      I/O transactions, some commands will either set IORDDISOCI, set IOWRDISOCI, or set both
+      IORDDISOCI and IOWRDISOCI. See L2C_CBC(0..3)_INT for information about which I/O transactions
+      may result in IORDDISOCI/IOWRDISOCI interrupts.
+    fields:
+      - name: --
+        bits: 63..59
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CMD
+        bits: 58..52
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: XMC Command (See XMC_CMD_E for encodings).
+
+      - name: PPVID
+        bits: 51..46
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: CMB Source PPVID.
+
+      - name: NODE
+        bits: 45..44
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Destination node ID.
+
+      - name: DID
+        bits: 43..36
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Destination device ID.
+
+      - name: ADDR
+        bits: 35..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: I/O address.
 
 
   - name: L2C_CBC(0..3)_IOCERR
@@ -3335,71 +3647,16 @@ registers:
         description: BIST failure status for RSDQW0-31.
 
 
-  - name: L2C_CBC(0..3)_IODISOCIERR
-    title: Level 2 Cache IODISOCI Error Information Registers
-    address: 0x1180080E07D80 + a*0x40000
-    bus: RSL
-    description: |
-      This register records error information associated with IORDDISOCI/IOWRDISOCI
-      interrupts. IOWRDISOCI events take priority over previously captured IORDDISOCI events. Of the
-      available IO transactions, some commands will either set IORDDISOCI, set IOWRDISOCI, or set
-      both IORDDISOCI and IOWRDISOCI. See L2C_CBC(0..3)_INT for information about which IO
-      transactions may result in IORDDISOCI/IOWRDISOCI interrupts.
-    fields:
-      - name: --
-        bits: 63..59
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CMD
-        bits: 58..52
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: XMC Command (See XMC_CMD_E for encodings).
-
-      - name: PPVID
-        bits: 51..46
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: CMB Source PPVID.
-
-      - name: NODE
-        bits: 45..44
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: Destination Node ID.
-
-      - name: DID
-        bits: 43..36
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: Destination Device ID.
-
-      - name: ADDR
-        bits: 35..0
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: I/O Address.
-
-
   - name: L2C_CBC(2..3)_MIBERR
     title: Level 2 Cache MIB Error Information Registers
     address: 0x1180080E007E0 + a*0x40000
     bus: RSL
     description: |
-      This register records error information for all CBC MIB errors.
-      An error locks the INDEX, and SYN fields and set the bit corresponding to the error received.
-      MIBDBE errors take priority and overwrite an earlier logged MIBSBE error. Only one of
-      MIBSBE/MIBDBE is set at any given time and serves to document which error the INDEX/SYN is
-      associated with.
-      The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+      This register records error information for all CBC MIB errors. An error locks the INDEX, and
+      SYN fields and set the bit corresponding to the error received. MIBDBE errors take priority
+      and overwrite an earlier logged MIBSBE error. Only one of MIBSBE/MIBDBE is set at any given
+      time and serves to document which error the INDEX/SYN is associated with. The syndrome is
+      recorded for DBE errors, though the utility of the value is not clear.
     fields:
       - name: MIBDBE
         bits: 63

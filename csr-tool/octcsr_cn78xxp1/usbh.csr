@@ -68,6 +68,8 @@ description: |
   The USB PHYs have control and status registers accessible via an indirect
   mechanism using the UCTL.PORT*_CR_DBG_* registers. For more information,
   see the PHY Databook.
+attributes:
+  dv_fc_scratch_exempt: "NCB"
 enums:
   - name: UCTL_DMA_READ_CMD_E
     title: UCTL DMA Read Command Enumeration
@@ -706,8 +708,6 @@ registers:
       Reset by: IOI reset (srst_n)
       Results from BIST runs of USBH's memories.
       Wait for NDONE==0, then look at defect indication.
-    attributes:
-      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..42

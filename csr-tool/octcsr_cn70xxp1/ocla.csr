@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: OCLA
+attributes:
+  dv_fc_scratch_exempt: "RSL"
 enums:
   - name: OCLA_INTSN_E
     attributes:
@@ -270,14 +272,14 @@ registers:
 
       - name: FSM1_ENA
         bits: 33
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: FSM1 sequencing enabled.
 
       - name: FSM0_ENA
         bits: 32
-        access: R/W1C
+        access: R/W1C/H
         reset: 0
         typical: 0
         description: FSM0 sequencing enabled.

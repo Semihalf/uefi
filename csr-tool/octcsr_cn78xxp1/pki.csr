@@ -4,6 +4,7 @@
 name: PKI
 enums:
   - name: PKI_BELTYPE_E
+    title: PKI Backend Layer Type Enumeration
     attributes:
       width: "3"
     description: Enumerates the values for  PKI_LTYPE(0..31)_MAP[BELTYPE].
@@ -42,6 +43,7 @@ enums:
 
 
   - name: PKI_CHAN_E
+    title: PKI Channel Enumeration
     attributes:
       width: "12"
     description: Enumerates the values of WQE[CHAN].
@@ -66,6 +68,7 @@ enums:
 
 
   - name: PKI_ERRLEV_E
+    title: PKI Error Level Enumeration
     attributes:
       width: "3"
     description: Enumerates the values of WQE[ERRLEV].
@@ -106,6 +109,7 @@ enums:
 
 
   - name: PKI_ETHERTYPE_E
+    title: PKI Ethertypes Enumeration
     attributes:
       width: "16"
     description: Enumerates the standard Ethertype values.
@@ -519,6 +523,7 @@ enums:
 
 
   - name: PKI_IPPROTO_E
+    title: PKI IP Protocol Enumeration
     attributes:
       width: "8"
     description: Enumerates the IPv4 protocol and IPv6 next-header values.
@@ -577,6 +582,7 @@ enums:
 
 
   - name: PKI_LTYPE_E
+    title: PKI Layer Type Enumeration
     attributes:
       width: "5"
     description: |
@@ -787,6 +793,7 @@ enums:
 
 
   - name: PKI_OPCODE_E
+    title: PKI Error Opcode Enumeration
     attributes:
       width: "8"
     description: Enumerates the values of WQE[OPCODE].
@@ -859,8 +866,10 @@ enums:
       - name: RE_PKIPCAM
         value: 0x14
         description: |
-          PKI PCAM programming conflict was detected during the processing of this packet.
-          PKI_CL(0..3)_INT[PCAM_CONF] was also set.
+          PKI PCAM soft error or programming conflict was detected during the processing of this
+          packet. PKI_CL(0..3)_INT[PCAM_CONF] was also set. Once a conflict is detected, the PCAM
+          state is unpredictable and is required to be fully reconfigured before further valid
+          processing can take place.
 
       - name: RE_MEMOUT
         value: 0x15
@@ -984,7 +993,7 @@ enums:
           IPv4/UDP
           ipv4_total_length < IP_header_len + UDP_length
           IPv6/UDP
-          ipv6_payload_length < UDP_length
+          ipv6_payload_length < IPv6_extension_len + UDP_length
 
       - name: L4_PORT
         value: 0x64
@@ -1005,16 +1014,22 @@ enums:
 
 
   - name: PKI_PCAM_TERM_E
+    title: PKI PCAM Term Enumeration
     attributes:
       width: "6"
     description: |
       Enumerates the virtual-CAM type for the PKI_CL(0..3)_PCAM(0..1)_TERM(0..191)[TERM] field.
       In the table below:
       'MATCH' refers to PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191).
+
       'ACTION' refers to PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191) for the PCAM entry that matches.
+
       The 'Bank' column indicates which PCAM bank must contain the match data.
+
       The 'Adv' column indicates if ACTION[ADVANCE] may be non-zero.
+
       The 'PMC' column indicates if ACTION[PMC] may be non-zero.
+
       The 'SETTY' column indicates if ACTION[SETTY] may be non-zero, and if so which WQE pointer
       field and type field will get set with the specified value. For example, LFTY indicates if
       ACTION[SETTY] then WQE[LFTY] will be set to ACTION[SETTY] and WQE[LFPTR] will be set to the
@@ -1249,6 +1264,7 @@ enums:
 
 
   - name: PKI_QPGQOS_E
+    title: PKI QPG QoS Algorithm Enumeration
     attributes:
       width: "3"
     description: Enumerates the values of PKI_CL(0..3)_STYLE(0..63)_ALG. See QPG.
@@ -1282,6 +1298,8 @@ enums:
 
 structs:
   - name: PKI_BEWQ_S
+    title: |
+      INTERNAL: PKI Back End WQE Structure
     description: |
       This structure describes the handoff structure between an IPE and PKI back end. The fields are
       similar to the WQE.
@@ -1628,6 +1646,7 @@ structs:
 
 
   - name: PKI_BUFLINK_S
+    title: PKI Buffer Link Structure
     description: |
       The PKI hardware links the packet segments in PKI Hardware Allocating Multiple Buffers
       together with buffer pointers. It writes the first buffer pointer in the work-queue entry
@@ -1673,6 +1692,8 @@ structs:
 
 
   - name: PKI_FEWQ_S
+    title: |
+      INTERNAL: PKI Front End WQE Structure
     description: |
       This structure describes the handoff structure between the PKI front end and an IPE. The
       fields are similar to the WQE.
@@ -3219,34 +3240,38 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..21
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 16..0
+        bits: 20..0
         access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
           register collects status for PKI_PBE.
-          <16>     SWS
-          <15>     WQEOUT
-          <14>     DOA
-          <13>     BPID
-          <12..10> RSVD
-          <9>      PLC
-          <8>      PKTWQ
-          <7..6>   RSVD
-          <5>      TAG
-          <4>      AURA
-          <3>      CHAN
-          <2>      PBTAG
-          <1>      STYLEWQ
-          <0>      QPG
+          <20>: STATS_MEM0
+          <19>: STATS_MEM1
+          <18>: STATS_MEM2
+          <17>: STATS_MEM3
+          <16>: SWS
+          <15>: WQEOUT
+          <14>: DOA
+          <13>: BPID
+          <12:10>: Reserved
+          <9>: PLC
+          <8>: PKTWQ
+          <7:6>: Reserved
+          <5>: TAG
+          <4>: AURA
+          <3>: CHAN
+          <2>: PBTAG
+          <1>: STYLEWQ
+          <0>: QPG
 
 
   - name: PKI_BIST_STATUS2
@@ -3761,8 +3786,6 @@ registers:
     description: |
       For diagnostic use only, perform a PCAM lookup against the provided cluster and PCAM instance
       and loads results into PKI_PCAM_RESULT.
-    attributes:
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..54
@@ -3860,7 +3883,7 @@ registers:
         typical: --
         description: |
           Resulting data from matching line's PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191), or zero if no
-          match.  Unpredictable unless [MATCH] set and [CONFLICT] is clear.
+          match. Unpredictable unless [CONFLICT] is clear.
 
 
   - name: PKI_PFE_DIAG
@@ -3903,6 +3926,41 @@ registers:
         reset: 0x0
         typical: --
         description: Asserted when PFE requests an ICG with no enabled CLUSTERS.
+
+
+  - name: PKI_PIX_CLKEN
+    title: |
+      INTERNAL: PKI PIX Conditional Clock Enable Register
+    address: 0x1180044000600
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..17
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MECH
+        bits: 16
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set, force the conditional clocks on for mech.
+
+      - name: --
+        bits: 15..4
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CLS
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: When set, force the conditional clocks on for this cluster.
 
 
   - name: PKI_FRM_LEN_CHK(0..1)
@@ -4204,9 +4262,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          PCAM(0..1) match hit multiple rows, indicating a programming error in
-          PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191) or related registers. Throws
-          PKI_INTSN_E::PKI_CL(0..3)_INT_PCAM_CONF(0..1).
+          PCAM(0..1) match hit multiple rows, indicating either a soft error in the PCAM or a
+          programming error in PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191) or related registers. Throws
+          PKI_INTSN_E::PKI_CL(0..3)_INT_PCAM_CONF(0..1). Once a conflict is detected, the PCAM state
+          is unpredictable and is required to be fully reconfigured before further valid processing
+          can take place.
 
 
   - name: PKI_CL(0..3)_ECC_INT
@@ -4689,9 +4749,9 @@ registers:
         reset: 0x20
         typical: 0x20
         description: |
-          The number of eight-byte words to store into a buffer. This must be in the range of 32 to
-          4096. This must be less than or equal to the maximum size of every free page in every FPA
-          pool this style may use.
+          The number of eight-byte words to store into a buffer. This must be even, in the range of
+          32 to 4096. This must be less than or equal to the maximum size of every free page in
+          every FPA pool this style may use.
 
 
   - name: PKI_IMEM(0..2047)
@@ -6281,7 +6341,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Inbound packets dropped by RED or buffer exhaustion.
+        description: Inbound packets dropped by RED, buffer exhaustion, or PKI_CL(0..3)_STYLE(0..63)_CFG[DROP].
 
 
   - name: PKI_STAT(0..63)_STAT4
@@ -6303,7 +6363,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Inbound octets dropped by RED or buffer exhaustion.
+        description: Inbound octets dropped by RED, buffer exhaustion, or PKI_CL(0..3)_STYLE(0..63)_CFG[DROP].
 
 
   - name: PKI_STAT(0..63)_STAT5
@@ -6508,8 +6568,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets, dropped or non-dropped, with special handling. For profiling and
-          diagnostic use only.
+          Number of non-dropped packets with special handling. For profiling and diagnostic use
+          only.
           INTERNAL: Counts packets completing IPE processing with WQE[SH] set.
 
 
@@ -6533,8 +6593,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets with L2 broadcast DMAC that were dropped due to RED or buffer
-          exhaustion. See WQE[L2B] for the definition of L2 broadcast.
+          Number of packets with L2 broadcast DMAC that were dropped by RED, buffer exhaustion, or
+          PKI_CL(0..3)_STYLE(0..63)_CFG[DROP]. See WQE[L2B] for the definition of L2 broadcast.
 
 
   - name: PKI_STAT(0..63)_STAT15
@@ -6557,8 +6617,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets with L2 multicast DMAC that were dropped due to RED or buffer
-          exhaustion. See WQE[L2M] for the definition of L2 multicast.
+          Number of packets with L2 multicast DMAC that were dropped by RED, buffer exhaustion, or
+          PKI_CL(0..3)_STYLE(0..63)_CFG[DROP]. See WQE[L2M] for the definition of L2 multicast.
 
 
   - name: PKI_STAT(0..63)_STAT16

@@ -72,6 +72,7 @@ enums:
 
 structs:
   - name: FPA_ALLOC_IOBDMA_S
+    title: FPA Allocate Operation IOBDMA Address Structure
     description: IOBDMA allocate-operation addresses are formed with this structure.
     fields:
       - name: --
@@ -126,10 +127,11 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to. See IOBDMA Operations.
 
 
   - name: FPA_ALLOC_LD_S
+    title: FPA Allocate Operation Load Address Structure
     description: Load Allocate operation addresses are formed with this structure.
     fields:
       - name: --
@@ -178,6 +180,7 @@ structs:
 
 
   - name: FPA_ALLOC_RTN_S
+    title: FPA Allocate Operation Return Structure
     description: Load and IOBDMA allocate operations return data specified by this structure.
     fields:
       - name: ADDR
@@ -192,6 +195,7 @@ structs:
 
 
   - name: FPA_FREE_ADDR_S
+    title: FPA Free Operation Address Structure
     description: Store Free operation addresses are formed with this structure.
     fields:
       - name: --
@@ -261,6 +265,7 @@ structs:
 
 
   - name: FPA_FREE_DATA_S
+    title: FPA Free Operation Data Structure
     description: Store Free operation data is formed with this structure.
     fields:
       - name: ADDR
@@ -422,12 +427,12 @@ registers:
           QoS averaging enable. When set, compute average buffer levels, and [LVL_DLY] must be non-
           zero. When clear, do not compute averages and save a few mW of power.
 
-      - name: --
+      - name: CLK_OVERRIDE
         bits: 0
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Conditional clock override.
 
 
   - name: FPA_ECC_CTL

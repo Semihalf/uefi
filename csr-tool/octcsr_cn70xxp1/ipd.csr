@@ -2331,7 +2331,7 @@ registers:
           in the PORT_QOS field.
 
 
-  - name: IPD_PORT_QOS_INT(0,2,3,4,5)
+  - name: IPD_PORT_QOS_INT(0,2,3,4)
     address: 0x14F0000000808 + a*0x8
     bus: NCB
     description: |
@@ -2351,7 +2351,7 @@ registers:
         description: Interrupt bits.
 
 
-  - name: IPD_PORT_QOS_INT_ENB(0,2,3,4,5)
+  - name: IPD_PORT_QOS_INT_ENB(0,2,3,4)
     address: 0x14F0000000848 + a*0x8
     bus: NCB
     description: |

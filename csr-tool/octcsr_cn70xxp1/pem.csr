@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PEM
+attributes:
+  dv_fc_scratch_exempt: "RSL"
 registers:
   - name: PEM(0..2)_CTL_STATUS
     title: PEM Control Status
