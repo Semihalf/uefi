@@ -19,7 +19,7 @@ local g3 = gpio_read(3)
 printf("GPIO[1-3]: %d %d %d\n", g1, g2, g3)
 
 if (g2 == 0 and g3 == 1) then
-    printf("Testing SATA/mini-PCIe\n")
+    printf("SATA/mini-PCIe configured, not supported yet\n")
 elseif (g2 ==1 and g3 == 0) then
     printf("Testing PCIe 1x4\n")
 else
@@ -27,7 +27,7 @@ else
 end
 
 if (g1 == 1) then
-    printf("Testing RXAUI\n")
+    printf("RXAUI configured, not supported yet.\n")
 else
     printf("Testing QSGMII\n")
 end
