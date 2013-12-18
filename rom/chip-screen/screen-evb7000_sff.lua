@@ -5,8 +5,8 @@ local node = 0
 menu.dofile("board-evb7000_sff")
 
 -- DLM0 uses external reference clock
-octeon.csr.GSERX_DLMX_REF_USE_PAD(0,0).ref_use_pad = 1
-octeon.csr.GSERX_DLMX_REFCLK_SEL(0,0).refclk_sel = 0
+octeon.csr.GSERX_DLMX_REF_USE_PAD(0,0).ref_use_pad = 0
+octeon.csr.GSERX_DLMX_REFCLK_SEL(0,0).refclk_sel = 1
 -- DLM1 uses C0 reference clock
 octeon.csr.GSERX_DLMX_REF_USE_PAD(0,1).ref_use_pad = 0
 octeon.csr.GSERX_DLMX_REFCLK_SEL(0,1).refclk_sel = 0
