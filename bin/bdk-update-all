@@ -10,6 +10,7 @@ DIR=${BDK_ROOT}/target-bin
 
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-boot-nor-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-chip-screen-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen/*
+${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-boot-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
 
 cat ${DIR}/original/bdk-boot-nor-stage1-cn70xx.bin /dev/zero | dd of=${DIR}/bdk-boot-nor-cn70xx.bin bs=1024 count=512 > /dev/null 2>&1
 cat ${DIR}/original/bdk-boot-nor-stage2-cn70xx.bin >> ${DIR}/bdk-boot-nor-cn70xx.bin

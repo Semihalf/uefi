@@ -20,7 +20,7 @@ AS=$(CROSS)as
 LD=$(CROSS)ld
 RANLIB=$(CROSS)ranlib
 STRIP=$(CROSS)strip
-SIM=cn70xx
+SIM=cn78xx
 ifeq ($(shell uname -m),x86_64)
     SIMULATOR=${OCTEON_ROOT}/host/bin/$(SIM)-simulator64
 else
