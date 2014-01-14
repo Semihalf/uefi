@@ -229,77 +229,77 @@ registers:
 
       - name: RSDM1
         bits: 10
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: rsd_mem1_bstatus
 
       - name: RSDM0
         bits: 9
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: rsd_mem0_bstatus
 
       - name: XMCF
         bits: 8
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: xmcfif_bstatus
 
       - name: ICX3
         bits: 7
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icc0_xmc_fifo_ecc_bstatus
 
       - name: ICX2
         bits: 6
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icc0_xmc_fifo_ecc_bstatus
 
       - name: ICX1
         bits: 5
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icc0_xmc_fifo_ecc_bstatus
 
       - name: ICX0
         bits: 4
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icc0_xmc_fifo_ecc_bstatus
 
       - name: IMMX3
         bits: 3
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icm_mem_mask_xmd3_bstatus
 
       - name: IMDX3
         bits: 2
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icm_mem_data_xmd3_bstatus
 
       - name: IMMX2
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icm_mem_mask_xmd2_bstatus
 
       - name: IMDX2
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: icm_mem_data_xmd2_bstatus
@@ -589,7 +589,7 @@ registers:
     bus: RSL
     description: This register contains the result of the BIST run on the cores.
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0xAAAAAAAAAAAA"
     fields:
       - name: --
         bits: 63..48
@@ -600,7 +600,7 @@ registers:
 
       - name: PP_BSTAT
         bits: 47..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |

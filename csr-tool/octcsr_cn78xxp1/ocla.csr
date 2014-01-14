@@ -66,23 +66,26 @@ structs:
       - name: SOT0
         bits: 32
         description: |
-          Start transaction for low data. When set, CYCLE indicates the cycle number of the next new
-          low data, minus one cycle.
+          Start transition from no-capture to capture or duplicated data stopped while capturing for
+          low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
+          cycle.
 
       - name: SOT1
         bits: 33
-        description: Start transaction for high data.
+        description: |
+          Start transition from no-capture to capture or duplicated data stopped while capturing for
+          high data. Symmetric with [SOT0] description; see [SOT0].
 
       - name: EOT0
         bits: 34
         description: |
-          End transaction for low data. When set, CYCLE indicates the cycle at which the previous
-          entry of low data stopped being replicated. This may be set along with SOT0 to indicate a
-          repeat followed by new sequence.
+          End of duplicated capture for low data. When set, CYCLE indicates the cycle at which the
+          previous entry of low data stopped being replicated. This may be set along with SOT0 to
+          indicate a repeat followed by new sequence.
 
       - name: EOT1
         bits: 35
-        description: End transaction for high data.
+        description: End of duplicated capture for high data. Symmetric with EOT0 description; see [EOT0].
 
       - name: --
         bits: 36
@@ -865,18 +868,18 @@ registers:
         description: |
           Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
           mux selected by PLA1 and 0. The output is thus calulated from the equation:
-          fsmcap0 = OCLA(0..4)_FSM(0)_STATE[state0][CAP]
-          fsmcap1 = OCLA(0..4)_FSM(1)_STATE[state1][CAP]
+          fsmcap0 = OCLA(0..4)_FSM(0)_STATE[state0][CAP].
+          fsmcap1 = OCLA(0..4)_FSM(1)_STATE[state1][CAP].
           out = (    (<3> & fsmcap0 & fsmcap0)
           || (<2> & fsmcap1 & !fsmcap0)
           || (<1> & !fsmcap1 & fsmcap0)
-          || (<0> & !fsmcap1 & !fsmcap0))
+          || (<0> & !fsmcap1 & !fsmcap0)).
           Common examples:
-          0x0 = No capture
-          0x2 = Capture when fsmcap0 requests capture
-          0x4 = Capture when fsmcap1 requests capture
-          0x6 = Capture on fsmcap0 | fsmcap1
-          0x8 = Capture on fsmcap0 & fsmcap1
+          0x0 = No capture.
+          0x2 = Capture when fsmcap0 requests capture.
+          0x4 = Capture when fsmcap1 requests capture.
+          0x6 = Capture on fsmcap0 | fsmcap1.
+          0x8 = Capture on fsmcap0 & fsmcap1.
           0xF = Always capture.
 
 
@@ -999,10 +1002,12 @@ registers:
 
       - name: MASK
         bits: 35..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: --
-        description: Data value to compare against when corresponding bits of OCLA(0..4)_MAT(0..3)_MASK(0..1) are set.
+        description: |
+          Data value to compare against when corresponding bits of OCLA(0..4)_MAT(0..3)_MASK(0..1)
+          are set. Value may be updated with OCLA(0..4)_FSM(0..1)_STATE(0..15)[SET_VAL].
 
 
   - name: OCLA(0..4)_MAT(0..3)_MASK(0..1)

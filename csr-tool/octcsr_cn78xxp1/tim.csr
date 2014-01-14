@@ -84,7 +84,7 @@ structs:
       - name: WQP
         bits: 41..0
         description: |
-          Pointer to a work-queue entry. An all-zero addr is not sent to the SSO and may be used as
+          Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
           a NOP. <2:0> must be zero.
 
       - name: --
@@ -94,11 +94,11 @@ structs:
 
       - name: TT
         bits: 51..50
-        description: SSO Tag Type.
+        description: SSO tag type.
 
       - name: GRP
         bits: 61..52
-        description: SSO Group. Note the upper two bits correspond to a node number.
+        description: SSO group. Note the upper two bits correspond to a node number.
 
       - name: --
         bits: 63..62
@@ -127,10 +127,10 @@ registers:
         typical: 0x0
         description: |
           Edge used for GPIO timing.
-          00 = no edges and the timer tick is not generated.
-          01 = TIM counts low to high transitions
-          10 = TIM counts high to low transitions
-          11 = TIM counts both low to high and high to low transitions
+          0x0 = no edges and the timer tick is not generated.
+          0x1 = TIM counts low to high transitions.
+          0x2 = TIM counts high to low transitions.
+          0x3 = TIM counts both low to high and high to low transitions.
 
       - name: --
         bits: 4..3
@@ -167,7 +167,7 @@ registers:
           all rings. Each Timer tick causes the hardware to decrement the time count for all enabled
           rings.
           When ENA_TIM = 0, the hardware stops the shared periodic counter, FR_RN_HT, so there are
-          no more ticks, and there are no more NEW bucket traversals.
+          no more ticks, and there are no more new bucket traversals.
           If ENA_TIM transitions 1->0, TIM longer creates new bucket traversals, but does traverse
           any rings that previously expired and are pending hardware traversal.
 
@@ -198,7 +198,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: Enable ECC correction of the ring data structure memory. ECC is enabled by default.
+        description: Enable ECC correction of the ring data structure memory.
 
 
   - name: TIM_BIST_RESULT
@@ -378,7 +378,7 @@ registers:
         typical: 0x0
         description: |
           Each bit corresponds to rings [63:0] respectively. This register reflects the values
-          written to TIM_RING(0..63)_CTL1 [ENA_GPIO]. For debug only; Reserved
+          written to TIM_RING(0..63)_CTL1 [ENA_GPIO]. For debug only; Reserved.
 
 
   - name: TIM_DBG2
@@ -391,7 +391,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: IOI load memory allocation status
+        description: IOI load memory allocation status.
 
       - name: --
         bits: 55..53
@@ -405,28 +405,28 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: IOI grant FIFO level
+        description: IOI grant FIFO level.
 
       - name: FPA_FIFO_LEVEL
         bits: 48..46
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: FPA FIFO level
+        description: FPA FIFO level.
 
       - name: RWF_FIFO_LEVEL
         bits: 45..40
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: IOI requests FIFO level
+        description: IOI requests FIFO level.
 
       - name: WQE_FIFO_LEVEL
         bits: 39..32
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: IOI WQE LD FIFO level
+        description: IOI WQE LD FIFO level.
 
       - name: --
         bits: 31..16
@@ -440,28 +440,28 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: FSM 3 current state
+        description: FSM 3 current state.
 
       - name: FSM2_STATE
         bits: 11..8
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: FSM 2 current state
+        description: FSM 2 current state.
 
       - name: FSM1_STATE
         bits: 7..4
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: FSM 1 current state
+        description: FSM 1 current state.
 
       - name: FSM0_STATE
         bits: 3..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: FSM 0 current state
+        description: FSM 0 current state.
 
 
   - name: TIM_DBG3
@@ -742,7 +742,8 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: Aura number used to free and return chucks to.
+        description: |
+          Aura number used to free and return chucks to. Bits <15:12> must be zero.
 
 
   - name: TIM_RING(0..63)_REL
@@ -774,10 +775,10 @@ registers:
         typical: 0x0
         description: |
           Ring expiration status register. These registers hold the expiration status of the ring.
-          00 = Ring has not expired.
-          01 = Interval expired. Ring is queued to be traversed.
-          10 = First interval expiration while ring is queued to be traversed.
-          11 = Second interval expiration while ring is queued to be traversed.
+          0x0 = Ring has not expired.
+          0x1 = Interval expired. Ring is queued to be traversed.
+          0x2 = First interval expiration while ring is queued to be traversed.
+          0x3 = Second interval expiration while ring is queued to be traversed.
           This field is zeroed when TIM_RING(0..63)_CTL1[ENA] transitions from 0 -> 1.
 
       - name: TIMERCOUNT

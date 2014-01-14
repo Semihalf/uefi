@@ -529,7 +529,7 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SOFT
+      - name: SFT
         bits: 1
         access: R/W/H
         reset: 0

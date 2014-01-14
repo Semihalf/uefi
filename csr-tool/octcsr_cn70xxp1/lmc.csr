@@ -4,6 +4,8 @@
 name: LMC
 enums:
   - name: LMC_INTSN_E
+    title: |
+      INTERNAL: LMC Interrupt Source Enumeration
     attributes:
       width: "20"
     description: |
@@ -2653,6 +2655,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_name_double_underscore: "True"
         description: |
           DDR PCTL from compensation circuit. The encoded value provides debug information for the
           compensation impedance on P-pullup.
@@ -2662,6 +2666,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_name_double_underscore: "True"
         description: |
           DDR NCTL from compensation circuit. The encoded value provides debug information for the
           compensation impedance on N-pulldown.
@@ -3047,7 +3053,6 @@ registers:
           <6> corresponds to DQ[31:0]_c1_p1/0
           <7> corresponds to DQ[31:0]_c2_p1/0
           <8> corresponds to DQ[31:0]_c3_p1/0
-          Throws LMC_INTSN_E::LMC(0..0)_INT_DED_ERR(0..3).
 
       - name: SEC_ERR
         bits: 4..1
@@ -3066,15 +3071,13 @@ registers:
           <6> corresponds to DQ[31:0]_c1_p1/0
           <7> corresponds to DQ[31:0]_c2_p1/0
           <8> corresponds to DQ[31:0]_c3_p1/0
-          Throws LMC_INTSN_E::LMC(0..0)_INT_SEC_ERR(0..3).
 
       - name: NXM_WR_ERR
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Write to nonexistent memory. Throws LMC_INTSN_E::LMC(0..0)_INT_NXM_WR_ERR.
+        description: Write to nonexistent memory.
 
 
   - name: LMC(0..0)_SLOT_CTL0

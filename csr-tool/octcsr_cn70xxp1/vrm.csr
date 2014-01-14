@@ -181,7 +181,7 @@ registers:
 
       - name: MAX_STEP
         bits: 31..24
-        access: RAZ
+        access: R/W
         reset: --
         typical: --
         description: V step.

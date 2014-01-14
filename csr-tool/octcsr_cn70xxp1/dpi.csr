@@ -577,27 +577,27 @@ registers:
         bits: 58
         access: R/W
         reset: 0
-        typical: 1
+        typical: 0
         description: |
           DMA Engine Commit Mode
 
-          When COMMIT_MODE=0, DPI considers an instruction
+          When COMMIT_MODE=1, DPI considers an instruction
           complete when the HW internally generates the
           final write for the current instruction.
 
-          When COMMIT_MODE=1, DPI additionally waits for
+          When COMMIT_MODE=0, DPI additionally waits for
           the final write to reach the interface coherency
           point to declare the instructions complete.
 
-          Please note: when COMMIT_MODE == 0, DPI may not
+          Please note: when COMMIT_MODE == 1, DPI may not
           follow the HRM ordering rules.
 
           DPI hardware performance may be better with
-          COMMIT_MODE == 0 than with COMMIT_MODE == 1 due
+          COMMIT_MODE == 1 than with COMMIT_MODE == 0 due
           to the relaxed ordering rules.
 
           If the HRM ordering rules are required, set
-          COMMIT_MODE == 1.
+          COMMIT_MODE == 0.
 
       - name: PKT_HP
         bits: 57

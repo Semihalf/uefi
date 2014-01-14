@@ -788,7 +788,7 @@ enums:
 
 structs:
   - name: PKO_CSR_RD_DMA_S
-    title: CSR Read IOBDMA Operations
+    title: PKO CSR Read IOBDMA Structure
     description: |
       Structure of the real IOBDMA address (i.e. the store data for the instruction that initiates
       an IOBDMA) that initiates CSR read operation. The IOBDMA result word is the CSR read data.
@@ -828,8 +828,10 @@ structs:
           const: "0x1"
         description: |
           Indicates the number of contiguous CSRs read (each being 64-bit words, also the length of
-          the result in 64-bit words). INTERNAL: More than one word returns are untested; leave HRM
-          as saying one word until verified.
+          the result in 64-bit words).
+          INTERNAL: More than one word returns are untested; leave HRM as saying one word until
+          verified. When support add this: The PKO CSRs read by a single IOBDMA must be contiguous
+          and target a single arrayed CSR.
 
       - name: SCRADDR
         bits: 63..56
@@ -839,9 +841,10 @@ structs:
 
 
   - name: PKO_CSR_WR_DMA_S
+    title: PKO CSR Write LMTST Structure
     description: |
       Structure of the real LMTST address (i.e. the store data for the instruction that initiates an
-      LMTST) that initiates a CSR write operation. LMTST CSR write operations may be used to  update
+      LMTST) that initiates a CSR write operation. LMTST CSR write operations may be used to update
       many PKO CSRs simultaneously. The PKO CSRs written by a single PKO_CSR_WR_DMA_S LMTST must be
       contiguous and target a single arrayed CSR.
     fields:
@@ -885,6 +888,7 @@ structs:
 
 
   - name: PKO_MEM_RESULT_S
+    title: PKO Memory Value Structure
     description: |
       When PKO_SEND_MEM_S[ALG]==PKO_MEMALG_E::SETRSLT, the value written to memory is formed with
       this structure.
@@ -909,6 +913,7 @@ structs:
 
 
   - name: PKO_QUERY_DMA_S
+    title: PKO IOBDMA Address Structure
     description: |
       Structure of the real IOBDMA address (i.e. the store data for the instruction that initiates
       an IOBDMA) that initiates a Query, Open or Close operation. The IOBDMA result word is a
@@ -974,6 +979,7 @@ structs:
 
 
   - name: PKO_QUERY_LD_S
+    title: PKO Physical Load Address Structure
     description: |
       Structure of the physical load address for a load instruction that initiates a Query, Open or
       Close operation. The load result is a PKO_QUERY_RTN_S.
@@ -1030,6 +1036,7 @@ structs:
 
 
   - name: PKO_QUERY_RTN_S
+    title: PKO Load, IOBDMA, LMTDMA Return Data Structure
     description: Structure of load, IOBDMA or LMTDMA return data for Send, Query, Open or Close operations.
     fields:
       - name: DEPTH
@@ -1052,6 +1059,7 @@ structs:
 
 
   - name: PKO_SEND_AURA_S
+    title: PKO Send Aura Subdescriptor Structure
     description: |
       The Send Aura subdescriptor frees aura counts, and changes the aura number for following FPA
       free operations. See Send Aura. The aura change occurs after processing all previous
@@ -1113,6 +1121,7 @@ structs:
 
 
   - name: PKO_SEND_CRC_S
+    title: PKO Send CRC Subdescriptor Structure
     description: |
       The Send CRC subdescriptor specifies a CRC calculation be performed during transmission. See
       Send CRC.
@@ -1198,6 +1207,7 @@ structs:
 
 
   - name: PKO_SEND_DMA_S
+    title: PKO Send DMA Address Structure
     description: |
       Structure of the real LMTDMA/LMTST address (i.e. the store data for the instruction that
       initiates an LMTDMA/LMTST) that initiates a Send operation. The optional LMTDMA result word is
@@ -1245,10 +1255,13 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM location to return PKO_QUERY_RTN_S to if a queue size return is desired. See .
+        description: |
+          CVMSEG LM location to return PKO_QUERY_RTN_S to if a queue size return is desired. See
+          IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: PKO_SEND_EXT_S
+    title: PKO Send Extended Subdescriptor Structure
     description: |
       The Send Extended subdescriptor requests additional checksum and/or scheduling services on the
       packet. If present it must be word 2 of the send command. See Extended Header.
@@ -1279,13 +1292,13 @@ structs:
         description: |
           Mark pointer. Offset from packet start to byte to use for packet shaper marking.
           PKO_SEND_HDR_S[FORMAT] indirectly determines how this offset is used by PKO, including
-          whether and how an L2 or L3 header is marked, see Shaper Marking. [MARKPTR] is constrained
-          as follows:
-          If either of PKO_SEND_HDR_S[CKL3,CKL4] is nonzero and a packet L3 header will be marked,
+          whether and how an L2 or L3 header is marked, see Section TBD. [MARKPTR] is constrained as
+          follows:
+          * If either of PKO_SEND_HDR_S[CKL3,CKL4] is nonzero and a packet L3 header will be marked,
           then either (1.1) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must be equal and refer to the same
           L3 header, or (1.2) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must differ and refer to different
           non-overlapping L3 headers.
-          If a packet L2 header will be marked, then the entire L2 header must not overlap with
+          * If a packet L2 header will be marked, then the entire L2 header must not overlap with
           computation enabled by either of PKO_SEND_HDR_S[CKL3,CKL4], and must not overlap with any
           PKO_SEND_CRC_S CRCs.
           If PKO_SEND_EXT_S is not present in the descriptor, the offset used for shaper marking is
@@ -1338,6 +1351,7 @@ structs:
 
 
   - name: PKO_SEND_FREE_S
+    title: PKO Send Free Subdescriptor Structure
     description: |
       The Send Free subdescriptor requests a buffer be freed to FPA. PKO_SEND_FREE_S subdescriptors
       must follow all PKO_SEND_EXT_S, PKO_SEND_LINK_S, PKO_SEND_GATHER_S, PKO_SEND_IMM_S, and
@@ -1374,6 +1388,7 @@ structs:
 
 
   - name: PKO_SEND_GATHER_S
+    title: PKO Send Gather Subdescriptor Structure
     description: |
       The Send Gather subdescriptor requests a contiguous segment of bytes be transmitted. See Send
       Gather. There may be multiple PKO_SEND_GATHER_Ss in each PKO Send Descriptor. A
@@ -1419,6 +1434,7 @@ structs:
 
 
   - name: PKO_SEND_HDR_S
+    title: PKO Send Header Subdescriptor Structure
     description: The send header is the first subdescriptor word of every send operation.
     fields:
       - name: TOTAL
@@ -1504,9 +1520,10 @@ structs:
           packet send descriptor, as the diagrams in this section show. When set, all segment
           pointers and segment bytes are interpreted in little-endian order. In little-endian mode,
           the following apply:
-          The PKO_SEND_GATHER_S[ADDR] and PKO_SEND_LINK_S[ADDR] fields are a little-endian byte
+          * The PKO_SEND_GATHER_S[ADDR] and PKO_SEND_LINK_S[ADDR] fields are a little-endian byte
           pointer rather than a big-endian one.
-          Operations are fetched from L2/DRAM in little-endian format rather than big-endian format.
+          * Operations are fetched from L2/DRAM in little-endian format rather than big-endian
+          format.
           Unaligned segment pointers (in send linked operations) must be in correct little-endian
           format, eight bytes prior to the segment bytes (i.e. the least-significant eight bytes of
           the pointer are first, the next least-significant bytes are next, etc.).
@@ -1531,13 +1548,15 @@ structs:
         bits: 47..46
         description: |
           Checksum L4, enumerated with PKO_CKL4ALG_E. If nonzero (not NONE):
-          PKO hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
+          * PKO hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
           into the packet, as described in Send CRC.
-          [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location of
+          * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
+          of
           the immediately proceeding and adjacent L3 header.
-          The L4 length field must not require more than [TOTAL] bytes in the packet and the L4
+          * The L4 length field must not require more than [TOTAL] bytes in the packet and the L4
           length must be non-zero.
-          When PKO_SEND_CRC_S are present, the bytes covered or inserted by PKO_SEND_CRC_S must all
+          * When PKO_SEND_CRC_S are present, the bytes covered or inserted by PKO_SEND_CRC_S must
+          all
           reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4 checksums
           when both are present.
 
@@ -1557,6 +1576,7 @@ structs:
 
 
   - name: PKO_SEND_IMM_S
+    title: PKO Send Immediate Subdescriptor Structure
     description: |
       The Send Immediate subdescriptor requests that bytes immediately following this PKO_SEND_IMM_S
       in the PKO send descriptor are to be included in the packet. The next subdescriptor following
@@ -1594,6 +1614,7 @@ structs:
 
 
   - name: PKO_SEND_JUMP_S
+    title: PKO Send Jump Subdescriptor Structure
     description: |
       The send jump subdescriptor selects a new address for fetching the next subdescriptor. See
       Send Jump. This allows software to create subdescriptor lists longer than the 15 directly
@@ -1648,6 +1669,7 @@ structs:
 
 
   - name: PKO_SEND_LINK_S
+    title: PKO Send Linked Subdescriptor Structure
     description: |
       The Send Linked subdescriptor specifies a linked list of data segments to construct the last
       data for the packet. See Send Linked.
@@ -1704,6 +1726,7 @@ structs:
 
 
   - name: PKO_SEND_MEM_S
+    title: PKO Send Memory Subdescriptor Structure
     description: |
       The send memory subdescriptor atomically sets, increments or decrements a memory location. See
       Send Mem.
@@ -1782,6 +1805,7 @@ structs:
 
 
   - name: PKO_SEND_WORK_S
+    title: PKO Send Work Subdescriptor Structure
     description: |
       This subdescriptor adds work to the SSO. At most one PKO_SEND_WORK_S subdescriptor can exist
       in the packet descriptor. If a PKO_SEND_WORK_S exists in the packet descriptor, it must be the
@@ -1846,14 +1870,14 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..18
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: LINK
-        bits: 16..13
+        bits: 17..13
         access: R/W
         reset: 0x0
         typical: 0x0
@@ -2799,92 +2823,92 @@ registers:
 
       - name: TP_SRAM
         bits: 14
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Topology parent - pko_pse_pq_srf32x5e
 
       - name: IRQ_FIFO_SRAM
         bits: 13
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Interrupt message FIFO - pko_pse_pq_srf1024x10e
 
       - name: WMD_SRAM
         bits: 12
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic watermark state - pko_pse_wmd_srf1024x49e
 
       - name: WMS_SRAM
         bits: 11
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static watermark configuration - pko_pse_wms_srf1024x50e
 
       - name: CXD_SRAM
         bits: 10
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic channel state - pko_pse_cxd_srf32x31e
 
       - name: DQD_SRAM
         bits: 9
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: DQ dropped stats - pko_pse_stats_srf1024x88
 
       - name: DQS_SRAM
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: DQ sent stats - pko_pse_stats_srf1024x88
 
       - name: PQD_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PQ dropped stats - pko_pse_stats_srf32x88
 
       - name: PQR_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PQ read stats - pko_pse_stats_srf32x88
 
       - name: PQY_SRAM
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PQ yellow stats - pko_pse_stats_srf32x88
 
       - name: PQG_SRAM
         bits: 4
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PQ green stats - pko_pse_stats_srf32x88
 
       - name: STD_SRAM
         bits: 3
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic shaping state - pko_pse_std_srf32x105e
 
       - name: ST_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static shaping configuration - pko_pse_sts_srf32x74e
 
@@ -2897,8 +2921,8 @@ registers:
 
       - name: CXS_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static channel credit configuration - pko_pse_cx0_srf32x6e
 
@@ -2966,7 +2990,8 @@ registers:
           PRIO=PKO_*_SQn_SCHEDULE[PRIO]. There can be at most one static priority child queue at
           each priority. When there are no static priority child queues attached at any priority, or
           if this shaper isn't used, the hardware does not use PRIO_ANCHOR. In this case, we
-          recommend PRIO_ANCHOR be zero.
+          recommend PRIO_ANCHOR be zero. Note that there are 10 available priorities, 0 through 9,
+          with priority 0 being the highest and priority 9 being the lowest.
 
       - name: --
         bits: 31..21
@@ -4231,44 +4256,44 @@ registers:
 
       - name: SC_SRAM
         bits: 28
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] scheduling configuration
 
       - name: PC_SRAM
         bits: 27
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: SQ[1] physical channel - pko_pse_pc_srf32x12e
 
       - name: XON_SRAM
         bits: 26
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: XON SRAM
 
       - name: CC_SRAM
         bits: 25
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: SQ[1] channel credit OK state array
 
       - name: VC1_SRAM
         bits: 24
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e
 
       - name: VC0_SRAM
         bits: 23
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e
 
@@ -4281,31 +4306,31 @@ registers:
 
       - name: TP1_SRAM
         bits: 20
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration
 
       - name: TP0_SRAM
         bits: 19
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration
 
       - name: XO_SRAM
         bits: 18
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: XOFF SRAM
 
       - name: RT_SRAM
         bits: 17
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Result table
 
@@ -4325,68 +4350,68 @@ registers:
 
       - name: TW1_CMD_FIFO
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 1 command FIFO SRAM
 
       - name: STD_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic shaping state
 
       - name: STS_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static shaping configuration
 
       - name: TW0_CMD_FIFO
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 0 command FIFO SRAM
 
       - name: CXD_SRAM
         bits: 4
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: SQ[1] dynamic channel credit state
 
       - name: CXS_SRAM
         bits: 3
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: SQ[1] static channel credit configuration
 
       - name: NT_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] next pointer table
 
       - name: PT_SRAM
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] previous pointer table
 
       - name: WT_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] work table
@@ -5174,8 +5199,8 @@ registers:
 
       - name: SC_SRAM
         bits: 28
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Scheduling configuration.
 
@@ -5188,16 +5213,16 @@ registers:
 
       - name: TP1_SRAM
         bits: 20
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration.
 
       - name: TP0_SRAM
         bits: 19
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration.
@@ -5211,8 +5236,8 @@ registers:
 
       - name: RT_SRAM
         bits: 17
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Result table.
 
@@ -5225,30 +5250,30 @@ registers:
 
       - name: TW1_CMD_FIFO
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 1 command FIFO SRAM.
 
       - name: STD_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic shaping state
 
       - name: STS_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static shaping configuration.
 
       - name: TW0_CMD_FIFO
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 0 command FIFO SRAM.
@@ -5262,22 +5287,22 @@ registers:
 
       - name: NT_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Next pointer table.
 
       - name: PT_SRAM
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Previous pointer table.
 
       - name: WT_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Work table.
 
@@ -6362,8 +6387,8 @@ registers:
 
       - name: SC_SRAM
         bits: 28
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Scheduling configuration
 
@@ -6376,32 +6401,32 @@ registers:
 
       - name: TP3_SRAM
         bits: 22
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] topology parent configuration
 
       - name: TP2_SRAM
         bits: 21
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] topology parent configuration
 
       - name: TP1_SRAM
         bits: 20
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration
 
       - name: TP0_SRAM
         bits: 19
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration
@@ -6415,8 +6440,8 @@ registers:
 
       - name: RT_SRAM
         bits: 17
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Result table
 
@@ -6429,8 +6454,8 @@ registers:
 
       - name: TW3_CMD_FIFO
         bits: 14
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] time wheel 3 command FIFO SRAM
@@ -6444,8 +6469,8 @@ registers:
 
       - name: TW2_CMD_FIFO
         bits: 11
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] time wheel 2 command FIFO SRAM
@@ -6459,30 +6484,30 @@ registers:
 
       - name: TW1_CMD_FIFO
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 1 command FIFO SRAM
 
       - name: STD_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic shaping state
 
       - name: STS_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static shaping configuration
 
       - name: TW0_CMD_FIFO
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 0 command FIFO SRAM
@@ -6496,22 +6521,22 @@ registers:
 
       - name: NT_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Next pointer table
 
       - name: PT_SRAM
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Previous pointer table
 
       - name: WT_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Work table
 
@@ -7565,8 +7590,8 @@ registers:
 
       - name: SC_SRAM
         bits: 28
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Scheduling configuration
 
@@ -7579,32 +7604,32 @@ registers:
 
       - name: TP3_SRAM
         bits: 22
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] topology parent configuration
 
       - name: TP2_SRAM
         bits: 21
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] topology parent configuration
 
       - name: TP1_SRAM
         bits: 20
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration
 
       - name: TP0_SRAM
         bits: 19
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration
@@ -7618,8 +7643,8 @@ registers:
 
       - name: RT_SRAM
         bits: 17
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Result table
 
@@ -7632,8 +7657,8 @@ registers:
 
       - name: TW3_CMD_FIFO
         bits: 14
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] time wheel 3 command FIFO SRAM
@@ -7647,8 +7672,8 @@ registers:
 
       - name: TW2_CMD_FIFO
         bits: 11
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] time wheel 2 command FIFO SRAM.
@@ -7662,30 +7687,30 @@ registers:
 
       - name: TW1_CMD_FIFO
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 1 command FIFO SRAM.
 
       - name: STD_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic shaping state.
 
       - name: STS_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static shaping configuration.
 
       - name: TW0_CMD_FIFO
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 0 command FIFO SRAM.
@@ -7699,22 +7724,22 @@ registers:
 
       - name: NT_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Next pointer table.
 
       - name: PT_SRAM
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Previous pointer table.
 
       - name: WT_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Work table.
 
@@ -8716,8 +8741,8 @@ registers:
 
       - name: SC_SRAM
         bits: 28
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Scheduling configuration.
 
@@ -8730,32 +8755,32 @@ registers:
 
       - name: TP3_SRAM
         bits: 22
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] topology parent configuration.
 
       - name: TP2_SRAM
         bits: 21
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] topology parent configuration.
 
       - name: TP1_SRAM
         bits: 20
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration.
 
       - name: TP0_SRAM
         bits: 19
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] topology parent configuration.
@@ -8769,8 +8794,8 @@ registers:
 
       - name: RT_SRAM
         bits: 17
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Result table.
 
@@ -8783,8 +8808,8 @@ registers:
 
       - name: TW3_CMD_FIFO
         bits: 14
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] time wheel 3 command FIFO SRAM.
@@ -8798,8 +8823,8 @@ registers:
 
       - name: TW2_CMD_FIFO
         bits: 11
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:3] time wheel 2 command FIFO SRAM.
@@ -8813,30 +8838,30 @@ registers:
 
       - name: TW1_CMD_FIFO
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 1 command FIFO SRAM.
 
       - name: STD_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Dynamic shaping state.
 
       - name: STS_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Static shaping configuration.
 
       - name: TW0_CMD_FIFO
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           SQ[5:1] time wheel 0 command FIFO SRAM.
@@ -8850,22 +8875,22 @@ registers:
 
       - name: NT_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Next pointer table.
 
       - name: PT_SRAM
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Previous pointer table.
 
       - name: WT_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Work table.
 
@@ -9371,71 +9396,71 @@ registers:
 
       - name: WT_SRAM
         bits: 8
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: Work table.
 
       - name: RT7_SRAM
         bits: 7
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 7 - DQ FIFO[1023:896].
 
       - name: RT6_SRAM
         bits: 6
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 6 - DQ FIFO[895:768].
 
       - name: RT5_SRAM
         bits: 5
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 5 - DQ FIFO[767:640].
 
       - name: RT4_SRAM
         bits: 4
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 4 - DQ FIFO[639:512].
 
       - name: RT3_SRAM
         bits: 3
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 3 - DQ FIFO[511:384].
 
       - name: RT2_SRAM
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 2 - DQ FIFO[383:256].
 
       - name: RT1_SRAM
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 1 - DQ FIFO[255:128].
 
       - name: RT0_SRAM
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: |
           Result table 0 - DQ FIFO[127:0].
@@ -10844,182 +10869,182 @@ registers:
     fields:
       - name: FLSHB_CACHE_LO_RAM_BIST_STATUS
         bits: 63
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FLSHB_CACHE_LO_RAM.
 
       - name: FLSHB_CACHE_HI_RAM_BIST_STATUS
         bits: 62
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FLSHB_CACHE_HI_RAM.
 
       - name: ISRM_CA_IINST_RAM_BIST_STATUS
         bits: 61
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRM_CA_IINST_RAM.
 
       - name: ISRM_CA_CM_RAM_BIST_STATUS
         bits: 60
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRM_CA_CM_RAM.
 
       - name: ISRM_ST_RAM2_BIST_STATUS
         bits: 59
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRM_ST_RAM2.
 
       - name: ISRM_ST_RAM1_BIST_STATUS
         bits: 58
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRM_ST_RAM1.
 
       - name: ISRM_ST_RAM0_BIST_STATUS
         bits: 57
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRM_ST_RAM0.
 
       - name: ISRD_ST_RAM3_BIST_STATUS
         bits: 56
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRD_ST_RAM3.
 
       - name: ISRD_ST_RAM2_BIST_STATUS
         bits: 55
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRD_ST_RAM2.
 
       - name: ISRD_ST_RAM1_BIST_STATUS
         bits: 54
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRD_ST_RAM1.
 
       - name: ISRD_ST_RAM0_BIST_STATUS
         bits: 53
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for ISRD_ST_RAM0.
 
       - name: DRP_HI_RAM_BIST_STATUS
         bits: 52
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for DRP_HI_RAM.
 
       - name: DRP_LO_RAM_BIST_STATUS
         bits: 51
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for DRP_LO_RAM.
 
       - name: DWP_HI_RAM_BIST_STATUS
         bits: 50
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for DWP_HI_RAM.
 
       - name: DWP_LO_RAM_BIST_STATUS
         bits: 49
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for DWP_LO_RAM.
 
       - name: MWP_HI_RAM_BIST_STATUS
         bits: 48
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for MWP_HI_RAM.
 
       - name: MWP_LO_RAM_BIST_STATUS
         bits: 47
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for MWP_LO_RAM.
 
       - name: FILLB_M_RSP_RAM_HI_BIST_STATUS
         bits: 46
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FILLB_M_RSP_RAM_HI.
 
       - name: FILLB_M_RSP_RAM_LO_BIST_STATUS
         bits: 45
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FILLB_M_RSP_RAM_LO.
 
       - name: FILLB_D_RSP_RAM_HI_BIST_STATUS
         bits: 44
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FILLB_D_RSP_RAM_HI.
 
       - name: FILLB_D_RSP_RAM_LO_BIST_STATUS
         bits: 43
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FILLB_D_RSP_RAM_LO.
 
       - name: FILLB_D_RSP_DAT_FIFO_BIST_STATUS
         bits: 42
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FILLB_FLSHB_M_DAT_RAM.
 
       - name: FILLB_M_RSP_DAT_FIFO_BIST_STATUS
         bits: 41
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FILLB_M_DAT_FIFO.
 
       - name: FLSHB_M_DAT_RAM_BIST_STATUS
         bits: 40
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FLSHB_M_DAT_RAM.
 
       - name: FLSHB_D_DAT_RAM_BIST_STATUS
         bits: 39
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for FLSHB_M_DAT_RAM.
 
       - name: MINPAD_RAM_BIST_STATUS
         bits: 38
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for MINPAD_RAM.
@@ -12017,14 +12042,12 @@ registers:
           in PEB; thus the calculation for throughput is a function of the SIZE field and whether or
           not the FIFO is assigned to a MAC in PKO_MAC(0..27)_CFG.
           RATE: Throughput
-          ----------------
-          000:    6.25Gbs
-          001:   12.5 Gbs
-          010:   25   Gbs
-          011:   50   Gbs
-          100:  100   Gbs
-
-          Note: 101-111 are illegal RATE values and should not be used.
+          0x0: 6.25Gb/s
+          0x1: 12.5 Gb/s
+          0x2: 25 Gb/s
+          0x3: 50 Gb/s
+          0x4: 100 Gb/s
+          Note: 0x5-0x7 are illegal RATE values and should not be used.
 
       - name: SIZE
         bits: 2..0
@@ -12035,20 +12058,17 @@ registers:
           "PKO supports up to 29 independent TX FIFOs where 0-27 are physical and 28 is virtual. The
           FIFOs are grouped into 8 sets of four contiguously numbered queues where each FIFO has a
           base storage amount of 2.5K bytes of buffering.
-
-          PKO_PTGF(0)_CFG -> FIFO#  0-3
-          PKO_PTGF(1)_CFG -> FIFO#  4-7
-          PKO_PTGF(2)_CFG -> FIFO#  8-11
-          PKO_PTGF(3)_CFG -> FIFO#  12-15
-          PKO_PTGF(4)_CFG -> FIFO#  16-19
-          PKO_PTGF(5)_CFG -> FIFO#  20-23
-          PKO_PTGF(6)_CFG -> FIFO#  24-27
-          PKO_PTGF(7)_CFG -> FIFO#  28   (Virtual/NULL)
-
-          Within each set, 2 or 4 FIFOs can be combined to produce a larger FIFO if desired.
-          The SIZE field is used to configure the number and depth of the FIFOs in a set. The
-          supported options for a FIFO set are as follows:
-
+          PKO_PTGF(0)_CFG -> FIFO# 0-3
+          PKO_PTGF(1)_CFG -> FIFO# 4-7
+          PKO_PTGF(2)_CFG -> FIFO# 8-11
+          PKO_PTGF(3)_CFG -> FIFO# 12-15
+          PKO_PTGF(4)_CFG -> FIFO# 16-19
+          PKO_PTGF(5)_CFG -> FIFO# 20-23
+          PKO_PTGF(6)_CFG -> FIFO# 24-27
+          PKO_PTGF(7)_CFG -> FIFO# 28 (Virtual/NULL)
+          Within each set, 2 or 4 FIFOs can be combined to produce a larger FIFO if desired. The
+          SIZE field is used to configure the number and depth of the FIFOs in a set. The supported
+          options for a FIFO set are as follows:
           SIZE: Set of 4 Contiguously Numbered FIFOs
           ------------------------------------------
           xxx      Queue0  Queue1  Queue2  Queue3
@@ -12612,182 +12632,182 @@ registers:
       - name: ADD_WORK_FIFO
         bits: 25
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: ADD_WORK_FIFO RAM BIST status.
 
       - name: PDM_PSE_BUF_RAM
         bits: 24
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PDM_PSE_BUF RAM BIST status.
 
       - name: IOBP0_FIFO_RAM
         bits: 23
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: IOBP0_FIFO RAM BIST status.
 
       - name: IOBP1_FIFO_RAM
         bits: 22
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: IOBP1_FIFO RAM BIST status.
 
       - name: STATE_MEM0
         bits: 21
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: STATE_MEM0 RAM BIST status.
 
       - name: STATE_MEM1
         bits: 20
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: STATE_MEM1 RAM BIST status.
 
       - name: STATE_MEM2
         bits: 19
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: STATE_MEM2 RAM BIST status.
 
       - name: STATE_MEM3
         bits: 18
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: STATE_MEM3 RAM BIST status.
 
       - name: IOBP1_UID_FIFO_RAM
         bits: 17
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: IOBP1_UID_FIFO RAM BIST status.
 
       - name: NXT_LINK_PTR_RAM
         bits: 16
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: NXT_LINK_PTR RAM BIST status.
 
       - name: PD_BANK0_RAM
         bits: 15
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PD_BANK0 RAM BIST status.
 
       - name: PD_BANK1_RAM
         bits: 14
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PD_BANK1 RAM BIST status.
 
       - name: PD_BANK2_RAM
         bits: 13
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PD_BANK2 RAM BIST status.
 
       - name: PD_BANK3_RAM
         bits: 12
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PD_BANK3 RAM BIST status.
 
       - name: PD_VAR_BANK_RAM
         bits: 11
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PD_VAR_BANK RAM BIST status.
 
       - name: PDM_RESP_BUF_RAM
         bits: 10
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PDM_RESP_BUF RAM BIST status.
 
       - name: TX_FIFO_PKT_RAM
         bits: 9
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: TX_FIFO_PKT RAM BIST status.
 
       - name: TX_FIFO_HDR_RAM
         bits: 8
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: TX_FIFO_HDR RAM BIST status.
 
       - name: TX_FIFO_CRC_RAM
         bits: 7
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: TX_FIFO_CRC RAM BIST status.
 
       - name: TS_ADDWORK_RAM
         bits: 6
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: TS_ADDWORK RAM BIST status.
 
       - name: SEND_MEM_TS_FIFO
         bits: 5
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: SEND_MEM_TS_FIFO RAM BIST status.
 
       - name: SEND_MEM_STDN_FIFO
         bits: 4
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: SEND_MEM_STDN_FIFO RAM BIST status.
 
       - name: SEND_MEM_FIFO
         bits: 3
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: SEND_MEM_FIFO RAM BIST status.
 
       - name: PKT_MRK_RAM
         bits: 2
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PKT_MRK RAM BIST status.
 
       - name: PEB_ST_INF_RAM
         bits: 1
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PEB_ST_INF RAM BIST status.
 
       - name: PEB_SM_JMP_RAM
         bits: 0
         access: RO
-        reset: --
+        reset: 0
         typical: --
         description: PEB_SM_JMP RAM BIST status.
 
@@ -14202,36 +14222,36 @@ registers:
 
       - name: NCB_BIST_STATUS
         bits: 4
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PKO NCB block BIST status. 0 = BIST passed; 1 = BIST failed.
 
       - name: C2QLUT_BIST_STATUS
         bits: 3
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PKO C2QLUT block BIST status. 0 = BIST passed; 1 = BIST failed.
 
       - name: PDM_BIST_STATUS
         bits: 2
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PKO PDM block BIST status. 0 = BIST passed; 1 = BIST failed.
 
       - name: PEB_BIST_STATUS
         bits: 1
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PKO PEB block BIST status. 0 = BIST passed; 1 = BIST failed.
 
       - name: PSE_BIST_STATUS
         bits: 0
-        access: RO/H
-        reset: --
+        access: RO
+        reset: 0
         typical: --
         description: PKO PSE block BIST status. 0 = BIST passed; 1 = BIST failed.
 
@@ -14368,35 +14388,35 @@ registers:
     fields:
       - name: NCBI_L2_OUT_RAM_BIST_STATUS
         bits: 63
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for NCBI_L2_OUT_RAM.
 
       - name: NCBI_PP_OUT_RAM_BIST_STATUS
         bits: 62
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for NCBI_PP_OUT_RAM.
 
       - name: NCBO_PDM_CMD_DAT_RAM_BIST_STATUS
         bits: 61
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for NCBO_PDM_CMD_DAT_RAM.
 
       - name: NCBI_L2_PDM_PREF_RAM_BIST_STATUS
         bits: 60
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for NCBI_L2_PDM_PREF_RAM.
 
       - name: NCBO_PP_FIF_RAM_BIST_STATUS
         bits: 59
-        access: RO/H
+        access: RO
         reset: 0
         typical: --
         description: BIST status for NCBO_PP_FIF_RAM.

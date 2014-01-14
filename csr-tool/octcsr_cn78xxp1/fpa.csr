@@ -127,7 +127,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA Operations.
+        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
 
 
   - name: FPA_ALLOC_LD_S
@@ -547,7 +547,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Memory BIST status
+        description: Memory BIST status.
 
 
   - name: FPA_CLK_COUNT
@@ -587,7 +587,8 @@ registers:
           Average-queue-size delay. The number of levelizer-clock cycles to wait (1024 *
           ([AVG_DLY]+1) * (FPA_GEN_CFG[LVL_DLY]+1)) coprocessor clocks) between calculating the
           moving average for each aura level. Note the minimum value of 2048 cycles implies that at
-          100 M packets/sec, approximately 160 packets may arrive between average calculations.
+          100 M packets/sec, 1.2 GHz coprocessor clock, approximately 160 packets may arrive between
+          average calculations.
           Larger FPA_GEN_CFG[LVL_DLY] values cause the backpressure indications and moving averages
           of all aura levels to track changes in the actual free space more slowly. Larger AVG_DLY
           also causes the moving averages of all aura levels to track changes in the actual free
@@ -713,10 +714,10 @@ registers:
         typical: 0x2
         description: |
           Type of load to send to L2.
-          0x0 = LDD
-          0x1 = LDT
-          0x2 = Load with DWB
-          0x3 = Reserved
+          0x0 = LDD.
+          0x1 = LDT.
+          0x2 = Load with DWB.
+          0x3 = Reserved.
 
       - name: S_TYPE
         bits: 2
@@ -725,8 +726,8 @@ registers:
         typical: 0
         description: |
           Type of store to use when sending pages to L2:
-          0 = use STF
-          1 = use STT
+          0 = use STF.
+          1 = use STT.
 
       - name: NAT_ALIGN
         bits: 1
@@ -776,8 +777,7 @@ registers:
           page pointers in DRAM, the FPA reads one page of pointers from DRAM. The recommended value
           for this field is:
           fpf_sz * 0.75
-          where,
-          fpf_sz = 320*(2^FPA_GEN_CFG[POOLS]).
+          where, fpf_sz = 320 * 2^FPA_GEN_CFG[POOLS].
           The maximum value is fpf_sz - 48.
           It is recommended that software APIs represent this value as a percentage of fpf_sz, as
           fpf_sz may vary between products.
@@ -901,7 +901,7 @@ registers:
         access: R/W
         reset: All-ones
         typical: --
-        description: Address
+        description: Address.
 
       - name: --
         bits: 6..0
@@ -1251,7 +1251,7 @@ registers:
           Watermark interrupt pending. Set and throws FPA_INTSN_E::FPA_AURA(0..1024)_THRESH when
           FPA_AURA(0..1023)_INT, after being modified, is equal to or crosses
           FPA_AURA(0..1023)_CNT_THRESHOLD (i.e. value was greater than, then becomes less then, or
-          value was less than, and becomes greater than). See Aura Count Threshold Interrupts
+          value was less than, and becomes greater than). See Aura Count Threshold Interrupts.
 
 
   - name: FPA_AURA(0..1023)_POOL_LEVELS

@@ -220,7 +220,7 @@ registers:
 
       - name: TLK0_TXF0
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: BIST status of tlk0.txf.tx_fif_mem.
@@ -245,7 +245,8 @@ registers:
         typical: --
         description: |
           Enable RX-TX data external loopback. Note that with differing transmit and receive clocks,
-          skip word are inserted/deleted.
+          skip word are inserted/deleted. Must set ILA_TX(0)_CFG1[RX_LINK_FC_IGN] whenever enabling
+          external loopback.
 
       - name: INT_LPBK
         bits: 61
@@ -423,8 +424,15 @@ registers:
         typical: --
         description: Packet transmit enable. When zero, the TX-link stops transmitting packets, as per RX_LINK_FC_PKT.
 
+      - name: LA_MODE
+        bits: 19
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Enable Interlaken look-aside traffic. Used to set the protocol type of idle words.
+
       - name: --
-        bits: 19..12
+        bits: 18..12
         access: RAZ
         reset: 0x0
         typical: --
@@ -866,8 +874,8 @@ registers:
         attributes:
           regtest_force: "0"
         description: |
-          Packet receive flush. Setting this bit to1 causes all open packets to be error-out, just
-          as though the link went down.
+          Packet receive flush. Setting this bit causes all open packets to be error-out, just as
+          though the link went down.
 
       - name: PKT_ENA
         bits: 20
@@ -979,7 +987,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: --
-        description: Burst CRC24 error.  All open packets receive an error.
+        description: Burst CRC24 error. All open packets receive an error.
 
       - name: LANE_ALIGN_FAIL
         bits: 0
@@ -1957,14 +1965,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Local device coefficient update field valid
+        description: Local device coefficient update field valid.
 
       - name: LD_CU_DAT
         bits: 47..32
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local device coefficient update field data
+        description: Local device coefficient update field data.
 
       - name: --
         bits: 31..17
@@ -1978,14 +1986,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Local device status report field valid
+        description: Local device status report field valid.
 
       - name: LD_SR_DAT
         bits: 15..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local device status report field data
+        description: Local device status report field data.
 
 
   - name: ILA_LNE(0..7)_TRN_LP
@@ -2005,14 +2013,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Link partner coefficient update field valid
+        description: Link partner coefficient update field valid.
 
       - name: LP_CU_DAT
         bits: 47..32
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Link partner coefficient update field data
+        description: Link partner coefficient update field data.
 
       - name: --
         bits: 31..17
@@ -2026,14 +2034,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Link partner status report field valid
+        description: Link partner status report field valid.
 
       - name: LP_SR_DAT
         bits: 15..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Link partner status report field data
+        description: Link partner status report field data.
 
 
   - name: ILA_LNE(0..7)_TRN_CTL

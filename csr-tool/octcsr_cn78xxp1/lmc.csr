@@ -52,7 +52,7 @@ registers:
       bank, etc). If scrambling is off, then LMC(0..3)_FADR will also capture the failing physical
       location in the DRAM parts. LMC(0..3)_SCRAMBLED_FADR captures the actual failing address
       location in the physical DRAM parts, i.e.,
-      If scrambling is on, LMC(0..3)_SCRAMBLED_FADR contains the failing physical location in the
+      * If scrambling is on, LMC(0..3)_SCRAMBLED_FADR contains the failing physical location in the
       DRAM parts (split into DIMM, bunk, bank, etc.)
       If scrambling is off, the pre-scramble and post-scramble addresses are the same; and so the
       contents of LMC(0..3)_SCRAMBLED_FADR match the contents of LMC(0..3)_FADR.
@@ -166,7 +166,25 @@ registers:
     description: This register has additional configuration and control bits for the LMC.
     fields:
       - name: --
-        bits: 63..46
+        bits: 63..49
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RCD_PARITY_CHECK
+        bits: 48
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Enables the one cycle delay of the CA parity output. This MUST be set to 1 when using
+          DDR4 RDIMM AND parity checking in RCD is enabled (RC0E DA0 = 1). Set this to 0 otherwise.
+          To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write
+          RC0E DA0 = 1.
+
+      - name: --
+        bits: 47..46
         access: RAZ
         reset: --
         typical: --
@@ -1098,9 +1116,10 @@ registers:
       LMC(0..3)_CONTROL[XOR_BANK], LMC(0..3)_CONFIG [PBANK_LSB], LMC(0..3)_CONFIG[RANK_ENA], and all
       timing parameters.
       In this description:
-      config0 refers to the normal memory configuration that is defined by the
+      * config0 refers to the normal memory configuration that is defined by the
       LMC*_CONFIG[ROW_LSB] parameter
-      config1 refers to the dual (or second) memory configuration that is defined by this register.
+      * config1 refers to the dual (or second) memory configuration that is defined by this
+      register.
       Enable-mask to chip-select mapping is shown below:
     fields:
       - name: --
@@ -1667,10 +1686,10 @@ registers:
           MIRRMASK<n> = 1 means Rank n addresses are mirrored for
           0 <= n <= 3.
           A mirrored read/write operation has the following differences:
-          DDR#_BA<1> is swapped with DDR#_BA<0>;
-          DDR#_A<8> is swapped with DDR#_A<7>;
-          DDR#_A<6> is swapped with DDR#_A<5>;
-          DDR#_A<4> is swapped with DDR#_A<3>.
+          * DDR#_BA<1> is swapped with DDR#_BA<0>;
+          * DDR#_A<8> is swapped with DDR#_A<7>;
+          * DDR#_A<6> is swapped with DDR#_A<5>;
+          * DDR#_A<4> is swapped with DDR#_A<3>.
           When RANK_ENA = 0, MIRRMASK<1> and MIRRMASK<3> MBZ."
 
       - name: RANKMASK
@@ -1697,9 +1716,9 @@ registers:
         typical: --
         description: |
           "RANK enable (for use with dual-rank DIMMs).
-          For dual-rank DIMMs, the RANK_ENA bit will enable the drive of the DDR#_DIMM*_CS*_L and
+          * For dual-rank DIMMs, the RANK_ENA bit will enable the drive of the DDR#_DIMM*_CS*_L and
           ODT_<1:0> pins differently based on the (PBANK_LSB - 1) address bit.
-          Write 0 for SINGLE ranked DIMMs."
+          * Write 0 for SINGLE ranked DIMMs."
 
       - name: SREF_WITH_DLL
         bits: 41
@@ -2759,6 +2778,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_name_double_underscore: "True"
         description: |
           DDR PCTL from compensation circuit. The encoded value provides debug information for the
           compensation impedance on P-pullup.
@@ -2768,6 +2789,8 @@ registers:
         access: RO/H
         reset: --
         typical: --
+        attributes:
+          exempt_name_double_underscore: "True"
         description: |
           DDR NCTL from compensation circuit. The encoded value provides debug information for the
           compensation impedance on N-pulldown.
@@ -3195,8 +3218,8 @@ registers:
       change. Ideally, only read this register after LMC has been initialized and
       LMC(0..3)_RLEVEL_RANK(0..3), LMC(0..3)_WLEVEL_RANK(0..3) have valid data.
       The interpretation of the fields in this register depends on LMC(0)_CONFIG[DDR2T]:
-      If LMC(0..3)_CONFIG[DDR2T]=1, (FieldValue + 4) is the minimum CK cycles between when the DRAM
-      part registers CAS commands of the 1
+      * If LMC(0..3)_CONFIG[DDR2T]=1, (FieldValue + 4) is the minimum CK cycles between when the
+      DRAM part registers CAS commands of the 1
       st and 2
       nd types from different cache blocks.
       If LMC(0..3)_CONFIG[DDR2T]=0, (FieldValue + 3) is the minimum CK cycles between when the DRAM
@@ -3298,8 +3321,8 @@ registers:
       Ideally, only read this register after LMC has been initialized and
       LMC(0..3)_RLEVEL_RANK(0..3), LMC(0..3)_WLEVEL_RANK(0..3) have valid data.
       The interpretation of the fields in this CSR depends on LMC(0)_CONFIG[DDR2T]:
-      If LMC(0..3)_CONFIG[DDR2T]=1, (FieldValue + 4) is the minimum CK cycles between when the DRAM
-      part registers CAS commands of the 1
+      * If LMC(0..3)_CONFIG[DDR2T]=1, (FieldValue + 4) is the minimum CK cycles between when the
+      DRAM part registers CAS commands of the 1
       st and 2
       nd types from different cache blocks.
       If LMC(0..3)_CONFIG[DDR2T]=0, (FieldValue + 3) is the minimum CK cycles between when the DRAM
@@ -3365,7 +3388,7 @@ registers:
       Ideally, only read this register after LMC has been initialized and
       LMC(0..3)_RLEVEL_RANK(0..3), LMC(0..3)_WLEVEL_RANK(0..3) have valid data.
       The interpretation of the fields in this CSR depends on LMC(0)_CONFIG[DDR2T]:
-      If LMC(0..3)_CONFIG[DDR2T] = 1, (FieldValue + 4) is the minimum CK cycles between when the
+      * If LMC(0..3)_CONFIG[DDR2T] = 1, (FieldValue + 4) is the minimum CK cycles between when the
       DRAM part registers CAS commands of the 1
       st and 2
       nd types from different cache blocks.
@@ -4009,11 +4032,18 @@ registers:
       cycles) to allow PLL clock alignment.
     fields:
       - name: --
-        bits: 63..32
+        bits: 63..44
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: BWADJ
+        bits: 43..32
+        access: R/W
+        reset: 0x18
+        typical: --
+        description: Bandwidth control for DCLK PLLs.
 
       - name: DCLK_INVERT
         bits: 31
@@ -4805,7 +4835,7 @@ registers:
       - name: DELAY_UNLOAD_3
         bits: 21
         access: R/W
-        reset: 0
+        reset: 1
         typical: 1
         description: |
           When set, unload the PHY silo one cycle later during read-leveling if
@@ -4815,7 +4845,7 @@ registers:
       - name: DELAY_UNLOAD_2
         bits: 20
         access: R/W
-        reset: 0
+        reset: 1
         typical: 0
         description: |
           When set, unload the PHY silo one cycle later during read-leveling if
@@ -4824,7 +4854,7 @@ registers:
       - name: DELAY_UNLOAD_1
         bits: 19
         access: R/W
-        reset: 0
+        reset: 1
         typical: 0
         description: |
           When set, unload the PHY silo one cycle later during read-leveling if
@@ -4833,7 +4863,7 @@ registers:
       - name: DELAY_UNLOAD_0
         bits: 18
         access: R/W
-        reset: 0
+        reset: 1
         typical: 0
         description: |
           When set, unload the PHY silo one cycle later during read-leveling if
@@ -5374,7 +5404,7 @@ registers:
       bank, etc). If scrambling is off, LMC(0..3)_FADR also captures the failing physical location
       in the DRAM parts. LMC(0..3)_SCRAMBLED_FADR captures the actual failing address location in
       the physical DRAM parts, i.e.:
-      If scrambling is on, LMC(0..3)_SCRAMBLED_FADR contains the failing physical location in the
+      * If scrambling is on, LMC(0..3)_SCRAMBLED_FADR contains the failing physical location in the
       DRAM parts (split into DIMM, bunk, bank, etc);
       If scrambling is off, the pre-scramble and post-scramble addresses are the same, and so the
       contents of LMC(0..3)_SCRAMBLED_FADR match the contents of LMC(0..3)_FADR.

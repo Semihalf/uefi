@@ -196,8 +196,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Represents the 8-byte aligned base address of the first inbound ring (I-Ring) entry in
-          system memory.
+          Represents the 8-byte aligned base address of the first inbound ring
+          (I-Ring) entry in system memory.
           Software must only write to this register during power-on/boot code.
 
       - name: --
@@ -327,7 +327,7 @@ registers:
         description: |
           MIX soft reset. When software writes a 1 to this field, the MIX logic executes a soft
           reset.
-          During a soft reset, CSR accesses are not effected. However, the values of the fields are
+          During a soft reset, CSR accesses are not affected. However, the values of the fields are
           affected by soft reset (except
           MIX(0..1)_CTL[RESET] itself).
           After power-on, the MIX-BGX are held in reset until RESET is written to 0. Software must
@@ -409,8 +409,8 @@ registers:
           I-Ring backpressure low-watermark threshold.
           When the number of available I-Ring entries (IDBELL) is less than IBPLWM, the BGX-MAC does
           the following:
-          in full-duplex mode: send periodic PAUSE packets.
-          in half-duplex mode: force collisions.
+          * in full-duplex mode: send periodic PAUSE packets.
+          * in half-duplex mode: force collisions.
           This programmable mechanism is provided as a means to backpressure input traffic early
           enough so that packets are not dropped by CN78XX.
 
@@ -824,42 +824,42 @@ registers:
 
       - name: OPFDAT
         bits: 5
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST results for AGO OPF buffer RAM.
 
       - name: MRGDAT
         bits: 4
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST results for AGI MRG buffer RAM.
 
       - name: MRQDAT
         bits: 3
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST results for NBR CSR RDREQ RAM.
 
       - name: IPFDAT
         bits: 2
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST results for MIX inbound packet RAM.
 
       - name: IRFDAT
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST results for MIX I-Ring entry RAM.
 
       - name: ORFDAT
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST results for MIX O-Ring entry RAM.

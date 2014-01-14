@@ -215,7 +215,7 @@ structs:
       - name: --
         bits: 15..8
         description: |
-          Reserved INTERNAL: Overlaps ILK CRC bits. 15:8 for more LAB bits.
+          Reserved. INTERNAL: Overlaps ILK CRC bits. 15:8 for more LAB bits.
 
       - name: ERR
         bits: 21..16
@@ -240,11 +240,11 @@ structs:
 
       - name: AS2
         bits: 31..24
-        description: Application specific 2
+        description: Application specific 2.
 
       - name: CHAN
         bits: 32
-        description: Channel number
+        description: Channel number.
 
       - name: AS1
         bits: 38..33
@@ -254,7 +254,8 @@ structs:
         bits: 39
         description: |
           Protocol.
-          0 = Interlaken non-LA.
+          0 = Interlaken non-LA. Other than allowing this bit to be clear, no explicit support is
+          provided for Interlaken non-LA.
           1 = Interlaken LA control word.
 
       - name: --
@@ -263,7 +264,7 @@ structs:
 
       - name: AS0
         bits: 56..42
-        description: Application specific 0
+        description: Application specific 0.
 
       - name: LENGTH
         bits: 61..57
@@ -319,7 +320,7 @@ structs:
         description: |
           Instant time out. Immediately return the IOBDMA even if response data is not ready, as if
           there was a timeout. If LAP_CTL_RTN_S[TIMEOUT] is set the result is still not ready and
-          Any data words that follow the LAP_CTL_RTN_S header that were returned with this IOBDMA
+          any data words that follow the LAP_CTL_RTN_S header that were returned with this IOBDMA
           will be undefined.
 
       - name: --
@@ -351,8 +352,8 @@ structs:
       - name: DID
         bits: 47..40
         attributes:
-          const: "(0x0c/0x0d)"
-        description: Device Id. Indicates LAP0 or LAP1.
+          const: "(0x0C/0x0D)"
+        description: Device id. Indicates LAP0 or LAP1.
 
       - name: RTNLEN
         bits: 55..48
@@ -424,8 +425,8 @@ structs:
       - name: DID
         bits: 47..40
         attributes:
-          const: "(0x0c/0x0d)"
-        description: Device ID. Indicates LAP0 or LAP1.
+          const: "(0x0C/0x0D)"
+        description: Device id. Indicates LAP0 or LAP1.
 
       - name: IO
         bits: 48
@@ -435,7 +436,7 @@ structs:
 
 
   - name: LAP_SEND_LMTDMA_S
-    title: LMTDMA Send Operation Address Structure
+    title: LAP LMTDMA Send Operation Address Structure
     description: LMTDMA send operations are created with an address formed with this structure.
     fields:
       - name: --
@@ -452,6 +453,7 @@ structs:
           Instant time out. Immediately return the response as if there was a timeout. Any data
           words that follow the LAP_CTL_RTN_S header that were returned with this LMTDMA will be
           undefined. Software is responsible for later retrieving the data using a separate IOBDMA.
+          When set, [DS] must be clear.
 
       - name: CHAN
         bits: 28
@@ -474,7 +476,7 @@ structs:
         description: |
           Don't send. If set, rather than sending the packet to the TCAM, pass it directly to the
           RECEIVED state as if the data came from the TCAM. This allows the hypervisor to fake
-          responses.
+          responses. When set, [ITO] must be clear.
 
       - name: DF
         bits: 31
@@ -499,8 +501,8 @@ structs:
       - name: DID
         bits: 47..40
         attributes:
-          const: "(0x0c/0x0d)"
-        description: Device Id. Indicates LAP0 or LAP1.
+          const: "(0x0C/0x0D)"
+        description: Device id. Indicates LAP0 or LAP1.
 
       - name: RTNLEN
         bits: 55..48
@@ -568,7 +570,7 @@ registers:
       - name: NBR
         bits: 8
         access: RO
-        reset: X
+        reset: --
         typical: 0
         description: |
           BIST result of the NBR memory. INTERNAL: nbr.nbr_mem_fif.
@@ -576,7 +578,7 @@ registers:
       - name: EDAT
         bits: 7
         access: RO
-        reset: X
+        reset: --
         typical: 0
         description: |
           BIST result of the EDAT memory. INTERNAL: rcv.lap_exp_dat_mem.
@@ -584,7 +586,7 @@ registers:
       - name: EMSK
         bits: 6
         access: RO
-        reset: X
+        reset: --
         typical: 0
         description: |
           BIST result of the EMSK memory. INTERNAL: rcv.lap_exp_msk_mem.
@@ -599,7 +601,7 @@ registers:
       - name: LAB_DAT
         bits: 3..2
         access: RO
-        reset: X
+        reset: --
         typical: 0x0
         description: |
           BIST result of the LAB_DAT memory. INTERNAL: lab.lab_bnk{0,1}_mem.
@@ -607,7 +609,7 @@ registers:
       - name: CTL_NXT
         bits: 1
         access: RO
-        reset: X
+        reset: --
         typical: 0
         description: |
           BIST result of the CTL_NXT memory. INTERNAL: ctl.lap_stl_nxt_mem.
@@ -615,7 +617,7 @@ registers:
       - name: CTL_STA
         bits: 0
         access: RO
-        reset: X
+        reset: --
         typical: 0
         description: |
           BIST result of the CTL_STA memory. INTERNAL: ctl.lap_stl_sta_mem.
@@ -876,10 +878,10 @@ registers:
         typical: 0x0
         description: |
           Number of LABs versus size of each LAB. This register may only be changed when [ENA]=0.
-          0x0 = 128 LABs, 16 words/LAB (1024 bits)
-          0x1 = 170 LABs, 12 words/LAB (768 bits)
-          0x2 = 256 LABs, 8 words/LAB (512 bits)
-          0x3-0x7 Reserved
+          0x0 = 128 LABs, 16 words/LAB (1024 bits).
+          0x1 = 170 LABs, 12 words/LAB (768 bits).
+          0x2 = 256 LABs, 8 words/LAB (512 bits).
+          0x3-0x7 Reserved.
 
 
   - name: LAP(0..1)_ERR_CFG
@@ -1021,9 +1023,9 @@ registers:
           Timeout waiting for an IOBDMA in number of SCLKs minus one divided by 256. After between
           one and two times this interval an IOBDMA request waiting for a packet will return no-data
           as defined in Interlaken Control Word.
-          0x0 = Timeout between 256 and 511 cycles
-          0x1 = Timeout between 512 and 1023 cycles
-          0x2 = Timeout between 768 and 1535 cycles
+          0x0 = Timeout between 256 and 511 cycles.
+          0x1 = Timeout between 512 and 1023 cycles.
+          0x2 = Timeout between 768 and 1535 cycles.
           etc.
 
       - name: --
@@ -1039,12 +1041,12 @@ registers:
         reset: 0x7
         typical: --
         description: |
-          Timeout waiting for a response in number of sclks minus one divided by 256. After between
+          Timeout waiting for a response in number of SCLKs minus one divided by 256. After between
           one and two times this interval an in-flight LAB will be considered lost and marked as
           RECEIVED with error. RESP must be set to >= (2 * LAP(0..1)_TIMEOUT[IOBDMA] + 1).
-          0x0 = Timeout between 256 and 511 cycles
-          0x1 = Timeout between 512 and 1023 cycles
-          0x2 = Timeout between 768 and 1535 cycles
+          0x0 = Timeout between 256 and 511 cycles.
+          0x1 = Timeout between 512 and 1023 cycles.
+          0x2 = Timeout between 768 and 1535 cycles.
           etc.
 
 
@@ -1237,9 +1239,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          Syndrome of last LAB data ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[LAB_SBE] or [LAB_DBE] set
+        description: Syndrome of last LAB data ram ECC error. Latched when LAP(0..1)_GEN_INT[LAB_SBE] or [LAB_DBE] set
 
       - name: --
         bits: 15..10
@@ -1253,15 +1253,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          Address of last LAB data ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[LAB_SBE] or [LAB_DBE] set.
+        description: Address of last LAB data ram ECC error. Latched when LAP(0..1)_GEN_INT[LAB_SBE] or [LAB_DBE] set.
 
 
   - name: LAP(0..1)_STA_ERR_ST
     title: LAP STA ECC Status Register
     address: 0x118000C010208 | a<<24
     bus: RSL
+    description: This register is for diagnostic use only.
     fields:
       - name: RESERVED60
         bits: 63..60
@@ -1282,9 +1281,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          Syndrome of last LAB state ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[STA_SBE] or [STA_DBE] set
+        description: Syndrome of last LAB state ram ECC error. Latched when LAP(0..1)_GEN_INT[STA_SBE] or [STA_DBE] set
 
       - name: --
         bits: 15..8
@@ -1298,15 +1295,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: |
-          Address of last LAB state ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[STA_SBE] or [STA_DBE] set.
+        description: Address of last LAB state ram ECC error. Latched when LAP(0..1)_GEN_INT[STA_SBE] or [STA_DBE] set.
 
 
   - name: LAP(0..1)_NXT_ERR_ST
     title: LAP NXT ECC Status Register
     address: 0x118000C010210 | a<<24
     bus: RSL
+    description: This register is for diagnostic use only.
     fields:
       - name: --
         bits: 63..21
@@ -1321,8 +1317,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Syndrome of last Next Pointer Ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[NXT_SBE] or [NXT_DBE] set
+          Syndrome of last Next Pointer Ram ECC error. Latched when LAP(0..1)_GEN_INT[NXT_SBE] or
+          [NXT_DBE] set
 
       - name: --
         bits: 15..8
@@ -1337,14 +1333,15 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of last Next Pointer Ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[NXT_SBE] or [NXT_DBE] set.
+          Address of last Next Pointer Ram ECC error. Latched when LAP(0..1)_GEN_INT[NXT_SBE] or
+          [NXT_DBE] set.
 
 
   - name: LAP(0..1)_EMSK_ERR_ST
     title: LAP EMSK ECC Status Register
     address: 0x118000C010218 | a<<24
     bus: RSL
+    description: This register is for diagnostic use only.
     fields:
       - name: --
         bits: 63..24
@@ -1359,8 +1356,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Syndrome of last Expected Data Ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[EMSK_SBE] or [EMSK_DBE] set
+          Syndrome of last Expected Data Ram ECC error. Latched when LAP(0..1)_GEN_INT[EMSK_SBE] or
+          [EMSK_DBE] set
 
       - name: --
         bits: 15..4
@@ -1375,14 +1372,15 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of last Expected Data Ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[EMSK_SBE] or [EMSK_DBE] set.
+          Address of last Expected Data Ram ECC error. Latched when LAP(0..1)_GEN_INT[EMSK_SBE] or
+          [EMSK_DBE] set.
 
 
   - name: LAP(0..1)_EDAT_ERR_ST
     title: LAP EDAT ECC Status Register
     address: 0x118000C010220 | a<<24
     bus: RSL
+    description: This register is for diagnostic use only.
     fields:
       - name: --
         bits: 63..24
@@ -1413,8 +1411,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of last Expected Mask Ram ECC error. Latched when
-          LAP(0..1)_GEN_INT[EDAT_SBE] or [EDAT_DBE] set.
+          Address of last Expected Mask Ram ECC error. Latched when LAP(0..1)_GEN_INT[EDAT_SBE] or
+          [EDAT_DBE] set.
 
 
   - name: LAP(0..1)_EXP(0..15)_DATA
@@ -1575,8 +1573,8 @@ registers:
     address: 0x118000C060000 | a<<24 | b<<3
     bus: RSL
     description: |
-      This register indicates the state of the LAB. This is intended for diagnostics and hypervisor
-      resource recovery; IOBDMA Read operations would normally be used to read this state instead.
+      This register indicates the state of the LAB. This is intended for diagnostics and resource
+      recovery; IOBDMA Read operations would normally be used to read this state instead.
     attributes:
       arch_max: "x,2048"
     fields:

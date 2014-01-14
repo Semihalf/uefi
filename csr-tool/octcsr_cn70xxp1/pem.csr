@@ -1507,7 +1507,6 @@ registers:
           Poisoned TLP sent
           peai__client0_tlp_ep & peai__client0_tlp_hv
           peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op).
-          Throws PEM_INTSN_E::PEM(0..2)_ERROR_SPOISON.
 
 
   - name: PEM(0..2)_BAR1_INDEX(0..15)

@@ -1567,9 +1567,15 @@ registers:
         reset: --
         typical: --
         description: |
-          "Maximum Link Width
-          The default value is the value you specify during hardware
-          configuration (x4, x8), writable through PEM#_CFG_WR."
+          "Maximum Link Width.
+          The reset value of this field is controlled by a value read from
+          the two lsbs of the PEM csr PEM(0..2)_CFG[MD].
+          PEM(0..2)_CFG.MD[1:0]  RST_VALUE   NOTE
+          00                     0x2         2 lanes
+          01                     0x1         1 lane
+          10                     0x8         4 lanes
+
+          This field is writable through PEM#_CFG_WR."
 
       - name: MLS
         bits: 3..0
@@ -5825,8 +5831,8 @@ registers:
       - name: LMASK
         bits: 31..1
         access: WORSL/H
-        reset: 0x1fff
-        typical: 0x1fff
+        reset: 0x3fff
+        typical: 0x3fff
         description: Bar Mask Low
 
       - name: ENB

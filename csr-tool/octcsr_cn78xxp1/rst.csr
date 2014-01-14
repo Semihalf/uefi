@@ -51,7 +51,7 @@ registers:
         access: R/W
         reset: --
         typical: 0
-        description: When set, external EJTAG access is disabled This field resets to 1 in Authentik mode, else 0.
+        description: When set, external EJTAG access is disabled. This field resets to 1 in Authentik mode, else 0.
 
       - name: ROMEN
         bits: 60
@@ -378,8 +378,8 @@ registers:
         description: |
           Read-only access to controller reset status. RST_DONE is always zero (i.e. the controller
           is held in reset) when:
-          RST_SOFT_PRST*[SOFT_PRST] = 1, or
-          RST_RCV = 1 and PERST*_L pin is asserted.
+          * RST_SOFT_PRST*[SOFT_PRST] = 1, or
+          * RST_RCV = 1 and PERST*_L pin is asserted.
 
       - name: RST_LINK
         bits: 7
@@ -400,8 +400,11 @@ registers:
         reset: --
         typical: --
         description: |
-          Read-only access to the corresponding straps indicating PCIE*_MODE is host. For
-          controllers 2 and 3 this field is always set.
+          Read-only access to the corresponding PEM(0..3)_CFG[HOSTMD] field indicating PEMn is root
+          complex (host).
+          For controllers 0 and 2 the inital value is determined by straps.  For controllers 1 and 3
+          these field
+          is initially set as host.
 
       - name: --
         bits: 5..4
@@ -506,8 +509,8 @@ registers:
         description: |
           Resets the PCIe logic and corresponding common logic associated with the SLI controller in
           all modes, not just RC mode.
-          If the RST_CTL*[HOST_MODE] = 0, SOFT_PRST resets to 0.
-          If the RST_CTL*[HOST_MODE] = 1, SOFT_PRST resets to 1.
+          * If the RST_CTL*[HOST_MODE] = 0, SOFT_PRST resets to 0.
+          * If the RST_CTL*[HOST_MODE] = 1, SOFT_PRST resets to 1.
           When CN78XX is configured to drive PERST*_L (i.e.
           RST_CTL(0..3)[RST_DRV] = 1), this controls the output value on PERST*_L.
 

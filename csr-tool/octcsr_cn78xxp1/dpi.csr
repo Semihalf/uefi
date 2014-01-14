@@ -348,7 +348,7 @@ registers:
       This is the built-in self-test (BIST) status register. Each bit is the BIST result of an
       individual memory (per bit, 0 = pass and 1 = fail).
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x7FFFFFFFE7FFF"
     fields:
       - name: --
         bits: 63..51
@@ -359,7 +359,7 @@ registers:
 
       - name: BIST
         bits: 50..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -811,16 +811,16 @@ registers:
         bits: 58
         access: R/W
         reset: 0
-        typical: 1
+        typical: 0
         description: |
           DMA engine commit mode.
-          When COMMIT_MODE=0, DPI considers an instruction complete when the hardware internally
+          When COMMIT_MODE=1, DPI considers an instruction complete when the hardware internally
           generates the final write for the current instruction.
-          When COMMIT_MODE=1, DPI additionally waits for the final write to reach the interface
+          When COMMIT_MODE=0, DPI additionally waits for the final write to reach the interface
           coherency point to declare the instructions complete.
-          Please note: when COMMIT_MODE == 0, DPI may not follow the HRM ordering rules. DPI
-          hardware performance may be better with COMMIT_MODE == 0 than with COMMIT_MODE == 1 due to
-          the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE == 1.
+          Please note: when COMMIT_MODE == 1, DPI may not follow the HRM ordering rules. DPI
+          hardware performance may be better with COMMIT_MODE == 1 than with COMMIT_MODE == 0 due to
+          the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE == 0.
 
       - name: --
         bits: 57
@@ -1145,10 +1145,10 @@ registers:
         description: |
           When DPI issues a load command to the L2C that is to be cached, this field select the type
           of load command to use:
-          0 = LDD.
-          1 = LDI.
-          2 = LDE.
-          3 = LDY.
+          0x0 = LDD.
+          0x1 = LDI.
+          0x2 = LDE.
+          0x3 = LDY.
 
 
   - name: DPI_DMA(0..7)_DBELL

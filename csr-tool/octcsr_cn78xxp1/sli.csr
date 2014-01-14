@@ -428,7 +428,7 @@ registers:
     title: SLI Window Write Mask Register
     address: 0x30
     bus: PEXP
-    description: This register contains the mask for the data in the SLI_WIN_WR_DATA Register.
+    description: This register contains the mask for the data in the SLI_WIN_WR_DATA register.
     attributes:
       regtest_skip: "True"
     fields:
@@ -560,8 +560,8 @@ registers:
         typical: --
         description: |
           Write type. ADDRTYPE<1:0> for write operations to this subID.
-          ADDRTYPE<0> is the relaxed-order attribute.
-          ADDRTYPE<1> is the no-snoop attribute.
+          * ADDRTYPE<0> is the relaxed-order attribute.
+          * ADDRTYPE<1> is the no-snoop attribute.
 
       - name: RTYPE
         bits: 31..30
@@ -570,8 +570,8 @@ registers:
         typical: --
         description: |
           Read type. ADDRTYPE<1:0> for read operations to this subID.
-          ADDRTYPE<0> is the relaxed-order attribute.
-          ADDRTYPE<1> is the no-snoop attribute.
+          * ADDRTYPE<0> is the relaxed-order attribute.
+          * ADDRTYPE<1> is the no-snoop attribute.
 
       - name: BA
         bits: 29..0
@@ -1349,9 +1349,7 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: |
-          Enables SLI_INT_SUM[0] to generate an
-          interrupt to the PCIE core for MSI/inta.
+        description: Enables SLI_INT_SUM[RML_TO] to generate an interrupt to the PCIE core for MSI/INTA.
 
 
   - name: SLI_SCRATCH_1
@@ -1490,7 +1488,7 @@ registers:
 
       - name: OCI_ID
         bits: 23..20
-        access: RO
+        access: RO/H
         reset: --
         typical: --
         description: The OCI ID.
@@ -1537,7 +1535,7 @@ registers:
       This register contains results from BIST runs of MAC's memories: 0 = pass (or BIST in
       progress/never run), 1 = fail.
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x00000000FE05AC3E"
     fields:
       - name: --
         bits: 63..32
@@ -1548,49 +1546,49 @@ registers:
 
       - name: NCB_REQ
         bits: 31
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for IOI Request FIFO.
 
       - name: N2P0_C
         bits: 30
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for N2P Port0 cmd.
 
       - name: N2P0_O
         bits: 29
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for N2P Port0 data.
 
       - name: N2P1_C
         bits: 28
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for N2P Port1 cmd.
 
       - name: N2P1_O
         bits: 27
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for N2P Port1 data.
 
       - name: CPL_P0
         bits: 26
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for CPL Port 0.
 
       - name: CPL_P1
         bits: 25
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for CPL Port 1.
@@ -1639,70 +1637,70 @@ registers:
 
       - name: P2N0_C0
         bits: 18
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port0 C0.
 
       - name: P2N0_C1
         bits: 17
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port0 C1.
 
       - name: P2N0_N
         bits: 16
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port0 N.
 
       - name: P2N0_P0
         bits: 15
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port0 P0.
 
       - name: P2N0_P1
         bits: 14
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port0 P1.
 
       - name: P2N1_C0
         bits: 13
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port1 C0.
 
       - name: P2N1_C1
         bits: 12
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port1 C1.
 
       - name: P2N1_N
         bits: 11
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port1 N.
 
       - name: P2N1_P0
         bits: 10
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port1 P0.
 
       - name: P2N1_P1
         bits: 9
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for P2N Port1 P1.
@@ -1730,42 +1728,42 @@ registers:
 
       - name: DSI1_1
         bits: 5
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for DSI1 Memory 1.
 
       - name: DSI1_0
         bits: 4
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for DSI1 Memory 0.
 
       - name: DSI0_1
         bits: 3
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for DSI0 Memory 1.
 
       - name: DSI0_0
         bits: 2
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for DSI0 Memory 0.
 
       - name: MSI
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for MSI memory map.
 
       - name: NCB_CMD
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST Status for IOI outbound commands.
@@ -2462,7 +2460,7 @@ registers:
     bus: PEXP_NCB
     description: |
       ""This register enables the instruction fetch for a packet ring. This is the PF version also
-      see SLI_PKT#_INPUT_CONTROL[ENB]." The bit cooresponding to the a ring in Reset will be
+      see SLI_PKT#_INPUT_CONTROL[ENB]." The bit cooresponding to the ring in reset will be
       cleared."
     fields:
       - name: ENB
@@ -2473,8 +2471,8 @@ registers:
         description: |
           Packet ring enable. When ENB<i>=1, instruction input ring i is enabled. When the ring is
           in reset, caused by a failing read associated with the ring, the ring being put into reset
-          by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is associated
-          with being in reset, will cause this bit to clear and be able to be set againg till the
+          by writing the reset bit associated with a ring, a FLR or the MAC the ring is associated
+          with being in reset, will cause this bit to clear and be able to be set again until the
           reset condition is removed.
 
 
@@ -2483,8 +2481,8 @@ registers:
     address: 0x11F0000011010
     bus: PEXP_NCB
     description: |
-      ""This register enables the output packet engines. This is the PF version. Also see
-      SLI_PKT#_OUTPUT_CONTROL[ENB]."The bit cooresponding to the a ring in Reset will be cleared."
+      "This register enables the output packet engines.  This is the PF version. Also see
+      SLI_PKT#_INPUT_CONTROL[ENB]. The bit corresponding to the ring in reset will be cleared."
     fields:
       - name: ENB
         bits: 63..0
@@ -2785,7 +2783,7 @@ registers:
         description: |
           Output ring packet counter interrupt bits
           SLI sets RING<i> whenever
-          SLI_PKTi_CNTS[CNT] > SLI_PKT_INT_LEVELS[CNT].
+          SLI_PKT(0..63)_CNTS[CNT] > SLI_PKT_INT_LEVELS[CNT].
           SLI_PKT_CNT_INT_ENB[RING<i>] is the corresponding
           enable.
 
@@ -2802,7 +2800,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Output ring packet timer interrupt bits SLI sets RING<i> whenever SLI_PKTi_CNTS[TIMER] >
+          Output ring packet timer interrupt bits SLI sets RING<i> whenever
+          SLI_PKT(0..63)_CNTS[TIMER] >
           SLI_PKT_INT_LEVELS[TIME]. SLI_PKT_TIME_INT_ENB[RING<i>] is the corresponding enable.
 
 
@@ -2813,7 +2812,7 @@ registers:
     description: |
       When read by a VF, this register informs which rings owned by the VF (0 to 63) have an
       interrupt pending. In PF mode, this register returns an unpredictable value. Writing 1s to
-      clear this register clears both packet count an packet time interrupts. The clearing of the
+      clear this register clears both packet count and packet time interrupts. The clearing of the
       interrupts will be reflected in SLI_PKT_CNT_INT and SLI_PKT_TIME_INT.
     fields:
       - name: RING
@@ -2834,7 +2833,7 @@ registers:
     description: |
       When read by a VF, this register informs which rings owned by the VF (0 to 63) have an
       interrupt pending. In PF mode, this register returns an unpredictable value. Writing 1s to
-      clear this register clears both packet count an packet time interrupts. The clearing of the
+      clear this register clears both packet count and packet time interrupts. The clearing of the
       interrupts will be reflected in SLI_PKT_CNT_INT and SLI_PKT_TIME_INT.
     fields:
       - name: RING
@@ -3514,7 +3513,7 @@ registers:
     bus: PEXP_NCB
     description: |
       These registers contain control for access from SLI to a MAC port. Write operations to these
-      register are not ordered with write/read operations to the MAC Memory space. To ensure that a
+      registers are not ordered with write/read operations to the MAC Memory space. To ensure that a
       write operation has completed, read the register before making an access (i.e. MAC memory
       space) that requires the value of this register to be updated.
     fields:
@@ -3551,9 +3550,9 @@ registers:
         description: |
           BAR0 disable. When set to 1, disables access from the MAC to BAR0 for the following
           address offsets:
-          0x0-0x32F
-          0x3CD0
-          greater than 0x3D70, excluding 0x3E00.
+          * 0x0-0x32F
+          * 0x3CD0
+          * greater than 0x3D70, excluding 0x3E00.
 
       - name: LD_CMD
         bits: 2..1
@@ -3563,10 +3562,10 @@ registers:
         description: |
           When SLI issues a load command to the L2C that is to be cached, this field selects the
           type of load command to use:
-          0 = LDD.
-          1 = LDI.
-          2 = LDE.
-          3 = LDY.
+          0x0 = LDD.
+          0x1 = LDI.
+          0x2 = LDE.
+          0x3 = LDY.
 
       - name: --
         bits: 0
@@ -3884,16 +3883,16 @@ registers:
           exempt_keyword: "True"
         description: |
           Output ring counter time interrupt threshold.
-          SLI sets SLI_PKT_TIME_INT[PORT<i>] whenever SLI_PKTi_CNTS[TIMER] > TIME.
+          SLI sets SLI_PKT_TIME_INT[PORT<i>] whenever SLI_PKT(0..63)_CNTS[TIMER] > TIME.
 
       - name: CNT
         bits: 31..0
-        access: R/W/H
+        access: R/W
         reset: 0x0
         typical: --
         description: |
           Output ring counter interrupt threshold. SLI sets SLI_PKT_CNT_INT[PORT<i>] whenever
-          SLI_PKTi_CNTS[CNT] > CNT.
+          SLI_PKT(0..63)_CNTS[CNT] > CNT.
 
 
   - name: SLI_PKT(0..63)_OUTPUT_CONTROL
@@ -4043,7 +4042,7 @@ registers:
 
 
   - name: SLI_PKT(0..63)_VF_SIG
-    title: SLI Packet Signalling Register
+    title: SLI Packet Signaling Register
     address: 0x11F0000014C00 + a*0x10
     bus: PEXPV_NCB
     description: This register is used to signal between PF/VF. These 64 CSRs are index by VF number.

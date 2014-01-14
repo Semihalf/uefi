@@ -2977,9 +2977,9 @@ registers:
           0x21      : GPIO[17]
           0x22      : GPIO[18]
           0x23      : GPIO[19]
-          0x10      : QLM0_REF_CLK
-          0x11      : QLM1_REF_CLK
-          0x12      : QLM2_REF_CLK
+          0x10      : DLM0_REF_CLK
+          0x11      : DLM1_REF_CLK
+          0x12      : DLM2_REF_CLK
           0x13-0x1f : Reserved
           0x24-0x3f : Reserved
 
@@ -3012,9 +3012,9 @@ registers:
           0x21      : GPIO[17]
           0x22      : GPIO[18]
           0x23      : GPIO[19]
-          0x10      : QLM0_REF_CLK
-          0x11      : QLM1_REF_CLK
-          0x12      : QLM2_REF_CLK
+          0x10      : DLM0_REF_CLK
+          0x11      : DLM1_REF_CLK
+          0x12      : DLM2_REF_CLK
           0x13-0x1f : Reserved
           0x24-0x3f : Reserved
 
@@ -3047,9 +3047,9 @@ registers:
           0x21      : GPIO[17]
           0x22      : GPIO[18]
           0x23      : GPIO[19]
-          0x10      : QLM0_EF_CLK
-          0x11      : QLM1_REF_CLK
-          0x12      : QLM2_REF_CLK
+          0x10      : DLM0_REF_CLK
+          0x11      : DLM1_REF_CLK
+          0x12      : DLM2_REF_CLK
           0x13-0x1f : Reserved
           0x24-0x3f : Reserved
 

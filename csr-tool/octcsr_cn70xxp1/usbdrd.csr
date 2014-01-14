@@ -265,6 +265,8 @@ enums:
 
 
   - name: USBDRD_UCTL_INTSN_E
+    title: |
+      INTERNAL: USB Interrupt Source Number Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.
@@ -998,54 +1000,42 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Detected double-bit error on the UAHC RxFIFO RAMs (RAM2). Throws
-          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM2_DBE.
+        description: Detected double-bit error on the UAHC RxFIFO RAMs (RAM2).
 
       - name: RAM2_SBE
         bits: 20
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Detected single-bit error on the UAHC RxFIFO RAMs (RAM2). Throws
-          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM2_SBE.
+        description: Detected single-bit error on the UAHC RxFIFO RAMs (RAM2).
 
       - name: RAM1_DBE
         bits: 19
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Detected double-bit error on the UAHC TxFIFO RAMs (RAM1). Throws
-          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM1_DBE.
+        description: Detected double-bit error on the UAHC TxFIFO RAMs (RAM1).
 
       - name: RAM1_SBE
         bits: 18
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Detected single-bit error on the UAHC TxFIFO RAMs (RAM1). Throws
-          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM2_SBE.
+        description: Detected single-bit error on the UAHC TxFIFO RAMs (RAM1).
 
       - name: RAM0_DBE
         bits: 17
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Detected double-bit error on the UAHC Desc/Reg Cache (RAM0). Throws
-          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM0_DBE.
+        description: Detected double-bit error on the UAHC Desc/Reg Cache (RAM0).
 
       - name: RAM0_SBE
         bits: 16
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Detected single-bit error on the UAHC Desc/Reg Cache (RAM0). Throws
-          USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_RAM0_SBE.
+        description: Detected single-bit error on the UAHC Desc/Reg Cache (RAM0).
 
       - name: --
         bits: 15..3
@@ -1068,7 +1058,6 @@ registers:
           USBDRD(0..1)_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE].
           The hardware does not translate the request correctly and results may violate IOI
           protocols.
-          Throws USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_XM_BAD_DMA.
 
       - name: XS_NCB_OOB
         bits: 1
@@ -1079,7 +1068,6 @@ registers:
           Detected out-of-bound register access to UAHC over IOI. The UAHC defines 1MB of register
           space, starting at offset 0x0. Any accesses outside of this register space cause this bit
           to be set to 1. Error information is logged in USBDRD(0..1)_UCTL_SHIM_CFG[XS_NCB_OOB_*].
-          Throws USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_INTSTAT_XS_NCB_OOB.
 
       - name: --
         bits: 0
@@ -2457,9 +2445,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: --
-        description: |
-          Host-system error. The typical software response to an HSE is to reset the core.
-          Throws USBDRD_UCTL_INTSN_E::USBDRD_UAHC_USBSTS_HSE.
+        description: Host-system error. The typical software response to an HSE is to reset the core.
 
       - name: --
         bits: 1
@@ -3107,9 +3093,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: --
-        description: |
-          Interrupt pending.
-          Throws USBDRD_UCTL_INTSN_E::USBDRD(0..1)_UCTL_UAHC_IMAN(0..0)_IP.
+        description: Interrupt pending.
 
 
   - name: USBDRD(0..1)_UAHC_IMOD(0..0)

@@ -1565,7 +1565,7 @@ registers:
         description: |
           "Maximum Link Width
           The default value is the value you specify during hardware
-          configuration (x1, x4, x8, or x16), writable through PEM#_CFG_WR."
+          configuration (x1, x2, x4), writable through PEM#_CFG_WR."
 
       - name: MLS
         bits: 3..0

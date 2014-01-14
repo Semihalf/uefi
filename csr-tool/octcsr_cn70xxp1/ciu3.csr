@@ -4,6 +4,8 @@
 name: CIU3
 enums:
   - name: CIU_INTSN_E
+    title: |
+      INTERNAL: CIU Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from CIU itself; see Interrupt Source Numbers.
@@ -26,6 +28,8 @@ enums:
 
 
   - name: CIU_INTSN_MAJOR_E
+    title: |
+      INTERNAL: CIU Master Interrupt Source Number Enumeration
     attributes:
       cib_rtl_ciu1_style: "1"
       width: "8"

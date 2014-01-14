@@ -138,36 +138,6 @@ registers:
         description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
 
 
-  - name: DTX_CIU_SEL(0..1)
-    title: DTX CIU Select Register
-    address: 0x11800FE008000 | a<<3
-    bus: RSL
-    inherits: DTX_MIO_SEL(0..1)
-
-  - name: DTX_CIU_ENA(0..1)
-    title: DTX CIU Data Enable Register
-    address: 0x11800FE008020 | a<<3
-    bus: RSL
-    inherits: DTX_MIO_ENA(0..1)
-
-  - name: DTX_CIU_DAT(0..1)
-    title: DTX CIU Raw Data Register
-    address: 0x11800FE008040 | a<<3
-    bus: RSL
-    inherits: DTX_MIO_DAT(0..1)
-
-  - name: DTX_CIU_CTL
-    title: DTX CIU Control Register
-    address: 0x11800FE008060
-    bus: RSL
-    inherits: DTX_MIO_CTL
-
-  - name: DTX_CIU_BCST_RSP
-    title: DTX CIU Control Register
-    address: 0x11800FE008080
-    bus: RSL
-    inherits: DTX_MIO_BCST_RSP
-
   - name: DTX_RST_SEL(0..1)
     title: DTX RST Select Register
     address: 0x11800FE030000 | a<<3
@@ -1206,6 +1176,36 @@ registers:
         typical: 0
         description: Swap the high and low 36-bit debug bus outputs.
 
+
+  - name: DTX_CIU_SEL(0..1)
+    title: DTX CIU Select Register
+    address: 0x11800FE808000 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_SEL(0..1)
+
+  - name: DTX_CIU_ENA(0..1)
+    title: DTX CIU Data Enable Register
+    address: 0x11800FE808020 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_ENA(0..1)
+
+  - name: DTX_CIU_DAT(0..1)
+    title: DTX CIU Raw Data Register
+    address: 0x11800FE808040 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_DAT(0..1)
+
+  - name: DTX_CIU_CTL
+    title: DTX CIU Control Register
+    address: 0x11800FE808060
+    bus: RSL
+    inherits: DTX_MIO_CTL
+
+  - name: DTX_CIU_BCST_RSP
+    title: DTX CIU Control Register
+    address: 0x11800FE808080
+    bus: RSL
+    inherits: DTX_MIO_BCST_RSP
 
   - name: DTX_SLI_SEL(0..1)
     title: DTX SLI Select Register

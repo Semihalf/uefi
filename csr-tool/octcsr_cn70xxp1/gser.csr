@@ -351,7 +351,8 @@ registers:
           When asserted, selects the external ref_pad_clk_{p,m}
           inputs as the reference clock sourse.  When deasserted,
           ref_alt_clk_{p,m} are selected from an on-chip
-          source of the reference clock.
+          source of the reference clock. REF_USE_PAD must be
+          clear for DLM1 and DLM2.
 
 
   - name: GSER(0)_DLM(0..2)_TEST_BYPASS
@@ -2161,6 +2162,83 @@ registers:
         description: Override value for loopbk_en.
 
 
+  - name: GSER(0)_PHY(0..2)_LANE0_TX_OVRD_IN_HI
+    title: GSER PHY Lane 0 TX Override Input High
+    address: 0x1180090408008 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE0 TX Override Input High
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_VBOOST_EN_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_vboost_en.
+
+      - name: TX_VBOOST_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_vboost_en.
+
+      - name: TX_RESET_OVRD
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_reset.
+
+      - name: TX_RESET
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_reset.
+
+      - name: TX_NYQUIST_DATA
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Overrides incoming data to nyquist.
+
+      - name: TX_CLK_OUT_EN_OVRD
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_clk_out_en.
+
+      - name: TX_CLK_OUT_EN
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_clk_out_en.
+
+      - name: TX_RATE_OVRD
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx lane rate.
+
+      - name: TX_RATE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Override value for tx_rate.
+
+
   - name: GSER(0)_PHY(0..2)_LANE0_RX_OVRD_IN_LO
     title: GSER PHY Lane 0 RX Override Input Low
     address: 0x1180090408028 + a + b*0x80000
@@ -2421,14 +2499,14 @@ registers:
 
       - name: OV14
         bits: 15
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: --
         description: If this bit is set, and COUNT[15] is also set, signals a overflow of counter.
 
       - name: COUNT
         bits: 14..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: --
         description: |
@@ -2602,6 +2680,83 @@ registers:
         reset: 0
         typical: --
         description: Override value for loopbk_en.
+
+
+  - name: GSER(0)_PHY(0..2)_LANE1_TX_OVRD_IN_HI
+    title: GSER PHY Lane 1 TX Override Input High
+    address: 0x1180090408808 + a + b*0x80000
+    bus: RSL
+    description: PHY LANE1 TX Override Input High
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_VBOOST_EN_OVRD
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_vboost_en.
+
+      - name: TX_VBOOST_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_vboost_en.
+
+      - name: TX_RESET_OVRD
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_reset.
+
+      - name: TX_RESET
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_reset.
+
+      - name: TX_NYQUIST_DATA
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: --
+        description: Overrides incoming data to nyquist.
+
+      - name: TX_CLK_OUT_EN_OVRD
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx_clk_out_en.
+
+      - name: TX_CLK_OUT_EN
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override value for tx_clk_out_en.
+
+      - name: TX_RATE_OVRD
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: --
+        description: Override enable for tx lane rate.
+
+      - name: TX_RATE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Override value for tx_rate.
 
 
   - name: GSER(0)_PHY(0..2)_LANE1_RX_OVRD_IN_LO
@@ -2846,7 +3001,7 @@ registers:
 
 
   - name: GSER(0)_PHY(0..2)_LANE1_RX_LBERT_ERR
-    title: GSER PHY Lane 0 RX LBERT Error Register
+    title: GSER PHY Lane 1 RX LBERT Error Register
     address: 0x11800904088B8 + a + b*0x80000
     bus: RSL
     description: |
@@ -2864,14 +3019,14 @@ registers:
 
       - name: OV14
         bits: 15
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: --
         description: If this bit is set, and COUNT[15] is also set, signals a overflow of counter.
 
       - name: COUNT
         bits: 14..0
-        access: R/W
+        access: R/W/H
         reset: 0x0
         typical: --
         description: |

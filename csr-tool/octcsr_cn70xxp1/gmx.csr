@@ -4021,7 +4021,7 @@ registers:
         bits: 0
         access: R/W
         reset: 0
-        typical: --
+        typical: 0
         description: |
           When set, enables enables the running disparity check at the receiver.  Due to the nature
           of QSGMII, bit errors on the link may cause a running disparity error to propogate across

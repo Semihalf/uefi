@@ -97,7 +97,8 @@ enums:
 
 
   - name: SATA_UCTL_INTSN_E
-    title: SATA UCTL Interrupt Source Number Enumeration
+    title: |
+      INTERNAL: SATA UCTL Interrupt Source Number Enumeration
     attributes:
       width: "20"
     description: Enumerates the different generated interrupts.
@@ -258,7 +259,8 @@ registers:
         typical: 0x3
         description: |
           The host-controller clock frequency is the coprocessor-clock frequency divided by
-          A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
+          A_CLKDIV_SEL. The host-controller clock frequency must be at or below the requirements
+          listed in Table 22-1 (Maximum ACLK Frequency).
           This field can be changed only when A_CLKDIV_RST = 1. The divider values are the
           following:
           0x0 = divide by 1 0x4 = divide by 6
@@ -484,7 +486,6 @@ registers:
           SATA_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE].
           The hardware does not translate the request correctly and results may violate IOI
           protocols.
-          Throws SATA_UCTL_INTSN_E::SATA_UCTL_INTSTAT_XM_BAD_DMA.
 
       - name: XS_NCB_OOB
         bits: 1
@@ -495,7 +496,6 @@ registers:
           Detected out-of-bound register access to UAHC over IOI. The UAHC defines 1MB of register
           space, starting at offset 0x0. Any accesses outside of this register space cause this bit
           to be set to 1. The error information is logged in SATA_UCTL_SHIM_CFG[XS_NCB_OOB_*].
-          Throws SATA_UCTL_INTSN_E::SATA_UCTL_INTSTAT_XS_NCB_OOB.
 
       - name: --
         bits: 0

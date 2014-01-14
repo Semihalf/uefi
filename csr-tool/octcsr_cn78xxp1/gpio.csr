@@ -260,8 +260,10 @@ registers:
     address: 0x10700000008E0 + a*0x8
     bus: NCB
     description: |
-      A QLM can be configured as a clock source. The following table shows the clock speed output
-      for different modes.
+      A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
+      to send out any GPIO pin as configured by GPIO_BIT_CFG(0..19)[SYNCE_SEL]. The clock can be
+      divided by 2, 4, 8 or 16 of the selected RX lane clock. The following table shows the clock
+      speed output for different modes.
     fields:
       - name: --
         bits: 63..12
@@ -289,18 +291,29 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Internal clock divider. 0 = DIV2, 1 = DIV4, 2 = DIV8, 3 = DIV16.
+        description: |
+          GPIO internal clock divider setting relative to QLM SERDES CLOCK_SYNCE.
+          The maximum supported GPIO output frequency is 125 MHz.
+          0x0 = Divide by 20.
+          0x1 = Divide by 40.
+          0x2 = Divide by 80.
+          0x3 = Divide by 160.
+
+          Speed    DIV20   DIV40   DIV80   DIV160
+          [GHz]      [MHz]   [MHz]   [MHz]   [MHz]
+          1.2500   62.50   31.25   15.63    7.81
+          2.5000   125.00  62.50   31.25   15.63
+          3.1250    ---    78.13   39.06   19.53
+          5.0000    ---      125.00  62.50   31.25
+          6.2500    ---      ---     78.13   39.06
+          10.3125   ---      ---     ---     64.45
 
       - name: LANE_SEL
         bits: 1..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. The GPIO
-          block can support up to two unique clocks to send out any GPIO pin as configured by
-          GPIO_BIT_CFG(0..19)[SYNCE_SEL]. The clock can be divided by 2, 4, 8 or 16 of the selected
-          RX lane clock.
+        description: Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock.
 
 
   - name: GPIO_BIT_CFG(0..19)

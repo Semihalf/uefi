@@ -344,7 +344,7 @@ registers:
         access: RO/H
         reset: X
         typical: 0x0
-        description: BIST result of the memories
+        description: BIST result of the memories.
 
 
   - name: ZIP_CORE(0..2)_BIST_STATUS
@@ -355,7 +355,7 @@ registers:
       These register have the BIST status of memories in zip cores. Each bit is the BIST result of
       an individual memory (per bit, 0 = pass and 1 = fail).
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x000DB6DB7FFFFFFE"
     fields:
       - name: --
         bits: 63..53
@@ -514,10 +514,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Controls G/S Pointer FIFO flip syndrome.
-          00 = no error generation 10 = flip one bit
-          01 = flip one bit 11 = flip two bits
+        description: Controls G/S Pointer FIFO flip syndrome.
 
       - name: --
         bits: 7
@@ -538,10 +535,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Controls Input Data FIFO flip syndrome.
-          00 = no error generation 10 = flip one bit
-          01 = flip one bit 11 = flip two bits
+        description: Controls Input Data FIFO flip syndrome.
 
       - name: --
         bits: 3
@@ -564,8 +558,10 @@ registers:
         typical: 0x0
         description: |
           Controls Instruction Queue FIFO flip syndrome.
-          00 = no error generation 10 = flip one bit
-          01 = flip one bit 11 = flip two bits
+          0x0 = no error generation.
+          0x1 = flip one bit.
+          0x2 = flip one bit.
+          0x3 = flip two bits.
 
 
   - name: ZIP_ECCE_INT
@@ -692,14 +688,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: State of current instruction that is executing
+        description: State of current instruction that is executing.
 
       - name: NIE
         bits: 31..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: Number of instructions executed on this core
+        description: Number of instructions executed on this core.
 
 
   - name: ZIP_QUE(0..7)_SBUF

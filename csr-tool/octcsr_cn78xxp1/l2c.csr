@@ -340,7 +340,7 @@ enums:
 
       - name: L2_VIC
         value: 0x04
-        description: L2 victim.
+        description: L2 dirty victim.
 
       - name: SC_FAIL
         value: 0x05
@@ -361,6 +361,22 @@ enums:
       - name: WAIT_VAB
         value: 0x09
         description: LFB wait VAB (each cycle adds number of LFBs waiting for VAB).
+
+      - name: RTG_HIT
+        value: 0x41
+        description: L2 RTG hit.
+
+      - name: RTG_MISS
+        value: 0x42
+        description: L2 RTG miss.
+
+      - name: L2_RTG_VIC
+        value: 0x44
+        description: L2 RTG victim.
+
+      - name: L2_OPEN_OCI
+        value: 0x48
+        description: LFB open OCI cycle (each cycle adds number of LFBs with an open OCI cycle)
 
       - name: QD(0..7)_IDX
         value: 0x80 | a<<4
@@ -807,215 +823,237 @@ enums:
 
       - name: LDT
         value: 0x01
-        description: Don't allocate L2 or L1
+        description: Don't allocate L2 or L1 at home or requester.
 
       - name: LDI
         value: 0x02
-        description: Don't allocate L1
+        description: Don't allocate L1, allocates L2 at requester.
 
       - name: PL2
         value: 0x03
-        description: Prefetch L2
+        description: Prefetch into requester L2.
 
       - name: RPL2
         value: 0x04
-        description: Mark for replacement in L2
+        description: Mark for replacement if found in requester L2.
 
       - name: DWB
         value: 0x05
-        description: Clear L2 dirty bit (no writeback) + RPL2
+        description: Clear dirty bit (no writeback) + RPL2 if found in requester L2.
 
       - name: LDY
         value: 0x06
-        description: TBD(FIXME NYI) placeholder
+        description: Allocate in home L2.
 
       - name: LDD
         value: 0x08
-        description: Normal load
+        description: Allocate in requester L2, attempt to return exclusive but might return shared.
 
       - name: PSL1
         value: 0x09
-        description: Prefetch L1, bypass L2
+        description: Prefetch into L1, bypass L2 (unless L1 is subset L2, then behaves exactly as LDD).
 
       - name: LDC
         value: 0x0A
-        description: TBD(FIXME NYI) placeholder
+        description: Deprecated. Not implemented, not expected to be.
 
       - name: LDE
         value: 0x0B
-        description: TBD(FIXME NYI) placeholder
+        description: |
+          Bring exclusive into requester L2, allocate in L1.  Perform all invalidates as if a store
+          to minimize future store latency.
 
       - name: LDWB
         value: 0x0D
-        description: TBD(FIXME NYI) placeholder
+        description: As LDT, but additional implied DWB if found in home or requester L2.
 
       - name: STY
         value: 0x0E
-        description: TBD(FIXME NYI) placeholder
+        description: Full block store allocating in home L2, fill zeros.
 
       - name: RSTP
         value: 0x0F
-        description: TBD(FIXME NYI) placeholder
+        description: Partial store allocating in home L2.
 
       - name: STF
         value: 0x10
-        description: Full block store to L2, fill zeros
+        description: Full block store allocating in requester L2, fill zeros.
 
       - name: STT
         value: 0x11
-        description: Full block store bypass-L2, fill zeros
+        description: Full block store bypass home and remote L2, fill zeros.
 
       - name: STP
         value: 0x12
-        description: Partial store to L2
+        description: Partial store allocating in requester L2.
 
       - name: STC
         value: 0x13
-        description: Partial store to L2, if duptag valid
+        description: Conditional partial store.  Allocation variable based on CSR.
 
       - name: STFIL1
         value: 0x14
-        description: Full block store to L2, fill zeros, self-inval L1
+        description: Full block store allocating in requester L2, fill zeros, self-inval L1.
 
       - name: STTIL1
         value: 0x15
-        description: Full block store bypass-L2, fill zeros, self-inval L1
+        description: Full block store bypass home and requester L2, fill zeros, self-inval L1.
 
       - name: FAS32
         value: 0x16
-        description: TBD(FIXME)
+        description: Fetch-and-swap 32b.  Returns previous data.
 
       - name: FAS64
         value: 0x17
-        description: TBD(FIXME)
+        description: Fetch-and-swap 64b.  Returns previous data.
 
       - name: WBIL2I
         value: 0x18
-        description: Writeback if dirty, invalidate, clear use bit, by index/way
+        description: Writeback if dirty, invalidate, clear use bit, by index/way.
 
       - name: LTGL2I
         value: 0x19
-        description: Read tag at index/way into CSR
+        description: Read tag at index/way into CSR.
 
       - name: STGL2I
         value: 0x1A
-        description: Write tag at index/way from CSR
+        description: Write tag at index/way from CSR.
 
       - name: WBL2I
         value: 0x1B
-        description: Writeback if dirty, make clean, clear use bit, by index/way
+        description: Writeback if dirty, make clean, clear use bit, by index/way.
 
       - name: INVL2
         value: 0x1C
-        description: Invalidate, clear use bit, by address (dirty data is LOST)
+        description: Invalidate, clear use bit, by address (dirty data is LOST).
 
       - name: WBIL2
         value: 0x1D
-        description: Writeback if dirty, invalidate, clear use bit, by address
+        description: Writeback if dirty, invalidate, clear use bit, by address.
 
       - name: WBL2
         value: 0x1E
-        description: Writeback if dirty, make clean, clear use bit, by address
+        description: Writeback if dirty, make clean, clear use bit, by address.
 
       - name: LCKL2
         value: 0x1F
-        description: Set lock bit, set use bit, by address
+        description: Set lock bit, set use bit, by address.
 
       - name: CAS32
         value: 0x22
-        description: (FIXME NYI) Compare-and-swap 32b
+        description: Compare-and-swap 32b.  Returns previous data.
 
       - name: CAS64
         value: 0x23
-        description: (FIXME NYI) Compare-and-swap 64b
+        description: Compare-and-swap 64b.  Returns previous data.
 
       - name: SAAM132
         value: 0x26
-        description: (FIXME NYI) Same as SAA32 but data is implied all ones
+        description: Same as SAA32 but data is implied all ones.
 
       - name: SAAM164
         value: 0x27
-        description: (FIXME NYI) Same as SAA64 but data is implied all ones
+        description: Same as SAA64 but data is implied all ones.
 
       - name: SET8
         value: 0x28
-        description: TBD(FIXME)
+        description: |
+          Set 1B at addr[6:0] (big endian) to all ones.
 
       - name: SET16
         value: 0x29
-        description: TBD(FIXME)
+        description: |
+          Set 2B at addr[6:1] (big endian) to all ones.
 
       - name: SET32
         value: 0x2A
-        description: TBD(FIXME)
+        description: |
+          Set 4B at addr[6:2] (big endian) to all ones.
 
       - name: SET64
         value: 0x2B
-        description: TBD(FIXME)
+        description: |
+          Set 8B at addr[6:3] to all ones.
 
       - name: CLR8
         value: 0x2C
-        description: TBD(FIXME)
+        description: |
+          Clear 1B at addr[6:0] (big endian) to all zeros.
 
       - name: CLR16
         value: 0x2D
-        description: TBD(FIXME)
+        description: |
+          Clear 2B at addr[6:1] (big endian) to all zeros.
 
       - name: CLR32
         value: 0x2E
-        description: TBD(FIXME)
+        description: |
+          Clear 4B at addr[6:2] (big endian) to all zeros.
 
       - name: CLR64
         value: 0x2F
-        description: TBD(FIXME)
+        description: |
+          Clear 8B at addr[6:3] to all zeros.
 
       - name: INCR8
         value: 0x30
-        description: TBD(FIXME)
+        description: |
+          Increment 1B at addr[6:0] (big endian).
 
       - name: INCR16
         value: 0x31
-        description: TBD(FIXME)
+        description: |
+          Increment 2B at addr[6:1] (big endian).
 
       - name: INCR32
         value: 0x32
-        description: TBD(FIXME)
+        description: |
+          Increment 4B at addr[6:2] (big endian).
 
       - name: INCR64
         value: 0x33
-        description: TBD(FIXME)
+        description: |
+          Increment 8B at addr[6:3].
 
       - name: DECR8
         value: 0x34
-        description: TBD(FIXME)
+        description: |
+          Decrement 1B at addr[6:0] (big endian).
 
       - name: DECR16
         value: 0x35
-        description: TBD(FIXME)
+        description: |
+          Decrement 2B at addr[6:1] (big endian).
 
       - name: DECR32
         value: 0x36
-        description: TBD(FIXME)
+        description: |
+          Decrement 4B at addr[6:2] (big endian).
 
       - name: DECR64
         value: 0x37
-        description: TBD(FIXME)
+        description: |
+          Decrement 8B at addr[6:3].
 
       - name: FAA32
         value: 0x3A
-        description: TBD(FIXME)
+        description: |
+          Fetch and add 4B at addr [6:2] (big endian).  Returns old data.
 
       - name: FAA64
         value: 0x3B
-        description: TBD(FIXME)
+        description: |
+          Fetch and add 8B at addr [6:3].  Returns old data.
 
       - name: SAA32
         value: 0x3E
-        description: TBD(FIXME)
+        description: |
+          Atomic add 4B at addr [6:2].  No data is returned.
 
       - name: SAA64
         value: 0x3F
-        description: TBD(FIXME)
+        description: |
+          Atomic add 8B at addr [6:3].  No data is returned.
 
       - name: IOBLD8
         value: 0x40
@@ -1364,11 +1402,11 @@ registers:
     bus: RSL
     description: |
       On CN78XX, MAXLFB, EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD LFBs/VABs. Therefore, even
-      though there are 32 LFBs/VABs in a full TAD, the number applies to both halves.
-      If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
-      If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
-      If MAXLFB = 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to 13.
-      If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB - 3.
+      though there are 24 LFBs/VABs in a full TAD, the number applies to both halves.
+      * If MAXLFB is written to 0 or 13-15 operation is undefined. (CN78XX pass 1.0)
+      * If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
+      * If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
+      * If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB - 3.
     fields:
       - name: --
         bits: 63..31
@@ -1453,9 +1491,9 @@ registers:
       - name: MAXLFB
         bits: 3..0
         access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Maximum VABs/LFBs in use at once (0 means 16, 1-15 as expected).
+        reset: 0xc
+        typical: 0xc
+        description: Maximum VABs/LFBs in use at once (0, 13-15 illegal, 1-12 as expected).
 
 
   - name: L2C_OCI_CTL
@@ -2062,8 +2100,6 @@ registers:
     title: Level 2 Cache IOC Performance Counter Register
     address: 0x1180080800828 + a*0x40
     bus: RSL
-    attributes:
-      dv_fc_scratch: "ALL"
     fields:
       - name: COUNT
         bits: 63..0
@@ -2235,6 +2271,8 @@ registers:
     address: 0x1180080A00010 + a*0x40000
     bus: RSL
     description: This register holds the tag information for LTGL2I and STGL2I commands.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: SBLKDTY
         bits: 63..60
@@ -3005,28 +3043,28 @@ registers:
     fields:
       - name: VBFFL
         bits: 63..48
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
 
       - name: SBFFL
         bits: 47..32
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
 
       - name: FBFRSPFL
         bits: 31..16
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
 
       - name: FBFWRPFL
         bits: 15..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
@@ -3048,7 +3086,7 @@ registers:
 
       - name: L2DFL
         bits: 15..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0})
@@ -3059,7 +3097,7 @@ registers:
     address: 0x1180080A007F8 + a*0x40000
     bus: RSL
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x0000FFFF0001FFFF"
     fields:
       - name: --
         bits: 63..48
@@ -3070,7 +3108,7 @@ registers:
 
       - name: RTGFL
         bits: 47..32
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for RTG ways.
@@ -3091,14 +3129,14 @@ registers:
 
       - name: LRUFL
         bits: 16
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: BIST failure status for tag LRU
 
       - name: TAGFL
         bits: 15..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for TAG ways.
@@ -3623,7 +3661,7 @@ registers:
     address: 0x1180080E007F8 + a*0x40000
     bus: RSL
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x00000000FFFFFFFF"
     fields:
       - name: --
         bits: 63..37
@@ -3634,14 +3672,14 @@ registers:
 
       - name: MIBFL
         bits: 36..32
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN})
 
       - name: RSDFL
         bits: 31..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST failure status for RSDQW0-31.

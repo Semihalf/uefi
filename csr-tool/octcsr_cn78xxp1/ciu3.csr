@@ -487,10 +487,10 @@ registers:
         typical: 0x0
         description: |
           When a MCD interrupt is requested via the IDT, which MCD number to pulse:
-          0x0 = MCD0
-          0x1 = MCD1
-          0x2 = MCD2
-          0x3 = Reserved
+          0x0 = MCD0.
+          0x1 = MCD1.
+          0x2 = MCD2.
+          0x3 = Reserved.
 
       - name: ISCMEM_LE
         bits: 2
@@ -703,7 +703,7 @@ registers:
 
       - name: BIST
         bits: 10..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -775,13 +775,10 @@ registers:
         description: |
           Slow down CIU interrupt walker processing time. IRQ2/3/4 for all cores are sent to the
           core (MRC) in a serial bus to reduce global routing. There is no backpressure mechanism
-          designed for this scheme. It will only be a problem when SCLK is faster; this Control will
-          process 1 interrupt in 4*2^CTL SCLK cycles. With different a setting, clock rate ratio can
-          handle:
-          SLOWDOWN sclk_freq/aclk_freq ratio
-          0 4
-          1 8
-          n 4*2^n
+          designed for this scheme. It will only be a problem when SCLK is faster; this control will
+          process 1 interrupt in 4*(2^CTL) SCLK cycles. For example:
+          0x0 = sclk_freq/aclk_freq ratio is 4.
+          0x1 = sclk_freq/aclk_freq ratio is 8.
 
 
   - name: CIU_INTR_RAM_ECC_CTL
@@ -989,7 +986,8 @@ registers:
         typical: 0
         description: |
           One-shot mode when LEN != 0x0:
-          1 = timer is in one-shot mode, 0 = timer is in periodic mode.
+          0 = timer is in periodic mode.
+          1 = timer is in one-shot mode.
 
       - name: LEN
         bits: 35..0
@@ -1061,8 +1059,10 @@ registers:
         typical: 0x0
         description: |
           Watchdog mode:
-          0x0 = Off 0x2 = Interrupt + NMI
-          0x1 = Interrupt only 0x3 = Interrupt + NMI + soft reset
+          0x0 = Off.
+          0x1 = Interrupt only.
+          0x2 = Interrupt + NMI.
+          0x3 = Interrupt + NMI + soft reset.
 
 
   - name: CIU_PP_POKE(0..47)
@@ -1114,8 +1114,8 @@ registers:
         typical: 0x0
         description: |
           Interrupt source number causing the current interrupt, or most recent interrupt if INTR is
-          clear. INTERNAL: HW does not store the 20 bit INTSN here; it instead stores the sparse 12
-          bit PINTSN, and maps it to INTSN on a read.
+          clear. INTERNAL: Hardware does not store the 20 bit INTSN here; it instead stores the
+          sparse 12 bit PINTSN, and maps it to INTSN on a read.
 
       - name: --
         bits: 31..4
@@ -1146,10 +1146,10 @@ registers:
         description: |
           Destination interrupt priority level to receive this interrupt. Only used for core
           interrupts; for IO interrupts this level must be zero.
-          0 = IP2, or I/O interrupt
-          1 = IP3
-          2 = IP4
-          3 = reserved
+          0x0 = IP2, or I/O interrupt.
+          0x1 = IP3.
+          0x2 = IP4.
+          0x3 = Reserved.
 
 
   - name: CIU_IDT(0..255)_PP(0..0)
@@ -1189,8 +1189,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Reserved
-          INTERNAL: If adding, be sure to update CIU_DEST_IO_E and CIU_CONST[DESTS_IO].
+          Reserved. INTERNAL: If adding, be sure to update CIU_DEST_IO_E and CIU_CONST[DESTS_IO].
 
       - name: IO
         bits: 4..0

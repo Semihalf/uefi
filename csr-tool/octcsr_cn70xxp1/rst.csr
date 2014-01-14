@@ -4,6 +4,8 @@
 name: RST
 enums:
   - name: RST_INTSN_E
+    title: |
+      INTERNAL: RST Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from RST.
@@ -281,7 +283,7 @@ registers:
         typical: --
         description: |
           PERST*_L asserted while RST_CTL*[RST_RCV] = 1 and RST_CTL*[RST_CHIP] = 0. One bit
-          corresponds to each controller. Throws RST_INTSN_E::RST_INT_PERST(0..2).
+          corresponds to each controller.
 
       - name: --
         bits: 7..3
@@ -298,7 +300,6 @@ registers:
         description: |
           A controller link-down/hot-reset occurred while RST_CTL*[RST_LINK] = 0. Software must
           assert then deassert RST_SOFT_PRST*[SOFT_PRST]. One bit corresponds to each controller.
-          Throws RST_INTSN_E::RST_INT_LINK(0..2).
 
 
   - name: RST_CKILL
@@ -315,7 +316,7 @@ registers:
 
       - name: TIMER
         bits: 46..0
-        access: R/W
+        access: R/W/H
         reset: 0x3ffffffff
         typical: --
         description: |
@@ -506,7 +507,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: When set, corresponding PP has voltage removed to save power.  
+        description: When set, corresponding PP has voltage removed to save power.
 
 
 

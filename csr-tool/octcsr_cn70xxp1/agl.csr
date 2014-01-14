@@ -2978,7 +2978,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Bypass the compensation controller and use
+          When set, bypass the compensation controller and use
           DRV_NCTL and DRV_PCTL
 
       - name: --
@@ -2993,7 +2993,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: PCTL drive strength from the compensation ctl
+        description: PCTL drive strength from the HW compensation controller
 
       - name: --
         bits: 55..53
@@ -3007,7 +3007,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: NCTL drive strength from the compensation ctl
+        description: NCTL drive strength from the HW compensation controller
 
       - name: --
         bits: 47..45
@@ -3022,8 +3022,8 @@ registers:
         reset: 0xd
         typical: --
         description: |
-          PCTL drive strength to use in bypass mode
-          Reset value of 19 is for 50 ohm termination
+          PCTL drive strength to use in bypass mode.
+          Reset value of 13 is for 50 ohm termination
 
       - name: --
         bits: 39..37
@@ -3038,8 +3038,8 @@ registers:
         reset: 0xc
         typical: --
         description: |
-          NCTL drive strength to use in bypass mode
-          Reset value of 15 is for 50 ohm termination
+          NCTL drive strength to use in bypass mode.
+          Reset value of 12 is for 50 ohm termination
 
       - name: --
         bits: 31
@@ -3053,7 +3053,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: The clock delay as determined by the DLL
+        description: The clock delay as determined by the on board HW DLL
 
       - name: CLKRX_BYP
         bits: 23
@@ -3103,11 +3103,11 @@ registers:
         typical: --
         description: |
           Select the refclk to use.  Normal RGMII specification requires a 125MHz oscillator.  In
-          order to save some system cost, a 500MHz coprocessor clock can be divided down and remove
-          the requirements for the external oscillator.  Additionally, in some well defined systems,
-          the link partner may be able to source the RXC.  The RGMII would operate correctly in
-          1000Mbs mode only.  (INTERNAL: Some programming magic could allow for 10/100
-          operation if critical).
+          order to reduce system cost, a 500MHz coprocessor clock can be divided down and remove the
+          requirements for the external oscillator.  Additionally, in some well defined systems, the
+          link partner may be able to source the RXC.  The RGMII would operate correctly in 1000Mbs
+          mode only.  (INTERNAL: Some programming magic could allow for 10/100 operation if
+          critical).
           0 = RGMII REFCLK
           1 = RGMII RXC (1000Mbs only) (INTERNAL: some programming restrictions apply for 10/100)
           2 = divided coprocessor clk

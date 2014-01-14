@@ -98,14 +98,14 @@ registers:
 
       - name: RRC
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: RRC BIST status.
 
       - name: KMEM
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: KMEM BIST status.

@@ -293,17 +293,17 @@ enums:
           cib_rtl_module: "pki_pfe"
         description: See PKI_ECC_INT0[WADR_DBE].
 
-      - name: PKI_ECC0_RDFIF_SBE
+      - name: PKI_ECC0_PBE_SBE
         value: 0x4404C
         attributes:
           cib_rtl_module: "pki_pfe"
-        description: See PKI_ECC_INT0[RDFIF_SBE].
+        description: See PKI_ECC_INT0[PBE_SBE].
 
-      - name: PKI_ECC0_RDFIF_DBE
+      - name: PKI_ECC0_PBE_DBE
         value: 0x4404D
         attributes:
           cib_rtl_module: "pki_pfe"
-        description: See PKI_ECC_INT0[RDFIF_DBE].
+        description: See PKI_ECC_INT0[PBE_DBE].
 
       - name: PKI_ECC0_LDFIF_SBE
         value: 0x4404E
@@ -487,7 +487,8 @@ enums:
 
       - name: PKI_CL(0..3)_INT_TRAPZ
         value: 0x44804 | a<<8
-        description: See PKI_CL(0..3)_INT[TRAPZ].
+        description: |
+          Reserved. INTERNAL: Deprecated. See PKI_CL(0..3)_INT[TRAPZ].
 
       - name: PKI_CL(0..3)_ECC_RF_PERR
         value: 0x44840 | a<<8
@@ -806,9 +807,8 @@ enums:
         value: 0x01
         description: |
           Partial error: the packet was partially received. If the packet arrived via a BGX or ILK
-          interface, internal buffering/bandwidth was not adequate to receive the entire packet. If
-          the packet arrived via PKO internal loopback, the packet was aborted by a higher priority
-          packet. Not applicable when the packet arrived via the DPI interface.
+          interface, internal buffering/bandwidth was not adequate to receive the entire packet. Not
+          applicable when the packet arrived via the DPI interface nor LBK interface.
 
       - name: RE_JABBER
         value: 0x02
@@ -819,19 +819,30 @@ enums:
       - name: RE_FCS
         value: 0x07
         description: |
-          FCS error: if the packet arrived via a BGX interface, the packet had an FCS error. If the
-          packet arrived via PKO internal loopback, the packet had one or more parity errors. Not
-          applicable when the packet arrived via the DPI interface. For ILK interfaces, the
+          FCS error: the packet was received with an error. If the packet arrived via a BGX
+          interface, the packet had an FCS error. If the packet arrived via an ILK interface, the
           following ILK errors can cause packets to terminate with this error code:
           SERDES_LOCK_LOSS, BDRY_SYNC_LOSS, SCRM_SYNC_LOSS, LANE_ALIGN_FAIL, DESKEW_FIFO_OVFL,
-          CRC24_ERR, UKWN_CNTL_WORD, and BAD_64B67B.
+          CRC24_ERR, UKWN_CNTL_WORD, and BAD_64B67B. Not applicable when the packet arrived via the
+          DPI interface nor LBK interface.
+
+      - name: RE_FCS_RCV
+        value: 0x08
+        description: |
+          FCS receive error: the packet was received with an error. If the packet arrived via a BGX
+          interface operating at data rates of >= 10 Gb/s, the packet had both an FCS and data
+          reception error. Not applicable when the packet arrived via the ILK, DPI interface, nor
+          LBK interface.
 
       - name: RE_TERMINATE
         value: 0x09
         description: |
-          Terminate error: the packet was terminated with an idle cycle instead of a terminate
-          cycle. For BGX interfaces, only applicable in XAUI mode. For ILK interfaces, an SOP-SOP
-          ILK error can cause packets to terminate with this error code.
+          Terminate error: the packet was terminated incorrectly. For BGX interfaces operating at
+          data rates of >= 10 Gb/s, the packet was terminated with an idle cycle instead of a
+          terminate control cycle. For BGX interfaces operating at data rates of <= 1 Gb/s, the
+          packet had a CarrierExtendError before the slot time expired. For ILK interfaces, an SOP-
+          SOP ILK error can cause packets to terminate with this error code. Not applicable when the
+          packet arrived via the DPI interface nor LBK interface.
 
       - name: RE_RX_CTL
         value: 0x0B
@@ -842,19 +853,16 @@ enums:
       - name: RE_SKIP
         value: 0x0C
         description: |
-          Skip error: For ILK interfaces, ILK received a packet with an 'Error and end of packet'
-          indication.
-
-      - name: RE_PARITY
-        value: 0x0D
-        description: |
-          ILK parity error: ILK detected a parity error in the data portion of its receive FIFO
-          during this packet transfer.
+          Skip error: packet was not large enough to accommodate MAC skip data. For BGX interfaces,
+          the BGX(0..5)_SMU(0..3)_RX_UDD_SKP[LEN] exceeded the received packet byte count.  For ILK
+          interfaces, ILK received a packet with an 'Error and end of packet' indication. Not
+          applicable when the packet arrived via the DPI interface nor LBK interface.
 
       - name: RE_DMAPKT
         value: 0x0F
         description: |
           DMA packet error: The packet experienced one or more errors during the DMA read operation.
+          Applicable only to the DPI interface.
 
       - name: RE_PKIPAR
         value: 0x13
@@ -866,10 +874,14 @@ enums:
       - name: RE_PKIPCAM
         value: 0x14
         description: |
-          PKI PCAM soft error or programming conflict was detected during the processing of this
-          packet. PKI_CL(0..3)_INT[PCAM_CONF] was also set. Once a conflict is detected, the PCAM
-          state is unpredictable and is required to be fully reconfigured before further valid
-          processing can take place.
+          PKI PCAM access error. Either:
+          1) Internal port conflict, or,
+          2) Soft error or programming conflict was detected during the processing of this packet.
+          PKI_CL(0..3)_INT[PCAM_CONF] was also set. Once a conflict is detected, the PCAM state is
+          unpredictable and is required to be fully reconfigured before further valid processing can
+          take place.
+          INTERNAL: Case 1 is where the sequencer had PCAM operations with overlapping accesses
+          between two engines.
 
       - name: RE_MEMOUT
         value: 0x15
@@ -1020,15 +1032,11 @@ enums:
     description: |
       Enumerates the virtual-CAM type for the PKI_CL(0..3)_PCAM(0..1)_TERM(0..191)[TERM] field.
       In the table below:
-      'MATCH' refers to PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191).
-
-      'ACTION' refers to PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191) for the PCAM entry that matches.
-
-      The 'Bank' column indicates which PCAM bank must contain the match data.
-
-      The 'Adv' column indicates if ACTION[ADVANCE] may be non-zero.
-
-      The 'PMC' column indicates if ACTION[PMC] may be non-zero.
+      * 'MATCH' refers to PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191).
+      * 'ACTION' refers to PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191) for the PCAM entry that matches.
+      * The 'Bank' column indicates which PCAM bank must contain the match data.
+      * The 'Adv' column indicates if ACTION[ADVANCE] may be non-zero.
+      * The 'PMC' column indicates if ACTION[PMC] may be non-zero.
 
       The 'SETTY' column indicates if ACTION[SETTY] may be non-zero, and if so which WQE pointer
       field and type field will get set with the specified value. For example, LFTY indicates if
@@ -1285,7 +1293,7 @@ enums:
 
       - name: DSA_SRC
         value: 0x3
-        description: f DSA is parsed, use source port for QPG calculation.
+        description: If DSA is parsed, use source port for QPG calculation.
 
       - name: DIFF
         value: 0x4
@@ -1754,6 +1762,7 @@ structs:
 
 
   - name: PKI_INST_HDR_S
+    title: PKI Instruction Header Structure
     attributes:
       allow_missing_bits: "True"
       ignore_naming_convention: "True"
@@ -1826,6 +1835,7 @@ structs:
 
 
   - name: PKI_WQE_S
+    title: PKI Work-Queue Entry Structure
     attributes:
       allow_missing_bits: "True"
     description: This section is a description of each field in WORD0 - WORD4 of the work-queue entry.
@@ -1901,8 +1911,8 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word1<43:34>. The SSO group number used for the
           packet's ADD_WORK, with the two high bits correspond to an OCI node number, from
-          PKI_QPG_TBL(0..2047)[AURA_NODE]. GRP is calculated as part of the QPG calculations, see
-          QPG. Note that the GRP may be optionally selected differently if the packet has an error
+          PKI_QPG_TBL(0..2047){[GRP_OK] or [GRP_BAD]}. GRP is calculated as part of the QPG calculations,
+          see QPG. Note that the GRP may be optionally selected differently if the packet has an error
           (WQE[ERRLEV]!=NONE).
           ...
 
@@ -2374,12 +2384,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PKI calculated bad CRC. If the packet arrived via a BGX interface, the packet had an FCS
-          error. If the packet arrived via PKO internal loopback, the packet had one or more parity
-          errors. Not applicable when the packet arrived via the DPI interface. For ILK interfaces,
-          the following ILK errors can cause packets to terminate with this error code:
-          SERDES_LOCK_LOSS, BDRY_SYNC_LOSS, SCRM_SYNC_LOSS, LANE_ALIGN_FAIL, DESKEW_FIFO_OVFL,
-          CRC24_ERR, UKWN_CNTL_WORD, and BAD_64B67B. Throws PKI_INTSN_E::PKI_GEN_CRCERR.
+          PKI calculated bad CRC in the L2 Frame.
 
       - name: PKTDRP
         bits: 0
@@ -2463,21 +2468,21 @@ registers:
         description: |
           LDFIF ECC single bit error. Throws PKI_INTSN_E::PKI_ECC0_LDFIF_SBE.
 
-      - name: RDFIF_DBE
+      - name: PBE_DBE
         bits: 13
         access: R/W1C/H
         reset: 0
         typical: 0
         description: |
-          RDFIF ECC double bit error. Throws PKI_INTSN_E::PKI_ECC0_RDFIF_DBE.
+          PBE ECC double bit error. Throws PKI_INTSN_E::PKI_ECC0_PBE_DBE.
 
-      - name: RDFIF_SBE
+      - name: PBE_SBE
         bits: 12
         access: R/W1C/H
         reset: 0
         typical: 0
         description: |
-          RDFIF ECC single bit error. Throws PKI_INTSN_E::PKI_ECC0_RDFIF_SBE.
+          PBE ECC single bit error. Throws PKI_INTSN_E::PKI_ECC0_PBE_SBE.
 
       - name: WADR_DBE
         bits: 11
@@ -2843,7 +2848,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          LDFIF RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram
+          LDFIF RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the LDFIF ram
           to test single-bit or double-bit error handling.
 
       - name: LDFIF_CDIS
@@ -2853,21 +2858,21 @@ registers:
         typical: 0
         description: LDFIF RAM ECC correction disable.
 
-      - name: RDFIF_FLIP
+      - name: PBE_FLIP
         bits: 20..19
         access: R/W
         reset: 0x0
         typical: 0x0
         description: |
-          RDFIF RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram
-          to test single-bit or double-bit error handling.
+          PBE state RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the PBE
+          ram to test single-bit or double-bit error handling.
 
-      - name: RDFIF_CDIS
+      - name: PBE_CDIS
         bits: 18
         access: R/W
         reset: 0
         typical: 0
-        description: RDFIF RAM ECC correction disable.
+        description: PBE state RAM ECC correction disable.
 
       - name: WADR_FLIP
         bits: 17..16
@@ -2875,7 +2880,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          WADR RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram
+          WADR RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the WADR ram
           to test single-bit or double-bit error handling.
 
       - name: WADR_CDIS
@@ -2891,7 +2896,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          NXTPTAG RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM
+          NXTPTAG RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the NXTPTAG
           ram to test single-bit or double-bit error handling.
 
       - name: NXTPTAG_CDIS
@@ -2907,7 +2912,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          CURPTAG RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM
+          CURPTAG RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the CURPTAG
           ram to test single-bit or double-bit error handling.
 
       - name: CURPTAG_CDIS
@@ -2923,8 +2928,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          NXTBLK RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram
-          to test single-bit or double-bit error handling.
+          NXTBLK RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the NXTBLK
+          ram to test single-bit or double-bit error handling.
 
       - name: NXTBLK_CDIS
         bits: 6
@@ -2955,7 +2960,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          ASM RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
+          ASM RAM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the ASM ram to
           test single-bit or double-bit error handling.
 
       - name: ASM_CDIS
@@ -3201,25 +3206,24 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..33
+        bits: 63..31
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 32..0
+        bits: 30..0
         access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
           register collects status for PKI_PFE.
-          <32> - INB_ERRS
-          <31> - INB OCTS
-          <30> - INB PKTS
-          <29> - LD FIF
-          <28..27> - RD FIF
+          <30> - INB_ERRS
+          <29> - INB OCTS
+          <28> - INB PKTS
+          <27> - LD FIF
           <26> - PBE STATE
           <25> - WADR STATE
           <24> - NXT PTAG
@@ -3237,7 +3241,7 @@ registers:
     bus: RSL
     description: BIST status register.
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x00000000001FE33F"
     fields:
       - name: --
         bits: 63..21
@@ -4233,9 +4237,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PCAM sequencer trapz interrupt. Throws PKI_INTSN_E::PKI_CL(0..3)_INT_TRAPZ. INTERNAL:
-          Caused by TRAP sequence state, may indicate PKI enabled without proper sequencer code
-          loaded in PKI_IMEM(0..2047).
+          Reserved. INTERNAL: Deprecated. PCAM sequencer trapz interrupt. Throws
+          PKI_INTSN_E::PKI_CL(0..3)_INT_TRAPZ. Caused by TRAP sequence state, may indicate PKI
+          enabled without proper sequencer code loaded in PKI_IMEM(0..2047). Based on PCAM sequencer
+          execution, will likely throw an additional IPTINT interrupt.
 
       - name: IPTINT
         bits: 3
@@ -4699,11 +4704,11 @@ registers:
           The number of eight-byte words from the top of the first MBUF that the PKI stores the next
           pointer. If [DIS_WQ_DAT]=1, any value is legal. If [DIS_WQ_DAT]=0, legal values must
           satisfy:
-          FIRST_SKIP <= PKI_STYLE(0..63)_BUF[MB_SIZE] - 18.
-          FIRST_SKIP must be at least 0x4, but 0x5 is recommended minimum. 0x4 will drop WQE WORD4,
-          for use in backward compatible applications.
-          WQE_SKIP * (128/8) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry words
-          will fit within FIRST_SKIP.
+          * FIRST_SKIP <= PKI_STYLE(0..63)_BUF[MB_SIZE] - 18.
+          * FIRST_SKIP must be at least 0x4, but 0x5 is recommended minimum. 0x4 will drop WQE
+          WORD4, for use in backward compatible applications.
+          * WQE_SKIP * (128/8) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry
+          words will fit within FIRST_SKIP.
 
       - name: LATER_SKIP
         bits: 21..16

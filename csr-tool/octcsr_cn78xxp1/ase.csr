@@ -2165,8 +2165,6 @@ registers:
     address: 0x11800DD000008
     bus: RSL
     description: This is BIST status register 0.
-    attributes:
-      dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
         bits: 63..60

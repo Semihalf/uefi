@@ -75,7 +75,7 @@ registers:
       - name: DAT
         bits: 0
         access: RO
-        reset: X
+        reset: --
         typical: 0
         description: BIST result of the Data FIFO RAM.
 

@@ -480,7 +480,7 @@ structs:
           const: "--"
         description: |
           Address of the work-queue entry. Must be aligned on a 64-bit boundary. WQP<2:0> must be
-          zero
+          zero.
 
       - name: --
         bits: 43..42
@@ -747,11 +747,11 @@ structs:
           node.
           Otherwise, <5:4> indicates how to use the mask sets in SSO_PP(0..47)_S(0..1)_GRPMSK(0..3)
           (<15:6> are ignored):
-          00 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
+          0x0 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
           satisfy mask set 0.
-          01 = use mask set 0.
-          10 = use mask set 1.
-          11 = reserved.
+          0x1 = use mask set 0.
+          0x2 = use mask set 1.
+          0x3 = reserved.
 
       - name: --
         bits: 28..16
@@ -873,8 +873,8 @@ structs:
   - name: SSO_PREP_WORK_DMA_S
     title: SSO Prep Work Address Structure
     description: |
-      PREP_WORK operations form an IOBADDR request with this structure. Note this format closely
-      coincides with SSO_GET_WORK_LD_S.
+      Deprecated. PREP_WORK operations form an IOBADDR request with this structure. Note this format
+      closely coincides with SSO_GET_WORK_LD_S.
     fields:
       - name: --
         bits: 3..0
@@ -1463,7 +1463,7 @@ registers:
         access: R/W1
         reset: 0
         typical: 0
-        description: Reset the SSO
+        description: Reset the SSO.
 
 
   - name: SSO_ACTIVE_CYCLES(0..2)
@@ -1497,7 +1497,7 @@ registers:
 
       - name: BIST
         bits: 9..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1531,7 +1531,7 @@ registers:
 
       - name: BIST
         bits: 6..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -1562,7 +1562,7 @@ registers:
 
       - name: BIST
         bits: 8..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
@@ -3142,8 +3142,8 @@ registers:
         description: |
           Priority for this group relative to other groups. To prevent a core from receiving work on
           a group use SSO_PP(0..47)_S(0..1)_GRPMSK(0..3).
-          0x0: highest priority.
-          0x7: lowest priority.
+          0x0 = highest priority.
+          0x7 = lowest priority.
           Changing priority while GET_WORKs are in flight may result in a GET_WORK using either the
           old or new priority, or a mix thereof.
 
@@ -3187,8 +3187,8 @@ registers:
         description: |
           Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
           IAQ_CNT/IAQ_THR check when this bit is set. EXE_DIS is cleared by hardware whenever:
-          SSO_GRP(0..255)_INT_CNT[IAQ_CNT] is zero, or
-          SSO_GRP(0..255)_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
+          * SSO_GRP(0..255)_INT_CNT[IAQ_CNT] is zero, or
+          * SSO_GRP(0..255)_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
           equal to 0.
 
       - name: --
@@ -3206,13 +3206,13 @@ registers:
         description: |
           Work-executable interrupt. Generally used to indicate work is waiting for software. Throws
           SSO_INTSN_E::SSO_GRP(0..255)_EXE. Set by hardware whenever:
-          SSO_GRP(0..255)_INT_CNT[IAQ_CNT] >= SSO_GRP(0..255)_INT_THR [IAQ_THR] and [IAQ_THR] != 0
+          * SSO_GRP(0..255)_INT_CNT[IAQ_CNT] >= SSO_GRP(0..255)_INT_THR [IAQ_THR] and [IAQ_THR] != 0
           and EXE_DIS is clear.
-          SSO_GRP(0..255)_INT_CNT[DS_CNT] >= SSO_GRP(0..255)_INT_THR[DS_THR] and [DS_THR] != 0 and
+          * SSO_GRP(0..255)_INT_CNT[DS_CNT] >= SSO_GRP(0..255)_INT_THR[DS_THR] and [DS_THR] != 0 and
           EXE_DIS is clear.
-          SSO_GRP(0..255)_INT_CNT[CQ_CNT] >= SSO_GRP(0..255)_INT_THR[CQ_THR] and [CQ_THR] != 0 and
+          * SSO_GRP(0..255)_INT_CNT[CQ_CNT] >= SSO_GRP(0..255)_INT_THR[CQ_THR] and [CQ_THR] != 0 and
           EXE_DIS is clear.
-          SSO_GRP(0..255)_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
+          * SSO_GRP(0..255)_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
           equal to 0 and SSO_GRP(0..255)_INT_THR[TC_EN] is set and at least one of the following is
           true:
           SSO_GRP(0..255)_INT_CNT[IAQ_CNT] > 0
@@ -3337,11 +3337,11 @@ registers:
         description: |
           Time counter current value for this group. Hardware sets this field to the value of
           SSO_GRP(0..255)_INT_THR[TC_THR] whenever:
-          Corresponding SSO_GRP(0..255)_INT_CNT[IAQ_CNT, DS_CNT and CQ_CNT] are all equal to 0.
-          Corresponding SSO_GRP(0..255)_INT[EXE_INT] is written with a one to clear by software.
-          Corresponding SSO_GRP(0..255)_INT[EXE_DIS] is written with a one to clear by software.
-          Corresponding SSO_GRP(0..255)_INT_THR is written by software.
-          TC_CNT is equal to 1 and periodic counter SSO_WQ_INT_PC[PC] is equal to 0.
+          * Corresponding SSO_GRP(0..255)_INT_CNT[IAQ_CNT, DS_CNT and CQ_CNT] are all equal to 0.
+          * Corresponding SSO_GRP(0..255)_INT[EXE_INT] is written with a one to clear by software.
+          * Corresponding SSO_GRP(0..255)_INT[EXE_DIS] is written with a one to clear by software.
+          * Corresponding SSO_GRP(0..255)_INT_THR is written by software.
+          * TC_CNT is equal to 1 and periodic counter SSO_WQ_INT_PC[PC] is equal to 0.
           Otherwise, hardware decrements this field whenever the periodic counter SSO_WQ_INT_PC[PC]
           is equal to 0. This field is 0 whenever SSO_GRP(0..255)_INT_THR[TC_THR] is equal to 0.
 
@@ -4263,7 +4263,7 @@ registers:
         typical: --
         description: |
           Set when there is a pending non-UNTAGGED SWTAG or SWTAG_FULL and the SSO entry has not
-          left the list for the original tag..
+          left the list for the original tag.
 
       - name: --
         bits: 36..34

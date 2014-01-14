@@ -142,7 +142,8 @@ enums:
 
 
   - name: L2C_INTSN_E
-    title: L2C Interrupt Source Enumeration
+    title: |
+      INTERNAL: L2C Interrupt Source Enumeration
     attributes:
       width: "20"
     description: Enumerates the different interrupts from L2C.

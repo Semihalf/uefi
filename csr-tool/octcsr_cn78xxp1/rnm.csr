@@ -109,7 +109,7 @@ registers:
 
       - name: RRC
         bits: 1
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: |
@@ -117,7 +117,7 @@ registers:
 
       - name: MEM
         bits: 0
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
         description: |

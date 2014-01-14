@@ -168,8 +168,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow
-          of these fuses will XOR with this value.
+          Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow of these fuses
+          will XOR with this value.
 
       - name: PLL_CTL
         bits: 57..48
@@ -245,42 +245,42 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Fuse information - Zip information
+        description: Fuse information - Zip information.
 
       - name: BAR2_EN
         bits: 28
         access: RO
         reset: --
         typical: --
-        description: Fuse information - BAR2 present (when blown `1')
+        description: Fuse information - BAR2 present (when blown `1').
 
       - name: EFUS_LCK
         bits: 27
         access: RO
         reset: --
         typical: --
-        description: Fuse information - efuse lockdown
+        description: Fuse information - efuse lockdown.
 
       - name: EFUS_IGN
         bits: 26
         access: RO
         reset: --
         typical: --
-        description: Fuse information - efuse ignore
+        description: Fuse information - efuse ignore.
 
       - name: NOZIP
         bits: 25
         access: RO
         reset: --
         typical: --
-        description: Fuse information - ZIP disable
+        description: Fuse information - ZIP disable.
 
       - name: NODFA_DTE
         bits: 24
         access: RO
         reset: --
         typical: --
-        description: Fuse information - HFA disable (HTE)
+        description: Fuse information - HFA disable (HTE).
 
       - name: EMA1
         bits: 23..18
@@ -288,8 +288,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Fuse information - EMA1. INTERNAL: dflt value is 0x11. Soft or hard blow
-          of these fuses will XOR with this value.
+          Fuse information - EMA1. INTERNAL: Default value is 0x11. Soft or hard blow of these fuses
+          will XOR with this value.
 
       - name: NOHNA_DTE
         bits: 17
@@ -415,19 +415,17 @@ registers:
     address: 0x1180000001430
     bus: RSL
     description: |
-      This register exists to support Authentik. Authentik code should read
-      this register, then clear VAL to prevent other software from observing the
-      value of the TGG fuses.
-      INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD.
-      Whenever the fuse corresponding to VAL (TGG<63>) is blown, it is not possible to
-      blow any of TGG<62:0>. The fuse corresponding to VAL must be the one and only
-      lock down bit for TGG<62:0> - no other fuse lockdown bit can prevent blowing
-      TGG<62:0>. It must always be possible to blow the fuse corresponding to
-      VAL when it is not already blown. If an Authentik part may be converted
-      to a non-Authentik part (via some JTAG mechanism or any other mechanism),
-      it must not be possible to read the TGG fuse values from the Authentik
-      part by performing this conversion -> the reset value of VAL should be zero in this
-      converted case.
+      This register exists to support Authentik. Authentik code should read this register, then
+      clear VAL to prevent other software from observing the value of the TGG fuses.
+    internal: |
+      INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD. Whenever the fuse
+      corresponding to VAL (TGG<63>) is blown, it is not possible to blow any of TGG<62:0>. The fuse
+      corresponding to VAL must be the one and only lock down bit for TGG<62:0> - no other fuse
+      lockdown bit can prevent blowing TGG<62:0>. It must always be possible to blow the fuse
+      corresponding to VAL when it is not already blown. If an Authentik part may be converted to a
+      non-Authentik part (via some JTAG mechanism or any other mechanism), it must not be possible
+      to read the TGG fuse values from the Authentik part by performing this conversion -> the reset
+      value of VAL should be zero in this converted case.
     fields:
       - name: VAL
         bits: 63
@@ -435,9 +433,9 @@ registers:
         reset: --
         typical: --
         description: |
-          Software may write VAL to zero, but cannot write VAL to a one. When VAL is
-          a 1, DAT reads the corresponding TGG fuses. When VAL is a zero, DAT reads as
-          zeroes. The reset value of this VAL bit is normally its fuse setting (i.e. TGG<63>).
+          Software may write VAL to zero, but cannot write VAL to a one. When VAL is a 1, DAT reads
+          the corresponding TGG fuses. When VAL is a zero, DAT reads as zeros. The reset value of
+          this VAL bit is normally its fuse setting (i.e. TGG<63>).
 
       - name: DAT
         bits: 62..0
@@ -545,6 +543,8 @@ registers:
       INTERNAL: MIO Fuse Programming Register
     address: 0x1180000001510
     bus: RSL
+    internal: |
+      INTERNAL:
     fields:
       - name: --
         bits: 63..2
@@ -553,7 +553,7 @@ registers:
         typical: --
         description: Reserved.
 
-      - name: SOFT
+      - name: SFT
         bits: 1
         access: R/W/H
         reset: 0
@@ -583,6 +583,8 @@ registers:
       INTERNAL: MIO Fuse Program Times Register
     address: 0x1180000001518
     bus: RSL
+    internal: |
+      INTERNAL:
     fields:
       - name: --
         bits: 63..35
@@ -646,6 +648,8 @@ registers:
       INTERNAL: MIO Fuse Repair Memory Register
     address: 0x1180000001530 + a*0x8
     bus: RSL
+    internal: |
+      INTERNAL:
     fields:
       - name: DAT
         bits: 63..0
@@ -725,6 +729,8 @@ registers:
       INTERNAL: MIO Fuse Repair Interrupt Register
     address: 0x1180000001548
     bus: RSL
+    internal: |
+      INTERNAL:
     fields:
       - name: --
         bits: 63..2

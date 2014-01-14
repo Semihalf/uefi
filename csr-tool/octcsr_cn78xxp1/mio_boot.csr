@@ -25,6 +25,8 @@ enums:
 
       - name: MIO_BOOT_DMA(0..1)_DMARQ
         value: 0x0A081 + a*0x40
+        attributes:
+          intsn_level_sensitive: "True"
         description: See MIO_BOOT_DMA_INT(0..1)[DMARQ].
 
 
@@ -50,7 +52,8 @@ registers:
         description: |
           Region 0 DMACK. If non-zero, this field asserts the corresponding BOOT_DMACK[n] pin when
           an access to this region is performed. DMACK is encoded as follows:
-          0 = disabled, 1 = BOOT_DMACK[0], 2 = BOOT_DMACK[1].
+          0x0 = disabled, 0x1 = BOOT_DMACK[0],
+          0x2 = BOOT_DMACK[1].
           This is useful for CF cards in PC card memory mode that support DMA because the -REG and
           -DMACK pins are shared.
           The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIM(0..1)[DMACK_PI].
@@ -63,8 +66,8 @@ registers:
         description: |
           Region 0 timing multiplier. Specifies the timing multiplier for a region. The timing
           multiplier applies to all timing parameters, except for WAIT and RD_DLY, which simply
-          count coprocessor-clock cycles. TIM_MULT is encoded as follows: 0 = 4*, 1 = 1*, 2 = 2*, 3
-          = 8*.
+          count coprocessor-clock cycles. TIM_MULT is encoded as follows: 0x0 = 4*, 0x1 = 1*,
+          0x2 = 2*, 0x3 = 8*.
 
       - name: RD_DLY
         bits: 39..37
@@ -143,8 +146,8 @@ registers:
         reset: 0xfff
         typical: --
         description: |
-          Region 0 size. Region size is specified in 64K blocks and in 'block-1' notation (i.e. 0 =
-          one 64K block, 1 = two 64K blocks, etc.).
+          Region 0 size. Region size is specified in 64K blocks and in 'block-1' notation (i.e. 0x0
+          = one 64K block, 0x1 = two 64K blocks, etc.).
 
       - name: BASE
         bits: 15..0
@@ -179,8 +182,8 @@ registers:
         description: |
           Region 1-7 DMACK. If non-zero, this field asserts the corresponding BOOT_DMACK[n] pin when
           an access to this region is performed. DMACK is encoded as follows:
-          0 = disabled, 1 = BOOT_DMACK[0], 2 = BOOT_DMACK[1],
-          3 = BOOT_DMACK[2].
+          0x0 = disabled, 0x1 = BOOT_DMACK[0],
+          0x2 = BOOT_DMACK[1], 0x3 = BOOT_DMACK[2].
           This is useful for CF cards in PC card memory mode that support DMA because the -REG and
           -DMACK pins are shared.
           The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIMn[DMACK_PI].
@@ -193,8 +196,8 @@ registers:
         description: |
           Region 1-7 timing multiplier. Specifies the timing multiplier for a region. The timing
           multiplier applies to all timing parameters, except for WAIT and RD_DLY, which simply
-          count coprocessor-clock cycles. TIM_MULT is encoded as follows: 0 = 4*, 1 = 1*, 2 = 2*, 3
-          = 8*.
+          count coprocessor-clock cycles. TIM_MULT is encoded as follows: 0x0 = 4*, 0x1 = 1*, 0x2 =
+          2*, 0x3 = 8*.
 
       - name: RD_DLY
         bits: 39..37
@@ -277,8 +280,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Region 1-7 size. Region size is specified in 64K blocks and in 'block-1' notation (i.e. 0
-          = one 64K block, 1 = two 64K blocks, etc.).
+          Region 1-7 size. Region size is specified in 64K blocks and in 'block-1' notation (i.e.
+          0x0 = one 64K block, 0x1 = two 64K blocks, etc.).
 
       - name: BASE
         bits: 15..0
@@ -713,9 +716,9 @@ registers:
         description: |
           Boot bus PCTL. This controls the pull-up drive strength of the boot-bus drivers. Reset
           value is as follows:
-          0x6 = No pullups (50ohm termination)
-          0x7 = Pullup on BOOT_AD<9> (40ohm termination)
-          0x4 = Pullup on BOOT_AD<10> (75ohm termination)
+          * 0x6 = No pullups (50ohm termination)
+          * 0x7 = Pullup on BOOT_AD<9> (40ohm termination)
+          * 0x4 = Pullup on BOOT_AD<10> (75ohm termination)
 
       - name: --
         bits: 7..3
@@ -732,9 +735,9 @@ registers:
         description: |
           Boot bus NCTL. This controls the pull-down drive strength of the boot-bus drivers. Reset
           value is as follows:
-          0x6 = No pullups (50ohm termination)
-          0x7 = Pullup on BOOT_AD<9> (40ohm termination)
-          0x4 = Pullup on BOOT_AD<10> (75ohm termination)
+          * 0x6 = No pullups (50ohm termination)
+          * 0x7 = Pullup on BOOT_AD<9> (40ohm termination)
+          * 0x4 = Pullup on BOOT_AD<10> (75ohm termination)
 
 
   - name: MIO_BOOT_PIN_DEFS
@@ -805,14 +808,14 @@ registers:
         typical: --
         description: |
           BOOT_AD<18:16> latched during power up. Indicates boot device:
-          0 = Parallel NOR.
-          1 = Reserved.
-          2 = eMMC/SD.
-          3 = Reserved.
-          4 = SPI Boot (16-bit address).
-          5 = SPI Boot (24-bit address).
-          6 = SPI Boot (32-bit address).
-          7 = Reserved.
+          0x0 = Parallel NOR.
+          0x1 = Reserved.
+          0x2 = eMMC/SD.
+          0x3 = Reserved.
+          0x4 = SPI Boot (16-bit address).
+          0x5 = SPI Boot (24-bit address).
+          0x6 = SPI Boot (32-bit address).
+          0x7 = Reserved.
 
       - name: ALE
         bits: 15
@@ -856,10 +859,10 @@ registers:
         typical: --
         description: |
           Selects default boot-bus driver termination.
-          00 = full strength
-          01 = 25ohm
-          10 = 50ohm
-          11 = 65ohm
+          0x0 = full strength
+          0x1 = 25ohm
+          0x2 = 50ohm
+          0x3 = 65ohm
 
       - name: USER0
         bits: 8..0
@@ -881,15 +884,15 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..7
+        bits: 63..8
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: STAT
-        bits: 6..0
-        access: RO
+        bits: 7..0
+        access: RO/H
         reset: 0x0
         typical: 0x0
         description: BIST status.
@@ -899,7 +902,17 @@ registers:
     title: MIO Boot DMA Configuration Registers for Engines 0-1
     address: 0x1180000000100 + a*0x8
     bus: RSL
-    description: This is the DMA engine n configuration register (one register for each of two engines).
+    description: |
+      This is the DMA engine n configuration register (one register for each of two engines).
+      Care must be taken to insure that the DMA duration not exceed the processor timeout of 2^29
+      core clocks or the RML timeout specified in SLI_WINDOW_CTL[TIME] coprocessor clocks if
+      accesses to the bootbus occur while DMA operations are in progress.
+      The DMA operation duration in coprocessor clocks as:
+      MIO_BOOT_DMA_CFGn[SIZE] * MIO_BOOT_DMA_TIMn[TIM_MULT] * CYCLE_TIME.
+      Where:
+      CYCLE_TIME = MIO_BOOT_DMA_TIMn[RD_DLY+PAUSE+DMACK_H+WE_N+WE_A+OE_N+OE_A+DMACK_S].
+      Coprocessor clocks can be converted to core clocks by multiplying the value by the clock ratio
+      MIO_RST_BOOT[C_MUL] / MIO_RST_BOOT[PNR_MUL]
     fields:
       - name: EN
         bits: 63

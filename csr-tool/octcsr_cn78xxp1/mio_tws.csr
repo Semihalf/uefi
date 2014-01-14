@@ -48,11 +48,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          Valid bit:
-          set on a write operation (should always be written with a 1)
-          cleared when a TWSI master-mode operation completes
-          cleared when a TWSI configuration register access completes
-          cleared when the TWSI device reads the register if SLONLY = 1
+          Valid bit. Set on a write operation (should always be written with a 1). Cleared when a
+          TWSI master-mode operation completes, a TWSI configuration register access completes, or
+          when the TWSI device reads the register if SLONLY = 1.
 
       - name: SLONLY
         bits: 62
@@ -83,20 +81,20 @@ registers:
         description: |
           Opcode field. When the register is written with SLONLY = 0, this field initiates one of
           the following read or write operations:
-          0000 = 7-bit byte master-mode operation
-          0001 = 7-bit byte combined-read master-mode operation,
-          7-bit byte write-with-IA master-mode operation
-          0010 = 10-bit byte master-mode operation
-          0011 = 10-bit byte combined-read master-mode operation,
-          10-bit byte write-with-IA master-mode operation
-          0100 = TWSI master-clock register, TWSI_CLK in TWSI Master Clock Register
-          0110 = See EOP_IA field
-          1000 = 7-bit 4-byte master-mode operation
-          1001 = 7-bit 4-byte combined-read master-mode operation,
-          7-bit 4-byte write-with-IA master-mode operation
-          1010 = 10-bit 4-byte master-mode operation
-          1011 = 10-bit 4-byte combined-read master-mode operation
-          10-bit 4-byte write-with-IA master-mode operation
+          0x0 = 7-bit byte master-mode operation.
+          0x1 = 7-bit byte combined-read master-mode operation, 7-bit byte write-with-IA master-mode
+          operation.
+          0x2 = 10-bit byte master-mode operation.
+          0x3 = 10-bit byte combined-read master-mode operation, 10-bit byte write-with-IA master-
+          mode operation.
+          0x4 = TWSI master-clock register, TWSI_CLK in TWSI Master Clock Register.
+          0x6 = See EOP_IA field.
+          0x8 = 7-bit 4-byte master-mode operation.
+          0x9 = 7-bit 4-byte combined-read master-mode operation, 7-bit 4-byte write-with-IA master-
+          mode operation.
+          0xA = 10-bit 4-byte master-mode operation.
+          0xB = 10-bit 4-byte combined-read master-mode operation, 10-bit 4-byte write-with-IA
+          master-mode operation.
 
       - name: R
         bits: 56
@@ -117,7 +115,7 @@ registers:
         description: |
           Size override. If this bit is set, use the SIZE field to determine the master-mode
           operation size rather than what OP specifies. For operations greater than four bytes, the
-          additional data is contained in MIO_TWS(0..1)_SW_TWSI_EXT[D].
+          additional data is contained in MIO_TWS(0..1)_SW_TWSI_EXT[DATA].
 
       - name: SIZE
         bits: 54..52
@@ -162,13 +160,13 @@ registers:
         typical: --
         description: |
           Extra opcode, used when OP<3:0>  =  0110 and SLONLY = 0.
-          000 = TWSI slave address register (TWSI_SLAVE_ADD)
-          001 = TWSI data register (TWSI_DATA)
-          010 = TWSI control register (TWSI_CTL)
-          011 = (when R =  0) TWSI clock control register (TWSI_CLKCTL)
-          011 = (when R = 1) TWSI status register (TWSI_STAT)
-          100 = TWSI extended slave register (TWSI_SLAVE_ADD_EXT)
-          111 = TWSI soft reset register (TWSI_RST)
+          0x0 = TWSI slave address register (TWSI_SLAVE_ADD).
+          0x1 = TWSI data register (TWSI_DATA).
+          0x2 = TWSI control register (TWSI_CTL).
+          0x3 = (when R =  0) TWSI clock control register (TWSI_CLKCTL).
+          0x3 = (when R = 1) TWSI status register (TWSI_STAT).
+          0x4 = TWSI extended slave register (TWSI_SLAVE_ADD_EXT).
+          0x7 = TWSI soft reset register (TWSI_RST).
           Also provides the lower 3 bits of internal address when launching a combined master-mode
           operation.
 
@@ -180,13 +178,13 @@ registers:
         description: |
           Data field.
           Used on a write operation when:
-          Initiating a master-mode write operation (SLONLY = 0)
-          Writing a TWSI configuration register (SLONLY = 0)
-          A slave-mode write operation (SLONLY = 1)
+          * Initiating a master-mode write operation (SLONLY = 0).
+          * Writing a TWSI configuration register (SLONLY = 0).
+          * A slave-mode write operation (SLONLY = 1).
           The read value is updated by:
-          A write operation to this register
-          Master-mode completion (contains error code)
-          TWSI configuration-register read (contains result)
+          * A write operation to this register.
+          * Master-mode completion (contains error code).
+          * TWSI configuration-register read (contains result).
 
 
   - name: MIO_TWS(0..1)_TWSI_SW

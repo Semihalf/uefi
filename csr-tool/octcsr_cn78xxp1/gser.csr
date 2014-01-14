@@ -58,6 +58,69 @@ enums:
         description: 8 Gbps at 125 MHz reference clock.
 
 
+  - name: GSER_QLM_E
+    title: GSER QLM/OCI Enumeration
+    attributes:
+      width: "4"
+    description: Enumerates the GSER to QLM.
+    values:
+      - name: GSER0
+        value: 0x0
+        description: GSER0 corresponds to QLM0.
+
+      - name: GSER1
+        value: 0x1
+        description: GSER1 corresponds to QLM1.
+
+      - name: GSER2
+        value: 0x2
+        description: GSER2 corresponds to QLM2.
+
+      - name: GSER3
+        value: 0x3
+        description: GSER3 corresponds to QLM3.
+
+      - name: GSER4
+        value: 0x4
+        description: GSER4 corresponds to QLM4.
+
+      - name: GSER5
+        value: 0x5
+        description: GSER5 corresponds to QLM5.
+
+      - name: GSER6
+        value: 0x6
+        description: GSER6 corresponds to QLM6.
+
+      - name: GSER7
+        value: 0x7
+        description: GSER7 corresponds to QLM7.
+
+      - name: GSER8
+        value: 0x8
+        description: GSER8 corresponds to OCI0.
+
+      - name: GSER9
+        value: 0x9
+        description: GSER9 corresponds to OCI1.
+
+      - name: GSER10
+        value: 0xA
+        description: GSER10 corresponds to OCI2.
+
+      - name: GSER11
+        value: 0xB
+        description: GSER11 corresponds to OCI3.
+
+      - name: GSER12
+        value: 0xC
+        description: GSER12 corresponds to OCI4.
+
+      - name: GSER13
+        value: 0xD
+        description: GSER13 corresponds to OCI5.
+
+
 registers:
   - name: GSER(0..13)_PHY_CTL
     title: GSER PHY Control Register
@@ -772,19 +835,20 @@ registers:
           The GSER uses electrical idle inference to determine when a RX lane has reentered
           electrical IDLE (EI). The PHY electrical IDLE exit detection supports a minimum pulse
           width of 400ps, therefore configurations that run faster than 2.5G can indicate EI when
-          the serial lines are still driven. For rates faster than 2.5G, it takes 16000 UI of
-          consecutive deasserted GSER(0..13)_RX_EIE_DETSTS[EIESTS] for the GSER to infer EI and
-          begin invalidating RX data. In the event of electrical IDLE inference, the following
-          happens:
-          GSER(0..13)_RX_EIE_DETSTS[CDRLOCK]<lane> is zeroed
-          GSER(0..13)_RX_EIE_DETSTS[EIELTCH]<lane> is zeroed
-          GSER(0..13)_RX_EIE_DETSTS[EIESTS]<lane> is zeroed
-          GSER(0..13)_RX_COAST[COAST]<lane> is asserted to prevent the CDR from trying to lock on
+          the serial lines are still driven. For rates faster than 2.5G, it takes 16K * 8 UI of
+          consecutive deasserted GSER(0..13)_RX_EIE_DETSTS[EIESTS] for the GSER to infer EI.
+          In the event of electrical IDLE inference, the following happens:
+          * GSER(0..13)_RX_EIE_DETSTS[CDRLOCK]<lane> is zeroed
+          * GSER(0..13)_RX_EIE_DETSTS[EIELTCH]<lane> is zeroed
+          * GSER(0..13)_RX_EIE_DETSTS[EIESTS]<lane> is zeroed
+          * GSER(0..13)_RX_COAST[COAST]<lane> is asserted to prevent the CDR from trying to lock on
           the incoming data stream.
-          The lane incoming RX data is invalidated.
+          * GSER(0..13)_RX_EIE_DETEN[EIEDE]<lane> deasserts for a short period of time, and then is
+          asserted to begin looking for the Electical IDLE Exit condition.
           Writing this register to a non-zero value causes the electrical idle inference to use the
           EII_FILT count instead of the default settings. Each EII_FILT count represents 20 ns of
           incremental EI inference time.
+          It is not expected that Software will need to use the Electrical Idle Inference logic.
 
 
   - name: GSER(0..13)_RX_POLARITY

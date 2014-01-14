@@ -202,12 +202,13 @@ registers:
         bits: 1..0
         access: R/W
         reset: 0x0
-        typical: --
+        typical: 0x2
         description: |
           Sorting procedure for multiple links to same node:
           00 = All to lowest link number.
           01 = Split by top/bottom L2C buses. (top to lowest link number).
-          1x = IOC 1st, IOR 2nd, Mem VCs to either based on most room in TX FIFOs.
+          10 = IOC 1st, IOR 2nd, Mem VCs to either based on most room in TX FIFOs.
+          11 = Illegal
 
 
   - name: OCX_COM_LINK_TIMER
@@ -1928,8 +1929,18 @@ registers:
     address: 0x118001100FF00
     bus: RSL
     fields:
+      - name: TIMEOUT
+        bits: 63..40
+        access: R/W/H
+        reset: all-ones
+        typical: all-ones
+        description: |
+          Number of core clocks (RCLKs) used by the bad lane timer. If this timer expires before all
+          enabled lanes can be made ready, then any lane which is not ready is disabled via
+          OCX_QLM(0..5)_CFG[SER_LANE_BAD]. For diagnostic use only.
+
       - name: --
-        bits: 63..38
+        bits: 39..38
         access: RAZ
         reset: --
         typical: --
@@ -2205,7 +2216,7 @@ registers:
     description: |
       This register controls which MCD bits are transported via the link. For proper operation
       only one link must be enabled in both directions between each pair of link partners.
-      Internal:  If N chips are connected over OCX, N-1 links should have MCD enabled.
+      INTERNAL: If N chips are connected over OCX, N-1 links should have MCD enabled.
       A single "central" chip should connect all MCD buses and have a single MCD enabled link
       to each of the other chips.  No MCD enabled links should connect between chips that don't
       include the "central" chip.

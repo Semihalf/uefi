@@ -273,6 +273,18 @@ enums:
           reg_name: "MIO_EMM_DMA_INT"
         description: See MIO_EMM_DMA_INT[DONE].
 
+      - name: MIO_EMM_DMA_FIFO
+        value: 0x09001
+        attributes:
+          bit_name: "FIFO"
+          bit_num: "1"
+          blk_enum_name: "MIO_EMM_INTSN_E"
+          major_name: "MIO_EMM"
+          major_val: "(0x9)"
+          reg_addr: "(0x1180000000190)"
+          reg_name: "MIO_EMM_DMA_INT"
+        description: See MIO_EMM_DMA_INT[FIFO].
+
       - name: MIO_EMM_INT_BUF_DONE
         value: 0x09040
         attributes:
@@ -400,6 +412,7 @@ enums:
           bit_name: "DMARQ"
           bit_num: "1"
           blk_enum_name: "MIO_BOOT_INTSN_E"
+          intsn_level_sensitive: "True"
           major_name: "MIO_BOOT"
           major_val: "(0xA)"
           reg_addr: "(0x1180000000138+a*0x8)"
@@ -3208,10 +3221,10 @@ enums:
           reg_name: "PKI_ECC_INT0"
         description: See PKI_ECC_INT0[WADR_DBE].
 
-      - name: PKI_ECC0_RDFIF_SBE
+      - name: PKI_ECC0_PBE_SBE
         value: 0x4404C
         attributes:
-          bit_name: "RDFIF_SBE"
+          bit_name: "PBE_SBE"
           bit_num: "12"
           blk_enum_name: "PKI_INTSN_E"
           cib_rtl_module: "pki_pfe"
@@ -3219,12 +3232,12 @@ enums:
           major_val: "(0x44)"
           reg_addr: "(0x1180044000040)"
           reg_name: "PKI_ECC_INT0"
-        description: See PKI_ECC_INT0[RDFIF_SBE].
+        description: See PKI_ECC_INT0[PBE_SBE].
 
-      - name: PKI_ECC0_RDFIF_DBE
+      - name: PKI_ECC0_PBE_DBE
         value: 0x4404D
         attributes:
-          bit_name: "RDFIF_DBE"
+          bit_name: "PBE_DBE"
           bit_num: "13"
           blk_enum_name: "PKI_INTSN_E"
           cib_rtl_module: "pki_pfe"
@@ -3232,7 +3245,7 @@ enums:
           major_val: "(0x44)"
           reg_addr: "(0x1180044000040)"
           reg_name: "PKI_ECC_INT0"
-        description: See PKI_ECC_INT0[RDFIF_DBE].
+        description: See PKI_ECC_INT0[PBE_DBE].
 
       - name: PKI_ECC0_LDFIF_SBE
         value: 0x4404E
@@ -3644,7 +3657,8 @@ enums:
           major_val: "(0x44)"
           reg_addr: "(0x118004400C000|a<<16)"
           reg_name: "PKI_CL(0..3)_INT"
-        description: See PKI_CL(0..3)_INT[TRAPZ].
+        description: |
+          Reserved. INTERNAL: Deprecated. See PKI_CL(0..3)_INT[TRAPZ].
 
       - name: PKI_CL(0..3)_ECC_RF_PERR
         value: 0x44840 | a<<8
@@ -3743,7 +3757,7 @@ enums:
         description: See PKI_CL(0..3)_ECC_INT[PCAM1_DBE].
 
       - name: HNA_ERROR_DBLOVF
-        value: 0x047000
+        value: 0x47000
         attributes:
           bit_name: "DBLOVF"
           bit_num: "0"
@@ -3756,7 +3770,7 @@ enums:
         description: See HNA_ERROR[DBLOVF].
 
       - name: HNA_ERROR_SVSTCK_SBE
-        value: 0x047001
+        value: 0x47001
         attributes:
           bit_name: "HPU_SVSTCK_SBE"
           bit_num: "1"
@@ -3769,7 +3783,7 @@ enums:
         description: See HNA_ERROR[HPU_SVSTCK_SBE].
 
       - name: HNA_ERROR_SVSTCK_DBE
-        value: 0x047002
+        value: 0x47002
         attributes:
           bit_name: "HPU_SVSTCK_DBE"
           bit_num: "2"
@@ -3782,7 +3796,7 @@ enums:
         description: See HNA_ERROR[HPU_SVSTCK_DBE].
 
       - name: HNA_ERROR_RNSTCK_SBE
-        value: 0x047003
+        value: 0x47003
         attributes:
           bit_name: "HPU_RNSTCK_SBE"
           bit_num: "3"
@@ -3795,7 +3809,7 @@ enums:
         description: See HNA_ERROR[HPU_RNSTCK_SBE].
 
       - name: HNA_ERROR_RNSTCK_DBE
-        value: 0x047004
+        value: 0x47004
         attributes:
           bit_name: "HPU_RNSTCK_DBE"
           bit_num: "4"
@@ -3808,7 +3822,7 @@ enums:
         description: See HNA_ERROR[HPU_RNSTCK_DBE].
 
       - name: HNA_ERROR_PDB_PAR_ERR
-        value: 0x047005
+        value: 0x47005
         attributes:
           bit_name: "HPU_PDB_PAR_ERR"
           bit_num: "5"
@@ -3821,7 +3835,7 @@ enums:
         description: See HNA_ERROR[HPU_PDB_PAR_ERR].
 
       - name: HNA_ERROR_INST_ERR
-        value: 0x04700B
+        value: 0x4700B
         attributes:
           bit_name: "HNA_INST_ERR"
           bit_num: "11"
@@ -3834,7 +3848,7 @@ enums:
         description: See HNA_ERROR[HNA_INST_ERR].
 
       - name: HNA_ERROR_HNC_OVFERR
-        value: 0x04700C
+        value: 0x4700C
         attributes:
           bit_name: "HNC_OVFERR"
           bit_num: "12"
@@ -3847,7 +3861,7 @@ enums:
         description: See HNA_ERROR[HNC_OVFERR].
 
       - name: HNA_ERROR_DLC0_OVFERR
-        value: 0x04700D
+        value: 0x4700D
         attributes:
           bit_name: "DLC0_OVFERR"
           bit_num: "13"
@@ -3860,7 +3874,7 @@ enums:
         description: See HNA_ERROR[DLC0_OVFERR].
 
       - name: HNA_ERROR_DLC1_OVFERR
-        value: 0x04700E
+        value: 0x4700E
         attributes:
           bit_name: "DLC1_OVFERR"
           bit_num: "14"
@@ -3873,7 +3887,7 @@ enums:
         description: See HNA_ERROR[DLC1_OVFERR].
 
       - name: HNA_ERROR_DLC0_DBE
-        value: 0x04700F
+        value: 0x4700F
         attributes:
           bit_name: "DLC0_DBE"
           bit_num: "15"
@@ -3886,7 +3900,7 @@ enums:
         description: See HNA_ERROR[DLC0_DBE].
 
       - name: HNA_ERROR_DLC1_DBE
-        value: 0x047010
+        value: 0x47010
         attributes:
           bit_name: "DLC1_DBE"
           bit_num: "16"
@@ -3899,7 +3913,7 @@ enums:
         description: See HNA_ERROR[DLC1_DBE].
 
       - name: HNA_ERROR_HNANXM
-        value: 0x047011
+        value: 0x47011
         attributes:
           bit_name: "HNANXM"
           bit_num: "17"
@@ -3912,7 +3926,7 @@ enums:
         description: See HNA_ERROR[HNANXM].
 
       - name: HNA_ERROR_REPLERR
-        value: 0x047012
+        value: 0x47012
         attributes:
           bit_name: "REPLERR"
           bit_num: "18"
@@ -3925,7 +3939,7 @@ enums:
         description: See HNA_ERROR[REPLERR].
 
       - name: HNA_ERROR_OSMERR
-        value: 0x047013
+        value: 0x47013
         attributes:
           bit_name: "OSMERR"
           bit_num: "19"
@@ -3938,7 +3952,7 @@ enums:
         description: See HNA_ERROR[OSMERR].
 
       - name: HNA_ERROR_HNC_PARERR
-        value: 0x047014
+        value: 0x47014
         attributes:
           bit_name: "HNC_PARERR"
           bit_num: "20"

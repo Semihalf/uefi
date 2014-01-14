@@ -15,6 +15,10 @@ enums:
         value: 0x09000
         description: See MIO_EMM_DMA_INT[DONE].
 
+      - name: MIO_EMM_DMA_FIFO
+        value: 0x09001
+        description: See MIO_EMM_DMA_INT[FIFO].
+
       - name: MIO_EMM_INT_BUF_DONE
         value: 0x09040
         description: See MIO_EMM_INT[BUF_DONE].
@@ -45,6 +49,172 @@ enums:
 
 
 registers:
+  - name: MIO_EMM_DMA_FIFO_CFG
+    title: |
+      INTERNAL: eMMC Internal DMA FIFO Configuration Register
+    address: 0x1180000000160
+    bus: RSL
+    description: This register controls DMA FIFO Operations.
+    fields:
+      - name: --
+        bits: 63..17
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CLR
+        bits: 16
+        access: R/W
+        reset: 1
+        typical: --
+        description: DMA FIFO Clear.  When set erases all commands in the DMA FIFO.  Must be zero for normal operation.
+
+      - name: --
+        bits: 15..13
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: INT_LVL
+        bits: 12..8
+        access: R/W
+        reset: 0x10
+        typical: --
+        description: |
+          Interrupt threshold that specifes the number of entries remaining in the DMA FIFO.  A
+          value of 16 or more
+          disables the interrupt.  See MIO_EMM_DMA_INT[FIFO].
+
+      - name: --
+        bits: 7..5
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: COUNT
+        bits: 4..0
+        access: RO/H
+        reset: 0x0
+        typical: --
+        description: |
+          Number of entries in the DMA FIFO.  This count is incremented by writes to the
+          MIO_EMM_DMA_FIFO_CMD register and
+          decremented each time the internal DMA engine completes the previous command successfully.
+          Up to 16 entries
+          can be placed in the FIFO.  Entries written to a full FIFO will be ignored.
+
+
+  - name: MIO_EMM_DMA_FIFO_ADR
+    title: |
+      INTERNAL: eMMC Internal DMA FIFO Address Register
+    address: 0x1180000000170
+    bus: RSL
+    description: |
+      This register specifies the internal address that is loaded into the eMMC internal DMA FIFO.
+      The FIFO is used to
+      queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
+      successfully.
+    fields:
+      - name: --
+        bits: 63..42
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ADR
+        bits: 41..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: DMA engine address. Must be 64-bit aligned.
+
+
+  - name: MIO_EMM_DMA_FIFO_CMD
+    title: |
+      INTERNAL: eMMMC Internal DMA FIFO Command Register
+    address: 0x1180000000178
+    bus: RSL
+    description: |
+      This register specifies a command that is loaded into the eMMC internal DMA FIFO.  The FIFO is
+      used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
+      successfully.  Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
+      MIO_EMM_DMA_FIFO_ADR contents into the FIFO and increment the MIO_DMA_FIFO_CFG[COUNT] field.
+      Note:  This register has a similar format to the MIO_EMM_DMA_CFG register
+      with the exception that the EN and CLR fields are absent.  These are supported in the
+      MIO_EMM_DMA_FIFO_CFG.
+    fields:
+      - name: --
+        bits: 63
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RW
+        bits: 62
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          DMA engine R/W bit: 0 = read, 1 = write.
+
+      - name: --
+        bits: 61..60
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SWAP32
+        bits: 59
+        access: R/W
+        reset: 0
+        typical: --
+        description: DMA engine 32-bit swap.
+
+      - name: SWAP16
+        bits: 58
+        access: R/W
+        reset: 0
+        typical: --
+        description: DMA engine enable 16-bit swap.
+
+      - name: SWAP8
+        bits: 57
+        access: R/W
+        reset: 0
+        typical: --
+        description: DMA engine enable 8-bit swap.
+
+      - name: ENDIAN
+        bits: 56
+        access: R/W
+        reset: 0
+        typical: --
+        description: |
+          DMA engine endian mode: 0 = big-endian, 1 = little-endian.
+
+      - name: SIZE
+        bits: 55..36
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        description: |
+          DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+          example, to transfer 512 bytes, SIZE = 64 - 1 = 63.
+
+      - name: --
+        bits: 35..0
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+
   - name: MIO_EMM_DMA_CFG
     title: eMMC DMA Configuration Register
     address: 0x1180000000180
@@ -158,11 +328,20 @@ registers:
     description: Sixty-four-bit operations must be used to access this register.
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..2
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: FIFO
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: --
+        description: |
+          Internal DMA FIFO has dropped to level specified by MIO_DMA_FIFO_CFG[INT_LVL].  Throws
+          MIO_EMM_INTSN_E::MIO_EMM_DMA_FIFO.
 
       - name: DONE
         bits: 0
@@ -170,7 +349,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          DMA engine request completion interrupt. Throws MIO_EMM_INTSN_E::MIO_EMM_DMA_DONE.
+          Internal DMA engine request completion interrupt. Throws
+          MIO_EMM_INTSN_E::MIO_EMM_DMA_DONE.
 
 
   - name: MIO_EMM_CFG
@@ -212,12 +392,12 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          eMMC bus enable mask
-          Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (ie.
-          disabling any NOR use)
-          Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (ie.
+          eMMC bus enable mask.
+          Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
           disabling any NOR use).
-          Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (ie.
+          Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
+          disabling any NOR use).
+          Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
           disabling any NOR use).
           Bit3 of BUS_ENA is reserved.
           Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
@@ -259,15 +439,15 @@ registers:
         typical: --
         description: |
           Current card bus mode. Out of reset, the card is in 1-bit data bus mode. Select bus width.
-          0x0: 1-bit data bus (power on)
-          0x1: 4-bit data bus
-          0x2: 8-bit data bus
-          0x3: Reserved
-          0x4: Reserved
-          0x5: 4-bit data bus (dual data rate)
-          0x6: 8-bit data bus (dual data rate)
-          0x7: Reserved
-          0x8: Reserved
+          0x0 = 1-bit data bus (power on).
+          0x1 = 4-bit data bus.
+          0x2 = 8-bit data bus.
+          0x3 = Reserved.
+          0x4 = Reserved.
+          0x5 = 4-bit data bus (dual data rate).
+          0x6 = 8-bit data bus (dual data rate).
+          0x7 = Reserved.
+          0x8 = Reserved.
 
       - name: --
         bits: 39..36
@@ -332,14 +512,14 @@ registers:
           update the hardware.
           Software writes this bit to a 1 to indicate that hardware should perform the necessary
           SWITCH operations.
-          First, the POWER_CLASS switch is performed. If it fails, SWITCH_ERR0 is set and the
+          * First, the POWER_CLASS switch is performed. If it fails, SWITCH_ERR0 is set and the
           remaining SWITCH operations are not performed. If it succeeds, the POWER_CLASS field is
           updated and the HS_TIMING switch is performed.
-          If the HS_TIMING switch fails, SWITCH_ERR1 is set and the remaining SWITCH operations are
-          not performed. If it succeeds, the HS_TIMING field is updated and the BUS_WIDTH switch
+          * If the HS_TIMING switch fails, SWITCH_ERR1 is set and the remaining SWITCH operations
+          are not performed. If it succeeds, the HS_TIMING field is updated and the BUS_WIDTH switch
           operation is performed.
-          If the BUS_WIDTH switch operation fails, SWITCH_ERR2 is set. If it succeeds, the BUS_WITDH
-          is updated.
+          * If the BUS_WIDTH switch operation fails, SWITCH_ERR2 is set. If it succeeds, the
+          BUS_WITDH is updated.
           Changes to CLK_HI and CLK_LO are discarded if any SWITCH_ERR occurs.
 
       - name: SWITCH_ERR0
@@ -438,10 +618,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          Controls when dma is completed.
-          0 = DMA doesn't complete until card has dropped the BUSY signal
-          1 = Complete DMA after last transfer regardless of the BUSY signal.  Status of signal
-          can be read in MIO_EMM_RSP_STS[RSP_BUSYBIT].
+          Controls when DMA is completed.
+          0 = DMA doesn't complete until card has dropped the BUSY signal.
+          1 = Complete DMA after last transfer regardless of the BUSY signal. Status of signal can
+          be read in MIO_EMM_RSP_STS[RSP_BUSYBIT].
 
       - name: BUS_ID
         bits: 61..60
@@ -544,9 +724,9 @@ registers:
         typical: --
         description: |
           Controls when command is completed.
-          0 = Command doesn't complete until card has dropped the BUSY signal
-          1 = Complete command regardless of the BUSY signal.  Status of signal
-          can be read in MIO_EMM_RSP_STS[RSP_BUSYBIT].
+          0 = Command doesn't complete until card has dropped the BUSY signal.
+          1 = Complete command regardless of the BUSY signal. Status of signal can be read in
+          MIO_EMM_RSP_STS[RSP_BUSYBIT].
 
       - name: BUS_ID
         bits: 61..60
@@ -601,10 +781,10 @@ registers:
         description: |
           Command type override; typically zero. Value is XOR'd with the default command type. See
           Command and Response Types for command types per command index. Types are:
-          00 = No Data
-          01 = Read data into Dbuf
-          10 = Write data from Dbuf
-          11 = Reserved
+          0x0 = No data.
+          0x1 = Read data into Dbuf.
+          0x2 = Write data from Dbuf.
+          0x3 = Reserved.
 
       - name: RTYPE_XOR
         bits: 40..38
@@ -614,13 +794,13 @@ registers:
         description: |
           Response type override; typically zero. Value is XOR'd with default response type. See
           Command and Response Types for response types per command index. Types are:
-          000 = No Response
-          001 = R1, 48 bits
-          010 = R2, 136 bits
-          011 = R3, 48 bits
-          100 = R4, 48 bits
-          101 = R5, 48 bits
-          110, 111 = Reserved
+          0x0 = No Response.
+          0x1 = R1, 48 bits.
+          0x2 = R2, 136 bits.
+          0x3 = R3, 48 bits.
+          0x4 = R4, 48 bits.
+          0x5 = R5, 48 bits.
+          0x6, 0x7 = Reserved.
 
       - name: CMD_IDX
         bits: 37..32
@@ -699,8 +879,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          The DMA operation took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT] sclks to complete.  Valid
-          when DMA_PEND=1.
+          The DMA store operation took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT] sclks to complete.
+          Valid when DMA_PEND=1.
 
       - name: --
         bits: 54..29
@@ -757,7 +937,9 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Current value of DAT0 as a busy signal during block writes and R1b responses.
+        description: |
+          Current value of DAT0 as a busy signal during block writes and R1b responses.
+          This bit should read zero before any DMA or Command with data is executed.
 
       - name: STP_TIMEOUT
         bits: 19
@@ -771,7 +953,7 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Stop transmission response had a CRC error
+        description: Stop transmission response had a CRC error.
 
       - name: STP_BAD_STS
         bits: 17
@@ -792,49 +974,53 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Response timeout
+        description: Response timeout.
 
       - name: RSP_CRC_ERR
         bits: 14
         access: RO/H
         reset: 0
         typical: --
-        description: Response CRC error
+        description: Response CRC error.
 
       - name: RSP_BAD_STS
         bits: 13
         access: RO/H
         reset: 0
         typical: --
-        description: Response bad status
+        description: Response bad status.
 
       - name: RSP_VAL
         bits: 12
         access: RO/H
         reset: 0
         typical: --
-        description: Response ID. See MIO_EMM_RSP_HI/LO.
+        description: Response ID. See MIO_EMM_RSP_HI/MIO_EMM_RSP_LO.
 
       - name: RSP_TYPE
         bits: 11..9
         access: RO/H
         reset: 0x0
         typical: --
-        description: Indicates the response type. See MIO_EMM_RSP_HI/LO.
+        description: Indicates the response type. See MIO_EMM_RSP_HI/MIO_EMM_RSP_LO.
 
       - name: CMD_TYPE
         bits: 8..7
         access: RO/H
         reset: 0x0
         typical: --
-        description: eMMC command type (0x0 = no data, 0x1 = read, 0x2 = write)
+        description: |
+          eMMC command type.
+          0x0 = No data.
+          0x1 = Read.
+          0x2 = Write.
 
       - name: CMD_IDX
         bits: 6..1
         access: RO/H
         reset: 0x0
         typical: --
-        description: eMMC command index most recently attempted
+        description: eMMC command index most recently attempted.
 
       - name: CMD_DONE
         bits: 0
@@ -869,9 +1055,9 @@ registers:
           DAT[    0]  End bit
           RSP_TYPE = 3
           DAT[63:46]  0x0
-          DAT[45:40]  Check bits (0x3f)
+          DAT[45:40]  Check bits (0x3F)
           DAT[39: 8]  OCR register
-          DAT[ 7: 1]  Check bits (0x7f)
+          DAT[ 7: 1]  Check bits (0x7F)
           DAT[    0]  End bit
           RSP_TYPE = 4
           DAT[63:46]  0x0
@@ -889,7 +1075,7 @@ registers:
           DAT[   23]  Status
           DAT[22:16]  Register address
           DAT[15: 8]  Not defined. May be used for IRQ data
-          DAT[ 7: 1]  CRC7
+          DAT[ 7: 1] CRC7
           DAT[    0]  End bit
 
 
@@ -1159,10 +1345,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of sclks to allow for a DMA operation to complete before HW will halt the
+          Number of SCLKs to allow for a DMA operation to complete before hardware will halt the
           operation.
-          HW will inject and error on the next 512 byte block boundary.   The pending DMA operation
-          can be resumed or terminated.  A value of zero disables timer.
+          Hardware will inject and error on the next 512-byte block boundary.   The pending DMA
+          operation can be resumed or terminated. A value of zero disables timer.
 
 
 

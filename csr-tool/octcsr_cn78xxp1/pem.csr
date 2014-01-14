@@ -1914,12 +1914,13 @@ registers:
         reset: --
         typical: --
         description: |
-          " When set, PEM3 is configured to send/receive traffic to QLM4.
-           When clear, PEM3 is configured to send/receive traffic to QLM3.
-           Note that this bit can only be set for PEM3, for all other
-           PEMs it has no function.
-           Note that this bit must only be set when the associated PHYs
-           are in reset and PEM3 is receiving no clocks."
+          When set, PEM3 is configured to send/receive traffic to QLM4.
+          When clear, PEM3 is configured to send/receive traffic to QLM3.
+          Note that this bit can only be set for PEM3, for all other
+          PEMs it has no function.
+          Note that this bit must only be set when both the associated PHYs
+          and PEM3 are in reset. These conditions can be assured by setting
+          the PEM(3)_ON[PEMON] bit after setting this bit.
 
 
   - name: PEM(0..3)_ON

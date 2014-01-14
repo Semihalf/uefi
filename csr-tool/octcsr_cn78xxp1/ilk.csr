@@ -400,7 +400,7 @@ registers:
     address: 0x1180014000038
     bus: RSL
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0xFFFFF800000FFE79"
     fields:
       - name: RXF_X2P
         bits: 63
@@ -1027,8 +1027,8 @@ registers:
           entry 18 = backpressure ID 16
           ...
           This continues until the calendar depth is reached.
-          To disable backpressure completely, enable the calendar table
-          and program each calendar table entry to transmit XON
+          To disable backpressure completely, enable the calendar table and program each calendar
+          table entry to transmit XON.
 
       - name: MFRM_LEN
         bits: 51..39
@@ -1831,8 +1831,8 @@ registers:
         attributes:
           regtest_force: "0"
         description: |
-          Packet receive flush. Setting this bit to1 causes all open packets to be error-out, just
-          as though the link went down.
+          Packet receive flush. Setting this bit causes all open packets to be error-out, just as
+          though the link went down.
 
       - name: PKT_ENA
         bits: 20
@@ -3080,14 +3080,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Local device coefficient update field valid
+        description: Local device coefficient update field valid.
 
       - name: LD_CU_DAT
         bits: 47..32
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local device coefficient update field data
+        description: Local device coefficient update field data.
 
       - name: --
         bits: 31..17
@@ -3101,14 +3101,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Local device status report field valid
+        description: Local device status report field valid.
 
       - name: LD_SR_DAT
         bits: 15..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local device status report field data
+        description: Local device status report field data.
 
 
   - name: ILK_LNE(0..15)_TRN_LP
@@ -3128,14 +3128,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Link partner coefficient update field valid
+        description: Link partner coefficient update field valid.
 
       - name: LP_CU_DAT
         bits: 47..32
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Link partner coefficient update field data
+        description: Link partner coefficient update field data.
 
       - name: --
         bits: 31..17
@@ -3149,14 +3149,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Link partner status report field valid
+        description: Link partner status report field valid.
 
       - name: LP_SR_DAT
         bits: 15..0
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Link partner status report field data
+        description: Link partner status report field data.
 
 
   - name: ILK_LNE(0..15)_TRN_CTL
@@ -3176,21 +3176,21 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: Link training RX frame lock
+        description: Link training RX frame lock.
 
       - name: TRN_DONE
         bits: 2
         access: RO/H
         reset: 0
         typical: --
-        description: Link training done
+        description: Link training done.
 
       - name: TRN_ENA
         bits: 1
         access: R/W/H
         reset: 0
         typical: --
-        description: Link training enable
+        description: Link training enable.
 
       - name: EIE_DET
         bits: 0

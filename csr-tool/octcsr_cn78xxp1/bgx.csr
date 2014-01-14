@@ -706,6 +706,55 @@ enums:
         description: See BGX(0..5)_GMP_GMI_TX(0..3)_INT[PTP_LOST].
 
 
+  - name: BGX_OPCODE_E
+    title: BGX Error Opcode Enumeration
+    attributes:
+      subblock: "META"
+      width: "4"
+    description: Enumerates the error opcodes created by BGX and presented into MIX frames.
+    values:
+      - name: "NONE"
+        value: 0x0
+        description: No error.
+
+      - name: PARTIAL_ERR
+        value: 0x1
+        description: |
+          Receive buffer overflowed and packet in progress was terminated cleanly
+          with fabricated EOP.
+
+      - name: JABBER_ERR
+        value: 0x2
+        description: |
+          The packet length exceeded JABBER bytes. BGX terminated
+          the packet with an EOP on the beat on which JABBER was exceeded.
+
+      - name: FCS_ERR
+        value: 0x3
+        description: The packet failed the FCS CRC error check.
+
+      - name: FCSERR_RCVERR
+        value: 0x8
+        description: Both and FCS CRC error was observed as well as 'E' error control characters.
+
+      - name: BAD_TERM
+        value: 0x9
+        description: |
+          The framer received a control character other than 'T' or
+          'E' in the middle of processing a packet, or one of the conditions
+          referring to this error elsewhere occurred. In all cases data is
+          truncated and EOP generated.  In the case of SGMII traffic, this code
+          is used for the CAREXT or carrier extend error.
+
+      - name: RCV_ERR
+        value: 0xB
+        description: The packet got one or more 'E' error control characters.
+
+      - name: SKP_ERR
+        value: 0xC
+        description: The packet ended and its byte count did not reach UDD_SKP[LEN].
+
+
   - name: BGX_SPU_BR_TRAIN_CST_E
     title: BGX Training Coefficient Status Enumeration
     attributes:
@@ -1826,8 +1875,8 @@ registers:
       either due to the DMAC filter or lack of room in the receive FIFO.
       This does not include packets which were counted in
       BGX(0..5)_CMR(0..3)_RX_STAT2, BGX(0..5)_CMR(0..3)_RX_STAT4 nor
-      BGX(0..5)_CMR(0..3)_RX_STAT6 nor BGX(0..5)_CMR(0..3)_RX_STAT8.
-      Which statistics are updated on errors and drops are shown below:
+      BGX(0..5)_CMR(0..3)_RX_STAT6.
+      Which statistics are updated on control packet errors and drops are shown below:
       if dropped {
         if !errored STAT8
         if overflow STAT6
@@ -2251,7 +2300,7 @@ registers:
     address: 0x11800E0000300 + a*0x1000000
     bus: RSL
     attributes:
-      dv_bist_all_fail_test: "ALL"
+      dv_bist_all_fail_test: "0x007DFF"
       subblock: "CMR"
     fields:
       - name: --

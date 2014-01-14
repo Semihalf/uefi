@@ -44,7 +44,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Receive buffer register. Contains the data byte received on the serial input port
+        description: Receive buffer register. Contains the data byte received on the serial input port.
 
 
   - name: MIO_UART(0..1)_IER
@@ -54,9 +54,9 @@ registers:
     description: |
       The interrupt-enable register is a read/write register that contains four bits that enable the
       generation of interrupts:
-      enable received data available interrupt (ERBFI)
-      enable transmitter holding register empty interrupt (ETBEI)
-      enable receiver line status interrupt (ELSI)
+      * enable received data available interrupt (ERBFI)
+      * enable transmitter holding register empty interrupt (ETBEI)
+      * enable receiver line status interrupt (ELSI)
       enable modem status interrupt (EDSSI).
       The IER also contains the enable bit for the programmable transmit holding register empty
       (THRE) interrupt mode (PTIME).
@@ -73,7 +73,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Programmable THRE interrupt-mode enable
+        description: Programmable THRE interrupt-mode enable.
 
       - name: --
         bits: 6..4
@@ -87,28 +87,28 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Enable modem status interrupt
+        description: Enable modem status interrupt.
 
       - name: ELSI
         bits: 2
         access: R/W
         reset: 0
         typical: --
-        description: Enable receiver line status interrupt
+        description: Enable receiver line status interrupt.
 
       - name: ETBEI
         bits: 1
         access: R/W
         reset: 0
         typical: --
-        description: Enable transmitter holding register empty interrupt
+        description: Enable transmitter holding register empty interrupt.
 
       - name: ERBFI
         bits: 0
         access: R/W
         reset: 0
         typical: --
-        description: Enable received data available interrupt
+        description: Enable received data available interrupt.
 
 
   - name: MIO_UART(0..1)_IIR
@@ -131,7 +131,7 @@ registers:
         typical: --
         description: |
           FIFO-enabled.
-          00 = FIFOs disabled, 01 = reserved, 10 = reserved, 11 = FIFOs enabled
+          0x0 = FIFOs disabled, 0x1 = reserved, 0x2 = reserved, 0x3 = FIFOs enabled
 
       - name: --
         bits: 5..4
@@ -158,8 +158,6 @@ registers:
     description: |
       The line control register controls the format of the data that is transmitted and received by
       the UART. It is always readable and writable.
-    attributes:
-      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..8
@@ -236,10 +234,10 @@ registers:
         description: |
           Character length select field. Selects the number of data bits per character that are
           transmitted and received.
-          00 = 5 bits (bits 0-4 sent)
-          01 = 6 bits (bits 0-5 sent)
-          10 = 7 bits (bits 0-6 sent)
-          11 = 8 bits (all bits sent)
+          0x0 = 5 bits (bits 0-4 sent).
+          0x1 = 6 bits (bits 0-5 sent).
+          0x2 = 7 bits (bits 0-6 sent).
+          0x3 = 8 bits (all bits sent).
 
 
   - name: MIO_UART(0..1)_MCR
@@ -422,7 +420,7 @@ registers:
         typical: --
         description: |
           Data ready bit. When set, this bit indicates the receiver contains at least one character
-          in the MIO_UART0/1_RBR or the receiver FIFO. This bit is cleared when the
+          in the MIO_UART(0..1)_RBR or the receiver FIFO. This bit is cleared when the
           MIO_UART(0..1)_RBR is read in nonFIFO mode, or when the receiver FIFO is empty in FIFO
           mode.
 
@@ -528,6 +526,8 @@ registers:
     description: |
       The scratchpad register is an 8-bit read/write register for programmers to use as a temporary
       storage space.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..8
@@ -541,7 +541,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Scratchpad Register
+        description: Scratchpad register.
 
 
   - name: MIO_UART(0..1)_THR
@@ -594,10 +594,10 @@ registers:
           level in the receiver FIFO for the enable received-data-available interrupt (ERBFI). In
           autoflow-control mode, the trigger is used to determine when the rts_n signal will be
           deasserted. The trigger values are:
-          00 = 1 character in FIFO
-          01 = FIFO 1/2 full
-          10 = FIFO 1/4 full
-          11 = FIFO is two characters less than full
+          0x0 = 1 character in FIFO.
+          0x1 = FIFO 1/4 full.
+          0x2 = FIFO 1/2 full.
+          0x3 = FIFO is two characters less than full.
 
       - name: TXTRIG
         bits: 5..4
@@ -608,10 +608,10 @@ registers:
           TX trigger. If the FIFOs and programmable-THRE-interrupt mode are enabled, the values in
           this field control the empty threshold level at which THRE interrupts are generated when
           the mode is active.
-          00 = empty FIFO
-          01 = 2 characters in FIFO
-          10 = FIFO 1/2 full
-          11 = FIFO 1/4 full
+          0x0 = empty FIFO.
+          0x1 = 2 characters in FIFO.
+          0x2 = FIFO 1/4 full.
+          0x3 = FIFO 1/2 full.
 
       - name: --
         bits: 3
@@ -675,7 +675,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Divisor latch low register
+        description: Divisor latch low register.
 
 
   - name: MIO_UART(0..1)_DLH
@@ -705,7 +705,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Divisor latch high register
+        description: Divisor latch high register.
 
 
   - name: MIO_UART(0..1)_FAR
@@ -876,7 +876,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Transmit FIFO level. Indicates the number of data entries in the transmit FIFO
+        description: Transmit FIFO level. Indicates the number of data entries in the transmit FIFO.
 
 
   - name: MIO_UART(0..1)_RFL
@@ -897,7 +897,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Receive FIFO level. Indicates the number of data entries in the receive FIFO
+        description: Receive FIFO level. Indicates the number of data entries in the receive FIFO.
 
 
   - name: MIO_UART(0..1)_SRR

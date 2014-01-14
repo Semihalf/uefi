@@ -228,6 +228,7 @@ def build_csr(chip_info, register, raw):
                       "dv_uvm_force_compare",
                       "dv_uvm_cov_val_disable",
                       "exempt_keyword",
+                      "exempt_name_double_underscore",
                       "regtest_force",
                       "uvm_default_constraint"])
         name = field["name"]
@@ -296,7 +297,7 @@ def read(chip_name, input_dir):
     chip_info = ChipInfo(chip_name)
     input_files = os.listdir(input_dir)
     for file in input_files:
-        if file in [".svn", ".gitignore", "csr.txt"]:
+        if file in [".svn", ".gitignore", "csr.txt", "csr_pass1.txt"]:
             continue
         try:
             print "\t\t%s" % file

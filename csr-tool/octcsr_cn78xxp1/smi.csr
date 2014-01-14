@@ -71,10 +71,10 @@ registers:
         typical: --
         description: |
           PHY opcode, depending on SMI(0..3)_CLK[MODE] setting.
-          If SMI(0..3)_CLK[MODE] = 0 (<=1Gbs / Clause 22),
+          * If SMI(0..3)_CLK[MODE] = 0 (<=1Gbs / Clause 22),
           0 = write operation, encoded in the frame as 01
           1 = read operation, encoded in the frame as 10.
-          If SMI(0..3)_CLK[MODE] = 1 (>1Gbs / Clause 45),
+          * If SMI(0..3)_CLK[MODE] = 1 (>1Gbs / Clause 45),
           00=address, 01=write, 11=read, 10=post-read-increment-address.
 
       - name: --
