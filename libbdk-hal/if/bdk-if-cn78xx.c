@@ -254,6 +254,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     /* Program the PKO fifo */
     int index = fifo >> 2;
     BDK_CSR_INIT(cfg, node, BDK_PKO_PTGFX_CFG(index));
+    cfg.s.reset = 1;
     switch (cfg.s.size)
     {
         case 0: /* 2.5kb, 2.5kb, 2.5kb, 2.5kb */
@@ -563,6 +564,11 @@ static int pko_port_init(bdk_if_handle_t handle)
 static int pko_enable(bdk_node_t node)
 {
     const global_node_state_t *node_state = &global_node_state[node];
+
+    /* Take FIFOs out of reset */
+    for (int i = 0; i < 8; i++)
+        BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i),
+            c.s.reset = 0);
 
     BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
         c.s.enable = 1);
