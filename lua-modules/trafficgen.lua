@@ -33,6 +33,7 @@ local ALIASES = {
 
 local TrafficGen = {}
 function TrafficGen.new()
+    octeon.c.bdk_init_nodes();
     local self = {}
     --
     -- Private variables
@@ -687,7 +688,6 @@ function TrafficGen.new()
         printf(SCROLL_FULL .. GOTO_BOTTOM)
         printf("\n\nBDK Traffic Generator\n\n")
         printf("Type \"help\" for a list of commands\n")
-        octeon.c.bdk_init_nodes();
         -- Allow the user to do some trafficgen specific customization. First argument
         -- is trafficgen, so the script can add/remove comamnds or modify trafficgen.
         utils.run("autorun-trafficgen", self)
