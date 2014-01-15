@@ -106,24 +106,42 @@ static int if_probe(bdk_if_handle_t handle)
     switch (priv.s.mode)
     {
         case BGX_MODE_SGMII:
-            name_format = "N%d.SGMII%d.%d";
+            if (bdk_numa_is_only_one())
+                name_format = "SGMII%d.%d";
+            else
+                name_format = "N%d.SGMII%d.%d";
             break;
         case BGX_MODE_XAUI:
-            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "XAUI%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
             break;
         case BGX_MODE_RXAUI:
-            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
             break;
         case BGX_MODE_10G:
-            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "10G%d.%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
             break;
         case BGX_MODE_40G:
-            name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "40G%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
             break;
         default:
             return -1;
     }
-    snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
+    if (bdk_numa_is_only_one())
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv.s.port, priv.s.channel);
+    else
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
     handle->name[sizeof(handle->name)-1] = 0;
 
     /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
