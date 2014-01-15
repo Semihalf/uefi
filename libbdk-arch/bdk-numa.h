@@ -72,6 +72,15 @@ extern void bdk_numa_set_exists(bdk_node_t node);
 extern void bdk_numa_set_running(bdk_node_t node);
 
 /**
+ * Return true if a node exists
+ *
+ * @param node   Node to check
+ *
+ * @return Non zero if the node exists
+ */
+extern int bdk_numa_exists(bdk_node_t node);
+
+/**
  * Return true if there is only one node
  *
  * @return
