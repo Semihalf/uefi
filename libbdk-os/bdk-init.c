@@ -340,12 +340,11 @@ static void ocx_pp_write(bdk_node_t node, uint64_t address, uint64_t data)
 }
 
 /**
- * Call this function to take secondary nodes and cores out of
- * reset and have them start running threads
+ * Initialize the OCI so all Nodes are ready to be used
  *
  * @return Zero on success, negative on failure.
  */
-int bdk_init_nodes(void)
+static int init_oci(void)
 {
     const int MAX_LINKS = 3;
     bdk_ocx_com_node_t node_id[MAX_LINKS];
@@ -573,9 +572,23 @@ int bdk_init_nodes(void)
             ocx_pp_write(node, BDK_L2C_OCI_CTL, l2c_oci_ctl.u);
         }
     }
-
     BDK_TRACE("OCX is functional, starting to boot nodes\n");
+    return 0;
+}
+
+/**
+ * Call this function to take secondary nodes and cores out of
+ * reset and have them start running threads
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_init_nodes(void)
+{
     int result = 0;
+
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        result |= init_oci();
+
     for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
