@@ -44,7 +44,7 @@ RUN_SIM_ARGS =
 #
 # Use these to boot off Node 0
 #
-RUN_SIM_ARGS += -ld0x1fc00000:target-bin/original/bdk-full-no-romfs
+RUN_SIM_ARGS += -ld0:target-bin/original/bdk-full-no-romfs
 RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-boot-cn78xx.bin
 RUN_SIM_ARGS += -ld0:0x1000000
 #
