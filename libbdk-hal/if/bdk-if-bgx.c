@@ -146,34 +146,44 @@ static int if_probe(bdk_if_handle_t handle)
 }
 
 /**
- * @INTERNAL
- * Initialize the SERTES link for the first time or after a loss
- * of link.
+ * Perform intialization of the BGX required before use. This should only be
+ * called once for each BGX. Before this is called, the mode of the BGX must be
+ * set in BGXX_CMRX_CONFIG[lmac_type].
  *
- * @param interface Interface to init
- * @param index     Index of prot on the interface
+ * @param interface Which BGX to setup. This will have index=0
  *
  * @return Zero on success, negative on failure
  */
-static int init_link(bdk_if_handle_t handle)
+static int bgx_setup_one_time(bdk_if_handle_t handle)
 {
-#if 0 // FIXME Implement link init
-    int gmx_block = __bdk_if_get_gmx_block(handle);
-    int gmx_index = __bdk_if_get_gmx_index(handle);
+    bgx_priv_t priv = {.ptr = handle->priv};
+
+    /* First warn if BIST failed */
+    uint64_t bist = BDK_CSR_READ(handle->node, BDK_BGXX_CMR_BIST_STATUS(handle->interface));
+    if (bist)
+        bdk_warn("BGX%d failed BIST\n", handle->interface);
+
+    /* Set the number of LMACs we will use */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
+        c.s.lmacs = priv.s.num_port);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_RX_LMACS(handle->interface),
+        c.s.lmacs = priv.s.num_port);
+    return 0;
+}
+
+static int sgmii_link(bdk_if_handle_t handle)
+{
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+
     int forced_speed_mbps = 0;  /* Default to no forced speed, use autonegotiation */
-
-
     /* Check for special PHY address values that indicate a forced speed, and no MDIO
        connection to the PHY.  In these cases we will also force the SGMII speed, and not
        do SGMII autonegotiation. Only 1000/100 Mbits/second are supported.*/
-    if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1000))
+    if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == 0x1000))
         forced_speed_mbps = 1000;
-    else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == 0x1001))
+    else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == 0x1001))
         forced_speed_mbps = 100;
-
-    /* Disable error reporting */
-    BDK_CSR_WRITE(handle->node, BDK_GMXX_RXX_INT_EN(gmx_block, gmx_index), 0);
-    BDK_CSR_WRITE(handle->node, BDK_PCSX_INTX_EN_REG(gmx_block, gmx_index), 0);
 
     /* Take PCS through a reset sequence.
         PCS*_MR*_CONTROL_REG[PWR_DN] should be cleared to zero.
@@ -182,11 +192,11 @@ static int init_link(bdk_if_handle_t handle)
         Read PCS*_MR*_CONTROL_REG[RESET] until it changes value to zero. */
     if (!bdk_is_simulation())
     {
-        BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
-            control_reg.s.reset = 1);
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index), reset, ==, 0, 10000))
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index),
+            c.s.reset = 1);
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index), reset, ==, 0, 10000))
         {
-            bdk_dprintf("SGMII%d%d: Timeout waiting for reset finish\n", handle->interface, handle->index);
+            bdk_dprintf("%s: Timeout waiting for reset finish\n", handle->name);
             return -1;
         }
     }
@@ -194,16 +204,16 @@ static int init_link(bdk_if_handle_t handle)
     if (!forced_speed_mbps)
     {
         /* Write PCS*_MR*_CONTROL_REG[RST_AN]=1 to ensure a fresh sgmii negotiation starts. */
-        BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
-            control_reg.s.rst_an = 1;
-            control_reg.s.an_en = 1;
-            control_reg.s.pwr_dn = 0);
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index),
+            c.s.rst_an = 1;
+            c.s.an_en = 1;
+            c.s.pwr_dn = 0);
 
         /* Wait for PCS*_MR*_STATUS_REG[AN_CPT] to be set, indicating that
             sgmii autonegotiation is complete. In MAC mode this isn't an ethernet
             link, but a link between Octeon and the PHY */
         if (!bdk_is_simulation() &&
-            BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index), an_cpt, ==, 1, 10000))
+            BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index), an_cpt, ==, 1, 10000))
         {
             return -1;
         }
@@ -212,55 +222,69 @@ static int init_link(bdk_if_handle_t handle)
     {
         /* A forced interface speed was selected, so configure this for the SGMII link as well,
            and don't do SGMII autonegotiation. */
-        BDK_CSR_MODIFY(control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index),
-                       control_reg.s.spdmsb = (forced_speed_mbps == 1000);
-                       control_reg.s.spdlsb = (forced_speed_mbps != 1000);
-                       control_reg.s.an_en = 0;
-                       control_reg.s.pwr_dn = 0);
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index),
+                       c.s.spdmsb = (forced_speed_mbps == 1000);
+                       c.s.spdlsb = (forced_speed_mbps != 1000);
+                       c.s.an_en = 0;
+                       c.s.pwr_dn = 0);
     }
 
-    /* CN78XX adds the padding and FCS in PKO, not GMX */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_APPEND(gmx_block, gmx_index),
-            c.s.fcs = 0;
-            c.s.pad = 0);
+    /* Write PCS*_LINK*_TIMER_COUNT_REG[COUNT] with the appropriate
+        value. SGMII specifies a 1.6ms interval, 10ms for everybody else. */
+    BDK_CSR_INIT(pcs_miscx_ctl, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
+    BDK_CSR_INIT(pcs_linkx_timer, handle->node, BDK_BGXX_GMP_PCS_LINKX_TIMER(bgx_block, bgx_index));
+    const uint64_t clock_mhz = bdk_clock_get_rate(handle->node, BDK_CLOCK_SCLK) / 1000000;
+    if (pcs_miscx_ctl.s.mode)
+    {
+        /* 1000BASE-X */
+        pcs_linkx_timer.s.count = (10000ull * clock_mhz) >> 10;
+    }
+    else
+    {
+        /* SGMII */
+        pcs_linkx_timer.s.count = (1600ull * clock_mhz) >> 10;
+    }
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_LINKX_TIMER(bgx_block, bgx_index), pcs_linkx_timer.u64);
 
-    /* Enable error reporting */
-    BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_RXX_INT_EN(gmx_block, gmx_index),
-        c.s.bad_seq = -1;
-        c.s.bad_term = -1;
-        c.s.carext = -1;
-        c.s.hg2cc = -1;
-        c.s.hg2fld = -1;
-        c.s.loc_fault = -1;
-        c.s.ovrerr = -1;
-        c.s.rem_fault = -1;
-        c.s.skperr = -1;
-        c.s.undat = -1;
-        c.s.uneop = -1;
-        c.s.unsop = -1;
-    );
-    BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TX_INT_EN(gmx_block),
-        c.s.pko_nxa = -1;
-        c.s.pko_nxp = -1;
-        c.s.ptp_lost = -1;
-        c.s.undflw = -1;
-    );
-    BDK_CSR_MODIFY(c, handle->node, BDK_PCSX_INTX_EN_REG(gmx_block, gmx_index),
-        c.s.an_bad_en = -1;
-        c.s.an_err_en = -1;
-        c.s.dbg_sync_en = -1;
-        c.s.rxbad_en = -1;
-        c.s.rxlock_en = -1;
-        c.s.sync_bad_en = -1;
-        c.s.txbad_en = -1;
-        c.s.txfifo_en = -1;
-        c.s.txfifu_en = -1;
-    );
-#endif
+    /* Write the advertisement register to be used as the
+        tx_Config_Reg<D15:D0> of the autonegotiation.
+        In 1000BASE-X mode, tx_Config_Reg<D15:D0> is PCS*_AN*_ADV_REG.
+        In SGMII PHY mode, tx_Config_Reg<D15:D0> is PCS*_SGM*_AN_ADV_REG.
+        In SGMII MAC mode, tx_Config_Reg<D15:D0> is the fixed value 0x4001, so
+        this step can be skipped. */
+    if (pcs_miscx_ctl.s.mode)
+    {
+        /* 1000BASE-X */
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_ANX_ADV(bgx_block, bgx_index),
+            c.s.rem_flt = 0;
+            c.s.pause = 3;
+            c.s.hfd = 1;
+            c.s.fd = 1);
+    }
+    else
+    {
+        if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == -1) &&
+            !pcs_miscx_ctl.s.mac_phy)
+        {
+            bdk_dprintf("%s: Forcing PHY mode as PHY address is not set\n", handle->name);
+            pcs_miscx_ctl.s.mac_phy = 1;
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcs_miscx_ctl.u64);
+        }
+
+        if (pcs_miscx_ctl.s.mac_phy)
+        {
+            /* PHY Mode */
+            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_SGMX_AN_ADV(bgx_block, bgx_index),
+                c.s.dup = 1;
+                c.s.speed= 2);
+        }
+        else
+        {
+            /* MAC Mode - Nothing to do */
+        }
+    }
     return 0;
 }
-
 
 /**
  * @INTERNAL
@@ -273,91 +297,150 @@ static int init_link(bdk_if_handle_t handle)
  *
  * @return Zero on success, negative on failure
  */
-static int init_link_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
+static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
-#if 0 // FIXME Implement link speed
-    int gmx_block = __bdk_if_get_gmx_block(handle);
-    int gmx_index = __bdk_if_get_gmx_index(handle);
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
     int is_enabled;
 
     /* Disable GMX before we make any changes. Remember the enable state */
-    BDK_CSR_MODIFY(gmxx_prtx_cfg, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index),
-        is_enabled = gmxx_prtx_cfg.s.en;
-        gmxx_prtx_cfg.s.en = 0);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
+        is_enabled = c.s.enable;
+        c.s.enable = 0);
 
     /* Wait for GMX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index), rx_idle, ==, 1, 10000) ||
-        BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index), tx_idle, ==, 1, 10000))
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000) ||
+        BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
     {
-        bdk_dprintf("SGMII%d%d: Timeout waiting for idle\n", handle->interface, handle->index);
+        bdk_dprintf("%s: Timeout waiting for idle\n", handle->name);
         return -1;
     }
 
     /* Read GMX CFG again to make sure the disable completed */
-    BDK_CSR_INIT(gmxx_prtx_cfg, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index));
+    BDK_CSR_INIT(prtx_cfg, handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index));
 
     /* Get the misc control for PCS. We will need to set the duplication amount */
-    BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_PCSX_MISCX_CTL_REG(gmx_block, gmx_index));
+    BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
 
     /* Use GMXENO to force the link down if the status we get says it should be down */
     pcsx_miscx_ctl_reg.s.gmxeno = !link_info.s.up;
 
     /* Only change the duplex setting if the link is up */
     if (link_info.s.up)
-        gmxx_prtx_cfg.s.duplex = link_info.s.full_duplex;
+        prtx_cfg.s.duplex = link_info.s.full_duplex;
 
     /* Do speed based setting for GMX */
     switch (link_info.s.speed)
     {
         case 10:
-            gmxx_prtx_cfg.s.speed = 0;
-            gmxx_prtx_cfg.s.speed_msb = 1;
-            gmxx_prtx_cfg.s.slottime = 0;
+            prtx_cfg.s.speed = 0;
+            prtx_cfg.s.speed_msb = 1;
+            prtx_cfg.s.slottime = 0;
             pcsx_miscx_ctl_reg.s.samp_pt = 25; /* Setting from GMX-603 */
-            BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_SLOT(gmx_block, gmx_index), 64);
-            BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_BURST(gmx_block, gmx_index), 0);
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_SLOT(bgx_block, bgx_index), 64);
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_BURST(bgx_block, bgx_index), 0);
             break;
         case 100:
-            gmxx_prtx_cfg.s.speed = 0;
-            gmxx_prtx_cfg.s.speed_msb = 0;
-            gmxx_prtx_cfg.s.slottime = 0;
+            prtx_cfg.s.speed = 0;
+            prtx_cfg.s.speed_msb = 0;
+            prtx_cfg.s.slottime = 0;
             pcsx_miscx_ctl_reg.s.samp_pt = 0x5;
-            BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_SLOT(gmx_block, gmx_index), 64);
-            BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_BURST(gmx_block, gmx_index), 0);
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_SLOT(bgx_block, bgx_index), 64);
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_BURST(bgx_block, bgx_index), 0);
             break;
         case 1000:
-            gmxx_prtx_cfg.s.speed = 1;
-            gmxx_prtx_cfg.s.speed_msb = 0;
-            gmxx_prtx_cfg.s.slottime = 1;
+            prtx_cfg.s.speed = 1;
+            prtx_cfg.s.speed_msb = 0;
+            prtx_cfg.s.slottime = 1;
             pcsx_miscx_ctl_reg.s.samp_pt = 1;
-            BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_SLOT(gmx_block, gmx_index), 512);
-	    if (gmxx_prtx_cfg.s.duplex)
-                BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_BURST(gmx_block, gmx_index), 0); // full duplex
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_SLOT(bgx_block, bgx_index), 512);
+	    if (prtx_cfg.s.duplex)
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_BURST(bgx_block, bgx_index), 0); // full duplex
 	    else
-                BDK_CSR_WRITE(handle->node, BDK_GMXX_TXX_BURST(gmx_block, gmx_index), 8192); // half duplex
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_TXX_BURST(bgx_block, bgx_index), 8192); // half duplex
             break;
         default:
             break;
     }
 
     /* Write the new misc control for PCS */
-    BDK_CSR_WRITE(handle->node, BDK_PCSX_MISCX_CTL_REG(gmx_block, gmx_index), pcsx_miscx_ctl_reg.u64);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcsx_miscx_ctl_reg.u64);
 
     /* Write the new GMX settings with the port still disabled */
-    BDK_CSR_WRITE(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index), gmxx_prtx_cfg.u64);
-
-    /* Read GMX CFG again to make sure the config completed */
-    gmxx_prtx_cfg.u64 = BDK_CSR_READ(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index));
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), prtx_cfg.u64);
 
     /* Restore the enabled / disabled state */
-    gmxx_prtx_cfg.s.en = is_enabled;
-    BDK_CSR_WRITE(handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index), gmxx_prtx_cfg.u64);
-#endif
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
+        c.s.enable = is_enabled);
+    return 0;
+}
+
+static int xaui_link(bdk_if_handle_t handle)
+{
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+
+    /* (1) Interface has already been enabled. */
+
+    /* (2) Disable GMX. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
+        c.s.gmxeno = 1);
+
+    /* (3) Disable GMX and PCSX interrupts. */
+    // 78xx interrupt mess?
+
+    /* (4) Bring up the PCSX and GMX reconciliation layer. */
+    /* (4)a Set polarity and lane swapping. */
+    /* (4)b */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_CTL(bgx_block, bgx_index),
+        c.s.dic_en = 1; /* Enable better IFG packing and improves performance */
+        c.s.uni_en = 0);
+
+    /* (4)c Power up the interface */
+    BDK_CSR_MODIFY(xauiCtl, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
+        xauiCtl.s.lo_pwr = 0);
+
+    /* Wait for PCS to come out of reset */
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, 10000))
+        return -1;
+    /* Wait for PCS to be aligned */
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, 10000))
+        return -1;
+    /* Wait for RX to be ready */
+    // FIXME
+    //if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_RX_XAUI_CTL(bgx_block), status, ==, 0, 10000))
+        //return -1;
+
+    /* (6) Configure GMX */
+
+    /* Wait for GMX RX to be idle */
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000))
+        return -1;
+    /* Wait for GMX TX to be idle */
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
+        return -1;
+
+    /* Wait for receive link */
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, 10000))
+        return -1;
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), xmtflt, ==, 0, 10000))
+        return -1;
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), rcvflt, ==, 0, 10000))
+        return -1;
+
+    /* (8) Enable packet reception */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
+        c.s.gmxeno = 0);
+
+    /* Enable error interrupts */
+    // 78xx interrupt mess?
     return 0;
 }
 
 static int if_init(bdk_if_handle_t handle)
 {
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
     bgx_priv_t priv = {.ptr = handle->priv};
     /* Only setup the PKO MAC on real ports, so only do channel 0 */
     if (priv.s.channel == 0)
@@ -367,136 +450,40 @@ static int if_init(bdk_if_handle_t handle)
             c.s.fcs_ena = 1; /* FCS */
             c.s.fcs_sop_off = 0; /* No FCS offset */
             c.s.skid_max_cnt = (priv.s.num_port == 4) ? 0 : (priv.s.num_port == 2) ? 1 : 2);
+        if (bgx_setup_one_time(handle))
+            return -1;
     }
 
-#if 0 // FIXME: Implement init
-    int gmx_block = __bdk_if_get_gmx_block(handle);
-    int gmx_index = __bdk_if_get_gmx_index(handle);
-
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    switch (priv.s.mode)
     {
-        /* Configure the PKO internal port mappings */
-        int pipe = __bdk_pko_alloc_pipe(handle->node, 1);
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_PIPE(gmx_block, gmx_index),
-            c.s.nump = 1;
-            c.s.base = pipe);
-        BDK_CSR_DEFINE(ptrs, BDK_PKO_MEM_IPORT_PTRS);
-        ptrs.u64 = 0;
-        ptrs.s.qos_mask = 0xff; /* QOS rounds */
-        ptrs.s.crc = 1;         /* Use CRC on packets */
-        ptrs.s.min_pkt = 1;     /* Set min packet to 64 bytes */
-        ptrs.s.pipe = pipe;     /* Which PKO pipe */
-        ptrs.s.intr = gmx_block*4 + gmx_index;  /* Which interface */
-        ptrs.s.eid = __bdk_pko_alloc_engine(handle->node);
-        ptrs.s.ipid = handle->pko_port;
-        BDK_CSR_WRITE(handle->node, BDK_PKO_MEM_IPORT_PTRS, ptrs.u64);
-
-        /* Setup PKIND */
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index),
-            c.s.pknd = handle->pknd);
-
-        /* Setup BPID */
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_BPID_MAPX(gmx_block, gmx_index),
-            c.s.val = 1;
-            c.s.bpid = handle->pknd);
-        BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_BPID_MSK(gmx_block),
-            c.s.msk_or |= 1<<handle->index;
-            c.s.msk_and &= ~(1<<handle->index));
+        case BGX_MODE_SGMII:
+        case BGX_MODE_XAUI:
+        case BGX_MODE_RXAUI:
+        case BGX_MODE_10G:
+        case BGX_MODE_40G:
+        default:
+            break;
     }
-
-    if (gmx_index == 0)
-    {
-        /* Tell GMX the number of TX ports on this interface */
-        BDK_CSR_MODIFY(gmx_tx_prts, handle->node, BDK_GMXX_TX_PRTS(gmx_block),
-            gmx_tx_prts.s.prts = if_num_ports(handle->node, gmx_block));
-
-        /* Tell GMX the number of RX ports on this interface.  This only
-        ** applies to *GMII and XAUI ports */
-        BDK_CSR_MODIFY(gmx_rx_prts, handle->node, BDK_GMXX_RX_PRTS(gmx_block),
-            gmx_rx_prts.s.prts = if_num_ports(handle->node, gmx_block));
-    }
-
-    /* Enable the interface */
-    BDK_CSR_MODIFY(inf_mode, handle->node, BDK_GMXX_INF_MODE(gmx_block),
-            inf_mode.s.en=1);
 
     /* Set GMX to buffer as much data as possible before starting transmit.
         This reduces the chances that we have a TX under run due to memory
         contention. Any packet that fits entirely in the GMX FIFO can never
         have an under run regardless of memory load */
-    BDK_CSR_MODIFY(gmx_tx_thresh, handle->node, BDK_GMXX_TXX_THRESH(gmx_block, gmx_index),
-        gmx_tx_thresh.s.cnt = 0x100 / 4);
-
-    /* Disable GMX */
-    BDK_CSR_MODIFY(gmxx_prtx_cfg, handle->node, BDK_GMXX_PRTX_CFG(gmx_block, gmx_index),
-        gmxx_prtx_cfg.s.en = 0);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(bgx_block, bgx_index),
+        c.s.cnt = (0x800 / priv.s.num_port) - 1);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(bgx_block, bgx_index),
+        c.s.cnt = (0x800 / priv.s.num_port) - 1);
 
     /* Configure to allow max sized frames */
-    BDK_CSR_WRITE(handle->node, BDK_GMXX_RXX_JABBER(gmx_block, gmx_index), 65535);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_RXX_JABBER(bgx_block, bgx_index), 0xfff8);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SMUX_RX_JABBER(bgx_block, bgx_index), 0xfff8);
 
     /* Disable frame alignment if using preamble. This allows the link to
         reach full rate for odd length packets. For example, without this
         SGMII is slower than RGMII for 65 byte packets */
-    BDK_CSR_INIT(gmxx_txx_append, handle->node, BDK_GMXX_TXX_APPEND(gmx_block, gmx_index));
-    BDK_CSR_MODIFY(c, handle->node, BDK_GMXX_TXX_SGMII_CTL(gmx_block, gmx_index),
-        c.s.align = !gmxx_txx_append.s.preamble);
-
-    /* Write PCS*_LINK*_TIMER_COUNT_REG[COUNT] with the appropriate
-        value. 1000BASE-X specifies a 10ms interval. SGMII specifies a 1.6ms
-        interval. */
-    BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_PCSX_MISCX_CTL_REG(gmx_block, gmx_index));
-    BDK_CSR_INIT(pcsx_linkx_timer_count_reg, handle->node, BDK_PCSX_LINKX_TIMER_COUNT_REG(gmx_block, gmx_index));
-    const uint64_t clock_mhz = bdk_clock_get_rate(handle->node, BDK_CLOCK_SCLK) / 1000000;
-    if (pcsx_miscx_ctl_reg.s.mode)
-    {
-        /* 1000BASE-X */
-        pcsx_linkx_timer_count_reg.s.count = (10000ull * clock_mhz) >> 10;
-    }
-    else
-    {
-        /* SGMII */
-        pcsx_linkx_timer_count_reg.s.count = (1600ull * clock_mhz) >> 10;
-    }
-    BDK_CSR_WRITE(handle->node, BDK_PCSX_LINKX_TIMER_COUNT_REG(gmx_block, gmx_index), pcsx_linkx_timer_count_reg.u64);
-
-    /* Write the advertisement register to be used as the
-        tx_Config_Reg<D15:D0> of the autonegotiation.
-        In 1000BASE-X mode, tx_Config_Reg<D15:D0> is PCS*_AN*_ADV_REG.
-        In SGMII PHY mode, tx_Config_Reg<D15:D0> is PCS*_SGM*_AN_ADV_REG.
-        In SGMII MAC mode, tx_Config_Reg<D15:D0> is the fixed value 0x4001, so
-        this step can be skipped. */
-    if (pcsx_miscx_ctl_reg.s.mode)
-    {
-        /* 1000BASE-X */
-        BDK_CSR_MODIFY(pcsx_anx_adv_reg, handle->node, BDK_PCSX_ANX_ADV_REG(gmx_block, gmx_index),
-            pcsx_anx_adv_reg.s.rem_flt = 0;
-            pcsx_anx_adv_reg.s.pause = 3;
-            pcsx_anx_adv_reg.s.hfd = 1;
-            pcsx_anx_adv_reg.s.fd = 1);
-    }
-    else
-    {
-        if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index) == -1) &&
-            !pcsx_miscx_ctl_reg.s.mac_phy)
-        {
-            bdk_dprintf("SGMII%d%d: Forcing PHY mode as PHY address is not set\n", gmx_block, gmx_index);
-            pcsx_miscx_ctl_reg.s.mac_phy = 1;
-            BDK_CSR_WRITE(handle->node, BDK_PCSX_MISCX_CTL_REG(gmx_block, gmx_index), pcsx_miscx_ctl_reg.u64);
-        }
-
-        if (pcsx_miscx_ctl_reg.s.mac_phy)
-        {
-            /* PHY Mode */
-            BDK_CSR_MODIFY(pcsx_sgmx_an_adv_reg, handle->node, BDK_PCSX_SGMX_AN_ADV_REG(gmx_block, gmx_index),
-                pcsx_sgmx_an_adv_reg.s.dup = 1;
-                pcsx_sgmx_an_adv_reg.s.speed= 2);
-        }
-        else
-        {
-            /* MAC Mode - Nothing to do */
-        }
-    }
-#endif
+    BDK_CSR_INIT(txx_append, handle->node, BDK_BGXX_GMP_GMI_TXX_APPEND(bgx_block, bgx_index));
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(bgx_block, bgx_index),
+        c.s.align = !txx_append.s.preamble);
     return 0;
 }
 
@@ -504,6 +491,7 @@ static int if_enable(bdk_if_handle_t handle)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
+        c.s.enable = 1;
         c.s.data_pkt_tx_en = 1;
         c.s.data_pkt_rx_en = 1);
     return 0;
@@ -513,39 +501,23 @@ static int if_disable(bdk_if_handle_t handle)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
+        c.s.enable = 0;
         c.s.data_pkt_tx_en = 0;
         c.s.data_pkt_rx_en = 0);
     return 0;
 }
 
-static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
+static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
 {
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+    bdk_if_link_t result;
     //bgx_priv_t priv = {.ptr = handle->priv};
 
-    bdk_if_link_t result;
-
     result.u64 = 0;
-    if (bdk_is_simulation())
-    {
-        result.s.up = 1;
-        result.s.full_duplex = 1;
-        result.s.speed = 10;
-        return result;
-    }
 
-#if 0 // FIXME: Implement link get
-    int gmx_block = __bdk_if_get_gmx_block(handle);
-    int gmx_index = __bdk_if_get_gmx_index(handle);
-
-    int qlm = bdk_qlm_get(handle->node, BDK_IF_SGMII, handle->interface);
+    int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
     int speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
-    {
-        /* Divide speed by four to account for QSGMII multiplexing */
-        BDK_CSR_INIT(inf_mode, handle->node, BDK_GMXX_INF_MODE(gmx_block));
-        if (inf_mode.s.mode == 2)
-            speed >>= 2;
-    }
 
     if (bdk_is_simulation())
     {
@@ -556,7 +528,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         return result;
     }
 
-    BDK_CSR_INIT(pcsx_mrx_control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(gmx_block, gmx_index));
+    BDK_CSR_INIT(pcsx_mrx_control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(bgx_block, bgx_index));
     if (pcsx_mrx_control_reg.s.loopbck1)
     {
         /* Force 1Gbps full duplex link for internal loopback */
@@ -567,7 +539,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     }
 
 
-    BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_PCSX_MISCX_CTL_REG(gmx_block, gmx_index));
+    BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_PCSX_MISCX_CTL_REG(bgx_block, bgx_index));
     if (pcsx_miscx_ctl_reg.s.mode)
     {
         /* 1000BASE-X */
@@ -579,20 +551,20 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         {
             /* PHY Mode */
             /* Don't bother continuing if the SERTES low level link is down */
-            BDK_CSR_INIT(pcsx_mrx_status_reg, handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index));
+            BDK_CSR_INIT(pcsx_mrx_status_reg, handle->node, BDK_PCSX_MRX_STATUS_REG(bgx_block, bgx_index));
             if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
             {
                 /* Read a second time as the lnk_st bit is sticky */
-                pcsx_mrx_status_reg.u64 = BDK_CSR_READ(handle->node, BDK_PCSX_MRX_STATUS_REG(gmx_block, gmx_index));
+                pcsx_mrx_status_reg.u64 = BDK_CSR_READ(handle->node, BDK_PCSX_MRX_STATUS_REG(bgx_block, bgx_index));
                 if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
                 {
-                    if (init_link(handle) != 0)
+                    if (sgmii_link(handle) != 0)
                         return result;
                 }
             }
 
             /* Read the autoneg results */
-            BDK_CSR_INIT(pcsx_anx_results_reg, handle->node, BDK_PCSX_ANX_RESULTS_REG(gmx_block, gmx_index));
+            BDK_CSR_INIT(pcsx_anx_results_reg, handle->node, BDK_PCSX_ANX_RESULTS_REG(bgx_block, bgx_index));
             if (pcsx_anx_results_reg.s.an_cpt)
             {
                 /* Auto negotiation is complete. Set status accordingly */
@@ -624,18 +596,84 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         }
         else /* MAC Mode */
         {
-            result = __bdk_if_phy_get(bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + gmx_block*4 + gmx_index));
+            result = __bdk_if_phy_get(bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index));
         }
     }
-#endif
+    return result;
+}
+
+static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
+{
+    bgx_priv_t priv = {.ptr = handle->priv};
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+    bdk_if_link_t result;
+    result.u64 = 0;
+
+    BDK_CSR_INIT(status1, handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index));
+    if (status1.s.rcv_lnk)
+    {
+        int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+        result.s.lanes = 4 / priv.s.num_port;
+        result.s.up = 1;
+        result.s.full_duplex = 1;
+        result.s.speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
+        result.s.speed *= result.s.lanes;
+
+        BDK_CSR_INIT(misc_ctl, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
+        if (misc_ctl.s.gmxeno)
+            xaui_link(handle);
+    }
+    else
+    {
+        /* Disable GMX and PCSX interrupts. */
+        // 78xx interrupt mess?
+    }
+    return result;
+}
+
+static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
+{
+    bgx_priv_t priv = {.ptr = handle->priv};
+    bdk_if_link_t result;
+    result.u64 = 0;
+
+    switch (priv.s.mode)
+    {
+        case BGX_MODE_SGMII:
+            result = if_link_get_sgmii(handle);
+            break;
+        case BGX_MODE_XAUI:
+        case BGX_MODE_RXAUI:
+        case BGX_MODE_10G:
+        case BGX_MODE_40G:
+        default:
+            result = if_link_get_xaui(handle);
+            break;
+    }
     return result;
 }
 
 static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
-    int status = init_link(handle);
-    if (status == 0)
-        status = init_link_speed(handle, link_info);
+    bgx_priv_t priv = {.ptr = handle->priv};
+    switch (priv.s.mode)
+    {
+        case BGX_MODE_SGMII:
+        {
+            int status = sgmii_link(handle);
+            if (status == 0)
+                sgmii_speed(handle, link_info);
+            break;
+        }
+        case BGX_MODE_XAUI:
+        case BGX_MODE_RXAUI:
+        case BGX_MODE_10G:
+        case BGX_MODE_40G:
+        default:
+            xaui_link(handle);
+            break;
+    }
 }
 
 
@@ -649,7 +687,19 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv.s.port),
         c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
 
-    init_link(handle);
+    switch (priv.s.mode)
+    {
+        case BGX_MODE_SGMII:
+            sgmii_link(handle);
+            break;
+        case BGX_MODE_XAUI:
+        case BGX_MODE_RXAUI:
+        case BGX_MODE_10G:
+        case BGX_MODE_40G:
+        default:
+            xaui_link(handle);
+            break;
+    }
     return 0;
 }
 
