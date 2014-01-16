@@ -6,7 +6,7 @@ attributes:
   dv_fc_scratch_exempt: "PCICONFIGEP"
 registers:
   - name: PCIEEPVF(0..3)_CFG000
-    address: 0x50000000000 + a*0x100000000
+    address: 0x50000000000 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG000 = First 32-bits of PCIE type 0 config space (Device ID and Vendor ID Register)
     fields:
@@ -26,7 +26,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG001
-    address: 0x50000000004 + a*0x100000000
+    address: 0x50000000004 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG001 = Second 32-bits of PCIE type 0 config space (Command/Status Register)
     attributes:
@@ -221,7 +221,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG002
-    address: 0x50000000008 + a*0x100000000
+    address: 0x50000000008 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG002 = Third 32-bits of PCIE type 0 config space (Revision ID/Class Code Register)
     fields:
@@ -255,7 +255,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG003
-    address: 0x5000000000C + a*0x100000000
+    address: 0x5000000000C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG003 = Fourth 32-bits of PCIE type 0 config space (Cache Line Size/Master Latency
@@ -308,7 +308,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG004
-    address: 0x50000000010 + a*0x100000000
+    address: 0x50000000010 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG004 = Fifth 32-bits of PCIE type 0 config space (Base Address Register 0 - Low)
     fields:
@@ -321,7 +321,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG005
-    address: 0x50000000014 + a*0x100000000
+    address: 0x50000000014 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG005 = Sixth 32-bits of PCIE type 0 config space (Base Address Register 0 - High)
     fields:
@@ -334,7 +334,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG006
-    address: 0x50000000018 + a*0x100000000
+    address: 0x50000000018 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG006 = Seventh 32-bits of PCIE type 0 config space (Base Address Register 1 - Low)
     fields:
@@ -347,7 +347,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG007
-    address: 0x5000000001C + a*0x100000000
+    address: 0x5000000001C | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG007 = Eighth 32-bits of PCIE type 0 config space (Base Address Register 1 - High)
     fields:
@@ -360,7 +360,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG008
-    address: 0x50000000020 + a*0x100000000
+    address: 0x50000000020 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG008 = Ninth 32-bits of PCIE type 0 config space (Base Address Register 2 - Low)
     fields:
@@ -373,7 +373,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG009
-    address: 0x50000000024 + a*0x100000000
+    address: 0x50000000024 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG009 = Tenth 32-bits of PCIE type 0 config space (Base Address Register 2 - High)
     fields:
@@ -386,7 +386,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG010
-    address: 0x50000000028 + a*0x100000000
+    address: 0x50000000028 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG010 = Eleventh 32-bits of PCIE type 0 config space (CardBus CIS Pointer Register)
     fields:
@@ -399,7 +399,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG011
-    address: 0x5000000002C + a*0x100000000
+    address: 0x5000000002C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG011 = Twelfth 32-bits of PCIE type 0 config space (Subsystem ID and Subsystem Vendor
@@ -425,7 +425,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG012
-    address: 0x50000000030 + a*0x100000000
+    address: 0x50000000030 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG012 = Thirteenth 32-bits of PCIE type 0 config space (Expansion ROM Base Address Register)
     fields:
@@ -452,7 +452,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG013
-    address: 0x50000000034 + a*0x100000000
+    address: 0x50000000034 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG013 = Fourteenth 32-bits of PCIE type 0 config space (Capability Pointer Register)
     fields:
@@ -474,7 +474,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG015
-    address: 0x5000000003C + a*0x100000000
+    address: 0x5000000003C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG015 = Sixteenth 32-bits of PCIE type 0 config space (Interrupt Line Register/Interrupt
@@ -510,7 +510,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG028
-    address: 0x50000000070 + a*0x100000000
+    address: 0x50000000070 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG028 = Twenty-ninth 32-bits of PCIE type 0 config space
@@ -570,7 +570,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG029
-    address: 0x50000000074 + a*0x100000000
+    address: 0x50000000074 | a<<32
     bus: PCICONFIGEP
     description: PCIE_CFG029 = Thirtieth 32-bits of PCIE type 0 config space (Device Capabilities Register)
     fields:
@@ -680,7 +680,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG030
-    address: 0x50000000078 + a*0x100000000
+    address: 0x50000000078 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG030 = Thirty-first 32-bits of PCIE type 0 config space
@@ -862,7 +862,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG031
-    address: 0x5000000007C + a*0x100000000
+    address: 0x5000000007C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG031 = Thirty-second 32-bits of PCIE type 0 config space
@@ -983,7 +983,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG032
-    address: 0x50000000080 + a*0x100000000
+    address: 0x50000000080 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG032 = Thirty-third 32-bits of PCIE type 0 config space
@@ -1161,7 +1161,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG037
-    address: 0x50000000094 + a*0x100000000
+    address: 0x50000000094 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG037 = Thirty-eighth 32-bits of PCIE type 0 config space
@@ -1302,7 +1302,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG038
-    address: 0x50000000098 + a*0x100000000
+    address: 0x50000000098 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG038 = Thirty-ninth 32-bits of PCIE type 0 config space
@@ -1400,7 +1400,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG039
-    address: 0x5000000009C + a*0x100000000
+    address: 0x5000000009C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG039 = Fortieth 32-bits of PCIE type 0 config space
@@ -1453,7 +1453,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG040
-    address: 0x500000000A0 + a*0x100000000
+    address: 0x500000000A0 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG040 = Forty-first 32-bits of PCIE type 0 config space
@@ -1613,7 +1613,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG044
-    address: 0x500000000B0 + a*0x100000000
+    address: 0x500000000B0 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG044 = Forty-fifth 32-bits of PCIE type 0 config space
@@ -1678,7 +1678,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG045
-    address: 0x500000000B4 + a*0x100000000
+    address: 0x500000000B4 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG045 = Forty-sixth 32-bits of PCIE type 0 config space
@@ -1708,7 +1708,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG046
-    address: 0x500000000B8 + a*0x100000000
+    address: 0x500000000B8 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG046 = Forty-seventh 32-bits of PCIE type 0 config space
@@ -1742,7 +1742,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG048
-    address: 0x500000000C0 + a*0x100000000
+    address: 0x500000000C0 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG048 = Forty-ninth 32-bits of PCIE type 0 config space
@@ -1828,7 +1828,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG049
-    address: 0x500000000C4 + a*0x100000000
+    address: 0x500000000C4 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG049 = Fiftieth 32-bits of PCIE type 0 config space (Power Management Control and
@@ -1935,7 +1935,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG064
-    address: 0x50000000100 + a*0x100000000
+    address: 0x50000000100 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG064 = Sixty-fifth 32-bits of PCIE type 0 config space
@@ -1966,7 +1966,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG082
-    address: 0x50000000148 + a*0x100000000
+    address: 0x50000000148 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG082 = Eighty-third 32-bits of PCIE type 0 config space
@@ -1995,7 +1995,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG083
-    address: 0x5000000014C + a*0x100000000
+    address: 0x5000000014C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG083 = Eighty-fourth 32-bits of PCIE type 0 config space
@@ -2067,7 +2067,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG448
-    address: 0x50000000700 + a*0x100000000
+    address: 0x50000000700 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG448 = Four hundred forty-ninth 32-bits of PCIE type 0 config space
@@ -2105,7 +2105,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG449
-    address: 0x50000000704 + a*0x100000000
+    address: 0x50000000704 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG449 = Four hundred fiftieth 32-bits of PCIE type 0 config space
@@ -2132,7 +2132,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG450
-    address: 0x50000000708 + a*0x100000000
+    address: 0x50000000708 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG450 = Four hundred fifty-first 32-bits of PCIE type 0 config space
@@ -2233,7 +2233,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG451
-    address: 0x5000000070C + a*0x100000000
+    address: 0x5000000070C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG451 = Four hundred fifty-second 32-bits of PCIE type 0 config space
@@ -2330,7 +2330,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG452
-    address: 0x50000000710 + a*0x100000000
+    address: 0x50000000710 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG452 = Four hundred fifty-third 32-bits of PCIE type 0 config space
@@ -2463,7 +2463,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG453
-    address: 0x50000000714 + a*0x100000000
+    address: 0x50000000714 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG453 = Four hundred fifty-fourth 32-bits of PCIE type 0 config space
@@ -2518,7 +2518,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG454
-    address: 0x50000000718 + a*0x100000000
+    address: 0x50000000718 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG454 = Four hundred fifty-fifth 32-bits of PCIE type 0 config space
@@ -2577,7 +2577,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG455
-    address: 0x5000000071C + a*0x100000000
+    address: 0x5000000071C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG455 = Four hundred fifty-sixth 32-bits of PCIE type 0 config space
@@ -2720,7 +2720,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG456
-    address: 0x50000000720 + a*0x100000000
+    address: 0x50000000720 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG456 = Four hundred fifty-seventh 32-bits of PCIE type 0 config space
@@ -2763,7 +2763,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG458
-    address: 0x50000000728 + a*0x100000000
+    address: 0x50000000728 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG458 = Four hundred fifty-ninth 32-bits of PCIE type 0 config space
@@ -2778,7 +2778,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG459
-    address: 0x5000000072C + a*0x100000000
+    address: 0x5000000072C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG459 = Four hundred sixtieth 32-bits of PCIE type 0 config space
@@ -2793,7 +2793,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG460
-    address: 0x50000000730 + a*0x100000000
+    address: 0x50000000730 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG460 = Four hundred sixty-first 32-bits of PCIE type 0 config space
@@ -2828,7 +2828,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG461
-    address: 0x50000000734 + a*0x100000000
+    address: 0x50000000734 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG461 = Four hundred sixty-second 32-bits of PCIE type 0 config space
@@ -2863,7 +2863,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG462
-    address: 0x50000000738 + a*0x100000000
+    address: 0x50000000738 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG462 = Four hundred sixty-third 32-bits of PCIE type 0 config space
@@ -2898,7 +2898,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG463
-    address: 0x5000000073C + a*0x100000000
+    address: 0x5000000073C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG463 = Four hundred sixty-fourth 32-bits of PCIE type 0 config space
@@ -2972,7 +2972,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG464
-    address: 0x50000000740 + a*0x100000000
+    address: 0x50000000740 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG464 = Four hundred sixty-fifth 32-bits of PCIE type 0 config space
@@ -3008,7 +3008,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG465
-    address: 0x50000000744 + a*0x100000000
+    address: 0x50000000744 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG465 = Four hundred sixty-sixth 32-bits of PCIE type 0 config space
@@ -3044,7 +3044,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG466
-    address: 0x50000000748 + a*0x100000000
+    address: 0x50000000748 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG466 = Four hundred sixty-seventh 32-bits of PCIE type 0 config space
@@ -3136,7 +3136,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG467
-    address: 0x5000000074C + a*0x100000000
+    address: 0x5000000074C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG467 = Four hundred sixty-eighth 32-bits of PCIE type 0 config space
@@ -3198,7 +3198,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG468
-    address: 0x50000000750 + a*0x100000000
+    address: 0x50000000750 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG468 = Four hundred sixty-ninth 32-bits of PCIE type 0 config space
@@ -3260,7 +3260,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG490
-    address: 0x500000007A8 + a*0x100000000
+    address: 0x500000007A8 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG490 = Four hundred ninety-first 32-bits of PCIE type 0 config space
@@ -3302,7 +3302,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG491
-    address: 0x500000007AC + a*0x100000000
+    address: 0x500000007AC | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG491 = Four hundred ninety-second 32-bits of PCIE type 0 config space
@@ -3344,7 +3344,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG492
-    address: 0x500000007B0 + a*0x100000000
+    address: 0x500000007B0 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG492 = Four hundred ninety-third 32-bits of PCIE type 0 config space
@@ -3386,7 +3386,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG515
-    address: 0x5000000080C + a*0x100000000
+    address: 0x5000000080C | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG515 = Five hundred sixteenth 32-bits of PCIE type 0 config space
@@ -3469,7 +3469,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG516
-    address: 0x50000000810 + a*0x100000000
+    address: 0x50000000810 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG516 = Five hundred seventeenth 32-bits of PCIE type 0 config space
@@ -3484,7 +3484,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG517
-    address: 0x50000000814 + a*0x100000000
+    address: 0x50000000814 | a<<32
     bus: PCICONFIGEP
     description: |
       PCIE_CFG517 = Five hundred eighteenth 32-bits of PCIE type 0 config space

@@ -6135,7 +6135,7 @@ enums:
           intsn_level_sensitive: "1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[AERI].
 
@@ -6148,7 +6148,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[SE].
 
@@ -6162,7 +6162,7 @@ enums:
           intsn_level_sensitive: "1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[PMEI].
 
@@ -6175,7 +6175,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[UP_B1].
 
@@ -6188,7 +6188,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[UP_B2].
 
@@ -6201,7 +6201,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[UP_BX].
 
@@ -6214,7 +6214,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[UN_B1].
 
@@ -6227,7 +6227,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[UN_B2].
 
@@ -6240,7 +6240,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[UN_BX].
 
@@ -6253,7 +6253,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[RDLK].
 
@@ -6266,7 +6266,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[CRS_ER].
 
@@ -6279,7 +6279,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[CRS_DR].
 
@@ -6292,7 +6292,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[INTA]
 
@@ -6305,7 +6305,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[INTB]
 
@@ -6318,7 +6318,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[INTC]
 
@@ -6331,7 +6331,7 @@ enums:
           cib_rtl_module: "pem_int0"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C0000428+a*0x1000000)"
+          reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
         description: See PEM(0..3)_INT_SUM[INTD]
 
@@ -6344,7 +6344,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[SPOISON].
 
@@ -6357,7 +6357,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RTLPMAL].
 
@@ -6370,7 +6370,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RTLPLLE].
 
@@ -6383,7 +6383,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RECRCE].
 
@@ -6396,7 +6396,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RPOISON].
 
@@ -6409,7 +6409,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RCEMRC].
 
@@ -6422,7 +6422,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RNFEMRC].
 
@@ -6435,7 +6435,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RFEMRC].
 
@@ -6448,7 +6448,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RPMERC].
 
@@ -6461,7 +6461,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RPTAMRC].
 
@@ -6474,7 +6474,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RUMEP].
 
@@ -6487,7 +6487,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RVDM].
 
@@ -6500,7 +6500,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[ACTO].
 
@@ -6513,7 +6513,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RTE].
 
@@ -6526,7 +6526,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[MRE].
 
@@ -6539,7 +6539,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RDWDLE].
 
@@ -6552,7 +6552,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RTWDLE].
 
@@ -6565,7 +6565,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[DPEOOSD].
 
@@ -6578,7 +6578,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[FCPVWT].
 
@@ -6591,7 +6591,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RPE].
 
@@ -6604,7 +6604,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[FCUV].
 
@@ -6617,7 +6617,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RQO].
 
@@ -6630,7 +6630,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RAUC].
 
@@ -6643,7 +6643,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RACUR].
 
@@ -6656,7 +6656,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RACCA].
 
@@ -6669,7 +6669,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[CAAR].
 
@@ -6682,7 +6682,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RARWDNS].
 
@@ -6695,7 +6695,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RAMTLP].
 
@@ -6708,7 +6708,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RACPP].
 
@@ -6721,7 +6721,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[RAWWPP].
 
@@ -6734,7 +6734,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[ECRC_E].
 
@@ -6747,7 +6747,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[LOFP].
 
@@ -6760,7 +6760,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[DATQ_PE].
 
@@ -6773,7 +6773,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[P_D0_SBE].
 
@@ -6786,7 +6786,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[P_D0_DBE].
 
@@ -6799,7 +6799,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[P_D1_SBE].
 
@@ -6812,7 +6812,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[P_D1_DBE].
 
@@ -6825,7 +6825,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[P_C_SBE].
 
@@ -6838,7 +6838,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[P_C_DBE].
 
@@ -6851,7 +6851,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[N_D0_SBE].
 
@@ -6864,7 +6864,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[N_D0_DBE].
 
@@ -6877,7 +6877,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[N_D1_SBE].
 
@@ -6890,7 +6890,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[N_D1_DBE].
 
@@ -6903,7 +6903,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[N_C_SBE].
 
@@ -6916,7 +6916,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[N_C_DBE].
 
@@ -6929,7 +6929,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[C_D0_SBE].
 
@@ -6942,7 +6942,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[C_D0_DBE].
 
@@ -6955,7 +6955,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[C_D1_SBE].
 
@@ -6968,7 +6968,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[C_D1_DBE].
 
@@ -6981,7 +6981,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[C_C_SBE].
 
@@ -6994,7 +6994,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See PEM(0..3)_DBG_INFO[C_C_DBE].
 
@@ -7007,7 +7007,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[RTRY_SBE].
 
@@ -7020,7 +7020,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[RTRY_DBE].
 
@@ -7033,7 +7033,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B0_SBE].
 
@@ -7046,7 +7046,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B0_DBE].
 
@@ -7059,7 +7059,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B1_SBE].
 
@@ -7072,7 +7072,7 @@ enums:
           cib_rtl_module: "pem_int1"
           major_name: "PEM(0..3)"
           major_val: "(0xC0+a)"
-          reg_addr: "(0x11800C00000D0+a*0x1000000)"
+          reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
         description: See See PEM(0..3)_DBG_INFO[QHDR_B1_DBE].
 

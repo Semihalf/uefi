@@ -6,7 +6,7 @@ attributes:
   dv_fc_scratch_exempt: "PCICONFIGRC"
 registers:
   - name: PCIERC(0..3)_CFG000
-    address: 0x20000000000 + a*0x100000000
+    address: 0x20000000000 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG000 = First 32-bits of PCIE type 1 config space (Device ID and Vendor ID Register)
     fields:
@@ -30,7 +30,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG001
-    address: 0x20000000004 + a*0x100000000
+    address: 0x20000000004 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG001 = Second 32-bits of PCIE type 1 config space (Command/Status Register)
     attributes:
@@ -225,7 +225,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG002
-    address: 0x20000000008 + a*0x100000000
+    address: 0x20000000008 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG002 = Third 32-bits of PCIE type 1 config space (Revision ID/Class Code Register)
     fields:
@@ -267,7 +267,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG003
-    address: 0x2000000000C + a*0x100000000
+    address: 0x2000000000C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG003 = Fourth 32-bits of PCIE type 1 config space (Cache Line Size/Master Latency
@@ -324,7 +324,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG004
-    address: 0x20000000010 + a*0x100000000
+    address: 0x20000000010 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG004 = Fifth 32-bits of PCIE type 1 config space (Base Address Register 0 - Low)
     fields:
@@ -337,7 +337,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG005
-    address: 0x20000000014 + a*0x100000000
+    address: 0x20000000014 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG005 = Sixth 32-bits of PCIE type 1 config space (Base Address Register 0 - High)
     fields:
@@ -350,7 +350,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG006
-    address: 0x20000000018 + a*0x100000000
+    address: 0x20000000018 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG006 = Seventh 32-bits of PCIE type 1 config space (Bus Number Registers)
     fields:
@@ -386,7 +386,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG007
-    address: 0x2000000001C + a*0x100000000
+    address: 0x2000000001C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG007 = Eighth 32-bits of PCIE type 1 config space (IO Base and IO Limit/Secondary
@@ -529,7 +529,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG008
-    address: 0x20000000020 + a*0x100000000
+    address: 0x20000000020 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG008 = Ninth 32-bits of PCIE type 1 config space (Memory Base and Memory Limit Register)
     fields:
@@ -563,7 +563,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG009
-    address: 0x20000000024 + a*0x100000000
+    address: 0x20000000024 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG009 = Tenth 32-bits of PCIE type 1 config space (Prefetchable Memory Base and Limit
@@ -624,7 +624,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG010
-    address: 0x20000000028 + a*0x100000000
+    address: 0x20000000028 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG010 = Eleventh 32-bits of PCIE type 1 config space (Prefetchable Base Upper 32 Bits
@@ -642,7 +642,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG011
-    address: 0x2000000002C + a*0x100000000
+    address: 0x2000000002C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG011 = Twelfth 32-bits of PCIE type 1 config space (Prefetchable Limit Upper 32 Bits
@@ -660,7 +660,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG012
-    address: 0x20000000030 + a*0x100000000
+    address: 0x20000000030 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG012 = Thirteenth 32-bits of PCIE type 1 config space (IO Base and Limit Upper 16 Bits
@@ -686,7 +686,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG013
-    address: 0x20000000034 + a*0x100000000
+    address: 0x20000000034 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG013 = Fourteenth 32-bits of PCIE type 1 config space (Capability Pointer Register)
     fields:
@@ -710,7 +710,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG014
-    address: 0x20000000038 + a*0x100000000
+    address: 0x20000000038 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG014 = Fifteenth 32-bits of PCIE type 1 config space (Expansion ROM Base Address Register)
     fields:
@@ -723,7 +723,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG015
-    address: 0x2000000003C + a*0x100000000
+    address: 0x2000000003C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG015 = Sixteenth 32-bits of PCIE type 1 config space (Interrupt Line Register/Interrupt
@@ -861,7 +861,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG016
-    address: 0x20000000040 + a*0x100000000
+    address: 0x20000000040 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG016 = Seventeenth 32-bits of PCIE type 1 config space
@@ -965,7 +965,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG017
-    address: 0x20000000044 + a*0x100000000
+    address: 0x20000000044 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG017 = Eighteenth 32-bits of PCIE type 1 config space (Power Management Control and
@@ -1074,7 +1074,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG020
-    address: 0x20000000050 + a*0x100000000
+    address: 0x20000000050 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG020 = Twenty-first 32-bits of PCIE type 1 config space
@@ -1157,7 +1157,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG021
-    address: 0x20000000054 + a*0x100000000
+    address: 0x20000000054 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG021 = Twenty-second 32-bits of PCIE type 1 config space (MSI Lower 32 Bits Address
@@ -1179,7 +1179,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG022
-    address: 0x20000000058 + a*0x100000000
+    address: 0x20000000058 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG022 = Twenty-third 32-bits of PCIE type 1 config space (MSI Upper 32 bits Address Register)
     fields:
@@ -1192,7 +1192,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG023
-    address: 0x2000000005C + a*0x100000000
+    address: 0x2000000005C | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG023 = Twenty-fourth 32-bits of PCIE type 1 config space (MSI Data Register)
     fields:
@@ -1215,7 +1215,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG028
-    address: 0x20000000070 + a*0x100000000
+    address: 0x20000000070 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG028 = Twenty-ninth 32-bits of PCIE type 1 config space
@@ -1285,7 +1285,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG029
-    address: 0x20000000074 + a*0x100000000
+    address: 0x20000000074 | a<<32
     bus: PCICONFIGRC
     description: PCIE_CFG029 = Thirtieth 32-bits of PCIE type 1 config space (Device Capabilities Register)
     fields:
@@ -1403,7 +1403,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG030
-    address: 0x20000000078 + a*0x100000000
+    address: 0x20000000078 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG030 = Thirty-first 32-bits of PCIE type 1 config space
@@ -1605,7 +1605,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG031
-    address: 0x2000000007C + a*0x100000000
+    address: 0x2000000007C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG031 = Thirty-second 32-bits of PCIE type 1 config space
@@ -1739,7 +1739,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG032
-    address: 0x20000000080 + a*0x100000000
+    address: 0x20000000080 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG032 = Thirty-third 32-bits of PCIE type 1 config space
@@ -1935,7 +1935,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG033
-    address: 0x20000000084 + a*0x100000000
+    address: 0x20000000084 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG033 = Thirty-fourth 32-bits of PCIE type 1 config space
@@ -2047,7 +2047,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG034
-    address: 0x20000000088 + a*0x100000000
+    address: 0x20000000088 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG034 = Thirty-fifth 32-bits of PCIE type 1 config space
@@ -2211,7 +2211,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG035
-    address: 0x2000000008C + a*0x100000000
+    address: 0x2000000008C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG035 = Thirty-sixth 32-bits of PCIE type 1 config space
@@ -2279,7 +2279,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG036
-    address: 0x20000000090 + a*0x100000000
+    address: 0x20000000090 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG036 = Thirty-seventh 32-bits of PCIE type 1 config space
@@ -2315,7 +2315,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG037
-    address: 0x20000000094 + a*0x100000000
+    address: 0x20000000094 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG037 = Thirty-eighth 32-bits of PCIE type 1 config space
@@ -2455,7 +2455,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG038
-    address: 0x20000000098 + a*0x100000000
+    address: 0x20000000098 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG038 = Thirty-ninth 32-bits of PCIE type 1 config space
@@ -2566,7 +2566,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG039
-    address: 0x2000000009C + a*0x100000000
+    address: 0x2000000009C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG039 = Fourtieth 32-bits of PCIE type 1 config space
@@ -2619,7 +2619,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG040
-    address: 0x200000000A0 + a*0x100000000
+    address: 0x200000000A0 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG040 = Fourty-first 32-bits of PCIE type 1 config space
@@ -2813,7 +2813,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG041
-    address: 0x200000000A4 + a*0x100000000
+    address: 0x200000000A4 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG041 = Fourty-second 32-bits of PCIE type 1 config space
@@ -2828,7 +2828,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG042
-    address: 0x200000000A8 + a*0x100000000
+    address: 0x200000000A8 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG042 = Fourty-third 32-bits of PCIE type 1 config space
@@ -2843,7 +2843,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG044
-    address: 0x200000000B0 + a*0x100000000
+    address: 0x200000000B0 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG044 = Fourty-fifth 32-bits of PCIE type 1 config space
@@ -2909,7 +2909,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG045
-    address: 0x200000000B4 + a*0x100000000
+    address: 0x200000000B4 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG045 = Fourty-sixth 32-bits of PCIE type 1 config space
@@ -2943,7 +2943,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG046
-    address: 0x200000000B8 + a*0x100000000
+    address: 0x200000000B8 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG046 = Fourty-seventh 32-bits of PCIE type 1 config space
@@ -2977,7 +2977,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG064
-    address: 0x20000000100 + a*0x100000000
+    address: 0x20000000100 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG064 = Sixty-fifth 32-bits of PCIE type 1 config space
@@ -3008,7 +3008,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG065
-    address: 0x20000000104 + a*0x100000000
+    address: 0x20000000104 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG065 = Sixty-sixth 32-bits of PCIE type 1 config space
@@ -3158,7 +3158,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG066
-    address: 0x20000000108 + a*0x100000000
+    address: 0x20000000108 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG066 = Sixty-seventh 32-bits of PCIE type 1 config space
@@ -3308,7 +3308,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG067
-    address: 0x2000000010C + a*0x100000000
+    address: 0x2000000010C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG067 = Sixty-eighth 32-bits of PCIE type 1 config space
@@ -3444,7 +3444,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG068
-    address: 0x20000000110 + a*0x100000000
+    address: 0x20000000110 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG068 = Sixty-ninth 32-bits of PCIE type 1 config space
@@ -3522,7 +3522,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG069
-    address: 0x20000000114 + a*0x100000000
+    address: 0x20000000114 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG069 = Seventieth 32-bits of PCIE type 1 config space
@@ -3600,7 +3600,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG070
-    address: 0x20000000118 + a*0x100000000
+    address: 0x20000000118 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG070 = Seventy-first 32-bits of PCIE type 1 config space
@@ -3664,7 +3664,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG071
-    address: 0x2000000011C + a*0x100000000
+    address: 0x2000000011C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG071 = Seventy-second 32-bits of PCIE type 1 config space
@@ -3680,7 +3680,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG072
-    address: 0x20000000120 + a*0x100000000
+    address: 0x20000000120 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG072 = Seventy-third 32-bits of PCIE type 1 config space
@@ -3696,7 +3696,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG073
-    address: 0x20000000124 + a*0x100000000
+    address: 0x20000000124 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG073 = Seventy-fourth 32-bits of PCIE type 1 config space
@@ -3712,7 +3712,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG074
-    address: 0x20000000128 + a*0x100000000
+    address: 0x20000000128 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG074 = Seventy-fifth 32-bits of PCIE type 1 config space
@@ -3728,7 +3728,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG075
-    address: 0x2000000012C + a*0x100000000
+    address: 0x2000000012C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG075 = Seventy-sixth 32-bits of PCIE type 1 config space
@@ -3764,7 +3764,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG076
-    address: 0x20000000130 + a*0x100000000
+    address: 0x20000000130 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG076 = Seventy-seventh 32-bits of PCIE type 1 config space
@@ -3837,7 +3837,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG077
-    address: 0x20000000134 + a*0x100000000
+    address: 0x20000000134 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG077 = Seventy-eighth 32-bits of PCIE type 1 config space
@@ -3859,7 +3859,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG086
-    address: 0x20000000158 + a*0x100000000
+    address: 0x20000000158 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG086 = Eighty-seventh 32-bits of PCIE type 0 config space
@@ -3888,7 +3888,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG087
-    address: 0x2000000015C + a*0x100000000
+    address: 0x2000000015C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG087 = Eighty-eighth 32-bits of PCIE type 0 config space
@@ -3917,7 +3917,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG088
-    address: 0x20000000160 + a*0x100000000
+    address: 0x20000000160 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG088 = Eighty-ninth 32-bits of PCIE type 0 config space
@@ -3939,7 +3939,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG089
-    address: 0x20000000164 + a*0x100000000
+    address: 0x20000000164 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG089 = Ninetieth 32-bits of PCIE type 0 config space
@@ -4056,7 +4056,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG090
-    address: 0x20000000168 + a*0x100000000
+    address: 0x20000000168 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG090 = Ninety-first 32-bits of PCIE type 0 config space
@@ -4173,7 +4173,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG091
-    address: 0x2000000016C + a*0x100000000
+    address: 0x2000000016C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG091 = Ninety-second 32-bits of PCIE type 0 config space
@@ -4290,7 +4290,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG092
-    address: 0x20000000170 + a*0x100000000
+    address: 0x20000000170 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG092 = Ninety-third 32-bits of PCIE type 0 config space
@@ -4407,7 +4407,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG448
-    address: 0x20000000700 + a*0x100000000
+    address: 0x20000000700 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG448 = Four hundred forty-ninth 32-bits of PCIE type 1 config space
@@ -4445,7 +4445,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG449
-    address: 0x20000000704 + a*0x100000000
+    address: 0x20000000704 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG449 = Four hundred fiftieth 32-bits of PCIE type 1 config space
@@ -4472,7 +4472,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG450
-    address: 0x20000000708 + a*0x100000000
+    address: 0x20000000708 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG450 = Four hundred fifty-first 32-bits of PCIE type 1 config space
@@ -4571,7 +4571,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG451
-    address: 0x2000000070C + a*0x100000000
+    address: 0x2000000070C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG451 = Four hundred fifty-second 32-bits of PCIE type 1 config space
@@ -4668,7 +4668,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG452
-    address: 0x20000000710 + a*0x100000000
+    address: 0x20000000710 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG452 = Four hundred fifty-third 32-bits of PCIE type 1 config space
@@ -4798,7 +4798,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG453
-    address: 0x20000000714 + a*0x100000000
+    address: 0x20000000714 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG453 = Four hundred fifty-fourth 32-bits of PCIE type 1 config space
@@ -4853,7 +4853,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG454
-    address: 0x20000000718 + a*0x100000000
+    address: 0x20000000718 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG454 = Four hundred fifty-fifth 32-bits of PCIE type 1 config space
@@ -4912,7 +4912,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG455
-    address: 0x2000000071C + a*0x100000000
+    address: 0x2000000071C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG455 = Four hundred fifty-sixth 32-bits of PCIE type 1 config space
@@ -5055,7 +5055,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG456
-    address: 0x20000000720 + a*0x100000000
+    address: 0x20000000720 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG456 = Four hundred fifty-seventh 32-bits of PCIE type 1 config space
@@ -5098,7 +5098,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG458
-    address: 0x20000000728 + a*0x100000000
+    address: 0x20000000728 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG458 = Four hundred fifty-ninth 32-bits of PCIE type 1 config space
@@ -5114,7 +5114,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG459
-    address: 0x2000000072C + a*0x100000000
+    address: 0x2000000072C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG459 = Four hundred sixtieth 32-bits of PCIE type 1 config space
@@ -5130,7 +5130,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG460
-    address: 0x20000000730 + a*0x100000000
+    address: 0x20000000730 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG460 = Four hundred sixty-first 32-bits of PCIE type 1 config space
@@ -5165,7 +5165,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG461
-    address: 0x20000000734 + a*0x100000000
+    address: 0x20000000734 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG461 = Four hundred sixty-second 32-bits of PCIE type 1 config space
@@ -5200,7 +5200,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG462
-    address: 0x20000000738 + a*0x100000000
+    address: 0x20000000738 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG462 = Four hundred sixty-third 32-bits of PCIE type 1 config space
@@ -5235,7 +5235,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG463
-    address: 0x2000000073C + a*0x100000000
+    address: 0x2000000073C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG463 = Four hundred sixty-fourth 32-bits of PCIE type 1 config space
@@ -5309,7 +5309,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG464
-    address: 0x20000000740 + a*0x100000000
+    address: 0x20000000740 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG464 = Four hundred sixty-fifth 32-bits of PCIE type 1 config space
@@ -5345,7 +5345,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG465
-    address: 0x20000000744 + a*0x100000000
+    address: 0x20000000744 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG465 = Four hundred sixty-sixth 32-bits of config space
@@ -5381,7 +5381,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG466
-    address: 0x20000000748 + a*0x100000000
+    address: 0x20000000748 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG466 = Four hundred sixty-seventh 32-bits of PCIE type 1 config space
@@ -5473,7 +5473,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG467
-    address: 0x2000000074C + a*0x100000000
+    address: 0x2000000074C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG467 = Four hundred sixty-eighth 32-bits of PCIE type 1 config space
@@ -5535,7 +5535,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG468
-    address: 0x20000000750 + a*0x100000000
+    address: 0x20000000750 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG468 = Four hundred sixty-ninth 32-bits of PCIE type 1 config space
@@ -5597,7 +5597,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG515
-    address: 0x2000000080C + a*0x100000000
+    address: 0x2000000080C | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG515 = Five hundred sixteenth 32-bits of PCIE type 1 config space
@@ -5680,7 +5680,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG516
-    address: 0x20000000810 + a*0x100000000
+    address: 0x20000000810 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG516 = Five hundred seventeenth 32-bits of PCIE type 1 config space
@@ -5695,7 +5695,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG517
-    address: 0x20000000814 + a*0x100000000
+    address: 0x20000000814 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG517 = Five hundred eighteenth 32-bits of PCIE type 1 config space
@@ -5710,7 +5710,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG548
-    address: 0x20000000890 + a*0x100000000
+    address: 0x20000000890 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG548 = Five hundred forty ninth 32-bits of PCIE type 0 config space
@@ -5811,7 +5811,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG554
-    address: 0x200000008A8 + a*0x100000000
+    address: 0x200000008A8 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG554 = Five hundred fifty fifth 32-bits of PCIE type 0 config space
@@ -5908,7 +5908,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG558
-    address: 0x200000008B8 + a*0x100000000
+    address: 0x200000008B8 | a<<32
     bus: PCICONFIGRC
     description: |
       PCIE_CFG558 = Five hundred fifty ninth 32-bits of PCIE type 0 config space

@@ -178,10 +178,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enables the one cycle delay of the CA parity output. This MUST be set to 1 when using
-          DDR4 RDIMM AND parity checking in RCD is enabled (RC0E DA0 = 1). Set this to 0 otherwise.
-          To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write
-          RC0E DA0 = 1.
+          Enables the one cycle delay of the CA parity output. This MUST be set to 1 when using DDR4
+          RDIMM AND parity checking in RCD is enabled (RC0E DA0 = 1). Set this to 0 otherwise.
+          To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write RC0E
+          DA0 = 1.
 
       - name: --
         bits: 47..46
@@ -538,8 +538,7 @@ registers:
           control words 0-15 are written to LMC(0..3)_CONFIG[RANKMASK]-selected RDIMMs when
           LMC(0..3)_CONTROL[RDIMM_ENA] = 1 and corresponding LMC(0..3)_DIMM_CTL[DIMM*_WMASK] bits
           are set. (Refer to LMC(0..3)_DIMM(0..1)_PARAMS and LMC(0..3)_DIMM_CTL descriptions for
-          more
-          details.)
+          more details.)
           The DRAM registers MR0, MR1, MR2, and MR3 are written in the selected ranks.
           0x1 = Read-leveling:
           LMC(0..3)_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
@@ -1428,9 +1427,9 @@ registers:
     title: LMC Reset Control Register
     address: 0x1180088000180 | a<<24
     bus: RSL
-    description: |
-      "Specify the RSL base addresses for the block.
-      INTERNAL: DDR3RST DDR3 DRAM parts have a RESET# pin that wasn't present in DDR2 parts. The
+    description: Specify the RSL base addresses for the block.
+    internal: |
+      "INTERNAL: DDR3RST DDR3 DRAM parts have a RESET# pin that wasn't present in DDR2 parts. The
       DDR3RST CSR field controls the assertion of the 7xxx pin that attaches to RESET#. When DDR3RST
       is set, 6xxx asserts RESET#. When DDR3RST is clear, 6xxx de-asserts RESET#. DDR3RST is set on
       a cold reset. Warm and soft chip resets do not affect the DDR3RST value. Outside of cold
@@ -1468,7 +1467,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Memory Reset. 1 = DDR contents preserved.
+          Memory reset. 1 = DDR contents preserved.
           May be useful for system software to determine when the DDR3 contents have been preserved.
           Cleared by hardware during a cold reset. Never cleared by hardware during a warm/soft
           reset. Set by hardware during a warm/soft reset if the hardware automatically put the DDR3
@@ -1481,7 +1480,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Memory Reset. 1 = Enable preserve mode during soft reset.
+          Memory reset. 1 = Enable preserve mode during soft reset.
           Enables preserve mode during a soft reset. When set, the DDR3 controller hardware
           automatically puts the attached DDR3 DRAM parts into self-refresh at the beginning of a
           soft reset sequence (see LMC(0..3)_CONFIG[SEQ_SEL]), provided that the DDR3 controller is
@@ -1497,7 +1496,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Memory Reset. 1 = Enable preserve mode during warm reset.
+          Memory reset. 1 = Enable preserve mode during warm reset.
           Enables preserve mode during a warm reset. When set, the DDR3 controller hardware
           automatically puts the attached DDR3 DRAM parts into self-refresh at the beginning of a
           warm reset sequence (see LMC(0..3)_CONFIG[SEQ_SEL]), provided that the DDR3 controller is
@@ -1515,7 +1514,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Memory Reset. 0 = Reset asserted; 1 = Reset deasserted.
+          "Memory reset. 0 = Reset asserted; 1 = Reset deasserted.
           DDR3 DRAM parts have a RESET# pin that was not present in DDR2 parts. The DDR3RST CSR
           field controls the assertion of the new CN78XX pin that attaches to RESET#. When DDR3RST
           is set, CN78XX asserts RESET#. When DDR3RST is clear, CN78XX deasserts RESET#.
@@ -1530,15 +1529,14 @@ registers:
     description: |
       This register controls certain parameters required for memory configuration. Note the
       following:
-      Priority order for hardware write operations to
+      * Priority order for hardware write operations to
       LMC(0..3)_CONFIG/LMC(0..3)_FADR/LMC(0..3)_ECC_SYND: DED error > SEC error.
-      The self-refresh entry sequence(s) power the DLL up/down (depending on
+      * The self-refresh entry sequence(s) power the DLL up/down (depending on
       LMC(0..3)_MODEREG_PARAMS0[DLL]) when LMC(0..3)_CONFIG[SREF_WITH_DLL] is set.
-      Prior to the self-refresh exit sequence, LMC(0..3)_MODEREG_PARAMS0 should be reprogrammed (if
-      needed) to the appropriate values.
+      * Prior to the self-refresh exit sequence, LMC(0..3)_MODEREG_PARAMS0 should be reprogrammed
+      (if needed) to the appropriate values.
       See LMC Initialization Sequence for the LMC bring-up sequence.
-    internal: |
-      INTERNAL: LMC Initialization Sequence:
+      LMC Initialization Sequence:
       1. SW must ensure there are no pending DRAM transactions and that the DDR PLL and the DLL have
       been initialized.
       2. Write LMC*_COMP_CTL2, LMC*_CONTROL, LMC*_WODT_MASK, LMC*_DUAL_MEMCFG, LMC*_TIMING_PARAMS0,
@@ -1846,15 +1844,15 @@ registers:
           # row bits of the memory part--specified indirectly by PBANK_LSB
           # ranks in a DIMM--specified by RANK_ENA
           # DIMMs in the system by the register below (PBANK_LSB).
-          Col Address starts from mem_addr[3] for 64b (8Bytes) DQ width. ROW_LSB is mem_adr[15] for
+          Col address starts from mem_addr[3] for 64b (8Bytes) DQ width. ROW_LSB is mem_adr[15] for
           64b mode. Therefore, the ROW_LSB parameter should be set to 001 (64b).
           Decoding for row_lsb:
           Mem address  Mem address
           Value bit that is LSB Value bit that is LSB
-          000 <14>. 100 <18>.
-          001 <15>. 101 <19>.
-          010 <16>. 110 <20>.
-          011 <17>. 111 Reserved.
+          0x0 <14>. 0x4 <18>.
+          0x1 <15>. 0x5 <19>.
+          0x2 <16>. 0x6 <20>.
+          0x3 <17>. 0x7 Reserved.
           For example, for a DIMM made of Samsung's K4B1G0846C-F7 1GB (16M * 8 bit * 8 bank) DDR3
           parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
           16. So, row = mem_adr<29:16>.
@@ -1868,11 +1866,11 @@ registers:
         description: |
           ECC enable. When set, enables the 8b ECC check/correct logic. Should be 1 when used with
           DIMMs with ECC; 0, otherwise.
-          When this mode is turned on, DQ<71:64> on write operations contains the ECC code generated
-          for the 64 bits of data which will be written in the memory. Later on read operations,
-          will be used to check for single-bit error (which will be auto-corrected) and double-bit
-          error (which will be reported).
-          When not turned on, DQ<71:64> are driven to 0. Please refer to SEC_ERR, DED_ERR,
+          * When this mode is turned on, DQ<71:64> on write operations contains the ECC code
+          generated for the 64 bits of data which will be written in the memory. Later on read
+          operations, will be used to check for single-bit error (which will be auto-corrected) and
+          double-bit error (which will be reported).
+          * When not turned on, DQ<71:64> are driven to 0. Please refer to SEC_ERR, DED_ERR,
           LMC(0..3)_FADR, and LMC(0..3)_ECC_SYND registers for diagnostics information when there is
           an error.
 
@@ -1970,10 +1968,10 @@ registers:
         description: |
           "Back porch enable. When set, the turn-on time for the default DDR#_DQ*/DDR#_DQS_*_P/N
           drivers is delayed an additional BPRCH CK cycles.
-          00 = 0 CK cycles
-          01 = 1 CK cycles
-          10 = 2 CK cycles
-          11 = 3 CK cycles"
+          0x0 = 0 CK cycles.
+          0x1 = 1 CK cycles.
+          0x2 = 2 CK cycles.
+          0x3 = 3 CK cycles."
 
       - name: EXT_ZQCS_DIS
         bits: 19
@@ -2077,10 +2075,10 @@ registers:
         description: |
           "Front porch enable. When set, the turn-off time for the default DDR#_DQ*/DDR#_DQS_*_P/N
           drivers is FPRCH2 CKs earlier.
-          00 = 0 CK cycles
-          01 = 1 CK cycles
-          10 = 2 CK cycles
-          11 = Reserved"
+          0x0 = 0 CK cycles.
+          0x1 = 1 CK cycles.
+          0x2 = 2 CK cycles.
+          0x3 = Reserved."
 
       - name: POCAS
         bits: 3
@@ -2239,7 +2237,7 @@ registers:
         typical: 0x8
         description: |
           Indicates TZQCS constraints. This field is set as follows:
-          RNDUP[(2*TZQCS(ns)) / (16 * TCYC(ns))]
+          RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
           where TZQCS is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
           rate).
           TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration.
@@ -2335,11 +2333,11 @@ registers:
           where TRRD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
           rate).
           TYP = max(4nCK, 10 ns)
-          000: reserved
-          001: 2 TCYC
+          0x0 = reserved
+          0x1 = 2 TCYC
           ...
-          110: 7 TCYC
-          111: 8 TCYC
+          0x6 = 7 TCYC
+          0x7 = 8 TCYC
           For DDR4, this is the TRRD_S parameter.
 
       - name: TRFC
@@ -2353,14 +2351,14 @@ registers:
           where TRFC is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
           rate).
           TYP = 90-350 ns
-          0000000: reserved
-          0000001: 8 TCYC
-          0000010: 16 TCYC
-          0000011: 24 TCYC
-          0000100: 32 TCYC
+          0x0 = reserved.
+          0x1 = 8 TCYC.
+          0x2 = 16 TCYC.
+          0x3 = 24 TCYC.
+          0x4 = 32 TCYC.
           ...
-          1111110: 1008 TCYC
-          1111111: 1016 TCYC
+          0x7E = 1008 TCYC.
+          0x7F = 1016 TCYC.
 
       - name: TWTR
         bits: 17..14
@@ -2374,11 +2372,11 @@ registers:
           rate).
           TYP = max(4nCK, 7.5 ns)
           For DDR4, this CSR field represents TWTR_S.
-          0000: reserved
-          0001: 2
+          0x0 = reserved.
+          0x1 = 2.
           ...
-          0111: 8
-          1000-1111: reserved
+          0x7 = 8.
+          0x8-0xF = reserved.
 
       - name: TRCD
         bits: 13..10
@@ -2391,12 +2389,12 @@ registers:
           where TRCD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
           rate).
           TYP = 10-15 ns
-          0000: reserved
-          0001: 2 (2 is the smallest value allowed)
-          0002: 2
+          0x0 = reserved.
+          0x1 = 2 (2 is the smallest value allowed).
+          0x2 = 2.
           ...
-          1110: 14
-          1010-1111: reserved
+          0xE = 14.
+          0xA-0xF = reserved.
           In 2T mode, make this register TRCD - 1, not going below 2.
 
       - name: TRAS
@@ -2409,11 +2407,11 @@ registers:
           RNDUP[TRAS(ns)/TCYC(ns)] - 1,
           where TRAS is from the DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data rate).
           TYP = 35ns - 9 * TREFI
-          000000: reserved
-          000001: 2 TCYC
-          000010: 3 TCYC
+          0x0 = reserved.
+          0x1 = 2 TCYC.
+          0010:  3 TCYC.
           ...
-          111111: 64 TCYC
+          0x3F: 64 TCYC.
 
       - name: TMPRR
         bits: 3..0
@@ -2463,10 +2461,10 @@ registers:
         description: |
           Write recovery for auto precharge. Should be programmed to be equal to or greater than
           RNDUP[TWR(ns) / Tcyc(ns)].
-          000: 5. 100: 8.
-          001: 5. 101: 10.
-          010: 6. 110: 12.
-          011: 7. 111: 14.
+          0x0 =  5. 0x4 = 8.
+          0x1 =  5. 0x5 = 10.
+          0x2 =  6. 0x6 = 12.
+          0x3 =  7. 0x7 = 14.
           LMC writes this value to MR0[WR] in the selected DDR3 parts during power-up/init and, if
           LMC(0..3)_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
           LMC(0..3)_CONFIG [SEQ_SEL,INIT_START,RANKMASK]. This value must equal the MR0[WR] value in
@@ -2514,21 +2512,21 @@ registers:
         description: |
           CAS latency.
           In DDR3 mode:
-          0010: 5. 0001: 12.
-          0100: 6. 0011: 13.
-          0110: 7. 0101: 14.
-          1000: 8. 0111: 15.
-          1010: 9. 1001: 16.
-          1100: 10. 0000, 1011, 1101, 1111: Reserved.
-          1110: 11.
+          0x2 = 5. 0x1 = 12.
+          0x4 = 6. 0x3 = 13.
+          0x6 = 7. 0x5 = 14.
+          0x8 = 8. 0x7 = 15.
+          0xA = 9. 0x9 = 16.
+          0xC = 10. 0x0, 0xB, 0xD, 0xF = Reserved.
+          0xE = 11.
           In DDR4 mode:
-          0000:  9. 0001: 10.
-          0010: 11. 0011: 12.
-          0100: 13. 0101: 14.
-          0110: 15. 0111: 16.
-          1000: 18. 1001: 20.
-          1010: 22. 1011: 24.
-          1100, 1101, 1110, 111: Reserved.
+          0x0 =  9. 0x1 = 10.
+          0x2 = 11. 0x3 = 12.
+          0x4 = 13. 0x5 = 14.
+          0x6 = 15. 0x7 = 16.
+          0x8 = 18. 0x9 = 20.
+          0xA = 22. 1011: 24.
+          0xC, 0xD, 0xE, 0x7: Reserved.
           LMC writes this value to MR0[CAS Latency / CL] in the selected DDR3 parts during power-
           up/init and, if LMC(0..3)_CONFIG [SREF_WITH_DLL] is set, self-refresh exit instruction
           sequences. See LMC(0..3)_CONFIG[SEQ_SEL,INIT_START,RANKMASK]. This value must equal the
@@ -2543,8 +2541,8 @@ registers:
         typical: 0x1
         description: |
           Burst length.
-          0: 8 (fixed).
-          1: 4 or 8 (on-the-fly).
+          0x0 =  8 (fixed).
+          0x1 =  4 or 8 (on-the-fly).
           LMC writes this value to MR0[BL] in the selected DDR3 parts during power-up/init and, if
           LMC(0..3)_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
           LMC(0..3)_CONFIG [SEQ_SEL,INIT_START,RANKMASK]. The MR0[BL] value must be 1 in all the
@@ -2656,15 +2654,15 @@ registers:
         description: |
           CAS write latency.
           In DDR3 mode:
-          000: 5. 100: 9.
-          001: 6. 101: 10.
-          010: 7. 110: 11.
-          011: 8. 111: 12.
+          0x0 = 5. 0x4 = 9.
+          0x1 = 6. 0x5 = 10.
+          0x2 = 7. 0x6 = 11.
+          0x3 = 8. 0x7 = 12.
           In DDR4 mode:
-          000: 9. 100: 13.
-          001: 10. 101: 16.
-          010: 11. 110: 18.
-          011: 12. 111: Reserved.
+          0x0 = 9. 0x4 = 13.
+          0x1 = 10. 0x5 = 16.
+          0x2 = 11. 0x6 = 18.
+          0x3 = 12. 0x7 = Reserved.
           LMC writes this value to MR2[CWL] in the selected DDR3 parts during power-up/init, write-
           leveling, and, if LMC*_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit
           instruction sequences. See LMC(0..3)_CONFIG[SEQ_SEL, INIT_START,RANKMASK] and
@@ -2824,7 +2822,7 @@ registers:
         typical: --
         description: |
           Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
-          DDR_PTUNE,DDR_NTUNE are the compensation setting.
+          DDR__PTUNE,DDR__NTUNE are the compensation setting.
 
       - name: PTUNE
         bits: 29..25
@@ -2847,16 +2845,16 @@ registers:
         typical: --
         description: |
           RODT NCTL impedance control bits. This field controls ODT values during a memory read.
-          0x0 = No ODT. 0x3 = 40 ohm.
-          0x1 = 20 ohm. 0x4 = 60 ohm.
-          0x2 = 30 ohm. 0x5 = 120 ohm.
-          0x6-0xF = Reserved
+          0x0 = No ODT. 0x3 = 40 ohm..
+          0x1 = 20 ohm.. 0x4 = 60 ohm..
+          0x2 = 30 ohm.. 0x5 = 120 ohm..
+          0x6-0xF = Reserved.
           In DDR4 mode:
-          0x0 = No ODT. 0x4 = 120 ohm.
-          0x1 = 40 ohm. 0x5 = 240 ohm.
-          0x2 = 60 ohm. 0x6 = 34 ohm.
-          0x3 = 80 ohm. 0x7 = 48 ohm.
-          0x8-0xF = Reserved
+          0x0 = No ODT. 0x4 = 120 ohm..
+          0x1 = 40 ohm.. 0x5 = 240 ohm..
+          0x2 = 60 ohm.. 0x6 = 34 ohm..
+          0x3 = 80 ohm.. 0x7 = 48 ohm..
+          0x8-0xF = Reserved.
 
       - name: CONTROL_CTL
         bits: 15..12
@@ -2866,15 +2864,15 @@ registers:
         description: |
           Drive strength control for ODT, etc. drivers.
           In DDR3 mode:
-          0x1 = 24 ohm. 0x5 = 40 ohm.
-          0x2 = 26.67 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm. 0x7 = 60 ohm.
-          0x4 = 34.3 ohm. 0x0, 0x8-0xF = Reserved.
+          0x1 = 24 ohm.. 0x5 = 40 ohm..
+          0x2 = 26.67 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm.. 0x7 = 60 ohm..
+          0x4 = 34.3 ohm.. 0x0, 0x8-0xF = Reserved.
           In DDR4 mode:
-          0x0 = Reserved. 0x4 = 34 ohm.
-          0x1 = Reserved. 0x5 = 40 ohm.
-          0x2 = 26 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm.
+          0x0 = Reserved. 0x4 = 34 ohm..
+          0x1 = Reserved. 0x5 = 40 ohm..
+          0x2 = 26 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm..
           0x7-0xF = Reserved.
 
       - name: CMD_CTL
@@ -2885,15 +2883,15 @@ registers:
         description: |
           Drive strength control for CMD/A/RESET_L drivers.
           In DDR3 mode:
-          0x1 = 24 ohm. 0x5 = 40 ohm.
-          0x2 = 26.67 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm. 0x7 = 60 ohm.
-          0x4 = 34.3 ohm. 0x0,0x8-0xF = Reserved.
+          0x1 = 24 ohm.. 0x5 = 40 ohm..
+          0x2 = 26.67 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm.. 0x7 = 60 ohm..
+          0x4 = 34.3 ohm.. 0x0,0x8-0xF = Reserved.
           In DDR4 mode:
-          0x0 = Reserved. 0x4 = 34 ohm.
-          0x1 = Reserved. 0x5 = 40 ohm.
-          0x2 = 26 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm.
+          0x0 = Reserved. 0x4 = 34 ohm..
+          0x1 = Reserved. 0x5 = 40 ohm..
+          0x2 = 26 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm..
           0x7-0xF = Reserved.
 
       - name: CK_CTL
@@ -2905,15 +2903,15 @@ registers:
           "Drive strength control for DDR_CK_*_P/DDR_DIMM*_CS*_L/DDR_DIMM*_ODT_*/DDR#_DIMM*_CKE*
           drivers.
           In DDR3 mode:
-          0x1 = 24 ohm. 0x5 = 40 ohm.
-          0x2 = 26.67 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm. 0x7 = 60 ohm.
-          0x4 = 34.3 ohm. 0x0,0x8-0xF = Reserved.
+          0x1 = 24 ohm.. 0x5 = 40 ohm..
+          0x2 = 26.67 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm.. 0x7 = 60 ohm..
+          0x4 = 34.3 ohm.. 0x0,0x8-0xF = Reserved.
           In DDR4 mode:
-          0x0 = Reserved. 0x4 = 34 ohm.
-          0x1 = Reserved. 0x5 = 40 ohm.
-          0x2 = 26 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm.
+          0x0 = Reserved. 0x4 = 34 ohm..
+          0x1 = Reserved. 0x5 = 40 ohm..
+          0x2 = 26 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm..
           0x7-0xF = Reserved."
 
       - name: DQX_CTL
@@ -2923,10 +2921,10 @@ registers:
         typical: --
         description: |
           Drive strength control for DDR_DQ*/DDR_DQS_*_P/N drivers.
-          0x1 = 24 ohm. 0x5 = 40 ohm.
-          0x2 = 26.67 ohm. 0x6 = 48 ohm.
-          0x3 = 30 ohm. 0x7 = 60 ohm.
-          0x4 = 34.3 ohm. 0x0,0x8-0xF = Reserved.
+          0x1 = 24 ohm.. 0x5 = 40 ohm..
+          0x2 = 26.67 ohm.. 0x6 = 48 ohm..
+          0x3 = 30 ohm.. 0x7 = 60 ohm..
+          0x4 = 34.3 ohm.. 0x0,0x8-0xF = Reserved.
 
 
   - name: LMC(0..3)_DLL_CTL2
@@ -2935,7 +2933,8 @@ registers:
     bus: RSL
     description: See LMC Initialization Sequence for the initialization sequence.
     internal: |
-      INTERNAL: DLL Bringup sequence:
+      internal:
+      DLL Bringup sequence:
       1. If not done already, set LMC*_DLL_CTL2 = 0, except when LMC*_DLL_CTL2[DRESET] = 1.
       2. Write 1 to LMC*_DLL_CTL2[DLL_BRINGUP]
       3. Wait for 10 CK cycles, then write 1 to LMC*_DLL_CTL2[QUAD_DLL_ENA]. It may not be feasible
@@ -2998,12 +2997,12 @@ registers:
         typical: 0x0
         description: |
           Reserved; must be zero. INTERNAL: Bypass select.
-          0000 = no byte.
-          0001 = byte 0.
+          0x0 = no byte.
+          0x1 = byte 0.
           ...
-          1001 = byte 8.
-          1010 = all bytes.
-          1011-1111 = Reserved.
+          0x9 = byte 8.
+          0xA = all bytes.
+          0xB-0xF = Reserved.
 
       - name: BYP_SETTING
         bits: 8..0
@@ -3012,12 +3011,12 @@ registers:
         typical: 0x0
         description: |
           Reserved; must be zero. INTERNAL: Bypass setting.
-          DDR3-1600: 00100010.
-          DDR3-1333: 00110010.
-          DDR3-1066: 01001011.
-          DDR3-800  : 01110101.
-          DDR3-667  : 10010110.
-          DDR3-600  : 10101100.
+          DDR3-1600: 0x22.
+          DDR3-1333: 0x32.
+          DDR3-1066: 0x4B.
+          DDR3-800  : 0x75.
+          DDR3-667  : 0x96.
+          DDR3-600  : 0xAC.
 
 
   - name: LMC(0..3)_IFB_CNT
@@ -3780,10 +3779,11 @@ registers:
         typical: 0x1
         description: |
           Observe DLL settings for selected byte.
-          0000: byte 0
+          0x0 = byte 0.
+          0x1 = byte 1.
           ...
-          1000: byte 8
-          1001-1111: Reserved
+          0x8: byte 8.
+          0x9-0xF: reserved.
 
       - name: OFFSET_ENA
         bits: 14
@@ -4934,8 +4934,7 @@ registers:
         typical: 0x0
         description: |
           Bitmask generated during read level settings sweep. BITMASK[n] = 0 means read level
-          setting n
-          failed; BITMASK[n] = 1 means read level setting n passed for 0 <= n <= 63.
+          setting n failed; BITMASK[n] = 1 means read level setting n passed for 0 <= n <= 63.
 
 
   - name: LMC(0..3)_WLEVEL_RANK(0..3)
@@ -4944,8 +4943,7 @@ registers:
     bus: RSL
     description: |
       Four of these CSRs exist per LMC, one for each rank. Write level setting is measured in units
-      of
-      1/8 CK, so the below BYTEn values can range over 4 CK cycles. Assuming
+      of 1/8 CK, so the below BYTEn values can range over 4 CK cycles. Assuming
       LMC(0..3)_WLEVEL_CTL[SSET]=0, the BYTEn<2:0> values are not used during write-leveling, and
       they are overwritten by the hardware as part of the write-leveling sequence. (Hardware sets
       STATUS to 3 after hardware write-leveling completes for the rank). Software needs to set
@@ -4982,11 +4980,11 @@ registers:
         description: |
           Indicates status of the write-leveling and where the BYTE* programmings in <44:0> came
           from:
-          0 = BYTE* values are their reset value.
-          1 = BYTE* values were set via a CSR write to this register.
-          2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
-          3 = BYTE* values came from a complete write-leveling sequence, irrespective of which lanes
-          are masked via LMC*WLEVEL_CTL[LANEMASK].
+          0x0 = BYTE* values are their reset value.
+          0x1 = BYTE* values were set via a CSR write to this register.
+          0x2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
+          0x3 = BYTE* values came from a complete write-leveling sequence, irrespective of which
+          lanes are masked via LMC*WLEVEL_CTL[LANEMASK].
 
       - name: BYTE8
         bits: 44..40
@@ -4995,10 +4993,9 @@ registers:
         typical: --
         description: |
           "Write level setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM
-          is not
-          present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_CBS_0_* and
-          DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the range
-          of possible BYTE* values. The easiest way to do this is to set
+          is not present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_CBS_0_*
+          and DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the
+          range of possible BYTE* values. The easiest way to do this is to set
           LMC(0..3)_WLEVEL_RANK(0..3)[BYTE8] = LMC(0..3)_WLEVEL_RANK(0..3)[BYTE0] when there is no
           ECC DRAM, using the final BYTE0 value."
 
@@ -5080,14 +5077,14 @@ registers:
           LMC writes a decoded value to MR1[Rtt_Nom] of the rank during write leveling. Per JEDEC
           DDR3 specifications, only values MR1[Rtt_Nom] = 1 (RZQ/4), 2 (RZQ/2), or 3 (RZQ/6) are
           allowed during write leveling with output buffer enabled.
-          000: LMC writes 001 (RZQ/4) to MR1[Rtt_Nom].
-          001: LMC writes 010 (RZQ/2) to MR1[Rtt_Nom].
-          010: LMC writes 011 (RZQ/6) to MR1[Rtt_Nom].
-          011: LMC writes 100 (RZQ/12) to MR1[Rtt_Nom].
-          100: LMC writes 101 (RZQ/8) to MR1[Rtt_Nom].
-          101: LMC writes 110 (Rsvd) to MR1[Rtt_Nom].
-          110: LMC writes 111 (Rsvd) to MR1[Rtt_Nom].
-          111: LMC writes 000 (Disabled) to MR1[Rtt_Nom].
+          0x0 = LMC writes 0x1 (RZQ/4) to MR1[Rtt_Nom].
+          0x1 = LMC writes 0x2 (RZQ/2) to MR1[Rtt_Nom].
+          0x2 = LMC writes 0x3 (RZQ/6) to MR1[Rtt_Nom].
+          0x3 = LMC writes 0x4 (RZQ/12) to MR1[Rtt_Nom].
+          0x4 = LMC writes 0x5 (RZQ/8) to MR1[Rtt_Nom].
+          0x5 = LMC writes 0x6 (Rsvd) to MR1[Rtt_Nom].
+          0x6 = LMC writes 0x7 (Rsvd) to MR1[Rtt_Nom].
+          0x7 = LMC writes 0x0 (Disabled) to MR1[Rtt_Nom].
 
       - name: BITMASK
         bits: 18..11
@@ -5148,8 +5145,9 @@ registers:
         description: |
           Bitmask generated during write level settings sweep. If LMC(0..3)_WLEVEL_CTL[SSET]=0,
           BITMASK<n>=0 means write level setting n failed; BITMASK<n>=1 means write level setting n
-          passed for 0 <= n <= 7. BITMASK contains the first 8 results of the total 16 collected
-          by LMC during the write-leveling sequence.
+          passed for
+          0 <= n <= 7. BITMASK contains the first 8 results of the total 16 collected by LMC during
+          the write-leveling sequence.
           If LMC(0..3)_WLEVEL_CTL[SSET]=1, BITMASK<0>=0 means curr write level setting failed;
           BITMASK<0>=1 means curr write level setting passed.
 
@@ -5233,10 +5231,9 @@ registers:
         reset: 0x1ff
         typical: 0x1ff
         description: |
-          INTERNAL: This mask is applied to the REF_PIN_ON signals that go to
-          the PHY, so that each byte lane can selectively turn off or on the signals
-          once the master signals is enabled.  Using the symbol R, the mask looks
-          like this:
+          This mask is applied to the REF_PIN_ON signals that go to the PHY, so that each byte lane
+          can selectively turn off or on the signals once the master signals are enabled. Using the
+          symbol R, the mask looks like this:
           RRRRRRRRR
           876543210
 
@@ -5246,10 +5243,9 @@ registers:
         reset: 0x1ff
         typical: 0x1ff
         description: |
-          INTERNAL: This mask is applied to the DAC_ON signals that go to
-          the PHY, so that each byte lane can selectively turn off or on the signals
-          once the master signals are enabled.  Using the symbols D  for DAC_ON,
-          the mask looks like this:
+          This mask is applied to the DAC_ON signals that go to the PHY, so that each byte lane can
+          selectively turn off or on the signals once the master signals are enabled. Using the
+          symbol D for DAC_ON, the mask looks like this:
           DDDDDDDDD
           876543210
 

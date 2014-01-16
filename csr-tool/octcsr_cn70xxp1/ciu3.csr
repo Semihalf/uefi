@@ -82,6 +82,8 @@ enums:
 
 structs:
   - name: CIU_PP_INT_S
+    title: |
+      INTERNAL: Core Interrupt Delivery Structure
     description: This structure specifies the layout of RTL interrupt delivery. It is not visible to software.
     fields:
       - name: RST

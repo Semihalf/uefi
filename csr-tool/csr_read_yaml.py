@@ -121,6 +121,7 @@ def build_struct(chip_info, struct):
                "description",   # Optional description (text)
                "fields",        # Structure fields (sub tree)
                "title",
+               "internal",      # Comments for internal use
                "attributes"])   # Optional attributes (sub tree)
     name = struct["name"]
     description = struct.get("description", "")

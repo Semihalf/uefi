@@ -6,7 +6,7 @@ attributes:
   dv_fc_scratch_exempt: "NCB"
 enums:
   - name: HNA_INTSN_E
-    title: HNA Interrupt Source Numbers
+    title: HNA Interrupt Source Number Enumeration
     attributes:
       width: "20"
     description: Enumerates the different HNA-generated interrupts.
@@ -2168,9 +2168,9 @@ registers:
     address: 0x1470400000000 + a*0x8
     bus: NCB
     description: |
-      This address space allows read-only access to HNC0 RAM1 for diagnostic use.  It is defined
-      here to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space
-      spans the entire RAM1, 8192 lines.
+      This address space allows read-only access to HNC0 RAM1 for diagnostic use. It is defined here
+      to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space spans
+      the entire RAM1, 8192 lines.
     fields:
       - name: RAM1_DATA
         bits: 63..0
@@ -2186,9 +2186,9 @@ registers:
     address: 0x1470400040000 + a*0x8
     bus: NCB
     description: |
-      This address space allows read-only access to HNC0 RAM2 for diagnostic use.  It is defined
-      here to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space
-      spans the entire RAM2, 512 lines.
+      This address space allows read-only access to HNC0 RAM2 for diagnostic use. It is defined here
+      to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space spans
+      the entire RAM2, 512 lines.
     fields:
       - name: RAM2_DATA
         bits: 63..0
@@ -2204,9 +2204,9 @@ registers:
     address: 0x1470400400000 + a*0x8
     bus: NCB
     description: |
-      This address space allows read-only access to HNC1 RAM1 for diagnostic use.  It is defined
-      here to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space
-      spans the entire RAM1, 8192 lines.
+      This address space allows read-only access to HNC1 RAM1 for diagnostic use. It is defined here
+      to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space spans
+      the entire RAM1, 8192 lines.
     fields:
       - name: RAM1_DATA
         bits: 63..0
@@ -2222,9 +2222,9 @@ registers:
     address: 0x1470400440000 + a*0x8
     bus: NCB
     description: |
-      This address space allows read-only access to HNC1 RAM2 for diagnostic use.  It is defined
-      here to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space
-      spans the entire RAM2, 512 lines.
+      This address space allows read-only access to HNC1 RAM2 for diagnostic use. It is defined here
+      to contain 64 words (16 RAM lines) for basic DV testing, but the actual address space spans
+      the entire RAM1, 512 lines.
     fields:
       - name: RAM2_DATA
         bits: 63..0

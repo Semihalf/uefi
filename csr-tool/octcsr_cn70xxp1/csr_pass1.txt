@@ -1989,7 +1989,8 @@ $CIU_INTSN_MAJOR_E
 
 
  * 
- * CIU_PP_INT_S
+ * CIU_PP_INT_S = INTERNAL: Core Interrupt Delivery Structure
+
  * 
  *  This structure specifies the layout of RTL interrupt delivery. It is not visible to software.
  * 
@@ -6210,7 +6211,7 @@ $FPA_WQE_THRESHOLD   Address=(0x1180028000468)   Bus=(RSL)
 // ***********************************************************************
 
  * 
- * GMX_INF_MODE_E
+ * GMX_INF_MODE_E = GMX Interface Mode Enumeration
  * 
  *  Enumerates the values for GMX(0..1)_INF_MODE[MODE]
  *  Attribute: -width=2.
@@ -37102,7 +37103,7 @@ sections 6.1.5 and 6.4.
 Attribute: -dv_fc_scratch_exempt=NCB.
 
  * 
- * USBDRD_UAHC_DGCMD_CMDTYPE_E
+ * USBDRD_UAHC_DGCMD_CMDTYPE_E = USBDRD UAHC Device Generic Command Enumeration
  * 
  *  Commands for USBDRD(0..1)_UAHC_DGCMD[CMDTYPE].
  *  Any command encodings that are not present are considered Reserved.
@@ -37190,7 +37191,7 @@ $USBDRD_UAHC_DGCMD_CMDTYPE_E
 
 
  * 
- * USBDRD_UCTL_DMA_READ_CMD_E
+ * USBDRD_UCTL_DMA_READ_CMD_E = USBDRD UCTL DMA Read Command Enumeration
  * 
  *  Enumerate IOI inbound command selections for DMA reads.
  *  Attribute: -width=1.
@@ -37205,7 +37206,7 @@ $USBDRD_UCTL_DMA_READ_CMD_E
 
 
  * 
- * USBDRD_UCTL_ECC_ERR_SOURCE_E
+ * USBDRD_UCTL_ECC_ERR_SOURCE_E = USBDRD UCTL ECC Error Source Enumeration
  * 
  *  Enumerate sources of ECC error log information.
  *  Attribute: -width=4.
@@ -37225,7 +37226,7 @@ $USBDRD_UCTL_ECC_ERR_SOURCE_E
 
 
  * 
- * USBDRD_UCTL_ENDIAN_MODE_E
+ * USBDRD_UCTL_ENDIAN_MODE_E = USBDRD UCTL ECC Error Source Enumeration
  * 
  *  Enumerate endian mode selections.
  *  Attribute: -width=2.
@@ -37287,7 +37288,7 @@ $USBDRD_UCTL_INTSN_E
 
 
  * 
- * USBDRD_UCTL_XM_BAD_DMA_TYPE_E
+ * USBDRD_UCTL_XM_BAD_DMA_TYPE_E = USBDRD UCTL ECC Error Source Enumeration
  * 
  *  Enumerate type of DMA error seen.
  *  Attribute: -width=4.

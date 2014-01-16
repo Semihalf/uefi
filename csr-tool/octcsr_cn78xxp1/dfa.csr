@@ -159,7 +159,7 @@ registers:
           6 3/8 HTE[15:10]:OFF /HTE[9:0]:ON
           7 7/8 HTE[15:2]:OFF  /HTE[1:0]:ON
           Higher numbered HTEs are crippled first. For instance, on CN78XX (with 16 HTEs/cluster),
-          if DTE_CLCRIP = 1 (1/4), then [15:8] within the cluster are crippled and only HTE numbers
+          if DTE_CLCRIP = 1 (1/2), then [15:8] within the cluster are crippled and only HTE numbers
           [7:0] are available.
           The MIO_FUS_DFA_NUMDTE_CRIPPLE[3:0] fuse bits are forced into this register at reset. Any
           fuse bits that contain 1 are disallowed during a write and are always read as 1.

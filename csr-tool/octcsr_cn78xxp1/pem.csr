@@ -632,7 +632,7 @@ registers:
 
   - name: PEM(0..3)_CTL_STATUS2
     title: PEM Control Status 2
-    address: 0x11800C0000008 + a*0x1000000
+    address: 0x11800C0000008 | a<<24
     bus: RSL
     description: Additional general control and status of the PEM.
     fields:
@@ -663,7 +663,7 @@ registers:
 
   - name: PEM(0..3)_DIAG_STATUS
     title: PEM Diagnostic Status
-    address: 0x11800C0000020 + a*0x1000000
+    address: 0x11800C0000020 | a<<24
     bus: RSL
     description: Selection control for the cores diagnostic bus.
     fields:
@@ -712,7 +712,7 @@ registers:
 
   - name: PEM(0..3)_CFG_WR
     title: PEM Configuration Write
-    address: 0x11800C0000028 + a*0x1000000
+    address: 0x11800C0000028 | a<<24
     bus: RSL
     description: Allows write access to the configuration in the PCIe Core.
     fields:
@@ -741,7 +741,7 @@ registers:
 
   - name: PEM(0..3)_CFG_RD
     title: PEM Configuration Read
-    address: 0x11800C0000030 + a*0x1000000
+    address: 0x11800C0000030 | a<<24
     bus: RSL
     description: Allows read access to the configuration in the PCIe Core.
     fields:
@@ -769,7 +769,7 @@ registers:
 
   - name: PEM(0..3)_TLP_CREDITS
     title: PEM TLP Credits
-    address: 0x11800C0000038 + a*0x1000000
+    address: 0x11800C0000038 | a<<24
     bus: RSL
     description: |
       Specifies the number of credits the PEM for use in moving TLPs. When this register is written
@@ -873,7 +873,7 @@ registers:
 
 
   - name: PEM(0..3)_P2P_BAR(0..3)_START
-    address: 0x11800C0000040 + a*0x1000000 + b*0x10
+    address: 0x11800C0000040 | a<<24 | b<<4
     bus: RSL
     description: |
       "PEM_P2P_BAR#_START = PEM Peer-To-Peer BAR0 Start
@@ -910,7 +910,7 @@ registers:
 
 
   - name: PEM(0..3)_P2P_BAR(0..3)_END
-    address: 0x11800C0000048 + a*0x1000000 + b*0x10
+    address: 0x11800C0000048 | a<<24 | b<<4
     bus: RSL
     description: |
       "PEM_P2P_BAR#_END = PEM Peer-To-Peer BAR0 End
@@ -937,7 +937,7 @@ registers:
 
   - name: PEM(0..3)_P2N_BAR0_START
     title: PEM PCIe to Npei BAR0 Start
-    address: 0x11800C0000080 + a*0x1000000
+    address: 0x11800C0000080 | a<<24
     bus: RSL
     description: The starting address for addresses to forwarded to the SLI in RC Mode.
     fields:
@@ -960,7 +960,7 @@ registers:
 
   - name: PEM(0..3)_P2N_BAR1_START
     title: PEM PCIe to Npei BAR1 Start
-    address: 0x11800C0000088 + a*0x1000000
+    address: 0x11800C0000088 | a<<24
     bus: RSL
     description: The starting address for addresses to forwarded to the SLI in RC Mode.
     fields:
@@ -983,7 +983,7 @@ registers:
 
   - name: PEM(0..3)_P2N_BAR2_START
     title: PEM PCIe to Npei BAR2 Start
-    address: 0x11800C0000090 + a*0x1000000
+    address: 0x11800C0000090 | a<<24
     bus: RSL
     description: The starting address for addresses to forwarded to the SLI in RC Mode.
     fields:
@@ -1006,7 +1006,7 @@ registers:
 
   - name: PEM(0..3)_CPL_LUT_VALID
     title: PEM Cmpletion Lookup Table Valid
-    address: 0x11800C0000098 + a*0x1000000
+    address: 0x11800C0000098 | a<<24
     bus: RSL
     description: Bit set for outstanding tag read.
     fields:
@@ -1020,7 +1020,7 @@ registers:
 
   - name: PEM(0..3)_BAR_CTL
     title: PEM BAR Control
-    address: 0x11800C00000A8 + a*0x1000000
+    address: 0x11800C00000A8 | a<<24
     bus: RSL
     description: Contains control for BAR accesses.
     fields:
@@ -1072,7 +1072,7 @@ registers:
 
   - name: PEM(0..3)_BAR2_MASK
     title: PEM BAR2 MASK
-    address: 0x11800C00000B0 + a*0x1000000
+    address: 0x11800C00000B0 | a<<24
     bus: RSL
     description: The mask pattern that is ANDED with the address from PCIe core for BAR2 hits.
     fields:
@@ -1101,7 +1101,7 @@ registers:
 
 
   - name: PEM(0..3)_INB_READ_CREDITS
-    address: 0x11800C00000B8 + a*0x1000000
+    address: 0x11800C00000B8 | a<<24
     bus: RSL
     description: The number of in flight reads from PCIe core to SLI
     fields:
@@ -1124,7 +1124,7 @@ registers:
 
 
   - name: PEM(0..3)_DBG_INFO
-    address: 0x11800C00000D0 + a*0x1000000
+    address: 0x11800C00000D0 | a<<24
     bus: RSL
     description: |
       "PEM#_DBG_INFO = PEM Debug Information
@@ -1623,7 +1623,7 @@ registers:
 
 
   - name: PEM(0..3)_BAR1_INDEX(0..15)
-    address: 0x11800C0000100 + a*0x1000000 + b*0x8
+    address: 0x11800C0000100 | a<<24 | b<<3
     bus: RSL
     description: |
       Contains address index and control bits for access to memory ranges of BAR-1. Index is build
@@ -1667,7 +1667,7 @@ registers:
 
 
   - name: PEM(0..3)_SPI_CTL
-    address: 0x11800C0000180 + a*0x1000000
+    address: 0x11800C0000180 | a<<24
     bus: RSL
     description: "PEM#_SPI_CTL register."
     fields:
@@ -1710,7 +1710,7 @@ registers:
 
 
   - name: PEM(0..3)_SPI_DATA
-    address: 0x11800C0000188 + a*0x1000000
+    address: 0x11800C0000188 | a<<24
     bus: RSL
     description: |
       "PEM#_SPI read/write data register. Contains most recently read or written data and is
@@ -1754,7 +1754,7 @@ registers:
 
   - name: PEM(0..3)_CLK_EN
     title: PEM Clock Enable
-    address: 0x11800C0000400 + a*0x1000000
+    address: 0x11800C0000400 | a<<24
     bus: RSL
     description: Clock Enable for ECLK and PCE_CLK
     fields:
@@ -1786,7 +1786,7 @@ registers:
 
   - name: PEM(0..3)_STRAP
     title: PEM Pin Strapping
-    address: 0x11800C0000408 + a*0x1000000
+    address: 0x11800C0000408 | a<<24
     bus: RSL
     description: |
       "Below are in pesc_csr
@@ -1834,7 +1834,7 @@ registers:
 
   - name: PEM(0..3)_CFG
     title: PEM Application CFG
-    address: 0x11800C0000410 + a*0x1000000
+    address: 0x11800C0000410 | a<<24
     bus: RSL
     description: Configuration of the PCIe Application
     fields:
@@ -1897,7 +1897,7 @@ registers:
 
   - name: PEM(0..3)_QLM
     title: PEM3 QLM CFG
-    address: 0x11800C0000418 + a*0x1000000
+    address: 0x11800C0000418 | a<<24
     bus: RSL
     description: Configuration of the PEM3 QLM
     fields:
@@ -1925,7 +1925,7 @@ registers:
 
   - name: PEM(0..3)_ON
     title: PEM ON Status
-    address: 0x11800C0000420 + a*0x1000000
+    address: 0x11800C0000420 | a<<24
     bus: RSL
     description: PEM is configured and ready
     attributes:
@@ -1959,7 +1959,7 @@ registers:
 
 
   - name: PEM(0..3)_INT_SUM
-    address: 0x11800C0000428 + a*0x1000000
+    address: 0x11800C0000428 | a<<24
     bus: RSL
     description: |
       "PEM#_INT_SUM = PEM Interrupt Summary
@@ -2110,7 +2110,7 @@ registers:
 
 
   - name: PEM(0..3)_BIST_STATUS
-    address: 0x11800C0000440 + a*0x1000000
+    address: 0x11800C0000440 | a<<24
     bus: RSL
     description: |
       "PEM#_BIST_STATUS2 = PEM BIST Status Register
@@ -2307,7 +2307,7 @@ registers:
 
 
   - name: PEM(0..3)_ECC_ENA
-    address: 0x11800C0000448 + a*0x1000000
+    address: 0x11800C0000448 | a<<24
     bus: RSL
     description: Contains enables for TLP FIFO ECC RAMs
     fields:
@@ -2411,7 +2411,7 @@ registers:
 
 
   - name: PEM(0..3)_ECC_SYND_CTRL
-    address: 0x11800C0000450 + a*0x1000000
+    address: 0x11800C0000450 | a<<24
     bus: RSL
     description: |
       PEM_ECC_SYND_CTL

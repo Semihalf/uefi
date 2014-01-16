@@ -4,6 +4,7 @@
 name: GMX
 enums:
   - name: GMX_INF_MODE_E
+    title: GMX Interface Mode Enumeration
     attributes:
       width: "2"
     description: Enumerates the values for GMX(0..1)_INF_MODE[MODE]

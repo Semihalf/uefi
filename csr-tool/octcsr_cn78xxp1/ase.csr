@@ -2,10 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: ASE
-description: |
-  Algorithmic Search Engine
+internal: |
   INTERNAL: Internal documentation uses "Tree" where external documentation uses "RuleDB".
-  http://mawiki.caveonetworks.com/wiki/index.php/78xx/ASE
 attributes:
   rtlgen: "True"
   rtlgen_clock: "sclk"
@@ -546,9 +544,9 @@ enums:
 
 structs:
   - name: ASE_LUE_ERROR_LOG_INVREQ_S
-    description: |
-      Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] ==
-      INVALID_REQ.
+    title: ASE LUE Error Log Invalid Request Structure
+    description: Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == INVALID_REQ.
+    internal: |
       INTERNAL: Multiple errors can occur on the same cycle, see prioritization notes below.
     fields:
       - name: FIELD0
@@ -622,6 +620,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_INVTBLACC_S
+    title: ASE LUE Invalid Table Access Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == HR_ERR_LOG
       and ASE_LUE_ERROR_LOG[HR_ERR_ID] == INVALID_TBL_ACC.
@@ -666,6 +665,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_KDB_ECC_S
+    title: ASE LUE ECC Single-bit or Double-bit Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == KDB_DBE or
       KDB_SBE.
@@ -704,6 +704,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_KDT_ECC_S
+    title: ASE LUE KDT Single-bit or Double-bit Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == KDT_DBE or
       KDT_SBE.
@@ -752,6 +753,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_RFT_ECC_S
+    title: ASE LUE RFT Single-bit or Double-bit Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == RFT_DBE or
       RFT_SBE.
@@ -803,6 +805,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_RME_FATAL_S
+    title: ASE LUE RME Fatal Error Log Structure
     description: Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == RME_FATAL.
     fields:
       - name: RME_MASK
@@ -815,6 +818,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_RUL_ECC_S
+    title: ASE LUE RUL Single-bit or Double-bit Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == RUL_DBE or
       RUL_SBE.
@@ -853,6 +857,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_TAT_ECC_S
+    title: ASE LUE TAT Single-bit or Double-bit Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == TAT_DBE or
       TAT_SBE.
@@ -890,6 +895,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_TIC_BAD_WRITE_S
+    title: ASE LUE TIC Bad Write Error Log Structure
     description: Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == TIC_BAD_WRITE.
     fields:
       - name: TID
@@ -914,6 +920,7 @@ structs:
 
 
   - name: ASE_LUE_ERROR_LOG_TIC_S
+    title: ASE LUE TIC Miss or Multiple Hit Error Log Structure
     description: |
       Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == TIC_MISS
       or TIC_MULTI_HIT.
@@ -928,6 +935,7 @@ structs:
 
 
   - name: ASE_LUF_ERROR_LOG_LIP_ECC_S
+    title: ASE LUF LIP Error Log Structure
     description: Error log structure for ASE_LUF_ERROR_LOG[DATA] when ASE_LUF_ERROR_LOG[ERROR_ID] == LIP_*_*BE.
     fields:
       - name: SYNDROME
@@ -948,6 +956,7 @@ structs:
 
 
   - name: ASE_LUF_ERROR_LOG_LOP_ECC_S
+    title: ASE LUF LOP Error Log Structure
     description: Error log structure for ASE_LUF_ERROR_LOG[DATA] when ASE_LUF_ERROR_LOG[ERROR_ID] == LOP_TXB_*BE.
     fields:
       - name: --
@@ -980,6 +989,7 @@ structs:
 
 
   - name: ASE_OSMDAT_128H_S
+    title: ASE OSM Data 128H Structure
     description: ASE OSM write data beats for a OSM_WR_128H request.
     fields:
       - name: DATA0
@@ -998,6 +1008,7 @@ structs:
 
 
   - name: ASE_OSMDAT_128L_S
+    title: ASE OSM Data 128L Structure
     description: ASE OSM write data beats for a OSM_WR_128L request.
     fields:
       - name: DATA0
@@ -1016,6 +1027,7 @@ structs:
 
 
   - name: ASE_OSMDAT_256_S
+    title: ASE OSM Data 256S Structure
     description: ASE OSM write data beats for a OSM_WR request or read data beats for a OSM_RD response.
     fields:
       - name: DATA0
@@ -1052,6 +1064,7 @@ structs:
 
 
   - name: ASE_OSMDAT_512_S
+    title: ASE OSM Data 512S Structure
     description: ASE OSM write data beats for a OSM_WR_512 request.
     fields:
       - name: DATA0_0
@@ -1104,6 +1117,7 @@ structs:
 
 
   - name: ASE_REQ_CW_S
+    title: ASE Request Control Word Structure
     description: ASE request control word. First beat of any ASE request packet.
     fields:
       - name: --
@@ -1140,6 +1154,7 @@ structs:
 
 
   - name: ASE_REQ_OSMADR_S
+    title: ASE OSM Address Beat Structure
     description: |
       ASE OSM address beat. Second beat for OSM_* requests. Note that CLADR1 is only used for
       OSM_WR_512 requests; for all other requests, it is ignored. Note that CLADR0 should never
@@ -1163,6 +1178,7 @@ structs:
 
 
   - name: ASE_REQ_TBLADR_S
+    title: ASE TBL Address Beat Structure
     description: ASE TBL address beat. Second beat for TBL_* requests.
     fields:
       - name: --
@@ -1198,17 +1214,17 @@ structs:
           All other TABROW values are reserved and should be set to zero.
           Unused TABROW bits must be set to zero.
           INTERNAL:
-            When we say "indexed" we mean how LU_REQs mapping of index to entry.
-            When we say "addressed" we mean TABROW address.
-            GDT is addressed/indexed by GID.
-            TLT is addressed/indexed by TID.
-            PHT is addressed by {HID,SXID}, but indexed by HID.
-            LRT is addressed/indexed by KID.
-            LRT_INFO is addressed/indexed by LRTID.
-            TXBUF is addressed/indexed by TXID.
-            RFT is addressed/indeded by KFTIDX.
-            TAT is indexed by the TIC hit's TAT_IDX+TAT_CNT.
-            TIC is a CAM.
+          When we say 'indexed' we mean how LU_REQs mapping of index to entry.
+          When we say 'addressed' we mean TABROW address.
+          GDT is addressed/indexed by GID.
+          TLT is addressed/indexed by TID.
+          PHT is addressed by {HID,SXID}, but indexed by HID.
+          LRT is addressed/indexed by KID.
+          LRT_INFO is addressed/indexed by LRTID.
+          TXBUF is addressed/indexed by TXID.
+          RFT is addressed/indexed by KFTIDX.
+          TAT is indexed by the TIC hit's TAT_IDX+TAT_CNT.
+          TIC is a CAM.
 
       - name: TABCOL
         bits: 39..37
@@ -1217,7 +1233,7 @@ structs:
           For PHT:
           0x0 = Accesses chunks 5 to 8 using ASE_TBLDAT_PHT_COL0_S.
           0x1 = Accesses chunks 1 to 4 using ASE_TBLDAT_PHT_COL1_S.
-          0x2 = Accesses chunk 0 and valids using ASE_TBLDAT_PHT_COL2_S.
+          0x2 = Accesses chunks 0 and valids using ASE_TBLDAT_PHT_COL2_S.
           Others = reserved.
           For all other tables, set to zero.
 
@@ -1227,6 +1243,7 @@ structs:
 
 
   - name: ASE_RSP_CW_S
+    title: ASE Response Control Word Structure
     description: ASE response control word. First beat of any ASE response packet.
     fields:
       - name: --
@@ -1273,6 +1290,7 @@ structs:
 
 
   - name: ASE_RSP_KEY_S
+    title: ASE KEY Response Match Result Beats Structure
     description: ASE KEY response match result beats.
     fields:
       - name: MR1
@@ -1293,6 +1311,7 @@ structs:
 
 
   - name: ASE_TBLDAT_GDT_S
+    title: ASE Group Definition Table Entry Structure
     description: |
       Group definition table entry as seen by software during 128-bit table read/write accesses.
       Indexed by GID. Outputs information about which ruleDBs to search and how to interpret the
@@ -1388,6 +1407,7 @@ structs:
 
 
   - name: ASE_TBLDAT_LRT_INFO_S
+    title: ASE LOP Lookup Response INFO Table Entry Structure
     description: |
       LOP lookup response INFO table entry as seen by software during 128-bit table read accesses.
       Indexed by LRTID. For diagnostic use only.
@@ -1443,6 +1463,7 @@ structs:
 
 
   - name: ASE_TBLDAT_LRT_S
+    title: ASE LOP Lookup Response Table Entry Structure
     description: |
       LOP lookup response table entry as seen by software during 128-bit table read accesses.
       Indexed by KID. For diagnostic use only.
@@ -1513,6 +1534,7 @@ structs:
 
 
   - name: ASE_TBLDAT_PHT_COL0_S
+    title: ASE Packet Header Table Entry, Column 0 Portion Structure
     description: |
       Packet header table entry, Column 0 portion, as seen by software during 128-bit table
       read/write accesses. Indexed by HID. Accessed with TABROW = {HID,SXID}. The PHT outputs the
@@ -1584,6 +1606,7 @@ structs:
 
 
   - name: ASE_TBLDAT_PHT_COL1_S
+    title: ASE Packet Header Table Entry, Column 1 Portion Structure
     description: |
       Packet header table entry, Column 1 portion, as seen by software during 128-bit table
       read/write accesses. Indexed by HID. Accessed with TABROW = {HID,SXID}. The PHT outputs the
@@ -1655,6 +1678,7 @@ structs:
 
 
   - name: ASE_TBLDAT_PHT_COL2_S
+    title: ASE Packet Header Table Entry, Column 2 Portion Structure
     description: |
       Packet header table entry, Column 2 portion, as seen by software during 128-bit table
       read/write accesses. Indexed by HID. Accessed with TABROW = {HID,SXID}. The PHT outputs the
@@ -1746,6 +1770,7 @@ structs:
 
 
   - name: ASE_TBLDAT_RFT_S
+    title: ASE Rule Format Table Entry Structure
     description: |
       Rule format table entry as seen by software during 128-bit table read/write accesses. Indexed
       by KFTIDX. Contains the key/rule formats associated with a key request. There are 64 entries
@@ -1920,11 +1945,13 @@ structs:
 
 
   - name: ASE_TBLDAT_TAT_S
+    title: ASE RuleDB Access Table Entry Structure
     description: |
-      RuleDB access table entry as seen by software during 128-bit table read/write
-      accesses. Indexed by TIC hit's TAT_IDX+TAT_CNT. Contains the RuleDB starting address
-      associated with the lookup request. Used by the RuleDB engines to start sub-RuleDB
-      walk(s). There are 192 entries in the TAT.
+      RuleDB access table entry as seen by software during 128-bit table read/write accesses.
+      Indexed by TIC hit's TAT_IDX+TAT_CNT. Contains the RuleDB starting address associated with the
+      lookup request. Used by the RuleDB engines to start sub-RuleDB walk(s). There are 192 entries
+      in the TAT.
+    internal: |
       INTERNAL: Copied from tat_entry_t in luc_cav_globals.svh
     fields:
       - name: BIG_TNODE_LSB
@@ -1965,16 +1992,19 @@ structs:
 
 
   - name: ASE_TBLDAT_TIC_S
+    title: ASE RuleTAT Indirection CAM Entry Structure
     description: |
       TAT indirection CAM entry as seen by software during 128-bit table read/write accesses.
       Content-addressed by TIC_ID = {TID}. Maps the TIC_ID to the entries in the TAT. There are 64
       entries in the TIC.
       The key request's 6-bit TIC_ID is CAM'ed against all entries in the TIC, and if a match
       occurs, the match's address TAT_IDX is used to index into 1 of the 192 TAT entries. Software
-      will write the TIC_ID -> TAT_IDX,TAT_CNT mapping at any entry in the TIC.
+      will write the TIC_ID
+      -> TAT_IDX,TAT_CNT mapping at any entry in the TIC.
       All TIC_IDs marked with VLD=1 in the TIC must be unique. The TIC does not accept writes with
-      TAT_IDX + TAT_CNT >= TAT_DEPTH. The TIC response will flag an uncorrectable error if such a
-      write is attempted.
+      TAT_IDX + TAT_CNT
+      >= TAT_DEPTH. The TIC response will flag an uncorrectable error if such a write is attempted.
+    internal: |
       INTERNAL: Copied from tic_entry_t in luc_cav_globals.svh
     fields:
       - name: TAT_IDX
@@ -2014,6 +2044,7 @@ structs:
 
 
   - name: ASE_TBLDAT_TLT_S
+    title: ASE RuleDB Location Table Entry Structure
     description: |
       RuleDB location table entry as seen by software during 128-bit table read/write accesses.
       Indexed by TID.
@@ -2033,7 +2064,7 @@ structs:
         description: |
           Key format index. The LUE uses this to reference 1 of the 64 key formats which define how
           the LUE should extract up to 16 (max) dimensions within the key data for each key. It is
-          also used to index RFT (rule format table).
+          used to index RFT (rule format table).
 
       - name: --
         bits: w0(63..14)
@@ -2045,6 +2076,7 @@ structs:
 
 
   - name: ASE_TBLDAT_TXBUF_S
+    title: ASE LOP TXBUFF Structure
     description: |
       LOP TXBUFF as seen by software during 128-bit table read accesses. Indexed by TXID. For
       diagnostic use only.
@@ -3401,12 +3433,12 @@ registers:
         reset: 1
         typical: 1
         description: |
-          Enable bucket entry prefetch phase A/B request scheme. When clear, each Bucket Walk Engine
+          Enable bucket entry prefetch phase A/B request scheme. When clear, each bucket walk engine
           is allowed to have a maximum of 8 outstanding rule read requests in progress at a time.
-          When set, each Bucket Walk Engine is allowed to have a maximum of 16 outstanding rule read
-          requests in progress at a time, split in to two groups of 8 (Phases A and B). After the
+          When set, each bucket walk engine is allowed to have a maximum of 16 outstanding rule read
+          requests in progress at a time, split into two groups of 8 (Phases A and B). After the
           initial 8 bucket entries, the next set of [up to] 8 bucket entries are speculatively read
-          and submitted to the Rule Walk Engine. Subsequent speculative reads are performed once all
+          and submitted to the rule walk engine. Subsequent speculative reads are performed once all
           outstanding requests for a phase have completed.
 
       - name: --
@@ -3422,7 +3454,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Within the TWC block, configures the arbiter which selects between Pending TWE or BWE
+          Within the TWC block, configures the arbiter which selects between pending TWE or BWE
           STRSPs. When clear, fixed priority arbitration is selected, which gives BWEs higher
           priority over TWEs. When set, round robin arbitration is selected which ensures fairness
           across the TWE and BWE STRSPs.
@@ -3459,7 +3491,7 @@ registers:
         access: R/W
         reset: 0xf
         typical: 0xf
-        description: Each bit, when set, enables rule processing by a local Rule Match Engine.
+        description: Each bit, when set, enables rule processing by a local rule match engine.
 
 
   - name: ASE_LUE_TWE_BWE_ENABLE

@@ -95,7 +95,7 @@ registers:
         typical: 0
         description: |
           SPI_CSn_L late.
-          0 = SPI_CSn_L asserts 1/4 coprocessor-clock cycle before the transaction.
+          0 = SPI_CSn_L asserts 1/2 coprocessor-clock cycle before the transaction.
           1 = SPI_CSn_L asserts coincident with the transaction.
 
       - name: TRITX

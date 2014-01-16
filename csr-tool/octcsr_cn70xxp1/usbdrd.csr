@@ -74,6 +74,7 @@ attributes:
   dv_fc_scratch_exempt: "NCB"
 enums:
   - name: USBDRD_UAHC_DGCMD_CMDTYPE_E
+    title: USBDRD UAHC Device Generic Command Enumeration
     attributes:
       width: "8"
     description: |
@@ -188,6 +189,7 @@ enums:
 
 
   - name: USBDRD_UCTL_DMA_READ_CMD_E
+    title: USBDRD UCTL DMA Read Command Enumeration
     attributes:
       width: "1"
     description: Enumerate IOI inbound command selections for DMA reads.
@@ -202,6 +204,7 @@ enums:
 
 
   - name: USBDRD_UCTL_ECC_ERR_SOURCE_E
+    title: USBDRD UCTL ECC Error Source Enumeration
     attributes:
       width: "4"
     description: Enumerate sources of ECC error log information.
@@ -236,6 +239,7 @@ enums:
 
 
   - name: USBDRD_UCTL_ENDIAN_MODE_E
+    title: USBDRD UCTL ECC Error Source Enumeration
     attributes:
       width: "2"
     description: Enumerate endian mode selections.
@@ -343,6 +347,7 @@ enums:
 
 
   - name: USBDRD_UCTL_XM_BAD_DMA_TYPE_E
+    title: USBDRD UCTL ECC Error Source Enumeration
     attributes:
       width: "4"
     description: Enumerate type of DMA error seen.
