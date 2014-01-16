@@ -502,23 +502,19 @@ static int if_init(bdk_if_handle_t handle)
 
 static int if_enable(bdk_if_handle_t handle)
 {
-#if 0 // FIXME: When sim support BGX regs
     bgx_priv_t priv = {.ptr = handle->priv};
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
         c.s.data_pkt_tx_en = 1;
         c.s.data_pkt_rx_en = 1);
-#endif
     return 0;
 }
 
 static int if_disable(bdk_if_handle_t handle)
 {
-#if 0 // FIXME: When sim support BGX regs
     bgx_priv_t priv = {.ptr = handle->priv};
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
         c.s.data_pkt_tx_en = 0;
         c.s.data_pkt_rx_en = 0);
-#endif
     return 0;
 }
 
