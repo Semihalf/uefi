@@ -406,12 +406,7 @@ static int pko_port_init(bdk_if_handle_t handle)
             if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
                 port = port >> 4;
 
-#if 0 // FIXME: When sim support BGX regs
-            BDK_CSR_INIT(config, node, BDK_BGXX_CMRX_CONFIG(interface, 0));
-#else
-            BDK_CSR_DEFINE(config, BDK_BGXX_CMRX_CONFIG(interface, 0));
-            config.s.lmac_type = 3; /* 10G */
-#endif
+            BDK_CSR_INIT(config, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, 0));
             switch (config.s.lmac_type)
             {
                 case 0: /* SGMII - 1 lane each */
