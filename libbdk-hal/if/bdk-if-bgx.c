@@ -45,12 +45,7 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
     priv.ptr = NULL;
     priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
 
-#if 0 // FIXME: When sim support BGX regs
     BDK_CSR_INIT(config, node, BDK_BGXX_CMRX_CONFIG(interface, 0));
-#else
-    BDK_CSR_DEFINE(config, BDK_BGXX_CMRX_CONFIG(interface, 0));
-    config.s.lmac_type = 3; /* 10G */
-#endif
 
     switch (config.s.lmac_type)
     {
