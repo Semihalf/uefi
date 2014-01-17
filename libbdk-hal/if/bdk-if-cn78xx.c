@@ -660,7 +660,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     const bdk_wqe_t *wqe = work;
     const bdk_node_t input_node = wqe->word0.v3.node;
     const global_node_state_t *node_state = &global_node_state[input_node];
-
+#if 0
     const char *tag_type = "illegal";
     switch (wqe->word1.v3.tt)
     {
@@ -719,11 +719,11 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         wqe->unused[0],         /* word5 */
         wqe->unused[1],         /* word6 */
         wqe->unused[2]);        /* word7 */
-
+#endif
     packet->if_handle = node_state->__bdk_if_ipd_map[wqe->word0.v3.chan];
-    bdk_dprintf("  Maps to %s, port=%d, aura=%d, pknd=%d\n",
-        bdk_if_name(packet->if_handle), packet->if_handle->ipd_port,
-        packet->if_handle->aura, packet->if_handle->pknd);
+    //bdk_dprintf("  Maps to %s, port=%d, aura=%d, pknd=%d\n",
+        //bdk_if_name(packet->if_handle), packet->if_handle->ipd_port,
+        //packet->if_handle->aura, packet->if_handle->pknd);
     packet->length = wqe->word1.v3.len;
     packet->segments = wqe->word0.v3.bufs;
     packet->aura = wqe->word0.v3.aura;
