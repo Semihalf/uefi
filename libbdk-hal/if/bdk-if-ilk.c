@@ -176,10 +176,43 @@ static int if_init(bdk_if_handle_t handle)
             status */
         int cal_depth = num_ilk + (num_ilk-1)/15 + 1;
 
-        /* Figure out lanes used by this interface */
-        int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
+        int lane_mask = 0;
+        /* CN78XX: Figure out the total lanes available */
+        for (int qlm = 4; qlm < 8; qlm++)
+        {
+            bdk_qlm_modes_t mode = bdk_qlm_get_mode(handle->node, qlm);
+            if (mode == BDK_QLM_MODE_ILK)
+            {
+                int lanes = bdk_qlm_get_lanes(handle->node, qlm);
+                lane_mask |= ((1 << lanes) - 1) << 4*(qlm-4);
+            }
+        }
+
+        /* Figure out how many lanes we need */
+        const int needed_lanes = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface);
+        /* Mask off lanes that are already in use */
         if (handle->interface)
-            lane_mask <<= bdk_config_get(BDK_CONFIG_ILK0_LANES);
+        {
+            BDK_CSR_INIT(cfg0, handle->node, BDK_ILK_TXX_CFG0(0));
+            lane_mask &= ~cfg0.s.lane_ena;
+        }
+        /* Clear any lanes that we won't use */
+        int lane_count = 0;
+        for (int lane = 0; lane < 16; lane++)
+        {
+            if (lane_mask & (1 << lane))
+            {
+                /* Lane is valid, count it */
+                lane_count++;
+                if (lane_count == needed_lanes)
+                {
+                    /* We found all our lanes, clear unused ones */
+                    lane_mask &= (1 << (lane+1)) - 1;
+                    break;
+                }
+            }
+        }
+        //bdk_dprintf("%s: Using %d lanes, lane_ena=0x%x\n", handle->name, lane_count, lane_mask);
 
         /* Bringup the TX side */
         BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG0(handle->interface),
