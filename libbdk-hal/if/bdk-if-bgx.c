@@ -97,60 +97,6 @@ static int if_num_ports(bdk_node_t node, int interface)
     return priv.s.num_port * priv.s.num_channels;
 }
 
-static int if_probe(bdk_if_handle_t handle)
-{
-    bgx_priv_t priv = create_priv(handle->node, handle->interface, handle->index);
-    handle->priv = priv.ptr;
-
-    /* Change name to be something that might be meaningful to the user */
-    const char *name_format;
-    switch (priv.s.mode)
-    {
-        case BGX_MODE_SGMII:
-            if (bdk_numa_is_only_one())
-                name_format = "SGMII%d.%d";
-            else
-                name_format = "N%d.SGMII%d.%d";
-            break;
-        case BGX_MODE_XAUI:
-            if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "XAUI%d";
-            else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
-            break;
-        case BGX_MODE_RXAUI:
-            if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
-            else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
-            break;
-        case BGX_MODE_10G:
-            if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "10G%d.%d";
-            else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
-            break;
-        case BGX_MODE_40G:
-            if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "40G%d";
-            else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
-            break;
-        default:
-            return -1;
-    }
-    if (bdk_numa_is_only_one())
-        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv.s.port, priv.s.channel);
-    else
-        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
-    handle->name[sizeof(handle->name)-1] = 0;
-
-    /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
-    handle->ipd_port = 0x800 + handle->interface*0x100 + priv.s.port*0x10 + priv.s.channel;
-    handle->flags |= BDK_IF_FLAGS_HAS_FCS;
-    return 0;
-}
-
 /**
  * Perform intialization of the BGX required before use. This should only be
  * called once for each BGX. Before this is called, the mode of
@@ -206,6 +152,60 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_RX_LMACS(handle->interface),
         c.s.lmacs = priv.s.num_port);
     return 0;
+}
+
+static int if_probe(bdk_if_handle_t handle)
+{
+    bgx_priv_t priv = create_priv(handle->node, handle->interface, handle->index);
+    handle->priv = priv.ptr;
+
+    /* Change name to be something that might be meaningful to the user */
+    const char *name_format;
+    switch (priv.s.mode)
+    {
+        case BGX_MODE_SGMII:
+            if (bdk_numa_is_only_one())
+                name_format = "SGMII%d.%d";
+            else
+                name_format = "N%d.SGMII%d.%d";
+            break;
+        case BGX_MODE_XAUI:
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "XAUI%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
+            break;
+        case BGX_MODE_RXAUI:
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
+            break;
+        case BGX_MODE_10G:
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "10G%d.%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
+            break;
+        case BGX_MODE_40G:
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "40G%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
+            break;
+        default:
+            return -1;
+    }
+    if (bdk_numa_is_only_one())
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv.s.port, priv.s.channel);
+    else
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
+    handle->name[sizeof(handle->name)-1] = 0;
+
+    /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
+    handle->ipd_port = 0x800 + handle->interface*0x100 + priv.s.port*0x10 + priv.s.channel;
+    handle->flags |= BDK_IF_FLAGS_HAS_FCS;
+    return bgx_setup_one_time(handle);
 }
 
 static int sgmii_link(bdk_if_handle_t handle)
@@ -487,8 +487,6 @@ static int if_init(bdk_if_handle_t handle)
             c.s.fcs_ena = 1; /* FCS */
             c.s.fcs_sop_off = 0; /* No FCS offset */
             c.s.skid_max_cnt = (priv.s.num_port == 4) ? 0 : (priv.s.num_port == 2) ? 1 : 2);
-        if (bgx_setup_one_time(handle))
-            return -1;
     }
 
     switch (priv.s.mode)
