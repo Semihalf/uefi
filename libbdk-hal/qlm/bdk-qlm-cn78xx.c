@@ -258,7 +258,36 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
-        return 6250; /* FIXME */
+        BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
+        switch (lane_mode.s.lmode)
+        {
+            case 0x0: /* R_25G_REFCLK100 */
+                return 2500;
+            case 0x1: /* R_5G_REFCLK100 */
+                return 5000;
+            case 0x2: /* R_8G_REFCLK100 */
+                return 8000;
+            case 0x3: /* R_125G_REFCLK15625_KX */
+                return 1250;
+            case 0x4: /* R_3125G_REFCLK15625_XAUI */
+                return 3125;
+            case 0x5: /* R_103215G_REFCLK15625_KR */
+                return 10321;
+            case 0x6: /* R_125G_REFCLK15625_SGMII */
+                return 1250;
+            case 0x7: /* R_5G_REFCLK15625_QSGMII */
+                return 5000;
+            case 0x8: /* R_625G_REFCLK15625_RXAUI */
+                return 6250;
+            case 0x9: /* R_25G_REFCLK125 */
+                return 2500;
+            case 0xa: /* R_5G_REFCLK125 */
+                return 5000;
+            case 0xb: /* R_8G_REFCLK125 */
+                return 8000;
+            default:
+                return 0;
+        }
     }
     else
     {
