@@ -374,7 +374,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         return -1;
     }
 
-    if (handle->index == 0) /* FIXME: BGX needs 4 L1 queues */
+    if ((handle->index == 0) || (handle->iftype == BDK_IF_BGX))
     {
         if (node_state->pko_next_free_port_queue >= 32)
         {
@@ -398,6 +398,9 @@ static int pko_port_init(bdk_if_handle_t handle)
 
     int lmac;
     int fifo_size;
+    int compressed_channel_id; /* compressed_channel_id comes from the LUT
+                                    compressed channel inside
+                                    "PKO Technical Specification1.docx" */
     switch (handle->iftype)
     {
         case BDK_IF_BGX:
@@ -426,19 +429,23 @@ static int pko_port_init(bdk_if_handle_t handle)
                     break;
             }
             lmac = 4 + 4 * handle->interface + port;
+            compressed_channel_id = 512 + handle->interface * 64 + handle->index;
             break;
         }
         case BDK_IF_DPI:
             lmac = 1;
             fifo_size = 4;
+            compressed_channel_id = 896 + handle->index;
             break;
         case BDK_IF_LOOP:
             lmac = 0;
             fifo_size = 4;
+            compressed_channel_id = 960 + handle->index;
             break;
         case BDK_IF_ILK:
             lmac = 2 + handle->interface;
             fifo_size = 4;
+            compressed_channel_id = handle->interface * 256 + handle->index;
             break;
         default:
             return -1;
@@ -454,6 +461,8 @@ static int pko_port_init(bdk_if_handle_t handle)
         pko_macx_cfg.s.fifo_num = fifo;
         BDK_CSR_WRITE(handle->node, BDK_PKO_MACX_CFG(lmac), pko_macx_cfg.u64);
     }
+    //printf("%s: PKO using lmac %d, fifo_size %d, fifo %d, compressed_chan %d, pq %d, l2 %d, l3 %d, l4 %d, l5 %d, dq %d\n",
+        //handle->name, lmac, fifo_size, pko_macx_cfg.s.fifo_num, compressed_channel_id, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
 
     /* Program L1 = port queue */
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_TOPOLOGY(pq),
@@ -486,6 +495,8 @@ static int pko_port_init(bdk_if_handle_t handle)
             c.s.p_con = 1;
             c.s.c_con = 1);
     /* Program L3 = schedule queue */
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_L2_SQX_CHANNEL(sq_l3),
+        c.s.cc_channel = handle->ipd_port);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_SQX_SCHEDULE(sq_l3),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
@@ -541,13 +552,10 @@ static int pko_port_init(bdk_if_handle_t handle)
                 c.s.p_con = 1;
                 c.s.c_con = 0);
     }
-#if 0
-    /* FIXME: Program the LUTx */
-    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_LUTX(handle->index),
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_LUTX(compressed_channel_id),
         c.s.valid = 1;
         c.s.pq_idx = pq;
-        c.s.queue_number = dq);
-#endif
+        c.s.queue_number = sq_l5);
     handle->pko_port = pq;
     handle->pko_queue = dq;
 
