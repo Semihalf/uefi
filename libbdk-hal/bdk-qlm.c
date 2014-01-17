@@ -81,12 +81,7 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_PCIE_1X8:
             result = "1 PCIe, 8 lanes";
             break;
-        case BDK_QLM_MODE_ILK:
-            result = "Interlaken";
-            break;
-        case BDK_QLM_MODE_SGMII:
-            result = "SGMII, each lane independent";
-            break;
+
         case BDK_QLM_MODE_SGMII_SGMII:
             result = "Two SGMII";
             break;
@@ -111,23 +106,33 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_DISABLED_QSGMII:
             result = "Disabled lane 0, QSGMII lane 1";
             break;
-        case BDK_QLM_MODE_XAUI_1X4:
-            result = "1 XAUI, 4 lanes";
-            break;
-        case BDK_QLM_MODE_XAUI_4X1:
-            result = "4 XAUI, 1 lane each";
-            break;
-        case BDK_QLM_MODE_RXAUI_2X2:
-            result = "2 RXAUI, 2 lanes each";
-            break;
         case BDK_QLM_MODE_RXAUI_1X2:
             result = "1 RXAUI, 2 lanes";
             break;
         case BDK_QLM_MODE_SATA_2X1:
             result = "2 SATA, one lane each";
             break;
+
+        case BDK_QLM_MODE_ILK:
+            result = "Interlaken";
+            break;
+        case BDK_QLM_MODE_SGMII:
+            result = "SGMII, 1 lane each";
+            break;
+        case BDK_QLM_MODE_XAUI_1X4:
+            result = "1 XAUI, 4 lanes";
+            break;
+        case BDK_QLM_MODE_RXAUI_2X2:
+            result = "2 RXAUI, 2 lanes each";
+            break;
         case BDK_QLM_MODE_OCI:
             result = "Octeon Coherent Interconnect";
+            break;
+        case BDK_QLM_MODE_10GR_4X1:
+            result = "4 10GBASE-R, 1 lane each";
+            break;
+        case BDK_QLM_MODE_40GR4_1X4:
+            result = "1 40GBASE-R4, 4 lanes";
             break;
     }
     return result;

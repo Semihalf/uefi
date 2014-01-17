@@ -12,28 +12,31 @@
 
 typedef enum
 {
-    BDK_QLM_MODE_DISABLED,  /* QLM is disabled */
+    BDK_QLM_MODE_DISABLED,  /* QLM is disabled (all chips) */
     BDK_QLM_MODE_PCIE_1X1,  /* 1 PCIe, 1 lane. Other lanes unused */
     BDK_QLM_MODE_PCIE_2X1,  /* 2 PCIe, 1 lane each */
     BDK_QLM_MODE_PCIE_1X2,  /* 1 PCIe, 2 lanes */
     BDK_QLM_MODE_PCIE_1X4,  /* 1 PCIe, 4 lanes */
     BDK_QLM_MODE_PCIE_1X8,  /* 1 PCIe, 8 lanes */
-    BDK_QLM_MODE_ILK,       /* ILK 4 lanes */
-    BDK_QLM_MODE_SGMII,     /* SGMII, each lane independent */
-    BDK_QLM_MODE_SGMII_SGMII, /* Two SGMII */
-    BDK_QLM_MODE_SGMII_QSGMII, /* SGMII, QSGMII */
-    BDK_QLM_MODE_SGMII_DISABLED, /* SGMII, Disabled */
-    BDK_QLM_MODE_QSGMII_SGMII, /* QSGMII, SGMII */
-    BDK_QLM_MODE_QSGMII_QSGMII, /* Two QSGMII */
-    BDK_QLM_MODE_QSGMII_DISABLED, /* QSGMII, Disabled */
-    BDK_QLM_MODE_DISABLED_SGMII, /* Disabled, SGMII */
-    BDK_QLM_MODE_DISABLED_QSGMII, /* Disabled, QSGMII */
-    BDK_QLM_MODE_XAUI_1X4,  /* 1 XAUI, 4 lanes */
-    BDK_QLM_MODE_XAUI_4X1,  /* 4 XAUI, 1 lane each */
-    BDK_QLM_MODE_RXAUI_2X2, /* 2 RXAUI, 2 lanes each */
-    BDK_QLM_MODE_RXAUI_1X2, /* 1 RXAUI, 2 lanes */
-    BDK_QLM_MODE_SATA_2X1,  /* 2 SATA, one lane each */
-    BDK_QLM_MODE_OCI,       /* OCI Multichip interconnect */
+
+    BDK_QLM_MODE_SGMII_SGMII, /* Two SGMII (cn70xx) */
+    BDK_QLM_MODE_SGMII_QSGMII, /* SGMII, QSGMII (cn70xx) */
+    BDK_QLM_MODE_SGMII_DISABLED, /* SGMII, Disabled (cn70xx) */
+    BDK_QLM_MODE_QSGMII_SGMII, /* QSGMII, SGMII (cn70xx) */
+    BDK_QLM_MODE_QSGMII_QSGMII, /* Two QSGMII (cn70xx) */
+    BDK_QLM_MODE_QSGMII_DISABLED, /* QSGMII, Disabled (cn70xx) */
+    BDK_QLM_MODE_DISABLED_SGMII, /* Disabled, SGMII (cn70xx) */
+    BDK_QLM_MODE_DISABLED_QSGMII, /* Disabled, QSGMII (cn70xx) */
+    BDK_QLM_MODE_RXAUI_1X2, /* 1 RXAUI, 2 lanes (cn70xx) */
+    BDK_QLM_MODE_SATA_2X1,  /* 2 SATA, one lane each (cn70xx) */
+
+    BDK_QLM_MODE_ILK,       /* ILK 4 lanes (cn78xx) */
+    BDK_QLM_MODE_SGMII,     /* SGMII, each lane independent (cn78xx) */
+    BDK_QLM_MODE_XAUI_1X4,  /* 1 XAUI, 4 lanes (cn78xx) */
+    BDK_QLM_MODE_RXAUI_2X2, /* 2 RXAUI, 2 lanes each (cn78xx) */
+    BDK_QLM_MODE_OCI,       /* OCI Multichip interconnect (cn78xx) */
+    BDK_QLM_MODE_10GR_4X1,  /* 4 10GBASE-R, 1 lane each (cn78xx) */
+    BDK_QLM_MODE_40GR4_1X4,  /* 1 40GBASE-R4, 4 lanes each (cn78xx) */
 } bdk_qlm_modes_t;
 
 typedef enum
