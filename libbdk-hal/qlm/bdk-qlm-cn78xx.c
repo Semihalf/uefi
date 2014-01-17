@@ -176,7 +176,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_ILK:
             is_ilk = 1;
-            /* lane mode is unused */
+            lane_mode = 1; // FIXME: ILK lane mode
             break;
         case BDK_QLM_MODE_SGMII:
             is_bgx = 1;
