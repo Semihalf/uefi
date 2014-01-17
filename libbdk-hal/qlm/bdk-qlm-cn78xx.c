@@ -183,7 +183,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = 6; /* R_125G_REFCLK15625_SGMII */
             break;
         case BDK_QLM_MODE_XAUI_1X4:
-            is_bgx = 7;
+            is_bgx = 5;
             lane_mode = 4; /* R_3125G_REFCLK15625_XAUI */
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
@@ -195,7 +195,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = 5; /* R_103215G_REFCLK15625_KR */
             break;
         case BDK_QLM_MODE_40GR4_1X4:
-            is_bgx = 7;
+            is_bgx = 5;
             lane_mode = 5; /* R_103215G_REFCLK15625_KR */
             break;
         default:
