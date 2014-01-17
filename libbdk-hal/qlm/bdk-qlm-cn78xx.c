@@ -75,7 +75,37 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         else if (gserx_cfg.s.ila)
             return BDK_QLM_MODE_ILK;
         else if (gserx_cfg.s.bgx)
-            return BDK_QLM_MODE_SGMII;
+        {
+            BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
+            switch (lane_mode.s.lmode)
+            {
+                case 0x0: /* R_25G_REFCLK100 */
+                case 0x1: /* R_5G_REFCLK100 */
+                case 0x2: /* R_8G_REFCLK100 */
+                    return BDK_QLM_MODE_DISABLED;
+                case 0x3: /* R_125G_REFCLK15625_KX */
+                    return BDK_QLM_MODE_DISABLED;
+                case 0x4: /* R_3125G_REFCLK15625_XAUI */
+                    return BDK_QLM_MODE_XAUI_1X4;
+                case 0x5: /* R_103215G_REFCLK15625_KR */
+                    if (gserx_cfg.s.bgx_quad)
+                        return BDK_QLM_MODE_40GR4_1X4;
+                    else
+                        return BDK_QLM_MODE_10GR_4X1;
+                case 0x6: /* R_125G_REFCLK15625_SGMII */
+                    return BDK_QLM_MODE_SGMII;
+                case 0x7: /* R_5G_REFCLK15625_QSGMII */
+                    return BDK_QLM_MODE_DISABLED;
+                case 0x8: /* R_625G_REFCLK15625_RXAUI */
+                    return BDK_QLM_MODE_RXAUI_2X2;
+                case 0x9: /* R_25G_REFCLK125 */
+                case 0xa: /* R_5G_REFCLK125 */
+                case 0xb: /* R_8G_REFCLK125 */
+                    return BDK_QLM_MODE_DISABLED;
+                default:
+                    return BDK_QLM_MODE_DISABLED;
+            }
+        }
         else
             return BDK_QLM_MODE_DISABLED;
     }
@@ -98,9 +128,94 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
-    /* FIXME: Set mode */
-    bdk_error("CN78XX qlm_set_mode not implemented\n");
-    return -1;
+    int lane_mode = 0xf;
+    int is_pcie = 0;
+    int is_ilk = 0;
+    int is_bgx = 0;
+
+    switch (mode)
+    {
+        case BDK_QLM_MODE_PCIE_1X4:
+        case BDK_QLM_MODE_PCIE_1X8:
+            is_pcie = 1;
+            // FIXME: PCIe assuming 100Mhz ref
+            if (flags & BDK_QLM_MODE_FLAG_GEN1)
+                lane_mode = 0; /* R_25G_REFCLK100 */
+            else if (flags & BDK_QLM_MODE_FLAG_GEN2)
+                lane_mode = 1; /* R_5G_REFCLK100 */
+            else
+                lane_mode = 2; /* R_8G_REFCLK100 */
+            break;
+        case BDK_QLM_MODE_ILK:
+            is_ilk = 1;
+            /* lane mode is unused */
+            break;
+        case BDK_QLM_MODE_SGMII:
+            is_bgx = 1;
+            lane_mode = 6; /* R_125G_REFCLK15625_SGMII */
+            break;
+        case BDK_QLM_MODE_XAUI_1X4:
+            is_bgx = 7;
+            lane_mode = 4; /* R_3125G_REFCLK15625_XAUI */
+            break;
+        case BDK_QLM_MODE_RXAUI_2X2:
+            is_bgx = 3;
+            lane_mode = 8; /* R_625G_REFCLK15625_RXAUI */
+            break;
+        case BDK_QLM_MODE_10GR_4X1:
+            is_bgx = 1;
+            lane_mode = 5; /* R_103215G_REFCLK15625_KR */
+            break;
+        case BDK_QLM_MODE_40GR4_1X4:
+            is_bgx = 7;
+            lane_mode = 5; /* R_103215G_REFCLK15625_KR */
+            break;
+        default:
+            /* Unknown, do nothing */
+            break;
+    }
+
+    /* Power up phy, but keep it in reset */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
+        c.s.phy_pd = 0;
+        c.s.phy_reset = 1);
+
+    /* Set gser for the interface mode */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
+        c.s.ila = is_ilk;
+        c.s.bgx = is_bgx & 1;
+        c.s.bgx_quad = (is_bgx >> 2) & 1;
+        c.s.bgx_dual = (is_bgx >> 1) & 1;
+        c.s.pcie = is_pcie);
+
+    /* Lane mode */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm),
+        c.s.lmode = lane_mode);
+
+    /* Bring phy out of reset */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
+        c.s.phy_reset = 0);
+
+    /* Wait 250 ns until the managment interface is ready to accept
+       read/write commands.*/
+    bdk_wait_usec(1);
+
+    /* Configure the gser pll */
+
+    /* Wait for reset to complete and the PLL to lock */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+    {
+        bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+        return -1;
+    }
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
+    {
+        bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
+        return -1;
+    }
+
+    /* cdrlock will be checked in the BGX */
+    return 0;
 }
 
 
@@ -241,13 +356,329 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     return -1;
 }
 
+static void qlm_init_one(bdk_node_t node, int qlm)
+{
+    /* The QLM PLLs are controlled by an array of parameters indexed
+       by the QLM mode for each QLM. We need to fill in these tables.
+       Also each lane has some mode parameters, again in a array index
+       by the lane_mode */
+    for (int lane_mode = 0; lane_mode < 12; lane_mode++)
+    {
+        /* The values used below are all from
+           http://mawiki.caveonetworks.com/wiki/78xx/GSER_WEST */
+        BDK_CSR_INIT(mode_0, node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode));
+        BDK_CSR_INIT(mode_1, node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode));
+        BDK_CSR_INIT(pmode_0, node, BDK_GSERX_LANEX_PX_MODE_0(qlm, 0, lane_mode));
+        BDK_CSR_INIT(pmode_1, node, BDK_GSERX_LANEX_PX_MODE_1(qlm, 0, lane_mode));
+        switch (lane_mode)
+        {
+            case 0x0: /* R_25G_REFCLK100 */
+                mode_0.s.pll_icp = 0x4;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0x14;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x19;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x1;
+                pmode_0.s.tx_ldiv = 0x1;
+                pmode_0.s.rx_ldiv = 0x1;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x0;
+                pmode_1.s.cdr_fgain = 0xa;
+                pmode_1.s.ph_acc_adj = 0x14;
+                break;
+            case 0x1: /* R_5G_REFCLK100 */
+                mode_0.s.pll_icp = 0x4;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0xa;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x19;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x1;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xa;
+                pmode_1.s.ph_acc_adj = 0x14;
+                break;
+            case 0x2: /* R_8G_REFCLK100 */
+                mode_0.s.pll_icp = 0x3;
+                mode_0.s.pll_rloop = 0x5;
+                mode_0.s.pll_pcs_div = 0xa;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x1;
+                mode_1.s.pll_opr = 0x1;
+                mode_1.s.pll_div = 0x28;
+
+                pmode_0.s.ctle = 0x3;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xb;
+                pmode_1.s.ph_acc_adj = 0x23;
+                break;
+            case 0x3: /* R_125G_REFCLK15625_KX */
+                mode_0.s.pll_icp = 0x1;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0x28;
+
+                mode_1.s.pll_16p5en = 0x1;
+                mode_1.s.pll_cpadj = 0x3;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x10;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x2;
+                pmode_0.s.rx_ldiv = 0x2;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x0;
+                pmode_1.s.cdr_fgain = 0xc;
+                pmode_1.s.ph_acc_adj = 0x1e;
+                break;
+            case 0x4: /* R_3125G_REFCLK15625_XAUI */
+                mode_0.s.pll_icp = 0x1;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0x14;
+
+                mode_1.s.pll_16p5en = 0x1;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x10;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x1;
+                pmode_0.s.rx_ldiv = 0x1;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x0;
+                pmode_1.s.cdr_fgain = 0xc;
+                pmode_1.s.ph_acc_adj = 0x1e;
+                break;
+            case 0x5: /* R_103215G_REFCLK15625_KR */
+                mode_0.s.pll_icp = 0x1;
+                mode_0.s.pll_rloop = 0x5;
+                mode_0.s.pll_pcs_div = 0xa;
+
+                mode_1.s.pll_16p5en = 0x1;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x1;
+                mode_1.s.pll_div = 0x21;
+
+                pmode_0.s.ctle = 0x3;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x1;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xa;
+                pmode_1.s.ph_acc_adj = 0xf;
+                break;
+            case 0x6: /* R_125G_REFCLK15625_SGMII */
+                mode_0.s.pll_icp = 0x1;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0x28;
+
+                mode_1.s.pll_16p5en = 0x1;
+                mode_1.s.pll_cpadj = 0x3;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x10;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x2;
+                pmode_0.s.rx_ldiv = 0x2;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x0;
+                pmode_1.s.cdr_fgain = 0xc;
+                pmode_1.s.ph_acc_adj = 0x1e;
+                break;
+            case 0x7: /* R_5G_REFCLK15625_QSGMII */
+                mode_0.s.pll_icp = 0x3;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0x5;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x10;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xc;
+                pmode_1.s.ph_acc_adj = 0x1e;
+                break;
+            case 0x8: /* R_625G_REFCLK15625_RXAUI */
+                mode_0.s.pll_icp = 0x1;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0xa;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x2;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x14;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xa;
+                pmode_1.s.ph_acc_adj = 0x14;
+                break;
+            case 0x9: /* R_25G_REFCLK125 */
+                mode_0.s.pll_icp = 0x3;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0x14;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x1;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x14;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x1;
+                pmode_0.s.tx_ldiv = 0x1;
+                pmode_0.s.rx_ldiv = 0x1;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x0;
+                pmode_1.s.cdr_fgain = 0xa;
+                pmode_1.s.ph_acc_adj = 0x14;
+                break;
+            case 0xa: /* R_5G_REFCLK125 */
+                mode_0.s.pll_icp = 0x3;
+                mode_0.s.pll_rloop = 0x3;
+                mode_0.s.pll_pcs_div = 0xa;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x1;
+                mode_1.s.pll_pcie3en = 0x0;
+                mode_1.s.pll_opr = 0x0;
+                mode_1.s.pll_div = 0x14;
+
+                pmode_0.s.ctle = 0x0;
+                pmode_0.s.pcie = 0x1;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xa;
+                pmode_1.s.ph_acc_adj = 0x14;
+                break;
+            case 0xb: /* R_8G_REFCLK125 */
+                mode_0.s.pll_icp = 0x2;
+                mode_0.s.pll_rloop = 0x5;
+                mode_0.s.pll_pcs_div = 0xa;
+
+                mode_1.s.pll_16p5en = 0x0;
+                mode_1.s.pll_cpadj = 0x1;
+                mode_1.s.pll_pcie3en = 0x1;
+                mode_1.s.pll_opr = 0x1;
+                mode_1.s.pll_div = 0x20;
+
+                pmode_0.s.ctle = 0x3;
+                pmode_0.s.pcie = 0x0;
+                pmode_0.s.tx_ldiv = 0x0;
+                pmode_0.s.rx_ldiv = 0x0;
+                pmode_0.s.srate = 0x0;
+                pmode_0.s.tx_mode = 0x3;
+                pmode_0.s.rx_mode = 0x3;
+
+                pmode_1.s.vma_fine_cfg_sel = 0x0;
+                pmode_1.s.vma_mm = 0x1;
+                pmode_1.s.cdr_fgain = 0xb;
+                pmode_1.s.ph_acc_adj = 0x23;
+                break;
+        }
+        BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode), mode_0.u);
+        BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode), mode_1.u);
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_0(qlm, lane, lane_mode), pmode_0.u);
+            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_1(qlm, lane, lane_mode), pmode_1.u);
+        }
+    }
+}
 
 /**
  * Initialize the QLM layer
  */
 static void qlm_init(bdk_node_t node)
 {
-    /* Nothing to do? */
+    int num_qlms = qlm_get_num(node);
+    for (int qlm = 0; qlm < num_qlms; qlm++)
+        qlm_init_one(node, qlm);
 }
 
 
