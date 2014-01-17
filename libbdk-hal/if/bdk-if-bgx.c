@@ -43,32 +43,38 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
 {
     bgx_priv_t priv;
     priv.ptr = NULL;
-    priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
 
-    BDK_CSR_INIT(config, node, BDK_BGXX_CMRX_CONFIG(interface, 0));
+    int qlm = bdk_qlm_get(node, BDK_IF_BGX, interface);
+    if (qlm < 0)
+        return priv;
 
-    switch (config.s.lmac_type)
+    bdk_qlm_modes_t qlm_mode = bdk_qlm_get_mode(node, qlm);
+
+    switch (qlm_mode)
     {
-        case 0: /* SGMII - 1 lane each */
-            priv.s.higig = 0; /* We don't support Higig over SGMII */
+        case BDK_QLM_MODE_SGMII:
             priv.s.num_port = 4;
             priv.s.mode = BGX_MODE_SGMII;
             break;
-        case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
+        case BDK_QLM_MODE_XAUI_1X4:
+            priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
             priv.s.num_port = 1;
             priv.s.mode = BGX_MODE_XAUI;
             break;
-        case 2: /* Reduced XAUI - 2 lanes each */
+        case BDK_QLM_MODE_RXAUI_2X2:
             priv.s.num_port = 2;
             priv.s.mode = BGX_MODE_RXAUI;
             break;
-        case 3: /* 10GBASE-R - 1 lane each */
+        case BDK_QLM_MODE_10GR_4X1:
             priv.s.num_port = 4;
             priv.s.mode = BGX_MODE_10G;
             break;
-        case 4: /* 40GBASE-R - 4 lanes each */
+        case BDK_QLM_MODE_40GR4_1X4:
             priv.s.num_port = 1;
             priv.s.mode = BGX_MODE_40G;
+            break;
+        default:
+            priv.s.num_port = 0;
             break;
     }
     priv.s.port = (priv.s.higig) ? (index>>4) : index;
