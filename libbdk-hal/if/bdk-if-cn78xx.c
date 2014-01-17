@@ -305,28 +305,28 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     BDK_CSR_WRITE(node, BDK_PKO_PTGFX_CFG(index), cfg.u);
 
     /* Setup PKO MCI0 credits */
-    int credit = size * 2500;
-    int mac_credit;
+    int pko_peb_buffering = size * (1024 + 512); /* 2.5KB per fifo */
+    int mac_buffering;
     switch (lmac)
     {
         case 0: /* LBK */
-            mac_credit = 4096; /* From HRM */
+            mac_buffering = 4096; /* From HRM */
             break;
         case 1: /* DPI */
-            mac_credit = 40<<10; /* FIXME: Guess at MAC size */
+            mac_buffering = 2048; /* From o78/packet/clear78.c */
             break;
         case 2: /* ILK0 */
         case 3: /* ILK1 */
-            mac_credit = 40<<10; /* FIXME: Guess at MAC size */
+            mac_buffering = 4096; /* From o78/packet/clear78.c */
             break;
         default: /* BGX */
-            mac_credit = size * (10<<10); /* 10KB, 20KB, or 40KB */
+            mac_buffering = size * 8192; /* 8KB, 16KB, or 32KB */
             break;
     }
-    BDK_CSR_WRITE(node, BDK_PKO_MCI0_MAX_CREDX(lmac), (credit + mac_credit) / 16);
+    BDK_CSR_WRITE(node, BDK_PKO_MCI0_MAX_CREDX(lmac), (pko_peb_buffering + mac_buffering) / 16);
     /* Confine the credits to not overflow the LBK FIFO */
     BDK_CSR_MODIFY(c, node, BDK_PKO_MCI1_MAX_CREDX(lmac),
-        c.s.max_cred_lim = mac_credit / 16);
+        c.s.max_cred_lim = mac_buffering / 16);
     return fifo;
 }
 
