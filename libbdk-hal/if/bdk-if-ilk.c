@@ -23,20 +23,13 @@ static int if_num_interfaces(bdk_node_t node)
 
 static int if_num_ports(bdk_node_t node, int interface)
 {
-    /* See how many lanes we can potentially have. We already checked QLM1
-        when probing the inteface number, now we check QLM2 */
-    int max_lanes;
+    /* CN78XX: Loop through QLMs 4-7 counting ILK lanes. The first QLM
+        that isn't ILK stops the search */
+    int max_lanes = 0;
+    for (int qlm=4; qlm<8; qlm++)
     {
-        /* CN78XX: Loop through QLMs 4-7 counting ILK lanes. The first QLM
-            that isn't ILK stops the search */
-        max_lanes = 0;
-        for (int qlm=4; qlm<7; qlm++)
-        {
-            if (bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK)
-                max_lanes += 4;
-            else
-                break;
-        }
+        if (bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK)
+            max_lanes += 4;
     }
 
     /* In ILK interface only exists if there are lanes configured for it */
