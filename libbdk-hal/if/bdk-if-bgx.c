@@ -153,8 +153,8 @@ static int if_probe(bdk_if_handle_t handle)
 
 /**
  * Perform intialization of the BGX required before use. This should only be
- * called once for each BGX. Before this is called, the mode of the BGX must be
- * set in BGXX_CMRX_CONFIG[lmac_type].
+ * called once for each BGX. Before this is called, the mode of
+ * the SERDES must be set by bdk_qlm_set_mode().
  *
  * @param interface Which BGX to setup. This will have index=0
  *
@@ -168,6 +168,37 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     uint64_t bist = BDK_CSR_READ(handle->node, BDK_BGXX_CMR_BIST_STATUS(handle->interface));
     if (bist)
         bdk_warn("BGX%d failed BIST\n", handle->interface);
+
+    int lmac_type;
+    int lane_to_sds;
+    switch (priv.s.mode)
+    {
+        case BGX_MODE_SGMII:
+            lmac_type = 0;
+            lane_to_sds = handle->index;
+            break;
+        case BGX_MODE_XAUI:
+            lmac_type = 1;
+            lane_to_sds = 0xe4;
+            break;
+        case BGX_MODE_RXAUI:
+            lmac_type = 2;
+            lane_to_sds = (handle->index) ? 0xe : 0x4;
+            break;
+        case BGX_MODE_10G:
+            lmac_type = 3;
+            lane_to_sds = handle->index;
+            break;
+        case BGX_MODE_40G:
+        default:
+            lmac_type = 4;
+            lane_to_sds = 0xe4;
+            break;
+    }
+    /* Set mode and lanes */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index),
+        c.s.lmac_type = lmac_type;
+        c.s.lane_to_sds = lane_to_sds);
 
     /* Set the number of LMACs we will use */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
