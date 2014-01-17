@@ -13,7 +13,10 @@ typedef struct
 #define AS_INIT(name, default_value) [name] = {#name, default_value}
 static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 {
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE0, 256 + 128), /* Add extra cache line to improve striping */
+    /* CN78XX currently requires FPA buffers to be a power of 2. The memalign()
+       used to allocate the buffers isn't smart enough to handle arbitrary
+       alignment */
+    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE0, 256),
     AS_INIT(BDK_CONFIG_FPA_POOL_SIZE1, 128),
     AS_INIT(BDK_CONFIG_FPA_POOL_SIZE2, 4096), /* CN78XX SSO requires 4KB */
     AS_INIT(BDK_CONFIG_FPA_POOL_SIZE3, 4096), /* CN78XX PKO requires 4KB */
@@ -167,7 +170,7 @@ void __bdk_config_init(void)
         /* Use more packet buffers if DRAM is enabled */
         bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, 2048);
         /* Use larger packet buffers if DRAM is enabled */
-        bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE0, 2048+128);
+        bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE0, 2048);
         /* Use larger command buffers if DRAM is enabled */
         bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE1, 2048);
     }
