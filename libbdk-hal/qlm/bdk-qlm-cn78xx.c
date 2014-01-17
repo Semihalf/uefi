@@ -29,16 +29,44 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
         case BDK_IF_ILK:
             if (interface < 2)
             {
-                int qlm = 4;
-                if (bdk_is_simulation())
-                    return qlm;
-                if (bdk_qlm_get_mode(node, qlm) == BDK_QLM_MODE_ILK)
-                    return qlm;
+                for (int qlm = 4; qlm < 8; qlm++)
+                {
+                    /* Make sure the QLM is powered up and out of reset */
+                    BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+                    if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
+                        continue;
+                    /* Make sure the QLM is in ILK mode */
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+                    if (gserx_cfg.s.ila)
+                        return qlm;
+                }
+            }
+            return -1;
+        case BDK_IF_BGX:
+        {
+            int qlm;
+            /* Figure out which QLM the BGX connects to */
+            if (interface < 2)
+            {
+                BDK_CSR_INIT(gconf, node, BDK_BGXX_CMR_GLOBAL_CONFIG(interface));
+                if (gconf.s.pmux_sds_sel)
+                    qlm = interface  + 2; /* QLM 2 or 3 */
                 else
-                    return -1;
+                    qlm = interface; /* QLM 0 or 1 */
             }
             else
+                qlm = interface + 2; /* QLM 4-7 */
+            /* Make sure the QLM is powered up and out of reset */
+            BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+            if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
                 return -1;
+            /* Make sure the QLM is in BGX mode */
+            BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+            if (gserx_cfg.s.bgx)
+                return qlm;
+            else
+                return -1;
+        }
         default:
             return -1;
     }
