@@ -560,10 +560,9 @@ static int init_oci(void)
                     //BDK_TRACE("        Checking [%d][%d] 0x%lx\n", ll, rl, runique);
                     if (search == runique)
                     {
-                        int node1 = lk_info[link].node.s.id;
                         int node2 = (ll==-1) ? bdk_numa_local() : lk_info[ll].node.s.id;
                         BDK_TRACE("        Node ID %d, link %d => Node ID %d, link %d\n",
-                            node1, rlink, node2, rl);
+                            lk_info[link].node.s.id, rlink, node2, rl);
                         lk_info[link].ctl[rlink].s.id = node2;
                         found = 1;
                     }
