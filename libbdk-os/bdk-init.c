@@ -2,6 +2,14 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define MAX_LINKS 3
+typedef struct
+{
+    bdk_ocx_com_node_t      node;                    /* Node ID at end of link */
+    bdk_ocx_com_linkx_ctl_t ctl[MAX_LINKS];          /* Remote node link info */
+    uint64_t                unique_value[MAX_LINKS]; /* Unique values received over links */
+} lk_info_t;
+
 static int64_t __bdk_alive_coremask[BDK_NUMA_MAX_NODES];
 int __bdk_is_simulation;
 
@@ -213,7 +221,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Now set the address and enable it */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_READ(node, BDK_MIO_BOOT_LOC_CFGX(0));
-    BDK_TRACE("Reset vector installed");
+    BDK_TRACE("Reset vector installed\n");
 
     /* Choose all cores by default */
     if (coremask == 0)
@@ -269,6 +277,51 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     }
     BDK_TRACE("All cores booted\n");
     return 0;
+}
+
+/**
+ * During OCX link enumeration, we need to write unique values to
+ * OCX_TLKX_LNK_DATA so that we can determine which links connects
+ * to which node. This function creates these unique values. When
+ * making values for the local node, use local_link as -1.
+ *
+ * @param local_link The node where we write the value is connected to "local_link". If we're
+ *                   working on the local node, use -1.
+ * @param remote_link
+ *                   Which link on the remote node is this value for (0-3)
+ *
+ * @return Unique value that can be sent using OCX_TLKX_LNK_DATA, then received with
+ *         OCX_RLKX_LNK_DATA.
+ */
+static inline uint64_t ocx_unique_key(int local_link, int remote_link)
+{
+    uint64_t result = 0xabcdull << 32;
+    result |= (local_link & 0xff) << 16;
+    result |= remote_link & 0xff;
+    return result;
+}
+
+/**
+ * Return if the link at the suplied index points to a node that we've already
+ * discovered. This happens if two links connect to the same node for more
+ * bandwidth.
+ *
+ * @param unique_value
+ *               Conenction data for finding nodes
+ * @param index  Index into unique_value that we are seeing if its a duplicate
+ *
+ * @return Index of the duplicate or -1 if its not a duplicate
+ */
+static int ocx_duplicate_node(lk_info_t *lk_info, int index)
+{
+    for (int link = 0; link < index; link++)
+    {
+        if ((lk_info[link].unique_value[0] == lk_info[index].unique_value[0]) &&
+            (lk_info[link].unique_value[1] == lk_info[index].unique_value[1]) &&
+            (lk_info[link].unique_value[2] == lk_info[index].unique_value[2]))
+            return link;
+    }
+    return -1;
 }
 
 /**
@@ -346,8 +399,8 @@ static void ocx_pp_write(bdk_node_t node, uint64_t address, uint64_t data)
  */
 static int init_oci(void)
 {
-    const int MAX_LINKS = 3;
-    bdk_ocx_com_node_t node_id[MAX_LINKS];
+    lk_info_t lk_info[MAX_LINKS + 1]; /* Index MAX_LINKS is used for the local node */
+    memset(lk_info, 0, sizeof(lk_info));
 
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
@@ -356,51 +409,105 @@ static int init_oci(void)
     BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_NODE,
         c.s.fixed = 1);
 
-    BDK_TRACE("Loop through links looking for nodes\n");
+    /* Write a unique value to OCX_TLKX_LNK_DATA for every possible link. This
+        allows us to later figure out which link goes where. Also mark all
+        link as unrecoverable so its state can't change later */
+    BDK_TRACE("Loop through local links sending unique values over OCX_TLKX_LNK_DATA\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        /* Read the ID the local link thinks is on its other side */
-        BDK_CSR_INIT(link_ctl, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
-        if (link_ctl.s.valid && link_ctl.s.up)
+        /* Don't allow this link to recover if it goes down. Once up links
+           should stay up */
+        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link),
+            c.s.auto_clr = 0);
+        /* Get the link state again. It could have changed during the
+           modification of AUTO_CLR */
+        lk_info[MAX_LINKS].ctl[link].u = BDK_CSR_READ(bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
+        /* Skip invalid links */
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
         {
-            BDK_TRACE("    Local OCX link %d is valid and up\n", link);
-            /* Issue a OCX_COM_NODE to the ID to find out what the node on the
-               other side thinks its ID is */
-            node_id[link].u = ocx_pp_read(link_ctl.s.id, BDK_OCX_COM_NODE);
-            BDK_TRACE("        Remote node has ID %d, fixed=%d\n", node_id[link].s.id, node_id[link].s.fixed);
-            /* If the Node ID is already fixed, add it to our existing nodes */
-            if (node_id[link].s.fixed)
-            {
-                if (bdk_numa_exists(node_id[link].s.id))
-                    bdk_fatal("Duplicate node ID %d with fixed bit\n", node_id[link].s.id);
-                bdk_numa_set_exists(node_id[link].s.id);
-            }
+            BDK_TRACE("    Local link %d: Down, skipping\n", link);
+            continue;
         }
-        else
+        /* Write a unique value so we can see where this link connects to */
+        uint64_t local_unique = ocx_unique_key(-1, link);
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_TLKX_LNK_DATA(link), local_unique);
+        BDK_TRACE("    Local link %d: Write link data 0x%lx\n", link, local_unique);
+        const int rid = lk_info[MAX_LINKS].ctl[link].s.id;
+        /* Loop through possible remote links */
+        for (int rlink = 0; rlink < MAX_LINKS; rlink++)
         {
-            BDK_TRACE("    Local OCX link %d is down\n", link);
-            /* Link has a problem, make sure it stays down */
-            BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
-                c.s.qlm_select = 0);
-            node_id[link].u = -1;
+            bdk_ocx_com_linkx_ctl_t *lnk = &lk_info[link].ctl[rlink];
+            /* Read the links state and make sure it doesn't auto recover from
+               errors*/
+            lnk->u = ocx_pp_read(rid, BDK_OCX_COM_LINKX_CTL(rlink));
+            lnk->s.auto_clr = 0;
+            ocx_pp_write(rid, BDK_OCX_COM_LINKX_CTL(rlink), lnk->u);
+            /* Skip invalid links */
+            if (!lnk->s.valid || !lnk->s.up)
+            {
+                BDK_TRACE("        Remote link %d: Down, skipping\n", rlink);
+                continue;
+            }
+            /* Write a unique value so we can see where the remote link
+               connects to */
+            uint64_t remote_unique = ocx_unique_key(link, rlink);
+            BDK_TRACE("        Remote link %d: Write link data 0x%lx\n", rlink, remote_unique);
+            ocx_pp_write(rid, BDK_OCX_TLKX_LNK_DATA(rlink), remote_unique);
         }
     }
 
-    /* We now have a complete list of the possible nodes. Loop through
-       assigning node IDs */
-    BDK_TRACE("Assigning IDs\n");
+    BDK_TRACE("Reading link data for all links\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        /* Skip invalid links */
-        BDK_CSR_INIT(local_link_ctl, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
-        if (!local_link_ctl.s.valid || !local_link_ctl.s.up)
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
             continue;
+        lk_info[MAX_LINKS].unique_value[link] = BDK_CSR_READ(bdk_numa_local(), BDK_OCX_RLKX_LNK_DATA(link));
+        BDK_TRACE("    Local link %d: Read link data 0x%lx\n", link, lk_info[MAX_LINKS].unique_value[link]);
+        const int rid = lk_info[MAX_LINKS].ctl[link].s.id;
+        for (int rlink = 0; rlink < MAX_LINKS; rlink++)
+        {
+            lk_info[link].unique_value[rlink] = ocx_pp_read(rid, BDK_OCX_RLKX_LNK_DATA(rlink));
+            BDK_TRACE("        Remote link %d: Read link data 0x%lx\n", rlink, lk_info[link].unique_value[rlink]);
+        }
+        lk_info[link].node.u = ocx_pp_read(rid, BDK_OCX_COM_NODE);
+    }
 
-        /* We use a temporary node ID to communicate while assigning the real ID */
-        const int tmp_node = local_link_ctl.s.id;
+    BDK_TRACE("Finding fixed node IDs\n");
+    /* Loop through once reserving all fixed node IDs */
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
+            continue;
+        if (ocx_duplicate_node(lk_info, link) != -1)
+        {
+            BDK_TRACE("    Local link %d: Duplicate node, skipping\n", link);
+            continue;
+        }
+        if (lk_info[link].node.s.fixed)
+        {
+            int rid = lk_info[link].node.s.id;
+            /* Mark fixed nodes as existing so we don't reuse their node ID */
+            if (bdk_numa_exists(rid))
+                bdk_fatal("Fixed ID %d conflicts with existing node\n", rid);
+            bdk_numa_set_exists(rid);
+            BDK_TRACE("    Local link %d: Fixed node ID %d\n", link, rid);
+        }
+    }
 
-        /* If node ID isn't fixed then find an ID for it */
-        if (!node_id[link].s.fixed)
+    BDK_TRACE("Assigning node IDs\n");
+    /* Loop through again finding node IDs for unassigned nodes */
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
+            continue;
+        int dup = ocx_duplicate_node(lk_info, link);
+        if (dup != -1)
+        {
+            BDK_TRACE("    Local link %d: Duplicate node, skipping\n", link);
+            lk_info[link].node = lk_info[dup].node;
+            continue;
+        }
+        if (!lk_info[link].node.s.fixed)
         {
             /* Find a clear exists bit */
             bdk_node_t node;
@@ -409,150 +516,123 @@ static int init_oci(void)
                 if (!bdk_numa_exists(node))
                     break;
             }
-            if (node > BDK_NUMA_MAX_NODES)
-            {
-                bdk_error("Somehow we found more nodes than we support. Skipping new node");
-                continue;
-            }
-            /* Store the node ID in our local array for later adding */
-            node_id[link].s.id = node;
-            node_id[link].s.fixed = 1;
-            BDK_TRACE("    Local OCX link %d could be assigned node ID %d\n", link, node_id[link].s.id);
+            if (node >= BDK_NUMA_MAX_NODES)
+                bdk_fatal("Somehow we found more nodes than we support. Skipping new node");
+            bdk_numa_set_exists(node);
+            lk_info[link].node.s.fixed = 1;
+            lk_info[link].node.s.id = node;
+            BDK_TRACE("    Local link %d: Assigned node ID %d\n", link, node);
         }
-        /* Its possible that multiple links point to the same node. If this
-           is the case then the links after the first one will see OCX_COM_NODE
-           change to a fixed value. In this case we need to use the fixed value
-           to update our array */
-        bdk_ocx_com_node_t current_id;
-        current_id.u = ocx_pp_read(tmp_node, BDK_OCX_COM_NODE);
-        if (current_id.s.fixed)
-        {
-            node_id[link] = current_id;
-            BDK_TRACE("    Local OCX link %d assigned node ID %d due to fixed being set\n", link, node_id[link].s.id);
-        }
-        /* Determine which OCX link the remote node is connected to us with */
-        int rlink;
-        for (rlink = 0; rlink < MAX_LINKS; rlink++)
-        {
-            bdk_ocx_com_linkx_ctl_t linkx_ctl;
-            bdk_ocx_lnkx_cfg_t lnkx_cfg;
-            linkx_ctl.u = ocx_pp_read(tmp_node, BDK_OCX_COM_LINKX_CTL(rlink));
-            lnkx_cfg.u = ocx_pp_read(tmp_node, BDK_OCX_LNKX_CFG(rlink));
-            if (linkx_ctl.s.valid && linkx_ctl.s.up)
-            {
-                int lne;
-                if (lnkx_cfg.s.qlm_select & 1)
-                    lne = 0;
-                else if (lnkx_cfg.s.qlm_select & 2)
-                    lne = 4;
-                else if (lnkx_cfg.s.qlm_select & 4)
-                    lne = 8;
-                else if (lnkx_cfg.s.qlm_select & 8)
-                    lne = 12;
-                else if (lnkx_cfg.s.qlm_select & 0x10)
-                    lne = 16;
-                else
-                    lne = 20;
-                bdk_ocx_lnex_sts_msg_t sts_msg;
-                sts_msg.u = ocx_pp_read(tmp_node, BDK_OCX_LNEX_STS_MSG(lne));
-                bdk_node_t connect_node = sts_msg.s.rx_meta_dat & 0x3;
-                int connect_fixed = (sts_msg.s.rx_meta_dat & 0x4) >> 2;
-                BDK_TRACE("        Remote link %d (lane %d) connects to Node ID %d, fixed = %d\n", rlink, lne, connect_node, connect_fixed);
-                if (connect_fixed && (connect_node == bdk_numa_local()))
-                    break;
-            }
-        }
-        if (rlink == MAX_LINKS)
-            bdk_fatal("Unable to determine which remote link node ID %d used to connect to local node", node_id[link].s.id);
-
-        /* Change all other remote links to not have our node ID or the same node */
-        for (int rlink2 = 0; rlink2 < MAX_LINKS; rlink2++)
-        {
-            bdk_node_t node = (node_id[link].s.id + 1) & 3;
-            if (node == bdk_numa_local())
-                node++;
-            if (rlink2 != rlink)
-            {
-                bdk_ocx_com_linkx_ctl_t rlinkx_ctl;
-                rlinkx_ctl.u = ocx_pp_read(tmp_node, BDK_OCX_COM_LINKX_CTL(rlink2));
-                rlinkx_ctl.s.id = node;
-                ocx_pp_write(tmp_node, BDK_OCX_COM_LINKX_CTL(rlink2), rlinkx_ctl.u);
-            }
-        }
-
-        /* Write the final ID to the remote node */
-        BDK_TRACE("    Programming OCX link %d for node ID %d\n", link, node_id[link].s.id);
-        bdk_ocx_com_linkx_ctl_t rlinkx_ctl;
-        rlinkx_ctl.u = ocx_pp_read(tmp_node, BDK_OCX_COM_LINKX_CTL(rlink));
-        rlinkx_ctl.s.id = bdk_numa_local();
-        rlinkx_ctl.s.auto_clr = 0;
-        local_link_ctl.s.id = node_id[link].s.id;
-        local_link_ctl.s.auto_clr = 0;
-        ocx_pp_write(tmp_node, BDK_OCX_COM_NODE, node_id[link].u);
-        ocx_pp_write(tmp_node, BDK_OCX_COM_LINKX_CTL(rlink), rlinkx_ctl.u);
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link), local_link_ctl.u);
-        /* Make sure reads still work */
-        ocx_pp_read(node_id[link].s.id, BDK_OCX_COM_NODE);
-
-        /* Record the node as existing. This will be a duplicate add for any
-           fixed nodes, but that is harmless */
-        bdk_numa_set_exists(node_id[link].s.id);
     }
 
-    const uint64_t exists_mask = bdk_numa_get_exists_mask();
-
-    /* We've setup the OCX links, but the remote ends may have the incorrect
-       node number for the local end. Since we don't know which link connects
-       to each node, we need to read over the link from the remote node */
-    BDK_TRACE("Configuring remaining node links\n");
-    for (bdk_node_t node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    /* Find an unused node number. This will be used for links that are down */
+    bdk_node_t unused_node;
+    for (unused_node = 0; unused_node < BDK_NUMA_MAX_NODES; unused_node++)
     {
-        /* For every node except this one */
-        if (bdk_numa_exists(node) && (node != bdk_numa_local()))
+        if (!bdk_numa_exists(unused_node))
+            break;
+    }
+
+    BDK_TRACE("Determining which node each link connects to\n");
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
         {
-            for (int link = 0; link < MAX_LINKS; link++)
+            lk_info[link].node.s.id = unused_node;
+            continue;
+        }
+        BDK_TRACE("    Local link %d: Searching remote links\n", link);
+        for (int rlink = 0; rlink < MAX_LINKS; rlink++)
+        {
+            if (!lk_info[link].ctl[rlink].s.valid || !lk_info[link].ctl[rlink].s.up)
             {
-                BDK_TRACE("    Checking node ID %d, link %d\n", node, link);
-                bdk_ocx_com_linkx_ctl_t linkx_ctl;
-                bdk_ocx_lnkx_cfg_t lnkx_cfg;
-                linkx_ctl.u = ocx_pp_read(node, BDK_OCX_COM_LINKX_CTL(link));
-                lnkx_cfg.u = ocx_pp_read(node, BDK_OCX_LNKX_CFG(link));
-                if (linkx_ctl.s.valid && linkx_ctl.s.up)
+                lk_info[link].ctl[rlink].s.id = unused_node;
+                continue;
+            }
+            uint64_t search = lk_info[link].unique_value[rlink] & 0xfffffffffffffffull;
+            //BDK_TRACE("        Remote link %d: Looking for 0x%lx\n", rlink, search);
+            int found = 0;
+            for (int ll = -1; ll < MAX_LINKS; ll++)
+            {
+                for (int rl = 0; rl < MAX_LINKS; rl++)
                 {
-                    int lne;
-                    if (lnkx_cfg.s.qlm_select & 1)
-                        lne = 0;
-                    else if (lnkx_cfg.s.qlm_select & 2)
-                        lne = 4;
-                    else if (lnkx_cfg.s.qlm_select & 4)
-                        lne = 8;
-                    else if (lnkx_cfg.s.qlm_select & 8)
-                        lne = 12;
-                    else if (lnkx_cfg.s.qlm_select & 0x10)
-                        lne = 16;
-                    else
-                        lne = 20;
-                    bdk_ocx_lnex_sts_msg_t sts_msg;
-                    sts_msg.u = ocx_pp_read(node, BDK_OCX_LNEX_STS_MSG(lne));
-                    int connect_node = sts_msg.s.rx_meta_dat & 0x3;
-                    linkx_ctl.s.id = connect_node;
-                    linkx_ctl.s.auto_clr = 0;
-                    ocx_pp_write(node, BDK_OCX_COM_LINKX_CTL(link), linkx_ctl.u);
-                    BDK_TRACE("        Node %d, OCX link %d points to node ID %d\n", node, link, connect_node);
-                }
-                else
-                {
-                    /* Link has a problem, make sure it stays down */
-                    lnkx_cfg.s.qlm_select = 0;
-                    ocx_pp_write(node, BDK_OCX_LNKX_CFG(link), lnkx_cfg.u);
-                    BDK_TRACE("        Node %d, OCX link %d is down\n", node, link);
+                    uint64_t runique = ocx_unique_key(ll, rl);
+                    //BDK_TRACE("        Checking [%d][%d] 0x%lx\n", ll, rl, runique);
+                    if (search == runique)
+                    {
+                        int node1 = lk_info[link].node.s.id;
+                        int node2 = (ll==-1) ? bdk_numa_local() : lk_info[ll].node.s.id;
+                        BDK_TRACE("        Node ID %d, link %d => Node ID %d, link %d\n",
+                            node1, rlink, node2, rl);
+                        lk_info[link].ctl[rlink].s.id = node2;
+                        found = 1;
+                    }
                 }
             }
+            if (!found)
+            {
+                BDK_TRACE("        Node ID %d, link %d => Unknown\n",
+                    lk_info[link].node.s.id, rlink);
+            }
         }
+    }
+
+    BDK_TRACE("Programming remote links and node IDs\n");
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
+            continue;
+        if (ocx_duplicate_node(lk_info, link) != -1)
+        {
+            BDK_TRACE("    Local link %d: Duplicate node, skipping\n", link);
+            continue;
+        }
+        BDK_TRACE("    Local link %d: Assign node ID %d\n", link, lk_info[link].node.s.id);
+        const int rid = lk_info[MAX_LINKS].ctl[link].s.id;
+        ocx_pp_write(rid, BDK_OCX_COM_NODE, lk_info[link].node.u);
+        for (int rlink = 0; rlink < MAX_LINKS; rlink++)
+        {
+            if (!lk_info[link].ctl[rlink].s.valid || !lk_info[link].ctl[rlink].s.up)
+                BDK_TRACE("        Remote link %d: Down\n", rlink);
+            else
+                BDK_TRACE("        Remote link %d: Connects to node ID %d\n", rlink, lk_info[link].ctl[rlink].s.id);
+            ocx_pp_write(rid, BDK_OCX_COM_LINKX_CTL(rlink), lk_info[link].ctl[rlink].u);
+        }
+    }
+
+    BDK_TRACE("Programming local links\n");
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (!lk_info[MAX_LINKS].ctl[link].s.valid || !lk_info[MAX_LINKS].ctl[link].s.up)
+            BDK_TRACE("    Local link %d: Down\n", link);
+        else
+            BDK_TRACE("    Local link %d: Connects to node ID %d\n", link, lk_info[link].node.s.id);
+        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link),
+            c.s.id = lk_info[link].node.s.id);
+    }
+
+    BDK_TRACE("Checking the PP_CMD still works\n");
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        BDK_CSR_INIT(local_link_ctl, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
+        if (!local_link_ctl.s.valid || !local_link_ctl.s.up)
+            continue;
+        BDK_TRACE("    Local link %d: Checking\n", link);
+        if (local_link_ctl.s.id != lk_info[link].node.s.id)
+            BDK_TRACE("        Failed: Local link ID doesn't match expect node ID\n");
+        bdk_ocx_com_node_t com_node;
+        com_node.u = ocx_pp_read(local_link_ctl.s.id, BDK_OCX_COM_NODE);
+        if (com_node.s.fixed &&
+            (com_node.s.id == lk_info[link].node.s.id) &&
+            local_link_ctl.s.id == lk_info[link].node.s.id)
+            BDK_TRACE("        Passed\n");
+        else
+            BDK_TRACE("        Failed\n");
     }
 
     /* All OCX links are up and running. Now tell local L2 that OCX is good */
     BDK_TRACE("Configuring L2 for OCX on all nodes\n");
+    const uint64_t exists_mask = bdk_numa_get_exists_mask();
     for (bdk_node_t node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (node == bdk_numa_local())
