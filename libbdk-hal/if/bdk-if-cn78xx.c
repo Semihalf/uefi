@@ -50,7 +50,7 @@ static int pki_global_init(bdk_node_t node)
     for (int aura=0; aura<1024; aura++)
     {
         BDK_CSR_MODIFY(c, node, BDK_PKI_AURAX_CFG(aura),
-            c.s.pkt_add = 2; /* Actual number of buffers allocated */
+            c.s.pkt_add = 0; /* Increment was already done in FPA alloc */
             c.s.ena_red = 1; /* Enable RED */
             c.s.ena_drop = 1; /* Enable drop */
             c.s.ena_bp = 1; /* Enable backpressure */
