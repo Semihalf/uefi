@@ -292,15 +292,23 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
     else
     {
         BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
-        switch (gserx_spd.s.spd & 0x3)
+        switch (gserx_spd.s.spd)
         {
-            case 0: return 1250;
-            case 1: return 2500;
-            case 2: return 3125;
-            case 3: return 5000;
-            case 4: return 6250;
-            case 5: return 8000;
-            case 6: return 10000;
+            case 0x0: return 1250; /* Ref 100Mhz */
+            case 0x1: return 2500;
+            case 0x2: return 5000;
+            case 0x3: return 8000;
+            case 0x4: return 1250; /* Ref 125Mhz */
+            case 0x5: return 2500;
+            case 0x6: return 3125;
+            case 0x7: return 5000;
+            case 0x8: return 6250;
+            case 0x9: return 8000;
+            case 0xa: return 2500; /* Ref 156.25Mhz */
+            case 0xb: return 3125;
+            case 0xc: return 5000;
+            case 0xd: return 6250;
+            case 0xe: return 10312;
             default: return 0;
         }
     }
@@ -318,7 +326,32 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
     /* We can't measure the OCI QLMs */
     if (qlm >= 8)
-        return 0;
+    {
+        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
+        switch (gserx_spd.s.spd)
+        {
+            case 0x0:
+            case 0x1:
+            case 0x2:
+            case 0x3:
+                return 100000000; /* Ref 100Mhz */
+            case 0x4:
+            case 0x5:
+            case 0x6:
+            case 0x7:
+            case 0x8:
+            case 0x9:
+                return 125000000; /* Ref 125Mhz */
+            case 0xa:
+            case 0xb:
+            case 0xc:
+            case 0xd:
+            case 0xe:
+                return 156250000; /* Ref 156.25Mhz */
+            default:
+                return 0;
+        }
+    }
 
     /* Disable the PTP event counter while we configure it */
     BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
