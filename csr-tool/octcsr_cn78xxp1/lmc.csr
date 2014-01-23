@@ -4123,22 +4123,17 @@ registers:
         typical: --
         description: |
           DDR postscalar divide ratio. Determines the LMC CK speed.
-          0x0 = divide LMC PLL by TBD.
-          0x1 = divide LMC PLL by TBD.
-          0x2 = divide LMC PLL by TBD.
-          0x3 = divide LMC PLL by TBD.
-          0x4 = divide LMC PLL by TBD.
-          0x5 = divide LMC PLL by TBD.
-          0x6 = divide LMC PLL by TBD.
-          0x7 = divide LMC PLL by TBD.
-          0x8 = divide LMC PLL by TBD.
-          0x9 = divide LMC PLL by TBD.
-          0xA = divide LMC PLL by TBD.
-          0xB = divide LMC PLL by TBD.
-          0xC = divide LMC PLL by TBD.
-          0xD = divide LMC PLL by TBD.
-          0xE = divide LMC PLL by TBD.
-          0xF = divide LMC PLL by TBD.
+          0x0 = Divide LMC PLL by 1.
+          0x1 = Divide LMC PLL by 2.
+          0x2 = Divide LMC PLL by 3.
+          0x3 = Divide LMC PLL by 4.
+          0x4 = Divide LMC PLL by 5.
+          0x5 = Divide LMC PLL by 6.
+          0x6 = Divide LMC PLL by 7.
+          0x7 = Divide LMC PLL by 8.
+          0x8 = Divide LMC PLL by 10.
+          0x9 = Divide LMC PLL by 12.
+          0xA-0xF = Reserved.
           DDR_PS_EN is not used when DDR_DIV_RESET = 1
 
       - name: --

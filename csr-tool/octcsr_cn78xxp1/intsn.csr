@@ -6294,7 +6294,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
-        description: See PEM(0..3)_INT_SUM[INTA]
+        description: See PEM(0..3)_INT_SUM[INTA].
 
       - name: PEM(0..3)_ERROR_INTB
         value: 0xC003D + a*0x1000
@@ -6307,7 +6307,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
-        description: See PEM(0..3)_INT_SUM[INTB]
+        description: See PEM(0..3)_INT_SUM[INTB].
 
       - name: PEM(0..3)_ERROR_INTC
         value: 0xC003E + a*0x1000
@@ -6320,7 +6320,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
-        description: See PEM(0..3)_INT_SUM[INTC]
+        description: See PEM(0..3)_INT_SUM[INTC].
 
       - name: PEM(0..3)_ERROR_INTD
         value: 0xC003F + a*0x1000
@@ -6333,7 +6333,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C0000428|a<<24)"
           reg_name: "PEM(0..3)_INT_SUM"
-        description: See PEM(0..3)_INT_SUM[INTD]
+        description: See PEM(0..3)_INT_SUM[INTD].
 
       - name: PEM(0..3)_ERROR_SPOISON
         value: 0xC0040 + a*0x1000
@@ -6749,7 +6749,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[LOFP].
+        description: See PEM(0..3)_DBG_INFO[LOFP].
 
       - name: PEM(0..3)_ERROR_DATQ_PE
         value: 0xC0061 + a*0x1000
@@ -7009,7 +7009,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[RTRY_SBE].
+        description: See PEM(0..3)_DBG_INFO[RTRY_SBE].
 
       - name: PEM(0..3)_ERROR_RTRY_DBE
         value: 0xC0075 + a*0x1000
@@ -7022,7 +7022,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[RTRY_DBE].
+        description: See PEM(0..3)_DBG_INFO[RTRY_DBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B0_SBE
         value: 0xC0076 + a*0x1000
@@ -7035,7 +7035,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[QHDR_B0_SBE].
+        description: See PEM(0..3)_DBG_INFO[QHDR_B0_SBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B0_DBE
         value: 0xC0077 + a*0x1000
@@ -7048,7 +7048,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[QHDR_B0_DBE].
+        description: See PEM(0..3)_DBG_INFO[QHDR_B0_DBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B1_SBE
         value: 0xC0078 + a*0x1000
@@ -7061,7 +7061,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[QHDR_B1_SBE].
+        description: See PEM(0..3)_DBG_INFO[QHDR_B1_SBE].
 
       - name: PEM(0..3)_ERROR_QHDR_B1_DBE
         value: 0xC0079 + a*0x1000
@@ -7074,7 +7074,7 @@ enums:
           major_val: "(0xC0+a)"
           reg_addr: "(0x11800C00000D0|a<<24)"
           reg_name: "PEM(0..3)_DBG_INFO"
-        description: See See PEM(0..3)_DBG_INFO[QHDR_B1_DBE].
+        description: See PEM(0..3)_DBG_INFO[QHDR_B1_DBE].
 
       - name: OSM_INT_STAT_DFA_DBE
         value: 0xDC000

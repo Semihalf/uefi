@@ -1467,6 +1467,9 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        description: |
+          Number of training frames received with an invalid control channel.
+          Saturates. Interrupt on saturation if OCX_OLE_LNEx_INT_EN[STAT_CNT_OVFL]=1
 
 
   - name: OCX_LNE(0..23)_STAT14
@@ -1486,6 +1489,9 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
+        description: |
+          Number of training frames received with a bad PRBS pattern.
+          Saturates. Interrupt on saturation if OCX_OLE_LNEx_INT_EN[STAT_CNT_OVFL]=1
 
 
   - name: OCX_LNE(0..23)_TRN_LD
@@ -1723,6 +1729,8 @@ registers:
           During a cold reset, initialized as follows:
           OCX_QLM2_CFG.SER_LOCAL = pi_oci2_link1
           OCX_QLM3_CFG.SER_LOCAL = pi_oci3_link1
+          The combo of pi_oci2_link1=1 and pi_oci3_link1=0 is illegal.
+          The combo of OCX_QLM2_CFG.SER_LOCAL=1 and OCX_QLM3_CFG.SER_LOCAL=0 is illegal.
 
 
   - name: OCX_LNK(0..2)_CFG
@@ -1789,6 +1797,8 @@ registers:
           LINK 0 may not select QLM4, QLM5.
           LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
           LINK 2 may not select QLM0, QLM1.
+          LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
+          LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
           LINK 0 automatically selects QLM0 when QLM_MANUAL[0]=0
           LINK 0 automatically selects QLM1 when QLM_MANUAL[1]=0
           LINK 0 automatically selects QLM2 when QLM_MANUAL[2]=0 and OCX_QLM2_CFG.SER_LOCAL=0

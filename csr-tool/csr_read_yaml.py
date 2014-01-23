@@ -145,6 +145,7 @@ def build_struct(chip_info, struct):
             check_keys("struct.fields[attributes]", field["attributes"], [
                        "const",                     # Field has a constant value
                        "verilog_struct_row_offset", # FIXME?
+                       "chip_pass",                 # FIXME: What is this?
                        "wqe_related_field_name"])   # Affects this WQE field. Text not well formated
             # FIXME: What to do with attributes?
         chip_field = ChipStructField(name, None, start_bit, stop_bit, description)

@@ -907,7 +907,7 @@ registers:
 
       - name: --
         bits: 7..6
-        access: R/W1C/H
+        access: RAZ
         reset: 0x0
         typical: 0x0
         description: Reserved.
@@ -948,7 +948,7 @@ registers:
 
       - name: --
         bits: 1
-        access: R/W1C/H
+        access: RAZ
         reset: 0
         typical: 0
         description: Reserved.

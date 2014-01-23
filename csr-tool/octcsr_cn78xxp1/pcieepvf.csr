@@ -2,33 +2,45 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PCIEEPVF
+description: |
+  The PCIEEPVF(0..3)_CFG* registers (PCICONFIGEP) can be accessed from a remote device via PCIe Port
+  0 or Port 1, or they can be accessed via the PEM*_CFG_WR/PEM*_CFG_RD registers. Note that each
+  port can directly access only its local EP PCIe configuration registers via standard PCIe
+  configuration read/write operations. When accessing the PCIEEPVF(0..3)_CFG* registers via the
+  PEM*_CFG_WR/PEM*_CFG_RD registers, the ADDR field must match the PCIe configuration space address.
+  PCIEEPVF Registers lists the PCICONFIGEP registers.
+  Note that the RO/WRSL field access type applies to PCICONFIGEP registers only. The RO/WRSL
+  fields are RO if accessed from the physical PCIe port, and R/W if accessed via
+  PEM*_CFG_WR/PEM*_CFG_RD.
 attributes:
   dv_fc_scratch_exempt: "PCICONFIGEP"
 registers:
   - name: PCIEEPVF(0..3)_CFG000
+    title: PCIe Vendor and Device Register
     address: 0x50000000000 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG000 = First 32-bits of PCIE type 0 config space (Device ID and Vendor ID Register)
+    description: This register contains the first 32-bits of type 0 PCIe configuration space.
     fields:
       - name: DEVID
         bits: 31..16
         access: RO
         reset: 0x96
         typical: 0x96
-        description: Device ID
+        description: Device ID.
 
       - name: VENDID
         bits: 15..0
         access: RO
         reset: 0x177d
         typical: 0x177d
-        description: Vendor ID
+        description: Vendor ID.
 
 
   - name: PCIEEPVF(0..3)_CFG001
+    title: Command/Status Register
     address: 0x50000000004 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG001 = Second 32-bits of PCIE type 0 config space (Command/Status Register)
+    description: This register contains the second 32-bits of type 0 PCIe configuration space.
     attributes:
       exempt_w1c_w: "True"
     fields:
@@ -37,60 +49,56 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Detected Parity Error
+        description: Detected parity error.
 
       - name: SSE
         bits: 30
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Signaled System Error
+        description: Signaled system error.
 
       - name: RMA
         bits: 29
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Received Master Abort
+        description: Received master abort.
 
       - name: RTA
         bits: 28
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Received Target Abort
+        description: Received target abort.
 
       - name: STA
         bits: 27
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Signaled Target Abort
+        description: Signaled target abort.
 
       - name: DEVT
         bits: 26..25
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          DEVSEL Timing
-          Not applicable for PCI Express. Hardwired to 0.
+        description: DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0.
 
       - name: MDPE
         bits: 24
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Master Data Parity Error
+        description: Master data parity error.
 
       - name: FBB
         bits: 23
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Fast Back-to-Back Capable
-          Not applicable for PCI Express. Hardwired to 0.
+        description: Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0.
 
       - name: --
         bits: 22
@@ -104,26 +112,21 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: |
-          66 MHz Capable
-          Not applicable for PCI Express. Hardwired to 0.
+        description: 66 MHz capable. Not applicable for PCI Express. Hardwired to 0.
 
       - name: CL
         bits: 20
         access: RO
         reset: 1
         typical: 1
-        description: |
-          Capabilities List
-          Indicates presence of an extended capability item.
-          Hardwired to 1.
+        description: Capabilities list. Indicates presence of an extended capability item. Hardwired to 1.
 
       - name: I_STAT
         bits: 19
         access: RO/H
         reset: 0
         typical: 0
-        description: INTx Status
+        description: INTx status.
 
       - name: --
         bits: 18..11
@@ -137,129 +140,119 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: INTx Assertion Disable
+        description: INTx assertion disable.
 
       - name: FBBE
         bits: 9
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Fast Back-to-Back Enable
-          Not applicable for PCI Express. Must be hardwired to 0.
+        description: Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: SEE
         bits: 8
         access: RO
         reset: 0
         typical: 0
-        description: "SERR# Enable"
+        description: "SERR# enable."
 
       - name: IDS_WCC
         bits: 7
         access: RO
         reset: 0
         typical: 0
-        description: |
-          IDSEL Stepping/Wait Cycle Control
-          Not applicable for PCI Express. Must be hardwired to 0
+        description: IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: PER
         bits: 6
         access: RO
         reset: 0
         typical: 0
-        description: Parity Error Response
+        description: Parity error response.
 
       - name: VPS
         bits: 5
         access: RO
         reset: 0
         typical: 0
-        description: |
-          VGA Palette Snoop
-          Not applicable for PCI Express. Must be hardwired to 0.
+        description: VGA palette snoop.
 
       - name: MWICE
         bits: 4
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Memory Write and Invalidate
-          Not applicable for PCI Express. Must be hardwired to 0.
+        description: Memory write & invalidate command enable. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: SCSE
         bits: 3
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Special Cycle Enable
-          Not applicable for PCI Express. Must be hardwired to 0.
+        description: Special cycle snooping enable. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: ME
         bits: 2
         access: R/W
         reset: 0
         typical: 0
-        description: Bus Master Enable
+        description: Bus master enable.
 
       - name: MSAE
         bits: 1
         access: RO
         reset: 0
         typical: 0
-        description: Memory Space Enable
+        description: Memory space access enable.
 
       - name: ISAE
         bits: 0
         access: RO
         reset: 0
         typical: 0
-        description: I/O Space Enable
+        description: I/O space access enable.
 
 
   - name: PCIEEPVF(0..3)_CFG002
+    title: Class Code/Revision ID Register
     address: 0x50000000008 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG002 = Third 32-bits of PCIE type 0 config space (Revision ID/Class Code Register)
+    description: This register contains the third 32-bits of type 0 PCIe configuration space.
     fields:
       - name: BCC
         bits: 31..24
         access: RO
         reset: 0xb
         typical: 0xb
-        description: Base Class Code
+        description: Base class code.
 
       - name: SC
         bits: 23..16
         access: RO
         reset: 0x30
         typical: 0x30
-        description: Subclass Code
+        description: Subclass code.
 
       - name: PI
         bits: 15..8
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Programming Interface
+        description: Programming interface.
 
       - name: RID
         bits: 7..0
         access: RO
         reset: 0x8
         typical: 0x8
-        description: Revision ID
+        description: Revision ID.
 
 
   - name: PCIEEPVF(0..3)_CFG003
+    title: BIST, Header Type, Master Latency Timer, Cache Line Size Register
     address: 0x5000000000C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG003 = Fourth 32-bits of PCIE type 0 config space (Cache Line Size/Master Latency
-      Timer/Header Type Register/BIST Register)
+    description: This register contains the fourth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: BIST
         bits: 31..24
@@ -267,33 +260,29 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          The BIST register functions are not supported.
-          All 8 bits of the BIST register are hardwired to 0.
+          The BIST register functions are not supported. All 8 bits of the BIST register are
+          hardwired to 0x0.
 
       - name: MFD
         bits: 23
         access: RO
         reset: 0
         typical: 0
-        description: Multi Function Device
+        description: Multi function device.
 
       - name: CHF
         bits: 22..16
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          Configuration Header Format
-          Hardwired to 0 for type 0.
+        description: Configuration header format. Hardwired to 0x0 for type 0.
 
       - name: LT
         bits: 15..8
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          Master Latency Timer
-          Not applicable for PCI Express, hardwired to 0.
+        description: Master latency timer. Not applicable for PCI Express, hardwired to 0x0.
 
       - name: CLS
         bits: 7..0
@@ -301,16 +290,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Cache Line Size
-          The Cache Line Size register is RW for legacy compatibility
-          purposes and is not applicable to PCI Express device
-          functionality.
+          Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+          is not applicable to PCI Express device functionality. Writing to the cache line size
+          register does not impact functionality of the PCI Express bus.
 
 
   - name: PCIEEPVF(0..3)_CFG004
+    title: Base Address Register 0 - Low
     address: 0x50000000010 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG004 = Fifth 32-bits of PCIE type 0 config space (Base Address Register 0 - Low)
+    description: This register contains the fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -321,9 +310,10 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG005
+    title: Base Address Register 0 - High
     address: 0x50000000014 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG005 = Sixth 32-bits of PCIE type 0 config space (Base Address Register 0 - High)
+    description: This register contains the sixth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -334,9 +324,10 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG006
+    title: Base Address Register 1 - Low
     address: 0x50000000018 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG006 = Seventh 32-bits of PCIE type 0 config space (Base Address Register 1 - Low)
+    description: This register contains the seventh 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -347,9 +338,10 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG007
+    title: Base Address Register 1 - High
     address: 0x5000000001C | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG007 = Eighth 32-bits of PCIE type 0 config space (Base Address Register 1 - High)
+    description: This register contains the eighth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -360,9 +352,10 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG008
+    title: Base Address Register 2 - Low
     address: 0x50000000020 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG008 = Ninth 32-bits of PCIE type 0 config space (Base Address Register 2 - Low)
+    description: This register contains the ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -373,9 +366,10 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG009
+    title: Base Address Register 2 - High Register
     address: 0x50000000024 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG009 = Tenth 32-bits of PCIE type 0 config space (Base Address Register 2 - High)
+    description: This register contains the tenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -386,55 +380,52 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG010
+    title: Card Bus CIS Pointer Register
     address: 0x50000000028 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG010 = Eleventh 32-bits of PCIE type 0 config space (CardBus CIS Pointer Register)
+    description: This register contains the eleventh 32-bits of type 0 PCIe configuration space.
     fields:
       - name: CISP
         bits: 31..0
         access: RO
         reset: 0x0
         typical: 0x0
-        description: CardBus CIS Pointer
+        description: CardBus CIS pointer.
 
 
   - name: PCIEEPVF(0..3)_CFG011
+    title: SubSystem ID/Subsystem Vendor ID Register
     address: 0x5000000002C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG011 = Twelfth 32-bits of PCIE type 0 config space (Subsystem ID and Subsystem Vendor
-      ID Register)
+    description: This register contains the twelfth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: SSID
         bits: 31..16
         access: RO
         reset: 0x1
         typical: 0x1
-        description: |
-          Subsystem ID
-          Assigned by PCI-SIG
+        description: Subsystem ID. Assigned by PCI-SIG.
 
       - name: SSVID
         bits: 15..0
         access: RO
         reset: 0x177d
         typical: 0x177d
-        description: |
-          Subsystem Vendor ID
-          Assigned by PCI-SIG
+        description: Subsystem vendor ID. Assigned by PCI-SIG.
 
 
   - name: PCIEEPVF(0..3)_CFG012
+    title: Expansion ROM Base Address Register
     address: 0x50000000030 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG012 = Thirteenth 32-bits of PCIE type 0 config space (Expansion ROM Base Address Register)
+    description: This register contains the thirteenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: ERADDR
         bits: 31..16
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Expansion ROM Address
+        description: Expansion ROM address.
 
       - name: --
         bits: 15..1
@@ -448,13 +439,14 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Expansion ROM Enable
+        description: Expansion ROM enable.
 
 
   - name: PCIEEPVF(0..3)_CFG013
+    title: Capability Pointer Register
     address: 0x50000000034 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG013 = Fourteenth 32-bits of PCIE type 0 config space (Capability Pointer Register)
+    description: This register contains the fourteenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..8
@@ -468,54 +460,49 @@ registers:
         access: RO
         reset: 0x40
         typical: 0x40
-        description: |
-          First Capability Pointer.
-          Points to the PCI Express Capability Pointer structure (VF's)
+        description: First capability pointer. Points to the PCI Express Capability Pointer structure (VF's).
 
 
   - name: PCIEEPVF(0..3)_CFG015
+    title: Interrupt Line/Interrupt Pin/Bridge Control Register
     address: 0x5000000003C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG015 = Sixteenth 32-bits of PCIE type 0 config space (Interrupt Line Register/Interrupt
-      Pin/Bridge Control Register)
+    description: This register contains the sixteenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: ML
         bits: 31..24
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Maximum Latency     (Hardwired to 0)
+        description: Maximum latency (hardwired to 0x0).
 
       - name: MG
         bits: 23..16
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Minimum Grant       (Hardwired to 0)
+        description: Minimum grant (hardwired to 0x0).
 
       - name: INTA
         bits: 15..8
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Interrupt Pin
+        description: Interrupt pin.
 
       - name: IL
         bits: 7..0
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Interrupt Line
+        description: Interrupt line.
 
 
   - name: PCIEEPVF(0..3)_CFG028
+    title: PCIe Capabilities/PCIe Capabilities List Register
     address: 0x50000000070 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG028 = Twenty-ninth 32-bits of PCIE type 0 config space
-      (PCI Express Capabilities List Register/
-      PCI Express Capabilities Register)
+    description: This register contains the twenty-ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..30
@@ -529,50 +516,48 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Interrupt Message Number
+        description: Interrupt message number.
 
       - name: SI
         bits: 24
         access: RO
         reset: 0
         typical: 0
-        description: Slot Implemented
+        description: Slot implemented.
 
       - name: DPT
         bits: 23..20
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Device Port Type
+        description: Device port type.
 
       - name: PCIECV
         bits: 19..16
         access: RO
         reset: 0x2
         typical: 0x2
-        description: PCI Express Capability Version
+        description: PCI Express capability version.
 
       - name: NCP
         bits: 15..8
         access: RO
         reset: 0xb0
         typical: 0xb0
-        description: |
-          Next Capability Pointer
-          Points to the MSI-X Capabilities by default,
+        description: Next capability pointer. Points to the MSI-X capabilities by default.
 
       - name: PCIEID
         bits: 7..0
         access: RO
         reset: 0x10
         typical: 0x10
-        description: PCIE Capability ID
+        description: PCI Express capability ID.
 
 
   - name: PCIEEPVF(0..3)_CFG029
     address: 0x50000000074 | a<<32
     bus: PCICONFIGEP
-    description: PCIE_CFG029 = Thirtieth 32-bits of PCIE type 0 config space (Device Capabilities Register)
+    description: This register contains the thirtieth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..29
@@ -586,27 +571,21 @@ registers:
         access: RO
         reset: 1
         typical: 1
-        description: |
-          Function Level Reset Capable
-          o 1 for SRIOV core
+        description: Function level reset capability. Set to 1 for SR-IOV core.
 
       - name: CSPLS
         bits: 27..26
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          Captured Slot Power Limit Scale
-          From Message from RC, upstream port only.
+        description: Captured slot power limit scale. From message from RC, upstream port only.
 
       - name: CSPLV
         bits: 25..18
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          Captured Slot Power Limit Value
-          From Message from RC, upstream port only.
+        description: Captured slot power limit value. From message from RC, upstream port only.
 
       - name: --
         bits: 17..16
@@ -620,7 +599,7 @@ registers:
         access: RO
         reset: 1
         typical: 1
-        description: Role-Based Error Reporting
+        description: Role-based error reporting.
 
       - name: --
         bits: 14
@@ -648,43 +627,41 @@ registers:
         access: RO
         reset: 0x3
         typical: 0x3
-        description: Endpoint L1 Acceptable Latency
+        description: Endpoint L1 acceptable latency.
 
       - name: EL0AL
         bits: 8..6
         access: RO
         reset: 0x4
         typical: 0x4
-        description: Endpoint L0s Acceptable Latency
+        description: Endpoint L0s acceptable latency.
 
       - name: ETFS
         bits: 5
         access: RO
         reset: 0
         typical: 0
-        description: Extended Tag Field Supported
+        description: Extended tag field supported.
 
       - name: PFS
         bits: 4..3
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Phantom Function Supported
+        description: Phantom function supported.
 
       - name: MPSS
         bits: 2..0
         access: RO
         reset: 0x1
         typical: 0x1
-        description: Max_Payload_Size Supported
+        description: Max_Payload_Size supported.
 
 
   - name: PCIEEPVF(0..3)_CFG030
     address: 0x50000000078 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG030 = Thirty-first 32-bits of PCIE type 0 config space
-      (Device Control Register/Device Status Register)
+    description: This register contains the thirty-first 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..22
@@ -699,18 +676,15 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Transaction Pending
-          Set to 1 when Non-Posted Requests are not yet completed
-          and clear when they are completed.
+          Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
+          when they are completed.
 
       - name: AP_D
         bits: 20
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Aux Power Detected
-          Set to 1 if Aux power detected.
+        description: Aux power detected. Set to 1 if Aux power detected.
 
       - name: UR_D
         bits: 19
@@ -718,23 +692,17 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Unsupported Request Detected
-          Errors are logged in this register regardless of whether
-          error reporting is enabled in the Device Control register.
-          UR_D occurs when we receive something we don't support.
-          Unsupported requests are Nonfatal errors, so UR_D should
-          cause NFE_D.  Receiving a  vendor defined message should
-          cause an unsupported request.
+          Unsupported request detected. Errors are logged in this register regardless of whether or
+          not error reporting is enabled in the device control register. UR_D occurs when we receive
+          something unsupported. Unsupported requests are nonfatal errors, so UR_D should cause
+          NFE_D. Receiving a vendor-defined message should cause an unsupported request.
 
       - name: FE_D
         bits: 18
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Fatal Error Detected
-          All fatal errors re non-function specific and get
-          reported only in the PF.
+        description: Fatal error detected. All fatal errors are non-function specific and get reported only in the PF.
 
       - name: NFE_D
         bits: 17
@@ -742,13 +710,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Non-Fatal Error detected
-          Errors are logged in this register regardless of whether
-          error reporting is enabled in the Device Control register.
-          NFE_D is set if we receive any of the errors in PCIE_CFG066
-          that has a severity set to Nonfatal and does NOT meet Advisory
-          Nonfatal criteria , which
-          most poisoned TLP's should be.
+          Nonfatal error detected. Errors are logged in this register regardless of whether or not
+          error reporting is enabled in the device control register. This field is set if we receive
+          any of the errors in
+          PCIEEP(0..3)_CFG066 that has a severity set to nonfatal and does not meet advisory
+          nonfatal criteria, which most poisoned TLPs should.
 
       - name: CE_D
         bits: 16
@@ -756,8 +722,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Correctable Error Detected
-          All correctable errors re non-function specific and get
+          Correctable error detected. All correctable errors are non-function specific and get
           reported only in the PF.
 
       - name: I_FLR
@@ -765,9 +730,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Initiate Function Level Reset
-          (Not Supported)
+        description: Initiate function level reset (not supported).
 
       - name: MRRS
         bits: 14..12
@@ -775,41 +738,41 @@ registers:
         reset: 0x2
         typical: 0x2
         description: |
-          Max Read Request Size
-          0 = 128B
-          1 = 256B
-          2 = 512B
-          3 = 1024B
-          4 = 2048B
-          5 = 4096B
+          Max read request size.
+          0x0 = 128 B.
+          0x1 = 256 B.
+          0x2 = 512 B.
+          0x3 = 1024 B.
+          0x4 = 2048 B.
+          0x5 = 4096 B.
 
       - name: NS_EN
         bits: 11
         access: RO
         reset: 1
         typical: 1
-        description: Enable No Snoop
+        description: Enable no snoop.
 
       - name: AP_EN
         bits: 10
         access: RO
         reset: 0
         typical: 0
-        description: AUX Power PM Enable
+        description: AUX power PM enable.
 
       - name: PF_EN
         bits: 9
         access: RO
         reset: 0
         typical: 0
-        description: Phantom Function Enable
+        description: Phantom function enable.
 
       - name: ETF_EN
         bits: 8
         access: RO
         reset: 0
         typical: 0
-        description: Extended Tag Field Enable
+        description: Extended tag field enable.
 
       - name: MPS
         bits: 7..5
@@ -817,63 +780,59 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Max Payload Size.
-          Legal values:
-          0  = 128B
-          1  = 256B
-          Larger sizes not supported by OCTEON.
-          Note: DPI_SLI_PRT#_CFG[MPS] must be set to the same
-          value for proper functionality."
+          Max payload size. Legal values: 0x0 = 128B, 0x1 = 256B.
+          Larger sizes are not supported by CN78XX.
+          DPI_SLI_PRT(0..3)_CFG[MPS] must be set to the same value as this field for proper
+          functionality.
 
       - name: RO_EN
         bits: 4
         access: RO
         reset: 1
         typical: 1
-        description: Enable Relaxed Ordering
+        description: Enable relaxed ordering.
 
       - name: UR_EN
         bits: 3
         access: RO
         reset: 0
         typical: 0
-        description: Unsupported Request Reporting Enable
+        description: Unsupported request reporting enable.
 
       - name: FE_EN
         bits: 2
         access: RO
         reset: 0
         typical: 0
-        description: Fatal Error Reporting Enable
+        description: Fatal error reporting enable.
 
       - name: NFE_EN
         bits: 1
         access: RO
         reset: 0
         typical: 0
-        description: Non-Fatal Error Reporting Enable
+        description: Nonfatal error reporting enable.
 
       - name: CE_EN
         bits: 0
         access: RO
         reset: 0
         typical: 0
-        description: Correctable Error Reporting Enable
+        description: Correctable error reporting enable.
 
 
   - name: PCIEEPVF(0..3)_CFG031
+    title: Link Capabilities Register
     address: 0x5000000007C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG031 = Thirty-second 32-bits of PCIE type 0 config space
-      (Link Capabilities Register)
+    description: This register contains the thirty-second 32-bits of type 0 PCIe configuration space.
     fields:
       - name: PNUM
         bits: 31..24
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Port Number
+        description: Port number.
 
       - name: --
         bits: 23
@@ -887,32 +846,28 @@ registers:
         access: RO
         reset: 1
         typical: 1
-        description: ASPM Optionality Compliance
+        description: ASPM optionality compliance.
 
       - name: LBNC
         bits: 21
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Link Bandwidth Notification Capability
-          Set 0 for Endpoint devices.
+        description: Link bandwidth notification capability. Set to 0 for endpoint devices.
 
       - name: DLLARC
         bits: 20
         access: RO
         reset: 0
         typical: 0
-        description: Data Link Layer Active Reporting Capable
+        description: Data link layer active reporting capable.
 
       - name: SDERC
         bits: 19
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Surprise Down Error Reporting Capable
-          Not supported, hardwired to 0x0.
+        description: Surprise down error reporting capable. Not supported; hardwired to 0.
 
       - name: CPM
         bits: 18
@@ -920,9 +875,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Clock Power Management
-          The default value is the value you specify during hardware
-          configuration
+          Clock power management. The default value is the value that software specifies during
+          hardware configuration.
 
       - name: L1EL
         bits: 17..15
@@ -930,9 +884,8 @@ registers:
         reset: 0x6
         typical: 0x6
         description: |
-          L1 Exit Latency
-          The default value is the value you specify during hardware
-          configuration
+          L1 exit latency. The default value is the value that software specifies during hardware
+          configuration.
 
       - name: L0EL
         bits: 14..12
@@ -940,9 +893,8 @@ registers:
         reset: 0x5
         typical: 0x5
         description: |
-          L0s Exit Latency
-          The default value is the value you specify during hardware
-          configuration
+          L0s exit latency. The default value is the value that software specifies during hardware
+          configuration.
 
       - name: ASLPMS
         bits: 11..10
@@ -950,9 +902,8 @@ registers:
         reset: 0x3
         typical: 0x3
         description: |
-          Active State Link PM Support
-          The default value is the value you specify during hardware
-          configuration
+          Active state link PM support. The default value is the value that software specifies
+          during hardware configuration.
 
       - name: MLW
         bits: 9..4
@@ -960,9 +911,8 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
-          Maximum Link Width
-          The default value is the value you specify during hardware
-          configuration (x1, x4, x8, or x16)
+          Maximum link width. The default value is the value that software specifies during hardware
+          configuration (*1, *4, *8, *16).
 
       - name: MLS
         bits: 3..0
@@ -970,48 +920,44 @@ registers:
         reset: --
         typical: --
         description: |
-          "Maximum Link Speed
-          The reset value of this field is controlled by the value read from
-          the PEM csr PEM(0..3)_CFG.MD.
-          PEM(0..2)_CFG.MD  RST_VALUE   NOTE
-          00                0001b       2.5 GHz supported
-          01                0010b       5.0 GHz and 2.5 GHz supported
-          10                0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          11                0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode)
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          Maximum link speed.The reset value of this field is controlled by the value read from
+          PEM(0..3)_CFG[MD].
+          PEM*_CFG
+          [MD] RST_VALUE NOTE
+          0x0 0001b 2.5 GHz supported
+          0x1 0010b 5.0 GHz and 2.5 GHz supported
+          0x2 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          0x3 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          (RC Mode)
+          This field is writable through PEM(0..3)_CFG_WR. However, the application must not change
+          this field.
 
 
   - name: PCIEEPVF(0..3)_CFG032
     address: 0x50000000080 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG032 = Thirty-third 32-bits of PCIE type 0 config space
-      (Link Control Register/Link Status Register)
+    description: This register contains the thirty-third 32-bits of type 0 PCIe configuration space.
     fields:
       - name: LAB
         bits: 31
         access: RO/H
         reset: 0
         typical: 0
-        description: Link Autonomous Bandwidth Status
+        description: Link autonomous bandwidth status.
 
       - name: LBM
         bits: 30
         access: RO/H
         reset: 0
         typical: 0
-        description: Link Bandwidth Management Status
+        description: Link bandwidth management status.
 
       - name: DLLA
         bits: 29
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Data Link Layer Active
-          Not applicable for an upstream Port or Endpoint device,
-          hardwired to 0.
+        description: Data link layer active. Not applicable for an upstream port or endpoint device, hardwired to 0.
 
       - name: SCC
         bits: 28
@@ -1019,8 +965,7 @@ registers:
         reset: 1
         typical: 1
         description: |
-          Slot Clock Configuration
-          Indicates that the component uses the same physical reference
+          Slot clock configuration. Indicates that the component uses the same physical reference
           clock that the platform provides on the connector.
 
       - name: LT
@@ -1028,26 +973,21 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Link Training
-          Not applicable for an upstream Port or Endpoint device,
-          hardwired to 0.
+        description: Link training. Not applicable for an upstream port or endpoint device, hardwired to 0.
 
       - name: --
         bits: 26
         access: RAZ
         reset: --
         typical: --
-        description: Undefined
+        description: Undefined.
 
       - name: NLW
         bits: 25..20
         access: RO/H
         reset: 0x0
         typical: 0x8
-        description: |
-          Negotiated Link Width
-          Set automatically by hardware after Link initialization.
+        description: Negotiated link width. Set automatically by hardware after Link initialization.
 
       - name: LS
         bits: 19..16
@@ -1055,10 +995,10 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          Link Speed
-          1 == The negotiated Link speed: 2.5 Gbps
-          2 == The negotiated Link speed: 5.0 Gbps
-          4 == The negotiated Link speed: 8.0 Gbps
+          Link speed.
+          0x1 = The negotiated link speed: 2.5 Gbps
+          0x2 = The negotiated link speed: 5.0 Gbps
+          0x4 = The negotiated link speed: 8.0 Gbps
 
       - name: --
         bits: 15..12
@@ -1073,8 +1013,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Link Autonomous Bandwidth Interrupt Enable
-          This bit is not applicable and is reserved for endpoints
+          Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
+          endpoints.
 
       - name: LBM_INT_ENB
         bits: 10
@@ -1082,17 +1022,15 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Link Bandwidth Management Interrupt Enable
-          This bit is not applicable and is reserved for endpoints
+          Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
+          endpoints.
 
       - name: HAWD
         bits: 9
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Hardware Autonomous Width Disable
-          (Not Supported)
+        description: Hardware autonomous width disable (not supported).
 
       - name: ECPM
         bits: 8
@@ -1100,50 +1038,43 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enable Clock Power Management
-          Hardwired to 0 if Clock Power Management is disabled in
-          the Link Capabilities register.
+          Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+          link capabilities register.
 
       - name: ES
         bits: 7
         access: RO
         reset: 0
         typical: 0
-        description: Extended Synch
+        description: Extended synch.
 
       - name: CCC
         bits: 6
         access: RO
         reset: 0
         typical: 0
-        description: Common Clock Configuration
+        description: Common clock configuration.
 
       - name: RL
         bits: 5
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Retrain Link
-          Not applicable for an upstream Port or Endpoint device,
-          hardwired to 0.
+        description: Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0.
 
       - name: LD
         bits: 4
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Link Disable
-          Not applicable for an upstream Port or Endpoint device,
-          hardwired to 0.
+        description: Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0.
 
       - name: RCB
         bits: 3
         access: RO
         reset: 0
         typical: 0
-        description: Read Completion Boundary (RCB)
+        description: Read completion boundary (RCB).
 
       - name: --
         bits: 2
@@ -1157,15 +1088,14 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Active State Link PM Control
+        description: Active state Link PM control.
 
 
   - name: PCIEEPVF(0..3)_CFG037
+    title: Device Capabilities 2 Register
     address: 0x50000000094 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG037 = Thirty-eighth 32-bits of PCIE type 0 config space
-      (Device Capabilities 2 Register)
+    description: This register contains the thirty-eighth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -1180,34 +1110,32 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Max End-End TLP Prefixes
-          o 01b: 1
-          o 10b: 2
-          o 11b: 3
-          o 00b: 4"
+          Max end-end TLP prefixes.
+          0x1 = 1
+          0x2 = 2
+          0x3 = 3
+          0x0 = 4
 
       - name: EETPS
         bits: 21
         access: RO
         reset: 0
         typical: 0
-        description: End-End TLP Prefix Supported
+        description: End-end TLP prefix supported.
 
       - name: EFFS
         bits: 20
         access: RO
         reset: 0
         typical: 0
-        description: Extended Fmt Field Supported
+        description: Extended Fmt field supported.
 
       - name: OBFFS
         bits: 19..18
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          Optimized Buffer Flush Fill (OBFF) Supported
-          (Not Supported)
+        description: Optimized buffer flush fill (OBFF) supported (not supported).
 
       - name: --
         bits: 17..14
@@ -1221,92 +1149,76 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          TPH Completer Supported
-          (Not Supported)
+        description: TPH completer supported (not supported).
 
       - name: LTRS
         bits: 11
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Latency Tolerance Reporting (LTR) Mechanism Supported
-          (Not Supported)
+        description: Latency tolerance reporting (LTR) mechanism supported (not supported).
 
       - name: NOROPRPR
         bits: 10
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          No RO-enabled PR-PR Passing
-          (This bit applies to RCs)
+        description: No RO-enabled PR-PR passing. (This bit applies to RCs.)
 
       - name: ATOM128S
         bits: 9
         access: RO
         reset: 0
         typical: 0
-        description: |
-          128-bit AtomicOp Supported
-          (Not Supported)
+        description: 128-bit AtomicOp supported (not supported).
 
       - name: ATOM64S
         bits: 8
         access: RO
         reset: 0
         typical: 0
-        description: |
-          64-bit AtomicOp Supported
-          (Not Supported)
+        description: 64-bit AtomicOp supported (not supported).
 
       - name: ATOM32S
         bits: 7
         access: RO
         reset: 0
         typical: 0
-        description: |
-          32-bit AtomicOp Supported
-          (Not Supported)
+        description: 32-bit AtomicOp supported (not supported).
 
       - name: ATOM_OPS
         bits: 6
         access: RO
         reset: 0
         typical: 0
-        description: |
-          AtomicOp Routing Supported
-          (Not Applicable for EP)
+        description: AtomicOp routing supported (not applicable for EP).
 
       - name: ARI
         bits: 5
         access: RO
         reset: 0
         typical: 0
-        description: Alternate Routing ID Forwarding Supported
+        description: Alternate routing ID forwarding supported.
 
       - name: CTDS
         bits: 4
         access: RO
         reset: 1
         typical: 1
-        description: Completion Timeout Disable Supported
+        description: Completion timeout disable supported.
 
       - name: CTRS
         bits: 3..0
         access: RO/H
         reset: 0xf
         typical: 0xf
-        description: Completion Timeout Ranges Supported
+        description: Completion timeout ranges supported.
 
 
   - name: PCIEEPVF(0..3)_CFG038
     address: 0x50000000098 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG038 = Thirty-ninth 32-bits of PCIE type 0 config space
-      (Device Control 2 Register/Device Status 2 Register)
+    description: This register contains the thirty-ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..16
@@ -1320,16 +1232,14 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Unsupported End-End TLP Prefix Blocking
+        description: Unsupported end-end TLP prefix blocking.
 
       - name: OBFFE
         bits: 14..13
         access: RO
         reset: 0x0
         typical: 0x0
-        description: |
-          Optimized Buffer Flush Fill (OBFF) Enable
-          (Not Supported)
+        description: Optimized buffer flush fill (OBFF) enable (not supported).
 
       - name: --
         bits: 12..10
@@ -1343,50 +1253,42 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: |
-          ID Based Ordering Completion Enable
-          (Not Supported)
+        description: ID based ordering completion enable (not supported).
 
       - name: ID0_RQ
         bits: 8
         access: RO
         reset: 0
         typical: 0
-        description: |
-          ID Based Ordering Request Enable
-          (Not Supported)
+        description: ID based ordering request enable (not supported).
 
       - name: ATOM_OP_EB
         bits: 7
         access: RO
         reset: 0
         typical: 0
-        description: |
-          AtomicOp Egress Blocking
-          (Not Supported)m
+        description: AtomicOp egress blocking (not supported).
 
       - name: ATOM_OP
         bits: 6
         access: RO
         reset: 0
         typical: 0
-        description: |
-          AtomicOp Requester Enable
-          (Not Supported)
+        description: AtomicOp requester enable (not supported).
 
       - name: ARI
         bits: 5
         access: R/W
         reset: 0
         typical: 0
-        description: Alternate Routing ID Forwarding Supported
+        description: Alternate routing ID forwarding supported (not supported).
 
       - name: CTD
         bits: 4
         access: RO
         reset: 0
         typical: 0
-        description: Completion Timeout Disable
+        description: Completion timeout disable.
 
       - name: CTV
         bits: 3..0
@@ -1394,17 +1296,14 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Completion Timeout Value
-          Completion Timeout Programming is not supported
-          Completion timeout is the range of 16 ms to 55 ms.
+          Completion timeout value. Completion timeout programming is not supported. Completion
+          timeout is the range of 16 ms to 55 ms.
 
 
   - name: PCIEEPVF(0..3)_CFG039
     address: 0x5000000009C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG039 = Fortieth 32-bits of PCIE type 0 config space
-      (Link Capabilities 2 Register)
+    description: This register contains the fortieth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..9
@@ -1418,7 +1317,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Crosslink Supported
+        description: Crosslink supported.
 
       - name: SLSV
         bits: 7..1
@@ -1426,23 +1325,21 @@ registers:
         reset: --
         typical: --
         description: |
-          "Supported Link Speeds Vector
-          Indicates the supported Link speeds of the associated Port.
-          For each bit, a value of 1b indicates that the cooresponding
-          Link speed is supported; otherwise, the Link speed is not
-          supported.
-          Bit definitions are:
-          Bit 1 2.5 GT/s
-          Bit 2 5.0 GT/s
-          Bit 3 8.0 GT/s
-          Bits 7:4 reserved
-          The reset value of this field is controlled by a value read from
-          the PEM csr PEM(0..3)_CFG.MD.
-          PEM(0..3)_CFG.MD   RST_VALUE   NOTE
-          00                 0001b       2.5 GHz supported
-          01                 0011b       5.0 GHz and 2.5 GHz supported
-          10                 0111b       8.0 GHz, 5.0 GHz and 2.5 GHz supported
-          11                 0111b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode)"
+          Supported link speeds vector. Indicates the supported link speeds of the associated port.
+          For each bit, a value of 1b indicates that the corresponding link speed is supported;
+          otherwise, the link speed is not supported. Bit definitions are:
+          Bit <1> = 2.5 GT/s
+          Bit <2> = 5.0 GT/s
+          Bit <3> = 8.0 GT/s
+          Bits <7:4> are reserved
+          The reset value of this field is controlled by the value read from PEM(0..3)_CFG[MD].
+          PEM*_CFG
+          [MD] RST_VALUE NOTE
+          0x0 0001b 2.5 GHz supported
+          0x1 0011b 5.0 GHz and 2.5 GHz supported
+          0x2 0111b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          0x3 0111b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          (RC Mode)
 
       - name: --
         bits: 0
@@ -1455,9 +1352,7 @@ registers:
   - name: PCIEEPVF(0..3)_CFG040
     address: 0x500000000A0 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG040 = Forty-first 32-bits of PCIE type 0 config space
-      (Link Control 2 Register/Link Status 2 Register)
+    description: This register contains the forty-first 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..17
@@ -1472,13 +1367,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Current De-emphasis Level
-          When the Link is operating at 5 GT/s speed, this bit
-          reflects the level of de-emphasis. Encodings:
-          1b: -3.5 dB
-          0b: -6 dB
-          Note: The value in this bit is undefined when the Link is
-          operating at 2.5 GT/s speed
+          Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+          the level of deemphasis. Encodings:
+          1 = -3.5 dB
+          0 = -6 dB
+          The value in this bit is undefined when the link is operating at 2.5 GT/s speed.
 
       - name: --
         bits: 15..13
@@ -1493,14 +1386,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Compliance De-emphasis
-          This bit sets the de-emphasis level in Polling. Compliance
-          state if the entry occurred due to the Tx Compliance
-          Receive bit being 1b. Encodings:
-          1b: -3.5 dB
-          0b: -6 dB
-          Note: When the Link is operating at 2.5 GT/s, the setting
-          of this bit has no effect.
+          Compliance deemphasis. This bit sets the deemphasis level in polling. Compliance state if
+          the entry occurred due to the Tx compliance receive bit being 1. Encodings:
+          1 =  -3.5 dB
+          0 =  -6 dB
+          When the link is operating at 2.5 GT/s, the setting of this bit has no effect.
 
       - name: CSOS
         bits: 11
@@ -1508,12 +1398,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Compliance SOS
-          When set to 1b, the LTSSM is required to send SKP
-          Ordered Sets periodically in between the (modified)
-          compliance patterns.
-          Note: When the Link is operating at 2.5 GT/s, the setting
-          of this bit has no effect.
+          Compliance SOS. When set to 1, the LTSSM is required to send SKP ordered sets periodically
+          in between the (modified) compliance patterns.
+          When the link is operating at 2.5 GT/s, the setting of this bit has no effect.
 
       - name: EMC
         bits: 10
@@ -1521,10 +1408,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enter Modified Compliance
-          When this bit is set to 1b, the device transmits a modified
-          compliance pattern if the LTSSM enters Polling.
-          Compliance state.
+          Enter modified compliance. When this bit is set to 1, the device transmits a modified
+          compliance pattern if the LTSSM enters polling.Compliance state.
 
       - name: TM
         bits: 9..7
@@ -1532,29 +1417,22 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Margin
-          This field controls the value of the non-de-emphasized
-          voltage level at the Transmitter pins:
-          000: 800-1200 mV for full swing 400-600 mV for half-swing
-          001-010: values must be monotonic with a non-zero slope
-          011: 200-400 mV for full-swing and 100-200 mV for halfswing
-          100-111: reserved
-          This field is reset to 000b on entry to the LTSSM Polling.
-          Compliance substate.
-          When operating in 5.0 GT/s mode with full swing, the
-          de-emphasis ratio must be maintained within +/- 1 dB
-          from the specification-defined operational value
-          either -3.5 or -6 dB).
+          Transmit margin. This field controls the value of the non-deemphasized voltage level at
+          the transmitter pins:
+          0x0 =  800-1200 mV for full swing 400-600 mV for half-swing
+          0x1-0x2 = Values must be monotonic with a nonzero slope
+          0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing
+          0x4-0x7 = Reserved
+          This field is reset to 0x0 on entry to the LTSSM polling compliance substate. When
+          operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+          +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB.
 
       - name: SDE
         bits: 6
         access: RO
         reset: 0
         typical: 0
-        description: |
-          Selectable De-emphasis
-          Not applicable for an upstream Port or Endpoint device.
-          Hardwired to 0.
+        description: Selectable deemphasis. Not applicable for an upstream port or endpoint device. Hardwired to 0.
 
       - name: HASD
         bits: 5
@@ -1562,13 +1440,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Hardware Autonomous Speed Disable
-          When asserted, the
-          application must disable hardware from changing the Link
-          speed for device-specific reasons other than attempting to
-          correct unreliable Link operation by reducing Link speed.
-          Initial transition to the highest supported common link
-          speed is not blocked by this signal.
+          Hardware autonomous speed disable. When asserted, the application must disable hardware
+          from changing the link speed for device-specific reasons other than attempting to correct
+          unreliable link operation by reducing link speed. Initial transition to the highest
+          supported common link speed is not blocked by this signal.
 
       - name: EC
         bits: 4
@@ -1576,11 +1451,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enter Compliance
-          Software is permitted to force a link to enter Compliance
-          mode at the speed indicated in the Target Link Speed
-          field by setting this bit to 1b in both components on a link
-          and then initiating a hot reset on the link.
+          Enter compliance. Software is permitted to force a link to enter compliance mode at the
+          speed indicated in the target link speed field by setting this bit to 1 in both components
+          on a link and then initiating a hot reset on the link.
 
       - name: TLS
         bits: 3..0
@@ -1588,47 +1461,40 @@ registers:
         reset: --
         typical: --
         description: |
-          "Target Link Speed
-          For Downstream ports, this field sets an upper limit on link
-          operational speed by restricting the values advertised by
-          the upstream component in its training sequences:
-          0001: 2.5Gb/s Target Link Speed
-          0010: 5Gb/s Target Link Speed
-          0100: 8Gb/s Target Link Speed (Not Supported)
+          Target link speed. For downstream ports, this field sets an upper limit on link
+          operational speed by restricting the values advertised by the upstream component in its
+          training sequences:
+          0x1: 2.5 Gb/s target link speed
+          0x2: 5 Gb/s target link speed
+          0x4: 8Gb/s target link speed (not supported)
           All other encodings are reserved.
-          If a value is written to this field that does not correspond to
-          a speed included in the Supported Link Speeds field, the
-          result is undefined.
-          For both Upstream and Downstream ports, this field is
-          used to set the target compliance mode speed when
-          software is using the Enter Compliance bit to force a link
-          into compliance mode.
-          The reset value of this field is controlled by the value read from
-          the PEM csr PEM(0..3)_CFG.MD.
-          PEM(0..2)_CFG.MD  RST_VALUE   NOTE
-          00                0001b       2.5 GHz supported
-          01                0010b       5.0 GHz and 2.5 GHz supported
-          10                0011b       8.0 GHz, 5.0 GHz and 2.5 GHz supported
-          11                0011b       8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode)"
+          If a value is written to this field that does not correspond to a speed included in the
+          supported link speeds field, the result is undefined.
+          For both upstream and downstream ports, this field is used to set the target compliance
+          mode speed when software is using the enter compliance bit to force a link into compliance
+          mode.
+          The reset value of this field is controlled by the value read from PEM(0..3)_CFG[MD].
+          PEM*_CFG
+          [MD] RST_VALUE NOTE
+          00 0001b 2.5 GHz supported
+          01 0010b 5.0 GHz and 2.5 GHz supported
+          10 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          11 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
+          (RC Mode)
 
 
   - name: PCIEEPVF(0..3)_CFG044
+    title: PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
     address: 0x500000000B0 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG044 = Forty-fifth 32-bits of PCIE type 0 config space
-      (MSI-X Capability ID/
-      MSI-X Next Item Pointer/
-      MSI-X Control Register)
+    description: This register contains the forty-fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: MSIXEN
         bits: 31
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          MSI-X Enable
-          If MSI-X is enabled, MIS and INTx must be disabled.
+        description: MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled.
 
       - name: FUNM
         bits: 30
@@ -1636,53 +1502,45 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Function Mask
-          1b: All vectors associated with the function are masked,
-          regardless of their respective per-vector mask bits.
-          0b: Each vectors Mask bit determines whether the vector
-          is masked or not.
+          Function mask.
+          0 = Each vectors mask bit determines whether the vector is masked or not.
+          1 = All vectors associated with the function are masked, regardless of their respective
+          per-vector mask bits.
 
       - name: --
         bits: 29..27
         access: RAZ
         reset: --
         typical: --
-        description: |
-          Reserved
-          However, the application must not change this field.
+        description: Reserved. However, the application must not change this field.
 
       - name: MSIXTS
         bits: 26..16
         access: RO
         reset: 0x40
         typical: 0x40
-        description: |
-          MSI-X Table Size
-          Encoded as (Table Size - 1)
+        description: MSI-X table size encoded as (table size - 1).
 
       - name: NCP
         bits: 15..8
         access: RO
         reset: 0xc0
         typical: 0xc0
-        description: |
-          Next Capability Pointer
-          Points to the PCI Power Management Capability Registers
+        description: Next capability pointer. Points to the PCI power management capability registers.
 
       - name: MSIXCID
         bits: 7..0
         access: RO
         reset: 0x11
         typical: 0x11
-        description: MSI-X Capability ID
+        description: MSI-X Capability ID.
 
 
   - name: PCIEEPVF(0..3)_CFG045
+    title: PCI Express MSI-X Table Offset and BIR Register
     address: 0x500000000B4 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG045 = Forty-sixth 32-bits of PCIE type 0 config space
-      (MSI-X Table Offset and BIR Register)
+    description: This register contains the forty-sixth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: MSIXTOFFS
         bits: 31..3
@@ -1690,9 +1548,8 @@ registers:
         reset: 0xc00
         typical: 0xc00
         description: |
-          MSI-X Table Offset Register
-          Base address of the MSI-X Table, as an offset from the base
-          address of te BAR indicated by the Table BIR bits.
+          MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+          address of the BAR indicated by the Table BIR bits.
 
       - name: MSIXTBIR
         bits: 2..0
@@ -1700,19 +1557,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "MSI-X Table BAR Indicator Register (BIR)
-          Indicates which BAR is used to map the MSI-X Table
-          into memory space
-          000 - 100: BAR#
-          110 - 111: Reserved"
+          "MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+          table into memory space.
+          0x0 - 0x4 = BAR#
+          0x6 - 0x7 = Reserved"
 
 
   - name: PCIEEPVF(0..3)_CFG046
     address: 0x500000000B8 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG046 = Forty-seventh 32-bits of PCIE type 0 config space
-      (MSI-X PBA Offset and BIR Register)
+    description: This register contains the forty-seventh 32-bits of type 0 PCIe configuration space.
     fields:
       - name: MSIXPOFFS
         bits: 31..3
@@ -1720,11 +1574,8 @@ registers:
         reset: 0xe00
         typical: 0xe00
         description: |
-          "MSI-X Table Offset Register
-          Base address of the MSI-X PBA, as an offset from the base
-          address of te BAR indicated by the Table PBA bits.
-          writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+          address of the BAR indicated by the table PBA bits.
 
       - name: MSIXPBIR
         bits: 2..0
@@ -1732,23 +1583,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "MSI-X PBA BAR Indicator Register (BIR)
-          Indicates which BAR is used to map the MSI-X Pending Bit Array
-          into memory space
-          000 - 100: BAR#
-          110 - 111: Reserved
-          Writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+          pending bit array                                                  into memory space.
+          0x0 - 0x4 = BAR#
+          0x6 - 0x7 = Reserved
+          Writable through PEM(0..3)_CFG_WR. However, the application must not change this field."
 
 
   - name: PCIEEPVF(0..3)_CFG048
     address: 0x500000000C0 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG048 = Forty-ninth 32-bits of PCIE type 0 config space
-      (Power Management Capability ID/
-      Power Management Next Item Pointer/
-      Power Management Capabilities Register)
+    description: This register contains the forty-ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: PMES
         bits: 31..27
@@ -1756,40 +1601,40 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          PME_Support
-          o Bit 11: If set, PME Messages can be generated from D0
-          o Bit 12: If set, PME Messages can be generated from D1
-          o Bit 13: If set, PME Messages can be generated from D2
-          o Bit 14: If set, PME Messages can be generated from D3hot
-          o Bit 15: always zero.   VF's do not support D3cold
+          PME_Support.
+          Bit 11: If set, PME messages can be generated from D0
+          Bit 12: If set, PME messages can be generated from D1
+          Bit 13: If set, PME messages can be generated from D2
+          Bit 14: If set, PME messages can be generated from D3hot
+          Bit 15: Always zero. VFs do not support D3cold
 
       - name: D2S
         bits: 26
         access: RO
         reset: 0
         typical: 0
-        description: D2 Support
+        description: D2 support.
 
       - name: D1S
         bits: 25
         access: RO
         reset: 0
         typical: 0
-        description: D1 Support
+        description: D1 support.
 
       - name: AUXC
         bits: 24..22
         access: RO
         reset: 0x0
         typical: 0x0
-        description: AUX Current
+        description: AUX current.
 
       - name: DSI
         bits: 21
         access: RO
         reset: 0
         typical: 0
-        description: Device Specific Initialization (DSI)
+        description: Device specific initialization (DSI).
 
       - name: --
         bits: 20
@@ -1803,36 +1648,34 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: PME Clock, hardwired to 0
+        description: PME clock, hardwired to 0.
 
       - name: PMSV
         bits: 18..16
         access: RO
         reset: 0x3
         typical: 0x0
-        description: Power Management Specification Version
+        description: Power management specification version.
 
       - name: NCP
         bits: 15..8
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Next Capability Pointer
+        description: Next capability pointer.
 
       - name: PMCID
         bits: 7..0
         access: RO
         reset: 0x1
         typical: 0x0
-        description: Power Management Capability ID
+        description: Power management capability ID.
 
 
   - name: PCIEEPVF(0..3)_CFG049
     address: 0x500000000C4 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG049 = Fiftieth 32-bits of PCIE type 0 config space (Power Management Control and
-      Status Register)
+    description: This register contains the fiftieth 32-bits of type 0 PCIe configuration space.
     attributes:
       exempt_w1c_w: "True"
     fields:
@@ -1848,14 +1691,14 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Bus Power/Clock Control Enable, hardwired to 0
+        description: Bus power/clock control enable, hardwired to 0.
 
       - name: BD3H
         bits: 22
         access: RO
         reset: 0
         typical: 0
-        description: B2/B3 Support, hardwired to 0
+        description: B2/B3 support, hardwired to 0.
 
       - name: --
         bits: 21..16
@@ -1869,33 +1712,28 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          PME Status
-          Indicates if a previously enabled PME event occurred or not.
+        description: PME status. Indicates whether or not a previously enabled PME event occurred.
 
       - name: PMEDSIA
         bits: 14..13
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Data Scale (not supported)
+        description: Data scale (not supported).
 
       - name: PMDS
         bits: 12..9
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Data Select (not supported)
+        description: Data select (not supported).
 
       - name: PMEENS
         bits: 8
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          PME Enable
-          A value of 1 indicates that the device is enabled to
-          generate PME.
+        description: PME enable. A value of 1 indicates that the device is enabled to generate PME.
 
       - name: --
         bits: 7..4
@@ -1909,7 +1747,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: No Soft Reset
+        description: No soft reset.
 
       - name: --
         bits: 2
@@ -1924,83 +1762,75 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Power State
-          Controls the device power state:
-          o 00b: D0
-          o 01b: D1
-          o 10b: D2
-          o 11b: D3
-          The written value is ignored if the specific state is
-          not supported.
+          Power state. Controls the device power state:
+          0x0 = D0
+          0x1 = D1
+          0x2 = D2
+          0x3 = D3
+          The written value is ignored if the specific state is not supported.
 
 
   - name: PCIEEPVF(0..3)_CFG064
+    title: PCI Express Extended Capability Header Register
     address: 0x50000000100 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG064 = Sixty-fifth 32-bits of PCIE type 0 config space
-      (PCI Express Extended Capability Header)
+    description: This register contains the sixty-fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: NCO
         bits: 31..20
         access: RO
         reset: 0x148
         typical: 0x148
-        description: |
-          Next Capability Offset
-          Points to the ARI Capabilities by default,
+        description: Next capability offset. Points to the ARI capabilities by default.
 
       - name: CV
         bits: 19..16
         access: RO
         reset: 0x2
         typical: 0x2
-        description: Capability Version
+        description: Capability version
 
       - name: PCIEEC
         bits: 15..0
         access: RO
         reset: 0x1
         typical: 0x1
-        description: PCIE Express Extended Capability ID
+        description: PCI Express extended capability
 
 
   - name: PCIEEPVF(0..3)_CFG082
+    title: PCI Express ARI Capability Header Register
     address: 0x50000000148 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG082 = Eighty-third 32-bits of PCIE type 0 config space
-      (PCI Express ARI Capability Header)
+    description: This register contains the eighty-third 32-bits of type 0 PCIe configuration space.
     fields:
       - name: NCO
         bits: 31..20
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Next Capability Offset
+        description: Next capability offset
 
       - name: CV
         bits: 19..16
         access: RO
         reset: 0x1
         typical: 0x1
-        description: Capability Version
+        description: Capability version
 
       - name: ARIID
         bits: 15..0
         access: RO
         reset: 0xe
         typical: 0xe
-        description: PCIE Express Extended Capability
+        description: PCIE Express extended capability
 
 
   - name: PCIEEPVF(0..3)_CFG083
+    title: PCI Express ARI Capability Register/PCI Express ARI Control Register
     address: 0x5000000014C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG083 = Eighty-fourth 32-bits of PCIE type 0 config space
-      (PCI Express ARI Capability Register/
-      PCI Express ARI Control Register)
+    description: This register contains the eighty-fourth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -2014,7 +1844,7 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Function Group
+        description: Function group.
 
       - name: --
         bits: 19..18
@@ -2028,21 +1858,21 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: ACS Function Groups Enable (A)
+        description: ACS function groups enable (A).
 
       - name: MFVCFGE
         bits: 16
         access: RO
         reset: 0
         typical: 0
-        description: MFVC Function Groups Enable (M)
+        description: MFVC function groups enable (M).
 
       - name: NFN
         bits: 15..8
         access: RO/H
         reset: --
         typical: --
-        description: Next Function Number
+        description: Next function number.
 
       - name: --
         bits: 7..2
@@ -2056,22 +1886,21 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: ACS Function Groups Capability
+        description: ACS function groups capability.
 
       - name: MFVCFGC
         bits: 0
         access: RO
         reset: 0
         typical: 0
-        description: MFVC Function Groups Capability
+        description: MFVC function groups capability.
 
 
   - name: PCIEEPVF(0..3)_CFG448
+    title: Ack Latency Timer/Replay Timer Register
     address: 0x50000000700 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG448 = Four hundred forty-ninth 32-bits of PCIE type 0 config space
-      (Ack Latency Timer and Replay Timer Register)
+    description: This register contains the four hundred forty-ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: RTL
         bits: 31..16
@@ -2079,15 +1908,11 @@ registers:
         reset: 0x308d
         typical: --
         description: |
-          Replay Time Limit
-          The replay timer expires when it reaches this limit. The PCI
-          Express bus initiates a replay upon reception of a Nak or when
-          the replay timer expires.
-          This value will be set correctly by the hardware out of reset
-          or when the negotiated Link-Width or Payload-Size changes. If
-          the user changes this value through a CSR write or by an
-          EEPROM load then they should refer to the PCIe Specification
-          for the correct value.
+          Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
+          bus initiates a replay upon reception of a nak or when the replay timer expires. This
+          value is set correctly by the hardware out of reset or when the negotiated link width or
+          payload size changes. If the user changes this value through a CSR write or by an EEPROM
+          load, they should refer to the PCIe Specification for the correct value.
 
       - name: RTLTL
         bits: 15..0
@@ -2095,21 +1920,17 @@ registers:
         reset: 0x102f
         typical: --
         description: |
-          Round Trip Latency Time Limit
-          The Ack/Nak latency timer expires when it reaches this limit.
-          This value will be set correctly by the hardware out of reset
-          or when the negotiated Link-Width or Payload-Size changes. If
-          the user changes this value through a CSR write or by an
-          EEPROM load then they should refer to the PCIe Specification
-          for the correct value.
+          Round trip latency time limit. The ack/nak latency timer expires when it reaches this
+          limit. This value is set correctly by the hardware out of reset or when the negotiated
+          link width or payload size changes. If the user changes this value through a CSR write or
+          by an EEPROM load, they should refer to the PCIe specification for the correct value.
 
 
   - name: PCIEEPVF(0..3)_CFG449
+    title: Other Message Register
     address: 0x50000000704 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG449 = Four hundred fiftieth 32-bits of PCIE type 0 config space
-      (Other Message Register)
+    description: This register contains the four hundred fiftieth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: OMR
         bits: 31..0
@@ -2117,26 +1938,21 @@ registers:
         reset: 0xffffffff
         typical: --
         description: |
-          Other Message Register
-          This register can be used for either of the following purposes:
-          o To send a specific PCI Express Message, the application
-          writes the payload of the Message into this register, then
-          sets bit 0 of the Port Link Control Register to send the
-          Message.
-          o To store a corruption pattern for corrupting the LCRC on all
-          TLPs, the application places a 32-bit corruption pattern into
-          this register and enables this function by setting bit 25 of
-          the Port Link Control Register. When enabled, the transmit
-          LCRC result is XOR'd with this pattern before inserting
-          it into the packet.
+          Other message register. This register can be used for either of the following purposes:
+          * To send a specific PCI Express message, the application writes the payload of the
+          message into this register, then sets bit 0 of the port link control register to send the
+          message.
+          * To store a corruption pattern for corrupting the LCRC on all TLPs, the application
+          places a 32-bit corruption pattern into this register and enables this function by setting
+          bit 25 of the port link control register. When enabled, the transmit LCRC result is XORed
+          with this pattern before inserting it into the packet.
 
 
   - name: PCIEEPVF(0..3)_CFG450
+    title: Port Force Link Register
     address: 0x50000000708 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG450 = Four hundred fifty-first 32-bits of PCIE type 0 config space
-      (Port Force Link Register)
+    description: This register contains the four hundred fifty-first 32-bits of type 0 PCIe configuration space.
     fields:
       - name: LPEC
         bits: 31..24
@@ -2144,13 +1960,11 @@ registers:
         reset: 0x7
         typical: 0x7
         description: |
-          Low Power Entrance Count
-          The Power Management state will wait for this many clock cycles
-          for the associated completion of a CfgWr to PCIE_CFG017 register
-          Power State (PS) field register to go low-power. This register
-          is intended for applications that do not let the PCI Express
-          bus handle a completion for configuration request to the
-          Power Management Control and Status (PCIE_CFG017) register.
+          Low power entrance count. The power management state waits this many clock cycles for the
+          associated completion of a CfgWr to PCIE_CFG017 register, power state (PS) field register
+          to go low-power. This register is intended for applications that do not let the PCI
+          Express bus handle a completion for configuration request to the power management control
+          and status (PCIE_CFG017) register.
 
       - name: --
         bits: 23..22
@@ -2165,42 +1979,24 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Link State
-          The Link state that the PCI Express Bus will be forced to
-          when bit 15 (Force Link) is set.
-          State encoding:
-          o DETECT_QUIET              00h
-          o DETECT_ACT                01h
-          o POLL_ACTIVE               02h
-          o POLL_COMPLIANCE           03h
-          o POLL_CONFIG               04h
-          o PRE_DETECT_QUIET          05h
-          o DETECT_WAIT               06h
-          o CFG_LINKWD_START          07h
-          o CFG_LINKWD_ACEPT          08h
-          o CFG_LANENUM_WAIT          09h
-          o CFG_LANENUM_ACEPT         0Ah
-          o CFG_COMPLETE              0Bh
-          o CFG_IDLE                  0Ch
-          o RCVRY_LOCK                0Dh
-          o RCVRY_SPEED               0Eh
-          o RCVRY_RCVRCFG             0Fh
-          o RCVRY_IDLE                10h
-          o L0                        11h
-          o L0S                       12h
-          o L123_SEND_EIDLE           13h
-          o L1_IDLE                   14h
-          o L2_IDLE                   15h
-          o L2_WAKE                   16h
-          o DISABLED_ENTRY            17h
-          o DISABLED_IDLE             18h
-          o DISABLED                  19h
-          o LPBK_ENTRY                1Ah
-          o LPBK_ACTIVE               1Bh
-          o LPBK_EXIT                 1Ch
-          o LPBK_EXIT_TIMEOUT         1Dh
-          o HOT_RESET_ENTRY           1Eh
-          o HOT_RESET                 1Fh
+          Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+          is set. State encoding:
+          0x0: DETECT_QUIET. 0x10: RCVRY_IDLE.
+          0x1: DETECT_ACT. 0x11: L0.
+          0x2: POLL_ACTIVE. 0x12: L0S.
+          0x3: POLL_COMPLIANCE. 0x13: L123_SEND_EIDLE.
+          0x4: POLL_CONFIG. 0x14: L1_IDLE.
+          0x5: PRE_DETECT_QUIET. 0x15: L2_IDLE.
+          0x6: DETECT_WAIT. 0x16: L2_WAKE.
+          0x7: CFG_LINKWD_START. 0x17: DISABLED_ENTRY.
+          0x8: CFG_LINKWD_ACEPT. 0x18: DISABLED_IDLE.
+          0x9: CFG_LANENUM_WAIT. 0x19: DISABLED.
+          0xA: CFG_LANENUM_ACEPT. 0x1A: LPBK_ENTRY.
+          0xB: CFG_COMPLETE. 0x1B: LPBK_ACTIVE.
+          0xC: CFG_IDLE. 0x1C: LPBK_EXIT.
+          0xD: RCVRY_LOCK. 0x1D: LPBK_EXIT_TIMEOUT.
+          0xE: RCVRY_SPEED. 0x1E: HOT_RESET_ENTRY.
+          0xF: RCVRY_RCVRCFG. 0x1F: HOT_RESET.
 
       - name: FORCE_LINK
         bits: 15
@@ -2208,12 +2004,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Force Link
-          Forces the Link to the state specified by the Link State field.
-          The Force Link pulse will trigger Link re-negotiation.
-          * As the The Force Link is a pulse, writing a 1 to it does
-          trigger the forced link state event, even thought reading it
-          always returns a 0.
+          Force link. Forces the link to the state specified by the LINK_STATE field. The force link
+          pulse triggers link renegotiation.
+          As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+          even though reading it always returns a 0.
 
       - name: --
         bits: 14..8
@@ -2227,17 +2021,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: |
-          Link Number
-          Not used for Endpoint
+        description: Link number. Not used for endpoint.
 
 
   - name: PCIEEPVF(0..3)_CFG451
+    title: Ack Frequency Register
     address: 0x5000000070C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG451 = Four hundred fifty-second 32-bits of PCIE type 0 config space
-      (Ack Frequency Register)
+    description: This register contains the four hundred fifty-second 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31
@@ -2252,11 +2043,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Enter ASPM L1 without receive in L0s
-          Allow core to enter ASPM L1 even when link partner did
-          not go to L0s (receive is not in L0s).
-          When not set, core goes to ASPM L1 only after idle period
-          during which both receive and transmit are in L0s.
+          Enter ASPM L1 without receive in L0s. Allow core to enter ASPM L1 even when link partner
+          did not go to L0s (receive is not in L0s). When not set, core goes to ASPM L1 only after
+          idle period, during which both receive and transmit are in L0s.
 
       - name: L1EL
         bits: 29..27
@@ -2264,15 +2053,14 @@ registers:
         reset: 0x3
         typical: 0x3
         description: |
-          L1 Entrance Latency
-          Values correspond to:
-          o 000: 1 ms
-          o 001: 2 ms
-          o 010: 4 ms
-          o 011: 8 ms
-          o 100: 16 ms
-          o 101: 32 ms
-          o 110 or 111: 64 ms
+          L1 entrance latency. Values correspond to:
+          0x0 = 1 ms
+          0x1 = 2 ms
+          0x2 = 4 ms
+          0x3 = 8 ms
+          0x4 = 16 ms
+          0x5 = 32 ms
+          0x6 or 0x7 = 64 ms
 
       - name: L0EL
         bits: 26..24
@@ -2280,15 +2068,14 @@ registers:
         reset: 0x3
         typical: 0x3
         description: |
-          L0s Entrance Latency
-          Values correspond to:
-          o 000: 1 ms
-          o 001: 2 ms
-          o 010: 3 ms
-          o 011: 4 ms
-          o 100: 5 ms
-          o 101: 6 ms
-          o 110 or 111: 7 ms
+          L0s entrance latency. Values correspond to:
+          0x0 = 1 ms
+          0x1 = 2 ms
+          0x2 = 3 ms
+          0x3 = 4 ms
+          0x4 = 5 ms
+          0x5 = 6 ms
+          0x6 or 0x7 = 7 ms
 
       - name: N_FTS_CC
         bits: 23..16
@@ -2297,12 +2084,11 @@ registers:
         typical: 0x3f
         description: |
           N_FTS when common clock is used.
-          The number of Fast Training Sequence ordered sets to be
-          transmitted when transitioning from L0s to L0. The maximum
-          number of FTS ordered-sets that a component can request is 255.
-          Note: A value of zero is not supported; a value of
-          zero can cause the LTSSM to go into the recovery state
-          when exiting from L0s.
+          The number of fast training sequence (FTS) ordered sets to be transmitted when
+          transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
+          request is 255.
+          A value of zero is not supported; a value of zero can cause the LTSSM to go into the
+          recovery state when exiting from L0s.
 
       - name: N_FTS
         bits: 15..8
@@ -2310,31 +2096,25 @@ registers:
         reset: 0x3f
         typical: 0x3f
         description: |
-          N_FTS
-          The number of Fast Training Sequence ordered sets to be
-          transmitted when transitioning from L0s to L0. The maximum
-          number of FTS ordered-sets that a component can request is 255.
-          Note: A value of zero is not supported; a value of
-          zero can cause the LTSSM to go into the recovery state
-          when exiting from L0s.
+          N_FTS. The number of fast training sequence (FTS) ordered sets to be transmitted when
+          transitioning from L0s to L0. The maximum number of FTS ordered sets that a component can
+          request is 255.
+          A value of zero is not supported; a value of zero can cause the LTSSM to go into the
+          recovery state when exiting from L0s.
 
       - name: ACK_FREQ
         bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: |
-          Ack Frequency
-          The number of pending Ack's specified here (up to 255) before
-          sending an Ack.
+        description: Ack frequency. The number of pending Acks specified here (up to 255) before sending an Ack.
 
 
   - name: PCIEEPVF(0..3)_CFG452
+    title: Port Link Control Register
     address: 0x50000000710 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG452 = Four hundred fifty-third 32-bits of PCIE type 0 config space
-      (Port Link Control Register)
+    description: This register contains the four hundred fifty-third 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..22
@@ -2349,25 +2129,21 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          Link Mode Enable
-          o 000001: x1
-          o 000011: x2
-          o 000111: x4
-          o 001111: x8  (not supported)
-          o 011111: x16 (not supported)
-          o 111111: x32 (not supported)
-          This field indicates the MAXIMUM number of lanes supported
-          by the PCIe port. The value can be set less than 0x7
-          to limit the number of lanes the PCIe will attempt to use.
-          If the value of 0xF set by the HW is not desired,
-          this field can be programmed to a smaller value (i.e. EEPROM)
-          See also MLW.
-          (Note: The value of this field does NOT indicate the number
-          of lanes in use by the PCIe. LME sets the max number of lanes
-          in the PCIe core that COULD be used. As per the PCIe specs,
-          the PCIe core can negotiate a smaller link width, so all
-          of x8, x4, x2, and x1 are supported when LME=0xF,
-          for example.)
+          Link mode enable set as follows:
+          000001 (0x1) =  *1
+          000011 (0x3) =  *2
+          000111 (0x7) =  *4
+          001111 (0xF) =  *8 (not supported)
+          011111 (0x1F) =  *16 (not supported)
+          111111 (0x3F) =  *32 (not supported)
+          This field indicates the maximum number of lanes supported by the PCIe port. The value can
+          be set less than 0x7 to limit the number of lanes that the PCIe will attempt to use. If
+          the value of 0xF set by the hardware is not desired, this field can be programmed to a
+          smaller value (i.e. EEPROM). See also PCIEEP(0..3)_CFG031[MLW].
+          The value of this field does not indicate the number of lanes in use by the PCIe. This
+          field sets the maximum number of lanes in the PCIe core that could be used. As per the
+          PCIe specification, the PCIe core can negotiate a smaller link width, so all of *8, *4,
+          *2, and *1 are supported when LME = 0xF, for example.
 
       - name: --
         bits: 15..12
@@ -2389,10 +2165,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Fast Link Mode
-          Sets all internal timers to fast mode for simulation purposes.
-          If during an eeprom load, the first word loaded is 0xffffffff,
-          then the EEPROM load will be terminated and this bit will be set.
+          Fast link mode. Sets all internal timers to fast mode for simulation purposes. If during
+          an EEPROM load, the first word loaded is 0xFFFFFFFF, the EEPROM load is terminated and
+          this bit is set.
 
       - name: --
         bits: 6
@@ -2407,10 +2182,8 @@ registers:
         reset: 1
         typical: 1
         description: |
-          DLL Link Enable
-          Enables Link initialization. If DLL Link Enable = 0, the PCI
-          Express bus does not transmit InitFC DLLPs and does not
-          establish a Link.
+          DLL link enable. Enables Link initialization. If DLL Link Enable = 0, the PCI Express bus
+          does not transmit InitFC DLLPs and does not establish a Link.
 
       - name: --
         bits: 4
@@ -2425,9 +2198,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Reset Assert
-          Triggers a recovery and forces the LTSSM to the Hot Reset
-          state (downstream port only).
+          Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
+          port only).
 
       - name: LE
         bits: 2
@@ -2435,21 +2207,17 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Loopback Enable
-          Initiate loopback mode as a master. On a 0->1 transition,
-          the PCIe core sends TS ordered sets with the loopback bit set
-          to cause the link partner to enter into loopback mode as a
-          slave. Normal transmission is not possible when LE=1. To exit
-          loopback mode, take the link through a reset sequence.
+          Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
+          sends TS ordered sets with the loopback bit set to cause the link partner to enter into
+          loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
+          mode, take the link through a reset sequence.
 
       - name: SD
         bits: 1
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Scramble Disable
-          Turns off data scrambling.
+        description: Scramble disable. Setting this bit turns off data scrambling.
 
       - name: OMR
         bits: 0
@@ -2457,26 +2225,22 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Other Message Request
-          When software writes a `1' to this bit, the PCI Express bus
-          transmits the Message contained in the Other Message register.
+          Other message request. When software writes a 1 to this bit, the PCI Express bus transmits
+          the message contained in the other message register.
 
 
   - name: PCIEEPVF(0..3)_CFG453
+    title: Lane Skew Register
     address: 0x50000000714 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG453 = Four hundred fifty-fourth 32-bits of PCIE type 0 config space
-      (Lane Skew Register)
+    description: This register contains the four hundred fifty-fourth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: DLLD
         bits: 31
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Disable Lane-to-Lane Deskew
-          Disables the internal Lane-to-Lane deskew logic.
+        description: Disable lane-to-lane deskew. Disables the internal lane-to-lane deskew logic.
 
       - name: --
         bits: 30..26
@@ -2490,18 +2254,14 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Ack/Nak Disable
-          Prevents the PCI Express bus from sending Ack and Nak DLLPs.
+        description: Ack/Nak disable. Prevents the PCI Express bus from sending Ack and Nak DLLPs.
 
       - name: FCD
         bits: 24
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Flow Control Disable
-          Prevents the PCI Express bus from sending FC DLLPs.
+        description: Flow control disable. Prevents the PCI Express bus from sending FC DLLPs.
 
       - name: ILST
         bits: 23..0
@@ -2509,20 +2269,17 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Insert Lane Skew for Transmit
-          Causes skew between lanes for test purposes. There are three
-          bits per Lane. The value is in units of one symbol time. For
-          example, the value 010b for a Lane forces a skew of two symbol
-          times for that Lane. The maximum skew value for any Lane is 5
-          symbol times.
+          Insert lane skew for transmit. Causes skew between lanes for test purposes. There are
+          three bits per lane. The value is in units of one symbol time. For example, the value 010b
+          for a lane forces a skew of two symbol times for that lane. The maximum skew value for any
+          lane is 5 symbol times.
 
 
   - name: PCIEEPVF(0..3)_CFG454
+    title: Symbol Number Register
     address: 0x50000000718 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG454 = Four hundred fifty-fifth 32-bits of PCIE type 0 config space
-      (Symbol Number Register)
+    description: This register contains the four hundred fifty-fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..29
@@ -2537,9 +2294,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Used to be "Timer Modifier for Flow Control Watchdog Timer"
-          No longer used. Repl and enhanced func moved to "Queue Status"
-          register - CFG463. Kept for now to prevent s/w from breaking.
+          Used to be "timer modifier for flow control watchdog timer." No longer used. Repl and
+          enhanced func moved to "queue status" register - CFG463. Kept for now to prevent software
+          from breaking.
 
       - name: TMANLT
         bits: 23..19
@@ -2547,9 +2304,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Timer Modifier for Ack/Nak Latency Timer
-          Increases the timer value for the Ack/Nak latency timer, in
-          increments of 64 clock cycles.
+          Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
+          latency timer, in increments of 64 clock cycles.
 
       - name: TMRT
         bits: 18..14
@@ -2557,9 +2313,8 @@ registers:
         reset: 0x8
         typical: 0x8
         description: |
-          Timer Modifier for Replay Timer
-          Increases the timer value for the replay timer, in increments
-          of 64 clock cycles.
+          Timer modifier for replay timer. Increases the timer value for the replay timer, in
+          increments of 64 clock cycles.
 
       - name: --
         bits: 13..8
@@ -2573,136 +2328,133 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Max Number of Functions Supported
+        description: Max number of functions supported.
 
 
   - name: PCIEEPVF(0..3)_CFG455
+    title: Symbol Timer/Filter Mask Register 1
     address: 0x5000000071C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG455 = Four hundred fifty-sixth 32-bits of PCIE type 0 config space
-      (Symbol Timer Register/Filter Mask Register 1)
+    description: This register contains the four hundred fifty-sixth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: M_CFG0_FILT
         bits: 31
         access: R/W
         reset: 0
         typical: 0
-        description: Mask filtering of received Configuration Requests (RC mode only)
+        description: Mask filtering of received configuration requests (RC mode only).
 
       - name: M_IO_FILT
         bits: 30
         access: R/W
         reset: 0
         typical: 0
-        description: Mask filtering of received I/O Requests (RC mode only)
+        description: Mask filtering of received I/O requests (RC mode only).
 
       - name: MSG_CTRL
         bits: 29
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Message Control
-          The application must not change this field.
+        description: Message control. The application must not change this field.
 
       - name: M_CPL_ECRC_FILT
         bits: 28
         access: R/W
         reset: 0
         typical: 0
-        description: Mask ECRC error filtering for Completions
+        description: Mask ECRC error filtering for completions.
 
       - name: M_ECRC_FILT
         bits: 27
         access: R/W
         reset: 0
         typical: 0
-        description: Mask ECRC error filtering
+        description: Mask ECRC error filtering.
 
       - name: M_CPL_LEN_ERR
         bits: 26
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Length mismatch error for received Completions
+        description: Mask length mismatch error for received completions.
 
       - name: M_CPL_ATTR_ERR
         bits: 25
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Attributes mismatch error for received Completions
+        description: Mask attributes mismatch error for received completions.
 
       - name: M_CPL_TC_ERR
         bits: 24
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Traffic Class mismatch error for received Completions
+        description: Mask traffic class mismatch error for received completions.
 
       - name: M_CPL_FUN_ERR
         bits: 23
         access: R/W
         reset: 0
         typical: 0
-        description: Mask function mismatch error for received Completions
+        description: Mask function mismatch error for received completions.
 
       - name: M_CPL_RID_ERR
         bits: 22
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Requester ID mismatch error for received Completions
+        description: Mask requester ID mismatch error for received completions.
 
       - name: M_CPL_TAG_ERR
         bits: 21
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Tag error rules for received Completions
+        description: Mask tag error rules for received completions.
 
       - name: M_LK_FILT
         bits: 20
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Locked Request filtering
+        description: Mask locked request filtering.
 
       - name: M_CFG1_FILT
         bits: 19
         access: R/W
         reset: 1
         typical: 1
-        description: Mask Type 1 Configuration Request filtering
+        description: Mask Type 1 configuration request filtering..
 
       - name: M_BAR_MATCH
         bits: 18
         access: R/W
         reset: 0
         typical: 0
-        description: Mask BAR match filtering
+        description: Mask BAR match filtering.
 
       - name: M_POIS_FILT
         bits: 17
         access: R/W
         reset: 1
         typical: 1
-        description: Mask poisoned TLP filtering
+        description: Mask poisoned TLP filtering.
 
       - name: M_FUN
         bits: 16
         access: R/W
         reset: 0
         typical: 0
-        description: Mask function
+        description: Mask function.
 
       - name: DFCWT
         bits: 15
         access: R/W
         reset: 0
         typical: 0
-        description: Disable FC Watchdog Timer
+        description: Disable FC watchdog timer.
 
       - name: --
         bits: 14..11
@@ -2716,15 +2468,14 @@ registers:
         access: R/W
         reset: 0x280
         typical: 0x280
-        description: SKP Interval Value
+        description: SKP interval value.
 
 
   - name: PCIEEPVF(0..3)_CFG456
+    title: Filter Mask Register 2
     address: 0x50000000720 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG456 = Four hundred fifty-seventh 32-bits of PCIE type 0 config space
-      (Filter Mask Register 2)
+    description: This register contains the four hundred fifty-seventh 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..4
@@ -2738,7 +2489,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Core Filter to handle flush request
+        description: Mask core filter to handle flush request.
 
       - name: M_DABORT_4UCPL
         bits: 2
@@ -2752,52 +2503,49 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Vendor MSG Type 1 dropped silently
+        description: Mask vendor MSG Type 1 dropped silently.
 
       - name: M_VEND0_DRP
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: Mask Vendor MSG Type 0 dropped with UR error reporting.
+        description: Mask vendor MSG Type 0 dropped with UR error reporting.
 
 
   - name: PCIEEPVF(0..3)_CFG458
+    title: Debug Register 0
     address: 0x50000000728 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG458 = Four hundred fifty-ninth 32-bits of PCIE type 0 config space
-      (Debug Register 0)
+    description: This register contains the four hundred fifty-ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: DBG_INFO_L32
         bits: 31..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Debug Info Lower 32 Bits
+        description: Debug info lower 32 bits.
 
 
   - name: PCIEEPVF(0..3)_CFG459
+    title: Debug Register 1
     address: 0x5000000072C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG459 = Four hundred sixtieth 32-bits of PCIE type 0 config space
-      (Debug Register 1)
+    description: This register contains the four hundred sixtieth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: DBG_INFO_U32
         bits: 31..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Debug Info Upper 32 Bits
+        description: Debug info upper 32 bits.
 
 
   - name: PCIEEPVF(0..3)_CFG460
+    title: Transmit Posted FC Credit Status Register
     address: 0x50000000730 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG460 = Four hundred sixty-first 32-bits of PCIE type 0 config space
-      (Transmit Posted FC Credit Status)
+    description: This register contains the four hundred sixty-first 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..20
@@ -2812,9 +2560,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Posted Header FC Credits
-          The Posted Header credits advertised by the receiver at the
-          other end of the Link, updated with each UpdateFC DLLP.
+          Transmit posted header FC Credits. The posted header credits advertised by the receiver at
+          the other end of the link, updated with each UpdateFC DLLP.
 
       - name: TPDFCC
         bits: 11..0
@@ -2822,17 +2569,15 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Posted Data FC Credits
-          The Posted Data credits advertised by the receiver at the other
-          end of the Link, updated with each UpdateFC DLLP.
+          Transmit posted data FC credits. The posted data credits advertised by the receiver at the
+          other end of the link, updated with each UpdateFC DLLP.
 
 
   - name: PCIEEPVF(0..3)_CFG461
+    title: Transmit Nonposted FC Credit Status Register
     address: 0x50000000734 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG461 = Four hundred sixty-second 32-bits of PCIE type 0 config space
-      (Transmit Non-Posted FC Credit Status)
+    description: This register contains the four hundred sixty-second 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..20
@@ -2847,9 +2592,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Non-Posted Header FC Credits
-          The Non-Posted Header credits advertised by the receiver at the
-          other end of the Link, updated with each UpdateFC DLLP.
+          Transmit nonposted header FC credits. The nonposted header credits advertised by the
+          receiver at the other end of the link, updated with each UpdateFC DLLP.
 
       - name: TCDFCC
         bits: 11..0
@@ -2857,17 +2601,15 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Non-Posted Data FC Credits
-          The Non-Posted Data credits advertised by the receiver at the
-          other end of the Link, updated with each UpdateFC DLLP.
+          Transmit nonposted data FC credits. The nonposted data credits advertised by the receiver
+          at the other end of the link, updated with each UpdateFC DLLP.
 
 
   - name: PCIEEPVF(0..3)_CFG462
+    title: Transmit Completion FC Credit Status Register
     address: 0x50000000738 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG462 = Four hundred sixty-third 32-bits of PCIE type 0 config space
-      (Transmit Completion FC Credit Status )
+    description: This register contains the four hundred sixty-third 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..20
@@ -2882,9 +2624,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Completion Header FC Credits
-          The Completion Header credits advertised by the receiver at the
-          other end of the Link, updated with each UpdateFC DLLP.
+          Transmit completion header FC credits. The completion header credits advertised by the
+          receiver at the other end of the link, updated with each UpdateFC DLLP.
 
       - name: TCDFCC
         bits: 11..0
@@ -2892,17 +2633,15 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Transmit Completion Data FC Credits
-          The Completion Data credits advertised by the receiver at the
-          other end of the Link, updated with each UpdateFC DLLP.
+          Transmit completion data FC credits. The completion data credits advertised by the
+          receiver at the other end of the link, updated with each UpdateFC DLLP.
 
 
   - name: PCIEEPVF(0..3)_CFG463
+    title: Queue Status Register
     address: 0x5000000073C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG463 = Four hundred sixty-fourth 32-bits of PCIE type 0 config space
-      (Queue Status)
+    description: This register contains the four hundred sixty-fourth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: FCLTOE
         bits: 31
@@ -2910,10 +2649,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          FC Latency Timer Override Enable
-          When this bit is set, the value from the "FC Latency Timer Override
-          Value" field in this register will override the FC latency timer
-          value that the core calculates according to the PCIe specification.
+          FC latency timer override enable. When this bit is set, the value from
+          PCIEEPVF(0..3)_CFG463[FCLTOV] will override the FC latency timer value that the core
+          calculates according to the PCIe specification.
 
       - name: --
         bits: 30..29
@@ -2928,10 +2666,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          FC Latency Timer Override Value
-          When you set the "FC Latency Timer Override Enable" in this register,
-          the value in this field will override the FC latency timer value
-          that the core calculates according to the PCIe specification.
+          FC latency timer override value. When you set
+          PCIEEPVF(0..3)_CFG463[FCLTOE], the value in this field will override the FC latency timer
+          value that the core calculates according to the PCIe specification.
 
       - name: --
         bits: 15..3
@@ -2945,18 +2682,14 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Received Queue Not Empty
-          Indicates there is data in one or more of the receive buffers.
+        description: Received queue not empty. Indicates there is data in one or more of the receive buffers.
 
       - name: TRBNE
         bits: 1
         access: RO/H
         reset: 0
         typical: 0
-        description: |
-          Transmit Retry Buffer Not Empty
-          Indicates that there is data in the transmit retry buffer.
+        description: Transmit retry buffer not empty. Indicates that there is data in the transmit retry buffer.
 
       - name: RTLPFCCNR
         bits: 0
@@ -2964,91 +2697,86 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Received TLP FC Credits Not Returned
-          Indicates that the PCI Express bus has sent a TLP but has not
-          yet received an UpdateFC DLLP indicating that the credits for
-          that TLP have been restored by the receiver at the other end of
-          the Link.
+          Received TLP FC credits not returned. Indicates that the PCI Express bus has sent a TLP
+          but has not yet received an UpdateFC DLLP indicating that the credits for that TLP have
+          been restored by the receiver at the other end of the link.
 
 
   - name: PCIEEPVF(0..3)_CFG464
+    title: VC Transmit Arbitration Register 1
     address: 0x50000000740 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG464 = Four hundred sixty-fifth 32-bits of PCIE type 0 config space
-      (VC Transmit Arbitration Register 1)
+    description: This register contains the four hundred sixty-fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: WRR_VC3
         bits: 31..24
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC3
+        description: WRR Weight for VC3.
 
       - name: WRR_VC2
         bits: 23..16
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC2
+        description: WRR Weight for VC2.
 
       - name: WRR_VC1
         bits: 15..8
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC1
+        description: WRR Weight for VC1.
 
       - name: WRR_VC0
         bits: 7..0
         access: RO
         reset: 0xf
         typical: 0xf
-        description: WRR Weight for VC0
+        description: WRR Weight for VC0.
 
 
   - name: PCIEEPVF(0..3)_CFG465
+    title: VC Transmit Arbitration Register 2
     address: 0x50000000744 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG465 = Four hundred sixty-sixth 32-bits of PCIE type 0 config space
-      (VC Transmit Arbitration Register 2)
+    description: This register contains the four hundred sixty-sixth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: WRR_VC7
         bits: 31..24
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC7
+        description: WRR Weight for VC7.
 
       - name: WRR_VC6
         bits: 23..16
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC6
+        description: WRR Weight for VC6.
 
       - name: WRR_VC5
         bits: 15..8
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC5
+        description: WRR Weight for VC5.
 
       - name: WRR_VC4
         bits: 7..0
         access: RO
         reset: 0x0
         typical: 0x0
-        description: WRR Weight for VC4
+        description: WRR Weight for VC4.
 
 
   - name: PCIEEPVF(0..3)_CFG466
+    title: VC0 Posted Receive Queue Control Register
     address: 0x50000000748 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG466 = Four hundred sixty-seventh 32-bits of PCIE type 0 config space
-      (VC0 Posted Receive Queue Control)
+    description: This register contains the four hundred sixty-seventh 32-bits of type 0 PCIe configuration space.
     fields:
       - name: RX_QUEUE_ORDER
         bits: 31
@@ -3056,13 +2784,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "VC Ordering for Receive Queues
-          Determines the VC ordering rule for the receive queues, used
-          only in the segmented-buffer configuration,
-          writable through PEM#_CFG_WR:
-          o 1: Strict ordering, higher numbered VCs have higher priority
-          o 0: Round robin
-          However, the application must not change this field."
+          VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
+          used only in the segmented-buffer configuration, writable through PEM(0..3)_CFG_WR:
+          0 = Round robin.
+          1 = Strict ordering, higher numbered VCs have higher priority.
 
       - name: TYPE_ORDERING
         bits: 30
@@ -3070,15 +2795,10 @@ registers:
         reset: 1
         typical: 1
         description: |
-          "TLP Type Ordering for VC0
-          Determines the TLP type ordering rule for VC0 receive queues,
-          used only in the segmented-buffer configuration,
-          through PEM#_CFG_WR:
-          o 1: Ordering of received TLPs follows the rules in
-          PCI Express Base Specification
-          o 0: Strict ordering for received TLPs: Posted, then
-          Completion, then Non-Posted
-          However, the application must not change this field."
+          TLP type ordering for VC0. Determines the TLP type ordering rule for VC0 receive queues,
+          used only in the segmented-buffer configuration:
+          0 = Strict ordering for received TLPs: Posted, then Completion, then Nonposted.
+          1 = Ordering of received TLPs follows the rules in PCI Express Base Specification
 
       - name: --
         bits: 29..24
@@ -3093,15 +2813,13 @@ registers:
         reset: 0x2
         typical: 0x2
         description: |
-          "VC0 Posted TLP Queue Mode
-          The operating mode of the Posted receive queue for VC0, used
-          only in the segmented-buffer configuration, writable through
-          PEM#_CFG_WR.
+          VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
+          only in the segmented-buffer configuration, writable through PEM(0..3)_CFG_WR.
           However, the application must not change this field.
           Only one bit can be set at a time:
-          o Bit 23: Bypass
-          o Bit 22: Cut-through
-          o Bit 21: Store-and-forward"
+          Bit 23 = Bypass
+          Bit 22 = Cut-through
+          Bit 21 = Store-and-forward
 
       - name: --
         bits: 20
@@ -3116,11 +2834,8 @@ registers:
         reset: 0x60
         typical: 0x60
         description: |
-          "VC0 Posted Header Credits
-          The number of initial Posted header credits for VC0, used for
+          VC0 posted header credits. The number of initial posted header credits for VC0, used for
           all receive queue buffer configurations.
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
 
       - name: DATA_CREDITS
         bits: 11..0
@@ -3128,19 +2843,15 @@ registers:
         reset: 0x80
         typical: 0x80
         description: |
-          "VC0 Posted Data Credits
-          The number of initial Posted data credits for VC0, used for all
+          VC0 posted data credits. The number of initial posted data credits for VC0, used for all
           receive queue buffer configurations.
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
 
 
   - name: PCIEEPVF(0..3)_CFG467
+    title: VC0 Nonposted Receive Queue Control Register
     address: 0x5000000074C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG467 = Four hundred sixty-eighth 32-bits of PCIE type 0 config space
-      (VC0 Non-Posted Receive Queue Control)
+    description: This register contains the four hundred sixty-eighth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -3155,15 +2866,13 @@ registers:
         reset: 0x2
         typical: 0x2
         description: |
-          "VC0 Non-Posted TLP Queue Mode
-          The operating mode of the Non-Posted receive queue for VC0,
-          used only in the segmented-buffer configuration, writable
-          through PEM#_CFG_WR.
+          VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
+          used only in the segmented-buffer configuration. This field is writable through
+          PEM(0..3)_CFG_WR. However, the application must not change this field.
           Only one bit can be set at a time:
-          o Bit 23: Bypass
-          o Bit 22: Cut-through
-          o Bit 21: Store-and-forward
-          However, the application must not change this field."
+          Bit 23 = Bypass
+          Bit 22 = Cut-through
+          Bit 21 = Store-and-forward
 
       - name: --
         bits: 20
@@ -3178,11 +2887,9 @@ registers:
         reset: 0x1f
         typical: 0x1f
         description: |
-          "VC0 Non-Posted Header Credits
-          The number of initial Non-Posted header credits for VC0, used
-          for all receive queue buffer configurations.
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
+          for all receive queue buffer configurations. This field is writable through
+          PEM(0..3)_CFG_WR. However, the application must not change this field.
 
       - name: DATA_CREDITS
         bits: 11..0
@@ -3190,19 +2897,16 @@ registers:
         reset: 0xd
         typical: 0xd
         description: |
-          "VC0 Non-Posted Data Credits
-          The number of initial Non-Posted data credits for VC0, used for
-          all receive queue buffer configurations.
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          VC0 non-posted data credits. The number of initial nonposted data credits for VC0, used
+          for all receive queue buffer configurations. This field is writable through
+          PEM(0..3)_CFG_WR. However, the application must not change this field.
 
 
   - name: PCIEEPVF(0..3)_CFG468
+    title: VC0 Completion Receive Queue Control Register
     address: 0x50000000750 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG468 = Four hundred sixty-ninth 32-bits of PCIE type 0 config space
-      (VC0 Completion Receive Queue Control)
+    description: This register contains the four hundred sixty-ninth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -3217,15 +2921,14 @@ registers:
         reset: 0x2
         typical: 0x2
         description: |
-          "VC0 Completion TLP Queue Mode
-          The operating mode of the Completion receive queue for VC0,
-          used only in the segmented-buffer configuration, writable
-          through PEM#_CFG_WR.
+          VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
+          used only in the segmented-buffer configuration.
           Only one bit can be set at a time:
-          o Bit 23: Bypass
-          o Bit 22: Cut-through
-          o Bit 21: Store-and-forward
-          However, the application must not change this field."
+          Bit 23 = Bypass
+          Bit 22 = Cut-through
+          Bit 21 = Store-and-forward
+          This field is writable through PEM(0..3)_CFG_WR. However, the application must not change
+          this field.
 
       - name: --
         bits: 20
@@ -3240,11 +2943,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "VC0 Completion Header Credits
-          The number of initial Completion header credits for VC0, used
-          for all receive queue buffer configurations.
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          VC0 completion header credits. The number of initial completion header credits for VC0,
+          used for all receive queue buffer configurations. This field is writable through
+          PEM(0..3)_CFG_WR. However, the application must not change this field.
 
       - name: DATA_CREDITS
         bits: 11..0
@@ -3252,19 +2953,16 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "VC0 Completion Data Credits
-          The number of initial Completion data credits for VC0, used for
-          all receive queue buffer configurations.
-          This field is writable through PEM#_CFG_WR.
-          However, the application must not change this field."
+          VC0 completion data credits. The number of initial completion data credits for VC0, used
+          for all receive queue buffer configurations. This field is writable through
+          PEM(0..3)_CFG_WR. However, the application must not change this field.
 
 
   - name: PCIEEPVF(0..3)_CFG490
+    title: VC0 Posted Buffer Depth Register
     address: 0x500000007A8 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG490 = Four hundred ninety-first 32-bits of PCIE type 0 config space
-      (VC0 Posted Buffer Depth)
+    description: This register contains the four hundred ninety-first 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..26
@@ -3279,9 +2977,8 @@ registers:
         reset: 0x66
         typical: 0x66
         description: |
-          VC0 Posted Header Queue Depth
-          Sets the number of entries in the Posted header queue for VC0
-          when using the segmented-buffer configuration
+          VC0 posted header queue depth. Sets the number of entries in the posted header queue for
+          VC0 when using the segmented-buffer configuration.
 
       - name: --
         bits: 15..14
@@ -3296,17 +2993,15 @@ registers:
         reset: 0xf6
         typical: 0xf6
         description: |
-          VC0 Posted Data Queue Depth
-          Sets the number of entries in the Posted data queue for VC0
-          when using the segmented-buffer configuration
+          VC0 posted data queue depth. Sets the number of entries in the posted data queue for VC0
+          when using the segmented-buffer configuration.
 
 
   - name: PCIEEPVF(0..3)_CFG491
+    title: VC0 Nonposted Buffer Depth Register
     address: 0x500000007AC | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG491 = Four hundred ninety-second 32-bits of PCIE type 0 config space
-      (VC0 Non-Posted Buffer Depth)
+    description: This register contains the four hundred ninety-second 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..26
@@ -3321,9 +3016,8 @@ registers:
         reset: 0x25
         typical: 0x25
         description: |
-          VC0 Non-Posted Header Queue Depth
-          Sets the number of entries in the Non-Posted header queue for
-          VC0 when using the segmented-buffer configuration
+          VC0 nonposted header queue depth. Sets the number of entries in the nonposted header queue
+          for VC0 when using the segmented-buffer configuration.
 
       - name: --
         bits: 15..14
@@ -3338,17 +3032,15 @@ registers:
         reset: 0x42
         typical: 0x42
         description: |
-          VC0 Non-Posted Data Queue Depth
-          Sets the number of entries in the Non-Posted data queue for VC0
-          when using the segmented-buffer configuration
+          VC0 nonposted data queue depth. Sets the number of entries in the nonposted data queue for
+          VC0 when using the segmented-buffer configuration.
 
 
   - name: PCIEEPVF(0..3)_CFG492
+    title: VC0 Completion Buffer Depth Register
     address: 0x500000007B0 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG492 = Four hundred ninety-third 32-bits of PCIE type 0 config space
-      (VC0 Completion Buffer Depth)
+    description: This register contains the four hundred ninety-third 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..26
@@ -3363,9 +3055,8 @@ registers:
         reset: 0x85
         typical: 0x85
         description: |
-          VC0 Completion Header Queue Depth
-          Sets the number of entries in the Completion header queue for
-          VC0 when using the segmented-buffer configuration
+          VC0 completion header queue depth. Sets the number of entries in the completion header
+          queue for VC0 when using the segmented-buffer configuration.
 
       - name: --
         bits: 15..14
@@ -3380,17 +3071,15 @@ registers:
         reset: 0x19b
         typical: 0x19b
         description: |
-          VC0 Completion Data Queue Depth
-          Sets the number of entries in the Completion data queue for VC0
-          when using the segmented-buffer configuration
+          VC0 completion data queue depth. Sets the number of entries in the completion data queue
+          for VC0 when using the segmented-buffer configuration.
 
 
   - name: PCIEEPVF(0..3)_CFG515
+    title: Port Logic Register (Gen2)
     address: 0x5000000080C | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG515 = Five hundred sixteenth 32-bits of PCIE type 0 config space
-      (Port Logic Register (Gen2))
+    description: This register contains the five hundred sixteenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
         bits: 31..21
@@ -3404,9 +3093,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          SEL_DE_EMPHASIS
-          Used to set the de-emphasis level for upstream ports.
+        description: SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
 
       - name: CTCRB
         bits: 19
@@ -3414,8 +3101,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Config Tx Compliance Receive Bit
-          When set to 1, signals LTSSM to transmit TS ordered sets
+          Config Tx compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
           with the compliance receive bit assert (equal to 1).
 
       - name: CPYTS
@@ -3424,19 +3110,15 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Config PHY Tx Swing
-          Indicates the voltage level the PHY should drive. When set to
-          1, indicates Full Swing. When set to 0, indicates Low Swing
+          Config PHY Tx swing. Indicates the voltage level that the PHY should drive. When set to 1,
+          indicates full swing. When set to 0, indicates low swing.
 
       - name: DSC
         bits: 17
         access: R/W/H
         reset: 0
         typical: 0
-        description: |
-          Directed Speed Change
-          o a write of '1' will initiate a speed change
-          o always reads a zero
+        description: Directed speed change. A write of 1 initiates a speed change; always reads as zero.
 
       - name: LE
         bits: 16..8
@@ -3444,13 +3126,10 @@ registers:
         reset: 0x8
         typical: 0x8
         description: |
-          Lane Enable
-          Indicates the number of lanes to check for exit from electrical
-          idle in Polling.Active and Polling.Compliance. 1 = x1, 2 = x2,
-          etc. Used to limit the maximum link width to ignore broken
-          lanes that detect a receiver, but will not exit electrical
-          idle and
-          would otherwise prevent a valid link from being configured.
+          Lane enable. Indicates the number of lanes to check for exit from electrical idle in
+          Polling.Active and Polling.Compliance. 0x1 = *1, 0x2 = *2, etc. Used to limit the maximum
+          link width to ignore broken lanes that detect a receiver, but will not exit electrical
+          idle and would otherwise prevent a valid link from being configured.
 
       - name: N_FTS
         bits: 7..0
@@ -3458,44 +3137,39 @@ registers:
         reset: 0x7d
         typical: 0x7d
         description: |
-          N_FTS
-          Sets the Number of Fast Training Sequences (N_FTS) that
-          the core advertises as its N_FTS during GEN2 Link training.
-          This value is used to inform the Link partner about the PHYs
-          ability to recover synchronization after a low power state.
-          Note: Do not set N_FTS to zero; doing so can cause the
-          LTSSM to go into the recovery state when exiting from
-          L0s.
+          N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
+          N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+          PHY's ability to recover synchronization after a low power state.
+          Do not set N_FTS to zero; doing so can cause the LTSSM to go into the recovery state when
+          exiting from L0s.
 
 
   - name: PCIEEPVF(0..3)_CFG516
+    title: PHY Status Register
     address: 0x50000000810 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG516 = Five hundred seventeenth 32-bits of PCIE type 0 config space
-      (PHY Status Register)
+    description: This register contains the five hundred seventeenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: PHY_STAT
         bits: 31..0
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: PHY Status
+        description: PHY status.
 
 
   - name: PCIEEPVF(0..3)_CFG517
+    title: PHY Control Register
     address: 0x50000000814 | a<<32
     bus: PCICONFIGEP
-    description: |
-      PCIE_CFG517 = Five hundred eighteenth 32-bits of PCIE type 0 config space
-      (PHY Control Register)
+    description: This register contains the five hundred eighteenth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: PHY_CTRL
         bits: 31..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: PHY Control
+        description: PHY control.
 
 
 

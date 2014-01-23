@@ -52,11 +52,11 @@ enums:
         value: 0x05 + a
         attributes:
           exempt_natural_alignment: "a"
-        description: Multichip debug output; see TBD.
+        description: Multichip debug output from global MCD wires.
 
       - name: LMC_ECC(0..3)
         value: 0x08 + a
-        description: LMC ECC error detected; see TBD.
+        description: LMC ECC error detected; see LMC(0..3)_INT.
 
       - name: CLK(0..3)
         value: 0x10 + a
@@ -64,7 +64,7 @@ enums:
 
       - name: USBH_VBUS_CTRL
         value: 0x14
-        description: USBH Vbus control; see TBD.
+        description: USBH Vbus control.
 
 
 registers:
@@ -218,7 +218,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Manual Trigger. Used only when SEL=0x1F.
+        description: Manual trigger. Used only when SEL=0x1F.
 
       - name: SEL
         bits: 4..0

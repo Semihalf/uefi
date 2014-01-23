@@ -591,7 +591,8 @@ registers:
         description: |
           Inbound ring packet threshold exceeded. Throws MIX_INTSN_E::MIX(0..1)_INT_IRTHRESH. When
           the pending number of inbound packets in system memory (IRCNT) has exceeded a programmable
-          threshold (IRHWM), this bit is set and the interrupt is generated.
+          threshold (IRHWM), this bit is set and the interrupt is generated. To service this
+          interrupt, the IRCNT must first be lowered below the IRHWM before the W1C to this field.
 
       - name: ORTHRESH
         bits: 2
@@ -601,7 +602,9 @@ registers:
         description: |
           Outbound ring packet threshold exceeded. Throws MIX_INTSN_E::MIX(0..1)_INT_ORTHRESH. When
           the pending number of outbound packets in system memory (ORCNT) has exceeded a
-          programmable threshold (ORHWM), this bit is set and the interrupt is generated.
+          programmable threshold (ORHWM), this bit is set and the interrupt is generated. To service
+          this interrupt, the ORCNT must first be lowered below the ORHWM before the W1C to this
+          field.
 
       - name: IDBLOVF
         bits: 1

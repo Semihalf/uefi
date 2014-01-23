@@ -127,7 +127,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to. See IOBDMA Operations.
 
 
   - name: FPA_ALLOC_LD_S
@@ -507,7 +507,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Set when a single-bit error is detected in the corresponding ram. Throws
+          Set when a double-bit error is detected in the corresponding RAM. Throws
           FPA_INTSN_E::FPA_ECC_RAM_DBE.
 
       - name: --
@@ -523,7 +523,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Set when a double-bit error is detected in the corresponding ram. Throws
+          Set when a single-bit error is detected in the corresponding RAM. Throws
           FPA_INTSN_E::FPA_ECC_RAM_SBE.
 
 
@@ -845,8 +845,9 @@ registers:
         reset: All-ones
         typical: 0x0
         description: |
-          Threshold. When the value of FPA_POOL(0..63)_AVAILABLE is equal to [THRESH] and a pointer
-          is allocated or deallocated, set interrupt FPA_POOL(0..63)_AVAILABLE[THRESH].
+          Threshold for the pool. When the value of FPA_POOL(0..63)_AVAILABLE[COUNT] is equal to
+          [THRESH] and a pointer is allocated or freed, set interrupt
+          FPA_INTSN_E::FPA_POOL(0..63)_THRESH.
 
 
   - name: FPA_POOL(0..63)_START_ADDR
@@ -995,7 +996,7 @@ registers:
         typical: --
         description: |
           Next address. The address of the next stack write. Must be initialized to
-          FPA_POOL(0..63)_STACK_BASE when stack is createdFPA_POOL(0..63)_STACK_BASE.
+          FPA_POOL(0..63)_STACK_BASE[ADDR] when stack is createdFPA_POOL(0..63)_STACK_BASE.
 
       - name: --
         bits: 6..0
@@ -1119,9 +1120,15 @@ registers:
         typical: 0
         description: |
           Disable aura tracking pointer allocates/returns.
-          0 = When FPA allocates a pointer from this aura, increment the count. When a pointer is
-          returned to FPA for this aura, decrement the count.
-          1 = Pointer allocations/returns will not change the count.
+          0 = When FPA allocates a pointer from this aura (including coprocessor or core requests),
+          increment the count. When a pointer is returned to FPA for this aura (including
+          coprocessor or core requests), decrement the count. Note that PKI may prefetch buffers it
+          later returns, this may result in the count intermittently being higher than the number of
+          buffers actually in use by packets visible to software.
+          1 = Pointer allocations/returns will not automatically change the count.
+          Note specific requests to change the count, including FPA_AURA(0..1023)_CNT_ADD,
+          PKO_SEND_AURA_S, or PKI_AURA(0..1023)_CFG[PKT_ADD] will be applied regardless of the
+          setting of this bit.
 
       - name: AVG_CON
         bits: 8..0
@@ -1226,8 +1233,8 @@ registers:
         description: |
           When FPA_AURA(0..1023)_CNT, after being modified, is equal to or crosses this value (i.e.
           value was greater than, then becomes less than, or the value was less than and becomes
-          greater than) the corresponding bit in FPA_AURA(0..1023)_INT is set. See Aura Quality of
-          Service.
+          greater than) the corresponding bit in FPA_AURA(0..1023)_INT is set. See Aura Count
+          Threshold Interrupts.
 
 
   - name: FPA_AURA(0..1023)_INT
@@ -1337,14 +1344,19 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Enable backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
+        description: |
+          Enable backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
+          PKI_AURA(0..1023)_CFG[ENA_BP] must also be set for backpressure to propagate through PKI.
 
       - name: RED_ENA
         bits: 38
         access: R/W
         reset: 0
         typical: 1
-        description: Enable RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
+        description: |
+          Enable RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
+          If set, RED is performed on core requests with FPA_ALLOC_LD_S[RED] set, and/or PKI
+          requests if PKI_AURA(0..1023)_CFG[ENA_BP] is set.
 
       - name: SHIFT
         bits: 37..32

@@ -1911,9 +1911,9 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word1<43:34>. The SSO group number used for the
           packet's ADD_WORK, with the two high bits correspond to an OCI node number, from
-          PKI_QPG_TBL(0..2047){[GRP_OK] or [GRP_BAD]}. GRP is calculated as part of the QPG calculations,
-          see QPG. Note that the GRP may be optionally selected differently if the packet has an error
-          (WQE[ERRLEV]!=NONE).
+          PKI_QPG_TBL(0..2047)[GRP_OK, GRP_BAD]. GRP is calculated as part of the QPG calculations,
+          see QPG. Note that the GRP may be optionally selected differently if the packet has an
+          error (WQE[ERRLEV]!=NONE).
           ...
 
       - name: LEN
@@ -2384,7 +2384,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PKI calculated bad CRC in the L2 Frame.
+          PKI calculated bad CRC in the L2 frame. Throws PKI_INTSN_E::PKI_GEN_CRCERR.
 
       - name: PKTDRP
         bits: 0
@@ -6006,21 +6006,27 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Enable RED drop between PASS and DROP levels.
+        description: |
+          Enable RED drop between PASS and DROP levels. See also
+          FPA_AURA(0..1023)_POOL_LEVELS[RED_ENA] and FPA_AURA(0..1023)_CNT_LEVELS[RED_ENA].
 
       - name: ENA_DROP
         bits: 17
         access: R/W
         reset: 0
         typical: --
-        description: Enable tail drop when maximum DROP level exceeded.
+        description: |
+          Enable tail drop when maximum DROP level exceeded. See also
+          FPA_AURA(0..1023)_POOL_LEVELS[DROP] and FPA_AURA(0..1023)_CNT_LEVELS[DROP].
 
       - name: ENA_BP
         bits: 16
         access: R/W
         reset: 0
         typical: --
-        description: Enable asserting backpressure on BPID when maximum DROP level exceeded.
+        description: |
+          Enable asserting backpressure on BPID when maximum DROP level exceeded. See also
+          FPA_AURA(0..1023)_POOL_LEVELS[RED_ENA] and FPA_AURA(0..1023)_CNT_LEVELS[RED_ENA].
 
       - name: --
         bits: 15..10

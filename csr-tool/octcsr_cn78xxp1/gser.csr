@@ -23,15 +23,17 @@ enums:
 
       - name: R_125G_REFCLK15625_KX
         value: 0x3
-        description: 1.25 Gbps at 156.25 MHz reference clock. KX mode.
+        description: |
+          1.25 Gbps at 156.25 MHz reference clock. KX mode.
+          Not Supported.
 
       - name: R_3125G_REFCLK15625_XAUI
         value: 0x4
         description: 3.125 Gbps at 156.25 MHz reference clock. XAUI mode.
 
-      - name: R_103215G_REFCLK15625_KR
+      - name: R_103125G_REFCLK15625_KR
         value: 0x5
-        description: 10.3215 Gbps at 156.25 MHz reference clock. KR mode.
+        description: 10.3125 Gbps at 156.25 MHz reference clock. KR mode.
 
       - name: R_125G_REFCLK15625_SGMII
         value: 0x6
@@ -39,7 +41,9 @@ enums:
 
       - name: R_5G_REFCLK15625_QSGMII
         value: 0x7
-        description: 5 Gbps at 156.25 MHz reference clock. QSGMII mode.
+        description: |
+          5 Gbps at 156.25 MHz reference clock. QSGMII mode.
+          Not Supported.
 
       - name: R_625G_REFCLK15625_RXAUI
         value: 0x8
@@ -145,9 +149,9 @@ registers:
         typical: --
         description: |
           When asserted, the PHY is held in reset. This bit is initialized as follows:
-          0 (not reset): Bootable PCIe, or OCI when GSER(0..13)_SPD[SPD] comes up in a bootable
+          0 (not reset): Bootable PCIe, or OCI when GSER(8..13)_SPD[SPD] comes up in a bootable
           mode.
-          1 (reset): Non-bootable PCIe, BGX/ILK, or OCI when GSER(0..13)_SPD[SPD] comes up in
+          1 (reset): Non-bootable PCIe, BGX/ILK, or OCI when GSER(8..13)_SPD[SPD] comes up in
           SW_MODE.
 
       - name: PHY_PD
@@ -252,11 +256,11 @@ registers:
     title: GSER General Purpose Scratch Register
     address: 0x1180090000020 + a*0x1000000
     bus: RSL
-    attributes:
-      dv_fc_scratch: "ALL"
     description: |
       These registers are only reset by hardware during chip cold reset.
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    attributes:
+      dv_fc_scratch: "ALL"
     fields:
       - name: --
         bits: 63..16
@@ -291,7 +295,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          For non-OCI links, indicates the BGX is in quad aggregation mode when GSER(0..13)_CFG[BGX]
+          For non-OCI links, indicates the BGX is in quad aggregation mode when GSER(0..7)_CFG[BGX]
           is also set. A single controller is used for all four lanes. For OCI links, this bit has
           no meaning.
 
@@ -301,7 +305,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          For non-OCI links, indicates the BGX is in dual aggregation mode when GSER(0..13)_CFG[BGX]
+          For non-OCI links, indicates the BGX is in dual aggregation mode when GSER(0..7)_CFG[BGX]
           is also set. A single controller is used for lanes 0 and 1 and another controller is used
           for lanes 2 and 3. For OCI links, this bit has no meaning.
 
@@ -321,7 +325,7 @@ registers:
         typical: --
         description: |
           For non-OCI links, indicates the GSER is configured for ILK/ILA mode. For OCI links
-          this bit will be set.  Only one of the BGX, ILA, or PCIE modes can be set at any 
+          this bit will be set.  Only one of the BGX, ILA, or PCIE modes can be set at any
           one time. For OCI links, this bit has no meaning.
 
       - name: PCIE
@@ -374,11 +378,13 @@ registers:
           0xB:    156.25 MHz 3.125Gbps    R_3125G_REFCLK15625_XAUI
           0xC:    156.25 MHz 5Gbps        R_5G_REFCLK125
           0xD:    156.25 MHz 6.25Gbps     R_625G_REFCLK15625_RXAUI
-          0xE:    126.25 MHz 10.3125Gbps  R_103215G_REFCLK15625_KR
+          0xE:    126.25 MHz 10.3125Gbps  R_103125G_REFCLK15625_KR
           0xF:               SW_MODE
-          Note that a value of 0xF is called SW_MODE. The OCI link does not come up configured in SW_MODE.
+          Note that a value of 0xF is called SW_MODE. The OCI link does not come up configured in
+          SW_MODE.
           (Software must do all the OCI GSER configuration to use OCI in the case of SW_MODE.)
-          When SPD!=SW_MODE after a chip cold reset, the hardware has initialized the following registers
+          When SPD!=SW_MODE after a chip cold reset, the hardware has initialized the following
+          registers
           (based on the OCI_SPD selection):
            o GSER(8..13)_LANE_MODE[LMODE]=Z
            o GSER(8..13)_PLL_P(Z)_MODE_0
@@ -394,10 +400,10 @@ registers:
   - name: GSER(0..13)_SRST
     title: GSER Soft Reset Register
     address: 0x1180090000090 + a*0x1000000
+    bus: RSL
     description: |
       These registers are only reset by hardware during chip cold reset.
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
-    bus: RSL
     fields:
       - name: --
         bits: 63..1
@@ -580,17 +586,21 @@ registers:
           0x0: R_25G_REFCLK100
           0x1: R_5G_REFCLK100
           0x2: R_8G_REFCLK100
-          0x3: R_125G_REFCLK15625_KX
+          0x3: R_125G_REFCLK15625_KX (not supported)
           0x4: R_3125G_REFCLK15625_XAUI
-          0x5: R_103215G_REFCLK15625_KR
+               For XAUI applications.
+          0x5: R_103125G_REFCLK15625_KR
+               For XFI, XLAUI, KR applications
           0x6: R_125G_REFCLK15625_SGMII
-          0x7: R_5G_REFCLK15625_QSGMII
+               For SGMII applications
+          0x7: R_5G_REFCLK15625_QSGMII (not supported)
           0x8: R_625G_REFCLK15625_RXAUI
+               For RXAUI, DXAUI applications
           0x9: R_25G_REFCLK125
           0xA: R_5G_REFCLK125
           0xB: R_8G_REFCLK125
           0xC - 0xF: reserved
-          This register is not used for PCIE configurations. For non-OCI links, this registers
+          This register is not used for PCIE configurations. For non-OCI links, this register
           defaults to R_625G_REFCLK15625_RXAUI. For OCI links, the value is mapped at reset from the
           GSER_SPD and the appropriate table updates are performed so the rate is obtained for the
           particular reference clock.
@@ -957,6 +967,7 @@ registers:
         description: |
           For links that are in PCIE mode, places the PHY in serial loopback mode, where the
           QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
+          This register has no meaning for links that don't support PCIe i.e. GSER(5..13).
 
 
   - name: GSER(0..13)_BR_RX(0..3)_CTL
@@ -1707,7 +1718,8 @@ registers:
       GSER per GSER_LMODE_E (0..11). Only one entry is used at any given time in a given GSER -
       the one selected by the corresponding GSER(0..13)_LANE_MODE[LMODE].
       These registers are only reset by hardware during chip cold reset.
-      The values of the CSR fields in these registers do not change during subsequent chip warm or soft resets.
+      The values of the CSR fields in these registers do not change during subsequent chip warm or
+      soft resets.
     attributes:
       exempt_natural_alignment: "b"
     fields:
@@ -1734,7 +1746,7 @@ registers:
           5.0G:     0x4    0x3    0x3
           6.25G:    NS     0x1    0x1
           8.0G:     0x3    0x2    NS
-          10.3215G: NS     NS     0x1
+          10.3125G: NS     NS     0x1
 
           A 'NS' indicates that the rate is not supported at the specified reference clock.
 
@@ -1753,7 +1765,7 @@ registers:
           5.0G:     0x3
           6.25G:    0x3
           8.0G:     0x5
-          10.3215G: 0x5
+          10.3125G: 0x5
 
       - name: PLL_PCS_DIV
         bits: 8..0
@@ -1771,7 +1783,7 @@ registers:
           5.0G:     0xA
           6.25G:    0xA
           8.0G:     0xA
-          10.3215G: 0x24
+          10.3125G: 0x24
 
 
   - name: GSER(0..13)_PLL_P(0..11)_MODE_1
@@ -1783,7 +1795,8 @@ registers:
       GSER per GSER_LMODE_E (0..11). Only one entry is used at any given time in a given GSER -
       the one selected by the corresponding GSER(0..13)_LANE_MODE[LMODE].
       These registers are only reset by hardware during chip cold reset.
-      The values of the CSR fields in this register do not change during subsequent chip warm or soft resets.
+      The values of the CSR fields in this register do not change during subsequent chip warm or
+      soft resets.
     attributes:
       exempt_natural_alignment: "b"
     fields:
@@ -1810,7 +1823,7 @@ registers:
           5.0G:     0x0    0x0     0x0
           6.25G:    NS     0x0     0x0
           8.0G:     0x0    0x0     NS
-          10.3215G: NS     NS      0x1
+          10.3125G: NS     NS      0x1
 
           A 'NS' indicates that the rate is not supported at the specified reference clock.
 
@@ -1830,7 +1843,7 @@ registers:
           5.0G:      0x2     0x1    0x2
           6.25G:     NS      0x2    0x2
           8.0G:      0x2     0x1    NS
-          10.3215G:  NS      NS     0x2
+          10.3125G:  NS      NS     0x2
 
           A 'NS' indicates that the rate is not supported at the specified reference clock.
 
@@ -1841,7 +1854,7 @@ registers:
         typical: --
         description: |
           Enable PCIE3 mode.
-          
+
           Recommended settings:
           0 = Any rate other than 8 Gbps.
           1 = Rate is equal to 8 Gbps.
@@ -1872,7 +1885,7 @@ registers:
           5.0G:     0x19   0x14    0x10
           6.25G:    NS     0x19    0x14
           8.0G:     0x28   0x20    NS
-          10.3215G: NS     NS      0x21
+          10.3125G: NS     NS      0x21
 
           A 'NS' indicates that the rate is not supported at the specified reference clock.
 
@@ -1884,7 +1897,8 @@ registers:
     description: |
       These are the RAW PCS per lane settings mode 0 registers. There is one register per
       lane (0..3) per GSER per GSER_LMODE_E (0..11). Only one entry is used at any given
-      time in a given GSER lane - the one selected by the corresponding GSER(0..13)_LANE_MODE[LMODE].
+      time in a given GSER lane - the one selected by the corresponding
+      GSER(0..13)_LANE_MODE[LMODE].
       These registers are only reset by hardware during chip cold reset.
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
     attributes:
@@ -1916,7 +1930,7 @@ registers:
           R_8G_REFCLK100:           0x3
           R_125G_REFCLK15625_KX:    0x0
           R_3125G_REFCLK15625_XAUI: 0x0
-          R_103215G_REFCLK15625_KR: 0x3
+          R_103125G_REFCLK15625_KR: 0x3
           R_125G_REFCLK15625_SGMII: 0x0
           R_5G_REFCLK15625_QSGMII:  0x0
           R_625G_REFCLK15625_RXAUI: 0x0
@@ -1940,7 +1954,7 @@ registers:
           R_8G_REFCLK100:           0x0
           R_125G_REFCLK15625_KX:    0x0
           R_3125G_REFCLK15625_XAUI: 0x0
-          R_103215G_REFCLK15625_KR: 0x0
+          R_103125G_REFCLK15625_KR: 0x0
           R_125G_REFCLK15625_SGMII: 0x0
           R_5G_REFCLK15625_QSGMII:  0x0
           R_625G_REFCLK15625_RXAUI: 0x0
@@ -1966,7 +1980,7 @@ registers:
           R_8G_REFCLK100:           0x0
           R_125G_REFCLK15625_KX:    0x2
           R_3125G_REFCLK15625_XAUI: 0x1
-          R_103215G_REFCLK15625_KR: 0x0
+          R_103125G_REFCLK15625_KR: 0x0
           R_125G_REFCLK15625_SGMII: 0x2
           R_5G_REFCLK15625_QSGMII:  0x0
           R_625G_REFCLK15625_RXAUI: 0x0
@@ -1992,7 +2006,7 @@ registers:
           R_8G_REFCLK100:           0x0
           R_125G_REFCLK15625_KX:    0x2
           R_3125G_REFCLK15625_XAUI: 0x1
-          R_103215G_REFCLK15625_KR: 0x0
+          R_103125G_REFCLK15625_KR: 0x0
           R_125G_REFCLK15625_SGMII: 0x2
           R_5G_REFCLK15625_QSGMII:  0x0
           R_625G_REFCLK15625_RXAUI: 0x0
@@ -2055,7 +2069,8 @@ registers:
     description: |
       These are the RAW PCS per lane settings mode 1 registers. There is one register per
       lane (0..3) per GSER per GSER_LMODE_E (0..11). Only one entry is used at any given
-      time in a given GSER lane - the one selected by the corresponding GSER(0..13)_LANE_MODE[LMODE].
+      time in a given GSER lane - the one selected by the corresponding
+      GSER(0..13)_LANE_MODE[LMODE].
       These registers are only reset by hardware during chip cold reset.
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
     attributes:
@@ -2085,7 +2100,7 @@ registers:
         typical: --
         description: |
           Manual DFE verses adaptive DFE mode.
-          
+
           Recommended settings:
           0 = Adaptive DFE (5 Gbps and higher)
           1 = Manual DFE, fixed tap (3.125 Gbps and lower).
@@ -2097,14 +2112,14 @@ registers:
         typical: --
         description: |
           CDR frequency gain.
-          
+
           Recommended settings:
           R_25G_REFCLK100:          0xA
           R_5G_REFCLK100:           0xA
           R_8G_REFCLK100:           0xB
           R_125G_REFCLK15625_KX:    0xC
           R_3125G_REFCLK15625_XAUI: 0xC
-          R_103215G_REFCLK15625_KR: 0xA
+          R_103125G_REFCLK15625_KR: 0xA
           R_125G_REFCLK15625_SGMII: 0xC
           R_5G_REFCLK15625_QSGMII:  0xC
           R_625G_REFCLK15625_RXAUI: 0xA
@@ -2119,14 +2134,14 @@ registers:
         typical: --
         description: |
           Phase accumulator adjust.
-          
+
           Recommended settings:
           R_25G_REFCLK100:          0x14
           R_5G_REFCLK100:           0x14
           R_8G_REFCLK100:           0x23
           R_125G_REFCLK15625_KX:    0x1E
           R_3125G_REFCLK15625_XAUI: 0x1E
-          R_103215G_REFCLK15625_KR: 0xF
+          R_103125G_REFCLK15625_KR: 0xF
           R_125G_REFCLK15625_SGMII: 0x1E
           R_5G_REFCLK15625_QSGMII:  0x1E
           R_625G_REFCLK15625_RXAUI: 0x14

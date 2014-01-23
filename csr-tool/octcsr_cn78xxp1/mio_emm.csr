@@ -1189,8 +1189,30 @@ registers:
         reset: 0x27ea818
         typical: --
         description: |
-          Number of CLK_CNT cycles to wait for the card to return a response, read data, or the
-          3-bit CRC status token.
+          Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
+          the
+          3-bit CRC status token following write data.  The following timeouts are detected:
+
+          1.  Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT]
+          2.  On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT]
+          3.  On a multi read command, expected data isn't returned causing
+          MIO_EMM_RSP_STS[BLK_TIMEOUT]
+          4.  On a write command, expected token to a write block isn't received causing
+          MIO_EMM_RSP_STS[BLK_TIMEOUT]
+          5.  If a stop command is issued by the hardware and no response is returned causing
+          MIO_EMM_RSP_STS[STP_TIMEOUT]
+
+          Issues this timeout doesn't cover are stalls induced by the card which are not limited by
+          the specifications.
+          For example, when a write multi command is issued to the card and a block (not the last)
+          is transferred
+          the card can "stall" the Octeon by forcing emmc_data<0> low for as long as it wants to
+          free up buffer space.
+          The second case is when the last block of a write or multi write is being transferred and
+          the card elects
+          to perform some background tasks.  The same stall mechanism with emmc_data<0> is used but
+          this can last for
+          an extend time period.
 
 
   - name: MIO_EMM_SAMPLE

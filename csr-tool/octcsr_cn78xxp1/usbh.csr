@@ -1789,13 +1789,14 @@ registers:
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UCTL_RST]
       This register can be used to disable ECC correction, insert ECC errors, and debug ECC
       failures.
-      The ECC_ERR* fields are captured when there are no outstanding ECC errors indicated in INTSTAT
-      and a new ECC error arrives. Prioritization for multiple events occurring on the same cycle is
-      indicated by the ECC_ERR_SOURCE enumeration: highest encoded value has highest priority.
-      The *ECC_*_DIS fields disable ECC correction; SBE and DBE errors are still reported. If
+      * The ECC_ERR* fields are captured when there are no outstanding ECC errors indicated in
+      INTSTAT and a new ECC error arrives. Prioritization for multiple events occurring on the same
+      cycle is indicated by the ECC_ERR_SOURCE enumeration: highest encoded value has highest
+      priority.
+      * The *ECC_*_DIS fields disable ECC correction; SBE and DBE errors are still reported. If
       *ECC_*_DIS = 0x1, then no data-correction occurs.
-      The *ECC_FLIP_SYND fields flip the syndrome<1:0> bits to generate single-bit/double-bit error
-      for testing.
+      * The *ECC_FLIP_SYND fields flip the syndrome<1:0> bits to generate single-bit/double-bit
+      error for testing.
       0x0 = normal operation
       0x1 = SBE on bit[0]
       0x2 = SBE on bit[1]
@@ -2837,8 +2838,7 @@ registers:
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
-      See xHCI specification v1.? section ?.
-      INTERNAL: TODO (new unreleased xHCI errata!)
+      See xHCI specification v1.1 section 5.4.11.2
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
       UAHC(0)_USBCMD[HCRST].
     fields:
@@ -2854,7 +2854,11 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: TODO unreleased xHCI errata
+        description: |
+          See section 5.4.11.2 of the XHCI Spec 1.1. If UAHC(0)_SUPTPRT2_DW2[BLC] is set to 0, then
+          HIRD timing
+          is applied to this field. If UAHC(0)_SUPTPRT2_DW2[BLC] is set to 1, then BESL timing is
+          applied to this field.
 
       - name: L1_TIMEOUT
         bits: 9..2
@@ -2862,7 +2866,16 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          TODO: unreleased xHCI errata
+          Timeout value for the L1 inactivity timer (LPM Timer). This
+          field shall be set to 00h by the assertion of PR to 1. Refer to section 4.23.5.1.1.1 (in
+          XHCI spec 1.1) for more
+          information on L1 Timeout operation. The following are permissible values:
+          Value Description
+          00h 128 us. (default)
+          01h 256 us.
+          02h 512 us.
+          03h 768 us.
+          FFh 65280 us.
 
       - name: HIRDM
         bits: 1..0
@@ -2940,8 +2953,9 @@ registers:
     address: 0x168000000042C + a*0x10000000000 + b*0x10
     bus: NCB
     description: |
-      See xHCI specification v1.? section ?.
-      INTERNAL: TODO: (new unreleased xHCI errata!)
+      The USB3 Port Hardware LPM Control register is reserved and shall be treated as RsvdP by
+      software.
+      See xHCI specification v1.1 section 5.4.11.1
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET] or UAHC(0)_GCTL[CORESOFTRESET] or
       UAHC(0)_USBCMD[HCRST].
     fields:
@@ -3450,9 +3464,7 @@ registers:
     title: xHCI Supported-Protocol-Capability (USB 2.0) Register 3
     address: 0x168000000089C + a*0x10000000000
     bus: NCB
-    description: |
-      See xHCI specification v1.? section 7.2.
-      INTERNAL: TODO (new unreleased xHCI errata!)
+    description: For information on this register, refer to the xHCI Specification, v1.1, section 7.2.
     fields:
       - name: --
         bits: 31..5
@@ -3561,9 +3573,7 @@ registers:
     title: xHCI Supported-Protocol-Capability (USB 3.0) Register 3
     address: 0x16800000008AC + a*0x10000000000
     bus: NCB
-    description: |
-      See xHCI specification v1.? section 7.2.
-      INTERNAL: TODO (new unreleased xHCI errata!)
+    description: See xHCI specification v1.1 section 7.2.
     fields:
       - name: --
         bits: 31..5
@@ -3730,6 +3740,7 @@ registers:
       operation. This register mainly contains AXI system-related configuration parameters. Do not
       change this register after the initial programming. The application must program this register
       before starting any transactions on AXI.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -3789,13 +3800,13 @@ registers:
       burst causing unnecessary performance reduction. This register allows the configuration of
       threshold and burst size control. This feature is enabled by [USBTXPKTCNTSEL].
       Transmit Path:
-        * The Tx Threshold is controlled by [USBTXPKTCNT], and the Tx burst size is
-          controlled by [USBMAXTXBURSTSIZE].
-        * Selecting optimal Tx FIFO size, Tx Threshold, and Tx burst size avoids Tx burst aborts due
-          to an underrun if the system bus is slower than USB. Once in a while an underrun is OK,
-          and there is no functional issue.
-        * A larger threshold will affect the performance, since the scheduler is idle during this
-          time.
+      * The TX Threshold is controlled by [USBTXPKTCNT], and the TX burst size is controlled by
+      [USBMAXTXBURSTSIZE].
+      * Selecting optimal TX FIFO size, TX Threshold, and Tx burst size avoids TX burst aborts due
+      to an underrun if the system bus is slower than USB. Once in a while an underrun is OK, and
+      there is no functional issue.
+      * A larger threshold affects the performance, since the scheduler is idle during this time.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -3888,12 +3899,12 @@ registers:
       burst causing unnecessary performance reduction. This register allows the configuration of
       threshold and burst size control. This feature is enabled by USBRXPKTCNTSEL.
       Receive Path:
-      The RX threshold is controlled by USBRXPKTCNT and the RX burst size is controlled by
+      * The RX threshold is controlled by USBRXPKTCNT and the RX burst size is controlled by
       USBMAXRXBURSTSIZE.
-      Selecting optimal RX FIFO size, RX Threshold, and RX burst size avoids RX burst aborts due to
-      overrun if the system bus is slower than USB. Once in a while overrun is OK, and there is no
-      functional issue.
-      Some devices do not support terminating ACK retry. With these devices, host cannot set ACK=0
+      * Selecting optimal RX FIFO size, RX Threshold, and RX burst size avoids RX burst aborts due
+      to overrun if the system bus is slower than USB. Once in a while overrun is OK, and there is
+      no functional issue.
+      * Some devices do not support terminating ACK retry. With these devices, host cannot set ACK=0
       and Retry=0 and do retry later and you have to retry immediately. For such devices, minimize
       retry due to underrun. Setting threshold and burst size guarantees this.
       A larger RX threshold affects the performance since the scheduler is idle during this time.
@@ -4121,10 +4132,10 @@ registers:
         typical: 0
         description: |
           Debug attach. When this bit is set:
-          SS link proceeds directly to the polling-link state (after RUN/STOP in the DCTL register
+          * SS link proceeds directly to the polling-link state (after RUN/STOP in the DCTL register
           is asserted) without checking remote termination.
-          Link LFPS polling timeout is infinite
-          Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish).
+          * Link LFPS polling timeout is infinite
+          * Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish).
 
       - name: RAMCLKSEL
         bits: 7..6
@@ -4157,8 +4168,7 @@ registers:
           LFPS polling burst time reduce to 100 ns
           LFPS warm reset receive reduce to 30 us.
           INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
-          directory
-          for the complete list.
+          directory for the complete list.
           0x2 = no TxEq training sequences are sent. Overrides bit<4>.
           0x3 = enables bits<0> and <1> scale-down timing values.
 
@@ -4273,7 +4283,7 @@ registers:
     title: UAHC Core Status Register
     address: 0x168000000C118 + a*0x10000000000
     bus: NCB
-    description: |
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4348,7 +4358,7 @@ registers:
     title: UAHC Global User Control Register 1
     address: 0x168000000C11C + a*0x10000000000
     bus: NCB
-    description: |
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4404,9 +4414,8 @@ registers:
     title: UAHC Core General-Purpose I/O Register
     address: 0x168000000C124 + a*0x10000000000
     bus: NCB
-    description: |
-      The application can use this register for general purpose input and output ports or for
-      debugging.
+    description: The application can use this register for general purpose input and output ports or for debugging.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4433,9 +4442,10 @@ registers:
       This is a read/write register containing the User ID. The power-on value for this register is
       specified as the User Identification Register. This register can be used in the following
       ways:
-        * To store the version or revision of your system
-        * To store hardware configurations that are outside the core
-        * As a scratch register
+      * To store the version or revision of your system
+      * To store hardware configurations that are outside of the core
+      * As a scratch register
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4452,9 +4462,9 @@ registers:
     address: 0x168000000C12C + a*0x10000000000
     bus: NCB
     description: |
-      This register provides a few options for the software to control the core behavior in the Host
-      mode.
-      Most of the options are used to improve host inter-operability with different devices.
+      This register provides a few options for the software to control the core behavior in the host
+      mode. Most of the options are used to improve host inter-operability with different devices.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4673,6 +4683,7 @@ registers:
       instances. Software can program this register to specify how USB 3.0 ports are connected to
       SuperSpeed USB instances. The UAHC only implements one SuperSpeed bus-instance, so this
       register should always be 0.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -4805,9 +4816,7 @@ registers:
         reset: 0x1
         typical: 0x1
         description: |
-          Power optimization mode.
-          Bit <0>: clock-gating feature available.
-          Bit <1>: hibernation feature available.
+          Power optimization mode: 1 = clock-gating, 0 = hibernation
 
       - name: SPRAM_TYP
         bits: 23
@@ -5214,9 +5223,9 @@ registers:
     address: 0x168000000C160 + a*0x10000000000
     bus: NCB
     description: |
-      These registers are for debug purposes. They provide debug information on the internal status
-      and state machines.
-      Global Debug Registers have design-specific information, and are used by for
+      This register is for debug purposes. It provides debug information on the internal status and
+      state machines. Global debug registers have design-specific information, and are used by for
+      state machines. Global debug registers have design-specific information, and are used by for
       debugging purposes. These registers are not intended to be used by the customer. If any
       debug assistance is needed for the silicon, contact Customer Support with a dump
       of these registers.
@@ -5247,16 +5256,16 @@ registers:
           FIFO/queue select/port-select.
           FIFO/queue select: <7:5> indicates the FIFO/queue type; <4:0> indicates the FIFO/queue
           number.
-          For example, 0x21 refers to RxFIFO_1, and 0x5E refers to TxReqQ_30.
-          0x1F-0x0: TxFIFO_31 to TxFIFO_0
-          0x3F-0x20: RxFIFO_31 to RxFIFO_0
-          0x5F-0x40: TxReqQ_31 to TxReqQ_0
-          0x7F-0x60: RxReqQ_31 to RxReqQ_0
-          0x9F-0x80: RxInfoQ_31 to RxInfoQ_0
-          0xA0: DescFetchQ
-          0xA1: EventQ
-          0xA2: ProtocolStatusQ
-          Port-select: <3:0> selects the port-number when accessing UAHC(0)_GDBGLTSSM.
+          For example, 0010_0001 refers to RxFIFO_1, and 0101_1110 refers to TxReqQ_30.
+          0001_1111-0000_0000: TxFIFO_31 to TxFIFO_0
+          0011_1111-0010_0000: RxFIFO_31 to RxFIFO_0
+          0101_1111-0100_0000: TxReqQ_31 to TxReqQ_0
+          0111_1111-0110_0000: RxReqQ_31 to RxReqQ_0
+          1001_1111-1000_0000: RxInfoQ_31 to RxInfoQ_0
+          1010_0000: DescFetchQ
+          1010_0001: EventQ
+          1010_0010: ProtocolStatusQ
+          Port-select: <3:0> selects the port-number when accessing UAH0_GDBGLTSSM.
 
 
   - name: UAHC(0)_GDBGLTSSM
@@ -5304,31 +5313,32 @@ registers:
         reset: 0x10440
         typical: --
         description: |
-          Debug PIPE Status.
-          <17> Elastic Buffer Mode
-          <16> Tx Elec Idle
-          <15> Rx Polarity
-          <14> Tx Detect Rx/Loopback
-          <13:11> LTSSM PHY command State
-          0x0: PHY_IDLE (PHY command state is in IDLE. No PHY request pending)
-          0x1: PHY_DET (Request to start Receiver detection)
-          0x2: PHY_DET_3 (Wait for Phy_Status (Receiver detection))
-          0x3: PHY_PWR_DLY (Delay Pipe3_PowerDown P0 -> P1/P2/P3 request)
-          0x4: PHY_PWR_A (Delay for internal logic)
-          0x5: PHY_PWR_B (Wait for Phy_Status(Power state change request))
-          <10:9> Power Down
-          <8> RxEq Train
-          <7:6> Tx Deemphasis
-          <5:3> LTSSM Clock State
-          0x0: CLK_NORM (PHY is in non-P3 state and PCLK is running)
-          0x1: CLK_TO_P3 (P3 entry request to PHY)
-          0x2: CLK_WAIT1 (Wait for Phy_Status (P3 request))
-          0x3: CLK_P3 (PHY is in P3 and PCLK is not running)
-          0x4: CLK_TO_P0 (P3 exit request to PHY)
-          0x5: CLK_WAIT2 (Wait for Phy_Status (P3 exit request))
-          <2> Tx Swing
-          <1> Rx Termination
-          <0> Tx Ones/Zeros
+          Debug PIPE status.
+          <17> Elastic buffer mode
+          <16> Tx elec idle
+          <15> Rx polarity
+          <14> Tx Detect Rx/loopback
+          <13:11> LTSSM PHY command state
+          000 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending.)
+          001 = PHY_DET (Request to start receiver detection)
+          010 = PHY_DET_3 (Wait for Phy_Status (receiver detection))
+          011 = PHY_PWR_DLY (delay Pipe3_PowerDown
+          P0 -> P1/P2/P3 request)
+          100 = PHY_PWR_A (delay for internal logic)
+          101 = PHY_PWR_B (wait for Phy_Status(Power-state change request))
+          <10:9> Power down
+          <8> RxEq train
+          <7:6> Tx de-emphasis
+          <5:3> LTSSM clock state
+          000 = CLK_NORM (PHY is in non-P3 state and PCLK is running)
+          001 = CLK_TO_P3 (P3 entry request to PHY)
+          010 = CLK_WAIT1 (wait for Phy_Status (P3 request))
+          011 = CLK_P3 (PHY is in P3 and PCLK is not running)
+          100 = CLK_TO_P0 (P3 exit request to PHY)
+          101 = CLK_WAIT2 (Wait for Phy_Status (P3 exit request))
+          <2> Tx swing
+          <1> Rx termination
+          <0> Tx 1s/0s
 
 
   - name: UAHC(0)_GDBGLNMCC
@@ -5485,10 +5495,11 @@ registers:
     bus: NCB
     description: |
       This register specifies the HighSpeed USB instance number to which each USB 2.0 port is
-      connected. By default, USB 2.0 ports are evenly distributed among all HighSpeed USB
-      instances. Software can program this register to specify how USB 2.0 ports are connected
-      to HighSpeed USB instances.
-      The UAHC only implements one HighSpeed bus-instance, so this register should always be 0.
+      connected. By default, USB 2.0 ports are evenly distributed among all HighSpeed USB instances.
+      Software can program this register to specify how USB 2.0 ports are connected to HighSpeed USB
+      instances. The UAHC only implements one HighSpeed bus-instance, so this register should always
+      be 0.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -5514,11 +5525,10 @@ registers:
     description: |
       This register specifies the FullSpeed/LowSpeed USB instance number to which each USB 1.1 port
       is connected. By default, USB 1.1 ports are evenly distributed among all FullSpeed/LowSpeed
-      USB instances.
-      Software can program this register to specify how USB 1.1 ports are connected to
-      FullSpeed/LowSpeed USB instances.
-      The UAHC only implements one FullSpeed/LowSpeed bus-instance, so this register should always
-      be 0.
+      USB instances. Software can program this register to specify how USB 1.1 ports are connected
+      to FullSpeed/LowSpeed USB instances. The UAHC only implements one FullSpeed/LowSpeed bus-
+      instance, so this register should always be 0x0.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -5722,10 +5732,10 @@ registers:
           times. The USB standard timeout value for full-speed operation is 16 to 18 (inclusive) bit
           times. The application must program this field based on the speed of connection.
           The number of bit times added per PHY clock are:
-          high-speed operation:
+          * high-speed operation:
           - one 30-MHz PHY clock = 16 bit times
           - one 60-MHz PHY clock = 8 bit times
-          full-speed operation:
+          * full-speed operation:
           - one 30-MHz PHY clock = 0.4 bit times
           - one 60-MHz PHY clock = 0.2 bit times
           - one 48-MHz PHY clock = 0.25 bit times
@@ -5735,8 +5745,8 @@ registers:
     title: UAHC USB2 I2C Control Register
     address: 0x168000000C240 + a*0x10000000000 + b*0x4
     bus: NCB
-    description: |
-      Reserved for future use.
+    description: This register is reserved for future use.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -5970,10 +5980,10 @@ registers:
         typical: 0
         description: |
           LFPS P0 align. When set to 1:
-          the core deasserts LFPS transmission on the clock edge that it requests Phy power state 0
-          when exiting U1, U2, or U3 low power states. Otherwise, LFPS transmission is asserted one
-          clock earlier.
-          the core requests symbol transmission two pipe3_rx_pclks periods after the PHY asserts
+          * the core deasserts LFPS transmission on the clock edge that it requests Phy power state
+          0 when exiting U1, U2, or U3 low power states. Otherwise, LFPS transmission is asserted
+          one clock earlier.
+          * the core requests symbol transmission two pipe3_rx_pclks periods after the PHY asserts
           PhyStatus as a result of the PHY switching from P1 or P2 state to P0 state.
           For USB 3.0 host, this is not required.
 
@@ -6212,6 +6222,7 @@ registers:
       the entire packet is completed. The register size corresponds to the number of configured USB
       bus instances; for example, in the default configuration, there are 3 USB bus instances (1
       SuperSpeed, 1 HighSpeed, and 1 FullSpeed/LowSpeed).
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -6245,9 +6256,9 @@ registers:
       packets, HighSpeed/FullSpeed/LowSpeed gets priority for 1 packet, SuperSpeed gets priority for
       4 packets, HighSpeed/FullSpeed/LowSpeed gets priority for 1 packet, and so on.
       If FIFOs from both speed groups are not requesting access simultaneously then,
-      If SuperSpeed got grants 4 out of the last 4 times, then HighSpeed/FullSpeed/LowSpeed get the
-      priority on any future request.
-      If HighSpeed/FullSpeed/LowSpeed got the grant last time, SuperSpeed gets the priority on the
+      * If SuperSpeed got grants 4 out of the last 4 times, then HighSpeed/FullSpeed/LowSpeed get
+      the priority on any future request.
+      * If HighSpeed/FullSpeed/LowSpeed got the grant last time, SuperSpeed gets the priority on the
       next request.
       If there is a valid request on either SuperSpeed or HighSpeed/FullSpeed/LowSpeed, a grant is
       always awarded; there is no idle.
@@ -6295,6 +6306,7 @@ registers:
       addition, it enables running SOF or ITP frame timer counters completely off of the REF_CLK.
       This facilitates hardware LPM in host mode with the SOF or ITP counters being run off of the
       REF_CLK signal.
+    internal: |
       INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
       Reset by: IOI reset (srst_n) or UCTL(0)_CTL[UAHC_RESET].
     fields:
@@ -6309,13 +6321,13 @@ registers:
           REF_CLK. Set this bit to 1 only if GFLADJ_REFCLK_LPM_SEL is set to 1 and the fractional
           component of 240/ref_frequency is greater than or equal to 0.5. Example:
           If the REF_CLK is 19.2 MHz then,
-          GUCTL.REF_CLK_PERIOD = 52
-          GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = (240/19.2) = 12.5
-          GFLADJ.GFLADJ_REFCLK_240MHZDECR_PLS1 = 1
+          * GUCTL.REF_CLK_PERIOD = 52
+          * GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = (240/19.2) = 12.5
+          * GFLADJ.GFLADJ_REFCLK_240MHZDECR_PLS1 = 1
           If the REF_CLK is 24 MHz then,
-          GUCTL.REF_CLK_PERIOD = 41
-          GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = (240/24) = 10
-          GFLADJ.GFLADJ_REFCLK_240MHZDECR_PLS1 = 0
+          * GUCTL.REF_CLK_PERIOD = 41
+          * GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = (240/24) = 10
+          * GFLADJ.GFLADJ_REFCLK_240MHZDECR_PLS1 = 0
 
       - name: GFLADJ_REFCLK_240MHZ_DECR
         bits: 30..24
@@ -6330,14 +6342,14 @@ registers:
           GFLADJ_REFCLK_240MHZ_DECR = 240/ref_clk_frequency
           Examples:
           If the REF_CLK is 24 MHz then,
-          GUCTL.REF_CLK_PERIOD = 41
-          GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = 240/24 = 10
+          * GUCTL.REF_CLK_PERIOD = 41
+          * GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = 240/24 = 10
           If the REF_CLK is 48 MHz then,
-          GUCTL.REF_CLK_PERIOD = 20
-          GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = 240/48 = 5
+          * GUCTL.REF_CLK_PERIOD = 20
+          * GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = 240/48 = 5
           If the REF_CLK is 17 MHz then,
-          GUCTL.REF_CLK_PERIOD = 58
-          GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = 240/17 = 14
+          * GUCTL.REF_CLK_PERIOD = 58
+          * GFLADJ.GFLADJ_REFCLK_240MHZ_DECR = 240/17 = 14
 
       - name: GFLADJ_REFCLK_LPM_SEL
         bits: 23
@@ -6371,25 +6383,25 @@ registers:
         description: |
           This field indicates the frame length adjustment to be applied when SOF/ITP counter is
           running off of the REF_CLK. This register value is used to adjust:
-          ITP interval when GCTL[SOFITPSYNC] is set to 1
-          both SOF and ITP interval when GLADJ.GFLADJ_REFCLK_LPM_SEL is set to 1.
+          * ITP interval when GCTL[SOFITPSYNC] is set to 1
+          * both SOF and ITP interval when GLADJ.GFLADJ_REFCLK_LPM_SEL is set to 1.
           This field must be programmed to a non-zero value only if GFLADJ_REFCLK_LPM_SEL is set to
           1 or GCTL.SOFITPSYNC is set to 1.
           The value is derived as below:
           FLADJ_REF_CLK_FLADJ = ((125000/ref_clk_period_integer) - (125000/ref_clk_period)) *
           ref_clk_period
           where,
-          the ref_clk_period_integer is the integer value of the REF_CLK period got by truncating
+          * the ref_clk_period_integer is the integer value of the REF_CLK period got by truncating
           the decimal (fractional) value that is programmed in the GUCTL.REF_CLK_PERIOD field
-          the ref_clk_period is the REF_CLK period including the fractional value.
+          * the ref_clk_period is the REF_CLK period including the fractional value.
           Examples:
           If the REF_CLK is 24 MHz then,
-          GUCTL.REF_CLK_PERIOD = 41
-          GFLADJ.GLADJ_REFCLK_FLADJ = ((125000/41) -(125000/41.6666))*41.6666 = 2032 (ignoring the
+          * GUCTL.REF_CLK_PERIOD = 41
+          * GFLADJ.GLADJ_REFCLK_FLADJ = ((125000/41) -(125000/41.6666))*41.6666 = 2032 (ignoring the
           fractional value)
           If the REF_CLK is 48 MHz then,
-          GUCTL.REF_CLK_PERIOD = 20
-          GFLADJ.GLADJ_REFCLK_FLADJ = ((125000/20) -(125000/20.8333))*20.8333 = 5208 (ignoring the
+          * GUCTL.REF_CLK_PERIOD = 20
+          * GFLADJ.GLADJ_REFCLK_FLADJ = ((125000/20) -(125000/20.8333))*20.8333 = 5208 (ignoring the
           fractional value)
 
       - name: GFLADJ_30MHZ_REG_SEL

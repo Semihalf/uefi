@@ -12,12 +12,12 @@ enums:
     attributes:
       width: "4"
     description: |
-      Enumerates the different algorithms for managing auras, see PKO_SEND_AURA_S[ALG]. When a
-      PKO_SEND_AURA_S is not present in the PKO send descriptor, these algorithms are not relevant.
-      When using an algorithm other than NOP, generally FPA_AURA(0..1023)_CFG[PTR_DIS] is set as
-      otherwise FPA will use its default algorithm of aura_cnt = aura_cnt - mbufs_freed. Mbufs_freed
-      is the number of FPA frees during all PKO processing of all prior PKO_SEND_GATHER_S and
-      PKO_SEND_LINK_S subdescriptors in this PKO send descriptor.
+      Enumerates the amount to decrement the FPA aura count during PKO_SEND_AURA_S
+      processing - see PKO_SEND_AURA_S[ALG]. When a PKO_SEND_AURA_S is present, the
+      hardware decrements the FPA count for aura PKO_SEND_AURA_S[AURA] by the amount
+      defined below. mbufs_freed is the number of FPA frees during all PKO processing
+      of all PKO_SEND_GATHER_S and PKO_SEND_LINK_S subdescriptors that are present prior
+      to this PKO_SEND_AURA_S in the PKO SEND descriptor.
     values:
       - name: NOP
         value: 0x0
@@ -1061,24 +1061,31 @@ structs:
   - name: PKO_SEND_AURA_S
     title: PKO Send Aura Subdescriptor Structure
     description: |
-      The Send Aura subdescriptor frees aura counts, and changes the aura number for following FPA
-      free operations. See Send Aura. The aura change occurs after processing all previous
-      subdescriptors in the send descriptor. FPA buffer frees from the PKO processing of
-      PKO_SEND_GATHER_S and/or PKO_SEND_LINK_S and/or PKO_SEND_JUMP_S subdescriptors that are prior
-      to the first PKO_SEND_AURA_S in a PKO SEND descriptor are subject to FPA-automatic aura
-      updates (to aura PKO_SEND_HDR_S[aura]). After the first PKO_SEND_AURA_S in a PKO SEND
-      descriptor, FPA buffer frees from the PKO processing of later PKO_SEND_GATHER_S and/or
-      PKO_SEND_LINK_S and/or PKO_SEND_JUMP_S subdescriptors do not cause FPA-automatic aura updates.
-      If no PKO_SEND_AURA_Ss are present in a PKO SEND descriptor, all FPA buffer frees from the PKO
-      processing of the PKO SEND descriptor are subject to FPA-automatic aura updates (to aura
-      PKO_SEND_HDR_S[aura]).
+      The Send Aura subdescriptor can decrement aura counts, and changes the aura number for
+      subsequent FPA free operations due to processing this PKO SEND descriptor. See Send Aura.
+      The aura count change occurs after processing all previous
+      subdescriptors in the send descriptor. All FPA buffer frees from the PKO processing of
+      PKO_SEND_GATHER_S, PKO_SEND_LINK_S, PKO_SEND_JUMP_S, and/or PKO_SEND_FREE_S
+      subdescriptors are subject to FPA-automatic aura updates (which is normally
+      to decrement the aura count by one, since FPA_AURA(0..1023)_CFG[PTR_DIS] is normally clear),
+      irrespective of whether any PKO_SEND_AURA_S's are present in the PKO SEND.
+      PKO_SEND_AURA_S[AURA] becomes the aura used for the FPA frees caused by PKO_SEND_GATHER_S,
+      PKO_SEND_LINK_S, and PKO_SEND_FREE_S subdescriptors that follow in the PKO SEND descriptor,
+      and the last PKO_SEND_AURA_S[AURA] can be the aura used for an FPA free due to a
+      PKO_SEND_JUMP_S.
+      PKO_SEND_AURA_S's can also optionally decrement the FPA count for aura PKO_SEND_AURA_S[AURA]
+      by an amount determined by PKO_SEND_AURA_S[ALG] and PKO_SEND_AURA_S[OFFSET].
+      If no PKO_SEND_AURA_S's are present in a PKO SEND descriptor, all FPA buffer frees from the
+      PKO
+      processing of the PKO SEND descriptor are to aura PKO_SEND_HDR_S[AURA].
     fields:
       - name: OFFSET
         bits: 7..0
         attributes:
           const: "--"
         description: |
-          Constant value to subtract from aura [AURA]. Might represent outside FCS bytes appended to
+          Constant value to subtract from the FPA count for aura [AURA]. Might represent outside FCS
+          bytes appended to
           a packet when coupled with PKO_SEND_HDR_S[TOTAL], or directly indicate an aura quantum in
           other cases, for example. [OFFSET] must be zero when [ALG] is NOP.
 
@@ -1093,7 +1100,8 @@ structs:
         attributes:
           const: "--"
         description: |
-          Adder algorithm. Determines how aura [AURA] is modified by this PKO_SEND_AURA_S.
+          Adder algorithm. Determines how the FPA count for aura [AURA] is modified by this
+          PKO_SEND_AURA_S.
           Enumerated in PKO_AURAALG_E.
 
       - name: SUBDC4
@@ -1108,9 +1116,15 @@ structs:
         attributes:
           const: "--"
         description: |
-          Aura number including FPA node. The aura to modify. Note that the upper two bits
-          correspond to a node number. This aura number is used for any subsequent subdescriptor
-          free operations until the next PKO_SEND_AURA_S. See Freeing Buffers.
+          Aura number including FPA node. The aura to use for subsequent FPA frees in this
+          PKO SEND descriptor and whose FPA aura count may be decremented by this PKO_SEND_AURA_S.
+          Note that the upper two bits correspond to a node number. Until the next PKO_SEND_AURA_S,
+          [AURA] is used for all FPA frees resulting from the processing of subsequent
+          PKO_SEND_GATHER_S
+          and PKO_SEND_LINK_S subdescriptors in this PKO SEND. The last [AURA] in a
+          PKO SEND is also the aura used for an FPA free resulting from processing a
+          PKO_SEND_JUMP_S.
+          See Freeing Buffers.
 
       - name: --
         bits: 63..60
@@ -1125,8 +1139,7 @@ structs:
     description: |
       The Send CRC subdescriptor specifies a CRC calculation be performed during transmission. See
       Send CRC.
-      There may be up to N (two?) PKO_SEND_CRC_Ss per packet send descriptor. PKO_SEND_CRC_S
-      constraints:
+      There may be up to 3 PKO_SEND_CRC_Ss per packet send descriptor. PKO_SEND_CRC_S constraints:
       PKO_SEND_CRC_S subdescriptors must precede all PKO_SEND_LINK_S, PKO_SEND_GATHER_S, and
       PKO_SEND_IMM_S subdescriptors in the packet descriptor.
       No two PKO_SEND_CRC_S subdescriptors can overlap. Two PKO_SEND_CRC_Ss would overlap if any
@@ -1563,10 +1576,11 @@ structs:
       - name: AURA
         bits: 59..48
         description: |
-          Aura including FPA node. Specifies the aura that buffers will be returned to. The upper
-          two bits correspond to a node number; see TBDIPD-Chapter-OCI-Sec. This aura number until
-          the next PKO_SEND_AURA_S will be used for any automatic free operations, see Freeing
-          Buffers.
+          Aura including FPA node. Specifies the aura that buffers will be returned to and whose
+          count may be decremented by subsequent subdescriptors. The upper two bits correspond to an
+          OCI node
+          number. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees needed while
+          processing the PKO_SEND. See Freeing Buffers.
 
       - name: --
         bits: 63..60
@@ -1581,30 +1595,43 @@ structs:
       The Send Immediate subdescriptor requests that bytes immediately following this PKO_SEND_IMM_S
       in the PKO send descriptor are to be included in the packet. The next subdescriptor following
       this PKO_SEND_IMM_S (when one exists) will follow the immediate bytes, after rounding up to be
-      a multiple of 8 bytes. If PKO_SEND_HDR_S[LE] is set, the immediate bytes are in little-endian
+      a multiple of 8 bytes. If PKO_SEND_IMM_S[LE] is set, the immediate bytes are in little-endian
       format in the descriptor, else standard big-endian format. See Send Immediate.
-      There may be multiple PKO_SEND_IMM_Ss in one PKO Send Descriptor, but at least one
-      PKO_SEND_GATHER_S must be between any two consecutive PKO_SEND_IMM_Ss. A PKO_SEND_IMM_S must
+      There may be multiple PKO_SEND_IMM_Ss in one PKO Send Descriptor.  A PKO_SEND_IMM_S must
       not be present in a PKO send descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
       prior PKO_SEND_IMM_S[SIZE]s exceeds PKO_SEND_HDR_S[TOTAL] less [SIZE] from descriptor. (i.e.
       All supplied immediate bytes must be used in the packet.) A PKO_SEND_IMM_S must not be present
       after a PKO_SEND_LINK_S in a PKO send descriptor.
     fields:
       - name: --
-        bits: 43..0
+        bits: w0(42..0)
         attributes:
           const: "--"
         description: Reserved.
 
+      - name: --
+        bits: w0(43)
+        attributes:
+          chip_pass: "o78<2.0"
+          const: "--"
+        description: Reserved.
+
+      - name: LE
+        bits: w0(43)
+        attributes:
+          chip_pass: "o78>=2.0"
+          const: "--"
+        description: Send immediate data is in little-endian format. This bit is in pass 2 only.
+
       - name: SUBDC4
-        bits: 47..44
+        bits: w0(47..44)
         attributes:
           const: "0xF"
         description: |
           Subdescriptor code. Indicates Send Immediate. Enumerated in PKO_SENDSUBDC_E::IMM.
 
       - name: SIZE
-        bits: 63..48
+        bits: w0(63..48)
         attributes:
           const: "--"
         description: |
@@ -1645,7 +1672,7 @@ structs:
           When set, PKO will free the buffer indicated by [ADDR] after it has read all
           subdescriptors from it. When clear, PKO will not free the buffer indicated by [ADDR]. The
           aura the buffer is freed to is the last PKO_SEND_AURA_S[AURA] in the packet descriptor, or
-          if none present PKO_SEND_HDR_S[AURA].
+          PKO_SEND_HDR_S[AURA] if no PKO_SEND_AURA_S's are present.
 
       - name: SUBDC3
         bits: 47..45
@@ -12037,17 +12064,17 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Each PTGF can support up to 100Gbs. The total aggregate rate across all FIFOs (including
-          the NULL) should never exceed 250Gbs. This field represents the rate for each active FIFO
+          Each PTGF can support up to 100 Gb/s. The total aggregate rate across all FIFOs (including
+          the NULL) should never exceed 250 Gb/s. This field represents the rate for each active
+          FIFO
           in PEB; thus the calculation for throughput is a function of the SIZE field and whether or
           not the FIFO is assigned to a MAC in PKO_MAC(0..27)_CFG.
-          RATE: Throughput
-          0x0: 6.25Gb/s
-          0x1: 12.5 Gb/s
-          0x2: 25 Gb/s
-          0x3: 50 Gb/s
-          0x4: 100 Gb/s
-          Note: 0x5-0x7 are illegal RATE values and should not be used.
+          0x0 = 6.25 Gb/s.
+          0x1 = 12.5 Gb/s.
+          0x2 = 25 Gb/s.
+          0x3 = 50 Gb/s.
+          0x4 = 100 Gb/s.
+          else reserved.
 
       - name: SIZE
         bits: 2..0

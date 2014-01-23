@@ -18539,7 +18539,7 @@ $CIU_INT(0..7,32..33)_EN0_W1C   Address=(0x1070000002200+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    BOOTDMA    R/W1C/H 0          0          Write 1 to clear Boot bus DMA engines Interrupt   
                                                   enable
- <62>    --         R/W1C   0          0          Reserved.                                         
+ <62>    --         RAZ     0          0          Reserved.                                         
  <61>    IPDPPTHR   R/W1C/H 0          0          Write 1 to clear IPD per-port counter threshold   
                                                   interrupt enable
  <60>    POWIQ      R/W1C/H 0          0          Write 1 to clear POW IQ interrupt enable          
@@ -18579,20 +18579,20 @@ $CIU_INT(0..7,32..33)_EN1_W1C   Address=(0x1070000002208+a*0x10)   Bus=(NCB)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    RST        R/W1C/H 0          0          Write 1 to clear MIO RST interrupt enable         
- <62:60> --         R/W1C   0x0        0x0        Reserved.                                         
- <59:56> --         R/W1C/H 0x0        0x0        Reserved for DFM expansion                        
- <55:53> --         R/W1C   0x0        0x0        Reserved for LMC expansion                        
+ <62:60> --         RAZ     0x0        0x0        Reserved.                                         
+ <59:56> --         RAZ     0x0        0x0        Reserved for DFM expansion                        
+ <55:53> --         RAZ     0x0        0x0        Reserved for LMC expansion                        
  <52>    LMC0       R/W1C/H 0          0          Write 1 to clear LMC0 interrupt enable            
- <51>    --         R/W1C   0          0          Reserved.                                         
+ <51>    --         RAZ     0          0          Reserved.                                         
  <50>    PEM2       R/W1C/H 0          0          Write 1 to clear PEM2 interrupt enable            
  <49>    PEM1       R/W1C/H 0          0          Write 1 to clear PEM1 interrupt enable            
  <48>    PEM0       R/W1C/H 0          0          Write 1 to clear PEM0 interrupt enable            
  <47>    PTP        R/W1C/H 0          0          Write 1 to clear PTP interrupt enable             
  <46>    AGL        R/W1C/H 0          0          Write 1 to clear AGL interrupt enable             
- <45:44> --         R/W1C   0x0        0x0        Reserved for future Interlaken                    
- <43:41> --         R/W1C   0x0        0x0        Reserved.                                         
+ <45:44> --         RAZ     0x0        0x0        Reserved for future Interlaken                    
+ <43:41> --         RAZ     0x0        0x0        Reserved.                                         
  <40>    DPI_DMA    R/W1C/H 0          0          Write 1 to clear DPI_DMA interrupt enable         
- <39:38> --         R/W1C   0x0        0x0        Reserved for GMX expansion                        
+ <39:38> --         RAZ     0x0        0x0        Reserved for GMX expansion                        
  <37>    AGX1       R/W1C/H 0          0          Write 1 to clear GMX1 interrupt enable            
  <36>    AGX0       R/W1C/H 0          0          Write 1 to clear GMX0 interrupt enable            
  <35>    DPI        R/W1C/H 0          0          Write 1 to clear DPI interrupt enable             
@@ -18614,7 +18614,7 @@ $CIU_INT(0..7,32..33)_EN1_W1C   Address=(0x1070000002208+a*0x10)   Bus=(NCB)
  <19>    NAND       R/W1C/H 0          0          Write 1 to clear NAND / EMMC Controller interrupt 
                                                   enable
                                                   Attribute: -exempt_keyword=True.
- <18>    --         R/W1C/H 0          0          Reserved for additional Interrupts                
+ <18>    --         RAZ     0          0          Reserved for additional Interrupts                
  <17>    USB1       R/W1C/H 0          0          Write 1s to clear USBDRD1 summary interrupt enable
  <16>    --         RAZ     --         --         Reserved for Third UART interrupt                 
  <15:4>  --         RAZ     --         --         Reserved.                                         
@@ -18634,7 +18634,7 @@ $CIU_INT(0..3)_EN4_0_W1C   Address=(0x1070000002C80+a*0x10)   Bus=(NCB)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    BOOTDMA    R/W1C/H 0          0          Write 1 to clear Boot bus DMA engines Interrupt enable
- <62>    --         R/W1C   0          0          Reserved.                                         
+ <62>    --         RAZ     0          0          Reserved.                                         
  <61>    IPDPPTHR   R/W1C/H 0          0          Write 1 to clear IPD per-port counter threshold interrupt enable
  <60>    POWIQ      R/W1C/H 0          0          Write 1 to clear POW IQ interrupt enable          
  <59>    TWSI2      R/W1C/H 0          0          Write 1 to clear 2nd TWSI Interrupt enable        
@@ -18669,20 +18669,20 @@ $CIU_INT(0..3)_EN4_1_W1C   Address=(0x1070000002C88+a*0x10)   Bus=(NCB)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    RST        R/W1C/H 0          0          Write 1 to clear MIO RST interrupt enable         
- <62:60> --         R/W1C   0x0        0x0        Reserved.                                         
- <59:56> --         R/W1C/H 0x0        0x0        Reserved for DFM expansion                        
- <55:53> --         R/W1C   0x0        0x0        Reserved for LMC expansion                        
+ <62:60> --         RAZ     0x0        0x0        Reserved.                                         
+ <59:56> --         RAZ     0x0        0x0        Reserved for DFM expansion                        
+ <55:53> --         RAZ     0x0        0x0        Reserved for LMC expansion                        
  <52>    LMC0       R/W1C/H 0          0          Write 1 to clear LMC0 interrupt enable            
- <51>    --         R/W1C   0          0          Reserved.                                         
+ <51>    --         RAZ     0          0          Reserved.                                         
  <50>    PEM2       R/W1C/H 0          0          Write 1 to clear PEM2 interrupt enable            
  <49>    PEM1       R/W1C/H 0          0          Write 1 to clear PEM1 interrupt enable            
  <48>    PEM0       R/W1C/H 0          0          Write 1 to clear PEM0 interrupt enable            
  <47>    PTP        R/W1C/H 0          0          Write 1 to clear PTP interrupt enable             
  <46>    AGL        R/W1C/H 0          0          Write 1 to clear AGL interrupt enable             
- <45:44> --         R/W1C   0x0        0x0        Reserved for future Interlaken                    
- <43:41> --         R/W1C   0x0        0x0        Reserved.                                         
+ <45:44> --         RAZ     0x0        0x0        Reserved for future Interlaken                    
+ <43:41> --         RAZ     0x0        0x0        Reserved.                                         
  <40>    DPI_DMA    R/W1C/H 0          0          Write 1 to clear DPI_DMA interrupt enable         
- <39:38> --         R/W1C   0x0        0x0        Reserved for GMX expansion                        
+ <39:38> --         RAZ     0x0        0x0        Reserved for GMX expansion                        
  <37>    AGX1       R/W1C/H 0          0          Write 1 to clear GMX1 interrupt enable            
  <36>    AGX0       R/W1C/H 0          0          Write 1 to clear GMX0 interrupt enable            
  <35>    DPI        R/W1C/H 0          0          Write 1 to clear DPI interrupt enable             
@@ -18704,7 +18704,7 @@ $CIU_INT(0..3)_EN4_1_W1C   Address=(0x1070000002C88+a*0x10)   Bus=(NCB)
  <19>    NAND       R/W1C/H 0          0          Write 1 to clear NAND / EMMC Controller interrupt 
                                                   enable
                                                   Attribute: -exempt_keyword=True.
- <18>    --         R/W1C/H 0          0          Reserved for additional Interrupts                
+ <18>    --         RAZ     0          0          Reserved for additional Interrupts                
  <17>    USB1       R/W1C/H 0          0          Write 1s to clear USBDRD1 summary interrupt enable
  <16>    --         RAZ     --         --         Reserved for Third UART interrupt                 
  <15:4>  --         RAZ     --         --         Reserved.                                         
@@ -18726,7 +18726,7 @@ $CIU_INT(0..7,32..33)_EN0_W1S   Address=(0x1070000006200+a*0x10)   Bus=(NCB)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    BOOTDMA    R/W1S/H 0          0          Write 1 to set Boot bus DMA engines Interrupt enable
- <62>    --         R/W1S/H 0          0          Reserved.                                         
+ <62>    --         RAZ     0          0          Reserved.                                         
  <61>    IPDPPTHR   R/W1S/H 0          0          Write 1 to set IPD per-port counter threshold interrupt enable
  <60>    POWIQ      R/W1S/H 0          0          Write 1 to set POW IQ interrupt enable            
  <59>    TWSI2      R/W1S/H 0          0          Write 1 to set 2nd TWSI Interrupt enable          
@@ -18765,20 +18765,20 @@ $CIU_INT(0..7,32..33)_EN1_W1S   Address=(0x1070000006208+a*0x10)   Bus=(NCB)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    RST        R/W1S/H 0          0          Write 1 to set MIO RST interrupt enable           
- <62:60> --         R/W1S   0x0        0x0        Reserved.                                         
- <59:56> --         R/W1S/H 0x0        0x0        Reserved for DFM expansion                        
- <55:53> --         R/W1S   0x0        0x0        Reserved for LMC expansion                        
+ <62:60> --         RAZ     0x0        0x0        Reserved.                                         
+ <59:56> --         RAZ     0x0        0x0        Reserved for DFM expansion                        
+ <55:53> --         RAZ     0x0        0x0        Reserved for LMC expansion                        
  <52>    LMC0       R/W1S/H 0          0          Write 1 to set LMC0 interrupt enable              
- <51>    --         R/W1S   0          0          Reserved.                                         
+ <51>    --         RAZ     0          0          Reserved.                                         
  <50>    PEM2       R/W1S/H 0          0          Write 1 to set PEM2 interrupt enable              
  <49>    PEM1       R/W1S/H 0          0          Write 1 to set PEM1 interrupt enable              
  <48>    PEM0       R/W1S/H 0          0          Write 1 to set PEM0 interrupt enable              
  <47>    PTP        R/W1S/H 0          0          Write 1 to set PTP interrupt enable               
  <46>    AGL        R/W1S/H 0          0          Write 1 to set AGL interrupt enable               
- <45:44> --         R/W1S   0x0        0x0        Reserved for future Interlaken                    
- <43:41> --         R/W1S   0x0        0x0        Reserved.                                         
+ <45:44> --         RAZ     0x0        0x0        Reserved for future Interlaken                    
+ <43:41> --         RAZ     0x0        0x0        Reserved.                                         
  <40>    DPI_DMA    R/W1S/H 0          0          Write 1 to set DPI_DMA interrupt enable           
- <39:38> --         R/W1S   0x0        0x0        Reserved for GMX expansion                        
+ <39:38> --         RAZ     0x0        0x0        Reserved for GMX expansion                        
  <37>    AGX1       R/W1S/H 0          0          Write 1 to set GMX1 interrupt enable              
  <36>    AGX0       R/W1S/H 0          0          Write 1 to set GMX0 interrupt enable              
  <35>    DPI        R/W1S/H 0          0          Write 1 to set DPI interrupt enable               
@@ -18800,7 +18800,7 @@ $CIU_INT(0..7,32..33)_EN1_W1S   Address=(0x1070000006208+a*0x10)   Bus=(NCB)
  <19>    NAND       R/W1S/H 0          0          Write 1 to set NAND / EMMC Controller interrupt   
                                                   enable
                                                   Attribute: -exempt_keyword=True.
- <18>    --         R/W1S/H 0          0          Reserved for additional Interrupts                
+ <18>    --         RAZ     0          0          Reserved for additional Interrupts                
  <17>    USB1       R/W1S/H 0          0          Write 1s to set USBDRD1 summary interrupt enable  
  <16>    --         RAZ     --         --         Reserved for Third UART interrupt                 
  <15:4>  --         RAZ     --         --         Reserved.                                         
@@ -18821,7 +18821,7 @@ $CIU_INT(0..3)_EN4_0_W1S   Address=(0x1070000006C80+a*0x10)   Bus=(NCB)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    BOOTDMA    R/W1S/H 0          0          Write 1 to set Boot bus DMA engines Interrupt     
                                                   enable
- <62>    --         R/W1S/H 0          0          Reserved.                                         
+ <62>    --         RAZ     0          0          Reserved.                                         
  <61>    IPDPPTHR   R/W1S/H 0          0          Write 1 to set IPD per-port counter threshold     
                                                   interrupt enable
  <60>    POWIQ      R/W1S/H 0          0          Write 1 to set POW IQ interrupt enable            
@@ -18858,20 +18858,20 @@ $CIU_INT(0..3)_EN4_1_W1S   Address=(0x1070000006C88+a*0x10)   Bus=(NCB)
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63>    RST        R/W1S/H 0          0          Write 1 to set MIO RST interrupt enable           
- <62:60> --         R/W1S   0x0        0x0        Reserved.                                         
- <59:56> --         R/W1S/H 0x0        0x0        Reserved for DFM expansion                        
- <55:53> --         R/W1S   0x0        0x0        Reserved for LMC expansion                        
+ <62:60> --         RAZ     0x0        0x0        Reserved.                                         
+ <59:56> --         RAZ     0x0        0x0        Reserved for DFM expansion                        
+ <55:53> --         RAZ     0x0        0x0        Reserved for LMC expansion                        
  <52>    LMC0       R/W1S/H 0          0          Write 1 to set LMC0 interrupt enable              
- <51>    --         R/W1S   0          0          Reserved.                                         
+ <51>    --         RAZ     0          0          Reserved.                                         
  <50>    PEM2       R/W1S/H 0          0          Write 1 to set PEM2 interrupt enable              
  <49>    PEM1       R/W1S/H 0          0          Write 1 to set PEM1 interrupt enable              
  <48>    PEM0       R/W1S/H 0          0          Write 1 to set PEM0 interrupt enable              
  <47>    PTP        R/W1S/H 0          0          Write 1 to set PTP interrupt enable               
  <46>    AGL        R/W1S/H 0          0          Write 1 to set AGL interrupt enable               
- <45:44> --         R/W1S   0x0        0x0        Reserved for future Interlaken                    
- <43:41> --         R/W1S   0x0        0x0        Reserved.                                         
+ <45:44> --         RAZ     0x0        0x0        Reserved for future Interlaken                    
+ <43:41> --         RAZ     0x0        0x0        Reserved.                                         
  <40>    DPI_DMA    R/W1S/H 0          0          Write 1 to set DPI_DMA interrupt enable           
- <39:38> --         R/W1S   0x0        0x0        Reserved for GMX expansion                        
+ <39:38> --         RAZ     0x0        0x0        Reserved for GMX expansion                        
  <37>    AGX1       R/W1S/H 0          0          Write 1 to set GMX1 interrupt enable              
  <36>    AGX0       R/W1S/H 0          0          Write 1 to set GMX0 interrupt enable              
  <35>    DPI        R/W1S/H 0          0          Write 1 to set DPI interrupt enable               
@@ -18893,7 +18893,7 @@ $CIU_INT(0..3)_EN4_1_W1S   Address=(0x1070000006C88+a*0x10)   Bus=(NCB)
  <19>    NAND       R/W1S/H 0          0          Write 1 to set NAND / EMMC Controller interrupt   
                                                   enable
                                                   Attribute: -exempt_keyword=True.
- <18>    --         R/W1S/H 0          0          Reserved for additional Interrupts                
+ <18>    --         RAZ     0          0          Reserved for additional Interrupts                
  <17>    USB1       R/W1S/H 0          0          Write 1s to set USBDRD1 summary interrupt enable  
  <16>    --         RAZ     --         --         Reserved for Third UART interrupt                 
  <15:4>  --         RAZ     --         --         Reserved.                                         
@@ -21879,8 +21879,29 @@ $MIO_EMM_WDOG   Address=(0x1180000002088)   Bus=(RSL)
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:26> --      RAZ     0x0        --         Reserved.                                         
- <25:0>  CLK_CNT R/W     0x27EA818  --         Number of CLK_CNT cycles to wait for the card to return a
-                                               response, read data, or the 3-bit CRC status token.
+ <25:0>  CLK_CNT R/W     0x27EA818  --         Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
+                                               the 3-bit CRC status token following write data.  The following timeouts are detected:
+                                               
+                                               1. Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT]
+                                               
+                                               2. On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT]
+                                               
+                                               3. On a multi read command, expected data isn't returned causing
+                                               MIO_EMM_RSP_STS[BLK_TIMEOUT]
+                                               
+                                               4. On a write command, expected token to a write block isn't received causing
+                                               MIO_EMM_RSP_STS[BLK_TIMEOUT]
+                                               
+                                               5. If a stop command is issued by the hardware and no response is returned causing
+                                               MIO_EMM_RSP_STS[STP_TIMEOUT]
+                                               
+                                               Issues this timeout doesn't cover are stalls induced by the card which are not limited by
+                                               the specifications.  For example, when a write multi command is issued to the card and a
+                                               block (not the last) is transferred the card can "stall" the Octeon by forcing
+                                               emmc_data<0> low for as long as it wants to free up buffer space.  The second case is when
+                                               the last block of a write or multi write is being transferred and the card elects to
+                                               perform some background tasks.  The same stall mechanism with emmc_data<0> is used but
+                                               this can last for an extend time period.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -34920,7 +34941,7 @@ $SLI_INT_SUM   Address=((0x11F0000010330), (0x330))   Bus=(NCB, PEXP)
  <8>     M0_UP_B0  R/W1C/H 0          0          Received Unsupported P-TLP for Bar0 from MAC 0.   
                                                  This occurs when the BAR 0 address space is
                                                  disabeled.
- <7:6>   --        R/W1C/H 0x0        0x0        Reserved.                                         
+ <7:6>   --        RAZ     0x0        0x0        Reserved.                                         
  <5>     PTIME     RO/H    0          0          Packet Timer has an interrupt. Which rings can    
                                                  be found in SLI_PKT_TIME_INT.
  <4>     PCNT      RO/H    0          0          Packet Counter has an interrupt. Which rings can  
@@ -34928,7 +34949,7 @@ $SLI_INT_SUM   Address=((0x11F0000010330), (0x330))   Bus=(NCB, PEXP)
  <3>     IOB2BIG   R/W1C/H 0          0          A requested IOBDMA is to large.                   
  <2>     BAR0_TO   R/W1C/H 0          0          BAR0 R/W to a NCB device did not receive          
                                                  read-data/commit in 0xffff core clocks.
- <1>     --        R/W1C/H 0          0          Reserved.                                         
+ <1>     --        RAZ     0          0          Reserved.                                         
  <0>     RML_TO    R/W1C/H 0          0          A read or write transfer did not complete         
                                                  within 0xffff core clocks.
 -----------------------------------------------------------------------------------------------------------------------------------

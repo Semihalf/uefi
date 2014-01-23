@@ -137,7 +137,7 @@ enums:
         value: 0x03
         attributes:
           see_enumeration: "GPIO_INTSN_E"
-        description: GPIO interrupts; see .
+        description: GPIO interrupts; see General Purpose I/O (GPIO).
 
       - name: SW
         value: 0x04
@@ -149,61 +149,61 @@ enums:
         value: 0x05
         attributes:
           see_enumeration: "MPI_INTSN_E"
-        description: MPI interrupts; see .
+        description: MPI interrupts; see Multiprocessor Peripheral Interface (MPI).
 
       - name: RST
         value: 0x06
         attributes:
           see_enumeration: "RST_INTSN_E"
-        description: Reset interrupts; see .
+        description: Reset interrupts; see Reser Unit (RST).
 
       - name: MIO_PTP
         value: 0x07
         attributes:
           see_enumeration: "MIO_PTP_INTSN_E"
-        description: PTP interrupts; see .
+        description: PTP interrupts; see Precision Time Protocol (PTP).
 
       - name: MIO_UART
         value: 0x08
         attributes:
           see_enumeration: "MIO_UART_INTSN_E"
-        description: UART interrupts; see .
+        description: UART interrupts; see UART interface (UART).
 
       - name: MIO_EMM
         value: 0x09
         attributes:
           see_enumeration: "MIO_EMM_INTSN_E"
-        description: eMMC interrupts; see .
+        description: eMMC interrupts; see eMMC interface (EMM).
 
       - name: MIO_BOOT
         value: 0x0A
         attributes:
           see_enumeration: "MIO_BOOT_INTSN_E"
-        description: Boot-Bus interrupts; see .
+        description: Boot-Bus interrupts; see Boot-Bus Interface (BOOT).
 
       - name: MIO_TWS
         value: 0x0B
         attributes:
           see_enumeration: "TWS_INTSN_E"
-        description: TWSI interrupts; see .
+        description: TWSI interrupts; see TWSI interface (TWSI).
 
       - name: LAP(0..1)
         value: 0x0C + a
         attributes:
           see_enumeration: "LAP_INTSN_E"
-        description: LAP interrupts; see .
+        description: LAP interrupts; see Look-aside Processor Unit (LAP).
 
       - name: MIX
         value: 0x10
         attributes:
           see_enumeration: "MIX_INTSN_E"
-        description: MIX interrupts; see .
+        description: MIX interrupts; see MIX unit for BGX (MIX).
 
       - name: OCX
         value: 0x11
         attributes:
           see_enumeration: "OCX_INTSN_E"
-        description: OCX interrupts; see .
+        description: OCX interrupts; see OCX block.
 
       - name: LBK
         value: 0x12
@@ -215,7 +215,7 @@ enums:
         value: 0x14
         attributes:
           see_enumeration: "ILK_INTSN_E"
-        description: Interlaken interrupts; see .
+        description: Interlaken interrupts; see Interlaken (ILK) Interface.
 
       - name: ILA
         value: 0x17
@@ -227,13 +227,13 @@ enums:
         value: 0x1E
         attributes:
           see_enumeration: "SLI_INTSN_E"
-        description: SLI MSI interrupts; see CN78XX Receiving Message-Signaled Interrupts.
+        description: SLI MSI interrupts; see Switch Logic Interface Unit (SLI).
 
       - name: SLI
         value: 0x1F
         attributes:
           see_enumeration: "SLI_INTSN_E"
-        description: SLI interrupts; see .
+        description: SLI interrupts; see  Switch Logic Interface Unit (SLI).
 
       - name: KEY
         value: 0x20
@@ -245,19 +245,19 @@ enums:
         value: 0x28
         attributes:
           see_enumeration: "FPA_INTSN_E"
-        description: FPA interrupts; see .
+        description: FPA interrupts; see Free Pool Unit (FPA).
 
       - name: FPA_AURA
         value: 0x29
         attributes:
           see_enumeration: "FPA_INTSN_E"
-        description: FPA aura interrupts; see .
+        description: FPA aura interrupts; see Hyper Finite Automata (HFA).
 
       - name: DFA
         value: 0x37
         attributes:
-          see_enumeration: "DFA_INTSN_E on TBD"
-        description: HFA interrupts; see .
+          see_enumeration: "DFA_INTSN_E"
+        description: HFA interrupts; see Hyper Finite Automata (HFA).
 
       - name: ZIP
         value: 0x38
@@ -269,55 +269,55 @@ enums:
         value: 0x44
         attributes:
           see_enumeration: "PKI_INTSN_E"
-        description: Packet input interrupts; see .
+        description: Packet input interrupts; see Packet Input Unit (PKI).
 
       - name: HNA
         value: 0x47
         attributes:
-          see_enumeration: "HNA_INTSN_E on TBD"
-        description: HNA interrupts; see .
+          see_enumeration: "HNA_INTSN_E"
+        description: HNA interrupts; see Hyper Nondeterministic Automata (HNA).
 
       - name: PKO
         value: 0x50
         attributes:
           see_enumeration: "PKO_INTSN_E"
-        description: PKO interrupts; see .
+        description: PKO interrupts; see Packet-Output Processing Unit (PKO).
 
       - name: PKO_Q
         value: 0x52
         attributes:
           see_enumeration: "PKO_INTSN_E"
-        description: PKO queue interrupts; see .
+        description: PKO queue interrupts; see Packet-Output Processing Unit (PKO).
 
       - name: TIM
         value: 0x58
         attributes:
           see_enumeration: "TIM_INTSN_E"
-        description: Timer interrupts; see .
+        description: Timer interrupts; see Timer Unit (TIM).
 
       - name: SSO_TGQ
         value: 0x60
         attributes:
           see_enumeration: "SSO_INTSN_E"
-        description: SSO group interrupts; see .
+        description: SSO group interrupts; see Schedule/Synchronize/Order Unit (SSO).
 
       - name: SSO_EXE
         value: 0x61
         attributes:
           see_enumeration: "SSO_INTSN_E"
-        description: SSO group interrupts; see .
+        description: SSO group interrupts; see Schedule/Synchronize/Order Unit (SSO).
 
       - name: SSO
         value: 0x67
         attributes:
           see_enumeration: "SSO_INTSN_E"
-        description: SSO interrupts; see .
+        description: SSO interrupts; see Schedule/Synchronize/Order Unit (SSO).
 
       - name: UCTL(0)
         value: 0x68 + a
         attributes:
           see_enumeration: "UCTL_INTSN_E"
-        description: USB controller interrupts; see .
+        description: USB controller interrupts; see Bridge Unit between IOI and USB(UCTL).
 
       - name: RAD
         value: 0x70
@@ -329,13 +329,13 @@ enums:
         value: 0x80
         attributes:
           see_enumeration: "L2C_INTSN_E"
-        description: L2C interrupts; see .
+        description: L2C interrupts; see Coherent Memory Interconnect and Level 2 Cache Controller (L2C).
 
       - name: LMC(0..3)
         value: 0x88 + a
         attributes:
           see_enumeration: "LMC_INTSN_E"
-        description: LMC interrupts; see .
+        description: LMC interrupts; see Local DDR3 memory controller (LMC).
 
       - name: OCLA(0..5)
         value: 0xA8 + a
@@ -347,43 +347,43 @@ enums:
         value: 0xC0 + a
         attributes:
           see_enumeration: "PEM_INTSN_E"
-        description: PEM interrupts; see .
+        description: PEM interrupts; see PCI Express MAC (PEM).
 
       - name: OSM
         value: 0xDC
         attributes:
           see_enumeration: "OSM_INTSN_E"
-        description: OSM interrupts; see .
+        description: OSM interrupts; see On-Chip Search Memory (OSM).
 
       - name: ASE
         value: 0xDD
         attributes:
           see_enumeration: "ASE_INTSN_E"
-        description: ASE interrupts; see .
+        description: ASE interrupts; see Algorithmic Search Engine (ASE).
 
       - name: DPI
         value: 0xDF
         attributes:
           see_enumeration: "DPI_INTSN_E"
-        description: DPI interrupts; see .
+        description: DPI interrupts; see DMA Packet Interface Unit (DPI).
 
       - name: BGX(0..5)
         value: 0xE0 + a
         attributes:
           see_enumeration: "BGX_INTSN_E"
-        description: BGX interface interrupts; see .
+        description: BGX interface interrupts; see BGX Common Ethernet Interface (BGX).
 
       - name: IOBN
         value: 0xF0
         attributes:
           see_enumeration: "IOBN_INTSN_E"
-        description: IOBN interrupts; see .
+        description: IOBN interrupts; see I/O Bridge (IOBN).
 
       - name: IOBP
         value: 0xF1
         attributes:
           see_enumeration: "IOBP_INTSN_E"
-        description: IOBP interrupts; see .
+        description: IOBP interrupts; see I/O Bridge (IOBP).
 
 
 structs:
@@ -1174,7 +1174,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Cores to receive interrupts via this IDT.
+        description: Bitmask of which cores receive interrupts via this IDT.
 
 
   - name: CIU_IDT(0..255)_IO
@@ -1357,7 +1357,7 @@ registers:
         typical: 0
         attributes:
           regtest_force: "0"
-        description: Enable interrupt delivery. Must be set for PP_NUM and IP_NUM to have effect.
+        description: Enable interrupt delivery.
 
       - name: RAW
         bits: 0
