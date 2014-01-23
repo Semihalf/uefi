@@ -384,7 +384,20 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
         case BDK_QLM_MODE_ILK:
             is_ilk = 1;
-            lane_mode = 1; // FIXME: ILK lane mode
+            if (baud_mhz <= 1250)
+                lane_mode = 0x3; /* R_125G_REFCLK15625_KX */
+            else if (baud_mhz <= 2500)
+                lane_mode = 0x0; /* R_25G_REFCLK100 */
+            else if (baud_mhz <= 3125)
+                lane_mode = 0x4; /* R_3125G_REFCLK15625_XAUI */
+            else if (baud_mhz <= 5000)
+                lane_mode = 0x7; /* R_5G_REFCLK15625_QSGMII */
+            else if (baud_mhz <= 6250)
+                lane_mode = 0x8; /* R_625G_REFCLK15625_RXAUI */
+            else if (baud_mhz <= 8000)
+                lane_mode = 0x2; /* R_8G_REFCLK100 */
+            else
+                lane_mode = 0x5; /* R_103215G_REFCLK15625_KR */
             break;
         case BDK_QLM_MODE_SGMII:
             is_bgx = 1;
