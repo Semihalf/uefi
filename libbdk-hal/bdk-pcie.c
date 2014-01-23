@@ -247,6 +247,10 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
     bdk_pciercx_cfg032_t pciercx_cfg032;
     bdk_pciercx_cfg448_t pciercx_cfg448;
 
+    /* Simulation doesn't support PCIe host */
+    if (bdk_is_simulation())
+        return -1;
+
     /* For CN7XXX we must turn the PEM on */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pcie_port), pemoor, ==, 1, 100000))
     {
@@ -379,9 +383,12 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     pemx_bist_status.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u64)
         bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status.u64);
-    pemx_bist_status2.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS2(pcie_port));
-    if (pemx_bist_status2.u64)
-        bdk_dprintf("PCIe: BIST2 FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status2.u64);
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        pemx_bist_status2.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS2(pcie_port));
+        if (pemx_bist_status2.u64)
+            bdk_dprintf("PCIe: BIST2 FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status2.u64);
+    }
 
     /* Initialize the config space CSRs */
     __bdk_pcie_rc_initialize_config_space(node, pcie_port);
