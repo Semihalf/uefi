@@ -8,7 +8,7 @@ require("strict")
 require("utils")
 require("menu")
 local bit64 = require("bit64")
-local node = 0
+local node = octeon.MASTER_NODE
 
 local function gpio_config()
     local gpio = menu.prompt_number("GPIO number")

@@ -6,7 +6,7 @@ require("fileio")
 require("menu")
 
 local option = ""
-local node = 0
+local node = octeon.MASTER_NODE
 
 while (option ~= "quit") do
     local m = menu.new("Flash Menu")

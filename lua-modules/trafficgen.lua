@@ -5,7 +5,6 @@
 require("strict")
 require("utils")
 local readline = require("readline")
-local node = 0
 
 local GOTO_TOP      = "\27[1;1H"   -- ESC[1;1H begins output at the top of the terminal (line 1)
 local GOTO_BOTTOM   = "\27[100;1H" -- ESC[1;1H begins output at the bottom of the terminal (actually line 100)
@@ -418,7 +417,7 @@ function TrafficGen.new()
         assert (#args == 0, "No arguments expected")
         printf(SCROLL_FULL .. GOTO_BOTTOM)
         io.flush()
-        octeon.c.bdk_reset_octeon(node)
+        octeon.c.bdk_reset_octeon(octeon.MASTER_NODE)
     end
 
     function self:cmd_l2_stats(port_range, args)

@@ -4,7 +4,7 @@ require("strict")
 require("utils")
 require("menu")
 
-local node = 0
+local node = octeon.MASTER_NODE
 
 local function twsi_scan(twsi_bus)
     printf("TWSI%d: Scanning bus...\n", twsi_bus)

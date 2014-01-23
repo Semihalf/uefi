@@ -20,7 +20,7 @@ repeat
     end
     -- Build a list of QLMs showing the current config. Selecting them
     -- does nothing
-    local node = 0
+    local node = octeon.MASTER_NODE
     local num_qlms = octeon.c.bdk_qlm_get_num(node)
     for qlm_num = 0, num_qlms-1 do
         local mode = octeon.c.bdk_qlm_get_mode(node, qlm_num)

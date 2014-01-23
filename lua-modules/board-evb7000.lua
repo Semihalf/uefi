@@ -48,7 +48,7 @@ octeon.csr.gmxx_rxaui_ctl(0).write(1)
 -- either SGMII or QSGMII
 --
 local function setup_vitesse_phy(mdio_bus, phy_addr, qsgmii)
-    local node = 0
+    local node = octeon.MASTER_NODE
     -- Select "G" registers
     octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0x10)
     -- Reg 19G, bit 15:14
@@ -247,7 +247,7 @@ local function wr_masked(node, mdio_bus, phy_addr, reg, value, mask)
 end
 
 local function vitesse_program(mdio_bus, phy_addr)
-    local node = 0
+    local node = octeon.MASTER_NODE
     printf("Programming Vitesse PHY at address %d\n", phy_addr)
     octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 31, 0x0010)
     octeon.c.bdk_mdio_write(node, mdio_bus, phy_addr, 18, 0x800f)

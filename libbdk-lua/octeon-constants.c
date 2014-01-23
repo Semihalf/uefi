@@ -81,6 +81,9 @@ void register_octeon_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_DIRECTION_TX);
     push_bdk_enum(BDK_QLM_DIRECTION_RX);
     push_bdk_enum(BDK_QLM_DIRECTION_BOTH);
+
+    lua_pushnumber(L, bdk_numa_master());
+    lua_setfield(L, -2, "MASTER_NODE");
 #endif
 }
 

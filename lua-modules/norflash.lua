@@ -12,7 +12,7 @@ local log = logging.new("NOR")
 --local log = logging.new("NOR", logging.DEBUG)
 
 local norflash = {}
-local node = 0
+local node = octeon.MASTER_NODE
 local init_complete = false
 local READ_CSR
 local WRITE_CSR

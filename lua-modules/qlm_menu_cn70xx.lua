@@ -3,7 +3,7 @@ require("strict")
 require("utils")
 require("menu")
 
-local node = 0
+local node = octeon.MASTER_NODE
 
 local function setup_dlmx_ref(qlm, default_option)
     local m = menu.new("DLM%d Reference clock" % qlm)

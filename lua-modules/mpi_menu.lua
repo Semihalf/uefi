@@ -6,7 +6,7 @@ require("menu")
 local fileio = require("fileio")
 local bit64 = require("bit64")
 
-local node = 0
+local node = octeon.MASTER_NODE
 local init_complete = false
 
 -- Use globals so menu remembers last choice

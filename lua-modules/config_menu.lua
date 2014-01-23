@@ -78,7 +78,7 @@ addMenu("MAC address", octeon.CONFIG_MAC_ADDRESS)
 addMenuKey("coremask", "Good Coremask", octeon.CONFIG_COREMASK)
 
 -- Add an item for each MGMT port
-local node = 0
+local node = octeon.MASTER_NODE
 local if_mgmt = octeon.IF_MGMT
 for port = 0,octeon.c.bdk_if_num_ports(node, if_mgmt, 0)-1 do
     addPhyMenu("RGMII/MII port " .. port, octeon.CONFIG_PHY_MGMT_PORT0 + port)

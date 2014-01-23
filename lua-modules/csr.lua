@@ -189,7 +189,7 @@ end
 --
 local function build_table(chip_csr, container, read_func, write_func)
     local csr_table = {}
-    local node = 0 -- FIXME: Numa support in Lua CSRs
+    local node = octeon.MASTER_NODE
     for n,c in pairs(chip_csr) do
         -- Determine if this CSR needs parameters
         local params = {}

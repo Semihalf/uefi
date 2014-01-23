@@ -4,7 +4,7 @@ require("strict")
 require("utils")
 require("menu")
 
-local node = 0
+local node = octeon.MASTER_NODE
 
 local function smi_scan(smi_bus)
     printf("SMI%d: Scanning bus...\n", smi_bus)

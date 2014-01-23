@@ -6,7 +6,7 @@ require("menu")
 local readline = require("readline")
 
 local qlm_tuning = {}
-local node = 0
+local node = octeon.MASTER_NODE
 qlm_tuning.qlm = 0
 
 -- Prompt for which QLM/DLM to edit

@@ -8,14 +8,14 @@ local pcie = require("pcie")
 local bit64 = require("bit64")
 
 local pcie_root = {}
+local default_node = octeon.MASTER_NODE
 
 --
 -- PCIe host mode functions
 --
 
 local function do_initialize(pcie_port)
-    local node = 0
-    pcie_root[pcie_port] = pcie.initialize(node, pcie_port)
+    pcie_root[pcie_port] = pcie.initialize(default_node, pcie_port)
 end
 
 local function do_scan(pcie_port)
@@ -75,9 +75,8 @@ end
 --
 
 local function do_eeprom_dump(pcie_port)
-    local node = 0
     for offset=0,512-8,8 do
-        local data = octeon.c.bdk_pcie_eeprom_read(node, pcie_port, offset)
+        local data = octeon.c.bdk_pcie_eeprom_read(default_node, pcie_port, offset)
         printf("0x%03x: 0x%016x", offset, data)
         local preamble = bit64.bextract(data, 48, 63)
         if preamble ~= 0x9da1 then
@@ -91,10 +90,9 @@ local function do_eeprom_edit(pcie_port)
 end
 
 local function do_eeprom_write(pcie_port)
-    local node = 0
     local offset = menu.prompt_number("Offset into EEPROM", 0, 0, 512-8)
     local data = menu.prompt_number("EEPROM value")
-    assert(octeon.c.bdk_pcie_eeprom_write(node, pcie_port, offset, data) == 0, "EEPROM write failed")
+    assert(octeon.c.bdk_pcie_eeprom_write(default_node, pcie_port, offset, data) == 0, "EEPROM write failed")
 end
 
 local function do_eeprom_menu(pcie_port)
