@@ -316,7 +316,6 @@ static void __bdk_pcie_write_soft_prst(bdk_node_t node, int pcie_port, int soft_
 static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
 {
     int i;
-    bdk_rst_ctlx_t rst_ctl;
     bdk_pemx_bar_ctl_t pemx_bar_ctl;
     bdk_pemx_ctl_status_t pemx_ctl_status;
     bdk_pemx_bist_status_t pemx_bist_status;
@@ -334,10 +333,20 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     }
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
-    rst_ctl.u64 = BDK_CSR_READ(node, BDK_RST_CTLX(pcie_port));
-    if (!rst_ctl.s.host_mode)
+    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
+    int host_mode;
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        host_mode = pemx_cfg.cn70xx.hostmd;
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        host_mode = pemx_cfg.cn78xx.hostmd;
+    else
     {
-        bdk_dprintf("PCIe: Port %d in endpoint mode.\n", pcie_port);
+        bdk_dprintf("PCIe%d: Unable to determine host mode for this chip.\n", pcie_port);
+        return -1;
+    }
+    if (!host_mode)
+    {
+        bdk_dprintf("PCIe%d: Port in endpoint mode.\n", pcie_port);
         return -1;
     }
 
