@@ -262,14 +262,27 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         case BDK_QLM_MODE_PCIE_1X4:
         case BDK_QLM_MODE_PCIE_1X8:
+        {
             is_pcie = 1;
-            // FIXME: PCIe assuming 100Mhz ref
-            if (flags & BDK_QLM_MODE_FLAG_GEN1)
-                lane_mode = 0; /* R_25G_REFCLK100 */
-            else if (flags & BDK_QLM_MODE_FLAG_GEN2)
-                lane_mode = 1; /* R_5G_REFCLK100 */
+            BDK_CSR_INIT(refclk_sel, node, BDK_GSERX_REFCLK_SEL(qlm));
+            if (refclk_sel.s.pcie_refclk125)
+            {
+                if (flags & BDK_QLM_MODE_FLAG_GEN1)
+                    lane_mode = 0x9; /* R_25G_REFCLK125 */
+                else if (flags & BDK_QLM_MODE_FLAG_GEN2)
+                    lane_mode = 0xa; /* R_5G_REFCLK125 */
+                else
+                    lane_mode = 0xb; /* R_8G_REFCLK125 */
+            }
             else
-                lane_mode = 2; /* R_8G_REFCLK100 */
+            {
+                if (flags & BDK_QLM_MODE_FLAG_GEN1)
+                    lane_mode = 0; /* R_25G_REFCLK100 */
+                else if (flags & BDK_QLM_MODE_FLAG_GEN2)
+                    lane_mode = 1; /* R_5G_REFCLK100 */
+                else
+                    lane_mode = 2; /* R_8G_REFCLK100 */
+            }
             int cfg_md;
             if (flags & BDK_QLM_MODE_FLAG_GEN1)
                 cfg_md = 0; /* Gen1 Speed */
@@ -368,6 +381,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     return -1;
             }
             break;
+        }
         case BDK_QLM_MODE_ILK:
             is_ilk = 1;
             lane_mode = 1; // FIXME: ILK lane mode
