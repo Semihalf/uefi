@@ -62,6 +62,7 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
             priv.s.mode = BGX_MODE_XAUI;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
+            priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
             priv.s.num_port = 2;
             priv.s.mode = BGX_MODE_RXAUI;
             break;
@@ -183,15 +184,15 @@ static int if_probe(bdk_if_handle_t handle)
             break;
         case BGX_MODE_10G:
             if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "10G%d.%d";
+                name_format = "10G%d.%d";
             else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.10G%d.%d";
+                name_format = "N%d.10G%d.%d";
             break;
         case BGX_MODE_40G:
             if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "40G%d";
+                name_format = "40G%d";
             else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.40G%d";
+                name_format = "N%d.40G%d";
             break;
         default:
             return -1;
