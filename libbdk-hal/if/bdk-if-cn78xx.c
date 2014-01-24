@@ -406,14 +406,10 @@ static int pko_port_init(bdk_if_handle_t handle)
         case BDK_IF_BGX:
         {
             int port = handle->index;
-            if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
-                port = port >> 4;
-
             BDK_CSR_INIT(config, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, 0));
             switch (config.s.lmac_type)
             {
                 case 0: /* SGMII - 1 lane each */
-                    port = handle->index; /* SGMII doesn't support Higig */
                     fifo_size = 1;
                     break;
                 case 3: /* 10GBASE-R - 1 lane each */
@@ -421,8 +417,14 @@ static int pko_port_init(bdk_if_handle_t handle)
                     break;
                 case 2: /* Reduced XAUI - 2 lanes each */
                     fifo_size = 2;
+                    if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
+                        port = port >> 4;
                     break;
                 case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
+                    fifo_size = 4;
+                    if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
+                        port = port >> 4;
+                    break;
                 case 4: /* 40GBASE-R - 4 lanes each */
                 default:
                     fifo_size = 4;
