@@ -92,14 +92,6 @@ for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_sgmii)-1 do
     end
 end
 
--- Add an item for each XAUI port
-local if_xaui = octeon.IF_XAUI
-for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_xaui)-1 do
-    if octeon.c.bdk_if_num_ports(node, if_xaui, interface) > 0 then
-        addMenu("XAUI interface " .. interface .. " Higig mode, 0=None,1=Higig(+),2=Higig2", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
-    end
-end
-
 -- Add an item for each ILK port
 local if_ilk = octeon.IF_ILK
 for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_ilk)-1 do
@@ -111,9 +103,6 @@ end
 local if_bgx = octeon.IF_BGX
 for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_bgx)-1 do
     local num_ports = octeon.c.bdk_if_num_ports(node, if_bgx, interface)
-    if num_ports > 0 then
-        addMenu("BGX interface " .. interface .. " Higig mode, 0=None,1=Higig(+),2=Higig2", octeon.CONFIG_HIGIG_MODE_IF0 + interface, 0, 2)
-    end
     for port = 0, num_ports-1 do
         addPhyMenu("BGX interface " .. interface .. ", port " .. port, octeon.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
     end
