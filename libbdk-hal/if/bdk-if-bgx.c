@@ -437,33 +437,36 @@ static int xaui_link(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(xauiCtl, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
         xauiCtl.s.lo_pwr = 0);
 
-    /* Wait for PCS to come out of reset */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, 10000))
-        return -1;
-    /* Wait for PCS to be aligned */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, 10000))
-        return -1;
-    /* Wait for RX to be ready */
-    // FIXME
-    //if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_RX_XAUI_CTL(bgx_block), status, ==, 0, 10000))
-        //return -1;
+    if (!bdk_is_simulation())
+    {
+        /* Wait for PCS to come out of reset */
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, 10000))
+            return -1;
+        /* Wait for PCS to be aligned */
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, 10000))
+            return -1;
+        /* Wait for RX to be ready */
+        // FIXME
+        //if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_RX_XAUI_CTL(bgx_block), status, ==, 0, 10000))
+            //return -1;
 
-    /* (6) Configure GMX */
+        /* (6) Configure GMX */
 
-    /* Wait for GMX RX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000))
-        return -1;
-    /* Wait for GMX TX to be idle */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
-        return -1;
+        /* Wait for GMX RX to be idle */
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000))
+            return -1;
+        /* Wait for GMX TX to be idle */
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
+            return -1;
 
-    /* Wait for receive link */
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, 10000))
-        return -1;
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), xmtflt, ==, 0, 10000))
-        return -1;
-    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), rcvflt, ==, 0, 10000))
-        return -1;
+        /* Wait for receive link */
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, 10000))
+            return -1;
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), xmtflt, ==, 0, 10000))
+            return -1;
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), rcvflt, ==, 0, 10000))
+            return -1;
+    }
 
     /* (8) Enable packet reception */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
@@ -492,11 +495,13 @@ static int if_init(bdk_if_handle_t handle)
     switch (priv.s.mode)
     {
         case BGX_MODE_SGMII:
+            break;
         case BGX_MODE_XAUI:
         case BGX_MODE_RXAUI:
         case BGX_MODE_10G:
         case BGX_MODE_40G:
         default:
+            xaui_link(handle);
             break;
     }
 
