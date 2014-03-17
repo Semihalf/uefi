@@ -633,9 +633,6 @@ static int sso_init(bdk_node_t node)
             c.s.cl = 0);
         BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_TAIL_NEXT(grp),
             c.s.ptr = addr);
-        /* Prefetch one cache line into L1 when a core gets work */
-        BDK_CSR_MODIFY(c, node, BDK_SSO_GRPX_PREF(grp),
-            c.s.clines = 1);
     }
     /* Set the aura number */
     BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_AURA,
