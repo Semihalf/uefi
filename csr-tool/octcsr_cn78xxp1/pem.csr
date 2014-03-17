@@ -787,7 +787,7 @@ registers:
 
       - name: SLI_CPL
         bits: 23..16
-        access: R/W/H
+        access: R/W
         reset: 0x80
         typical: 0x80
         description: |
@@ -803,7 +803,7 @@ registers:
 
       - name: SLI_NP
         bits: 15..8
-        access: R/W/H
+        access: R/W
         reset: 0x10
         typical: 0x10
         description: |
@@ -819,7 +819,7 @@ registers:
 
       - name: SLI_P
         bits: 7..0
-        access: R/W/H
+        access: R/W
         reset: 0x80
         typical: 0x80
         description: |
@@ -1017,7 +1017,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Value is XORed with PCIe address [45:44] to determine the endian swap mode.
+          Value is XORed with PCIe address [43:42] to determine the endian swap mode.
 
       - name: BAR2_CAX
         bits: 0
@@ -1025,7 +1025,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Value is XORed with PCIe address [46] to determine the L2 cache attribute. Not cached in
+          Value is XORed with PCIe address [44] to determine the L2 cache attribute. Not cached in
           L2 if XOR result is 1.
 
 
@@ -1326,7 +1326,7 @@ registers:
         typical: 0
         description: |
           Completer aborted a request. This bit is never set because CN78XX does not generate
-          completer aborts. radm_rcvd_ca_req
+          completer aborts.
 
       - name: RACCA
         bits: 24
@@ -1695,7 +1695,8 @@ registers:
         reset: --
         typical: --
         description: |
-          The value of the pi_select_laneswap pin. When set, lane swapping is performed to/from the
+          The value of the pi_select_laneswap pin, which is captured on chip cold reset. It is not
+          affected by any other reset.  When set, lane swapping is performed to/from the
           SerDes. When clear, no lane swapping is performed.
 
       - name: PILANES8
@@ -1704,7 +1705,8 @@ registers:
         reset: --
         typical: --
         description: |
-          The value of the pi_select_8lanes pin. When set, the PEM is configured for a maximum of
+          The value of the pi_select_8lanes pin, which is captured on chip cold reset. It is not
+          affected by any other reset.  When set, the PEM is configured for a maximum of
           8-lanes, When clear, the PEM is configured for a maximum of 4-lanes.
 
       - name: PIMODE
@@ -1713,7 +1715,8 @@ registers:
         reset: --
         typical: --
         description: |
-          The value of the pi_select_mode[1:0] pins:
+          The value of the pi_select_mode[1:0] pins, which are captured on chip cold reset. They are
+          not affected by any other reset.
           0x0 = EP mode, Gen1 speed.
           0x1 = EP mode, Gen2 speed.
           0x2 = EP mode, Gen3 speed.
@@ -1739,7 +1742,8 @@ registers:
         reset: --
         typical: --
         description: |
-          This field overwrites the signal setting for lane swapping. When set, lane swapping is
+          This field enables overwriting the value for lane swapping. The reset value is captured on
+          cold reset by the pin straps (see PEM(0..3)_STRAP.PILANESWAP). When set, lane swapping is
           performed to/from the SerDes. When clear, no lane swapping is performed.
 
       - name: LANES8
@@ -1748,12 +1752,13 @@ registers:
         reset: --
         typical: --
         description: |
-          This field overwrites the signal setting for number of lanes.
-          When set, the PEM is configured for a maximum of 8 lanes. When clear, the PEM is
-          configured for a maximum of 4 lanes. This value is used to set the maximum link width
-          field in the core's link capabilities register (CFG031) to indicate the maximum number of
-          lanes supported. Note that less lanes than the specified maximum can be configured for use
-          via the core's link control register (CFG032) negotiated link width field.
+          This field enables overwriting the value for the maximum number of lanes. The reset value
+          is captured on cold reset by the pin straps (see PEM(0..3)_STRAP.PILANES8). When set, the
+          PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
+          maximum of 4 lanes. This value is used to set the maximum link width field in the core's
+          link capabilities register (CFG031) to indicate the maximum number of lanes
+          supported. Note that less lanes than the specified maximum can be configured for use via
+          the core's link control register (CFG032) negotiated link width field.
 
       - name: HOSTMD
         bits: 2
@@ -1761,8 +1766,10 @@ registers:
         reset: --
         typical: --
         description: |
-          This field overwrites the signal settings for host mode. When set, the PEM is configured
-          to be a root complex. When clear, the PEM is configured to be an end point.
+          This field enables overwriting the value for host mode. The reset value is captured on
+          cold reset by the pin straps (see PEM(0..3)_STRAP.PIMODE). When set, the PEM is configured
+          to be a root complex.
+          When clear, the PEM is configured to be an end point.
 
       - name: MD
         bits: 1..0
@@ -1770,8 +1777,10 @@ registers:
         reset: --
         typical: --
         description: |
-          This field overwrites the signal settings for speed. Root complex configuration when the
-          MD field is changed.
+          This field enables overwriting the value for speed. The reset value is captured on cold
+          reset by the pin straps (see PEM(0..3)_STRAP.PIMODE). For a root complex configuration
+          that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
+          field is changed.
           0x0 = Gen1 speed.
           0x1 = Gen2 speed.
           0x2 = Gen3 speed.
@@ -1846,31 +1855,31 @@ registers:
     fields:
       - name: INTD
         bits: 63
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTD.
+        description: The PCIe controller received an INTD. This is a level sensitive interrupt.
 
       - name: INTC
         bits: 62
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTC.
+        description: The PCIe controller received an INTC. This is a level sensitive interrupt.
 
       - name: INTB
         bits: 61
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTB.
+        description: The PCIe controller received an INTB. This is a level sensitive interrupt.
 
       - name: INTA
         bits: 60
-        access: RO
+        access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTA.
+        description: The PCIe controller received an INTA. This is a level sensitive interrupt.
 
       - name: --
         bits: 59..14
@@ -1961,21 +1970,23 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: PME interrupt. (cfg_pme_int)
+        description: PME interrupt (cfg_pme_int). This is a level sensitive interrupt.
 
       - name: SE
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: System error, RC DEode Only.  (cfg_sys_err_rc)
+        description: System error, RC mode only.  (cfg_sys_err_rc)
 
       - name: AERI
         bits: 0
         access: RO/H
         reset: 0
         typical: 0
-        description: Advanced error reporting interrupt, RC mode only. (cfg_aer_rc_err_int).
+        description: |
+          Advanced error reporting interrupt, RC mode only (cfg_aer_rc_err_int).
+          This is a level sensitive interrupt.
 
 
   - name: PEM(0..3)_BIST_STATUS

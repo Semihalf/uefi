@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: MIO_NDF
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: NDF_CMD
     address: 0x1070001000000

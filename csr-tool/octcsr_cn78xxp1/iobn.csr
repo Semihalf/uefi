@@ -295,7 +295,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, core-to-NCB transfers have ECC generated and checked.
+        description: When set, disable core-to-NCB transfer ECC correction.
 
       - name: IOC3_FS
         bits: 56..55
@@ -309,7 +309,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, core-to-NCB transfers have ECC generated and checked.
+        description: When set, disable core-to-NCB transfer ECC correction.
 
       - name: IOC2_FS
         bits: 53..52
@@ -323,7 +323,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, core-to-NCB transfers have ECC generated and checked.
+        description: When set, disable core-to-NCB transfer ECC correction.
 
       - name: IOC1_FS
         bits: 50..49
@@ -337,7 +337,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, core-to-NCB transfers have ECC generated and checked.
+        description: When set, disable core-to-NCB transfer ECC correction.
 
       - name: IOC0_FS
         bits: 47..46
@@ -351,7 +351,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, FILL data from NCB3 has ECC generated and checked.
+        description: When set, disable FILL data from NCB3 ECC correction.
 
       - name: IOR3_FS
         bits: 44..43
@@ -365,7 +365,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, FILL data from NCB2 has ECC generated and checked.
+        description: When set, disable FILL data from NCB2 ECC correction.
 
       - name: IOR2_FS
         bits: 41..40
@@ -379,7 +379,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, FILL data from NCB1 has ECC generated and checked.
+        description: When set, disable FILL data from NCB1 ECC correction.
 
       - name: IOR1_FS
         bits: 38..37
@@ -393,7 +393,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, FILL data from NCB0 has ECC generated and checked.
+        description: When set, disable FILL data from NCB0 ECC correction.
 
       - name: IOR0_FS
         bits: 35..34
@@ -407,7 +407,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, DWB commands to L2C have ECC generated and checked.
+        description: When set, disable DWB command to L2C ECC correction.
 
       - name: IDE_FS
         bits: 32..31
@@ -421,7 +421,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBI0 high-priority commands to L2C have ECC generated and checked.
+        description: When set, disable NCBI0 high-priority command to L2C ECC correction.
 
       - name: XMC0_HP_FS
         bits: 29..28
@@ -435,7 +435,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBO3 response data has ECC generated and checked.
+        description: When set, disable NCBO3 response data ECC correction.
 
       - name: RSD3_FS
         bits: 26..25
@@ -449,7 +449,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBO2 response data has ECC generated and checked.
+        description: When set, disable NCBO2 response data ECC correction.
 
       - name: RSD2_FS
         bits: 23..22
@@ -463,7 +463,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBO1 response data has ECC generated and checked.
+        description: When set, disable NCBO1 response data ECC correction.
 
       - name: RSD1_FS
         bits: 20..19
@@ -477,7 +477,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBO0 response data have an ECC generated and checked.
+        description: When set, disable NCBO0 response data ECC correction.
 
       - name: RSD0_FS
         bits: 17..16
@@ -491,7 +491,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBI0 commands to L2C have ECC generated and checked.
+        description: When set, disable NCBI3 to L2C ECC correction.
 
       - name: XMC3_FS
         bits: 14..13
@@ -505,7 +505,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBI0 commands to L2C have ECC generated and checked.
+        description: When set, disable NCBI2 to L2C ECC correction.
 
       - name: XMC2_FS
         bits: 11..10
@@ -519,7 +519,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBI0 commands to L2C have ECC generated and checked.
+        description: When set, disable NCBI1 command L2C ECC correction.
 
       - name: XMC1_FS
         bits: 8..7
@@ -533,7 +533,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: When set, NCBI0 commands to L2C have ECC generated and checked.
+        description: When set, disable NCBI0 command L2C ECC correction.
 
       - name: XMC0_FS
         bits: 5..4
@@ -1446,7 +1446,7 @@ registers:
           CURRENT_POWER_SETTING value. The power consumed by the chip (estimated currently by the
           AVG_CHIP_POWER value) is an indirect output of the PWR_SETTING feedback control system.
           PWR_SETTING is not used by the hardware when PWR_MIN equals PWR_MAX. PWR_MIN and PWR_MAX
-          threshold requirements always supercede PWR_SETTING limits. (For maximum PWR_SETTING
+          threshold requirements always supersede PWR_SETTING limits. (For maximum PWR_SETTING
           feedback control freedom, set PWR_MIN=0 and PWR_MAX=0xff.)
           PWR_SETTING equal to 0 forces the chip to consume near minimum power. Increasing
           PWR_SETTING value from 0 to 0xFFFF increases the power that the chip is allowed to consume

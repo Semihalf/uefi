@@ -68,7 +68,7 @@ registers:
         access: R/W
         reset: 1
         typical: --
-        description: DMA FIFO Clear.  When set erases all commands in the DMA FIFO.  Must be zero for normal operation.
+        description: DMA FIFO Clear. When set erases all commands in the DMA FIFO. Must be zero for normal operation.
 
       - name: --
         bits: 15..13
@@ -83,9 +83,8 @@ registers:
         reset: 0x10
         typical: --
         description: |
-          Interrupt threshold that specifes the number of entries remaining in the DMA FIFO.  A
-          value of 16 or more
-          disables the interrupt.  See MIO_EMM_DMA_INT[FIFO].
+          Interrupt threshold that specifies the number of entries remaining in the DMA FIFO. A
+          value of 16 or more disables the interrupt. See MIO_EMM_DMA_INT[FIFO].
 
       - name: --
         bits: 7..5
@@ -100,11 +99,11 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of entries in the DMA FIFO.  This count is incremented by writes to the
-          MIO_EMM_DMA_FIFO_CMD register and
-          decremented each time the internal DMA engine completes the previous command successfully.
-          Up to 16 entries
-          can be placed in the FIFO.  Entries written to a full FIFO will be ignored.
+          Number of entries in the DMA FIFO. This count is incremented by writes to the
+          MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
+          the previous command successfully.
+          Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will be
+          ignored.
 
 
   - name: MIO_EMM_DMA_FIFO_ADR
@@ -114,9 +113,8 @@ registers:
     bus: RSL
     description: |
       This register specifies the internal address that is loaded into the eMMC internal DMA FIFO.
-      The FIFO is used to
-      queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
-      successfully.
+      The FIFO is used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA
+      completes successfully.
     fields:
       - name: --
         bits: 63..42
@@ -141,11 +139,10 @@ registers:
     description: |
       This register specifies a command that is loaded into the eMMC internal DMA FIFO.  The FIFO is
       used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
-      successfully.  Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
+      successfully. Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
       MIO_EMM_DMA_FIFO_ADR contents into the FIFO and increment the MIO_DMA_FIFO_CFG[COUNT] field.
-      Note:  This register has a similar format to the MIO_EMM_DMA_CFG register
-      with the exception that the EN and CLR fields are absent.  These are supported in the
-      MIO_EMM_DMA_FIFO_CFG.
+      Note: This register has a similar format to the MIO_EMM_DMA_CFG register with the exception
+      that the EN and CLR fields are absent. These are supported in the MIO_EMM_DMA_FIFO_CFG.
     fields:
       - name: --
         bits: 63
@@ -220,8 +217,8 @@ registers:
     address: 0x1180000000180
     bus: RSL
     description: |
-      This register controls the internal DMA engine used with the eMMC/SD flash controller.
-      Sixty-four-bit operations must be used to access this register.
+      This register controls the internal DMA engine used with the eMMC/SD flash controller. Sixty-
+      four-bit operations must be used to access this register.
     fields:
       - name: EN
         bits: 63
@@ -340,7 +337,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Internal DMA FIFO has dropped to level specified by MIO_DMA_FIFO_CFG[INT_LVL].  Throws
+          Internal DMA FIFO has dropped to level specified by MIO_DMA_FIFO_CFG[INT_LVL]. Throws
           MIO_EMM_INTSN_E::MIO_EMM_DMA_FIFO.
 
       - name: DONE
@@ -879,7 +876,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          The DMA store operation took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT] sclks to complete.
+          The DMA store operation took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT] SCLKs to complete.
           Valid when DMA_PEND=1.
 
       - name: --
@@ -938,8 +935,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Current value of DAT0 as a busy signal during block writes and R1b responses.
-          This bit should read zero before any DMA or Command with data is executed.
+          Debug only. eMMC protocol utilizes DAT0 as a busy signal during block writes and R1b
+          responses. This bit should read zero before any DMA or Command with data is executed.
 
       - name: STP_TIMEOUT
         bits: 19
@@ -1190,29 +1187,23 @@ registers:
         typical: --
         description: |
           Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
-          the
-          3-bit CRC status token following write data.  The following timeouts are detected:
-
-          1.  Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT]
-          2.  On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT]
-          3.  On a multi read command, expected data isn't returned causing
-          MIO_EMM_RSP_STS[BLK_TIMEOUT]
-          4.  On a write command, expected token to a write block isn't received causing
-          MIO_EMM_RSP_STS[BLK_TIMEOUT]
-          5.  If a stop command is issued by the hardware and no response is returned causing
-          MIO_EMM_RSP_STS[STP_TIMEOUT]
-
+          the 3-bit CRC status token following write data. The following timeouts are detected:
+          Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT].
+          On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT].
+          On a multi read command, expected data isn't returned causing
+          MIO_EMM_RSP_STS[BLK_TIMEOUT].
+          On a write command, expected token to a write block isn't received causing
+          MIO_EMM_RSP_STS[BLK_TIMEOUT].
+          If a stop command is issued by the hardware and no response is returned causing
+          MIO_EMM_RSP_STS[STP_TIMEOUT].
           Issues this timeout doesn't cover are stalls induced by the card which are not limited by
           the specifications.
           For example, when a write multi command is issued to the card and a block (not the last)
-          is transferred
-          the card can "stall" the Octeon by forcing emmc_data<0> low for as long as it wants to
-          free up buffer space.
+          is transferred the card can "stall" the Octeon by forcing emmc_data<0> low for as long as
+          it wants to free up buffer space.
           The second case is when the last block of a write or multi write is being transferred and
-          the card elects
-          to perform some background tasks.  The same stall mechanism with emmc_data<0> is used but
-          this can last for
-          an extend time period.
+          the card elects to perform some background tasks. The same stall mechanism with
+          emmc_data<0> is used but this can last for an extend time period.
 
 
   - name: MIO_EMM_SAMPLE
@@ -1367,8 +1358,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of SCLKs to allow for a DMA operation to complete before hardware will halt the
-          operation.
+          Number of SCLKs to allow for a DMA store operation to complete before hardware will halt
+          the operation.
           Hardware will inject and error on the next 512-byte block boundary.   The pending DMA
           operation can be resumed or terminated. A value of zero disables timer.
 

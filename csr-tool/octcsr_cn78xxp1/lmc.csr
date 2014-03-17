@@ -40,7 +40,7 @@ enums:
 
 registers:
   - name: LMC(0..3)_FADR
-    title: LMC Failing Address Register (SEC/DED/NXM)
+    title: LMC Failing (SEC/DED/NXM) Address Register
     address: 0x1180088000020 | a<<24
     bus: RSL
     description: |
@@ -1055,7 +1055,7 @@ registers:
     fields:
       - name: MPR_DATA
         bits: 63..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -1072,7 +1072,7 @@ registers:
     fields:
       - name: MPR_DATA
         bits: 63..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -1096,7 +1096,7 @@ registers:
 
       - name: MPR_DATA
         bits: 15..0
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -1386,6 +1386,105 @@ registers:
         description: Selects the type of DDR command to corrupt the parity bit.
 
 
+  - name: LMC(0..3)_RETRY_CONFIG
+    title: LMC Automatic Retry Configuration Registers
+    address: 0x1180088000110 | a<<24
+    bus: RSL
+    description: This register configures automatic retry operation. Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..56
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAX_ERRORS
+        bits: 55..32
+        access: R/W
+        reset: 0x20
+        typical: 0x0
+        description: Maximum number of errors before errors are ignored.
+
+      - name: --
+        bits: 31..1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RETRY_ENABLE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable retry on errors.
+
+
+  - name: LMC(0..3)_RETRY_STATUS
+    title: LMC Automatic Retry Configuration Registers
+    address: 0x1180088000118 | a<<24
+    bus: RSL
+    description: This register provides status on automatic retry operation. Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: CLEAR_ERROR_COUNT
+        bits: 63
+        access: WO
+        reset: 0
+        typical: 0
+        description: Clear the error count, one shot operation.
+
+      - name: --
+        bits: 62..45
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERROR_SEQUENCE
+        bits: 44..40
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Sequence number for sequence that was running when error occurred.
+
+      - name: --
+        bits: 39..33
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERROR_TYPE
+        bits: 32
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          0 = Error during a sequence run.
+          1 = Error during normal operation, which means a read or write operation. Effectively this
+          means a command error for a read or write operation, or a CRC error for a write data
+          operation.
+
+      - name: --
+        bits: 31..24
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERROR_COUNT
+        bits: 23..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Number of errors encountered since last cleared.
+
+
   - name: LMC(0..3)_DIMM(0..1)_DDR4_PARAMS1
     title: LMC DIMM Parameters Registers 1
     address: 0x1180088000140 | a<<24 | b<<3
@@ -1463,7 +1562,7 @@ registers:
 
       - name: DDR3PSV
         bits: 3
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1476,7 +1575,7 @@ registers:
 
       - name: DDR3PSOFT
         bits: 2
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1492,7 +1591,7 @@ registers:
 
       - name: DDR3PWARM
         bits: 1
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -1510,7 +1609,7 @@ registers:
 
       - name: DDR3RST
         bits: 0
-        access: R/W
+        access: R/W/H
         reset: 0
         typical: 0
         description: |
@@ -2798,14 +2897,18 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Ptune offset value.
+        description: |
+          Ptune offset value. This is a signed value where the MSB is a sign bit, with zero
+          indicating addition and one indicating subtraction.
 
       - name: NTUNE_OFFSET
         bits: 35..32
         access: R/W
         reset: 0x0
         typical: --
-        description: Ntune offset value.
+        description: |
+          Ntune offset value. This is a signed value where the MSB is a sign bit, with zero
+          indicating addition and one indicating subtraction.
 
       - name: M180
         bits: 31
@@ -3464,7 +3567,7 @@ registers:
 
       - name: DSK_DBG_RD_COMPLETE
         bits: 49
-        access: RO
+        access: RO/H
         reset: 0
         typical: --
         description: |
@@ -3473,7 +3576,7 @@ registers:
 
       - name: DSK_DBG_RD_DATA
         bits: 48..39
-        access: RO
+        access: RO/H
         reset: 0x0
         typical: --
         description: |
@@ -4833,36 +4936,39 @@ registers:
         reset: 1
         typical: 1
         description: |
-          When set, unload the PHY silo one cycle later during read-leveling if
-          LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should normally be set,
-          particularly at higher speeds.
+          Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+          read-leveling if LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
+          normally be set, particularly at higher speeds.
 
       - name: DELAY_UNLOAD_2
         bits: 20
         access: R/W
         reset: 1
-        typical: 0
+        typical: 1
         description: |
-          When set, unload the PHY silo one cycle later during read-leveling if
-          LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should normally not be set.
+          Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+          read-leveling if LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
+          normally be set.
 
       - name: DELAY_UNLOAD_1
         bits: 19
         access: R/W
         reset: 1
-        typical: 0
+        typical: 1
         description: |
-          When set, unload the PHY silo one cycle later during read-leveling if
-          LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should normally not be set.
+          Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+          read-leveling if LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
+          normally be set.
 
       - name: DELAY_UNLOAD_0
         bits: 18
         access: R/W
         reset: 1
-        typical: 0
+        typical: 1
         description: |
-          When set, unload the PHY silo one cycle later during read-leveling if
-          LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should normally not be set.
+          Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+          read-leveling if LMC(0..3)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
+          normally be set.
 
       - name: BITMASK
         bits: 17..10
@@ -5387,7 +5493,7 @@ registers:
 
 
   - name: LMC(0..3)_SCRAMBLED_FADR
-    title: LMC Scrambled Failing Address Register (SEC/DED/NXM)
+    title: LMC Scrambled Failing (SEC/DED/NXM) Address Register
     address: 0x1180088000330 | a<<24
     bus: RSL
     description: |

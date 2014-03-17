@@ -837,7 +837,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to.
 
 
   - name: PKO_CSR_WR_DMA_S
@@ -973,9 +973,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: |
-          CVMSEG LM location to return the PKO_QUERY_RTN_S result to. See IOBDMA, IOBADDR, LMTDMA,
-          and LMTST Operations.
+        description: CVMSEG LM location to return the PKO_QUERY_RTN_S result to.
 
 
   - name: PKO_QUERY_LD_S
@@ -1268,9 +1266,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: |
-          CVMSEG LM location to return PKO_QUERY_RTN_S to if a queue size return is desired. See
-          IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM location to return PKO_QUERY_RTN_S to if a queue size return is desired.
 
 
   - name: PKO_SEND_EXT_S
@@ -1285,11 +1281,20 @@ structs:
           const: "--"
         description: |
           Signed packet size adjustment. When a PKO_SEND_EXT_S is present in the descriptor, the
-          packet size used for shaper calculations is PKO_SEND_HDR_S[TOTAL] + CALCPAD + [SHAPECHG].
+          packet size used for shaper m calculations at level n is:
+             (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
+             [SHAPECHG] +
+             PKO_Ln_SQm_SHAPE[ADJUST]
+          where n = 1, 2, 3, 4, 5, or DQ and m selects one of the shapers at the level selected by
+          n.
+          PKO_L1_SQm_SHAPE[LENGTH_DISABLE,ADJUST] don't really exist, and should be zero
+          in the equation above. CALCPAD is zero when PKO_PDM_DQd_MINPAD[MINPAD] is clear
+          or when PKO_PDM_CFG[TOTAL]>=PKO_PDM_CFG[MINLEN], else
+          CALCPAD=PKO_PDM_CFG[MINLEN]-PKO_SEND_HDR_S[TOTAL], where d is the DQ the packet used.
           When a PKO_SEND_EXT_S is not present in the descriptor, the packet size used for shaper
-          calculations is PKO_SEND_HDR_S[TOTAL] + CALCPAD. CALCPAD is zero when
-          PKO_PDM_DQn_MINPAD[MINPAD] is clear or when PKO_PDM_CFG[TOTAL]>=PKO_PDM_CFG[MINLEN], else
-          CALCPAD=PKO_PDM_CFG[MINLEN] PKO_SEND_HDR_S[TOTAL], where n is the DQ the packet used.
+          m calculations at level n is, similarly:
+             (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
+             PKO_Ln_SQm_SHAPE[ADJUST]
 
       - name: --
         bits: 15..9
@@ -1305,8 +1310,7 @@ structs:
         description: |
           Mark pointer. Offset from packet start to byte to use for packet shaper marking.
           PKO_SEND_HDR_S[FORMAT] indirectly determines how this offset is used by PKO, including
-          whether and how an L2 or L3 header is marked, see Section TBD. [MARKPTR] is constrained as
-          follows:
+          whether and how an L2 or L3 header is marked. [MARKPTR] is constrained as follows:
           * If either of PKO_SEND_HDR_S[CKL3,CKL4] is nonzero and a packet L3 header will be marked,
           then either (1.1) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must be equal and refer to the same
           L3 header, or (1.2) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must differ and refer to different
@@ -1376,7 +1380,9 @@ structs:
         bits: 41..0
         attributes:
           const: "--"
-        description: Physical Address. ADDR a physical L2/DRAM address within the buffer to be freed.
+        description: |
+          Physical Address. ADDR a physical L2/DRAM address within the buffer to be freed.
+          ADDR must be naturally-aligned to 128 bytes.
 
       - name: --
         bits: 43..42
@@ -1478,7 +1484,7 @@ structs:
         bits: 31..24
         description: |
           Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
-          checksumming (Layer Checksumming) or shaper marking (Section TBD). The Layer 4 header must
+          checksumming (Layer Checksumming) or shaper marking. The Layer 4 header must
           be exactly [L4PTR] bytes from the beginning of the packet. Software might populate this
           field for forwarded packets from a computation based off WQE[L4PTR], which is the IP
           location computed by PKI when the packet is parsed. When [CKL4] is nonzero, no L4 header
@@ -1488,7 +1494,7 @@ structs:
 
       - name: FORMAT
         bits: 38..32
-        description: Format index. Specifies the marking format index for the packet, see Section TBD.
+        description: Format index. Specifies the marking format index for the packet.
 
       - name: --
         bits: 39
@@ -1523,8 +1529,7 @@ structs:
           will allow the L2 cache to retain other more useful information.
           Note that PKO always allocates descriptor chunks and gather lists into the L2 cache. Also,
           PKO always allocates packet data into the cache on the first-pass packet read of a two-
-          pass TCP/UDP checksum calculation. Refer to Section TBD for more performance details
-          regarding this calculation.
+          pass TCP/UDP checksum calculation.
 
       - name: LE
         bits: 43
@@ -1604,34 +1609,26 @@ structs:
       after a PKO_SEND_LINK_S in a PKO send descriptor.
     fields:
       - name: --
-        bits: w0(42..0)
+        bits: 42..0
         attributes:
-          const: "--"
-        description: Reserved.
-
-      - name: --
-        bits: w0(43)
-        attributes:
-          chip_pass: "o78<2.0"
           const: "--"
         description: Reserved.
 
       - name: LE
-        bits: w0(43)
+        bits: 43
         attributes:
-          chip_pass: "o78>=2.0"
           const: "--"
-        description: Send immediate data is in little-endian format. This bit is in pass 2 only.
+        description: Send immediate data is in little-endian format.
 
       - name: SUBDC4
-        bits: w0(47..44)
+        bits: 47..44
         attributes:
           const: "0xF"
         description: |
           Subdescriptor code. Indicates Send Immediate. Enumerated in PKO_SENDSUBDC_E::IMM.
 
       - name: SIZE
-        bits: w0(63..48)
+        bits: 63..48
         attributes:
           const: "--"
         description: |
@@ -1646,16 +1643,17 @@ structs:
       The send jump subdescriptor selects a new address for fetching the next subdescriptor. See
       Send Jump. This allows software to create subdescriptor lists longer than the 15 directly
       supported by the hardware. There can be only one PKO_SEND_JUMP_S subdescriptor in a packet
-      descriptor. PKO_SEND_JUMP_S must be the last subdescriptor in the initial (up to 15
-      subdescriptor) portion of the packet descriptor.
+      descriptor. PKO_SEND_JUMP_S must be the last subdescriptor in the initial (up to 3
+      subdescriptor) portion of the packet descriptor and must precede all subdescriptors
+      other than PKO_SEND_HDR_S and PKO_SEND_EXT_S in the PKO send descriptor.
     fields:
       - name: ADDR
         bits: 41..0
         attributes:
           const: "--"
         description: |
-          Physical Address. ADDR is the physical L2/DRAM address of the first byte of the next
-          subdescriptor. ADDR must be 8 byte aligned.
+          Physical Address. [ADDR] is the physical L2/DRAM address of the first byte of the next
+          subdescriptor. [ADDR] must be 128 byte aligned.
 
       - name: --
         bits: 43..42
@@ -1686,7 +1684,7 @@ structs:
         bits: 55..48
         attributes:
           const: "--"
-        description: Number of 8-byte subdescriptor words in the subdescriptor list.
+        description: Number of 8-byte subdescriptor words in the subdescriptor list that [ADDR] points to.
 
       - name: --
         bits: 63..56
@@ -1891,6 +1889,48 @@ structs:
 
 
 registers:
+  - name: PKO_L1_SQ(0..31)_SCHEDULE
+    title: PKO PSE Level 1 Scheduling Control Register
+    address: 0x1540000000008 + a*0x200
+    bus: NCB
+    fields:
+      - name: DUMMY
+        bits: 63..24
+        access: RO
+        reset: 0xffffffffff
+        typical: 0xffffffffff
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: --
+        bits: 63..24
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Reserved.
+
+      - name: RR_QUANTUM
+        bits: 23..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
+
+      - name: RR_QUANTUM
+        bits: 23..0
+        access: RO
+        reset: 0xffffff
+        typical: 0xffffff
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
+
+
   - name: PKO_L1_SQ(0..31)_SHAPE
     title: PKO PSE Level 1 Shaping Control Register
     address: 0x1540000000010 + a*0x200
@@ -1990,13 +2030,6 @@ registers:
         description: Enable. Enables CIR shaping.
 
 
-  - name: PKO_L1_SQ(0..31)_PIR
-    title: PKO PSE Level 1 Shaping Queue Peak Information Rate Register
-    address: 0x1540000000020 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
-    inherits: PKO_L1_SQ(0..31)_CIR
-
   - name: PKO_L1_SQ(0..31)_SHAPE_STATE
     title: PKO PSE Level 1 Shaping Queue Shape State Register
     address: 0x1540000000030 + a*0x200
@@ -2016,24 +2049,29 @@ registers:
         typical: 0x0
         description: Time-wheel timestamp. Debug access to the live time-wheel timestamp.
 
+      - name: --
+        bits: 53
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
       - name: COLOR
-        bits: 53..52
+        bits: 52
         access: R/W/H
-        reset: 0x0
-        typical: 0x0
+        reset: 0
+        typical: 0
         description: |
           Shaper color status. Debug access to the live shaper state.
           0x0 = Green - operating in 'committed' range
-          0x1 = Yellow - operating in 'excess/peak' range
-          0x2 = Red - operating in 'oversubscribed' range
-          0x3 = Reserved
+          0x1 = Red - operating in 'oversubscribed' range or inactive
 
-      - name: PIR_ACCUM
+      - name: --
         bits: 51..26
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        description: Peak information rate accumulator. Debug access to the live PIR accumulator.
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: CIR_ACCUM
         bits: 25..0
@@ -2213,7 +2251,7 @@ registers:
 
   - name: PKO_PQ_DEBUG_GREEN
     title: |
-      INTERNAL: PKO PSE PQ Level Green Vector (Debug)
+      INTERNAL: PKO PSE PQ Level Green Vector Debug Register
     address: 0x1540000000058
     bus: NCB
     fields:
@@ -2234,7 +2272,7 @@ registers:
 
   - name: PKO_PQ_DEBUG_YELLOW
     title: |
-      INTERNAL: PKO PSE PQ Level Yellow Vector (Debug)
+      INTERNAL: PKO PSE PQ Level Yellow Vector Debug Register
     address: 0x1540000000060
     bus: NCB
     fields:
@@ -2262,7 +2300,7 @@ registers:
 
   - name: PKO_PQ_DEBUG_LINKS
     title: |
-      INTERNAL: PKO PSE PQ Level Red Vector (Debug)
+      INTERNAL: PKO PSE PQ Level Red Vector Debug Register
     address: 0x1540000000068
     bus: NCB
     fields:
@@ -2281,9 +2319,51 @@ registers:
         description: peb_lnk_rdy_ir vector.
 
 
+  - name: PKO_L1_SQ(0..31)_DROPPED_PACKETS
+    title: PKO PSE Port Queue Dropped Packets Register
+    address: 0x1540000000080 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
+
+  - name: PKO_L1_SQ(0..31)_DROPPED_BYTES
+    title: PKO PSE Port Queue Dropped Bytes Register
+    address: 0x1540000000088 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
+
+  - name: PKO_L1_SQ(0..31)_RED_PACKETS
+    title: PKO PSE Port Queue Red Sent Packets Register
+    address: 0x1540000000090 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
+
+  - name: PKO_L1_SQ(0..31)_RED_BYTES
+    title: PKO PSE Port Queue Red Sent Bytes Register
+    address: 0x1540000000098 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
+
+  - name: PKO_L1_SQ(0..31)_YELLOW_PACKETS
+    title: PKO PSE Port Queue Yellow Sent Packets Register
+    address: 0x15400000000A0 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
+
+  - name: PKO_L1_SQ(0..31)_YELLOW_BYTES
+    title: PKO PSE Port Queue Yellow Sent Bytes Register
+    address: 0x15400000000A8 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
+
   - name: PKO_L1_SQ(0..31)_GREEN_PACKETS
     title: PKO PSE Port Queue Green Sent Packets Register
-    address: 0x1540000000080 + a*0x200
+    address: 0x15400000000B0 + a*0x200
     bus: NCB
     fields:
       - name: --
@@ -2303,7 +2383,7 @@ registers:
 
   - name: PKO_L1_SQ(0..31)_GREEN_BYTES
     title: PKO PSE Port Queue Green Sent Bytes Register
-    address: 0x1540000000088 + a*0x200
+    address: 0x15400000000B8 + a*0x200
     bus: NCB
     fields:
       - name: --
@@ -2321,71 +2401,29 @@ registers:
         description: Count. The running count of bytes. Note that this count wraps.
 
 
-  - name: PKO_L1_SQ(0..31)_YELLOW_PACKETS
-    title: PKO PSE Port Queue Yellow Sent Packets Register
-    address: 0x1540000000090 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
-    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
-
-  - name: PKO_L1_SQ(0..31)_YELLOW_BYTES
-    title: PKO PSE Port Queue Yellow Sent Bytes Register
-    address: 0x1540000000098 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
-    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
-
-  - name: PKO_L1_SQ(0..31)_RED_PACKETS
-    title: PKO PSE Port Queue Red Sent Packets Register
-    address: 0x15400000000A0 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
-    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
-
-  - name: PKO_L1_SQ(0..31)_RED_BYTES
-    title: PKO PSE Port Queue Red Sent Bytes Register
-    address: 0x15400000000A8 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
-    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
-
-  - name: PKO_L1_SQ(0..31)_DROPPED_PACKETS
-    title: PKO PSE Port Queue Dropped Packets Register
-    address: 0x15400000000B0 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
-    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
-
-  - name: PKO_L1_SQ(0..31)_DROPPED_BYTES
-    title: PKO PSE Port Queue Dropped Bytes Register
-    address: 0x15400000000B8 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
-    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
-
-  - name: PKO_DQ(0..1023)_PACKETS
-    title: PKO PSE Descriptor Queue Sent Packets Register
-    address: 0x15400000000C0 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
-    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
-
-  - name: PKO_DQ(0..1023)_BYTES
-    title: PKO PSE Descriptor Queue Sent Bytes Register
-    address: 0x15400000000C8 + a*0x200
-    bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
-    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
-
   - name: PKO_DQ(0..1023)_DROPPED_PACKETS
     title: PKO PSE Descriptor Queue Dropped Packets Register
-    address: 0x15400000000D0 + a*0x200
+    address: 0x15400000000C0 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
     inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_DQ(0..1023)_DROPPED_BYTES
     title: PKO PSE Descriptor Queue Dropped Bytes Register
+    address: 0x15400000000C8 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
+
+  - name: PKO_DQ(0..1023)_PACKETS
+    title: PKO PSE Descriptor Queue Sent Packets Register
+    address: 0x15400000000D0 + a*0x200
+    bus: NCB
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
+
+  - name: PKO_DQ(0..1023)_BYTES
+    title: PKO PSE Descriptor Queue Sent Bytes Register
     address: 0x15400000000D8 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
@@ -3095,7 +3133,18 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
+        description: |
+          Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+          integer).
+          The packet size used in all DWRR calculations is:
+             (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
+             PKO_SEND_EXT_S[SHAPECHG] +
+             PKO_Ln_SQm_SHAPE[ADJUST]
+          where n and m correspond to this PKO_Ln_SQm_SCHEDULE CSR. CALCPAD is zero when
+          PKO_PDM_DQd_MINPAD[MINPAD] is clear or when PKO_PDM_CFG[TOTAL]>=PKO_PDM_CFG[MINLEN],
+          else CALCPAD=PKO_PDM_CFG[MINLEN]-PKO_SEND_HDR_S[TOTAL], where d is the DQ the packet used.
+          PKO_SEND_EXT_S[SHAPECHG] is zero when a PKO_SEND_EXT_S is not present in the send
+          descriptor.
 
 
   - name: PKO_L2_SQ(0..511)_SHAPE
@@ -3117,7 +3166,7 @@ registers:
         typical: 0
         description: |
           Length disable. Disables the use of packet lengths in shaping calculations such that only
-          the value of PKO_L2_SQ(0..511)_SHAPE[ADJUST].
+          the values of PKO_L2_SQ(0..511)_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
 
       - name: --
         bits: 23..13
@@ -3176,8 +3225,8 @@ registers:
     title: PKO PSE Level 2 Shaping Queue Peak Information Rate Register
     address: 0x1540000080020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PIR.
-    inherits: PKO_L1_SQ(0..31)_PIR
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L2_SQ(0..511)_SCHED_STATE
     title: PKO PSE Level 2 Shaping Queue Scheduling Control State Register
@@ -3203,8 +3252,47 @@ registers:
     title: PKO PSE Level 2 Shaping Queue Shape State Register
     address: 0x1540000080030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SHAPE_STATE.
-    inherits: PKO_L1_SQ(0..31)_SHAPE_STATE
+    fields:
+      - name: --
+        bits: 63..60
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TW_TIMESTAMP
+        bits: 59..54
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Time-wheel timestamp. Debug access to the live time-wheel timestamp.
+
+      - name: COLOR
+        bits: 53..52
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Shaper color status. Debug access to the live shaper state.
+          0x0 = Green - operating in 'committed' range
+          0x1 = Yellow - operating in 'excess/peak' range
+          0x2 = Red - operating in 'oversubscribed' range
+          0x3 = Reserved
+
+      - name: PIR_ACCUM
+        bits: 51..26
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Peak information rate accumulator. Debug access to the live PIR accumulator.
+
+      - name: CIR_ACCUM
+        bits: 25..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Committed information rate accumulator. Debug access to the live CIR accumulator.
+
 
   - name: PKO_L3_L2_SQ(0..511)_CHANNEL
     title: PKO PSE Level 3/2 Shaping Queue Channel Configuration Register
@@ -3327,7 +3415,7 @@ registers:
 
   - name: PKO_L1_SQ(0..31)_YELLOW
     title: |
-      INTERNAL: PKO PSE Level 1 Shaping Queue Yellow State Register (Debug)
+      INTERNAL: PKO PSE Level 1 Shaping Queue Yellow State Debug Register
     address: 0x1540000080060 + a*0x200
     bus: NCB
     fields:
@@ -3362,7 +3450,7 @@ registers:
 
   - name: PKO_L1_SQ(0..31)_RED
     title: |
-      INTERNAL: PKO PSE Level 1 Shaping Queue Red State Register (Debug)
+      INTERNAL: PKO PSE Level 1 Shaping Queue Red State Debug Register
     address: 0x1540000080068 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_YELLOW.
@@ -3370,7 +3458,7 @@ registers:
 
   - name: PKO_L1_SQ(0..31)_PICK
     title: |
-      INTERNAL: PKO PSE Level 1 Shaping Queue Packet Pick State Register (Debug)
+      INTERNAL: PKO PSE Level 1 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000080070 + a*0x200
     bus: NCB
     fields:
@@ -3485,7 +3573,7 @@ registers:
 
   - name: PKO_L2_SQ(0..511)_POINTERS
     title: |
-      INTERNAL: PKO PSE Level 2 Shaping Queue Linked List Pointers Register (Debug)
+      INTERNAL: PKO PSE Level 2 Shaping Queue Linked List Pointers Debug Register
     address: 0x1540000080078 + a*0x200
     bus: NCB
     fields:
@@ -4595,8 +4683,8 @@ registers:
     title: PKO PSE Level 3 Shaping Queue Peak Information Rate Register
     address: 0x1540000100020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PIR.
-    inherits: PKO_L1_SQ(0..31)_PIR
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L3_SQ(0..511)_SCHED_STATE
     title: PKO PSE Level 3 Scheduling Control State Register
@@ -4609,12 +4697,12 @@ registers:
     title: PKO PSE Level 3 Shaping State Register
     address: 0x1540000100030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SHAPE_STATE.
-    inherits: PKO_L1_SQ(0..31)_SHAPE_STATE
+    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L2_SQ(0..511)_GREEN
     title: |
-      INTERNAL: PKO PSE Level 2 Shaping Queue Green State Register (Debug)
+      INTERNAL: PKO PSE Level 2 Shaping Queue Green State Debug Register
     address: 0x1540000100058 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN.
@@ -4622,7 +4710,7 @@ registers:
 
   - name: PKO_L2_SQ(0..511)_YELLOW
     title: |
-      INTERNAL: PKO PSE Level 2 Shaping Queue Yellow State Register (Debug)
+      INTERNAL: PKO PSE Level 2 Shaping Queue Yellow State Debug Register
     address: 0x1540000100060 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_YELLOW.
@@ -4630,7 +4718,7 @@ registers:
 
   - name: PKO_L2_SQ(0..511)_RED
     title: |
-      INTERNAL: PKO PSE Level 2 Shaping Queue Red State Register (Debug)
+      INTERNAL: PKO PSE Level 2 Shaping Queue Red State Debug Register
     address: 0x1540000100068 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_RED.
@@ -4638,7 +4726,7 @@ registers:
 
   - name: PKO_L2_SQ(0..511)_PICK
     title: |
-      INTERNAL: PKO PSE Level 2 Shaping Queue Packet Pick State Register (Debug)
+      INTERNAL: PKO PSE Level 2 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000100070 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
@@ -4646,7 +4734,7 @@ registers:
 
   - name: PKO_L3_SQ(0..511)_POINTERS
     title: |
-      INTERNAL: PKO PSE Level 3 Shaping Queue Linked List Pointers Register (Debug)
+      INTERNAL: PKO PSE Level 3 Shaping Queue Linked List Pointers Debug Register
     address: 0x1540000100078 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L2_SQ(0..511)_POINTERS.
@@ -5428,8 +5516,8 @@ registers:
     title: PKO PSE Level 4 Shaping Queue Peak Information Rate Register
     address: 0x1540000180020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PIR.
-    inherits: PKO_L1_SQ(0..31)_PIR
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L4_SQ(0..511)_SCHED_STATE
     title: PKO PSE Level 4 Scheduling Control State Register
@@ -5442,12 +5530,12 @@ registers:
     title: PKO PSE Level 4 Shaping State Register
     address: 0x1540000180030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SHAPE_STATE.
-    inherits: PKO_L1_SQ(0..31)_SHAPE_STATE
+    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L3_SQ(0..511)_GREEN
     title: |
-      INTERNAL: PKO PSE Level 3 Shaping Queue Green State Register (Debug)
+      INTERNAL: PKO PSE Level 3 Shaping Queue Green State Debug Register
     address: 0x1540000180058 + a*0x200
     bus: NCB
     fields:
@@ -5491,7 +5579,7 @@ registers:
 
   - name: PKO_L3_SQ(0..511)_YELLOW
     title: |
-      INTERNAL: PKO PSE Level 3 Shaping Queue Yellow State Register (Debug)
+      INTERNAL: PKO PSE Level 3 Shaping Queue Yellow State Debug Register
     address: 0x1540000180060 + a*0x200
     bus: NCB
     fields:
@@ -5519,7 +5607,7 @@ registers:
 
   - name: PKO_L3_SQ(0..511)_RED
     title: |
-      INTERNAL: PKO PSE Level 3 Shaping Queue Red State Register (Debug)
+      INTERNAL: PKO PSE Level 3 Shaping Queue Red State Debug Register
     address: 0x1540000180068 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
@@ -5527,7 +5615,7 @@ registers:
 
   - name: PKO_L3_SQ(0..511)_PICK
     title: |
-      INTERNAL: PKO PSE Level 3 Shaping Queue Packet Pick State Register (Debug)
+      INTERNAL: PKO PSE Level 3 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000180070 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
@@ -5535,7 +5623,7 @@ registers:
 
   - name: PKO_L4_SQ(0..1023)_POINTERS
     title: |
-      INTERNAL: PKO PSE Level 4 Shaping Queue Linked List Pointers Register (Debug)
+      INTERNAL: PKO PSE Level 4 Shaping Queue Linked List Pointers Debug Register
     address: 0x1540000180078 + a*0x200
     bus: NCB
     fields:
@@ -6385,7 +6473,7 @@ registers:
 
   - name: PKO_L3_SQA_DEBUG
     title: |
-      INTERNAL: PKO PSE Level 3 SQ-A Internal Debug Register (Debug)
+      INTERNAL: PKO PSE Level 3 SQ-A Internal Debug Register
     address: 0x1540000180128
     bus: NCB
     description: This register has the same bit fields as PKO_PQA_DEBUG.
@@ -6393,14 +6481,14 @@ registers:
 
   - name: PKO_L3_SQB_DEBUG
     title: |
-      INTERNAL: PKO PSE Level 3 SQ-B Internal Debug Register (Debug)
+      INTERNAL: PKO PSE Level 3 SQ-B Internal Debug Register
     address: 0x1540000180130
     bus: NCB
     description: This register has the same bit fields as PKO_PQA_DEBUG.
     inherits: PKO_PQA_DEBUG
 
   - name: PKO_PSE_SQ3_BIST_STATUS
-    title: PSE SQ3 BIST status information register
+    title: PSE SQ3 BIST Status Information Register
     address: 0x1540000180138
     bus: NCB
     description: Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
@@ -6714,8 +6802,8 @@ registers:
     title: PKO PSE Level 5 Shaping Queue Peak Information Rate Register
     address: 0x1540000200020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PIR.
-    inherits: PKO_L1_SQ(0..31)_PIR
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L5_SQ(0..1023)_SCHED_STATE
     title: PKO PSE Level 5 Scheduling Control State Register
@@ -6728,12 +6816,12 @@ registers:
     title: PKO PSE Level 5 Shaping State Register
     address: 0x1540000200030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SHAPE_STATE.
-    inherits: PKO_L1_SQ(0..31)_SHAPE_STATE
+    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L4_SQ(0..1023)_GREEN
     title: |
-      INTERNAL: PKO PSE Level 4 Shaping Queue Green State Register (Debug)
+      INTERNAL: PKO PSE Level 4 Shaping Queue Green State Debug Register
     address: 0x1540000200058 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_GREEN.
@@ -6741,7 +6829,7 @@ registers:
 
   - name: PKO_L4_SQ(0..1023)_YELLOW
     title: |
-      INTERNAL: PKO PSE Level 4 Shaping Queue Yellow State Register (Debug)
+      INTERNAL: PKO PSE Level 4 Shaping Queue Yellow State Debug Register
     address: 0x1540000200060 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
@@ -6749,7 +6837,7 @@ registers:
 
   - name: PKO_L4_SQ(0..1023)_RED
     title: |
-      INTERNAL: PKO PSE Level 4 Shaping Queue Red State Register (Debug)
+      INTERNAL: PKO PSE Level 4 Shaping Queue Red State Debug Register
     address: 0x1540000200068 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
@@ -6757,7 +6845,7 @@ registers:
 
   - name: PKO_L4_SQ(0..1023)_PICK
     title: |
-      INTERNAL: PKO PSE Level 4 Shaping Queue Packet Pick State Register (Debug)
+      INTERNAL: PKO PSE Level 4 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000200070 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
@@ -6765,7 +6853,7 @@ registers:
 
   - name: PKO_L5_SQ(0..1023)_POINTERS
     title: |
-      INTERNAL: PKO PSE Level 5 Shaping Queue Linked List Pointers Register (Debug)
+      INTERNAL: PKO PSE Level 5 Shaping Queue Linked List Pointers Debug Register
     address: 0x1540000200078 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L4_SQ(0..1023)_POINTERS.
@@ -7588,7 +7676,7 @@ registers:
 
   - name: PKO_L4_SQA_DEBUG
     title: |
-      INTERNAL: PKO PSE Level 4 SQ-A Internal Debug Register (Debug)
+      INTERNAL: PKO PSE Level 4 SQ-A Internal Debug Register
     address: 0x1540000200128
     bus: NCB
     description: This register has the same bit fields as PKO_PQA_DEBUG.
@@ -7596,7 +7684,7 @@ registers:
 
   - name: PKO_L4_SQB_DEBUG
     title: |
-      INTERNAL: PKO PSE Level 4 SQ-B Internal Debug Register (Debug)
+      INTERNAL: PKO PSE Level 4 SQ-B Internal Debug Register
     address: 0x1540000200130
     bus: NCB
     description: This register has the same bit fields as PKO_PQA_DEBUG.
@@ -7865,8 +7953,8 @@ registers:
     title: PKO PSE Descriptor Queue Shaping Queue Peak Information Rate Register
     address: 0x1540000280020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PIR.
-    inherits: PKO_L1_SQ(0..31)_PIR
+    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_DQ(0..1023)_SCHED_STATE
     title: PKO PSE Descriptor Queue Scheduling Control State Register
@@ -7879,12 +7967,12 @@ registers:
     title: PKO PSE Descriptor Queue Shaping State Register
     address: 0x1540000280030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SHAPE_STATE.
-    inherits: PKO_L1_SQ(0..31)_SHAPE_STATE
+    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L5_SQ(0..1023)_GREEN
     title: |
-      INTERNAL: PKO PSE Level 5 Shaping Queue Green State Register (Debug)
+      INTERNAL: PKO PSE Level 5 Shaping Queue Green State Debug Register
     address: 0x1540000280058 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_GREEN.
@@ -7892,7 +7980,7 @@ registers:
 
   - name: PKO_L5_SQ(0..1023)_YELLOW
     title: |
-      INTERNAL: PKO PSE Level 5 Shaping Queue Yellow State Register (Debug)
+      INTERNAL: PKO PSE Level 5 Shaping Queue Yellow State Debug Register
     address: 0x1540000280060 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
@@ -7900,7 +7988,7 @@ registers:
 
   - name: PKO_L5_SQ(0..1023)_RED
     title: |
-      INTERNAL: PKO PSE Level 5 Shaping Queue Red State Register (Debug)
+      INTERNAL: PKO PSE Level 5 Shaping Queue Red State Debug Register
     address: 0x1540000280068 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
@@ -7908,7 +7996,7 @@ registers:
 
   - name: PKO_L5_SQ(0..1023)_PICK
     title: |
-      INTERNAL: PKO PSE Level 5 Shaping Queue Packet Pick State Register (Debug)
+      INTERNAL: PKO PSE Level 5 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000280070 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
@@ -7916,7 +8004,7 @@ registers:
 
   - name: PKO_DQ(0..1023)_POINTERS
     title: |
-      INTERNAL: PKO PSE Descriptor Queue Linked List Pointers Register (Debug)
+      INTERNAL: PKO PSE Descriptor Queue Linked List Pointers Debug Register
     address: 0x1540000280078 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L4_SQ(0..1023)_POINTERS.
@@ -8739,7 +8827,7 @@ registers:
 
   - name: PKO_L5_SQA_DEBUG
     title: |
-      INTERNAL: PKO PSE Level 5 SQ-A Internal Debug Register (Debug)
+      INTERNAL: PKO PSE Level 5 SQ-A Internal Debug Register
     address: 0x1540000280128
     bus: NCB
     description: This register has the same bit fields as PKO_PQA_DEBUG.
@@ -8747,14 +8835,14 @@ registers:
 
   - name: PKO_L5_SQB_DEBUG
     title: |
-      INTERNAL: PKO PSE Level 5 SQ-B Internal Debug Register (Debug)
+      INTERNAL: PKO PSE Level 5 SQ-B Internal Debug Register
     address: 0x1540000280130
     bus: NCB
     description: This register has the same bit fields as PKO_PQA_DEBUG.
     inherits: PKO_PQA_DEBUG
 
   - name: PKO_PSE_SQ5_BIST_STATUS
-    title: PSE SQ5 BIST status information register
+    title: PSE SQ5 BIST Status Information Register
     address: 0x1540000280138
     bus: NCB
     description: Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
@@ -8965,7 +9053,7 @@ registers:
 
   - name: PKO_DQ(0..1023)_PICK
     title: |
-      INTERNAL: PKO PSE Descriptor Queue Shaping Queue Packet Pick State Register (Debug)
+      INTERNAL: PKO PSE Descriptor Queue Shaping Queue Packet Pick State Debug Register
     address: 0x1540000300070 + a*0x200
     bus: NCB
     description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
@@ -8973,7 +9061,7 @@ registers:
 
   - name: PKO_DQ(0..1023)_FIFO
     title: |
-      INTERNAL: PKO PSE Descriptor Queue FIFO State Register (Debug)
+      INTERNAL: PKO PSE Descriptor Queue FIFO State Debug Register
     address: 0x1540000300078 + a*0x200
     bus: NCB
     fields:
@@ -9396,7 +9484,7 @@ registers:
 
   - name: PKO_DQ_DEBUG
     title: |
-      INTERNAL: PKO PSE DQ Internal Debug Register (Debug)
+      INTERNAL: PKO PSE DQ Internal Debug Register
     address: 0x1540000300128
     bus: NCB
     fields:
@@ -9409,7 +9497,7 @@ registers:
 
 
   - name: PKO_PSE_DQ_BIST_STATUS
-    title: PSE DQ BIST status information register
+    title: PSE DQ BIST Status Information Register
     address: 0x1540000300138
     bus: NCB
     description: Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
@@ -9793,8 +9881,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          CRC error occurred in a descriptor. (State may have been corrupted.) INTERNAL: Note that
-          this is a pass 2 feature. Throws PKO_INTSN_E::PKO_DESC_CRC_ERR.
+          CRC error occurred in a descriptor. (State may have been corrupted.) Throws
+          PKO_INTSN_E::PKO_DESC_CRC_ERR. INTERNAL: Note that this is a pass 2 feature.
 
 
   - name: PKO_PDM_MEM_DATA
@@ -12153,6 +12241,37 @@ registers:
         description: Maximum number of IOBP1 read requests outstanding to be allowed by any given PEB TX FIFO.
 
 
+  - name: PKO_PEB_NCB_CFG
+    title: PKO PEB NCB Interface Configuration Register
+    address: 0x1540000900308
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..1
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RSTP
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Convert STP operations to RSTP. Added in pass 2.
+
+      - name: RSTP
+        bits: 0
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+
   - name: PKO_FORMAT(0..127)_CTL
     title: PKO Packet Marking Format Register
     address: 0x1540000900800 + a*0x8
@@ -12209,7 +12328,7 @@ registers:
 
 
   - name: PKO_PEB_ERR_INT
-    title: PKO error interrupt status register0
+    title: PKO Error Interrupt Status Register 0
     address: 0x1540000900C00
     bus: NCB
     fields:
@@ -12311,7 +12430,7 @@ registers:
 
 
   - name: PKO_PEB_EXT_HDR_DEF_ERR_INFO
-    title: PEB_EXT_HDR_DEF_ERR error information register
+    title: PEB_EXT_HDR_DEF_ERR Error Information Register
     address: 0x1540000900C08
     bus: NCB
     fields:
@@ -12345,7 +12464,7 @@ registers:
 
 
   - name: PKO_PEB_JUMP_DEF_ERR_INFO
-    title: PEB_JUMP_DEF_ERR error information register
+    title: PEB_JUMP_DEF_ERR Error Information Register
     address: 0x1540000900C10
     bus: NCB
     fields:
@@ -12379,7 +12498,7 @@ registers:
 
 
   - name: PKO_PEB_FCS_SOP_ERR_INFO
-    title: PEB_FCS_SOP_ERR error information register
+    title: PEB_FCS_SOP_ERR Error Information Register
     address: 0x1540000900C18
     bus: NCB
     fields:
@@ -12413,7 +12532,7 @@ registers:
 
 
   - name: PKO_PEB_PSE_FIFO_ERR_INFO
-    title: PEB_PSE_FIFO_ERR error information register
+    title: PEB_PSE_FIFO_ERR Error Information Register
     address: 0x1540000900C20
     bus: NCB
     fields:
@@ -12447,7 +12566,7 @@ registers:
 
 
   - name: PKO_PEB_PAD_ERR_INFO
-    title: PEB_PAD_ERR error information register
+    title: PEB_PAD_ERR Error Information Register
     address: 0x1540000900C28
     bus: NCB
     fields:
@@ -12481,7 +12600,7 @@ registers:
 
 
   - name: PKO_PEB_TRUNC_ERR_INFO
-    title: PEB_TRUNC_ERR error information register
+    title: PEB_TRUNC_ERR Error Information Register
     address: 0x1540000900C30
     bus: NCB
     fields:
@@ -12515,7 +12634,7 @@ registers:
 
 
   - name: PKO_PEB_SUBD_ADDR_ERR_INFO
-    title: PEB_SUBD_ADDR_ERR error information register
+    title: PEB_SUBD_ADDR_ERR Error Information Register
     address: 0x1540000900C38
     bus: NCB
     fields:
@@ -12549,7 +12668,7 @@ registers:
 
 
   - name: PKO_PEB_SUBD_SIZE_ERR_INFO
-    title: PEB_SUBD_SIZE_ERR error information register
+    title: PEB_SUBD_SIZE_ERR Error Information Register
     address: 0x1540000900C40
     bus: NCB
     fields:
@@ -12583,7 +12702,7 @@ registers:
 
 
   - name: PKO_PEB_MAX_LINK_ERR_INFO
-    title: PEB_MAX_LINK_ERR error information register
+    title: PEB_MAX_LINK_ERR Error Information Register
     address: 0x1540000900C48
     bus: NCB
     fields:
@@ -12617,7 +12736,7 @@ registers:
 
 
   - name: PKO_PEB_MACX_CFG_WR_ERR_INFO
-    title: PEB_MACX_CFG_WR_ERR error information register
+    title: PEB_MACX_CFG_WR_ERR Error Information Register
     address: 0x1540000900C50
     bus: NCB
     fields:
@@ -12644,7 +12763,7 @@ registers:
 
 
   - name: PKO_PEB_BIST_STATUS
-    title: PEB BIST status information register
+    title: PEB BIST Status Information Register
     address: 0x1540000900D00
     bus: NCB
     description: Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
@@ -12831,12 +12950,12 @@ registers:
         typical: --
         description: PEB_ST_INF RAM BIST status.
 
-      - name: PEB_SM_JMP_RAM
+      - name: --
         bits: 0
-        access: RO
+        access: RAZ
         reset: 0
         typical: --
-        description: PEB_SM_JMP RAM BIST status.
+        description: Reserved.
 
 
   - name: PKO_PEB_ECC_CTL1
@@ -12947,19 +13066,12 @@ registers:
         typical: 0
         description: PDM_PSE_BUF_RAM ECC correction disable.
 
-      - name: PEB_SM_JMP_RAM_FLIP
-        bits: 48..47
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: PEB_SM_JMP_RAM flip syndrome bits on write.
-
-      - name: PEB_SM_JMP_RAM_CDIS
-        bits: 46
-        access: R/W
-        reset: 0
-        typical: 0
-        description: PEB_SM_JMP_RAM ECC correction disable.
+      - name: --
+        bits: 48..46
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: PEB_ST_INF_RAM_FLIP
         bits: 45..44
@@ -13200,7 +13312,6 @@ registers:
           pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i
-          pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_sm_jmp_uid_mem_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i
@@ -13247,7 +13358,6 @@ registers:
           pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i
-          pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_sm_jmp_uid_mem_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i
@@ -13325,14 +13435,12 @@ registers:
           Double-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i
 
-      - name: PEB_SM_JMP_RAM_DBE
+      - name: --
         bits: 58
-        access: R/W1C/H
-        reset: 0
+        access: RAZ
+        reset: --
         typical: --
-        description: |
-          Double-bit error for PEB_SM_JMP_RAM. INTERNAL: Instances:
-          pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_sm_jmp_uid_mem_i
+        description: Reserved.
 
       - name: PEB_ST_INF_RAM_DBE
         bits: 57
@@ -13538,14 +13646,12 @@ registers:
           Single-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i
 
-      - name: PEB_SM_JMP_RAM_SBE
+      - name: --
         bits: 58
-        access: R/W1C/H
-        reset: 0
+        access: RAZ
+        reset: --
         typical: --
-        description: |
-          Single-bit error for PEB_SM_JMP_RAM. INTERNAL: Instances:
-          pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_sm_jmp_uid_mem_i
+        description: Reserved.
 
       - name: PEB_ST_INF_RAM_SBE
         bits: 57
@@ -13716,7 +13822,18 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
         description: Max credit limit.
+
+      - name: MAX_CRED_LIM
+        bits: 11..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Max credit limit. Deprecated in pass 2.
 
 
   - name: PKO_MCI0_CRED_CNT(0..27)
@@ -13736,7 +13853,18 @@ registers:
         access: RO/H
         reset: 0x0
         typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
         description: Credit count.
+
+      - name: CRED_CNT
+        bits: 12..0
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Deprecated in pass 2.
 
 
   - name: PKO_MCI1_MAX_CRED(0..27)
@@ -14139,7 +14267,11 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Local aura to use for PKO command buffering. Must be on local OCI node.
+        description: |
+          Local aura to use for PKO command buffering. Must be on local OCI node.
+          The FPA aura selected by LAURA must select an FPA pool whose
+          FPA_POOL(0..63)_CFG[NAT_ALIGN]=1, and
+          (FPA_POOL(0..63)_CFG[BUF_SIZE] - FPA_POOL(0..63)_CFG[BUF_OFFSET]) >= 4 KB/128.
 
 
   - name: PKO_DPFI_ENA
@@ -14406,7 +14538,7 @@ registers:
 
 
   - name: PKO_NCB_BIST_STATUS
-    title: PKO NCB RAM BIST Status
+    title: PKO NCB RAM BIST Status Register
     address: 0x1540000EFFF00
     bus: NCB
     description: Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).

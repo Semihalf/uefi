@@ -299,7 +299,7 @@ enums:
 
 registers:
   - name: OSM_INT_STAT
-    title: OSM Interrupt Status
+    title: OSM Interrupt Status Register
     address: 0x11800DC000008
     bus: RSL
     description: |
@@ -480,7 +480,7 @@ registers:
 
 
   - name: OSM_INT_INFO_ECC
-    title: OSM ECC Error Interrupt Information
+    title: OSM ECC Error Interrupt Information Register
     address: 0x11800DC000010
     bus: RSL
     description: |
@@ -520,7 +520,7 @@ registers:
 
 
   - name: OSM_INT_INFO_ADDR
-    title: OSM Address Error Interrupt Information
+    title: OSM Address Error Interrupt Information Register
     address: 0x11800DC000018
     bus: RSL
     description: |
@@ -592,7 +592,7 @@ registers:
 
 
   - name: OSM_BANK(0..63)_CTRL
-    title: OSM Bank Control
+    title: OSM Bank Control Register
     address: 0x11800DC001000 + a*0x8
     bus: RSL
     attributes:

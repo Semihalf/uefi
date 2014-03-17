@@ -111,9 +111,6 @@ registers:
         description: |
           Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
           'ref-clock speed' should always be 50MHz.
-          For PCIe Gen1, the coprocessor-clock speed must be greater than 250MHz; for PCIe Gen2, the
-          coprocessor-clock speed must be greater than 500MHz; for PCIe Gen3, the coprocessor-clock
-          speed must be greater than 800MHz.
 
       - name: --
         bits: 23..21
@@ -401,10 +398,8 @@ registers:
         typical: --
         description: |
           Read-only access to the corresponding PEM(0..3)_CFG[HOSTMD] field indicating PEMn is root
-          complex (host).
-          For controllers 0 and 2 the inital value is determined by straps.  For controllers 1 and 3
-          these field
-          is initially set as host.
+          complex (host). For controllers 0 and 2  the initial value is determined by straps. For
+          controllers 1 and 3 this field is initially set as host.
 
       - name: --
         bits: 5..4

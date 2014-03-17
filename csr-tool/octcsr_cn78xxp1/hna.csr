@@ -1577,7 +1577,7 @@ registers:
 
   - name: HNA_PFC_GCTL
     title: |
-      INTERNAL: HNA Performance Counter Global Control
+      INTERNAL: HNA Performance Counter Global Control Register
     address: 0x1180047000080
     bus: RSL
     description: Global control across all performance counters.
@@ -1962,7 +1962,7 @@ registers:
 
 
   - name: HNA_BIST0
-    title: HNA BIST Status (per-HPU)
+    title: HNA BIST Status 0 Register
     address: 0x11800470007F0
     bus: RSL
     description: |
@@ -2027,7 +2027,7 @@ registers:
 
 
   - name: HNA_BIST1
-    title: HNA BIST Status (Globals)
+    title: HNA BIST Status 1 Register
     address: 0x11800470007F8
     bus: RSL
     description: |
@@ -2095,8 +2095,8 @@ registers:
       addr[34:32] = 0x0 or 0x1. To read the HNA_DBELL register, a device issues an IOBLD64 directed
       at the HNA with addr[34:32] = 0x0 or 0x1.
       If HNA_CONFIG[HPUCLKDIS]=1 (HNA-HPU clocks disabled), reads/writes to the HNA_DBELL register
-      do not take effect. If FUSE[TBD] = 'HNA HPU disable' is blown, reads/writes to the HNA_DBELL
-      register do not take effect.
+      do not take effect. If the HNA-disable fuse is blown, reads/writes to the HNA_DBELL register
+      do not take effect.
     fields:
       - name: --
         bits: 63..20
@@ -2129,8 +2129,7 @@ registers:
       addr[34:32] = 0x2 or 0x3. To read the HNA_DIFRDPTR register, a device issues an IOBLD64
       directed at the HNA with addr[34:32] = 0x2 or 0x3.
       If HNA_CONFIG[HPUCLKDIS]=1 (HNA-HPU clocks disabled), reads/writes to HNA_DIFRDPTR do not take
-      effect. If FUSE[TBD] = 'HNA HPU disable' is blown, reads/writes to HNA_DIFRDPTR do not take
-      effect.
+      effect. If the HNA-disable fuse is blown, reads/writes to HNA_DIFRDPTR do not take effect.
     fields:
       - name: --
         bits: 63..42
@@ -2244,8 +2243,8 @@ registers:
       HNA with addr[34:32]=0x6.
       This register is intended to only be written once (at power-up). Any future writes could cause
       the HNA and FPA hardware to become unpredictable. If HNA_CONFIG[HPUCLKDIS]=1 (HNA-HPU clocks
-      disabled), reads/writes to HNA_DIFCTL do not take effect. If FUSE[TBD] = 'HNA HPU disable' is
-      blown, reads/writes to HNA_DIFCTL do not take effect.
+      disabled), reads/writes to HNA_DIFCTL do not take effect. If the HNA-disable FUSE is blown,
+      reads/writes to HNA_DIFCTL do not take effect.
     fields:
       - name: --
         bits: 63..42

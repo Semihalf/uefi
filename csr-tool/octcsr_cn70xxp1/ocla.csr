@@ -601,8 +601,9 @@ registers:
         typical: --
         description: |
           Stop level. When OCLA(0)_FIFO_DEPTH > OVERFULL, stop capturing and set
-          OCLA(0)_STATE_INT[OVERFULL]. This should be set to just less than the FIFO size when
-          using DDR capture to insure that overflow can be detected.
+          OCLA(0)_STATE_INT[OVERFULL]. This should be set to no more than
+          OCLA(0..4)_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+          detected.
 
       - name: DDR
         bits: 47..32

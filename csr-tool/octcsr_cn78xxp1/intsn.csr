@@ -2649,8 +2649,7 @@ enums:
           major_val: "(0x28)"
           reg_addr: "(0x1280010A00000|a<<3)"
           reg_name: "FPA_POOL(0..63)_INT"
-        description: |
-          See FPA_POOL(0..63)_INT[OVFLS]. INTERNAL:
+        description: See FPA_POOL(0..63)_INT[OVFLS].
 
       - name: FPA_POOL(0..63)_CRCERR
         value: 0x28840 + a
@@ -2663,8 +2662,7 @@ enums:
           major_val: "(0x28)"
           reg_addr: "(0x1280010A00000|a<<3)"
           reg_name: "FPA_POOL(0..63)_INT"
-        description: |
-          See FPA_POOL(0..63)_INT[CRCERR]. INTERNAL:
+        description: See FPA_POOL(0..63)_INT[CRCERR].
 
       - name: FPA_POOL(0..63)_RANGE
         value: 0x28880 + a
@@ -2677,8 +2675,7 @@ enums:
           major_val: "(0x28)"
           reg_addr: "(0x1280010A00000|a<<3)"
           reg_name: "FPA_POOL(0..63)_INT"
-        description: |
-          See FPA_POOL(0..63)_INT[RANGE]. INTERNAL:
+        description: See FPA_POOL(0..63)_INT[RANGE].
 
       - name: FPA_POOL(0..63)_THRESH
         value: 0x288C0 + a
@@ -2691,8 +2688,7 @@ enums:
           major_val: "(0x28)"
           reg_addr: "(0x1280010A00000|a<<3)"
           reg_name: "FPA_POOL(0..63)_INT"
-        description: |
-          See FPA_POOL(0..63)_INT[THRESH]. INTERNAL:
+        description: See FPA_POOL(0..63)_INT[THRESH].
 
       - name: FPA_AURA(0..1023)_THRESH
         value: 0x29000 + a
@@ -2706,8 +2702,7 @@ enums:
           major_val: "(0x29)"
           reg_addr: "(0x1280020600000|a<<3)"
           reg_name: "FPA_AURA(0..1023)_INT"
-        description: |
-          See FPA_AURA(0..1023)_INT[THRESH]. INTERNAL:
+        description: See FPA_AURA(0..1023)_INT[THRESH].
 
       - name: DFA_ERROR_DBLOVF
         value: 0x37000
@@ -4687,6 +4682,7 @@ enums:
           bit_name: "AQ_INT"
           bit_num: "0"
           blk_enum_name: "SSO_INTSN_E"
+          cib_rtl_module: "sso_gw_aqgrp"
           intsn_lsb_mismatch: "True"
           major_name: "SSO_TGQ"
           major_val: "(0x60)"
@@ -4700,6 +4696,7 @@ enums:
           bit_name: "EXE_INT"
           bit_num: "1"
           blk_enum_name: "SSO_INTSN_E"
+          cib_rtl_module: "sso_gw_exegrp"
           intsn_lsb_mismatch: "True"
           major_name: "SSO_EXE"
           major_val: "(0x61)"

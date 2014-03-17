@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: TIM
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: TIM_REG_FLAGS
     address: 0x1180058000000
@@ -129,13 +131,16 @@ registers:
 
 
   - name: TIM_REG_ERROR
+    title: Timer Ring Error Interrupt Register
     address: 0x1180058000088
     bus: RSL
-    internal: |
-      A ring is in error if its interval has elapsed more than once without having been serviced.
-      During a CSR write to this register, the write data is used as a mask to clear the selected
-      mask
-      bits (mask'[15:0] = mask[15:0] & ~write_data[15:0]).
+    description: |
+      A ring is in error if its interval has elapsed more than once without having been serviced,
+      either due to too many events in this ring's previous interval, or another ring having too
+      many events to process within this ring's interval. This is usually a programming error where
+      the number of entries in the bucket is too large for the interval specified across the rings.
+      When in error, TIM may process events in an interval later than requested. Any bit in the INT
+      field should be cleared by writing one to it.
     fields:
       - name: --
         bits: 63..16

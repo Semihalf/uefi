@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: IOB
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: IOB_FAU_TIMEOUT
     address: 0x11800F0000000

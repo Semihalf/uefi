@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PCS
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: PCS(0..1)_MR(0..3)_CONTROL_REG
     title: Control Register0

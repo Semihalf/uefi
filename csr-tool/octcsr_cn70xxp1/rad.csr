@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: RAD
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: RAD_REG_CTL
     address: 0x1180070000000

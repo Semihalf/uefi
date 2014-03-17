@@ -294,7 +294,7 @@ registers:
 
 
   - name: MIO_BOOT_REG_TIM0
-    title: MIO Boot Timing Register for Region 0
+    title: MIO Boot Region 0 Timing Register
     address: 0x1180000000040
     bus: RSL
     description: The region 0 timing register contains page-mode, wait-mode, and timing parameters for region 0.
@@ -403,7 +403,7 @@ registers:
 
 
   - name: MIO_BOOT_REG_TIM(1..7)
-    title: MIO Boot Timing Registers for Regions 1-7
+    title: MIO Boot Regions 1-7 Timing Registers
     address: 0x1180000000040 + a*0x8
     bus: RSL
     description: |
@@ -899,7 +899,7 @@ registers:
 
 
   - name: MIO_BOOT_DMA_CFG(0..1)
-    title: MIO Boot DMA Configuration Registers for Engines 0-1
+    title: MIO Boot DMA Engine Configuration Registers
     address: 0x1180000000100 + a*0x8
     bus: RSL
     description: |
@@ -994,7 +994,7 @@ registers:
 
 
   - name: MIO_BOOT_DMA_ADR(0..1)
-    title: MIO Boot DMA Address Registers for Engines 0-1
+    title: MIO Boot DMA Engine Address Registers
     address: 0x1180000000110 + a*0x8
     bus: RSL
     description: This is the DMA engine n address register (one register for each of two engines).
@@ -1017,7 +1017,7 @@ registers:
 
 
   - name: MIO_BOOT_DMA_TIM(0..1)
-    title: MIO Boot DMA Timing Registers for Engines 0-1
+    title: MIO Boot DMA Engine Timing Registers
     address: 0x1180000000120 + a*0x8
     bus: RSL
     description: This is the DMA engine n timing register (one register for each of two engines).
@@ -1151,7 +1151,7 @@ registers:
 
 
   - name: MIO_BOOT_DMA_INT(0..1)
-    title: MIO Boot DMA Interrupt Registers for Engines 0-1
+    title: MIO Boot DMA Engine Interrupt Registers
     address: 0x1180000000138 + a*0x8
     bus: RSL
     description: This is the DMA engine n interrupt register (one register for each of two engines).

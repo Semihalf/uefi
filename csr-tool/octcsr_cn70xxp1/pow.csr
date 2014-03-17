@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: POW
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: POW_PP_GRP_MSK(0..3)
     address: 0x1670000000000 + a*0x8

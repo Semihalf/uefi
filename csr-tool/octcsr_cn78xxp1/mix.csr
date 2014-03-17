@@ -2,6 +2,7 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: MIX
+description: All registers must be accessed with 64-bit load or stores.
 attributes:
   block_index_affects_offset: "True"
   dv_fc_scratch_exempt: "NCB"
@@ -75,9 +76,6 @@ registers:
     title: MIX Outbound Ring Register 1
     address: 0x1070000100000 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: OSIZE
         bits: 63..44
@@ -118,9 +116,6 @@ registers:
     title: MIX Outbound Ring Register 2
     address: 0x1070000100008 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..52
@@ -156,7 +151,7 @@ registers:
         description: |
           Represents the cumulative total of pending outbound ring (O-Ring) buffer entries. Each
           O-Ring buffer entry contains:
-          an L2/DRAM byte pointer along with a
+          an L2/DRAM byte pointer.
           a byte length.
           After software inserts new entries into the O-Ring Buffer, it 'rings the doorbell with the
           count of the newly inserted entries.' When the MIX hardware receives the doorbell ring, it
@@ -169,9 +164,6 @@ registers:
     title: MIX Inbound Ring Register 1
     address: 0x1070000100010 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: ISIZE
         bits: 63..44
@@ -212,9 +204,6 @@ registers:
     title: MIX Inbound Ring Register 2
     address: 0x1070000100018 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..52
@@ -250,7 +239,7 @@ registers:
         description: |
           Represents the cumulative total of pending inbound ring (I-Ring) buffer entries. Each
           I-Ring buffer entry contains:
-          an L2/DRAM byte pointer along with a
+          an L2/DRAM byte pointer.
           a Byte Length.
           After software inserts a new entry into the I-Ring buffer, it 'rings the doorbell for the
           inbound ring.' When the MIX hardware receives the doorbell ring, it advances the doorbell
@@ -263,9 +252,6 @@ registers:
     title: MIX Control Register
     address: 0x1070000100020 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..12
@@ -305,8 +291,8 @@ registers:
         typical: 0
         description: |
           MIX busy status bit. MIX asserts busy status any time there are:
-          L2/DRAM read operations in-flight
-          L2/DRAM write operations in-flight
+          L2/DRAM read operations in-flight.
+          L2/DRAM write operations in-flight.
           After EN = 0, the MIX eventually completes any 'in-flight' transactions, at which point
           the BUSY deasserts.
 
@@ -350,8 +336,8 @@ registers:
         typical: 0
         description: |
           Packet little-endian mode enable.
-          0 = big-endian mode
-          1 = little-endian mode
+          0 = Big-endian mode.
+          1 = Little-endian mode.
           When the mode is set, MIX byte-swaps packet data load/store operations at the MIX/IOB
           boundary.
 
@@ -363,11 +349,12 @@ registers:
         description: |
           MIX CB-request arbitration mode. When cleared to 0, the arbiter is fixed priority with the
           following priority scheme:
-          Highest Priority:  I-Ring Packet Write Request
-          O-Ring Packet Read Request
-          I-Ring Entry Write Request
-          I-Ring Entry Read Request
-          O-Ring Entry Read Request
+          Highest Priority:
+          I-Ring packet write request.
+          O-Ring packet read request.
+          I-Ring entry write request.
+          I-Ring entry read request.
+          O-Ring entry read request.
           When set to 1, the arbiter is round robin.
 
       - name: MRQ_HWM
@@ -379,19 +366,16 @@ registers:
           MIX CB-request FIFO programmable high watermark.
           The MRQ contains 16 CB-requests which are CSR read/write requests. If the MRQ backs up
           with HWM entries, then new CB-requests are stalled.
-          [0]: HWM = 11
-          [1]: HWM = 10
-          [2]: HWM = 9
-          [3]: HWM = 8
+          0x0 = HWM is 11.
+          0x1 = HWM is 10.
+          0x2 = HWM is 9.
+          0x3 = HWM is 8.
 
 
   - name: MIX(0..1)_IRHWM
     title: MIX I-Ring High Watermark Threshold Register
     address: 0x1070000100028 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..40
@@ -421,17 +405,13 @@ registers:
         typical: 0x0
         description: |
           I-Ring entry high-watermark threshold. Used to determine when the number of inbound
-          packets in system memory
-          (MIX(0..1)_IRCNT[IRCNT]) exceeds this IRHWM threshold.
+          packets in system memory (MIX(0..1)_IRCNT[IRCNT]) exceeds this IRHWM threshold.
 
 
   - name: MIX(0..1)_IRCNT
     title: MIX I-Ring Pending Entry Counter Register
     address: 0x1070000100030 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..20
@@ -447,7 +427,7 @@ registers:
         typical: 0x0
         description: |
           Pending number of I-Ring packets.
-          Whenever hardware writes a completion code of Done, Trunc, CRCErr or Err, it increments
+          Whenever hardware writes a completion code of DONE, TRUNC, CRCERR or ERR, it increments
           the IRCNT (to indicate to software the number of pending Input packets in system memory).
           The hardware guarantees that the completion code write is always visible in system memory
           before it increments the IRCNT.
@@ -464,9 +444,6 @@ registers:
     title: MIX O-Ring High Watermark Threshold Register
     address: 0x1070000100038 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..20
@@ -490,9 +467,6 @@ registers:
     title: MIX O-Ring Entry Sent Counter Register
     address: 0x1070000100040 + a*0x800
     bus: NCB
-    description: |
-      To write to this register, a device issues an IOBST instruction directed at the MIO. To read
-      this register, a device issues an IOBLD64 instruction directed at the MIO.
     fields:
       - name: --
         bits: 63..20
@@ -523,10 +497,7 @@ registers:
     title: MIX Interrupt/Status Register
     address: 0x1070000100048 + a*0x800
     bus: NCB
-    description: |
-      This register provides a summary of the MIX interrupt bits. To write to this register, a
-      device issues an IOBST instruction directed at the MIO. To read this register, a device issues
-      an IOBLD64 instruction directed at the MIO.
+    description: This register provides a summary of the MIX interrupt bits.
     fields:
       - name: --
         bits: 63..8
@@ -614,20 +585,20 @@ registers:
         description: |
           "Inbound doorbell (IDBELL) overflow detected. Throws MIX_INTSN_E::MIX(0..1)_INT_IDBLOVF.
           If software attempts to write to the MIX(0..1)_IRING2[IDBELL] with a value greater than
-          the remaining number of I-Ring buffer entries
-          (MIX(0..1)_REMCNT[IREMCNT]), then the following occurs:
-          The MIX(0..1)_IRING2[IDBELL] write is IGNORED
+          the remaining number of I-Ring buffer entries (MIX(0..1)_REMCNT[IREMCNT]), then the
+          following occurs:
+          The MIX(0..1)_IRING2[IDBELL] write is IGNORED.
           IDBLOVF is set and the interrupt is generated.
           Software should keep track of the # of I-Ring entries in use (i.e. the cumulative number
           of IDBELL write operations), and ensure that future IDBELL write operations don't exceed
           the size of the I-Ring Buffer (MIX(0..1)_IRING2[ISIZE]). Software must reclaim I-Ring
-          entries by keeping track of the number of IRing entries, and writing to the
+          entries by keeping track of the number of I-Ring entries, and writing to the
           MIX(0..1)_IRCNT[IRCNT].
-          The MIX(0..1)_IRCNT[IRCNT] register represents the total number of packets (not IRing
+          The MIX(0..1)_IRCNT[IRCNT] register represents the total number of packets (not I-Ring
           entries) and software must further keep track of the number of I-Ring entries associated
           with each packet as they are processed.
-          There is no recovery from an IDBLOVF Interrupt. If it occurs, it is an indication that
-          software has overwritten the I-Ring buffer, and the only recourse is a hardware reset."
+          If an IDBLOVF occurs, it is an indication that software has overwritten the I-Ring buffer,
+          and the only recourse for recovery is a hardware reset."
 
       - name: ODBLOVF
         bits: 0
@@ -637,25 +608,23 @@ registers:
         description: |
           Outbound doorbell (ODBELL) overflow detected. Throws MIX_INTSN_E::MIX(0..1)_INT_ODBLOVF.
           If software attempts to write to MIX(0..1)_ORING2[ODBELL] with a value greater than the
-          remaining number of O-Ring buffer entries
-          (MIX(0..1)_REMCNT[OREMCNT]), then the following occurs:
-          The MIX(0..1)_IRING2[ODBELL] write operation is IGNORED
+          remaining number of O-Ring buffer entries (MIX(0..1)_REMCNT[OREMCNT]), then the following
+          occurs:
+          The MIX(0..1)_IRING2[ODBELL] write operation is IGNORED.
           ODBLOVF is set and the interrupt is generated.
           Software should keep track of the number of I-Ring entries in use (i.e. the cumulative
           number of ODBELL write operations), and ensure that future ODBELL write operations don't
           exceed the size of the O-Ring buffer (MIX(0..1)_ORING2[OSIZE]). Software must reclaim
           O-Ring entries by writing to MIX(0..1)_ORCNT[ORCNT].
-          There is no recovery from an ODBLOVF Interrupt. If it occurs, it is an indication that
-          software has overwritten the O-Ring buffer, and the only recourse is a hardware reset.
+          If an ODBLOVF occurs, it is an indication that software has overwritten the O-Ring buffer,
+          and the only recourse for recovery is a hardware reset.
 
 
   - name: MIX(0..1)_REMCNT
     title: MIX Ring Buffer Remainder Counts Register
     address: 0x1070000100058 + a*0x800
     bus: NCB
-    description: |
-      This register contains the MIX ring buffer remainder counts (useful for hardware debug only).
-      To read this register, a device issues an IOBLD64 directed at the MIO.
+    description: This register contains the MIX ring buffer remainder counts (useful for hardware debug only).
     fields:
       - name: --
         bits: 63..52
@@ -814,7 +783,6 @@ registers:
     bus: NCB
     description: |
       This register contains the BIST status for the MIX memories: 0 = pass or never run, 1 = fail.
-      To read this register, a device issues an IOBLD64 instruction directed at the MIO.
     attributes:
       dv_bist_all_fail_test: "ALL"
     fields:

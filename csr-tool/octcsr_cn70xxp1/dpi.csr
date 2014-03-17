@@ -179,6 +179,8 @@ description: |
   | $DPI_SRIO_RX_BELL_SEQ      | 0x10080 -- 4096 + 128
   |  (64 regs)                 | 0x100BF -- 4096 + 191
   +----------------------------+
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: DPI_BIST_STATUS
     address: 0x1DF0000000000

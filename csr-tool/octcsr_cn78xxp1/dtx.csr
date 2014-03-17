@@ -468,6 +468,36 @@ registers:
     bus: RSL
     inherits: DTX_MIO_BCST_RSP
 
+  - name: DTX_RNM_SEL(0..1)
+    title: DTX RNM Select Register
+    address: 0x11800FE200000 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_SEL(0..1)
+
+  - name: DTX_RNM_ENA(0..1)
+    title: DTX RNM Data Enable Register
+    address: 0x11800FE200020 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_ENA(0..1)
+
+  - name: DTX_RNM_DAT(0..1)
+    title: DTX RNM Raw Data Register
+    address: 0x11800FE200040 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_DAT(0..1)
+
+  - name: DTX_RNM_CTL
+    title: DTX RNM Control Register
+    address: 0x11800FE200060
+    bus: RSL
+    inherits: DTX_MIO_CTL
+
+  - name: DTX_RNM_BCST_RSP
+    title: DTX RNM Control Register
+    address: 0x11800FE200080
+    bus: RSL
+    inherits: DTX_MIO_BCST_RSP
+
   - name: DTX_PKI_PFE_SEL(0..1)
     title: DTX PKI_PFE Select Register
     address: 0x11800FE220000 | a<<3

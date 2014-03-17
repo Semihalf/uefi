@@ -252,10 +252,12 @@ registers:
     address: 0x1180058000030
     bus: RSL
     description: |
-      A ring is in error if its interval has elapsed more than once without having been serviced.
-      This is usually a programming error where the number of entries in the bucket is too large for
-      the interval specified for the ring. Any bit in the INT0 field should be cleared by writing 1
-      to it.
+      A ring is in error if its interval has elapsed more than once without having been serviced,
+      either due to too many events in this ring's previous interval, or another ring having too
+      many events to process within this ring's interval. This is usually a programming error where
+      the number of entries in the bucket is too large for the interval specified across the rings.
+      When in error, TIM may process events in an interval later than requested. Any bit in the INT
+      field should be cleared by writing one to it.
     fields:
       - name: INT0
         bits: 63..0

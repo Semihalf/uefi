@@ -45,8 +45,8 @@ enums:
       - name: LAB_OUT
         value: 0x21
         description: |
-          An LMTDMA was requested, but no free LABs are available. Only possible on
-          LAP_SEND_LMTDMA_S operations.
+          An LMTDMA was requested, but no free LABs are available, and LAP_CTL_RTN_S[LAB]. Only
+          possible on LAP_SEND_LMTDMA_S operations.
 
       - name: LAB_INVALID
         value: 0x22
@@ -76,7 +76,10 @@ enums:
 
       - name: TOO_BIG
         value: 0x26
-        description: The request or response sent too much data to fit in the LAB size.
+        description: |
+          The response sent too much data to fit in the LAB size. Only delivered to exception queue.
+          INTERNAL: 78xx pass 1 has bug20069, which mis-delivers TOO_BIG exception packets to the
+          original queue.
 
 
   - name: LAP_INTSN_E
@@ -220,7 +223,7 @@ structs:
       - name: ERR
         bits: 21..16
         description: |
-          Error code, or zero if no error. Encoded with LAP_ERR_E.
+          Error code, or zero if no error. Enumerated with LAP_ERR_E.
           INTERNAL: Overlaps ILK CRC bits.
 
       - name: EQNE
@@ -365,7 +368,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to.
 
 
   - name: LAP_RD_LD_S
@@ -514,7 +517,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to.
 
 
 registers:
@@ -1087,7 +1090,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Extract transaction tag from this 64 bit word number of the return packet; typically the
+          Extract transaction tag from this 64-bit word number of the return packet; typically the
           same value as [REQ_WD]. Word 0 is the Interlaken control word, word 1 is the first word of
           payload.
 
@@ -1113,7 +1116,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Insert transaction tag into this 64 bit word number of the request packet. Word 0 is the
+          Insert transaction tag into this 64-bit word number of the request packet. Word 0 is the
           Interlaken control word, word 1 is the first word of payload.
 
       - name: REQ_LSB
@@ -1226,6 +1229,7 @@ registers:
     title: LAP LAB ECC Status Register
     address: 0x118000C010200 | a<<24
     bus: RSL
+    description: This register is for diagnostic use only.
     fields:
       - name: --
         bits: 63..26
@@ -1253,7 +1257,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Address of last LAB data ram ECC error. Latched when LAP(0..1)_GEN_INT[LAB_SBE] or [LAB_DBE] set.
+        description: Reserved.
 
 
   - name: LAP(0..1)_STA_ERR_ST
@@ -1638,7 +1642,7 @@ registers:
 
 
   - name: LAP(0..1)_LAB_DATA(0..1535)
-    title: LAP Buffer Data
+    title: LAP Buffer Data Registers
     address: 0x118000C080000 | a<<24 | b<<3
     bus: RSL
     description: |

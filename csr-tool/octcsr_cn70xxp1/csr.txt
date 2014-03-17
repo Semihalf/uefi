@@ -17,6 +17,8 @@
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * AGL_GMX_RX_INT_REG = Interrupt Register
  * 
@@ -2030,6 +2032,7 @@ $CIU_PP_INT_S
 // ***********************************************************************
 
 Attribute: -dv_fc_scratch_exempt=RSL.
+Attribute: -exempt_title_check=True.
 
  * 
  * DFA_CONFIG
@@ -3375,6 +3378,7 @@ Registers higher then 0x10000 are ncb access to MAC functionality
 | $DPI_SRIO_RX_BELL_SEQ      | 0x10080 -- 4096 + 128
 |  (64 regs)                 | 0x100BF -- 4096 + 191
 +----------------------------+
+Attribute: -exempt_title_check=True.
 
  * 
  * DPI_BIST_STATUS
@@ -5281,6 +5285,8 @@ $DTX_DPI_BCST_RSP   Address=(0x11800FEEF8080)   Bus=(RSL)
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * FPA_FPF0_MARKS = FPA's Queue 0 Free Page FIFO Read Write Marks
  * 
@@ -6209,6 +6215,8 @@ $FPA_WQE_THRESHOLD   Address=(0x1180028000468)   Bus=(RSL)
 // * To make changes, please edit the gmx.csr file in this directory.
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
+
+Attribute: -exempt_title_check=True.
 
  * 
  * GMX_INF_MODE_E = GMX Interface Mode Enumeration
@@ -8881,6 +8889,8 @@ $GMX(0..1)_INF_MODE   Address=(0x11800080007F8+a*0x8000000)   Bus=(RSL)
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * GSER_DLM_MISC_STATUS = GSER DLM Miscellaneous Status Register
  * 
@@ -11051,6 +11061,8 @@ $INTSN_ALL_E
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * IOB_FAU_TIMEOUT
  * 
@@ -11689,6 +11701,8 @@ $IOB_CHIP_CUR_PWR   Address=(0x11800F0000828)   Bus=(RSL)
 // * To make changes, please edit the ipd.csr file in this directory.
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
+
+Attribute: -exempt_title_check=True.
 
  * 
  * IPD_1ST_MBUFF_SKIP = IPD First MBUFF Word Skip Size
@@ -13091,7 +13105,7 @@ $KEY_INT_SUM   Address=(0x1180020000000)   Bus=(RSL)
 
 
  * 
- * KEY_INT_ENB = KEY's Interrupt Enable
+ * KEY_INT_ENB = KEY's Interrupt Enable Register
  * 
  *  The KEY's interrupt enable register.
  * 
@@ -14402,7 +14416,7 @@ $L2C_CBC(0..0)_BIST_STATUS   Address=(0x1180080E007F8+a*0x40000)   Bus=(RSL)
  * LMC_INTSN_E = INTERNAL: LMC Interrupt Source Enumeration
 
  * 
- *  Enumerates the different LMC-generated interrupts.  For the 70xx device, the
+ *  Enumerates the different LMC-generated interrupts.  For the CN70XX device, the
  *  INT_DLC_SEC, INT_DLC_DED, and INT_DDR_ERR will never occur.
  *  Attribute: -width=20.
  * 
@@ -14422,17 +14436,17 @@ $LMC_INTSN_E
 
 
  * 
- * LMC_FADR = LMC Failing Address Register (SEC/DED/NXM)
+ * LMC_FADR = LMC Failing (SEC/DED/NXM) Address Register
  * 
  *  This register only captures the first transaction with ECC errors. A DED error can over-write
  *  this register with its failing addresses if the first error was a SEC. If you write
  *  LMC(0..0)_INT -> SEC_ERR/DED_ERR, it clears the error bits and captures the next failing
- *  address. If FDIMM is 1, that means the error is in the high DIMM.
+ *  address.
  *  LMC(0..0)_FADR captures the failing pre-scrambled address location (split into DIMM, bunk,
  *  bank, etc). If scrambling is off, then LMC(0..0)_FADR will also capture the failing physical
  *  location in the DRAM parts. LMC(0..0)_SCRAMBLED_FADR captures the actual failing address
  *  location in the physical DRAM parts, i.e.,
- *  If scrambling is on, LMC(0..0)_SCRAMBLED_FADR contains the failing physical location in the
+ *  * If scrambling is on, LMC(0..0)_SCRAMBLED_FADR contains the failing physical location in the
  *  DRAM parts (split into DIMM, bunk, bank, etc.)
  *  If scrambling is off, the pre-scramble and post-scramble addresses are the same; and so the
  *  contents of LMC(0..0)_SCRAMBLED_FADR match the contents of LMC(0..0)_FADR.
@@ -14444,7 +14458,8 @@ $LMC(0..0)_FADR   Address=(0x1180088000020|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:40> --         RAZ     --         --         Reserved.                                         
  <39:38> FILL_ORDER RO/H    0x0        0x0        Fill order for failing transaction.               
- <37>    FDIMM      RO/H    0          0          Failing DIMM number.                              
+ <37>    FDIMM      RO/H    0          0          Failing DIMM number. CN70XX/CN71XX only supports one DIMM, so this bit will always
+                                                  return a 0.
  <36>    FBUNK      RO/H    0          0          Failing rank number.                              
  <35:32> FBANK      RO/H    0x0        0x0        Failing bank number. Bits <3:0>.                  
  <31:14> FROW       RO/H    0x0        0x0        Failing row address. Bits <17:0>.                 
@@ -14490,21 +14505,21 @@ $LMC(0..0)_EXT_CONFIG   Address=(0x1180088000030|a<<24)   Bus=(RSL)
  Pos     Name                 Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:21> --                   RAZ     --         --         Reserved.                                         
- <20>    VREFINT_SEQ_DESKEW   R/W     0          0          Personality bit to change the operation of what is normally the internal
-                                                            vref training sequence into the deskew training sequence.
+ <20>    VREFINT_SEQ_DESKEW   R/W     0          0          Personality bit to change the operation of what is normally the internal Vref training
+                                                            sequence into the deskew training sequence.
  <19>    READ_ENA_BPRCH       R/W     0          0          Enable pad receiver one cycle longer than normal during read operations.
  <18>    READ_ENA_FPRCH       R/W     0          0          Enable pad receiver starting one cycle earlier than normal during read operations.
  <17>    SLOT_CTL_RESET_FORCE WO      0          0          Write 1 to reset the slot-control override for all slot-control registers. After writing a
                                                             1 to this bit, slot-control registers will update with changes made to other timing-
                                                             control registers. This is a one-shot operation; it automatically returns to 0 after a
                                                             write to 1.
- <16:8>  REF_INT_LSBS         R/W     0x0        0x0        These are the 9 LSBs for the refresh interval value, default to 0, but can be set to
-                                                            a non-zero value to get a more precise refresh interval.
+ <16:8>  REF_INT_LSBS         R/W     0x0        0x0        Refresh-interval value least-significant bits. The default is 0x0; but it can be set to a
+                                                            non-zero value to get a more precise refresh interval.
  <7>     DRIVE_ENA_BPRCH      R/W     0          0          Drive DQx for one cycle longer than normal during write operations.
  <6>     DRIVE_ENA_FPRCH      R/W     0          0          Drive DQX starting one cycle earlier than normal during write operations.
  <5:4>   DLCRAM_FLIP_SYND     R/W     0x0        0x0        Reserved. INTERNAL: DLC RAM flip syndrome control bits.
  <3>     DLCRAM_COR_DIS       R/W     0          0          Reserved. INTERNAL: DLC RAM correction disable control.
- <2>     DLC_NXM_RD           R/W     0          0          When set, enable NXM events for DLC reads.  Default is disabled, but
+ <2>     DLC_NXM_RD           R/W     0          0          When set, enable NXM events for HFA read operations. INTERNAL: Default is disabled, but
                                                             could be useful for debug of DLC/DFA accesses.
  <1>     L2C_NXM_RD           R/W     0          0          When set, enable NXM events for L2C read operations. INTERNAL: Default is disabled as L2C
                                                             NXM read operations are possible and expected during normal operation.
@@ -14535,7 +14550,7 @@ $LMC(0..0)_ECC_SYND   Address=(0x1180088000038|a<<24)   Bus=(RSL)
  * 
  * LMC_CHAR_DQ_ERR_COUNT = INTERNAL: LMC DDR Characterization Error Count Register
  * 
- *  INTERNAL: This register counts error in the DQ characterization mode.
+ *  This register is used to initiate the various control sequences in the LMC.
  * 
 $LMC(0..0)_CHAR_DQ_ERR_COUNT   Address=(0x1180088000040|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -14560,48 +14575,27 @@ $LMC(0..0)_SEQ_CTL   Address=(0x1180088000048|a<<24)   Bus=(RSL)
  <63:6>  --           RAZ     --         --         Reserved.                                         
  <5>     SEQ_COMPLETE RO/H    0          0          Sequence complete. This bit is cleared when INIT_START is set to a 1 and then is set to 1
                                                     when the sequence is completed.
- <4:1>   SEQ_SEL      R/W     0x0        0x0        Selects the sequence that LMC runs after a 0->1 transition on
-                                                    LMC(0..0)_SEQ_CTL[INIT_START].
-                                                    
-                                                    0x0 = Power-up/init:
-                                                    RANKMASK selects participating ranks (should be all ranks with attached DRAM).
-                                                    DDR*_DIMM*_CKE* signals activated (if they weren't already active).
-                                                    RDIMM register control words 0-15 will be written to RANKMASK-selected RDIMMs when
-                                                    LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding LMC(0..0)_DIMM_CTL[DIMM*_WMASK] bits are
-                                                    set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions below for
-                                                    more
-                                                    details.)
-                                                    MR0, MR1, MR2, and MR3 will be written to selected ranks.
-                                                    
+ <4:1>   SEQ_SEL      R/W     0x0        0x0        Selects the sequence that LMC runs after a 0->1 transition on INIT_START.
+                                                    0x0 = Power-up/initialization:
+                                                    LMC(0..0)_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
+                                                    DRAM). DDR_CKE* signals are activated (if not already active).
+                                                    The DRAM registers MR0, MR1, MR2, and MR3 are written in the selected ranks.
                                                     0x1 = Read-leveling:
-                                                    RANKMASK selects the rank to be read-leveled.
-                                                    MR3 written to selected rank.
-                                                    
+                                                    LMC(0..0)_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
+                                                    selected rank.
                                                     0x2 = Self-refresh entry:
-                                                    INIT_STATUS selects participating ranks (should be all ranks with attached DRAM).
-                                                    MR1 and MR2 will be written to selected ranks if SREF_WITH_DLL=1.
-                                                    DDR*_DIMM*_CKE* signals de-activated.
-                                                    
+                                                    LMC(0..0)_CONFIG[INIT_STATUS] selects the participating ranks (should be all ranks with
+                                                    attached DRAM). MR1 and MR2 are written in the selected ranks if
+                                                    LMC(0..0)_CONFIG[SREF_WITH_DLL] = 1. DDR_CKE* signals de-activated.
                                                     0x3 = Self-refresh exit:
-                                                    RANKMASK must be set to indicate participating ranks (should be all ranks with attached
-                                                    DRAM).
-                                                    DDR*_DIMM*_CKE* signals activated.
-                                                    MR0, MR1, MR2, and MR3 will be written to participating ranks if SREF_WITH_DLL=1.
-                                                    INIT_STATUS will be updated for ranks that are selected.
-                                                    
+                                                    LMC(0..0)_CONFIG[RANKMASK] must be set to indicate participating ranks (should be all
+                                                    ranks with attached DRAM). DDR_CKE* signals activated. MR0, MR1, MR2, and MR3 are
+                                                    written in the participating ranks if LMC(0..0)_CONFIG[SREF_WITH_DLL] = 1.
+                                                    LMC(0..0)_CONFIG[INIT_STATUS] is updated for ranks that are selected.
                                                     0x6 = Write-leveling:
                                                     RANKMASK selects the rank to be write-leveled.
                                                     INIT_STATUS must indicate all ranks with attached DRAM.
                                                     MR1 and MR2 written to INIT_STATUS-selected ranks.
-                                                    
-                                                    0x7 = Init RCW
-                                                    RANKMASK selects participating ranks (should be all ranks with attached DRAM).
-                                                    In DDR3 mode, RDIMM register control words 0-15 will be written to RANKMASK-selected
-                                                    RDIMMs when LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding
-                                                    LMC(0..0)_DIMM_CTL[DIMM*_WMASK]
-                                                    bits are set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions
-                                                    below
-                                                    for more details.)
                                                     
                                                     0x8 = MRW
                                                     Mode Register Write sequence.
@@ -14625,12 +14619,22 @@ $LMC(0..0)_SEQ_CTL   Address=(0x1180088000048|a<<24)   Bus=(RSL)
                                                     these sequences.
                                                     Refer to the LMC*_MODEREG_PARAMS0 and LMC*_MODEREG_PARAMS1 descriptions for more details.
                                                     If there are two consecutive power-up/init's without
-                                                    a DRESET assertion between them, LMC asserts DDR_DIMM*_CKE as part of
-                                                    the first power-up/init, and continues to assert DDR_DIMM*_CKE
+                                                    a DRESET assertion between them, LMC asserts DDR_CKE* as part of
+                                                    the first power-up/init, and continues to assert DDR_CKE*
                                                     through the remainder of the first and the second power-up/init.
-                                                    If DDR_DIMM*_CKE deactivation and reactivation is needed for
+                                                    If DDR_CKE* deactivation and reactivation is needed for
                                                     a second power-up/init, a DRESET assertion is required
                                                     between the first and the second."
+                                                    
+                                                    INTERNAL:
+                                                    0x7 = Init RCW
+                                                    RANKMASK selects participating ranks (should be all ranks with attached DRAM).
+                                                    In DDR3 mode, RDIMM register control words 0-15 will be written to RANKMASK-selected
+                                                    RDIMMs when LMC(0..0)_CONTROL[RDIMM_ENA]=1 and corresponding
+                                                    LMC(0..0)_DIMM_CTL[DIMM*_WMASK]
+                                                    bits are set. (Refer to LMC(0..0)_DIMM(0..1)_PARAMS and LMC(0..0)_DIMM_CTL descriptions
+                                                    below
+                                                    for more details.)
  <0>     INIT_START   WO      0          0          A 0->1 transition starts the DDR memory sequence that is selected by SEQ_SEL. This
                                                     register is a one-shot and clears itself each time it is set.
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -14647,13 +14651,16 @@ $LMC(0..0)_MODEREG_PARAMS2   Address=(0x1180088000050|a<<24)   Bus=(RSL)
  Pos     Name            Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:41> --              RAZ     --         --         Reserved.                                         
+ <40>    --              RAZ     --         --         Reserved.                                         
+                                                       Attribute: -chip_pass=o70<2.0.
  <40>    VREFDQ_TRAIN_EN R/W     0          --         Vref training mode enable, used for all ranks.    
- <39>    VREF_RANGE_11   R/W     0          0          VREF range for rank 3.                            
- <38:33> VREF_VALUE_11   R/W     0x0        0x0        VREF value for rank 3.                            
- <32:30> RTT_PARK_11     R/W     0x0        0x0        RTT park value for rank 3.                        
- <29>    VREF_RANGE_10   R/W     0          0          VREF range for rank 2.                            
- <28:23> VREF_VALUE_10   R/W     0x0        0x0        VREF value for rank 2.                            
- <22:20> RTT_PARK_10     R/W     0x0        0x0        RTT park value for rank 2.                        
+                                                       Attribute: -chip_pass=o70>=2.0.
+ <39>    VREF_RANGE_11   R/W     0          0          VREF range for rank 3.  Not used in CN70XX/CN71XX.
+ <38:33> VREF_VALUE_11   R/W     0x0        0x0        VREF value for rank 3.  Not used in CN70XX/CN71XX.
+ <32:30> RTT_PARK_11     R/W     0x0        0x0        RTT park value for rank 3.  Not used in CN70XX/CN71XX.
+ <29>    VREF_RANGE_10   R/W     0          0          VREF range for rank 2.  Not used in CN70XX/CN71XX.
+ <28:23> VREF_VALUE_10   R/W     0x0        0x0        VREF value for rank 2.  Not used in CN70XX/CN71XX.
+ <22:20> RTT_PARK_10     R/W     0x0        0x0        RTT park value for rank 2.  Not used in CN70XX/CN71XX.
  <19>    VREF_RANGE_01   R/W     0          0          VREF range for rank 1.                            
  <18:13> VREF_VALUE_01   R/W     0x0        0x0        VREF value for rank 1.                            
  <12:10> RTT_PARK_01     R/W     0x0        0x0        RTT park value for rank 1.                        
@@ -14764,7 +14771,9 @@ $LMC(0..0)_MR_MPR_CTL   Address=(0x1180088000068|a<<24)   Bus=(RSL)
                                                              the corresponding DRAM device is enabled for the PDA MR write operation.
                                                              Bit<23> corresponds to the lowest order, *4 device, and bit<40> corresponds to the highest
                                                              order *4 device, for a total of up to 18 devices.
- <22:21> MR_WR_RANK            R/W     0x0        0x0        Selects the DRAM rank for either MRW or MPR sequences.
+ <22:21> MR_WR_RANK            R/W     0x0        0x0        Selects the DRAM rank for either MRW or MPR sequences.  For CN70XX/CN71XX, this must be
+                                                             set
+                                                             to either 0 or 1.
  <20:18> MR_WR_SEL             R/W     0x0        0x0        Selects which MR to write with the MR write sequence.
                                                              Which pins to drive and how to drive them is automatically controlled through the DDR3/4
                                                              mode setting. Bits<19:18> are also used to select the MPR page for an MPR sequence.
@@ -14830,9 +14839,10 @@ $LMC(0..0)_MPR_DATA2   Address=(0x1180088000080|a<<24)   Bus=(RSL)
  *  LMC(0..0)_CONTROL[XOR_BANK], LMC(0..0)_CONFIG [PBANK_LSB], LMC(0..0)_CONFIG[RANK_ENA], and all
  *  timing parameters.
  *  In this description:
- *  config0 refers to the normal memory configuration that is defined by the
+ *  * config0 refers to the normal memory configuration that is defined by the
  *  LMC*_CONFIG[ROW_LSB] parameter
- *  config1 refers to the dual (or second) memory configuration that is defined by this register.
+ *  * config1 refers to the dual (or second) memory configuration that is defined by this
+ *  register.
  *  Enable-mask to chip-select mapping is shown below:
  * 
 $LMC(0..0)_DUAL_MEMCFG   Address=(0x1180088000098|a<<24)   Bus=(RSL)
@@ -14882,8 +14892,8 @@ $LMC(0..0)_NXM   Address=(0x11800880000C8|a<<24)   Bus=(RSL)
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:24> --            RAZ     --         --         Reserved.                                         
- <23:20> MEM_MSB_D1_R1 R/W     0x0        --         Max row MSB for DIMM1, RANK1/DIMM1 in single ranked.
- <19:16> MEM_MSB_D1_R0 R/W     0x0        --         Max row MSB for DIMM1, RANK0.                     
+ <23:20> MEM_MSB_D1_R1 R/W     0x0        --         Reserved.  INTERNAL: Max row MSB for DIMM1, RANK1/DIMM1 in single ranked.
+ <19:16> MEM_MSB_D1_R0 R/W     0x0        --         Reserved.  INTERNAL: Max row MSB for DIMM1, RANK0.
  <15:12> MEM_MSB_D0_R1 R/W     0x0        --         Max row MSB for DIMM0, RANK1/DIMM0 in single ranked.
  <11:8>  MEM_MSB_D0_R0 R/W     0x0        --         Max row MSB for DIMM0, RANK0.                     
  <7:4>   --            RAZ     --         --         Reserved.                                         
@@ -14959,7 +14969,7 @@ $LMC(0..0)_DIMM(0..1)_DDR4_PARAMS1   Address=(0x1180088000140|a<<24|b<<3)   Bus=
  * 
  * LMC_RESET_CTL = LMC Reset Control Register
  * 
- *  Specify the RSL base addresses for the block
+ *  Specify the RSL base addresses for the block.
  * 
 $LMC(0..0)_RESET_CTL   Address=(0x1180088000180|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -14973,19 +14983,19 @@ $LMC(0..0)_RESET_CTL   Address=(0x1180088000180|a<<24)   Bus=(RSL)
                                                  reset. Set by hardware during a warm/soft reset if the hardware automatically put the DDR3
                                                  DRAM into self-refresh during the reset sequence.
                                                  Can also be written by software (to any value).
- <2>     DDR3PSOFT R/W     0          0          Set to enable preserve mode during soft reset.    
+ <2>     DDR3PSOFT R/W     0          0          Memory reset. 1 = Enable preserve mode during soft reset.
                                                  Enables preserve mode during a soft reset. When set, the DDR3 controller hardware
                                                  automatically puts the attached DDR3 DRAM parts into self-refresh at the beginning of a
-                                                 soft reset sequence (see LMC(0..0)_SEQ_CTL[SEQ_SEL]), provided that the DDR3 controller is
+                                                 soft reset sequence (see LMC(0..0)_CONFIG[SEQ_SEL]), provided that the DDR3 controller is
                                                  up. When clear, the DDR3 controller hardware does not put the attached DDR3 DRAM parts
                                                  into self-refresh during a soft reset sequence.
                                                  DDR3PSOFT is cleared on a cold reset. Warm and soft chip resets do not affect the
                                                  DDR3PSOFT value. Outside of cold reset, only software CSR write operations change the
                                                  DDR3PSOFT value.
- <1>     DDR3PWARM R/W     0          0          Set to enable preserve mode during warm reset.    
+ <1>     DDR3PWARM R/W     0          0          Memory reset. 1 = Enable preserve mode during warm reset.
                                                  Enables preserve mode during a warm reset. When set, the DDR3 controller hardware
                                                  automatically puts the attached DDR3 DRAM parts into self-refresh at the beginning of a
-                                                 warm reset sequence (see LMC(0..0)_SEQ_CTL[SEQ_SEL]), provided that the DDR3 controller is
+                                                 warm reset sequence (see LMC(0..0)_CONFIG[SEQ_SEL]), provided that the DDR3 controller is
                                                  up. When clear, the DDR3 controller hardware does not put the attached DDR3 DRAM parts
                                                  into self-refresh during a warm reset sequence.
                                                  DDR3PWARM is cleared on a cold reset. Warm and soft chip resets do not affect the
@@ -14993,7 +15003,7 @@ $LMC(0..0)_RESET_CTL   Address=(0x1180088000180|a<<24)   Bus=(RSL)
                                                  DDR3PWARM value.
                                                  Note that if a warm reset follows a soft reset, DDR3PWARM has no effect, as the DDR3
                                                  controller is no longer up after any cold/warm/soft reset sequence.
- <0>     DDR3RST   R/W     0          0          "Memory Reset. 0 = Reset asserted; 1 = Reset deasserted.
+ <0>     DDR3RST   R/W     0          0          "Memory reset. 0 = Reset asserted; 1 = Reset deasserted.
                                                  DDR3 DRAM parts have a RESET# pin that was not present in DDR2 parts. The DDR3RST CSR
                                                  field controls the assertion of the new CN78XX pin that attaches to RESET#. When DDR3RST
                                                  is set, CN78XX asserts RESET#. When DDR3RST is clear, CN78XX deasserts RESET#.
@@ -15058,12 +15068,12 @@ Can also be written by software (to any value)."
  * 
  *  This register controls certain parameters required for memory configuration. Note the
  *  following:
- *  Priority order for hardware write operations to
+ *  * Priority order for hardware write operations to
  *  LMC(0..0)_CONFIG/LMC(0..0)_FADR/LMC(0..0)_ECC_SYND: DED error > SEC error.
- *  The self-refresh entry sequence(s) power the DLL up/down (depending on
+ *  * The self-refresh entry sequence(s) power the DLL up/down (depending on
  *  LMC(0..0)_MODEREG_PARAMS0[DLL]) when LMC(0..0)_CONFIG[SREF_WITH_DLL] is set.
- *  Prior to the self-refresh exit sequence, LMC(0..0)_MODEREG_PARAMS0 should be reprogrammed (if
- *  needed) to the appropriate values.
+ *  * Prior to the self-refresh exit sequence, LMC(0..0)_MODEREG_PARAMS0 should be reprogrammed
+ *  (if needed) to the appropriate values.
  *  See LMC Initialization Sequence for the LMC bring-up sequence.
  *  Attribute: -exempt_w1c_w=True.
  * 
@@ -15075,13 +15085,13 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
  <63>    --                 RAZ     --         --         Reserved.                                         
  <62>    BG2_ENABLE         R/W     1          --         BG2 pin is active for DDR4 mode. Only has an effect when LMC(0..0)_CONFIG[MODEDDR4] = 1.
                                                           Typically only cleared for DDR4 *16 devices, where there is no BG2 pin on the device.
- <61>    MODE_X4DEV         RO      0          --         Always reads as 0 for 70xx devices, there is no x4 device support.
- <60>    MODE32B            RO      1          1          Always reads as 1 for 70xx devices, only 32b mode is supported.
+ <61>    MODE_X4DEV         RO      0          --         Always reads as 0 for CN70XX devices, there is no x4 device support.
+ <60>    MODE32B            RO      1          1          Always reads as 1 for CN70XX devices, only 32b mode is supported.
  <59>    SCRZ               R/W1S/H 0          --         Hide LMC(0..0)_SCRAMBLE_CFG0 and LMC(0..0)_SCRAMBLE_CFG1 when set.
  <58>    EARLY_UNLOAD_D1_R1 R/W     0          --         When set, unload the PHY silo one cycle early for Rank 3 reads.
-                                                          The recommended EARLY_UNLOAD_D1_R1 value is 0.
+                                                          The recommended EARLY_UNLOAD_D1_R1 value is 0.  Not used in CN70XX/CN71XX.
  <57>    EARLY_UNLOAD_D1_R0 R/W     0          --         When set, unload the PHY silo one cycle early for Rank 2 reads.
-                                                          The recommended EARLY_UNLOAD_D1_RO value is 0.
+                                                          The recommended EARLY_UNLOAD_D1_RO value is 0.  Not used in CN70XX/CN71XX.
  <56>    EARLY_UNLOAD_D0_R1 R/W     0          --         When set, unload the PHY silo one cycle early for Rank 1 reads.
                                                           The recommended EARLY_UNLOAD_D0_R1 value is 0.
  <55>    EARLY_UNLOAD_D0_R0 R/W     0          --         When set, unload the PHY silo one cycle early for Rank 0 reads.
@@ -15092,7 +15102,9 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
                                                           using LMC(0..0)_SEQ_CTL. If the rank has been selected for init with the RANKMASK bits,
                                                           the INIT_STATUS bits will be set after successful initialization and after self-refresh
                                                           exit. INIT_STATUS determines the chip-selects that assert during refresh, ZQCS, precharge
-                                                          power-down entry/exit, and self-refresh entry SEQ_SEL's.
+                                                          power-down entry/exit, and self-refresh entry SEQ_SEL's.  For CN70XX/CN71XX, only bits
+                                                          <1:0>
+                                                          corresponding to 2 ranks should ever be set.
  <50:47> MIRRMASK           R/W     0x0        --         "Mask determining which ranks are address-mirrored.
                                                           MIRRMASK<n> = 1 means Rank n addresses are mirrored for
                                                           0 <= n <= 3.
@@ -15102,7 +15114,7 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
                                                           DDR#_A<6> is swapped with DDR#_A<5>;
                                                           DDR#_A<4> is swapped with DDR#_A<3>.
                                                           
-                                                          For 70xx, MIRRMASK<3:2> MBZ.
+                                                          For CN70XX/CN71XX, MIRRMASK<3:2> MBZ.
                                                           When RANK_ENA = 0, MIRRMASK<1> MBZ."
                                                           
                                                           INTERNAL:
@@ -15114,7 +15126,7 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
                                                           DDR#_A<6> is swapped with DDR#_A<5>;
                                                           DDR#_A<4> is swapped with DDR#_A<3>.
                                                           
-                                                          For 70xx, MIRRMASK<3:2> MBZ.
+                                                          For CN70XX, MIRRMASK<3:2> MBZ.
                                                           When RANK_ENA = 0, MIRRMASK<1> MBZ."
  <46:43> RANKMASK           R/W     0x0        --         Mask to select rank to be leveled/initialized. To write-level/read-level/initialize rank
                                                           i, set RANKMASK< i>
@@ -15125,12 +15137,13 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
                                                           RANKMASK<3> = MBZ          MBZ
                                                           For read/write leveling, each rank has to be leveled separately, so RANKMASK should only
                                                           have one bit set. RANKMASK is not used during self-refresh entry/exit and precharge power-
-                                                          down entry/exit instruction sequences. For 70xx, RANKMASK<3:2> MBZ.  When RANK_ENA = 0,
+                                                          down entry/exit instruction sequences. For CN70XX/CN71XX, RANKMASK<3:2> MBZ.  When
+                                                          RANK_ENA = 0,
                                                           RANKMASK<1> MBZ.
  <42>    RANK_ENA           R/W     0          --         "RANK enable (for use with dual-rank DIMMs).      
-                                                          For dual-rank DIMMs, the RANK_ENA bit will enable the drive of the DDR#_DIMM*_CS*_L and
+                                                          * For dual-rank DIMMs, the RANK_ENA bit will enable the drive of the DDR_CS*_L and
                                                           ODT_<1:0> pins differently based on the (PBANK_LSB - 1) address bit.
-                                                          Write 0 for SINGLE ranked DIMMs."
+                                                          * Write 0 for SINGLE ranked DIMMs."
  <41>    SREF_WITH_DLL      R/W     0          0          Self-refresh entry/exit write mode registers. When set, self-refresh entry sequence writes
                                                           MR2 and MR1 (in this order, in all ranks), and self-refresh exit sequence writes MR1, MR0,
                                                           MR2, and MR3 (in this order, for all ranks). The write operations occur before self-
@@ -15210,11 +15223,11 @@ $LMC(0..0)_CONFIG   Address=(0x1180088000188|a<<24)   Bus=(RSL)
                                                           Refer to Cache-block Read Transaction Example."
  <1>     ECC_ENA            R/W     0          1          ECC enable. When set, enables the 8b ECC check/correct logic. Should be 1 when used with
                                                           DIMMs with ECC; 0, otherwise.
-                                                          When this mode is turned on, DQ<71:64> on write operations contains the ECC code generated
+                                                          When this mode is turned on, DQ<35:32> on write operations contains the ECC code generated
                                                           for the 64 bits of data which will be written in the memory. Later on read operations,
                                                           will be used to check for single-bit error (which will be auto-corrected) and double-bit
                                                           error (which will be reported).
-                                                          When not turned on, DQ<71:64> are driven to 0. Please refer to SEC_ERR, DED_ERR,
+                                                          When not turned on, DQ<35:32> are driven to 0. Please refer to SEC_ERR, DED_ERR,
                                                           LMC(0..0)_FADR, and LMC(0..0)_ECC_SYND registers for diagnostics information when there is
                                                           an error.
  <0>     --                 RAZ     --         --         Reserved.                                         
@@ -15233,7 +15246,7 @@ specific board configuration.
 5. for each rank n to be write-leveled {
 if auto write-leveling is desired {
 write LMC*_CONFIG[RANKMASK][n] = 1, LMC*_WLEVEL_CTL appropriately, LMC*_SEQ_CTL[SEQ_SEL]=6,
-and LMC*_SEQ_CTL[INIT_START]= 1
+and LMC*_CONFIG[INIT_START]= 1
 wait until LMC*_WLEVEL_RANKn[STATUS] = 3
 } else {
 write LMC*_WLEVEL_RANKn with appropriate values
@@ -15279,10 +15292,10 @@ $LMC(0..0)_CONTROL   Address=(0x1180088000190|a<<24)   Bus=(RSL)
  <22>    WODT_BPRCH      R/W     0          0          When set, the turn-off time for the ODT pin during a WR command is delayed an additional CK cycle.
  <21:20> BPRCH           R/W     0x0        0x0        "Back porch enable. When set, the turn-on time for the default DDR#_DQ*/DDR#_DQS_*_P/N
                                                        drivers is delayed an additional BPRCH CK cycles.
-                                                       00 = 0 CK cycles
-                                                       01 = 1 CK cycles
-                                                       10 = 2 CK cycles
-                                                       11 = 3 CK cycles"
+                                                       0x0 = 0 CK cycles.
+                                                       0x1 = 1 CK cycles.
+                                                       0x2 = 2 CK cycles.
+                                                       0x3 = 3 CK cycles."
  <19>    EXT_ZQCS_DIS    R/W     0          0          Disable (external) auto-ZQCS calibration. When clear, LMC runs external ZQ calibration
                                                        every LMC(0..0)_CONFIG [REF_ZQCS_INT] CK cycles.
  <18>    INT_ZQCS_DIS    R/W     1          0          Disable (internal) auto-ZQCS calibration. When clear, LMC runs internal ZQ calibration
@@ -15306,10 +15319,10 @@ $LMC(0..0)_CONTROL   Address=(0x1180088000190|a<<24)   Bus=(RSL)
  <6>     THROTTLE_RD     R/W     0          0          When set, use at most one IFB for read operations.
  <5:4>   FPRCH2          R/W     0x0        0x1        "Front porch enable. When set, the turn-off time for the default DDR#_DQ*/DDR#_DQS_*_P/N
                                                        drivers is FPRCH2 CKs earlier.
-                                                       00 = 0 CK cycles
-                                                       01 = 1 CK cycles
-                                                       10 = 2 CK cycles
-                                                       11 = Reserved"
+                                                       0x0 = 0 CK cycles.
+                                                       0x1 = 1 CK cycles.
+                                                       0x2 = 2 CK cycles.
+                                                       0x3 = Reserved."
  <3>     POCAS           R/W     0          0          Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
                                                        set whenever LMC(0..0)_MODEREG_PARAMS0[AL]!=0.
  <2>     DDR2T           R/W     0          1          Turn on the DDR 2T mode. 2 CK-cycle window for CMD and address. This mode helps relieve
@@ -15319,8 +15332,9 @@ $LMC(0..0)_CONTROL   Address=(0x1180088000190|a<<24)   Bus=(RSL)
  <1>     BWCNT           R/W     0          0          Bus utilization counter clear. Clears the LMC(0..0)_OPS_CNT, LMC(0..0)_IFB_CNT, and
                                                        LMC(0..0)_DCLK_CNT registers. To clear the CSRs, software should first write this field to
                                                        a one, then write this field to a zero.
- <0>     RDIMM_ENA       R/W     0          --         Registered DIMM Enable. When set allows the use of JEDEC Registered DIMMs which require
-                                                       address and control bits to be registered in the controller.
+ <0>     RDIMM_ENA       R/W     0          --         Reserved MBZ.  INTERNAL: Registered DIMM Enable. When set allows the use of JEDEC
+                                                       Registered
+                                                       DIMMs which require address and control bits to be registered in the controller.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -15423,47 +15437,47 @@ $LMC(0..0)_TIMING_PARAMS1   Address=(0x11800880001A0|a<<24)   Bus=(RSL)
                                                 where TRRD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
                                                 rate).
                                                 TYP = max(4nCK, 10 ns)
-                                                000: reserved
-                                                001: 2 TCYC
+                                                0x0 = reserved
+                                                0x1 = 2 TCYC
                                                 ...
-                                                110: 7 TCYC
-                                                111: 8 TCYC
+                                                0x6 = 7 TCYC
+                                                0x7 = 8 TCYC
                                                 For DDR4, this is the TRRD_S parameter.
  <24:18> TRFC     R/W     0x6        0x7        Indicates TRFC constraints. Set this field as follows:
                                                 RNDUP[TRFC(ns) / (8 * TCYC(ns))]
                                                 where TRFC is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
                                                 rate).
                                                 TYP = 90-350 ns
-                                                0000000: reserved
-                                                0000001: 8 TCYC
-                                                0000010: 16 TCYC
-                                                0000011: 24 TCYC
-                                                0000100: 32 TCYC
+                                                0x0 = reserved.
+                                                0x1 = 8 TCYC.
+                                                0x2 = 16 TCYC.
+                                                0x3 = 24 TCYC.
+                                                0x4 = 32 TCYC.
                                                 ...
-                                                1111110: 1008 TCYC
-                                                1111111: 1016 TCYC
+                                                0x7E = 1008 TCYC.
+                                                0x7F = 1016 TCYC.
  <17:14> TWTR     R/W     0x2        0x3        Indicates TWTR constraints. Set this field as follows:
                                                 RNDUP[TWTR(ns) / TCYC(ns)] - 1
                                                 where TWTR is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
                                                 rate).
                                                 TYP = max(4nCK, 7.5 ns)
                                                 For DDR4, this CSR field represents TWTR_S.
-                                                0000: reserved
-                                                0001: 2
+                                                0x0 = reserved.
+                                                0x1 = 2.
                                                 ...
-                                                0111: 8
-                                                1000-1111: reserved
+                                                0x7 = 8.
+                                                0x8-0xF = reserved.
  <13:10> TRCD     R/W     0x4        0x4        Indicates TRCD constraints. Set this field as follows:
                                                 RNDUP[TRCD(ns) / TCYC(ns)]
                                                 where TRCD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
                                                 rate).
                                                 TYP = 10-15 ns
-                                                0000: reserved
-                                                0001: 2 (2 is the smallest value allowed)
-                                                0002: 2
+                                                0x0 = reserved.
+                                                0x1 = 2 (2 is the smallest value allowed).
+                                                0x2 = 2.
                                                 ...
-                                                1110: 14
-                                                1010-1111: reserved
+                                                0xE = 14.
+                                                0xA-0xF = reserved.
                                                 In 2T mode, make this register TRCD - 1, not going below 2.
  <9:4>   TRAS     R/W     0xC        0xC        Indicates TRAS constraints. Set TRAS (CSR field) as follows:
                                                 RNDUP[TRAS(ns)/TCYC(ns)] - 1,
@@ -15498,83 +15512,78 @@ $LMC(0..0)_MODEREG_PARAMS0   Address=(0x11800880001A8|a<<24)   Bus=(RSL)
                                               1: Fast exit (DLL on)
                                               LMC writes this value to MR0[PPD] in the selected DDR3 parts during power-up/init and, if
                                               LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
-                                              LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK]. This value must
-                                              equal the MR0[PPD] value in all the DDR3 parts attached to all ranks during normal
-                                              operation.
+                                              LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,RANKMASK]. This value must equal the MR0[PPD] value
+                                              in all the DDR3 parts attached to all ranks during normal operation.
  <23:21> WRP    R/W     0x0        0x0        Write recovery for auto precharge. Should be programmed to be equal to or greater than
                                               RNDUP[TWR(ns) / Tcyc(ns)].
-                                              000: 5. 100: 8.
-                                              001: 5. 101: 10.
-                                              010: 6. 110: 12.
-                                              011: 7. 111: 14.
+                                              0x0 =  5. 0x4 = 8.
+                                              0x1 =  5. 0x5 = 10.
+                                              0x2 =  6. 0x6 = 12.
+                                              0x3 =  7. 0x7 = 14.
                                               LMC writes this value to MR0[WR] in the selected DDR3 parts during power-up/init and, if
                                               LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
-                                              LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK]. This value must
-                                              equal
-                                              the MR0[WR] value in all the DDR3 parts attached to all ranks during normal operation.
+                                              LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,RANKMASK]. This value must equal the MR0[WR] value in
+                                              all the DDR3 parts attached to all ranks during normal operation.
  <20>    DLLR   R/W     0          0          DLL reset. LMC writes this value to MR0[DLL] in the selected DDR3 parts during power-
                                               up/init and, if LMC(0..0)_CONFIG [SREF_WITH_DLL] is set, self-refresh exit instruction
-                                              sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK].
-                                              The MR0[DLL] value must be 0 in all the DDR3 parts attached to all ranks during normal
-                                              operation.
+                                              sequences. See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START,RANKMASK]. The MR0[DLL] value must be 0
+                                              in all the DDR3 parts attached to all ranks during normal operation.
  <19>    TM     R/W     0          0          Test mode. LMC writes this value to MR0[TM] in the selected DDR3 parts during power-
                                               up/init and, if LMC(0..0)_CONFIG [SREF_WITH_DLL] is set, self-refresh exit instruction
-                                              sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK].
-                                              The MR0[TM] value must be 0 in all the DDR3 parts attached to all ranks during normal
-                                              operation.
+                                              sequences. See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START,RANKMASK]. The MR0[TM] value must be 0
+                                              in all the DDR3 parts attached to all ranks during normal operation.
  <18>    RBT    RO      1          1          Read burst. Type 1 = interleaved (fixed). LMC writes this value to MR0[RBT] in the
                                               selected DDR3 parts during power-up/init and, if LMC(0..0)_CONFIG[SREF_WITH_DLL] is set,
-                                              self-refresh exit instruction sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and
-                                              LMC(0..0)_CONFIG[RANKMASK]. The MR0[RBT] value must be 1 in all the DDR3 parts attached
-                                              to all ranks during normal operation.
+                                              self-refresh exit instruction sequences. See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,
+                                              RANKMASK]. The MR0[RBT] value must be 1 in all the DDR3 parts attached to all ranks during
+                                              normal operation.
  <17:14> CL     R/W     0x2        0x2        CAS latency.                                      
                                               In DDR3 mode:
-                                              0010: 5. 0001: 12.
-                                              0100: 6. 0011: 13.
-                                              0110: 7. 0101: 14.
-                                              1000: 8. 0111: 15.
-                                              1010: 9. 1001: 16.
-                                              1100: 10. 0000, 1011, 1101, 1111: Reserved.
-                                              1110: 11.
+                                              0x2 = 5. 0x1 = 12.
+                                              0x4 = 6. 0x3 = 13.
+                                              0x6 = 7. 0x5 = 14.
+                                              0x8 = 8. 0x7 = 15.
+                                              0xA = 9. 0x9 = 16.
+                                              0xC = 10. 0x0, 0xB, 0xD, 0xF = Reserved.
+                                              0xE = 11.
                                               In DDR4 mode:
-                                              0000:  9. 0001: 10.
-                                              0010: 11. 0011: 12.
-                                              0100: 13. 0101: 14.
-                                              0110: 15. 0111: 16.
-                                              1000: 18. 1001: 20.
-                                              1010: 22. 1011: 24.
-                                              1100, 1101, 1110, 111: Reserved.
+                                              0x0 =  9. 0x1 = 10.
+                                              0x2 = 11. 0x3 = 12.
+                                              0x4 = 13. 0x5 = 14.
+                                              0x6 = 15. 0x7 = 16.
+                                              0x8 = 18. 0x9 = 20.
+                                              0xA = 22. 1011: 24.
+                                              0xC, 0xD, 0xE, 0x7: Reserved.
                                               LMC writes this value to MR0[CAS Latency / CL] in the selected DDR3 parts during power-
                                               up/init and, if LMC(0..0)_CONFIG [SREF_WITH_DLL] is set, self-refresh exit instruction
-                                              sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK].
-                                              This value must equal the MR0[CAS Latency / CL] value in all the DDR3/4 parts attached
-                                              to all ranks during normal operation.
+                                              sequences. See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START,RANKMASK]. This value must equal the
+                                              MR0[CAS Latency / CL] value in all the DDR3/4 parts attached to all ranks during normal
+                                              operation.
                                               tCL must be programmed to greater than or equal to tCWL for proper LMC operation.
  <13:12> BL     R/W     0x1        0x1        Burst length.                                     
-                                              0: 8 (fixed).
-                                              1: 4 or 8 (on-the-fly).
+                                              0x0 =  8 (fixed).
+                                              0x1 =  4 or 8 (on-the-fly).
                                               LMC writes this value to MR0[BL] in the selected DDR3 parts during power-up/init and, if
                                               LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
-                                              LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK]. The MR0[BL] value
-                                              must be 1 in all the
+                                              LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,RANKMASK]. The MR0[BL] value must be 1 in all the
                                               DDR3/4 parts attached to all ranks during normal operation.
  <11>    QOFF   R/W     0          0          Qoff enable. 0: enable; 1: disable.               
                                               LMC writes this value to MR1[Qoff] in the DDR3 parts in the selected ranks during power-
                                               up/init, write-leveling, and if LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry
-                                              and exit instruction sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START],
-                                              LMC(0..0)_CONFIG[RANKMASK, INIT_STATUS], and LMC(0..0)_RESET_CTL[DDR3PWARM, DDR3PSOFT].
-                                              The MR1[Qoff] value must be 0 in all the DDR3 parts attached to all ranks during normal
+                                              and exit instruction sequences. See LMC(0..0)_CONFIG[SEQ_SEL,
+                                              INIT_START,RANKMASK,INIT_STATUS] and LMC(0..0)_RESET_CTL[DDR3PWARM, DDR3PSOFT]. The
+                                              MR1[Qoff] value must be 0 in all the DDR3 parts attached to all ranks during normal
                                               operation.
  <10>    TDQS   R/W     0          0          TDQS enable. 0: disable. LMC writes this value to MR1[TDQS] in the DDR3 parts in the
                                               selected ranks during power-up/init, write-leveling, and, if
                                               LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                              See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START], LMC(0..0)_CONFIG[RANKMASK, INIT_STATUS], and
+                                              See LMC(0..0)_CONFIG[SEQ_SEL, INIT_START,RANKMASK,INIT_STATUS] and
                                               LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
  <9>     WLEV   RO      0          0          Write leveling enable. 0: disable. LMC writes MR1[Level]=0 in the DDR3 parts in the
                                               selected ranks during power-up/init, write-leveling, and, if
                                               LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit sequences. (Write-
                                               leveling can only be initiated via the write-leveling instruction sequence.) See
-                                              LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START], LMC(0..0)_CONFIG[RANKMASK, INIT_STATUS] and
+                                              LMC(0..0)_CONFIG[SEQ_SEL, INIT_START, RANKMASK,INIT_STATUS] and
                                               LMC(0..0)_RESET_CTL[DDR3PWARM, DDR3PSOFT].
  <8:7>   AL     R/W     0x0        0x0        Reserved; must be zero.                           
                                               INTERNAL: Additive latency:
@@ -15584,17 +15593,14 @@ $LMC(0..0)_MODEREG_PARAMS0   Address=(0x11800880001A8|a<<24)   Bus=(RSL)
                                               0x3: Reserved.
                                               LMC writes this value to MR1[AL] in the selected DDR3 parts during power-up/init, write-
                                               leveling, and, if LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit
-                                              instruction sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and
-                                              LMC(0..0)_CONFIG[RANKMASK]
-                                              and LMC(0..0)_RESET_CTL [DDR3PWARM,DDR3PSOFT]. This value must equal the MR1[AL] value in
-                                              all
+                                              instruction sequences. See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START, RANKMASK] and
+                                              LMC(0..0)_RESET_CTL [DDR3PWARM,DDR3PSOFT]. This value must equal the MR1[AL] value in all
                                               the DDR3 parts attached to all ranks during normal operation. See also
                                               LMC(0..0)_CONTROL[POCAS].
  <6>     DLL    R/W     0          0          DLL Enable. 0: enable; 1: disable. LMC writes this value to MR1[DLL] in the selected DDR3
                                               parts during power-up/init, write-leveling, and, if LMC(0..0)_CONFIG[SREF_WITH_DLL] is
-                                              set, self-refresh entry and exit instruction sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL,
-                                              INIT_START],
-                                              LMC(0..0)_CONFIG[RANKMASK], and LMC(0..0)_RESET_CTL [DDR3PWARM,DDR3PSOFT]. This value
+                                              set, self-refresh entry and exit instruction sequences. See LMC(0..0)_CONFIG
+                                              [SEQ_SEL,INIT_START, RANKMASK] and LMC(0..0)_RESET_CTL [DDR3PWARM,DDR3PSOFT]. This value
                                               must equal the MR1[DLL] value in all the DDR3 parts attached to all ranks during normal
                                               operation. In DLL-off mode, CL/CWL must be programmed equal to 6/6, respectively, as per
                                               the JEDEC DDR3 specifications.
@@ -15602,32 +15608,30 @@ $LMC(0..0)_MODEREG_PARAMS0   Address=(0x11800880001A8|a<<24)   Bus=(RSL)
                                               read-leveling, and, if LMC(0..0)_CONFIG [SREF_WITH_DLL] is set, self-refresh exit
                                               instruction sequences. (LMC also writes MR3[MPR] = 1 at the beginning of the read-leveling
                                               instruction sequence. Read-leveling should only be initiated via the read-leveling
-                                              instruction sequence.) See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and
-                                              LMC(0..0)_CONFIG[RANKMASK]. The MR3[MPR] value must be 0 in all the DDR3 parts attached
-                                              to all ranks during normal operation.
+                                              instruction sequence.) See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK]. The MR3[MPR]
+                                              value must be 0 in all the DDR3 parts attached to all ranks during normal operation.
  <4:3>   MPRLOC R/W     0x0        0x0        MPR location. LMC writes this value to MR3[MPRLoc] in the selected DDR3 parts during
                                               power-up/init, read-leveling, and, if LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh
                                               exit instruction sequences. (LMC also writes MR3[MPRLoc] = 0 at the beginning of the read-
-                                              leveling instruction sequence.) See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and
-                                              LMC(0..0)_CONFIG[RANKMASK]. The MR3[MPRLoc] value must be 0 in all the DDR3 parts attached
-                                              to all ranks during normal operation.
+                                              leveling instruction sequence.) See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK]. The
+                                              MR3[MPRLoc] value must be 0 in all the DDR3 parts attached to all ranks during normal
+                                              operation.
  <2:0>   CWL    R/W     0x0        0x0        CAS write latency.                                
                                               In DDR3 mode:
-                                              000: 5. 100: 9.
-                                              001: 6. 101: 10.
-                                              010: 7. 110: 11.
-                                              011: 8. 111: 12.
+                                              0x0 = 5. 0x4 = 9.
+                                              0x1 = 6. 0x5 = 10.
+                                              0x2 = 7. 0x6 = 11.
+                                              0x3 = 8. 0x7 = 12.
                                               In DDR4 mode:
-                                              000: 9. 100: 13.
-                                              001: 10. 101: 16.
-                                              010: 11. 110: 18.
-                                              011: 12. 111: Reserved.
+                                              0x0 = 9. 0x4 = 13.
+                                              0x1 = 10. 0x5 = 16.
+                                              0x2 = 11. 0x6 = 18.
+                                              0x3 = 12. 0x7 = Reserved.
                                               LMC writes this value to MR2[CWL] in the selected DDR3 parts during power-up/init, write-
                                               leveling, and, if LMC*_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit
-                                              instruction sequences. See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and
-                                              LMC(0..0)_CONFIG[RANKMASK]
-                                              and LMC(0..0)_RESET_CTL [DDR3PWARM, DDR3PSOFT]. This value must equal the MR2[CWL] value
-                                              in all the DDR3 parts attached to all ranks during normal operation.
+                                              instruction sequences. See LMC(0..0)_CONFIG[SEQ_SEL, INIT_START,RANKMASK] and
+                                              LMC(0..0)_RESET_CTL [DDR3PWARM, DDR3PSOFT]. This value must equal the MR2[CWL] value in
+                                              all the DDR3 parts attached to all ranks during normal operation.
                                               tCWL must be programmed to less than or equal to tCL for proper LMC operation.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -15668,7 +15672,7 @@ Notes:
 When a given RANK is selected, the WODT mask for that RANK is used.  The resulting WODT mask
 is
 driven to the DIMMs in the following manner:
-RANK_ENA=1                    RANK_ENA=0
+RANK_ENA=1                                 RANK_ENA=0
 Mask[3] -> DIMM1_ODT_1                     MBZ
 Mask[2] -> DIMM1_ODT_0                     DIMM1_ODT_0
 Mask[1] -> DIMM0_ODT_1                     MBZ
@@ -15712,11 +15716,13 @@ $LMC(0..0)_COMP_CTL2   Address=(0x11800880001B8|a<<24)   Bus=(RSL)
  <44:40> DDR__NTUNE     RO/H    --         --         DDR NCTL from compensation circuit. The encoded value provides debug information for the
                                                       compensation impedance on N-pulldown.
                                                       Attribute: -exempt_name_double_underscore=True.
- <39:36> PTUNE_OFFSET   R/W     0x0        --         Ptune offset value.                               
- <35:32> NTUNE_OFFSET   R/W     0x0        --         Ntune offset value.                               
+ <39:36> PTUNE_OFFSET   R/W     0x0        --         Ptune offset value. This is a signed value where the MSB is a sign bit, with zero
+                                                      indicating addition and one indicating subtraction.
+ <35:32> NTUNE_OFFSET   R/W     0x0        --         Ntune offset value. This is a signed value where the MSB is a sign bit, with zero
+                                                      indicating addition and one indicating subtraction.
  <31>    M180           R/W     0          --         Reserved; must be zero. INTERNAL: Cap impedance at 180 ohm, instead of 240 ohm.
  <30>    BYP            R/W     0          --         Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
-                                                      DDR_PTUNE,DDR_NTUNE are the compensation setting.
+                                                      DDR__PTUNE,DDR__NTUNE are the compensation setting.
  <29:25> PTUNE          R/W     0x0        --         PCTL impedance control in bypass mode.            
  <24:20> NTUNE          R/W     0x0        --         NCTL impedance control in bypass mode.            
  <19:16> RODT_CTL       R/W     0x0        --         RODT NCTL impedance control bits. This field controls ODT values during a memory read.
@@ -15754,7 +15760,7 @@ $LMC(0..0)_COMP_CTL2   Address=(0x11800880001B8|a<<24)   Bus=(RSL)
                                                       0x2 = 26 ohm. 0x6 = 48 ohm.
                                                       0x3 = 30 ohm. 0x7 = 68 ohm.
                                                       0x8-0xF = Reserved.
- <7:4>   CK_CTL         R/W     0x4        --         "Drive strength control for DDR_CK_*_P/DDR_DIMM*_CS*_L/DDR_DIMM*_ODT_*/DDR#_DIMM*_CKE*
+ <7:4>   CK_CTL         R/W     0x4        --         "Drive strength control for DDR_CK_*_P/DDRCS*_L/DDR_ODT_*/DDR_CKE*
                                                       drivers.
                                                       In DDR3 mode:
                                                       0x1 = 24 ohm. 0x5 = 40 ohm.
@@ -15793,19 +15799,19 @@ $LMC(0..0)_DLL_CTL2   Address=(0x11800880001C8|a<<24)   Bus=(RSL)
                                                     (DRESET -OR- core-clock reset).
  <13>    QUAD_DLL_ENA R/W     0          0          DLL enable.                                       
  <12:9>  BYP_SEL      R/W     0x0        0x0        Reserved; must be zero. INTERNAL: Bypass select.  
-                                                    0000 = no byte.
-                                                    0001 = byte 0.
+                                                    0x0 = no byte.
+                                                    0x1 = byte 0.
                                                     ...
-                                                    1001 = byte 8.
-                                                    1010 = all bytes.
-                                                    1011-1111 = Reserved.
+                                                    0x9 = byte 8.
+                                                    0xA = all bytes.
+                                                    0xB-0xF = Reserved.
  <8:0>   BYP_SETTING  R/W     0x0        0x0        Reserved; must be zero. INTERNAL: Bypass setting. 
-                                                    DDR3-1600: 00100010.
-                                                    DDR3-1333: 00110010.
-                                                    DDR3-1066: 01001011.
-                                                    DDR3-800  : 01110101.
-                                                    DDR3-667  : 10010110.
-                                                    DDR3-600  : 10101100.
+                                                    DDR3-1600: 0x22.
+                                                    DDR3-1333: 0x32.
+                                                    DDR3-1066: 0x4B.
+                                                    DDR3-800  : 0x75.
+                                                    DDR3-667  : 0x96.
+                                                    DDR3-600  : 0xAC.
 
 Notes:
 DLL Bringup sequence:
@@ -15902,28 +15908,17 @@ $LMC(0..0)_INT   Address=(0x11800880001F0|a<<24)   Bus=(RSL)
  <10>    DLCRAM_DED_ERR R/W1C/H 0          0          Reserved.                                         
  <9>     DLCRAM_SEC_ERR R/W1C/H 0          0          Reserved.                                         
  <8:5>   DED_ERR        R/W1C/H 0x0        0x0        Double error detected (DED) of Rd Data.           
-                                                      In 64b mode:
-                                                      <5> corresponds to DQ[63:0]_c0_p0
-                                                      <6> corresponds to DQ[63:0]_c0_p1
-                                                      <7> corresponds to DQ[63:0]_c1_p0
-                                                      <8> corresponds to DQ[63:0]_c1_p1
-                                                      where _cC_pP denotes cycle C and phase P.
                                                       In 32b mode, each bit corresponds to 2 phases:
                                                       <5> corresponds to DQ[31:0]_c0_p1/0
                                                       <6> corresponds to DQ[31:0]_c1_p1/0
                                                       <7> corresponds to DQ[31:0]_c2_p1/0
                                                       <8> corresponds to DQ[31:0]_c3_p1/0
  <4:1>   SEC_ERR        R/W1C/H 0x0        0x0        Single error (corrected) of Rd Data.              
-                                                      <1> corresponds to DQ[63:0]_c0_p0
-                                                      <2> corresponds to DQ[63:0]_c0_p1
-                                                      <3> corresponds to DQ[63:0]_c1_p0
-                                                      <4> corresponds to DQ[63:0]_c1_p1
-                                                      where _cC_pP denotes cycle C and phase P.
                                                       In 32b mode, each bit corresponds to 2 phases:
-                                                      <5> corresponds to DQ[31:0]_c0_p1/0
-                                                      <6> corresponds to DQ[31:0]_c1_p1/0
-                                                      <7> corresponds to DQ[31:0]_c2_p1/0
-                                                      <8> corresponds to DQ[31:0]_c3_p1/0
+                                                      <1> corresponds to DQ[31:0]_c0_p1/0
+                                                      <2> corresponds to DQ[31:0]_c1_p1/0
+                                                      <3> corresponds to DQ[31:0]_c2_p1/0
+                                                      <4> corresponds to DQ[31:0]_c3_p1/0
  <0>     NXM_WR_ERR     R/W1C/H 0          0          Write to nonexistent memory.                      
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -15933,10 +15928,10 @@ $LMC(0..0)_INT   Address=(0x11800880001F0|a<<24)   Bus=(RSL)
  * 
  *  This register is an assortment of control fields needed by the memory controller. If software
  *  has not previously written to this register (since the last DRESET), hardware updates the
- *  fields in this register to the minimum allowed value when any of LMC(0..0)_RLEVEL_RANK(0..3),
- *  LMC(0..0)_WLEVEL_RANK(0..3), LMC(0..0)_CONTROL, and LMC(0..0)_MODEREG_PARAMS0 registers
+ *  fields in this register to the minimum allowed value when any of LMC(0..0)_RLEVEL_RANK(0..1),
+ *  LMC(0..0)_WLEVEL_RANK(0..1), LMC(0..0)_CONTROL, and LMC(0..0)_MODEREG_PARAMS0 registers
  *  change. Ideally, only read this register after LMC has been initialized and
- *  LMC(0..0)_RLEVEL_RANK(0..3), LMC(0..0)_WLEVEL_RANK(0..3) have valid data.
+ *  LMC(0..0)_RLEVEL_RANK(0..1), LMC(0..0)_WLEVEL_RANK(0..1) have valid data.
  *  The field value is the minimum CK cycles between when the DRAM
  *  part registers CAS commands of the first and second types from different cache blocks.
  *  
@@ -15993,10 +15988,10 @@ $LMC(0..0)_SLOT_CTL0   Address=(0x11800880001F8|a<<24)   Bus=(RSL)
  * 
  *  This register is an assortment of control fields needed by the memory controller. If software
  *  has not previously written to this register (since the last DRESET), hardware updates the
- *  fields in this register to the minimum allowed value when any of LMC(0..0)_RLEVEL_RANK(0..3),
- *  LMC(0..0)_WLEVEL_RANK(0..3), LMC(0..0)_CONTROL and LMC(0..0)_MODEREG_PARAMS0 CSRs change.
+ *  fields in this register to the minimum allowed value when any of LMC(0..0)_RLEVEL_RANK(0..1),
+ *  LMC(0..0)_WLEVEL_RANK(0..1), LMC(0..0)_CONTROL and LMC(0..0)_MODEREG_PARAMS0 CSRs change.
  *  Ideally, only read this register after LMC has been initialized and
- *  LMC(0..0)_RLEVEL_RANK(0..3), LMC(0..0)_WLEVEL_RANK(0..3) have valid data.
+ *  LMC(0..0)_RLEVEL_RANK(0..1), LMC(0..0)_WLEVEL_RANK(0..1) have valid data.
  *  The field value is the minimum CK cycles between when the DRAM
  *  part registers CAS commands of the first and second types from different cache blocks.
  *  
@@ -16039,12 +16034,14 @@ $LMC(0..0)_SLOT_CTL1   Address=(0x1180088000200|a<<24)   Bus=(RSL)
 
 
  * 
- * LMC_SLOT_CTL2 = LMC Slot Control2 Register
+ * LMC_SLOT_CTL2 = INTERNAL: LMC Slot Control2 Register
  * 
+ *  This register still exists in CN70XX/CN71XX but is not used because it only supports 2 ranks.
+ *  
  *  This register is an assortment of control fields needed by the memory controller. If software
  *  has not previously written to this register (since the last DRESET), hardware updates the
- *  fields in this register to the minimum allowed value when any of LMC(0..0)_RLEVEL_RANK(0..3),
- *  LMC(0..0)_WLEVEL_RANK(0..3)LMC*_WLEVEL_RANKn, LMC*_CONTROL and LMC*_MODEREG_PARAMS0 CSRs
+ *  fields in this register to the minimum allowed value when any of LMC(0..0)_RLEVEL_RANK(0..1),
+ *  LMC(0..0)_WLEVEL_RANK(0..1)LMC*_WLEVEL_RANKn, LMC*_CONTROL and LMC*_MODEREG_PARAMS0 CSRs
  *  change. Ideally, only read this register after LMC has been initialized and LMC*_RLEVEL_RANKn,
  *  LMC*_WLEVEL_RANKn have valid data.
  *  
@@ -16105,8 +16102,8 @@ $LMC(0..0)_PHY_CTL   Address=(0x1180088000210|a<<24)   Bus=(RSL)
                                                             operation is started, then set to 1 when operation is complete.
  <48:39> DSK_DBG_RD_DATA      RO/H    0x0        --         Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
                                                             LMCX_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set.
- <38>    DSK_DBG_RD_START     WO/H    0          0          INTERNAL: Write 1 to start deskew data read operation, will automatically
-                                                            clear to 0.  Write to 1 will also clear the complete bit.
+ <38>    DSK_DBG_RD_START     WO/H    0          0          Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+                                                            to 0. Write to 1 will also clear the complete bit.
  <37:36> DSK_DBG_CLK_SCALER   R/W     0x1        0x1        Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
                                                             0 = Deskew read clock toggles every 1 DCLK
                                                             1 = Deskew read clock toggles every 2 DCLKs
@@ -16116,18 +16113,18 @@ $LMC(0..0)_PHY_CTL   Address=(0x1180088000210|a<<24)   Bus=(RSL)
                                                             DDR PHY.
  <33>    DSK_DBG_NUM_BITS_SEL R/W     1          1          Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
                                                             0 = 8 bits per byte lane, no DBI
-                                                            1 = 9 bits ber byte lane, including DBI
- <32:29> DSK_DBG_BYTE_SEL     R/W     0x0        0x0        Reserved. INTERNAL: Deskew debug byte select for read operation.  Values 0-3 correspond to
+                                                            1 = 9 bits per byte lane, including DBI
+ <32:29> DSK_DBG_BYTE_SEL     R/W     0x0        0x0        Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                             byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7.
  <28:25> DSK_DBG_BIT_SEL      R/W     0x0        0x0        Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
  <24>    DBI_MODE_ENA         RO      0          --         Enable DBI mode for PHY, must be 0.  DBI mode not supported
-                                                            in 70xx.
+                                                            in CN70XX.
  <23>    DDR_ERROR_N_ENA      R/W     0          0          Reserved.                                         
  <22>    REF_PIN_ON           R/W     0          0          Reserved. INTERNAL: Voltage reference pin enabled.
  <21>    DAC_ON               R/W     0          0          Reserved. INTERNAL: PHY DAC on.                   
  <20>    INT_PAD_LOOPBACK_ENA R/W     0          --         DDR pad loopback enable.                          
  <19>    INT_PHY_LOOPBACK_ENA R/W     0          --         Internal PHY loopback enable.                     
- <18>    PHY_DSK_RESET        R/W     0          --         PHY deskew reset. When set, the deskew reset signal goes active if the vrefint/deskew
+ <18>    PHY_DSK_RESET        R/W     0          --         PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                             training sequence is in the idle state.
  <17>    PHY_DSK_BYP          R/W     0          --         PHY deskew bypass.                                
  <16>    PHY_PWR_SAVE_DISABLE R/W     0          --         DDR PHY power save disable.                       
@@ -16303,7 +16300,7 @@ $LMC(0..0)_DDR_PLL_CTL   Address=(0x1180088000258|a<<24)   Bus=(RSL)
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:31> --            RAZ     --         --         Reserved.                                         
- <30>    PHY_DCOK      R/W     0          1          Set to power up PHY logic after setting LMC#_DDR_PLL_CTL[DDR4_MODE].
+ <30>    PHY_DCOK      R/W     0          1          Set to power up PHY logic after setting LMC(0..0)_DDR_PLL_CTL[DDR4_MODE].
  <29>    DDR4_MODE     R/W     0          --         DDR4 mode select (0 for DDR3).                    
  <28>    PLL_FBSLIP    RO/H    0          --         PLL FBSLIP indication.                            
  <27>    PLL_LOCK      RO/H    0          --         PLL LOCK indication.                              
@@ -16318,22 +16315,17 @@ $LMC(0..0)_DDR_PLL_CTL   Address=(0x1180088000258|a<<24)   Bus=(RSL)
                                                      jtg_test_mode) by about 160 microseconds to ensure that lock is achieved.
  <22>    DDR_DIV_RESET R/W     1          0          DDR postscalar divider reset.                     
  <21:18> DDR_PS_EN     R/W     0x2        --         DDR postscalar divide ratio. Determines the LMC CK speed.
-                                                     0x0 = divide LMC PLL by 1.
-                                                     0x1 = divide LMC PLL by 2.
-                                                     0x2 = divide LMC PLL by 3.
-                                                     0x3 = divide LMC PLL by 4.
-                                                     0x4 = divide LMC PLL by 5.
-                                                     0x5 = divide LMC PLL by 6.
-                                                     0x6 = divide LMC PLL by 7.
-                                                     0x7 = divide LMC PLL by 8.
-                                                     0x8 = divide LMC PLL by 10
-                                                     0x9 = divide LMC PLL by 12.
-                                                     0xa = RSVD
-                                                     0xb = RSVD
-                                                     0xc = RSVD
-                                                     0xd = RSVD
-                                                     0xe = RSVD
-                                                     0xf = RSVD
+                                                     0x0 = Divide LMC PLL by 1.
+                                                     0x1 = Divide LMC PLL by 2.
+                                                     0x2 = Divide LMC PLL by 3.
+                                                     0x3 = Divide LMC PLL by 4.
+                                                     0x4 = Divide LMC PLL by 5.
+                                                     0x5 = Divide LMC PLL by 6.
+                                                     0x6 = Divide LMC PLL by 7.
+                                                     0x7 = Divide LMC PLL by 8.
+                                                     0x8 = Divide LMC PLL by 10.
+                                                     0x9 = Divide LMC PLL by 12.
+                                                     0xA-0xF = Reserved.
                                                      DDR_PS_EN is not used when DDR_DIV_RESET = 1
  <17:8>  --            RAZ     --         --         Reserved.                                         
  <7>     RESET_N       R/W     0          1          PLL reset                                         
@@ -16356,7 +16348,7 @@ $LMC(0..0)_MODEREG_PARAMS1   Address=(0x1180088000260|a<<24)   Bus=(RSL)
  <47:45> RTT_NOM_11 R/W     0x0        0x0        Reserved.  INTERNAL: RTT_NOM rank 3. LMC writes this value to MR1[RTT_NOM] in the rank 3
                                                   (i.e. DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
+                                                  See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START,RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
                                                   used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
                                                   (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
@@ -16392,7 +16384,7 @@ $LMC(0..0)_MODEREG_PARAMS1   Address=(0x1180088000260|a<<24)   Bus=(RSL)
                                                   rank 3 (i.e. DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling,
                                                   and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and
+                                                  See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
  <35:33> RTT_NOM_10 R/W     0x0        0x0        Reserved.  INTERNAL: RTT_NOM rank 2. LMC writes this value to MR1[Rtt_Nom] in the rank 2
                                                   (i.e. DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
@@ -16435,7 +16427,7 @@ $LMC(0..0)_MODEREG_PARAMS1   Address=(0x1180088000260|a<<24)   Bus=(RSL)
                                                   the rank 2 (i.e. DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling,
                                                   and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
+                                                  See LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
  <23:21> RTT_NOM_01 R/W     0x0        0x0        RTT_NOM rank 1. LMC writes this value to MR1[RTT_NOM] in the rank 1 (i.e. DIMM0_CS1) DDR3
                                                   parts when selected during power-up/init, write-leveling, and, if
@@ -16453,8 +16445,8 @@ $LMC(0..0)_MODEREG_PARAMS1   Address=(0x1180088000260|a<<24)   Bus=(RSL)
  <18:17> RTT_WR_01  R/W     0x0        0x0        RTT_WR rank 1. LMC writes this value to MR2[RTT_WR] in the rank 1 (i.e. DIMM0_CS1) DDR3
                                                   parts when selected during power-up/init, write-leveling, and, if LMC(0..0)_CONFIG
                                                   [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
-                                                  LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
-                                                  LMC(0..0)_RESET_CTL[DDR3PWARM, DDR3PSOFT].
+                                                  LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK] and LMC(0..0)_RESET_CTL[DDR3PWARM,
+                                                  DDR3PSOFT].
  <16>    SRT_01     R/W     0          0          Self-refresh temperature range rank 1. LMC writes this value to MR2[SRT] in the rank 1
                                                   (i.e. DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
@@ -16463,46 +16455,44 @@ $LMC(0..0)_MODEREG_PARAMS1   Address=(0x1180088000260|a<<24)   Bus=(RSL)
  <15>    ASR_01     R/W     0          0          Auto self-refresh rank 1. LMC writes this value to MR2[ASR] in the rank 1 (i.e. DIMM0_CS1)
                                                   DDR3 parts when selected during power-up/init, write-leveling, and, if LMC(0..0)_CONFIG
                                                   [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
-                                                  LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
-                                                  LMC(0..0)_RESET_CTL[DDR3PWARM, DDR3PSOFT].
+                                                  LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK] and LMC(0..0)_RESET_CTL[DDR3PWARM,
+                                                  DDR3PSOFT].
  <14:12> PASR_01    R/W     0x0        0x0        Partial array self-refresh rank 1. LMC writes this value to MR2[PASR] in the rank 1 (i.e.
                                                   DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and
+                                                  See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
  <11:9>  RTT_NOM_00 R/W     0x0        0x0        RTT_NOM rank 0. LMC writes this value to MR1[RTT_NOM] in the rank 0 (i.e. DIMM0_CS0) DDR3
                                                   parts when selected during power-up/init, write-leveling, and, if LMC(0..0)_CONFIG
                                                   [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
-                                                  LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
-                                                  LMC(0..0)_RESET_CTL[DDR3PWARM,
+                                                  LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK] and LMC(0..0)_RESET_CTL[DDR3PWARM,
                                                   DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is used during write operations,
                                                   only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3 (RZQ/6) are allowed. Otherwise,
                                                   values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also allowed.
  <8:7>   DIC_00     R/W     0x0        0x0        Output driver impedance control rank 0. LMC writes this value to MR1[D.I.C.] in the rank 0
                                                   (i.e. DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and
+                                                  See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START, RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
  <6:5>   RTT_WR_00  R/W     0x0        0x0        RTT_WR rank 0. LMC writes this value to MR2[RTT_WR] in the rank 0 (i.e. DIMM0_CS0) DDR3
                                                   parts when selected during power-up/init, write-leveling, and, if LMC(0..0)_CONFIG
                                                   [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
-                                                  LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
-                                                  LMC(0..0)_RESET_CTL[DDR3PWARM,
+                                                  LMC(0..0)_CONFIG[SEQ_SEL,INIT_START, RANKMASK] and LMC(0..0)_RESET_CTL[DDR3PWARM,
                                                   DDR3PSOFT].
  <4>     SRT_00     R/W     0          0          Self-refresh temperature range rank 0. LMC writes this value to MR2[SRT] in the rank 0
                                                   (i.e. DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and
+                                                  See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START,RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
  <3>     ASR_00     R/W     0          0          Auto self-refresh rank 0. LMC writes this value to MR2[ASR] in the rank 0 (i.e. DIMM0_CS0)
                                                   DDR3 parts when selected during power-up/init, write-leveling, and, if LMC(0..0)_CONFIG
                                                   [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
-                                                  LMC(0..0)_SEQ_CTL[SEQ_SEL, INIT_START] and LMC(0..0)_CONFIG[RANKMASK] and
-                                                  LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
+                                                  LMC(0..0)_CONFIG[SEQ_SEL, INIT_START,RANKMASK] and LMC(0..0)_RESET_CTL
+                                                  [DDR3PWARM,DDR3PSOFT].
  <2:0>   PASR_00    R/W     0x0        0x0        Partial array self-refresh rank 0. LMC writes this value to MR2[PASR] in the rank 0 (i.e.
                                                   DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
                                                   LMC(0..0)_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
-                                                  See LMC(0..0)_CONFIG [SEQ_SEL, INIT_START, RANKMASK] and
+                                                  See LMC(0..0)_CONFIG [SEQ_SEL,INIT_START, RANKMASK] and
                                                   LMC(0..0)_RESET_CTL[DDR3PWARM,DDR3PSOFT].
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -16525,9 +16515,9 @@ $LMC(0..0)_MODEREG_PARAMS1   Address=(0x1180088000260|a<<24)   Bus=(RSL)
  *  pin for the rank that is being read should always be 0x0.
  *  When a given RANK is selected, the RODT mask for that rank is used. The resulting RODT mask is
  *  driven to the DIMMs in the following manner:
- *  RANK_ENA=1                    RANK_ENA=0
+ *  RANK_ENA=1                                RANK_ENA=0
  *  Mask[3] -> DIMM1_ODT_1                    MBZ
- *  Mask[2] -> DIMM1_ODT_0                          DIMM1_ODT_0
+ *  Mask[2] -> DIMM1_ODT_0                    DIMM1_ODT_0
  *  Mask[1] -> DIMM0_ODT_1                    MBZ
  *  Mask[0] -> DIMM0_ODT_0                    DIMM0_ODT_0
  *  LMC always reads entire cache blocks and always reads them via two consecutive
@@ -16569,7 +16559,7 @@ $LMC(0..0)_RODT_MASK   Address=(0x1180088000268|a<<24)   Bus=(RSL)
 
 
  * 
- * LMC_DIMM_PARAMS = LMC DIMM Parameters Register
+ * LMC_DIMM_PARAMS = INTERNAL: LMC DIMM Parameters Register
  * 
  *  This register contains values to be programmed into each control word in the corresponding
  *  (registered) DIMM. The control words allow optimization of the device properties for different
@@ -16577,7 +16567,7 @@ $LMC(0..0)_RODT_MASK   Address=(0x1180088000268|a<<24)   Bus=(RSL)
  *  a power-up/init sequence, LMC writes these fields into the control words in the JEDEC standard
  *  SSTE32882 registering clock driver on an RDIMM when corresponding
  *  LMC(0..0)_DIMM_CTL[DIMM*_WMASK]
- *  bits are set.  For 70xx, only LMC(0..0)_DIMM(0)_PARAMS are used because only 2 ranks are
+ *  bits are set.  For CN70XX, only LMC(0..0)_DIMM(0)_PARAMS are used because only 2 ranks are
  *  supported.
  * 
 $LMC(0..0)_DIMM(0..1)_PARAMS   Address=(0x1180088000270|a<<24|b<<3)   Bus=(RSL)
@@ -16607,12 +16597,14 @@ $LMC(0..0)_DIMM(0..1)_PARAMS   Address=(0x1180088000270|a<<24|b<<3)   Bus=(RSL)
  * 
  * LMC_RLEVEL_RANK = LMC Read Level Rank Register
  * 
- *  Four of these CSRs exist per LMC, one for each rank. Read level setting is measured in units
- *  of 1/4 CK, so the BYTEn values can range over 16 CK cycles. Each CSR is written by hardware
- *  during a read-leveling sequence for the rank. (Hardware sets STATUS to 3 after hardware read-
- *  leveling completes for the rank.)
+ *  Four of these CSRs exist per LMC, one for each rank. Because CN70XX/CN71XX only support two
+ *  ranks
+ *  of DRAM, LMC(0)_RLEVEL_RANK(2) and LMC(0)_RLEVEL_RANK(3) are not used.  Read level setting is
+ *  measured in units of 1/4 CK, so the BYTEn values can range over 16 CK cycles. Each CSR is
+ *  written by hardware during a read-leveling sequence for the rank. (Hardware sets STATUS to 3
+ *  after hardware read- leveling completes for the rank.)
  *  If hardware is unable to find a match per LMC(0..0)_RLEVEL_CTL[OFFSET_EN] and
- *  LMC(0..0)_RLEVEL_CTL[OFFSET], then hardware sets LMC(0..0)_RLEVEL_RANK(0..3)[BYTEn<5:0>] to
+ *  LMC(0..0)_RLEVEL_CTL[OFFSET], then hardware sets LMC(0..0)_RLEVEL_RANK(0..1)[BYTEn<5:0>] to
  *  0x0.
  *  Each CSR may also be written by software, but not while a read-leveling sequence is in
  *  progress. (Hardware sets STATUS to 1 after a CSR write.) Software initiates a hardware read-
@@ -16636,15 +16628,27 @@ $LMC(0..0)_RLEVEL_RANK(0..3)   Address=(0x1180088000280|a<<24|b<<3)   Bus=(RSL)
                                               0x2 = read-leveling sequence currently in progress (BYTEn values are unpredictable).
                                               0x3 = BYTEn values came from a complete read-leveling sequence.
  <53:48> BYTE8  R/W/H   0x0        --         "Read level setting.                              
-                                              When ECC DRAM is not present in 64-bit mode (i.e. when DRAM is not attached to chip
-                                              signals DDR#_CBS_0_* and DDR#_CB<7:0>), software should write BYTE8 to a value that does
+                                              Software should write BYTE8 to a value that does not increase the range of possible BYTE*
+                                              values.  The easiest way to do this is to set LMC(0..0)_RLEVEL_RANK(0..1)[BYTE8] =
+                                              LMC(0..0)_RLEVEL_RANK(0..1)[BYTE0] using the final BYTE0 value."
+ <47:42> BYTE7  R/W/H   0x0        --         "Read level setting.                              
+                                              Software should write BYTE7 to a value that does not increase the range of possible BYTE*
+                                              values.  The easiest way to do this is to set LMC(0..0)_RLEVEL_RANK(0..1)[BYTE7] =
+                                              LMC(0..0)_RLEVEL_RANK(0..1)[BYTE0] using the final BYTE0 value."
+ <41:36> BYTE6  R/W/H   0x0        --         "Read level setting.                              
+                                              Software should write BYTE6 to a value that does not increase the range of possible BYTE*
+                                              values.  The easiest way to do this is to set LMC(0..0)_RLEVEL_RANK(0..1)[BYTE6] =
+                                              LMC(0..0)_RLEVEL_RANK(0..1)[BYTE0] using the final BYTE0 value."
+ <35:30> BYTE5  R/W/H   0x0        --         "Read level setting.                              
+                                              Software should write BYTE5 to a value that does not increase the range of possible BYTE*
+                                              values.  The easiest way to do this is to set LMC(0..0)_RLEVEL_RANK(0..1)[BYTE5] =
+                                              LMC(0..0)_RLEVEL_RANK(0..1)[BYTE0] using the final BYTE0 value."
+ <29:24> BYTE4  R/W/H   0x0        --         "Read level setting.                              
+                                              When ECC DRAM is not present (i.e. when DRAM is not attached to chip
+                                              signals DDR_CBS_0* and DDR_CB<3:0>), software should write BYTE4 to a value that does
                                               not increase the range of possible BYTE* values. The easiest way to do this is to set
-                                              LMC(0..0)_RLEVEL_RANK(0..3)[BYTE8] = LMC(0..0)_RLEVEL_RANK(0..3)[BYTE0] when there is no
+                                              LMC(0..0)_RLEVEL_RANK(0..1)[BYTE8] = LMC(0..0)_RLEVEL_RANK(0..1)[BYTE0] when there is no
                                               ECC DRAM, using the final BYTE0 value."
- <47:42> BYTE7  R/W/H   0x0        --         Read level setting.                               
- <41:36> BYTE6  R/W/H   0x0        --         Read level setting.                               
- <35:30> BYTE5  R/W/H   0x0        --         Read level setting.                               
- <29:24> BYTE4  R/W/H   0x0        --         Read level setting.                               
  <23:18> BYTE3  R/W/H   0x0        --         Read level setting.                               
  <17:12> BYTE2  R/W/H   0x0        --         Read level setting.                               
  <11:6>  BYTE1  R/W/H   0x0        --         Read level setting.                               
@@ -16664,13 +16668,13 @@ $LMC(0..0)_RLEVEL_CTL   Address=(0x11800880002A0|a<<24)   Bus=(RSL)
  <31:24> PATTERN        R/W     0x55       0x55       Sets the data pattern used to match in read-leveling operations.
  <23:22> --             RAZ     --         --         Reserved.                                         
  <21>    DELAY_UNLOAD_3 R/W     0          1          When set, unload the PHY silo one cycle later during read-leveling if
-                                                      LMC(0..0)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should normally be set.
+                                                      LMC(0..0)_RLEVEL_RANK(0..1)[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should normally be set.
  <20>    DELAY_UNLOAD_2 R/W     0          1          When set, unload the PHY silo one cycle later during read-leveling if
-                                                      LMC(0..0)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should normally be set.
+                                                      LMC(0..0)_RLEVEL_RANK(0..1)[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should normally be set.
  <19>    DELAY_UNLOAD_1 R/W     0          1          When set, unload the PHY silo one cycle later during read-leveling if
-                                                      LMC(0..0)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should normally be set.
+                                                      LMC(0..0)_RLEVEL_RANK(0..1)[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should normally be set.
  <18>    DELAY_UNLOAD_0 R/W     0          1          When set, unload the PHY silo one cycle later during read-leveling if
-                                                      LMC(0..0)_RLEVEL_RANK(0..3)[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should normally be set.
+                                                      LMC(0..0)_RLEVEL_RANK(0..1)[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should normally be set.
  <17:10> BITMASK        R/W     0x0        0x0        Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1.
  <9>     OR_DIS         R/W     0          0          Disable ORing of bits in a byte lane when computing the read-leveling bitmask. OR_DIS
                                                       should normally not be set.
@@ -16709,11 +16713,14 @@ $LMC(0..0)_RLEVEL_DBG   Address=(0x11800880002A8|a<<24)   Bus=(RSL)
  * 
  * LMC_WLEVEL_RANK = LMC Write Level Rank Register
  * 
- *  Four of these CSRs exist per LMC, one for each rank. Write level setting is measured in units
- *  of
- *  1/8 CK, so the below BYTEn values can range over 4 CK cycles. Assuming
- *  LMC(0..0)_WLEVEL_CTL[SSET]=0, the BYTEn<2:0> values are not used during write-leveling, and
- *  they are overwritten by the hardware as part of the write-leveling sequence. (Hardware sets
+ *  Four of these CSRs exist per LMC, one for each rank. Because CN70XX/CN71XX only supports 2
+ *  ranks
+ *  of DRAM, registers LMC(0)_WLEVEL_RANK(2) and LMC(0)_WLEVEL_RANK(3) are not used.  Write level
+ *  setting is measured in units of 1/8 CK, so the below BYTEn values can range over 4 CK cycles.
+ *  Assuming LMC(0..0)_WLEVEL_CTL[SSET]=0, the BYTEn<2:0> values are not used during write-
+ *  leveling,
+ *  and they are overwritten by the hardware as part of the write-leveling sequence. (Hardware
+ *  sets
  *  STATUS to 3 after hardware write-leveling completes for the rank). Software needs to set
  *  BYTEn<4:3> bits.
  *  Each CSR may also be written by software, but not while a write-leveling sequence is in
@@ -16721,12 +16728,12 @@ $LMC(0..0)_RLEVEL_DBG   Address=(0x11800880002A8|a<<24)   Bus=(RSL)
  *  leveling sequence by programming LMC*_WLEVEL_CTL and writing RANKMASK and INIT_START=1 with
  *  SEQ_SEL=6 in LMC*0_CONFIG.
  *  LMC will then step through and accumulate write leveling results for 8 unique delay settings
- *  (twice), starting at a delay of LMC(0..0)_WLEVEL_RANK(0..3) [BYTEn<4:3>]* 8 CK increasing by
- *  1/8 CK each setting. Hardware will then set LMC(0..0)_WLEVEL_RANK(0..3)[BYTEn<2:0>] to
+ *  (twice), starting at a delay of LMC(0..0)_WLEVEL_RANK(0..1) [BYTEn<4:3>]* 8 CK increasing by
+ *  1/8 CK each setting. Hardware will then set LMC(0..0)_WLEVEL_RANK(0..1)[BYTEn<2:0>] to
  *  indicate the first write leveling result of '1' that followed a result of '0' during the
  *  sequence by searching for a '1100' pattern in the generated bitmask, except that LMC will
- *  always write LMC(0..0)_WLEVEL_RANK(0..3)[BYTEn<0>]=0. If hardware is unable to find a match
- *  for a '1100' pattern, then hardware sets LMC(0..0)_WLEVEL_RANK(0..3) [BYTEn<2:0>] to 0x4. See
+ *  always write LMC(0..0)_WLEVEL_RANK(0..1)[BYTEn<0>]=0. If hardware is unable to find a match
+ *  for a '1100' pattern, then hardware sets LMC(0..0)_WLEVEL_RANK(0..1) [BYTEn<2:0>] to 0x4. See
  *  LMC*_WLEVEL_CTL.
  *  LMC*_WLEVEL_RANKi values for ranks i without attached DRAM should be set such that they do not
  *  increase the range of possible BYTE values for any byte lane. The easiest way to do this is to
@@ -16741,17 +16748,16 @@ $LMC(0..0)_WLEVEL_RANK(0..3)   Address=(0x11800880002C0|a<<24|b<<3)   Bus=(RSL)
  <63:47> --     RAZ     --         --         Reserved.                                         
  <46:45> STATUS RO/H    0x0        --         Indicates status of the write-leveling and where the BYTE* programmings in <44:0> came
                                               from:
-                                              0 = BYTE* values are their reset value.
-                                              1 = BYTE* values were set via a CSR write to this register.
-                                              2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
-                                              3 = BYTE* values came from a complete write-leveling sequence, irrespective of which lanes
-                                              are masked via LMC*WLEVEL_CTL[LANEMASK].
+                                              0x0 = BYTE* values are their reset value.
+                                              0x1 = BYTE* values were set via a CSR write to this register.
+                                              0x2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
+                                              0x3 = BYTE* values came from a complete write-leveling sequence, irrespective of which
+                                              lanes are masked via LMC*WLEVEL_CTL[LANEMASK].
  <44:40> BYTE8  R/W/H   0x0        --         "Write level setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM
-                                              is not
-                                              present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_CBS_0_* and
-                                              DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the range
-                                              of possible BYTE* values. The easiest way to do this is to set
-                                              LMC(0..0)_WLEVEL_RANK(0..3)[BYTE8] = LMC(0..0)_WLEVEL_RANK(0..3)[BYTE0] when there is no
+                                              is not present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_CBS_0_*
+                                              and DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the
+                                              range of possible BYTE* values. The easiest way to do this is to set
+                                              LMC(0..0)_WLEVEL_RANK(0..1)[BYTE8] = LMC(0..0)_WLEVEL_RANK(0..1)[BYTE0] when there is no
                                               ECC DRAM, using the final BYTE0 value."
  <39:35> BYTE7  R/W/H   0x0        --         Write level setting. Bit 0 of BYTE7 must be zero during normal operation.
  <34:30> BYTE6  R/W/H   0x0        --         Write level setting. Bit 0 of BYTE6 must be zero during normal operation.
@@ -16776,14 +16782,14 @@ $LMC(0..0)_WLEVEL_CTL   Address=(0x1180088000300|a<<24)   Bus=(RSL)
  <21:19> RTT_NOM  R/W     0x0        0x0        LMC writes a decoded value to MR1[Rtt_Nom] of the rank during write leveling. Per JEDEC
                                                 DDR3 specifications, only values MR1[Rtt_Nom] = 1 (RZQ/4), 2 (RZQ/2), or 3 (RZQ/6) are
                                                 allowed during write leveling with output buffer enabled.
-                                                000: LMC writes 001 (RZQ/4) to MR1[Rtt_Nom].
-                                                001: LMC writes 010 (RZQ/2) to MR1[Rtt_Nom].
-                                                010: LMC writes 011 (RZQ/6) to MR1[Rtt_Nom].
-                                                011: LMC writes 100 (RZQ/12) to MR1[Rtt_Nom].
-                                                100: LMC writes 101 (RZQ/8) to MR1[Rtt_Nom].
-                                                101: LMC writes 110 (Rsvd) to MR1[Rtt_Nom].
-                                                110: LMC writes 111 (Rsvd) to MR1[Rtt_Nom].
-                                                111: LMC writes 000 (Disabled) to MR1[Rtt_Nom].
+                                                0x0 = LMC writes 0x1 (RZQ/4) to MR1[Rtt_Nom].
+                                                0x1 = LMC writes 0x2 (RZQ/2) to MR1[Rtt_Nom].
+                                                0x2 = LMC writes 0x3 (RZQ/6) to MR1[Rtt_Nom].
+                                                0x3 = LMC writes 0x4 (RZQ/12) to MR1[Rtt_Nom].
+                                                0x4 = LMC writes 0x5 (RZQ/8) to MR1[Rtt_Nom].
+                                                0x5 = LMC writes 0x6 (Rsvd) to MR1[Rtt_Nom].
+                                                0x6 = LMC writes 0x7 (Rsvd) to MR1[Rtt_Nom].
+                                                0x7 = LMC writes 0x0 (Disabled) to MR1[Rtt_Nom].
  <18:11> BITMASK  R/W     0x0        --         Mask to select bit lanes on which write-leveling feedback is returned when OR_DIS is set to 1.
  <10>    OR_DIS   R/W     0          --         Disable ORing of bits in a byte lane when computing the write-leveling bitmask.
  <9>     SSET     R/W     0          --         Run write-leveling on the current setting only.   
@@ -16811,8 +16817,9 @@ $LMC(0..0)_WLEVEL_DBG   Address=(0x1180088000308|a<<24)   Bus=(RSL)
  <63:12> --      RAZ     --         --         Reserved.                                         
  <11:4>  BITMASK RO/H    0x0        0x0        Bitmask generated during write level settings sweep. If LMC(0..0)_WLEVEL_CTL[SSET]=0,
                                                BITMASK<n>=0 means write level setting n failed; BITMASK<n>=1 means write level setting n
-                                               passed for 0 <= n <= 7. BITMASK contains the first 8 results of the total 16 collected
-                                               by LMC during the write-leveling sequence.
+                                               passed for
+                                               0 <= n <= 7. BITMASK contains the first 8 results of the total 16 collected by LMC during
+                                               the write-leveling sequence.
                                                If LMC(0..0)_WLEVEL_CTL[SSET]=1, BITMASK<0>=0 means curr write level setting failed;
                                                BITMASK<0>=1 means curr write level setting passed.
  <3:0>   BYTE    R/W     0x0        0x0        0 <= BYTE <= 8.                                   
@@ -16821,7 +16828,7 @@ $LMC(0..0)_WLEVEL_DBG   Address=(0x1180088000308|a<<24)   Bus=(RSL)
 
 
  * 
- * LMC_DIMM_CTL = LMC DIMM Control Register
+ * LMC_DIMM_CTL = INTERNAL: LMC DIMM Control Register
  * 
  *  Note that this CSR is only used when LMC(0..0)_CONTROL[RDIMM_ENA] = 1. During a power-up/init
  *  sequence, this CSR controls LMC's write operations to the control words in the JEDEC standard
@@ -16906,13 +16913,13 @@ $LMC(0..0)_SCRAMBLE_CFG1   Address=(0x1180088000328|a<<24)   Bus=(RSL)
 
 
  * 
- * LMC_SCRAMBLED_FADR = LMC Scrambled Failing Address Register (SEC/DED/NXM)
+ * LMC_SCRAMBLED_FADR = LMC Scrambled Failing (SEC/DED/NXM) Address Register
  * 
  *  LMC(0..0)_FADR captures the failing pre-scrambled address location (split into DIMM, bunk,
  *  bank, etc). If scrambling is off, LMC(0..0)_FADR also captures the failing physical location
  *  in the DRAM parts. LMC(0..0)_SCRAMBLED_FADR captures the actual failing address location in
  *  the physical DRAM parts, i.e.:
- *  If scrambling is on, LMC(0..0)_SCRAMBLED_FADR contains the failing physical location in the
+ *  * If scrambling is on, LMC(0..0)_SCRAMBLED_FADR contains the failing physical location in the
  *  DRAM parts (split into DIMM, bunk, bank, etc);
  *  If scrambling is off, the pre-scramble and post-scramble addresses are the same, and so the
  *  contents of LMC(0..0)_SCRAMBLED_FADR match the contents of LMC(0..0)_FADR.
@@ -16939,7 +16946,7 @@ $LMC(0..0)_SCRAMBLED_FADR   Address=(0x1180088000330|a<<24)   Bus=(RSL)
 
 
  * 
- * LMC_DDR4_DIMM_CTL = LMC DIMM Control Register
+ * LMC_DDR4_DIMM_CTL = INTERNAL: LMC DIMM Control Register
  * 
  *  This register is used only when LMC(0..0)_CONTROL[RDIMM_ENA] = 1. During an RCW initialization
  *  sequence, this register controls LMC's write operations to the extended DDR4 control words in
@@ -16976,6 +16983,7 @@ $LMC(0..0)_DDR4_DIMM_CTL   Address=(0x11800880003F0|a<<24)   Bus=(RSL)
 // ***********************************************************************
 
 Attribute: -dv_fc_scratch_exempt=RSL.
+Attribute: -exempt_title_check=True.
 Attribute: -multiple_dids=0x0,0x7.
 
  * 
@@ -17939,9 +17947,16 @@ $GPIO_CLK_SYNCE(0..1)   Address=(0x10700000008E0+a*0x8)   Bus=(NCB)
                                                 10 = DLM1
                                                 11 = DLM2
  <7:3>   --       RAZ     --         --         Reserved.                                         
- <2>     DIV      R/W     0          0          Internal clock divider                            
-                                                0=DIV2
-                                                1=DIV4
+ <2>     DIV      R/W     0          0          GPIO internal clock divider setting relative to QLM SERDES CLOCK_SYNCE. The maximum
+                                                supported GPIO output frequency is 125 MHz.
+                                                0x0 = Divide by 20.
+                                                0x1 = Divide by 40.
+                                                Speed    DIV20   DIV40
+                                                [GHz]    [MHz]   [MHz]
+                                                1.2500   62.50   31.25
+                                                2.5000   125.00  62.50
+                                                3.1250    ---    78.13
+                                                5.0000    ---    125.00
  <1>     --       R/W     0          0          Reserved.                                         
  <0>     LANE_SEL R/W     0          0          Selects which RX lane clock from DLMx to use as   
                                                 the GPIO internal DLMx clock.  The GPIO block can
@@ -22009,7 +22024,7 @@ $MIO_FUS_DAT0   Address=(0x1180000001400)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:32> --       RAZ     --         --         Reserved.                                         
+ <63:32> --       RAZ     0x0        0x0        Reserved.                                         
  <31:0>  MAN_INFO RO      --         --         Fuse information - manufacturing info [31:0]      
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -22022,7 +22037,7 @@ $MIO_FUS_DAT1   Address=(0x1180000001408)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:32> --       RAZ     --         --         Reserved.                                         
+ <63:32> --       RAZ     0x0        0x0        Reserved.                                         
  <31:0>  MAN_INFO RO      --         --         Fuse information - manufacturing info [63:32]     
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -22035,25 +22050,25 @@ $MIO_FUS_DAT2   Address=(0x1180000001410)   Bus=(RSL)
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:48> --          RAZ     --         --         Reserved.                                         
- <47>    FUS118      RO      --         --         Fuse information - Ignore Authentik disable.      
- <46:37> ROM_INFO    RO      --         --         Fuse information - ROM info.                      
- <36:35> POWER_LIMIT RO      --         --         Fuse information - Power limit.                   
- <34>    DORM_CRYPTO RO      --         --         Fuse information - Dormant encryption enable.     
- <33>    FUS318      RO      --         --         Reserved.                                         
- <32>    RAID_EN     RO      --         --         Fuse information - RAID enabled.                  
+ <63:48> --          RAZ     0x0        0x0        Reserved.                                         
+ <47>    FUS118      RO      --         0          Fuse information - Ignore Authentik disable.      
+ <46:37> ROM_INFO    RO      --         0x0        Fuse information - ROM info.                      
+ <36:35> POWER_LIMIT RO      --         0x0        Fuse information - Power limit.                   
+ <34>    DORM_CRYPTO RO      --         0          Fuse information - Dormant encryption enable.     
+ <33>    FUS318      RO      0          0          Reserved.                                         
+ <32>    RAID_EN     RO      1          1          Fuse information - RAID enabled.                  
  <31:29> --          RO      --         --         Spare fuses.                                      
- <28>    NODFA_CP2   RO      --         --         Fuse information - HFA disable (CP2).             
- <27>    NOMUL       RO      --         --         Fuse information - VMUL disable.                  
- <26>    NOCRYPTO    RO      --         --         Fuse information - DORM_CRYPTO and NOCRYPTO together select one of four mutually-exclusive
+ <28>    NODFA_CP2   RO      1          1          Fuse information - HFA disable (CP2).             
+ <27>    NOMUL       RO      --         0          Fuse information - VMUL disable.                  
+ <26>    NOCRYPTO    RO      --         0          Fuse information - DORM_CRYPTO and NOCRYPTO together select one of four mutually-exclusive
                                                    modes:
                                                    DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
                                                    DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
                                                    DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
                                                    DORM_CRYPTO = 1, NOCRYPTO = 1 Authentik mode.
- <25:24> --          RO      --         --         Spare fuses.                                      
+ <25:24> --          RO      --         0x0        Spare fuses.                                      
  <23:16> CHIP_ID     RO      --         --         Fuse information - chip ID.                       
- <15:0>  --          RO      --         --         Spare fuses.                                      
+ <15:0>  --          RO      0x0        0x0        Spare fuses.                                      
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22067,29 +22082,29 @@ $MIO_FUS_DAT3   Address=(0x1180000001418)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:58> EMA0         RO      --         --         Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow
                                                     of these fuses will XOR with this value.
- <57:48> PLL_CTL      RO      --         --         Fuse information - PLL control.                   
- <47:45> DFA_INFO_DTE RO      --         --         Fuse information - HFA information (HTE).         
- <44:41> DFA_INFO_CLM RO      --         --         Fuse information - HFA information (cluster mask).
- <40:38> --           RAZ     --         --         Reserved.                                         
- <37>    EFUS_LCK_RSV RO      --         --         Fuse information - efuse lockdown.                
- <36>    EFUS_LCK_MAN RO      --         --         Fuse information - efuse lockdown.                
- <35>    PLL_HALF_DIS RO/H    --         --         Fuse information - Coprocessor-clock PLL control. 
- <34:32> L2C_CRIP     RO      --         --         Fuse information - L2C cripple:                   
+ <57:48> PLL_CTL      RO      --         0x0        Fuse information - PLL control.                   
+ <47:45> DFA_INFO_DTE RO      --         0x0        Fuse information - HFA information (HTE).         
+ <44:41> DFA_INFO_CLM RO      --         0x0        Fuse information - HFA information (cluster mask).
+ <40:38> --           RAZ     0x0        0x0        Reserved.                                         
+ <37>    EFUS_LCK_RSV RO      --         0          Fuse information - efuse lockdown.                
+ <36>    EFUS_LCK_MAN RO      --         0          Fuse information - efuse lockdown.                
+ <35>    PLL_HALF_DIS RO/H    --         0          Fuse information - Coprocessor-clock PLL control. 
+ <34:32> L2C_CRIP     RO      --         0x0        Fuse information - L2C cripple:                   
                                                     0 -- full cache (4-way 512KB)
                                                     1 -- 3/4 ways   (3-way 384KB)
                                                     2 -- 1/2 ways   (2-way 256KB)
                                                     3 -- 1/4 ways   (1-way 128KB)
                                                     4-7 -- illegal
- <31>    SPARE        RO      --         --         Spare fuse.                                       
- <30:29> ZIP_INFO     RO      --         --         Fuse information - Zip information                
- <28>    BAR2_EN      RO      --         --         Fuse information - BAR2 present (when blown `1')  
- <27>    EFUS_LCK     RO      --         --         Fuse information - efuse lockdown                 
- <26>    EFUS_IGN     RO      --         --         Fuse information - efuse ignore                   
- <25>    NOZIP        RO      --         --         Fuse information - ZIP disable                    
- <24>    NODFA_DTE    RO      --         --         Fuse information - HFA disable (HTE)              
+ <31>    --           RAZ     0          0          Reserved.                                         
+ <30:29> ZIP_INFO     RO      --         0x0        Fuse information - Zip information                
+ <28>    BAR2_SZ_CONF RO      --         0          Fuse information - When 0, BAR2 size conforms to PCIE specification.
+ <27>    EFUS_LCK     RO      --         0          Fuse information - efuse lockdown                 
+ <26>    EFUS_IGN     RO      --         0          Fuse information - efuse ignore                   
+ <25>    NOZIP        RO      --         0          Fuse information - ZIP disable                    
+ <24>    NODFA_DTE    RO      --         0          Fuse information - HFA disable (HTE)              
  <23:18> EMA1         RO      --         --         Fuse information - EMA1. INTERNAL: dflt value is 0x11. Soft or hard blow
                                                     of these fuses will XOR with this value.
- <17:0>  --           RAZ     --         --         Reserved.                                         
+ <17:0>  --           RAZ     0x0        0x0        Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22101,16 +22116,16 @@ $MIO_FUS_DAT4   Address=(0x1180000001420)   Bus=(RSL)
  Bit     Field                   Field   Reset      Typical    Field                                             
  Pos     Name                    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63>    GLOBAL_RCLK_BYP_SELECT  RO      0          --         Reserved.                                         
- <62:52> GLOBAL_RCLK_BYP_SETTING RO      0x0        --         Bits 11:1. Reserved.                              
- <51>    EAST_RCLK_BYP_SELECT    RO      0          --                                                           
- <50:39> EAST_RCLK_BYP_SETTING   RO      0x0        --         Reserved.                                         
- <38>    CMB_RCLK_BYP_SELECT     RO      0          --         Reserved.                                         
- <37:26> CMB_RCLK_BYP_SETTING    RO      0x0        --         Reserved.                                         
- <25>    PP_RCLK_BYP_SELECT      RO      0          --         Reserved.                                         
- <24:13> PP_RCLK_BYP_SETTING     RO      0x0        --         Reserved.                                         
- <12>    TAD_RCLK_BYP_SELECT     RO      0          --                                                           
- <11:0>  TAD_RCLK_BYP_SETTING    RO      0x0        --                                                           
+ <63>    GLOBAL_RCLK_BYP_SELECT  RO      0          0          Reserved.                                         
+ <62:52> GLOBAL_RCLK_BYP_SETTING RO      0x0        0x0        Bits 11:1. Reserved.                              
+ <51>    EAST_RCLK_BYP_SELECT    RO      0          0                                                            
+ <50:39> EAST_RCLK_BYP_SETTING   RO      0x0        0x0        Reserved.                                         
+ <38>    CMB_RCLK_BYP_SELECT     RO      0          0          Reserved.                                         
+ <37:26> CMB_RCLK_BYP_SETTING    RO      0x0        0x0        Reserved.                                         
+ <25>    PP_RCLK_BYP_SELECT      RO      0          0          Reserved.                                         
+ <24:13> PP_RCLK_BYP_SETTING     RO      0x0        0x0        Reserved.                                         
+ <12>    TAD_RCLK_BYP_SELECT     RO      0          0                                                            
+ <11:0>  TAD_RCLK_BYP_SETTING    RO      0x0        0x0                                                          
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22387,6 +22402,8 @@ $MIO_FUS_PLL   Address=(0x1180000001580)   Bus=(RSL)
 // * To make changes, please edit the mio_ndf.csr file in this directory.
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
+
+Attribute: -exempt_title_check=True.
 
  * 
  * NDF_CMD
@@ -22911,8 +22928,9 @@ $OCLA(0)_FIFO_LIMIT   Address=(0x11800A8000240|a<<24)   Bus=(RSL)
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:48> OVERFULL R/W     all-ones   --         Stop level. When OCLA(0)_FIFO_DEPTH > OVERFULL, stop capturing and set
-                                                OCLA(0)_STATE_INT[OVERFULL]. This should be set to just less than the FIFO size when
-                                                using DDR capture to insure that overflow can be detected.
+                                                OCLA(0)_STATE_INT[OVERFULL]. This should be set to no more than
+                                                OCLA(0..4)_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+                                                detected.
  <47:32> DDR      R/W     all-ones   --         DDR level. When OCLA(0)_FIFO_DEPTH > DDR, FIFO entries will be removed, packed into a
                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
                                                 must be at least 28.
@@ -23265,6 +23283,7 @@ $OCLA(0)_DAT(0..8191)   Address=(0x11800A8400000|a<<24|b<<3)   Bus=(RSL)
 // ***********************************************************************
 
 Attribute: -dv_fc_scratch_exempt=PCICONFIGEP.
+Attribute: -exempt_title_check=True.
 
  * 
  * PCIEEP_CFG000
@@ -25497,6 +25516,7 @@ $PCIEEP(0..2)_CFG012_MASK   Address=(0x80000030)   Bus=(PCICONFIGEP)
 // ***********************************************************************
 
 Attribute: -dv_fc_scratch_exempt=PCICONFIGRC.
+Attribute: -exempt_title_check=True.
 
  * 
  * PCIERC_CFG000
@@ -27758,6 +27778,8 @@ $PCIERC(0..2)_CFG517   Address=(0x814)   Bus=(PCICONFIGRC)
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * PCS_MR_CONTROL_REG = Control Register0
  * 
@@ -28319,6 +28341,8 @@ $PCS(0..1)_MAC_CRDT_CNT(0..3)_REG   Address=(0x11800B00010B0+a*0x8000000+b*0x400
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * PCSX_CONTROL1_REG = Control Register1
  * 
@@ -28758,6 +28782,7 @@ documented.
 // ***********************************************************************
 
 Attribute: -dv_fc_scratch_exempt=RSL.
+Attribute: -exempt_title_check=True.
 
  * 
  * PEM_CTL_STATUS = PEM Control Status
@@ -29608,6 +29633,8 @@ $PEM(0..2)_BIST_STATUS2   Address=(0x11800C0000440+a*0x1000000)   Bus=(RSL)
 // * To make changes, please edit the pip.csr file in this directory.
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
+
+Attribute: -exempt_title_check=True.
 
  * 
  * PIP_BIST_STATUS = PIP's BIST Results
@@ -31056,6 +31083,8 @@ $PIP_PRT_CFGB(0..3,16..19,24,32..35,36..39)   Address=(0x11800A0008000+a*0x8)   
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * PKO_REG_FLAGS
  * 
@@ -32073,6 +32102,8 @@ any CSR read operations to this address can be performed.
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * POW_PP_GRP_MSK
  * 
@@ -32643,6 +32674,8 @@ $POW_BIST_STAT   Address=(0x16700000003F8)   Bus=(NCB)
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * RAD_REG_CTL
  * 
@@ -33062,9 +33095,9 @@ previously written is illegal and will result in unpredictable CSR read data.
 // ***********************************************************************
 
  * 
- * RNM_CTL_STATUS = RNM's Control/Status Register
+ * RNM_CTL_STATUS = RNM Control and Status Register
  * 
- *  The RNM's interrupt enable register.
+ *  This register is the RNM interrupt-enable register.
  *  Attribute: -dv_fc_scratch=ALL.
  *  Attribute: -exempt_w1c_w=True.
  * 
@@ -33074,10 +33107,10 @@ $RNM_CTL_STATUS   Address=(0x1180040000000)   Bus=(RSL)
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:12> --      RAZ     --         --         Reserved.                                         
- <11>    DIS_MAK R/W1S/H --         --         Disable use of Master AES KEY                     
+ <11>    DIS_MAK R/W1S/H --         --         Disable use of master AES KEY.                    
  <10>    EER_LCK RO/H    0          0          Encryption enable register locked                 
  <9>     EER_VAL RO/H    0          0          Dormant encryption key match                      
- <8:5>   ENT_SEL R/W     0x0        0x0        Select entropy input to RNM FIFO.                 
+ <8:5>   ENT_SEL R/W     0x0        0x0        Select input to RNM FIFO.                         
                                                0x0 = 0-7 0x8 = 64-71
                                                0x1 = 8-15 0x9 = 72-79
                                                0x2 = 16-23 0xA = 80-87
@@ -33086,17 +33119,16 @@ $RNM_CTL_STATUS   Address=(0x1180040000000)   Bus=(RSL)
                                                0x5 = 40-47 0xD = 104-111
                                                0x6 = 48-55 0xE = 112-119
                                                0x7 = 56-63 0xF = 120-127
- <4>     EXP_ENT R/W     0          0          Exported entropy enable for random number generator
+ <4>     EXP_ENT R/W     0          0          Exported entropy enable for random-number generator.
  <3>     RNG_RST R/W     0          0          Reset RNG as core reset.                          
- <2>     RNM_RST R/W     0          0          Reset the RNM as core reset except for register   
-                                               logic.
- <1>     RNG_EN  R/W     0          0          Enable the output of the RNG.                     
+ <2>     RNM_RST R/W     0          0          Reset the RNM as core reset except for register logic.
+ <1>     RNG_EN  R/W     0          0          Enables the output of the RNG.                    
  <0>     ENT_EN  R/W     0          0          Entropy enable for random number generator.       
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * RNM_BIST_STATUS = RNM's BIST Status Register
+ * RNM_BIST_STATUS = RNM BIST Status Register
  * 
  *  The RNM's Memory Bist Status register.
  * 
@@ -33106,31 +33138,30 @@ $RNM_BIST_STATUS   Address=(0x1180040000008)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:2>  --    RAZ     --         --         Reserved.                                         
- <1>     RRC   RO      0          0          Status of RRC block bist.                         
- <0>     MEM   RO      0          0          Status of MEM block bist.                         
+ <1>     RRC   RO      0          0          Status of the RRC memory block BIST: 1 = failed BIST, 0 = passed BIST
+ <0>     MEM   RO      0          0          Status of MEM block BIST: 1 = failed BIST, 0 = passed BIST
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * RNM_EER_KEY = RNM's Encryption enable register
+ * RNM_EER_KEY = RNM Encryption Enable Register
  * 
- *  The RNM's Encryption enable register
+ *  This register is the encryption enable register.
  * 
 $RNM_EER_KEY   Address=(0x1180040000010)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:0>  KEY WO      0x0        0x0        Dormant encryption key.  If dormant crypto is fuse
-                                           enabled, crypto can be enable by writing this
-                                           register with the correct key.
+ <63:0>  KEY WO      0x0        0x0        Dormant encryption key. If dormant crypto is fuse-enabled, crypto can be enabled by
+                                           writing this register with the correct key.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
  * 
- * RNM_EER_DBG = RNM's Encryption enable debug register
+ * RNM_EER_DBG = RNM Encryption Enable Debug Register
  * 
- *  The RNM's Encryption enable debug register
+ *  This register is the encryption enable debug register.
  * 
 $RNM_EER_DBG   Address=(0x1180040000018)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -33142,9 +33173,7 @@ $RNM_EER_DBG   Address=(0x1180040000018)   Bus=(RSL)
 
 
  * 
- * RNM_SERIAL_NUM = RNM's fuse serial number register
- * 
- *  The RNM's fuse serial number register
+ * RNM_SERIAL_NUM = RNM Fuse Serial Number Register
  * 
 $RNM_SERIAL_NUM   Address=(0x1180040000020)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -33408,7 +33437,7 @@ $RST_SOFT_PRST(0..2)   Address=(0x11800060016C0+a*0x8)   Bus=(RSL)
 
 
  * 
- * RST_PP_POWER = RST PP Power Gating Control
+ * RST_PP_POWER = RST PP Power Gating Control Register
  * 
  *  These bits should only be changed while the corresponding PP is in reset (see CIU3_PP_RST).
  * 
@@ -34571,6 +34600,7 @@ Rsvd     1Kb; 0x3c00 - 0x3fff, 0x780 - 0x7fe(Reg-NCB Only Mode)
 0x13DA0 - 0x13DF0 reserved for ports 2 - 7
 13e20 reserved
 Attribute: -dv_fc_scratch_exempt=PEXP.
+Attribute: -exempt_title_check=True.
 
  * 
  * SLI_WIN_WR_ADDR
@@ -36778,6 +36808,8 @@ $SLI_MAC_CREDIT_CNT2   Address=((0x11F0000013E10), (0x3E10))   Bus=(NCB, PEXP)
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+Attribute: -exempt_title_check=True.
+
  * 
  * TIM_REG_FLAGS
  * 
@@ -36860,7 +36892,14 @@ Each bit is the BiST result of an individual memory (per bit, 0=pass and 1=fail)
 
 
  * 
- * TIM_REG_ERROR
+ * TIM_REG_ERROR = Timer Ring Error Interrupt Register
+ * 
+ *  A ring is in error if its interval has elapsed more than once without having been serviced,
+ *  either due to too many events in this ring's previous interval, or another ring having too
+ *  many events to process within this ring's interval. This is usually a programming error where
+ *  the number of entries in the bucket is too large for the interval specified across the rings.
+ *  When in error, TIM may process events in an interval later than requested. Any bit in the INT
+ *  field should be cleared by writing one to it.
  * 
 $TIM_REG_ERROR   Address=(0x1180058000088)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -36869,13 +36908,6 @@ $TIM_REG_ERROR   Address=(0x1180058000088)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:16> --    RAZ     --         --         RESERVED                                          
  <15:0>  MASK  R/W1C/H 0x0        0x0        Bit mask indicating the rings in error            
-
-Notes:
-A ring is in error if its interval has elapsed more than once without having been serviced.
-During a CSR write to this register, the write data is used as a mask to clear the selected
-mask
-bits (mask'[15:0] = mask[15:0] & ~write_data[15:0]).
-
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -37122,6 +37154,7 @@ sections 6.1.3 and 6.2.
           For more on XHCI registers, see Synopsys DWC_usb3 Host Controller Databook v2.50a
 sections 6.1.5 and 6.4.
 Attribute: -dv_fc_scratch_exempt=NCB.
+Attribute: -exempt_title_check=True.
 
  * 
  * USBDRD_UAHC_DGCMD_CMDTYPE_E = USBDRD UAHC Device Generic Command Enumeration
@@ -38023,14 +38056,16 @@ $USBDRD(0..1)_UCTL_HOST_CFG   Address=(0x11800680000E0+a*0x1000000)   Bus=(RSL)
                                                           1 = USBDRD(0..1)_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC
                                                           output from UAHC is taken to the MIO's GPIO signals and sense-converted based on
                                                           PPC_ACTIVE_HIGH_EN. The MIO GPIO multiplexer must be programmed accordingly.
-                                                          This is a strap signal; it should only be modified when UAHC is in reset (soft-reset
-                                                          okay).
+                                                          This is a strap signal; it should only be modified when either the UCTL_CTL[UAHC] or
+                                                          UAHC_GCTL[CoreSoftReset]
+                                                          is asserted.
  <24>    PPC_ACTIVE_HIGH_EN R/W     0          0          Port power control sense selection. The active-high port-power-control output to off-chip
                                                           source is converted to match the off-chip sense.
                                                           1 = port-power control to off-chip source is active-high.
                                                           0 = port-power control to off-chip source is active-low.
-                                                          This is a strap signal; it should only be modified when UAHC is in reset (soft reset
-                                                          okay).
+                                                          This is a strap signal; it should only be modified when either the UCTL_CTL[UAHC] or
+                                                          UAHC_GCTL[CoreSoftReset]
+                                                          is asserted.
  <23:0>  --                 RAZ     --         --         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -41416,13 +41451,15 @@ $VRM(0)_TWS_TWSI_SW   Address=(0x1180021000008+a*0x1000000)   Bus=(RSL)
                                                0x79, 0x7A nor 0x7B, as these 7-bit addresses are reserved to extend to 10-bit addressing.
  <39:32> IA      R/W/H   0x0        0x0        Internal Address. Used when launching a combined master-mode operation.
  <31:0>  DATA    R/W/H   0x0        --         Data field.                                       
-                                               Used on a write operation when:
-                                               Initiating a master-mode write operation (SLONLY = 0).
-                                               Writing a TWSI configuration register (SLONLY = 0).
+                                               Used on a write operation when initiating a master-mode write operation (SLONLY = 0),
+                                               or writing a TWSI configuration register (SLONLY = 0).
                                                The read value is updated by:
-                                               A write operation to this register.
-                                               Master-mode completion (contains error code).
-                                               TWSI configuration-register read (contains result).
+                                               
+                                                * A write operation to this register.
+                                               
+                                                * Master-mode completion (contains error code).
+                                               
+                                                * TWSI configuration-register read (contains result).
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -41476,8 +41513,10 @@ $VRM(0)_TELEMETRY_CMND   Address=(0x1180021000038+a*0x1000000)   Bus=(RSL)
  <1:0>   CMND  R/W/H   --         --         This command will initiate a read instruction to the external voltage regulator
                                              into VRM_TELEMETRY_READ.
                                              0x0 = Do nothing.
-                                             0x1 or 0x3 Read V.
+                                             0x1 = Read V.
                                              0x2 = Read I.
+                                             0x3 = Read V.
+                                             
                                              Hardware clears CMND to indicate operation completed.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -41497,7 +41536,7 @@ $VRM(0)_MISC_INFO   Address=(0x1180021000048+a*0x1000000)   Bus=(RSL)
  <15:13> VRM_CTL_CUR_STATE        RO/H    --         --         Current state of the VRM_CTL.                     
  <12:11> VRM_TYPE                 RO/H    --         --         VRM_TYPE identifies the type of device connected to the chip.
                                                                 0x0 = Linear type, default or PMBus.
-                                                                0x1 = VID type, ISL6367
+                                                                0x1 = VID type, ISL6367.
                                                                 0x2-3 = Reserved.
  <10>    BOOT_SEQ                 RO/H    --         --         Boot sequence was completed.                      
  <9>     TS_FUSE_STS              RO/H    --         --         Set if VRM fuses were loaded.                     
@@ -41561,13 +41600,13 @@ $VRM(0)_TS_TEMP_CONV_COEFF_FSM   Address=(0x1180021000078+a*0x1000000)   Bus=(RS
  <57:48> T_FSM   R/W     0xFA       --         Sets time interval for FSM update.                
  <47:38> --      RAZ     --         --         Reserved.                                         
  <37:32> COEFF_A R/W     0x1F       --         Coefficient A value for polynomial fit.           
-                                               <37> is a sign bit to flip the shifted results.
-                                               <36:32> dictates the amount of right shift.
+                                               _ <37> is a sign bit to flip the shifted results.
+                                               _ <36:32> dictates the amount of right shift.
  <31:25> --      RAZ     --         --         Reserved.                                         
  <24:16> COEFF_B R/W     0x100      --         Coefficient B value for polynomial fit. It should be a positive number and between 1 and
                                                2.
-                                               <24> is the integer part should always be 1.
-                                               <23:16> form the fractional part.
+                                               _ <24> is the integer part should always be 1.
+                                               _ <23:16> form the fractional part.
  <15:12> --      RAZ     --         --         Reserved.                                         
  <11:0>  COEFF_C R/W     0x0        --         Coefficient C value for polynomial fit.           
                                                A 2's complement number.

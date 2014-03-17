@@ -4,6 +4,7 @@
 name: PCIERC
 attributes:
   dv_fc_scratch_exempt: "PCICONFIGRC"
+  exempt_title_check: "True"
 registers:
   - name: PCIERC(0..2)_CFG000
     address: 0x20000000000 + a*0x100000000

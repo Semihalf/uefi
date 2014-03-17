@@ -60,7 +60,7 @@ registers:
         description: |
           Slave-only mode.
           When this bit is set, no operations are initiated with a write operation. Only the D field
-          is updated in this case
+          is updated in this case.
           When this bit is clear, a write operation initiates either a master-mode operation or a
           TWSI configuration register access.
 
@@ -159,7 +159,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Extra opcode, used when OP<3:0>  =  0110 and SLONLY = 0.
+          Extra opcode, used when OP<3:0> = 0x6 and SLONLY = 0.
           0x0 = TWSI slave address register (TWSI_SLAVE_ADD).
           0x1 = TWSI data register (TWSI_DATA).
           0x2 = TWSI control register (TWSI_CTL).

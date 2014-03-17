@@ -249,9 +249,9 @@ registers:
         typical: --
         description: |
           Determines the frequency of the GPIO clock generator. N should be less than or equal to
-          231-1.
+          2^31-1.
           The frequency of the GPIO clock generator equals the coprocessor-clock frequency times N
-          divided by 232.
+          divided by 2^32.
           Writing N = 0x0 stops the clock generator.
 
 
@@ -262,8 +262,7 @@ registers:
     description: |
       A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
       to send out any GPIO pin as configured by GPIO_BIT_CFG(0..19)[SYNCE_SEL]. The clock can be
-      divided by 2, 4, 8 or 16 of the selected RX lane clock. The following table shows the clock
-      speed output for different modes.
+      divided by 20, 40, 80 or 160 of the selected RX lane clock.
     fields:
       - name: --
         bits: 63..12
@@ -292,21 +291,12 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          GPIO internal clock divider setting relative to QLM SERDES CLOCK_SYNCE.
-          The maximum supported GPIO output frequency is 125 MHz.
+          GPIO internal clock divider setting relative to QLM SERDES CLOCK_SYNCE. The maximum
+          supported GPIO output frequency is 125 MHz.
           0x0 = Divide by 20.
           0x1 = Divide by 40.
           0x2 = Divide by 80.
           0x3 = Divide by 160.
-
-          Speed    DIV20   DIV40   DIV80   DIV160
-          [GHz]      [MHz]   [MHz]   [MHz]   [MHz]
-          1.2500   62.50   31.25   15.63    7.81
-          2.5000   125.00  62.50   31.25   15.63
-          3.1250    ---    78.13   39.06   19.53
-          5.0000    ---      125.00  62.50   31.25
-          6.2500    ---      ---     78.13   39.06
-          10.3125   ---      ---     ---     64.45
 
       - name: LANE_SEL
         bits: 1..0

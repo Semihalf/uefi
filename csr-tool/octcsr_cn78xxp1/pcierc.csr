@@ -301,7 +301,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG004
-    title: Base Address Register 0 Low
+    title: Base Address 0 Low Register
     address: 0x20000000010 | a<<32
     bus: PCICONFIGRC
     description: This register contains the fifth 32-bits of type 1 PCIe configuration space.
@@ -315,7 +315,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG005
-    title: Base Address Register 0 High
+    title: Base Address 0 High Register
     address: 0x20000000014 | a<<32
     bus: PCICONFIGRC
     description: This register contains the sixth 32-bits of type 1 PCIe configuration space.
@@ -1573,15 +1573,13 @@ registers:
         reset: --
         typical: --
         description: |
-          Maximum link width. The default value is the value you specify during hardware
-          configuration (*1, *4, or *8), writable through
-          PEM(0..3)_CFG_WR.
-          The reset value of this field is controlled by a value read from the PEM csr
-          PEM(0..3)_CFG[LANES8].
-          PEM(0..3)_CFG
-          [LANES8]       RST_VALUE        NOTE
-          0                          0100b            4 lanes
-          1                         1000b            8 lanes
+          Maximum link width.
+          The reset value of this field is determined by the value read from the PEM
+          csr PEM(0..3)_CFG[LANES8].
+          PEM(0..2)_CFG.LANES8       RST_VALUE     NOTE
+            0                          0x4           4 lanes
+            1                          0x8           8 lanes
+          This field is writable through PEM(0..3)_CFG_WR.
 
       - name: MLS
         bits: 3..0
@@ -3663,6 +3661,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG088
+    title: Link Control 4 Register
     address: 0x20000000160 | a<<32
     bus: PCICONFIGRC
     description: This register contains the eighty-ninth 32-bits of type 0 PCIe configuration space.
@@ -3683,6 +3682,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG089
+    title: Equalization Control Lane 0/1 Register
     address: 0x20000000164 | a<<32
     bus: PCICONFIGRC
     description: This register contains the ninetieth 32-bits of type 0 PCIe configuration space.
@@ -3696,7 +3696,7 @@ registers:
 
       - name: L1URPH
         bits: 30..28
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3705,7 +3705,7 @@ registers:
 
       - name: L1UTP
         bits: 27..24
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3721,7 +3721,7 @@ registers:
 
       - name: L1DRPH
         bits: 22..20
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3730,7 +3730,7 @@ registers:
 
       - name: L1DDTP
         bits: 19..16
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3746,7 +3746,7 @@ registers:
 
       - name: L0URPH
         bits: 14..12
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3755,7 +3755,7 @@ registers:
 
       - name: L0UTP
         bits: 11..8
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3771,7 +3771,7 @@ registers:
 
       - name: L0DRPH
         bits: 6..4
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3780,7 +3780,7 @@ registers:
 
       - name: L0DTP
         bits: 3..0
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3803,7 +3803,7 @@ registers:
 
       - name: L3URPH
         bits: 30..28
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3812,7 +3812,7 @@ registers:
 
       - name: L3UTP
         bits: 27..24
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3828,7 +3828,7 @@ registers:
 
       - name: L3DRPH
         bits: 22..20
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3837,7 +3837,7 @@ registers:
 
       - name: L3DTP
         bits: 19..16
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3853,7 +3853,7 @@ registers:
 
       - name: L2URPH
         bits: 14..12
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3862,7 +3862,7 @@ registers:
 
       - name: L2UTP
         bits: 11..8
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3878,7 +3878,7 @@ registers:
 
       - name: L2DRPH
         bits: 6..4
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3887,7 +3887,7 @@ registers:
 
       - name: L2DTP
         bits: 3..0
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3910,7 +3910,7 @@ registers:
 
       - name: L5URPH
         bits: 30..28
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3919,7 +3919,7 @@ registers:
 
       - name: L5UTP
         bits: 27..24
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3935,7 +3935,7 @@ registers:
 
       - name: L5DRPH
         bits: 22..20
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3944,7 +3944,7 @@ registers:
 
       - name: L5DTP
         bits: 19..16
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3960,7 +3960,7 @@ registers:
 
       - name: L4URPH
         bits: 14..12
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3969,7 +3969,7 @@ registers:
 
       - name: L4UTP
         bits: 11..8
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -3985,7 +3985,7 @@ registers:
 
       - name: L4DRPH
         bits: 6..4
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -3994,7 +3994,7 @@ registers:
 
       - name: L4DTP
         bits: 3..0
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -4017,7 +4017,7 @@ registers:
 
       - name: L7URPH
         bits: 30..28
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -4026,7 +4026,7 @@ registers:
 
       - name: L7UTP
         bits: 27..24
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -4042,7 +4042,7 @@ registers:
 
       - name: L7DRPH
         bits: 22..20
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -4051,7 +4051,7 @@ registers:
 
       - name: L7DTP
         bits: 19..16
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -4067,7 +4067,7 @@ registers:
 
       - name: L6URPH
         bits: 14..12
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -4076,7 +4076,7 @@ registers:
 
       - name: L6UTP
         bits: 11..8
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -4092,7 +4092,7 @@ registers:
 
       - name: L6DRPH
         bits: 6..4
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0x7
         typical: 0x7
         description: |
@@ -4101,7 +4101,7 @@ registers:
 
       - name: L6DTP
         bits: 3..0
-        access: RO/WRSL
+        access: RO/WRSL/H
         reset: 0xf
         typical: 0xf
         description: |
@@ -5174,7 +5174,7 @@ registers:
 
 
   - name: PCIERC(0..3)_CFG515
-    title: Port Logic Register (Gen2)
+    title: Gen2 Port Logic Register
     address: 0x2000000080C | a<<32
     bus: PCICONFIGRC
     description: This register contains the five hundred sixteenth 32-bits of type 1 PCIe configuration space.
@@ -5366,11 +5366,20 @@ registers:
     description: This register contains the five hundred fifty-fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: --
-        bits: 31..24
+        bits: 31..25
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: IIF
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
+          performed in the EQ Master, when finding the highest FOM among all preset evaluations.
 
       - name: PRV
         bits: 23..8
@@ -5440,7 +5449,7 @@ registers:
         typical: 0x1
         description: |
           Feedback mode.
-          0 = Direction of change.
+          0 = Direction of change (not supported).
           1 = Figure of merit.
           2-15 = Reserved.
 

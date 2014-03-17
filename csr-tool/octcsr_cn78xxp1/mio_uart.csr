@@ -54,9 +54,9 @@ registers:
     description: |
       The interrupt-enable register is a read/write register that contains four bits that enable the
       generation of interrupts:
-      * enable received data available interrupt (ERBFI)
-      * enable transmitter holding register empty interrupt (ETBEI)
-      * enable receiver line status interrupt (ELSI)
+      * enable received data available interrupt (ERBFI).
+      * enable transmitter holding register empty interrupt (ETBEI).
+      * enable receiver line status interrupt (ELSI).
       enable modem status interrupt (EDSSI).
       The IER also contains the enable bit for the programmable transmit holding register empty
       (THRE) interrupt mode (PTIME).
@@ -201,8 +201,8 @@ registers:
         typical: --
         description: |
           Even parity select bit. Selects between even and odd parity.
-          1 = an even number of ones is transmitted or checked
-          0 = an odd number of ones is transmitted or checked
+          1 = an even number of ones is transmitted or checked.
+          0 = an odd number of ones is transmitted or checked.
 
       - name: PEN
         bits: 3

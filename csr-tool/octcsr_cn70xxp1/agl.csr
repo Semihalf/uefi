@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: AGL
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: AGL_GMX_RX(0..0)_INT_REG
     title: Interrupt Register

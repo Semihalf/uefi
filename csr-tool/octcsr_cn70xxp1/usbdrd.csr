@@ -72,6 +72,7 @@ description: |
   sections 6.1.5 and 6.4.
 attributes:
   dv_fc_scratch_exempt: "NCB"
+  exempt_title_check: "True"
 enums:
   - name: USBDRD_UAHC_DGCMD_CMDTYPE_E
     title: USBDRD UAHC Device Generic Command Enumeration
@@ -1753,8 +1754,9 @@ registers:
           1 = USBDRD(0..1)_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC
           output from UAHC is taken to the MIO's GPIO signals and sense-converted based on
           PPC_ACTIVE_HIGH_EN. The MIO GPIO multiplexer must be programmed accordingly.
-          This is a strap signal; it should only be modified when UAHC is in reset (soft-reset
-          okay).
+          This is a strap signal; it should only be modified when either the UCTL_CTL[UAHC] or
+          UAHC_GCTL[CoreSoftReset]
+          is asserted.
 
       - name: PPC_ACTIVE_HIGH_EN
         bits: 24
@@ -1766,8 +1768,9 @@ registers:
           source is converted to match the off-chip sense.
           1 = port-power control to off-chip source is active-high.
           0 = port-power control to off-chip source is active-low.
-          This is a strap signal; it should only be modified when UAHC is in reset (soft reset
-          okay).
+          This is a strap signal; it should only be modified when either the UCTL_CTL[UAHC] or
+          UAHC_GCTL[CoreSoftReset]
+          is asserted.
 
       - name: --
         bits: 23..0

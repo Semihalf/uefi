@@ -490,7 +490,7 @@ registers:
 
 
   - name: RST_PP_POWER
-    title: RST PP Power Gating Control
+    title: RST PP Power Gating Control Register
     address: 0x1180006001700
     bus: RSL
     description: These bits should only be changed while the corresponding PP is in reset (see CIU3_PP_RST).

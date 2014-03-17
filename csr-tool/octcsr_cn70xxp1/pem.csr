@@ -4,6 +4,7 @@
 name: PEM
 attributes:
   dv_fc_scratch_exempt: "RSL"
+  exempt_title_check: "True"
 registers:
   - name: PEM(0..2)_CTL_STATUS
     title: PEM Control Status

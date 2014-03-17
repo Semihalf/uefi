@@ -4,6 +4,7 @@
 name: MIO
 attributes:
   dv_fc_scratch_exempt: "RSL"
+  exempt_title_check: "True"
   multiple_dids: "0x0,0x7"
 registers:
   - name: CIU_INT(0..7,32)_SUM0
@@ -2177,9 +2178,16 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Internal clock divider
-          0=DIV2
-          1=DIV4
+          GPIO internal clock divider setting relative to QLM SERDES CLOCK_SYNCE. The maximum
+          supported GPIO output frequency is 125 MHz.
+          0x0 = Divide by 20.
+          0x1 = Divide by 40.
+          Speed    DIV20   DIV40
+          [GHz]    [MHz]   [MHz]
+          1.2500   62.50   31.25
+          2.5000   125.00  62.50
+          3.1250    ---    78.13
+          5.0000    ---    125.00
 
       - name: --
         bits: 1

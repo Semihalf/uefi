@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PCSX
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: PCSX(0..0)_CONTROL1_REG
     title: Control Register1

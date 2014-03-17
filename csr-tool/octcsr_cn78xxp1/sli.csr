@@ -353,10 +353,11 @@ registers:
     address: 0x10
     bus: PEXP
     description: |
-      This register contains the address to be read when the SLI_WIN_RD_DATA register is read. This
-      register should NOT be used to read SLI_* registers.
+      When the LSB of this CSR is written, the address in this CSR will be read. The data returned
+      from this read will be placed in the WIN_RD_DATA CSR. This CSR should NOT be used to read
+      SLI_* registers.
       If SLI_S2M_PORT(0..3)_CTL[LCL_NODE] the MAC that it is set for will not be able to write
-      RD_ADDR[37:36] which will always be written with the chips OCI-ID.
+      SLI_WIN_RD_ADDR[37:36] which will always be written with the chips OCI-ID.
     attributes:
       regtest_skip: "True"
     fields:
@@ -455,7 +456,9 @@ registers:
     title: SLI Window Read Data Register
     address: 0x40
     bus: PEXP
-    description: This register contains the address to be read when the SLI_WIN_RD_DATA register is read.
+    description: |
+      This CSR holds the data returned when a read operation is started by the writing of the
+      SLI_WIN_RD_ADDR CSR.
     attributes:
       regtest_skip: "True"
     fields:
@@ -1333,9 +1336,7 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: |
-          Enables SLI_INT_SUM[4] to generate an
-          interrupt to the PCIE core for MSI/inta.
+        description: Enables SLI_INT_SUM[PCNT] to generate an interrupt to the PCIE core for MSI/INTA.
 
       - name: --
         bits: 3..1
@@ -1353,7 +1354,7 @@ registers:
 
 
   - name: SLI_SCRATCH_1
-    title: SLI's Scratch 1
+    title: SLI Scratch 1 Register
     address: 0x11F00000103C0
     bus: PEXP_NCB
     description: A general purpose 64 bit register for SW use.
@@ -1367,7 +1368,7 @@ registers:
 
 
   - name: SLI_SCRATCH_2
-    title: SLI's Scratch 2
+    title: SLI Scratch 2 Register
     address: 0x11F00000103D0
     bus: PEXP_NCB
     description: These registers are general purpose 64-bit scratch registers for software use.
@@ -2361,7 +2362,7 @@ registers:
         typical: 0
         description: |
           When set, the output to the MAC is disabled. This occurs when the MAC reset line
-          transitions from de-asserted to asserted. Writing a 1 to this location clears this
+          transitions from deasserted to asserted. Writing a 1 to this location clears this
           condition when the MAC is no longer in reset and the output to the MAC is at the beginning
           of a transfer.
 
@@ -2459,9 +2460,8 @@ registers:
     address: 0x11F0000011000
     bus: PEXP_NCB
     description: |
-      ""This register enables the instruction fetch for a packet ring. This is the PF version also
-      see SLI_PKT#_INPUT_CONTROL[ENB]." The bit cooresponding to the ring in reset will be
-      cleared."
+      This register enables the instruction fetch for a packet ring. This is the PF version; also
+      see SLI_PKT(0..63)_INPUT_CONTROL[ENB].
     fields:
       - name: ENB
         bits: 63..0
@@ -2481,8 +2481,8 @@ registers:
     address: 0x11F0000011010
     bus: PEXP_NCB
     description: |
-      "This register enables the output packet engines.  This is the PF version. Also see
-      SLI_PKT#_INPUT_CONTROL[ENB]. The bit corresponding to the ring in reset will be cleared."
+      This register enables the output packet engines. This is the PF version; also see
+      SLI_PKT(0..63)_OUTPUT_CONTROL[ENB].
     fields:
       - name: ENB
         bits: 63..0
@@ -2781,11 +2781,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Output ring packet counter interrupt bits
-          SLI sets RING<i> whenever
-          SLI_PKT(0..63)_CNTS[CNT] > SLI_PKT_INT_LEVELS[CNT].
-          SLI_PKT_CNT_INT_ENB[RING<i>] is the corresponding
-          enable.
+          Output ring packet counter interrupt bits SLI sets RING<i> whenever
+          SLI_PKT(0..63)_CNTS[CNT] > SLI_PKT(0..63)_INT_LEVELS[CNT]. SLI_PKT_CNT_INT_ENB[RING<i>] is
+          the corresponding enable.
 
 
   - name: SLI_PKT_TIME_INT
@@ -2801,8 +2799,8 @@ registers:
         typical: --
         description: |
           Output ring packet timer interrupt bits SLI sets RING<i> whenever
-          SLI_PKT(0..63)_CNTS[TIMER] >
-          SLI_PKT_INT_LEVELS[TIME]. SLI_PKT_TIME_INT_ENB[RING<i>] is the corresponding enable.
+          SLI_PKT(0..63)_CNTS[TIMER] > SLI_PKT_INT_LEVELS[TIME]. SLI_PKT_TIME_INT_ENB[RING<i>] is
+          the corresponding enable.
 
 
   - name: SLI_PKT_IN_INT
@@ -3513,7 +3511,7 @@ registers:
     bus: PEXP_NCB
     description: |
       These registers contain control for access from SLI to a MAC port. Write operations to these
-      registers are not ordered with write/read operations to the MAC Memory space. To ensure that a
+      registers are not ordered with write/read operations to the MAC memory space. To ensure that a
       write operation has completed, read the register before making an access (i.e. MAC memory
       space) that requires the value of this register to be updated.
     fields:
@@ -4032,12 +4030,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          Packet input enable. When ENB=1, packet input ring is enabled.
-          When the ring is in reset, caused by a failing read associated with the ring, the ring
-          being put into
-          reset by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is
-          associated with
-          being in reset, will cause this bit to clear and be able to be set againg till the reset
+          Packet input enable. When ENB=1, packet input ring is enabled. When the ring is in reset,
+          caused by a failing read associated with the ring, the ring being put into reset by
+          writing the reset bit associated with a ring, a FLR or the MAC the ring is associated with
+          being in reset, will cause this bit to clear and be able to be set again till the reset
           condition is removed.
 
 

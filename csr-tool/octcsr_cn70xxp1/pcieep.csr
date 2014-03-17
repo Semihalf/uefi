@@ -4,6 +4,7 @@
 name: PCIEEP
 attributes:
   dv_fc_scratch_exempt: "PCICONFIGEP"
+  exempt_title_check: "True"
 registers:
   - name: PCIEEP(0..2)_CFG000
     address: 0x30000000000 + a*0x100000000

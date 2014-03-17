@@ -497,7 +497,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: CIU_ISCMEM_BASE points to a little-endian table.
+        description: Reserved.
 
       - name: SEQ_DIS
         bits: 1
@@ -935,9 +935,11 @@ registers:
 
 
   - name: CIU_ISCMEM_BASE
-    title: CIU Source Memory Table Base Register
+    title: |
+      INTERNAL: CIU Source Memory Table Base Register
     address: 0x10100000002C0
     bus: NCB
+    description: Deprecated.
     fields:
       - name: --
         bits: 63..42
@@ -1364,7 +1366,9 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: Interrupt pending before masking. Note read only, must use CIU_ISC(0..1048575)_W1C/_W1S to toggle.
+        description: |
+          Interrupt pending before masking. Note read only, must use
+          CIU_ISC(0..1048575)_W1C/CIU_ISC(0..1048575)_W1S to toggle.
 
 
   - name: CIU_ISC(0..1048575)_W1C

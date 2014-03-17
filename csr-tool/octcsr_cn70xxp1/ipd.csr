@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: IPD
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: IPD_1ST_MBUFF_SKIP
     title: IPD First MBUFF Word Skip Size

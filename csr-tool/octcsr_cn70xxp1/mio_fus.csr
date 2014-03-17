@@ -11,8 +11,8 @@ registers:
       - name: --
         bits: 63..32
         access: RAZ
-        reset: --
-        typical: --
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: MAN_INFO
@@ -32,8 +32,8 @@ registers:
       - name: --
         bits: 63..32
         access: RAZ
-        reset: --
-        typical: --
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: MAN_INFO
@@ -53,50 +53,50 @@ registers:
       - name: --
         bits: 63..48
         access: RAZ
-        reset: --
-        typical: --
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: FUS118
         bits: 47
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - Ignore Authentik disable.
 
       - name: ROM_INFO
         bits: 46..37
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Fuse information - ROM info.
 
       - name: POWER_LIMIT
         bits: 36..35
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Fuse information - Power limit.
 
       - name: DORM_CRYPTO
         bits: 34
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - Dormant encryption enable.
 
       - name: FUS318
         bits: 33
         access: RO
-        reset: --
-        typical: --
+        reset: 0
+        typical: 0
         description: Reserved.
 
       - name: RAID_EN
         bits: 32
         access: RO
-        reset: --
-        typical: --
+        reset: 1
+        typical: 1
         description: Fuse information - RAID enabled.
 
       - name: --
@@ -109,22 +109,22 @@ registers:
       - name: NODFA_CP2
         bits: 28
         access: RO
-        reset: --
-        typical: --
+        reset: 1
+        typical: 1
         description: Fuse information - HFA disable (CP2).
 
       - name: NOMUL
         bits: 27
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - VMUL disable.
 
       - name: NOCRYPTO
         bits: 26
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: |
           Fuse information - DORM_CRYPTO and NOCRYPTO together select one of four mutually-exclusive
           modes:
@@ -137,7 +137,7 @@ registers:
         bits: 25..24
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Spare fuses.
 
       - name: CHIP_ID
@@ -150,8 +150,8 @@ registers:
       - name: --
         bits: 15..0
         access: RO
-        reset: --
-        typical: --
+        reset: 0x0
+        typical: 0x0
         description: Spare fuses.
 
 
@@ -173,56 +173,56 @@ registers:
         bits: 57..48
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Fuse information - PLL control.
 
       - name: DFA_INFO_DTE
         bits: 47..45
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Fuse information - HFA information (HTE).
 
       - name: DFA_INFO_CLM
         bits: 44..41
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Fuse information - HFA information (cluster mask).
 
       - name: --
         bits: 40..38
         access: RAZ
-        reset: --
-        typical: --
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: EFUS_LCK_RSV
         bits: 37
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - efuse lockdown.
 
       - name: EFUS_LCK_MAN
         bits: 36
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - efuse lockdown.
 
       - name: PLL_HALF_DIS
         bits: 35
         access: RO/H
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - Coprocessor-clock PLL control.
 
       - name: L2C_CRIP
         bits: 34..32
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: |
           Fuse information - L2C cripple:
           0 -- full cache (4-way 512KB)
@@ -231,53 +231,53 @@ registers:
           3 -- 1/4 ways   (1-way 128KB)
           4-7 -- illegal
 
-      - name: SPARE
+      - name: --
         bits: 31
-        access: RO
-        reset: --
-        typical: --
-        description: Spare fuse.
+        access: RAZ
+        reset: 0
+        typical: 0
+        description: Reserved.
 
       - name: ZIP_INFO
         bits: 30..29
         access: RO
         reset: --
-        typical: --
+        typical: 0x0
         description: Fuse information - Zip information
 
-      - name: BAR2_EN
+      - name: BAR2_SZ_CONF
         bits: 28
         access: RO
         reset: --
-        typical: --
-        description: Fuse information - BAR2 present (when blown `1')
+        typical: 0
+        description: Fuse information - When 0, BAR2 size conforms to PCIE specification.
 
       - name: EFUS_LCK
         bits: 27
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - efuse lockdown
 
       - name: EFUS_IGN
         bits: 26
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - efuse ignore
 
       - name: NOZIP
         bits: 25
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - ZIP disable
 
       - name: NODFA_DTE
         bits: 24
         access: RO
         reset: --
-        typical: --
+        typical: 0
         description: Fuse information - HFA disable (HTE)
 
       - name: EMA1
@@ -292,8 +292,8 @@ registers:
       - name: --
         bits: 17..0
         access: RAZ
-        reset: --
-        typical: --
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
 
@@ -306,14 +306,14 @@ registers:
         bits: 63
         access: RO
         reset: 0
-        typical: --
+        typical: 0
         description: Reserved.
 
       - name: GLOBAL_RCLK_BYP_SETTING
         bits: 62..52
         access: RO
         reset: 0x0
-        typical: --
+        typical: 0x0
         description: |
           Bits 11:1. Reserved.
 
@@ -321,54 +321,54 @@ registers:
         bits: 51
         access: RO
         reset: 0
-        typical: --
+        typical: 0
 
       - name: EAST_RCLK_BYP_SETTING
         bits: 50..39
         access: RO
         reset: 0x0
-        typical: --
+        typical: 0x0
         description: Reserved.
 
       - name: CMB_RCLK_BYP_SELECT
         bits: 38
         access: RO
         reset: 0
-        typical: --
+        typical: 0
         description: Reserved.
 
       - name: CMB_RCLK_BYP_SETTING
         bits: 37..26
         access: RO
         reset: 0x0
-        typical: --
+        typical: 0x0
         description: Reserved.
 
       - name: PP_RCLK_BYP_SELECT
         bits: 25
         access: RO
         reset: 0
-        typical: --
+        typical: 0
         description: Reserved.
 
       - name: PP_RCLK_BYP_SETTING
         bits: 24..13
         access: RO
         reset: 0x0
-        typical: --
+        typical: 0x0
         description: Reserved.
 
       - name: TAD_RCLK_BYP_SELECT
         bits: 12
         access: RO
         reset: 0
-        typical: --
+        typical: 0
 
       - name: TAD_RCLK_BYP_SETTING
         bits: 11..0
         access: RO
         reset: 0x0
-        typical: --
+        typical: 0x0
 
 
   - name: MIO_FUS_PDF

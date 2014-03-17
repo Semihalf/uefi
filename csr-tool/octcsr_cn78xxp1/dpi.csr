@@ -7,24 +7,34 @@ enums:
     title: DPI Header Pointer Type Enumeration
     attributes:
       width: "2"
-    description: Enumerates the pointer type.
+    description: Enumerates the pointer type in DPI_DMA_INSTR_HDR_S[PT].
     values:
       - name: ZBW_CA
         value: 0x0
-        description: Zero-byte-write with cache allocate
+        description: |
+          Zero-byte-write with cache allocate. DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in memory
+          to write. DPI_DMA_CONTROL[B0_LEND] selects the endianness of PTR. When PTR < 64, the
+          operation is ignored.
 
       - name: ZBW_NC
         value: 0x1
-        description: Zero-byte-write with no cache allocate.
+        description: |
+          Zero-byte-write with no cache allocate. DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in
+          memory to write. DPI_DMA_CONTROL[B0_LEND] selects the endianness of PTR. When PTR < 64,
+          the operation is ignored.
 
       - name: WQP
         value: 0x2
-        description: Pointer is work queue entry pointer for SSO.
+        description: |
+          Work-queue Pointer. DPI_DMA_INSTR_HDR_S[PTR] is work queue entry pointer for SSO. When PTR
+          == 0, the operation is ignored.
 
       - name: CNT
         value: 0x3
         description: |
-          PTR<5:0> indicates which counter to increment.
+          Count. DPI_DMA_INSTR_HDR_S[PTR]<5:0> indicates which counter to increment. PTR<5:0>-1
+          indicates which counter to increment. Valid values of PTR<5:0> are 1..48. The operation is
+          ignored for all other values.
 
 
   - name: DPI_INTSN_E
@@ -148,7 +158,8 @@ structs:
 
       - name: --
         bits: w0(15..12)
-        description: Reserved for extending AURA.
+        description: |
+          Reserved. INTERNAL: For extending AURA.
 
       - name: TT
         bits: w0(17..16)
@@ -162,7 +173,8 @@ structs:
 
       - name: --
         bits: w0(29..28)
-        description: Reserved for extending GRP.
+        description: |
+          Reserved. INTERNAL: For extending GRP.
 
       - name: --
         bits: w0(31..30)
@@ -176,7 +188,8 @@ structs:
 
       - name: --
         bits: w0(36)
-        description: Reserved for extending NFST.
+        description: |
+          Reserved. INTERNAL: For extending NFST.
 
       - name: --
         bits: w0(37)
@@ -190,7 +203,8 @@ structs:
 
       - name: --
         bits: w0(42)
-        description: Reserved for extending NLST.
+        description: |
+          Reserved. INTERNAL: For extending NLST.
 
       - name: DEALLOCE
         bits: w0(43)
@@ -201,12 +215,13 @@ structs:
       - name: PT
         bits: w0(45..44)
         description: |
-          Formerly WPQ.  See WQP description for most.  Add two flavors of cached and uncached ZBW.
+          Formerly WQP.  See WQP description for most.  Add two flavors of cached and uncached ZBW.
           Pointer type.  Determines the contents of the PTR field.  See DPI_HDR_PT_E.
 
       - name: --
         bits: w0(46)
-        description: Reserved for extending PT.
+        description: |
+          Reserved. INTERNAL: For extending PT.
 
       - name: FL
         bits: w0(47)
@@ -245,14 +260,15 @@ structs:
         description: |
           Formerly TYPE.  See HRM.
           Transfer type.
-          0 = Outbound
-          1 = Inbound
-          2 = Internal-only
-          3 = External-only
+          0x0 = Outbound.
+          0x1 = Inbound.
+          0x2 = Internal-only.
+          0x3 = External-only.
 
       - name: --
         bits: w0(55..54)
-        description: Reserved for extending TYPE.
+        description: |
+          Reserved. INTERNAL: For extending TYPE.
 
       - name: FPORT
         bits: w0(57..56)
@@ -262,7 +278,8 @@ structs:
 
       - name: --
         bits: w0(59..58)
-        description: Reserved for extending FPORT.
+        description: |
+          Reserved. INTERNAL: For extending FPORT.
 
       - name: LPORT
         bits: w0(61..60)
@@ -272,7 +289,8 @@ structs:
 
       - name: --
         bits: w0(63..62)
-        description: Reserved for extending LPORT.
+        description: |
+          Reserved. INTERNAL: For extending LPORT.
 
       - name: PTR
         bits: w1(41..0)
@@ -282,7 +300,8 @@ structs:
 
       - name: --
         bits: w1(47..42)
-        description: Reserved for extending PTR.
+        description: |
+          Reserved. INTERNAL: For extending PTR.
 
       - name: DEALLOCV
         bits: w1(63..48)
@@ -305,7 +324,8 @@ structs:
 
       - name: --
         bits: 46..42
-        description: Reserved for extending PTR.
+        description: |
+          Reserved. INTERNAL: For extending PTR.
 
       - name: L
         bits: 47
@@ -448,9 +468,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Null pointer error. This bit is set when an instruction's next pointer is NULL. Throws
-          DPI_INTSN_E::REQ_INULL.
+        description: Deprecated.
 
       - name: REQ_ANULL
         bits: 20
@@ -595,6 +613,7 @@ registers:
     bus: NCB
     description: This register contains ECC error interrupt summary bits.
     internal: |
+      INTERNAL:
       RAM[14] dpi.pnl.pkt.sli_pkt_msix.msix_vfaddr
       RAM[13] dpi.pnl.pkt.sli_pkt_msix.msix_vfdata
       RAM[12] dpi.pnl.pkt.sli_pkt_csr.pcsr_in_done

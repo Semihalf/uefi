@@ -14,6 +14,7 @@ description: |
   PEM*_CFG_WR/PEM*_CFG_RD.
 attributes:
   dv_fc_scratch_exempt: "PCICONFIGEP"
+  exempt_title_check: "True"
 registers:
   - name: PCIEEPVF(0..3)_CFG000
     title: PCIe Vendor and Device Register
@@ -296,7 +297,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG004
-    title: Base Address Register 0 - Low
+    title: Base Address 0 Low Register
     address: 0x50000000010 | a<<32
     bus: PCICONFIGEP
     description: This register contains the fifth 32-bits of type 0 PCIe configuration space.
@@ -310,7 +311,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG005
-    title: Base Address Register 0 - High
+    title: Base Address 0 High Register
     address: 0x50000000014 | a<<32
     bus: PCICONFIGEP
     description: This register contains the sixth 32-bits of type 0 PCIe configuration space.
@@ -324,7 +325,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG006
-    title: Base Address Register 1 - Low
+    title: Base Address 1 Low Register
     address: 0x50000000018 | a<<32
     bus: PCICONFIGEP
     description: This register contains the seventh 32-bits of type 0 PCIe configuration space.
@@ -338,7 +339,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG007
-    title: Base Address Register 1 - High
+    title: Base Address 1 High Register
     address: 0x5000000001C | a<<32
     bus: PCICONFIGEP
     description: This register contains the eighth 32-bits of type 0 PCIe configuration space.
@@ -352,7 +353,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG008
-    title: Base Address Register 2 - Low
+    title: Base Address 2 Low Register
     address: 0x50000000020 | a<<32
     bus: PCICONFIGEP
     description: This register contains the ninth 32-bits of type 0 PCIe configuration space.
@@ -555,6 +556,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG029
+    title: Device Capabilities Register
     address: 0x50000000074 | a<<32
     bus: PCICONFIGEP
     description: This register contains the thirtieth 32-bits of type 0 PCIe configuration space.
@@ -659,6 +661,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG030
+    title: Device Control/Device Status Register
     address: 0x50000000078 | a<<32
     bus: PCICONFIGEP
     description: This register contains the thirty-first 32-bits of type 0 PCIe configuration space.
@@ -739,12 +742,12 @@ registers:
         typical: 0x2
         description: |
           Max read request size.
-          0x0 = 128 B.
-          0x1 = 256 B.
-          0x2 = 512 B.
-          0x3 = 1024 B.
-          0x4 = 2048 B.
-          0x5 = 4096 B.
+          0x0 = 128 bytes.
+          0x1 = 256 bytes.
+          0x2 = 512 bytes.
+          0x3 = 1024 bytes.
+          0x4 = 2048 bytes.
+          0x5 = 4096 bytes.
 
       - name: NS_EN
         bits: 11
@@ -911,8 +914,13 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
-          Maximum link width. The default value is the value that software specifies during hardware
-          configuration (*1, *4, *8, *16).
+          Maximum link width.
+          The reset value of this field is determined by the value read from the PEM
+          csr PEM(0..3)_CFG[LANES8].
+          PEM(0..2)_CFG.LANES8       RST_VALUE     NOTE
+            0                          0x4           4 lanes
+            1                          0x8           8 lanes
+          This field is writable through PEM(0..3)_CFG_WR.
 
       - name: MLS
         bits: 3..0
@@ -934,6 +942,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG032
+    title: Link Control/Link Status Register
     address: 0x50000000080 | a<<32
     bus: PCICONFIGEP
     description: This register contains the thirty-third 32-bits of type 0 PCIe configuration space.
@@ -1216,6 +1225,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG038
+    title: Device Control 2 Register/Device Status 2 Register
     address: 0x50000000098 | a<<32
     bus: PCICONFIGEP
     description: This register contains the thirty-ninth 32-bits of type 0 PCIe configuration space.
@@ -1301,6 +1311,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG039
+    title: Link Capabilities 2 Register
     address: 0x5000000009C | a<<32
     bus: PCICONFIGEP
     description: This register contains the fortieth 32-bits of type 0 PCIe configuration space.
@@ -1350,6 +1361,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG040
+    title: Link Control 2 Register/Link Status 2 Register
     address: 0x500000000A0 | a<<32
     bus: PCICONFIGEP
     description: This register contains the forty-first 32-bits of type 0 PCIe configuration space.
@@ -1564,6 +1576,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG046
+    title: PCI Express MSI-X PBA Offset and BIR Register
     address: 0x500000000B8 | a<<32
     bus: PCICONFIGEP
     description: This register contains the forty-seventh 32-bits of type 0 PCIe configuration space.
@@ -1591,6 +1604,9 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG048
+    title: |
+      Power Management Capability ID/Power Management Next Item Pointer/Power Management
+      Capabilities Register
     address: 0x500000000C0 | a<<32
     bus: PCICONFIGEP
     description: This register contains the forty-ninth 32-bits of type 0 PCIe configuration space.
@@ -1673,6 +1689,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG049
+    title: Power Management Control and Status Register
     address: 0x500000000C4 | a<<32
     bus: PCICONFIGEP
     description: This register contains the fiftieth 32-bits of type 0 PCIe configuration space.
@@ -2666,9 +2683,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          FC latency timer override value. When you set
-          PCIEEPVF(0..3)_CFG463[FCLTOE], the value in this field will override the FC latency timer
-          value that the core calculates according to the PCIe specification.
+          FC latency timer override value. When you set PCIEEPVF(0..3)_CFG463[FCLTOE], the value in
+          this
+          field will override the FC latency timer value that the core calculates according to the
+          PCIe
+          specification.
 
       - name: --
         bits: 15..3
@@ -3076,7 +3095,7 @@ registers:
 
 
   - name: PCIEEPVF(0..3)_CFG515
-    title: Port Logic Register (Gen2)
+    title: Gen2 Port Logic Register
     address: 0x5000000080C | a<<32
     bus: PCICONFIGEP
     description: This register contains the five hundred sixteenth 32-bits of type 0 PCIe configuration space.

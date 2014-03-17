@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PKO
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: PKO_REG_FLAGS
     address: 0x1180050000000

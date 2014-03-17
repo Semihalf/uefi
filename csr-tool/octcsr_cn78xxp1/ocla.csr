@@ -74,7 +74,7 @@ structs:
         bits: 33
         description: |
           Start transition from no-capture to capture or duplicated data stopped while capturing for
-          high data. Symmetric with [SOT0] description; see [SOT0].
+          high data.
 
       - name: EOT0
         bits: 34
@@ -867,7 +867,7 @@ registers:
         typical: 0x2
         description: |
           Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
-          mux selected by PLA1 and 0. The output is thus calulated from the equation:
+          mux selected by PLA1 and 0. The output is thus calculated from the equation:
           fsmcap0 = OCLA(0..4)_FSM(0)_STATE[state0][CAP].
           fsmcap1 = OCLA(0..4)_FSM(1)_STATE[state1][CAP].
           out = (    (<3> & fsmcap0 & fsmcap0)

@@ -22,6 +22,7 @@ description: |
   13e20 reserved
 attributes:
   dv_fc_scratch_exempt: "PEXP"
+  exempt_title_check: "True"
 registers:
   - name: SLI_WIN_WR_ADDR
     address: 0x0

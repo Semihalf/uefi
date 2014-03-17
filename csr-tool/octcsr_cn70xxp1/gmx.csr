@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: GMX
+attributes:
+  exempt_title_check: "True"
 enums:
   - name: GMX_INF_MODE_E
     title: GMX Interface Mode Enumeration

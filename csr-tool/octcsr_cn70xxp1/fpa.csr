@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: FPA
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: FPA_FPF0_MARKS
     title: FPA's Queue 0 Free Page FIFO Read Write Marks

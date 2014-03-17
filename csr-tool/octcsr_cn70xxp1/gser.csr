@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: GSER
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: GSER(0)_DLM(0)_MISC_STATUS
     title: GSER DLM Miscellaneous Status Register

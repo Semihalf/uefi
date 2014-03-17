@@ -261,6 +261,19 @@ registers:
         access: RO/WRSL
         reset: 0x0
         typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: |
+          Revision ID, writable through PEM(0..3)_CFG_WR. However, the application must not change
+          this field.
+
+      - name: RID
+        bits: 7..0
+        access: RO/WRSL
+        reset: 0x8
+        typical: 0x8
+        attributes:
+          chip_pass: "o78>=2.0"
         description: |
           Revision ID, writable through PEM(0..3)_CFG_WR. However, the application must not change
           this field.
@@ -317,7 +330,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG004
-    title: Base Address Register 0 - Low
+    title: Base Address 0 Low Register
     address: 0x30000000010 | a<<32
     bus: PCICONFIGEP
     description: This register contains the fifth 32-bits of type 0 PCIe configuration space.
@@ -371,7 +384,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG005
-    title: Base Address Register 0 - High
+    title: Base Address 0 High Register
     address: 0x30000000014 | a<<32
     bus: PCICONFIGEP
     description: This register contains the sixth 32-bits of type 0 PCIe configuration space.
@@ -385,7 +398,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG006
-    title: Base Address Register 1 - Low
+    title: Base Address 1 Low Register
     address: 0x30000000018 | a<<32
     bus: PCICONFIGEP
     description: This register contains the seventh 32-bits of PCIe type 0 configuration space.
@@ -439,7 +452,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG007
-    title: Base Address Register 1 - High
+    title: Base Address 1 High Register
     address: 0x3000000001C | a<<32
     bus: PCICONFIGEP
     description: This register contains the eighth 32-bits of PCIe type 0 configuration space.
@@ -453,7 +466,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG008
-    title: Base Address Register 2 - Low
+    title: Base Address 2 Low Register
     address: 0x30000000020 | a<<32
     bus: PCICONFIGEP
     description: This register contains the ninth 32-bits of PCIe type 0 configuration space.
@@ -507,7 +520,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG009
-    title: Base Address Register 2 - High Register
+    title: Base Address 2 High Register
     address: 0x30000000024 | a<<32
     bus: PCICONFIGEP
     description: This register contains the tenth 32-bits of PCIe type 0 configuration space.
@@ -1462,12 +1475,11 @@ registers:
         typical: --
         description: |
           Maximum link width.
-          The reset value of this field is controlled by a value read from the two LSBs of the PEM
-          csr PEM(0..3)_CFG[MD].
-          PEM(0..2)_CFG.MD[1:0]       RST_VALUE     NOTE
-          00 0x2 2 lanes
-          01 0x1 1 lane
-          10 0x8 4 lanes
+          The reset value of this field is determined by the value read from the PEM
+          csr PEM(0..3)_CFG[LANES8].
+          PEM(0..2)_CFG.LANES8       RST_VALUE     NOTE
+            0                          0x4           4 lanes
+            1                          0x8           8 lanes
           This field is writable through PEM(0..3)_CFG_WR.
 
       - name: MLS
@@ -4422,7 +4434,7 @@ registers:
 
       - name: --
         bits: 13..8
-        access: RO/H
+        access: RAZ
         reset: --
         typical: --
         description: Reserved.
@@ -5070,7 +5082,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG515
-    title: Port Logic Register (Gen2)
+    title: Gen2 Port Logic Register
     address: 0x3000000080C | a<<32
     bus: PCICONFIGEP
     description: This register contains the five hundred sixteenth 32-bits of PCIe type 0 configuration space.
@@ -5262,11 +5274,20 @@ registers:
     description: This register contains the five hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
-        bits: 31..24
+        bits: 31..25
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: IIF
+        bits: 24
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
+          performed in the EQ Master, when finding the highest FOM among all preset evaluations.
 
       - name: PRV
         bits: 23..8
@@ -5336,7 +5357,7 @@ registers:
         typical: 0x1
         description: |
           Feedback mode.
-          0 = Direction of change.
+          0 = Direction of change (not supported).
           1 = Figure of merit.
           2-15 = Reserved.
 
@@ -5363,7 +5384,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG004_MASK
-    title: BAR Mask Register 0 - Low
+    title: BAR Mask 0 Low Register
     address: 0x30080000010 | a<<32
     bus: PCICONFIGEP
     description: |
@@ -5390,7 +5411,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG005_MASK
-    title: BAR Mask Register 0 - High
+    title: BAR Mask 0 High Register
     address: 0x30080000014 | a<<32
     bus: PCICONFIGEP
     description: |
@@ -5406,7 +5427,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG006_MASK
-    title: BAR Mask Register 1 - Low
+    title: BAR Mask 1 Low Register
     address: 0x30080000018 | a<<32
     bus: PCICONFIGEP
     description: |
@@ -5433,7 +5454,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG007_MASK
-    title: BAR Mask Register 1 - High
+    title: BAR Mask 1 High Register
     address: 0x3008000001C | a<<32
     bus: PCICONFIGEP
     description: |
@@ -5449,7 +5470,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG008_MASK
-    title: BAR Mask Register 2 - Low
+    title: BAR Mask 2 Low Register
     address: 0x30080000020 | a<<32
     bus: PCICONFIGEP
     description: |
@@ -5476,7 +5497,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG009_MASK
-    title: BAR Mask Register 2 - High
+    title: BAR Mask 2 High Register
     address: 0x30080000024 | a<<32
     bus: PCICONFIGEP
     description: |
@@ -5492,7 +5513,7 @@ registers:
 
 
   - name: PCIEEP(0..3)_CFG012_MASK
-    title: Expansion ROM BAR Mask
+    title: Expansion ROM BAR Mask Register
     address: 0x30080000030 | a<<32
     bus: PCICONFIGEP
     description: |

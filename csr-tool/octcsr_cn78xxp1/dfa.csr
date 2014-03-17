@@ -207,9 +207,9 @@ registers:
         typical: 0
         description: |
           Reserved. INTERNAL: DFA Scoreboard LOCK stribe. When written with a '1', the DFA
-          Scoreboard Debug registers (DFA_SBD_DBG[0-3]) are all locked down. This allows SW to lock
-          down the contents of the entire SBD for a single instant in time. All subsequent reads of
-          the DFA scoreboard registers will return the data from that instant in time.
+          Scoreboard Debug registers (DFA_SBD_DBG[0-3]) are all locked down. This allows software to
+          lock down the contents of the entire SBD for a single instant in time. All subsequent
+          reads of the DFA scoreboard registers will return the data from that instant in time.
 
       - name: --
         bits: 4..3
@@ -226,7 +226,8 @@ registers:
         description: |
           Reserved. INTERNAL: NCB-NRP Arbiter Mode.
           (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR.
-          NOTE: This should only be written to a different value during power-on SW initialization.
+          NOTE: This should only be written to a different value during power-on software
+          initialization.
 
       - name: QMODE
         bits: 1
@@ -236,7 +237,8 @@ registers:
         description: |
           Reserved. INTERNAL: NCB-NRQ Arbiter Mode.
           (0=Fixed Priority {LP=IRF,RWF,PRF,HP=GRF}/1=RR
-          NOTE: This should only be written to a different value during power-on SW initialization.
+          NOTE: This should only be written to a different value during power-on software
+          initialization.
 
       - name: IMODE
         bits: 0
@@ -246,7 +248,8 @@ registers:
         description: |
           Reserved. INTERNAL: NCB-Inbound Arbiter.
           (0=FP {LP=NRQ,HP=NRP}, 1=RR)
-          NOTE: This should only be written to a different value during power-on SW initialization.
+          NOTE: This should only be written to a different value during power-on software
+          initialization.
 
 
   - name: DFA_ERROR

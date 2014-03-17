@@ -4,6 +4,7 @@
 name: DFA
 attributes:
   dv_fc_scratch_exempt: "RSL"
+  exempt_title_check: "True"
 registers:
   - name: DFA_CONFIG
     address: 0x1180037000000

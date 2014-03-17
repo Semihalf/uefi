@@ -4,10 +4,10 @@
 name: RNM
 registers:
   - name: RNM_CTL_STATUS
-    title: RNM's Control/Status Register
+    title: RNM Control and Status Register
     address: 0x1180040000000
     bus: RSL
-    description: The RNM's interrupt enable register.
+    description: This register is the RNM interrupt-enable register.
     attributes:
       dv_fc_scratch: "ALL"
       exempt_w1c_w: "True"
@@ -24,7 +24,7 @@ registers:
         access: R/W1S/H
         reset: --
         typical: --
-        description: Disable use of Master AES KEY
+        description: Disable use of master AES KEY.
 
       - name: EER_LCK
         bits: 10
@@ -46,7 +46,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Select entropy input to RNM FIFO.
+          Select input to RNM FIFO.
           0x0 = 0-7 0x8 = 64-71
           0x1 = 8-15 0x9 = 72-79
           0x2 = 16-23 0xA = 80-87
@@ -61,7 +61,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Exported entropy enable for random number generator
+        description: Exported entropy enable for random-number generator.
 
       - name: RNG_RST
         bits: 3
@@ -75,16 +75,14 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: |
-          Reset the RNM as core reset except for register
-          logic.
+        description: Reset the RNM as core reset except for register logic.
 
       - name: RNG_EN
         bits: 1
         access: R/W
         reset: 0
         typical: 0
-        description: Enable the output of the RNG.
+        description: Enables the output of the RNG.
 
       - name: ENT_EN
         bits: 0
@@ -95,7 +93,7 @@ registers:
 
 
   - name: RNM_BIST_STATUS
-    title: RNM's BIST Status Register
+    title: RNM BIST Status Register
     address: 0x1180040000008
     bus: RSL
     description: The RNM's Memory Bist Status register.
@@ -112,21 +110,23 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: Status of RRC block bist.
+        description: |
+          Status of the RRC memory block BIST: 1 = failed BIST, 0 = passed BIST
 
       - name: MEM
         bits: 0
         access: RO
         reset: 0
         typical: 0
-        description: Status of MEM block bist.
+        description: |
+          Status of MEM block BIST: 1 = failed BIST, 0 = passed BIST
 
 
   - name: RNM_EER_KEY
-    title: RNM's Encryption enable register
+    title: RNM Encryption Enable Register
     address: 0x1180040000010
     bus: RSL
-    description: The RNM's Encryption enable register
+    description: This register is the encryption enable register.
     fields:
       - name: KEY
         bits: 63..0
@@ -134,16 +134,15 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Dormant encryption key.  If dormant crypto is fuse
-          enabled, crypto can be enable by writing this
-          register with the correct key.
+          Dormant encryption key. If dormant crypto is fuse-enabled, crypto can be enabled by
+          writing this register with the correct key.
 
 
   - name: RNM_EER_DBG
-    title: RNM's Encryption enable debug register
+    title: RNM Encryption Enable Debug Register
     address: 0x1180040000018
     bus: RSL
-    description: The RNM's Encryption enable debug register
+    description: This register is the encryption enable debug register.
     fields:
       - name: DAT
         bits: 63..0
@@ -154,10 +153,9 @@ registers:
 
 
   - name: RNM_SERIAL_NUM
-    title: RNM's fuse serial number register
+    title: RNM Fuse Serial Number Register
     address: 0x1180040000020
     bus: RSL
-    description: The RNM's fuse serial number register
     fields:
       - name: DAT
         bits: 63..0

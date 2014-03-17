@@ -2337,6 +2337,7 @@ registers:
 
 
   - name: BGX(0..5)_CMR_RX_LMACS
+    title: BGX CMR Receive Logical MACs Registers
     address: 0x11800E0000308 + a*0x1000000
     bus: RSL
     attributes:
@@ -3098,6 +3099,7 @@ registers:
 
 
   - name: BGX(0..5)_CMR_TX_LMACS
+    title: BGX CMR Transmit Logical MACs Registers
     address: 0x11800E0001000 + a*0x1000000
     bus: RSL
     description: Number of transmit LMACs.
@@ -3141,6 +3143,7 @@ registers:
 
 
   - name: BGX(0..5)_CMR_NXC_ADR
+    title: BGX CMR NCX Exception Registers
     address: 0x11800E0001018 + a*0x1000000
     bus: RSL
     attributes:

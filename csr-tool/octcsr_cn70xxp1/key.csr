@@ -30,7 +30,7 @@ registers:
 
 
   - name: KEY_INT_ENB
-    title: KEY's Interrupt Enable
+    title: KEY's Interrupt Enable Register
     address: 0x1180020000008
     bus: RSL
     description: The KEY's interrupt enable register.

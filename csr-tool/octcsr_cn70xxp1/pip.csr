@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: PIP
+attributes:
+  exempt_title_check: "True"
 registers:
   - name: PIP_BIST_STATUS
     title: PIP's BIST Results

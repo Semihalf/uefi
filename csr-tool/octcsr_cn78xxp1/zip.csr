@@ -3,6 +3,134 @@
 ---
 name: ZIP
 enums:
+  - name: ZIP_COMP_E
+    title: ZIP Completion Enumeration
+    attributes:
+      subblock: "META"
+      width: "8"
+    description: Enumerates the values of ZIP_ZRES_S[COMPCODE].
+    values:
+      - name: NOTDONE
+        value: 0x00
+        description: |
+          The COMPCODE value of zero is not written by hardware, but may be used by software to
+          indicate the ZIP_ZRES_S structure has not yet been updated by hardware.
+
+      - name: SUCCESS
+        value: 0x01
+        description: |
+          Successful completion. All input-stream bytes were processed and all necessary output
+          stream bytes produced. (RWORD1[TOTALBYTESWRITTEN] indicates the number of output bytes
+          written during this invocation of the ZIP coprocessor.)
+
+          For decompression:
+
+          * If a decompression operation and RWORD2[EF] = 0, the ZIP coprocessor saved state in the
+          context and can be restarted.
+
+          * If a decompression operation and RWORD2[EF] = 1, the ZIP coprocessor completed
+          decompression of all blocks in the file, and RWORD2[TOTALBITSPROCESSED] contains the total
+          number of input bits processed to decompress all blocks in the file.
+
+          Normally, an error-free full-file-decompression completion (i.e. one where RWORD2[EF] = 1
+          and RWORD2[COMPCODE] = 0x1) means that the file was successfully decompressed by the
+          hardware. However, when IWORD0[EF] was set for the ZIP invocation, the file may not have
+          been successfully decompressed. In this case, software must also check the total number of
+          bits used to decompress the file to guarantee that the hardware correctly found the end of
+          the compressed input file. If the total number of bits used to decompress the file (the
+          least-significant 32 bits of the total is specified in RWORD2[TOTALBITSPROCESSED]) exceeds
+          the total number of bits of the input that were used by all ZIP invocations for the file,
+          then this invocation should be considered in error, exactly as if RWORD2[COMPCODE] were
+          set to 4 (uncompress ran out of data). The total number of bits of input for the file is
+          the sum of RWORD1[TOTALBYTESREAD] for all prior error-free ZIP decompression invocations
+          for the file plus the number of input bytes for this invocation, times 8 (8 bits per
+          byte).
+
+      - name: DTRUNC
+        value: 0x02
+        description: |
+          Output truncated. This is a fatal error and all other outputs (bytes in the output stream
+          and fields in the RWORDs) from the ZIP coprocessor are unpredictable and should not be
+          used by software. Refer to the IWORD0[TOTALOUTPUTLENGTH] description.
+
+      - name: STOP
+        value: 0x03
+        description: |
+          Uncompress dynamically stopped. The ZIP coprocessor saved its state in the context, and
+          the ZIP coprocessor can be restarted again when more space is available for output stream
+          bytes. RWORD1[TOTALBYTESREAD] indicates the number of input bytes processed during this
+          invocation of the ZIP coprocessor. RWORD1[TOTALBYTESWRITTEN] indicates the number of
+          output stream bytes written during this invocation of the ZIP coprocessor. RWORD2[EF] is
+          never set when the ZIP coprocessor returns this completion code.
+
+          This code is N/A for compression.
+
+      - name: ITRUNC
+        value: 0x04
+        description: |
+          Uncompress ran out of input data when IWORD0[EF] was set. This is a fatal error and all
+          other outputs (bytes in the output stream and fields in the RWORDs) from the ZIP
+          coprocessor are unpredictable and should not be used by software.
+
+          This code is N/A for compression.
+
+      - name: RBLOCK
+        value: 0x05
+        description: |
+          Uncompress found the reserved block type 3. This is a fatal error and all other outputs
+          (bytes in the output stream and fields in the RWORDs) from the ZIP coprocessor are
+          unpredictable and should not be used by software. This code is specific to DEFLATE
+          processing and is N/A for compression.
+
+      - name: NLEN
+        value: 0x06
+        description: |
+          Uncompress found LEN != NLEN in an uncompressed block in the input. This is a fatal error
+          and all other outputs (bytes in the output stream and fields in the RWORDs) from the ZIP
+          coprocessor are unpredictable and should not be used by software.
+
+          This code is specific to DEFLATE processing and is N/A for compression.
+
+      - name: BADCODE
+        value: 0x07
+        description: |
+          Uncompress found a bad code in the main Huffman codes. This is a fatal error and all other
+          outputs (bytes in the output stream and fields in the RWORDs) from the ZIP coprocessor are
+          unpredictable and should not be used by software.
+
+          This code is specific to DEFLATE processing and is N/A for compression.
+
+      - name: BADCODE2
+        value: 0x08
+        description: |
+          Uncompress found a bad code in the 19 Huffman codes used to encode lengths. This is a
+          fatal error and all other outputs (bytes in the output stream and fields in the RWORDs)
+          from the ZIP coprocessor are unpredictable and should not be used by software.
+
+          This code is specific to DEFLATE processing and is N/A for compression.
+
+      - name: ZERO_LEN
+        value: 0x09
+        description: Compress found a zero-length input.
+
+      - name: PARITY
+        value: 0x0A
+        description: |
+          The compress or decompress encountered an internal parity error. This is a fatal error and
+          all other outputs (bytes in the output stream and RWORDs) from the ZIP coprocessor are
+          unpredictable and should not be used by the software.
+
+      - name: FATAL
+        value: 0x0B
+        description: |
+          Uncompress found a string identifier that precedes the uncompressed data and decompression
+          history. This is a fatal error and all other outputs (bytes in the output stream and
+          fields in the RWORDs) from the ZIP coprocessor are unpredictable and should not be used by
+          software.
+
+          This code is N/A for compression.
+
+
   - name: ZIP_INTSN_E
     title: ZIP Interrupt Source Enumeration
     attributes:
@@ -68,21 +196,21 @@ enums:
 
 structs:
   - name: ZIP_ZPTR_S
-    title: ZIP Generic Pointer (ZPTR) Structure
-    description: ZPTR structures are the generic format of pointers in the ZIP instruction words (IWORD*).
+    title: ZIP Generic Pointer Structure
+    description: ZIP_ZPTR_S structures are the generic format of pointers in the ZIP instruction words (IWORD*).
     fields:
       - name: ADDR
         bits: 41..0
         description: |
-          When a ZPTR is in an instruction word, ZPTR[ADDR] is either:
+          When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
           A direct byte pointer into L2C/DDR attached memory, or
           A pointer to a gather/scatter list in memory.
-          When a ZPTR is in a gather/scatter list, ZPTR[ADDR] is:
+          When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
           A direct byte pointer into the attached memory.
-          In case (b) above, and for context and result pointers, ZPTR[ADDR<2:0>] must be zero. (All
+          In case (b) above, and for context and result pointers, [ADDR]<2:0> must be zero. (All
           these cases must be aligned on an 8 byte boundary.)
-          In cases (a) or (c) above, ZPTR[ADDR] may be any byte alignment (except for context and
-          result pointers).
+          In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context and result
+          pointers).
 
       - name: --
         bits: 44..42
@@ -91,41 +219,41 @@ structs:
       - name: LE
         bits: 45
         description: |
-          Little-endian. ZPTR[LE] may be set in case (a) or (c) above, indicating that ZPTR[ADDR]
-          and the byte stream indicated by it is in little endian format.
-          ZPTR[LE] must never be set in case (b) above, and must never be set for context or result
+          Little-endian. [LE] may be set in case (a) or (c) above, indicating that [ADDR] and the
+          byte stream indicated by it is in little endian format.
+          [LE] must never be set in case (b) above, and must never be set for context or result
           pointers.
 
       - name: NC
         bits: 46
         description: |
-          No cache allocation. ZPTR[NC] may be set in any case to indicate that the read/write
+          No cache allocation. [NC] may be set in any case to indicate that the read/write
           operations generated should preferably not load cache blocks into the L2 cache.
-          Note that in case (b) above, ZPTR[NC] indicates that the gather/scatter list should not be
-          loaded into the cache. In cases (a) and (c) above, ZPTR[NC] indicates that the data or
-          results should not be loaded into the L2 cache.
-          Note that the ZIP hardware will ignore ZPTR[NC] for write operations when full cache
-          blocks cannot be written.
+          Note that in case (b) above, [NC] indicates that the gather/scatter list should not be
+          loaded into the cache. In cases (a) and (c) above, [NC] indicates that the data or results
+          should not be loaded into the L2 cache.
+          Note that the ZIP hardware will ignore [NC] for write operations when full cache blocks
+          cannot be written.
 
       - name: FW
         bits: 47
         description: |
-          Full-block write. ZPTR[FW] may be set in any case (a) or (c) where stores to ZPTR[ADDR]
-          can be generated to indicate that the hardware may write random values into all bytes of
-          all cache blocks touched by the range ADDR ... ADDR+ZPTR[LENGTH]-1.
-          ZPTR[FW] must not be set in case (b) above, or whenever stores to ZPTR[ADDR] cannot
-          possibly be generated.
+          Full-block write. [FW] may be set in any case (a) or (c) where stores to [ADDR] can be
+          generated to indicate that the hardware may write random values into all bytes of all
+          cache blocks touched by the range [ADDR] ... [ADDR]+[LENGTH]-1.
+          [FW] must not be set in case (b) above, or whenever stores to [ADDR] cannot possibly be
+          generated.
 
       - name: LENGTH
         bits: 63..48
         description: |
-          In case (a) and (c) under [ADDR], ZPTR[LENGTH] is the number of bytes pointed at by
-          ZPTR[ADDR]. ZPTR[LENGTH] must be nonzero in this case.
-          In case (b) under [ADDR], ZPTR[LENGTH] is the number of gather/ scatter list pointer
-          entries pointed at by ADDR. (ZPTR[LENGTH]*8 is the number of bytes.) ZPTR[LENGTH] must be
-          at least 2 in this case.
-          ZPTR[LENGTH] must be zero for context and result pointers, because each has an implied
-          fixed-size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively).
+          In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
+          [LENGTH] must be nonzero in this case.
+          In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
+          pointed at by ADDR. ([LENGTH]*8 is the number of bytes.) [LENGTH] must be at least 2 in
+          this case.
+          [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
+          size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively).
 
 
 registers:
@@ -179,9 +307,8 @@ registers:
         reset: 0x10
         typical: 0x10
         description: |
-          Maximum number of in-flight data fetch transactions on the IOI.
-          Larger values may improve ZIP performance but may starve other devices on the same IOI.
-          Values > 32 are illegal.
+          Maximum number of in-flight data fetch transactions on the IOI. Larger values may improve
+          ZIP performance but may starve other devices on the same IOI. Values > 32 are illegal.
 
 
   - name: ZIP_FIFE_INT
@@ -392,7 +519,7 @@ registers:
         access: R/W
         reset: 0x8
         typical: 0x8
-        description: Instruction Load Command FIFO credits <= 8
+        description: Instruction Load Command FIFO credits <= 8.
 
       - name: --
         bits: 47..43
@@ -406,7 +533,7 @@ registers:
         access: R/W
         reset: 0x4
         typical: 0x4
-        description: Instruction Page Return Command FIFO credits <= 4
+        description: Instruction Page Return Command FIFO credits <= 4.
 
       - name: --
         bits: 39..36
@@ -420,7 +547,7 @@ registers:
         access: R/W
         reset: 0x8
         typical: 0x8
-        description: Input Data Tag FIFOs (per core) credits <= 8
+        description: Input Data Tag FIFOs (per core) credits <= 8.
 
       - name: --
         bits: 31..27
@@ -434,7 +561,7 @@ registers:
         access: R/W
         reset: 0x4
         typical: 0x4
-        description: Store Command FIFO credits <= 4
+        description: Store Command FIFO credits <= 4.
 
       - name: --
         bits: 23..19
@@ -448,7 +575,7 @@ registers:
         access: R/W
         reset: 0x4
         typical: 0x4
-        description: Load Command FIFO credits <= 4
+        description: Load Command FIFO credits <= 4.
 
       - name: --
         bits: 15..11
@@ -462,7 +589,7 @@ registers:
         access: R/W
         reset: 0x4
         typical: 0x4
-        description: WorkQueue FIFO credits <= 4
+        description: WorkQueue FIFO credits <= 4.
 
       - name: --
         bits: 7..2

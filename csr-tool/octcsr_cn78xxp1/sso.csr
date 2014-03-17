@@ -12,12 +12,14 @@ enums:
       - name: SSO_GRP(0..255)_AQ
         value: 0x60000 + a
         attributes:
+          cib_rtl_module: "sso_gw_aqgrp"
           intsn_lsb_mismatch: "True"
         description: See SSO_GRP(0..255)_INT[AQ_INT].
 
       - name: SSO_GRP(0..255)_EXE
         value: 0x61000 + a
         attributes:
+          cib_rtl_module: "sso_gw_exegrp"
           intsn_lsb_mismatch: "True"
         description: See SSO_GRP(0..255)_INT[EXE_INT].
 
@@ -425,7 +427,7 @@ structs:
         bits: 63..56
         attributes:
           const: ""
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to.
 
 
   - name: SSO_ALLOC_WE_LD_S
@@ -586,7 +588,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to.
 
 
   - name: SSO_CSR_WR_DMA_S
@@ -714,7 +716,7 @@ structs:
         bits: 63..56
         attributes:
           const: "--"
-        description: CVMSEG LM address to return to. See IOBDMA, IOBADDR, LMTDMA, and LMTST Operations.
+        description: CVMSEG LM address to return to.
 
 
   - name: SSO_GET_WORK_LD_S
@@ -868,67 +870,6 @@ structs:
       - name: NO_WORK
         bits: 63
         description: Set when no new work-queue entry was returned.
-
-
-  - name: SSO_PREP_WORK_DMA_S
-    title: SSO Prep Work Address Structure
-    description: |
-      Deprecated. PREP_WORK operations form an IOBADDR request with this structure. Note this format
-      closely coincides with SSO_GET_WORK_LD_S.
-    fields:
-      - name: --
-        bits: 3..0
-        attributes:
-          const: "--"
-        description: Reserved.
-
-      - name: INDEX_GRP_MASK
-        bits: 15..4
-        attributes:
-          const: "--"
-        description: See SSO_GET_WORK_LD_S[INDEX].
-
-      - name: --
-        bits: 29..16
-        attributes:
-          const: "--"
-        description: Reserved.
-
-      - name: GROUPED
-        bits: 30
-        attributes:
-          const: "--"
-        description: See SSO_GET_WORK_LD_S[GROUPED].
-
-      - name: --
-        bits: 35..31
-        attributes:
-          const: "--"
-        description: Reserved.
-
-      - name: NODE
-        bits: 39..36
-        attributes:
-          const: "--"
-        description: OCI node number. For GET_WORK, this must always indicate the local node, or an error will result.
-
-      - name: DID
-        bits: 47..40
-        attributes:
-          const: "0x60"
-        description: Indicates GET_WORK SSO DID.
-
-      - name: LEN
-        bits: 55..48
-        attributes:
-          const: "0"
-        description: Must be zero to indicate no IOBDMA return words.
-
-      - name: --
-        bits: 63..56
-        attributes:
-          const: "--"
-        description: Reserved. Scratch pad address not needed as LEN is zero.
 
 
   - name: SSO_SW_DATA_S
@@ -1206,7 +1147,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Disable PREP_WORK operations and treat as a NOP. For diagnostic use only.
+        description: Reserved.
 
       - name: ARBC_STEP_EN
         bits: 3
@@ -1368,12 +1309,25 @@ registers:
         typical: 0
         description: Use LDT to bypass L2 allocations when reading short form work.
 
-      - name: --
+      - name: LOL
         bits: 7
-        access: RAZ
-        reset: --
-        typical: --
+        access: RO
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
         description: Reserved.
+
+      - name: LOL
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          Legalize OCI loopback by forcing ADD_WORKs arriving from IOBN to have node equal to
+          global_node_id. For diagnostic use only. Added in pass 2.
 
       - name: XAQ_ALLOC_DIS
         bits: 6
@@ -2046,22 +2000,19 @@ registers:
           Illegal operation errors. Throws SSO_INTSN_E::SSO_ERR2_IOP<n>:
           <12> = Received command before SSO_RESET[BUSY] cleared.
           <11> = Received SWTAG/GET_WORK/etc from node other than the local node.
-          <10> = Received SWTAG/SWTAG_FULL/SWTAG_DESCHED/UPD_WQP_GRP/ALLOC_WE/CLR_NSCHED/PREP_WORK
-          from work slot with PREP_WORK pending..
+          <10> = Reserved.
           <9> = Received illegal opcode.
-          <8> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP/GET_WORK/PREP_WORK/ALLOC_WE
-          from work slot with CLR_NSCHED pending.
+          <8> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP/GET_WORK/ALLOC_WE from work
+          slot with CLR_NSCHED pending.
           <7> = Received CLR_NSCHED from work slot with SWTAG_DESCH/DESCH/CLR_NSCHED pending.
-          <6> = Received
-          SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP/GET_WORK/PREP_WORK/ALLOC_WE/CLR_NSCHED from
-          work slot with ALLOC_WE pending.
-          <5> = Received
-          SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP/GET_WORK/PREP_WORK/ALLOC_WE/CLR_NSCHED from
-          work slot with GET_WORK pending.
+          <6> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP/GET_WORK/ALLOC_WE/CLR_NSCHED
+          from work slot with ALLOC_WE pending.
+          <5> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP/GET_WORK/ALLOC_WE/CLR_NSCHED
+          from work slot with GET_WORK pending.
           <4> = Received SWTAG_FULL/SWTAG_DESCH with tag specified as UNTAGGED.
           <3> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH with tag specified as EMPTY.
-          <2> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK/PREP_WORK from work slot with pending
-          tag switch to ORDERED or ATOMIC.
+          <2> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/GET_WORK from work slot with pending tag
+          switch to ORDERED or ATOMIC.
           <1> = Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in UNTAGGED state.
           <0> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in EMPTY
           state.
@@ -2659,7 +2610,7 @@ registers:
 
 
   - name: SSO_XAQ_AURA
-    title: SSO External Admission Queue Aura
+    title: SSO External Admission Queue Aura Register
     address: 0x1670000002100
     bus: NCB
     fields:
@@ -2682,7 +2633,10 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: FPA local-node aura to use for SSO XAQ allocations and frees.
+        description: |
+          FPA local-node aura to use for SSO XAQ allocations and frees. The FPA aura selected by
+          LAURA must select a pool with FPA_POOL(0..63)_CFG[NAT_ALIGN]=1, and
+          (FPA_POOL(0..63)_CFG[BUF_SIZE] - FPA_POOL(0..63)_CFG[BUF_OFFSET]) >= 4 KB / 128.
 
 
   - name: SSO_XAQ(0..255)_HEAD_PTR
@@ -3146,29 +3100,6 @@ registers:
           0x7 = lowest priority.
           Changing priority while GET_WORKs are in flight may result in a GET_WORK using either the
           old or new priority, or a mix thereof.
-
-
-  - name: SSO_GRP(0..255)_PREF
-    title: SSO Group Prefetch Register
-    address: 0x1670020000300 + a*0x10000
-    bus: NCB
-    description: Controls the prefetching for each group.
-    fields:
-      - name: --
-        bits: 63..4
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CLINES
-        bits: 3..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: |
-          Number of cache lines starting at the work queue pointer to prefetch into L1 Dcache, when
-          work is fetched with PREP_WORK. Zero disables prefetching.
 
 
   - name: SSO_GRP(0..255)_INT
@@ -3648,35 +3579,7 @@ registers:
         description: Set when there is a pending ALLOC_WE.
 
       - name: --
-        bits: 56
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PREP_INDEX
-        bits: 55..44
-        access: RO/H
-        reset: 0x0
-        typical: --
-        description: The index when PREPPED is set.
-
-      - name: PREPPED
-        bits: 43
-        access: RO/H
-        reset: 0
-        typical: --
-        description: Set when there is PREP_WORK available.
-
-      - name: PEND_PREP
-        bits: 42
-        access: RO/H
-        reset: 0
-        typical: --
-        description: Set when there is a PREP_WORK pending.
-
-      - name: --
-        bits: 41..34
+        bits: 56..34
         access: RAZ
         reset: --
         typical: --
