@@ -176,6 +176,7 @@ def build_csr(chip_info, register, raw):
     if "attributes" in register:
         check_keys("register[attributes]", register["attributes"], [
                    "arch_max",
+                   "chip_pass",
                    "dv_force_no_compare",
                    "dv_uvm_no_create",
                    "dv_testbuilder_no_create",
@@ -226,6 +227,7 @@ def build_csr(chip_info, register, raw):
                    "attributes"])   # Optional attributes (sub tree)
         if "attributes" in field:
            check_keys("register.field[attributes]", field["attributes"], [
+                      "chip_pass",
                       "no_soft_reset",
                       "dv_uvm_force_compare",
                       "dv_uvm_cov_val_disable",
@@ -260,8 +262,16 @@ def build_csr(chip_info, register, raw):
         if reset_value == "--":
             reset_value = "NS"
         description = field.get("description", "").split("\n")
-        csrField = CsrField(start_bit, stop_bit, name, field_type, reset_value, typical_value, description)
-        csr.addField(csrField)
+        # Ignore all fields with "<" in the chip_pass. This is a complete hack
+        # to skip duplicate fields. FIXME later!
+        skip_field = False
+        if "attributes" in field:
+            if "chip_pass" in field["attributes"]:
+                if "<" in field["attributes"]["chip_pass"]:
+                    skip_field = True
+        if not skip_field:
+            csrField = CsrField(start_bit, stop_bit, name, field_type, reset_value, typical_value, description)
+            csr.addField(csrField)
     # The CSR should be complete
     csr.validate()
     # Merge MIO_BOOT_REG_CFG0 into MIO_BOOT_REG_CFGX
