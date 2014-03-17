@@ -454,10 +454,10 @@ static int xaui_link(bdk_if_handle_t handle)
         /* (6) Configure GMX */
 
         /* Wait for GMX RX to be idle */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), rx_idle, ==, 1, 10000))
             return -1;
         /* Wait for GMX TX to be idle */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
             return -1;
 
         /* Wait for receive link */
