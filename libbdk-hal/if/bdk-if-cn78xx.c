@@ -637,9 +637,10 @@ static int sso_init(bdk_node_t node)
     /* Set the aura number */
     BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_AURA,
         c.s.laura = aura);
-    /* Set work timeout to 1023 * 1k cycles */
+    /* Set work timeout to 1k cycles. The 78 simulator has a bug where it
+       waits for this time even if there is work available */
     BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
-        c.s.nw_tim = 1023);
+        c.s.nw_tim = 0);
     /* Setup how the SSO accesses memory */
     BDK_CSR_MODIFY(c, node, BDK_SSO_AW_CFG,
         c.s.rwen = 1);
