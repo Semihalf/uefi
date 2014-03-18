@@ -152,6 +152,14 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
         c.s.lmacs = priv.s.num_port);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_RX_LMACS(handle->interface),
         c.s.lmacs = priv.s.num_port);
+
+    /* Set the backpressure AND mask. Each interface gets 16 channels in this
+       mask. When there is only 1 port, all 64 channels are available but
+       the upper channels are used for anything. That's why this code only uses
+       16 channels per interface */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_CHAN_MSK_AND(handle->interface),
+        c.s.msk_and |= ((1<<priv.s.num_channels) - 1) << (handle->index * 16));
+
     return 0;
 }
 
