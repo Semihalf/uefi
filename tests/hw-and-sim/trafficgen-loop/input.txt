@@ -1,0 +1,13 @@
+keys
+tg
+default loop0
+count 100
+tx_packets_total
+rx_packets_total
+start
+tx_packets_total
+rx_packets_total
+tx_octets_total
+rx_octets_total
+reboot
+
