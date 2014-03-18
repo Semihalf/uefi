@@ -436,8 +436,8 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
  *
  * @return New counter value, accounting for overflow
  */
-static uint64_t update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size) __attribute__ ((noinline));
-static uint64_t update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size)
+uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size) __attribute__ ((noinline));
+uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size)
 {
     uint64_t mask = bdk_build_mask(bit_size);
     uint64_t tmp = old_value & mask;
@@ -498,14 +498,14 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     BDK_CSR_INIT(pip_stat_inb_errsx, handle->node, BDK_PIP_STAT_INB_ERRSX(handle->pknd));
 
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
-    handle->stats.rx.dropped_octets = update_stat_with_overflow(stat0.s.drp_octs, handle->stats.rx.dropped_octets, 32);
-    handle->stats.rx.dropped_packets = update_stat_with_overflow(stat0.s.drp_pkts, handle->stats.rx.dropped_packets, 32);
+    handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(stat0.s.drp_octs, handle->stats.rx.dropped_octets, 32);
+    handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(stat0.s.drp_pkts, handle->stats.rx.dropped_packets, 32);
     handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
 
     handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
-    handle->stats.rx.octets = update_stat_with_overflow(stat1.s.octs, handle->stats.rx.octets, 48);
-    handle->stats.rx.packets = update_stat_with_overflow(stat2.s.pkts, handle->stats.rx.packets, 32);
-    handle->stats.rx.errors = update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
+    handle->stats.rx.octets = bdk_update_stat_with_overflow(stat1.s.octs, handle->stats.rx.octets, 48);
+    handle->stats.rx.packets = bdk_update_stat_with_overflow(stat2.s.pkts, handle->stats.rx.packets, 32);
+    handle->stats.rx.errors = bdk_update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
     BDK_CSR_INIT(pko_reg_read_idx, handle->node, BDK_PKO_REG_READ_IDX);
@@ -515,8 +515,8 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
-    handle->stats.tx.octets = update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);
-    handle->stats.tx.packets = update_stat_with_overflow(pko_mem_count0.s.count, handle->stats.tx.packets, 32);
+    handle->stats.tx.octets = bdk_update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);
+    handle->stats.tx.packets = bdk_update_stat_with_overflow(pko_mem_count0.s.count, handle->stats.tx.packets, 32);
     handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
 
     return &handle->stats;

@@ -169,6 +169,7 @@ extern void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int lengt
 
 extern int __bdk_if_get_gmx_block(bdk_if_handle_t handle);
 extern int __bdk_if_get_gmx_index(bdk_if_handle_t handle);
+extern uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size);
 
 /**
  * Get interface type. Use this function instead of accessing the handle
