@@ -372,6 +372,57 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
     return 0;
 }
 
+/**
+ * Get the interface RX and TX counters.
+ *
+ * @param handle Handle of port
+ *
+ * @return Statistics
+ */
+static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
+{
+    if (bdk_unlikely(bdk_is_simulation()))
+        return &handle->stats;
+
+    /* Account for TX lack of FCS for most ports */
+    const int bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
+    const int bytes_off_rx = 0;
+
+    /* Read the RX statistics from PKI */
+    BDK_CSR_INIT(rx_packets, handle->node, BDK_PKI_STATX_STAT0(handle->pknd));
+    BDK_CSR_INIT(rx_octets, handle->node, BDK_PKI_STATX_STAT1(handle->pknd));
+    BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_PKI_STATX_STAT3(handle->pknd));
+    BDK_CSR_INIT(rx_dropped_octets, handle->node, BDK_PKI_STATX_STAT4(handle->pknd));
+    BDK_CSR_INIT(rx_errors, handle->node, BDK_PKI_STATX_STAT7(handle->pknd));
+
+    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
+    handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
+        rx_dropped_octets.s.drp_octs, handle->stats.rx.dropped_octets, 48);
+    handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
+        rx_dropped_packets.s.drp_pkts, handle->stats.rx.dropped_packets, 48);
+    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
+
+    handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
+    handle->stats.rx.octets = bdk_update_stat_with_overflow(
+        rx_octets.s.octs, handle->stats.rx.octets, 48);
+    handle->stats.rx.packets = bdk_update_stat_with_overflow(
+        rx_packets.s.pkts, handle->stats.rx.packets, 48);
+    handle->stats.rx.errors = bdk_update_stat_with_overflow(
+        rx_errors.s.fcs, handle->stats.rx.errors, 48);
+    handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
+
+    /* Read the RX statistics from PKO */
+    BDK_CSR_INIT(tx_octets, handle->node, BDK_PKO_DQX_BYTES(handle->pko_queue));
+    BDK_CSR_INIT(tx_packets, handle->node, BDK_PKO_DQX_PACKETS(handle->pko_queue));
+
+    handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
+    handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.count, handle->stats.tx.octets, 48);
+    handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.count, handle->stats.tx.packets, 40);
+    handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
+
+    return &handle->stats;
+}
+
 const __bdk_if_ops_t __bdk_if_ops_ilk = {
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
@@ -381,5 +432,6 @@ const __bdk_if_ops_t __bdk_if_ops_ilk = {
     .if_disable = if_disable,
     .if_link_get = if_link_get,
     .if_loopback = if_loopback,
+    .if_get_stats = if_get_stats,
 };
 
