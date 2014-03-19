@@ -2613,3 +2613,184 @@ registers:
 
 
 
+  - name: GSER(0..13)_LANE(0..3)_LBERT_PAT_CFG
+    title: GSER Lane LBERT Pattern Configuration Registers
+    address: 0x11800904C0018 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LBERT_PG_PAT
+        bits: 9..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Programmable 10-bit pattern to be used in the LBERT pattern mode;
+          applies when GSER(0..13)_LANE(0..3)_LBERT_CFG[LBERT_PG_MODE]
+          is equal to 8, 9, or 10.
+
+
+  - name: GSER(0..13)_LANE(0..3)_LBERT_CFG
+    title: GSER Lane LBERT Configuration Registers
+    address: 0x11800904C0020 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LBERT_PG_ERR_INSERT
+        bits: 15
+        access: WO/H
+        reset: --
+        typical: --
+        description: |
+          Insert one bit error into the LSB of the LBERT generated
+          stream.  A single write to this bit inserts a single bit
+          error.
+
+      - name: LBERT_PM_SYNC_START
+        bits: 14
+        access: WO/H
+        reset: --
+        typical: --
+        description: |
+          Synchronize the pattern matcher LFSR with the incoming
+          data.  Writing this bit resets the error counter and
+          starts a synchronization of the PM.  There is no need
+          to write this bit back to a zero to run normally.
+
+      - name: LBERT_PG_EN
+        bits: 13
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Enable the LBERT pattern generator.
+
+      - name: LBERT_PG_WIDTH
+        bits: 12..11
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          LBERT pattern generator data width:
+          0: 8 bit data.
+          1: 10 bit data.
+          2: 16 bit data.
+          3: 20 bit data.
+
+      - name: LBERT_PG_MODE
+        bits: 10..7
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          LBERT pattern generator mode; when changing modes,
+          you must disable first:
+          0: Disabled.
+          1: lfsr31   X^31 + X^28 + 1.
+          2: lfsr23   X^23 + X^18 + 1.
+          3: lfsr23   X^23 + X^21 + X^16 + X^8 + X^5 + X^2 + 1.
+          4: lfsr16   X^16 + X^5 + X^4 + X^3 + 1.
+          5: lfsr15   X^15 + X^14 + 1.
+          6: lfsr11   X^11 + X^9 + 1.
+          7: lfsr7    X^7 + X^6 + 1.
+          8: Fixed word (PAT0).
+          9: DC-balanced word (PAT0, ~PAT0)
+          10: Fixed Pattern (000, PAT0, 3ff, ~PAT0).
+          15-11: Reserved.
+
+      - name: LBERT_PM_EN
+        bits: 6
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Enable LBERT pattern matcher.
+
+      - name: LBERT_PM_WIDTH
+        bits: 5..4
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          LBERT pattern matcher data width.
+          0: 8 bit data
+          1: 10 bit data
+          2: 16 bit data
+          3: 20 bit data
+
+      - name: LBERT_PM_MODE
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          LBERT pattern matcher mode; when changing modes,
+          you must disable first:
+          0: Disabled.
+          1: lfsr31   X^31 + X^28 + 1.
+          2: lfsr23   X^23 + X^18 + 1.
+          3: lfsr23   X^23 + X^21 + X^16 + X^8 + X^5 + X^2 + 1.
+          4: lfsr16   X^16 + X^5 + X^4 + X^3 + 1.
+          5: lfsr15   X^15 + X^14 + 1.
+          6: lfsr11   X^11 + X^9 + 1.
+          7: lfsr7    X^7 + X^6 + 1.
+          8: Fixed word (PAT0).
+          9: DC-balanced word (PAT0, ~PAT0).
+          10: Fixed Pattern: (000, PAT0, 3ff, ~PAT0).
+          15-11: Reserved.
+
+
+  - name: GSER(0..13)_LANE(0..3)_LBERT_ECNT
+    title: GSER Lane LBERT Error Counter Registers
+    address: 0x11800904C0028 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LBERT_ERR_OVBIT14
+        bits: 15
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          If this bit is set, multiply LBERT_ERR_CNT by 128.
+          If this bit is set and LBERT_ERR_CNT = 2^15-1, signals
+          overflow of the counter.
+
+      - name: LBERT_ERR_CNT
+        bits: 14..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          Current error count.
+          If LBERT_ERR_OVBIT14 field is active, then multiply 
+          count by 128.
+
+

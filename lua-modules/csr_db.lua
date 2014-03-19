@@ -7309,6 +7309,56 @@ local csr_db = {
                 {name = "PHY_IDDQ_MODE", start = 0, stop = 0},
             }
         },
+        GSERX_LANEX_LBERT_CFG = {
+            name = "GSER#_LANE#_LBERT_CFG",
+            type = "RSL",
+            width = 8,
+            address = 0x11800904c0020,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "LBERT_PG_ERR_INSERT", start = 15, stop = 15},
+                {name = "LBERT_PM_SYNC_START", start = 14, stop = 14},
+                {name = "LBERT_PG_EN", start = 13, stop = 13},
+                {name = "LBERT_PG_WIDTH", start = 11, stop = 12},
+                {name = "LBERT_PG_MODE", start = 7, stop = 10},
+                {name = "LBERT_PM_EN", start = 6, stop = 6},
+                {name = "LBERT_PM_WIDTH", start = 4, stop = 5},
+                {name = "LBERT_PM_MODE", start = 0, stop = 3},
+            }
+        },
+        GSERX_LANEX_LBERT_ECNT = {
+            name = "GSER#_LANE#_LBERT_ECNT",
+            type = "RSL",
+            width = 8,
+            address = 0x11800904c0028,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "LBERT_ERR_OVBIT14", start = 15, stop = 15},
+                {name = "LBERT_ERR_CNT", start = 0, stop = 14},
+            }
+        },
+        GSERX_LANEX_LBERT_PAT_CFG = {
+            name = "GSER#_LANE#_LBERT_PAT_CFG",
+            type = "RSL",
+            width = 8,
+            address = 0x11800904c0018,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "LBERT_PG_PAT", start = 0, stop = 9},
+            }
+        },
         GSERX_LANEX_PX_MODE_0 = {
             name = "GSER#_LANE#_P#_MODE_0",
             type = "RSL",
