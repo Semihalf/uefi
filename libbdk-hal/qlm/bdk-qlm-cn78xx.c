@@ -1,6 +1,9 @@
 #include <bdk.h>
 #include <stdio.h>
 
+/* Indexed by QLM number and lane */
+static uint64_t prbs_errors[14][4];
+
 /**
  * Return the number of QLMs supported for the chip
  *
@@ -651,9 +654,74 @@ static int qlm_reset(bdk_node_t node, int qlm)
  */
 static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir)
 {
-    /* FIXME: Enable PRBS */
-    bdk_error("CN78XX PRBS not implemented\n");
-    return -1;
+    const int NUM_LANES = 4;
+    int mode;
+    switch (prbs)
+    {
+        case 31:
+            mode = 1;
+            break;
+        case 23:
+            mode = 2; /* Or 3? */
+            break;
+        case 16:
+            mode = 4;
+            break;
+        case 15:
+            mode = 5;
+            break;
+        case 11:
+            mode = 6;
+            break;
+        case 7:
+            mode = 7;
+            break;
+        default:
+            bdk_error("Invalid PRBS mode %d\n", prbs);
+            return -1;
+    }
+
+    if (dir & BDK_QLM_DIRECTION_TX)
+    {
+        /* Disable first in case already running */
+        for (int lane = 0; lane < NUM_LANES; lane++)
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+                c.s.lbert_pg_en = 0);
+        /* Program PRBS mode. This code doesn't support the other
+            pattern modes */
+        for (int lane = 0; lane < NUM_LANES; lane++)
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+                c.s.lbert_pg_en = 1; /* Enable generator */
+                c.s.lbert_pg_width = 3; /* 20 bit */
+                c.s.lbert_pg_mode = mode);
+    }
+
+    if (dir & BDK_QLM_DIRECTION_RX)
+    {
+        /* Clear the error counter and Disable the matcher */
+        for (int lane = 0; lane < NUM_LANES; lane++)
+        {
+            prbs_errors[qlm][lane] = 0;
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+                c.s.lbert_pm_en = 0);
+        }
+        /* Program PRBS mode. This code doesn't support the other
+            pattern modes */
+        for (int lane = 0; lane < NUM_LANES; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+                c.s.lbert_pm_en = 1; /* Enable matcher */
+                c.s.lbert_pm_width = 3; /* 20 bit */
+                c.s.lbert_pm_mode = mode);
+        }
+        /* Tell the matcher to resync */
+        for (int lane = 0; lane < NUM_LANES; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+                c.s.lbert_pm_sync_start = 1);
+        }
+    }
+    return 0;
 }
 
 /**
@@ -667,9 +735,13 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
  */
 static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
 {
-    /* FIXME: PRBS errors */
-    bdk_error("CN78XX PRBS not implemented\n");
-    return -1;
+    /* This CSR is self clearing per the CSR description */
+    BDK_CSR_INIT(rx, node, BDK_GSERX_LANEX_LBERT_ECNT(qlm, lane));
+    uint64_t errors = rx.s.lbert_err_cnt;
+    if (rx.s.lbert_err_ovbit14)
+        errors <<= 7;
+    prbs_errors[qlm][lane] += errors;
+    return prbs_errors[qlm][lane];
 }
 
 /**
