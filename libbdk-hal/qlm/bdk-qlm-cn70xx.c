@@ -1,6 +1,6 @@
 #include <bdk.h>
 
-static uint64_t prbs_errors[3];
+static uint64_t prbs_errors[3][2];
 
 /**
  * These apply to DLM0
@@ -915,7 +915,8 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
         /* Tell the DLM to resync */
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE0_RX_LBERT_CTL(0, qlm), c.s.sync = 1);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PHYX_LANE1_RX_LBERT_CTL(0, qlm), c.s.sync = 1);
-        prbs_errors[qlm] = 0;
+        prbs_errors[qlm][0] = 0;
+        prbs_errors[qlm][1] = 0;
     }
     return 0;
 }
@@ -937,10 +938,10 @@ static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
     else
         rx.u = BDK_CSR_READ(node, BDK_GSERX_PHYX_LANE0_RX_LBERT_ERR(0, qlm));
     if (rx.s.ov14)
-        prbs_errors[qlm] += rx.s.count << 7;
+        prbs_errors[qlm][lane] += rx.s.count << 7;
     else
-        prbs_errors[qlm] += rx.s.count;
-    return prbs_errors[qlm];
+        prbs_errors[qlm][lane] += rx.s.count;
+    return prbs_errors[qlm][lane];
 }
 
 /**
