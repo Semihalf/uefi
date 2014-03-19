@@ -1,6 +1,6 @@
 
 
-default: bdk.html bdk-getting-started.html bdk-internals.html bdk-interactive.html bdk-bringup-guide.html bdk-faqs.html bdk-release-notes.html bdk-cn70xx.html api-docs lua-modules
+default: bdk.html bdk-getting-started.html bdk-internals.html bdk-interactive.html bdk-bringup-guide.html bdk-faqs.html bdk-release-notes.html bdk-cn70xx.html bdk-cn78xx.html api-docs lua-modules
 
 slides: bdk-intro-slides.html bdk-slides-advanced1.html
 
