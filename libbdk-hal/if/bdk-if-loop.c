@@ -2,6 +2,9 @@
 
 static int if_num_interfaces(bdk_node_t node)
 {
+    extern __bdk_if_ops_t __bdk_if_ops_loop;
+    if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+        __bdk_if_ops_loop.if_get_stats = NULL;
     return 1;
 }
 
@@ -147,7 +150,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     return &handle->stats;
 }
 
-const __bdk_if_ops_t __bdk_if_ops_loop = {
+__bdk_if_ops_t __bdk_if_ops_loop = {
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,
