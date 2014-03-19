@@ -43,13 +43,15 @@ local function select_qlm_list(qlm_list)
     local s = ""
     for _,qlm_num in ipairs(qlm_list) do
         assert((qlm_num >= 0) and (qlm_num < num_qlms), "Invalid QLM/DLM number")
-        s = s .. tostring(qlm_num)
+        s = s .. "," .. tostring(qlm_num)
     end
+    -- Remove the extra ","
+    s = s:sub(2)
     -- Ask the user
     s = menu.prompt_string("List of QLM/DLM to use", s)
     qlm_list = {}
-    for i=1,#s do
-        local qlm_num = tonumber(s:sub(i,i))
+    for w in string.gmatch(s, "%d+") do
+        local qlm_num = tonumber(w)
         assert((qlm_num >= 0) and (qlm_num < num_qlms), "Invalid QLM/DLM number")
         table.insert(qlm_list, qlm_num)
     end
@@ -195,7 +197,13 @@ function qlm_tuning.run()
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
         m:item("down",   "Reset and power down", octeon.c.bdk_qlm_reset, node, qlm_tuning.qlm)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
+        if octeon.is_model(octeon.CN78XX) then
+            m:item("prbs11",  "PRBS-11", do_prbs, 11)
+        end
         m:item("prbs15", "PRBS-15", do_prbs, 15)
+        if octeon.is_model(octeon.CN78XX) then
+            m:item("prbs16",  "PRBS-16", do_prbs, 16)
+        end
         m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
         m:item("quit",   "Main menu")
