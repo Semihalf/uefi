@@ -25680,9 +25680,9 @@ local csr_db = {
             width = 8,
             address = 0x1180070000018,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "INC", start = 16, stop = 31},
-                {name = "INDEX", start = 0, stop = 15},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "INC", start = 8, stop = 15},
+                {name = "INDEX", start = 0, stop = 7},
             }
         },
         RNM_BIST_STATUS = {
@@ -47644,9 +47644,9 @@ local csr_db = {
             width = 8,
             address = 0x1180070000018,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "INC", start = 16, stop = 31},
-                {name = "INDEX", start = 0, stop = 15},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "INC", start = 8, stop = 15},
+                {name = "INDEX", start = 0, stop = 7},
             }
         },
         RNM_BIST_STATUS = {

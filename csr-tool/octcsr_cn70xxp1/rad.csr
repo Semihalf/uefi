@@ -130,21 +130,21 @@ registers:
       contents of a CSR memory can be read with consecutive CSR read commands.
     fields:
       - name: --
-        bits: 63..32
+        bits: 63..16
         access: RAZ
         reset: --
         typical: --
         description: RESERVED
 
       - name: INC
-        bits: 31..16
+        bits: 15..8
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Increment to add to current index for next index
 
       - name: IDX
-        bits: 15..0
+        bits: 7..0
         access: R/W
         reset: 0x0
         typical: 0x0

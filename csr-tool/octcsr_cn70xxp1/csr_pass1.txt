@@ -32744,9 +32744,9 @@ $RAD_REG_READ_IDX   Address=(0x1180070000018)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:32> --    RAZ     --         --         RESERVED                                          
- <31:16> INC   R/W     0x0        0x0        Increment to add to current index for next index  
- <15:0>  IDX   R/W     0x0        0x0        Index to use for next memory CSR read             
+ <63:16> --    RAZ     --         --         RESERVED                                          
+ <15:8>  INC   R/W     0x0        0x0        Increment to add to current index for next index  
+ <7:0>   IDX   R/W     0x0        0x0        Index to use for next memory CSR read             
                                              Attribute: -exempt_keyword=True.
 
 Notes:
