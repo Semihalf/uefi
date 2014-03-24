@@ -2,8 +2,10 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 
 ifeq ($(SIM),cn78xx)
 	NUMCORES=48
+	NODES=-numnodes=1
 else
 	NUMCORES=4
+	NODES=
 endif
 
 MAX_CYCLE = $(shell let i=1500000*$(NUMCORES) && echo $$i)
@@ -20,11 +22,11 @@ tftp: crypto.bin
 	cp crypto.bin /tftpboot/
 
 run: crypto.bin
-	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=$(NUMCORES)
+	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=$(NUMCORES) $(NODES)
 
 test: crypto.bin
 	$(OCTEON_ROOT)/host/bin/oct-uart-io -b test-crypto.log &
-	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=$(NUMCORES) -maxcycles=$(MAX_CYCLE) -uart0=2020 > test-crypto-sim.log
+	$(SIMULATOR) -ld0x1fc00000:crypto -ld0x1fc00000:crypto.bin -ld0:0x400000 -modes=fastboot,pass1 -quiet -numcores=$(NUMCORES) $(NODES) -maxcycles=$(MAX_CYCLE) -uart0=2020 > test-crypto-sim.log
 	true $(GREP_BEGIN)
 	grep 'Plaintext: "Original plaintext message"' test-crypto.log
 	grep "MD5:      1517fa5c261777f967f2c7c034a13fd4" test-crypto.log
