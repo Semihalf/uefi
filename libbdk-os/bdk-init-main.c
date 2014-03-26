@@ -93,6 +93,7 @@ void __bdk_init_main(int arg, void *arg1)
 
         if (!bdk_is_simulation())
             __bdk_setup_bootbus(node);
+        bdk_rng_enable(node);
 
         bdk_twsix_initialize(node);
         bdk_qlm_init(node);

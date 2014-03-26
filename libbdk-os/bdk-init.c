@@ -672,7 +672,10 @@ int bdk_init_nodes(void)
     for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
+        {
             result |= bdk_init_cores(node, 0);
+            bdk_rng_enable(node);
+        }
     }
     return result;
 }
