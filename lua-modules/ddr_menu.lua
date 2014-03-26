@@ -1,4 +1,4 @@
--- BDK DDR menu.
+-- BDK DRAM menu.
 -- Displays the GUI interface for configuring and testing DRAM.
 require("strict")
 require("utils")
@@ -33,19 +33,19 @@ local function get_cur_ddr_config()
     return ddr_config
 end
 
-local m = menu.new("DDR Menu")
+local m = menu.new("DRAM Menu")
 
 if not octeon.is_model(octeon.CN70XX) then
     -- Build a list of choice for each board
     for _,board in ipairs(BOARD_CHOICES) do
-        local text = "Load current DDR config using \"%s\"" % board .. " board settings"
+        local text = "Load current DRAM config using \"%s\"" % board .. " board settings"
         m:item(board, text, function()
             print("Loading config for board " .. board)
             ddr_config = ddr.get_config(board)
         end)
     end
 
-    m:item("load", "Load current DDR config from a file", function()
+    m:item("load", "Load current DRAM config from a file", function()
         local filename = menu.prompt_string("Filename")
         local handle = fileio.open(filename, "r")
         local data = handle:read("*a")
@@ -60,7 +60,7 @@ if not octeon.is_model(octeon.CN70XX) then
         ddr_config = config
     end)
 
-    m:item("save", "Save current DDR config to a file", function()
+    m:item("save", "Save current DRAM config to a file", function()
         local filename = menu.prompt_string("Filename")
         ddr.show_config(ddr_config, filename)
     end)
@@ -68,12 +68,12 @@ if not octeon.is_model(octeon.CN70XX) then
     -- Dump the current configuration.  Note that we need to provide an
     -- anonymous function to do this otherwise the ddr_config parameter is evaluated
     -- at menu creation time and is always nil
-    m:item("show", "Display current DDR config", function()
+    m:item("show", "Display current DRAM config", function()
         ddr.show_config(ddr_config)
     end)
 
-    m:item("freq", "Change DDR clock frequency", function()
-        ddr_clock_hz = menu.prompt_number("DDR clock Hertz (Currently " .. ddr_clock_hz .. " Hertz)")
+    m:item("freq", "Change DRAM clock frequency", function()
+        ddr_clock_hz = menu.prompt_number("DRAM clock Hertz (Currently " .. ddr_clock_hz .. " Hertz)")
     end)
 
     m:item("spd_addr", "Set SPD TWSI addresses", function()
@@ -86,9 +86,9 @@ if not octeon.is_model(octeon.CN70XX) then
         -- indexing is 1 based, so we must be careful.
         local max_dimms = 5;
         local max_ddr_int = 4;
-        local ddr_int = menu.prompt_number("DDR interface (0 - " .. max_ddr_int - 1 .. ")") + 1
+        local ddr_int = menu.prompt_number("DRAM interface (0 - " .. max_ddr_int - 1 .. ")") + 1
         if ddr_int > max_ddr_int then
-            print "ERROR: invalid ddr interface\n"
+            print "ERROR: invalid DRAM interface\n"
             return
         end
         local twsi_bus = menu.prompt_number("Octeon TWSI interface number  (0-4)")
@@ -155,32 +155,15 @@ if not octeon.is_model(octeon.CN70XX) then
         end
     end)
 
-    m:item("init", "Initialize DDR controller using current config", function()
+    m:item("init", "Initialize DRAM controller using current config", function()
         if not ddr_config then
-            error "ERROR: unable to configure DDR controller with empty config.\n"
+            error "ERROR: unable to configure DRAM controller with empty config.\n"
         end
         ddr.set_config(ddr_config, ddr_clock_hz)
     end)
 end -- not CN70XX
 
-m:item("cores", "Bringup Cores for multi-core testing", octeon.c.bdk_init_nodes)
-m:item("64MB", "Test DDR from 64MB to 128MB", ddr.test, 0x4000000, 0x4000000)
-
-m:item("test", "Test DDR over a specified range", function()
-    -- Test a variable range
-    local start_address = menu.prompt_number("Physical byte address to start memory test at:")
-    if start_address >= 0 then
-        local length = menu.prompt_number("Length of region(in bytes):")
-        if length > 0 then
-            ddr.test(start_address, length)
-        else
-            print("Invalid length")
-        end
-    else
-        print("Invalid start address")
-    end
-end)
-
+m:item("test", "Memory Testing Menu", menu.dofile, "ddr_test_menu")
 m:item("quit", "Main menu")
 
 while (m:show() ~= "quit") do
