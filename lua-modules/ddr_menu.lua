@@ -161,8 +161,9 @@ if not octeon.is_model(octeon.CN70XX) then
         end
         ddr.set_config(ddr_config, ddr_clock_hz)
     end)
-end -- CN70XX
+end -- not CN70XX
 
+m:item("cores", "Bringup Cores for multi-core testing", octeon.c.bdk_init_nodes)
 m:item("64MB", "Test DDR from 64MB to 128MB", ddr.test, 0x4000000, 0x4000000)
 
 m:item("test", "Test DDR over a specified range", function()

@@ -135,26 +135,24 @@ end
 -- @return Returns nothing but raises an error on failure.
 --
 function ddr.test(start_address, length)
-    printf("Testing DDR from 0x%x to 0x%x with sequential write+read\n",
-        start_address, start_address + length - 1)
-    local errors = octeon.c.bdk_dram_test(0, start_address, length)
+    local test_number = 0
+    local errors = -1
 
-    if errors < 0 then
-        error("DRAM test failed to run")
-    elseif errors == 0 then
-        print("Test passed")
-    else
-        error("Test reported %d errors" % errors)
+    for test_number=0,20 do
+        local name = octeon.c.bdk_dram_get_test_name(test_number);
+        if not name then
+            break
+        end
+        errors = octeon.c.bdk_dram_test(test_number, start_address, length)
+        if errors ~= 0 then
+            break
+        end
     end
 
-    printf("Testing DDR from 0x%x to 0x%x with random XOR\n",
-        start_address, start_address + length - 1)
-    errors = octeon.c.bdk_dram_test(1, start_address, length)
-
     if errors < 0 then
         error("DRAM test failed to run")
     elseif errors == 0 then
-        print("Test passed")
+        print("All tests passed")
     else
         error("Test reported %d errors" % errors)
     end

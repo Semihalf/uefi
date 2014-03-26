@@ -9,13 +9,56 @@
  * @{
  */
 
-typedef enum
-{
-    BDK_DRAM_TEST_SEQUENCIAL_WRITE_READ,
-    BDK_DRAM_TEST_RANDOM_XOR,
-} bdk_dram_test_t;
+/* This is the external interface for callers */
+extern const char* bdk_dram_get_test_name(int test);
+extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length);
 
-extern int bdk_dram_test(bdk_dram_test_t test, uint64_t start_address, uint64_t length);
+/* These are internal support functions */
+extern int __bdk_dram_get_ecc();
+extern int __bdk_dram_set_ecc(int ecc_enable);
+extern int __bdk_dram_check_ecc_error();
+extern void __bdk_dram_flush_to_mem(uint64_t address);
+extern void __bdk_dram_flush_to_mem_range(uint64_t area, uint64_t max_address);
+extern int __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst);
+extern int __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2, int burst);
+
+static inline void __bdk_dram_write64(uint64_t address, uint64_t data)
+{
+    /* The DRAM code doesn't use the normal bdk_phys_to_ptr() because of the
+       NULL check in it. This greatly slows down the memory tests */
+    volatile uint64_t *ptr = (void*)(address | (1ull<<63));
+    *ptr = data;
+}
+
+static inline uint64_t __bdk_dram_read64(uint64_t address)
+{
+    /* The DRAM code doesn't use the normal bdk_phys_to_ptr() because of the
+       NULL check in it. This greatly slows down the memory tests */
+    volatile uint64_t *ptr = (void*)(address | (1ull<<63));
+    return *ptr;
+}
+
+/* This is the function prototype that all test must use. "start_address" is
+   the first byte to be tested (inclusive), "end_address" is the address right
+   after the region (exclusive). For example, if start_address equals
+   end_address, no memory will be tested */
+typedef int (*__bdk_dram_test_t)(uint64_t start_address, uint64_t end_address, int bursts);
+
+/* These are the actual tests that get run. Each test is meant to be run with
+   a small range and repeated on lots of cores and large ranges. The return
+   value is the number of errors found */
+extern int __bdk_dram_test_mem_address_bus(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_checkerboard(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_data_bus(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_leftwalk0(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_leftwalk1(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_random(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_rightwalk0(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_rightwalk1(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_rows(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_self_addr(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_solid(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_mem_xor(uint64_t start_address, uint64_t end_address, int bursts);
 
 /** @} */
 
