@@ -50,6 +50,30 @@ extern void __bdk_init_main(int arg, void *arg1);
  */
 extern void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_control);
 
+/**
+ * Get the coremask of the cores actively running the BDK. Doesn't count cores
+ * that aren't booted.
+ *
+ * @param node   Node to coremask the count for
+ *
+ * @return 64bit bitmask
+ */
+extern uint64_t bdk_get_running_coremask(bdk_node_t node);
+
+/**
+ * Return the number of cores actively running in the BDK for the given node
+ *
+ * @param node   Node to get the core count for
+ *
+ * @return Number of cores running. Doesn't count cores that aren't booted
+ */
+static inline int bdk_get_num_running_cores(bdk_node_t node)
+{
+    int result;
+    BDK_DPOP(result, bdk_get_running_coremask(node));
+    return result;
+}
+
 #ifndef BDK_SHOW_BOOT_BANNERS
 #define BDK_SHOW_BOOT_BANNERS 1
 #endif

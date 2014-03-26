@@ -680,3 +680,15 @@ int bdk_init_nodes(void)
     return result;
 }
 
+/**
+ * Get the coremask of the cores actively running the BDK. Doesn't count cores
+ * that aren't booted.
+ *
+ * @param node   Node to coremask the count for
+ *
+ * @return 64bit bitmask
+ */
+uint64_t bdk_get_running_coremask(bdk_node_t node)
+{
+    return __bdk_alive_coremask[node];
+}
