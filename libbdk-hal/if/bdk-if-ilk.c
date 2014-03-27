@@ -341,10 +341,11 @@ retry:
     }
 
     /* Report link speed */
+    int qlm = bdk_qlm_get(handle->node, BDK_IF_ILK, handle->interface);
     result.s.up = 1;
     result.s.lanes = bdk_pop(ilk_rxx_cfg1.s.rx_bdry_lock_ena);
     result.s.full_duplex = 1;
-    result.s.speed = bdk_qlm_get_gbaud_mhz(handle->node, 1 + handle->interface) * 64 / 67;
+    result.s.speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 64 / 67;
     result.s.speed *= result.s.lanes;
     return result;
 
