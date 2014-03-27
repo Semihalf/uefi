@@ -134,13 +134,13 @@ static void dram_test_thread(int arg, void *arg1)
         e2 |= ((uint64_t)node) << 40;
 
         /* Test before the hole */
-        printf("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+        BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
             node, bdk_get_core_num() & 127, s1, e1 - 1);
         test_info->test_func(s1, e1, bursts);
         /* Test after the hole */
         if (s2 < e2)
         {
-            printf("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+            BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
                 node, bdk_get_core_num() & 127, s2, e2 - 1);
             test_info->test_func(s2, e2, bursts);
         }
@@ -151,7 +151,7 @@ static void dram_test_thread(int arg, void *arg1)
         start_address |= ((uint64_t)node) << 40;
         end_address |= ((uint64_t)node) << 40;
         /* Test the region */
-        printf("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+        BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
             node, bdk_get_core_num() & 127, start_address, end_address - 1);
         test_info->test_func(start_address, end_address, bursts);
     }
@@ -336,7 +336,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
                 if (dclk == 0)
                     dclk = 1;
                 uint64_t percent_x10 = ops * 1000 / dclk;
-                printf("    Node %d, LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
+                printf("  Node %d, LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
                     node, i, ops, dclk, percent_x10 / 10, percent_x10 % 10);
             }
         }
@@ -403,7 +403,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     if (errors)
         printf("Test \"%s\": FAIL\n", name);
     else
-        printf("Test \"%s\": PASS\n", name);
+        BDK_TRACE("Test \"%s\": PASS\n", name);
     return errors;
 }
 
