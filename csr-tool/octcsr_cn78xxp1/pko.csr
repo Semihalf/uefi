@@ -1914,20 +1914,20 @@ registers:
 
       - name: RR_QUANTUM
         bits: 23..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
-
-      - name: RR_QUANTUM
-        bits: 23..0
         access: RO
         reset: 0xffffff
         typical: 0xffffff
         attributes:
           chip_pass: "o78<2.0"
+        description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
+
+      - name: RR_QUANTUM
+        bits: 23..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78>=2.0"
         description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
 
 
@@ -2455,7 +2455,7 @@ registers:
         typical: 0
         description: |
           "Drain null link. Conditions the drain path to drain through the null link (i.e. link
-          #28). As such, channel credits, HW_XOFF, and shaping are disabled on the draining path
+          28). As such, channel credits, HW_XOFF, and shaping are disabled on the draining path
           until the path has drained."
 
       - name: DRAIN
@@ -12255,21 +12255,21 @@ registers:
 
       - name: RSTP
         bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Convert STP operations to RSTP. Added in pass 2.
-
-      - name: RSTP
-        bits: 0
         access: RAZ
         reset: --
         typical: --
         attributes:
           chip_pass: "o78<2.0"
         description: Reserved.
+
+      - name: RSTP
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Convert STP operations to RSTP. Added in pass 2.
 
 
   - name: PKO_FORMAT(0..127)_CTL

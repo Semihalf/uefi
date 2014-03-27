@@ -620,10 +620,15 @@ registers:
           assignment can be reconfigured dynamically, but memory accesses to a bank must be quiesced
           before that bank can be reassigned to another requester. A host request can access any
           bank; arbitration logic will prevent bank conflicts for host requests.
+
           Addresses: bit<15:10> = bank, bit<9:0> = offset.
+
           Bank 0 corresponds to memory address 0x0000-0x03FF.
+
           Bank 1 corresponds to memory address 0x0400-0x07FF.
+
           Bank 63 corresponds to memory address 0xFC00-0xFFFF.
+
           See OSM_BANK_ASSIGN_E for encoding.
 
 

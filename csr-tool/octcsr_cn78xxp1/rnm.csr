@@ -81,14 +81,14 @@ registers:
         bits: 1
         access: R/W
         reset: 0
-        typical: 0
+        typical: 1
         description: Enables the output of the RNG.
 
       - name: ENT_EN
         bits: 0
         access: R/W
         reset: 0
-        typical: 0
+        typical: 1
         description: Entropy enable for random number generator.
 
 

@@ -152,7 +152,7 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Spare fuses.
+        description: Reserved.
 
 
   - name: MIO_FUS_DAT3

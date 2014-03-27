@@ -1478,14 +1478,14 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Contains the IOBI that traffic from M2S1 is placed on.
+        description: Contains the IOBI that traffic from M2S1 is placed on. Values 2-15 are reserved.
 
       - name: M2S0_NCBI
         bits: 27..24
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Contains the IOBI that traffic from M2S0 is placed on.
+        description: Contains the IOBI that traffic from M2S0 is placed on. Values 2-15 are reserved.
 
       - name: OCI_ID
         bits: 23..20

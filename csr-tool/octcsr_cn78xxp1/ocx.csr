@@ -376,10 +376,10 @@ registers:
         typical: --
         description: |
           The load command sent with the read:
-          0x0 = Load 1-bytes
-          0x1 = Load 2-bytes
-          0x2 = Load 4-bytes
-          0x3 = Load 8-bytes
+          0x0 = Load 1-bytes.
+          0x1 = Load 2-bytes.
+          0x2 = Load 4-bytes.
+          0x3 = Load 8-bytes.
 
       - name: LD_OP
         bits: 48
@@ -394,18 +394,20 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The address used in both the load and store operations
-          <47:40> = NCB_ID
-          <39:38> = 0, Not used
-          <37:36> = OCI_ID
-          <35:0> = Address
+          The address used in both the load and store operations:
+          <47:40> = NCB_ID.
+          <39:38> = 0, Not used.
+          <37:36> = OCI_ID.
+          <35:0> = Address.
+
           When <47:43> == SLI & <42:40> == 0 bits <39:0> are:
-          <39:38> = 0, Not used
-          <37:36> = OCI_ID
-          <35:32> = 0, Not used
-          <31:24> = RSL_ID
-          <23:0> = RSL register offset
-          Note: <2:0> are ignored in a store operation
+          <39:38> = 0, Not used.
+          <37:36> = OCI_ID.
+          <35:32> = 0, Not used.
+          <31:24> = RSL_ID.
+          <23:0> = RSL register offset.
+
+          <2:0> are ignored in a store operation.
 
 
   - name: OCX_WIN_RD_DATA
@@ -566,24 +568,25 @@ registers:
         reset: 0x1
         typical: --
         description: |
-          35:34   - Link 2 VC4/VC2         RX FIFOs
-          33:32   - Link 2 VC10/VC8/VC6    RX FIFOs
-          31:30   - Link 1 VC4/VC2         RX FIFOs
-          29:28   - Link 1 VC10/VC8/VC6    RX FIFOs
-          27:26   - Link 0 VC4/VC2         RX FIFOs
-          25:24   - Link 0 VC10/VC8/VC6    RX FIFOs
-          23:22   - Link 2 VC12            RX FIFOs
-          21:20   - Link 2 VC1/VC0         RX FIFOs
-          19:18   - Link 2 VC5/VC3         RX FIFOs
-          17:16   - Link 2 VC11/VC9/VC7    RX FIFOs
-          15:14   - Link 1 VC12            RX FIFOs
-          13:12   - Link 1 VC1/VC0         RX FIFOs
-          11:10   - Link 1 VC5/VC3         RX FIFOs
-          9:8   - Link 1 VC11/VC9/VC7    RX FIFOs
-          7:6   - Link 0 VC12            RX FIFOs
-          5:4   - Link 0 VC1/VC0         RX FIFOs
-          3:2   - Link 0 VC5/VC3         RX FIFOs
-          1:0   - Link 0 VC11/VC9/VC7    RX FIFOs
+          RX FIFO status for:
+          <35:34> = Link 2 VC4/VC2.
+          <33:32> = Link 2 VC10/VC8/VC6.
+          <31:30> = Link 1 VC4/VC2.
+          <29:28> = Link 1 VC10/VC8/VC6.
+          <27:26> = Link 0 VC4/VC2.
+          <25:24> = Link 0 VC10/VC8/VC6.
+          <23:22> = Link 2 VC12.
+          <21:20> = Link 2 VC1/VC0.
+          <19:18> = Link 2 VC5/VC3.
+          <17:16> = Link 2 VC11/VC9/VC7.
+          <15:14> = Link 1 VC12.
+          <13:12> = Link 1 VC1/VC0.
+          <11:10> = Link 1 VC5/VC3.
+          <9:8>   = Link 1 VC11/VC9/VC7.
+          <7:6>   = Link 0 VC12.
+          <5:4>   = Link 0 VC1/VC0.
+          <3:2>   = Link 0 VC5/VC3.
+          <1:0>   = Link 0 VC11/VC9/VC7.
 
 
   - name: OCX_COM_INT
@@ -1144,7 +1147,7 @@ registers:
         typical: --
         description: |
           Send 1 diagnostic word with bad CRC32 to the selected lane.
-          Note: injects just once.
+          Injects just once.
 
       - name: TX_BAD_6467_CNT
         bits: 10..6
@@ -1609,15 +1612,8 @@ registers:
     attributes:
       uvm_default_constraint: "True"
     fields:
-      - name: --
-        bits: 63..44
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
       - name: SER_LOW
-        bits: 43..42
+        bits: 63..62
         access: RO
         reset: 0x0
         typical: 0x0
@@ -1626,22 +1622,43 @@ registers:
         description: Reserved.
 
       - name: SER_LOW
-        bits: 43..42
+        bits: 63..62
         access: R/W/H
         reset: 0x0
-        typical: --
+        typical: 0x0
         attributes:
           chip_pass: "o78>=2.0"
         description: |
-          Reduce latency by limiting the amount of data in flight for each SerDes. For diagnostic
-          use only. Added in pass 2.
+          Reduce latency by limiting the amount of data in flight for each SerDes.  Writting to 0
+          causes
+          hardware to determine a typically optimal value.   Added in pass 2.
+
+      - name: --
+        bits: 61..42
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
       - name: SER_LIMIT
         bits: 41..32
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Reduce latency by limiting the amount of data in flight for each SerDes. For diagnostic use only.
+        attributes:
+          chip_pass: "o78<2.0"
+        description: |
+          Reduce latency by limiting the amount of data in flight for each SerDes. For diagnostic
+          use only.  Removed in pass 2.
+
+      - name: SER_LIMIT
+        bits: 41..32
+        access: RAZ
+        reset: 0x0
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Reserved.
 
       - name: CRD_DIS
         bits: 31
@@ -1746,22 +1763,26 @@ registers:
         reset: 0
         typical: --
         description: |
-          Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
+          _ Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
           OCX_QLM2_CFG[SER_LOCAL] = 0.
-          Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
+          _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
           OCX_QLM2_CFG[SER_LOCAL] = 1.
-          Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
+          _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
           OCX_QLM3_CFG[SER_LOCAL] = 1.
-          Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
+          _ Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
           OCX_QLM3_CFG[SER_LOCAL] = 0.
-          QLM0/1 can only participate in LNK0; therefore
+
+          _ QLM0/1 can only participate in LNK0; therefore
           OCX_QLM0/1_CFG[SER_LOCAL] has no effect.
-          QLM4/5 can only participate in LNK2; therefore
+          _ QLM4/5 can only participate in LNK2; therefore
           OCX_QLM4/5_CFG[SER_LOCAL] has no effect.
+
           During a cold reset, initialized as follows:
-          OCX_QLM2_CFG.SER_LOCAL = pi_oci2_link1
-          OCX_QLM3_CFG.SER_LOCAL = pi_oci3_link1
+          _ OCX_QLM2_CFG.SER_LOCAL = pi_oci2_link1.
+          _ OCX_QLM3_CFG.SER_LOCAL = pi_oci3_link1.
+
           The combo of pi_oci2_link1=1 and pi_oci3_link1=0 is illegal.
+
           The combo of OCX_QLM2_CFG.SER_LOCAL=1 and OCX_QLM3_CFG.SER_LOCAL=0 is illegal.
 
 
@@ -1786,21 +1807,24 @@ registers:
         typical: --
         description: |
           QLM manual mask, where each bit corresponds to a QLM. A link automatically selects a QLM
-          unless either:
-          QLM_MANUAL[QLM] is set
-          QLM is not eligible for the link
-          QLM_MANUAL<0> = LNE(0..3) = QLM0.
-          QLM_MANUAL<1> = LNE(7..4) = QLM1.
-          QLM_MANUAL<2> = LNE(11..8) = QLM2.
-          QLM_MANUAL<3> = LNE(15..12) = QLM3.
-          QLM_MANUAL<4> = LNE(19..16) = QLM4.
-          QLM_MANUAL<5> = LNE(23..23) = QLM5.
-          LINK 0 may not select QLM4, QLM5.
-          LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
-          LINK 2 may not select QLM0, QLM1.
+          unless either QLM_MANUAL[QLM] is set or a QLM is not eligible for the link.
+
+          _ QLM_MANUAL<0> = LNE(0..3) = QLM0.
+          _ QLM_MANUAL<1> = LNE(7..4) = QLM1.
+          _ QLM_MANUAL<2> = LNE(11..8) = QLM2.
+          _ QLM_MANUAL<3> = LNE(15..12) = QLM3.
+          _ QLM_MANUAL<4> = LNE(19..16) = QLM4.
+          _ QLM_MANUAL<5> = LNE(23..23) = QLM5.
+          _ LINK 0 may not select QLM4, QLM5.
+          _ LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
+          _ LINK 2 may not select QLM0, QLM1.
+
           During a cold reset, this field is initialized to 0x3F when OCI_SPD<3:0> == 0xF.
+
           During a cold reset, this field is initialized to 0x0 when OCI_SPD<3:0> != 0xF.
+
           This field is not modified by hardware at any other time.
+
           This field is not affected by soft or warm reset.
 
       - name: --
@@ -1819,35 +1843,80 @@ registers:
           QLM select mask, where each bit corresponds to a QLM. A link will transmit/receive data
           using only the selected QLMs. A link is enabled if any QLM is selected. The same QLM
           should not be selected for multiple links.
-          NOTE: LANE_REV has no effect on this mapping.
-          QLM_SELECT<0> = LNE(0..3) = QLM0.
-          QLM_SELECT<1> = LNE(7..4) = QLM1.
-          QLM_SELECT<2> = LNE(11..8) = QLM2.
-          QLM_SELECT<3> = LNE(15..12) = QLM3.
-          QLM_SELECT<4> = LNE(19..16) = QLM4.
-          QLM_SELECT<5> = LNE(23..23) = QLM5.
-          LINK 0 may not select QLM4, QLM5.
-          LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
-          LINK 2 may not select QLM0, QLM1.
-          LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-          LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-          LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
-          LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
-          LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
-          LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
-          LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
-          LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
-          LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
-          LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
-          NOTE: A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
-          link partner
+          LANE_REV has no effect on this mapping.
+
+          _ QLM_SELECT<0> = LNE(0..3) = QLM0.
+          _ QLM_SELECT<1> = LNE(7..4) = QLM1.
+          _ QLM_SELECT<2> = LNE(11..8) = QLM2.
+          _ QLM_SELECT<3> = LNE(15..12) = QLM3.
+          _ QLM_SELECT<4> = LNE(19..16) = QLM4.
+          _ QLM_SELECT<5> = LNE(23..23) = QLM5.
+          _ LINK 0 may not select QLM4, QLM5.
+          _ LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
+          _ LINK 2 may not select QLM0, QLM1.
+          _ LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
+          _ LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
+          _ LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
+          _ LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
+          _ LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
+          _ LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
+          _ LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
+          _ LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
+          _ LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
+          _ LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
+
+          A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
+          link partner.
 
       - name: --
-        bits: 31..10
+        bits: 31..29
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: DATA_RATE
+        bits: 28..16
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: DATA_RATE
+        bits: 28..16
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
+          automatically
+          calculate a conservative value for this field.   SW can override the calculation by
+          writing
+          TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32).  Added in pass 2.
+
+      - name: LOW_DELAY
+        bits: 15..10
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: LOW_DELAY
+        bits: 15..10
+        access: R/W
+        reset: 0x0
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          The delay before reacting to a lane low data indication, as a multiple of 64 rclks.
+          Added in pass 2.
 
       - name: LANE_ALIGN_DIS
         bits: 9
@@ -2035,44 +2104,7 @@ registers:
         description: Disable lane scrambler.
 
       - name: --
-        bits: 31..29
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX_DAT_RATE
-        bits: 28..16
-        access: R/W/H
-        reset: --
-        typical: --
-        description: |
-          The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
-          automatically
-          calculate a conservative value for this field.   SW can override the calculation by
-          writing
-          TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32).
-
-      - name: TX_LOW_WAIT
-        bits: 15..13
-        access: RO
-        reset: --
-        typical: --
-        attributes:
-          chip_pass: "o78<2.0"
-        description: Reserved.
-
-      - name: TX_LOW_WAIT
-        bits: 15..13
-        access: R/W/H
-        reset: --
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Reserved.
-
-      - name: --
-        bits: 12..5
+        bits: 31..5
         access: RAZ
         reset: --
         typical: --
@@ -2220,8 +2252,8 @@ registers:
         reset: 0x1
         typical: --
         description: |
-          "<14:13> - REPLAY Memories BIST Status <1:0>
-          <12:0> - TX_FIFO[12:0] by Link VC#"
+          <14:13> = REPLAY Memories BIST Status <1:0>.
+          <12:0> = TX_FIFO[12:0] by Link VC number.
 
 
   - name: OCX_TLK(0..2)_ECC_CTL
@@ -2295,6 +2327,7 @@ registers:
     description: |
       This register controls which MCD bits are transported via the link. For proper operation
       only one link must be enabled in both directions between each pair of link partners.
+
       INTERNAL: If N chips are connected over OCX, N-1 links should have MCD enabled.
       A single "central" chip should connect all MCD buses and have a single MCD enabled link
       to each of the other chips.  No MCD enabled links should connect between chips that don't

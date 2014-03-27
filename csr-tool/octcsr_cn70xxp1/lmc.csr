@@ -1029,19 +1029,20 @@ registers:
     bus: RSL
     description: |
       Following is the decoding for mem_msb/rank:
-      0000: mem_msb = mem_adr[25]
-      0001: mem_msb = mem_adr[26]
-      0010: mem_msb = mem_adr[27]
-      0011: mem_msb = mem_adr[28]
-      0100: mem_msb = mem_adr[29]
-      0101: mem_msb = mem_adr[30]
-      0110: mem_msb = mem_adr[31]
-      0111: mem_msb = mem_adr[32]
-      1000: mem_msb = mem_adr[33]
-      1001: mem_msb = mem_adr[34]
-      1010: mem_msb = mem_adr[35]
-      1011: mem_msb = mem_adr[36]
-      1010-1111 = Reserved
+      0x0: mem_msb = mem_adr[25].
+      0x1: mem_msb = mem_adr[26].
+      0x2: mem_msb = mem_adr[27].
+      0x3: mem_msb = mem_adr[28].
+      0x4: mem_msb = mem_adr[29].
+      0x5: mem_msb = mem_adr[30].
+      0x6: mem_msb = mem_adr[31].
+      0x7: mem_msb = mem_adr[32].
+      0x8: mem_msb = mem_adr[33].
+      0x9: mem_msb = mem_adr[34].
+      0xA: mem_msb = mem_adr[35].
+      0xB: mem_msb = mem_adr[36].
+      0xC-0xF = Reserved.
+
       For example, for a DIMM made of Samsung's K4B1G0846C-ZCF7 1Gb (16M * 8 bit * 8 bank) DDR3
       parts, the column address width = 10; so with 10b of col, 3b of bus, 3b of bank, row_lsb = 16.
       Therefore, row = mem_adr[29:16] and mem_msb = 4.
@@ -1391,7 +1392,7 @@ registers:
       (if needed) to the appropriate values.
       See LMC Initialization Sequence for the LMC bring-up sequence.
     internal: |
-      INTERNAL: LMC Initialization Sequence:
+      LMC Initialization Sequence:
       1. SW must ensure there are no pending DRAM transactions and that the DDR PLL and the DLL have
       been initialized.
       2. Write LMC*_COMP_CTL2, LMC*_CONTROL, LMC*_WODT_MASK, LMC*_DUAL_MEMCFG, LMC*_TIMING_PARAMS0,
@@ -1465,8 +1466,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set, unload the PHY silo one cycle early for Rank 3 reads.
-          The recommended EARLY_UNLOAD_D1_R1 value is 0.  Not used in CN70XX/CN71XX.
+          Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for
+          Rank 3 reads. The recommended EARLY_UNLOAD_D1_R1 value is 0.  Not used in
+          CN70XX/CN71XX.
 
       - name: EARLY_UNLOAD_D1_R0
         bits: 57
@@ -1474,8 +1476,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set, unload the PHY silo one cycle early for Rank 2 reads.
-          The recommended EARLY_UNLOAD_D1_RO value is 0.  Not used in CN70XX/CN71XX.
+          Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for
+          Rank 2 reads.  The recommended EARLY_UNLOAD_D1_RO value is 0.  Not used in
+          CN70XX/CN71XX.
 
       - name: EARLY_UNLOAD_D0_R1
         bits: 56
@@ -1483,8 +1486,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set, unload the PHY silo one cycle early for Rank 1 reads.
-          The recommended EARLY_UNLOAD_D0_R1 value is 0.
+          Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for
+          Rank 1 reads.  The recommended EARLY_UNLOAD_D0_R1 value is 0.
 
       - name: EARLY_UNLOAD_D0_R0
         bits: 55
@@ -1492,8 +1495,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set, unload the PHY silo one cycle early for Rank 0 reads.
-          The recommended EARLY_UNLOAD_D0_R0 value is 0.
+          Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for
+          Rank 0 reads.  The recommended EARLY_UNLOAD_D0_R0 value is 0.
 
       - name: INIT_STATUS
         bits: 54..51
@@ -1692,11 +1695,12 @@ registers:
           ROW address. The processor's memory address<34:7> needs to be translated to DRAM addresses
           (bnk,row,col,rank and DIMM) and that is a function of the following:
           Datapath width (32)
-          # banks (8)
-          # column bits of the memory part--specified indirectly by this register.
-          # row bits of the memory part--specified indirectly by PBANK_LSB
-          # ranks in a DIMM--specified by RANK_ENA
-          # DIMMs in the system by the register below (PBANK_LSB).
+          * Datapath width (64).
+          * Number of banks (8).
+          * Number of  column bits of the memory part--specified indirectly by this register.
+          * Number of row bits of the memory part--specified indirectly by PBANK_LSB.
+          * Number of ranks in a DIMM--specified by RANK_ENA.
+          * Number of DIMMs in the system by the register below (PBANK_LSB).
           Col Address starts from mem_addr[2] for 32b (4Bytes) DQ width. ROW_LSB is mem_adr[14] for
           32b mode. Therefore, the ROW_LSB parameter should be set to 000 (32b).
           Decoding for row_lsb:
@@ -4936,7 +4940,7 @@ registers:
           0x1 = BYTE* values were set via a CSR write to this register.
           0x2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
           0x3 = BYTE* values came from a complete write-leveling sequence, irrespective of which
-          lanes are masked via LMC*WLEVEL_CTL[LANEMASK].
+          lanes are masked via LMC*_WLEVEL_CTL[LANEMASK].
 
       - name: BYTE8
         bits: 44..40

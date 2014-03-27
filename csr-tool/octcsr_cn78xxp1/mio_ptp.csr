@@ -52,11 +52,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          External clock input edge
-          00 = rising edge
-          01 = falling edge
-          10 = both rising and falling edge
-          11 = reserved
+          External clock input edge:
+          00 = Rising edge.
+          01 = Falling edge.
+          10 = Both rising and falling edge.
+          11 = Reserved.
 
       - name: --
         bits: 37..32
@@ -72,8 +72,8 @@ registers:
         typical: 0
         description: |
           Invert PTP PPS.
-          0 = Don't invert
-          1 = Invert
+          0 = Don't invert.
+          1 = Invert.
 
       - name: PPS_EN
         bits: 30
@@ -96,8 +96,8 @@ registers:
         typical: 0
         description: |
           Invert PTP clock out.
-          0 = Don't invert
-          1 = Invert
+          0 = Don't invert.
+          1 = Invert.
 
       - name: CKOUT_EN
         bits: 24
@@ -113,9 +113,9 @@ registers:
         typical: 0x0
         description: |
           Source for event counter input:
-          0x00-0x13 = GPIOn, where n is EVCNT_IN<4:0>
+          0x00-0x13 = GPIOn, where n is EVCNT_IN<4:0>.
           0x14-0x1F = Reserved.
-          0x20-0x27 = QLMn_REF_CLK, where n is EVCNT_IN<3:0>
+          0x20-0x27 = QLMn_REF_CLK, where n is EVCNT_IN<3:0>.
           0x28-0x3F = Reserved.
 
       - name: EVCNT_EDGE
@@ -140,9 +140,9 @@ registers:
         typical: 0x0
         description: |
           Source for timestamp input:
-          0x00-0x13 = GPIOn, where n is EVCNT_IN<4:0>
+          0x00-0x13 = GPIOn, where n is TSTMP_IN<4:0>.
           0x14-0x1F = Reserved.
-          0x20-0x27 = QLMn_REF_CLK, where n is EVCNT_IN<3:0>
+          0x20-0x27 = QLMn_REF_CLK, where n is TSTMP_IN<3:0>.
           0x28-0x3F = Reserved.
 
       - name: TSTMP_EDGE
@@ -167,9 +167,9 @@ registers:
         typical: 0x0
         description: |
           Source for external clock when EXT_CLK_EN is set:
-          0x00-0x13 = GPIOn, where n is EVCNT_IN<4:0>
+          0x00-0x13 = GPIOn, where n is EXT_CLK_IN<4:0>.
           0x14-0x1F = Reserved.
-          0x20-0x27 = QLMn_REF_CLK, where n is EVCNT_IN<3:0>
+          0x20-0x27 = QLMn_REF_CLK, where n is EXT_CLK_IN<3:0>.
           0x28-0x3F = Reserved.
 
       - name: EXT_CLK_EN
@@ -282,7 +282,7 @@ registers:
         description: |
           Count nanoseconds. Writing to this register increments this register by the value of the
           write data. The register counts down by 1 for every MIO_PTP_CLOCK_CFG[EVCNT_EDGE] edge of
-          MIO_PTP_CLOCK_CFG[EVCNT_IN]. When this register equals 0, an interrupt is generated
+          MIO_PTP_CLOCK_CFG[EVCNT_IN]. When this register equals 0, an interrupt is generated.
 
 
   - name: MIO_PTP_CKOUT_THRESH_LO
