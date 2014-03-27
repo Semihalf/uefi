@@ -6,8 +6,18 @@ require("menu")
 require("ddr")
 require("fileio")
 
+local range_repeat = 1
 local range_start = 0
 local range_length = -1
+
+local function set_range_repeat()
+    local count = menu.prompt_number("Number of time to repeat the test, or -1 for infinite", range_repeat)
+    if (count < -1) or (count == 0) then
+        print("Invalid repeat count")
+    else
+        range_repeat = count
+    end
+end
 
 local function set_range_start()
     local start_address = menu.prompt_number("Physical byte address to start memory test at", range_start)
@@ -55,13 +65,36 @@ local function run_all_tests()
     else
         error("Test reported %d errors" % errors)
     end
+    return errors
 end
 
+local function do_test(test_func, arg)
+    local total = range_repeat
+    if total == -1 then
+        total = 0x7fffffffffffffff
+    end
+    for count=1,total do
+        if range_repeat == -1 then
+            printf("Pass %d\n", count)
+        else
+            printf("Pass %d of %d\n", count, total)
+        end
+        local errors = test_func(arg)
+        if errors ~= 0 then
+            break
+        end
+    end
+end
 
 repeat
     local m = menu.new("DRAM Test Menu")
     m:item("cores", "Bringup Cores for multi-core testing",
            octeon.c.bdk_init_nodes)
+    if range_repeat == -1 then
+        m:item("repeat", "Number of time to repeat the test (Forever)" % range_repeat, set_range_repeat)
+    else
+        m:item("repeat", "Number of time to repeat the test (%d)" % range_repeat, set_range_repeat)
+    end
     m:item("start", "Starting address (0x%x)" % range_start, set_range_start)
     if range_length == -1 then
         m:item("length", "Length of the range to check (All)" % range_length, set_range_length)
@@ -72,13 +105,13 @@ repeat
         range_start = 0x4000000
         range_length = 0x4000000
     end)
-    m:item("all", "Run all DRAM tests", run_all_tests)
+    m:item("all", "Run all DRAM tests", do_test, run_all_tests, nil)
     for test_number=0,100 do
         local name = octeon.c.bdk_dram_get_test_name(test_number);
         if not name then
             break
         end
-        m:item("test%d" % test_number, name, run_one_test, test_number)
+        m:item("test%d" % test_number, name, do_test, run_one_test, test_number)
     end
 
     m:item("quit", "Main menu")
