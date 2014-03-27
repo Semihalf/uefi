@@ -62,7 +62,7 @@ RUN_SIM_ARGS += -modes=fastboot,pass1
 RUN_SIM_ARGS += -numcores=1
 RUN_SIM_ARGS += -noperf
 RUN_SIM_ARGS += -quiet
-RUN_SIM_ARGS += -trace=all
+#RUN_SIM_ARGS += -trace=all
 # Sim option for Node 0
 RUN_SIM_ARGS += -serve=2000
 RUN_SIM_ARGS += -uart0=2020
