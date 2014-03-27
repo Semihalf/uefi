@@ -243,7 +243,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     BDK_TRACE("Using %d cores for memory tests\n", max_cores);
 
     printf("Starting Test \"%s\" for [0x%016lx:0x%016lx]\n",
-        test_info->name, start_address, start_address + length - 1);
+        test_info->name, start_address, end_address - 1);
 
     /* WARNING: This code assumes the same memory range is being tested on
        all nodes. The same number of cores are used on each node to test
