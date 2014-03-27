@@ -146,6 +146,9 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index),
         c.s.lmac_type = lmac_type;
         c.s.lane_to_sds = lane_to_sds);
+    /* Set the PKND */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_ID_MAP(handle->interface, handle->index),
+        c.s.pknd = handle->pknd);
 
     /* Set the number of LMACs we will use */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
