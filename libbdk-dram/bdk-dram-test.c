@@ -9,6 +9,7 @@ BDK_REQUIRE_DEFINE(DRAM_TEST);
 #define BDK_DRAM_HOLE_START 0x10000000ull
 #define BDK_DRAM_HOLE_SIZE 0x10000000ull
 #define MAX_ERRORS_TO_REPORT 50
+#define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
 
 typedef struct
 {
@@ -259,6 +260,23 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     dram_test_thread_end = end_address;
     dram_test_thread_size = size;
     BDK_SYNCW;
+#if ENABLE_LMC_PERCENT
+    /* Remeber the LMC perf counters for stats after the test */
+    const int num_dram_controllers = OCTEON_IS_MODEL(OCTEON_CN70XX) ? 1 : 4;
+    uint64_t start_dram_dclk[BDK_NUMA_MAX_NODES][num_dram_controllers];
+    uint64_t start_dram_ops[BDK_NUMA_MAX_NODES][num_dram_controllers];
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            for (int i = 0; i < num_dram_controllers; i++)
+            {
+                start_dram_dclk[node][i] = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(i));
+                start_dram_ops[node][i] = BDK_CSR_READ(node, BDK_LMCX_OPS_CNT(i));
+            }
+        }
+    }
+#endif
 
     /* Start threads for all the cores */
     int total_count = 0;
@@ -291,7 +309,39 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Wait for threads to finish */
     while (bdk_atomic_get64(&dram_test_thread_done) < total_count)
         bdk_thread_yield();
-
+#if ENABLE_LMC_PERCENT
+    /* Get the DRAM perf counters */
+    uint64_t stop_dram_dclk[BDK_NUMA_MAX_NODES][num_dram_controllers];
+    uint64_t stop_dram_ops[BDK_NUMA_MAX_NODES][num_dram_controllers];
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            for (int i = 0; i < num_dram_controllers; i++)
+            {
+                stop_dram_dclk[node][i] = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(i));
+                stop_dram_ops[node][i] = BDK_CSR_READ(node, BDK_LMCX_OPS_CNT(i));
+            }
+        }
+    }
+    /* Display LMC load */
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            for (int i = 0; i < num_dram_controllers; i++)
+            {
+                uint64_t ops = stop_dram_ops[node][i] - start_dram_ops[node][i];
+                uint64_t dclk = stop_dram_dclk[node][i] - start_dram_dclk[node][i];
+                if (dclk == 0)
+                    dclk = 1;
+                uint64_t percent_x10 = ops * 1000 / dclk;
+                printf("    Node %d, LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
+                    node, i, ops, dclk, percent_x10 / 10, percent_x10 % 10);
+            }
+        }
+    }
+#endif
     return dram_test_thread_errors;
 }
 
