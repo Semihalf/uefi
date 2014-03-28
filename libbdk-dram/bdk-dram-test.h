@@ -14,9 +14,7 @@ extern const char* bdk_dram_get_test_name(int test);
 extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length);
 
 /* These are internal support functions */
-extern int __bdk_dram_get_ecc();
-extern int __bdk_dram_set_ecc(int ecc_enable);
-extern int __bdk_dram_check_ecc_error();
+extern int __bdk_dram_get_num_lmc();
 extern void __bdk_dram_flush_to_mem(uint64_t address);
 extern void __bdk_dram_flush_to_mem_range(uint64_t area, uint64_t max_address);
 extern int __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst);

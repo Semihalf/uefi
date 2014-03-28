@@ -44,6 +44,24 @@ static uint64_t dram_test_thread_end;
 static uint64_t dram_test_thread_size;
 
 /**
+ * Return the numberof LMC controllers in use
+ *
+ * @param node   Node to probe
+ *
+ * @return 1, 2, or 4 depending on the chip and mode
+ */
+int __bdk_dram_get_num_lmc(bdk_node_t node)
+{
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        return 1;
+    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(2));
+    if (lmcx_dll_ctl2.s.intf_en)
+        return 4;
+    else
+        return 2;
+}
+
+/**
  * Force the memory at the pointer location to be written to memory and evicted
  * from L2. L1 will be unaffected.
  *
@@ -262,13 +280,15 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     BDK_SYNCW;
 #if ENABLE_LMC_PERCENT
     /* Remeber the LMC perf counters for stats after the test */
-    const int num_dram_controllers = OCTEON_IS_MODEL(OCTEON_CN70XX) ? 1 : 4;
-    uint64_t start_dram_dclk[BDK_NUMA_MAX_NODES][num_dram_controllers];
-    uint64_t start_dram_ops[BDK_NUMA_MAX_NODES][num_dram_controllers];
+    uint64_t start_dram_dclk[BDK_NUMA_MAX_NODES][4];
+    uint64_t start_dram_ops[BDK_NUMA_MAX_NODES][4];
+    uint64_t stop_dram_dclk[BDK_NUMA_MAX_NODES][4];
+    uint64_t stop_dram_ops[BDK_NUMA_MAX_NODES][4];
     for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
         {
+            const int num_dram_controllers = __bdk_dram_get_num_lmc(node);
             for (int i = 0; i < num_dram_controllers; i++)
             {
                 start_dram_dclk[node][i] = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(i));
@@ -311,12 +331,11 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         bdk_thread_yield();
 #if ENABLE_LMC_PERCENT
     /* Get the DRAM perf counters */
-    uint64_t stop_dram_dclk[BDK_NUMA_MAX_NODES][num_dram_controllers];
-    uint64_t stop_dram_ops[BDK_NUMA_MAX_NODES][num_dram_controllers];
     for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
         {
+            const int num_dram_controllers = __bdk_dram_get_num_lmc(node);
             for (int i = 0; i < num_dram_controllers; i++)
             {
                 stop_dram_dclk[node][i] = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(i));
@@ -329,6 +348,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     {
         if (bdk_numa_exists(node))
         {
+            const int num_dram_controllers = __bdk_dram_get_num_lmc(node);
             for (int i = 0; i < num_dram_controllers; i++)
             {
                 uint64_t ops = stop_dram_ops[node][i] - start_dram_ops[node][i];
