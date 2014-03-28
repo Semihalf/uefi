@@ -656,6 +656,44 @@ static int init_oci(void)
     return 0;
 }
 
+void setup_node(bdk_node_t node)
+{
+    bdk_rng_enable(node);
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    {
+        /* Errata (L2C-19720) STORE data FIFO overflow when OCI is used */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
+            c.s.exlrq = 0;
+            c.s.exrrq = 0;
+            c.s.exfwd = 2;
+            c.s.exvic = 1);
+        /* Errata (L2C-20027) OCI remote atomics don't work */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
+            c.s.lock_local_pp = 1;
+            c.s.lock_local_iob = 1);
+        /* Errata (L2C-20169) RSTP's don't work in pass 1 */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
+            c.s.disrstp = 1);
+        /* Errata (L2C-20174) L2C_OCI_CTL[RLDD_PSHA]=1 may not work */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
+            c.s.rldd_psha = 0);
+        /* Errata (L2C-20175) L2C_CTL[DISSBLKDTY]=0 may not work */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
+            c.s.dissblkdty = 1);
+        /* Errata (L2C-20177) L2C_OCI_CTL[LOCK_LOCAL_STC]=1 may not work */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
+            c.s.lock_local_stc = 0);
+        /* Errata (L2C-20247) Hang when OCI victim hits home request */
+        /* (L2C-20328) FIFO overflow can cause lost MIB command */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
+            c.s.maxlfb = 4;
+            c.s.exlrq = 0;
+            c.s.exrrq = 0;
+            c.s.exfwd = 0;
+            c.s.exvic = 0);
+    }
+}
+
 /**
  * Call this function to take secondary nodes and cores out of
  * reset and have them start running threads
@@ -673,8 +711,8 @@ int bdk_init_nodes(void)
     {
         if (bdk_numa_exists(node))
         {
+            setup_node(node);
             result |= bdk_init_cores(node, 0);
-            bdk_rng_enable(node);
         }
     }
     return result;
