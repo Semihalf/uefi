@@ -40,7 +40,7 @@ static int if_num_ports(bdk_node_t node, int interface)
     {
         if (lanes_interface0 > max_lanes)
         {
-            bdk_error("ILK0 configured for more lanes that are available\n");
+            bdk_error("ILK0 configured for more lanes than are available\n");
             return 0;
         }
         else if (lanes_interface0 == 0)
@@ -50,7 +50,7 @@ static int if_num_ports(bdk_node_t node, int interface)
     {
         if (lanes_interface0 + lanes_interface1 > max_lanes)
         {
-            bdk_error("ILK1 configured for more lanes that are available\n");
+            bdk_error("ILK1 configured for more lanes than are available\n");
             return 0;
         }
         else if (lanes_interface1 == 0)
