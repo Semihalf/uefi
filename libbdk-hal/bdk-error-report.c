@@ -1063,6 +1063,24 @@ static void enable_cn70xx(bdk_node_t node)
     enable_wdog_cn70xx(node);
 }
 
+static void check_cn78xx(bdk_node_t node)
+{
+    for (int index = 0; index < 4; index++)
+    {
+        BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+    }
+}
+
+static void enable_cn78xx(bdk_node_t node)
+{
+    /* Do nothing for now */
+}
+
 void (*bdk_error_check)(bdk_node_t node) = NULL;
 void bdk_error_enable(bdk_node_t node)
 {
@@ -1071,6 +1089,12 @@ void bdk_error_enable(bdk_node_t node)
         enable_cn70xx(node);
         check_cn70xx(node);
         bdk_error_check = check_cn70xx;
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        enable_cn78xx(node);
+        check_cn78xx(node);
+        bdk_error_check = check_cn78xx;
     }
     else
         bdk_error("Error reporting not implemented for this chip\n");
