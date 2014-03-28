@@ -1,6 +1,7 @@
+import os
 import octeon_sim
 
-BDK_ROOT= "/home/creese/work/cn78xx/bdk"
+BDK_ROOT= os.environ["BDK_ROOT"]
 sim_args = [
     "-ld0:%s/target-bin/original/bdk-full-no-romfs" % BDK_ROOT,
     "-ld0x1fc00000:%s/target-bin/bdk-boot-cn78xx.bin" % BDK_ROOT,
