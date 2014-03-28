@@ -1067,6 +1067,53 @@ static void check_cn78xx(bdk_node_t node)
 {
     for (int index = 0; index < 4; index++)
     {
+        {
+            BDK_CSR_INIT(c, node, BDK_L2C_CBCX_INT(index));
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, holerd);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, holewr);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, iowrdisoci);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, iorddisoci);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, mibdbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, mibsbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, ioccmddbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, ioccmdsbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, rsddbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, rsdsbe);
+        }
+        {
+            BDK_CSR_INIT(c, node, BDK_L2C_MCIX_INT(index));
+            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT(index), s, vbfdbe);
+            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT(index), s, vbfsbe);
+        }
+    }
+    for (int index = 0; index < 8; index++)
+    {
+        BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT(index));
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, wrdisoci);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rddisoci);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rtgdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rtgsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, lfbto);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, wrdislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rddislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, bigrd);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, bigwr);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, holerd);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, holewr);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, noway);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, tagdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, tagsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, reserved_6_7);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, fbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, fbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, sbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, sbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, l2ddbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, l2dsbe);
+    }
+
+    for (int index = 0; index < 4; index++)
+    {
         BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
         CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
         CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
