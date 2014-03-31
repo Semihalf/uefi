@@ -19,7 +19,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DLCCLEAR_BIST
         bits: 10
@@ -167,7 +167,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: SBDNUM
         bits: 9..6
@@ -202,7 +202,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: PMODE
         bits: 2
@@ -250,7 +250,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: REPLERR
         bits: 18
@@ -340,14 +340,14 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 14
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DLC0_OVFERR
         bits: 13
@@ -364,7 +364,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DC0PERR
         bits: 3..1
@@ -405,7 +405,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: REPLERRENA
         bits: 18
@@ -426,14 +426,14 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 14
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DLC0_OVFENA
         bits: 13
@@ -447,7 +447,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DC0PENA
         bits: 3..1
@@ -620,7 +620,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM3FADR
         bits: 43..32
@@ -640,7 +640,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM2FADR
         bits: 24..16
@@ -660,7 +660,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM1FADR
         bits: 13..0
@@ -689,7 +689,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: VGID
         bits: 28..21
@@ -752,7 +752,7 @@ registers:
           4: LMNODE
           5: SMNODE
           6: MONODE
-          7: RESERVED
+          7: Reserved.
 
       - name: SNODE
         bits: 14..12
@@ -771,7 +771,7 @@ registers:
           4: LMNODE
           5: SMNODE
           6: MONODE
-          7: RESERVED
+          7: Reserved.
 
       - name: CNT3RCLR
         bits: 11
@@ -919,7 +919,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
@@ -958,7 +958,7 @@ registers:
           25: #MLOAD Instructions
           [NOTE: If PMODE=1(per-graph) the MLOAD IWORD0.VGID will be used to discern graph#].
           26: #GFREE Instructions
-          27-30: RESERVED
+          27-30: Reserved.
           31: # Node Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE,EDNODE] registers
           //=============================================================
           // Events [32-63] are used ONLY FOR PMODE=0(per-cluster DTE mode):
@@ -967,7 +967,7 @@ registers:
           34: #cycles a specific cluster-DTE waits in resource stall state
           (waiting for packet data or result buffer space)
           35: #cycles a specific cluster-DTE waits in resource pending state
-          36-63: RESERVED
+          36-63: Reserved.
           //============================================================="
 
       - name: --
@@ -975,7 +975,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1035,56 +1035,21 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
         access: R/W
         reset: --
         typical: --
-        description: |
-          "Performance Counter#1 Event Selector
-          0:  #Cycles
-          1:  #LDNODE visits
-          2:  #SDNODE visits
-          3:  #DNODE visits (LD/SD)
-          4:  #LCNODE visits
-          5:  #SCNODE visits
-          6:  #CNODE visits (LC/SC)
-          7:  #LMNODE visits
-          8:  #SMNODE visits
-          9:  #MNODE visits (LM/SM)
-          10: #MONODE visits
-          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-          13: #MEMORY visits (MNODE+MONODE)
-          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-          15: #MPHIDX detected (occur for ->LMNODE transitions)
-          16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - Packet data/Result Buffer
-          18: #GWALK DTE cycles (all DTE-GNT[3a])
-          19: #CLOAD DTE cycles
-          20: #MLOAD DTE cycles
-          21: #cycles waiting for Memory Response Data
-          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-          space)
-          23: #cycles waiting in resource pending state
-          24: #RWORD1+ writes
-          25: #DTE-VLD cycles
-          26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-          27: #GWALK Instructions
-          28: #CLOAD Instructions
-          29: #MLOAD Instructions
-          30: #GFREE Instructions (== #GFREE DTE cycles)
-          31: RESERVED
-          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+        description: Performance counter 1 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
 
       - name: --
         bits: 7..6
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1144,56 +1109,21 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
         access: R/W
         reset: --
         typical: --
-        description: |
-          "Performance Counter#2 Event Selector
-          0:  #Cycles
-          1:  #LDNODE visits
-          2:  #SDNODE visits
-          3:  #DNODE visits (LD/SD)
-          4:  #LCNODE visits
-          5:  #SCNODE visits
-          6:  #CNODE visits (LC/SC)
-          7:  #LMNODE visits
-          8:  #SMNODE visits
-          9:  #MNODE visits (LM/SM)
-          10: #MONODE visits
-          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-          13: #MEMORY visits (MNODE+MONODE)
-          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-          15: #MPHIDX detected (occur for ->LMNODE transitions)
-          16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - Packet data/Result Buffer
-          18: #GWALK DTE cycles (all DTE-GNT[3a])
-          19: #CLOAD DTE cycles
-          20: #MLOAD DTE cycles
-          21: #cycles waiting for Memory Response Data
-          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-          space)
-          23: #cycles waiting in resource pending state
-          24: #RWORD1+ writes
-          25: #DTE-VLD cycles
-          26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-          27: #GWALK Instructions
-          28: #CLOAD Instructions
-          29: #MLOAD Instructions
-          30: #GFREE Instructions (== #GFREE DTE cycles)
-          31: RESERVED
-          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+        description: Performance counter 2 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
 
       - name: --
         bits: 7..6
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1253,56 +1183,21 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: EVSEL
         bits: 13..8
         access: R/W
         reset: --
         typical: --
-        description: |
-          "Performance Counter#3 Event Selector
-          0:  #Cycles
-          1:  #LDNODE visits
-          2:  #SDNODE visits
-          3:  #DNODE visits (LD/SD)
-          4:  #LCNODE visits
-          5:  #SCNODE visits
-          6:  #CNODE visits (LC/SC)
-          7:  #LMNODE visits
-          8:  #SMNODE visits
-          9:  #MNODE visits (LM/SM)
-          10: #MONODE visits
-          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-          13: #MEMORY visits (MNODE+MONODE)
-          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-          15: #MPHIDX detected (occur for ->LMNODE transitions)
-          16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - Packet data/Result Buffer
-          18: #GWALK DTE cycles (all DTE-GNT[3a])
-          19: #CLOAD DTE cycles
-          20: #MLOAD DTE cycles
-          21: #cycles waiting for Memory Response Data
-          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-          space)
-          23: #cycles waiting in resource pending state
-          24: #RWORD1+ writes
-          25: #DTE-VLD cycles
-          26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-          27: #GWALK Instructions
-          28: #CLOAD Instructions
-          29: #MLOAD Instructions
-          30: #GFREE Instructions (== #GFREE DTE cycles)
-          31: RESERVED
-          32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
+        description: Performance counter 3 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
 
       - name: --
         bits: 7..6
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: CLDTE
         bits: 5..2
@@ -1361,28 +1256,28 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 31..30
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 29..28
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 27..25
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: GFB
         bits: 24
@@ -1399,7 +1294,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: STX
         bits: 17..16
@@ -1416,7 +1311,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: DTX
         bits: 9..8
@@ -1433,7 +1328,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: RDF
         bits: 4
@@ -1450,7 +1345,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: PDB
         bits: 0
@@ -1475,14 +1370,14 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: --
         bits: 20
         access: RAZ
         reset: 0
         typical: 0
-        description: RESERVED
+        description: Reserved.
 
       - name: DLC0RAM
         bits: 19
@@ -1499,7 +1394,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: RAM3
         bits: 12
@@ -1556,7 +1451,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: RESERVED
+        description: Reserved.
 
       - name: GUTP
         bits: 4
@@ -1629,7 +1524,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: DBELL
         bits: 19..0
@@ -1671,7 +1566,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: RDPTR
         bits: 39..5
@@ -1700,7 +1595,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
 
   - name: DFA_DIFCTL
@@ -1727,7 +1622,7 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: RESERVED
+        description: Reserved.
 
       - name: MSEGBASE
         bits: 25..20

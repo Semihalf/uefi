@@ -378,7 +378,7 @@ registers:
           0xB:    156.25 MHz 3.125 Gbaud    R_3125G_REFCLK15625_XAUI
           0xC:    156.25 MHz 5 Gbaud        R_5G_REFCLK125
           0xD:    156.25 MHz 6.25 Gbaud     R_625G_REFCLK15625_RXAUI
-          0xE:    126.25 MHz 10.3125 Gbaud  R_103125G_REFCLK15625_KR
+          0xE:    156.25 MHz 10.3125 Gbaud  R_103125G_REFCLK15625_KR
           0xF:               SW_MODE
           Note that a value of 0xF is called SW_MODE. The OCI link does not come up configured in
           SW_MODE.

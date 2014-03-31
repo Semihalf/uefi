@@ -2046,7 +2046,7 @@ $DFA_CONFIG   Address=(0x1180037000000)   Bus=(RSL)
  Bit     Field         Field   Reset      Typical    Field                                             
  Pos     Name          Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:11> --            RAZ     --         --         RESERVED                                          
+ <63:11> --            RAZ     --         --         Reserved.                                         
  <10>    DLCCLEAR_BIST R/W     0          0          When DLCSTART_BIST is written 0->1, if DLCCLEAR_BIST=1, all
                                                      previous DLC BiST state is cleared.
                                                      NOTES:
@@ -2151,7 +2151,7 @@ $DFA_CONTROL   Address=(0x1180037000020)   Bus=(RSL)
  Bit     Field  Field   Reset      Typical    Field                                             
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:10> --     RAZ     --         --         RESERVED                                          
+ <63:10> --     RAZ     --         --         Reserved.                                         
  <9:6>   SBDNUM R/W     0x0        0x0        "SBD Debug Entry#                                 
                                               *FOR INTERNAL USE ONLY*
                                               DFA Scoreboard debug control
@@ -2166,7 +2166,7 @@ $DFA_CONTROL   Address=(0x1180037000020)   Bus=(RSL)
                                               SBD for a single instant in time. All subsequent reads
                                               of the DFA scoreboard registers will return the data
                                               from that instant in time.
- <4:3>   --     RAZ     --         --         RESERVED                                          
+ <4:3>   --     RAZ     --         --         Reserved.                                         
  <2>     PMODE  R/W     1          1          NCB-NRP Arbiter Mode                              
                                               (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR
                                               NOTE: This should only be written to a different value
@@ -2192,7 +2192,7 @@ $DFA_ERROR   Address=(0x1180037000028)   Bus=(RSL)
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:19> --          RAZ     --         --         RESERVED                                          
+ <63:19> --          RAZ     --         --         Reserved.                                         
  <18>    REPLERR     R/W1C/H 0          0          DFA Illegal Replication Factor Error              
                                                    For o68: DFA only supports 1x, 2x, and 4x port replication.
                                                    Legal configurations for memory are to support 2 port or
@@ -2255,12 +2255,12 @@ $DFA_ERROR   Address=(0x1180037000028)   Bus=(RSL)
                                                    RWORD1+[NNPTR]=cna.nnptr[13:0]
                                                    NOTE: This bit is set if ANY node cluster's RAM1 accesses
                                                    detect a CNDRD error.
- <15>    --          RAZ     --         --         RESERVED                                          
- <14>    --          RAZ     --         --         RESERVED                                          
+ <15>    --          RAZ     --         --         Reserved.                                         
+ <14>    --          RAZ     --         --         Reserved.                                         
  <13>    DLC0_OVFERR R/W1C/H 0          0          DLC0 Fifo Overflow Error Detected                 
                                                    This condition should NEVER architecturally occur, and
                                                    is here in case HW credit/debit scheme is not working.
- <12:4>  --          RAZ     --         --         RESERVED                                          
+ <12:4>  --          RAZ     --         --         Reserved.                                         
  <3:1>   DC0PERR     R/W1C/H 0x0        0x0        "Cluster#0 RAM[3:1] Parity Error Detected         
                                                    See also DFA_DTCFADR register which contains the
                                                    failing addresses for the internal node cache RAMs."
@@ -2286,13 +2286,13 @@ $DFA_INTMSK   Address=(0x1180037000030)   Bus=(RSL)
  Bit     Field       Field   Reset      Typical    Field                                             
  Pos     Name        Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:19> --          RAZ     --         --         RESERVED                                          
+ <63:19> --          RAZ     --         --         Reserved.                                         
  <18>    REPLERRENA  R/W     0          0          DFA Illegal Replication Factor Interrupt Enable   
  <17>    DFANXMENA   R/W     0          0          DFA Non-existent Memory Access Interrupt Enable   
- <16:15> --          RAZ     --         --         RESERVED                                          
- <14>    --          RAZ     --         --         RESERVED                                          
+ <16:15> --          RAZ     --         --         Reserved.                                         
+ <14>    --          RAZ     --         --         Reserved.                                         
  <13>    DLC0_OVFENA R/W     0          0          DLC0 Fifo Overflow Error Interrupt Enable         
- <12:4>  --          RAZ     --         --         RESERVED                                          
+ <12:4>  --          RAZ     --         --         Reserved.                                         
  <3:1>   DC0PENA     R/W     0x0        0x0        RAM[3:1] Parity Error Enabled Node Cluster #0     
  <0>     DBLINA      R/W     0          0          Doorbell Overflow Interrupt Enable bit.           
                                                    When set, doorbell overflow conditions are reported.
@@ -2443,21 +2443,21 @@ $DFA_DTCFADR   Address=(0x1180037000060)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:44> --       RAZ     --         --         RESERVED                                          
+ <63:44> --       RAZ     --         --         Reserved.                                         
  <43:32> RAM3FADR RO      --         --         DFA RAM3 Failing Address                          
                                                 If DFA_ERR[DC0PERR<2>]=1, this field indicates the
                                                 failing RAM3 Address. The failing address is locked
                                                 down until the DC0PERR<2> W1C occurs.
                                                 For o68: If multiple DC0PERR<0>=1 errors are detected,
                                                 then the lsb cluster error information is captured.
- <31:25> --       RAZ     --         --         RESERVED                                          
+ <31:25> --       RAZ     --         --         Reserved.                                         
  <24:16> RAM2FADR RO      --         --         DFA RAM2 Failing Address                          
                                                 If DFA_ERR[DC0PERR<1>]=1, this field indicates the
                                                 failing RAM2 Address. The failing address is locked
                                                 down until the DC0PERR<1> W1C occurs.
                                                 For o68: If multiple DC0PERR<0>=1 errors are detected,
                                                 then the lsb cluster error information is captured.
- <15:14> --       RAZ     --         --         RESERVED                                          
+ <15:14> --       RAZ     --         --         Reserved.                                         
  <13:0>  RAM1FADR RO      --         --         DFA RAM1 Failing Address                          
                                                 If DFA_ERR[DC0PERR<0>]=1, this field indicates the
                                                 failing RAM1 Address. The failing address is locked
@@ -2478,7 +2478,7 @@ $DFA_PFC_GCTL   Address=(0x1180037000080)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:29> --       RAZ     --         --         RESERVED                                          
+ <63:29> --       RAZ     --         --         Reserved.                                         
  <28:21> VGID     R/W     0x0        0x0        "Virtual Graph Id#                                
                                                 When PMODE=1(per-graph selector), this field is used
                                                 to select/monitor only those events which are
@@ -2513,7 +2513,7 @@ $DFA_PFC_GCTL   Address=(0x1180037000080)   Bus=(RSL)
                                                 4: LMNODE
                                                 5: SMNODE
                                                 6: MONODE
-                                                7: RESERVED
+                                                7: Reserved.
  <14:12> SNODE    R/W     0x0        0x0        Starting Node Selector                            
                                                 When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the SNODE
                                                 field is used to select Starting Node, and the ENODE
@@ -2525,7 +2525,7 @@ $DFA_PFC_GCTL   Address=(0x1180037000080)   Bus=(RSL)
                                                 4: LMNODE
                                                 5: SMNODE
                                                 6: MONODE
-                                                7: RESERVED
+                                                7: Reserved.
  <11>    CNT3RCLR R/W     0          0          "Performance Counter #3 Read Clear                
                                                 If this bit is set, CSR reads to the DFA_PFC3_CNT
                                                 will clear the count value. This allows SW to maintain
@@ -2588,7 +2588,7 @@ $DFA_PFC0_CTL   Address=(0x1180037000088)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:14> --    RAZ     --         --         RESERVED                                          
+ <63:14> --    RAZ     --         --         Reserved.                                         
  <13:8>  EVSEL R/W     --         --         "Performance Counter#0 Event Selector             
                                              // Events [0-31] are based on PMODE(0:per cluster-DTE 1:per graph)
                                              0:  #Total Cycles
@@ -2620,7 +2620,7 @@ $DFA_PFC0_CTL   Address=(0x1180037000088)   Bus=(RSL)
                                              25: #MLOAD Instructions
                                              [NOTE: If PMODE=1(per-graph) the MLOAD IWORD0.VGID will be used to discern graph#].
                                              26: #GFREE Instructions
-                                             27-30: RESERVED
+                                             27-30: Reserved.
                                              31: # Node Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE,EDNODE] registers
                                              //=============================================================
                                              // Events [32-63] are used ONLY FOR PMODE=0(per-cluster DTE mode):
@@ -2629,9 +2629,9 @@ $DFA_PFC0_CTL   Address=(0x1180037000088)   Bus=(RSL)
                                              34: #cycles a specific cluster-DTE waits in resource stall state
                                              (waiting for packet data or result buffer space)
                                              35: #cycles a specific cluster-DTE waits in resource pending state
-                                             36-63: RESERVED
+                                             36-63: Reserved.
                                              //============================================================="
- <7:6>   --    RAZ     --         --         RESERVED                                          
+ <7:6>   --    RAZ     --         --         Reserved.                                         
  <5:2>   CLDTE R/W     0x0        0x0        "Performance Counter#0 Cluster DTE Selector       
                                              When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
                                              is used to select/monitor the cluster's DTE# for all events
@@ -2674,43 +2674,9 @@ $DFA_PFC1_CTL   Address=(0x1180037000098)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:14> --    RAZ     --         --         RESERVED                                          
- <13:8>  EVSEL R/W     --         --         "Performance Counter#1 Event Selector             
-                                             0:  #Cycles
-                                             1:  #LDNODE visits
-                                             2:  #SDNODE visits
-                                             3:  #DNODE visits (LD/SD)
-                                             4:  #LCNODE visits
-                                             5:  #SCNODE visits
-                                             6:  #CNODE visits (LC/SC)
-                                             7:  #LMNODE visits
-                                             8:  #SMNODE visits
-                                             9:  #MNODE visits (LM/SM)
-                                             10: #MONODE visits
-                                             11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-                                             12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-                                             13: #MEMORY visits (MNODE+MONODE)
-                                             14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-                                             15: #MPHIDX detected (occur for ->LMNODE transitions)
-                                             16: #RESCANs detected (occur when HASH collision is detected)
-                                             17: #GWALK STALLs detected - Packet data/Result Buffer
-                                             18: #GWALK DTE cycles (all DTE-GNT[3a])
-                                             19: #CLOAD DTE cycles
-                                             20: #MLOAD DTE cycles
-                                             21: #cycles waiting for Memory Response Data
-                                             22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-                                             space)
-                                             23: #cycles waiting in resource pending state
-                                             24: #RWORD1+ writes
-                                             25: #DTE-VLD cycles
-                                             26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-                                             27: #GWALK Instructions
-                                             28: #CLOAD Instructions
-                                             29: #MLOAD Instructions
-                                             30: #GFREE Instructions (== #GFREE DTE cycles)
-                                             31: RESERVED
-                                             32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
- <7:6>   --    RAZ     --         --         RESERVED                                          
+ <63:14> --    RAZ     --         --         Reserved.                                         
+ <13:8>  EVSEL R/W     --         --         Performance counter 1 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
+ <7:6>   --    RAZ     --         --         Reserved.                                         
  <5:2>   CLDTE R/W     0x0        0x0        "Performance Counter#1 Cluster DTE Selector       
                                              When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
                                              is used to select/monitor the cluster's DTE# for all events
@@ -2753,43 +2719,9 @@ $DFA_PFC2_CTL   Address=(0x11800370000A8)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:14> --    RAZ     --         --         RESERVED                                          
- <13:8>  EVSEL R/W     --         --         "Performance Counter#2 Event Selector             
-                                             0:  #Cycles
-                                             1:  #LDNODE visits
-                                             2:  #SDNODE visits
-                                             3:  #DNODE visits (LD/SD)
-                                             4:  #LCNODE visits
-                                             5:  #SCNODE visits
-                                             6:  #CNODE visits (LC/SC)
-                                             7:  #LMNODE visits
-                                             8:  #SMNODE visits
-                                             9:  #MNODE visits (LM/SM)
-                                             10: #MONODE visits
-                                             11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-                                             12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-                                             13: #MEMORY visits (MNODE+MONODE)
-                                             14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-                                             15: #MPHIDX detected (occur for ->LMNODE transitions)
-                                             16: #RESCANs detected (occur when HASH collision is detected)
-                                             17: #GWALK STALLs detected - Packet data/Result Buffer
-                                             18: #GWALK DTE cycles (all DTE-GNT[3a])
-                                             19: #CLOAD DTE cycles
-                                             20: #MLOAD DTE cycles
-                                             21: #cycles waiting for Memory Response Data
-                                             22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-                                             space)
-                                             23: #cycles waiting in resource pending state
-                                             24: #RWORD1+ writes
-                                             25: #DTE-VLD cycles
-                                             26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-                                             27: #GWALK Instructions
-                                             28: #CLOAD Instructions
-                                             29: #MLOAD Instructions
-                                             30: #GFREE Instructions (== #GFREE DTE cycles)
-                                             31: RESERVED
-                                             32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
- <7:6>   --    RAZ     --         --         RESERVED                                          
+ <63:14> --    RAZ     --         --         Reserved.                                         
+ <13:8>  EVSEL R/W     --         --         Performance counter 2 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
+ <7:6>   --    RAZ     --         --         Reserved.                                         
  <5:2>   CLDTE R/W     0x0        0x0        "Performance Counter#2 Cluster DTE Selector       
                                              When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
                                              is used to select/monitor the cluster's DTE# for all events
@@ -2832,43 +2764,9 @@ $DFA_PFC3_CTL   Address=(0x11800370000B8)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:14> --    RAZ     --         --         RESERVED                                          
- <13:8>  EVSEL R/W     --         --         "Performance Counter#3 Event Selector             
-                                             0:  #Cycles
-                                             1:  #LDNODE visits
-                                             2:  #SDNODE visits
-                                             3:  #DNODE visits (LD/SD)
-                                             4:  #LCNODE visits
-                                             5:  #SCNODE visits
-                                             6:  #CNODE visits (LC/SC)
-                                             7:  #LMNODE visits
-                                             8:  #SMNODE visits
-                                             9:  #MNODE visits (LM/SM)
-                                             10: #MONODE visits
-                                             11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-                                             12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-                                             13: #MEMORY visits (MNODE+MONODE)
-                                             14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-                                             15: #MPHIDX detected (occur for ->LMNODE transitions)
-                                             16: #RESCANs detected (occur when HASH collision is detected)
-                                             17: #GWALK STALLs detected - Packet data/Result Buffer
-                                             18: #GWALK DTE cycles (all DTE-GNT[3a])
-                                             19: #CLOAD DTE cycles
-                                             20: #MLOAD DTE cycles
-                                             21: #cycles waiting for Memory Response Data
-                                             22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-                                             space)
-                                             23: #cycles waiting in resource pending state
-                                             24: #RWORD1+ writes
-                                             25: #DTE-VLD cycles
-                                             26: #DTE Transitions detected (see DFA_PFC_GCTL[SNODE,ENODE] registers
-                                             27: #GWALK Instructions
-                                             28: #CLOAD Instructions
-                                             29: #MLOAD Instructions
-                                             30: #GFREE Instructions (== #GFREE DTE cycles)
-                                             31: RESERVED
-                                             32: #DTE-Busy cycles (ALL DTE-GNT strobes)"
- <7:6>   --    RAZ     --         --         RESERVED                                          
+ <63:14> --    RAZ     --         --         Reserved.                                         
+ <13:8>  EVSEL R/W     --         --         Performance counter 3 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
+ <7:6>   --    RAZ     --         --         Reserved.                                         
  <5:2>   CLDTE R/W     0x0        0x0        "Performance Counter#3 Cluster DTE Selector       
                                              When DFA_PFC_GCTL[PMODE]=0 (per-cluster DTE), this field
                                              is used to select/monitor the cluster's DTE# for all events
@@ -2910,26 +2808,26 @@ $DFA_BIST0   Address=(0x11800370007F0)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:32> --    RAZ     0x0        0x0        RESERVED                                          
- <31:30> --    RAZ     0x0        0x0        RESERVED                                          
- <29:28> --    RAZ     0x0        0x0        RESERVED                                          
- <27:25> --    RAZ     0x0        0x0        RESERVED                                          
+ <63:32> --    RAZ     0x0        0x0        Reserved.                                         
+ <31:30> --    RAZ     0x0        0x0        Reserved.                                         
+ <29:28> --    RAZ     0x0        0x0        Reserved.                                         
+ <27:25> --    RAZ     0x0        0x0        Reserved.                                         
  <24>    GFB   RO/H    0          0          Bist Results for GFB RAM(s) (per-cluster)         
                                              0: GOOD (or bist in progress/never run)
                                              1: BAD
- <23:18> --    RAZ     0x0        0x0        RESERVED                                          
+ <23:18> --    RAZ     0x0        0x0        Reserved.                                         
  <17:16> STX   RO/H    0x0        0x0        Bist Results for STX0 RAM(s)                      
                                              0: GOOD (or bist in progress/never run)
                                              1: BAD
- <15:10> --    RAZ     0x0        0x0        RESERVED                                          
+ <15:10> --    RAZ     0x0        0x0        Reserved.                                         
  <9:8>   DTX   RO/H    0x0        0x0        Bist Results for DTX0 RAM(s)                      
                                              0: GOOD (or bist in progress/never run)
                                              1: BAD
- <7:5>   --    RAZ     0x0        0x0        RESERVED                                          
+ <7:5>   --    RAZ     0x0        0x0        Reserved.                                         
  <4>     RDF   RO/H    0          0          Bist Results for RWB RAM(s) (per-cluster)         
                                              0: GOOD (or bist in progress/never run)
                                              1: BAD
- <3:1>   --    RAZ     0x0        0x0        RESERVED                                          
+ <3:1>   --    RAZ     0x0        0x0        Reserved.                                         
  <0>     PDB   RO/H    0          0          Bist Results for PDB RAM(s) (per-cluster)         
                                              0: GOOD (or bist in progress/never run)
                                              1: BAD
@@ -2946,12 +2844,12 @@ $DFA_BIST1   Address=(0x11800370007F8)   Bus=(RSL)
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:21> --      RAZ     0x0        0x0        RESERVED                                          
- <20>    --      RAZ     0          0          RESERVED                                          
+ <63:21> --      RAZ     0x0        0x0        Reserved.                                         
+ <20>    --      RAZ     0          0          Reserved.                                         
  <19>    DLC0RAM RO/H    0          0          DLC0 Bist Results                                 
                                                0: GOOD (or bist in progress/never run)
                                                1: BAD
- <18:13> --      RAZ     0x0        0x0        RESERVED                                          
+ <18:13> --      RAZ     0x0        0x0        Reserved.                                         
  <12>    RAM3    RO/H    0          0          "Cluster#0 Bist Results for RAM3 RAM              
                                                0: GOOD (or bist in progress/never run)
                                                1: BAD"
@@ -2967,7 +2865,7 @@ $DFA_BIST1   Address=(0x11800370007F8)   Bus=(RSL)
  <8>     GUTV    RO/H    0          0          Bist Results for GUTV RAM                         
                                                0: GOOD (or bist in progress/never run)
                                                1: BAD
- <7:5>   --      RAZ     0x0        0x0        RESERVED                                          
+ <7:5>   --      RAZ     0x0        0x0        Reserved.                                         
  <4>     GUTP    RO/H    0          0          Bist Results for GUTP RAMs                        
                                                0: GOOD (or bist in progress/never run)
                                                1: BAD
@@ -3004,7 +2902,7 @@ $DFA_DBELL   Address=(0x1370000000000)   Bus=(NCB)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:20> --    RAZ     --         --         RESERVED                                          
+ <63:20> --    RAZ     --         --         Reserved.                                         
  <19:0>  DBELL R/W/H   0x0        --         Represents the cumulative total of pending        
                                              DFA instructions which SW has previously written
                                              into the DFA Instruction FIFO (DIF) in main memory.
@@ -3038,7 +2936,7 @@ $DFA_DIFRDPTR   Address=(0x1370200000000)   Bus=(NCB)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:40> --    RAZ     --         --         RESERVED                                          
+ <63:40> --    RAZ     --         --         Reserved.                                         
  <39:5>  RDPTR R/W/H   0x0        --         Represents the 32B-aligned address of the current 
                                              instruction in the DFA Instruction FIFO in main
                                              memory. The RDPTR must be seeded by software at
@@ -3054,7 +2952,7 @@ $DFA_DIFRDPTR   Address=(0x1370200000000)   Bus=(NCB)
                                              its guaranteed that no new DoorBell register
                                              writes have occurred and the DoorBell register is
                                              read as zero).
- <4:0>   --    RAZ     --         --         RESERVED                                          
+ <4:0>   --    RAZ     --         --         Reserved.                                         
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -3079,7 +2977,7 @@ $DFA_DIFCTL   Address=(0x1370600000000)   Bus=(NCB)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:26> --       RAZ     --         --         RESERVED                                          
+ <63:26> --       RAZ     --         --         Reserved.                                         
  <25:20> MSEGBASE R/W     0x0        --         Memory Segmentation Base Address                  
                                                 For debug purposes, backdoor accesses to the DFA
                                                 memory are supported via NCB-Direct CSR accesses to
@@ -41402,6 +41300,23 @@ $USBDRD(0..1)_UAHC_DEPCMD(0..15)   Address=(0x168000000C80C+a*0x10000000000+b*0x
 // ***********************************************************************
 
  * 
+ * VRM_TYPE_E = VRM Types Register Enumeration
+ * 
+ *  Indicates type of device connected to this controller, as loaded into
+ *  VRM(0..1)_MISC_INFO[VRM_TYPE] and VRM(0..1)_MISC_INFO[VRM_TYPE2].
+ *  Attribute: -width=5.
+ * 
+$VRM_TYPE_E
+-----------------------------------------------------------------------------------------------------------------------------------
+ Value                  Name    Description    
+-----------------------------------------------------------------------------------------------------------------------------------
+ 0x0                    PMB_LIN PMBus linear type.
+ 0x1                    ISL6367 ISL6367 VID type.
+ 0x2                    PMB_VID PMBus VID type.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+ * 
  * VRM_TWS_TWSI_SW_S = VRM TWSI Software Write Structure
  * 
  *  Format for software to write data to external regulator.
@@ -41459,11 +41374,11 @@ $VRM(0)_TWS_TWSI_SW   Address=(0x1180021000008+a*0x1000000)   Bus=(RSL)
                                                or writing a TWSI configuration register (SLONLY = 0).
                                                The read value is updated by:
                                                
-                                                * A write operation to this register.
+                                               * A write operation to this register.
                                                
-                                                * Master-mode completion (contains error code).
+                                               * Master-mode completion (contains error code).
                                                
-                                                * TWSI configuration-register read (contains result).
+                                               * TWSI configuration-register read (contains result).
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -41535,13 +41450,15 @@ $VRM(0)_MISC_INFO   Address=(0x1180021000048+a*0x1000000)   Bus=(RSL)
  Bit     Field                    Field   Reset      Typical    Field                                             
  Pos     Name                     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:40> --                       RAZ     --         --         Reserved.                                         
+ <63:43> --                       RAZ     --         --         Reserved.                                         
+ <42:40> VRM_TYPE2                RAZ     --         --         Reserved.                                         
+                                                                Attribute: -chip_pass=o70<2.0.
+ <42:40> VRM_TYPE2                RO/H    --         --         Bits <4..2> of VRM type, enumerated with VRM_TYPE_E.
+                                                                Attribute: -chip_pass=o70>=2.0.
  <39:16> VRM_CTL_RCV_STATUS_ERROR RO/H    --         --         Holds the received status read from the external controller only for failing status.
  <15:13> VRM_CTL_CUR_STATE        RO/H    --         --         Current state of the VRM_CTL.                     
- <12:11> VRM_TYPE                 RO/H    --         --         VRM_TYPE identifies the type of device connected to the chip.
-                                                                0x0 = Linear type, default or PMBus.
-                                                                0x1 = VID type, ISL6367.
-                                                                0x2-3 = Reserved.
+ <12:11> VRM_TYPE                 RO/H    --         --         Bits <1:0> of VRM type indicating the type of device connected to this controller.
+                                                                Enumerated with VRM_TYPE_E.
  <10>    BOOT_SEQ                 RO/H    --         --         Boot sequence was completed.                      
  <9>     TS_FUSE_STS              RO/H    --         --         Set if VRM fuses were loaded.                     
  <8>     VRM_FUSE_STS             RO/H    --         --         Set if VRM fuses were loaded.                     

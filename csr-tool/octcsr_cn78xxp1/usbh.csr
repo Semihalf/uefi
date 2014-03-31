@@ -4002,8 +4002,6 @@ registers:
           USB receive-packet count. In host-mode, specifies space (in number of packets) that must
           be available in the RX FIFO before the core can start the corresponding USB RX transaction
           (burst).
-          In device mode, specifies the space (in number of packets) that must be available in the
-          RX FIFO before the core can send ERDY for a flow-controlled enpoint.
           This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0xF.
           This field must be <= USBMAXRXBURSTSIZE.
 
@@ -4018,7 +4016,6 @@ registers:
           burst.
           Program a smaller value to this field to limit the RX burst size that the core can do. It
           only applies to SuperSpeed Bulk, Isochronous, and Interrupt IN endpoints in the host mode.
-          In device mode, specified the NUMP value that will be sent in ERDy for an OUT endpoint.
           This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0x10.
 
       - name: --
@@ -4918,7 +4915,7 @@ registers:
         access: RO
         reset: 0x1
         typical: 0x1
-        description: Number of event buffers (and interrupts) in device-mode.
+        description: Number of event buffers (and interrupts) in device-mode (unsupported).
 
       - name: ASPACEWIDTH
         bits: 14..12
@@ -5000,14 +4997,14 @@ registers:
         access: RO
         reset: 0x4
         typical: 0x4
-        description: Maximum number of device-mode IN endpoints active.
+        description: Maximum number of device-mode (unsupported) IN endpoints active.
 
       - name: NUM_EPS
         bits: 17..12
         access: RO
         reset: 0x8
         typical: 0x8
-        description: Number of device-mode single-directional endpoints.
+        description: Number of device-mode (unsupported) single-directional endpoints.
 
       - name: ULPI_CARKIT
         bits: 11

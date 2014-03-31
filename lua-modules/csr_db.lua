@@ -29749,7 +29749,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "VRM_TYPE2", start = 40, stop = 42},
                 {name = "VRM_CTL_RCV_STATUS_ERROR", start = 16, stop = 39},
                 {name = "VRM_CTL_CUR_STATE", start = 13, stop = 15},
                 {name = "VRM_TYPE", start = 11, stop = 12},
@@ -51959,7 +51960,8 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "VRM_TYPE2", start = 40, stop = 42},
                 {name = "VRM_CTL_RCV_STATUS_ERROR", start = 16, stop = 39},
                 {name = "VRM_CTL_CUR_STATE", start = 13, stop = 15},
                 {name = "VRM_TYPE", start = 11, stop = 12},

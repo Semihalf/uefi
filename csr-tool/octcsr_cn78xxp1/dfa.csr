@@ -909,42 +909,7 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: |
-          "Performance Counter 1 Event Selector.
-          0:  #Cycles
-          1:  #LDNODE visits
-          2:  #SDNODE visits
-          3:  #DNODE visits (LD/SD)
-          4:  #LCNODE visits
-          5:  #SCNODE visits
-          6:  #CNODE visits (LC/SC)
-          7:  #LMNODE visits
-          8:  #SMNODE visits
-          9:  #MNODE visits (LM/SM)
-          10: #MONODE visits
-          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-          13: #MEMORY visits (MNODE+MONODE)
-          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-          15: #MPHIDX detected (occur for ->LMNODE transitions)
-          16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected - packet data/result buffer
-          18: #GWALK HTE cycles (all HTE-GNT[3a])
-          19: #CLOAD HTE cycles
-          20: #MLOAD HTE cycles
-          21: #cycles waiting for memory response data
-          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-          space)
-          23: #cycles waiting in resource pending state
-          24: #RWORD1+ write operations
-          25: #HTE-VLD cycles
-          26: #HTE transitions detected (see DFA_PFC_GCTL[SNODE, ENODE] registers.)
-          27: #GWALK instructions
-          28: #CLOAD instructions
-          29: #MLOAD instructions
-          30: #GFREE instructions (#GFREE HTE cycles)
-          31: Reserved
-          32: #HTE-busy cycles (all HTE-GNT strobes)"
+        description: Performance counter 1 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
 
       - name: --
         bits: 7..6
@@ -1009,42 +974,7 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: |
-          "Performance Counter 2 Event Selector.
-          0:  #Cycles
-          1:  #LDNODE visits
-          2:  #SDNODE visits
-          3:  #DNODE visits (LD/SD)
-          4:  #LCNODE visits
-          5:  #SCNODE visits
-          6:  #CNODE visits (LC/SC)
-          7:  #LMNODE visits
-          8:  #SMNODE visits
-          9:  #MNODE visits (LM/SM)
-          10: #MONODE visits
-          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-          13: #MEMORY visits (MNODE+MONODE)
-          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-          15: #MPHIDX detected (occur for ->LMNODE transitions)
-          16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected--packet data/result buffer
-          18: #GWALK HTE cycles (all HTE-GNT[3a])
-          19: #CLOAD HTE cycles
-          20: #MLOAD HTE cycles
-          21: #cycles waiting for memory response data
-          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-          space)
-          23: #cycles waiting in resource pending state
-          24: #RWORD1+ write operations
-          25: #HTE-VLD cycles
-          26: #HTE transitions detected (see DFA_PFC_GCTL[SNODE, ENODE] registers
-          27: #GWALK instructions
-          28: #CLOAD instructions
-          29: #MLOAD instructions
-          30: #GFREE instructions (#GFREE HTE cycles)
-          31: Reserved
-          32: #HTE-busy cycles (all HTE-GNT strobes)"
+        description: Performance counter 2 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
 
       - name: --
         bits: 7..6
@@ -1109,42 +1039,7 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: |
-          "Performance Counter 3 Event Selector.
-          0:  #Cycles
-          1:  #LDNODE visits
-          2:  #SDNODE visits
-          3:  #DNODE visits (LD/SD)
-          4:  #LCNODE visits
-          5:  #SCNODE visits
-          6:  #CNODE visits (LC/SC)
-          7:  #LMNODE visits
-          8:  #SMNODE visits
-          9:  #MNODE visits (LM/SM)
-          10: #MONODE visits
-          11: #CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX
-          12: #CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX)
-          13: #MEMORY visits (MNODE+MONODE)
-          14: #CNDRDs detected (occur for SCNODE->*MNODE transitions)
-          15: #MPHIDX detected (occur for ->LMNODE transitions)
-          16: #RESCANs detected (occur when HASH collision is detected)
-          17: #GWALK STALLs detected--Packet data/Result Buffer
-          18: #GWALK HTE cycles (all HTE-GNT[3a])
-          19: #CLOAD HTE cycles
-          20: #MLOAD HTE cycles
-          21: #cycles waiting for memory response data
-          22: #cycles waiting in resource stall state (waiting for packet data or result buffer
-          space)
-          23: #cycles waiting in resource pending state
-          24: #RWORD1+ write operations
-          25: #HTE-VLD cycles
-          26: #HTE transitions detected (see DFA_PFC_GCTL[SNODE, ENODE] registers.)
-          27: #GWALK instructions
-          28: #CLOAD instructions
-          29: #MLOAD instructions
-          30: #GFREE instructions (#GFREE HTE cycles)
-          31: Reserved
-          32: #HTE-busy cycles (all HTE-GNT strobes)"
+        description: Performance counter 3 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL].
 
       - name: --
         bits: 7..6

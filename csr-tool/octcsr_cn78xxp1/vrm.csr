@@ -2,6 +2,28 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: VRM
+enums:
+  - name: VRM_TYPE_E
+    title: VRM Types Register Enumeration
+    attributes:
+      width: "5"
+    description: |
+      Indicates type of device connected to this controller, as loaded into
+      VRM(0..1)_MISC_INFO[VRM_TYPE] and VRM(0..1)_MISC_INFO[VRM_TYPE2].
+    values:
+      - name: PMB_LIN
+        value: 0x00
+        description: PMBus linear type.
+
+      - name: ISL6367
+        value: 0x01
+        description: ISL6367 VID type.
+
+      - name: PMB_VID
+        value: 0x02
+        description: PMBus VID type.
+
+
 structs:
   - name: VRM_TWS_TWSI_SW_S
     title: VRM TWSI Software Write Structure
@@ -277,11 +299,29 @@ registers:
       exempt_natural_alignment: "a"
     fields:
       - name: --
-        bits: 63..40
+        bits: 63..43
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: VRM_TYPE2
+        bits: 42..40
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: VRM_TYPE2
+        bits: 42..40
+        access: RO/H
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Bits <4..2> of VRM type, enumerated with VRM_TYPE_E.
 
       - name: VRM_CTL_RCV_STATUS_ERROR
         bits: 39..16
@@ -303,10 +343,8 @@ registers:
         reset: --
         typical: --
         description: |
-          VRM_TYPE identifies the type of device connected to the chip.
-          0x0 = Linear type, default or PMBus.
-          0x1 = VID type, ISL6367.
-          0x2-3 = Reserved.
+          Bits <1:0> of VRM type indicating the type of device connected to this controller.
+          Enumerated with VRM_TYPE_E.
 
       - name: BOOT_SEQ
         bits: 10
