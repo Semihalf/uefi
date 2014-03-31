@@ -10,6 +10,62 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+octeon3-bdk-2014.05-FIXME (r95818)
+-------------------------
+* CN78XX:
+    * Initial support for CN78XX and CN77XX
+    * Preliminary multi-node support (NUMA)
+    * Suppress ethernet name node numbers when there is only one node
+    * Update QLM PRBS code to support more than 10 QLMs
+    * Require FPA buffers to be a power of 2 so memalign() works. Newlib
+        memalign() isn't smart enough to handle alignment that isn't a power
+        of 2.
+* CN70XX:
+    * Support for CN71XX and CN70XX is very minimal, possibly not useful. The
+        BDK requires DRAM to be setup to function, so it uses a hardcoded DRAM
+        config from the EVB7000. This is unlikely to work on any other board.
+    * Enable CN70XX error checking
+    * Update CSR functions to properly byte swap SATA and USB assuming the
+        blocks are setup for Linux
+    * New BDK image bdk-chip-screen.bin supplied as an example
+    * Fix setting of RST_PP_POWER when booting cores.
+    * Change bdk-quick-boot into bdk-boot-nor-stage1-cn70xx, specialized for
+        use on CN70XX
+    * Create new doc page about CN70XX and CN71XX
+* Import the functionality of hw-ddr2 into the BDK DRAM test code
+* Menu to access the PCIe EEPROM
+* Move MDIO bus initialization to run early so we can configure PHYs before
+    networking is up
+* Add Kendin PHY support
+* Add Vitesse PHY support
+* Add 10G Marvell PHY support
+* Fix a non-obvious bug with L2 setup in the BDK. When we initially
+    lock L2 before DRAM, the lines involved are not considered dirty
+    by L2. Later when we unlock this region (DRAM initialized) these
+    lines are discarded instead of writing to DDR. The lines that aren't
+    written then get ECC errors on load since DDR was never initialized.
+    Simply fix is to always write to all cache lines.
+* Change BDK L2 flush to not invalidate
+* Rename the flash menu to show it contains eMMC as well
+* Don't put luadoc files in release. People should use the html docs
+* Rename bdk-full to bdk-full-no-romfs to eliminate confusion
+* Improve uart flow control messages
+* Cleanup the main menu, putting SERDES options on top
+* Create new program for downloading and flashing over xmodem
+* Much more robust XMODEM support
+* Don't disable indexed aliasing during BDK boot. It's not required on
+    CN70XX and hopefully not needed on CN78XX.
+* Disable the boot rom when remote booting. It interferes with the bootbus
+    moveable regions.
+* Only clear large multiply registers if CvmCtl[nomul] is 0. This fixes boot
+    on parts without large multiply.
+* Remove the HIGIG option from the config menu. The BDK is meant for initial
+    board bringup and not software testing. Any board will be brought up in
+    without HIGIG as its software configuration is complex. HIGIG will then
+    be enabled once are the electricals are stable, when you're done with
+    the BDK.
+
+
 octeon3-bdk-2013.09-88113
 -------------------------
 * New "OCTEON3-BDK", support for Octeon III chips. This BDK release
