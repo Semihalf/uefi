@@ -1,0 +1,51 @@
+= Overview
+
+The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
+scripts designed to ease the bringup of new hardware based on Cavium
+Networks line of OCTEON processors.  To ease development and increase
+maintainability, diagnostics are written in a high level scripting
+language, Lua.  Lua was chosen due to its simple syntax, ease of
+integration with C, and small resource requirements.  The BDK is
+capable of running a full interactive Lua environment from L2 cache
+before DRAM is configured.
+
+.Features of the BDK
+* Simple menu driven interface for testing many I/Os.
+* Built in traffic generation for ethernet based I/Os.
+* Many I/Os can be tested before DRAM is configured.
+* Prebuilt known good binaries for booting new hardware.
+* Easy automation of tasks through scripts running on a PC.
+* Fast PC based test development using a remote board.
+* GUI based interactive script debugger.
+* Lua remote procedure calls over serial, tcp/ip, PCIe, or EJTAG.
+* Remote booting over PCIe and EJTAG.
+
+
+.The directory layout of the BDK
+
+bin/::
+
+All host binaries and scripts.
+
+docs::
+
+All documentation for the BDK.
+
+readme.txt::
+
+Short description of the BDK.
+
+rom/::
+
+All files in here are included into BDK applications for access using
+standard filesystem calls.
+
+target-bin/::
+
+All binaries, ELF files, and memory maps for use on OCTEON targets.
+
+version.txt::
+
+Version of the BDK
+
+

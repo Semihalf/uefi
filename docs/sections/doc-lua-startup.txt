@@ -1,0 +1,28 @@
+= Lua Startup Sequence on OCTEON
+
+The following details which Lua scripts are executed on OCTEON during
+boot of the BDK.
+
+. bdk-full.bin binary boots.
+
+. */rom/init.lua* is executed.
++
+[source,lua]
+----
+include::../../rom/full/init.lua[]
+----
+
+. */rom/main.lua* is executed.
++
+[source,lua]
+----
+include::../../rom/full/main.lua[]
+----
+
+. Board specific file is loaded.
++
+[source,lua]
+----
+include::../../rom/full/board-evb7000.lua[]
+----
+
