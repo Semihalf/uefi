@@ -7,6 +7,9 @@ include::sections/doc-host-tools.txt[]
 include::sections/doc-lua-scripting.txt[]
 include::sections/doc-remote-control.txt[]
 include::sections/doc-interactive-target.txt[]
+
+= Lua
+:leveloffset: 2
 include::sections/doc-virtual-filesystem.txt[]
 include::sections/doc-lua-modules.txt[]
 include::sections/doc-lua-tips.txt[]

@@ -86,7 +86,7 @@ include::sections/ui-main-menu.txt[]
 include::sections/ui-configure.txt[]
 :leveloffset: 1
 
-== Exercising IO
+= I/O Interfaces
 
 :leveloffset: 3
 include::sections/io-dram.txt[]

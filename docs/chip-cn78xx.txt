@@ -1,6 +1,6 @@
 
-Using the BDK on CN78XX and CN77XX
-==================================
+CN78XX and CN77XX
+=================
 
 Overview
 --------
