@@ -43,6 +43,24 @@ a short step by step guide to get started.
 This document covers booting the BDK on CN70XX and CN71XX. It presents
 a short step by step guide to get started.
 
+Jump to an Interface
+--------------------
+
+Select a link below to jump to the documentation for a specific chip
+interface.
+
+.Interfaces
+[options="header"]
+|==========================================================================
+| High Speed            | Generic               | Misc
+| QLM / DLM             | eMMC / SD             | JTAG and EJTAG
+| Networking            | NOR Flash             | GPIO
+| Multi-node / OCI      | NAND Flash            | UART
+| PCI Express           | SMI / MDIO            | PCIe EEPROM
+| SATA                  | SPI / MPI             | TWSI
+| USB                   | TDM / PCM
+|==========================================================================
+
 Scripting
 ---------
 
