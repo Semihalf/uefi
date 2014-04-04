@@ -99,3 +99,11 @@ Many Lua scripts reference C functions present internally in the BDK. Although
 direct access to these functions is unsupported it can be useful to know
 some of the internals while debugging.
 
+:leveloffset: 1
+include::bdk-getting-started.txt[]
+include::chip-cn70xx.txt[]
+include::chip-cn78xx.txt[]
+include::bdk-bringup-guide.txt[]
+include::bdk-internals.txt[]
+
+

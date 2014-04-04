@@ -2,14 +2,9 @@
 src:=
 src+=bdk.txt
 src+=bdk-release-notes.txt
-src+=bdk-bringup-guide.txt
-src+=bdk-getting-started.txt
-src+=bdk-internals.txt
-src+=chip-cn70xx.txt
-src+=chip-cn78xx.txt
 
 docs:=$(patsubst %.txt,%.html,$(src))
-pdfs:=pdf/bdk-manual.pdf
+pdfs:=$(patsubst %.txt,%.pdf,$(src))
 
 default: $(docs) api-docs lua-modules
 
@@ -21,9 +16,8 @@ clean:
 %.html: %.txt
 	asciidoc -d book -a toc2 -a theme=flask -a toclevels=2 -a numbered -o $@ $^
 
-pdf/%.pdf: %.txt
-	mkdir -p pdf
-	a2x -f pdf --fop -D pdf $^
+%.pdf: %.txt
+	a2x -f pdf --fop $^
 
 api-docs: Doxyfile
 	doxygen

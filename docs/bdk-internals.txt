@@ -2,8 +2,7 @@
 // This is a asciidoc document. Edit here, but view the HTML
 //
 
-Bringup and Diagnostic Kit (BDK) Internals
-==========================================
+= Internals
 
 Overview
 --------

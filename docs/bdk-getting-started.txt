@@ -1,6 +1,6 @@
-= Getting Started with the Bringup and Diagnostic Kit
+= Getting Started
 
-:leveloffset: 1
+:leveloffset: 2
 include::sections/doc-bdk-overview.txt[]
 include::sections/doc-host-setup.txt[]
 include::sections/doc-host-tools.txt[]
@@ -11,5 +11,5 @@ include::sections/doc-virtual-filesystem.txt[]
 include::sections/doc-lua-modules.txt[]
 include::sections/doc-lua-tips.txt[]
 include::sections/doc-lua-startup.txt[]
-
+:leveloffset: 1
 

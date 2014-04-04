@@ -1,6 +1,4 @@
-
-Board Validation with the Bringup and Diagnostic Kit
-====================================================
+= Board Validation
 
 == Overview
 
@@ -83,14 +81,14 @@ include::captures/main_menu.capture[]
 Menu choice: (0INS)>
 ----
 
-:leveloffset: 1
+:leveloffset: 2
 include::sections/ui-main-menu.txt[]
 include::sections/ui-configure.txt[]
-:leveloffset: 0
+:leveloffset: 1
 
 == Exercising IO
 
-:leveloffset: 2
+:leveloffset: 3
 include::sections/io-dram.txt[]
 include::sections/io-emmc.txt[]
 include::sections/io-gpio.txt[]
@@ -108,7 +106,7 @@ include::sections/io-tdm.txt[]
 include::sections/io-twsi.txt[]
 include::sections/io-uart.txt[]
 include::sections/io-usb.txt[]
-:leveloffset: 0
+:leveloffset: 1
 
 == Next Steps
 
