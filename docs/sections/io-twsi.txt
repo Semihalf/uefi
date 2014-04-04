@@ -1,3 +1,5 @@
+[[TWSI]]
+= TWSI (I2C)
 
 The BDK support probing TWSI (I2C) using basic operations.  Testing
 general connectivity is done using an automated device address scan.
@@ -17,15 +19,13 @@ Once a bus is selected, the TWSI sub menu allows operations on the bus.
 include::../captures/twsi_sub_menu.capture[]
 ----
 
-Initialize TWSI
-~~~~~~~~~~~~~~~
+== Initialize TWSI
 
 Perform one time bus initialization of the OCTEON TWSI controller.
 This needs to be done once before any other transactions are issued.
 
 
-Scan TWSI
-~~~~~~~~~
+== Scan TWSI
 
 Scan all valid TWSI addresses looking for devices.  Each device that
 responds is displayed in a list.  This can be useful way of
@@ -65,8 +65,7 @@ TIP: Be sure to note the address and bus of any DIMMs.  Later when
 DDR3 is tested, SPD data will need to be read from TWSI using these
 addresses.
 
-Read
-~~~~
+== Read
 
 Perform a TWSI read.  Prompts will ask for the device address,
 internal address width, internal address, and number of bytes to read
@@ -80,8 +79,7 @@ Number of bytes to read(15INS)> 1
 Result: 246 (0xf6)
 ----
 
-Write
-~~~~~
+== Write
 
 Perform a TWSI write.  Prompts will ask for the device address,
 internal address width, internal address, number of bytes to write

@@ -1,3 +1,5 @@
+[[CONFIGURE]]
+= Configure the BDK
 
 Before detailed testing begins, some parameters need to be set in order
 to customize the BDK for the board.  For ethernet tests, covered
@@ -11,8 +13,7 @@ reset.  Configuration needs to be redone after every boot.
 include::../captures/configure_menu.capture[]
 ----
 
-Configure the MAC Address
-~~~~~~~~~~~~~~~~~~~~~~~~~
+== Configure the MAC Address
 
 The BDK creates a semi random MAC address based on internal chip
 parameters.  This default is normally good enough for lab testing, but
@@ -21,8 +22,7 @@ BDK default starts with Cavium's OUI with the locally administered bit
 set, '02:0f:b7'.  The next three bytes are derived based on internal
 chip data.
 
-Configure PHY Addresses
-~~~~~~~~~~~~~~~~~~~~~~~
+== Configure PHY Addresses
 
 RGMII, MII, and SGMII ports on the board should have ethernet PHYs
 connected to OCTEON using SMI/MDIO.  Before these ports can be used,

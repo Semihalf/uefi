@@ -1,3 +1,5 @@
+[[DRAM]]
+= Configure and Test DDR
 
 Configuring DDR for a board can be quite involved, so it is best to
 start with a working configuration and customize it.  The recommended
@@ -10,14 +12,12 @@ new board.  Starting in the DDR menu, follow these steps.
 include::../captures/ddr_menu.capture[]
 ----
 
-Step 1 - Copy an Existing Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Copy an Existing Configuration
 
 Choose one of the menu options which most closely matches the board.
 Make sure to pick a board configuration that has the same OCTEON chip.
 
-Step 2 - Set the DDR Clock Frequency
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Set the DDR Clock Frequency
 
 Choose the DDR frequency which memory will be clocked at.  The
 frequency specified here is the base frequency of the clock.  DDR
@@ -30,8 +30,7 @@ clock rate of 666.5 Mhz.  This clock rate would be entered as
 rate and raise it later after DRAM is tested.  A good starting clock
 rate is 500Mhz, so enter '500000000'.
 
-Step 3 - Enter DIMM SPD Addresses
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Enter DIMM SPD Addresses
 
 When designing the board, the DIMM slots must be connected to one of
 OCTEON's TWSI busses to allow for access to the DIMM SPD.  DDR
@@ -49,15 +48,13 @@ SPD address for dimm 1: (17INS)> 0x51
 SPD address for dimm 2: (18INS)> 0
 ----
 
-Step 4 - Apply the new Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Apply the new Configuration
 
 Now that your DDR configuration has been customized for the board.
 Apply the configuration using the menu option.  Choose 'Initialize DDR
 controller using current config'.
 
-Step 5 - Test DDR
-~~~~~~~~~~~~~~~~~
+== Test DDR
 
 Once DRAM is configured, test to make sure memory is working.  Testing is
 contained in a submenu for the DRAM menu.
@@ -107,8 +104,7 @@ This option runs all the other DRAM tests over the supplied range.  Each
 test is run sequentially, one after the other.  Any DRAM error will stop
 testing and return to the menu.
 
-Dealing with Complex DDR Customization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Dealing with Complex DDR Customization
 
 The menu interface presents option to configure DDR on the most common
 board configurations.  In the event that the board needs further
@@ -122,8 +118,7 @@ CAUTION: The DDR configuration file format may change in future BDKs.
 Be sure to track your specific changes such that they can be applied
 to a new configuration exported from a future BDK.
 
-DDR Customization with Fixed SPDs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== DDR Customization with Fixed SPDs
 
 DDR Configurations requiring fixed SPD data not read from a DDR DIMM
 requires the use of the save/modify/load update procedure.
@@ -158,8 +153,7 @@ requires the use of the save/modify/load update procedure.
 . Initialize DRAM with "Initialize DDR controller using current config".
 
 
-Asking for Help
-~~~~~~~~~~~~~~~
+== Asking for Help with DRAM
 
 When contacting Cavium's customer support, the following information
 will be needed.  Detailed logs are _very_ important for diagnosing

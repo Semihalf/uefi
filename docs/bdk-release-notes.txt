@@ -11,27 +11,27 @@ This document gives a short overview of the major changes
 incorporated into each BDK release.
 
 octeon3-bdk-2014.05-FIXME (r95818)
--------------------------
+----------------------------------
 * CN78XX:
-    * Initial support for CN78XX and CN77XX
-    * Preliminary multi-node support (NUMA)
-    * Suppress ethernet name node numbers when there is only one node
-    * Update QLM PRBS code to support more than 10 QLMs
-    * Require FPA buffers to be a power of 2 so memalign() works. Newlib
+    ** Initial support for CN78XX and CN77XX
+    ** Preliminary multi-node support (NUMA)
+    ** Suppress ethernet name node numbers when there is only one node
+    ** Update QLM PRBS code to support more than 10 QLMs
+    ** Require FPA buffers to be a power of 2 so memalign() works. Newlib
         memalign() isn't smart enough to handle alignment that isn't a power
         of 2.
 * CN70XX:
-    * Support for CN71XX and CN70XX is very minimal, possibly not useful. The
+    ** Support for CN71XX and CN70XX is very minimal, possibly not useful. The
         BDK requires DRAM to be setup to function, so it uses a hardcoded DRAM
         config from the EVB7000. This is unlikely to work on any other board.
-    * Enable CN70XX error checking
-    * Update CSR functions to properly byte swap SATA and USB assuming the
+    ** Enable CN70XX error checking
+    ** Update CSR functions to properly byte swap SATA and USB assuming the
         blocks are setup for Linux
-    * New BDK image bdk-chip-screen.bin supplied as an example
-    * Fix setting of RST_PP_POWER when booting cores.
-    * Change bdk-quick-boot into bdk-boot-nor-stage1-cn70xx, specialized for
+    ** New BDK image bdk-chip-screen.bin supplied as an example
+    ** Fix setting of RST_PP_POWER when booting cores.
+    ** Change bdk-quick-boot into bdk-boot-nor-stage1-cn70xx, specialized for
         use on CN70XX
-    * Create new doc page about CN70XX and CN71XX
+    ** Create new doc page about CN70XX and CN71XX
 * Import the functionality of hw-ddr2 into the BDK DRAM test code
 * Menu to access the PCIe EEPROM
 * Move MDIO bus initialization to run early so we can configure PHYs before

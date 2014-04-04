@@ -1,17 +1,30 @@
 
+src:=
+src+=bdk.txt
+src+=bdk-release-notes.txt
+src+=bdk-bringup-guide.txt
+src+=bdk-faqs.txt
+src+=bdk-getting-started.txt
+src+=bdk-internals.txt
+src+=chip-cn70xx.txt
+src+=chip-cn78xx.txt
 
-default: bdk.html bdk-getting-started.html bdk-internals.html bdk-interactive.html bdk-bringup-guide.html bdk-faqs.html bdk-release-notes.html bdk-cn70xx.html bdk-cn78xx.html api-docs lua-modules
+docs:=$(patsubst %.txt,%.html,$(src))
+pdfs:=pdf/bdk-manual.pdf
 
-slides: bdk-intro-slides.html bdk-slides-advanced1.html
+default: $(docs) api-docs lua-modules
+
+pdf: $(pdfs)
 
 clean:
-	rm -rf *.html api-docs
+	rm -rf api-docs $(docs) pdf lua-modules
 
 %.html: %.txt
-	asciidoc -a toc2 -a theme=flask -a toclevels=5 -a numbered $^
+	asciidoc -d book -a toc2 -a theme=flask -a toclevels=2 -a numbered -o $@ $^
 
-%.pdf: %.txt
-	a2x -f pdf $^
+pdf/%.pdf: %.txt
+	mkdir -p pdf
+	a2x -f pdf --fop -D pdf $^
 
 api-docs: Doxyfile
 	doxygen
@@ -25,4 +38,4 @@ lua-modules: $(LUA_FILES)
 .PHONY: copy
 copy:
 	rm -rf /var/www/bdk3/*
-	cp -r *.html *slides*.txt images api-docs lua* /var/www/bdk3/
+	cp -r *.html images api-docs lua* /var/www/bdk3/

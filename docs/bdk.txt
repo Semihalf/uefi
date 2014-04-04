@@ -13,11 +13,6 @@ General Usage
 Start here to learn the basics of what the BDK is and how to use it with your
 Octeon board.
 
-. link:bdk-interactive.html[Interacting with the BDK]
-+
-This document covers the usage of the BDK from an interactive console after
-the BDK has been installed.
-
 . link:bdk-bringup-guide.html[Board Validation]
 +
 This document is a step by step procedure for verifying proper hardware
@@ -33,12 +28,12 @@ each BDK release.
 Chip specific information
 -------------------------
 
-. link:bdk-cn78xx.html[CN78XX and CN77XX]
+. link:chip-cn78xx.html[CN78XX and CN77XX]
 +
 This document covers booting the BDK on CN78XX and CN77XX. It presents
 a short step by step guide to get started.
 
-. link:bdk-cn70xx.html[CN70XX and CN71XX]
+. link:chip-cn70xx.html[CN70XX and CN71XX]
 +
 This document covers booting the BDK on CN70XX and CN71XX. It presents
 a short step by step guide to get started.
@@ -53,12 +48,23 @@ interface.
 [options="header"]
 |==========================================================================
 | High Speed            | Generic               | Misc
-| QLM / DLM             | eMMC / SD             | JTAG and EJTAG
-| Networking            | NOR Flash             | GPIO
-| Multi-node / OCI      | NAND Flash            | UART
-| PCI Express           | SMI / MDIO            | PCIe EEPROM
-| SATA                  | SPI / MPI             | TWSI
-| USB                   | TDM / PCM
+| link:bdk-bringup-guide.html#QLM[QLM / DLM]
+| link:bdk-bringup-guide.html#EMMC[eMMC / SD]
+| link:bdk-bringup-guide.html#JTAG[JTAG and EJTAG]
+| link:bdk-bringup-guide.html#NETWORKING[Networking]
+| link:bdk-bringup-guide.html#NOR[NOR Flash]
+| link:bdk-bringup-guide.html#GPIO[GPIO]
+| link:bdk-bringup-guide.html#OCI[Multi-node / OCI]
+| link:bdk-bringup-guide.html#NAND[NAND Flash]
+| link:bdk-bringup-guide.html#UART[UART]
+| link:bdk-bringup-guide.html#PCIE[PCI Express]
+| link:bdk-bringup-guide.html#MDIO[SMI / MDIO]
+| link:bdk-bringup-guide.html#PCIE[PCIe EEPROM]
+| link:bdk-bringup-guide.html#SATA[SATA]
+| link:bdk-bringup-guide.html#SPI[SPI / MPI]
+| link:bdk-bringup-guide.html#TWSI[TWSI]
+| link:bdk-bringup-guide.html#USB[USB]
+| link:bdk-bringup-guide.html#TDM[TDM / PCM]
 |==========================================================================
 
 Scripting

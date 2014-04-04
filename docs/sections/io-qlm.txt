@@ -1,3 +1,5 @@
+[[QLM]]
+= SERDES QLM or DLM
 
 Low level QLM signalling can be configured and tested using "QLM
 Options" from the main menu.  The QLM options menu is most useful for

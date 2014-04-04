@@ -432,41 +432,13 @@ the last menu choice returns to the previous menu.  The entire
 interactive menu interface is written in Lua for easy expansibility.
 The source for the menus can be found in the *rom* directory.
 
-TIP: More information about interactive use can be found in the
-document link:bdk-interactive.html[Interacting with the Bringup and
-Diagnostic Kit].
-
-.Main Menu
-----
-include::captures/boot_messages.capture[]
-include::captures/main_menu.capture[]
-Menu choice: (0INS)>
-----
+:leveloffset: 1
+include::sections/ui-navigation.txt[]
+:leveloffset: 0
 
 TIP: Any prompt supporting line editing in *bdk-full.bin* also
 supports RPC calls.  Whenever *bdk-full.bin* is waiting for user
 input, you can send a RPC request and get a response.
-
-
-Line Editing
-~~~~~~~~~~~~
-
-Any prompt ending with `(0INS)>` supports full line editing and
-history.  Line editing can also be used for any input using the
-*octeon.readline()* function.
-
-* Many vi style modes are available for command and history navigation.
-* Use ARROW KEYS, HOME, END or ESC-h,ESC-j,ESC-k,ESC-l,ESC-0,ESC-$,ESC-w,ESC-b, or ESC-fx for navigation.
-* Use TAB for command completion, multiple to cycle, or CTRL-D for a list of possible commands.
-* Use ESC-i,ESC-A,ESC-a,ESC-c for insert mode, ESC-R,ESC-r for overwrite mode (behavior like vi).
-* Use INSERT to toggle insert/overwrite mode, DELETE to delete, F1 for help.
-* Use !!, !<num> or !<string> to repeat previous commands in the history.
-* Use ::, :<num> or :<string> to recall previous commands in the history to current.
-* Use ?<string>, /<string>, ESC-?<string>,ESC-/<string>,ESC-n,ESC-N to also recall to current.
-* Use CTRL-l erase the screen, ESC-D to clear the rest of the current line.
-* Use ESC-d<movement> to delete, ESC-~ to change case, ESC-u to undo (one level).
-* See the vi man page for more info on the operation of various commands.
-
 
 The Virtual File System
 -----------------------

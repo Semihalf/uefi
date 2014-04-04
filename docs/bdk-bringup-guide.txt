@@ -2,8 +2,7 @@
 Board Validation with the Bringup and Diagnostic Kit
 ====================================================
 
-Overview
---------
+== Overview
 
 This document is a step by step procedure for verifying proper
 hardware functionality of boards based on OCTEON processors.  The
@@ -26,8 +25,7 @@ being tested will have connections similar to the diagram.
 
 image::images/board_block_diagram.png[Board block diagram]
 
-Step 1 - Minimum Prerequisites
-------------------------------
+== Minimum Prerequisites
 
 Certain minimum requirements must be met before progress can continue.
 OCTEON must progress through the reset sequence documented in the
@@ -39,18 +37,15 @@ in order to monitor the boot progress.
 * UART0 connected to a serial terminal. Baud rate of 115200, no parity, one stop bit.
 * If booting from flash, a NOR flash must be connected to OCTEON's bootbus.
 
-Step 2 - Boot the BDK
----------------------
+== Boot the BDK
 
-Burn bdk-full.bin to NOR flash
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Burn bdk-full.bin to NOR flash
 
 Use a flash programmer to burn the image *bdk-full.bin* to the
 beginning of the NOR flash.  The first byte of *bdk-full.bin* should
 be at address zero, the second at address one, etc.
 
-Boot over PCIe
-~~~~~~~~~~~~~~
+=== Boot over PCIe
 
 The target board must be connected as a PCIe endpoint to a PC system
 running Linux.
@@ -66,19 +61,17 @@ $ export OCTEON_REMOTE_PROTOCOL=pci
 $ bdk-remote boot target-bin/bdk-full.bin
 ----
 
-Boot over EJTAG
-~~~~~~~~~~~~~~~
+=== Boot over EJTAG
 
 The BDK has been tested with multiple EJTAG probes.  The best
 supported probe is the Macraigor mpDemon, followed by the Mentor
 Graphics Majic.  The following sections details the process of booting
 the BDK using either probe.  Other EJTAG probes should be similar.
 
-include::sections/bdk-ejtag-macraigor-mpdemon.txt[]
-include::sections/bdk-ejtag-mentor-majic.txt[]
+include::sections/ejtag-macraigor-mpdemon.txt[]
+include::sections/ejtag-mentor-majic.txt[]
 
-Successful Booting
-~~~~~~~~~~~~~~~~~~
+== Successful Booting
 
 If everything went well, the following output should be visible in the
 serial terminal.  If booting did not succeed, re-check step 1.
@@ -90,117 +83,37 @@ include::captures/main_menu.capture[]
 Menu choice: (0INS)>
 ----
 
+:leveloffset: 1
+include::sections/ui-main-menu.txt[]
+include::sections/ui-configure.txt[]
+:leveloffset: 0
 
-Step 3 - Configure the Board
-----------------------------
+== Exercising IO
 
-include::sections/configure.txt[]
+:leveloffset: 2
+include::sections/io-dram.txt[]
+include::sections/io-emmc.txt[]
+include::sections/io-gpio.txt[]
+include::sections/io-jtag.txt[]
+include::sections/io-mdio.txt[]
+include::sections/io-nand.txt[]
+include::sections/io-networking.txt[]
+include::sections/io-nor.txt[]
+include::sections/io-oci.txt[]
+include::sections/io-pcie.txt[]
+include::sections/io-qlm.txt[]
+include::sections/io-sata.txt[]
+include::sections/io-spi.txt[]
+include::sections/io-tdm.txt[]
+include::sections/io-twsi.txt[]
+include::sections/io-uart.txt[]
+include::sections/io-usb.txt[]
+:leveloffset: 0
 
-
-Step 4 - Test TWSI
-------------------
-
-include::sections/twsi.txt[]
-
-
-Step 5 - Test SMI/MDIO
-----------------------
-
-include::sections/mdio.txt[]
-
-
-Step 6 - Test PCIe
-------------------
-
-include::sections/pcie.txt[]
-
-
-Step 7 - Test QLMs with PRBS
-----------------------------
-
-include::sections/qlm.txt[]
-
-
-Step 8 - Test the RGMII/MII Management Ports
---------------------------------------------
-
-TBD
-
-
-Step 9 - Test SGMII
--------------------
-
-TBD
-
-
-Step 10 - Test XAUI
--------------------
-
-TBD
-
-
-Step 11 - Test Interlaken
--------------------------
-
-TBD
-
-
-Step 12 - Configure and Test DDR
---------------------------------
-
-include::sections/ddr.txt[]
-
-
-Step 13 - Test NAND
--------------------
-
-TBD
-
-
-Step 14 - Test USB
-------------------
-
-TBD
-
-
-Step 15 - Test GPIO
--------------------
-
-Many boards use OCTEON GPIOs to control other parts of the board.  The
-GPIO menu can be used to manually control the GPIO pins.
-
-.The GPIO Menu
-----
-include::captures/gpio_menu.capture[]
-----
-
-Configure a GPIO::
-
-Choose this option to configure a GPIO.  Prompts ask for which GPIO
-and its input or output state.  Here is an example configuring GPIO 0
-as a high output.
-+
-----
-GPIO number(29INS)> 0
-Configure as output(y/n)(30INS)> y
-GPIO state (0/1)(31INS)> 1
-----
-
-Read GPIO state::
-
-Read the current state of a GPIO.
-+
-----
-GPIO number(1INS)> 0
-GPIO 0: 1
-----
-
-
-Next Steps
-----------
+== Next Steps
 
 After completing the test steps outlined in this document, most board
-I/O interfaces have been validated.  With working DDR3 and validated
+I/O interfaces have been validated.  With working DRAM and validated
 I/Os, software development can start on the board.  Software should
 burn the normal bootloader into NOR flash, overwriting the BDK.  This
 can be done either using a flash programmer, or the flash menu in the

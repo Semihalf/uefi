@@ -1,3 +1,5 @@
+[[MDIO]]
+= SMI / MDIO
 
 SMI/MDIO busses are used to communicate with Ethernet PHYs.  PHYs
 support one of two protocols, clause 22 and clause 45.  Both of these
@@ -17,8 +19,7 @@ protocol types.
 include::../captures/mdio_sub_menu.capture[]
 ----
 
-Scan bus (Clause 22)
-~~~~~~~~~~~~~~~~~~~~
+== Scan bus (Clause 22)
 
 Performs a read from all possible SMI/MDIO addresses and list the
 addresses where the reads succeeded.  This can be used to quickly find
