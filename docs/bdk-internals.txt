@@ -172,8 +172,7 @@ The BDK provides standard system calls for filesystem access.  The
 filesystem supports multiple types of files accessed through virtual
 name spaces.  Any file may be accessed using either the standard
 system calls (open, read, write, close, etc) or the higher level C
-interface (fopen, fread, fwrite, fclose, etc).  More detail is available
-in the link:bdk.html[BDK documentation].
+interface (fopen, fread, fwrite, fclose, etc).
 
 
 Abstract Network Packet API

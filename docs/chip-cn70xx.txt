@@ -167,6 +167,5 @@ Next steps
 
 After completeing the steps in this document, the BDK is properly
 configured for the CN70XX or CN71XX board.  Now the other menu options are
-available for testing out various IO connections.  See the
-link:bdk-bringup-guide.html[Board Validation] guide for more information.
+available for testing out various IO connections.
 

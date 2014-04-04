@@ -12,7 +12,7 @@
 /csr-tool/html
 /libc/build
 /libc/mipsisa64-octeon-elf
-/docs/*.html
+/docs/*.pdf
 /docs/api-docs
 /docs/lua-modules
 /libbdk-arch/bdk-version.c

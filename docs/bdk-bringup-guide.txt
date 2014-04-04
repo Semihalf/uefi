@@ -50,7 +50,7 @@ running Linux.
 
 . Apply any additional power need for the target board.
 . Boot the PCIe host PC into Linux.
-. Install the BDK on the PC by following the instructions in link:bdk.html[BDK documentation].
+. Install the BDK on the PC by following the instructions in the BDK documentation.
 . Issue the following shell commands.
 
 [source, sh]

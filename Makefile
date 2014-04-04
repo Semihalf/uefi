@@ -125,9 +125,7 @@ release: all docs
 	mkdir -p $(RELEASE_DIR)/docs
 	cp -a docs/lua $(RELEASE_DIR)/docs/
 	cp -a docs/luasocket $(RELEASE_DIR)/docs/
-	cp docs/*.html $(RELEASE_DIR)/docs/
-	rm $(RELEASE_DIR)/docs/bdk-faqs.html
-	cp -a docs/images $(RELEASE_DIR)/docs/
+	cp docs/*.pdf $(RELEASE_DIR)/docs/
 	cp -a docs/lua-modules $(RELEASE_DIR)/docs/
 	cp -a docs/api-docs $(RELEASE_DIR)/docs/
 	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt

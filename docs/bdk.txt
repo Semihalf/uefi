@@ -48,23 +48,23 @@ interface.
 [options="header"]
 |==========================================================================
 | High Speed            | Generic               | Misc
-| link:bdk-bringup-guide.html#QLM[QLM / DLM]
-| link:bdk-bringup-guide.html#EMMC[eMMC / SD]
-| link:bdk-bringup-guide.html#JTAG[JTAG and EJTAG]
-| link:bdk-bringup-guide.html#NETWORKING[Networking]
-| link:bdk-bringup-guide.html#NOR[NOR Flash]
-| link:bdk-bringup-guide.html#GPIO[GPIO]
-| link:bdk-bringup-guide.html#OCI[Multi-node / OCI]
-| link:bdk-bringup-guide.html#NAND[NAND Flash]
-| link:bdk-bringup-guide.html#UART[UART]
-| link:bdk-bringup-guide.html#PCIE[PCI Express]
-| link:bdk-bringup-guide.html#MDIO[SMI / MDIO]
-| link:bdk-bringup-guide.html#PCIE[PCIe EEPROM]
-| link:bdk-bringup-guide.html#SATA[SATA]
-| link:bdk-bringup-guide.html#SPI[SPI / MPI]
-| link:bdk-bringup-guide.html#TWSI[TWSI]
-| link:bdk-bringup-guide.html#USB[USB]
-| link:bdk-bringup-guide.html#TDM[TDM / PCM]
+| <<QLM, QLM / DLM>>
+| <<EMMC, eMMC / SD>>
+| <<JTAG, JTAG and EJTAG>>
+| <<NETWORKING, Networking>>
+| <<NOR, NOR Flash>>
+| <<GPIO, GPIO>>
+| <<OCI, Multi-node / OCI>>
+| <<NAND, NAND Flash>>
+| <<UART, UART>>
+| <<PCIE, PCI Express>>
+| <<MDIO, SMI / MDIO>>
+| <<PCIE, PCIe EEPROM>>
+| <<SATA, SATA>>
+| <<SPI, SPI / MPI>>
+| <<TWSI, TWSI>>
+| <<USB, USB>>
+| <<TDM, TDM / PCM>>
 |==========================================================================
 
 Scripting

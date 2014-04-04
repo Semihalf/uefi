@@ -3,15 +3,12 @@ src:=
 src+=bdk.txt
 src+=bdk-release-notes.txt
 
-docs:=$(patsubst %.txt,%.html,$(src))
 pdfs:=$(patsubst %.txt,%.pdf,$(src))
 
-default: $(docs) api-docs lua-modules
-
-pdf: $(pdfs)
+default: $(pdfs) api-docs lua-modules
 
 clean:
-	rm -rf api-docs $(docs) pdf lua-modules
+	rm -rf $(pdfs) api-docs lua-modules
 
 %.html: %.txt
 	asciidoc -d book -a toc2 -a theme=flask -a toclevels=2 -a numbered -o $@ $^
@@ -31,4 +28,4 @@ lua-modules: $(LUA_FILES)
 .PHONY: copy
 copy:
 	rm -rf /var/www/bdk3/*
-	cp -r *.html images api-docs lua* /var/www/bdk3/
+	cp -r $(pdfs) api-docs lua* /var/www/bdk3/
