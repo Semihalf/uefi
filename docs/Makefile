@@ -3,7 +3,6 @@ src:=
 src+=bdk.txt
 src+=bdk-release-notes.txt
 src+=bdk-bringup-guide.txt
-src+=bdk-faqs.txt
 src+=bdk-getting-started.txt
 src+=bdk-internals.txt
 src+=chip-cn70xx.txt
