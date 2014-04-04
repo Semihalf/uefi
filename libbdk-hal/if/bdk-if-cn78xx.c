@@ -624,15 +624,15 @@ static int sso_init(bdk_node_t node)
         }
         uint64_t addr = bdk_ptr_to_phys(buffer);
         BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_HEAD_PTR(grp),
-            c.s.ptr = addr;
+            c.s.ptr = addr >> 7;
             c.s.cl = 0);
         BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_HEAD_NEXT(grp),
-            c.s.ptr = addr);
+            c.s.ptr = addr >> 7);
         BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_TAIL_PTR(grp),
-            c.s.ptr = addr;
+            c.s.ptr = addr >> 7;
             c.s.cl = 0);
         BDK_CSR_MODIFY(c, node, BDK_SSO_XAQX_TAIL_NEXT(grp),
-            c.s.ptr = addr);
+            c.s.ptr = addr >> 7);
     }
     /* Set the aura number */
     BDK_CSR_MODIFY(c, node, BDK_SSO_XAQ_AURA,
