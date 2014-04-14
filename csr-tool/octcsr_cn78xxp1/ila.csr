@@ -364,8 +364,28 @@ registers:
     address: 0x1180017010008 + a*0x4000
     bus: RSL
     fields:
+      - name: SER_LOW
+        bits: 63..60
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: SER_LOW
+        bits: 63..60
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          Reduce latency by limiting the amount of data in flight for each SerDes. Writting to 0
+          causes hardware to determine a typically optimal value. Added in pass 2.
+
       - name: --
-        bits: 63..43
+        bits: 59..43
         access: RAZ
         reset: 0x0
         typical: --
@@ -376,6 +396,8 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
+        attributes:
+          chip_pass: "o78<2.0"
         description: |
           Reduce latency by limiting the amount of data in flight for each SerDes. If 0x0, hardware
           will compute it. Otherwise, SER_LIMIT must be set as follows:
@@ -383,6 +405,15 @@ registers:
           For instance, for SCLK=1.1GHz,BAUD=10.3125,NUM_LANES=8:
           SER_LIMIT >= 148 + (10.3125 / 1.1 * (12+ 8))
           SER_LIMIT >= 336
+
+      - name: SER_LIMIT
+        bits: 42..33
+        access: RO
+        reset: 0x0
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Reserved.
 
       - name: PKT_BUSY
         bits: 32
@@ -604,7 +635,57 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..29
+        access: RAZ
+        reset: 0x0
+        typical: --
+        description: Reserved.
+
+      - name: DATA_RATE
+        bits: 28..16
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: DATA_RATE
+        bits: 28..16
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          The number of coprocessor-clocks to transmit 32 words, where each word is 67 bits.  HW
+          will automatically calculate a conservative value for this field.  SW can override the
+          calculation by writing
+          TX_DAT_RATE = roundup((67*SCLK / GBAUD)*32).
+
+      - name: LOW_DELAY
+        bits: 15..10
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: LOW_DELAY
+        bits: 15..10
+        access: R/W
+        reset: 0x0
+        typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          The delay before reacting to a lane low data indication, as a multiple of 64
+          coprocessor-clocks.
+          Added in pass 2.
+
+      - name: --
+        bits: 9..3
         access: RAZ
         reset: 0x0
         typical: --

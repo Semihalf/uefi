@@ -2981,9 +2981,7 @@ registers:
         access: RO
         reset: 0x4
         typical: 0x4
-        description: |
-          BAR Index
-          Points to the BAR located at offset 0x18 (BAR2)
+        description: BAR Index. Points to BAR2.
 
 
   - name: PCIEEP(0..2)_CFG448

@@ -107,8 +107,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-          diagnostic use only.
+          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
+          applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
 
       - name: SWAP
         bits: 0
@@ -206,6 +206,36 @@ registers:
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
+    inherits: DTX_MIO_BCST_RSP
+
+  - name: DTX_KEY_SEL(0..1)
+    title: DTX KEY Select Register
+    address: 0x11800FE100000 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_SEL(0..1)
+
+  - name: DTX_KEY_ENA(0..1)
+    title: DTX KEY Data Enable Register
+    address: 0x11800FE100020 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_ENA(0..1)
+
+  - name: DTX_KEY_DAT(0..1)
+    title: DTX KEY Raw Data Register
+    address: 0x11800FE100040 | a<<3
+    bus: RSL
+    inherits: DTX_MIO_DAT(0..1)
+
+  - name: DTX_KEY_CTL
+    title: DTX KEY Control Register
+    address: 0x11800FE100060
+    bus: RSL
+    inherits: DTX_MIO_CTL
+
+  - name: DTX_KEY_BCST_RSP
+    title: DTX KEY Control Register
+    address: 0x11800FE100080
+    bus: RSL
     inherits: DTX_MIO_BCST_RSP
 
   - name: DTX_FPA_SEL(0..1)
@@ -866,8 +896,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-          diagnostic use only.
+          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
+          applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
 
       - name: SWAP
         bits: 0

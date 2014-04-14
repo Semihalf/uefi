@@ -400,7 +400,23 @@ structs:
         description: LAB to return data for.
 
       - name: --
-        bits: 30..24
+        bits: 26..24
+        attributes:
+          const: "--"
+        description: Reserved.
+
+      - name: ITO
+        bits: 27
+        attributes:
+          const: "--"
+        description: |
+          Instant time out. Immediately return the read even if response data is not ready, as if
+          there was a timeout. If LAP_CTL_RTN_S[TIMEOUT] is set the result is still not ready and
+          any data words that follow the LAP_CTL_RTN_S header that were returned with this read will
+          be undefined.
+
+      - name: --
+        bits: 30..28
         attributes:
           const: "--"
         description: Reserved.
@@ -440,7 +456,7 @@ structs:
 
   - name: LAP_SEND_LMTDMA_S
     title: LAP LMTDMA Send Operation Address Structure
-    description: LMTDMA send operations are created with an address formed with this structure.
+    description: LMTST or LMTDMA send operations are created with an address formed with this structure.
     fields:
       - name: --
         bits: 26..0
@@ -1465,7 +1481,6 @@ registers:
     bus: RSL
     attributes:
       arch_max: "x,256"
-      uvm_default_constraint: "True"
     fields:
       - name: --
         bits: 63..9

@@ -4114,8 +4114,8 @@ $DTX_MIO_CTL   Address=(0x11800FE000060)   Bus=(RSL)
  <63:5>  --     RAZ     0x0        0x0        Reserved.                                         
  <4>     ACTIVE R/W     0          0          Force block's gated clocks on, so that the state of idle signals may be captured.
  <3:2>   --     RAZ     0x0        0x0        Reserved.                                         
- <1>     ECHOEN R/W     0          0          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-                                              diagnostic use only.
+ <1>     ECHOEN R/W     0          0          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
+                                              applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
  <0>     SWAP   R/W     0          0          Swap the high and low 36-bit debug bus outputs.   
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -4226,6 +4226,51 @@ $DTX_GMX(0..1)_CTL   Address=(0x11800FE040060+(a*0x8<<15))   Bus=(RSL)
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
 $DTX_GMX(0..1)_BCST_RSP   Address=(0x11800FE040080+(a*0x8<<15))   Bus=(RSL)
+
+
+ * 
+ * DTX_KEY_SEL = DTX KEY Select Register
+ * 
+ *  This register has the same bit fields as DTX_MIO_SEL(0..1).
+ *  Attribute: -inherits=DTX_MIO_SEL(0..1).
+ * 
+$DTX_KEY_SEL(0..1)   Address=(0x11800FE100000|a<<3)   Bus=(RSL)
+
+
+ * 
+ * DTX_KEY_ENA = DTX KEY Data Enable Register
+ * 
+ *  This register has the same bit fields as DTX_MIO_ENA(0..1).
+ *  Attribute: -inherits=DTX_MIO_ENA(0..1).
+ * 
+$DTX_KEY_ENA(0..1)   Address=(0x11800FE100020|a<<3)   Bus=(RSL)
+
+
+ * 
+ * DTX_KEY_DAT = DTX KEY Raw Data Register
+ * 
+ *  This register has the same bit fields as DTX_MIO_DAT(0..1).
+ *  Attribute: -inherits=DTX_MIO_DAT(0..1).
+ * 
+$DTX_KEY_DAT(0..1)   Address=(0x11800FE100040|a<<3)   Bus=(RSL)
+
+
+ * 
+ * DTX_KEY_CTL = DTX KEY Control Register
+ * 
+ *  This register has the same bit fields as DTX_MIO_CTL.
+ *  Attribute: -inherits=DTX_MIO_CTL.
+ * 
+$DTX_KEY_CTL   Address=(0x11800FE100060)   Bus=(RSL)
+
+
+ * 
+ * DTX_KEY_BCST_RSP = DTX KEY Control Register
+ * 
+ *  This register has the same bit fields as DTX_MIO_BCST_RSP.
+ *  Attribute: -inherits=DTX_MIO_BCST_RSP.
+ * 
+$DTX_KEY_BCST_RSP   Address=(0x11800FE100080)   Bus=(RSL)
 
 
  * 
@@ -5068,8 +5113,8 @@ $DTX_BROADCAST_CTL   Address=(0x11800FE7F0060)   Bus=(RSL)
  <63:5>  --     RAZ     0x0        0x0        Reserved.                                         
  <4>     ACTIVE R/W     0          0          Force block's gated clocks on, so that the state of idle signals may be captured.
  <3:2>   --     RAZ     0x0        0x0        Reserved.                                         
- <1>     ECHOEN R/W     0          0          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-                                              diagnostic use only.
+ <1>     ECHOEN R/W     0          0          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
+                                              applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
  <0>     SWAP   R/W     0          0          Swap the high and low 36-bit debug bus outputs.   
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -24468,8 +24513,7 @@ $PCIEEP(0..2)_CFG084   Address=(0x150)   Bus=(PCICONFIGEP)
                                              but will accept values as large as 0x15 (2TB)
  <7:5>   NRBAR RO      0x1        0x1        Number of Resizable BARs                          
  <4:3>   --    RAZ     0x0        0x0        Reserved.                                         
- <2:0>   RBARI RO      0x4        0x4        BAR Index                                         
-                                             Points to the BAR located at offset 0x18 (BAR2)
+ <2:0>   RBARI RO      0x4        0x4        BAR Index. Points to BAR2.                        
 -----------------------------------------------------------------------------------------------------------------------------------
 
 

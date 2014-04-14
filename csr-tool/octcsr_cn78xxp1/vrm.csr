@@ -60,7 +60,7 @@ registers:
     address: 0x1180021000008 + a*0x1000000
     bus: RSL
     description: |
-      This register allows SW to write data into I2C Controller directly.
+      This register allows software to write data into I2C controller directly.
       This register is for diagnostic use only.
     attributes:
       exempt_natural_alignment: "a"
@@ -161,7 +161,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Internal Address. Used when launching a combined master-mode operation.
+        description: Internal address. Used when launching a combined master-mode operation.
 
       - name: DATA
         bits: 31..0

@@ -2663,7 +2663,9 @@ registers:
         typical: --
         attributes:
           dv_uvm_force_compare: "True"
-        description: Pointer. For peak performance, all XAQ buffers should reside on the local node's memory.
+        description: |
+          Pointer, divided by 128 bytes. For peak performance, all XAQ buffers should reside on the
+          local node's memory.
 
       - name: --
         bits: 6..5
@@ -2713,7 +2715,9 @@ registers:
         typical: --
         attributes:
           dv_uvm_force_compare: "True"
-        description: Pointer. For peak performance, all XAQ buffers should reside on the local node's memory.
+        description: |
+          Pointer, divided by 128 bytes. For peak performance, all XAQ buffers should reside on the
+          local node's memory.
 
       - name: --
         bits: 6..0

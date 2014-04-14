@@ -1556,7 +1556,7 @@ registers:
         reset: 0x1c
         typical: 0x0
         description: |
-          Selects the bit in the counter for the long timeout value (timeout used when SHTO bit is
+          Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
           clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
           2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
           (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
@@ -1568,7 +1568,7 @@ registers:
         reset: 0xe
         typical: 0x0
         description: |
-          Selects the bit in the counter for the short timeout value (timeout used when SHTO bit is
+          Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
           set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
           Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
           value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
@@ -1582,14 +1582,17 @@ registers:
         description: |
           When set, any PP issues any of an IO load, acking store, IOBDMA, LMTDMA, acking IOBADDR,
           or acking LMTST to a node that doesn't exist (existence defined by the ENAOCI bits), then
-          the hardware sets the SHTO CSR field.
+          the hardware sets [SHTO].
 
       - name: SHTOEN
         bits: 15..13
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: When set, if the corresponding OCI link is down, the hardware sets the SHTO CSR field.
+        description: |
+          When set, if the corresponding OCI link is down, the hardware sets [SHTO].
+          See OCX_COM_LINK(0..2)_CTL for a description of what events can contribute to the
+          link_down condition.
 
       - name: SHTO
         bits: 12
@@ -3756,7 +3759,7 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: Indicates the CBC that had the error.
+        description: Indicates the MIB bus that had the error.
 
 
 

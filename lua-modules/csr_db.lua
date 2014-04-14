@@ -8909,7 +8909,8 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x4000,
             fields = {
-                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "SER_LOW", start = 60, stop = 63},
+                {name = "RESERVED_43_59", start = 43, stop = 59},
                 {name = "SER_LIMIT", start = 33, stop = 42},
                 {name = "PKT_BUSY", start = 32, stop = 32},
                 {name = "RESERVED_26_31", start = 26, stop = 31},
@@ -8946,7 +8947,10 @@ local csr_db = {
             range1 = {0,0},
             range1_inc = 0x4000,
             fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "RESERVED_29_63", start = 29, stop = 63},
+                {name = "DATA_RATE", start = 16, stop = 28},
+                {name = "LOW_DELAY", start = 10, stop = 15},
+                {name = "RESERVED_3_9", start = 3, stop = 9},
                 {name = "TX_BAD_CRC24", start = 2, stop = 2},
                 {name = "TX_BAD_CTLW2", start = 1, stop = 1},
                 {name = "TX_BAD_CTLW1", start = 0, stop = 0},
@@ -9777,7 +9781,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x4000,
             fields = {
-                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "SER_LOW", start = 60, stop = 63},
+                {name = "RESERVED_53_59", start = 53, stop = 59},
                 {name = "BRST_MIN", start = 48, stop = 52},
                 {name = "RESERVED_43_47", start = 43, stop = 47},
                 {name = "SER_LIMIT", start = 33, stop = 42},
@@ -9819,7 +9824,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x4000,
             fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "RESERVED_29_63", start = 29, stop = 63},
+                {name = "DATA_RATE", start = 16, stop = 28},
+                {name = "LOW_DELAY", start = 10, stop = 15},
+                {name = "RESERVED_3_9", start = 3, stop = 9},
                 {name = "TX_BAD_CRC24", start = 2, stop = 2},
                 {name = "TX_BAD_CTLW2", start = 1, stop = 1},
                 {name = "TX_BAD_CTLW1", start = 0, stop = 0},
@@ -15250,8 +15258,8 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x8,
             fields = {
-                {name = "SER_LOW", start = 62, stop = 63},
-                {name = "RESERVED_42_61", start = 42, stop = 61},
+                {name = "SER_LOW", start = 60, stop = 63},
+                {name = "RESERVED_42_59", start = 42, stop = 59},
                 {name = "SER_LIMIT", start = 32, stop = 41},
                 {name = "CRD_DIS", start = 31, stop = 31},
                 {name = "RESERVED_26_30", start = 26, stop = 30},
@@ -15845,8 +15853,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x100000000,
             fields = {
-                {name = "LBAB", start = 14, stop = 31},
-                {name = "RESERVED_4_13", start = 4, stop = 13},
+                {name = "LBAB", start = 15, stop = 31},
+                {name = "RESERVED_4_14", start = 4, stop = 14},
                 {name = "PF", start = 3, stop = 3},
                 {name = "TYP", start = 1, stop = 2},
                 {name = "MSPC", start = 0, stop = 0},
@@ -16894,8 +16902,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x100000000,
             fields = {
-                {name = "LBAB", start = 14, stop = 31},
-                {name = "RESERVED_4_13", start = 4, stop = 13},
+                {name = "LBAB", start = 15, stop = 31},
+                {name = "RESERVED_4_14", start = 4, stop = 14},
                 {name = "PF", start = 3, stop = 3},
                 {name = "TYP", start = 1, stop = 2},
                 {name = "MSPC", start = 0, stop = 0},
@@ -33845,6 +33853,65 @@ local csr_db = {
             type = "RSL",
             width = 8,
             address = 0x11800fe278000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
+        DTX_KEY_BCST_RSP = {
+            name = "DTX_KEY_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe100080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_KEY_CTL = {
+            name = "DTX_KEY_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe100060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_KEY_DATX = {
+            name = "DTX_KEY_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe100040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_KEY_ENAX = {
+            name = "DTX_KEY_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe100020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_KEY_SELX = {
+            name = "DTX_KEY_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x11800fe100000,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {

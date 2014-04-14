@@ -280,7 +280,9 @@ registers:
         typical: --
         description: |
           Controls whether corresponding OCX link going down causes a chip reset. A warm/soft reset
-          does not change this field. On cold reset, this field is initialized to 0.
+          does not change this field. On cold reset, this field is initialized to 0.  See
+          OCX_COM_LINK(0..2)_CTL
+          for a description of what events can contribute to the link_down condition.
 
 
   - name: RST_INT

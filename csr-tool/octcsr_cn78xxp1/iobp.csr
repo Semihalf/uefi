@@ -4,6 +4,7 @@
 name: IOBP
 attributes:
   dv_fc_scratch_exempt: "RSL"
+  mif_heading2: "IOBP"
 enums:
   - name: IOBP_INTSN_E
     title: IOBP Interrupt Source Enumeration

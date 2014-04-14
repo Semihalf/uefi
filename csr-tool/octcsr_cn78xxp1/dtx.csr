@@ -107,8 +107,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-          diagnostic use only.
+          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
+          applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
 
       - name: SWAP
         bits: 0
@@ -1196,8 +1196,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. For
-          diagnostic use only.
+          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
+          applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
 
       - name: SWAP
         bits: 0

@@ -231,7 +231,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Error bit indicating a doorbell count has overflowed. 
+        description: Error bit indicating a doorbell count has overflowed.
 
 
   - name: BCH_GEN_INT_EN

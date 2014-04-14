@@ -1535,13 +1535,12 @@ structs:
         bits: 43
         description: |
           Little endian. When clear, PKO operates in the default big-endian mode for the entire
-          packet send descriptor, as the diagrams in this section show. When set, all segment
-          pointers and segment bytes are interpreted in little-endian order. In little-endian mode,
-          the following apply:
-          * The PKO_SEND_GATHER_S[ADDR] and PKO_SEND_LINK_S[ADDR] fields are a little-endian byte
-          pointer rather than a big-endian one.
-          * Operations are fetched from L2/DRAM in little-endian format rather than big-endian
-          format.
+          packet send descriptor, as the diagrams in this section show. When set, all segment bytes
+          are interpreted in little-endian order.
+
+          In little-endian mode, the PKO_SEND_GATHER_S[ADDR] and PKO_SEND_LINK_S[ADDR] fields point
+          to data that is in little-endian byte format rather than big-endian byte format.
+
           Unaligned segment pointers (in send linked operations) must be in correct little-endian
           format, eight bytes prior to the segment bytes (i.e. the least-significant eight bytes of
           the pointer are first, the next least-significant bytes are next, etc.).

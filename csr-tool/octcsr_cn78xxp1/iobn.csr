@@ -4,6 +4,7 @@
 name: IOBN
 attributes:
   dv_fc_scratch_exempt: "RSL"
+  mif_heading2: "IOBN"
 enums:
   - name: IOBN_INTSN_E
     title: IOBN Interrupt Source Enumeration
@@ -1277,8 +1278,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB3 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB3 write credit. Each NCB can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 55..54
@@ -1293,8 +1294,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB3 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB3 read credit. Each NCB can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 47..46
@@ -1309,8 +1310,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB2 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB2 write credit. Each NCB can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 39..38
@@ -1325,8 +1326,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB2 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB2 read credit. Each NCB can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 31..30
@@ -1341,8 +1342,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB1 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB1 write credit. Each NCB can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 23..22
@@ -1357,8 +1358,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB1 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB1 read credit. Each NCB can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 15..14
@@ -1373,8 +1374,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB0 write credit. The NCB# can have 32 writes in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB0 write credit. Each NCB can have 32 writes in flight to the L2; this is the number to
+          decrease the 32 by.
 
       - name: --
         bits: 7..6
@@ -1389,8 +1390,8 @@ registers:
         reset: 0x0
         typical: 0x1
         description: |
-          "NCB0 read credit. The NCB# can have 32 reads in flight to the L2; this is the number to
-          decrease the 32 by."
+          NCB0 read credit. Each NCB can have 32 reads in flight to the L2; this is the number to
+          decrease the 32 by.
 
 
   - name: IOBN_CHIP_GLB_PWR_THROTTLE
@@ -1448,6 +1449,7 @@ registers:
           PWR_SETTING is not used by the hardware when PWR_MIN equals PWR_MAX. PWR_MIN and PWR_MAX
           threshold requirements always supersede PWR_SETTING limits. (For maximum PWR_SETTING
           feedback control freedom, set PWR_MIN=0 and PWR_MAX=0xff.)
+
           PWR_SETTING equal to 0 forces the chip to consume near minimum power. Increasing
           PWR_SETTING value from 0 to 0xFFFF increases the power that the chip is allowed to consume
           linearly (roughly) from minimum to maximum.
@@ -1524,8 +1526,9 @@ registers:
           reduce power. The hardware generally uses a CURRENT_POWER_SETTING value that is as large
           as possible (in order to maximize performance) subject to the following constraints (in
           priority order):
-          * PWR_MIN <= CURRENT_POWER_SETTING <=PWR_MAX
-          * Power limits from the PWR_SETTING feedback control system
+          * PWR_MIN <= CURRENT_POWER_SETTING <= PWR_MAX.
+          * Power limits from the PWR_SETTING feedback control system.
+
           In the case of the CPU cores, CURRENT_POWER_SETTING effectively limits the CP0
           PowThrottle[POWLIM] value: effective POWLIM = MINIMUM(CURRENT_POWER_SETTING,
           PowThrottle[POWLIM])
@@ -1598,12 +1601,12 @@ registers:
         typical: 0x5
         description: |
           State for the global core-clock DLL, from the positive edge of refclk.
-          0x0 = TMD_IDLE
-          0x1 = TMD_STATE1
-          0x2 = TMD_STATE2
-          0x3 = TMD_STATE3
-          0x4 = TMD_STATE4
-          0x5 = TMD_LOCKED
+          0x0 = TMD_IDLE.
+          0x1 = TMD_STATE1.
+          0x2 = TMD_STATE2.
+          0x3 = TMD_STATE3.
+          0x4 = TMD_STATE4.
+          0x5 = TMD_LOCKED.
 
       - name: DLL_LOCK
         bits: 13

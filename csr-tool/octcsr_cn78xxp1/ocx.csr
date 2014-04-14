@@ -237,6 +237,19 @@ registers:
     title: OCX COM Link Control Registers
     address: 0x1180011000020 + a*0x8
     bus: RSL
+    description: |
+      This register controls link operations.  In addition, the combination of some of
+      these conditions are used to generate the link_down status used by the L2C_OCI_CTL[SHTOEN] and
+      as a reset condition controlled by RST_OCX[RST_LINK].  This link_down status is true when one
+      of the following occurs:
+
+      * Link is not initialized (see [UP]).
+      * Retry Counter expired (see OCX_COM_LINK_TIMER and OCX_COM_LINK(0..2)_INT[STOP].
+      * Receive REINIT request from Link Partner (see [REINIT]).
+      * Detected Uncorrectable ECC error while reading the Transmit FIFOs (see
+      OCX_COM_LINK(0..2)_INT[TXFIFO_DBE]).
+      * Detected Uncorrectable ECC error while reading the Replay Buffer (see
+      OCX_COM_LINK(0..2)_INT[REPLAY_DBE]).
     attributes:
       uvm_default_constraint: "True"
     fields:
@@ -263,8 +276,10 @@ registers:
         reset: 0
         typical: --
         description: |
-          Reinitialize link. Setting bit forces link back into init state and also sets DROP bit.
-          Bit must be cleared for link to operate normally.
+          Reinitialize link. Setting this bit forces link back into init state and sets the DROP
+          bit.
+          Setting the bit also causes the link to transmit a REINIT request to the link partner.
+          This bit must be cleared for link to operate normally.
 
       - name: GATE
         bits: 6
@@ -297,7 +312,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Link is operating normally.
+        description: Link is operating normally and exchanging control information.
 
       - name: VALID
         bits: 2
@@ -359,7 +374,7 @@ registers:
         description: |
           Mask for the data to be written. When a bit is 1, the corresponding byte will be written.
           The values of this field must be contiguous and for 1, 2, 4, or 8 byte operations and
-          aligned to operation size. A Value of 0 will produce unpredictable results. Field is
+          aligned to operation size. A value of 0 will produce unpredictable results. Field is
           ignored during a read (LD_OP=1).
 
       - name: --
@@ -416,7 +431,7 @@ registers:
     bus: RSL
     description: |
       For diagnostic use only. This register is the read response data associated with window
-      command. Reads all 1s until response is received.
+      command. Reads all-ones until response is received.
     fields:
       - name: DATA
         bits: 63..0
@@ -541,7 +556,7 @@ registers:
     address: 0x11800110000D0
     bus: RSL
     description: |
-      This register is the read response data associated with core command. Reads all 1s until
+      This register is the read response data associated with core command. Reads all-ones until
       response is received.
       This register has the same bit fields as OCX_WIN_RD_DATA.
     inherits: OCX_WIN_RD_DATA
@@ -607,7 +622,7 @@ registers:
         reset: 1
         typical: --
         description: |
-          I/O request or response cannot be sent because a link was not found with a packet Node ID
+          I/O request or response cannot be sent because a link was not found with a packet node ID
           matching the OCX_COM_LINK(0..2)_CTL[ID]
           with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped.
 
@@ -617,7 +632,7 @@ registers:
         reset: 1
         typical: --
         description: |
-          Memory request or response cannot be send because a link was not found with a packet Node
+          Memory request or response cannot be sent because a link was not found with a packet node
           ID matching the OCX_COM_LINK(0..2)_CTL[ID]
           with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped.
 
@@ -628,7 +643,7 @@ registers:
         typical: --
         description: |
           Scheduler add work or buffer pool return cannot be sent because a link was not found with
-          a Node ID matching the
+          a node ID matching the
           OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has
           been dropped.
 
@@ -639,7 +654,7 @@ registers:
         typical: --
         description: |
           Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
-          cannot be sent because a link was not found with a request Node ID matching the
+          cannot be sent because a link was not found with a request node ID matching the
           OCX_COM_LINK(0..2)_CTL[ID]
           with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has been dropped.
 
@@ -724,7 +739,10 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: --
-        description: Link is ready to pass traffic.
+        description: |
+          Link initialization is complete and is ready to pass traffic. Note this state occurs some
+          time after the link starts exchanging information as indicated in
+          OCX_COM_LINK(0..2)_CTL[UP].
 
       - name: STOP
         bits: 9
@@ -1613,7 +1631,7 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: SER_LOW
-        bits: 63..62
+        bits: 63..60
         access: RO
         reset: 0x0
         typical: 0x0
@@ -1622,19 +1640,19 @@ registers:
         description: Reserved.
 
       - name: SER_LOW
-        bits: 63..62
+        bits: 63..60
         access: R/W/H
         reset: 0x0
         typical: 0x0
         attributes:
           chip_pass: "o78>=2.0"
         description: |
-          Reduce latency by limiting the amount of data in flight for each SerDes.  Writting to 0
+          Reduce latency by limiting the amount of data in flight for each SerDes.  Writing to 0
           causes
           hardware to determine a typically optimal value.   Added in pass 2.
 
       - name: --
-        bits: 61..42
+        bits: 59..42
         access: RAZ
         reset: --
         typical: --
@@ -1658,7 +1676,7 @@ registers:
         typical: --
         attributes:
           chip_pass: "o78>=2.0"
-        description: Reserved.
+        description: Reserved.  Removed in pass 2.
 
       - name: CRD_DIS
         bits: 31
@@ -2010,7 +2028,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Indicates the number of attempt at alignment that succeeded.
+        description: Indicates the number of attempts at alignment that succeeded.
 
 
   - name: OCX_FRC(0..5)_STAT3
@@ -2032,7 +2050,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Indicates the number of attempt at alignment that failed.
+        description: Indicates the number of attempts at alignment that failed.
 
 
   - name: OCX_LNE_DBG
@@ -2215,7 +2233,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Block State Machine:
+          Block state machine:
           Bit<2>: Req / Ack (Init or retry only).
           Bit<3>: Init.
           Bit<4>: Run.
@@ -2228,7 +2246,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Block Subcount. Should always increment 0,1,2,3,0.. except during TX PHY stall.
+        description: Block subcount. Should always increment 0,1,2,3,0.. except during TX PHY stall.
 
 
   - name: OCX_TLK(0..2)_BIST_STATUS
@@ -2399,8 +2417,8 @@ registers:
         typical: --
         description: |
           This bit controls the capture of statistics to the OCX_TLK(a)_STAT_*CNT,
-          OCX_TLK(a)_STAT_*CMD, OCX_TLK(a)_STAT_*PKT and OCX_TLK(a)_STAT_*CON registers. When set
-          traffic will increment the corresponding registers. When cleared traffic will be ignored.
+          OCX_TLK(a)_STAT_*CMD, OCX_TLK(a)_STAT_*PKT and OCX_TLK(a)_STAT_*CON registers. When set,
+          traffic will increment the corresponding registers. When cleared, traffic will be ignored.
 
 
   - name: OCX_TLK(0..2)_STAT_MATCH(0..3)
@@ -2684,7 +2702,7 @@ registers:
         reset: --
         typical: 1
         description: |
-          Master enable for all inbound I/O Requests. This bit is typically set at reset but is
+          Master enable for all inbound I/O requests. This bit is typically set at reset but is
           cleared when operating in Authentik mode and must be enabled by software.
 
       - name: FWD

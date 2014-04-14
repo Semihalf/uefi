@@ -269,9 +269,9 @@ registers:
         typical: 0x0
         description: |
           TimeStamp interrupt threshold. When the number of pending Timestamp interrupts
-          (MIX(0..1)_TSCTL[TSCNT] is greater than
+          (MIX(0..1)_TSCTL[TSCNT]) is greater than
           MIX(0..1)_CTL[TS_THRESH], then a programmable TimeStamp interrupt is issued (see
-          MIX(0..1)_INTR[TS].
+          MIX(0..1)_INTR[TS]).
 
           For CN78XX, since the implementation only supports four outstanding timestamp interrupts,
           this field should only be programmed from [0..3].
@@ -322,9 +322,9 @@ registers:
           affected by soft reset (except MIX(0..1)_CTL[RESET] itself).
 
           After power-on, the MIX-BGX are held in reset until RESET is written to 0. Software must
-          also perform a MIX(0..1)_CTL CSR read after this write to ensure the soft reset de-
-          assertion has had sufficient time to propagate to all MIO-MIX internal logic before any
-          subsequent MIX CSR accesses are issued.
+          also perform a MIX(0..1)_CTL CSR read after this write to ensure the soft reset
+          deassertion has had sufficient time to propagate to all MIO-MIX internal logic before
+          any subsequent MIX CSR accesses are issued.
 
           The intended 'soft reset' sequence is:
 
@@ -545,7 +545,7 @@ registers:
           The MIX(0..1)_ORCNT[IOCNT] will clamp to zero.
 
           If an ORUN underflow condition is detected, the integrity of the MIX hardware state has
-          been compromised. To recover, Software must issue a software reset sequence. (See
+          been compromised. To recover, software must issue a software reset sequence. (See
           MIX(0..1)_CTL[RESET.]
 
       - name: IRUN
@@ -602,7 +602,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          "Inbound doorbell (IDBELL) overflow detected. Throws MIX_INTSN_E::MIX(0..1)_INT_IDBLOVF.
+          Inbound doorbell (IDBELL) overflow detected. Throws MIX_INTSN_E::MIX(0..1)_INT_IDBLOVF.
           If software attempts to write to the MIX(0..1)_IRING2[IDBELL] with a value greater than
           the remaining number of I-Ring buffer entries (MIX(0..1)_REMCNT[IREMCNT]), then the
           following occurs:
@@ -621,7 +621,7 @@ registers:
           with each packet as they are processed.
 
           If an IDBLOVF occurs, it is an indication that software has overwritten the I-Ring buffer,
-          and the only recourse for recovery is a hardware reset."
+          and the only recourse for recovery is a hardware reset.
 
       - name: ODBLOVF
         bits: 0
@@ -758,7 +758,7 @@ registers:
 
       2. a MIX(0..1)_TSTAMP[TSTAMP] read operation followed by MIX(0..1)_TSCTL write operation.
 
-      Note for Software: A MIX(0..1)_TSCTL write operation is ignored when
+      Note for software: A MIX(0..1)_TSCTL write operation is ignored when
       MIX(0..1)_TSCTL[TSCNT] = 0 (i.e., TimeStamp FIFO empty).
     fields:
       - name: --

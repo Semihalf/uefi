@@ -326,7 +326,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when hardware does a subtract to the count that causes the counter to wrap. Throws
+          Set when hardware does a subtract to the count that caused the counter to wrap. Throws
           FPA_INTSN_E::FPA_ERR_HW_SUB.
 
       - name: HW_ADD
@@ -335,7 +335,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when hardware does an add to the count that causes the counter to wrap. Throws
+          Set when hardware does an add to the count that caused the counter to wrap. Throws
           FPA_INTSN_E::FPA_ERR_HW_ADD.
 
       - name: CNT_SUB
@@ -344,8 +344,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when a write to FPA_AURA(0..1023)_CNT_ADD does a subtract to the count that causes the
-          counter to wrap. Throws FPA_INTSN_E::FPA_ERR_CNT_SUB.
+          Set when a write to FPA_AURA(0..1023)_CNT_ADD does a subtract to the count that would have
+          caused the counter to wrap, so the count was zeroed. Throws FPA_INTSN_E::FPA_ERR_CNT_SUB.
 
       - name: CNT_ADD
         bits: 0
@@ -353,8 +353,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when a write to FPA_AURA(0..1023)_CNT_ADD does an add to the count that causes the
-          counter to wrap. Throws FPA_INTSN_E::FPA_ERR_CNT_ADD.
+          Set when a write to FPA_AURA(0..1023)_CNT_ADD does an add to the count that would have
+          caused the counter to wrap, so the count was zeroed. Throws FPA_INTSN_E::FPA_ERR_CNT_ADD.
 
 
   - name: FPA_GEN_CFG
@@ -1190,7 +1190,8 @@ registers:
         description: |
           The value to be added to FPA_AURA(0..1023)_CNT. The value may alternatively be a 2's
           complement of a value to be subtracted. Subtraction or addition that results in overflow
-          will zero the count, not roll-around. See Aura Quality of Service.
+          will zero the count, not roll-around, and set either FPA_ERR_INT[CNT_ADD] or
+          FPA_ERR_INT[CNT_SUB].
 
 
   - name: FPA_AURA(0..1023)_CNT_LIMIT

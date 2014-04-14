@@ -2230,8 +2230,7 @@ registers:
   - name: PIP_STAT7_PRT(0..3,16..19,24,32..35,36..39)
     address: 0x11800A0000838 + a*0x50
     bus: RSL
-    internal: |
-      DPI does not check FCS, therefore FCS will never increment on DPI ports 32-35
+    internal: DPI does not check FCS, therefore FCS will never increment on DPI ports 32-35
     attributes:
       exempt_natural_alignment: "a"
     fields:
@@ -2253,8 +2252,7 @@ registers:
   - name: PIP_STAT8_PRT(0..3,16..19,24,32..35,36..39)
     address: 0x11800A0000840 + a*0x50
     bus: RSL
-    internal: |
-      DPI does not check FCS, therefore FRAG will never increment on DPI ports 32-35
+    internal: DPI does not check FCS, therefore FRAG will never increment on DPI ports 32-35
     attributes:
       exempt_natural_alignment: "a"
     fields:
@@ -2276,8 +2274,7 @@ registers:
   - name: PIP_STAT9_PRT(0..3,16..19,24,32..35,36..39)
     address: 0x11800A0000848 + a*0x50
     bus: RSL
-    internal: |
-      DPI does not check FCS, therefore JABBER will never increment on DPI ports 32-35
+    internal: DPI does not check FCS, therefore JABBER will never increment on DPI ports 32-35
     attributes:
       exempt_natural_alignment: "a"
     fields:

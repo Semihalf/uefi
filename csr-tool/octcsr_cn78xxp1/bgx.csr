@@ -3,8 +3,9 @@
 ---
 name: BGX
 description: |
-  "  BGX is an Ethernet I/O Interface Block that supports 1 to 4 logical MACs
-  (LMACs) with link speeds from 10 Mbps to 40 Gpbs.
+  "INTERNAL:
+    BGX is an Ethernet I/O Interface Block that supports 1 to 4 logical MACs
+    (LMACs) with link speeds from 10 Mbps to 40 Gpbs.
 
     The BGX registers are partitioned into the follow sub-blocks:
     - BGX_CMR: Overall BGX configuration and common resources for all LMAC types
@@ -134,7 +135,9 @@ enums:
       subblock: "META"
       width: "20"
     description: |
-      "BGX Interrupt Source Numbers for CIU. 20-bit INTSN consists of:
+      "BGX Interrupt Source Numbers for CIU.
+
+      INTERNAL: 20-bit INTSN consists of:
         - INTSN[19:12] (major block ID) = DID of BGX instance (0xE0 + a)
         - INTSN[11:8]  (minor block ID) = Subblock ID
         - INTSN[7:0]   (interrupt bit index)
@@ -879,8 +882,9 @@ structs:
         bits: 13
         description: |
           Preset. Set to indicate that all TX coefficients be set to a state where equalization is
-          turned off, i.e. the pre-cursor (k = -1) and post-cursor (k = +1) coefficients should be
-          set to 0 and the main (k = 0) coefficient should be set to its maximum value.
+          turned off, i.e. the precursor (k = -1) and postcursor (k = +1) coefficients should be set
+          to 0 and the main
+          (k = 0) coefficient should be set to its maximum value.
 
       - name: --
         bits: 15..14
@@ -969,7 +973,7 @@ structs:
         bits: 11..0
         description: |
           Alignment marker PTP timestamp. Valid for 40GBASE-R only. Contains the lower 12 bits of
-          the PTP timestamp of the alignment marker received on the serdes lane during align/skew
+          the PTP timestamp of the alignment marker received on the SerDes lane during align/skew
           detection.
 
       - name: --
@@ -1071,15 +1075,15 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Logical MAC/PCS Enable. This is the master enable for the LMAC. When clear, all the
+          Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
           dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-          and LMAC access to shared BGX resources (SMU/SPU data path, serdes lanes) is disabled.
+          and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
           When set, LMAC operation is enabled, including link bring-up, synchronization, and
-          transmit/receive of of idles and fault sequences. Note that configuration registers for an
+          transmit/receive of idles and fault sequences. Note that configuration registers for an
           LMAC are not reset when this bit is clear, allowing software to program them before
-          setting this bit to enable the LMAC.  This bit together with the LMAC_TYPE is also used
-          to enable the clocking to the GMP and/or blocks of the Super path(SMU and SPU).
-          CMR clocking will be enable when any of the paths are enabled.
+          setting this bit to enable the LMAC. This bit together with the LMAC_TYPE is also used to
+          enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
+          is enabled when any of the paths are enabled.
 
       - name: DATA_PKT_RX_EN
         bits: 14
@@ -1087,7 +1091,7 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Data Packet Receive Enable When ENABLE=1 and DATA_PKT_RX_EN=1, the reception of data
+          Data packet receive enable. When ENABLE=1 and DATA_PKT_RX_EN=1, the reception of data
           packets is enabled in the MAC layer. When ENABLE=1 and DATA_PKT_RX_EN=0, the MAC layer
           drops received data and flow control packets.
 
@@ -1097,9 +1101,9 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Data Packet Transmit Enable When ENABLE=1 and DATA_PKT_TX_EN=1, the transmission of data
+          Data packet transmit enable. When ENABLE=1 and DATA_PKT_TX_EN=1, the transmission of data
           packets is enabled in the MAC layer. When ENABLE=1 and DATA_PKT_TX_EN=0, the MAC layer
-          suppresses the transmission of new data and packets for the LMAC
+          suppresses the transmission of new data and packets for the LMAC.
 
       - name: INT_BEAT_GEN
         bits: 12
@@ -1107,10 +1111,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Internal Beat Generation This bit is used for debug/test purposes and should be clear
+          Internal beat generation. This bit is used for debug/test purposes and should be clear
           during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
-          TXREADY/TXCREDIT from the associated serdes lane(s), internally generates fake (idle)
-          RXVALID and TXCREDIT pulses, and suppresses transmission to the serdes
+          TXREADY/TXCREDIT from the associated SerDes lane(s), internally generates fake (idle)
+          RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes.
 
       - name: MIX_EN
         bits: 11
@@ -1118,11 +1122,14 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Managemenet enable. This bit is used by LMACs 0 and 1 only, and should be kept clear for
-          LMACs 2 and 3. Setting it will pipe the LMAC to and from the MIX inteface (LMAC0 to/from
+          Management enable. This bit is used by LMACs 0 and 1 only, and should be kept clear for
+          LMACs 2 and 3. Setting it will pipe the LMAC to and from the MIX interface (LMAC0 to/from
           MIX0, LMAC1 to/from MIX1). LMAC_TYPE must be 0 (SGMII) then this bit is set. Note that at
           most one BGX can be attached to each of MIX0 and MIX1, i.e. at most one
           BGX(0..5)_CMR0_CONFIG[MIX_EN] bit and one BGX(0..5)_CMR1_CONFIG[MIX_EN] bit can be set.
+
+          This field must be programmed to its final value before [ENABLE] is set, and must not
+          be changed when [ENABLE]=1.
 
       - name: LMAC_TYPE
         bits: 10..8
@@ -1146,6 +1153,9 @@ registers:
           each type. Each valid PCS lane is mapped to a physical serdes lane
           based on the programming of [LANE_TO_SDS].
 
+          This field must be programmed to its final value before [ENABLE] is set, and must not
+          be changed when [ENABLE]=1.
+
       - name: LANE_TO_SDS
         bits: 7..0
         access: R/W
@@ -1154,39 +1164,39 @@ registers:
         description: |
           PCS Lane to Serdes Mapping.
           This is an array of 2-bit values that map each logical PCS Lane to a
-          physical serdes lane, as follows:
+          physical SerDes lane, as follows:
             ----------+----------------------------------------------------------
             Bits     | Description                     Reset value
             ----------+----------------------------------------------------------
-            <7:6>    | PCS Lane 3 Serdes ID            0x3
-            <5:4>    | PCS Lane 2 Serdes ID            0x2
-            <3:2>    | PCS Lane 1 Serdes ID            0x1
-            <1:0>    | PCS Lane 0 Serdes ID            0x0
+            <7:6>    | PCS Lane 3 SerDes ID            0x3
+            <5:4>    | PCS Lane 2 SerDes ID            0x2
+            <3:2>    | PCS Lane 1 SerDes ID            0x1
+            <1:0>    | PCS Lane 0 SerDes ID            0x0
             ----------+----------------------------------------------------------
 
-          PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is
-          a function of the logical MAC/PCS type (see definition of
-          LMAC_TYPE field in this register). For example, when LMAC_TYPE =
-          RXAUI, then NUM_PCS_LANES = 2, PCS lanes 0 and 1 valid and the
-          associated physical serdes lanes are selected by bits <1:0> and
-          <3:2>, respectively.
-          For 40GBASE-R (LMAC_TYPE = 40G_R), all four PCS lanes are valid, and
-          the PCS lane IDs determine the block distribution order and
-          associated alignment markers on the *transmit* side. This is not
-          necessarily the order in which PCS lanes *receive* data because 802.3
-          allows multi-lane BASE-R receive lanes to be re-ordered. When a
-          lane (called 'service interface' in 802.3ba-2010) has achieved
-          alignment marker lock on the receive side (i.e. the associated
-          MARKER_LOCK bit is set in BR_ALGN_STATUS), then the actual detected
-          RX PCS lane number is recorded in the corresponding LNx_MAPPING
-          field in BR_LANE_MAP.
+          PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
+          logical MAC/PCS type. (See definition of LMAC_TYPE.) For example, when LMAC_TYPE = RXAUI,
+          then NUM_PCS_LANES = 2, PCS lanes 0 and 1 valid and the associated physical SerDes lanes
+          are selected by bits <1:0> and <3:2>, respectively.
+
+          For 40GBASE-R (LMAC_TYPE = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
+          determine the block distribution order and associated alignment markers on the transmit
+          side. This is not necessarily the order in which PCS lanes receive data because 802.3
+          allows multilane BASE-R receive lanes to be reordered. When a lane (called service
+          interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
+          the associated BGX(0..5)_SPU(0..3)_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
+          detected RX PCS lane number is recorded in the corresponding
+          BGX(0..5)_SPU(0..3)_BR_LANE_MAP[LNx_MAPPING].
+
+          This field must be programmed to its final value before [ENABLE] is set, and must not
+          be changed when [ENABLE]=1.
 
 
   - name: BGX(0..5)_CMR_GLOBAL_CONFIG
     title: BGX CMR Global Configuration Register
     address: 0x11800E0000008 + a*0x1000000
     bus: RSL
-    description: These registers configures the global CMR, PCS, and MAC.
+    description: These registers configure the global CMR, PCS, and MAC.
     attributes:
       subblock: "CMR"
     fields:
@@ -1240,9 +1250,10 @@ registers:
         typical: 0
         description: |
           The global clock enable for BGX. Setting this bit overrides clock enables set by
-          BGX_CMR_CONFIG[ENABLE] and BGX_CMR_CONFIG[LMAC_TYPE], essentially turning on clocks for
-          the entire BGX. Setting this bit to 0 results in not overriding clock enables set by
-          BGX_CMR_CONFIG[ENABLE] and BGX_CMR_CONFIG[LMAC_TYPE].
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE] and BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE], essentially
+          turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+          clock enables set by BGX(0..5)_CMR(0..3)_CONFIG[ENABLE] and
+          BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE].
 
       - name: PMUX_SDS_SEL
         bits: 0
@@ -1250,7 +1261,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Serdes/QLM output select. Specifies which QLM output is selected as the BGX input, as
+          SerDes/QLM output select. Specifies which QLM output is selected as the BGX input, as
           follows:
             ------+----------------+----------------
             Block | PMUX_SDS_SEL=0 | PMUX_SDS_SEL=1
@@ -1555,7 +1566,7 @@ registers:
         typical: 0
         description: |
           TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
-          bits of the offending channel
+          bits of the offending channel.
 
       - name: OVERFLW
         bits: 1
@@ -1595,7 +1606,7 @@ registers:
         typical: --
         description: |
           Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
-          MACs. See description of RIDs in .
+          MACs.
           The RID for this LMAC must be constrained such that it does not overlap with any other MAC
           in the system. Its reset value has been chosen such that this condition is satisfied:
           RID reset value = 4*(BGX_ID + 1) + LMAC_ID
@@ -1631,7 +1642,7 @@ registers:
         access: R/W1C/H
         reset: 0x0
         typical: --
-        description: Time extracted from the dropped PAUSE packet dropped due to RXB FIFO full or during partner reset
+        description: Time extracted from the dropped PAUSE packet dropped due to RXB FIFO full or during partner reset.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT0
@@ -1640,10 +1651,10 @@ registers:
     bus: RSL
     description: |
       These registers provide a count of received packets that meet the following conditions:
-      are not recognized as PAUSE packets
-      are not dropped due DMAC filtering
-      are not dropped due FIFO full status
-      do not have any other OPCODE (FCS, Length, etc).
+      * are not recognized as PAUSE packets.
+      * are not dropped due DMAC filtering.
+      * are not dropped due FIFO full status.
+      * do not have any other OPCODE (FCS, Length, etc).
     attributes:
       rtlgen_soft_reset: "cmr_soft_reset[b]"
       subblock: "CMR"
@@ -1662,7 +1673,7 @@ registers:
         typical: --
         description: |
           Count of received packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT1
@@ -1688,7 +1699,7 @@ registers:
         typical: --
         description: |
           Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT2
@@ -1697,12 +1708,11 @@ registers:
     bus: RSL
     description: |
       These registers provide a count of all packets received that were recognized as flow-control
-      or PAUSE packets. PAUSE packets with any kind of error are counted in BGX*_CMR*_RX_STAT8
-      (error stats register) and does not include those reported in BGX(0..5)_CMR(0..3)_RX_STAT6
-      nor BGX(0..5)_CMR(0..3)_RX_STAT4.
-      Pause packets can be optionally dropped or forwarded based on
-      BGX_SMU_RX_FRM_CTL[CTL_DRP]. This count increments regardless of whether the packet is
-      dropped. PAUSE packets are never counted in BGX*_CMR*_RX_STAT0.
+      or PAUSE packets. PAUSE packets with any kind of error are counted in
+      BGX(0..5)_CMR(0..3)_RX_STAT8 (error stats register). Pause packets can be optionally dropped
+      or forwarded based on BGX(0..5)_SMU(0..3)_RX_FRM_CTL[CTL_DRP]. This count increments
+      regardless of whether the packet is dropped. PAUSE packets are never counted in
+      BGX(0..5)_CMR(0..3)_RX_STAT0.
     attributes:
       rtlgen_soft_reset: "cmr_soft_reset[b]"
       subblock: "CMR"
@@ -1721,7 +1731,7 @@ registers:
         typical: --
         description: |
           Count of received PAUSE packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT3
@@ -1747,7 +1757,7 @@ registers:
         typical: --
         description: |
           Octet count of received PAUSE packets. CNT will wrap and is cleared if LMAC is disabled
-          with BGX*_CMR*_CONFIG[ENABLE]=0.
+          with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT4
@@ -1757,10 +1767,9 @@ registers:
     description: |
       These registers provide a count of all packets received that were dropped by the DMAC filter.
       Packets that match the DMAC are dropped and counted here regardless of whether they were ERR
-      packets, but does not include those reported in BGX(0..5)_CMR(0..3)_RX_STAT6.
-      These packets are never counted in BGX*_CMR*_RX_STAT0. Eight-byte packets as the
-      result of truncation or other means are not be dropped by CN78XX and will never appear in this
-      count.
+      packets, but does not include those reported in BGX(0..5)_CMR(0..3)_RX_STAT6. These packets
+      are never counted in BGX(0..5)_CMR(0..3)_RX_STAT0. Eight-byte packets as the result of
+      truncation or other means are not dropped by CN78XX and will never appear in this count.
     attributes:
       rtlgen_soft_reset: "cmr_soft_reset[b]"
       subblock: "CMR"
@@ -1779,7 +1788,7 @@ registers:
         typical: --
         description: |
           Count of filtered DMAC packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT5
@@ -1805,7 +1814,7 @@ registers:
         typical: --
         description: |
           Octet count of filtered DMAC packets. CNT will wrap and is cleared if LMAC is disabled
-          with BGX*_CMR*_CONFIG[ENABLE]=0.
+          with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT6
@@ -1814,9 +1823,9 @@ registers:
     bus: RSL
     description: |
       These registers provide a count of all packets received that were dropped due to a full
-      receive FIFO. They do not count any packet that is truncated at the point at the point of
-      overflow and sent on to the PKI. These registers count all entire packets dropped by the FIFO
-      for a given LMAC regardless of DMAC or PAUSE type.
+      receive FIFO. They do not count any packet that is truncated at the point of overflow and sent
+      on to the PKI. These registers count all entire packets dropped by the FIFO for a given LMAC
+      regardless of DMAC or PAUSE type.
     attributes:
       rtlgen_soft_reset: "cmr_soft_reset[b]"
       subblock: "CMR"
@@ -1835,7 +1844,7 @@ registers:
         typical: --
         description: |
           Count of dropped packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT7
@@ -1863,7 +1872,7 @@ registers:
         typical: --
         description: |
           Octet count of dropped packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_STAT8
@@ -1904,7 +1913,7 @@ registers:
         typical: --
         description: |
           Count of error packets. CNT will wrap and is cleared if LMAC is disabled with
-          BGX*_CMR*_CONFIG[ENABLE]=0.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_BP_DROP
@@ -1954,14 +1963,19 @@ registers:
         reset: 0x100
         typical: 0x100
         description: |
-          High watermark (number of eight-byte cycles to assert backpressure). Each register is for
-          an individual LMAC. MARK must satisfy:
+          High watermark. Buffer depth in multiple of 16-bytes, at which BGX will
+          assert backpressure for each individual LMAC.  MARK must satisfy:
+
           BGX(0..5)_CMR(0..3)_RX_BP_OFF[MARK] <= MARK <
           (FIFO_SIZE - BGX(0..5)_CMR(0..3)_RX_BP_DROP[MARK]).
+
           A value of 0x0 immediately asserts backpressure.
-          The recommended value is 1/4th the size of the per-LMAC RX FIFO_SIZE as determined by
-          GX_CMR_RX_LMACS[LMACS]. For example in SGMII mode with four LMACs of type SGMII where
-          BGX*_CMR*_RX_LMACS[LMACS]=0x4, MARK = 0x100 (the reset value.
+
+          The recommended value is 1/4th the size of the per-LMAC RX FIFO_SIZE as
+          determined by BGX(0..5)_CMR_RX_LMACS[LMACS]. For example in SGMII mode with
+          four LMACs of type SGMII, where BGX(0..5)_CMR_RX_LMACS[LMACS]=0x4, there is
+          16 KB of buffering. The recommended 1/4th size of that 16 KB is 4 KB, which
+          in units of 16 bytes gives MARK = 0x100 (the reset value).
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_BP_OFF
@@ -2082,8 +2096,8 @@ registers:
         typical: --
         description: |
           Allow or deny broadcast packets.
-          0 = Reject all broadcast packets
-          1 = Accept all broadcast Packets
+          0 = Reject all broadcast packets.
+          1 = Accept all broadcast Packets.
 
 
   - name: BGX(0..5)_CMR(0..3)_RX_BP_STATUS
@@ -2157,7 +2171,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Together with BGX(0..5)_CMR(0..3)_RX_LOGL_XOFF defines type of channel backpressure to
+          Together with BGX(0..5)_CMR(0..3)_RX_LOGL_XOFF, defines type of channel backpressure to
           apply. Do not write when HiGig2 is enabled. Writing 1 clears the same physical register as
           that which is set by XOFF. An XON value of 1 means only PKI channel BP can cause a
           backpressure on SMU.
@@ -2211,10 +2225,10 @@ registers:
           any of the four SGMII MACs or the 10G/40G MACs using these register bits.
           A typical configuration is to provide eight CAM entries per LMAC ID, which is configured
           using the following settings:
-          LMAC interface 0: BGX(0..5)_CMR_RX_ADR(0..7)_CAM[ID] = 0x0
-          LMAC interface 1: BGX(0..5)_CMR_RX_ADR(8..15)_CAM[ID] = 0x1
-          LMAC interface 2: BGX(0..5)_CMR_RX_ADR(16..23)_CAM[ID] = 0x2
-          LMAC interface 3: BGX(0..5)_CMR_RX_ADR(24..31)_CAM[ID] = 0x3
+          * LMAC interface 0: BGX(0..5)_CMR_RX_ADR(0..7)_CAM[ID] = 0x0.
+          * LMAC interface 1: BGX(0..5)_CMR_RX_ADR(8..15)_CAM[ID] = 0x1.
+          * LMAC interface 2: BGX(0..5)_CMR_RX_ADR(16..23)_CAM[ID] = 0x2.
+          * LMAC interface 3: BGX(0..5)_CMR_RX_ADR(24..31)_CAM[ID] = 0x3.
 
       - name: --
         bits: 51..49
@@ -2240,8 +2254,8 @@ registers:
         typical: --
         description: |
           DMAC address in the CAM used for matching. The CAM matches against unicast or multicast
-          DMAC addresses. All BGX*_CMR_RX_ADR_CAM(0..31) CSRs can be used in any of the LMAC_TYPE
-          combinations such that any BGX MAC can use any of the 32 common DMAC entries.
+          DMAC addresses. All BGX(0..5)_CMR_RX_ADR(0..31)_CAM CSRs can be used in any of the
+          LMAC_TYPE combinations such that any BGX MAC can use any of the 32 common DMAC entries.
 
 
   - name: BGX(0..5)_CMR_CHAN_MSK_AND
@@ -2381,12 +2395,12 @@ registers:
     address: 0x11800E0000318 + a*0x1000000
     bus: RSL
     description: |
-      BGX_CMR_RX_OVR_BP[EN<0>] must be set to one and BGX_CMR_RX_OVR_BP[BP<0>] must be cleared to
-      zero (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with the HiGig2
-      Protocol when BGX_SMU_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol is indicated by
-      BGX_SMU_TX_CTL[HG_EN]=1 and BGX_SMU_RX_UDD_SKP[LEN]=16). Hardware can only auto-generate
-      backpressure through HiGig2 messages (optionally, when BGX_SMU_HG2_CONTROL[HG2TX_EN]=1) with
-      the HiGig2 protocol.
+      BGX(0..5)_CMR_RX_OVR_BP[EN<0>] must be set to one and BGX(0..5)_CMR_RX_OVR_BP[BP<0>] must be
+      cleared to zero (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with
+      the HiGig2 Protocol when BGX(0..5)_SMU(0..3)_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol is
+      indicated by BGX(0..5)_SMU(0..3)_TX_CTL[HG_EN]=1 and BGX(0..5)_SMU(0..3)_RX_UDD_SKP[LEN]=16).
+      Hardware can only auto-generate backpressure through HiGig2 messages (optionally, when
+      BGX(0..5)_SMU(0..3)_HG2_CONTROL[HG2TX_EN]=1) with the HiGig2 protocol.
     attributes:
       subblock: "CMR"
     fields:
@@ -2448,7 +2462,7 @@ registers:
         typical: 0x0
         description: |
           Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
-          specified by this field. Any channel in which MSK == 1 never sends backpressure
+          specified by this field. Any channel in which MSK<n> is set never sends backpressure
           information to PKO.
 
       - name: DIS
@@ -2458,8 +2472,8 @@ registers:
         typical: 0x0
         description: |
           Credit return backpressure disable. BGX stops returning channel credits for any channel
-          that is backpressured. These bits can be used to override that. DIS == 1 allows channel
-          credits to flow back regardless of the backpressure for that channel.
+          that is backpressured. These bits can be used to override that. If DIS<n> is set, channel
+          credits may flow back regardless of the backpressure for that channel.
 
 
   - name: BGX(0..5)_CMR(0..3)_PRT_CBFC_CTL
@@ -2483,10 +2497,10 @@ registers:
         reset: 0xffff
         typical: --
         description: |
-          When BGXn_SMUm_CBFC_CTL[RX_EN] is set and the hardware is backpressuring any LMACs (from
-          either PFC/CBFC PAUSE packets or BGXn_CMR_TX_OVR_BP[TX_CHAN_BP]) and all LMACs indicated
-          by PHYS_BP are backpressured, simulate physical backpressure by deferring all packets on
-          the transmitter.
+          When BGX(0..5)_SMU(0..3)_CBFC_CTL[RX_EN] is set and the hardware is backpressuring any
+          LMACs (from either PFC/CBFC PAUSE packets or BGX(0..5)_CMR(0..3)_TX_OVR_BP[TX_CHAN_BP])
+          and all LMACs indicated by PHYS_BP are backpressured, simulate physical backpressure by
+          deferring all packets on the transmitter.
 
       - name: --
         bits: 15..0
@@ -2609,9 +2623,9 @@ registers:
         typical: --
         description: |
           Number of packets dropped (never successfully sent) due to excessive collision. Defined by
-          BGX_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. SGMII/1000Base-X half-duplex only.
+          BGX(0..5)_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. SGMII/1000Base-X half-duplex only.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT1
@@ -2638,7 +2652,7 @@ registers:
           Number of packets dropped (never successfully sent) due to excessive deferral.
           SGMII/1000BASE-X half-duplex only.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT2
@@ -2663,9 +2677,9 @@ registers:
         typical: --
         description: |
           Number of packets sent with multiple collisions. Must be less than
-          BGX_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. SGMII/1000BASE-X half-duplex only.
+          BGX(0..5)_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. SGMII/1000BASE-X half-duplex only.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT3
@@ -2691,7 +2705,7 @@ registers:
         description: |
           Number of packets sent with a single collision. SGMII/1000BASE-X half-duplex only.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT4
@@ -2721,7 +2735,7 @@ registers:
           bytes, FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE
           byte or EXTEND cycles.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT5
@@ -2748,7 +2762,7 @@ registers:
           Number of total frames sent on the interface. Does not count octets from frames that were
           truncated due to collisions in half-duplex mode.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT6
@@ -2776,8 +2790,8 @@ registers:
           transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
           PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
           cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT7
@@ -2805,8 +2819,8 @@ registers:
           transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
           PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
           cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT8
@@ -2834,8 +2848,8 @@ registers:
           data transmitted on the wire for the given packet including packet data, pad bytes, FCS
           bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
           cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT9
@@ -2863,8 +2877,8 @@ registers:
           all data transmitted on the wire for the given packet including packet data, pad bytes,
           FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
           EXTEND cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT10
@@ -2892,8 +2906,8 @@ registers:
           all data transmitted on the wire for the given packet including packet data, pad bytes,
           FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
           EXTEND cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT11
@@ -2922,7 +2936,7 @@ registers:
           FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
           EXTEND cycles.
           Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT12
@@ -2950,8 +2964,8 @@ registers:
           all data transmitted on the wire for the given packet including packet data, pad bytes,
           FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
           EXTEND cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT13
@@ -2979,8 +2993,8 @@ registers:
           transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
           PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
           cycles.
-          Not cleared on read; cleared on a write with 0x0.Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT14
@@ -3010,7 +3024,7 @@ registers:
           assumes that the DMAC lies in the first six bytes of the packet as per the 802.3 frame
           definition. If the system requires additional data before the L2 header, the MCST and BCST
           counters may not reflect reality and should be ignored by software. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT15
@@ -3040,7 +3054,7 @@ registers:
           assumes that the DMAC lies in the first six bytes of the packet as per the 802.3 frame
           definition. If the system requires additional data before the L2 header, then the MCST and
           BCST counters may not reflect reality and should be ignored by software. Cleared if LMAC
-          is disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          is disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT16
@@ -3066,7 +3080,7 @@ registers:
         description: |
           Number of underflow packets.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR(0..3)_TX_STAT17
@@ -3095,17 +3109,16 @@ registers:
           CTL counts the number of generated PFC frames and does not track the number of generated
           HG2 messages.
           Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
-          disabled with BGX_CMR_CONFIG[ENABLE]=0.
+          disabled with BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]=0.
 
 
   - name: BGX(0..5)_CMR_TX_LMACS
     title: BGX CMR Transmit Logical MACs Registers
     address: 0x11800E0001000 + a*0x1000000
     bus: RSL
-    description: Number of transmit LMACs.
-    internal: |
-      Number of lmacs allowed on the TX interface. The value is important for defining the
-      partitioning of the transmit fifo
+    description: |
+      This register sets the number of LMACs allowed on the TX interface. The value is important for
+      defining the partitioning of the transmit FIFO.
     attributes:
       subblock: "CMR"
     fields:
@@ -3122,7 +3135,7 @@ registers:
         reset: 0x4
         typical: 0x4
         description: |
-          "Number of LMACS: Specifies the number of LMACs that can be enabled.
+          '"Number of LMACS: Specifies the number of LMACs that can be enabled.
           This determines the logical TX buffer size per LMAC and the maximum
           LMAC ID that can be used:
             ----------+---------------------------------------------------
@@ -3137,9 +3150,9 @@ registers:
             5-7       |   reserved
             ----------+---------------------------------------------------
 
-          Note: The maximum LMAC ID is determined by the smaller of
-          BGX_CMR_RX_LMACS[LMACS] and BGX_CMR_TX_LMACS[LMACS]. The two fields
-          should be set to the same value for normal operation."
+          NOTE: The maximum LMAC ID is determined by the smaller of BGX(0..5)_CMR_RX_LMACS[LMACS]
+          and BGX(0..5)_CMR_TX_LMACS[LMACS]. The two fields should be set to the same value for
+          normal operation.'
 
 
   - name: BGX(0..5)_CMR_NXC_ADR
@@ -3215,11 +3228,11 @@ registers:
         reset: 1
         typical: 0
         description: |
-          Reset. Setting this bit or BGXn_SPUm_AN_CONTROL[AN_RESET] to 1 causes the following to
-          happen:
-          Resets the logical PCS (LPCS)
-          Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
-          Resets the associated SerDes lanes.
+          Reset. Setting this bit or BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_RESET] to 1 causes the
+          following to happen:
+          * Resets the logical PCS (LPCS)
+          * Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
+          * Resets the associated SerDes lanes.
           It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
           automatically cleared.
 
@@ -3254,7 +3267,8 @@ registers:
         typical: 0
         description: |
           Low power enable. When set, the LPCS is disabled (overriding the associated
-          BGXn_CMRm_CONFIG[ENABLE]), and the SerDes lanes associated with the LPCS are reset.
+          BGX(0..5)_CMR(0..3)_CONFIG[ENABLE]), and the SerDes lanes associated with the LPCS are
+          reset.
 
       - name: --
         bits: 10..7
@@ -3277,11 +3291,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "Speed selection:
+          "Speed selection.
           Note that this is a read-only field rather than read/write as
-          specified in 802.3. The Logical PCS speed is actually configured by
-          the LMAC_TYPE field in the associated BGX_CMR_CONFIG register in
-          the CMR sub-block. The Read values returned by this field are as
+          specified in 802.3.
+          The LPCS speed is actually configured by the associated
+          BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE]. The read values returned by this field are as
           follows:
             ----------+---------------------------------------------------
             LMAC_TYPE |   Speed       SPD Read Value      Comment
@@ -3323,8 +3337,7 @@ registers:
         typical: 0
         description: |
           Fault: 1 = fault condition detected, 0 = no fault condition detected.
-          This bit is a logical OR of
-          BGX(0..5)_SPU(0..3)_STATUS2[XMTFLT, RCVFLT].
+          This bit is a logical OR of BGX(0..5)_SPU(0..3)_STATUS2[XMTFLT, RCVFLT].
 
       - name: --
         bits: 6..3
@@ -3341,10 +3354,11 @@ registers:
         description: |
           PCS receive link status: 1 = receive link up, 0 = receive link down.
           This is a latching-low bit; it stays clear until the register is read by software.
-          For a BASE-X logical PCS type (in the associated BGXn_CMRm_CONFIG[LMAC_TYPE] = XAUI or
-          RXAUI), this is a latching-low version of BGXn_SPUm_BX_STATUS[ALIGND].
-          For a BASE-R logical PCS type (in the associated BGXn_CMRm_CONFIG[LMAC_TYPE] = 10G_R or
-          40G_R), this is a latching-low version of BGXn_SPUm_BR_STATUS1[RCV_LNK].
+          For a BASE-X logical PCS type (in the associated BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] =
+          XAUI or RXAUI), this is a latching-low version of BGX(0..5)_SPU(0..3)_BX_STATUS[ALIGND].
+          For a BASE-R logical PCS type (in the associated BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] =
+          10G_R or 40G_R), this is a latching-low version of
+          BGX(0..5)_SPU(0..3)_BR_STATUS1[RCV_LNK].
           Note that in order to avoid read side effects, this is implemented as a write-1-to-set
           bit, rather than latching low read-only as specified in 802.3.
 
@@ -3428,11 +3442,11 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "PCS type selection:
+          "PCS type selection.
           Note that this is a read-only field rather than read/write as
-          specified in 802.3. The Logical PCS speed is actually configured by
-          the LMAC_TYPE field in the associated BGX_CMR_CONFIG register in
-          the CMR sub-block. The Read values returned by this field are as
+          specified in 802.3.
+          The LPCS speed is actually configured by the associated
+          BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE]. The read values returned by this field are as
           follows:
             ----------+------------------------------------------
             LMAC_TYPE |   PCS_TYPE          Comment
@@ -3589,8 +3603,8 @@ registers:
         description: |
           Lane synchronization. BASE-X lane synchronization status for PCS lanes 3-0. Each bit is
           set when the associated lane is code-group synchronized, and clear otherwise. If the PCS
-          type is RXAUI (i.e. the associated BGXn_CMRm_CONFIG[LMAC_TYPE] = RXAUI), then only lanes
-          1-0 are valid.
+          type is RXAUI (i.e. the associated BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = RXAUI), then
+          only lanes 1-0 are valid.
 
 
   - name: BGX(0..5)_SPU(0..3)_BR_STATUS1
@@ -3666,7 +3680,7 @@ registers:
           state diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
           For a multilane logical PCS (i.e. 40GBASE-R), this bit indicates that the receiver has
           both block lock and alignment for all lanes and is identical to
-          BGXn_SPUm_BR_ALGN_STATUS[ALIGND].
+          BGX(0..5)_SPU(0..3)_BR_ALGN_STATUS[ALIGND].
 
 
   - name: BGX(0..5)_SPU(0..3)_BR_STATUS2
@@ -3675,8 +3689,8 @@ registers:
     bus: RSL
     description: |
       This register implements a combination of the following Std 802.3 registers:
-      BASE-R PCS status 2 (MDIO address 3.33)
-      BASE-R BER high-order counter (MDIO address 3.44)
+      * BASE-R PCS status 2 (MDIO address 3.33)
+      * BASE-R BER high-order counter (MDIO address 3.44)
       Errored-blocks high-order counter (MDIO address 3.45).
       Note that the relative locations of some fields have been moved from Std 802.3 in order to
       make the register layout more software friendly: the BER counter high-order and low-order bits
@@ -3726,7 +3740,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Bit-error-rate counter. This is the BASE-R BER counter as defined by the ber_count
+          Bit-error-rate counter. This is the BASE-R BER counter as defined by the BER_COUNT
           variable in Std 802.3 sections 49.2.14.2 and 82.2.18.2.4. The counter is reset to all 0s
           after this register is read by software, and is held at all 1s in case of overflow.
           The reset operation takes precedence over the increment operation: if the register is read
@@ -3743,8 +3757,8 @@ registers:
           Latched-block lock.
           1 = 64B/66B receiver for BASE-R has block lock
           0 = No block
-          This is a latching-low version of BGXn_SPUm_BR_STATUS1[BLK_LOCK]; it stays clear until the
-          register is read by software.
+          This is a latching-low version of BGX(0..5)_SPU(0..3)_STATUS1[BLK_LOCK]; it stays clear
+          until the register is read by software.
           Note that in order to avoid read side effects, this is implemented as a write-1-to-set
           bit, rather than latching low read-only as specified in 802.3.
 
@@ -3757,8 +3771,8 @@ registers:
           Latched-high bit-error rate.
           1 = 64B/66B receiver is detecting a high BER
           0 = Not a high BER
-          This is a latching-high version of BGXn_SPUm_BR_STATUS1[HI_BER]; it stays set until the
-          register is read by software.
+          This is a latching-high version of BGX(0..5)_SPU(0..3)_STATUS1[HI_BER]; it stays set until
+          the register is read by software.
           Note that in order to avoid read side effects, this is implemented as a write-1-to-clear
           bit, rather than latching high read-only as specified in 802.3.
 
@@ -3889,11 +3903,11 @@ registers:
     bus: RSL
     description: |
       This register implements the Std 802.3 multilane BASE-R PCS alignment status 1-4 registers
-      (3.50-3.53). It is valid only when the LPCS type is 40GBASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] =
-      0x4), and always returns 0x0 for all other LPCS types. Std 802.3 bits that are not applicable
-      to 40GBASE-R (e.g. status bits for PCS lanes 19-4) are not implemented and marked as reserved.
-      PCS lanes 3-0 are valid and are mapped to physical SerDes lanes based on the programming of
-      BGXn_CMRm_CONFIG[[LANE_TO_SDS].
+      (3.50-3.53). It is valid only when the LPCS type is 40GBASE-R
+      (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x4), and always returns 0x0 for all other LPCS
+      types. Std 802.3 bits that are not applicable to 40GBASE-R (e.g. status bits for PCS lanes
+      19-4) are not implemented and marked as reserved. PCS lanes 3-0 are valid and are mapped to
+      physical SerDes lanes based on the programming of BGX(0..5)_CMR(0..3)_CONFIG[[LANE_TO_SDS].
     attributes:
       rtlgen_soft_reset: "lpcs_soft_reset[b]"
       subblock: "SPU"
@@ -3953,12 +3967,12 @@ registers:
     bus: RSL
     description: |
       This register implements the Std 802.3 BIP error-counter registers for PCS lanes 0-3
-      (3.200-3.203). It is valid only when the LPCS type is 40GBASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] =
-      0x4), and always returns 0x0 for all other LPCS types. The counters are indexed by the RX PCS
-      lane number based on the Alignment Marker detected on each lane and captured in
-      BGX(0..5)_SPU(0..3)_BR_LANE_MAP. Each counter counts the BIP errors for its PCS lane, and is
-      held at all ones in case of overflow. The counters are reset to all 0s when this register is
-      read by software.
+      (3.200-3.203). It is valid only when the LPCS type is 40GBASE-R
+      (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x4), and always returns 0x0 for all other LPCS
+      types. The counters are indexed by the RX PCS lane number based on the Alignment Marker
+      detected on each lane and captured in BGX(0..5)_SPU(0..3)_BR_LANE_MAP. Each counter counts the
+      BIP errors for its PCS lane, and is held at all ones in case of overflow. The counters are
+      reset to all 0s when this register is read by software.
       The reset operation takes precedence over the increment operation; if the register is read on
       the same clock cycle as an increment operation, the counter is reset to all 0s and the
       increment operation is lost. The counters are writable for test purposes, rather than read-
@@ -4002,17 +4016,18 @@ registers:
     bus: RSL
     description: |
       This register implements the Std 802.3 lane 0-3 mapping registers (3.400-3.403). It is valid
-      only when the LPCS type is 40GBASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] = 0x4), and always returns
-      0x0 for all other LPCS types. The LNx_MAPPING field for each programmed PCS lane (called
-      service interface in 802.3ba-2010) is valid when that lane has achieved alignment marker lock
-      on the receive side (i.e. the associated BGXn_SPUm_BR_ALGN_STATUS[MARKER_LOCK] = 1), and is
-      invalid otherwise. When valid, it returns the actual detected receive PCS lane number based on
-      the received alignment marker contents received on that service interface.
+      only when the LPCS type is 40GBASE-R (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x4), and always
+      returns 0x0 for all other LPCS types. The LNx_MAPPING field for each programmed PCS lane
+      (called service interface in 802.3ba-2010) is valid when that lane has achieved alignment
+      marker lock on the receive side (i.e. the associated
+      BGX(0..5)_SPU(0..3)_BR_ALGN_STATUS[MARKER_LOCK] = 1), and is invalid otherwise. When valid, it
+      returns the actual detected receive PCS lane number based on the received alignment marker
+      contents received on that service interface.
       The mapping is flexible because Std 802.3 allows multilane BASE-R receive lanes to be re-
       ordered. Note that for the transmit side, each PCS lane is mapped to a physical SerDes lane
-      based on the programming of BGXn_CMRm_CONFIG[LANE_TO_SDS]. For the receive side,
-      BGXn_CMRm_CONFIG[LANE_TO_SDS] specifies the service interface to physical SerDes lane mapping,
-      and this register specifies the PCS lane to service interface mapping.
+      based on the programming of BGX(0..5)_CMR(0..3)_CONFIG[LANE_TO_SDS]. For the receive side,
+      BGX(0..5)_CMR(0..3)_CONFIG[LANE_TO_SDS] specifies the service interface to physical SerDes
+      lane mapping, and this register specifies the PCS lane to service interface mapping.
     attributes:
       rtlgen_soft_reset: "lpcs_soft_reset[b]"
       subblock: "SPU"
@@ -4168,8 +4183,9 @@ registers:
     address: 0x11800E0010078 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register implements 802.3 MDIO register 1.152 for 10GBASE-R (when LMAC_TYPE = 10G_R in
-      the associated BGX_CMR_CONFIG register) and MDIO registers 1.1100-1.1103 for 40GBASE-R (when
+      This register implements 802.3 MDIO register 1.152 for 10GBASE-R (when
+      BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 10G_R)
+      and MDIO registers 1.1100-1.1103 for 40GBASE-R (when
       LMAC_TYPE = 40G_R). It is automatically cleared at the start of training. Each field reflects
       the contents of the coefficient update field in the lane's most recently received training
       frame. This register should not be written when link training is enabled, i.e. when TRAIN_EN
@@ -4221,8 +4237,9 @@ registers:
     address: 0x11800E0010080 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register implements 802.3 MDIO register 1.153 for 10GBASE-R (when LMAC_TYPE = 10G_R in
-      the associated BGX_CMR_CONFIG register) and MDIO registers 1.1200-1.1203 for 40GBASE-R (when
+      This register implements 802.3 MDIO register 1.153 for 10GBASE-R (when
+      BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 10G_R)
+      and MDIO registers 1.1200-1.1203 for 40GBASE-R (when
       LMAC_TYPE = 40G_R). It is automatically cleared at the start of training. Each field reflects
       the contents of the status report field in the associated lane's most recently received
       training frame. The lane fields in this register are indexed by logical PCS lane ID. The lane
@@ -4273,14 +4290,16 @@ registers:
     address: 0x11800E0010088 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register implements 802.3 MDIO register 1.153 for 10GBASE-R (when LMAC_TYPE = 10G_R in
-      the associated BGX_CMR_CONFIG register) and MDIO registers 1.1300-1.1303 for 40GBASE-R (when
+      This register implements 802.3 MDIO register 1.153 for 10GBASE-R (when
+      BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 10G_R)
+      and MDIO registers 1.1300-1.1303 for 40GBASE-R (when
       LMAC_TYPE = 40G_R). It is automatically cleared at the start of training. When link training
       is in progress, each field reflects the contents of the coefficient update field in the
       associated lane's outgoing training frame. The fields in this register are read/write even
-      though they are specified as read-only in 802.3. If DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is set,
-      then this register must be updated by software during link training and hardware updates are
-      disabled. If DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is clear, this register is automatically
+      though they are specified as read-only in 802.3.
+      If BGX(0..5)_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is set, then this register must be updated
+      by software during link training and hardware updates are disabled. If
+      BGX(0..5)_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is clear, this register is automatically
       updated by hardware, and it should not be written by software. The lane fields in this
       register are indexed by logical PCS lane ID. The lane 0 field (LN0_*) is valid for both
       10GBASE-R and 40GBASE-R. The remaining fields (LN1_*, LN2_*, LN3_*) are only valid for
@@ -4330,17 +4349,18 @@ registers:
     address: 0x11800E0010090 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register implements 802.3 MDIO register 1.154 for 10GBASE-R (when LMAC_TYPE = 10G_R in
-      the associated BGX_CMR_CONFIG register) and MDIO registers 1.1400-1.1403 for 40GBASE-R (when
-      LMAC_TYPE = 40G_R). It is automatically cleared at the start of training. Each field reflects
-      the contents of the status report field in the associated lane's outgoing training frame. The
-      fields in this register are read/write even though they are specified as read-only in 802.3.
-      If DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is set, then this register must be updated by software
-      during link training and hardware updates are disabled. If DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN]
-      is clear, this register is automatically updated by hardware, and it should not be written by
-      software. The lane fields in this register are indexed by logical PCS lane ID. The lane 0
-      field (LN0_*) is valid for both 10GBASE-R and 40GBASE-R. The remaining fields (LN1_*, LN2_*,
-      LN3_*) are only valid for 40GBASE-R.
+      This register implements 802.3 MDIO register 1.154 for 10GBASE-R (when
+      BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = IOG_R) and MDIO registers 1.1400-1.1403 for 40GBASE-R
+      (when LMAC_TYPE = 40G_R). It is automatically cleared at the start of training. Each field
+      reflects the contents of the status report field in the associated lane's outgoing training
+      frame. The fields in this register are read/write even though they are specified as read-only
+      in 802.3. If BGX(0..5)_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is set, then this register must
+      be updated by software during link training and hardware updates are disabled. If
+      BGX(0..5)_SPU_DBG_CONTROL[BR_PMD_TRAIN_SOFT_EN] is clear, this register is automatically
+      updated by hardware, and it should not be written by software. The lane fields in this
+      register are indexed by logical PCS lane ID. The lane 0 field (LN0_*) is valid for both
+      10GBASE-R and 40GBASE-R. The remaining fields (LN1_*, LN2_*, LN3_*) are only valid for
+      40GBASE-R.
     attributes:
       rtlgen_soft_reset: "lpcs_soft_reset[b]"
       subblock: "SPU"
@@ -4403,7 +4423,7 @@ registers:
         typical: 1
         description: |
           BASE-R FEC error-indication ability. Always 1 when the LPCS type is BASE-R, i.e.
-          BGXn_CMRm_CONFIG[LMAC_TYPE] = 0x3 or 0x4. Always 0 otherwise.
+          BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x3 or 0x4. Always 0 otherwise.
 
       - name: FEC_ABIL
         bits: 0
@@ -4412,7 +4432,7 @@ registers:
         typical: 1
         description: |
           BASE-R FEC ability. Always 1 when the LPCS type is BASE-R, i.e.
-          BGXn_CMRm_CONFIG[LMAC_TYPE] = 0x3 or 0x4. Always 0 otherwise.
+          BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x3 or 0x4. Always 0 otherwise.
 
 
   - name: BGX(0..5)_SPU(0..3)_FEC_CONTROL
@@ -4450,9 +4470,9 @@ registers:
         typical: 1
         description: |
           BASE-R FEC enable. When this bit is set and the LPCS type is BASE-R
-          (BGXn_CMRm_CONFIG[LMAC_TYPE] = 0x4), forward error correction is enabled. FEC is disabled
-          otherwise. Forward error correction is defined in IEEE Std 802.3-2008/802.3ba-2010 Clause
-          74.
+          (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x4), forward error correction is enabled. FEC is
+          disabled otherwise. Forward error correction is defined in IEEE Std
+          802.3-2008/802.3ba-2010 Clause 74.
 
 
   - name: BGX(0..5)_SPU(0..3)_FEC_CORR_BLKS01
@@ -4460,12 +4480,12 @@ registers:
     address: 0x11800E00100A8 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register is valid only when the LPCS type is BASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] = 0x3 or
-      0x4). The FEC corrected-block counters are defined in Std 802.3 section 74.8.4.1. Each
-      corrected-blocks counter increments by 1 for a corrected FEC block, i.e. an FEC block that has
-      been received with invalid parity on the associated PCS lane and has been corrected by the FEC
-      decoder. The counter is reset to all 0s when the register is read, and held at all 1s in case
-      of overflow.
+      This register is valid only when the LPCS type is BASE-R
+      (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x3 or 0x4). The FEC corrected-block counters are
+      defined in Std 802.3 section 74.8.4.1. Each corrected-blocks counter increments by 1 for a
+      corrected FEC block, i.e. an FEC block that has been received with invalid parity on the
+      associated PCS lane and has been corrected by the FEC decoder. The counter is reset to all 0s
+      when the register is read, and held at all 1s in case of overflow.
       The reset operation takes precedence over the increment operation; if the register is read on
       the same clock cycle as an increment operation, the counter is reset to all 0s and the
       increment operation is lost. The counters are writable for test purposes, rather than read-
@@ -4481,8 +4501,8 @@ registers:
         typical: 0x0
         description: |
           PCS Lane 1 FEC corrected blocks.
-          For 10GBASE-R, reserved.
-          For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_1 variable
+          * For 10GBASE-R, reserved.
+          * For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_1 variable
           (registers 1.302-1.303).
 
       - name: LN0_CORR_BLKS
@@ -4492,9 +4512,9 @@ registers:
         typical: 0x0
         description: |
           PCS Lane 0 FEC corrected blocks.
-          For 10GBASE-R, corresponds to the Std 802.3 FEC_corrected_blocks_counter variable
+          * For 10GBASE-R, corresponds to the Std 802.3 FEC_corrected_blocks_counter variable
           (registers 1.172-1.173).
-          For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_0 variable
+          * For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_0 variable
           (registers 1.300-1.301).
 
 
@@ -4503,12 +4523,12 @@ registers:
     address: 0x11800E00100B0 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register is valid only when the LPCS type is 40GBASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] =
-      0x4). The FEC corrected-block counters are defined in Std 802.3 section 74.8.4.1. Each
-      corrected-blocks counter increments by 1 for a corrected FEC block, i.e. an FEC block that has
-      been received with invalid parity on the associated PCS lane and has been corrected by the FEC
-      decoder. The counter is reset to all 0s when the register is read, and held at all 1s in case
-      of overflow.
+      This register is valid only when the LPCS type is 40GBASE-R
+      (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x4). The FEC corrected-block counters are defined in
+      Std 802.3 section 74.8.4.1. Each corrected-blocks counter increments by 1 for a corrected FEC
+      block, i.e. an FEC block that has been received with invalid parity on the associated PCS lane
+      and has been corrected by the FEC decoder. The counter is reset to all 0s when the register is
+      read, and held at all 1s in case of overflow.
       The reset operation takes precedence over the increment operation; if the register is read on
       the same clock cycle as an increment operation, the counter is reset to all 0s and the
       increment operation is lost. The counters are writable for test purposes, rather than read-
@@ -4541,12 +4561,12 @@ registers:
     address: 0x11800E00100B8 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register is valid only when the LPCS type is BASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] = 0x3 or
-      0x4). The FEC corrected-block counters are defined in Std 802.3 section 74.8.4.2. Each
-      uncorrected-blocks counter increments by 1 for an uncorrected FEC block, i.e. an FEC block
-      that has been received with invalid parity on the associated PCS lane and has not been
-      corrected by the FEC decoder. The counter is reset to all 0s when the register is read, and
-      held at all 1s in case of overflow.
+      This register is valid only when the LPCS type is BASE-R
+      (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x3 or 0x4). The FEC corrected-block counters are
+      defined in Std 802.3 section 74.8.4.2. Each uncorrected-blocks counter increments by 1 for an
+      uncorrected FEC block, i.e. an FEC block that has been received with invalid parity on the
+      associated PCS lane and has not been corrected by the FEC decoder. The counter is reset to all
+      0s when the register is read, and held at all 1s in case of overflow.
       The reset operation takes precedence over the increment operation; if the register is read on
       the same clock cycle as an increment operation, the counter is reset to all 0s and the
       increment operation is lost. The counters are writable for test purposes, rather than read-
@@ -4562,8 +4582,8 @@ registers:
         typical: 0x0
         description: |
           PCS Lane 1 FEC corrected blocks.
-          For 10GBASE-R, reserved.
-          For 40GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter_1 variable
+          * For 10GBASE-R, reserved.
+          * For 40GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter_1 variable
           (registers 1.702-1.703).
 
       - name: LN0_UNCORR_BLKS
@@ -4573,9 +4593,9 @@ registers:
         typical: 0x0
         description: |
           PCS Lane 0 FEC uncorrected blocks.
-          For 10GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter variable
+          * For 10GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter variable
           (registers 1.174-1.175).
-          For 40GBASE-R, correspond to the Std 802.3 FEC_uncorrected_blocks_counter_0 variable
+          * For 40GBASE-R, correspond to the Std 802.3 FEC_uncorrected_blocks_counter_0 variable
           (registers 1.700-1.701).
 
 
@@ -4584,12 +4604,12 @@ registers:
     address: 0x11800E00100C0 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      This register is valid only when the LPCS type is 40GBASE-R (BGXn_CMRm_CONFIG[LMAC_TYPE] =
-      0x4). The FEC uncorrected-block counters are defined in Std 802.3 section 74.8.4.2. Each
-      corrected-blocks counter increments by 1 for an uncorrected FEC block, i.e. an FEC block that
-      has been received with invalid parity on the associated PCS lane and has not been corrected by
-      the FEC decoder. The counter is reset to all 0s when the register is read, and held at all 1s
-      in case of overflow.
+      This register is valid only when the LPCS type is 40GBASE-R
+      (BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] = 0x4). The FEC uncorrected-block counters are defined
+      in Std 802.3 section 74.8.4.2. Each corrected-blocks counter increments by 1 for an
+      uncorrected FEC block, i.e. an FEC block that has been received with invalid parity on the
+      associated PCS lane and has not been corrected by the FEC decoder. The counter is reset to all
+      0s when the register is read, and held at all 1s in case of overflow.
       The reset operation takes precedence over the increment operation; if the register is read on
       the same clock cycle as an increment operation, the counter is reset to all 0s and the
       increment operation is lost. The counters are writable for test purposes, rather than read-
@@ -4639,11 +4659,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Auto-Negotiation reset. Setting this bit or BGXn_SPUm_CONTROL1[RESET] to 1 causes the
-          following to happen:
-          Resets the logical PCS (LPCS)
-          Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
-          Resets the associated SerDes lanes.
+          Auto-Negotiation reset. Setting this bit or BGX(0..5)_SPU(0..3)_CONTROL1[RESET] to 1
+          causes the following to happen:
+          * Resets the logical PCS (LPCS)
+          * Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
+          * Resets the associated SerDes lanes.
           It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
           automatically cleared.
 
@@ -4667,8 +4687,9 @@ registers:
         reset: 1
         typical: 1
         description: |
-          Auto-Negotiation enable. This bit should not be set when BGX_CMR_CONFIG[LMAC_TYPE] is set
-          to RXAUI; auto-negotiation is not supported in RXAUI mode.
+          Auto-Negotiation enable. This bit should not be set when
+          BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE] is set to RXAUI; auto-negotiation is not supported
+          in RXAUI mode.
 
       - name: --
         bits: 11..10
@@ -4739,10 +4760,10 @@ registers:
         typical: 0
         description: |
           Page received. This latching-high bit is set when a new page has been received and stored
-          in BGXn_SPUm_AN_LP_BASE or BGXn_SPUm_AN_LP_XNP; stays set until a 1 is written by
-          software, Auto-Negotiation is disabled or restarted, or next page exchange is initiated.
-          Note that in order to avoid read side effects, this is implemented as a write-1-to-clear
-          bit, rather than latching high read-only as specified in 802.3.
+          in BGX(0..5)_SPU(0..3)_AN_LP_BASE or BGX(0..5)_SPU(0..3)_AN_LP_XNP; stays set until a 1 is
+          written by software, Auto-Negotiation is disabled or restarted, or next page exchange is
+          initiated. Note that in order to avoid read side effects, this is implemented as a write-1
+          -to-clear bit, rather than latching high read-only as specified in 802.3.
 
       - name: AN_COMPLETE
         bits: 5
@@ -4752,11 +4773,12 @@ registers:
         description: |
           Auto-Negotiation complete. Set when the Auto-Negotiation process has been completed and
           the link is up and running using the negotiated highest common denominator (HCD)
-          technology. If AN is enabled (BGXn_SPUm_AN_CONTROL[AN_EN] = 1) and this bit is read as a
-          zero, it indicates that the AN process has not been completed, and the contents of
-          BGXn_SPUm_AN_LP_BASE, BGXn_SPUm_AN_XNP_TX, and BGXn_SPUm_AN_LP_XNP are as defined by the
-          current state of the Auto-Negotiation protocol, or as written for manual configuration.
-          This bit is always zero when AN is disabled (BGXn_SPUm_AN_CONTROL[AN_EN] = 0).
+          technology. If AN is enabled (BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_EN] = 1) and this bit is
+          read as a zero, it indicates that the AN process has not been completed, and the contents
+          of BGX(0..5)_SPU(0..3)_AN_LP_BASE, BGX(0..5)_SPU(0..3)_AN_XNP_TX, and
+          BGX(0..5)_SPU(0..3)_AN_LP_XNP are as defined by the current state of the Auto-Negotiation
+          protocol, or as written for manual configuration. This bit is always zero when AN is
+          disabled (BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_EN] = 0).
 
       - name: RMT_FLT
         bits: 4
@@ -4814,7 +4836,7 @@ registers:
       operations to this register prior to completion of Auto-Negotiation, as indicated by
       BGX(0..5)_SPU(0..3)_AN_STATUS[AN_COMPLETE], should be followed by a renegotiation in order for
       the new values to take effect. Renegotiation is initiated by setting
-      BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_RESTART]. Once Auto-Negotiation has completed, software can
+      BGX(0..5)_SPU(0..3)_AN_STATUS[AN_RESTART]. Once Auto-Negotiation has completed, software can
       examine this register along with BGX(0..5)_SPU(0..3)_AN_LP_BASE to determine the highest
       common denominator technology.
     attributes:
@@ -5118,7 +5140,7 @@ registers:
       next page link code word to be transmitted during auto-negotiation. Next page exchange occurs
       after the base link code words have been exchanged if either end of the link segment sets the
       NP bit to 1, indicating that it has at least one next page to send. Once initiated, next page
-      exchange continues until both end of the link segment set their NP bits to 0. See section
+      exchange continues until both ends of the link segment set their NP bits to 0. See section
       802.3 section 73.7.7 for details.
     attributes:
       rtlgen_soft_reset: "lpcs_soft_reset[b]"
@@ -5154,7 +5176,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Ack: Always 0 in this register.
+          Acknowledge: Always 0 in this register.
 
       - name: MP
         bits: 13
@@ -5163,7 +5185,7 @@ registers:
         typical: 0
         description: |
           Message page. Set to indicate that this register contains a message next page. Clear to
-          indicate that the register contains anunformatted next page.
+          indicate that the register contains an unformatted next page.
 
       - name: ACK2
         bits: 12
@@ -5180,8 +5202,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          This bit is ignored by hardware. The value of the TOGGLE bit in
-          transmitted next pages is automatically generated by hardware.
+          This bit is ignored by hardware. The value of the TOGGLE bit in transmitted next pages is
+          automatically generated by hardware.
 
       - name: M_U
         bits: 10..0
@@ -5303,42 +5325,42 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: 40GBASE-CR4 negotiated
+        description: 40GBASE-CR4 negotiated.
 
       - name: N40G_KR4
         bits: 5
         access: RO/H
         reset: 0
         typical: 0
-        description: 40GBASE-KR4 negotiated
+        description: 40GBASE-KR4 negotiated.
 
       - name: FEC
         bits: 4
         access: RO/H
         reset: 0
         typical: 0
-        description: BASE-R FEC negotiated
+        description: BASE-R FEC negotiated.
 
       - name: N10G_KR
         bits: 3
         access: RO/H
         reset: 0
         typical: 0
-        description: 10GBASE-KR negotiated
+        description: 10GBASE-KR negotiated.
 
       - name: N10G_KX4
         bits: 2
         access: RO/H
         reset: 0
         typical: 0
-        description: 10GBASE-KX4 or CX4 negotiated (XAUI)
+        description: 10GBASE-KX4 or CX4 negotiated (XAUI).
 
       - name: N1G_KX
         bits: 1
         access: RO/H
         reset: 0
         typical: 0
-        description: 1000BASE-KX negotiated
+        description: 1000BASE-KX negotiated.
 
       - name: BP_AN_ABLE
         bits: 0
@@ -5410,11 +5432,11 @@ registers:
     address: 0x11800E0010218 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      RX logical PCS lane polarity vector [3:0] = XOR_RXPLRT[3:0] ^ {4{RXPLRT}}.
-      TX logical PCS lane polarity vector [3:0] = XOR_TXPLRT[3:0] ^ {4{TXPLRT}}.
+      "* RX logical PCS lane polarity vector [3:0] = XOR_RXPLRT[3:0] ^ {4{RXPLRT}}.
+      * TX logical PCS lane polarity vector [3:0] = XOR_TXPLRT[3:0] ^ {4{TXPLRT}}.
       In short, keep RXPLRT and TXPLRT cleared, and use XOR_RXPLRT and XOR_TXPLRT fields to define
       the polarity per logical PCS lane. Only bit 0 of vector is used for 10GBASE-R, and only bits
-      1:0 of vector are used for RXAUI.
+      1:0 of vector are used for RXAUI."
     internal: |
       "SKIP_AFTER_TERM field:
       SKIP_AFTER_TERM can be set to ensure sufficient density of XAUI
@@ -5640,12 +5662,12 @@ registers:
           Sync failure debug. This interrupt is provided for link problem debugging help. It is set
           as follows based on the LPCS type selected by BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE], and
           whether FEC is enabled or disabled by BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN]:
-          XAUI or RXAUI: Set when any lane's PCS synchronization state transitions from
+          * XAUI or RXAUI: Set when any lane's PCS synchronization state transitions from
           SYNC_ACQUIRED_1 to SYNC_ACQUIRED_2 (see 802.3-2008 Figure 48-7).
-          10GBASE-R or 40GBASE-R with FEC disabled: Set when sh_invalid_cnt increments to 1 while
+          * 10GBASE-R or 40GBASE-R with FEC disabled: Set when sh_invalid_cnt increments to 1 while
           block_lock is 1 (see 802.3-2008 Figure 49-12 and 802.3ba-2010 Figure 82-20).
-          10GBASE-R or 40GBASE-R with FEC enabled: Set when parity_invalid_cnt increments to 1 while
-          fec_block_lock is 1 (see 802.3-2008 Figure 74-8).
+          * 10GBASE-R or 40GBASE-R with FEC enabled: Set when parity_invalid_cnt increments to 1
+          while fec_block_lock is 1 (see 802.3-2008 Figure 74-8).
 
       - name: ALGNLOS
         bits: 5
@@ -5666,12 +5688,12 @@ registers:
           Loss of lane sync. Lane code-group or block synchronization is lost on one or more lanes
           associated with the LMAC/LPCS. Set as follows based on the LPCS type selected by
           BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE], and whether FEC is enabled or disabled by
-          BGX_SPU_FEC_CONTROL[FEC_EN]:
-          XAUI or RXAUI: Set when any lane's PCS synchronization state transitions to LOSS_OF_SYNC
+          BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN]:
+          * XAUI or RXAUI: Set when any lane's PCS synchronization state transitions to LOSS_OF_SYNC
           (see 802.3-2008 Figure 48-7)
-          10GBASE-R or 40GBASE-R with FEC disabled: set when the block_lock variable is cleared on
+          * 10GBASE-R or 40GBASE-R with FEC disabled: set when the block_lock variable is cleared on
           the 10G lane or any 40G lane (see 802.3-2008 Figure 49-12 and 802.3ba-2010 Figure 82-20).
-          10GBASE-R or 40GBASE-R with FEC enabled: set when the fec_block_lock variable is cleared
+          * 10GBASE-R or 40GBASE-R with FEC enabled: set when the fec_block_lock variable is cleared
           on the 10G lane or any 40G lane (see 802.3-2008 Figure 74-8).
 
       - name: BITLCKLS
@@ -5829,12 +5851,13 @@ registers:
         description: |
           Enable BASE-R PMD software controlled link training. This bit configures the operation
           mode for BASE-R link training for all LMACs and lanes. When this bit is set along with
-          BR_PMD_CONTROL[TRAIN_EN] for a given LMAC, the BASE-R link training protocol for that LMAC
-          is executed under software control, whereby the contents the BR_PMD_LD_CUP and
-          BR_PMD_LD_REP registers are updated by software. When this bit is clear and
-          BR_PMD_CONTROL[TRAIN_EN] is set, the link training protocol is fully automated in
-          hardware, whereby the contents BR_PMD_LD_CUP and BR_PMD_LD_REP registers are automatically
-          updated by hardware.
+          BGX(0..5)_SPU(0..3)_BR_PMD_CONTROL[TRAIN_EN] for a given LMAC, the BASE-R link training
+          protocol for that LMAC is executed under software control, whereby the contents the
+          BGX(0..5)_SPU(0..3)_BR_PMD_LD_CUP and BGX(0..5)_SPU(0..3)_BR_PMD_LD_REP registers are
+          updated by software. When this bit is clear and
+          BGX(0..5)_SPU(0..3)_BR_PMD_CONTROL[TRAIN_EN] is set, the link training protocol is fully
+          automated in hardware, whereby the contents BGX(0..5)_SPU(0..3)_BR_PMD_LD_CUP and
+          BGX(0..5)_SPU(0..3)_BR_PMD_LD_REP registers are automatically updated by hardware.
 
       - name: AN_ARB_LINK_CHK_EN
         bits: 18
@@ -5853,10 +5876,11 @@ registers:
           link_fail_inhibit timer and eventually transition to the AN GOOD or TRANSMIT DISABLE
           state.
           When this bit is clear or the HCD technology does not match LMAC_TYPE, the AN arbitration
-          SM stay in the AN GOOD CHECK state, with the expectation that software will perform the
+          SM stays in the AN GOOD CHECK state, with the expectation that software will perform the
           appropriate actions to complete the Auto-Negotiation protocol, as follows:
-          If this bit is clear and the HCD technology matches LMAC_TYPE, clear AN_EN in AN_CONTROL.
-          Otherwise, disable the LPCS by clearing the BGX(0..5)_CMR(0..3)_CONFIG[ENABLE], clear
+          * If this bit is clear and the HCD technology matches LMAC_TYPE, clear AN_EN in
+          AN_CONTROL.
+          * Otherwise, disable the LPCS by clearing the BGX(0..5)_CMR(0..3)_CONFIG[ENABLE], clear
           BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_EN], reconfigure the LPCS with the correct LMAC_TYPE,
           and re-enable the LPCS by setting BGX(0..5)_CMR(0..3)_CONFIG[ENABLE].
           In both cases, software should implement the link_fail_inhibit timer and verify the link
@@ -6029,14 +6053,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: 40GBASE-R alignment marker lock state machine invalid AM counter
+        description: 40GBASE-R alignment marker lock state machine invalid AM counter.
 
       - name: AM_LOCK_SM
         bits: 49..48
         access: RO/H
         reset: 0x0
         typical: --
-        description: 40GBASE-R alignment marker lock state machine state
+        description: 40GBASE-R alignment marker lock state machine state.
 
       - name: --
         bits: 47..45
@@ -6050,35 +6074,35 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Link training state machine state
+        description: Link training state machine state.
 
       - name: TRAIN_CODE_VIOL
         bits: 41
         access: RO/H
         reset: 0
         typical: --
-        description: Link training code violation in received control channel
+        description: Link training code violation in received control channel.
 
       - name: TRAIN_FRAME_LOCK
         bits: 40
         access: RO/H
         reset: 0
         typical: --
-        description: Link training frame lock status
+        description: Link training frame lock status.
 
       - name: TRAIN_LOCK_FOUND_1ST_MARKER
         bits: 39
         access: RO/H
         reset: 0
         typical: --
-        description: Link training lock state machine found first marker flag
+        description: Link training lock state machine found first marker flag.
 
       - name: TRAIN_LOCK_BAD_MARKERS
         bits: 38..36
         access: RO/H
         reset: 0x0
         typical: --
-        description: Link training lock state machine bad markers counter
+        description: Link training lock state machine bad markers counter.
 
       - name: --
         bits: 35
@@ -6092,14 +6116,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Auto-Negotiation arbitration state machine state
+        description: Auto-Negotiation arbitration state machine state.
 
       - name: AN_RX_SM
         bits: 31..30
         access: RO/H
         reset: 0x0
         typical: --
-        description: Auto-Negotiation receive state machine state
+        description: Auto-Negotiation receive state machine state.
 
       - name: --
         bits: 29
@@ -6113,14 +6137,14 @@ registers:
         access: RO/H
         reset: 0
         typical: --
-        description: FEC block sync status
+        description: FEC block sync status.
 
       - name: FEC_SYNC_CNT
         bits: 27..24
         access: RO/H
         reset: 0x0
         typical: --
-        description: FEC block sync state machine good/bad parity block counter
+        description: FEC block sync state machine good/bad parity block counter.
 
       - name: --
         bits: 23
@@ -6134,14 +6158,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: BASE-R lock state machine invalid sync header counter
+        description: BASE-R lock state machine invalid sync header counter.
 
       - name: BR_BLOCK_LOCK
         bits: 15
         access: RO/H
         reset: 0
         typical: --
-        description: BASE-R block lock status
+        description: BASE-R block lock status.
 
       - name: BR_SH_CNT
         bits: 14..4
@@ -6304,7 +6328,7 @@ registers:
       CTL_BCK = 1, CTL_DRP = 1: hardware handles everything
       CTL_BCK = 0, CTL_DRP = 0: software sees all PAUSE frames
       CTL_BCK = 0, CTL_DRP = 1: all PAUSE frames are completely ignored
-      These control bits should be set to CTL_BCK = 0,CTL_DRP = 0 in half-duplex mode. Since PAUSE
+      These control bits should be set to CTL_BCK = 0, CTL_DRP = 0 in half-duplex mode. Since PAUSE
       packets only apply to full duplex operation, any PAUSE packet would constitute an exception
       which should be handled by the processing cores. PAUSE packets should not be forwarded.
     attributes:
@@ -6332,12 +6356,12 @@ registers:
           size reflects the additional bytes and is subject to the following restrictions:
           If PTP_MODE = 1 and PRE_CHK = 1, PRE_STRP must be 1.
           If PTP_MODE = 1
-          PKI_CL(0..3)_PKIND(0..63)_SKIP[FCS_SKIP,INST_SKIP] should be increased by 8
-          PKI_CL(0..3)_PKIND(0..63)_CFG[HG_EN] should be 0
-          PKI_FRM_LEN_CHK(0..1)[MAXLEN] should be increased by 8
-          PKI_FRM_LEN_CHK(0..1)[MINLEN] should be increased by 8
-          PKI_TAG_INC(0..63)_MASK should be adjusted
-          This supported in uCode in O78 >>> PIP_PRT_CFGB(0..63)[ALT_SKP_EN] should be 0.
+          * PKI_CL(0..3)_PKIND(0..63)_SKIP[FCS_SKIP,INST_SKIP] should be increased by 8
+          * PKI_CL(0..3)_PKIND(0..63)_CFG[HG_EN] should be 0
+          * PKI_FRM_LEN_CHK(0..1)[MAXLEN] should be increased by 8
+          * PKI_FRM_LEN_CHK(0..1)[MINLEN] should be increased by 8
+          * PKI_TAG_INC(0..31)_MASK should be adjusted
+          This supported in uCode in CN78XX>>> PIP_PRT_CFGB(0..63)[ALT_SKP_EN] should be 0.
 
       - name: --
         bits: 11..6
@@ -6795,8 +6819,8 @@ registers:
         typical: 0x40
         description: |
           Min frame in bytes inclusive of FCS, if applied. Padding is only appended when
-          BGX_TX_APPEND[PAD] for the corresponding port is set. When FCS is added to a packet which
-          was padded, the FCS always appears in the 4 octets preceding /T/ or /E/.
+          BGX(0..5)_SMU(0..3)_TX_APPEND[PAD] for the corresponding port is set. When FCS is added to
+          a packet which was padded, the FCS always appears in the 4 octets preceding /T/ or /E/.
 
 
   - name: BGX(0..5)_SMU(0..3)_TX_PAUSE_PKT_INTERVAL
@@ -6830,7 +6854,7 @@ registers:
         description: |
           Arbitrate for a HiGig2 message, every (INTERVAL*512) bit-times whilst sending regular
           packet data. Relevant only if HiGig2 message generation and HG2_INTRA_EN are both set.
-          Normally, 0 < INTERVAL < BGX_TX_PAUSE_PKT_TIME.
+          Normally, 0 < INTERVAL < BGX(0..5)_SMU(0..3)_TX_PAUSE_PKT_TIME.
           INTERVAL = 0 only sends a single PAUSE packet for each backpressure event.
 
       - name: INTERVAL
@@ -6981,10 +7005,10 @@ registers:
     bus: RSL
     description: |
       Programming IFG1 and IFG2:
-      For XAUI/RXAUI/10Gbs/40Gbs systems that require IEEE 802.3 compatibility, the IFG1+IFG2 sum
+      * For XAUI/RXAUI/10Gbs/40Gbs systems that require IEEE 802.3 compatibility, the IFG1+IFG2 sum
       must be 12.
-      In loopback mode, the IFG1+IFG2 of local and remote parties must match exactly; otherwise one
-      of the two sides' loopback FIFO will overrun: BGX(0..5)_SMU(0..3)_TX_INT[LB_OVRFLW].
+      * In loopback mode, the IFG1+IFG2 of local and remote parties must match exactly; otherwise
+      one of the two sides' loopback FIFO will overrun: BGX(0..5)_SMU(0..3)_TX_INT[LB_OVRFLW].
     attributes:
       subblock: "SMU"
     fields:
@@ -7030,7 +7054,7 @@ registers:
         access: R/W
         reset: 0x180c2000001
         typical: 0x180c2000001
-        description: The DMAC field, which is placed is outbound PAUSE packets.
+        description: The DMAC field that is placed in outbound PAUSE packets.
 
 
   - name: BGX(0..5)_SMU(0..3)_TX_PAUSE_PKT_TYPE
@@ -7076,17 +7100,14 @@ registers:
         reset: 0xffff
         typical: 0xffff
         description: |
-          40GBASE-R Transmit Marker Interval Count: Specifies the interval
-          (number of 66-bit BASE-R blocks) at which the LMAC transmit logic
-          inserts 40GBASE-R alignment markers. An internal counter in SMU is
-          initialized to this value, counts down for each BASE-R block
-          transmitted by the LMAC, and wraps back to the initial value from 0.
-          The LMAC transmit logic inserts alignment markers for lanes 0, 1, 2
-          and 3, respectively, in the last four BASE-R blocks before the
-          counter wraps (3, 2, 1, 0). The default value corresponds to an
-          alignment marker period of 16363 blocks (exclusive) per lane, as
-          specified in 802.3ba-2010. The default value should always be used
-          for normal operation.
+          40GBASE-R transmit marker interval count. Specifies the interval (number of 66-bit BASE-R
+          blocks) at which the LMAC transmit logic inserts 40GBASE-R alignment markers. An internal
+          counter in SMU is initialized to this value, counts down for each BASE-R block transmitted
+          by the LMAC, and wraps back to the initial value from 0. The LMAC transmit logic inserts
+          alignment markers for lanes 0, 1, 2 and 3, respectively, in the last four BASE-R blocks
+          before the counter wraps (3, 2, 1, 0). The default value corresponds to an alignment
+          marker period of 16363 blocks (exclusive) per lane, as specified in 802.3ba-2010. The
+          default value should always be used for normal operation.
 
       - name: HG_PAUSE_HGI
         bits: 10..9
@@ -7114,7 +7135,7 @@ registers:
           BGX(0..5)_SMU(0..3)_RX_UDD_SKP[FCSSEL] = 0
           BGX(0..5)_SMU(0..3)_RX_UDD_SKP[LEN] = 16
           BGX(0..5)_SMU(0..3)_TX_APPEND[PREAMBLE] = 0
-          BGX(0..5)_SMU(0..3)_SMU@_CBFC_CTL[RX_EN] = 0
+          BGX(0..5)_SMU(0..3)_CBFC_CTL[RX_EN] = 0
           BGX(0..5)_SMU(0..3)_CBFC_CTL[TX_EN] = 0
 
       - name: L2P_BP_CONV
@@ -7123,7 +7144,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          If set will cause TX to generate 802.3 pause packets when CMR applies logical backpressure
+          If set, causes TX to generate 802.3 pause packets when CMR applies logical backpressure
           (XOFF), if and only if BGX(0..5)_SMU(0..3)_CBFC_CTL[TX_EN] is clear and
           BGX(0..5)_SMU(0..3)_HG2_CONTROL[HG2TX_EN] is clear.
 
@@ -7220,8 +7241,9 @@ registers:
         reset: 1
         typical: --
         description: |
-          TX machine is idle This indication pertains to the framer FSM and ignores the effects on
-          the data-path controls or values which occur when BGX_SMU_TX_CTL[LS_BYP] is set
+          TX machine is idle. This indication pertains to the framer FSM and ignores the effects on
+          the data-path controls or values which occur when BGX(0..5)_SMU(0..3)_TX_CTL[LS_BYP] is
+          set.
 
       - name: RX_IDLE
         bits: 0
@@ -7324,10 +7346,9 @@ registers:
         reset: 1
         typical: --
         description: |
-          1 bit physical link pause enable for recevied
-          HiGig2 physical pause message. This bit enables the SMU TX
-          to CMR HG2 deferring counter to be set every time SMU RX
-          receives and filters out a valid physical HG2 message.
+          Physical-link PAUSE enable for received HiGig2 physical PAUSE message. This bit enables
+          the SMU TX to CMR HG2 deferring counter to be set every time SMU RX receives and filters
+          out a valid physical HG2 message.
 
       - name: LOGL_EN
         bits: 15..0
@@ -7335,10 +7356,9 @@ registers:
         reset: 0xffff
         typical: --
         description: |
-          16 bit xof enables for recevied HiGig2 messages
-          or PFC/CBFC packets. This field is NOT used by SMU at all.
-          It is forwarded to CMR without alteration. It appears here
-          for backward compatibility with O68.
+          16-bit XOF enables for received HiGig2 messages or PFC/CBFC packets. This field is NOT
+          used by SMU at all. It is forwarded to CMR without alteration. It appears here for
+          backward compatibility.
 
 
   - name: BGX(0..5)_SMU(0..3)_CBFC_CTL
@@ -7722,10 +7742,10 @@ registers:
         typical: 0x0
         description: |
           Remote fault.
-          00 = Link OK, XMIT = DATA
-          01 = Link failure (loss of sync, XMIT !=DATA)
-          10 = Local device offline
-          11 = Auto-Negotiation error; failure to complete Auto-Negotiation. AN error is set if
+          0x0 = Link OK, XMIT = DATA
+          0x1 = Link failure (loss of sync, XMIT !=DATA)
+          0x2 = Local device offline
+          0x3 = Auto-Negotiation error; failure to complete Auto-Negotiation. AN error is set if
           resolution function precludes operation with link partner.
 
       - name: --
@@ -7733,7 +7753,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: reserved
+        description: Reserved.
 
       - name: PAUSE
         bits: 8..7
@@ -7742,10 +7762,10 @@ registers:
         typical: 0x0
         description: |
           PAUSE frame flow capability across link, exchanged during Auto-Negotiation as follows:
-          00 = No PAUSE.
-          01 = Symmetric PAUSE.
-          10 = Asymmetric PAUSE.
-          11 = Both symmetric and asymmetric PAUSE to local device.
+          0x0 = No PAUSE.
+          0x1 = Symmetric PAUSE.
+          0x2 = Asymmetric PAUSE.
+          0x3 = Both symmetric and asymmetric PAUSE to local device.
 
       - name: HFD
         bits: 6
@@ -7766,7 +7786,7 @@ registers:
         access: RAZ
         reset: 0x0
         typical: 0x0
-        description: reserved
+        description: Reserved.
 
 
   - name: BGX(0..5)_GMP_PCS_AN(0..3)_LP_ABIL
@@ -7807,10 +7827,10 @@ registers:
         typical: 0x0
         description: |
           Link partner's link status as follows:
-          00 = Link OK.
-          01 = Offline.
-          10 = Link failure.
-          11 = Auto-Negotiation error.
+          0x0 = Link OK.
+          0x1 = Offline.
+          0x2 = Link failure.
+          0x3 = Auto-Negotiation error.
 
       - name: --
         bits: 11..9
@@ -7826,10 +7846,10 @@ registers:
         typical: 0x0
         description: |
           Link partner PAUSE setting as follows:
-          00 = No PAUSE.
-          01 = Symmetric PAUSE.
-          10 = Asymmetric PAUSE.
-          11 = Both symmetric and asymmetric PAUSE to local device.
+          0x0 = No PAUSE.
+          0x1 = Symmetric PAUSE.
+          0x2 = Asymmetric PAUSE.
+          0x3 = Both symmetric and asymmetric PAUSE to local device.
 
       - name: HFD
         bits: 6
@@ -7878,10 +7898,10 @@ registers:
         typical: 0x0
         description: |
           PAUSE selection ('don't care' for SGMII) as follows:
-          00 = Disable PAUSE, TX and RX.
-          01 = Enable PAUSE frames, RX only.
-          10 = Enable PAUSE frames, TX only.
-          11 = Enable PAUSE frames, TX and RX.
+          0x0 = Disable PAUSE, TX and RX.
+          0x1 = Enable PAUSE frames, RX only.
+          0x2 = Enable PAUSE frames, TX only.
+          0x3 = Enable PAUSE frames, TX and RX.
 
       - name: SPD
         bits: 4..3
@@ -7890,10 +7910,10 @@ registers:
         typical: 0x0
         description: |
           Link speed selection as follows:
-          00 = 10 Mb/s.
-          01 = 100 Mb/s.
-          10 = 1000 Mb/s.
-          11 = Reserved.
+          0x0 = 10 Mb/s.
+          0x1 = 100 Mb/s.
+          0x2 = 1000 Mb/s.
+          0x3 = Reserved.
 
       - name: AN_CPT
         bits: 2
@@ -8162,7 +8182,7 @@ registers:
           0x0 = Undefined.
           0x1 = Config.
           0x2 = Idle.
-          0x3 = Data
+          0x3 = Data.
 
       - name: TX_BAD
         bits: 4
@@ -8236,10 +8256,10 @@ registers:
         typical: 0x2
         description: |
           Link speed:
-          00 = 10 Mb/s.
-          01 = 100 Mb/s.
-          10 = 1000 Mb/s.
-          11 = Reserved.
+          0x0 = 10 Mb/s.
+          0x1 = 100 Mb/s.
+          0x2 = 1000 Mb/s.
+          0x3 = Reserved.
 
       - name: --
         bits: 9..1
@@ -8308,10 +8328,10 @@ registers:
         typical: 0x2
         description: |
           Link speed:
-          00 = 10 Mb/s.
-          01 = 100 Mb/s.
-          10 = 1000 Mb/s.
-          11 = Reserved.
+          0x0 = 10 Mb/s.
+          0x1 = 100 Mb/s.
+          0x2 = 1000 Mb/s.
+          0x3 = Reserved.
 
       - name: --
         bits: 9..1
@@ -8333,6 +8353,7 @@ registers:
     address: 0x11800E0030078 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
+      INTERNAL:
       SGMII bit [12] is really a misnomer, it is a decode  of pi_qlm_cfg pins to indicate SGMII or
       1000Base-X modes.
       Note: MODE bit
@@ -8362,7 +8383,7 @@ registers:
         typical: --
         description: |
           SGMII mode. 1 = SGMII or 1000BASE-X mode selected, 0 = other mode selected. See
-          GSERx_LANE_MODE[LMODE].
+          GSER(0..13)_LANE_MODE[LMODE].
 
       - name: GMXENO
         bits: 11
@@ -8562,7 +8583,14 @@ registers:
     address: 0x11800E0038000 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      "Notes:
+      "These registers allow interrupts to be sent to the control processor.
+      * Exception conditions <10:0> can also set the rcv/opcode in the received packet's work-queue
+      entry. BGX(0..5)_GMP_GMI_RX(0..3)_FRM_CHK provides a bit mask for configuring which conditions
+      set the error.
+      In half duplex operation, the expectation is that collisions will appear as either MINERR or
+      CAREXT errors.
+
+      INTERNAL: Notes:
       (2) exception conditions 10:0 can also set the rcv/opcode in the received
       packet's workQ entry.  The BGX_GMP_GMI_RX_FRM_CHK register provides a bit mask
       for configuring which conditions set the error.
@@ -8681,14 +8709,14 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Data-reception error. Frame was received with data-reception error
+        description: Data-reception error. Frame was received with data-reception error.
 
       - name: FCSERR
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: FCS/CRC error. Frame was received with FCS/CRC error
+        description: FCS/CRC error. Frame was received with FCS/CRC error.
 
       - name: JABBER
         bits: 2
@@ -8706,9 +8734,7 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: |
-          Carrier extend error
-          (SGMII/1000Base-X only)
+        description: Carrier-extend error. (SGMII/1000Base-X only)
 
       - name: MINERR
         bits: 0
@@ -8764,10 +8790,10 @@ registers:
         typical: --
         description: |
           Link speed MSB [SPEED_MSB:SPEED]
-          10 = 10 Mb/s operation
-          00 = 100 Mb/s operation
-          01 = 1000 Mb/s operation
-          11 = Reserved
+          0x2 = 10 Mb/s operation.
+          0x0 = 100 Mb/s operation.
+          0x1 = 1000 Mb/s operation.
+          0x3 = Reserved.
           (SGMII/1000Base-X only)
 
       - name: --
@@ -8805,10 +8831,10 @@ registers:
         typical: --
         description: |
           Link Speed LSB [SPEED_MSB:SPEED]
-          10 = 10 Mb/s operation
-          00 = 100 Mb/s operation
-          01 = 1000 Mb/s operation
-          11 = Reserved
+          0x2 = 10 Mb/s operation.
+          0x0 = 100 Mb/s operation.
+          0x1 = 1000 Mb/s operation.
+          0x3 = Reserved.
           (SGMII/1000Base-X only)
 
       - name: --
@@ -8824,7 +8850,17 @@ registers:
     address: 0x11800E0038018 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      Notes:
+      This register controls the handling of the frames.
+      The CTL_BCK/CTL_DRP bits control how the hardware handles incoming PAUSE packets. The most
+      common modes of operation:
+      CTL_BCK = 1, CTL_DRP = 1: hardware handles everything
+      CTL_BCK = 0, CTL_DRP = 0: software sees all PAUSE frames
+      CTL_BCK = 0, CTL_DRP = 1: all PAUSE frames are completely ignored
+      These control bits should be set to CTL_BCK = 0,CTL_DRP = 0 in half-duplex mode. Since PAUSE
+      packets only apply to full duplex operation, any PAUSE packet would constitute an exception
+      which should be handled by the processing cores. PAUSE packets should not be forwarded.
+
+      INTERNAL: Notes:
       PRE_STRP
       When PRE_CHK is set (indicating that the PREAMBLE will be sent), PRE_STRP
       determines if the PREAMBLE+SFD bytes are thrown away or sent to the Octane
@@ -8833,16 +8869,6 @@ registers:
       size when checking against the MIN and MAX bounds.  Furthermore, the bytes
       are skipped when locating the start of the L2 header for DMAC and Control
       frame recognition.
-      CTL_BCK/CTL_DRP
-      These bits control how the HW handles incoming PAUSE packets.  Here are
-      the most common modes of operation:
-      CTL_BCK=1,CTL_DRP=1   - HW does it all
-      CTL_BCK=0,CTL_DRP=0   - SW sees all pause frames
-      CTL_BCK=0,CTL_DRP=1   - all pause frames are completely ignored
-      These control bits should be set to CTL_BCK=0,CTL_DRP=0 in halfdup mode.
-      Since PAUSE packets only apply to fulldup operation, any PAUSE packet
-      would constitute an exception which should be handled by the processing
-      cores.  PAUSE packets should not be forwarded.
     attributes:
       subblock: "GMP"
     fields:
@@ -8862,19 +8888,19 @@ registers:
           Timestamp mode. When PTP_MODE is set, a 64-bit timestamp is prepended to every incoming
           packet.
           The timestamp bytes are added to the packet in such a way as to not modify the packet's
-          receive byte count. This implies that the BGX(0..5)_GMP_GMI_RX(0..3)_RX_JABBER,
-          BGX(0..5)_GMP_GMI_RX(0..3)_RX_DECISION, BGX(0..5)_GMP_GMI_RX(0..3)_UDD_SKP, and
+          receive byte count. This implies that the BGX(0..5)_GMP_GMI_RX(0..3)_JABBER,
+          BGX(0..5)_GMP_GMI_RX(0..3)_DECISION, BGX(0..5)_GMP_GMI_RX(0..3)_UDD_SKP, and
           BGX(0..5)_CMR(0..3)_RX_STAT* do not require any adjustment as they operate on the received
           packet size. When the packet reaches PKI, its size reflects the additional bytes and is
           subject to the following restrictions:
           If PTP_MODE = 1 and PRE_CHK = 1, PRE_STRP must be 1.
           If PTP_MODE = 1
-          PKI_CL(0..3)_PKIND(0..63)_SKIP[FCS_SKIP,INST_SKIP] should be increased by 8.
-          PKI_CL(0..3)_PKIND(0..63)_CFG[HG_EN] should be 0.
-          PKI_FRM_LEN_CHK(0..1)[MAXLEN] should be increased by 8.
-          PKI_FRM_LEN_CHK(0..1)[MINLEN] should be increased by 8.
-          PKI_TAG_INC(0..63)_MASK should be adjusted.
-          This supported in uCode in O78 >>> PIP_PRT_CFGB(0..63)[ALT_SKP_EN] should be 0.
+          * PKI_CL(0..3)_PKIND(0..63)_SKIP[FCS_SKIP,INST_SKIP] should be increased by 8.
+          * PKI_CL(0..3)_PKIND(0..63)_CFG[HG_EN] should be 0.
+          * PKI_FRM_LEN_CHK(0..1)[MAXLEN] should be increased by 8.
+          * PKI_FRM_LEN_CHK(0..1)[MINLEN] should be increased by 8.
+          * PKI_TAG_INC(0..31)_MASK[EN] should be adjusted.
+          This supported in uCode in CN78XX >>> PIP_PRT_CFGB(0..63)[ALT_SKP_EN] should be 0.
 
       - name: --
         bits: 11
@@ -9094,7 +9120,13 @@ registers:
     address: 0x11800E0038040 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      Notes:
+      This register specifies the byte count used to determine when to accept or to filter a packet.
+      As each byte in a packet is received by GMI, the L2 byte count is compared against the
+      BGX(0..5)_GMP_GMI_RX(0..3)_DECISION[CNT]. In normal operation, the L2 header begins after the
+      PREAMBLE + SFD (BGX(0..5)_GMP_GMI_RX(0..3)_FRM_CTL[PRE_CHK] = 1) and any optional UDD skip
+      data (BGX(0..5)_GMP_GMI_RX(0..3)_UDD_SKP[LEN]).
+
+      INTERNAL: Notes:
       As each byte in a packet is received by GMI, the L2 byte count is compared
       against the BGX_GMP_GMI_RX_DECISION[CNT].  The L2 byte count is the number of bytes
       from the beginning of the L2 header (DMAC).  In normal operation, the L2
@@ -9135,7 +9167,10 @@ registers:
     address: 0x11800E0038048 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      Notes:
+      This register specifies the amount of user-defined data (UDD) added before the start of the
+      L2C data.
+
+      INTERNAL: Notes:
       (1) The skip bytes are part of the packet and will be sent down the NCB
       packet interface and will be handled by PKI.
       (2) The system can determine if the UDD bytes are included in the FCS check
@@ -9172,11 +9207,13 @@ registers:
         typical: 0
         description: |
           Include the skip bytes in the FCS calculation.
-          0 = all skip bytes are included in FCS
-          1 = the skip bytes are not included in FCS
-          The skip bytes are part of the packet and are sent through the IOI packet interface and
-          are handled by PKI. The system can determine if the UDD bytes are included in the FCS
-          check by using the FCSSEL field, if the FCS check is enabled.
+          0 = All skip bytes are included in FCS.
+          1 = The skip bytes are not included in FCS.
+
+          When BGX(0..5)_GMP_GMI_TX(0..3)_CTL[HG_EN] is set, this field must be 0.
+          The skip bytes are part of the packet and are sent down the NCB packet interface and are
+          handled by PKI. The system can determine if the UDD bytes are included in the FCS check by
+          using the FCSSEL field, if the FCS check is enabled.
 
       - name: --
         bits: 7
@@ -9321,8 +9358,9 @@ registers:
         typical: 0x200
         description: |
           Slottime (refer to Std 802.3 to set correctly):
-          10/100Mbs: set SLOT to 0x40
-          1000Mbs: set SLOT to 0x200
+          10/100 Mbs: Set SLOT to 0x40.
+          1000 Mbs: Set SLOT to 0x200.
+
           SGMII/1000Base-X only.
 
 
@@ -9433,7 +9471,9 @@ registers:
     address: 0x11800E0038248 + a*0x1000000 + b*0x100000
     bus: RSL
     description: |
-      Notes:
+      This register specifies how often PAUSE packets are sent.
+
+      INTERNAL: Notes:
       Choosing proper values of BGX_GMP_GMI_TX_PAUSE_PKT_TIME[TIME] and
       BGX_GMP_GMI_TX_PAUSE_PKT_INTERVAL[INTERVAL] can be challenging to the system
       designer.  It is suggested that TIME be much greater than INTERVAL and
@@ -9592,13 +9632,13 @@ registers:
         typical: 0
         description: |
           Align the transmission to even cycles: (SGMII/1000BASE-X half-duplex only)
-          Recommended value is: ALIGN = !BGXn_GMP_GMI_TXm_APPEND[PREAMBLE].
+          Recommended value is: ALIGN = !BGX(0..5)_GMP_GMI_TX(0..3)_APPEND[PREAMBLE].
           (See Transmit Conversion to Code groups, Transmit Conversion to Code Groups for a complete
           discussion.)
           0 = Data can be sent on any cycle. In this mode, the interface functions at maximum
           bandwidth. It is possible for the TX PCS machine to drop the first byte of the TX frame.
-          When BGXn_GMP_GMI_TXm_APPEND[PREAMBLE] is set, the first byte is a preamble byte, which
-          can be dropped to compensate for an extended IPG.
+          When BGX(0..5)_GMP_GMI_TX(0..3)_APPEND[PREAMBLE] is set, the first byte is a preamble
+          byte, which can be dropped to compensate for an extended IPG.
           1 = Data is only sent on even cycles. In this mode, there can be bandwidth implications
           when sending odd-byte packets as the IPG can extend an extra cycle. There will be no loss
           of data.
@@ -9661,9 +9701,9 @@ registers:
     bus: RSL
     description: |
       Consider the following when programming IFG1 and IFG2:
-      For 10/100/1000 Mb/s half-duplex systems that require IEEE 802.3 compatibility, IFG1 must be
+      * For 10/100/1000 Mb/s half-duplex systems that require IEEE 802.3 compatibility, IFG1 must be
       in the range of 1-8, IFG2 must be in the range of 4-12, and the IFG1 + IFG2 sum must be 12.
-      For 10/100/1000 Mb/s full-duplex systems that require IEEE 802.3 compatibility, IFG1 must be
+      * For 10/100/1000 Mb/s full-duplex systems that require IEEE 802.3 compatibility, IFG1 must be
       in the range of 1-11, IFG2 must be in the range of 1-11, and the IFG1 + IFG2 sum must be 12.
       For all other systems, IFG1 and IFG2 can be any value in the range of 1-15, allowing for a
       total possible IFG sum of 2-30.

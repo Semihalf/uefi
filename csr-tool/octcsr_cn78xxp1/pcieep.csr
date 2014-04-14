@@ -336,14 +336,14 @@ registers:
     description: This register contains the fifth 32-bits of type 0 PCIe configuration space.
     fields:
       - name: LBAB
-        bits: 31..14
+        bits: 31..15
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Lower bits of the BAR 0 base address.
 
       - name: --
-        bits: 13..4
+        bits: 14..4
         access: RAZ
         reset: --
         typical: --
@@ -3773,14 +3773,14 @@ registers:
     description: This register contains the one hundred fourth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: LBAB
-        bits: 31..14
+        bits: 31..15
         access: R/W
         reset: 0x0
         typical: 0x0
         description: Lower bits of the VF BAR 0 base address.
 
       - name: --
-        bits: 13..4
+        bits: 14..4
         access: RAZ
         reset: --
         typical: --
@@ -4008,7 +4008,7 @@ registers:
         access: RO
         reset: 0x4
         typical: 0x4
-        description: BAR Index. Points to the BAR located at offset 0x18 (BAR2).
+        description: BAR Index. Points to BAR2.
 
 
   - name: PCIEEP(0..3)_CFG448
