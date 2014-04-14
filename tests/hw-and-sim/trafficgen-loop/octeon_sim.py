@@ -20,7 +20,7 @@ class Simulator:
         print "[INFO]Starting simulator: ", sim_args
         self.sim = subprocess.Popen(sim_args, stdin=None, stdout=log, stderr=subprocess.STDOUT)
         assert(self.sim)
-        time.sleep(0.1)
+        time.sleep(0.5)
         print "[INFO]Connecting to uart socket"
         self.sock = socket.create_connection(("localhost", port))
         assert(self.sock)
