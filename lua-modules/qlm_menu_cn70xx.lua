@@ -14,14 +14,14 @@ local function setup_dlmx_ref(qlm, default_option)
     end
     local ref = m:show(default_option)
     if ref == "c0" then
-        octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).ref_use_pad = 0
-        octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).refclk_sel = 0
+        octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).REF_USE_PAD = 0
+        octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).REFCLK_SEL = 0
     elseif ref == "c1" then
-        octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).ref_use_pad = 0
-        octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).refclk_sel = 1
+        octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).REF_USE_PAD = 0
+        octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).REFCLK_SEL = 1
     else
-        octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).ref_use_pad = 1
-        octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).refclk_sel = 0
+        octeon.csr.GSERX_DLMX_REF_USE_PAD(0,qlm).REF_USE_PAD = 1
+        octeon.csr.GSERX_DLMX_REFCLK_SEL(0,qlm).REFCLK_SEL = 0
     end
 end
 
@@ -87,15 +87,15 @@ function qlm_setup_cn70xx()
         -- PORT0
         local sata_lab_lb_pin = menu.prompt_number("GPIO for SATA compliance lab loopback testing (lab_lb_pin)", -1, -1, 19)
         sata_lab_lb_pin = (sata_lab_lb_pin == -1) and 31 or sata_lab_lb_pin
-        octeon.csr.GPIO_SATA_CTL.sel0 = sata_lab_lb_pin
+        octeon.csr.GPIO_SATA_CTL.SEL0 = sata_lab_lb_pin
 
         local p0_mp_switch = menu.prompt_number("GPIO for SATA0 mechanical presence detect (p0_mp_switch)", -1, -1, 19)
         p0_mp_switch = (p0_mp_switch == -1) and 31 or p0_mp_switch
-        octeon.csr.GPIO_SATA_CTL.sel1 = p0_mp_switch
+        octeon.csr.GPIO_SATA_CTL.SEL1 = p0_mp_switch
 
         local p0_cp_det = menu.prompt_number("GPIO for SATA0 cold presence detect (p0_cp_det)", -1, -1, 19)
         p0_cp_det = (p0_cp_det == -1) and 31 or p0_cp_det
-        octeon.csr.GPIO_SATA_CTL.sel3 = p0_cp_det
+        octeon.csr.GPIO_SATA_CTL.SEL3 = p0_cp_det
 
         local p0_cp_pod = menu.prompt_number("GPIO for SATA0 cold presence power-on device (p0_cp_pod)", -1, -1, 19)
         setup_gpio_output(p0_cp_pod, 0x15)
@@ -106,11 +106,11 @@ function qlm_setup_cn70xx()
         -- PORT1
         local p1_mp_switch = menu.prompt_number("GPIO for SATA1 mechanical presence detect (p1_mp_switch)", -1, -1, 19)
         p1_mp_switch = (p1_mp_switch == -1) and 31 or p1_mp_switch
-        octeon.csr.GPIO_SATA_CTL.sel2 = p1_mp_switch
+        octeon.csr.GPIO_SATA_CTL.SEL2 = p1_mp_switch
 
         local p1_cp_det = menu.prompt_number("GPIO for SATA1 cold presence detect (p1_cp_det)", -1, -1, 19)
         p1_cp_det = (p1_cp_det == -1) and 31 or p1_cp_det
-        octeon.csr.GPIO_SATA_CTL.sel4 = p1_cp_det
+        octeon.csr.GPIO_SATA_CTL.SEL4 = p1_cp_det
 
         local p1_cp_pod = menu.prompt_number("GPIO for SATA1 cold presence power-on device (p1_cp_pod)", -1, -1, 19)
         setup_gpio_output(p1_cp_pod, 0x16)

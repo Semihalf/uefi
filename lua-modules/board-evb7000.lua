@@ -26,7 +26,7 @@ set_config(octeon.CONFIG_PHY_IF1_PORT3, 256 + 11)
 -- RXAUI PHY address is 18, hex 0x12, on SMI1
 -- set_config(octeon.CONFIG_PHY_IF0_PORT0, 256 + 18)
 -- We're using a Marvel PHY, so set the disparity calculation to match
-octeon.csr.gmxx_rxaui_ctl(0).write(1)
+octeon.csr.GMXX_RXAUI_CTL(0).write(1)
 -- This puts the 10G PHY on the board in loopback closest to the wire
 -- connection. This is useful for testing without a cable.
 --octeon.c.bdk_mdio_45_write(0, 1, 18, 1, 0, 0x2041)
