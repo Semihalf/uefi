@@ -64,7 +64,7 @@ structs:
     fields:
       - name: CYCLE
         bits: 31..0
-        description: Cycle at which this control entry was written, from OCLA(0)_TIME register.
+        description: Cycle at which this control entry was written, from OCLA()_TIME register.
 
       - name: SOT0
         bits: 32
@@ -77,7 +77,8 @@ structs:
         bits: 33
         description: |
           Start transition from no-capture to capture or duplicated data stopped while capturing for
-          high data. Symmetric with [SOT0] description; see [SOT0].
+          high data. When set, CYCLE indicates the cycle number of the next new high data, minus one
+          cycle.
 
       - name: EOT0
         bits: 34
@@ -205,7 +206,7 @@ registers:
           Enable external triggering.
           0 = External triggering ignored.
           1 = When the external trigger pin selected with GPIO_OCLA_EXTEN_TRIG is high it will cause
-          triggerring and set OCLA(0)_STATE_SET[TRIG]. The external device must de-assert the
+          triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
           signal to release the trigger (it is not edge sensitive.)
 
       - name: DEN
@@ -265,8 +266,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          FSM1 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM1_RST] sets this bit and
-          holds FSM1 in state zero, writing one to OCLA(0)_STATE_INT[FSM1_RST] removes the hold.
+          FSM1 hold in state zero. Writing one to OCLA()_STATE_SET[FSM1_RST] sets this bit and
+          holds FSM1 in state zero, writing one to OCLA()_STATE_INT[FSM1_RST] removes the hold.
 
       - name: FSM0_RST
         bits: 34
@@ -274,8 +275,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          FSM0 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM0_RST] sets this bit and
-          holds FSM0 in state zero, writing one to OCLA(0)_STATE_INT[FSM0_RST] removes the hold.
+          FSM0 hold in state zero. Writing one to OCLA()_STATE_SET[FSM0_RST] sets this bit and
+          holds FSM0 in state zero, writing one to OCLA()_STATE_INT[FSM0_RST] removes the hold.
 
       - name: FSM1_ENA
         bits: 33
@@ -304,8 +305,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DDR buffer wrapped. Asserted when OCLA(0)_STACK_CUR has wrapped and been re-initialized
-          to OCLA(0)_STACK_BASE.
+          DDR buffer wrapped. Asserted when OCLA()_STACK_CUR has wrapped and been re-initialized
+          to OCLA()_STACK_BASE.
 
       - name: WMARK
         bits: 17
@@ -313,8 +314,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Internal buffer watermark reached. Asserted when OCLA(0)_FIFO_DEPTH >
-          OCLA(0)_FIFO_LIMIT[WMARK].
+          Internal buffer watermark reached. Asserted when OCLA()_FIFO_DEPTH >
+          OCLA()_FIFO_LIMIT[WMARK].
 
       - name: OVERFULL
         bits: 16
@@ -322,8 +323,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Capture ended due to FIFO overflow. Asserted when OCLA(0)_FIFO_DEPTH >
-          OCLA(0)_FIFO_LIMIT[OVERFULL].
+          Capture ended due to FIFO overflow. Asserted when OCLA()_FIFO_DEPTH >
+          OCLA()_FIFO_LIMIT[OVERFULL].
 
       - name: TRIGFULL
         bits: 15
@@ -331,8 +332,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Capture ended due to buffer full. Asserted when OCLA(0)_FIFO_TRIG[LIMIT] >=
-          OCLA(0)_FIFO_TRIG[COUNT].
+          Capture ended due to buffer full. Asserted when OCLA()_FIFO_TRIG[LIMIT] >=
+          OCLA()_FIFO_TRIG[CNT].
 
       - name: CAPTURED
         bits: 14
@@ -362,14 +363,14 @@ registers:
         typical: 0x0
         description: |
           Multichip Debug (MCD0..2) set. Asserted on MCD received from another coprocessor or code,
-          or FSM MCD request or W1S to OCLA(0)_STATE_SET[MCD].
+          or FSM MCD request or W1S to OCLA()_STATE_SET[MCD].
 
       - name: TRIG
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA(0)_STATE_SET[TRIG]
+        description: Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA()_STATE_SET[TRIG].
 
       - name: --
         bits: 7..4
@@ -384,8 +385,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Match counter has overflowed. Asserted when OCLA(0)_MAT(0..3)_COUNT >=
-          OCLA(0)_MAT(0..3)_THRESH. Informational only; often masked. Writing 1 clears the
+          Match counter has overflowed. Asserted when OCLA()_MAT()_COUNT >=
+          OCLA()_MAT()_THRESH. Informational only; often masked. Writing 1 clears the
           counter, not just the interrupt.
 
 
@@ -393,21 +394,21 @@ registers:
     title: OCLA State Set Registers
     address: 0x11800A80000A0 | a<<24
     bus: RSL
-    description: This register reads identically to OCLA(0)_STATE_INT, but allows R/W1S instead of R/W1C access.
+    description: This register reads identically to OCLA()_STATE_INT, but allows R/W1S instead of R/W1C access.
     fields:
       - name: FSM1_STATE
         bits: 63..60
         access: RO/H
         reset: 0x0
         typical: --
-        description: See OCLA(0)_STATE_INT[FSM1_STATE].
+        description: See OCLA()_STATE_INT[FSM1_STATE].
 
       - name: FSM0_STATE
         bits: 59..56
         access: RO/H
         reset: 0x0
         typical: --
-        description: See OCLA(0)_STATE_INT[FSM0_STATE].
+        description: See OCLA()_STATE_INT[FSM0_STATE].
 
       - name: --
         bits: 55..36
@@ -421,28 +422,28 @@ registers:
         access: R/W1S
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[FSM1_RST].
+        description: See OCLA()_STATE_INT[FSM1_RST].
 
       - name: FSM0_RST
         bits: 34
         access: R/W1S
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[FSM0_RST].
+        description: See OCLA()_STATE_INT[FSM0_RST].
 
       - name: FSM1_ENA
         bits: 33
         access: R/W1S
         reset: 0
         typical: 1
-        description: See OCLA(0)_STATE_INT[FSM1_ENA].
+        description: See OCLA()_STATE_INT[FSM1_ENA].
 
       - name: FSM0_ENA
         bits: 32
         access: R/W1S
         reset: 0
         typical: 1
-        description: See OCLA(0)_STATE_INT[FSM0_ENA].
+        description: See OCLA()_STATE_INT[FSM0_ENA].
 
       - name: --
         bits: 31..19
@@ -456,63 +457,63 @@ registers:
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[DDRFULL].
+        description: See OCLA()_STATE_INT[DDRFULL].
 
       - name: WMARK
         bits: 17
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[WMARK].
+        description: See OCLA()_STATE_INT[WMARK].
 
       - name: OVERFULL
         bits: 16
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[OVERFULL].
+        description: See OCLA()_STATE_INT[OVERFULL].
 
       - name: TRIGFULL
         bits: 15
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[TRIGFULL].
+        description: See OCLA()_STATE_INT[TRIGFULL].
 
       - name: CAPTURED
         bits: 14
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[CAPTURED].
+        description: See OCLA()_STATE_INT[CAPTURED].
 
       - name: FSM1_INT
         bits: 13
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[FSM1_INT].
+        description: See OCLA()_STATE_INT[FSM1_INT].
 
       - name: FSM0_INT
         bits: 12
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[FSM0_INT].
+        description: See OCLA()_STATE_INT[FSM0_INT].
 
       - name: MCD
         bits: 11..9
         access: R/W1S/H
         reset: 0x0
         typical: 0x0
-        description: See OCLA(0)_STATE_INT[MCD].
+        description: See OCLA()_STATE_INT[MCD].
 
       - name: TRIG
         bits: 8
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: See OCLA(0)_STATE_INT[TRIG].
+        description: See OCLA()_STATE_INT[TRIG].
 
       - name: --
         bits: 7..4
@@ -526,7 +527,7 @@ registers:
         access: R/W1S/H
         reset: 0x0
         typical: 0x0
-        description: See OCLA(0)_STATE_INT[OVFL].
+        description: See OCLA()_STATE_INT[OVFL].
 
 
   - name: OCLA(0)_TIME
@@ -600,9 +601,9 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Stop level. When OCLA(0)_FIFO_DEPTH > OVERFULL, stop capturing and set
-          OCLA(0)_STATE_INT[OVERFULL]. This should be set to no more than
-          OCLA(0..4)_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+          Stop level. When OCLA()_FIFO_DEPTH > [OVERFULL], stop capturing and set
+          OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
+          OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
           detected.
 
       - name: DDR
@@ -611,7 +612,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          DDR level. When OCLA(0)_FIFO_DEPTH > DDR, FIFO entries will be removed, packed into a
+          DDR level. When OCLA()_FIFO_DEPTH > [DDR], FIFO entries will be removed, packed into a
           cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
           must be at least 28.
 
@@ -621,7 +622,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Backpressure level. When OCLA(0)_FIFO_DEPTH > BP, OCLA will signal backpressure to
+          Backpressure level. When OCLA()_FIFO_DEPTH > [BP], OCLA will signal backpressure to
           coprocessors. All-ones disables indicating backpressure.
 
       - name: WMARK
@@ -630,8 +631,8 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Interrupt watermark level. When OCLA(0)_FIFO_DEPTH > WMARK OCLA will set
-          OCLA(0)_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt.
+          Interrupt watermark level. When OCLA()_FIFO_DEPTH > [WMARK], OCLA will set
+          OCLA()_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt.
 
 
   - name: OCLA(0)_FIFO_TAIL
@@ -671,7 +672,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Number of times FIFO has wrapped since trigger. Cleared when OCLA(0)_STATE_INT[TRIG] clear.
+        description: Number of times FIFO has wrapped since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear.
 
 
   - name: OCLA(0)_FIFO_TRIG
@@ -694,14 +695,14 @@ registers:
         description: |
           Post-trigger number of entries to collect before stopping collection. If zero, collection
           will never stop, which may be desirable when overflowing to DDR/L2. Must be <
-          OCLA(0)_CONST[DAT_SIZE] - 5.
+          OCLA()_CONST[DAT_SIZE] - 5.
 
       - name: CNT
         bits: 15..0
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: Number of entries collected since trigger. Cleared when OCLA(0)_STATE_INT[TRIG] clear.
+        description: Number of entries collected since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear.
 
 
   - name: OCLA(0)_STACK_BASE
@@ -778,8 +779,8 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Number of times stack has been reset to OCLA(0)_STACK_BASE since trigger. Cleared when
-          OCLA(0)_STATE_INT[TRIG] clear.
+          Number of times stack has been reset to OCLA()_STACK_BASE since trigger. Cleared when
+          OCLA()_STATE_INT[TRIG] clear.
 
 
   - name: OCLA(0)_STACK_STORE_CNT
@@ -821,8 +822,8 @@ registers:
         typical: --
         description: |
           Next address to write for overflow stack. This address must be on the local node in a OCI
-          system. During initialization this must be between OCLA(0)_STACK_BASE and
-          OCLA(0)_STACK_TOP.
+          system. During initialization this must be between OCLA()_STACK_BASE and
+          OCLA()_STACK_TOP.
 
       - name: --
         bits: 6..0
@@ -865,13 +866,17 @@ registers:
         typical: 0x2
         description: |
           Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
-          mux selected by PLA1 and 0. The output is thus calulated from the equation:
-          fsmcap0 = OCLA(0)_FSM(0)_STATE[state0][CAP].
-          fsmcap1 = OCLA(0)_FSM(1)_STATE[state1][CAP].
-          out = (    (<3> & fsmcap0 & fsmcap0)
-          || (<2> & fsmcap1 & !fsmcap0)
-          || (<1> & !fsmcap1 & fsmcap0)
-          || (<0> & !fsmcap1 & !fsmcap0)).
+          mux selected by PLA1 and 0. The output is thus calculated from the equation:
+            fsmcap0 = OCLA(0)_FSM(0)_STATE[state0][CAP].
+            fsmcap1 = OCLA(0)_FSM(1)_STATE[state1][CAP].
+            out = (   (<3> & fsmcap0 & fsmcap0)
+
+          _        || (<2> & fsmcap1 & !fsmcap0)
+
+          _        || (<1> & !fsmcap1 & fsmcap0)
+
+          _        || (<0> & !fsmcap1 & !fsmcap0)).
+
           Common examples:
           0x0 = No capture.
           0x2 = Capture when fsmcap0 requests capture.
@@ -891,21 +896,21 @@ registers:
         access: RC/H
         reset: 0
         typical: 1
-        description: Valid entry. Indicates the FIFO contains data, and equivalent to OCLA(0)_FIFO_DEPTH[DEPTH] != 0.
+        description: Valid entry. Indicates the FIFO contains data, and equivalent to OCLA()_FIFO_DEPTH[DEPTH] != 0.
 
       - name: TRIG
         bits: 62
         access: RO/H
         reset: 0
         typical: 0
-        description: Internal trigger set. Equivalent to OCLA(0)_STATE_INT[TRIG].
+        description: Internal trigger set. Equivalent to OCLA()_STATE_INT[TRIG].
 
       - name: WMARK
         bits: 61
         access: RO/H
         reset: 0
         typical: 0
-        description: Internal buffer watermark reached. Equivalent to OCLA(0)_STATE_INT[WMARK].
+        description: Internal buffer watermark reached. Equivalent to OCLA()_STATE_INT[WMARK].
 
       - name: --
         bits: 60..38
@@ -921,10 +926,11 @@ registers:
         typical: --
         description: |
           Captured entry. If VALID is set, has read side effect of unloading data by decrementing
-          OCLA(0)_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
+          OCLA()_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
           OCLA_CAP_CTL_S.
+
           Note that unloading data will cause that data not to be sent to memory, therefore
-          OCLA(0)_DAT_POP should not be read when OCLA(0)_FIFO_LIMIT[DDR] != all-ones.
+          OCLA()_DAT_POP should not be read when OCLA()_FIFO_LIMIT[DDR] != all-ones.
 
 
   - name: OCLA(0)_STAGE(0..71)
@@ -967,14 +973,14 @@ registers:
         description: |
           What output matcher provides to FSM:
           0 = FSM receives raw match signal, asserting only in those cycles with matches.
-          1 = FSM receives OCLA(0)_MAT(0..3)_COUNT >= OCLA(0)_MAT(0..3)_THRESH.
+          1 = FSM receives OCLA()_MAT()_COUNT >= OCLA()_MAT()_THRESH.
 
       - name: INC_MATCH
         bits: 6
         access: R/W
         reset: 0
         typical: 1
-        description: Increment OCLA(0)_MAT(0..3)_COUNT counter automatically on each match.
+        description: Increment OCLA()_MAT()_COUNT counter automatically on each match.
 
       - name: SHIFT
         bits: 5..0
@@ -982,7 +988,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Right rotation amount to apply to data loaded into OCLA(0)_MAT(0..3)_VALUE(0..1)
+          Right rotation amount to apply to data loaded into OCLA()_MAT()_VALUE()
           register when FSM requests a value load.
 
 
@@ -1004,8 +1010,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Data value to compare against when corresponding bits of OCLA(0)_MAT(0..3)_MASK(0..1)
-          are set. Value may be updated with OCLA(0)_FSM(0..1)_STATE(0..15)[SET_VAL].
+          Data value to compare against when corresponding bits of OCLA()_MAT()_MASK()
+          are set. Value may be updated with OCLA()_FSM()_STATE()[SET_VAL].
 
 
   - name: OCLA(0)_MAT(0..3)_MASK(0..1)
@@ -1026,7 +1032,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Bitmask of which bits in OCLA(0)_MAT(0..3)_VALUE(0..1) are to be compared.
+          Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
           0 = Do not compare bit.
           1 = Compare bit.
 
@@ -1071,8 +1077,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Counter threshold value. Compared against OCLA(0)_MAT(0..3)_COUNT to assert matcher
-          output, and set OCLA(0)_STATE_INT[OVFL].
+          Counter threshold value. Compared against OCLA()_MAT()_COUNT to assert matcher
+          output, and set OCLA()_STATE_INT[OVFL].
 
 
   - name: OCLA(0)_FSM(0..1)_AND(0..15)_I(0..1)

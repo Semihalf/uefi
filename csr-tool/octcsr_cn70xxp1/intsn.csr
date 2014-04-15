@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: INTSN
+attributes:
+  dv_uvm_model_generation: "False"
 enums:
   - name: INTSN_ALL_E
     title: Generated All-Chip Interrupt Source Enumeration

@@ -4058,6 +4058,8 @@ $DPI_DMA_PP(0..3)_CNT   Address=(0x1DF0000000B00+a*0x8)   Bus=(NCB)
 // ***********************************************************************
 
 Attribute: -dv_fc_scratch_exempt=RSL.
+Attribute: -dv_testbuilder_model_generation=True.
+Attribute: -mif_heading2=DTX.
 
  * 
  * DTX_MIO_SEL = DTX MIO Select Register
@@ -4068,7 +4070,7 @@ $DTX_MIO_SEL(0..1)   Address=(0x11800FE000000|a<<3)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:24> --    RAZ     0x0        0x0        Reserved.                                         
- <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <23:0>  VALUE R/W     0x0        0x0        Debug select. Selects which signals to drive onto low/high 36-bit debug buses.
                                              Attribute: -dv_uvm_cov_val_disable=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -4114,8 +4116,8 @@ $DTX_MIO_CTL   Address=(0x11800FE000060)   Bus=(RSL)
  <63:5>  --     RAZ     0x0        0x0        Reserved.                                         
  <4>     ACTIVE R/W     0          0          Force block's gated clocks on, so that the state of idle signals may be captured.
  <3:2>   --     RAZ     0x0        0x0        Reserved.                                         
- <1>     ECHOEN R/W     0          0          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
-                                              applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
+ <1>     ECHOEN R/W     0          0          Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                              Not applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
  <0>     SWAP   R/W     0          0          Swap the high and low 36-bit debug bus outputs.   
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -5082,7 +5084,7 @@ $DTX_BROADCAST_SEL(0..1)   Address=(0x11800FE7F0000|a<<3)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:24> --    RAZ     0x0        0x0        Reserved.                                         
- <23:0>  VALUE R/W     0x0        0x0        Debug select.  Selects which signals to drive onto low/high 36-bit debug buses.
+ <23:0>  VALUE R/W     0x0        0x0        Debug select. Selects which signals to drive onto low/high 36-bit debug buses.
                                              Attribute: -dv_uvm_cov_val_disable=True.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -5113,8 +5115,8 @@ $DTX_BROADCAST_CTL   Address=(0x11800FE7F0060)   Bus=(RSL)
  <63:5>  --     RAZ     0x0        0x0        Reserved.                                         
  <4>     ACTIVE R/W     0          0          Force block's gated clocks on, so that the state of idle signals may be captured.
  <3:2>   --     RAZ     0x0        0x0        Reserved.                                         
- <1>     ECHOEN R/W     0          0          Drive debug bus with the value in ENA(0..1) instead of normal block debug data. Not
-                                              applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
+ <1>     ECHOEN R/W     0          0          Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                              Not applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
  <0>     SWAP   R/W     0          0          Swap the high and low 36-bit debug bus outputs.   
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -10449,6 +10451,8 @@ $GSER(0)_PHY(0..2)_LANE1_LOOPBACK   Address=(0x1180090408970+a+b*0x80000)   Bus=
 // * To make changes, please edit the intsn.csr file in this directory.
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
+
+Attribute: -dv_uvm_model_generation=False.
 
  * 
  * INTSN_ALL_E = Generated All-Chip Interrupt Source Enumeration
@@ -22666,11 +22670,12 @@ $OCLA_CAP_CTL_S
                  previous entry of low data stopped being replicated. This may be set along with SOT0 to
                  indicate a repeat followed by new sequence.
  w0<33>    SOT1  Start transition from no-capture to capture or duplicated data stopped while capturing for
-                 high data. Symmetric with [SOT0] description; see [SOT0].
+                 high data. When set, CYCLE indicates the cycle number of the next new high data, minus one
+                 cycle.
  w0<32>    SOT0  Start transition from no-capture to capture or duplicated data stopped while capturing for
                  low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
                  cycle.
- w0<31:0>  CYCLE Cycle at which this control entry was written, from OCLA(0)_TIME register.
+ w0<31:0>  CYCLE Cycle at which this control entry was written, from OCLA()_TIME register.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22746,7 +22751,7 @@ $OCLA(0)_GEN_CTL   Address=(0x11800A8000060|a<<24)   Bus=(RSL)
  <3>     EXTEN R/W     0          0          Enable external triggering.                       
                                              0 = External triggering ignored.
                                              1 = When the external trigger pin selected with GPIO_OCLA_EXTEN_TRIG is high it will cause
-                                             triggerring and set OCLA(0)_STATE_SET[TRIG]. The external device must de-assert the
+                                             triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
                                              signal to release the trigger (it is not edge sensitive.)
  <2>     DEN   R/W     0          1          Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
                                              counters may increment. When clear, the bus is always zero and internal flops may be clock
@@ -22767,30 +22772,30 @@ $OCLA(0)_STATE_INT   Address=(0x11800A8000080|a<<24)   Bus=(RSL)
  <63:60> FSM1_STATE RO/H    0x0        --         FSM1 current state.                               
  <59:56> FSM0_STATE RO/H    0x0        --         FSM0 current state.                               
  <55:36> --         RAZ     --         --         Reserved.                                         
- <35>    FSM1_RST   R/W1C   0          0          FSM1 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM1_RST] sets this bit and
-                                                  holds FSM1 in state zero, writing one to OCLA(0)_STATE_INT[FSM1_RST] removes the hold.
- <34>    FSM0_RST   R/W1C   0          0          FSM0 hold in state zero. Writing one to OCLA(0)_STATE_SET[FSM0_RST] sets this bit and
-                                                  holds FSM0 in state zero, writing one to OCLA(0)_STATE_INT[FSM0_RST] removes the hold.
+ <35>    FSM1_RST   R/W1C   0          0          FSM1 hold in state zero. Writing one to OCLA()_STATE_SET[FSM1_RST] sets this bit and
+                                                  holds FSM1 in state zero, writing one to OCLA()_STATE_INT[FSM1_RST] removes the hold.
+ <34>    FSM0_RST   R/W1C   0          0          FSM0 hold in state zero. Writing one to OCLA()_STATE_SET[FSM0_RST] sets this bit and
+                                                  holds FSM0 in state zero, writing one to OCLA()_STATE_INT[FSM0_RST] removes the hold.
  <33>    FSM1_ENA   R/W1C/H 0          0          FSM1 sequencing enabled.                          
  <32>    FSM0_ENA   R/W1C/H 0          0          FSM0 sequencing enabled.                          
  <31:19> --         RAZ     --         --         Reserved.                                         
- <18>    DDRFULL    R/W1C/H 0          0          DDR buffer wrapped. Asserted when OCLA(0)_STACK_CUR has wrapped and been re-initialized
-                                                  to OCLA(0)_STACK_BASE.
- <17>    WMARK      R/W1C/H 0          0          Internal buffer watermark reached. Asserted when OCLA(0)_FIFO_DEPTH >
-                                                  OCLA(0)_FIFO_LIMIT[WMARK].
- <16>    OVERFULL   R/W1C/H 0          0          Capture ended due to FIFO overflow. Asserted when OCLA(0)_FIFO_DEPTH >
-                                                  OCLA(0)_FIFO_LIMIT[OVERFULL].
- <15>    TRIGFULL   R/W1C/H 0          0          Capture ended due to buffer full. Asserted when OCLA(0)_FIFO_TRIG[LIMIT] >=
-                                                  OCLA(0)_FIFO_TRIG[COUNT].
+ <18>    DDRFULL    R/W1C/H 0          0          DDR buffer wrapped. Asserted when OCLA()_STACK_CUR has wrapped and been re-initialized
+                                                  to OCLA()_STACK_BASE.
+ <17>    WMARK      R/W1C/H 0          0          Internal buffer watermark reached. Asserted when OCLA()_FIFO_DEPTH >
+                                                  OCLA()_FIFO_LIMIT[WMARK].
+ <16>    OVERFULL   R/W1C/H 0          0          Capture ended due to FIFO overflow. Asserted when OCLA()_FIFO_DEPTH >
+                                                  OCLA()_FIFO_LIMIT[OVERFULL].
+ <15>    TRIGFULL   R/W1C/H 0          0          Capture ended due to buffer full. Asserted when OCLA()_FIFO_TRIG[LIMIT] >=
+                                                  OCLA()_FIFO_TRIG[CNT].
  <14>    CAPTURED   R/W1C/H 0          0          Capture started. Asserted when the first capture is made. Informational only; often masked.
  <13>    FSM1_INT   R/W1C/H 0          0          FSM1 interrupt requested.                         
  <12>    FSM0_INT   R/W1C/H 0          0          FSM0 interrupt requested.                         
  <11:9>  MCD        R/W1C/H 0x0        0x0        Multichip Debug (MCD0..2) set. Asserted on MCD received from another coprocessor or code,
-                                                  or FSM MCD request or W1S to OCLA(0)_STATE_SET[MCD].
- <8>     TRIG       R/W1C/H 0          0          Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA(0)_STATE_SET[TRIG]
+                                                  or FSM MCD request or W1S to OCLA()_STATE_SET[MCD].
+ <8>     TRIG       R/W1C/H 0          0          Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA()_STATE_SET[TRIG].
  <7:4>   --         RAZ     --         --         Reserved.                                         
- <3:0>   OVFL       R/W1C/H 0x0        0x0        Match counter has overflowed. Asserted when OCLA(0)_MAT(0..3)_COUNT >=
-                                                  OCLA(0)_MAT(0..3)_THRESH. Informational only; often masked. Writing 1 clears the
+ <3:0>   OVFL       R/W1C/H 0x0        0x0        Match counter has overflowed. Asserted when OCLA()_MAT()_COUNT >=
+                                                  OCLA()_MAT()_THRESH. Informational only; often masked. Writing 1 clears the
                                                   counter, not just the interrupt.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -22798,32 +22803,32 @@ $OCLA(0)_STATE_INT   Address=(0x11800A8000080|a<<24)   Bus=(RSL)
  * 
  * OCLA_STATE_SET = OCLA State Set Registers
  * 
- *  This register reads identically to OCLA(0)_STATE_INT, but allows R/W1S instead of R/W1C access.
+ *  This register reads identically to OCLA()_STATE_INT, but allows R/W1S instead of R/W1C access.
  * 
 $OCLA(0)_STATE_SET   Address=(0x11800A80000A0|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field      Field   Reset      Typical    Field                                             
  Pos     Name       Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:60> FSM1_STATE RO/H    0x0        --         See OCLA(0)_STATE_INT[FSM1_STATE].                
- <59:56> FSM0_STATE RO/H    0x0        --         See OCLA(0)_STATE_INT[FSM0_STATE].                
+ <63:60> FSM1_STATE RO/H    0x0        --         See OCLA()_STATE_INT[FSM1_STATE].                 
+ <59:56> FSM0_STATE RO/H    0x0        --         See OCLA()_STATE_INT[FSM0_STATE].                 
  <55:36> --         RAZ     --         --         Reserved.                                         
- <35>    FSM1_RST   R/W1S   0          0          See OCLA(0)_STATE_INT[FSM1_RST].                  
- <34>    FSM0_RST   R/W1S   0          0          See OCLA(0)_STATE_INT[FSM0_RST].                  
- <33>    FSM1_ENA   R/W1S   0          1          See OCLA(0)_STATE_INT[FSM1_ENA].                  
- <32>    FSM0_ENA   R/W1S   0          1          See OCLA(0)_STATE_INT[FSM0_ENA].                  
+ <35>    FSM1_RST   R/W1S   0          0          See OCLA()_STATE_INT[FSM1_RST].                   
+ <34>    FSM0_RST   R/W1S   0          0          See OCLA()_STATE_INT[FSM0_RST].                   
+ <33>    FSM1_ENA   R/W1S   0          1          See OCLA()_STATE_INT[FSM1_ENA].                   
+ <32>    FSM0_ENA   R/W1S   0          1          See OCLA()_STATE_INT[FSM0_ENA].                   
  <31:19> --         RAZ     --         --         Reserved.                                         
- <18>    DDRFULL    R/W1S/H 0          0          See OCLA(0)_STATE_INT[DDRFULL].                   
- <17>    WMARK      R/W1S/H 0          0          See OCLA(0)_STATE_INT[WMARK].                     
- <16>    OVERFULL   R/W1S/H 0          0          See OCLA(0)_STATE_INT[OVERFULL].                  
- <15>    TRIGFULL   R/W1S/H 0          0          See OCLA(0)_STATE_INT[TRIGFULL].                  
- <14>    CAPTURED   R/W1S/H 0          0          See OCLA(0)_STATE_INT[CAPTURED].                  
- <13>    FSM1_INT   R/W1S/H 0          0          See OCLA(0)_STATE_INT[FSM1_INT].                  
- <12>    FSM0_INT   R/W1S/H 0          0          See OCLA(0)_STATE_INT[FSM0_INT].                  
- <11:9>  MCD        R/W1S/H 0x0        0x0        See OCLA(0)_STATE_INT[MCD].                       
- <8>     TRIG       R/W1S/H 0          0          See OCLA(0)_STATE_INT[TRIG].                      
+ <18>    DDRFULL    R/W1S/H 0          0          See OCLA()_STATE_INT[DDRFULL].                    
+ <17>    WMARK      R/W1S/H 0          0          See OCLA()_STATE_INT[WMARK].                      
+ <16>    OVERFULL   R/W1S/H 0          0          See OCLA()_STATE_INT[OVERFULL].                   
+ <15>    TRIGFULL   R/W1S/H 0          0          See OCLA()_STATE_INT[TRIGFULL].                   
+ <14>    CAPTURED   R/W1S/H 0          0          See OCLA()_STATE_INT[CAPTURED].                   
+ <13>    FSM1_INT   R/W1S/H 0          0          See OCLA()_STATE_INT[FSM1_INT].                   
+ <12>    FSM0_INT   R/W1S/H 0          0          See OCLA()_STATE_INT[FSM0_INT].                   
+ <11:9>  MCD        R/W1S/H 0x0        0x0        See OCLA()_STATE_INT[MCD].                        
+ <8>     TRIG       R/W1S/H 0          0          See OCLA()_STATE_INT[TRIG].                       
  <7:4>   --         RAZ     --         --         Reserved.                                         
- <3:0>   OVFL       R/W1S/H 0x0        0x0        See OCLA(0)_STATE_INT[OVFL].                      
+ <3:0>   OVFL       R/W1S/H 0x0        0x0        See OCLA()_STATE_INT[OVFL].                       
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22874,17 +22879,17 @@ $OCLA(0)_FIFO_LIMIT   Address=(0x11800A8000240|a<<24)   Bus=(RSL)
  Bit     Field    Field   Reset      Typical    Field                                             
  Pos     Name     Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63:48> OVERFULL R/W     all-ones   --         Stop level. When OCLA(0)_FIFO_DEPTH > OVERFULL, stop capturing and set
-                                                OCLA(0)_STATE_INT[OVERFULL]. This should be set to no more than
-                                                OCLA(0..4)_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
+ <63:48> OVERFULL R/W     all-ones   --         Stop level. When OCLA()_FIFO_DEPTH > [OVERFULL], stop capturing and set
+                                                OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
+                                                OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
                                                 detected.
- <47:32> DDR      R/W     all-ones   --         DDR level. When OCLA(0)_FIFO_DEPTH > DDR, FIFO entries will be removed, packed into a
+ <47:32> DDR      R/W     all-ones   --         DDR level. When OCLA()_FIFO_DEPTH > [DDR], FIFO entries will be removed, packed into a
                                                 cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
                                                 must be at least 28.
- <31:16> BP       R/W     all-ones   --         Backpressure level. When OCLA(0)_FIFO_DEPTH > BP, OCLA will signal backpressure to
+ <31:16> BP       R/W     all-ones   --         Backpressure level. When OCLA()_FIFO_DEPTH > [BP], OCLA will signal backpressure to
                                                 coprocessors. All-ones disables indicating backpressure.
- <15:0>  WMARK    R/W     all-ones   --         Interrupt watermark level. When OCLA(0)_FIFO_DEPTH > WMARK OCLA will set
-                                                OCLA(0)_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt.
+ <15:0>  WMARK    R/W     all-ones   --         Interrupt watermark level. When OCLA()_FIFO_DEPTH > [WMARK], OCLA will set
+                                                OCLA()_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22910,7 +22915,7 @@ $OCLA(0)_FIFO_WRAP   Address=(0x11800A8000280|a<<24)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:32> --    RAZ     --         --         Reserved.                                         
- <31:0>  WRAPS R/W/H   0x0        0x0        Number of times FIFO has wrapped since trigger. Cleared when OCLA(0)_STATE_INT[TRIG] clear.
+ <31:0>  WRAPS R/W/H   0x0        0x0        Number of times FIFO has wrapped since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22925,8 +22930,8 @@ $OCLA(0)_FIFO_TRIG   Address=(0x11800A80002A0|a<<24)   Bus=(RSL)
  <63:32> --    RAZ     --         --         Reserved.                                         
  <31:16> LIMIT R/W     0x0        0x1        Post-trigger number of entries to collect before stopping collection. If zero, collection
                                              will never stop, which may be desirable when overflowing to DDR/L2. Must be <
-                                             OCLA(0)_CONST[DAT_SIZE] - 5.
- <15:0>  CNT   R/W/H   0x0        0x0        Number of entries collected since trigger. Cleared when OCLA(0)_STATE_INT[TRIG] clear.
+                                             OCLA()_CONST[DAT_SIZE] - 5.
+ <15:0>  CNT   R/W/H   0x0        0x0        Number of entries collected since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22968,8 +22973,8 @@ $OCLA(0)_STACK_WRAP   Address=(0x11800A8000440|a<<24)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:32> --    RAZ     --         --         Reserved.                                         
- <31:0>  WRAPS R/W/H   0x0        0x0        Number of times stack has been reset to OCLA(0)_STACK_BASE since trigger. Cleared when
-                                             OCLA(0)_STATE_INT[TRIG] clear.
+ <31:0>  WRAPS R/W/H   0x0        0x0        Number of times stack has been reset to OCLA()_STACK_BASE since trigger. Cleared when
+                                             OCLA()_STATE_INT[TRIG] clear.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -22996,8 +23001,8 @@ $OCLA(0)_STACK_CUR   Address=(0x11800A8000480|a<<24)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:42> --    RAZ     --         --         Reserved.                                         
  <41:7>  PTR   R/W/H   0x0        --         Next address to write for overflow stack. This address must be on the local node in a OCI
-                                             system. During initialization this must be between OCLA(0)_STACK_BASE and
-                                             OCLA(0)_STACK_TOP.
+                                             system. During initialization this must be between OCLA()_STACK_BASE and
+                                             OCLA()_STACK_TOP.
  <6:0>   --    RAZ     --         --         Reserved. For cache line alignment.               
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -23014,13 +23019,17 @@ $OCLA(0)_CDH(0..1)_CTL   Address=(0x11800A8000600|a<<24|b<<3)   Bus=(RSL)
  <5>     DUP       R/W     0          0          Retain duplicates in the data stream.             
  <4>     DIS_STAMP R/W     0          0          Remove time stamps from data stream.              
  <3:0>   CAP_CTL   R/W     0x2        0x2        Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
-                                                 mux selected by PLA1 and 0. The output is thus calulated from the equation:
-                                                 fsmcap0 = OCLA(0)_FSM(0)_STATE[state0][CAP].
-                                                 fsmcap1 = OCLA(0)_FSM(1)_STATE[state1][CAP].
-                                                 out = (    (<3> & fsmcap0 & fsmcap0)
-                                                 || (<2> & fsmcap1 & !fsmcap0)
-                                                 || (<1> & !fsmcap1 & fsmcap0)
-                                                 || (<0> & !fsmcap1 & !fsmcap0)).
+                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
+                                                   fsmcap0 = OCLA(0)_FSM(0)_STATE[state0][CAP].
+                                                   fsmcap1 = OCLA(0)_FSM(1)_STATE[state1][CAP].
+                                                   out = (   (<3> & fsmcap0 & fsmcap0)
+                                                 
+                                                 _        || (<2> & fsmcap1 & !fsmcap0)
+                                                 
+                                                 _        || (<1> & !fsmcap1 & fsmcap0)
+                                                 
+                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
+                                                 
                                                  Common examples:
                                                  0x0 = No capture.
                                                  0x2 = Capture when fsmcap0 requests capture.
@@ -23039,15 +23048,16 @@ $OCLA(0)_DAT_POP   Address=(0x11800A8000800|a<<24)   Bus=(RSL)
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63>    VALID RC/H    0          1          Valid entry. Indicates the FIFO contains data, and equivalent to OCLA(0)_FIFO_DEPTH[DEPTH] != 0.
- <62>    TRIG  RO/H    0          0          Internal trigger set. Equivalent to OCLA(0)_STATE_INT[TRIG].
- <61>    WMARK RO/H    0          0          Internal buffer watermark reached. Equivalent to OCLA(0)_STATE_INT[WMARK].
+ <63>    VALID RC/H    0          1          Valid entry. Indicates the FIFO contains data, and equivalent to OCLA()_FIFO_DEPTH[DEPTH] != 0.
+ <62>    TRIG  RO/H    0          0          Internal trigger set. Equivalent to OCLA()_STATE_INT[TRIG].
+ <61>    WMARK RO/H    0          0          Internal buffer watermark reached. Equivalent to OCLA()_STATE_INT[WMARK].
  <60:38> --    RAZ     --         --         Reserved.                                         
  <37:0>  ENTRY RC/H    0x0        --         Captured entry. If VALID is set, has read side effect of unloading data by decrementing
-                                             OCLA(0)_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
+                                             OCLA()_FIFO_DEPTH[DEPTH]. Data is in the format described by OCLA_CAP_DAT_S or
                                              OCLA_CAP_CTL_S.
+                                             
                                              Note that unloading data will cause that data not to be sent to memory, therefore
-                                             OCLA(0)_DAT_POP should not be read when OCLA(0)_FIFO_LIMIT[DDR] != all-ones.
+                                             OCLA()_DAT_POP should not be read when OCLA()_FIFO_LIMIT[DDR] != all-ones.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -23075,9 +23085,9 @@ $OCLA(0)_MAT(0..3)_CTL   Address=(0x11800A8200000|a<<24|b<<12)   Bus=(RSL)
  <63:8>  --        RAZ     --         --         Reserved.                                         
  <7>     FSM_CTR   R/W     0          1          What output matcher provides to FSM:              
                                                  0 = FSM receives raw match signal, asserting only in those cycles with matches.
-                                                 1 = FSM receives OCLA(0)_MAT(0..3)_COUNT >= OCLA(0)_MAT(0..3)_THRESH.
- <6>     INC_MATCH R/W     0          1          Increment OCLA(0)_MAT(0..3)_COUNT counter automatically on each match.
- <5:0>   SHIFT     R/W     0x0        --         Right rotation amount to apply to data loaded into OCLA(0)_MAT(0..3)_VALUE(0..1)
+                                                 1 = FSM receives OCLA()_MAT()_COUNT >= OCLA()_MAT()_THRESH.
+ <6>     INC_MATCH R/W     0          1          Increment OCLA()_MAT()_COUNT counter automatically on each match.
+ <5:0>   SHIFT     R/W     0x0        --         Right rotation amount to apply to data loaded into OCLA()_MAT()_VALUE()
                                                  register when FSM requests a value load.
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -23091,8 +23101,8 @@ $OCLA(0)_MAT(0..3)_VALUE(0..1)   Address=(0x11800A8210000|a<<24|b<<12|c<<3)   Bu
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:36> --    RAZ     --         --         Reserved.                                         
- <35:0>  MASK  R/W/H   0x0        --         Data value to compare against when corresponding bits of OCLA(0)_MAT(0..3)_MASK(0..1)
-                                             are set. Value may be updated with OCLA(0)_FSM(0..1)_STATE(0..15)[SET_VAL].
+ <35:0>  MASK  R/W/H   0x0        --         Data value to compare against when corresponding bits of OCLA()_MAT()_MASK()
+                                             are set. Value may be updated with OCLA()_FSM()_STATE()[SET_VAL].
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -23105,7 +23115,7 @@ $OCLA(0)_MAT(0..3)_MASK(0..1)   Address=(0x11800A8220000|a<<24|b<<12|c<<3)   Bus
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:36> --    RAZ     --         --         Reserved.                                         
- <35:0>  MASK  R/W     0x0        --         Bitmask of which bits in OCLA(0)_MAT(0..3)_VALUE(0..1) are to be compared.
+ <35:0>  MASK  R/W     0x0        --         Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
                                              0 = Do not compare bit.
                                              1 = Compare bit.
 -----------------------------------------------------------------------------------------------------------------------------------
@@ -23134,8 +23144,8 @@ $OCLA(0)_MAT(0..3)_THRESH   Address=(0x11800A8240000|a<<24|b<<12)   Bus=(RSL)
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:32> --     RAZ     --         --         Reserved.                                         
- <31:0>  THRESH R/W     0x0        --         Counter threshold value. Compared against OCLA(0)_MAT(0..3)_COUNT to assert matcher
-                                              output, and set OCLA(0)_STATE_INT[OVFL].
+ <31:0>  THRESH R/W     0x0        --         Counter threshold value. Compared against OCLA()_MAT()_COUNT to assert matcher
+                                              output, and set OCLA()_STATE_INT[OVFL].
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
