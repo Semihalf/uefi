@@ -26,9 +26,9 @@ For the various boot options, the BDK supplies binary images that must be
 programmed into the beginning of flash.  Here is a list of images:
 
 * Booting from parallel NOR flash
-** bdk-boot-cn78xx.bin
+** bdk-boot-nor-cn78xx.bin
 * Booting from MMC, eMMC, or an SD card
-** TBD (bdk-boot-mmc-cn78xx.bin?)
+** bdk-boot-emmc-cn78xx.bin
 * Booting from SPI NOR flash
 ** TBD (bdk-boot-spi-cn78xx.bin?)
 
@@ -89,14 +89,14 @@ Using PCIe to program flash
 .Programming parallel NOR flash over PCIe
 ----
 export OCTEON_REMOTE_PROTOCOL=PCI
-bdk-remote flash write bdk-boot-cn78xx.bin 0
+bdk-remote flash write bdk-boot-nor-cn78xx.bin 0
 bdk-remote reset
 ----
 
 .Programming MMC, eMMC, or an SD card over PCIe
 ----
 export OCTEON_REMOTE_PROTOCOL=PCI
-bdk-remote mmc write bdk-boot-mmc-cn78xx.bin 0
+bdk-remote mmc write bdk-boot-emmc-cn78xx.bin 0
 bdk-remote reset
 ----
 

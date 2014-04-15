@@ -8,13 +8,47 @@ fi
 
 DIR=${BDK_ROOT}/target-bin
 
+#
+# Update the Lua filesystems in the images
+#
+# CN70XX
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-boot-nor-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
-${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-chip-screen-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen/*
-${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-boot-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
+${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-chip-screen-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen-cn70xx/*
 
+# CN78XX
+${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-boot-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
+${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-chip-screen-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen-cn78xx/*
+
+#
+# Create combined boot images for CN70XX
+#
+# CN70XX - BDK boot from NOR
 cat ${DIR}/original/bdk-boot-nor-stage1-cn70xx.bin /dev/zero | dd of=${DIR}/bdk-boot-nor-cn70xx.bin bs=1024 count=512 > /dev/null 2>&1
 cat ${DIR}/original/bdk-boot-nor-stage2-cn70xx.bin >> ${DIR}/bdk-boot-nor-cn70xx.bin
 
+# CN70XX - Xmodem boot from eMMC/SD
+cat ${DIR}/original/emm-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-emmc-cn70xx.bin bs=1024 count=8 > /dev/null 2>&1
+cat ${DIR}/bdk-xmodem-load.bin >> ${DIR}/bdk-boot-emmc-cn70xx.bin
+
+# CN70XX - Xmodem boot from SPI
+# FIXME: Add support for SPI boot
+
+# CN70XX - Chip screen boot from NOR
 cat ${DIR}/original/bdk-boot-nor-stage1-cn70xx.bin /dev/zero | dd of=${DIR}/bdk-chip-screen-cn70xx.bin bs=1024 count=512 > /dev/null 2>&1
 cat ${DIR}/original/bdk-chip-screen-stage2-cn70xx.bin >> ${DIR}/bdk-chip-screen-cn70xx.bin
 
+#
+# Create combined boot images for CN78XX
+#
+# CN78XX - BDK boot from NOR
+cp ${DIR}/bdk-boot-cn78xx.bin ${DIR}/bdk-boot-nor-cn78xx.bin
+
+# CN78XX - BDK boot from eMMC
+cat ${DIR}/original/emm-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-emmc-cn78xx.bin bs=1024 count=8 > /dev/null 2>&1
+cat ${DIR}/bdk-boot-cn78xx.bin >> ${DIR}/bdk-boot-emmc-cn78xx.bin
+
+# CN78XX - Xmodem boot from SPI
+# FIXME: Add support for SPI boot
+
+# CN78XX - Chip screen boot from NOR
+# Already created above as the chip screen directly boots from NOR
