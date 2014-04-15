@@ -138,19 +138,6 @@ void __bdk_init_main(int arg, void *arg1)
         goes multicore later */
     if (bdk_is_boot_core())
     {
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-        {
-            printf("Configuring QLMs for a sample setup\n"); // FIXME
-            bdk_qlm_set_mode(bdk_numa_local(), 0, BDK_QLM_MODE_SGMII, 1250, 0);
-            bdk_qlm_set_mode(bdk_numa_local(), 1, BDK_QLM_MODE_XAUI_1X4, 3125, 0);
-            bdk_qlm_set_mode(bdk_numa_local(), 2, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
-            bdk_qlm_set_mode(bdk_numa_local(), 3, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
-            bdk_qlm_set_mode(bdk_numa_local(), 4, BDK_QLM_MODE_RXAUI_2X2, 6250, 0);
-            bdk_qlm_set_mode(bdk_numa_local(), 5, BDK_QLM_MODE_10GR_4X1, 10321, 0);
-            bdk_qlm_set_mode(bdk_numa_local(), 6, BDK_QLM_MODE_40GR4_1X4, 10321, 0);
-            bdk_qlm_set_mode(bdk_numa_local(), 7, BDK_QLM_MODE_ILK, 5000, 0);
-        }
-
         extern int main(int argc, const char *argv);
         if (BDK_SHOW_BOOT_BANNERS)
             printf("Switching to main\n");

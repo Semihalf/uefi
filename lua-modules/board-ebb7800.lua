@@ -34,3 +34,14 @@ set_config(octeon.CONFIG_PHY_IF0_PORT1, 0x100 + 6)
 set_config(octeon.CONFIG_PHY_IF0_PORT2, 0x100 + 7)
 set_config(octeon.CONFIG_PHY_IF0_PORT3, 0x100 + 8)
 
+printf("Configuring QLMs for a sample setup\n");
+local node = octeon.MASTER_NODE
+octeon.c.bdk_qlm_set_mode(node, 0, octeon.QLM_MODE_SGMII, 1250, 0)
+octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_XAUI_1X4, 3125, 0)
+octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 8000, octeon.QLM_MODE_FLAG_GEN3)
+octeon.c.bdk_qlm_set_mode(node, 3, octeon.QLM_MODE_PCIE_1X8, 8000, octeon.QLM_MODE_FLAG_GEN3)
+octeon.c.bdk_qlm_set_mode(node, 4, octeon.QLM_MODE_RXAUI_2X2, 6250, 0)
+octeon.c.bdk_qlm_set_mode(node, 5, octeon.QLM_MODE_10GR_4X1, 10321, 0)
+octeon.c.bdk_qlm_set_mode(node, 6, octeon.QLM_MODE_40GR4_1X4, 10321, 0)
+octeon.c.bdk_qlm_set_mode(node, 7, octeon.QLM_MODE_ILK, 5000, 0)
+
