@@ -421,19 +421,78 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_ILK:
             is_ilk = 1;
             if (baud_mhz <= 1250)
-                lane_mode = 0x3; /* R_125G_REFCLK15625_KX */
+            {
+                if (ref_clk == REF_156MHZ)
+                    lane_mode = 0x3; /* R_125G_REFCLK15625_KX */
+                else
+                {
+                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+                    return -1;
+                }
+            }
             else if (baud_mhz <= 2500)
-                lane_mode = 0x0; /* R_25G_REFCLK100 */
+            {
+                if (ref_clk == REF_100MHZ)
+                    lane_mode = 0x0; /* R_25G_REFCLK100 */
+                else if (ref_clk == REF_125MHZ)
+                    lane_mode = 0x9; /* R_25G_REFCLK125 */
+                else
+                {
+                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+                    return -1;
+                }
+            }
             else if (baud_mhz <= 3125)
-                lane_mode = 0x4; /* R_3125G_REFCLK15625_XAUI */
+            {
+                if (ref_clk == REF_156MHZ)
+                    lane_mode = 0x4; /* R_3125G_REFCLK15625_XAUI */
+                else
+                {
+                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+                    return -1;
+                }
+            }
             else if (baud_mhz <= 5000)
-                lane_mode = 0x7; /* R_5G_REFCLK15625_QSGMII */
+            {
+                if (ref_clk == REF_100MHZ)
+                    lane_mode = 0x2; /* R_5G_REFCLK100 */
+                else if (ref_clk == REF_125MHZ)
+                    lane_mode = 0xa; /* R_5G_REFCLK125 */
+                else
+                    lane_mode = 0x7; /* R_5G_REFCLK15625_QSGMII */
+            }
             else if (baud_mhz <= 6250)
-                lane_mode = 0x8; /* R_625G_REFCLK15625_RXAUI */
+            {
+                if (ref_clk == REF_156MHZ)
+                    lane_mode = 0x8; /* R_625G_REFCLK15625_RXAUI */
+                else
+                {
+                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+                    return -1;
+                }
+            }
             else if (baud_mhz <= 8000)
-                lane_mode = 0x2; /* R_8G_REFCLK100 */
+            {
+                if (ref_clk == REF_100MHZ)
+                    lane_mode = 0x2; /* R_8G_REFCLK100 */
+                else if (ref_clk == REF_125MHZ)
+                    lane_mode = 0xb; /* R_8G_REFCLK125 */
+                else
+                {
+                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+                    return -1;
+                }
+            }
             else
-                lane_mode = 0x5; /* R_103215G_REFCLK15625_KR */
+            {
+                if (ref_clk == REF_156MHZ)
+                    lane_mode = 0x5; /* R_103215G_REFCLK15625_KR */
+                else
+                {
+                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+                    return -1;
+                }
+            }
             break;
         case BDK_QLM_MODE_SGMII:
             is_bgx = 1;
