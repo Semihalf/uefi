@@ -108,6 +108,26 @@ qlm_modes[7] = qlm_modes[5]
 -- This is called when the user selects a QLM to change its config
 --
 local function do_setup(qlm)
+    local m = menu.new("Select a reference clock for QLM%d" % qlm)
+    m:item("ext", "External reference (QLM%d_REF_CLK)" % qlm)
+    m:item("c0", "Common clock 0 (QLMC_REF_CLK0)")
+    m:item("c1", "Common clock 1 (QLMC_REF_CLK1)")
+    local index = m:show()
+    -- Select the reference clock to use
+    if index == "ext" then
+    octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
+        octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+    elseif index == "c0" then
+        octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+        octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+    else
+        octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+        octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
+    end
+    -- Reset the QLM after changing the reference clock
+    octeon.c.bdk_qlm_reset(node, qlm)
+
+    -- Select the mode to use
     local m = menu.new("Select a mode for QLM%d" % qlm)
     for i=1,#qlm_modes[qlm] do
         m:item(i, qlm_modes[qlm][i][1])
