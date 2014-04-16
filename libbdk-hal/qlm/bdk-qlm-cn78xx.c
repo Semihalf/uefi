@@ -208,34 +208,16 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             return BDK_QLM_MODE_ILK;
         else if (gserx_cfg.s.bgx)
         {
-            BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
-            switch (lane_mode.s.lmode)
+            int bgx = (qlm < 2) ? qlm : qlm - 2;
+            BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 0));
+            switch (cmrx_config.s.lmac_type)
             {
-                case 0x0: /* R_25G_REFCLK100 */
-                case 0x1: /* R_5G_REFCLK100 */
-                case 0x2: /* R_8G_REFCLK100 */
-                    return BDK_QLM_MODE_DISABLED;
-                case 0x3: /* R_125G_REFCLK15625_KX */
-                    return BDK_QLM_MODE_DISABLED;
-                case 0x4: /* R_3125G_REFCLK15625_XAUI */
-                    return BDK_QLM_MODE_XAUI_1X4;
-                case 0x5: /* R_103215G_REFCLK15625_KR */
-                    if (gserx_cfg.s.bgx_quad)
-                        return BDK_QLM_MODE_40GR4_1X4;
-                    else
-                        return BDK_QLM_MODE_10GR_4X1;
-                case 0x6: /* R_125G_REFCLK15625_SGMII */
-                    return BDK_QLM_MODE_SGMII;
-                case 0x7: /* R_5G_REFCLK15625_QSGMII */
-                    return BDK_QLM_MODE_DISABLED;
-                case 0x8: /* R_625G_REFCLK15625_RXAUI */
-                    return BDK_QLM_MODE_RXAUI_2X2;
-                case 0x9: /* R_25G_REFCLK125 */
-                case 0xa: /* R_5G_REFCLK125 */
-                case 0xb: /* R_8G_REFCLK125 */
-                    return BDK_QLM_MODE_DISABLED;
-                default:
-                    return BDK_QLM_MODE_DISABLED;
+                case 0x0: return BDK_QLM_MODE_SGMII;
+                case 0x1: return BDK_QLM_MODE_XAUI_1X4;
+                case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
+                case 0x3: return BDK_QLM_MODE_10GR_4X1;
+                case 0x4: return BDK_QLM_MODE_40GR4_1X4;
+                default:  return BDK_QLM_MODE_DISABLED;
             }
         }
         else
@@ -348,6 +330,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
 static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
     int lane_mode = 0xf;
+    int lmac_type = -1;
     int is_pcie = 0;
     int is_ilk = 0;
     int is_bgx = 0;
@@ -513,30 +496,35 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_SGMII:
+            lmac_type = 0; /* SGMII */
             is_bgx = 1;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_XAUI_1X4:
+            lmac_type = 1; /* XAUI */
             is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
+            lmac_type = 2; /* RXAUI */
             is_bgx = 3;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_10GR_4X1:
+            lmac_type = 3; /* 10G_R */
             is_bgx = 1;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
         case BDK_QLM_MODE_40GR4_1X4:
+            lmac_type = 4; /* 40G_R */
             is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
@@ -563,6 +551,15 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Lane mode */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm),
         c.s.lmode = lane_mode);
+
+    /* LMAC type. We only program one port as the full setup is done in BGX */
+    if (lmac_type != -1)
+    {
+        int bgx = (qlm < 2) ? qlm : qlm - 2;
+        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMRX_CONFIG(bgx, 0),
+            c.s.enable = 0;
+            c.s.lmac_type = lmac_type);
+    }
 
     /* Bring phy out of reset */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
