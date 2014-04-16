@@ -1,6 +1,10 @@
 #include <bdk.h>
 #include <stdio.h>
 
+static const int REF_100MHZ = 100000000;
+static const int REF_125MHZ = 125000000;
+static const int REF_156MHZ = 156250000;
+
 /* Indexed by QLM number and lane */
 static uint64_t prbs_errors[14][4];
 
@@ -241,6 +245,93 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         return BDK_QLM_MODE_OCI;
 }
 
+/**
+ * Figure out which lane mode to use for a given reference clock and GBaud
+ *
+ * @param mode_name String name for error messages
+ * @param qlm       QlM being configured
+ * @param ref_clk   Reference clock in hertz
+ * @param baud_mhz  Baud rate in Mhz
+ *
+ * @return Lane mode or -1 on failure
+ */
+static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, int ref_clk, int baud_mhz)
+{
+    if (baud_mhz <= 1250)
+    {
+        if (ref_clk == REF_156MHZ)
+            return 0x3; /* R_125G_REFCLK15625_KX */
+        else
+        {
+            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            return -1;
+        }
+    }
+    else if (baud_mhz <= 2500)
+    {
+        if (ref_clk == REF_100MHZ)
+            return 0x0; /* R_25G_REFCLK100 */
+        else if (ref_clk == REF_125MHZ)
+            return 0x9; /* R_25G_REFCLK125 */
+        else
+        {
+            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            return -1;
+        }
+    }
+    else if (baud_mhz <= 3125)
+    {
+        if (ref_clk == REF_156MHZ)
+            return 0x4; /* R_3125G_REFCLK15625_XAUI */
+        else
+        {
+            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            return -1;
+        }
+    }
+    else if (baud_mhz <= 5000)
+    {
+        if (ref_clk == REF_100MHZ)
+            return 0x2; /* R_5G_REFCLK100 */
+        else if (ref_clk == REF_125MHZ)
+            return 0xa; /* R_5G_REFCLK125 */
+        else
+            return 0x7; /* R_5G_REFCLK15625_QSGMII */
+    }
+    else if (baud_mhz <= 6250)
+    {
+        if (ref_clk == REF_156MHZ)
+            return 0x8; /* R_625G_REFCLK15625_RXAUI */
+        else
+        {
+            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            return -1;
+        }
+    }
+    else if (baud_mhz <= 8000)
+    {
+        if (ref_clk == REF_100MHZ)
+            return 0x2; /* R_8G_REFCLK100 */
+        else if (ref_clk == REF_125MHZ)
+            return 0xb; /* R_8G_REFCLK125 */
+        else
+        {
+            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            return -1;
+        }
+    }
+    else /* Baud 10321 */
+    {
+        if (ref_clk == REF_156MHZ)
+            return 0x5; /* R_103215G_REFCLK15625_KR */
+        else
+        {
+            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            return -1;
+        }
+    }
+    return -1;
+}
 
 /**
  * For chips that don't use pin strapping, this function programs
@@ -260,9 +351,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int is_pcie = 0;
     int is_ilk = 0;
     int is_bgx = 0;
-    const int REF_100MHZ = 100000000;
-    const int REF_125MHZ = 125000000;
-    const int REF_156MHZ = 156250000;
 
     /* Get the reference clock speed and force it to be exactly one of the
        supported values */
@@ -420,99 +508,39 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
         case BDK_QLM_MODE_ILK:
             is_ilk = 1;
-            if (baud_mhz <= 1250)
-            {
-                if (ref_clk == REF_156MHZ)
-                    lane_mode = 0x3; /* R_125G_REFCLK15625_KX */
-                else
-                {
-                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
-                    return -1;
-                }
-            }
-            else if (baud_mhz <= 2500)
-            {
-                if (ref_clk == REF_100MHZ)
-                    lane_mode = 0x0; /* R_25G_REFCLK100 */
-                else if (ref_clk == REF_125MHZ)
-                    lane_mode = 0x9; /* R_25G_REFCLK125 */
-                else
-                {
-                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
-                    return -1;
-                }
-            }
-            else if (baud_mhz <= 3125)
-            {
-                if (ref_clk == REF_156MHZ)
-                    lane_mode = 0x4; /* R_3125G_REFCLK15625_XAUI */
-                else
-                {
-                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
-                    return -1;
-                }
-            }
-            else if (baud_mhz <= 5000)
-            {
-                if (ref_clk == REF_100MHZ)
-                    lane_mode = 0x2; /* R_5G_REFCLK100 */
-                else if (ref_clk == REF_125MHZ)
-                    lane_mode = 0xa; /* R_5G_REFCLK125 */
-                else
-                    lane_mode = 0x7; /* R_5G_REFCLK15625_QSGMII */
-            }
-            else if (baud_mhz <= 6250)
-            {
-                if (ref_clk == REF_156MHZ)
-                    lane_mode = 0x8; /* R_625G_REFCLK15625_RXAUI */
-                else
-                {
-                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
-                    return -1;
-                }
-            }
-            else if (baud_mhz <= 8000)
-            {
-                if (ref_clk == REF_100MHZ)
-                    lane_mode = 0x2; /* R_8G_REFCLK100 */
-                else if (ref_clk == REF_125MHZ)
-                    lane_mode = 0xb; /* R_8G_REFCLK125 */
-                else
-                {
-                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
-                    return -1;
-                }
-            }
-            else
-            {
-                if (ref_clk == REF_156MHZ)
-                    lane_mode = 0x5; /* R_103215G_REFCLK15625_KR */
-                else
-                {
-                    bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
-                    return -1;
-                }
-            }
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("ILK", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         case BDK_QLM_MODE_SGMII:
             is_bgx = 1;
-            lane_mode = 6; /* R_125G_REFCLK15625_SGMII */
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         case BDK_QLM_MODE_XAUI_1X4:
             is_bgx = 5;
-            lane_mode = 4; /* R_3125G_REFCLK15625_XAUI */
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
             is_bgx = 3;
-            lane_mode = 8; /* R_625G_REFCLK15625_RXAUI */
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         case BDK_QLM_MODE_10GR_4X1:
             is_bgx = 1;
-            lane_mode = 5; /* R_103215G_REFCLK15625_KR */
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         case BDK_QLM_MODE_40GR4_1X4:
             is_bgx = 5;
-            lane_mode = 5; /* R_103215G_REFCLK15625_KR */
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
             break;
         default:
             /* Unknown, do nothing */
