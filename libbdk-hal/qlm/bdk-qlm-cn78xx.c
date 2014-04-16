@@ -263,7 +263,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return 0x3; /* R_125G_REFCLK15625_KX */
         else
         {
-            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
             return -1;
         }
     }
@@ -275,7 +275,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return 0x9; /* R_25G_REFCLK125 */
         else
         {
-            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
             return -1;
         }
     }
@@ -285,7 +285,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return 0x4; /* R_3125G_REFCLK15625_XAUI */
         else
         {
-            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
             return -1;
         }
     }
@@ -304,7 +304,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return 0x8; /* R_625G_REFCLK15625_RXAUI */
         else
         {
-            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
             return -1;
         }
     }
@@ -316,7 +316,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return 0xb; /* R_8G_REFCLK125 */
         else
         {
-            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
             return -1;
         }
     }
@@ -326,7 +326,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return 0x5; /* R_103215G_REFCLK15625_KR */
         else
         {
-            bdk_error("Invalid reference clock for ILK on QLM%d with speed %d\n", qlm, baud_mhz);
+            bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
             return -1;
         }
     }
