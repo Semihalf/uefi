@@ -15,13 +15,7 @@ local board_name = menu.prompt_string("Board type: ", "evb7000_sff")
 local coremask = menu.prompt_number("Coremask: ", 0xf)
 
 -- Do board specific setup
-if octeon.is_model(octeon.CN70XX) then
-    menu.dofile("screen-"..board_name)
-elseif octeon.is_model(octeon.CN78XX) then
-    menu.dofile("screen-ebb7800")
-end
-
-
+menu.dofile("screen-"..board_name)
 
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
