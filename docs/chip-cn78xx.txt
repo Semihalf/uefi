@@ -146,7 +146,6 @@ or power cycle.  Settings are not saved.
 .Example SERDES configuration
 ----
 include::captures/qlm_sub_menu_cn78xx.capture[]
-Menu choice: (0INS)>
 ----
 
 Configure the BDK software
@@ -159,7 +158,6 @@ menu.
 .Example Software configuration
 ----
 include::captures/configure_menu_cn78xx.capture[]
-Menu choice: (0INS)>
 ----
 
 Next steps

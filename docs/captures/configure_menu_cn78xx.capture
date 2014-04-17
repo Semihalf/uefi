@@ -1,2 +1,24 @@
-FIXME: Update for CN78XX
+=================================
+Configuration Menu
+=================================
+ 1) MAC address (0x20fb7000000)
+ 2) Good Coremask (0x0)
+ 3) Interlaken port 0 lanes (0x4)
+ 4) Interlaken port 0 channels (0x8)
+ 5) Interlaken port 1 lanes (0x4)
+ 6) Interlaken port 1 channels (0x8)
+ 7) BGX interface 0, port 0 - PHY on SMI/MDIO bus 1, address 5
+ 8) BGX interface 0, port 1 - PHY on SMI/MDIO bus 1, address 6
+ 9) BGX interface 0, port 2 - PHY on SMI/MDIO bus 1, address 7
+10) BGX interface 0, port 3 - PHY on SMI/MDIO bus 1, address 8
+11) BGX interface 1, port 0 - PHY not present
+12) BGX interface 2, port 0 - PHY not present
+13) BGX interface 2, port 1 - PHY not present
+14) BGX interface 3, port 0 - PHY not present
+15) BGX interface 3, port 1 - PHY not present
+16) BGX interface 3, port 2 - PHY not present
+17) BGX interface 3, port 3 - PHY not present
+18) BGX interface 4, port 0 - PHY not present
+19) Show link status messages (0x1)
+20) Main menu
 

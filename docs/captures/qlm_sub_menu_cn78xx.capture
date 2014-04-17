@@ -1,2 +1,67 @@
-FIXME: Update for CN78XX
+=================================
+QLM/DLM Menu
+=================================
+ 1) Change QLM/DLM configuration
+ 2) QLM 0 - SGMII, 1 lane each @ 1.250 GBaud, ref 156.250 Mhz
+ 3) QLM 1 - 1 XAUI, 4 lanes @ 3.125 GBaud, ref 156.250 Mhz
+ 4) QLM 2 - 1 PCIe, 8 lanes @ 8.000 GBaud, ref 156.250 Mhz
+ 5) QLM 3 - 1 PCIe, 8 lanes @ 8.000 GBaud, ref 156.250 Mhz
+ 6) QLM 4 - 2 RXAUI, 2 lanes each @ 6.250 GBaud, ref 156.250 Mhz
+ 7) QLM 5 - 4 10GBASE-R, 1 lane each @10.321 GBaud, ref 156.250 Mhz
+ 8) QLM 6 - 1 40GBASE-R4, 4 lanes @10.321 GBaud, ref 156.250 Mhz
+ 9) QLM 7 - Interlaken @ 5.000 GBaud, ref 156.250 Mhz
+10) QLM 8 - Octeon Coherent Interconnect @ 1.250 GBaud, ref 156.250 Mhz
+11) QLM 9 - Octeon Coherent Interconnect @ 1.250 GBaud, ref 156.250 Mhz
+12) QLM 10 - Octeon Coherent Interconnect @ 1.250 GBaud, ref 156.250 Mhz
+13) QLM 11 - Octeon Coherent Interconnect @ 1.250 GBaud, ref 156.250 Mhz
+14) QLM 12 - Octeon Coherent Interconnect @ 1.250 GBaud, ref 156.250 Mhz
+15) QLM 13 - Octeon Coherent Interconnect @ 1.250 GBaud, ref 156.250 Mhz
+16) PRBS and SERDES Tuning
+17) Main menu
+(INS)Menu choice []:  1
+
+=================================
+Select a QLM to Configure
+=================================
+ 1) QLM 0 - SGMII, 1 lane each @ 1.250 GBaud, ref 156.250 Mhz
+ 2) QLM 1 - 1 XAUI, 4 lanes @ 3.125 GBaud, ref 156.250 Mhz
+ 3) QLM 2 - 1 PCIe, 8 lanes @ 8.000 GBaud, ref 156.250 Mhz
+ 4) QLM 3 - 1 PCIe, 8 lanes @ 8.000 GBaud, ref 156.250 Mhz
+ 5) QLM 4 - 2 RXAUI, 2 lanes each @ 6.250 GBaud, ref 156.250 Mhz
+ 6) QLM 5 - 4 10GBASE-R, 1 lane each @10.321 GBaud, ref 156.250 Mhz
+ 7) QLM 6 - 1 40GBASE-R4, 4 lanes @10.321 GBaud, ref 156.250 Mhz
+ 8) QLM 7 - Interlaken @ 5.000 GBaud, ref 156.250 Mhz
+ 9) Exit menu
+(INS)Menu choice []: 1
+
+=================================
+Select a reference clock for QLM0
+=================================
+ 1) External reference (QLM0_REF_CLK)
+ 2) Common clock 0 (QLMC_REF_CLK0)
+ 3) Common clock 1 (QLMC_REF_CLK1)
+(INS)Menu choice []: 1
+
+=================================
+Select a mode for QLM0
+=================================
+ 1) PCIe x4 - GEN 1
+ 2) PCIe x4 - GEN 2
+ 3) PCIe x4 - GEN 3
+ 4) PCIe x4 - GEN 3 Endpoint
+ 5) PCIe x8 - GEN 1
+ 6) PCIe x8 - GEN 2
+ 7) PCIe x8 - GEN 3
+ 8) PCIe x8 - GEN 3 Endpoint
+ 9) SGMII   @  1 Gbps
+10) SGMII   @  2 Gbps
+11) SGMII   @  4 Gbps
+12) XAUI    @ 10 Gbps
+13) XAUI    @ 20 Gbps
+14) RXAUI   @ 10 Gbps
+15) 10G-R   @ 10 Gbps
+16) 40G-R   @ 40 Gbps
+17) Disabled
+(INS)Menu choice []: 9
+
 
