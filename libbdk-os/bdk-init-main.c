@@ -96,7 +96,8 @@ void __bdk_init_main(int arg, void *arg1)
         bdk_rng_enable(node);
 
         bdk_twsix_initialize(node);
-        bdk_qlm_init(node);
+        if (BDK_IS_REQUIRED(QLM))
+            bdk_qlm_init(node);
         if (bdk_error_enable)
         {
             if (BDK_SHOW_BOOT_BANNERS)

@@ -88,7 +88,7 @@ typedef struct
 /**
  * Initialize the QLM layer
  */
-extern void bdk_qlm_init(bdk_node_t node);
+extern void bdk_qlm_init(bdk_node_t node) BDK_WEAK;
 
 /**
  * Return the number of QLMs supported for the chip
