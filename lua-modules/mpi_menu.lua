@@ -163,8 +163,8 @@ local function mpi_device()
     until m:show() == "quit"
 end
 
-local m = menu.new("SPI/MPI Menu")
 repeat
+    local m = menu.new("SPI/MPI Menu")
     m:item("dev", "Access an EEPROM or NOR flash", mpi_device)
     m:item("init", "Initialize", mpi_init)
     if init_complete then
