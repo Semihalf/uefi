@@ -457,7 +457,7 @@ function TrafficGen.new()
         local expected_rx_errors = 0
         local expected_validation_errors = 0
         for _,port in ipairs(port_range) do
-            if port:sub(1,5) == "HIGIG" then
+            if port:find("HIGIG") then
                 -- Higig has an extra 12 byte header, Higig2 has 16
                 -- Reduce max size to allow space for max size header
                 size_stop = max_packet - 16
@@ -481,7 +481,7 @@ function TrafficGen.new()
             for _,port in ipairs(port_range) do
                 octeon.trafficgen.set_config(port, new_config)
                 expected_packets = expected_packets + output_count
-                if (port:sub(1,4) == "LOOP") then
+                if port:find("LOOP") then
                     -- Loop doesn't have the 4 bytes of ethernet CRC
                     expected_octets = expected_octets + output_count * size
                 else
