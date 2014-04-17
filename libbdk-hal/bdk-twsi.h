@@ -19,7 +19,7 @@
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_twsix_initialize(bdk_node_t node);
+extern int bdk_twsix_initialize(bdk_node_t node) BDK_WEAK;
 
 /**
  * Do a twsi read from a 7 bit device address using an (optional)

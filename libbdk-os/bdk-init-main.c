@@ -95,7 +95,8 @@ void __bdk_init_main(int arg, void *arg1)
             __bdk_setup_bootbus(node);
         bdk_rng_enable(node);
 
-        bdk_twsix_initialize(node);
+        if (BDK_IS_REQUIRED(TWSI))
+            bdk_twsix_initialize(node);
         if (BDK_IS_REQUIRED(QLM))
             bdk_qlm_init(node);
         if (bdk_error_enable)

@@ -9,6 +9,7 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(TWSI);
 }
 
 /**
