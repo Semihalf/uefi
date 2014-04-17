@@ -30,7 +30,7 @@ programmed into the beginning of flash.  Here is a list of images:
 * Booting from MMC, eMMC, or an SD card
 ** bdk-boot-emmc-cn78xx.bin
 * Booting from SPI NOR flash
-** TBD (bdk-boot-spi-cn78xx.bin?)
+** bdk-boot-spi-cn78xx.bin
 
 NOTE: These steps refer to programming BDK images.  They work equally well
 for Uboot images built from the Cavium SDK.

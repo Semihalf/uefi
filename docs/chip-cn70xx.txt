@@ -28,9 +28,9 @@ programmed into the beginning of flash.  Here is a list of images:
 * Booting from parallel NOR flash
 ** bdk-boot-nor-cn70xx.bin
 * Booting from MMC, eMMC, or an SD card
-** TBD (bdk-boot-mmc-cn70xx.bin?)
+** bdk-boot-emmc-cn70xx.bin
 * Booting from SPI NOR flash
-** TBD (bdk-boot-spi-cn70xx.bin?)
+** bdk-boot-spi-cn70xx.bin
 
 NOTE: These steps refer to programming BDK images.  They work equally well
 for Uboot images built from the Cavium SDK.
