@@ -16,8 +16,8 @@ require("octeon")
 -- The first argument is the uart number (0-1)
 -- The second argument is the baud rate (9600, 19200, 115200, etc).
 -- The third argument is whether flow control is enabled.
--- octeon.c.bdk_set_baudrate(0, 0, 115200, true)
--- octeon.c.bdk_set_baudrate(0, 1, 115200, true)
+-- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 0, 115200, true)
+-- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 1, 115200, true)
 
 -- Do board specific setup
 if octeon.is_model(octeon.CN70XX) then
