@@ -23,19 +23,19 @@ int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_val
     else
         bdk_gpio_clear(node, 1<<gpio);
 
-    if (gpio < 16)
-    {
-        BDK_CSR_DEFINE(cfg, BDK_GPIO_BIT_CFGX(gpio));
-        cfg.u64 = 0;
-        cfg.s.tx_oe = !!is_output;
-        BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(gpio), cfg.u64);
-    }
-    else if (gpio < 20)
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX) && (gpio >= 16) && (gpio < 20))
     {
         BDK_CSR_DEFINE(cfg, BDK_GPIO_XBIT_CFGX(gpio));
         cfg.u64 = 0;
         cfg.s.tx_oe = !!is_output;
         BDK_CSR_WRITE(node, BDK_GPIO_XBIT_CFGX(gpio), cfg.u64);
+    }
+    else if (gpio < 20)
+    {
+        BDK_CSR_DEFINE(cfg, BDK_GPIO_BIT_CFGX(gpio));
+        cfg.u64 = 0;
+        cfg.s.tx_oe = !!is_output;
+        BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(gpio), cfg.u64);
     }
     else
     {
