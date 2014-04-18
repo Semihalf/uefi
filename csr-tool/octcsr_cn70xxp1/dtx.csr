@@ -9,7 +9,7 @@ attributes:
 registers:
   - name: DTX_MIO_SEL(0..1)
     title: DTX MIO Select Register
-    address: 0x11800FE000000 | a<<3
+    address: 0x11800FE000000 + a*0x8
     bus: RSL
     fields:
       - name: --
@@ -31,7 +31,7 @@ registers:
 
   - name: DTX_MIO_ENA(0..1)
     title: DTX MIO Data Enable Register
-    address: 0x11800FE000020 | a<<3
+    address: 0x11800FE000020 + a*0x8
     bus: RSL
     fields:
       - name: --
@@ -55,7 +55,7 @@ registers:
 
   - name: DTX_MIO_DAT(0..1)
     title: DTX MIO Raw Data Register
-    address: 0x11800FE000040 | a<<3
+    address: 0x11800FE000040 + a*0x8
     bus: RSL
     fields:
       - name: --
@@ -142,19 +142,19 @@ registers:
 
   - name: DTX_RST_SEL(0..1)
     title: DTX RST Select Register
-    address: 0x11800FE030000 | a<<3
+    address: 0x11800FE030000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_RST_ENA(0..1)
     title: DTX RST Data Enable Register
-    address: 0x11800FE030020 | a<<3
+    address: 0x11800FE030020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_RST_DAT(0..1)
     title: DTX RST Raw Data Register
-    address: 0x11800FE030040 | a<<3
+    address: 0x11800FE030040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -172,7 +172,7 @@ registers:
 
   - name: DTX_GMX(0..1)_SEL(0..1)
     title: DTX GMX Select Register
-    address: 0x11800FE040000 + (a*0x8<<15) + b*0x8
+    address: 0x11800FE040000 + a*0x8*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -180,7 +180,7 @@ registers:
 
   - name: DTX_GMX(0..1)_ENA(0..1)
     title: DTX GMX Data Enable Register
-    address: 0x11800FE040020 + (a*0x8<<15) + b*0x8
+    address: 0x11800FE040020 + a*0x8*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -188,7 +188,7 @@ registers:
 
   - name: DTX_GMX(0..1)_DAT(0..1)
     title: DTX GMX Raw Data Register
-    address: 0x11800FE040040 + (a*0x8<<15) + b*0x8
+    address: 0x11800FE040040 + a*0x8*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -196,7 +196,7 @@ registers:
 
   - name: DTX_GMX(0..1)_CTL
     title: DTX GMX Control Register
-    address: 0x11800FE040060 + (a*0x8<<15)
+    address: 0x11800FE040060 + a*0x8*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -204,7 +204,7 @@ registers:
 
   - name: DTX_GMX(0..1)_BCST_RSP
     title: DTX GMX Control Register
-    address: 0x11800FE040080 + (a*0x8<<15)
+    address: 0x11800FE040080 + a*0x8*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -212,19 +212,19 @@ registers:
 
   - name: DTX_KEY_SEL(0..1)
     title: DTX KEY Select Register
-    address: 0x11800FE100000 | a<<3
+    address: 0x11800FE100000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_KEY_ENA(0..1)
     title: DTX KEY Data Enable Register
-    address: 0x11800FE100020 | a<<3
+    address: 0x11800FE100020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_KEY_DAT(0..1)
     title: DTX KEY Raw Data Register
-    address: 0x11800FE100040 | a<<3
+    address: 0x11800FE100040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -242,19 +242,19 @@ registers:
 
   - name: DTX_FPA_SEL(0..1)
     title: DTX FPA Select Register
-    address: 0x11800FE140000 | a<<3
+    address: 0x11800FE140000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_FPA_ENA(0..1)
     title: DTX FPA Data Enable Register
-    address: 0x11800FE140020 | a<<3
+    address: 0x11800FE140020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_FPA_DAT(0..1)
     title: DTX FPA Raw Data Register
-    address: 0x11800FE140040 | a<<3
+    address: 0x11800FE140040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -272,19 +272,19 @@ registers:
 
   - name: DTX_DFA_SEL(0..1)
     title: DTX DFA Select Register
-    address: 0x11800FE1B8000 | a<<3
+    address: 0x11800FE1B8000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_DFA_ENA(0..1)
     title: DTX DFA Data Enable Register
-    address: 0x11800FE1B8020 | a<<3
+    address: 0x11800FE1B8020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_DFA_DAT(0..1)
     title: DTX DFA Raw Data Register
-    address: 0x11800FE1B8040 | a<<3
+    address: 0x11800FE1B8040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -302,7 +302,7 @@ registers:
 
   - name: DTX_L2C_TAD(0..0)_SEL(0..1)
     title: DTX L2C_TAD Select Register
-    address: 0x11800FE240000 + (a<<15) + b*0x8
+    address: 0x11800FE240000 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -310,7 +310,7 @@ registers:
 
   - name: DTX_L2C_TAD(0..0)_ENA(0..1)
     title: DTX L2C_TAD Data Enable Register
-    address: 0x11800FE240020 + (a<<15) + b*0x8
+    address: 0x11800FE240020 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -318,7 +318,7 @@ registers:
 
   - name: DTX_L2C_TAD(0..0)_DAT(0..1)
     title: DTX L2C_TAD Raw Data Register
-    address: 0x11800FE240040 + (a<<15) + b*0x8
+    address: 0x11800FE240040 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -326,7 +326,7 @@ registers:
 
   - name: DTX_L2C_TAD(0..0)_CTL
     title: DTX L2C_TAD Control Register
-    address: 0x11800FE240060 + (a<<15)
+    address: 0x11800FE240060 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -334,7 +334,7 @@ registers:
 
   - name: DTX_L2C_TAD(0..0)_BCST_RSP
     title: DTX L2C_TAD Control Register
-    address: 0x11800FE240080 + (a<<15)
+    address: 0x11800FE240080 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -342,19 +342,19 @@ registers:
 
   - name: DTX_IPD_SEL(0..1)
     title: DTX IPD Select Register
-    address: 0x11800FE278000 | a<<3
+    address: 0x11800FE278000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_IPD_ENA(0..1)
     title: DTX IPD Data Enable Register
-    address: 0x11800FE278020 | a<<3
+    address: 0x11800FE278020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_IPD_DAT(0..1)
     title: DTX IPD Raw Data Register
-    address: 0x11800FE278040 | a<<3
+    address: 0x11800FE278040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -372,19 +372,19 @@ registers:
 
   - name: DTX_PKO_SEL(0..1)
     title: DTX PKO Select Register
-    address: 0x11800FE280000 | a<<3
+    address: 0x11800FE280000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_PKO_ENA(0..1)
     title: DTX PKO Data Enable Register
-    address: 0x11800FE280020 | a<<3
+    address: 0x11800FE280020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_PKO_DAT(0..1)
     title: DTX PKO Raw Data Register
-    address: 0x11800FE280040 | a<<3
+    address: 0x11800FE280040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -402,19 +402,19 @@ registers:
 
   - name: DTX_TIM_SEL(0..1)
     title: DTX TIM Select Register
-    address: 0x11800FE2C0000 | a<<3
+    address: 0x11800FE2C0000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_TIM_ENA(0..1)
     title: DTX TIM Data Enable Register
-    address: 0x11800FE2C0020 | a<<3
+    address: 0x11800FE2C0020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_TIM_DAT(0..1)
     title: DTX TIM Raw Data Register
-    address: 0x11800FE2C0040 | a<<3
+    address: 0x11800FE2C0040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -432,7 +432,7 @@ registers:
 
   - name: DTX_L2C_MCI(0..0)_SEL(0..1)
     title: DTX L2C_MCI Select Register
-    address: 0x11800FE2E0000 + (a<<15) + b*0x8
+    address: 0x11800FE2E0000 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -440,7 +440,7 @@ registers:
 
   - name: DTX_L2C_MCI(0..0)_ENA(0..1)
     title: DTX L2C_MCI Data Enable Register
-    address: 0x11800FE2E0020 + (a<<15) + b*0x8
+    address: 0x11800FE2E0020 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -448,7 +448,7 @@ registers:
 
   - name: DTX_L2C_MCI(0..0)_DAT(0..1)
     title: DTX L2C_MCI Raw Data Register
-    address: 0x11800FE2E0040 + (a<<15) + b*0x8
+    address: 0x11800FE2E0040 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -456,7 +456,7 @@ registers:
 
   - name: DTX_L2C_MCI(0..0)_CTL
     title: DTX L2C_MCI Control Register
-    address: 0x11800FE2E0060 + (a<<15)
+    address: 0x11800FE2E0060 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -464,7 +464,7 @@ registers:
 
   - name: DTX_L2C_MCI(0..0)_BCST_RSP
     title: DTX L2C_MCI Control Register
-    address: 0x11800FE2E0080 + (a<<15)
+    address: 0x11800FE2E0080 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -472,19 +472,19 @@ registers:
 
   - name: DTX_POW_SEL(0..1)
     title: DTX POW Select Register
-    address: 0x11800FE338000 | a<<3
+    address: 0x11800FE338000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_POW_ENA(0..1)
     title: DTX POW Data Enable Register
-    address: 0x11800FE338020 | a<<3
+    address: 0x11800FE338020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_POW_DAT(0..1)
     title: DTX POW Raw Data Register
-    address: 0x11800FE338040 | a<<3
+    address: 0x11800FE338040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -502,7 +502,7 @@ registers:
 
   - name: DTX_USBDRD(0..1)_SEL(0..1)
     title: DTX USBDRD Select Register
-    address: 0x11800FE340000 + (a<<15) + b*0x8
+    address: 0x11800FE340000 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -510,7 +510,7 @@ registers:
 
   - name: DTX_USBDRD(0..1)_ENA(0..1)
     title: DTX USBDRD Data Enable Register
-    address: 0x11800FE340020 + (a<<15) + b*0x8
+    address: 0x11800FE340020 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -518,7 +518,7 @@ registers:
 
   - name: DTX_USBDRD(0..1)_DAT(0..1)
     title: DTX USBDRD Raw Data Register
-    address: 0x11800FE340040 + (a<<15) + b*0x8
+    address: 0x11800FE340040 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -526,7 +526,7 @@ registers:
 
   - name: DTX_USBDRD(0..1)_CTL
     title: DTX USBDRD Control Register
-    address: 0x11800FE340060 + (a<<15)
+    address: 0x11800FE340060 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -534,7 +534,7 @@ registers:
 
   - name: DTX_USBDRD(0..1)_BCST_RSP
     title: DTX USBDRD Control Register
-    address: 0x11800FE340080 + (a<<15)
+    address: 0x11800FE340080 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -542,19 +542,19 @@ registers:
 
   - name: DTX_SATA_SEL(0..1)
     title: DTX SATA Select Register
-    address: 0x11800FE360000 | a<<3
+    address: 0x11800FE360000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_SATA_ENA(0..1)
     title: DTX SATA Data Enable Register
-    address: 0x11800FE360020 | a<<3
+    address: 0x11800FE360020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_SATA_DAT(0..1)
     title: DTX SATA Raw Data Register
-    address: 0x11800FE360040 | a<<3
+    address: 0x11800FE360040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -572,7 +572,7 @@ registers:
 
   - name: DTX_L2C_CBC(0..0)_SEL(0..1)
     title: DTX L2C_CBC Select Register
-    address: 0x11800FE420000 + (a<<15) + b*0x8
+    address: 0x11800FE420000 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -580,7 +580,7 @@ registers:
 
   - name: DTX_L2C_CBC(0..0)_ENA(0..1)
     title: DTX L2C_CBC Data Enable Register
-    address: 0x11800FE420020 + (a<<15) + b*0x8
+    address: 0x11800FE420020 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -588,7 +588,7 @@ registers:
 
   - name: DTX_L2C_CBC(0..0)_DAT(0..1)
     title: DTX L2C_CBC Raw Data Register
-    address: 0x11800FE420040 + (a<<15) + b*0x8
+    address: 0x11800FE420040 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -596,7 +596,7 @@ registers:
 
   - name: DTX_L2C_CBC(0..0)_CTL
     title: DTX L2C_CBC Control Register
-    address: 0x11800FE420060 + (a<<15)
+    address: 0x11800FE420060 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -604,7 +604,7 @@ registers:
 
   - name: DTX_L2C_CBC(0..0)_BCST_RSP
     title: DTX L2C_CBC Control Register
-    address: 0x11800FE420080 + (a<<15)
+    address: 0x11800FE420080 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -612,7 +612,7 @@ registers:
 
   - name: DTX_LMC(0..0)_SEL(0..1)
     title: DTX LMC Select Register
-    address: 0x11800FE440000 + (a<<15) + b*0x8
+    address: 0x11800FE440000 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -620,7 +620,7 @@ registers:
 
   - name: DTX_LMC(0..0)_ENA(0..1)
     title: DTX LMC Data Enable Register
-    address: 0x11800FE440020 + (a<<15) + b*0x8
+    address: 0x11800FE440020 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -628,7 +628,7 @@ registers:
 
   - name: DTX_LMC(0..0)_DAT(0..1)
     title: DTX LMC Raw Data Register
-    address: 0x11800FE440040 + (a<<15) + b*0x8
+    address: 0x11800FE440040 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -636,7 +636,7 @@ registers:
 
   - name: DTX_LMC(0..0)_CTL
     title: DTX LMC Control Register
-    address: 0x11800FE440060 + (a<<15)
+    address: 0x11800FE440060 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -644,7 +644,7 @@ registers:
 
   - name: DTX_LMC(0..0)_BCST_RSP
     title: DTX LMC Control Register
-    address: 0x11800FE440080 + (a<<15)
+    address: 0x11800FE440080 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -652,19 +652,19 @@ registers:
 
   - name: DTX_PIP_SEL(0..1)
     title: DTX PIP Select Register
-    address: 0x11800FE500000 | a<<3
+    address: 0x11800FE500000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_PIP_ENA(0..1)
     title: DTX PIP Data Enable Register
-    address: 0x11800FE500020 | a<<3
+    address: 0x11800FE500020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_PIP_DAT(0..1)
     title: DTX PIP Raw Data Register
-    address: 0x11800FE500040 | a<<3
+    address: 0x11800FE500040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -682,7 +682,7 @@ registers:
 
   - name: DTX_PCS(0..1)_SEL(0..1)
     title: DTX PCS Select Register
-    address: 0x11800FE580000 + (a*0x8<<15) + b*0x8
+    address: 0x11800FE580000 + a*0x8*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -690,7 +690,7 @@ registers:
 
   - name: DTX_PCS(0..1)_ENA(0..1)
     title: DTX PCS Data Enable Register
-    address: 0x11800FE580020 + (a*0x8<<15) + b*0x8
+    address: 0x11800FE580020 + a*0x8*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -698,7 +698,7 @@ registers:
 
   - name: DTX_PCS(0..1)_DAT(0..1)
     title: DTX PCS Raw Data Register
-    address: 0x11800FE580040 + (a*0x8<<15) + b*0x8
+    address: 0x11800FE580040 + a*0x8*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -706,7 +706,7 @@ registers:
 
   - name: DTX_PCS(0..1)_CTL
     title: DTX PCS Control Register
-    address: 0x11800FE580060 + (a*0x8<<15)
+    address: 0x11800FE580060 + a*0x8*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -714,7 +714,7 @@ registers:
 
   - name: DTX_PCS(0..1)_BCST_RSP
     title: DTX PCS Control Register
-    address: 0x11800FE580080 + (a*0x8<<15)
+    address: 0x11800FE580080 + a*0x8*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -722,7 +722,7 @@ registers:
 
   - name: DTX_PEM(0..2)_SEL(0..1)
     title: DTX PEM Select Register
-    address: 0x11800FE600000 + (a<<15) + b*0x8
+    address: 0x11800FE600000 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -730,7 +730,7 @@ registers:
 
   - name: DTX_PEM(0..2)_ENA(0..1)
     title: DTX PEM Data Enable Register
-    address: 0x11800FE600020 + (a<<15) + b*0x8
+    address: 0x11800FE600020 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -738,7 +738,7 @@ registers:
 
   - name: DTX_PEM(0..2)_DAT(0..1)
     title: DTX PEM Raw Data Register
-    address: 0x11800FE600040 + (a<<15) + b*0x8
+    address: 0x11800FE600040 + a*0x8000 + b*0x8
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -746,7 +746,7 @@ registers:
 
   - name: DTX_PEM(0..2)_CTL
     title: DTX PEM Control Register
-    address: 0x11800FE600060 + (a<<15)
+    address: 0x11800FE600060 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -754,7 +754,7 @@ registers:
 
   - name: DTX_PEM(0..2)_BCST_RSP
     title: DTX PEM Control Register
-    address: 0x11800FE600080 + (a<<15)
+    address: 0x11800FE600080 + a*0x8000
     bus: RSL
     attributes:
       exempt_natural_alignment: "a"
@@ -762,19 +762,19 @@ registers:
 
   - name: DTX_AGL_SEL(0..1)
     title: DTX AGL Select Register
-    address: 0x11800FE700000 | a<<3
+    address: 0x11800FE700000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_AGL_ENA(0..1)
     title: DTX AGL Data Enable Register
-    address: 0x11800FE700020 | a<<3
+    address: 0x11800FE700020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_AGL_DAT(0..1)
     title: DTX AGL Raw Data Register
-    address: 0x11800FE700040 | a<<3
+    address: 0x11800FE700040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -792,19 +792,19 @@ registers:
 
   - name: DTX_IOB_SEL(0..1)
     title: DTX IOB Select Register
-    address: 0x11800FE780000 | a<<3
+    address: 0x11800FE780000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_IOB_ENA(0..1)
     title: DTX IOB Data Enable Register
-    address: 0x11800FE780020 | a<<3
+    address: 0x11800FE780020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_IOB_DAT(0..1)
     title: DTX IOB Raw Data Register
-    address: 0x11800FE780040 | a<<3
+    address: 0x11800FE780040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -822,7 +822,7 @@ registers:
 
   - name: DTX_BROADCAST_SEL(0..1)
     title: DTX BROADCAST Select Register
-    address: 0x11800FE7F0000 | a<<3
+    address: 0x11800FE7F0000 + a*0x8
     bus: RSL
     fields:
       - name: --
@@ -844,7 +844,7 @@ registers:
 
   - name: DTX_BROADCAST_ENA(0..1)
     title: DTX BROADCAST Data Enable Register
-    address: 0x11800FE7F0020 | a<<3
+    address: 0x11800FE7F0020 + a*0x8
     bus: RSL
     fields:
       - name: --
@@ -911,19 +911,19 @@ registers:
 
   - name: DTX_SLI_SEL(0..1)
     title: DTX SLI Select Register
-    address: 0x11800FE8F8000 | a<<3
+    address: 0x11800FE8F8000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_SLI_ENA(0..1)
     title: DTX SLI Data Enable Register
-    address: 0x11800FE8F8020 | a<<3
+    address: 0x11800FE8F8020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_SLI_DAT(0..1)
     title: DTX SLI Raw Data Register
-    address: 0x11800FE8F8040 | a<<3
+    address: 0x11800FE8F8040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 
@@ -941,19 +941,19 @@ registers:
 
   - name: DTX_DPI_SEL(0..1)
     title: DTX DPI Select Register
-    address: 0x11800FEEF8000 | a<<3
+    address: 0x11800FEEF8000 + a*0x8
     bus: RSL
     inherits: DTX_MIO_SEL(0..1)
 
   - name: DTX_DPI_ENA(0..1)
     title: DTX DPI Data Enable Register
-    address: 0x11800FEEF8020 | a<<3
+    address: 0x11800FEEF8020 + a*0x8
     bus: RSL
     inherits: DTX_MIO_ENA(0..1)
 
   - name: DTX_DPI_DAT(0..1)
     title: DTX DPI Raw Data Register
-    address: 0x11800FEEF8040 | a<<3
+    address: 0x11800FEEF8040 + a*0x8
     bus: RSL
     inherits: DTX_MIO_DAT(0..1)
 

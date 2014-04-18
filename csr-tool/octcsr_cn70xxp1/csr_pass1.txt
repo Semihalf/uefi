@@ -4064,7 +4064,7 @@ Attribute: -mif_heading2=DTX.
  * 
  * DTX_MIO_SEL = DTX MIO Select Register
  * 
-$DTX_MIO_SEL(0..1)   Address=(0x11800FE000000|a<<3)   Bus=(RSL)
+$DTX_MIO_SEL(0..1)   Address=(0x11800FE000000+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -4078,7 +4078,7 @@ $DTX_MIO_SEL(0..1)   Address=(0x11800FE000000|a<<3)   Bus=(RSL)
  * 
  * DTX_MIO_ENA = DTX MIO Data Enable Register
  * 
-$DTX_MIO_ENA(0..1)   Address=(0x11800FE000020|a<<3)   Bus=(RSL)
+$DTX_MIO_ENA(0..1)   Address=(0x11800FE000020+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -4093,7 +4093,7 @@ $DTX_MIO_ENA(0..1)   Address=(0x11800FE000020|a<<3)   Bus=(RSL)
  * 
  * DTX_MIO_DAT = DTX MIO Raw Data Register
  * 
-$DTX_MIO_DAT(0..1)   Address=(0x11800FE000040|a<<3)   Bus=(RSL)
+$DTX_MIO_DAT(0..1)   Address=(0x11800FE000040+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -4141,7 +4141,7 @@ $DTX_MIO_BCST_RSP   Address=(0x11800FE000080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_RST_SEL(0..1)   Address=(0x11800FE030000|a<<3)   Bus=(RSL)
+$DTX_RST_SEL(0..1)   Address=(0x11800FE030000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4150,7 +4150,7 @@ $DTX_RST_SEL(0..1)   Address=(0x11800FE030000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_RST_ENA(0..1)   Address=(0x11800FE030020|a<<3)   Bus=(RSL)
+$DTX_RST_ENA(0..1)   Address=(0x11800FE030020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4159,7 +4159,7 @@ $DTX_RST_ENA(0..1)   Address=(0x11800FE030020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_RST_DAT(0..1)   Address=(0x11800FE030040|a<<3)   Bus=(RSL)
+$DTX_RST_DAT(0..1)   Address=(0x11800FE030040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4187,7 +4187,7 @@ $DTX_RST_BCST_RSP   Address=(0x11800FE030080)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_GMX(0..1)_SEL(0..1)   Address=(0x11800FE040000+(a*0x8<<15)+b*0x8)   Bus=(RSL)
+$DTX_GMX(0..1)_SEL(0..1)   Address=(0x11800FE040000+a*0x8*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4197,7 +4197,7 @@ $DTX_GMX(0..1)_SEL(0..1)   Address=(0x11800FE040000+(a*0x8<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_GMX(0..1)_ENA(0..1)   Address=(0x11800FE040020+(a*0x8<<15)+b*0x8)   Bus=(RSL)
+$DTX_GMX(0..1)_ENA(0..1)   Address=(0x11800FE040020+a*0x8*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4207,7 +4207,7 @@ $DTX_GMX(0..1)_ENA(0..1)   Address=(0x11800FE040020+(a*0x8<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_GMX(0..1)_DAT(0..1)   Address=(0x11800FE040040+(a*0x8<<15)+b*0x8)   Bus=(RSL)
+$DTX_GMX(0..1)_DAT(0..1)   Address=(0x11800FE040040+a*0x8*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4217,7 +4217,7 @@ $DTX_GMX(0..1)_DAT(0..1)   Address=(0x11800FE040040+(a*0x8<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_GMX(0..1)_CTL   Address=(0x11800FE040060+(a*0x8<<15))   Bus=(RSL)
+$DTX_GMX(0..1)_CTL   Address=(0x11800FE040060+a*0x8*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4227,7 +4227,7 @@ $DTX_GMX(0..1)_CTL   Address=(0x11800FE040060+(a*0x8<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_GMX(0..1)_BCST_RSP   Address=(0x11800FE040080+(a*0x8<<15))   Bus=(RSL)
+$DTX_GMX(0..1)_BCST_RSP   Address=(0x11800FE040080+a*0x8*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4236,7 +4236,7 @@ $DTX_GMX(0..1)_BCST_RSP   Address=(0x11800FE040080+(a*0x8<<15))   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_KEY_SEL(0..1)   Address=(0x11800FE100000|a<<3)   Bus=(RSL)
+$DTX_KEY_SEL(0..1)   Address=(0x11800FE100000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4245,7 +4245,7 @@ $DTX_KEY_SEL(0..1)   Address=(0x11800FE100000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_KEY_ENA(0..1)   Address=(0x11800FE100020|a<<3)   Bus=(RSL)
+$DTX_KEY_ENA(0..1)   Address=(0x11800FE100020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4254,7 +4254,7 @@ $DTX_KEY_ENA(0..1)   Address=(0x11800FE100020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_KEY_DAT(0..1)   Address=(0x11800FE100040|a<<3)   Bus=(RSL)
+$DTX_KEY_DAT(0..1)   Address=(0x11800FE100040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4281,7 +4281,7 @@ $DTX_KEY_BCST_RSP   Address=(0x11800FE100080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_FPA_SEL(0..1)   Address=(0x11800FE140000|a<<3)   Bus=(RSL)
+$DTX_FPA_SEL(0..1)   Address=(0x11800FE140000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4290,7 +4290,7 @@ $DTX_FPA_SEL(0..1)   Address=(0x11800FE140000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_FPA_ENA(0..1)   Address=(0x11800FE140020|a<<3)   Bus=(RSL)
+$DTX_FPA_ENA(0..1)   Address=(0x11800FE140020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4299,7 +4299,7 @@ $DTX_FPA_ENA(0..1)   Address=(0x11800FE140020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_FPA_DAT(0..1)   Address=(0x11800FE140040|a<<3)   Bus=(RSL)
+$DTX_FPA_DAT(0..1)   Address=(0x11800FE140040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4326,7 +4326,7 @@ $DTX_FPA_BCST_RSP   Address=(0x11800FE140080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_DFA_SEL(0..1)   Address=(0x11800FE1B8000|a<<3)   Bus=(RSL)
+$DTX_DFA_SEL(0..1)   Address=(0x11800FE1B8000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4335,7 +4335,7 @@ $DTX_DFA_SEL(0..1)   Address=(0x11800FE1B8000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_DFA_ENA(0..1)   Address=(0x11800FE1B8020|a<<3)   Bus=(RSL)
+$DTX_DFA_ENA(0..1)   Address=(0x11800FE1B8020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4344,7 +4344,7 @@ $DTX_DFA_ENA(0..1)   Address=(0x11800FE1B8020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_DFA_DAT(0..1)   Address=(0x11800FE1B8040|a<<3)   Bus=(RSL)
+$DTX_DFA_DAT(0..1)   Address=(0x11800FE1B8040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4372,7 +4372,7 @@ $DTX_DFA_BCST_RSP   Address=(0x11800FE1B8080)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_L2C_TAD(0..0)_SEL(0..1)   Address=(0x11800FE240000+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_TAD(0..0)_SEL(0..1)   Address=(0x11800FE240000+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4382,7 +4382,7 @@ $DTX_L2C_TAD(0..0)_SEL(0..1)   Address=(0x11800FE240000+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_L2C_TAD(0..0)_ENA(0..1)   Address=(0x11800FE240020+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_TAD(0..0)_ENA(0..1)   Address=(0x11800FE240020+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4392,7 +4392,7 @@ $DTX_L2C_TAD(0..0)_ENA(0..1)   Address=(0x11800FE240020+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_L2C_TAD(0..0)_DAT(0..1)   Address=(0x11800FE240040+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_TAD(0..0)_DAT(0..1)   Address=(0x11800FE240040+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4402,7 +4402,7 @@ $DTX_L2C_TAD(0..0)_DAT(0..1)   Address=(0x11800FE240040+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_L2C_TAD(0..0)_CTL   Address=(0x11800FE240060+(a<<15))   Bus=(RSL)
+$DTX_L2C_TAD(0..0)_CTL   Address=(0x11800FE240060+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4412,7 +4412,7 @@ $DTX_L2C_TAD(0..0)_CTL   Address=(0x11800FE240060+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_L2C_TAD(0..0)_BCST_RSP   Address=(0x11800FE240080+(a<<15))   Bus=(RSL)
+$DTX_L2C_TAD(0..0)_BCST_RSP   Address=(0x11800FE240080+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4421,7 +4421,7 @@ $DTX_L2C_TAD(0..0)_BCST_RSP   Address=(0x11800FE240080+(a<<15))   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_IPD_SEL(0..1)   Address=(0x11800FE278000|a<<3)   Bus=(RSL)
+$DTX_IPD_SEL(0..1)   Address=(0x11800FE278000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4430,7 +4430,7 @@ $DTX_IPD_SEL(0..1)   Address=(0x11800FE278000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_IPD_ENA(0..1)   Address=(0x11800FE278020|a<<3)   Bus=(RSL)
+$DTX_IPD_ENA(0..1)   Address=(0x11800FE278020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4439,7 +4439,7 @@ $DTX_IPD_ENA(0..1)   Address=(0x11800FE278020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_IPD_DAT(0..1)   Address=(0x11800FE278040|a<<3)   Bus=(RSL)
+$DTX_IPD_DAT(0..1)   Address=(0x11800FE278040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4466,7 +4466,7 @@ $DTX_IPD_BCST_RSP   Address=(0x11800FE278080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_PKO_SEL(0..1)   Address=(0x11800FE280000|a<<3)   Bus=(RSL)
+$DTX_PKO_SEL(0..1)   Address=(0x11800FE280000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4475,7 +4475,7 @@ $DTX_PKO_SEL(0..1)   Address=(0x11800FE280000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_PKO_ENA(0..1)   Address=(0x11800FE280020|a<<3)   Bus=(RSL)
+$DTX_PKO_ENA(0..1)   Address=(0x11800FE280020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4484,7 +4484,7 @@ $DTX_PKO_ENA(0..1)   Address=(0x11800FE280020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_PKO_DAT(0..1)   Address=(0x11800FE280040|a<<3)   Bus=(RSL)
+$DTX_PKO_DAT(0..1)   Address=(0x11800FE280040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4511,7 +4511,7 @@ $DTX_PKO_BCST_RSP   Address=(0x11800FE280080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_TIM_SEL(0..1)   Address=(0x11800FE2C0000|a<<3)   Bus=(RSL)
+$DTX_TIM_SEL(0..1)   Address=(0x11800FE2C0000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4520,7 +4520,7 @@ $DTX_TIM_SEL(0..1)   Address=(0x11800FE2C0000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_TIM_ENA(0..1)   Address=(0x11800FE2C0020|a<<3)   Bus=(RSL)
+$DTX_TIM_ENA(0..1)   Address=(0x11800FE2C0020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4529,7 +4529,7 @@ $DTX_TIM_ENA(0..1)   Address=(0x11800FE2C0020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_TIM_DAT(0..1)   Address=(0x11800FE2C0040|a<<3)   Bus=(RSL)
+$DTX_TIM_DAT(0..1)   Address=(0x11800FE2C0040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4557,7 +4557,7 @@ $DTX_TIM_BCST_RSP   Address=(0x11800FE2C0080)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_L2C_MCI(0..0)_SEL(0..1)   Address=(0x11800FE2E0000+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_MCI(0..0)_SEL(0..1)   Address=(0x11800FE2E0000+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4567,7 +4567,7 @@ $DTX_L2C_MCI(0..0)_SEL(0..1)   Address=(0x11800FE2E0000+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_L2C_MCI(0..0)_ENA(0..1)   Address=(0x11800FE2E0020+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_MCI(0..0)_ENA(0..1)   Address=(0x11800FE2E0020+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4577,7 +4577,7 @@ $DTX_L2C_MCI(0..0)_ENA(0..1)   Address=(0x11800FE2E0020+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_L2C_MCI(0..0)_DAT(0..1)   Address=(0x11800FE2E0040+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_MCI(0..0)_DAT(0..1)   Address=(0x11800FE2E0040+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4587,7 +4587,7 @@ $DTX_L2C_MCI(0..0)_DAT(0..1)   Address=(0x11800FE2E0040+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_L2C_MCI(0..0)_CTL   Address=(0x11800FE2E0060+(a<<15))   Bus=(RSL)
+$DTX_L2C_MCI(0..0)_CTL   Address=(0x11800FE2E0060+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4597,7 +4597,7 @@ $DTX_L2C_MCI(0..0)_CTL   Address=(0x11800FE2E0060+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_L2C_MCI(0..0)_BCST_RSP   Address=(0x11800FE2E0080+(a<<15))   Bus=(RSL)
+$DTX_L2C_MCI(0..0)_BCST_RSP   Address=(0x11800FE2E0080+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4606,7 +4606,7 @@ $DTX_L2C_MCI(0..0)_BCST_RSP   Address=(0x11800FE2E0080+(a<<15))   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_POW_SEL(0..1)   Address=(0x11800FE338000|a<<3)   Bus=(RSL)
+$DTX_POW_SEL(0..1)   Address=(0x11800FE338000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4615,7 +4615,7 @@ $DTX_POW_SEL(0..1)   Address=(0x11800FE338000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_POW_ENA(0..1)   Address=(0x11800FE338020|a<<3)   Bus=(RSL)
+$DTX_POW_ENA(0..1)   Address=(0x11800FE338020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4624,7 +4624,7 @@ $DTX_POW_ENA(0..1)   Address=(0x11800FE338020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_POW_DAT(0..1)   Address=(0x11800FE338040|a<<3)   Bus=(RSL)
+$DTX_POW_DAT(0..1)   Address=(0x11800FE338040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4652,7 +4652,7 @@ $DTX_POW_BCST_RSP   Address=(0x11800FE338080)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_USBDRD(0..1)_SEL(0..1)   Address=(0x11800FE340000+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_USBDRD(0..1)_SEL(0..1)   Address=(0x11800FE340000+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4662,7 +4662,7 @@ $DTX_USBDRD(0..1)_SEL(0..1)   Address=(0x11800FE340000+(a<<15)+b*0x8)   Bus=(RSL
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_USBDRD(0..1)_ENA(0..1)   Address=(0x11800FE340020+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_USBDRD(0..1)_ENA(0..1)   Address=(0x11800FE340020+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4672,7 +4672,7 @@ $DTX_USBDRD(0..1)_ENA(0..1)   Address=(0x11800FE340020+(a<<15)+b*0x8)   Bus=(RSL
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_USBDRD(0..1)_DAT(0..1)   Address=(0x11800FE340040+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_USBDRD(0..1)_DAT(0..1)   Address=(0x11800FE340040+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4682,7 +4682,7 @@ $DTX_USBDRD(0..1)_DAT(0..1)   Address=(0x11800FE340040+(a<<15)+b*0x8)   Bus=(RSL
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_USBDRD(0..1)_CTL   Address=(0x11800FE340060+(a<<15))   Bus=(RSL)
+$DTX_USBDRD(0..1)_CTL   Address=(0x11800FE340060+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4692,7 +4692,7 @@ $DTX_USBDRD(0..1)_CTL   Address=(0x11800FE340060+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_USBDRD(0..1)_BCST_RSP   Address=(0x11800FE340080+(a<<15))   Bus=(RSL)
+$DTX_USBDRD(0..1)_BCST_RSP   Address=(0x11800FE340080+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4701,7 +4701,7 @@ $DTX_USBDRD(0..1)_BCST_RSP   Address=(0x11800FE340080+(a<<15))   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_SATA_SEL(0..1)   Address=(0x11800FE360000|a<<3)   Bus=(RSL)
+$DTX_SATA_SEL(0..1)   Address=(0x11800FE360000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4710,7 +4710,7 @@ $DTX_SATA_SEL(0..1)   Address=(0x11800FE360000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_SATA_ENA(0..1)   Address=(0x11800FE360020|a<<3)   Bus=(RSL)
+$DTX_SATA_ENA(0..1)   Address=(0x11800FE360020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4719,7 +4719,7 @@ $DTX_SATA_ENA(0..1)   Address=(0x11800FE360020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_SATA_DAT(0..1)   Address=(0x11800FE360040|a<<3)   Bus=(RSL)
+$DTX_SATA_DAT(0..1)   Address=(0x11800FE360040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4747,7 +4747,7 @@ $DTX_SATA_BCST_RSP   Address=(0x11800FE360080)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_L2C_CBC(0..0)_SEL(0..1)   Address=(0x11800FE420000+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_CBC(0..0)_SEL(0..1)   Address=(0x11800FE420000+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4757,7 +4757,7 @@ $DTX_L2C_CBC(0..0)_SEL(0..1)   Address=(0x11800FE420000+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_L2C_CBC(0..0)_ENA(0..1)   Address=(0x11800FE420020+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_CBC(0..0)_ENA(0..1)   Address=(0x11800FE420020+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4767,7 +4767,7 @@ $DTX_L2C_CBC(0..0)_ENA(0..1)   Address=(0x11800FE420020+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_L2C_CBC(0..0)_DAT(0..1)   Address=(0x11800FE420040+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_L2C_CBC(0..0)_DAT(0..1)   Address=(0x11800FE420040+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4777,7 +4777,7 @@ $DTX_L2C_CBC(0..0)_DAT(0..1)   Address=(0x11800FE420040+(a<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_L2C_CBC(0..0)_CTL   Address=(0x11800FE420060+(a<<15))   Bus=(RSL)
+$DTX_L2C_CBC(0..0)_CTL   Address=(0x11800FE420060+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4787,7 +4787,7 @@ $DTX_L2C_CBC(0..0)_CTL   Address=(0x11800FE420060+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_L2C_CBC(0..0)_BCST_RSP   Address=(0x11800FE420080+(a<<15))   Bus=(RSL)
+$DTX_L2C_CBC(0..0)_BCST_RSP   Address=(0x11800FE420080+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4797,7 +4797,7 @@ $DTX_L2C_CBC(0..0)_BCST_RSP   Address=(0x11800FE420080+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_LMC(0..0)_SEL(0..1)   Address=(0x11800FE440000+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_LMC(0..0)_SEL(0..1)   Address=(0x11800FE440000+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4807,7 +4807,7 @@ $DTX_LMC(0..0)_SEL(0..1)   Address=(0x11800FE440000+(a<<15)+b*0x8)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_LMC(0..0)_ENA(0..1)   Address=(0x11800FE440020+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_LMC(0..0)_ENA(0..1)   Address=(0x11800FE440020+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4817,7 +4817,7 @@ $DTX_LMC(0..0)_ENA(0..1)   Address=(0x11800FE440020+(a<<15)+b*0x8)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_LMC(0..0)_DAT(0..1)   Address=(0x11800FE440040+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_LMC(0..0)_DAT(0..1)   Address=(0x11800FE440040+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4827,7 +4827,7 @@ $DTX_LMC(0..0)_DAT(0..1)   Address=(0x11800FE440040+(a<<15)+b*0x8)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_LMC(0..0)_CTL   Address=(0x11800FE440060+(a<<15))   Bus=(RSL)
+$DTX_LMC(0..0)_CTL   Address=(0x11800FE440060+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4837,7 +4837,7 @@ $DTX_LMC(0..0)_CTL   Address=(0x11800FE440060+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_LMC(0..0)_BCST_RSP   Address=(0x11800FE440080+(a<<15))   Bus=(RSL)
+$DTX_LMC(0..0)_BCST_RSP   Address=(0x11800FE440080+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4846,7 +4846,7 @@ $DTX_LMC(0..0)_BCST_RSP   Address=(0x11800FE440080+(a<<15))   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_PIP_SEL(0..1)   Address=(0x11800FE500000|a<<3)   Bus=(RSL)
+$DTX_PIP_SEL(0..1)   Address=(0x11800FE500000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4855,7 +4855,7 @@ $DTX_PIP_SEL(0..1)   Address=(0x11800FE500000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_PIP_ENA(0..1)   Address=(0x11800FE500020|a<<3)   Bus=(RSL)
+$DTX_PIP_ENA(0..1)   Address=(0x11800FE500020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4864,7 +4864,7 @@ $DTX_PIP_ENA(0..1)   Address=(0x11800FE500020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_PIP_DAT(0..1)   Address=(0x11800FE500040|a<<3)   Bus=(RSL)
+$DTX_PIP_DAT(0..1)   Address=(0x11800FE500040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -4892,7 +4892,7 @@ $DTX_PIP_BCST_RSP   Address=(0x11800FE500080)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_PCS(0..1)_SEL(0..1)   Address=(0x11800FE580000+(a*0x8<<15)+b*0x8)   Bus=(RSL)
+$DTX_PCS(0..1)_SEL(0..1)   Address=(0x11800FE580000+a*0x8*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4902,7 +4902,7 @@ $DTX_PCS(0..1)_SEL(0..1)   Address=(0x11800FE580000+(a*0x8<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_PCS(0..1)_ENA(0..1)   Address=(0x11800FE580020+(a*0x8<<15)+b*0x8)   Bus=(RSL)
+$DTX_PCS(0..1)_ENA(0..1)   Address=(0x11800FE580020+a*0x8*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4912,7 +4912,7 @@ $DTX_PCS(0..1)_ENA(0..1)   Address=(0x11800FE580020+(a*0x8<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_PCS(0..1)_DAT(0..1)   Address=(0x11800FE580040+(a*0x8<<15)+b*0x8)   Bus=(RSL)
+$DTX_PCS(0..1)_DAT(0..1)   Address=(0x11800FE580040+a*0x8*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4922,7 +4922,7 @@ $DTX_PCS(0..1)_DAT(0..1)   Address=(0x11800FE580040+(a*0x8<<15)+b*0x8)   Bus=(RS
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_PCS(0..1)_CTL   Address=(0x11800FE580060+(a*0x8<<15))   Bus=(RSL)
+$DTX_PCS(0..1)_CTL   Address=(0x11800FE580060+a*0x8*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4932,7 +4932,7 @@ $DTX_PCS(0..1)_CTL   Address=(0x11800FE580060+(a*0x8<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_PCS(0..1)_BCST_RSP   Address=(0x11800FE580080+(a*0x8<<15))   Bus=(RSL)
+$DTX_PCS(0..1)_BCST_RSP   Address=(0x11800FE580080+a*0x8*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4942,7 +4942,7 @@ $DTX_PCS(0..1)_BCST_RSP   Address=(0x11800FE580080+(a*0x8<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_PEM(0..2)_SEL(0..1)   Address=(0x11800FE600000+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_PEM(0..2)_SEL(0..1)   Address=(0x11800FE600000+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4952,7 +4952,7 @@ $DTX_PEM(0..2)_SEL(0..1)   Address=(0x11800FE600000+(a<<15)+b*0x8)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_PEM(0..2)_ENA(0..1)   Address=(0x11800FE600020+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_PEM(0..2)_ENA(0..1)   Address=(0x11800FE600020+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4962,7 +4962,7 @@ $DTX_PEM(0..2)_ENA(0..1)   Address=(0x11800FE600020+(a<<15)+b*0x8)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_PEM(0..2)_DAT(0..1)   Address=(0x11800FE600040+(a<<15)+b*0x8)   Bus=(RSL)
+$DTX_PEM(0..2)_DAT(0..1)   Address=(0x11800FE600040+a*0x8000+b*0x8)   Bus=(RSL)
 
 
  * 
@@ -4972,7 +4972,7 @@ $DTX_PEM(0..2)_DAT(0..1)   Address=(0x11800FE600040+(a<<15)+b*0x8)   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_CTL.
  * 
-$DTX_PEM(0..2)_CTL   Address=(0x11800FE600060+(a<<15))   Bus=(RSL)
+$DTX_PEM(0..2)_CTL   Address=(0x11800FE600060+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4982,7 +4982,7 @@ $DTX_PEM(0..2)_CTL   Address=(0x11800FE600060+(a<<15))   Bus=(RSL)
  *  Attribute: -exempt_natural_alignment=a.
  *  Attribute: -inherits=DTX_MIO_BCST_RSP.
  * 
-$DTX_PEM(0..2)_BCST_RSP   Address=(0x11800FE600080+(a<<15))   Bus=(RSL)
+$DTX_PEM(0..2)_BCST_RSP   Address=(0x11800FE600080+a*0x8000)   Bus=(RSL)
 
 
  * 
@@ -4991,7 +4991,7 @@ $DTX_PEM(0..2)_BCST_RSP   Address=(0x11800FE600080+(a<<15))   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_AGL_SEL(0..1)   Address=(0x11800FE700000|a<<3)   Bus=(RSL)
+$DTX_AGL_SEL(0..1)   Address=(0x11800FE700000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5000,7 +5000,7 @@ $DTX_AGL_SEL(0..1)   Address=(0x11800FE700000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_AGL_ENA(0..1)   Address=(0x11800FE700020|a<<3)   Bus=(RSL)
+$DTX_AGL_ENA(0..1)   Address=(0x11800FE700020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5009,7 +5009,7 @@ $DTX_AGL_ENA(0..1)   Address=(0x11800FE700020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_AGL_DAT(0..1)   Address=(0x11800FE700040|a<<3)   Bus=(RSL)
+$DTX_AGL_DAT(0..1)   Address=(0x11800FE700040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5036,7 +5036,7 @@ $DTX_AGL_BCST_RSP   Address=(0x11800FE700080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_IOB_SEL(0..1)   Address=(0x11800FE780000|a<<3)   Bus=(RSL)
+$DTX_IOB_SEL(0..1)   Address=(0x11800FE780000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5045,7 +5045,7 @@ $DTX_IOB_SEL(0..1)   Address=(0x11800FE780000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_IOB_ENA(0..1)   Address=(0x11800FE780020|a<<3)   Bus=(RSL)
+$DTX_IOB_ENA(0..1)   Address=(0x11800FE780020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5054,7 +5054,7 @@ $DTX_IOB_ENA(0..1)   Address=(0x11800FE780020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_IOB_DAT(0..1)   Address=(0x11800FE780040|a<<3)   Bus=(RSL)
+$DTX_IOB_DAT(0..1)   Address=(0x11800FE780040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5078,7 +5078,7 @@ $DTX_IOB_BCST_RSP   Address=(0x11800FE780080)   Bus=(RSL)
  * 
  * DTX_BROADCAST_SEL = DTX BROADCAST Select Register
  * 
-$DTX_BROADCAST_SEL(0..1)   Address=(0x11800FE7F0000|a<<3)   Bus=(RSL)
+$DTX_BROADCAST_SEL(0..1)   Address=(0x11800FE7F0000+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -5092,7 +5092,7 @@ $DTX_BROADCAST_SEL(0..1)   Address=(0x11800FE7F0000|a<<3)   Bus=(RSL)
  * 
  * DTX_BROADCAST_ENA = DTX BROADCAST Data Enable Register
  * 
-$DTX_BROADCAST_ENA(0..1)   Address=(0x11800FE7F0020|a<<3)   Bus=(RSL)
+$DTX_BROADCAST_ENA(0..1)   Address=(0x11800FE7F0020+a*0x8)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
  Bit     Field Field   Reset      Typical    Field                                             
  Pos     Name  Type    Value      Value      Description                                       
@@ -5127,7 +5127,7 @@ $DTX_BROADCAST_CTL   Address=(0x11800FE7F0060)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_SLI_SEL(0..1)   Address=(0x11800FE8F8000|a<<3)   Bus=(RSL)
+$DTX_SLI_SEL(0..1)   Address=(0x11800FE8F8000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5136,7 +5136,7 @@ $DTX_SLI_SEL(0..1)   Address=(0x11800FE8F8000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_SLI_ENA(0..1)   Address=(0x11800FE8F8020|a<<3)   Bus=(RSL)
+$DTX_SLI_ENA(0..1)   Address=(0x11800FE8F8020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5145,7 +5145,7 @@ $DTX_SLI_ENA(0..1)   Address=(0x11800FE8F8020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_SLI_DAT(0..1)   Address=(0x11800FE8F8040|a<<3)   Bus=(RSL)
+$DTX_SLI_DAT(0..1)   Address=(0x11800FE8F8040+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5172,7 +5172,7 @@ $DTX_SLI_BCST_RSP   Address=(0x11800FE8F8080)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_SEL(0..1).
  *  Attribute: -inherits=DTX_MIO_SEL(0..1).
  * 
-$DTX_DPI_SEL(0..1)   Address=(0x11800FEEF8000|a<<3)   Bus=(RSL)
+$DTX_DPI_SEL(0..1)   Address=(0x11800FEEF8000+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5181,7 +5181,7 @@ $DTX_DPI_SEL(0..1)   Address=(0x11800FEEF8000|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_ENA(0..1).
  *  Attribute: -inherits=DTX_MIO_ENA(0..1).
  * 
-$DTX_DPI_ENA(0..1)   Address=(0x11800FEEF8020|a<<3)   Bus=(RSL)
+$DTX_DPI_ENA(0..1)   Address=(0x11800FEEF8020+a*0x8)   Bus=(RSL)
 
 
  * 
@@ -5190,7 +5190,7 @@ $DTX_DPI_ENA(0..1)   Address=(0x11800FEEF8020|a<<3)   Bus=(RSL)
  *  This register has the same bit fields as DTX_MIO_DAT(0..1).
  *  Attribute: -inherits=DTX_MIO_DAT(0..1).
  * 
-$DTX_DPI_DAT(0..1)   Address=(0x11800FEEF8040|a<<3)   Bus=(RSL)
+$DTX_DPI_DAT(0..1)   Address=(0x11800FEEF8040+a*0x8)   Bus=(RSL)
 
 
  * 
