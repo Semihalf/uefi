@@ -458,9 +458,8 @@ static int xaui_link(bdk_if_handle_t handle)
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, 10000))
             return -1;
         /* Wait for RX to be ready */
-        // FIXME
-        //if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_GMXX_RX_XAUI_CTL(bgx_block), status, ==, 0, 10000))
-            //return -1;
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_RX_CTL(bgx_block, bgx_index), status, ==, 0, 10000))
+            return -1;
 
         /* (6) Configure GMX */
 
