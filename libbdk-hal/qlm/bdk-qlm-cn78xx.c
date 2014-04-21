@@ -1196,9 +1196,21 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
-    int num_qlms = qlm_get_num(node);
-    for (int qlm = 0; qlm < num_qlms; qlm++)
-        qlm_init_one(node, qlm);
+    /* Only setup the QLMs that are not already up in PCIe */
+    for (int qlm = 0; qlm < 8; qlm++)
+    {
+        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+        if (!gserx_cfg.s.pcie)
+            qlm_init_one(node, qlm);
+    }
+
+    /* Only setup the OCI QLMs that are in SW_MODE */
+    for (int qlm = 8; qlm < 14; qlm++)
+    {
+        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
+        if (gserx_spd.s.spd == 0xf) /* SW_MODE */
+            qlm_init_one(node, qlm);
+    }
 }
 
 
