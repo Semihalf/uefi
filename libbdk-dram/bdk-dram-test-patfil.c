@@ -65,7 +65,7 @@ int __bdk_dram_test_mem_self_addr(uint64_t area, uint64_t max_address, int burst
 
     for (int burst = 0; burst < bursts; burst++)
     {
-        /* Write the pattern to memory. Each location recieves the address
+        /* Write the pattern to memory. Each location receives the address
          * of the location.
          */
         for (uint64_t address = area; address < max_address; address+=8)
@@ -381,7 +381,7 @@ int __bdk_dram_test_mem_checkerboard(uint64_t area, uint64_t max_address, int bu
 int __bdk_dram_test_mem_random(uint64_t area, uint64_t max_address, int bursts)
 {
     /* This constant is used to increment the pattern after every DWORD. This
-       makes only the first DWORD truely random, but saves us processing
+       makes only the first DWORD truly random, but saves us processing
        power generatign the random values */
     const uint64_t INC = 0x1010101010101010ULL;
 
@@ -391,7 +391,7 @@ int __bdk_dram_test_mem_random(uint64_t area, uint64_t max_address, int bursts)
         const uint64_t init_pattern = bdk_rng_get_random64();
         uint64_t pattern = init_pattern;
 
-        /* Write the pattern to memory. Each location recieves the address
+        /* Write the pattern to memory. Each location receives the address
          * of the location. A second write pass is needed to force all of
          * the cached memory out to the DDR.
          */

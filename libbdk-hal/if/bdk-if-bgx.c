@@ -99,7 +99,7 @@ static int if_num_ports(bdk_node_t node, int interface)
 }
 
 /**
- * Perform intialization of the BGX required before use. This should only be
+ * Perform initialization of the BGX required before use. This should only be
  * called once for each BGX. Before this is called, the mode of
  * the SERDES must be set by bdk_qlm_set_mode().
  *

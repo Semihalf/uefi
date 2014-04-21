@@ -18,7 +18,7 @@ static int volatile write_count = 0;
 static bdk_spinlock_t write_lock;
 
 /**
- * The actual writing to flash is done in a seperate thread so Xmodem doesn't
+ * The actual writing to flash is done in a separate thread so Xmodem doesn't
  * stall during slow erase cycles.
  *
  * @author creese (10/10/2013)

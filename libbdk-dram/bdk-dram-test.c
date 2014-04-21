@@ -279,7 +279,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     dram_test_thread_size = size;
     BDK_SYNCW;
 #if ENABLE_LMC_PERCENT
-    /* Remeber the LMC perf counters for stats after the test */
+    /* Remember the LMC perf counters for stats after the test */
     uint64_t start_dram_dclk[BDK_NUMA_MAX_NODES][4];
     uint64_t start_dram_ops[BDK_NUMA_MAX_NODES][4];
     uint64_t stop_dram_dclk[BDK_NUMA_MAX_NODES][4];

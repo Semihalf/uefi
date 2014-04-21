@@ -268,7 +268,7 @@ after_relocate:
     li      t0, 0x1fffffff  /* 512MB mask */
     dla     a0, __bdk_init  /* Virtual address of __bdk_init */
     and     a0, t0          /* Offset from zero of __bdk_init in image */
-    dla     t1, 1f          /* Address of the upcomming label when image was linked */
+    dla     t1, 1f          /* Address of the upcoming label when image was linked */
     dla     t0, __start     /* Virtual address of __start */
     bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
      dsubu  t1, t0          /* T1 is the offset of the label from the beginning of the image */

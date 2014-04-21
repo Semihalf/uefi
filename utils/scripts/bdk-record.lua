@@ -60,7 +60,7 @@ end
 --
 -- Record an operation that can be played back later. The arguments
 -- are a string type followed by optional arguments. The arguments
--- are seperated by spaces and escaped as strings.
+-- are separated by spaces and escaped as strings.
 --
 local function record(...)
     local t = table.pack(...)
@@ -280,7 +280,7 @@ elseif arg[1] == "record" then
 # skipto:   The string argument must be exactly a line in the scripts output.
 # pattern:  The string argument must be patten match a line in the scripts output.
 # prompt:   The prompt argument must exactly match the argument to readline, The second argument is given as input.
-# Lines begining with "#" are ignored.
+# Lines beginning with "#" are ignored.
 #
 ]])
     run_script()

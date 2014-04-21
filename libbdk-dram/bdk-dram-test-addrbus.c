@@ -95,7 +95,7 @@ int __bdk_dram_test_mem_address_bus(uint64_t area, uint64_t max_address, int bur
         }
 
         /* Compare with expected: Look at each memory location written
-             * in the preceeding step. Report any mismatches as failures.
+             * in the preceding step. Report any mismatches as failures.
              * This catches stuck HIGH address bits.
              */
         address = start;
