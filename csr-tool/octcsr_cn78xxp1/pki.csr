@@ -56,6 +56,11 @@ enums:
         value: 0x100 | a
         description: DPI ring a.
 
+      - name: NQM_CH(0..255)
+        value: 0x200 | a
+        description: |
+          Reserved. INTERNAL: NQM channel a.
+
       - name: ILK(0..1)_CH(0..255)
         value: 0x400 | a<<8 | b
         description: Interlaken RX/TX a channel b.

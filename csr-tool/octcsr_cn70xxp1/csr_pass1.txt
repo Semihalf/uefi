@@ -3790,19 +3790,20 @@ $DPI_ENG(0..5)_BUF   Address=(0x1DF0000000880+a*0x8)   Bus=(NCB)
  <36:32> COMPBLKS RO/H    --         --         Computed engine block size                        
  <31:9>  --       RAZ     --         --         Reserved.                                         
  <8:4>   BASE     RO/H    --         --         The base address in 512B blocks of the engine fifo
- <3:0>   BLKS     R/W     0x2        --         The size of the engine fifo                       
-                                                Legal values are 0-10.
-                                                0  = Engine is disabled
-                                                1  = 0.5KB buffer
-                                                2  = 1.0KB buffer
-                                                3  = 1.5KB buffer
-                                                4  = 2.0KB buffer
-                                                5  = 2.5KB buffer
-                                                6  = 3.0KB buffer
-                                                7  = 3.5KB buffer
-                                                8  = 4.0KB buffer
-                                                9  = 6.0KB buffer
-                                                10 = 8.0KB buffer
+ <3:0>   BLKS     R/W     0x2        --         The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
+                                                DPI_ENG(0..5)_BUF[BLKS] registers must not exceed the overall RDB memory size of
+                                                16 KB.
+                                                0x0 = Engine disabled.
+                                                0x1 = 0.5 KB FIFO.
+                                                0x2 = 1.0 KB FIFO.
+                                                0x3 = 1.5 KB FIFO.
+                                                0x4 = 2.0 KB FIFO.
+                                                0x5 = 2.5 KB FIFO.
+                                                0x6 = 3.0 KB FIFO.
+                                                0x7 = 3.5 KB FIFO.
+                                                0x8 = 4.0 KB FIFO.
+                                                0x9 = 6.0 KB FIFO.
+                                                0xA = 8.0 KB FIFO.
 
 Notes:
 The total amount of storage allocated to the 6 DPI DMA engines (via DPI_ENG*_BUF[BLKS]) must

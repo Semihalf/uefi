@@ -1473,13 +1473,20 @@ registers:
         reset: 0x2
         typical: --
         description: |
-          The size of the DMA engine FIFO. Legal values are 0-10.
-          0x0 = Disabled. 0x5 = 2.5KB FIFO.
-          0x1 = 0.5KB FIFO. 0x6 = 3KB FIFO.
-          0x2 = 1KB FIFO. 0x7 = 3.5KB FIFO.
-          0x3 = 1.5KB FIFO. 0x8 = 4KB FIFO.
-          0x4 = 2KB FIFO. 0x9 = 6.0KB FIFO.
-          0xA = 8.0KB FIFO.
+          The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
+          DPI_ENG(0..5)_BUF[BLKS] registers must not exceed the overall RDB memory size of
+          16 KB.
+          0x0 = Engine disabled.
+          0x1 = 0.5 KB FIFO.
+          0x2 = 1.0 KB FIFO.
+          0x3 = 1.5 KB FIFO.
+          0x4 = 2.0 KB FIFO.
+          0x5 = 2.5 KB FIFO.
+          0x6 = 3.0 KB FIFO.
+          0x7 = 3.5 KB FIFO.
+          0x8 = 4.0 KB FIFO.
+          0x9 = 6.0 KB FIFO.
+          0xA = 8.0 KB FIFO.
 
 
   - name: DPI_SLI_PRT(0..3)_CFG

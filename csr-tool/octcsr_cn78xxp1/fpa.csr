@@ -1193,6 +1193,10 @@ registers:
           will zero the count, not roll-around, and set either FPA_ERR_INT[CNT_ADD] or
           FPA_ERR_INT[CNT_SUB].
 
+          This register is intended for use when FPA_AURA()_CFG[PTR_DIS] is set.  If
+          FPA_AURA()_CFG[PTR_DIS] is clear, this register would typically only be used if buffers
+          are being re-provisioned.
+
 
   - name: FPA_AURA(0..1023)_CNT_LIMIT
     title: FPA Aura Allocation Limit Register

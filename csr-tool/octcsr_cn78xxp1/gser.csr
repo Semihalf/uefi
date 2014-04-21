@@ -604,9 +604,7 @@ registers:
           GSER_SPD and the appropriate table updates are performed so the rate is obtained for the
           particular reference clock.
           It is recommended that the PHY be in reset when reconfiguring the LMODE
-          (GSER(0..13)_PHY_CTL[PHY_RESET] is set). If the LMODE is modified when the PHY is out of
-          reset, GSER(0..13)_RXTX_STAT[LMC] can be used to determine when the PHY has
-          transitioned to the new setting.
+          (GSER(0..13)_PHY_CTL[PHY_RESET] is set).
           Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
           selected LMODE must be updated to reflect the reference clock speed. Refer to the register
           description and index into the table using the rate and reference speed to obtain the
@@ -932,7 +930,7 @@ registers:
 
       - name: RXT_EER
         bits: 15
-        access: R/W
+        access: WO
         reset: 0
         typical: 0
         description: |

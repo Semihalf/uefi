@@ -285,7 +285,8 @@ enums:
           major_val: "(0x9)"
           reg_addr: "(0x1180000000190)"
           reg_name: "MIO_EMM_DMA_INT"
-        description: See MIO_EMM_DMA_INT[FIFO].
+        description: |
+          Reserved. INTERNAL: Reserved bit in HRM; see MIO_EMM_DMA_INT[FIFO].
 
       - name: MIO_EMM_INT_BUF_DONE
         value: 0x09040

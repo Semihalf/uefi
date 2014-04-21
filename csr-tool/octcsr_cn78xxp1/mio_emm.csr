@@ -17,7 +17,8 @@ enums:
 
       - name: MIO_EMM_DMA_FIFO
         value: 0x09001
-        description: See MIO_EMM_DMA_INT[FIFO].
+        description: |
+          Reserved. INTERNAL: Reserved bit in HRM; see MIO_EMM_DMA_INT[FIFO].
 
       - name: MIO_EMM_INT_BUF_DONE
         value: 0x09040
@@ -140,7 +141,8 @@ registers:
       This register specifies a command that is loaded into the eMMC internal DMA FIFO.  The FIFO is
       used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
       successfully. Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
-      MIO_EMM_DMA_FIFO_ADR contents into the FIFO and increment the MIO_DMA_FIFO_CFG[COUNT] field.
+      MIO_EMM_DMA_FIFO_ADR contents into the FIFO and increment the MIO_EMM_DMA_FIFO_CFG[COUNT]
+      field.
       Note: This register has a similar format to the MIO_EMM_DMA_CFG register with the exception
       that the EN and CLR fields are absent. These are supported in the MIO_EMM_DMA_FIFO_CFG.
     fields:
@@ -337,7 +339,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Internal DMA FIFO has dropped to level specified by MIO_DMA_FIFO_CFG[INT_LVL]. Throws
+          INIERNAL Set as reserved in HRM
+          Internal DMA FIFO has dropped to level specified by MIO_EMM_DMA_FIFO_CFG[INT_LVL]. Throws
           MIO_EMM_INTSN_E::MIO_EMM_DMA_FIFO.
 
       - name: DONE
@@ -469,14 +472,14 @@ registers:
         access: RO/H
         reset: 0x9c4
         typical: --
-        description: Current number of SCLK cycles to hold the eMMC CLK pin high
+        description: Current number of coprocessor-clocks to hold the eMMC CLK pin high
 
       - name: CLK_LO
         bits: 15..0
         access: RO/H
         reset: 0x9c4
         typical: --
-        description: Current number of SCLK cycles to hold the eMMC CLK pin low
+        description: Current number of coprocessor-clocks to hold the eMMC CLK pin low
 
 
   - name: MIO_EMM_SWITCH
@@ -876,7 +879,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          The DMA store operation took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT] SCLKs to complete.
+          The store operation to the device took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT]
+          coprocessor-clocks to complete.
           Valid when DMA_PEND=1.
 
       - name: --
@@ -1223,7 +1227,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Number of SCLK cycles before the eMMC clock rising edge to sample the command pin.
+        description: Number of coprocessor-clocks before the eMMC clock rising edge to sample the command pin.
 
       - name: --
         bits: 15..10
@@ -1237,7 +1241,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Number of SCLK cycles before the eMMC clock edge to sample the data pin.
+        description: Number of coprocessor-clocks before the eMMC clock edge to sample the data pin.
 
 
   - name: MIO_EMM_STS_MASK
@@ -1358,9 +1362,9 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of SCLKs to allow for a DMA store operation to complete before hardware will halt
-          the operation.
-          Hardware will inject and error on the next 512-byte block boundary.   The pending DMA
+          Number of coprocessor-clocks to allow for a store operation to the device to complete
+          before hardware will halt the operation.
+          Hardware will inject an error on the next 512-byte block boundary.   The pending DMA
           operation can be resumed or terminated. A value of zero disables timer.
 
 
