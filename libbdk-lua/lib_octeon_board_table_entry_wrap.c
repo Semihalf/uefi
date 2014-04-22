@@ -3627,18 +3627,25 @@ fail:
 static int _wrap_ddr3_custom_config_t_dll_write_offset_set(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
-  int8_t arg2 ;
+  int8_t *arg2 ;
   
   SWIG_check_num_args("dll_write_offset",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_write_offset",1,"ddr3_custom_config_t *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("dll_write_offset",2,"int8_t");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("dll_write_offset",2,"int8_t [9]");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
     SWIG_fail_ptr("ddr3_custom_config_t_dll_write_offset_set",1,SWIGTYPE_p_ddr3_custom_config_t);
   }
   
-  arg2 = (lua_tostring(L, 2))[0];
-  if (arg1) (arg1)->dll_write_offset = arg2;
+  arg2 = (char *)lua_tostring(L, 2);
+  {
+    if(arg2) {
+      strncpy((char*)arg1->dll_write_offset, (const char *)arg2, 9-1);
+      arg1->dll_write_offset[9-1] = 0;
+    } else {
+      arg1->dll_write_offset[0] = 0;
+    }
+  }
   
   return SWIG_arg;
   
@@ -3653,7 +3660,7 @@ fail:
 static int _wrap_ddr3_custom_config_t_dll_write_offset_get(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
-  int8_t result;
+  int8_t *result = 0 ;
   
   SWIG_check_num_args("dll_write_offset",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_write_offset",1,"ddr3_custom_config_t *");
@@ -3662,8 +3669,8 @@ static int _wrap_ddr3_custom_config_t_dll_write_offset_get(lua_State* L) {
     SWIG_fail_ptr("ddr3_custom_config_t_dll_write_offset_get",1,SWIGTYPE_p_ddr3_custom_config_t);
   }
   
-  result = (int8_t) ((arg1)->dll_write_offset);
-  lua_pushfstring(L,"%c",result); SWIG_arg++;
+  result = (int8_t *)(int8_t *) ((arg1)->dll_write_offset);
+  lua_pushstring(L,(const char*)result); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3677,18 +3684,25 @@ fail:
 static int _wrap_ddr3_custom_config_t_dll_read_offset_set(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
-  int8_t arg2 ;
+  int8_t *arg2 ;
   
   SWIG_check_num_args("dll_read_offset",2,2)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_read_offset",1,"ddr3_custom_config_t *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("dll_read_offset",2,"int8_t");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("dll_read_offset",2,"int8_t [9]");
   
   if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ddr3_custom_config_t,0))){
     SWIG_fail_ptr("ddr3_custom_config_t_dll_read_offset_set",1,SWIGTYPE_p_ddr3_custom_config_t);
   }
   
-  arg2 = (lua_tostring(L, 2))[0];
-  if (arg1) (arg1)->dll_read_offset = arg2;
+  arg2 = (char *)lua_tostring(L, 2);
+  {
+    if(arg2) {
+      strncpy((char*)arg1->dll_read_offset, (const char *)arg2, 9-1);
+      arg1->dll_read_offset[9-1] = 0;
+    } else {
+      arg1->dll_read_offset[0] = 0;
+    }
+  }
   
   return SWIG_arg;
   
@@ -3703,7 +3717,7 @@ fail:
 static int _wrap_ddr3_custom_config_t_dll_read_offset_get(lua_State* L) {
   int SWIG_arg = 0;
   ddr3_custom_config_t *arg1 = (ddr3_custom_config_t *) 0 ;
-  int8_t result;
+  int8_t *result = 0 ;
   
   SWIG_check_num_args("dll_read_offset",1,1)
   if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("dll_read_offset",1,"ddr3_custom_config_t *");
@@ -3712,8 +3726,8 @@ static int _wrap_ddr3_custom_config_t_dll_read_offset_get(lua_State* L) {
     SWIG_fail_ptr("ddr3_custom_config_t_dll_read_offset_get",1,SWIGTYPE_p_ddr3_custom_config_t);
   }
   
-  result = (int8_t) ((arg1)->dll_read_offset);
-  lua_pushfstring(L,"%c",result); SWIG_arg++;
+  result = (int8_t *)(int8_t *) ((arg1)->dll_read_offset);
+  lua_pushstring(L,(const char*)result); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
