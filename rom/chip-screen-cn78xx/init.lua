@@ -11,11 +11,11 @@ print("Version ".. require("bdk-version"))
 print("")
 
 
-local board_name = menu.prompt_string("Board type: ", "ebb7800")
+local board_name = menu.prompt_string("Board type: ", "evb7800")
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 
 -- Do board specific setup
-menu.dofile("screen-ebb7800")
+menu.dofile("screen-evb7800")
 
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)

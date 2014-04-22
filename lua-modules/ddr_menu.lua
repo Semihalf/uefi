@@ -14,7 +14,7 @@ end
 -- List of board strings that can be passed to ddr.set_config()
 local BOARD_CHOICES = {
     "evb7000",
-    "ebb7800",
+    "evb7800",
 }
 
 
