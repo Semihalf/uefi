@@ -1058,9 +1058,9 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
     }
 
     /* Tell every core to read the JTAG data, which will contain a PC sample
-        per core. Each sample has 8 bits of ASID, 64 bits of PC, and one valid
-        bit */
-    total_bits = (8 + 64 + 1) * __octeon_remote_num_cores;
+        per core. Each sample has 1 bit GUESTID, 8 bits of ASID, 64 bits of
+        PC, and one valid bit (total of 74 bits) */
+    total_bits = (1 + 8 + 64 + 1) * __octeon_remote_num_cores;
     memset(command, 0, sizeof(command));
     command[0] = 0xf2;  /* JTAG_SCAN_IO */
     command[1] = 1;     /* Data */
@@ -1095,8 +1095,10 @@ static int macraigor_get_sample_pc(uint64_t coremask __attribute__ ((unused)), o
         uint8_t asid = bdk_le64_to_cpu(dwords[dword]) >> bit;
         asid |= bdk_le64_to_cpu(dwords[dword+1]) << (64-bit);
         bit_loc += 8;
-        octeon_remote_debug(2, "core %2d asid=0x%02x, pc=0x%016llx valid=%d\n",
-            core, 0xff & asid, (ULL)pc, valid);
+        int guestid = (bdk_le64_to_cpu(dwords[dword]) >> bit) & 1;
+        bit_loc++;
+        octeon_remote_debug(2, "core %2d guestid=%d, asid=0x%02x, pc=0x%016llx valid=%d\n",
+            core, guestid, 0xff & asid, (ULL)pc, valid);
         sample[core].pc = (valid) ? pc : 0;
     }
 
