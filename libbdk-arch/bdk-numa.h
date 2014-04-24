@@ -87,5 +87,21 @@ extern int bdk_numa_exists(bdk_node_t node);
  */
 extern int bdk_numa_is_only_one();
 
+/**
+ * Given a physical address without a node, return the proper physical address
+ * for the given node.
+ *
+ * @param node   Node to create address for
+ * @param pa     Base physical address
+ *
+ * @return Node specific address
+ */
+static inline uint64_t bdk_numa_get_address(bdk_node_t node, uint64_t pa)
+{
+    if (pa & (1ull << 48))
+        return pa | ((uint64_t)node << 36);
+    else
+        return pa | ((uint64_t)node << 40);
+}
 
 
