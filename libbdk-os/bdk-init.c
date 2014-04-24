@@ -264,8 +264,8 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset);
     }
 
-    BDK_TRACE("Wait up to 1ms for the cores to boot\n");
-    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    BDK_TRACE("Wait up to 10ms for the cores to boot\n");
+    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 100 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
         /* Tight spin */
