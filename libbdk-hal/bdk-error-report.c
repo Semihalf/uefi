@@ -1137,12 +1137,14 @@ void bdk_error_enable(bdk_node_t node)
         check_cn70xx(node);
         bdk_error_check = check_cn70xx;
     }
+#if 0
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         enable_cn78xx(node);
         check_cn78xx(node);
         bdk_error_check = check_cn78xx;
     }
+#endif
     else
         bdk_error("Error reporting not implemented for this chip\n");
 }
