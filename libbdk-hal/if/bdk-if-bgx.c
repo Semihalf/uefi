@@ -581,8 +581,8 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
         return result;
     }
 
-    BDK_CSR_INIT(pcsx_mrx_control_reg, handle->node, BDK_PCSX_MRX_CONTROL_REG(bgx_block, bgx_index));
-    if (pcsx_mrx_control_reg.s.loopbck1)
+    BDK_CSR_INIT(gmp_pcs_mrx_control, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index));
+    if (gmp_pcs_mrx_control.s.loopbck1)
     {
         /* Force 1Gbps full duplex link for internal loopback */
         result.s.up = 1;
@@ -592,24 +592,24 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
     }
 
 
-    BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_PCSX_MISCX_CTL_REG(bgx_block, bgx_index));
-    if (pcsx_miscx_ctl_reg.s.mode)
+    BDK_CSR_INIT(gmp_pcs_miscx_ctl, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
+    if (gmp_pcs_miscx_ctl.s.mode)
     {
         /* 1000BASE-X */
         // FIXME
     }
     else
     {
-        if (pcsx_miscx_ctl_reg.s.mac_phy)
+        if (gmp_pcs_miscx_ctl.s.mac_phy)
         {
             /* PHY Mode */
             /* Don't bother continuing if the SERTES low level link is down */
-            BDK_CSR_INIT(pcsx_mrx_status_reg, handle->node, BDK_PCSX_MRX_STATUS_REG(bgx_block, bgx_index));
-            if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
+            BDK_CSR_INIT(gmp_pcs_mrx_status, handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index));
+            if (bdk_unlikely(gmp_pcs_mrx_status.s.lnk_st == 0))
             {
                 /* Read a second time as the lnk_st bit is sticky */
-                pcsx_mrx_status_reg.u64 = BDK_CSR_READ(handle->node, BDK_PCSX_MRX_STATUS_REG(bgx_block, bgx_index));
-                if (bdk_unlikely(pcsx_mrx_status_reg.s.lnk_st == 0))
+                gmp_pcs_mrx_status.u64 = BDK_CSR_READ(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index));
+                if (bdk_unlikely(gmp_pcs_mrx_status.s.lnk_st == 0))
                 {
                     if (sgmii_link(handle) != 0)
                         return result;
@@ -617,13 +617,13 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
             }
 
             /* Read the autoneg results */
-            BDK_CSR_INIT(pcsx_anx_results_reg, handle->node, BDK_PCSX_ANX_RESULTS_REG(bgx_block, bgx_index));
-            if (pcsx_anx_results_reg.s.an_cpt)
+            BDK_CSR_INIT(gmp_pcs_anx_results, handle->node, BDK_BGXX_GMP_PCS_ANX_RESULTS(bgx_block, bgx_index));
+            if (gmp_pcs_anx_results.s.an_cpt)
             {
                 /* Auto negotiation is complete. Set status accordingly */
-                result.s.full_duplex = pcsx_anx_results_reg.s.dup;
-                result.s.up = pcsx_anx_results_reg.s.link_ok;
-                switch (pcsx_anx_results_reg.s.spd)
+                result.s.full_duplex = gmp_pcs_anx_results.s.dup;
+                result.s.up = gmp_pcs_anx_results.s.link_ok;
+                switch (gmp_pcs_anx_results.s.spd)
                 {
                     case 0:
                         result.s.speed = speed / 100;
