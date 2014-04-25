@@ -716,6 +716,23 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         bdk_error("Unable to find IF for packet to port %d\n", wqe->word0.v3.chan);
         return -1;
     }
+
+    /* CN78XX pass 1 has a bug where the packet pointer in each segmetn is
+       written in the opposite endianness of the configured mode. Fix these
+       here */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    {
+        bdk_buf_ptr_t buffer_next = packet->packet;
+        int segments = packet->segments - 1;
+        while (segments--)
+        {
+            bdk_buf_ptr_t next = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_next.v3.addr - 8);
+            next.u64 = bdk_swap64(next.u64);
+            *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_next.v3.addr - 8) = next;
+            buffer_next = next;
+        }
+    }
+
     return 0;
 }
 
