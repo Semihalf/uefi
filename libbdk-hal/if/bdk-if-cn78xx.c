@@ -129,7 +129,7 @@ static int pki_port_init(bdk_if_handle_t handle)
 
     /* Find the PKND for this port. This code only works since the
         ports are enumerated in order */
-    if (handle->index == 0)
+    if ((handle->index == 0) || (handle->iftype == BDK_IF_LOOP))
         handle->pknd = node_state->next_free_pknd++;
     else
         handle->pknd = node_state->next_free_pknd - 1;
