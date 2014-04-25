@@ -594,8 +594,8 @@ static int pko_enable(bdk_node_t node)
 
     BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
         c.s.enable = 1);
-    /* Read needed t omake sure enable is done before accesses below */
-    BDK_CSR_READ(c, node, BDK_PKO_ENABLE);
+    /* Read needed to make sure enable is done before accesses below */
+    BDK_CSR_READ(node, BDK_PKO_ENABLE);
 
     /* Open all configured descriptor queues */
     for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq++)
