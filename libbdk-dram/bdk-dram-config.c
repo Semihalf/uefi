@@ -103,8 +103,18 @@ int bdk_dram_config_raw(const ddr_config_table_t *ddr_config_table, int ddr_cloc
     }
 
     /* Clear any DRAM errors set during init */
-    cvmx_write_csr(CVMX_CIU_CIB_LMCX_RAWX(0,0), cvmx_read_csr(CVMX_CIU_CIB_LMCX_RAWX(0,0)));
-    cvmx_write_csr(CVMX_LMCX_INT(0), cvmx_read_csr(CVMX_LMCX_INT(0)));
+    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    {
+        cvmx_write_csr(CVMX_CIU_CIB_LMCX_RAWX(0, 0), cvmx_read_csr(CVMX_CIU_CIB_LMCX_RAWX(0, 0)));
+        cvmx_write_csr(CVMX_LMCX_INT(0), cvmx_read_csr(CVMX_LMCX_INT(0)));
+    }
+    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        cvmx_write_csr(CVMX_LMCX_INT(0), cvmx_read_csr(CVMX_LMCX_INT(0)));
+        cvmx_write_csr(CVMX_LMCX_INT(1), cvmx_read_csr(CVMX_LMCX_INT(1)));
+        cvmx_write_csr(CVMX_LMCX_INT(2), cvmx_read_csr(CVMX_LMCX_INT(2)));
+        cvmx_write_csr(CVMX_LMCX_INT(3), cvmx_read_csr(CVMX_LMCX_INT(3)));
+    }
 
     /* Store the amount of memory in the environment */
     char buffer[8];
