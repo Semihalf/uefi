@@ -581,8 +581,21 @@ static int pko_enable(bdk_node_t node)
         BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i),
             c.s.reset = 0);
 
+    /* Enable the FPA interface */
+    BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
+        c.s.enable = 1);
+
+    /* Wait for PKO to be ready (100us) */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PKO_STATUS, pko_rdy, ==, 1, 100))
+    {
+        bdk_error("PKO: Timeout waiting for ready\n");
+        return -1;
+    }
+
     BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
         c.s.enable = 1);
+    /* Read needed t omake sure enable is done before accesses below */
+    BDK_CSR_READ(c, node, BDK_PKO_ENABLE);
 
     /* Open all configured descriptor queues */
     for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq++)
