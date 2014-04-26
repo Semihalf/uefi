@@ -241,6 +241,13 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  */
 static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, int ref_clk, int baud_mhz)
 {
+    /* Since we can't measure the reference clock, we get it from the
+       current mode of the QLM. If the QLM is disabled, assume a
+       reference clock of 156.25Mhz, the common case.
+       FIXME: This will not work if the board uses a different clock */
+    if (!ref_clk)
+        ref_clk = REF_156MHZ;
+
     if (baud_mhz <= 1250)
     {
         if (ref_clk == REF_156MHZ)
@@ -349,6 +356,13 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             /* The simulator doesn't model reference clocks, so silently
                fix it if the value is wrong */
             if (bdk_is_simulation() && (ref_clk == REF_156MHZ))
+                ref_clk = REF_100MHZ;
+
+            /* Since we can't measure the reference clock, we get it from the
+               current mode of the QLM. If the QLM is disabled, assume a
+               reference clock of 100Mhz, the common case for PCIe.
+               FIXME: This will not work if the board uses a 125Mhz clock */
+            if (!ref_clk)
                 ref_clk = REF_100MHZ;
 
             /* Note: PCIe ignores baud_mhz. Use the GEN 1/2/3 flags
