@@ -8,6 +8,8 @@ static const int REF_156MHZ = 156250000;
 /* Indexed by QLM number and lane */
 static uint64_t prbs_errors[14][4];
 
+static void qlm_init_one(bdk_node_t node, int qlm);
+
 /**
  * Return the number of QLMs supported for the chip
  *
@@ -570,6 +572,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     bdk_wait_usec(1);
 
     /* Configure the gser pll */
+    qlm_init_one(node, qlm);
 
     /* Wait for reset to complete and the PLL to lock */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
@@ -1196,21 +1199,6 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
-    /* Only setup the QLMs that are not already up in PCIe */
-    for (int qlm = 0; qlm < 8; qlm++)
-    {
-        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
-        if (!gserx_cfg.s.pcie)
-            qlm_init_one(node, qlm);
-    }
-
-    /* Only setup the OCI QLMs that are in SW_MODE */
-    for (int qlm = 8; qlm < 14; qlm++)
-    {
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
-        if (gserx_spd.s.spd == 0xf) /* SW_MODE */
-            qlm_init_one(node, qlm);
-    }
 }
 
 
