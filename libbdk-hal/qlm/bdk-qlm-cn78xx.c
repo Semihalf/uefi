@@ -626,39 +626,107 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
-        BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
-        switch (lane_mode.s.lmode)
+        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+        if (gserx_cfg.s.pcie)
         {
-            case 0x0: /* R_25G_REFCLK100 */
-                return 2500;
-            case 0x1: /* R_5G_REFCLK100 */
-                return 5000;
-            case 0x2: /* R_8G_REFCLK100 */
-                return 8000;
-            case 0x3: /* R_125G_REFCLK15625_KX */
-                return 1250;
-            case 0x4: /* R_3125G_REFCLK15625_XAUI */
-                return 3125;
-            case 0x5: /* R_103215G_REFCLK15625_KR */
-                return 10321;
-            case 0x6: /* R_125G_REFCLK15625_SGMII */
-                return 1250;
-            case 0x7: /* R_5G_REFCLK15625_QSGMII */
-                return 5000;
-            case 0x8: /* R_625G_REFCLK15625_RXAUI */
-                return 6250;
-            case 0x9: /* R_25G_REFCLK125 */
-                return 2500;
-            case 0xa: /* R_5G_REFCLK125 */
-                return 5000;
-            case 0xb: /* R_8G_REFCLK125 */
-                return 8000;
-            default:
-                return 0;
+            /* QLMs in PCIe mode ignore LMODE and get their speed from
+               the PEM block that controls them */
+            int pem;
+            switch (qlm)
+            {
+                case 0: /* Either PEM0 x4 or PEM0 x8 */
+                    pem = 0;
+                    break;
+                case 1: /* Either PEM0 x8 or PEM1 x4 */
+                {
+                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
+                    if (pemx_cfg.cn78xx.lanes8)
+                        pem = 0;
+                    else
+                        pem = 1;
+                    break;
+                }
+                case 2: /* Either PEM2 x4 or PEM2 x8 */
+                    pem = 2;
+                    break;
+                case 3: /* Either PEM2 x8, PEM 3 x4, or PEM3 x8 */
+                {
+                    /* Can be last 4 lanes of PEM2 */
+                    BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+                    if (pem2_cfg.cn78xx.lanes8)
+                    {
+                        pem = 2;
+                    }
+                    else
+                    {
+                        /* Can be first 4 lanes of PEM3 */
+                        BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
+                        if (pem3_cfg.cn78xx.lanes8)
+                            pem = 3;
+                        else
+                            pem = 2;
+                    }
+                    break;
+                }
+                case 4: /* Either PEM3 x8 or PEM3 x4 */
+                    pem = 3;
+                    break;
+                default:
+                    bdk_fatal("QLM%d: In PCIe mode, which shouldn't happen\n", qlm);
+            }
+            BDK_CSR_INIT(pem_cfg, node, BDK_PEMX_CFG(pem));
+            switch (pem_cfg.s.md)
+            {
+                case 0: /* Gen 1 */
+                    return 2500;
+                case 1: /* Gen 2 */
+                    return 5000;
+                case 2: /* Gen 3 */
+                    return 8000;
+                default:
+                    return 0;
+            }
+        }
+        else
+        {
+            /* QLM is not in PCIe, assume LMODE is good enough for determining
+               the speed */
+            BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
+            switch (lane_mode.s.lmode)
+            {
+                case 0x0: /* R_25G_REFCLK100 */
+                    return 2500;
+                case 0x1: /* R_5G_REFCLK100 */
+                    return 5000;
+                case 0x2: /* R_8G_REFCLK100 */
+                    return 8000;
+                case 0x3: /* R_125G_REFCLK15625_KX */
+                    return 1250;
+                case 0x4: /* R_3125G_REFCLK15625_XAUI */
+                    return 3125;
+                case 0x5: /* R_103215G_REFCLK15625_KR */
+                    return 10321;
+                case 0x6: /* R_125G_REFCLK15625_SGMII */
+                    return 1250;
+                case 0x7: /* R_5G_REFCLK15625_QSGMII */
+                    return 5000;
+                case 0x8: /* R_625G_REFCLK15625_RXAUI */
+                    return 6250;
+                case 0x9: /* R_25G_REFCLK125 */
+                    return 2500;
+                case 0xa: /* R_5G_REFCLK125 */
+                    return 5000;
+                case 0xb: /* R_8G_REFCLK125 */
+                    return 8000;
+                default:
+                    return 0;
+            }
         }
     }
     else
     {
+        /* Use the OCI strapping to find the speed. This will not work if
+           the OCI is in SW_MODE */
         BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
         switch (gserx_spd.s.spd)
         {
