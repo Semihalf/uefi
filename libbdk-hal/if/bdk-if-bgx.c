@@ -781,55 +781,31 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
-    int bytes_off_tx;
-    int bytes_off_rx;
-
-    switch (handle->iftype)
-    {
-        case BDK_IF_HIGIG:
-            /* Subtract Higig header */
-            bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
-            int header_size = (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface) == 2) ? sizeof(bdk_higig2_header_t) : sizeof(bdk_higig_header_t);
-            bytes_off_tx += -header_size;
-            bytes_off_rx = -header_size;
-            break;
-        default:
-            /* Account for TX lack of FCS for most ports */
-            bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
-            bytes_off_rx = 0;
-            break;
-    }
-
-    /* Read the RX statistics from BGX */
+    /* Read the RX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(rx_packets, handle->node, BDK_BGXX_CMRX_RX_STAT0(handle->interface, handle->index));
     BDK_CSR_INIT(rx_octets, handle->node, BDK_BGXX_CMRX_RX_STAT1(handle->interface, handle->index));
     BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_BGXX_CMRX_RX_STAT6(handle->interface, handle->index));
     BDK_CSR_INIT(rx_dropped_octets, handle->node, BDK_BGXX_CMRX_RX_STAT7(handle->interface, handle->index));
     BDK_CSR_INIT(rx_errors, handle->node, BDK_BGXX_CMRX_RX_STAT8(handle->interface, handle->index));
 
-    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
         rx_dropped_octets.s.cnt, handle->stats.rx.dropped_octets, 48);
     handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
         rx_dropped_packets.s.cnt, handle->stats.rx.dropped_packets, 48);
-    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
 
-    handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
     handle->stats.rx.octets = bdk_update_stat_with_overflow(
         rx_octets.s.cnt, handle->stats.rx.octets, 48);
     handle->stats.rx.packets = bdk_update_stat_with_overflow(
         rx_packets.s.cnt, handle->stats.rx.packets, 48);
     handle->stats.rx.errors = bdk_update_stat_with_overflow(
         rx_errors.s.cnt, handle->stats.rx.errors, 48);
-    handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
+    /* Read the TX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface, handle->index));
     BDK_CSR_INIT(tx_packets, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface, handle->index));
 
-    handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.octs, handle->stats.tx.octets, 48);
     handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.pkts, handle->stats.tx.packets, 48);
-    handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
 
     return &handle->stats;
 }
