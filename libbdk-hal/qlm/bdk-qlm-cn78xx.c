@@ -337,20 +337,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int is_ilk = 0;
     int is_bgx = 0;
 
-    /* Get the reference clock speed and force it to be exactly one of the
-       supported values */
+    /* Get the reference clock speed. It should be exact as we don't measure
+       it, just do a table lookup */
     int ref_clk = bdk_qlm_measure_clock(node, qlm);
-    if ((ref_clk > REF_100MHZ * 9 / 10) && (ref_clk < REF_100MHZ * 11 / 10))
-        ref_clk = REF_100MHZ;
-    else if ((ref_clk > REF_125MHZ * 9 / 10) && (ref_clk < REF_125MHZ * 11 / 10))
-        ref_clk = REF_125MHZ;
-    else if ((ref_clk > REF_156MHZ * 9 / 10) && (ref_clk < REF_156MHZ * 11 / 10))
-        ref_clk = REF_156MHZ;
-    else
-    {
-        bdk_error("Invalid reference clock for QLM%d, measured %d Hz\n", qlm, ref_clk);
-        return -1;
-    }
 
     switch (mode)
     {
@@ -687,8 +676,52 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
-    /* We can't measure the OCI QLMs */
-    if (qlm >= 8)
+    /* We can't measure the QLMs reference clocks, so just assume they match
+       the QLM modes programmed */
+    if (qlm < 8)
+    {
+        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+        if (gserx_cfg.s.pcie)
+        {
+            BDK_CSR_INIT(gserx_refclk_sel, node, BDK_GSERX_REFCLK_SEL(qlm));
+            if (gserx_refclk_sel.s.pcie_refclk125)
+                return REF_125MHZ; /* Ref 125Mhz */
+            else
+                return REF_100MHZ; /* Ref 100Mhz */
+        }
+
+        BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
+        switch (lane_mode.s.lmode)
+        {
+            case 0x0: /* R_25G_REFCLK100 */
+                return REF_100MHZ;
+            case 0x1: /* R_5G_REFCLK100 */
+                return REF_100MHZ;
+            case 0x2: /* R_8G_REFCLK100 */
+                return REF_100MHZ;
+            case 0x3: /* R_125G_REFCLK15625_KX */
+                return REF_156MHZ;
+            case 0x4: /* R_3125G_REFCLK15625_XAUI */
+                return REF_156MHZ;
+            case 0x5: /* R_103215G_REFCLK15625_KR */
+                return REF_156MHZ;
+            case 0x6: /* R_125G_REFCLK15625_SGMII */
+                return REF_156MHZ;
+            case 0x7: /* R_5G_REFCLK15625_QSGMII */
+                return REF_156MHZ;
+            case 0x8: /* R_625G_REFCLK15625_RXAUI */
+                return REF_156MHZ;
+            case 0x9: /* R_25G_REFCLK125 */
+                return REF_125MHZ;
+            case 0xa: /* R_5G_REFCLK125 */
+                return REF_125MHZ;
+            case 0xb: /* R_8G_REFCLK125 */
+                return REF_125MHZ;
+            default:
+                return 0;
+        }
+    }
+    else
     {
         BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
         switch (gserx_spd.s.spd)
@@ -715,32 +748,6 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
                 return 0;
         }
     }
-
-    /* Disable the PTP event counter while we configure it */
-    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
-    /* Count on rising edge, Choose which QLM to count */
-    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG,
-        c.s.evcnt_edge = 0;
-        c.s.evcnt_in = 0x20 + qlm);
-    /* Clear MIO_PTP_EVT_CNT */
-    int64_t count = BDK_CSR_READ(node, BDK_MIO_PTP_EVT_CNT);
-    BDK_CSR_WRITE(node, BDK_MIO_PTP_EVT_CNT, -count);
-    /* Set MIO_PTP_EVT_CNT to 1 billion */
-    BDK_CSR_WRITE(node, BDK_MIO_PTP_EVT_CNT, 1000000000);
-    /* Enable the PTP event counter */
-    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 1);
-    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-    /* Wait for 50ms */
-    bdk_wait_usec(50000);
-    /* Read the counter */
-    count = BDK_CSR_READ(node, BDK_MIO_PTP_EVT_CNT);
-    uint64_t stop_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-    /* Disable the PTP event counter */
-    BDK_CSR_MODIFY(c, node, BDK_MIO_PTP_CLOCK_CFG, c.s.evcnt_en = 0);
-    /* Clock counted down, so reverse it */
-    count = 1000000000 - count;
-    /* Return the rate */
-    return count * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / (stop_cycle - start_cycle);
 }
 
 
