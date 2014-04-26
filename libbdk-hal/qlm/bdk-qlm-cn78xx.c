@@ -619,6 +619,8 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
     if (qlm < 8)
     {
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+        if (gserx_cfg.u == 0)
+            return 0;
         if (gserx_cfg.s.pcie)
         {
             /* QLMs in PCIe mode ignore LMODE and get their speed from
