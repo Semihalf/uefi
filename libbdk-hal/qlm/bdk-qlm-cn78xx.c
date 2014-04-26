@@ -606,13 +606,13 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         {
             case 0:
             case 2:
-                return qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
+                return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
             case 3:
             {
                 /* Setup QLM4 if QLM2 isn't using x8 on QLM3. Confusing! */
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(3));
                 if (pemx_cfg.cn78xx.lanes8)
-                    return qlm_set_mode(node, 4, mode, baud_mhz, flags);
+                    return bdk_qlm_set_mode(node, 4, mode, baud_mhz, flags);
             }
         }
     }
