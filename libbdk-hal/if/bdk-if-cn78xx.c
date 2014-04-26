@@ -800,6 +800,23 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Flush pending writes */
     BDK_SYNCW;
 
+    /* FIXME: This is a hack to avoid emptying the PKO FPA queue. CN78XX
+       PKO crashes hard if you run the FPA empty */
+    bdk_pko_send_dma_s_t pko_send_dma_s;
+    pko_send_dma_s.u = 1ull<<63;
+    pko_send_dma_s.u |= 1ull<<48;
+    pko_send_dma_s.s.did = 0x51;
+    pko_send_dma_s.s.node = handle->node;
+    pko_send_dma_s.s.dqop = 3; /* 3=Query */
+    pko_send_dma_s.s.dq = handle->pko_queue;
+    bdk_pko_query_rtn_s_t status;
+    status.u = bdk_read64_uint64(pko_send_dma_s.u);
+    if (status.s.dqstatus || (status.s.depth > 256))
+    {
+        //bdk_error("%s: PKO transmit aborted due to status 0x%016lx\n", bdk_if_name(handle), status.u);
+        return -1;
+    }
+
     /* Build the two PKO comamnd words we need */
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
     pko_send_hdr_s.u = 0;
@@ -824,7 +841,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     bdk_scratch_write64(BDK_IF_SCR_PKO(2), -1);
 
     /* Build LMTDMA store data */
-    bdk_pko_send_dma_s_t pko_send_dma_s;
+    //bdk_pko_send_dma_s_t pko_send_dma_s;
     pko_send_dma_s.u = 0;
     pko_send_dma_s.s.scraddr = BDK_IF_SCR_PKO(2) >> 3;
     pko_send_dma_s.s.rtnlen = 1; /* One result work */
@@ -840,7 +857,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     BDK_SYNCIOBDMA;
 
     /* Check transmit status */
-    bdk_pko_query_rtn_s_t status;
+    //bdk_pko_query_rtn_s_t status;
     status.u = bdk_scratch_read64(BDK_IF_SCR_PKO(2));
     if (bdk_unlikely(status.s.dqstatus))
     {
