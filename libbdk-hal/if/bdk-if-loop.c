@@ -115,12 +115,25 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     const int bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
     const int bytes_off_rx = 0;
 
+    #define REREAD(v, csr)                              \
+        while (v.u != BDK_CSR_READ(handle->node, csr))  \
+            v.u = BDK_CSR_READ(handle->node, csr)
+
     /* Read the RX statistics from PKI */
     BDK_CSR_INIT(rx_packets, handle->node, BDK_PKI_STATX_STAT0(handle->pknd));
+    REREAD(rx_packets, BDK_PKI_STATX_STAT0(handle->pknd));
+
     BDK_CSR_INIT(rx_octets, handle->node, BDK_PKI_STATX_STAT1(handle->pknd));
+    REREAD(rx_octets, BDK_PKI_STATX_STAT1(handle->pknd));
+
     BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_PKI_STATX_STAT3(handle->pknd));
+    REREAD(rx_dropped_packets, BDK_PKI_STATX_STAT3(handle->pknd));
+
     BDK_CSR_INIT(rx_dropped_octets, handle->node, BDK_PKI_STATX_STAT4(handle->pknd));
+    REREAD(rx_dropped_octets, BDK_PKI_STATX_STAT4(handle->pknd));
+
     BDK_CSR_INIT(rx_errors, handle->node, BDK_PKI_STATX_STAT7(handle->pknd));
+    REREAD(rx_errors, BDK_PKI_STATX_STAT7(handle->pknd));
 
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
