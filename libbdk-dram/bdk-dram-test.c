@@ -412,8 +412,8 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     uint64_t top_of_bdk = bdk_ptr_to_phys(sbrk(0));
     if (start_address < top_of_bdk)
     {
-        /* Give 1MB of extra so the BDK has room to grow while the test runs */
-        start_address = top_of_bdk + (1 << 20);
+        /* Give 4MB of extra so the BDK has room to grow while the test runs */
+        start_address = top_of_bdk + (4 << 20);
         /* Align it on a 64KB boundary */
         start_address >>= 16;
         start_address <<= 16;
