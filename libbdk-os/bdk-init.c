@@ -656,7 +656,7 @@ static int init_oci(void)
     return 0;
 }
 
-void setup_node(bdk_node_t node)
+static void setup_node(bdk_node_t node)
 {
     bdk_rng_enable(node);
     if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
