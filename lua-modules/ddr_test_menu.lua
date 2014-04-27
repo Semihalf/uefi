@@ -22,7 +22,7 @@ end
 local function set_range_start()
     local start_address = menu.prompt_number("Physical byte address to start memory test at", range_start)
     if ((start_address < 0) or
-        ((start_address >= 0x10000000) and (start_address >= 0x10000000))) then
+        ((start_address >= 0x10000000) and (start_address < 0x20000000))) then
         print("Invalid start address")
     else
         range_start = start_address
