@@ -145,8 +145,7 @@ void __bdk_init(long base_address)
         __bdk_init_exception(node);
 
         /* Only lock L2 if DDR3 isn't initialized */
-        BDK_CSR_INIT(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0));
-        if ((lmcx_ddr_pll_ctl.s.reset_n == 0) && !bdk_is_simulation())
+        if (!__bdk_is_dram_enabled(node) && !bdk_is_simulation())
         {
             if (BDK_SHOW_BOOT_BANNERS)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);

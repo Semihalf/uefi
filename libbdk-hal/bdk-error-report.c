@@ -1100,7 +1100,7 @@ static void check_cn78xx(bdk_node_t node)
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, bigwr);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, holerd);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, holewr);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, noway);
+        //CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, noway); /* Happens when we run with L2 locked */
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, tagdbe);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, tagsbe);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, reserved_6_7);
@@ -1114,12 +1114,16 @@ static void check_cn78xx(bdk_node_t node)
 
     for (int index = 0; index < 4; index++)
     {
-        BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
-        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
-        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
-        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
-        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
-        CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+        BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
+        if (lmcx_dll_ctl2.s.intf_en)
+        {
+            BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+        }
     }
 }
 
@@ -1137,14 +1141,12 @@ void bdk_error_enable(bdk_node_t node)
         check_cn70xx(node);
         bdk_error_check = check_cn70xx;
     }
-#if 0
     else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         enable_cn78xx(node);
         check_cn78xx(node);
         bdk_error_check = check_cn78xx;
     }
-#endif
     else
         bdk_error("Error reporting not implemented for this chip\n");
 }
