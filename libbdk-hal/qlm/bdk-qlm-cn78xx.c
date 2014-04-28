@@ -257,7 +257,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     if (baud_mhz <= 1250)
     {
         if (ref_clk == REF_156MHZ)
-            return R_125G_REFCLK15625_KX;
+            return R_125G_REFCLK15625_SGMII;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
