@@ -943,10 +943,12 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
  */
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
+    bgx_priv_t priv = {.ptr = handle->priv};
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
-    const int bytes_off_tx = -8;
+    /* Counters seem to only be wrong in XAUI and RXAUI */
+    const int bytes_off_tx = (priv.s.mode != BGX_MODE_SGMII) ? -8 : 0;
     const int bytes_off_rx = 0;
 
     /* Read the RX statistics from BGX. These already include the ethernet FCS */
