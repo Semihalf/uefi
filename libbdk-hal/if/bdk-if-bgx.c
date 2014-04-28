@@ -595,14 +595,6 @@ static int xaui_link(bdk_if_handle_t handle)
             bdk_error("%s: Xmit fault\n", handle->name);
             return -1;
         }
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), rcvflt, ==, 0, TIMEOUT))
-        {
-            /* RCVFLT is W1C, so write it to restart link */
-            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index),
-                c.s.rcvflt = 1);
-            bdk_error("%s: Receive fault\n", handle->name);
-            return -1;
-        }
         BDK_CSR_INIT(spux_status2, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
         if (spux_status2.s.rcvflt)
         {
