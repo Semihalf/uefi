@@ -398,6 +398,8 @@ static int pko_port_init(bdk_if_handle_t handle)
     node_state->pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
 
     int lmac;
+    int fcs_ena;
+    int skid_max_cnt;
     int fifo_size;
     int compressed_channel_id; /* compressed_channel_id comes from the LUT
                                     compressed channel inside
@@ -412,23 +414,33 @@ static int pko_port_init(bdk_if_handle_t handle)
             {
                 case 0: /* SGMII - 1 lane each */
                     fifo_size = 1;
+                    fcs_ena = 1;
+                    skid_max_cnt = 0;
                     break;
                 case 3: /* 10GBASE-R - 1 lane each */
                     fifo_size = 1;
+                    fcs_ena = 1;
+                    skid_max_cnt = 0;
                     break;
                 case 2: /* Reduced XAUI - 2 lanes each */
                     fifo_size = 2;
+                    fcs_ena = 1;
+                    skid_max_cnt = 1;
                     if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
                         port = port >> 4;
                     break;
                 case 1: /* 10GBASE-X/XAUI or DXAUI - 4 lanes each */
                     fifo_size = 4;
+                    fcs_ena = 1;
+                    skid_max_cnt = 2;
                     if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface))
                         port = port >> 4;
                     break;
                 case 4: /* 40GBASE-R - 4 lanes each */
                 default:
                     fifo_size = 4;
+                    fcs_ena = 1;
+                    skid_max_cnt = 2;
                     break;
             }
             lmac = 4 + 4 * handle->interface + port;
@@ -438,16 +450,22 @@ static int pko_port_init(bdk_if_handle_t handle)
         case BDK_IF_DPI:
             lmac = 1;
             fifo_size = 4;
+            fcs_ena = 0;
+            skid_max_cnt = 2;
             compressed_channel_id = 896 + handle->index;
             break;
         case BDK_IF_LOOP:
             lmac = 0;
             fifo_size = 4;
+            fcs_ena = 0;
+            skid_max_cnt = 2;
             compressed_channel_id = 960 + handle->index;
             break;
         case BDK_IF_ILK:
             lmac = 2 + handle->interface;
             fifo_size = 4;
+            fcs_ena = 0;
+            skid_max_cnt = 2;
             compressed_channel_id = handle->interface * 256 + handle->index;
             break;
         default:
@@ -462,6 +480,9 @@ static int pko_port_init(bdk_if_handle_t handle)
         if (fifo<0)
             return -1;
         pko_macx_cfg.s.fifo_num = fifo;
+        pko_macx_cfg.s.fcs_ena = fcs_ena; /* FCS */
+        pko_macx_cfg.s.fcs_sop_off = 0; /* No FCS offset */
+        pko_macx_cfg.s.skid_max_cnt = skid_max_cnt;
         BDK_CSR_WRITE(handle->node, BDK_PKO_MACX_CFG(lmac), pko_macx_cfg.u64);
     }
     //printf("%s: PKO using lmac %d, fifo_size %d, fifo %d, compressed_chan %d, pq %d, l2 %d, l3 %d, l4 %d, l5 %d, dq %d\n",

@@ -151,17 +151,6 @@ static int if_init(bdk_if_handle_t handle)
         BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_JABBER(handle->interface),
             c.s.cnt = 0xfff8);
     }
-
-    {
-        const int MAC_NUMBER = 0x2 + handle->interface; /* Constant from cn78xx */
-        if (handle->index == 0)
-        {
-            BDK_CSR_MODIFY(c, handle->node, BDK_PKO_MACX_CFG(MAC_NUMBER),
-                c.s.fcs_ena = 1; /* FCS */
-                c.s.fcs_sop_off = 0; /* No FCS offset */
-                c.s.skid_max_cnt = 2); /* All credits to one MAC */
-        }
-    }
     ilk_write_cal_entry(handle->node, handle->interface, handle->index, handle->pknd, pipe[handle->interface]+handle->index);
 
     /* Setup PKIND */

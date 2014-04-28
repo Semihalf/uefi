@@ -424,67 +424,241 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
     return 0;
 }
 
-static int xaui_link(bdk_if_handle_t handle)
+static int setup_auto_neg(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
+    bgx_priv_t priv = {.ptr = handle->priv};
 
-    /* (1) Interface has already been enabled. */
+    int use_auto_neg = (priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G);
 
-    /* (2) Disable GMX. */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
-        c.s.gmxeno = 1);
+    /* Software should do the following to execute Auto-Negotiation when
+       desired: */
+    /* 1. Set BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_EN] = 1. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index),
+        c.s.an_en = use_auto_neg);
 
-    /* (3) Disable GMX and PCSX interrupts. */
-    // 78xx interrupt mess?
+    /* 2. Program the negotiation parameters to be advertised to the link
+       parter in BGX(0..5)_SPU(0..3)_AN_ADV. The advertised parameters must
+       be consistent with the programmed BGX(0..5)_CMR(0..3)_CONFIG[LMAC_TYPE]
+       and BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN] values. */
+    BDK_CSR_INIT(fec_control, handle->node, BDK_BGXX_SPUX_FEC_CONTROL(bgx_block, bgx_index));
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_AN_ADV(bgx_block, bgx_index),
+        c.s.fec_req = fec_control.s.fec_en;
+        c.s.fec_able = 1;
+        c.s.a100g_cr10 = 0;
+        c.s.a40g_cr4 = (priv.s.mode == BGX_MODE_40G);
+        c.s.a40g_kr4 = (priv.s.mode == BGX_MODE_40G);
+        c.s.a10g_kr = (priv.s.mode == BGX_MODE_10G);
+        c.s.a10g_kx4 = (priv.s.mode == BGX_MODE_10G);
+        c.s.a1g_kx = 0;
+        c.s.rf = 0);
 
-    /* (4) Bring up the PCSX and GMX reconciliation layer. */
-    /* (4)a Set polarity and lane swapping. */
-    /* (4)b */
+    /* 3. Set BGX(0..5)_SPU_DBG_CONTROL[AN_ARB_LINK_CHK_EN] = 1. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPU_DBG_CONTROL(bgx_block),
+        c.s.an_arb_link_chk_en = use_auto_neg);
+
+    /* 4. Execute the link bring-up sequence in Section 33.6.3. */
+    /* Done after this function is called */
+
+    /* 5. If the auto-negotiation protocol is successful,
+       BGX(0..5)_SPU(0..3)_AN_ADV[AN_COMPLETE] is set along with
+       BGX(0..5)_SPU(0..3)_INT[AN_COMPLETE] when the link is up. */
+    /* Done after this function is called */
+    return 0;
+}
+
+static int xaui_init(bdk_if_handle_t handle)
+{
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+    bgx_priv_t priv = {.ptr = handle->priv};
+
+    /* NOTE: This code was moved first, out of order compared to the HRM
+       because the RESET causes all SPU registers to loose their value */
+    /* 4. Next, bring up the SMU/SPU and the BGX reconciliation layer logic: */
+    /* 4a. Take SMU/SPU through a reset sequence. Write
+        BGX(0..5)_SPU(0..3)_CONTROL1[RESET] = 1. Read
+        BGX(0..5)_SPU(0..3)_CONTROL1[RESET] until it changes value to 0. Keep
+        BGX(0..5)_SPU(0..3)_MISC_CONTROL[RX_PACKET_DIS] = 1 to disable
+        reception. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
+        c.s.reset = 1);
+    if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, 1000))
+    {
+        bdk_error("%s: SPU stuck in reset\n", handle->name);
+        return -1;
+    }
+
+    /* 1. Write BGX(0..5)_CMR(0..3)_CONFIG[ENABLE] to 0,
+       BGX(0..5)_SPU(0..3)_CONTROL1[LO_PWR] = 1 and
+       BGX(0..5)_SPU(0..3)_MISC_CONTROL[RX_PACKET_DIS] = 1. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
+        c.s.enable = 0);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
+        c.s.lo_pwr = 1);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
+        c.s.rx_packet_dis = 1);
+
+    /* 2. At this point, it may be appropriate to disable all BGX and SMU/SPU
+       interrupts, as a number of them will occur during bring-up of the Link.
+        - zero BGX(0..5)_SMU(0..3)_RX_INT
+        - zero BGX(0..5)_SMU(0..3)_TX_INT
+        - zero BGX(0..5)_SPU(0..3)_INT */
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SMUX_RX_INT(bgx_block, bgx_index), BDK_CSR_READ(handle->node, BDK_BGXX_SMUX_RX_INT(bgx_block, bgx_index)));
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SMUX_TX_INT(bgx_block, bgx_index), BDK_CSR_READ(handle->node, BDK_BGXX_SMUX_TX_INT(bgx_block, bgx_index)));
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index)));
+
+    /* 3. Configure the BGX LMAC. */
+    /* 3a. Configure the LMAC type (40GBASE-R/10GBASE-R/RXAUI/XAUI) and
+        SerDes selection in the BGX(0..5)_CMR(0..3)_CONFIG register, but keep
+        the ENABLE, DATA_PKT_TX_EN and DATA_PKT_RX_EN bits clear. */
+    /* Already done in bgx_setup_one_time */
+
+    /* 3b. Write BGX(0..5)_SPU(0..3)_CONTROL1[LO_PWR] = 1 and
+       BGX(0..5)_SPU(0..3)_MISC_CONTROL[RX_PACKET_DIS] = 1. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
+        c.s.lo_pwr = 1);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
+        c.s.rx_packet_dis = 1);
+
+    /* 3c. Initialize the selected SerDes lane(s) in the QLM. See Section
+       28.1.2.2 in the GSER chapter. */
+    /* Already done in QLM setup */
+
+    /* 3d. For 10GBASE-KR or 40GBASE-KR, enable link training by writing
+       BGX(0..5)_SPU(0..3)_BR_PMD_CONTROL[TRAIN_EN] = 1. */
+    if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
+            c.s.train_en = 1);
+    }
+
+    /* 3e. Program all other relevant BGX configuration while
+       BGX(0..5)_CMR(0..3)_CONFIG[ENABLE] = 0. This includes all things
+       described in this chapter. */
+    /* Don't add a FCS as PKO does that */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_APPEND(bgx_block, bgx_index),
+        c.s.fcs_d = 0);
+
+    /* 3f. If Forward Error Correction is desired for 10GBASE-R or 40GBASE-R,
+       enable it by writing BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN] = 1. */
+    if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_FEC_CONTROL(bgx_block, bgx_index),
+            c.s.fec_en = 1);
+    }
+
+    /* 3g. If Auto-Negotiation is desired, configure and enable
+       Auto-Negotiation as described in Section 33.6.2. */
+    if (setup_auto_neg(handle))
+        return -1;
+
+    /* 3h. Set BGX(0..5)_CMR(0..3)_CONFIG[ENABLE] = 1 and
+       BGX(0..5)_SPU(0..3)_CONTROL1[LO_PWR] = 0 to enable the LMAC. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
+        c.s.enable = 1);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
+        c.s.lo_pwr = 0);
+
+    /* 4b. Set the polarity and lane swapping of the QLM SerDes. Refer to
+        Section 33.4.1, BGX(0..5)_SPU(0..3)_MISC_CONTROL[XOR_TXPLRT,XOR_RXPLRT]
+        and BGX(0..5)_SPU(0..3)_MISC_CONTROL[TXPLRT,RXPLRT]. */
+
+    /* 4c. Write BGX(0..5)_SPU(0..3)_CONTROL1[LO_PWR] = 0. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
+        c.s.lo_pwr = 0);
+
+    /* 4d. Select Deficit Idle Count mode and unidirectional enable/disable
+       via BGX(0..5)_SMU(0..3)_TX_CTL[DIC_EN,UNI_EN]. */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_CTL(bgx_block, bgx_index),
         c.s.dic_en = 1; /* Enable better IFG packing and improves performance */
         c.s.uni_en = 0);
 
-    /* (4)c Power up the interface */
-    BDK_CSR_MODIFY(xauiCtl, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
-        xauiCtl.s.lo_pwr = 0);
+    return 0;
+}
+
+static int xaui_link(bdk_if_handle_t handle)
+{
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+    const int TIMEOUT = 100; /* 100us */
+
+    /* Disable GMX. */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
+        c.s.gmxeno = 1);
 
     if (!bdk_is_simulation())
     {
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), xmtflt, ==, 0, TIMEOUT))
+        {
+            bdk_error("%s: Xmit fault\n", handle->name);
+            return -1;
+        }
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), rcvflt, ==, 0, TIMEOUT))
+        {
+            /* RCVFLT is W1C, so write it to restart link */
+            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index),
+                c.s.rcvflt = 1);
+            bdk_error("%s: Receive fault\n", handle->name);
+            return -1;
+        }
+        BDK_CSR_INIT(spux_status2, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
+        if (spux_status2.s.rcvflt)
+        {
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), spux_status2.u);
+            bdk_error("%s: Receive fault, clearing for retry\n", handle->name);
+            return -1;
+        }
         /* Wait for PCS to come out of reset */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, TIMEOUT))
+        {
+            bdk_error("%s: PCS in reset\n", handle->name);
             return -1;
+        }
         /* Wait for PCS to be aligned */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, TIMEOUT))
+        {
+            bdk_error("%s: PCS not aligned\n", handle->name);
             return -1;
+        }
         /* Wait for RX to be ready */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_RX_CTL(bgx_block, bgx_index), status, ==, 0, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_RX_CTL(bgx_block, bgx_index), status, ==, 0, TIMEOUT))
+        {
+            bdk_error("%s: RX not ready\n", handle->name);
             return -1;
+        }
 
         /* (6) Configure GMX */
 
         /* Wait for GMX RX to be idle */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), rx_idle, ==, 1, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), rx_idle, ==, 1, TIMEOUT))
+        {
+            bdk_error("%s: RX not idle\n", handle->name);
             return -1;
+        }
         /* Wait for GMX TX to be idle */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), tx_idle, ==, 1, TIMEOUT))
+        {
+            bdk_error("%s: TX not idle\n", handle->name);
             return -1;
+        }
 
         /* Wait for receive link */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, 10000))
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, TIMEOUT))
+        {
+            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index),
+                c.s.rcv_lnk = 1);
+            bdk_error("%s: No receive link\n", handle->name);
             return -1;
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), xmtflt, ==, 0, 10000))
-            return -1;
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), rcvflt, ==, 0, 10000))
-            return -1;
+        }
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
+            c.s.rx_packet_dis = 0);
     }
 
-    /* (8) Enable packet reception */
+    /* Enable packet reception */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
         c.s.gmxeno = 0);
-
-    /* Enable error interrupts */
-    // 78xx interrupt mess?
     return 0;
 }
 
@@ -493,15 +667,6 @@ static int if_init(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     bgx_priv_t priv = {.ptr = handle->priv};
-    /* Only setup the PKO MAC on real ports, so only do channel 0 */
-    if (priv.s.channel == 0)
-    {
-        const int MAC_NUMBER = 0x4 + handle->interface * 4 + priv.s.port; /* Constant from cn78xx */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_MACX_CFG(MAC_NUMBER),
-            c.s.fcs_ena = 1; /* FCS */
-            c.s.fcs_sop_off = 0; /* No FCS offset */
-            c.s.skid_max_cnt = (priv.s.num_port == 4) ? 0 : (priv.s.num_port == 2) ? 1 : 2);
-    }
 
     switch (priv.s.mode)
     {
@@ -512,7 +677,7 @@ static int if_init(bdk_if_handle_t handle)
         case BGX_MODE_10G:
         case BGX_MODE_40G:
         default:
-            xaui_link(handle);
+            xaui_init(handle);
             break;
     }
 
@@ -685,15 +850,10 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
                 break;
         }
         result.s.speed *= result.s.lanes;
-
-        BDK_CSR_INIT(misc_ctl, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
-        if (misc_ctl.s.gmxeno)
-            xaui_link(handle);
     }
     else
     {
-        /* Disable GMX and PCSX interrupts. */
-        // 78xx interrupt mess?
+        xaui_link(handle);
     }
     return result;
 }
@@ -781,6 +941,9 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
+    const int bytes_off_tx = -8;
+    const int bytes_off_rx = 0;
+
     /* Read the RX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(rx_packets, handle->node, BDK_BGXX_CMRX_RX_STAT0(handle->interface, handle->index));
     BDK_CSR_INIT(rx_octets, handle->node, BDK_BGXX_CMRX_RX_STAT1(handle->interface, handle->index));
@@ -790,22 +953,28 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 
     handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
         rx_dropped_octets.s.cnt, handle->stats.rx.dropped_octets, 48);
+    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
         rx_dropped_packets.s.cnt, handle->stats.rx.dropped_packets, 48);
+    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
 
+    handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
     handle->stats.rx.octets = bdk_update_stat_with_overflow(
         rx_octets.s.cnt, handle->stats.rx.octets, 48);
     handle->stats.rx.packets = bdk_update_stat_with_overflow(
         rx_packets.s.cnt, handle->stats.rx.packets, 48);
     handle->stats.rx.errors = bdk_update_stat_with_overflow(
         rx_errors.s.cnt, handle->stats.rx.errors, 48);
+    handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
     /* Read the TX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface, handle->index));
     BDK_CSR_INIT(tx_packets, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface, handle->index));
 
+    handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.octs, handle->stats.tx.octets, 48);
     handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.pkts, handle->stats.tx.packets, 48);
+    handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
 
     return &handle->stats;
 }

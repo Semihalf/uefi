@@ -514,7 +514,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_XAUI_1X4:
             lmac_type = 1; /* XAUI */
-            is_bgx = 5;
+            is_bgx = 1; /* There is an errata where QUAD mode doesn't work */
             lane_mode = get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
