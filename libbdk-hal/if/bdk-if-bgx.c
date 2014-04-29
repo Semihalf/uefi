@@ -584,24 +584,12 @@ static int xaui_link(bdk_if_handle_t handle)
     const int bgx_index = handle->index;
     const int TIMEOUT = 100; /* 100us */
 
-    /* Disable GMX. */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
-        c.s.gmxeno = 1);
+    /* Disable packet reception */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
+        c.s.rx_packet_dis = 1);
 
     if (!bdk_is_simulation())
     {
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), xmtflt, ==, 0, TIMEOUT))
-        {
-            bdk_error("%s: Xmit fault\n", handle->name);
-            return -1;
-        }
-        BDK_CSR_INIT(spux_status2, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
-        if (spux_status2.s.rcvflt)
-        {
-            BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), spux_status2.u);
-            bdk_error("%s: Receive fault, clearing for retry\n", handle->name);
-            return -1;
-        }
         /* Wait for PCS to come out of reset */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, TIMEOUT))
         {
@@ -614,43 +602,48 @@ static int xaui_link(bdk_if_handle_t handle)
             bdk_error("%s: PCS not aligned\n", handle->name);
             return -1;
         }
-        /* Wait for RX to be ready */
+        /* Clear rcvflt bit (latching high) and read it back */
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index),
+            c.s.rcvflt = 1);
+        BDK_CSR_INIT(spux_status2, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
+        if (spux_status2.s.rcvflt)
+        {
+            bdk_error("%s: Receive fault, need to retry\n", handle->name);
+            return -1;
+        }
+        /* Wait for MAC RX to be ready */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_RX_CTL(bgx_block, bgx_index), status, ==, 0, TIMEOUT))
         {
             bdk_error("%s: RX not ready\n", handle->name);
             return -1;
         }
 
-        /* (6) Configure GMX */
+        /* (6) Configure BGX */
 
-        /* Wait for GMX RX to be idle */
+        /* Wait for BGX RX to be idle */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), rx_idle, ==, 1, TIMEOUT))
         {
             bdk_error("%s: RX not idle\n", handle->name);
             return -1;
         }
-        /* Wait for GMX TX to be idle */
+        /* Wait for BGX TX to be idle */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), tx_idle, ==, 1, TIMEOUT))
         {
             bdk_error("%s: TX not idle\n", handle->name);
             return -1;
         }
-
-        /* Wait for receive link */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, TIMEOUT))
+        /* rcvflt should still be 0 */
+        spux_status2.u = BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
+        if (spux_status2.s.rcvflt)
         {
-            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index),
-                c.s.rcv_lnk = 1);
-            bdk_error("%s: No receive link\n", handle->name);
+            bdk_error("%s: Receive fault, need to retry\n", handle->name);
             return -1;
         }
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
-            c.s.rx_packet_dis = 0);
     }
 
     /* Enable packet reception */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index),
-        c.s.gmxeno = 0);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
+        c.s.rx_packet_dis = 0);
     return 0;
 }
 
