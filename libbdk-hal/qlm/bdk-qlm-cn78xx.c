@@ -997,307 +997,307 @@ static void qlm_init_one(bdk_node_t node, int qlm)
     {
         /* The values used below are all from
            http://mawiki.caveonetworks.com/wiki/78xx/GSER_WEST */
-        BDK_CSR_INIT(mode_0, node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode));
-        BDK_CSR_INIT(mode_1, node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode));
-        BDK_CSR_INIT(pmode_0, node, BDK_GSERX_LANEX_PX_MODE_0(qlm, 0, lane_mode));
-        BDK_CSR_INIT(pmode_1, node, BDK_GSERX_LANEX_PX_MODE_1(qlm, 0, lane_mode));
+        BDK_CSR_INIT(pll_mode_0 , node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode));
+        BDK_CSR_INIT(pll_mode_1 , node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode));
+        BDK_CSR_INIT(lane_mode_0, node, BDK_GSERX_LANEX_PX_MODE_0(qlm, 0, lane_mode));
+        BDK_CSR_INIT(lane_mode_1, node, BDK_GSERX_LANEX_PX_MODE_1(qlm, 0, lane_mode));
         switch (lane_mode)
         {
             case R_25G_REFCLK100:
-                mode_0.s.pll_icp = 0x4;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0x14;
+                pll_mode_0.s.pll_icp = 0x4;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0x5;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x19;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x19;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x1;
-                pmode_0.s.tx_ldiv = 0x1;
-                pmode_0.s.rx_ldiv = 0x1;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x1;
+                lane_mode_0.s.tx_ldiv = 0x1;
+                lane_mode_0.s.rx_ldiv = 0x1;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x0;
-                pmode_1.s.cdr_fgain = 0xa;
-                pmode_1.s.ph_acc_adj = 0x14;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x1;
+                lane_mode_1.s.cdr_fgain = 0xa;
+                lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
             case R_5G_REFCLK100:
-                mode_0.s.pll_icp = 0x4;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_icp = 0x4;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x19;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x19;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x1;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x1;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xa;
-                pmode_1.s.ph_acc_adj = 0x14;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.cdr_fgain = 0xa;
+                lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
             case R_8G_REFCLK100:
-                mode_0.s.pll_icp = 0x3;
-                mode_0.s.pll_rloop = 0x5;
-                mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_icp = 0x3;
+                pll_mode_0.s.pll_rloop = 0x5;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x1;
-                mode_1.s.pll_opr = 0x1;
-                mode_1.s.pll_div = 0x28;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x1;
+                pll_mode_1.s.pll_opr = 0x1;
+                pll_mode_1.s.pll_div = 0x28;
 
-                pmode_0.s.ctle = 0x3;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x3;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xb;
-                pmode_1.s.ph_acc_adj = 0x23;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.cdr_fgain = 0xb;
+                lane_mode_1.s.ph_acc_adj = 0x23;
                 break;
             case R_125G_REFCLK15625_KX:
-                mode_0.s.pll_icp = 0x1;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0x28;
+                pll_mode_0.s.pll_icp = 0x1;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0x28;
 
-                mode_1.s.pll_16p5en = 0x1;
-                mode_1.s.pll_cpadj = 0x3;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x10;
+                pll_mode_1.s.pll_16p5en = 0x1;
+                pll_mode_1.s.pll_cpadj = 0x3;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x10;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x2;
-                pmode_0.s.rx_ldiv = 0x2;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x2;
+                lane_mode_0.s.rx_ldiv = 0x2;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x0;
-                pmode_1.s.cdr_fgain = 0xc;
-                pmode_1.s.ph_acc_adj = 0x1e;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x1;
+                lane_mode_1.s.cdr_fgain = 0xc;
+                lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
             case R_3125G_REFCLK15625_XAUI:
-                mode_0.s.pll_icp = 0x1;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0x14;
+                pll_mode_0.s.pll_icp = 0x1;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0x24;
 
-                mode_1.s.pll_16p5en = 0x1;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x10;
+                pll_mode_1.s.pll_16p5en = 0x1;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x14;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x1;
-                pmode_0.s.rx_ldiv = 0x1;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x1;
+                lane_mode_0.s.rx_ldiv = 0x1;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x0;
-                pmode_1.s.cdr_fgain = 0xc;
-                pmode_1.s.ph_acc_adj = 0x1e;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x1;
+                lane_mode_1.s.cdr_fgain = 0xc;
+                lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
             case R_103215G_REFCLK15625_KR:
-                mode_0.s.pll_icp = 0x1;
-                mode_0.s.pll_rloop = 0x5;
-                mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_icp = 0x1;
+                pll_mode_0.s.pll_rloop = 0x5;
+                pll_mode_0.s.pll_pcs_div = 0x24;
 
-                mode_1.s.pll_16p5en = 0x1;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x1;
-                mode_1.s.pll_div = 0x21;
+                pll_mode_1.s.pll_16p5en = 0x1;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x1;
+                pll_mode_1.s.pll_div = 0x21;
 
-                pmode_0.s.ctle = 0x3;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x3;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x1;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xa;
-                pmode_1.s.ph_acc_adj = 0xf;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x1;
+                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.cdr_fgain = 0xa;
+                lane_mode_1.s.ph_acc_adj = 0xf;
                 break;
             case R_125G_REFCLK15625_SGMII:
-                mode_0.s.pll_icp = 0x1;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0x28;
+                pll_mode_0.s.pll_icp = 0x1;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0x28;
 
-                mode_1.s.pll_16p5en = 0x1;
-                mode_1.s.pll_cpadj = 0x3;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x10;
+                pll_mode_1.s.pll_16p5en = 0x1;
+                pll_mode_1.s.pll_cpadj = 0x3;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x10;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x2;
-                pmode_0.s.rx_ldiv = 0x2;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x2;
+                lane_mode_0.s.rx_ldiv = 0x2;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x0;
-                pmode_1.s.cdr_fgain = 0xc;
-                pmode_1.s.ph_acc_adj = 0x1e;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x1;
+                lane_mode_1.s.cdr_fgain = 0xc;
+                lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
             case R_5G_REFCLK15625_QSGMII:
-                mode_0.s.pll_icp = 0x3;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0x5;
+                pll_mode_0.s.pll_icp = 0x3;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x10;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x10;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xc;
-                pmode_1.s.ph_acc_adj = 0x1e;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x1;
+                lane_mode_1.s.cdr_fgain = 0xc;
+                lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
             case R_625G_REFCLK15625_RXAUI:
-                mode_0.s.pll_icp = 0x1;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_icp = 0x1;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x2;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x14;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x2;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x14;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xa;
-                pmode_1.s.ph_acc_adj = 0x14;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.cdr_fgain = 0xa;
+                lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
             case R_25G_REFCLK125:
-                mode_0.s.pll_icp = 0x3;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0x14;
+                pll_mode_0.s.pll_icp = 0x3;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0x5;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x1;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x14;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x1;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x14;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x1;
-                pmode_0.s.tx_ldiv = 0x1;
-                pmode_0.s.rx_ldiv = 0x1;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x1;
+                lane_mode_0.s.tx_ldiv = 0x1;
+                lane_mode_0.s.rx_ldiv = 0x1;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x0;
-                pmode_1.s.cdr_fgain = 0xa;
-                pmode_1.s.ph_acc_adj = 0x14;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x1;
+                lane_mode_1.s.cdr_fgain = 0xa;
+                lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
             case R_5G_REFCLK125:
-                mode_0.s.pll_icp = 0x3;
-                mode_0.s.pll_rloop = 0x3;
-                mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_icp = 0x3;
+                pll_mode_0.s.pll_rloop = 0x3;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x1;
-                mode_1.s.pll_pcie3en = 0x0;
-                mode_1.s.pll_opr = 0x0;
-                mode_1.s.pll_div = 0x14;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x1;
+                pll_mode_1.s.pll_pcie3en = 0x0;
+                pll_mode_1.s.pll_opr = 0x0;
+                pll_mode_1.s.pll_div = 0x14;
 
-                pmode_0.s.ctle = 0x0;
-                pmode_0.s.pcie = 0x1;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x0;
+                lane_mode_0.s.pcie = 0x1;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xa;
-                pmode_1.s.ph_acc_adj = 0x14;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.cdr_fgain = 0xa;
+                lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
             case R_8G_REFCLK125:
-                mode_0.s.pll_icp = 0x2;
-                mode_0.s.pll_rloop = 0x5;
-                mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_icp = 0x2;
+                pll_mode_0.s.pll_rloop = 0x5;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
-                mode_1.s.pll_16p5en = 0x0;
-                mode_1.s.pll_cpadj = 0x1;
-                mode_1.s.pll_pcie3en = 0x1;
-                mode_1.s.pll_opr = 0x1;
-                mode_1.s.pll_div = 0x20;
+                pll_mode_1.s.pll_16p5en = 0x0;
+                pll_mode_1.s.pll_cpadj = 0x1;
+                pll_mode_1.s.pll_pcie3en = 0x1;
+                pll_mode_1.s.pll_opr = 0x1;
+                pll_mode_1.s.pll_div = 0x20;
 
-                pmode_0.s.ctle = 0x3;
-                pmode_0.s.pcie = 0x0;
-                pmode_0.s.tx_ldiv = 0x0;
-                pmode_0.s.rx_ldiv = 0x0;
-                pmode_0.s.srate = 0x0;
-                pmode_0.s.tx_mode = 0x3;
-                pmode_0.s.rx_mode = 0x3;
+                lane_mode_0.s.ctle = 0x3;
+                lane_mode_0.s.pcie = 0x0;
+                lane_mode_0.s.tx_ldiv = 0x0;
+                lane_mode_0.s.rx_ldiv = 0x0;
+                lane_mode_0.s.srate = 0x0;
+                lane_mode_0.s.tx_mode = 0x3;
+                lane_mode_0.s.rx_mode = 0x3;
 
-                pmode_1.s.vma_fine_cfg_sel = 0x0;
-                pmode_1.s.vma_mm = 0x1;
-                pmode_1.s.cdr_fgain = 0xb;
-                pmode_1.s.ph_acc_adj = 0x23;
+                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
+                lane_mode_1.s.vma_mm = 0x0;
+                lane_mode_1.s.cdr_fgain = 0xb;
+                lane_mode_1.s.ph_acc_adj = 0x23;
                 break;
         }
-        BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode), mode_0.u);
-        BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode), mode_1.u);
+        BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode), pll_mode_0.u);
+        BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode), pll_mode_1.u);
         for (int lane = 0; lane < 4; lane++)
         {
-            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_0(qlm, lane, lane_mode), pmode_0.u);
-            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_1(qlm, lane, lane_mode), pmode_1.u);
+            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_0(qlm, lane, lane_mode), lane_mode_0.u);
+            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_1(qlm, lane, lane_mode), lane_mode_1.u);
         }
     }
 }
