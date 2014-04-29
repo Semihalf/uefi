@@ -3,10 +3,17 @@
 
 static void __bdk_output(const char *prefix, const char *format, va_list args)
 {
+#ifndef BDK_BUILD_HOST
+static bdk_spinlock_t lock;
+    bdk_spinlock_lock(&lock);
+#endif
     if (prefix)
         fputs(prefix, stderr);
     vfprintf(stderr, format, args);
     fflush(NULL);
+#ifndef BDK_BUILD_HOST
+    bdk_spinlock_unlock(&lock);
+#endif
 }
 
 void bdk_fatal(const char *format, ...)
