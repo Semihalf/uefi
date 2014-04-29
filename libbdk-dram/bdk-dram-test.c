@@ -128,7 +128,7 @@ static void dram_test_thread(int arg, void *arg1)
 
     /* Figure out our work memory range */
     uint64_t start_address = dram_test_thread_start + dram_test_thread_size * range_number;
-    if ((start_address >= BDK_DRAM_HOLE_START) && (start_address < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE))
+    if (start_address >= BDK_DRAM_HOLE_START)
         start_address += BDK_DRAM_HOLE_SIZE;
     uint64_t end_address = start_address + dram_test_thread_size;
     if ((end_address >= BDK_DRAM_HOLE_START) && (start_address < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE))
