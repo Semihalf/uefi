@@ -562,6 +562,16 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm),
         c.s.lmode = lane_mode);
 
+    /* BGX0-1 can connect to QLM0-1 or QLM 2-3. Program the select bit if we're
+       one of these QLMs and we're using BGX */
+    if ((qlm < 4) && is_bgx)
+    {
+        int bgx = qlm & 1;
+        int use_upper = (qlm >> 1) & 1;
+        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMR_GLOBAL_CONFIG(bgx),
+            c.s.pmux_sds_sel = use_upper);
+    }
+
     /* LMAC type. We only program one port as the full setup is done in BGX */
     if (lmac_type != -1)
     {
