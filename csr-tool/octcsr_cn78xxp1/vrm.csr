@@ -23,6 +23,10 @@ enums:
         value: 0x02
         description: PMBus VID type.
 
+      - name: PMB_VID_TPS53641
+        value: 0x04
+        description: TPS53641 VID type.
+
 
 structs:
   - name: VRM_TWS_TWSI_SW_S

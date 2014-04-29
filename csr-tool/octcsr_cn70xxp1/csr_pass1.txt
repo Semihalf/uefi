@@ -13125,6 +13125,7 @@ $KEY_BIST_REG   Address=(0x1180020000018)   Bus=(RSL)
 // * NOTE: Not all information is present in this file!
 // ***********************************************************************
 
+INTERNAL:
 Octeon III L2C RSL2 address map
 
   2 22 211 1111 111 1        |
@@ -13203,7 +13204,7 @@ $IOR_CMD_E
  * 
  * L2C_DAT_ERRPRIO_E = L2C Quad Error Priority Enumeration
  * 
- *  Enumerates the different quad error priorities
+ *  Enumerates the different quad error priorities.
  *  Attribute: -width=3.
  * 
 $L2C_DAT_ERRPRIO_E
@@ -13455,9 +13456,9 @@ $L2C_CTL   Address=(0x1180080800000)   Bus=(RSL)
  <24>    DISCCLK      R/W     0          0          Disable conditional clocking in L2C PNR blocks.   
  <23:16> --           RAZ     --         --         Reserved.                                         
  <15>    RSP_ARB_MODE R/W     0          0          Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
-                                                    1. IOR data
-                                                    2. STIN/FILLs
-                                                    3. STDN/SCDN/SCFL
+                                                    1. IOR data.
+                                                    2. STIN/FILLs.
+                                                    3. STDN/SCDN/SCFL.
  <14>    XMC_ARB_MODE R/W     0          0          Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
                                                     highest priority; QOS 1-7 use normal mode.
  <13:6>  RDF_CNT      R/W     0x0        0x0        Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
@@ -13498,6 +13499,7 @@ $L2C_QOS_WGT   Address=(0x1180080800008)   Bus=(RSL)
  *  0x1 = Single-bit error on ECC[0].
  *  0x2 = Single-bit error on ECC[1].
  *  0x3 = Double-bit error on ECC[1:0].
+ *  
  *  L2DFLIP allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors for the purposes
  *  of testing error handling code. When one (or both) of these bits are set, a PL2 that misses in
  *  the L2 will fill with the appropriate error in the first two OWs of the fill. Software can
@@ -13505,6 +13507,7 @@ $L2C_QOS_WGT   Address=(0x1180080800008)   Bus=(RSL)
  *  PL2 that hits in the L2 will not inject any errors. Therefore sending a WBIL2 prior to the PL2
  *  is recommended to make a miss likely. (If multiple processors are involved, software must be
  *  sure that no other processor or I/O device can bring the block into the L2).
+ *  
  *  To generate a VBFSBE or VBFDBE, software must first get the cache block into the cache with an
  *  error using a PL2 that misses the L2. Then a store partial to a portion of the cache block
  *  without the error must change the block to dirty. Then, a subsequent WBL2/WBIL2/victim will
@@ -13570,6 +13573,7 @@ $L2C_TAD_CTL   Address=(0x1180080800018)   Bus=(RSL)
  *  LFB/VAB entry. Note that when the INUSE bit clears, the only ordering it implies is that
  *  software can send another ADD bus command. Subsequent commands may complete out of order
  *  relative to earlier commands.
+ *  
  *  The address written to L2C_XMC_CMD is a physical address. L2C performs hole removal and index
  *  aliasing (if enabled) on the written address and uses that for the command. This hole
  *  removed/index aliased address is what is returned on a read of the L2C_XMC_CMD register.
@@ -13635,16 +13639,17 @@ $L2C_BIG_CTL   Address=(0x1180080800030)   Bus=(RSL)
  *  NOTE: for 78xx, if the PPID is outside the range of 0-47,255 the write will be ignored and
  *  reads will return 0x2bad2bad2bad2bad
  *  
- *  (1) RD and SEL are as defined in the HRM description of Core Coprocessor 0 registers
- *  and note 4 below.
+ *  1. RD and SEL are as defined in the description of Core Coprocessor 0 registers.
  *  
- *  (2) if a COP0 register cannot be accessed by this mechanism the write be silently ignored and
+ *  2. If a COP0 register cannot be accessed by this mechanism the write be silently ignored and
  *  the read data will be 0x2bad2bad2bad2bad.
  *  
- *  (3) if the PPID is outside the range of 0-47,255 or if the PP in question is in reset
+ *  3. If the PPID is outside the range of 0-47,255 or if the core in question is in reset
  *  a write will be ignored and reads will timeout the RSL bus.
  *  
- *  (4) Referring to note (1) above, the following root/rd/sel values are supported:
+ *  INTERNAL: In HRM, see table in L2C chapter body text.
+ *  Referring to note 1 above, the following root/rd/sel values are supported:
+ *  
  *  NOTE: Put only the "Customer type" in HRM. do not put the "Real type" in HRM.
  *  
  *               Customer                                           Real
@@ -13691,7 +13696,7 @@ $L2C_BIG_CTL   Address=(0x1180080800030)   Bus=(RSL)
  *   1   18   0     RO     CP0 Root.WatchLo0                         RW
  *   1   19   0     RO     CP0 Root.WatchHi0                         RW
  *   1   22   0     RO     CP0 Root.MultiCoreDebug                   RW
- *   1   22   1            CP0 Root.ImplDebug                        R0
+ *   1   22   1     --     CP0 Root.ImplDebug                        R0
  *   1   22   2     RO     CP0 Root.CvmCountOffset                   RW
  *   1   23   0     RO     CP0 Root.Debug                            RW
  *   1   23   6     RO     CP0 Root.Debug2                           RO
@@ -13741,7 +13746,7 @@ $L2C_BIG_CTL   Address=(0x1180080800030)   Bus=(RSL)
  *  PC Fill Debug Info
  *   63:2  fill_address<63:2>    // VA<63:2> being filled into instruction cache (4a in pipeline)
  *                               // valid when waiting_for_ifill is set (see PC Misc Debug Info
- *  below)
+ *                               // below)
  *                               // <58:50> is a copy of <49>
  *   1     fill_illegal          // set when fill_address is an illegal PC
  *   0     RAZ
@@ -13772,8 +13777,8 @@ $L2C_COP0_ADR   Address=(0x1180080800038)   Bus=(RSL)
  <15>    --    RAZ     --         --         Reserved.                                         
  <14:9>  MBZ   R/W     0x0        0x0        Must be written to zero.                          
  <8>     ROOT  R/W     0          0          If 1, root register is accessed, if 0 guest register is accessed.
- <7:3>   RD    R/W     0x0        0x0        COP0 register number                              
- <2:0>   SEL   R/W     0x0        0x0        COP0 sel                                          
+ <7:3>   RD    R/W     0x0        0x0        COP0 register number.                             
+ <2:0>   SEL   R/W     0x0        0x0        COP0 select.                                      
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -14034,16 +14039,16 @@ $L2C_TAD(0..0)_INT   Address=(0x1180080A00028+a*0x40000)   Bus=(RSL)
                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                a LCKL2 transaction. See L2C_TTG(0..7)_ERR for logged information.
- <9>     TAGDBE   R/W1C/H 0          0          TAG double-bit error occurred. See L2C_TTG(0..7)_ERR for logged information.
- <8>     TAGSBE   R/W1C/H 0          0          TAG single-bit error occurred. See L2C_TTG(0..7)_ERR for logged information.
+                                                a LCKL2 transaction. See L2C_TTG()_ERR for logged information.
+ <9>     TAGDBE   R/W1C/H 0          0          TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+ <8>     TAGSBE   R/W1C/H 0          0          TAG single-bit error occurred. See L2C_TTG()_ERR for logged information.
  <7:6>   --       RAZ     --         --         Reserved.                                         
- <5>     FBFDBE   R/W1C/H 0          0          FBF double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
- <4>     FBFSBE   R/W1C/H 0          0          FBF single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
- <3>     SBFDBE   R/W1C/H 0          0          SBF double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
- <2>     SBFSBE   R/W1C/H 0          0          SBF single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
- <1>     L2DDBE   R/W1C/H 0          0          L2D double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
- <0>     L2DSBE   R/W1C/H 0          0          L2D single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+ <5>     FBFDBE   R/W1C/H 0          0          FBF double-bit error occurred. See L2C_TQD()_ERR for logged information.
+ <4>     FBFSBE   R/W1C/H 0          0          FBF single-bit error occurred. See L2C_TQD()_ERR for logged information.
+ <3>     SBFDBE   R/W1C/H 0          0          SBF double-bit error occurred. See L2C_TQD()_ERR for logged information.
+ <2>     SBFSBE   R/W1C/H 0          0          SBF single-bit error occurred. See L2C_TQD()_ERR for logged information.
+ <1>     L2DDBE   R/W1C/H 0          0          L2D double-bit error occurred. See L2C_TQD()_ERR for logged information.
+ <0>     L2DSBE   R/W1C/H 0          0          L2D single-bit error occurred. See L2C_TQD()_ERR for logged information.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -14186,7 +14191,7 @@ $L2C_TTG(0..0)_BIST_STATUS   Address=(0x1180080A007F8+a*0x40000)   Bus=(RSL)
  <47:32> RTGFL    RO      0x0        0x0        Always zero for 70xx.                             
  <31:18> --       RAZ     --         --         Reserved.                                         
  <17>    LRULFBFL RO      0          0          BIST failure status for LRULFB memory             
- <16>    LRUFL    RO      0          0          BIST failure status for tag LRU                   
+ <16>    LRUFL    RO      0          0          BIST failure status for tag LRU.                  
  <15:0>  TAGFL    RO      0x0        0x0        BIST failure status for TAG ways.                 
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -14202,8 +14207,8 @@ $L2C_MCI(0..0)_INT   Address=(0x1180080C00028+a*0x40000)   Bus=(RSL)
  Pos     Name   Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:2>  --     RAZ     --         --         Reserved.                                         
- <1>     VBFDBE R/W1C/H 0          0          VBF double-bit error occurred. See L2C_MCI(0..3)_ERR for logged information.
- <0>     VBFSBE R/W1C/H 0          0          VBF single-bit error occurred. See L2C_MCI(0..3)_ERR for logged information.
+ <1>     VBFDBE R/W1C/H 0          0          VBF double-bit error occurred. See L2C_MCI()_ERR for logged information.
+ <0>     VBFSBE R/W1C/H 0          0          VBF single-bit error occurred. See L2C_MCI()_ERR for logged information.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -14222,10 +14227,10 @@ $L2C_MCI(0..0)_ERR   Address=(0x1180080C007F0+a*0x40000)   Bus=(RSL)
  Bit     Field   Field   Reset      Typical    Field                                             
  Pos     Name    Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
- <63>    VBFDBE1 RO/H    0          0          INDEX/SYN1 corresponds to a double-bit VBF ECC error
- <62>    VBFDBE0 RO/H    0          0          INDEX/SYN0 corresponds to a double-bit VBF ECC error
- <61>    VBFSBE1 RO/H    0          0          INDEX/SYN1 corresponds to a single-bit VBF ECC error
- <60>    VBFSBE0 RO/H    0          0          INDEX/SYN0 corresponds to a single-bit VBF ECC error
+ <63>    VBFDBE1 RO/H    0          0          INDEX/SYN1 corresponds to a double-bit VBF ECC error.
+ <62>    VBFDBE0 RO/H    0          0          INDEX/SYN0 corresponds to a double-bit VBF ECC error.
+ <61>    VBFSBE1 RO/H    0          0          INDEX/SYN1 corresponds to a single-bit VBF ECC error.
+ <60>    VBFSBE0 RO/H    0          0          INDEX/SYN0 corresponds to a single-bit VBF ECC error.
  <59:48> --      RAZ     --         --         Reserved.                                         
  <47:40> SYN1    RO/H    0x0        0x0        Error syndrome for QW1 ([127:64]).                
  <39:32> SYN0    RO/H    0x0        0x0        Error syndrome for QW0 ([63:0]).                  
@@ -14270,8 +14275,8 @@ $L2C_CBC(0..0)_INT   Address=(0x1180080E00028+a*0x40000)   Bus=(RSL)
  <63:4>  --        RAZ     --         --         Reserved.                                         
  <3>     IOCCMDDBE R/W1C/H 0          0          IOCCMD double-bit error occurred. See L2C_CBC(0..3)_IOCERR for logged information.
  <2>     IOCCMDSBE R/W1C/H 0          0          IOCCMD single-bit error occurred. See L2C_CBC(0..3)_IOCERR for logged information.
- <1>     RSDDBE    R/W1C/H 0          0          RSD double-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
- <0>     RSDSBE    R/W1C/H 0          0          RSD single-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
+ <1>     RSDDBE    R/W1C/H 0          0          RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information.
+ <0>     RSDSBE    R/W1C/H 0          0          RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -41358,11 +41363,12 @@ $USBDRD(0..1)_UAHC_DEPCMD(0..15)   Address=(0x168000000C80C+a*0x10000000000+b*0x
  * 
 $VRM_TYPE_E
 -----------------------------------------------------------------------------------------------------------------------------------
- Value                  Name    Description    
+ Value                  Name             Description    
 -----------------------------------------------------------------------------------------------------------------------------------
- 0x0                    PMB_LIN PMBus linear type.
- 0x1                    ISL6367 ISL6367 VID type.
- 0x2                    PMB_VID PMBus VID type.
+ 0x0                    PMB_LIN          PMBus linear type.
+ 0x1                    ISL6367          ISL6367 VID type.
+ 0x2                    PMB_VID          PMBus VID type.
+ 0x4                    PMB_VID_TPS53641 TPS53641 VID type.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 

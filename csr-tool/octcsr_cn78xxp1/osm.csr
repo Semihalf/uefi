@@ -6,6 +6,7 @@ attributes:
   rtlgen: "True"
   rtlgen_clock: "csclk"
   rtlgen_reset_n: "srst_d2_n"
+  rtlgen_version: "1"
 enums:
   - name: OSM_ADDR_ERR_SOURCE_E
     title: OSM Address Error Source Enumeration

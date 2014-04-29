@@ -8,6 +8,7 @@ attributes:
   rtlgen: "True"
   rtlgen_clock: "sclk"
   rtlgen_reset_n: "srst_n"
+  rtlgen_version: "1"
 enums:
   - name: ASE_ENDIAN_E
     title: ASE Endian Enumeration

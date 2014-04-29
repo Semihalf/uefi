@@ -490,7 +490,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: SLI in Authenticate mode.
+        description: SLI in Authentik mode.
 
       - name: NUM
         bits: 7..0

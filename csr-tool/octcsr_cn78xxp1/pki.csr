@@ -1775,19 +1775,19 @@ structs:
       - name: TAG
         bits: 31..0
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <31:0>.
+          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <31:0>.
           ...
 
       - name: QPG
         bits: 42..32
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <42:32>.
+          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <42:32>.
           ...
 
       - name: TT
         bits: 46..45
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <46:45>.
+          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <46:45>.
           ...
 
       - name: UTT
@@ -1800,13 +1800,13 @@ structs:
       - name: SL
         bits: 55..48
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <55:48>.
+          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <55:48>.
           ...
 
       - name: PM
         bits: 58..56
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <58:56>.
+          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <58:56>.
           ...
 
       - name: UQPG
@@ -1850,7 +1850,7 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<5:0>. Contains the pkind computed by each
           interface for the packet; see Port Kinds. WQE[PKND] is relative to the local node; the
-          node is in WQE[AURA]<11:10>
+          node is in WQE[AURA]<11:10>.
           ...
 
       - name: STYLE
@@ -1858,7 +1858,7 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<23:16>. Contains the 8-bit style computed
           for the packet. The low 6 bits also indicate the final style; see Styles. WQE[STYLE] is
-          relative to the local node; the node is in WQE[AURA]<11:10>
+          relative to the local node; the node is in WQE[AURA]<11:10>.
           ...
 
       - name: BUFS
@@ -1890,8 +1890,8 @@ structs:
       - name: AURA
         bits: w0(59..48)
         description: |
-          Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura including FPA node
-          computed for the packet. See Auras for an overview on auras, and QPG for the aura
+          Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura including the FPA
+          node computed for the packet. See Auras for an overview on auras and QPG for the aura
           calculation. Note the high two bits (WQE[AURA]<11:10>) correspond to an OCI node number,
           from PKI_QPG_TBL(0..2047)[AURA_NODE], and indicate the node on which the packet was
           received by PKI.
@@ -2034,7 +2034,8 @@ structs:
         description: |
           Refer to Work-Queue Entry Format; Word 2 Cases, word2<22>. Indicates that multiple VLAN
           fields were found in the L2 HDR for the packet, with 'found' as described under WQE[VV].
-          Also see the VS definition in the pseudocode in Layer A (Pre-Ethertype) Parsing Algorithm.
+          Also see the VS definition in the pseudo-code in Layer A (Pre-Ethertype) Parsing
+          Algorithm.
           ...
 
       - name: VV
@@ -4210,8 +4211,8 @@ registers:
         description: |
           Current hold-off timer. Enables even spreading of cluster utilization over time; while
           TIMER is non-zero, a cluster in this group will not start parsing. When a cluster in this
-          group starts parsing, TIMER is set to DELAY, and decrements every sclk cycle. TIMER is
-          zeroed if all clusters in this group are idle.
+          group starts parsing, TIMER is set to DELAY, and decrements every coprocessor-clock. TIMER
+          is zeroed if all clusters in this group are idle.
 
       - name: DELAY
         bits: 11..0

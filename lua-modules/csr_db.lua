@@ -7297,6 +7297,34 @@ local csr_db = {
                 {name = "RXQTM_ON", start = 0, stop = 0},
             }
         },
+        GSERX_GLBL_TAD = {
+            name = "GSER#_GLBL_TAD",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090460400,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "PCS_SDS_TAD_8_5", start = 5, stop = 8},
+                {name = "PCS_SDS_TAD_4_0", start = 0, stop = 4},
+            }
+        },
+        GSERX_GLBL_TM_ADMON = {
+            name = "GSER#_GLBL_TM_ADMON",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090460408,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "AMON_ON", start = 7, stop = 7},
+                {name = "DMON_ON", start = 6, stop = 6},
+                {name = "RESERVED_3_5", start = 3, stop = 5},
+                {name = "LSEL", start = 0, stop = 2},
+            }
+        },
         GSERX_IDDQ_MODE = {
             name = "GSER#_IDDQ_MODE",
             type = "RSL",
@@ -7841,6 +7869,45 @@ local csr_db = {
                 {name = "DCOK", start = 0, stop = 0},
             }
         },
+        GSERX_RDET_TIME = {
+            name = "GSER#_RDET_TIME",
+            type = "RSL",
+            width = 8,
+            address = 0x11800904e0008,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "RDET_TIME_3", start = 12, stop = 15},
+                {name = "RDET_TIME_2", start = 8, stop = 11},
+                {name = "RDET_TIME_1", start = 0, stop = 7},
+            }
+        },
+        GSERX_REFCLK_EVT_CNTR = {
+            name = "GSER#_REFCLK_EVT_CNTR",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090000178,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "COUNT", start = 0, stop = 31},
+            }
+        },
+        GSERX_REFCLK_EVT_CTRL = {
+            name = "GSER#_REFCLK_EVT_CTRL",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090000170,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "CLR", start = 1, stop = 1},
+                {name = "ENB", start = 0, stop = 0},
+            }
+        },
         GSERX_REFCLK_SEL = {
             name = "GSER#_REFCLK_SEL",
             type = "RSL",
@@ -7929,6 +7996,20 @@ local csr_db = {
                 {name = "SCRATCH", start = 0, stop = 15},
             }
         },
+        GSERX_SLICE_CFG = {
+            name = "GSER#_SLICE_CFG",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090460060,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "TX_RX_DETECT_LVL_ENC", start = 8, stop = 11},
+                {name = "RESERVED_2_7", start = 2, stop = 7},
+                {name = "PCS_SDS_TX_STRESS_EYE", start = 0, stop = 1},
+            }
+        },
         GSERX_SPD = {
             name = "GSER#_SPD",
             type = "RSL",
@@ -7963,6 +8044,31 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_4_63", start = 4, stop = 63},
                 {name = "VBOOST", start = 0, stop = 3},
+            }
+        },
+        GSERX_TXCLK_EVT_CNTR = {
+            name = "GSER#_TXCLK_EVT_CNTR",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090000188,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "COUNT", start = 0, stop = 31},
+            }
+        },
+        GSERX_TXCLK_EVT_CTRL = {
+            name = "GSER#_TXCLK_EVT_CTRL",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090000180,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "CLR", start = 1, stop = 1},
+                {name = "ENB", start = 0, stop = 0},
             }
         },
         HNA_BIST0 = {

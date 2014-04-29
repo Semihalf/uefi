@@ -7,7 +7,7 @@ enums:
     title: GSER Lane Mode Enumeration
     attributes:
       width: "4"
-    description: Enumerates the SerDes lane modes. See GSER(0..13)_LANE_MODE[LMODE].
+    description: Enumerates the SerDes lane modes. See GSER()_LANE_MODE[LMODE].
     values:
       - name: R_25G_REFCLK100
         value: 0x0
@@ -836,6 +836,136 @@ registers:
           <2>: Lane 2.
           <1>: Lane 1.
           <0>: Lane 0.
+
+
+  - name: GSER(0..13)_REFCLK_EVT_CTRL
+    title: GSER QLM Reference Clock Event Counter Control Register
+    address: 0x1180090000170 + a*0x1000000
+    bus: RSL
+    description: Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CLR
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set, clears GSER(0..13)_REFCLK_EVT_CNTR[COUNT].
+
+      - name: ENB
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, enables the GSER(0..13)_REFCLK_EVT_CNTR[COUNT] to increment
+          on positive edges of the QLM reference clock.
+
+
+  - name: GSER(0..13)_REFCLK_EVT_CNTR
+    title: GSER QLM Reference Clock Event Counter Register
+    address: 0x1180090000178 + a*0x1000000
+    bus: RSL
+    description: Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..32
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: COUNT
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          This register can only be reliably read when GSER(0..13)_REFCLK_EVT_CTRL[ENB]
+          is clear.
+
+          When GSER(0..13)_REFCLK_EVT_CTRL[CLR] is set, [COUNT] goes to zero.
+
+          When GSER(0..13)_REFCLK_EVT_CTRL[ENB] is set, [COUNT] is incremented
+          in positve edges of the QLM reference clock.
+
+          When GSER(0..13)_REFCLK_EVT_CTRL[ENB] is not set, [COUNT] is held; this must
+          be used when [COUNT] is being read for reliable results.
+
+
+  - name: GSER(0..13)_TXCLK_EVT_CTRL
+    title: GSER QLM Transmit Clock Event Counter Control Register
+    address: 0x1180090000180 + a*0x1000000
+    bus: RSL
+    description: Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CLR
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set, clears GSER(0..13)_TXCLK_EVT_CNTR[COUNT].
+
+      - name: ENB
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, enables the GSER(0..13)_TXCLK_EVT_CNTR[COUNT] to increment
+          on positive edges of the QLM reference clock.
+
+
+  - name: GSER(0..13)_TXCLK_EVT_CNTR
+    title: GSER QLM Transmit Clock Event Counter Register
+    address: 0x1180090000188 + a*0x1000000
+    bus: RSL
+    description: Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..32
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: COUNT
+        bits: 31..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        description: |
+          This register can only be reliably read when GSER(0..13)_TXCLK_EVT_CTRL[ENB]
+          is clear.
+
+          When GSER(0..13)_TXCLK_EVT_CTRL[CLR] is set, [COUNT] goes to zero.
+
+          When GSER(0..13)_TXCLK_EVT_CTRL[ENB] is set, [COUNT] is incremented
+          in positve edges of the QLM reference clock.
+
+          When GSER(0..13)_TXCLK_EVT_CTRL[ENB] is not set, [COUNT] value is held;
+          this must be used when [COUNT] is being read for reliable results.
 
 
   - name: GSER(0..13)_PIPE_LPBK
@@ -1893,6 +2023,177 @@ registers:
           other modes this register can be ignored.
 
 
+  - name: GSER(0..13)_SLICE_CFG
+    title: GSER Slice Configuration Register
+    address: 0x1180090460060 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..12
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_RX_DETECT_LVL_ENC
+        bits: 11..8
+        access: R/W
+        reset: 0x5
+        typical: 0x5
+        description: |
+          Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
+          (which is a 1-hot signal), where the level is equal to to
+          2^TX_RX_DETECT_LVL_ENC.
+
+      - name: --
+        bits: 7..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_TX_STRESS_EYE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Controls TX stress eye.
+
+
+  - name: GSER(0..13)_GLBL_TAD
+    title: GSER Global Test Analog and Digital Monitor Register
+    address: 0x1180090460400 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..9
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_TAD_8_5
+        bits: 8..5
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          AMON Specific mode selection.
+          Set GSER(0..13)_GLBL_TM_ADMON[AMON_ON].
+          Decodes 0x0 - 0x4 require GSER(0..13)_GLBL_TM_ADMON[LSEL] set.
+          Decodes 0x5 - 0x5 do not require GSER(0..13)_GLBL_TM_ADMON[LSEL] set.
+          In both cases, the resulting signals can be observed on the AMON pin.
+
+          0x0 = TX txdrv DAC 100ua sink current monitor.
+          0x1 = TX vcnt precision dcc.
+          0x2 = RX sdll topregout.
+          0x3 = RX ldll vctrl_i.
+          0x4 = RX RX term VCM voltage.
+          0x5 = Global bandgap voltage.
+          0x6 = Global CTAT voltage.
+          0x7 = Global internal 100ua reference current.
+          0x8 = Global external 100ua reference current.
+          0x9 = Global Rterm calibration reference voltage.
+          0xA = Global Rterm calibration comparator voltage.
+          0xB = Global Force VCNT thru DAC.
+          0xC = Global VDD voltage.
+          0xD = Global VDDCLK voltage.
+          0xE = Global PLL regulate VCO supply.
+          0xF = Global VCTRL for VCO varactor control.
+
+      - name: PCS_SDS_TAD_4_0
+        bits: 4..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          DMON Specific mode selection.
+          Set GSER(0..13)_GLBL_TM_ADMON[DMON_ON].
+          Decodes 0x0 - 0xe require GSER(0..13)_GLBL_TM_ADMON[LSEL] set.
+          Decodes 0xf - 0x1f do not require GSER(0..13)_GLBL_TM_ADMON[LSEL] set.
+          In both cases, the resulting signals can be observed on the DMON pin.
+
+          0x00 = DFE Data Q.
+          0x01 = DFE Edge I.
+          0x02 = DFE CK Q.
+          0x03 = DFE CK I.
+          0x04 = TBD.
+          0x05-0x7 = Reserved.
+          0x08 = RX ld_rx[0].
+          0x09 = RX rx_clk.
+          0x0A = RX q_error_stg.
+          0x0B = RX q_data_stg.
+          0x0C-0x0E = Reserved.
+          0x0F = Special case to observe supply in global. Sds_vdda and a internal regulated supply
+          can be observed on DMON and DMONB
+          respectively.  sds_vss can be observed on AMON. GSER(0..13)_GLBL_TM_ADMON[AMON_ON]
+          must not be set.
+          0x10: PLL_CLK 0 degree.
+          0x11: Sds_tst_fb_clk.
+          0x12: Buffered refclk.
+          0x13: Div 8 of core clock (core_clk_out).
+          0x14-0x1F: Reserved.
+
+
+  - name: GSER(0..13)_GLBL_TM_ADMON
+    title: GSER Global Test Mode Analog/Digital Monitor Enable Register
+    address: 0x1180090460408 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..8
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: AMON_ON
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set, AMON test mode is enabled; see GSER()_GLBL_TAD.
+
+      - name: DMON_ON
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: When set, DMON test mode is enabled; see GSER()_GLBL_TAD.
+
+      - name: --
+        bits: 5..3
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LSEL
+        bits: 2..0
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: |
+          Three bits to select 1 out of 4 lanes for AMON/DMON test.
+          0x0 = Selects lane 0.
+          0x1 = Selects lane 1.
+          0x2 = Selects lane 2.
+          0x3 = Selects lane 3.
+          0x4-0x7 = Reserved.
+
+
   - name: GSER(0..13)_LANE(0..3)_LBERT_PAT_CFG
     title: GSER Lane LBERT Pattern Configuration Registers
     address: 0x11800904C0018 + a*0x1000000 + b*0x100000
@@ -2073,6 +2374,48 @@ registers:
           Current error count.
           If LBERT_ERR_OVBIT14 field is active, then multiply
           count by 128.
+
+
+  - name: GSER(0..13)_RDET_TIME
+    title: GSER Receiver Detect Wait Times Register
+    address: 0x11800904E0008 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RDET_TIME_3
+        bits: 15..12
+        access: R/W
+        reset: 0x7
+        typical: 0x7
+        description: |
+          Determines the time allocated for disabling the RX detect
+          circuit, and returning to common mode.
+
+      - name: RDET_TIME_2
+        bits: 11..8
+        access: R/W
+        reset: 0x8
+        typical: 0x8
+        description: |
+          Determines the time allocated for the RX detect circuit to
+          detect a receiver.
+
+      - name: RDET_TIME_1
+        bits: 7..0
+        access: R/W
+        reset: 0x8
+        typical: 0x8
+        description: Determines the time allocated for enabling the RX detect circuit.
 
 
   - name: GSER(0..13)_PLL_P(0..11)_MODE_0

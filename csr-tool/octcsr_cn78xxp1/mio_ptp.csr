@@ -116,6 +116,7 @@ registers:
           0x00-0x13 = GPIOn, where n is EVCNT_IN<4:0>.
           0x14-0x1F = Reserved.
           0x20-0x27 = QLMn_REF_CLK, where n is EVCNT_IN<3:0>.
+                      Note that OCI Reference Clocks cannot be selected.
           0x28-0x3F = Reserved.
 
       - name: EVCNT_EDGE

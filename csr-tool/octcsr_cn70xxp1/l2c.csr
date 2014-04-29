@@ -3,6 +3,7 @@
 ---
 name: L2C
 description: |
+  INTERNAL:
   Octeon III L2C RSL2 address map
 
     2 22 211 1111 111 1        |
@@ -110,7 +111,7 @@ enums:
     title: L2C Quad Error Priority Enumeration
     attributes:
       width: "3"
-    description: Enumerates the different quad error priorities
+    description: Enumerates the different quad error priorities.
     values:
       - name: NBE
         value: 0x0
@@ -784,9 +785,9 @@ registers:
         typical: 0
         description: |
           Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
-          1. IOR data
-          2. STIN/FILLs
-          3. STDN/SCDN/SCFL
+          1. IOR data.
+          2. STIN/FILLs.
+          3. STDN/SCDN/SCFL.
 
       - name: XMC_ARB_MODE
         bits: 14
@@ -903,6 +904,7 @@ registers:
       0x1 = Single-bit error on ECC[0].
       0x2 = Single-bit error on ECC[1].
       0x3 = Double-bit error on ECC[1:0].
+
       L2DFLIP allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors for the purposes
       of testing error handling code. When one (or both) of these bits are set, a PL2 that misses in
       the L2 will fill with the appropriate error in the first two OWs of the fill. Software can
@@ -910,6 +912,7 @@ registers:
       PL2 that hits in the L2 will not inject any errors. Therefore sending a WBIL2 prior to the PL2
       is recommended to make a miss likely. (If multiple processors are involved, software must be
       sure that no other processor or I/O device can bring the block into the L2).
+
       To generate a VBFSBE or VBFDBE, software must first get the cache block into the cache with an
       error using a PL2 that misses the L2. Then a store partial to a portion of the cache block
       without the error must change the block to dirty. Then, a subsequent WBL2/WBIL2/victim will
@@ -1038,6 +1041,7 @@ registers:
       LFB/VAB entry. Note that when the INUSE bit clears, the only ordering it implies is that
       software can send another ADD bus command. Subsequent commands may complete out of order
       relative to earlier commands.
+
       The address written to L2C_XMC_CMD is a physical address. L2C performs hole removal and index
       aliasing (if enabled) on the written address and uses that for the command. This hole
       removed/index aliased address is what is returned on a read of the L2C_XMC_CMD register.
@@ -1157,16 +1161,17 @@ registers:
       NOTE: for 78xx, if the PPID is outside the range of 0-47,255 the write will be ignored and
       reads will return 0x2bad2bad2bad2bad
 
-      (1) RD and SEL are as defined in the HRM description of Core Coprocessor 0 registers
-      and note 4 below.
+      1. RD and SEL are as defined in the description of Core Coprocessor 0 registers.
 
-      (2) if a COP0 register cannot be accessed by this mechanism the write be silently ignored and
+      2. If a COP0 register cannot be accessed by this mechanism the write be silently ignored and
       the read data will be 0x2bad2bad2bad2bad.
 
-      (3) if the PPID is outside the range of 0-47,255 or if the PP in question is in reset
+      3. If the PPID is outside the range of 0-47,255 or if the core in question is in reset
       a write will be ignored and reads will timeout the RSL bus.
 
-      (4) Referring to note (1) above, the following root/rd/sel values are supported:
+      INTERNAL: In HRM, see table in L2C chapter body text.
+      Referring to note 1 above, the following root/rd/sel values are supported:
+
       NOTE: Put only the "Customer type" in HRM. do not put the "Real type" in HRM.
 
                    Customer                                           Real
@@ -1213,7 +1218,7 @@ registers:
        1   18   0     RO     CP0 Root.WatchLo0                         RW
        1   19   0     RO     CP0 Root.WatchHi0                         RW
        1   22   0     RO     CP0 Root.MultiCoreDebug                   RW
-       1   22   1            CP0 Root.ImplDebug                        R0
+       1   22   1     --     CP0 Root.ImplDebug                        R0
        1   22   2     RO     CP0 Root.CvmCountOffset                   RW
        1   23   0     RO     CP0 Root.Debug                            RW
        1   23   6     RO     CP0 Root.Debug2                           RO
@@ -1263,7 +1268,7 @@ registers:
       PC Fill Debug Info
        63:2  fill_address<63:2>    // VA<63:2> being filled into instruction cache (4a in pipeline)
                                    // valid when waiting_for_ifill is set (see PC Misc Debug Info
-      below)
+                                   // below)
                                    // <58:50> is a copy of <49>
        1     fill_illegal          // set when fill_address is an illegal PC
        0     RAZ
@@ -1324,14 +1329,14 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: COP0 register number
+        description: COP0 register number.
 
       - name: SEL
         bits: 2..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: COP0 sel
+        description: COP0 select.
 
 
   - name: L2C_COP0_DAT
@@ -1816,21 +1821,21 @@ registers:
           modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
           cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
           case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-          a LCKL2 transaction. See L2C_TTG(0..7)_ERR for logged information.
+          a LCKL2 transaction. See L2C_TTG()_ERR for logged information.
 
       - name: TAGDBE
         bits: 9
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: TAG double-bit error occurred. See L2C_TTG(0..7)_ERR for logged information.
+        description: TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
 
       - name: TAGSBE
         bits: 8
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: TAG single-bit error occurred. See L2C_TTG(0..7)_ERR for logged information.
+        description: TAG single-bit error occurred. See L2C_TTG()_ERR for logged information.
 
       - name: --
         bits: 7..6
@@ -1844,42 +1849,42 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: FBF double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+        description: FBF double-bit error occurred. See L2C_TQD()_ERR for logged information.
 
       - name: FBFSBE
         bits: 4
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: FBF single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+        description: FBF single-bit error occurred. See L2C_TQD()_ERR for logged information.
 
       - name: SBFDBE
         bits: 3
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: SBF double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+        description: SBF double-bit error occurred. See L2C_TQD()_ERR for logged information.
 
       - name: SBFSBE
         bits: 2
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: SBF single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+        description: SBF single-bit error occurred. See L2C_TQD()_ERR for logged information.
 
       - name: L2DDBE
         bits: 1
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: L2D double-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+        description: L2D double-bit error occurred. See L2C_TQD()_ERR for logged information.
 
       - name: L2DSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: L2D single-bit error occurred. See L2C_TQD(0..7)_ERR for logged information.
+        description: L2D single-bit error occurred. See L2C_TQD()_ERR for logged information.
 
 
   - name: L2C_TAD(0..0)_PFC(0..3)
@@ -2242,7 +2247,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: BIST failure status for tag LRU
+        description: BIST failure status for tag LRU.
 
       - name: TAGFL
         bits: 15..0
@@ -2270,14 +2275,14 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: VBF double-bit error occurred. See L2C_MCI(0..3)_ERR for logged information.
+        description: VBF double-bit error occurred. See L2C_MCI()_ERR for logged information.
 
       - name: VBFSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: VBF single-bit error occurred. See L2C_MCI(0..3)_ERR for logged information.
+        description: VBF single-bit error occurred. See L2C_MCI()_ERR for logged information.
 
 
   - name: L2C_MCI(0..0)_ERR
@@ -2297,28 +2302,28 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: INDEX/SYN1 corresponds to a double-bit VBF ECC error
+        description: INDEX/SYN1 corresponds to a double-bit VBF ECC error.
 
       - name: VBFDBE0
         bits: 62
         access: RO/H
         reset: 0
         typical: 0
-        description: INDEX/SYN0 corresponds to a double-bit VBF ECC error
+        description: INDEX/SYN0 corresponds to a double-bit VBF ECC error.
 
       - name: VBFSBE1
         bits: 61
         access: RO/H
         reset: 0
         typical: 0
-        description: INDEX/SYN1 corresponds to a single-bit VBF ECC error
+        description: INDEX/SYN1 corresponds to a single-bit VBF ECC error.
 
       - name: VBFSBE0
         bits: 60
         access: RO/H
         reset: 0
         typical: 0
-        description: INDEX/SYN0 corresponds to a single-bit VBF ECC error
+        description: INDEX/SYN0 corresponds to a single-bit VBF ECC error.
 
       - name: --
         bits: 59..48
@@ -2445,14 +2450,14 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RSD double-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
+        description: RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information.
 
       - name: RSDSBE
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: RSD single-bit error occurred. See L2C_CBC(0..3)_RSDERR for logged information.
+        description: RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information.
 
 
   - name: L2C_CBC(0..0)_IOCERR

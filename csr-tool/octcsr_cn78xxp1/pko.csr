@@ -789,6 +789,8 @@ enums:
 structs:
   - name: PKO_CSR_RD_DMA_S
     title: PKO CSR Read IOBDMA Structure
+    attributes:
+      mif_operation: "PKO CSR Operations"
     description: |
       Structure of the real IOBDMA address (i.e. the store data for the instruction that initiates
       an IOBDMA) that initiates CSR read operation. The IOBDMA result word is the CSR read data.
@@ -842,6 +844,8 @@ structs:
 
   - name: PKO_CSR_WR_DMA_S
     title: PKO CSR Write LMTST Structure
+    attributes:
+      mif_operation: "PKO CSR Operations"
     description: |
       Structure of the real LMTST address (i.e. the store data for the instruction that initiates an
       LMTST) that initiates a CSR write operation. LMTST CSR write operations may be used to update
@@ -914,6 +918,8 @@ structs:
 
   - name: PKO_QUERY_DMA_S
     title: PKO IOBDMA Address Structure
+    attributes:
+      mif_operation: "PKO Query Operations"
     description: |
       Structure of the real IOBDMA address (i.e. the store data for the instruction that initiates
       an IOBDMA) that initiates a Query, Open or Close operation. The IOBDMA result word is a
@@ -978,6 +984,8 @@ structs:
 
   - name: PKO_QUERY_LD_S
     title: PKO Physical Load Address Structure
+    attributes:
+      mif_operation: "PKO Query Operations"
     description: |
       Structure of the physical load address for a load instruction that initiates a Query, Open or
       Close operation. The load result is a PKO_QUERY_RTN_S.
@@ -1035,13 +1043,15 @@ structs:
 
   - name: PKO_QUERY_RTN_S
     title: PKO Load, IOBDMA, LMTDMA Return Data Structure
+    attributes:
+      mif_operation: "PKO Query Operations"
     description: Structure of load, IOBDMA or LMTDMA return data for Send, Query, Open or Close operations.
     fields:
       - name: DEPTH
         bits: 47..0
         description: |
           Indicates depth of specified DQ in either bytes or packets as configured by
-          PKO_DQ(0..1023)_WM_CTL[KIND].
+          PKO_DQ()_WM_CTL[KIND].
 
       - name: DQOP
         bits: 49..48
@@ -1058,24 +1068,29 @@ structs:
 
   - name: PKO_SEND_AURA_S
     title: PKO Send Aura Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
       The Send Aura subdescriptor can decrement aura counts, and changes the aura number for
-      subsequent FPA free operations due to processing this PKO SEND descriptor. See Send Aura.
+      subsequent FPA free operations due to processing this PKO SEND descriptor.
+
       The aura count change occurs after processing all previous
       subdescriptors in the send descriptor. All FPA buffer frees from the PKO processing of
       PKO_SEND_GATHER_S, PKO_SEND_LINK_S, PKO_SEND_JUMP_S, and/or PKO_SEND_FREE_S
       subdescriptors are subject to FPA-automatic aura updates (which is normally
-      to decrement the aura count by one, since FPA_AURA(0..1023)_CFG[PTR_DIS] is normally clear),
+      to decrement the aura count by one, since FPA_AURA()_CFG[PTR_DIS] is normally clear),
       irrespective of whether any PKO_SEND_AURA_S's are present in the PKO SEND.
+
       PKO_SEND_AURA_S[AURA] becomes the aura used for the FPA frees caused by PKO_SEND_GATHER_S,
       PKO_SEND_LINK_S, and PKO_SEND_FREE_S subdescriptors that follow in the PKO SEND descriptor,
       and the last PKO_SEND_AURA_S[AURA] can be the aura used for an FPA free due to a
       PKO_SEND_JUMP_S.
+
       PKO_SEND_AURA_S's can also optionally decrement the FPA count for aura PKO_SEND_AURA_S[AURA]
       by an amount determined by PKO_SEND_AURA_S[ALG] and PKO_SEND_AURA_S[OFFSET].
+
       If no PKO_SEND_AURA_S's are present in a PKO SEND descriptor, all FPA buffer frees from the
-      PKO
-      processing of the PKO SEND descriptor are to aura PKO_SEND_HDR_S[AURA].
+      PKO processing of the PKO SEND descriptor are to aura PKO_SEND_HDR_S[AURA].
     fields:
       - name: OFFSET
         bits: 7..0
@@ -1122,7 +1137,6 @@ structs:
           and PKO_SEND_LINK_S subdescriptors in this PKO SEND. The last [AURA] in a
           PKO SEND is also the aura used for an FPA free resulting from processing a
           PKO_SEND_JUMP_S.
-          See Freeing Buffers.
 
       - name: --
         bits: 63..60
@@ -1134,23 +1148,29 @@ structs:
 
   - name: PKO_SEND_CRC_S
     title: PKO Send CRC Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
-      The Send CRC subdescriptor specifies a CRC calculation be performed during transmission. See
-      Send CRC.
+      The Send CRC subdescriptor specifies a CRC calculation be performed during transmission.
+
       There may be up to 3 PKO_SEND_CRC_Ss per packet send descriptor. PKO_SEND_CRC_S constraints:
       PKO_SEND_CRC_S subdescriptors must precede all PKO_SEND_LINK_S, PKO_SEND_GATHER_S, and
       PKO_SEND_IMM_S subdescriptors in the packet descriptor.
+
       No two PKO_SEND_CRC_S subdescriptors can overlap. Two PKO_SEND_CRC_Ss would overlap if any
       bytes are covered by both, or if the checksum calculated for one should be covered by the
       other.
+
       If PKO_SEND_HDR_S[CKL3] is set, the bytes covered or inserted by the CRC must not overlap the
       IPv4 header bytes (including any options). The IPv4 header bytes (and options) start at byte
       PKO_SEND_HDR_S[L3PTR] in the packet in this case.
+
       If PKO_SEND_HDR_S[CKL4] is nonzero, the bytes covered or inserted by each individual
       PKO_SEND_CRC_S CRC must entirely reside within the L4 payload. The L4 (TCP/UDP/SCTP) header
       starts at byte PKO_SEND_HDR_S[L4PTR] in the packet in this case, and the L4 payload follows
       the L4 header. In this case, the PKO will appear to calculate the L4 checksum last, after it
       has completed all PKO_SEND_CRC_S CRCs.
+
       If the packet L2 or L3 header is to be colored, the bytes covered or inserted by the
       PKO_SEND_CRC_S CRC must not overlap any of the relevant L2/L3 header bytes, including all
       options, extension headers, etc. Either PKO_SEND_EXT_S[MARKPTR] or PKO_SEND_HDR_S[L3PTR]
@@ -1219,6 +1239,8 @@ structs:
 
   - name: PKO_SEND_DMA_S
     title: PKO Send DMA Address Structure
+    attributes:
+      mif_operation: "PKO Send Operation"
     description: |
       Structure of the real LMTDMA/LMTST address (i.e. the store data for the instruction that
       initiates an LMTDMA/LMTST) that initiates a Send operation. The optional LMTDMA result word is
@@ -1271,9 +1293,11 @@ structs:
 
   - name: PKO_SEND_EXT_S
     title: PKO Send Extended Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
       The Send Extended subdescriptor requests additional checksum and/or scheduling services on the
-      packet. If present it must be word 2 of the send command. See Extended Header.
+      packet. If present it must be word 2 of the send command.
     fields:
       - name: SHAPECHG
         bits: 8..0
@@ -1282,18 +1306,22 @@ structs:
         description: |
           Signed packet size adjustment. When a PKO_SEND_EXT_S is present in the descriptor, the
           packet size used for shaper m calculations at level n is:
-             (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
-             [SHAPECHG] +
-             PKO_Ln_SQm_SHAPE[ADJUST]
+
+          _  (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
+          [SHAPECHG] + PKO_Ln_SQm_SHAPE[ADJUST]
+
           where n = 1, 2, 3, 4, 5, or DQ and m selects one of the shapers at the level selected by
           n.
-          PKO_L1_SQm_SHAPE[LENGTH_DISABLE,ADJUST] don't really exist, and should be zero
+
+          PKO_L1_SQ()_SHAPE[LENGTH_DISABLE,ADJUST] don't really exist, and should be zero
           in the equation above. CALCPAD is zero when PKO_PDM_DQd_MINPAD[MINPAD] is clear
           or when PKO_PDM_CFG[TOTAL]>=PKO_PDM_CFG[MINLEN], else
           CALCPAD=PKO_PDM_CFG[MINLEN]-PKO_SEND_HDR_S[TOTAL], where d is the DQ the packet used.
+
           When a PKO_SEND_EXT_S is not present in the descriptor, the packet size used for shaper
           m calculations at level n is, similarly:
-             (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
+
+          _  (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
              PKO_Ln_SQm_SHAPE[ADJUST]
 
       - name: --
@@ -1311,13 +1339,16 @@ structs:
           Mark pointer. Offset from packet start to byte to use for packet shaper marking.
           PKO_SEND_HDR_S[FORMAT] indirectly determines how this offset is used by PKO, including
           whether and how an L2 or L3 header is marked. [MARKPTR] is constrained as follows:
+
           * If either of PKO_SEND_HDR_S[CKL3,CKL4] is nonzero and a packet L3 header will be marked,
           then either (1.1) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must be equal and refer to the same
           L3 header, or (1.2) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must differ and refer to different
           non-overlapping L3 headers.
+
           * If a packet L2 header will be marked, then the entire L2 header must not overlap with
           computation enabled by either of PKO_SEND_HDR_S[CKL3,CKL4], and must not overlap with any
           PKO_SEND_CRC_S CRCs.
+
           If PKO_SEND_EXT_S is not present in the descriptor, the offset used for shaper marking is
           PKO_SEND_HDR_S[L3PTR].
 
@@ -1332,7 +1363,7 @@ structs:
         attributes:
           const: "--"
         description: |
-          PTP Timestamp. If set, a later PKO_SEND_MEM_S will be present in this descriptor with
+          PTP timestamp. If set, a later PKO_SEND_MEM_S will be present in this descriptor with
           PKO_SEND_MEM_S[ALG] set to TSTMP to request IEEE 1588 PTP time-stamping. Furthermore, if
           set, [RA] must be PKO_REDALG_E::SEND and PKO_SEND_HDR_S[DS] must be zero.
 
@@ -1369,6 +1400,8 @@ structs:
 
   - name: PKO_SEND_FREE_S
     title: PKO Send Free Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
       The Send Free subdescriptor requests a buffer be freed to FPA. PKO_SEND_FREE_S subdescriptors
       must follow all PKO_SEND_EXT_S, PKO_SEND_LINK_S, PKO_SEND_GATHER_S, PKO_SEND_IMM_S, and
@@ -1408,9 +1441,12 @@ structs:
 
   - name: PKO_SEND_GATHER_S
     title: PKO Send Gather Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
-      The Send Gather subdescriptor requests a contiguous segment of bytes be transmitted. See Send
-      Gather. There may be multiple PKO_SEND_GATHER_Ss in each PKO Send Descriptor. A
+      The Send Gather subdescriptor requests a contiguous segment of bytes be transmitted.
+
+      There may be multiple PKO_SEND_GATHER_Ss in each PKO Send Descriptor. A
       PKO_SEND_GATHER_S must not be present in a PKO send descriptor if the sum of all prior
       PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s meets or exceeds PKO_SEND_HDR_S[TOTAL]. A
       PKO_SEND_GATHER_S must not be present after a PKO_SEND_LINK_S in a PKO send descriptor.
@@ -1454,6 +1490,8 @@ structs:
 
   - name: PKO_SEND_HDR_S
     title: PKO Send Header Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: The send header is the first subdescriptor word of every send operation.
     fields:
       - name: TOTAL
@@ -1463,8 +1501,8 @@ structs:
           number of bytes to send, excluding zero pad (if any) and outside FCS bytes (if any). Must
           be greater than 0 and not exceed 2^16 - 8 bytes (65528 bytes). PKO or an interface may
           append outside FCS to a packet. PKO appends outside FCS to the packet when
-          PKO_MACm_CFG[FCS_ENA] is set, and zero pads (when necessary, to force the pre-outside-FCS
-          packet to be at least PKO_PDM_CFG[MINLEN] bytes) when PKO_MACm_CFG[MIN_PAD_ENA] is set,
+          PKO_MAC()_CFG[FCS_ENA] is set, and zero pads (when necessary, to force the pre-outside-FCS
+          packet to be at least PKO_PDM_CFG[MINLEN] bytes) when PKO_MAC()_CFG[MIN_PAD_ENA] is set,
           where m is the MAC that the packet uses.
 
       - name: L3PTR
@@ -1475,6 +1513,7 @@ structs:
           PKO_SEND_EXT_S[MARKPTR].) The IP packet must be exactly [L3PTR] bytes from the beginning
           of the packet. Software might populate this field for forwarded packets from a computation
           based off WQE[L3PTR], which is the IP location computed by PKI when the packet is parsed.
+
           When PKO_SEND_EXT_S[MARKPTR] is not present in the packet descriptor, [L3PTR] can also
           indicate the location of an L2 header. When [L3PTR] is used for any of [CKL3,CKL4] or
           shaper marking calculations/modifications, then no L3 nor L2 header bytes indicated by
@@ -1510,6 +1549,7 @@ structs:
           PKO_SEND_LINK_S format) can invert the default behavior (i.e. If [II] is clear, the buffer
           containing the packet segment is freed when
           ([DF] XOR PKO_SEND_GATHER_S/PKO_SEND_LINK_S[I])==0).
+
           Note that the buffer free (if any) from a PKO_SEND_JUMP_S is not subject to [DF].
 
       - name: II
@@ -1527,6 +1567,7 @@ structs:
           [N2] affects performance, but otherwise does not affect CN78XX behavior. It may be
           advantageous to set [N2] if packet data will not be used after PKO sends the packet, which
           will allow the L2 cache to retain other more useful information.
+
           Note that PKO always allocates descriptor chunks and gather lists into the L2 cache. Also,
           PKO always allocates packet data into the cache on the first-pass packet read of a two-
           pass TCP/UDP checksum calculation.
@@ -1584,7 +1625,7 @@ structs:
           count may be decremented by subsequent subdescriptors. The upper two bits correspond to an
           OCI node
           number. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees needed while
-          processing the PKO_SEND. See Freeing Buffers.
+          processing the PKO_SEND.
 
       - name: --
         bits: 63..60
@@ -1595,12 +1636,15 @@ structs:
 
   - name: PKO_SEND_IMM_S
     title: PKO Send Immediate Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
       The Send Immediate subdescriptor requests that bytes immediately following this PKO_SEND_IMM_S
       in the PKO send descriptor are to be included in the packet. The next subdescriptor following
       this PKO_SEND_IMM_S (when one exists) will follow the immediate bytes, after rounding up to be
       a multiple of 8 bytes. If PKO_SEND_IMM_S[LE] is set, the immediate bytes are in little-endian
-      format in the descriptor, else standard big-endian format. See Send Immediate.
+      format in the descriptor, else standard big-endian format.
+
       There may be multiple PKO_SEND_IMM_Ss in one PKO Send Descriptor.  A PKO_SEND_IMM_S must
       not be present in a PKO send descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
       prior PKO_SEND_IMM_S[SIZE]s exceeds PKO_SEND_HDR_S[TOTAL] less [SIZE] from descriptor. (i.e.
@@ -1638,9 +1682,12 @@ structs:
 
   - name: PKO_SEND_JUMP_S
     title: PKO Send Jump Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
-      The send jump subdescriptor selects a new address for fetching the next subdescriptor. See
-      Send Jump. This allows software to create subdescriptor lists longer than the 15 directly
+      The send jump subdescriptor selects a new address for fetching the next subdescriptor.
+
+      This allows software to create subdescriptor lists longer than the 15 directly
       supported by the hardware. There can be only one PKO_SEND_JUMP_S subdescriptor in a packet
       descriptor. PKO_SEND_JUMP_S must be the last subdescriptor in the initial (up to 3
       subdescriptor) portion of the packet descriptor and must precede all subdescriptors
@@ -1694,15 +1741,19 @@ structs:
 
   - name: PKO_SEND_LINK_S
     title: PKO Send Linked Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
       The Send Linked subdescriptor specifies a linked list of data segments to construct the last
-      data for the packet. See Send Linked.
+      data for the packet.
+
       The first segment is specified directly by the subdescriptor, and remaining segments are
       linked from the preceding segment. At most one PKO_SEND_LINK_S can be present in a PKO Send
       descriptor, and it must follow all PKO_SEND_GATHER_S and PKO_SEND_IMM_S subdescriptors in the
       send descriptor. The total number of bytes contributed from the PKO_SEND_LINK_S and its links
       is PKO_SEND_HDR_S[TOTAL] minus the sum of all preceding PKO_SEND_GATHER_S[SIZE]s and
       PKO_SEND_IMM_S[SIZE]s in the descriptor.
+
       To read these packet bytes, PKO traverses as many links as needed starting with the
       PKO_SEND_LINK_S subdescriptor. A PKO_SEND_LINK_S subdescriptor must not be present if the sum
       of all PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s in the descriptor meets or exceeds
@@ -1751,14 +1802,17 @@ structs:
 
   - name: PKO_SEND_MEM_S
     title: PKO Send Memory Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
-      The send memory subdescriptor atomically sets, increments or decrements a memory location. See
-      Send Mem.
+      The send memory subdescriptor atomically sets, increments or decrements a memory location.
+
       PKO_SEND_MEM_S subdescriptors must follow all PKO_SEND_EXT_S, PKO_SEND_LINK_S,
       PKO_SEND_GATHER_S, PKO_SEND_IMM_S, and PKO_SEND_CRC_S subdescriptors in the packet descriptor.
       PKO will not initiate the memory update for this subdescriptor until after it has completed
       all L2/DRAM fetches that service all prior PKO_SEND_LINK_S and PKO_SEND_GATHER_S
       subdescriptors.
+
       Performance is best if a memory decrement by one is used rather than any other memory
       set/increment/decrement. (Less internal bus bandwidth is used with memory decrements by one.)
     fields:
@@ -1830,12 +1884,15 @@ structs:
 
   - name: PKO_SEND_WORK_S
     title: PKO Send Work Subdescriptor Structure
+    attributes:
+      mif_operation: "PKO Send Subdescriptors"
     description: |
       This subdescriptor adds work to the SSO. At most one PKO_SEND_WORK_S subdescriptor can exist
       in the packet descriptor. If a PKO_SEND_WORK_S exists in the packet descriptor, it must be the
       last subdescriptor; PKO will not initiate the work add for this subdescriptor until after (1)
       it has completed all L2/DRAM fetches that service all prior PKO_SEND_LINK_S and
       PKO_SEND_GATHER_S subdescriptors, and (2) it has fetched all subdescriptors in the descriptor.
+
       If PKO_SEND_EXT_S[WMEM]=1, PKO also will not initiate the work add for this subdescriptor
       until all PKO_SEND_MEM_S subdescriptors in the descriptor complete and commit.
     fields:
@@ -1947,7 +2004,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Link index. Must match PKO_L1_SQ(0..31)_TOPOLOGY[LINK].
+        description: Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK].
 
       - name: --
         bits: 12..0
@@ -1998,12 +2055,16 @@ registers:
         description: |
           Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
           specifying the number of time-wheel turns required before the accumulator is increased.
+
           The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
           RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
+
           Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
           time-wheel turn is 768 clocks (SCLK).
+
           For L1_SQ: RATE = (SCLK_FREQUENCY / 96) * (1.RATE_MANTISSA << RATE_EXPONENT) /
           (1 <<RATE_DIVIDER_EXPONENT)
+
           For L[5:2]_SQ: RATE = (SCLK_FREQUENCY / 768) * (1.RATE_MANTISSA << RATE_EXPONENT) /
           (1 << RATE_DIVIDER_EXPONENT)
 
@@ -2062,8 +2123,8 @@ registers:
         typical: 0
         description: |
           Shaper color status. Debug access to the live shaper state.
-          0x0 = Green - operating in 'committed' range
-          0x1 = Red - operating in 'oversubscribed' range or inactive
+          0 = Green - operating in 'committed' range.
+          1 = Red - operating in 'oversubscribed' range or inactive.
 
       - name: --
         bits: 51..26
@@ -2097,7 +2158,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Link index. Must match PKO_L1_SQ(0..31)_TOPOLOGY[LINK].
+        description: Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK].
 
       - name: --
         bits: 43..32
@@ -2192,7 +2253,7 @@ registers:
         typical: 0x0
         description: |
           Watermark Threshold. This threshold is compared to the watermark count of
-          PKO_DQ(0..1023)_WM_CNT[COUNT] and an interrupt is generated when the count reaches or
+          PKO_DQ()_WM_CNT[COUNT] and an interrupt is generated when the count reaches or
           crosses the threshold.
 
 
@@ -2216,7 +2277,7 @@ registers:
         description: |
           Interrupt. The interrupt bit is asserted and an interrupt message to the CIU is generated
           when the specified threshold is crossed. Subsequent interrupt messages are only generated
-          after this bit has been cleared by writing 1. Throws PKO_INTSN_E::PKO_DQ(0..1023)_WM.
+          after this bit has been cleared by writing 1. Throws PKO_INTSN_E::PKO_DQ()_WM.
 
       - name: --
         bits: 47..0
@@ -2245,7 +2306,7 @@ registers:
         typical: 0x0
         description: |
           Watermark count. The running value of the watermark counter. This value is a count of
-          bytes or packets as specified in PKO_DQ(0..1023)_WM_CTL[KIND].
+          bytes or packets as specified in PKO_DQ()_WM_CTL[KIND].
 
 
   - name: PKO_PQ_DEBUG_GREEN
@@ -2322,42 +2383,42 @@ registers:
     title: PKO PSE Port Queue Dropped Packets Register
     address: 0x1540000000080 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
     inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_L1_SQ(0..31)_DROPPED_BYTES
     title: PKO PSE Port Queue Dropped Bytes Register
     address: 0x1540000000088 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
     inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_L1_SQ(0..31)_RED_PACKETS
     title: PKO PSE Port Queue Red Sent Packets Register
     address: 0x1540000000090 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
     inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_L1_SQ(0..31)_RED_BYTES
     title: PKO PSE Port Queue Red Sent Bytes Register
     address: 0x1540000000098 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
     inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_L1_SQ(0..31)_YELLOW_PACKETS
     title: PKO PSE Port Queue Yellow Sent Packets Register
     address: 0x15400000000A0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
     inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_L1_SQ(0..31)_YELLOW_BYTES
     title: PKO PSE Port Queue Yellow Sent Bytes Register
     address: 0x15400000000A8 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
     inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_L1_SQ(0..31)_GREEN_PACKETS
@@ -2404,28 +2465,28 @@ registers:
     title: PKO PSE Descriptor Queue Dropped Packets Register
     address: 0x15400000000C0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
     inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_DQ(0..1023)_DROPPED_BYTES
     title: PKO PSE Descriptor Queue Dropped Bytes Register
     address: 0x15400000000C8 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
     inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_DQ(0..1023)_PACKETS
     title: PKO PSE Descriptor Queue Sent Packets Register
     address: 0x15400000000D0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_PACKETS.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
     inherits: PKO_L1_SQ(0..31)_GREEN_PACKETS
 
   - name: PKO_DQ(0..1023)_BYTES
     title: PKO PSE Descriptor Queue Sent Bytes Register
     address: 0x15400000000D8 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN_BYTES.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
     inherits: PKO_L1_SQ(0..31)_GREEN_BYTES
 
   - name: PKO_L1_SQ(0..31)_SW_XOFF
@@ -2474,9 +2535,9 @@ registers:
         typical: 0
         description: |
           XOFF. The PQ is disabled when XOFF is asserted. PQ is enabled when XOFF is deasserted.
-          NOTE: The associated PKO_L1_SQ(0..31)_TOPOLOGY[LINK] must be configured before using this
+          NOTE: The associated PKO_L1_SQ()_TOPOLOGY[LINK] must be configured before using this
           register field. Writing to this register field before the associated
-          PKO_L1_SQ(0..31)_TOPOLOGY[LINK] value is configured can result in modifying the software
+          PKO_L1_SQ()_TOPOLOGY[LINK] value is configured can result in modifying the software
           XOFF state of the wrong SQ.
 
 
@@ -2707,8 +2768,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_PQ_SBE_CMB0.
           INTERNAL: Instances:
@@ -2828,8 +2889,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_PQ_DBE_CMB0.
           INTERNAL: Instances:
@@ -3136,9 +3197,11 @@ registers:
           Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
           integer).
           The packet size used in all DWRR calculations is:
-             (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
+
+          _  (PKO_Ln_SQm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_SEND_HDR_S[TOTAL] + CALCPAD)) +
              PKO_SEND_EXT_S[SHAPECHG] +
              PKO_Ln_SQm_SHAPE[ADJUST]
+
           where n and m correspond to this PKO_Ln_SQm_SCHEDULE CSR. CALCPAD is zero when
           PKO_PDM_DQd_MINPAD[MINPAD] is clear or when PKO_PDM_CFG[TOTAL]>=PKO_PDM_CFG[MINLEN],
           else CALCPAD=PKO_PDM_CFG[MINLEN]-PKO_SEND_HDR_S[TOTAL], where d is the DQ the packet used.
@@ -3165,7 +3228,7 @@ registers:
         typical: 0
         description: |
           Length disable. Disables the use of packet lengths in shaping calculations such that only
-          the values of PKO_L2_SQ(0..511)_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
+          the values of PKO_L2_SQ()_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
 
       - name: --
         bits: 23..13
@@ -3217,14 +3280,14 @@ registers:
     title: PKO PSE Level 2 Shaping Queue Committed Information Rate Register
     address: 0x1540000080018 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L2_SQ(0..511)_PIR
     title: PKO PSE Level 2 Shaping Queue Peak Information Rate Register
     address: 0x1540000080020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L2_SQ(0..511)_SCHED_STATE
@@ -3273,10 +3336,10 @@ registers:
         typical: 0x0
         description: |
           Shaper color status. Debug access to the live shaper state.
-          0x0 = Green - operating in 'committed' range
-          0x1 = Yellow - operating in 'excess/peak' range
-          0x2 = Red - operating in 'oversubscribed' range
-          0x3 = Reserved
+          0x0 = Green - operating in 'committed' range.
+          0x1 = Yellow - operating in 'excess/peak' range.
+          0x2 = Red - operating in 'oversubscribed' range.
+          0x3 = Reserved.
 
       - name: PIR_ACCUM
         bits: 51..26
@@ -3452,7 +3515,7 @@ registers:
       INTERNAL: PKO PSE Level 1 Shaping Queue Red State Debug Register
     address: 0x1540000080068 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_YELLOW.
+    description: This register has the same bit fields as PKO_L1_SQ()_YELLOW.
     inherits: PKO_L1_SQ(0..31)_YELLOW
 
   - name: PKO_L1_SQ(0..31)_PICK
@@ -3473,7 +3536,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[COLOR].
+        description: See PKO_L2_SQ()_SHAPE[COLOR].
 
       - name: CHILD
         bits: 51..42
@@ -3539,7 +3602,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[ADJUST].
+        description: See PKO_L2_SQ()_SHAPE[ADJUST].
 
       - name: PIR_DIS
         bits: 19
@@ -3560,7 +3623,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[RED_ALGO].
+        description: See PKO_L2_SQ()_SHAPE[RED_ALGO].
 
       - name: LENGTH
         bits: 15..0
@@ -3609,7 +3672,7 @@ registers:
     title: PKO PSE Level 2 Shaping Queue Software Controlled XOFF Register
     address: 0x15400000800E0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SW_XOFF.
+    description: This register has the same bit fields as PKO_L1_SQ()_SW_XOFF.
     inherits: PKO_L1_SQ(0..31)_SW_XOFF
 
   - name: PKO_CHANNEL_LEVEL
@@ -4089,8 +4152,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ1_SBE_CMB0.
           INTERNAL: Instances:
@@ -4307,8 +4370,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ1_DBE_CMB0.
           INTERNAL: Instances:
@@ -4562,7 +4625,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[PRIO_ANCHOR].
+        description: See PKO_L1_SQ()_TOPOLOGY[PRIO_ANCHOR].
 
       - name: --
         bits: 31..21
@@ -4595,7 +4658,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[RR_PRIO].
+        description: See PKO_L1_SQ()_TOPOLOGY[RR_PRIO].
 
       - name: --
         bits: 0
@@ -4609,7 +4672,7 @@ registers:
     title: PKO PSE Level 3 Scheduling Control Register
     address: 0x1540000100008 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHEDULE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
     inherits: PKO_L2_SQ(0..511)_SCHEDULE
 
   - name: PKO_L3_SQ(0..511)_SHAPE
@@ -4661,42 +4724,42 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[RED_ALGO].
+        description: See PKO_L2_SQ()_SHAPE[RED_ALGO].
 
       - name: ADJUST
         bits: 8..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[ADJUST].
+        description: See PKO_L2_SQ()_SHAPE[ADJUST].
 
 
   - name: PKO_L3_SQ(0..511)_CIR
     title: PKO PSE Level 3 Shaping Queue Committed Information Rate Register
     address: 0x1540000100018 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L3_SQ(0..511)_PIR
     title: PKO PSE Level 3 Shaping Queue Peak Information Rate Register
     address: 0x1540000100020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L3_SQ(0..511)_SCHED_STATE
     title: PKO PSE Level 3 Scheduling Control State Register
     address: 0x1540000100028 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHED_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHED_STATE.
     inherits: PKO_L2_SQ(0..511)_SCHED_STATE
 
   - name: PKO_L3_SQ(0..511)_SHAPE_STATE
     title: PKO PSE Level 3 Shaping State Register
     address: 0x1540000100030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SHAPE_STATE.
     inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L2_SQ(0..511)_GREEN
@@ -4704,7 +4767,7 @@ registers:
       INTERNAL: PKO PSE Level 2 Shaping Queue Green State Debug Register
     address: 0x1540000100058 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_GREEN.
+    description: This register has the same bit fields as PKO_L1_SQ()_GREEN.
     inherits: PKO_L1_SQ(0..31)_GREEN
 
   - name: PKO_L2_SQ(0..511)_YELLOW
@@ -4712,7 +4775,7 @@ registers:
       INTERNAL: PKO PSE Level 2 Shaping Queue Yellow State Debug Register
     address: 0x1540000100060 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_YELLOW.
+    description: This register has the same bit fields as PKO_L1_SQ()_YELLOW.
     inherits: PKO_L1_SQ(0..31)_YELLOW
 
   - name: PKO_L2_SQ(0..511)_RED
@@ -4720,7 +4783,7 @@ registers:
       INTERNAL: PKO PSE Level 2 Shaping Queue Red State Debug Register
     address: 0x1540000100068 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_RED.
+    description: This register has the same bit fields as PKO_L1_SQ()_RED.
     inherits: PKO_L1_SQ(0..31)_YELLOW
 
   - name: PKO_L2_SQ(0..511)_PICK
@@ -4728,7 +4791,7 @@ registers:
       INTERNAL: PKO PSE Level 2 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000100070 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
+    description: This register has the same bit fields as PKO_L1_SQ()_PICK.
     inherits: PKO_L1_SQ(0..31)_PICK
 
   - name: PKO_L3_SQ(0..511)_POINTERS
@@ -4736,14 +4799,14 @@ registers:
       INTERNAL: PKO PSE Level 3 Shaping Queue Linked List Pointers Debug Register
     address: 0x1540000100078 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_POINTERS.
+    description: This register has the same bit fields as PKO_L2_SQ()_POINTERS.
     inherits: PKO_L2_SQ(0..511)_POINTERS
 
   - name: PKO_L3_SQ(0..511)_SW_XOFF
     title: PKO PSE Level 3 Software Controlled XOFF Register
     address: 0x15400001000E0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SW_XOFF
+    description: This register has the same bit fields as PKO_L1_SQ()_SW_XOFF
     inherits: PKO_L1_SQ(0..31)_SW_XOFF
 
   - name: PKO_PSE_SQ2_ECC_CTL0
@@ -5086,8 +5149,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ2_SBE_CMB0.
           INTERNAL: Instances:
@@ -5255,8 +5318,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ2_DBE_CMB0.
           INTERNAL: Instances:
@@ -5452,7 +5515,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[PRIO_ANCHOR].
+        description: See PKO_L1_SQ()_TOPOLOGY[PRIO_ANCHOR].
 
       - name: --
         bits: 31..25
@@ -5466,7 +5529,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_TOPOLOGY[PARENT].
+        description: See PKO_L2_SQ()_TOPOLOGY[PARENT].
 
       - name: --
         bits: 15..5
@@ -5480,7 +5543,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[RR_PRIO].
+        description: See PKO_L1_SQ()_TOPOLOGY[RR_PRIO].
 
       - name: --
         bits: 0
@@ -5494,42 +5557,42 @@ registers:
     title: PKO PSE Level 4 Scheduling Control Register
     address: 0x1540000180008 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHEDULE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
     inherits: PKO_L2_SQ(0..511)_SCHEDULE
 
   - name: PKO_L4_SQ(0..1023)_SHAPE
     title: PKO PSE Level 4 Shaping Control Register
     address: 0x1540000180010 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_SHAPE.
+    description: This register has the same bit fields as PKO_L3_SQ()_SHAPE.
     inherits: PKO_L3_SQ(0..511)_SHAPE
 
   - name: PKO_L4_SQ(0..1023)_CIR
     title: PKO PSE Level 4 Shaping Queue Committed Information Rate Register
     address: 0x1540000180018 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L4_SQ(0..1023)_PIR
     title: PKO PSE Level 4 Shaping Queue Peak Information Rate Register
     address: 0x1540000180020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L4_SQ(0..511)_SCHED_STATE
     title: PKO PSE Level 4 Scheduling Control State Register
     address: 0x1540000180028 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHED_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHED_STATE.
     inherits: PKO_L2_SQ(0..511)_SCHED_STATE
 
   - name: PKO_L4_SQ(0..511)_SHAPE_STATE
     title: PKO PSE Level 4 Shaping State Register
     address: 0x1540000180030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SHAPE_STATE.
     inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L3_SQ(0..511)_GREEN
@@ -5609,7 +5672,7 @@ registers:
       INTERNAL: PKO PSE Level 3 Shaping Queue Red State Debug Register
     address: 0x1540000180068 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
+    description: This register has the same bit fields as PKO_L3_SQ()_YELLOW.
     inherits: PKO_L3_SQ(0..511)_YELLOW
 
   - name: PKO_L3_SQ(0..511)_PICK
@@ -5617,7 +5680,7 @@ registers:
       INTERNAL: PKO PSE Level 3 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000180070 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
+    description: This register has the same bit fields as PKO_L1_SQ()_PICK.
     inherits: PKO_L1_SQ(0..31)_PICK
 
   - name: PKO_L4_SQ(0..1023)_POINTERS
@@ -5638,7 +5701,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_POINTERS[PREV].
+        description: See PKO_L2_SQ()_POINTERS[PREV].
 
       - name: --
         bits: 15..10
@@ -5652,14 +5715,14 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_POINTERS[NEXT].
+        description: See PKO_L2_SQ()_POINTERS[NEXT].
 
 
   - name: PKO_L4_SQ(0..1023)_SW_XOFF
     title: PKO PSE Level 4 Software Controlled XOFF Register
     address: 0x15400001800E0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SW_XOFF.
+    description: This register has the same bit fields as PKO_L1_SQ()_SW_XOFF.
     inherits: PKO_L1_SQ(0..31)_SW_XOFF
 
   - name: PKO_PSE_SQ3_ECC_CTL0
@@ -6186,8 +6249,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ3_SBE_CMB0.
           INTERNAL: Instances:
@@ -6435,8 +6498,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ3_DBE_CMB0.
           INTERNAL: Instances:
@@ -6686,7 +6749,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[PRIO_ANCHOR].
+        description: See PKO_L1_SQ()_TOPOLOGY[PRIO_ANCHOR].
 
       - name: --
         bits: 31..25
@@ -6700,7 +6763,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_TOPOLOGY[PARENT].
+        description: See PKO_L2_SQ()_TOPOLOGY[PARENT].
 
       - name: --
         bits: 15..5
@@ -6714,7 +6777,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[RR_PRIO].
+        description: See PKO_L1_SQ()_TOPOLOGY[RR_PRIO].
 
       - name: --
         bits: 0
@@ -6728,7 +6791,7 @@ registers:
     title: PKO PSE Level 5 Scheduling Control Register
     address: 0x1540000200008 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHEDULE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
     inherits: PKO_L2_SQ(0..511)_SCHEDULE
 
   - name: PKO_L5_SQ(0..1023)_SHAPE
@@ -6750,7 +6813,7 @@ registers:
         typical: 0
         description: |
           Length disable. Disables the use of packet lengths in shaping calculations such that only
-          the value of PKO_L5_SQ(0..1023)_SHAPE[ADJUST].
+          the value of PKO_L5_SQ()_SHAPE[ADJUST].
 
       - name: --
         bits: 23..13
@@ -6780,42 +6843,42 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[RED_ALGO].
+        description: See PKO_L2_SQ()_SHAPE[RED_ALGO].
 
       - name: ADJUST
         bits: 8..0
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_SHAPE[ADJUST].
+        description: See PKO_L2_SQ()_SHAPE[ADJUST].
 
 
   - name: PKO_L5_SQ(0..1023)_CIR
     title: PKO PSE Level 5 Shaping Queue Committed Information Rate Register
     address: 0x1540000200018 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L5_SQ(0..1023)_PIR
     title: PKO PSE Level 5 Shaping Queue Peak Information Rate Register
     address: 0x1540000200020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_L5_SQ(0..1023)_SCHED_STATE
     title: PKO PSE Level 5 Scheduling Control State Register
     address: 0x1540000200028 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHED_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHED_STATE.
     inherits: PKO_L2_SQ(0..511)_SCHED_STATE
 
   - name: PKO_L5_SQ(0..1023)_SHAPE_STATE
     title: PKO PSE Level 5 Shaping State Register
     address: 0x1540000200030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SHAPE_STATE.
     inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L4_SQ(0..1023)_GREEN
@@ -6823,7 +6886,7 @@ registers:
       INTERNAL: PKO PSE Level 4 Shaping Queue Green State Debug Register
     address: 0x1540000200058 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_GREEN.
+    description: This register has the same bit fields as PKO_L3_SQ()_GREEN.
     inherits: PKO_L3_SQ(0..511)_GREEN
 
   - name: PKO_L4_SQ(0..1023)_YELLOW
@@ -6831,7 +6894,7 @@ registers:
       INTERNAL: PKO PSE Level 4 Shaping Queue Yellow State Debug Register
     address: 0x1540000200060 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
+    description: This register has the same bit fields as PKO_L3_SQ()_YELLOW.
     inherits: PKO_L3_SQ(0..511)_YELLOW
 
   - name: PKO_L4_SQ(0..1023)_RED
@@ -6839,7 +6902,7 @@ registers:
       INTERNAL: PKO PSE Level 4 Shaping Queue Red State Debug Register
     address: 0x1540000200068 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
+    description: This register has the same bit fields as PKO_L3_SQ()_YELLOW.
     inherits: PKO_L3_SQ(0..511)_YELLOW
 
   - name: PKO_L4_SQ(0..1023)_PICK
@@ -6847,7 +6910,7 @@ registers:
       INTERNAL: PKO PSE Level 4 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000200070 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
+    description: This register has the same bit fields as PKO_L1_SQ()_PICK.
     inherits: PKO_L1_SQ(0..31)_PICK
 
   - name: PKO_L5_SQ(0..1023)_POINTERS
@@ -6855,14 +6918,14 @@ registers:
       INTERNAL: PKO PSE Level 5 Shaping Queue Linked List Pointers Debug Register
     address: 0x1540000200078 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L4_SQ(0..1023)_POINTERS.
+    description: This register has the same bit fields as PKO_L4_SQ()_POINTERS.
     inherits: PKO_L4_SQ(0..1023)_POINTERS
 
   - name: PKO_L5_SQ(0..1023)_SW_XOFF
     title: PKO PSE Level 5 Software Controlled XOFF Register
     address: 0x15400002000E0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SW_XOFF.
+    description: This register has the same bit fields as PKO_L1_SQ()_SW_XOFF.
     inherits: PKO_L1_SQ(0..31)_SW_XOFF
 
   - name: PKO_PSE_SQ4_ECC_CTL0
@@ -7389,8 +7452,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ4_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ4_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ4_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ4_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ4_SBE_CMB0.
           INTERNAL: Instances:
@@ -7638,8 +7701,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ4_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ4_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ4_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ4_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ4_DBE_CMB0.
           INTERNAL: Instances:
@@ -7889,7 +7952,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[PRIO_ANCHOR].
+        description: See PKO_L1_SQ()_TOPOLOGY[PRIO_ANCHOR].
 
       - name: --
         bits: 31..26
@@ -7903,7 +7966,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_TOPOLOGY[PARENT].
+        description: See PKO_L2_SQ()_TOPOLOGY[PARENT].
 
       - name: --
         bits: 15..5
@@ -7917,7 +7980,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: See PKO_L1_SQ(0..31)_TOPOLOGY[RR_PRIO].
+        description: See PKO_L1_SQ()_TOPOLOGY[RR_PRIO].
 
       - name: --
         bits: 0
@@ -7931,42 +7994,42 @@ registers:
     title: PKO PSE Descriptor Queue Scheduling Control Register
     address: 0x1540000280008 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHEDULE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
     inherits: PKO_L2_SQ(0..511)_SCHEDULE
 
   - name: PKO_DQ(0..1023)_SHAPE
     title: PKO PSE Descriptor Queue Shaping Control Register
     address: 0x1540000280010 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L5_SQ(0..1023)_SHAPE.
+    description: This register has the same bit fields as PKO_L5_SQ()_SHAPE.
     inherits: PKO_L5_SQ(0..1023)_SHAPE
 
   - name: PKO_DQ(0..1023)_CIR
     title: PKO PSE Descriptor Queue Shaping Queue Committed Information Rate Register
     address: 0x1540000280018 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_DQ(0..1023)_PIR
     title: PKO PSE Descriptor Queue Shaping Queue Peak Information Rate Register
     address: 0x1540000280020 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_CIR.
+    description: This register has the same bit fields as PKO_L1_SQ()_CIR.
     inherits: PKO_L1_SQ(0..31)_CIR
 
   - name: PKO_DQ(0..1023)_SCHED_STATE
     title: PKO PSE Descriptor Queue Scheduling Control State Register
     address: 0x1540000280028 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SCHED_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SCHED_STATE.
     inherits: PKO_L2_SQ(0..511)_SCHED_STATE
 
   - name: PKO_DQ(0..1023)_SHAPE_STATE
     title: PKO PSE Descriptor Queue Shaping State Register
     address: 0x1540000280030 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L2_SQ(0..511)_SHAPE_STATE.
+    description: This register has the same bit fields as PKO_L2_SQ()_SHAPE_STATE.
     inherits: PKO_L2_SQ(0..511)_SHAPE_STATE
 
   - name: PKO_L5_SQ(0..1023)_GREEN
@@ -7974,7 +8037,7 @@ registers:
       INTERNAL: PKO PSE Level 5 Shaping Queue Green State Debug Register
     address: 0x1540000280058 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_GREEN.
+    description: This register has the same bit fields as PKO_L3_SQ()_GREEN.
     inherits: PKO_L3_SQ(0..511)_GREEN
 
   - name: PKO_L5_SQ(0..1023)_YELLOW
@@ -7982,7 +8045,7 @@ registers:
       INTERNAL: PKO PSE Level 5 Shaping Queue Yellow State Debug Register
     address: 0x1540000280060 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
+    description: This register has the same bit fields as PKO_L3_SQ()_YELLOW.
     inherits: PKO_L3_SQ(0..511)_YELLOW
 
   - name: PKO_L5_SQ(0..1023)_RED
@@ -7990,7 +8053,7 @@ registers:
       INTERNAL: PKO PSE Level 5 Shaping Queue Red State Debug Register
     address: 0x1540000280068 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L3_SQ(0..511)_YELLOW.
+    description: This register has the same bit fields as PKO_L3_SQ()_YELLOW.
     inherits: PKO_L3_SQ(0..511)_YELLOW
 
   - name: PKO_L5_SQ(0..1023)_PICK
@@ -7998,7 +8061,7 @@ registers:
       INTERNAL: PKO PSE Level 5 Shaping Queue Packet Pick State Debug Register
     address: 0x1540000280070 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
+    description: This register has the same bit fields as PKO_L1_SQ()_PICK.
     inherits: PKO_L1_SQ(0..31)_PICK
 
   - name: PKO_DQ(0..1023)_POINTERS
@@ -8006,14 +8069,14 @@ registers:
       INTERNAL: PKO PSE Descriptor Queue Linked List Pointers Debug Register
     address: 0x1540000280078 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L4_SQ(0..1023)_POINTERS.
+    description: This register has the same bit fields as PKO_L4_SQ()_POINTERS.
     inherits: PKO_L4_SQ(0..1023)_POINTERS
 
   - name: PKO_DQ(0..1023)_SW_XOFF
     title: PKO PSE Descriptor Queue Software Controlled XOFF Register
     address: 0x15400002800E0 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_SW_XOFF.
+    description: This register has the same bit fields as PKO_L1_SQ()_SW_XOFF.
     inherits: PKO_L1_SQ(0..31)_SW_XOFF
 
   - name: PKO_PSE_SQ5_ECC_CTL0
@@ -8540,8 +8603,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ5_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ5_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ5_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ5_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ5_SBE_CMB0.
           INTERNAL: Instances:
@@ -8789,8 +8852,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_SQ5_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_SQ5_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_SQ5_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_SQ5_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_SQ5_DBE_CMB0.
           INTERNAL: Instances:
@@ -9040,7 +9103,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: See PKO_L2_SQ(0..511)_TOPOLOGY[PARENT].
+        description: See PKO_L2_SQ()_TOPOLOGY[PARENT].
 
       - name: --
         bits: 15..0
@@ -9055,7 +9118,7 @@ registers:
       INTERNAL: PKO PSE Descriptor Queue Shaping Queue Packet Pick State Debug Register
     address: 0x1540000300070 + a*0x200
     bus: NCB
-    description: This register has the same bit fields as PKO_L1_SQ(0..31)_PICK.
+    description: This register has the same bit fields as PKO_L1_SQ()_PICK.
     inherits: PKO_L1_SQ(0..31)_PICK
 
   - name: PKO_DQ(0..1023)_FIFO
@@ -9083,14 +9146,14 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: See PKO_L2_SQ(0..511)_POINTERS[PREV].
+        description: See PKO_L2_SQ()_POINTERS[PREV].
 
       - name: TAIL
         bits: 6..0
         access: RO/H
         reset: 0x0
         typical: --
-        description: See PKO_L2_SQ(0..511)_POINTERS[NEXT].
+        description: See PKO_L2_SQ()_POINTERS[NEXT].
 
 
   - name: PKO_PSE_DQ_ECC_CTL0
@@ -9335,8 +9398,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_SBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_SBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_SBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_SBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_DQ_SBE_CMB0.
           INTERNAL: Instances:
@@ -9458,8 +9521,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_DBE_STS.
-          To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_DBE_STS.
+          This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_DBE_STS0.
+          To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_DBE_STS0.
           When this bit is set, the corresponding interrupt is set.
           Throws PKO_INTSN_E::PKO_PSE_DQ_DBE_CMB0.
           INTERNAL: Instances:
@@ -9756,7 +9819,7 @@ registers:
         description: |
           Queue command IOBDMA/IOBLD error status occurred in PKO/PDM.
           PKO_PDM_STS[QCMD_IOBX_ERR_STS] contains the status code. Note that FPA being out of
-          pointers does not set this bit. (See PKO_FPA_NO_PTRS). Throws
+          pointers does not set this bit. (See PKO_FPA_NO_PTRS.) Throws
           PKO_INTSN_E::PKO_QCMD_IOBX_ERR.
 
       - name: SENDPKT_LMTDMA_ERR_STS
@@ -9778,7 +9841,7 @@ registers:
         description: |
           Send-packet of type LMTDMA error status occurred in PKO/PDM.
           PKO_PDM_STS[SENDPKT_LMTDMA_ERR_STS] contains the status code. Note that FPA being out of
-          pointers does not set this bit. (See PKO_FPA_NO_PTRS). Throws
+          pointers does not set this bit. (See PKO_FPA_NO_PTRS.) Throws
           PKO_INTSN_E::PKO_SENDPKT_LMTDMA_ERR.
 
       - name: SENDPKT_LMTST_ERR_STS
@@ -9800,7 +9863,7 @@ registers:
         description: |
           Send-packet of type LMTST error status occurred in PKO/PDM.
           PKO_PDM_STS[SENDPKT_LMTST_ERR_STS] contains the status code. Note that FPA being out of
-          pointers does not set this bit. (See PKO_FPA_NO_PTRS). Throws
+          pointers does not set this bit. (See PKO_FPA_NO_PTRS.) Throws
           PKO_INTSN_E::PKO_SENDPKT_LMTST_ERR.
 
       - name: FPA_NO_PTRS
@@ -9914,7 +9977,12 @@ registers:
         typical: --
         description: |
           Memory select. Selects the RAM to read or write to.
-          0 = Invalid, 1 = ISRM states, 2 = ISRD states, 3 = DWPBUF, 4 = DRPBUF, 5 = MWPBUF
+          0 = Invalid.
+          1 = ISRM states.
+          2 = ISRD states.
+          3 = DWPBUF.
+          4 = DRPBUF.
+          5 = MWPBUF.
 
       - name: --
         bits: 60..17
@@ -10015,14 +10083,14 @@ registers:
         typical: --
         description: |
           Input arbitration request signals. The order of the bits is:
-          0x2B = Fill response - normal path request
-          0x2A = Fill response - flushb path request
-          0x29 = CP queue-open request
-          0x28 = CP queue-closed request
-          0x27 = CP queue-query request
-          0x26 = CP send-packet request
-          0x25 = PEB fill request
-          0x24 = PEB read request
+          0x2B = Fill response - normal path request.
+          0x2A = Fill response - flushb path request.
+          0x29 = CP queue-open request.
+          0x28 = CP queue-closed request.
+          0x27 = CP queue-query request.
+          0x26 = CP send-packet request.
+          0x25 = PEB fill request.
+          0x24 = PEB read request.
 
       - name: IN_ARB_GNTS
         bits: 35..29
@@ -10031,13 +10099,13 @@ registers:
         typical: --
         description: |
           Input arbitration grant signals. The order of the bits is:
-          0x23 = Fill response grant
-          0x22 = CP - queue-open grant
-          0x21 = CP - queue-close grant
-          0x20 = CP - queue-query grant
-          0x1F = CP - send-packet grant
-          0x1E = PEB fill grant
-          0x1D = PEB read grant
+          0x23 = Fill response grant.
+          0x22 = CP - queue-open grant.
+          0x21 = CP - queue-close grant.
+          0x20 = CP - queue-query grant.
+          0x1F = CP - send-packet grant.
+          0x1E = PEB fill grant.
+          0x1D = PEB read grant.
 
       - name: CMT_ARB_REQS
         bits: 28..22
@@ -10046,13 +10114,13 @@ registers:
         typical: --
         description: |
           Commit arbitration request signals. The order of the bits is:
-          0x1C = Fill response grant
-          0x1B = CP - queue-open grant
-          0x1A = CP - queue-close grant
-          0x19 = CP - queue-query grant
-          0x18 = CP - send-packet grant
-          0x17 = PEB fill grant
-          0x16 = PEB read grant
+          0x1C = Fill response grant.
+          0x1B = CP - queue-open grant.
+          0x1A = CP - queue-close grant.
+          0x19 = CP - queue-query grant.
+          0x18 = CP - send-packet grant.
+          0x17 = PEB fill grant.
+          0x16 = PEB read grant.
 
       - name: CMT_ARB_GNTS
         bits: 21..15
@@ -10061,13 +10129,13 @@ registers:
         typical: --
         description: |
           Commit arbitration grant signals. The order of the bits is:
-          0x15 = Fill response grant
-          0x14 = CP - queue-open grant
-          0x13 = CP - queue-close grant
-          0x12 = CP - queue-query grant
-          0x11 = CP - send-packet grant
-          0x10 = PEB fill grant
-          0xF = PEB read grant
+          0x15 = Fill response grant.
+          0x14 = CP - queue-open grant.
+          0x13 = CP - queue-close grant.
+          0x12 = CP - queue-query grant.
+          0x11 = CP - send-packet grant.
+          0x10 = PEB fill grant.
+          0xF = PEB read grant.
 
       - name: IN_USE
         bits: 14..11
@@ -10076,10 +10144,10 @@ registers:
         typical: --
         description: |
           In use signals indicate the execution units are in use. The order of the bits is:
-          0xE = PEB fill unit
-          0xD = PEB read unit
-          0xC = CP unit
-          0xB = Fill response unit
+          0xE = PEB fill unit.
+          0xD = PEB read unit.
+          0xC = CP unit.
+          0xB = Fill response unit.
 
       - name: HAS_CRED
         bits: 10..7
@@ -10102,13 +10170,13 @@ registers:
         description: |
           Valid bits for the execution units; means the unit can commit if it gets the grant of the
           commit arb and other conditions are met. The order of the bits is:
-          0x6 = Fill response unit
-          0x5 = CP unit - queue-open
-          0x4 = CP unit - queue-close
-          0x3 = CP unit - queue-probe
-          0x2 = CP unit - send-packet
-          0x1 = PEB fill unit
-          0x0 = PEB read unit
+          0x6 = Fill response unit.
+          0x5 = CP unit - queue-open.
+          0x4 = CP unit - queue-close.
+          0x3 = CP unit - queue-probe.
+          0x2 = CP unit - send-packet.
+          0x1 = PEB fill unit.
+          0x0 = PEB read unit.
 
 
   - name: PKO_PDM_ISRM_DBG
@@ -10131,13 +10199,13 @@ registers:
         typical: --
         description: |
           Input arbitration request signals. The order of the bits is:
-          0x21 = PSE ACK
-          0x20 = Fill Response - normal path request
-          0x1F = Fill Response - flushb path request
-          0x1E = CP queue-open
-          0x1D = CP queue-closed
-          0x1C = CP queue-query
-          0x1B = CP send-packet
+          0x21 = PSE ACK.
+          0x20 = Fill Response - normal path request.
+          0x1F = Fill Response - flushb path request.
+          0x1E = CP queue-open.
+          0x1D = CP queue-closed.
+          0x1C = CP queue-query.
+          0x1B = CP send-packet.
 
       - name: IN_ARB_GNTS
         bits: 26..21
@@ -10146,12 +10214,12 @@ registers:
         typical: --
         description: |
           Input arbitration grant signals. The order of the bits is:
-          0x1A: PSE ACK
-          0x19 = Fill Response
-          0x18 = CP - queue-open
-          0x17 = CP - queue-close
-          0x16 = CP - queue-query
-          0x15 = CP - send-packet
+          0x1A = PSE ACK.
+          0x19 = Fill Response.
+          0x18 = CP - queue-open.
+          0x17 = CP - queue-close.
+          0x16 = CP - queue-query.
+          0x15 = CP - send-packet.
 
       - name: CMT_ARB_REQS
         bits: 20..15
@@ -10160,12 +10228,12 @@ registers:
         typical: --
         description: |
           Commit arbitration request signals. The order of the bits is:
-          0x14 = PSE ACK
-          0x13 = Fill Response
-          0x12 = CP - queue-open
-          0x11 = CP - queue-close
-          0x10 = CP - queue-query
-          0xF CP - send-packet
+          0x14 = PSE ACK.
+          0x13 = Fill Response.
+          0x12 = CP - queue-open.
+          0x11 = CP - queue-close.
+          0x10 = CP - queue-query.
+          0xF CP - send-packet.
 
       - name: CMT_ARB_GNTS
         bits: 14..9
@@ -10174,12 +10242,12 @@ registers:
         typical: --
         description: |
           Commit arbitration grant signals. The order of the bits is:
-          0xE = PSE ACK
-          0xD = Fill Response
-          0xC = CP - queue-open
-          0xB = CP - queue-close
-          0xA = CP - queue-query
-          0x9 = CP - send-packet
+          0xE = PSE ACK.
+          0xD = Fill Response.
+          0xC = CP - queue-open.
+          0xB = CP - queue-close.
+          0xA = CP - queue-query.
+          0x9 = CP - send-packet.
 
       - name: IN_USE
         bits: 8..6
@@ -10188,9 +10256,9 @@ registers:
         typical: --
         description: |
           In use signals indicate the execution units are in use. The order of the bits is:
-          0x8 = (PSE) ACK unit
-          0x7 = Fill response unit
-          0x6 = CP unit
+          0x8 = (PSE) ACK unit.
+          0x7 = Fill response unit.
+          0x6 = CP unit.
 
       - name: HAS_CRED
         bits: 5..3
@@ -10200,9 +10268,9 @@ registers:
         description: |
           Has credit signals indicate there is sufficient credit to commit. The order of the bits
           is:
-          0x5 = Flush buffer has credit
-          0x4 = Fill buffer has credit
-          0x3 = MWP command output FIFO has credit
+          0x5 = Flush buffer has credit.
+          0x4 = Fill buffer has credit.
+          0x3 = MWP command output FIFO has credit.
 
       - name: VAL_EXEC
         bits: 2..0
@@ -10212,9 +10280,9 @@ registers:
         description: |
           Valid bits for the execution units; means the unit can commit if it gets the grant of the
           commit arb and other conditions are met. The order of the bits is:
-          0x2 = (PSE) ACK unit
-          0x1 = Fill response unit
-          0x0 = CP unit - ALL
+          0x2 = (PSE) ACK unit.
+          0x1 = Fill response unit.
+          0x0 = CP unit - ALL.
 
 
   - name: PKO_PDM_MWPBUF_DBG
@@ -10300,10 +10368,10 @@ registers:
         typical: --
         description: |
           Memory write/chip enable signals. The order of the bits is:
-          0x3 = low wen
-          0x2 = low cen
-          0x1 = high wen
-          0x0 = high cen.
+          0x3 = Low wen.
+          0x2 = Low cen.
+          0x1 = High wen.
+          0x0 = High cen.
 
 
   - name: PKO_PDM_DWPBUF_DBG
@@ -10389,10 +10457,10 @@ registers:
         typical: --
         description: |
           Memory write/chip enable signals. The order of the bits is:
-          0x3 = low wen
-          0x2 = low cen
-          0x1 = high wen
-          0x0 = high cen.
+          0x3 = Low wen.
+          0x2 = Low cen.
+          0x1 = High wen.
+          0x0 = High cen.
 
 
   - name: PKO_PDM_DRPBUF_DBG
@@ -10478,10 +10546,10 @@ registers:
         typical: --
         description: |
           Memory write/chip enable signals. The order of the bits is:
-          0x3 = low wen
-          0x2 = low cen
-          0x1 = high wen
-          0x0 = high cen.
+          0x3 = Low wen.
+          0x2 = Low cen.
+          0x1 = High wen.
+          0x0 = High cen.
 
 
   - name: PKO_PDM_CP_DBG
@@ -10518,11 +10586,11 @@ registers:
         typical: --
         description: |
           Output fifo not full signals. The order of the bits is:
-          0x4 = ISR CMD FIFO not full
-          0x3 = DESC DAT FIFO HIGH not full
-          0x2 = DESC DAT FIFO LOW not full
-          0x1 = MP DAT FIFO not full
-          0x0 = PSE CMD RESP FIFO has credit
+          0x4 = ISR CMD FIFO not full.
+          0x3 = DESC DAT FIFO HIGH not full.
+          0x2 = DESC DAT FIFO LOW not full.
+          0x1 = MP DAT FIFO not full.
+          0x0 = PSE CMD RESP FIFO has credit.
 
 
   - name: PKO_PDM_ISRD_DBG_DQ
@@ -11133,6 +11201,8 @@ registers:
         access: RO
         reset: 0
         typical: --
+        attributes:
+          exempt_name_length: "True"
         description: BIST status for FILLB_FLSHB_M_DAT_RAM.
 
       - name: FILLB_M_RSP_DAT_FIFO_BIST_STATUS
@@ -11140,6 +11210,8 @@ registers:
         access: RO
         reset: 0
         typical: --
+        attributes:
+          exempt_name_length: "True"
         description: BIST status for FILLB_M_DAT_FIFO.
 
       - name: FLSHB_M_DAT_RAM_BIST_STATUS
@@ -11524,8 +11596,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PDM_ECC_DBE_STS. To clear this bit, software
-          must clear bits in PKO_PDM_ECC_DBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_PDM_ECC_DBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_PDM_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_PDM_DBE_CMB0. INTERNAL: Instances:
           fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi
           fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo
@@ -11570,8 +11643,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PDM_ECC_SBE_STS. To clear this bit, software
-          must clear bits in PKO_PDM_ECC_SBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_PDM_ECC_SBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_PDM_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_PDM_SBE_CMB0. INTERNAL: Instances:
           fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi
           fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo
@@ -12044,14 +12118,14 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Minimum padding is enabled for this MAC/FIFO
+        description: Minimum padding is enabled for this MAC/FIFO.
 
       - name: FCS_ENA
         bits: 15
         access: R/W
         reset: 0
         typical: --
-        description: Enable outside FCS for this MAC/FIFO
+        description: Enable outside FCS for this MAC/FIFO.
 
       - name: FCS_SOP_OFF
         bits: 14..7
@@ -12077,7 +12151,7 @@ registers:
         description: |
           The PEB TX FIFO number assigned to the given MAC. A value of 0x1F means unassigned. Unused
           MACs must be assigned a FIFO_NUM = 0x1F. For each active MAC, a unique FIFO_NUM must be
-          assigned. Legal values depend on the values in PKO_PTGF(0..7)_CFG[SIZE]. Assigning the
+          assigned. Legal values depend on the values in PKO_PTGF()_CFG[SIZE]. Assigning the
           same FIFO_NUM to more than a single active MAC will have unpredictable results. FIFOs 0x1E
           and 0x1D are invalid and will cause unpredictable results if used.
 
@@ -12119,7 +12193,7 @@ registers:
         typical: --
         description: |
           MAC assigned to the given PKO TX FIFO. A value of 0x1F means unassigned. These register
-          values are derived automatically by the hardware from the PKO_MAC(0..27)_CFG[FIFO_NUM]
+          values are derived automatically by the hardware from the PKO_MAC()_CFG[FIFO_NUM]
           settings.
 
 
@@ -12155,7 +12229,7 @@ registers:
           the NULL) should never exceed 250 Gb/s. This field represents the rate for each active
           FIFO
           in PEB; thus the calculation for throughput is a function of the SIZE field and whether or
-          not the FIFO is assigned to a MAC in PKO_MAC(0..27)_CFG.
+          not the FIFO is assigned to a MAC in PKO_MAC()_CFG.
           0x0 = 6.25 Gb/s.
           0x1 = 12.5 Gb/s.
           0x2 = 25 Gb/s.
@@ -12172,36 +12246,53 @@ registers:
           "PKO supports up to 29 independent TX FIFOs where 0-27 are physical and 28 is virtual. The
           FIFOs are grouped into 8 sets of four contiguously numbered queues where each FIFO has a
           base storage amount of 2.5K bytes of buffering.
-          PKO_PTGF(0)_CFG -> FIFO# 0-3
-          PKO_PTGF(1)_CFG -> FIFO# 4-7
-          PKO_PTGF(2)_CFG -> FIFO# 8-11
-          PKO_PTGF(3)_CFG -> FIFO# 12-15
-          PKO_PTGF(4)_CFG -> FIFO# 16-19
-          PKO_PTGF(5)_CFG -> FIFO# 20-23
-          PKO_PTGF(6)_CFG -> FIFO# 24-27
-          PKO_PTGF(7)_CFG -> FIFO# 28 (Virtual/NULL)
+
+          _ PKO_PTGF(0)_CFG -> FIFO 0-3
+
+          _ PKO_PTGF(1)_CFG -> FIFO 4-7
+
+          _ PKO_PTGF(2)_CFG -> FIFO 8-11
+
+          _ PKO_PTGF(3)_CFG -> FIFO 12-15
+
+          _ PKO_PTGF(4)_CFG -> FIFO 16-19
+
+          _ PKO_PTGF(5)_CFG -> FIFO 20-23
+
+          _ PKO_PTGF(6)_CFG -> FIFO 24-27
+
+          _ PKO_PTGF(7)_CFG -> FIFO 28 (Virtual/NULL)
+
           Within each set, 2 or 4 FIFOs can be combined to produce a larger FIFO if desired. The
           SIZE field is used to configure the number and depth of the FIFOs in a set. The supported
           options for a FIFO set are as follows:
-          SIZE: Set of 4 Contiguously Numbered FIFOs
-          ------------------------------------------
-          xxx      Queue0  Queue1  Queue2  Queue3
-          000 :     2.5k    2.5k    2.5k    2.5k
-          001 :     5.0k    0.0k    2.5k    2.5k
-          010 :     2.5k    2.5k    5.0k    0.0k
-          011 :     5.0k    0.0k    5.0k    0.0k
-          100 :    10.0k    0.0k    0.0k    0.0k
+
+          _ SIZE: Set of 4 Contiguously Numbered FIFOs
+
+          _ ------------------------------------------
+
+          _ xxx      Queue0  Queue1  Queue2  Queue3
+
+          _ 000 :     2.5k    2.5k    2.5k    2.5k
+
+          _ 001 :     5.0k    0.0k    2.5k    2.5k
+
+          _ 010 :     2.5k    2.5k    5.0k    0.0k
+
+          _ 011 :     5.0k    0.0k    5.0k    0.0k
+
+          _ 100 :    10.0k    0.0k    0.0k    0.0k
 
           Note: 101-111 are illegal SIZE values and should not be used.
           Note that when a FIFO is set to a size of 0K bytes, FIFO_NUM is no longer legal and cannot
           be assigned to an active MAC. For example, for the set of FIFOs 8-11, if the
           PKO_PTGF(2)_CFG[SIZE] = 3'b100, then FIFO_NUMs 9, 10 and 11 are no longer valid. Only
           FIFO_NUM = 8 is available from this set for assignment to a MAC because all of the 10
-          Kbytes of buffering was configured to FIFO#8.
+          Kbytes of buffering was configured to FIFO 8.
           FIFO_NUM = 28 is a virtual FIFO and is used exclusively to indicate the NULL FIFO. Packets
           targeting the NULL FIFO are dropped by PKO and their buffers returned to the FPA. The SIZE
           field for PKO_PTGF(7) should always be set to zero. Modifications to this field require
-          two writes. The first write must assert PKO_PTGF(0..7)_CFG[RESET] to reset the address
+          two writes. The first write must assert PKO_PTGF()_CFG[RESET] to reset the address
           pointers for the FIFOS in this group. The second write clears the RESET bit as well as
           configures the new SIZE values."
 
@@ -12295,7 +12386,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Bits to add to PKO_SEND_EXT[MARKPTR]*8 to determine where to start marking.
+        description: Bits to add to PKO_SEND_EXT_S[MARKPTR]*8 to determine where to start marking.
 
       - name: Y_MASK
         bits: 15..12
@@ -12344,7 +12435,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Asserted when software writes a FIFO number to PKO_MAC(0..27)_CFG when that FIFO is
+          Asserted when software writes a FIFO number to PKO_MAC()_CFG when that FIFO is
           already assigned. Throws PKO_INTSN_E::PEB_MACX_CFG_WR_ERR.
 
       - name: PEB_MAX_LINK_ERR
@@ -13303,8 +13394,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PEB_ECC_DBE_STS. To clear this bit, software
-          must clear bits in PKO_PEB_ECC_DBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_PEB_ECC_DBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_PEB_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_PEB_DBE_CMB0. INTERNAL: Instances:
           pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i
@@ -13349,8 +13441,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_PEB_ECC_SBE_STS. To clear this bit, software
-          must clear bits in PKO_PEB_ECC_SBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_PEB_ECC_SBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_PEB_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_PEB_SBE_CMB0. INTERNAL: Instances:
           pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i
           pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i
@@ -14012,8 +14105,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_LUT_ECC_DBE_STS. To clear this bit, software
-          must clear bits in PKO_LUT_ECC_DBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_LUT_ECC_DBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_LUT_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_LUT_DBE_CMB0. INTERNAL: Instances:
           pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i
 
@@ -14038,8 +14132,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_LUT_ECC_SBE_STS. To clear this bit, software
-          must clear bits in PKO_LUT_ECC_SBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_LUT_ECC_SBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_LUT_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_LUT_SBE_CMB0. INTERNAL: Instances:
           pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i
 
@@ -14269,8 +14364,8 @@ registers:
         description: |
           Local aura to use for PKO command buffering. Must be on local OCI node.
           The FPA aura selected by LAURA must select an FPA pool whose
-          FPA_POOL(0..63)_CFG[NAT_ALIGN]=1, and
-          (FPA_POOL(0..63)_CFG[BUF_SIZE] - FPA_POOL(0..63)_CFG[BUF_OFFSET]) >= 4 KB/128.
+          FPA_POOL()_CFG[NAT_ALIGN]=1, and
+          (FPA_POOL()_CFG[BUF_SIZE] - FPA_POOL()_CFG[BUF_OFFSET]) >= 4 KB/128.
 
 
   - name: PKO_DPFI_ENA
@@ -14563,6 +14658,8 @@ registers:
         access: RO
         reset: 0
         typical: --
+        attributes:
+          exempt_name_length: "True"
         description: BIST status for NCBO_PDM_CMD_DAT_RAM.
 
       - name: NCBI_L2_PDM_PREF_RAM_BIST_STATUS
@@ -14570,6 +14667,8 @@ registers:
         access: RO
         reset: 0
         typical: --
+        attributes:
+          exempt_name_length: "True"
         description: BIST status for NCBI_L2_PDM_PREF_RAM.
 
       - name: NCBO_PP_FIF_RAM_BIST_STATUS
@@ -14686,8 +14785,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_NCB_ECC_DBE_STS. To clear this bit, software
-          must clear bits in PKO_NCB_ECC_DBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_NCB_ECC_DBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_NCB_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_NCB_DBE_CMB0. INTERNAL: Instances:
           pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo
           pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo
@@ -14716,8 +14816,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          This bit is the logical OR of all bits in PKO_NCB_ECC_SBE_STS. To clear this bit, software
-          must clear bits in PKO_NCB_ECC_SBE_STS. When this bit is set, the corresponding interrupt
+          This bit is the logical OR of all bits in PKO_NCB_ECC_SBE_STS0. To clear this bit,
+          software
+          must clear bits in PKO_NCB_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
           is set. Throws PKO_INTSN_E::PKO_NCB_SBE_CMB0. INTERNAL: Instances:
           pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo
           pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo

@@ -68,6 +68,8 @@ enums:
 structs:
   - name: FPA_ALLOC_IOBDMA_S
     title: FPA Allocate Operation IOBDMA Address Structure
+    attributes:
+      mif_operation: "FPA Allocate Operations"
     description: IOBDMA allocate-operation addresses are formed with this structure.
     fields:
       - name: --
@@ -114,7 +116,7 @@ structs:
           const: "0x1"
         description: |
           Length of return in words, must be one. If the pool has no available pointers in the
-          selected pool (i.e. if [LEN] > FPA_POOL(0..63)_AVAILABLE), then the pointer returned for
+          selected pool (i.e. if [LEN] > FPA_POOL()_AVAILABLE), then the pointer returned for
           the IOBDMA operation are 0s, indicating that the pool does not have an adequate number of
           pointers to satisfy the IOBDMA.
 
@@ -127,7 +129,9 @@ structs:
 
   - name: FPA_ALLOC_LD_S
     title: FPA Allocate Operation Load Address Structure
-    description: Load Allocate operation addresses are formed with this structure.
+    attributes:
+      mif_operation: "FPA Allocate Operations"
+    description: Load allocate operation addresses are formed with this structure.
     fields:
       - name: --
         bits: 15..0
@@ -176,6 +180,8 @@ structs:
 
   - name: FPA_ALLOC_RTN_S
     title: FPA Allocate Operation Return Structure
+    attributes:
+      mif_operation: "FPA Allocate Operations"
     description: Load and IOBDMA allocate operations return data specified by this structure.
     fields:
       - name: ADDR
@@ -189,9 +195,56 @@ structs:
         description: Reserved.
 
 
+  - name: FPA_CSR_RD_DMA_S
+    title: FPA CSR Read IOBDMA Address Structure
+    attributes:
+      mif_operation: "FPA CSR Operations"
+    description: |
+      CSR_RD operations form an IOBDMA with this structure. CSR_RD operations may be used to
+      background read a single configuration register.
+    fields:
+      - name: ADDR
+        bits: 31..0
+        attributes:
+          const: "--"
+        description: CSR address to read from. Must be 8-byte aligned.
+
+      - name: --
+        bits: 35..32
+        attributes:
+          const: "--"
+        description: Reserved.
+
+      - name: NODE
+        bits: 39..36
+        attributes:
+          const: "--"
+        description: OCI node number.
+
+      - name: DID
+        bits: 47..40
+        attributes:
+          const: "0x29"
+        description: Device ID. Indicates FPA.
+
+      - name: LEN
+        bits: 55..48
+        attributes:
+          const: "0x1"
+        description: Must be one to indicate single return.
+
+      - name: SCRADDR
+        bits: 63..56
+        attributes:
+          const: "--"
+        description: CVMSEG LM address to return to.
+
+
   - name: FPA_FREE_ADDR_S
     title: FPA Free Operation Address Structure
-    description: Store Free operation addresses are formed with this structure.
+    attributes:
+      mif_operation: "FPA Free Operations"
+    description: Store free operation addresses are formed with this structure.
     fields:
       - name: --
         bits: 2..0
@@ -222,7 +275,7 @@ structs:
         bits: 15
         attributes:
           const: "--"
-        description: Free absolute. See Core Requests.
+        description: Free absolute.
 
       - name: LAURA
         bits: 25..16
@@ -250,7 +303,7 @@ structs:
         bits: 47..40
         attributes:
           const: "0x29"
-        description: Device Id. Indicates FPA.
+        description: Device ID. Indicates FPA.
 
       - name: IO
         bits: 48
@@ -261,7 +314,9 @@ structs:
 
   - name: FPA_FREE_DATA_S
     title: FPA Free Operation Data Structure
-    description: Store Free operation data is formed with this structure.
+    attributes:
+      mif_operation: "FPA Free Operations"
+    description: Store free operation data is formed with this structure.
     fields:
       - name: ADDR
         bits: 41..0
@@ -344,7 +399,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when a write to FPA_AURA(0..1023)_CNT_ADD does a subtract to the count that would have
+          Set when a write to FPA_AURA()_CNT_ADD does a subtract to the count that would have
           caused the counter to wrap, so the count was zeroed. Throws FPA_INTSN_E::FPA_ERR_CNT_SUB.
 
       - name: CNT_ADD
@@ -353,7 +408,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set when a write to FPA_AURA(0..1023)_CNT_ADD does an add to the count that would have
+          Set when a write to FPA_AURA()_CNT_ADD does an add to the count that would have
           caused the counter to wrap, so the count was zeroed. Throws FPA_INTSN_E::FPA_ERR_CNT_ADD.
 
 
@@ -386,7 +441,7 @@ registers:
         typical: 0
         description: |
           OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
-          alloc/frees. See also HALFRATE.
+          alloc/frees. See also [HALFRATE].
 
       - name: LVL_DLY
         bits: 9..4
@@ -407,11 +462,11 @@ registers:
         description: |
           Number of pools. Each halving of the number of pools doubles the buffering available to
           the remaining pools, leading to some improvement in memory bandwidth. Value must not be
-          changed if FPA_POOL(0..63)_CFG[ENA] is set for any pool.
+          changed if FPA_POOL()_CFG[ENA] is set for any pool.
           0x0 = 64 pools, 320 FPF entries per pool.
           0x1 = 32 pools, 640 FPF entries per pool.
           0x2 = 16 pools, 1280 FPF entries per pool.
-          0x3 = Reserved
+          0x3 = Reserved.
 
       - name: AVG_EN
         bits: 1
@@ -503,7 +558,7 @@ registers:
         typical: 0x0
         description: |
           Set when a double-bit error is detected in the corresponding RAM. Throws
-          FPA_INTSN_E::FPA_ECC_RAM_DBE.
+          FPA_INTSN_E::FPA_ERR_RAM_DBE.
 
       - name: --
         bits: 31..20
@@ -519,7 +574,7 @@ registers:
         typical: 0x0
         description: |
           Set when a single-bit error is detected in the corresponding RAM. Throws
-          FPA_INTSN_E::FPA_ECC_RAM_SBE.
+          FPA_INTSN_E::FPA_ERR_RAM_SBE.
 
 
   - name: FPA_BIST_STATUS
@@ -584,11 +639,12 @@ registers:
           moving average for each aura level. Note the minimum value of 2048 cycles implies that at
           100 M packets/sec, 1.2 GHz coprocessor clock, approximately 160 packets may arrive between
           average calculations.
+
           Larger FPA_GEN_CFG[LVL_DLY] values cause the backpressure indications and moving averages
           of all aura levels to track changes in the actual free space more slowly. Larger AVG_DLY
           also causes the moving averages of all aura levels to track changes in the actual free
           space more slowly, but does not affect backpressure. Larger
-          FPA_AURA(0..1023)_CFG[AVG_CON]) values causes a specific aura to track more slowly, but
+          FPA_AURA()_CFG[AVG_CON]) values causes a specific aura to track more slowly, but
           only affects an individual aura level, rather than all.
 
 
@@ -597,7 +653,7 @@ registers:
     address: 0x1280000000458
     bus: NCB
     description: |
-      When any FPA_POOL(0..63)_INT[RANGE] error occurs, this register is latched with additional
+      When any FPA_POOL()_INT[RANGE] error occurs, this register is latched with additional
       error information.
     fields:
       - name: --
@@ -696,9 +752,11 @@ registers:
         description: |
           Number of 128-byte cache lines to offset the stored pointer. This field is sign extended
           so that two's complement numbers may be used to do subtractions.
+
           If [NAT_ALIGN] is clear, the pointer stored in the pool is normally the freed pointer
           adjusted by [BUF_OFFSET]. [BUF_OFFSET] will normally be zero or negative to adjust the
           pointer back to the beginning of the buffer.)
+
           If [NAT_ALIGN] is set, the pointer stored in the pool is normally [BUF_OFFSET] from the
           beginning of the buffer. [BUF_OFFSET] will normally be zero or positive to adjust the
           pointer into the buffer.
@@ -739,7 +797,7 @@ registers:
         typical: 1
         description: |
           Returning buffers should be rounded to the nearest natural alignment specified with
-          [BUF_SIZE]. See Buffer Alignment.
+          [BUF_SIZE].
 
       - name: ENA
         bits: 0
@@ -779,11 +837,16 @@ registers:
           When the number of free-page pointers in a pool drops below this value and there are free-
           page pointers in DRAM, the FPA reads one page of pointers from DRAM. The recommended value
           for this field is:
-          fpf_sz * 0.75
-          where, fpf_sz = 320 * 2^FPA_GEN_CFG[POOLS].
+
+          _  fpf_sz * 0.75
+
+          _  where, fpf_sz = 320 * 2^FPA_GEN_CFG[POOLS].
+
           The maximum value is fpf_sz - 48.
+
           It is recommended that software APIs represent this value as a percentage of fpf_sz, as
           fpf_sz may vary between products.
+
           INTERNAL: The worse case buffer requirement is:
           (memory_latency + 16 * (num_pools_active - 1) / cycles_per_alloc
 
@@ -824,7 +887,7 @@ registers:
         typical: 0x0
         description: |
           The number of free pages available in this pool. INTERNAL: Sized for 41 bit address - 7
-          bit cache line
+          bit cache line.
 
 
   - name: FPA_POOL(0..63)_THRESHOLD
@@ -848,9 +911,9 @@ registers:
         reset: All-ones
         typical: 0x0
         description: |
-          Threshold for the pool. When the value of FPA_POOL(0..63)_AVAILABLE[COUNT] is equal to
+          Threshold for the pool. When the value of FPA_POOL()_AVAILABLE[COUNT] is equal to
           [THRESH] and a pointer is allocated or freed, set interrupt
-          FPA_INTSN_E::FPA_POOL(0..63)_THRESH.
+          FPA_INTSN_E::FPA_POOL()_THRESH.
 
 
   - name: FPA_POOL(0..63)_START_ADDR
@@ -967,7 +1030,7 @@ registers:
         typical: --
         description: |
           Stack ending address plus one line; hardware will never write this address. If
-          FPA_POOL(0..63)_STACK_ADDR is equal to this value, the stack is full.
+          FPA_POOL()_STACK_ADDR is equal to this value, the stack is full.
 
       - name: --
         bits: 6..0
@@ -999,7 +1062,7 @@ registers:
         typical: --
         description: |
           Next address. The address of the next stack write. Must be initialized to
-          FPA_POOL(0..63)_STACK_BASE[ADDR] when stack is createdFPA_POOL(0..63)_STACK_BASE.
+          FPA_POOL()_STACK_BASE[ADDR] when stack is created.
 
       - name: --
         bits: 6..0
@@ -1031,8 +1094,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set and throws FPA_INTSN_E::FPA_POOL(0..63)_THRESH when FPA_POOL(0..63)_AVAILABLE is equal
-          to FPA_POOL(0..63)_THRESHOLD and a pointer is allocated or deallocated.
+          Set and throws FPA_INTSN_E::FPA_POOL()_THRESH when FPA_POOL()_AVAILABLE is equal
+          to FPA_POOL()_THRESHOLD and a pointer is allocated or deallocated.
 
       - name: RANGE
         bits: 2
@@ -1040,9 +1103,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set and throws FPA_INTSN_E::FPA_POOL(0..63)_RANGE when a pointer address does not fall in
-          the address range for that pool specified by FPA_POOL(0..63)_START_ADDR and
-          FPA_POOL(0..63)_END_ADDR.
+          Set and throws FPA_INTSN_E::FPA_POOL()_RANGE when a pointer address does not fall in
+          the address range for that pool specified by FPA_POOL()_START_ADDR and
+          FPA_POOL()_END_ADDR.
 
       - name: CRCERR
         bits: 1
@@ -1050,7 +1113,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set and throws FPA_INTSN_E::FPA_POOL(0..63)_CRCERR when a page read from the DRAM contains
+          Set and throws FPA_INTSN_E::FPA_POOL()_CRCERR when a page read from the DRAM contains
           inconsistent data (FPA ownership CRC does not match what FPA wrote). Most likely indicates
           the stack has been fatally corrupted.
 
@@ -1060,8 +1123,8 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Set and throws FPA_INTSN_E::FPA_POOL(0..63)_OVFLS on stack overflow; when
-          FPA_POOL(0..63)_STACK_ADDR would exceed FPA_POOL(0..63)_STACK_END.
+          Set and throws FPA_INTSN_E::FPA_POOL()_OVFLS on stack overflow; when
+          FPA_POOL()_STACK_ADDR would exceed FPA_POOL()_STACK_END.
 
 
   - name: FPA_POOL(0..63)_OP_PC
@@ -1107,7 +1170,7 @@ registers:
     title: FPA Aura Config Register
     address: 0x1280020100000 | a<<3
     bus: NCB
-    description: This register configures aura backpressure, etc; see Aura Limits.
+    description: This register configures aura backpressure, etc.
     fields:
       - name: --
         bits: 63..10
@@ -1129,8 +1192,8 @@ registers:
           later returns, this may result in the count intermittently being higher than the number of
           buffers actually in use by packets visible to software.
           1 = Pointer allocations/returns will not automatically change the count.
-          Note specific requests to change the count, including FPA_AURA(0..1023)_CNT_ADD,
-          PKO_SEND_AURA_S, or PKI_AURA(0..1023)_CFG[PKT_ADD] will be applied regardless of the
+          Note specific requests to change the count, including FPA_AURA()_CNT_ADD,
+          PKO_SEND_AURA_S, or PKI_AURA()_CFG[PKT_ADD] will be applied regardless of the
           setting of this bit.
 
       - name: AVG_CON
@@ -1142,8 +1205,9 @@ registers:
           This value controls how much of each present average resource level is used to calculate
           the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
           of the average resource level that will be used in the calculation:
-          next_LEVEL = (AVG_CON/256) * prev_LEVEL
-          + (1-(AVG_CON/256)) * count
+          _  next_LEVEL = (AVG_CON/256) * prev_LEVEL
+          _  + (1-(AVG_CON/256)) * count
+
           Note setting this value to zero will disable averaging, and always use the most immediate
           levels. FPA_GEN_CFG[AVG_EN] must be set and FPA_GEN_CFG[LVL_DLY] must be nonzero to
           globally enable averaging. FPA_RED_DELAY[AVG_DLY] controls the periodicity of the level
@@ -1167,7 +1231,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: The current aura count. See Aura Counts.
+        description: The current aura count.
 
 
   - name: FPA_AURA(0..1023)_CNT_ADD
@@ -1188,7 +1252,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The value to be added to FPA_AURA(0..1023)_CNT. The value may alternatively be a 2's
+          The value to be added to FPA_AURA()_CNT. The value may alternatively be a 2's
           complement of a value to be subtracted. Subtraction or addition that results in overflow
           will zero the count, not roll-around, and set either FPA_ERR_INT[CNT_ADD] or
           FPA_ERR_INT[CNT_SUB].
@@ -1216,7 +1280,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          When FPA_AURA(0..1023)_CNT is equal to or greater than this value, any allocations using
+          When FPA_AURA()_CNT is equal to or greater than this value, any allocations using
           this aura will fail. This allows a hard resource division between multiple auras sharing a
           common pool.
 
@@ -1239,10 +1303,9 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          When FPA_AURA(0..1023)_CNT, after being modified, is equal to or crosses this value (i.e.
+          When FPA_AURA()_CNT, after being modified, is equal to or crosses this value (i.e.
           value was greater than, then becomes less than, or the value was less than and becomes
-          greater than) the corresponding bit in FPA_AURA(0..1023)_INT is set. See Aura Count
-          Threshold Interrupts.
+          greater than) the corresponding bit in FPA_AURA()_INT is set.
 
 
   - name: FPA_AURA(0..1023)_INT
@@ -1263,10 +1326,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Watermark interrupt pending. Set and throws FPA_INTSN_E::FPA_AURA(0..1024)_THRESH when
-          FPA_AURA(0..1023)_INT, after being modified, is equal to or crosses
-          FPA_AURA(0..1023)_CNT_THRESHOLD (i.e. value was greater than, then becomes less then, or
-          value was less than, and becomes greater than). See Aura Count Threshold Interrupts.
+          Watermark interrupt pending. Set and throws FPA_INTSN_E::FPA_AURA()_THRESH when
+          FPA_AURA()_INT, after being modified, is equal to or crosses
+          FPA_AURA()_CNT_THRESHOLD (i.e. value was greater than, then becomes less then, or
+          value was less than, and becomes greater than).
 
 
   - name: FPA_AURA(0..1023)_POOL_LEVELS
@@ -1301,8 +1364,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Right shift to apply to FPA_POOL(0..63)_AVAILABLE to result in a 8-bit relative depth to
-          be used for [DROP/PASS/LEVEL]. See Aura Counts.
+          Right shift to apply to FPA_POOL()_AVAILABLE to result in a 8-bit relative depth to
+          be used for [DROP/PASS/LEVEL].
 
       - name: BP
         bits: 31..24
@@ -1331,7 +1394,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Current shifted level, averaged with FPA_POOL(0..63)_AVAILABLE[AVG_CON].
+          Current shifted level, averaged with FPA_POOL()_AVAILABLE[AVG_CON].
           FPA levels track availability; the higher the level the more free resources.
 
 
@@ -1354,7 +1417,7 @@ registers:
         typical: 1
         description: |
           Enable backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
-          PKI_AURA(0..1023)_CFG[ENA_BP] must also be set for backpressure to propagate through PKI.
+          PKI_AURA()_CFG[ENA_BP] must also be set for backpressure to propagate through PKI.
 
       - name: RED_ENA
         bits: 38
@@ -1364,7 +1427,7 @@ registers:
         description: |
           Enable RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
           If set, RED is performed on core requests with FPA_ALLOC_LD_S[RED] set, and/or PKI
-          requests if PKI_AURA(0..1023)_CFG[ENA_RED] is set.
+          requests if PKI_AURA()_CFG[ENA_RED] is set.
 
       - name: SHIFT
         bits: 37..32
@@ -1372,8 +1435,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Right shift to apply to FPA_AURA(0..1023)_CNT to result in a 8-bit relative depth to be
-          used for [DROP/PASS/LEVEL]. See Aura Counts.
+          Right shift to apply to FPA_AURA()_CNT to result in a 8-bit relative depth to be
+          used for [DROP/PASS/LEVEL].
 
       - name: BP
         bits: 31..24
@@ -1402,7 +1465,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Current shifted level, averaged with FPA_AURA(0..1023)_CNT.
+          Current shifted level, averaged with FPA_AURA()_CNT.
           CNT levels track usage; the lower the level the more free resources.
 
 

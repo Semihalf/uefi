@@ -130,6 +130,7 @@ def build_struct(chip_info, struct):
         check_keys("struct[attributes]", struct["attributes"], [
                    "ignore_naming_convention",  # FIXME: What is this?
                    "allow_missing_bits",        # Not all bits are specified, assume reserved for others
+                   "mif_operation",
                    "subblock"])                 # FIXME: What is this?
         # FIXME: What to do with attributes?
     for field in struct["fields"]:
@@ -233,6 +234,7 @@ def build_csr(chip_info, register, raw):
                       "dv_uvm_cov_val_disable",
                       "exempt_keyword",
                       "exempt_name_double_underscore",
+                      "exempt_name_length",
                       "regtest_force",
                       "uvm_default_constraint"])
         name = field["name"]
