@@ -430,7 +430,8 @@ static int setup_auto_neg(bdk_if_handle_t handle)
     const int bgx_index = handle->index;
     bgx_priv_t priv = {.ptr = handle->priv};
 
-    int use_auto_neg = (priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G);
+    // FIXME: Disabled as it currently doesn't work
+    int use_auto_neg = 0;//(priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G);
 
     /* Software should do the following to execute Auto-Negotiation when
        desired: */
