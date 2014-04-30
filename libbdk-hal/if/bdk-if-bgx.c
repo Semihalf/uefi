@@ -639,6 +639,14 @@ static int xaui_link(bdk_if_handle_t handle)
             bdk_error("%s: Receive fault, need to retry\n", handle->name);
             return -1;
         }
+        /* Receive link is latching low. Force it high and verify it */
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index),
+            c.s.rcv_lnk = 1);
+        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, TIMEOUT))
+        {
+            bdk_error("%s: Receive link down\n", handle->name);
+            return -1;
+        }
     }
 
     /* Enable packet reception */
