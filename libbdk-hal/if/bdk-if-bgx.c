@@ -583,6 +583,7 @@ static int xaui_link(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     const int TIMEOUT = 100; /* 100us */
+    bgx_priv_t priv = {.ptr = handle->priv};
 
     /* Disable packet reception */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
@@ -590,6 +591,23 @@ static int xaui_link(bdk_if_handle_t handle)
 
     if (!bdk_is_simulation())
     {
+        if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+        {
+            /* Check if training is done */
+            BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
+            if (!spux_int.s.training_done)
+            {
+                /* Clear the training interrupts (W1C) */
+                spux_int.u = 0;
+                spux_int.s.training_failure = 1;
+                spux_int.s.training_done = 1;
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
+                /* Restart training */
+                BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
+                    c.s.train_restart = 1);
+                return -1;
+            }
+        }
         /* Wait for PCS to come out of reset */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, TIMEOUT))
         {
