@@ -1126,7 +1126,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
             case R_103215G_REFCLK15625_KR:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x5;
-                pll_mode_0.s.pll_pcs_div = 0x14;
+                pll_mode_0.s.pll_pcs_div = 0xa;
 
                 pll_mode_1.s.pll_16p5en = 0x1;
                 pll_mode_1.s.pll_cpadj = 0x2;
