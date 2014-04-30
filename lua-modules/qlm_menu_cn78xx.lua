@@ -115,7 +115,7 @@ local function do_setup(qlm)
     local index = m:show()
     -- Select the reference clock to use
     if index == "ext" then
-    octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
+        octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
         octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
     elseif index == "c0" then
         octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
