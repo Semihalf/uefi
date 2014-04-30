@@ -866,21 +866,23 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
         result.s.lanes = 4 / priv.s.num_port;
         result.s.up = 1;
         result.s.full_duplex = 1;
-        result.s.speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm);
+        uint64_t speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm);
         switch (priv.s.mode)
         {
             case BGX_MODE_10G:
             case BGX_MODE_40G:
                 /* Using 64b66b symbol encoding */
-                result.s.speed *= 64;
-                result.s.speed /= 66;
+                speed *= 64;
+                speed /= 66;
+                break;
             default:
                 /* Using 8b10b symbol encoding */
-                result.s.speed *= 8;
-                result.s.speed /= 10;
+                speed *= 8;
+                speed /= 10;
                 break;
         }
-        result.s.speed *= result.s.lanes;
+        speed *= result.s.lanes;
+        result.s.speed = speed;
     }
     else
     {
