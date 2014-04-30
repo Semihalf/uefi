@@ -596,12 +596,26 @@ static int xaui_link(bdk_if_handle_t handle)
             bdk_error("%s: PCS in reset\n", handle->name);
             return -1;
         }
-        /* Wait for PCS to be aligned */
-        if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, TIMEOUT))
+
+        if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
         {
-            bdk_error("%s: PCS not aligned\n", handle->name);
-            return -1;
+            /* 10G-R/40G-R - Wait for BASE-R PCS block lock */
+            if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BR_STATUS1(bgx_block, bgx_index), blk_lock, ==, 1, TIMEOUT))
+            {
+                //bdk_error("%s: BASE-R PCS block not locked\n", handle->name);
+                return -1;
+            }
         }
+        else
+        {
+            /* XAUI/DXAUI/RXAUI - Wait for PCS to be aligned */
+            if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, TIMEOUT))
+            {
+                //bdk_error("%s: PCS not aligned\n", handle->name);
+                return -1;
+            }
+        }
+
         /* Clear rcvflt bit (latching high) and read it back */
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index),
             c.s.rcvflt = 1);
