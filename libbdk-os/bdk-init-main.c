@@ -133,6 +133,13 @@ void __bdk_init_main(int arg, void *arg1)
                 BDK_CSR_WRITE(node, BDK_SMIX_EN(i), smix_en.u64);
             }
         }
+
+        /* FIXME: Dump RST_BOOT for debug purposes */
+        bdk_csr_decode("RST_BOOT", BDK_CSR_READ(node, BDK_RST_BOOT));
+        printf("Clearing RST_BOOT[LBOOT,RBOOT]\n");
+        BDK_CSR_MODIFY(c, node, BDK_RST_BOOT,
+            c.s.lboot = 0;
+            c.s.rboot = 0);
     }
 
     /* Core 0 start main as another thread. We create a new thread so that
