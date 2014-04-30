@@ -487,7 +487,7 @@ static int xaui_init(bdk_if_handle_t handle)
         c.s.reset = 1);
     if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, 1000))
     {
-        bdk_error("%s: SPU stuck in reset\n", handle->name);
+        BDK_TRACE("%s: SPU stuck in reset\n", handle->name);
         return -1;
     }
 
@@ -612,7 +612,7 @@ static int xaui_link(bdk_if_handle_t handle)
         /* Wait for PCS to come out of reset */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, TIMEOUT))
         {
-            bdk_error("%s: PCS in reset\n", handle->name);
+            BDK_TRACE("%s: PCS in reset\n", handle->name);
             return -1;
         }
 
@@ -621,7 +621,7 @@ static int xaui_link(bdk_if_handle_t handle)
             /* 10G-R/40G-R - Wait for BASE-R PCS block lock */
             if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BR_STATUS1(bgx_block, bgx_index), blk_lock, ==, 1, TIMEOUT))
             {
-                //bdk_error("%s: BASE-R PCS block not locked\n", handle->name);
+                BDK_TRACE("%s: BASE-R PCS block not locked\n", handle->name);
                 return -1;
             }
         }
@@ -630,7 +630,7 @@ static int xaui_link(bdk_if_handle_t handle)
             /* XAUI/DXAUI/RXAUI - Wait for PCS to be aligned */
             if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, TIMEOUT))
             {
-                //bdk_error("%s: PCS not aligned\n", handle->name);
+                BDK_TRACE("%s: PCS not aligned\n", handle->name);
                 return -1;
             }
         }
@@ -641,13 +641,13 @@ static int xaui_link(bdk_if_handle_t handle)
         BDK_CSR_INIT(spux_status2, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
         if (spux_status2.s.rcvflt)
         {
-            bdk_error("%s: Receive fault, need to retry\n", handle->name);
+            BDK_TRACE("%s: Receive fault, need to retry\n", handle->name);
             return -1;
         }
         /* Wait for MAC RX to be ready */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_RX_CTL(bgx_block, bgx_index), status, ==, 0, TIMEOUT))
         {
-            bdk_error("%s: RX not ready\n", handle->name);
+            BDK_TRACE("%s: RX not ready\n", handle->name);
             return -1;
         }
 
@@ -656,20 +656,20 @@ static int xaui_link(bdk_if_handle_t handle)
         /* Wait for BGX RX to be idle */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), rx_idle, ==, 1, TIMEOUT))
         {
-            bdk_error("%s: RX not idle\n", handle->name);
+            BDK_TRACE("%s: RX not idle\n", handle->name);
             return -1;
         }
         /* Wait for BGX TX to be idle */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SMUX_CTRL(bgx_block, bgx_index), tx_idle, ==, 1, TIMEOUT))
         {
-            bdk_error("%s: TX not idle\n", handle->name);
+            BDK_TRACE("%s: TX not idle\n", handle->name);
             return -1;
         }
         /* rcvflt should still be 0 */
         spux_status2.u = BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
         if (spux_status2.s.rcvflt)
         {
-            bdk_error("%s: Receive fault, need to retry\n", handle->name);
+            BDK_TRACE("%s: Receive fault, need to retry\n", handle->name);
             return -1;
         }
         /* Receive link is latching low. Force it high and verify it */
@@ -677,7 +677,7 @@ static int xaui_link(bdk_if_handle_t handle)
             c.s.rcv_lnk = 1);
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index), rcv_lnk, ==, 1, TIMEOUT))
         {
-            bdk_error("%s: Receive link down\n", handle->name);
+            BDK_TRACE("%s: Receive link down\n", handle->name);
             return -1;
         }
     }
