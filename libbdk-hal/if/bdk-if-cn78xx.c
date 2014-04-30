@@ -252,7 +252,8 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
         bdk_error("pko_allocate_fifo: Tried to allocate too many fifos\n");
         return -1;
     }
-    /* Program the PKO fifo */
+    /* Program the PKO fifo. Each PKO_PTGFX_CFG represents a cluster of four
+        FIFOs */
     int index = fifo >> 2;
     BDK_CSR_INIT(cfg, node, BDK_PKO_PTGFX_CFG(index));
     cfg.s.reset = 1;
