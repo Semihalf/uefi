@@ -215,6 +215,8 @@ static int pko_global_init(bdk_node_t node)
         c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
         c.s.max_read_size = 72);
+    BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
+        c.s.pko_pad_minlen = 60);
     return 0;
 }
 
@@ -481,6 +483,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         if (fifo<0)
             return -1;
         pko_macx_cfg.s.fifo_num = fifo;
+        pko_macx_cfg.s.min_pad_ena = fcs_ena; /* Pad to 60 bytes */
         pko_macx_cfg.s.fcs_ena = fcs_ena; /* FCS */
         pko_macx_cfg.s.fcs_sop_off = 0; /* No FCS offset */
         pko_macx_cfg.s.skid_max_cnt = skid_max_cnt;
@@ -541,6 +544,9 @@ static int pko_port_init(bdk_if_handle_t handle)
             c.s.rr_quantum = 0);
         BDK_CSR_MODIFY(c, handle->node, BDK_PKO_DQX_TOPOLOGY(dq+q),
             c.s.parent = sq_l5);
+        /* Enable padding to 60 bytes */
+        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_PDM_DQX_MINPAD(dq+q),
+            c.s.minpad = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0;);
     }
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_LUTX(compressed_channel_id),
         c.s.valid = 1;
@@ -849,11 +855,6 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_hdr_s.s.ii = 1;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
-
-    /* The hardware doesn't pad runt packets unless you tell it to on every
-        PKO send. The old Octeon way worked better */
-    if ((pko_send_hdr_s.s.total < 60) && (handle->flags & BDK_IF_FLAGS_HAS_FCS))
-        pko_send_hdr_s.s.total = 60;
 
     bdk_pko_send_link_s_t pko_send_link_s;
     pko_send_link_s = packet->packet;
