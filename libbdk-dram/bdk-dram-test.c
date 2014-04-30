@@ -128,11 +128,24 @@ static void dram_test_thread(int arg, void *arg1)
 
     /* Figure out our work memory range */
     uint64_t start_address = dram_test_thread_start + dram_test_thread_size * range_number;
-    if (start_address >= BDK_DRAM_HOLE_START)
-        start_address += BDK_DRAM_HOLE_SIZE;
     uint64_t end_address = start_address + dram_test_thread_size;
-    if ((end_address >= BDK_DRAM_HOLE_START) && (start_address < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE))
-        end_address += BDK_DRAM_HOLE_SIZE;
+    if (dram_test_thread_start < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE)
+    {
+        if (start_address >= BDK_DRAM_HOLE_START)
+        {
+            start_address += BDK_DRAM_HOLE_SIZE;
+            end_address += BDK_DRAM_HOLE_SIZE;
+        }
+        else if (end_address > BDK_DRAM_HOLE_START)
+        {
+            end_address += BDK_DRAM_HOLE_SIZE;
+        }
+    }
+    else
+    {
+        if ((end_address > BDK_DRAM_HOLE_START) && (start_address < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE))
+            end_address += BDK_DRAM_HOLE_SIZE;
+    }
     if (end_address > dram_test_thread_end)
         end_address = dram_test_thread_end;
 
@@ -156,12 +169,9 @@ static void dram_test_thread(int arg, void *arg1)
             node, bdk_get_core_num() & 127, s1, e1 - 1);
         test_info->test_func(s1, e1, bursts);
         /* Test after the hole */
-        if (s2 < e2)
-        {
-            BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
-                node, bdk_get_core_num() & 127, s2, e2 - 1);
-            test_info->test_func(s2, e2, bursts);
-        }
+        BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+            node, bdk_get_core_num() & 127, s2, e2 - 1);
+        test_info->test_func(s2, e2, bursts);
     }
     else
     {
@@ -218,6 +228,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Make sure the amount is sane */
     if (max_address > (1ull << 40))
         max_address = 1ull << 40;
+    BDK_TRACE("DRAM max address: 0x%016lx\n", max_address-1);
 
     /* Make sure the start address is lower than the top of memory */
     if (start_address >= max_address)
