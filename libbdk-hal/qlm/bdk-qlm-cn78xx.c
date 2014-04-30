@@ -10,7 +10,7 @@ static const int REF_156MHZ = 156250000;
 #define R_8G_REFCLK100              0x2
 #define R_125G_REFCLK15625_KX       0x3
 #define R_3125G_REFCLK15625_XAUI    0x4
-#define R_103215G_REFCLK15625_KR    0x5
+#define R_103125G_REFCLK15625_KR    0x5
 #define R_125G_REFCLK15625_SGMII    0x6
 #define R_5G_REFCLK15625_QSGMII     0x7
 #define R_625G_REFCLK15625_RXAUI    0x8
@@ -317,10 +317,10 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return -1;
         }
     }
-    else /* Baud 10321 */
+    else /* Baud 10312.5 */
     {
         if (ref_clk == REF_156MHZ)
-            return R_103215G_REFCLK15625_KR;
+            return R_103125G_REFCLK15625_KR;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -721,8 +721,8 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                     return 1250;
                 case R_3125G_REFCLK15625_XAUI:
                     return 3125;
-                case R_103215G_REFCLK15625_KR:
-                    return 10321;
+                case R_103125G_REFCLK15625_KR:
+                    return 10312;
                 case R_125G_REFCLK15625_SGMII:
                     return 1250;
                 case R_5G_REFCLK15625_QSGMII:
@@ -804,7 +804,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
                 return REF_156MHZ;
             case R_3125G_REFCLK15625_XAUI:
                 return REF_156MHZ;
-            case R_103215G_REFCLK15625_KR:
+            case R_103125G_REFCLK15625_KR:
                 return REF_156MHZ;
             case R_125G_REFCLK15625_SGMII:
                 return REF_156MHZ;
@@ -1123,7 +1123,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case R_103215G_REFCLK15625_KR:
+            case R_103125G_REFCLK15625_KR:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x5;
                 pll_mode_0.s.pll_pcs_div = 0xa;
