@@ -3,6 +3,17 @@
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle);
 
+typedef union
+{
+    void *ptr;
+    struct
+    {
+        uint64_t    reserved_32_64  : 32;
+        uint64_t    my_lanes        : 16;   /* These lanes belong to the ILK interface */
+        uint64_t    all_lanes       : 16;   /* These are the possible ILK lanes */
+    } s;
+} ilk_priv_t;
+
 static int if_num_interfaces(bdk_node_t node)
 {
     if (bdk_qlm_get(node, BDK_IF_ILK, 0) < 0)
@@ -133,6 +144,7 @@ static void ilk_write_cal_entry(bdk_node_t node, int interface, int channel, int
 
 static int if_init(bdk_if_handle_t handle)
 {
+    ilk_priv_t priv = {.ptr = NULL};
     int num_ilk = bdk_config_get(BDK_CONFIG_ILK0_PORTS + handle->interface);
     static int pipe[2] = {-1, -1};
 
@@ -169,6 +181,7 @@ static int if_init(bdk_if_handle_t handle)
                 lane_mask |= ((1 << lanes) - 1) << 4*(qlm-4);
             }
         }
+        priv.s.all_lanes = lane_mask;
 
         /* Configure the SERDES for all possible lanes */
         BDK_CSR_INIT(ilk_ser_cfg, handle->node, BDK_ILK_SER_CFG);
@@ -203,23 +216,25 @@ static int if_init(bdk_if_handle_t handle)
                 }
             }
         }
-        //bdk_dprintf("%s: Using %d lanes, lane_ena=0x%x\n", handle->name, lane_count, lane_mask);
+        priv.s.my_lanes = lane_mask;
+        BDK_TRACE("%s: Using %d lanes, lane_ena=0x%x\n", handle->name, lane_count, priv.s.my_lanes);
 
         /* Bringup the TX side */
         BDK_CSR_MODIFY(c, handle->node, BDK_ILK_TXX_CFG0(handle->interface),
-            c.s.lane_ena = lane_mask;
+            c.s.lane_ena = priv.s.my_lanes;
             c.s.cal_ena = 1;
             c.s.cal_depth = (cal_depth+7) & 0x1f8; /* Round up */
             c.s.lnk_stats_ena = 1);
         /* Configure the RX lanes */
         BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RXX_CFG0(handle->interface),
-            c.s.lane_ena = lane_mask;
+            c.s.lane_ena = priv.s.my_lanes;
             c.s.cal_ena = 1;
             c.s.cal_depth = cal_depth;
             c.s.lnk_stats_ena = 1);
         /* RX is brought up during link status polls */
     }
 
+    handle->priv = priv.ptr;
     return 0;
 }
 
@@ -244,6 +259,7 @@ static int if_disable(bdk_if_handle_t handle)
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
+    ilk_priv_t priv = {.ptr = handle->priv};
     int retry_count = 0;
     bdk_if_link_t result;
     result.u64 = 0;
@@ -267,14 +283,10 @@ retry:
         BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_INT(handle->interface), ilk_rxx_int.u64);
 
         /* We need to start looking for word boundary lock */
-        int lane_mask = (1 << bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface)) - 1;
-        if (handle->interface)
-            lane_mask <<= bdk_config_get(BDK_CONFIG_ILK0_LANES);
-
-        ilk_rxx_cfg1.s.rx_bdry_lock_ena = lane_mask;
+        ilk_rxx_cfg1.s.rx_bdry_lock_ena = priv.s.my_lanes;
         ilk_rxx_cfg1.s.rx_align_ena = 0;
         BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
-        //printf("ILK%d: Looking for word boundary lock\n", handle->interface);
+        BDK_TRACE("ILK%d: Looking for word boundary lock\n", handle->interface);
         goto retry;
     }
 
@@ -290,7 +302,7 @@ retry:
 
             ilk_rxx_cfg1.s.rx_align_ena = 1;
             BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
-            //printf("ILK%d: Looking for lane alignment\n", handle->interface);
+            BDK_TRACE("ILK%d: Looking for lane alignment\n", handle->interface);
             goto retry;
         }
         goto fail;
@@ -301,7 +313,7 @@ retry:
         ilk_rxx_cfg1.s.rx_bdry_lock_ena = 0;
         ilk_rxx_cfg1.s.rx_align_ena = 0;
         BDK_CSR_WRITE(handle->node, BDK_ILK_RXX_CFG1(handle->interface), ilk_rxx_cfg1.u64);
-        //printf("ILK%d: Lane alignment failed\n", handle->interface);
+        BDK_TRACE("ILK%d: Lane alignment failed\n", handle->interface);
         goto fail;
     }
 
@@ -328,7 +340,7 @@ retry:
             stat.s.ukwn_cntl_word = -1;
             BDK_CSR_WRITE(handle->node, BDK_ILK_RX_LNEX_INT(lane), stat.u64);
         }
-        //printf("ILK%d: Lane alignment complete\n", handle->interface);
+        BDK_TRACE("ILK%d: Lane alignment complete\n", handle->interface);
     }
 
     /* Report link speed */
