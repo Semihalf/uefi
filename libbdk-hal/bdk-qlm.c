@@ -136,10 +136,10 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
             result = "Octeon Coherent Interconnect";
             break;
         case BDK_QLM_MODE_10GR_4X1:
-            result = "4 10GBASE-R, 1 lane each";
+            result = "4 XFI, 1 lane each";
             break;
         case BDK_QLM_MODE_40GR4_1X4:
-            result = "1 40GBASE-R4, 4 lanes";
+            result = "1 XLAUI, 4 lanes";
             break;
     }
     return result;

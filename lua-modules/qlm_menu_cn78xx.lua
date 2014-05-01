@@ -26,8 +26,8 @@ qlm_modes[0] = {
     {"XAUI    @ 10 Gbps", octeon.QLM_MODE_XAUI_1X4, 3125, 0},
     {"XAUI    @ 20 Gbps", octeon.QLM_MODE_XAUI_1X4, 6250, 0},
     {"RXAUI   @ 10 Gbps", octeon.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"10G-R   @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
-    {"40G-R   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
+    {"XFI     @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
+    {"XLAUI   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[1] = {
@@ -41,8 +41,8 @@ qlm_modes[1] = {
     {"XAUI    @ 10 Gbps", octeon.QLM_MODE_XAUI_1X4, 3125, 0},
     {"XAUI    @ 20 Gbps", octeon.QLM_MODE_XAUI_1X4, 6250, 0},
     {"RXAUI   @ 10 Gbps", octeon.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"10G-R   @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
-    {"40G-R   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
+    {"XFI     @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
+    {"XLAUI   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[2] = {
@@ -63,8 +63,8 @@ qlm_modes[2] = {
     {"XAUI    @ 10 Gbps", octeon.QLM_MODE_XAUI_1X4, 3125, 0},
     {"XAUI    @ 20 Gbps", octeon.QLM_MODE_XAUI_1X4, 6250, 0},
     {"RXAUI   @ 10 Gbps", octeon.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"10G-R   @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
-    {"40G-R   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
+    {"XFI     @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
+    {"XLAUI   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[3] = qlm_modes[2]
@@ -82,8 +82,8 @@ qlm_modes[4] = {
     {"XAUI    @ 10 Gbps", octeon.QLM_MODE_XAUI_1X4, 3125, 0},
     {"XAUI    @ 20 Gbps", octeon.QLM_MODE_XAUI_1X4, 6250, 0},
     {"RXAUI   @ 10 Gbps", octeon.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"10G-R   @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
-    {"40G-R   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
+    {"XFI     @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
+    {"XLAUI   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[5] = {
@@ -96,8 +96,8 @@ qlm_modes[5] = {
     {"XAUI    @ 10 Gbps", octeon.QLM_MODE_XAUI_1X4, 3125, 0},
     {"XAUI    @ 20 Gbps", octeon.QLM_MODE_XAUI_1X4, 6250, 0},
     {"RXAUI   @ 10 Gbps", octeon.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"10G-R   @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
-    {"40G-R   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
+    {"XFI     @ 10 Gbps", octeon.QLM_MODE_10GR_4X1, 10312, 0},
+    {"XLAUI   @ 40 Gbps", octeon.QLM_MODE_40GR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[6] = qlm_modes[5]

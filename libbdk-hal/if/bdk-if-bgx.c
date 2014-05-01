@@ -195,15 +195,15 @@ static int if_probe(bdk_if_handle_t handle)
             break;
         case BGX_MODE_10G:
             if (bdk_numa_is_only_one())
-                name_format = "10G%d.%d";
+                name_format = "XFI%d.%d";
             else
-                name_format = "N%d.10G%d.%d";
+                name_format = "N%d.XFI%d.%d";
             break;
         case BGX_MODE_40G:
             if (bdk_numa_is_only_one())
-                name_format = "40G%d";
+                name_format = "XLAUI%d";
             else
-                name_format = "N%d.40G%d";
+                name_format = "N%d.XLAUI%d";
             break;
         default:
             return -1;
