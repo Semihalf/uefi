@@ -872,13 +872,11 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
             case BGX_MODE_10G:
             case BGX_MODE_40G:
                 /* Using 64b66b symbol encoding */
-                speed *= 64;
-                speed /= 66;
+                speed = (speed * 64 + 33) / 66;
                 break;
             default:
                 /* Using 8b10b symbol encoding */
-                speed *= 8;
-                speed /= 10;
+                speed = (speed * 8 + 5) / 10;
                 break;
         }
         speed *= result.s.lanes;
