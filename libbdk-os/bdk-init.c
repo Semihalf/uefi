@@ -400,6 +400,13 @@ static void ocx_pp_write(bdk_node_t node, uint64_t address, uint64_t data)
  */
 static int init_oci(void)
 {
+    static int oci_init_done = 0;
+
+    /* Only allow this code to be run once */
+    if (oci_init_done)
+        return 0;
+    oci_init_done = 1;
+
     lk_info_t lk_info[MAX_LINKS + 1]; /* Index MAX_LINKS is used for the local node */
     memset(lk_info, 0, sizeof(lk_info));
 
@@ -489,7 +496,10 @@ static int init_oci(void)
             int rid = lk_info[link].node.s.id;
             /* Mark fixed nodes as existing so we don't reuse their node ID */
             if (bdk_numa_exists(rid))
-                bdk_fatal("Fixed ID %d conflicts with existing node\n", rid);
+            {
+                bdk_error("Fixed ID %d conflicts with existing node, not starting OCI\n", rid);
+                return -1;
+            }
             bdk_numa_set_exists(rid);
             BDK_TRACE("    Local link %d: Fixed node ID %d\n", link, rid);
         }
