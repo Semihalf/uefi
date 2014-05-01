@@ -405,12 +405,12 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
     /* Read the RX statistics from PKO */
-    BDK_CSR_INIT(tx_octets, handle->node, BDK_ILK_TXX_PKT_CNTX(handle->interface, handle->index));
-    BDK_CSR_INIT(tx_packets, handle->node, BDK_ILK_TXX_BYTE_CNTX(handle->interface, handle->index));
+    BDK_CSR_INIT(tx_packets, handle->node, BDK_ILK_TXX_PKT_CNTX(handle->interface, handle->index));
+    BDK_CSR_INIT(tx_octets, handle->node, BDK_ILK_TXX_BYTE_CNTX(handle->interface, handle->index));
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
-    handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.tx_pkt, handle->stats.tx.octets, 40);
-    handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.tx_bytes, handle->stats.tx.packets, 34);
+    handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.tx_bytes, handle->stats.tx.octets, 40);
+    handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.tx_pkt, handle->stats.tx.packets, 34);
     handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
 
     return &handle->stats;
