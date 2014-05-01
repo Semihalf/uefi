@@ -72,7 +72,7 @@ static int if_probe(bdk_if_handle_t handle)
 
     /* Use IPD ports 0 - 7 */
     handle->ipd_port = 0x400 + handle->interface*0x100 + handle->index;
-    handle->flags |= BDK_IF_FLAGS_HAS_FCS;
+    /* ILK doesn't use FCS */
     return 0;
 }
 
@@ -374,8 +374,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
-    /* Account for TX lack of FCS for most ports */
-    const int bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
+    const int bytes_off_tx = 0;
     const int bytes_off_rx = 0;
 
     /* Read the RX statistics from PKI */
