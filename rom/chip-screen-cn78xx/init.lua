@@ -84,19 +84,22 @@ print("test end: mmc")
 --
 -- PCIe
 --
-print("test start: PCIe")
-local pcie = require("pcie")
-local status, rc = pcall(pcie.initialize, 0, 0)
-if status then
-    rc:scan()
-    rc:enumerate()
-    rc:display()
-    print("PCIe init: PASS")
-else
-    print("PCIe init: FAIL")
-    all_pass = false
-end
-print("test end: PCIe")
+--print("test start: PCIe")
+--local pcie = require("pcie")
+--local status, rc = pcall(pcie.initialize, 0, 0)
+--if status then
+--    t
+--    t
+--    w
+--    rc:scan()
+--    rc:enumerate()
+--    rc:display()
+--    print("PCIe init: PASS")
+--else
+--    print("PCIe init: FAIL")
+--    all_pass = false
+--end
+--print("test end: PCIe")
 
 
 --
@@ -107,22 +110,45 @@ local tg_pass = true
 local trafficgen = require("trafficgen")
 local tg = trafficgen.new()
 -- Wait for PHY link messages while testing loop ports
-tg_pass = tg_run(tg, "LOOP0-LOOP3", 60, 10000, 1000, 2)
-tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 1500, 10000, 1000, 2)
-tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 65524, 10000, 1000, 4)
-all_pass = all_pass and tg_pass
+--tg_pass = tg_run(tg, "LOOP0-LOOP3", 60, 10000, 1000, 2)
+--tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 1500, 10000, 1000, 2)
+--tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 65524, 10000, 1000, 4)
+--all_pass = all_pass and tg_pass
 -- octeon.c.bdk_wait_usec(5000000)
 
 
-tg_pass = tg_run(tg, "SGMII0.0-SGMII0.3", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 65524, 1000, 100, 2)
+--tg_pass = tg_run(tg, "SGMII0.0-SGMII0.3", 60, 10000, 100, 2)
+--tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 1500, 10000, 100, 2)
+--tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.3", 65524, 1000, 100, 2)
+--all_pass = all_pass and tg_pass
+
+--tg_pass = tg_run(tg, "SGMII1.0-SGMII1.3", 60, 10000, 100, 2)
+--tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 1500, 10000, 100, 2)
+--tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 65524, 1000, 100, 2)
+--all_pass = all_pass and tg_pass
+
+--RXAUII 2*2 for now
+tg_pass = tg_run(tg, "RXAUI0.0-RXAUI0.1", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1", 8000, 1000, 100, 2)
 all_pass = all_pass and tg_pass
 
-tg_pass = tg_run(tg, "SGMII1.0-SGMII1.3", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "SGMII1.0-SGMII1.3", 65524, 1000, 100, 2)
+tg_pass = tg_run(tg, "RXAUI1.0-RXAUI1.1", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "RXAUI1.0-RXAUI1.1", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "RXAUI1.0-RXAUI1.1", 8000, 1000, 100, 2)
 all_pass = all_pass and tg_pass
+
+tg_pass = tg_run(tg, "10G2.0-10G2.3,10G4.0-10G4.3", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "10G2.0-10G2.3,10G4.0-10G4.3", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "10G2.0-10G2.3,10G4.0-10G4.3", 8000, 1000, 100, 2)
+all_pass = all_pass and tg_pass
+
+tg_pass = tg_run(tg, "10G3.0-10G3.3,10G5.0-10G5.3", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "10G3.0-10G3.3,10G5.0-10G5.3", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "10G3.0-10G3.3,10G5.0-10G5.3", 8000, 1000, 100, 2)
+all_pass = all_pass and tg_pass
+
+
 print("test end: traffic")
 
 
