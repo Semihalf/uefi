@@ -406,6 +406,19 @@ function TrafficGen.new()
                 end
             end
         end
+
+        -- Command to dump all CSRs with a given prefix
+        function self:cmd_dump_csr(port_range, args)
+            local prefix = args[1]:upper()
+            assert(prefix, "CSR prefix expected")
+            local len = #prefix
+            printf("Searching CSRs for prefix \"%s\". This is slow...\n", prefix)
+            for name in octeon.csr() do
+                if name:sub(1,len) == prefix then
+                    octeon.csr.lookup(name).display()
+                end
+            end
+        end
     end
 
     function self:cmd_cls(port_range, args)
