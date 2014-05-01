@@ -268,7 +268,7 @@ static int trafficgen_do_update(bool do_clear)
                 int chunk = tg_port->handle->index >> 6;
                 int bit = tg_port->handle->index & 63;
                 BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX(tg_port->handle->interface, chunk));
-                if (ilk_rxx_cha_xonx.u & (1ull << bit))
+                if ((ilk_rxx_cha_xonx.u & (1ull << bit)) == 0)
                     tg_port->pinfo.stats.rx_backpressure++;
                 break;
             }
