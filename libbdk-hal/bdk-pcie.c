@@ -321,7 +321,6 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
 {
     int i;
     bdk_pemx_bar_ctl_t pemx_bar_ctl;
-    bdk_pemx_ctl_status_t pemx_ctl_status;
     bdk_pemx_bist_status_t pemx_bist_status;
     bdk_pemx_bist_status2_t pemx_bist_status2;
     bdk_pciercx_cfg032_t pciercx_cfg032;
@@ -487,11 +486,9 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
         bar1_index.s.addr_idx += (((1ull << 28) / 16ull) >> 22);
     }
 
-    /* Allow config retries for 250ms. Count is based off the 5Ghz SERDES
-        clock */
-    pemx_ctl_status.u64 = BDK_CSR_READ(node, BDK_PEMX_CTL_STATUS(pcie_port));
-    pemx_ctl_status.s.cfg_rtry = 250 * 5000000 / 0x10000;
-    BDK_CSR_WRITE(node, BDK_PEMX_CTL_STATUS(pcie_port), pemx_ctl_status.u64);
+    /* Value is recommended in CSR files */
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port),
+        c.s.cfg_rtry = 32);
 
     /* Display the link status */
     pciercx_cfg032.u32 = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
