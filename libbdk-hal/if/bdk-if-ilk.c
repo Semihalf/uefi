@@ -9,14 +9,7 @@ static int if_num_interfaces(bdk_node_t node)
         return 0;
 
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        /* Configure the SERDES */
-        BDK_CSR_MODIFY(c, node, BDK_ILK_SER_CFG,
-            c.s.ser_rxpol_auto = 1;
-            c.s.ser_rxpol = 0;
-            c.s.ser_txpol = 0);
         return 2;
-    }
     else
         return 0;
 }
@@ -175,6 +168,15 @@ static int if_init(bdk_if_handle_t handle)
                 int lanes = bdk_qlm_get_lanes(handle->node, qlm);
                 lane_mask |= ((1 << lanes) - 1) << 4*(qlm-4);
             }
+        }
+
+        /* Configure the SERDES for all possible lanes */
+        BDK_CSR_INIT(ilk_ser_cfg, handle->node, BDK_ILK_SER_CFG);
+        if (ilk_ser_cfg.s.ser_reset_n == 0)
+        {
+            BDK_CSR_MODIFY(c, handle->node, BDK_ILK_SER_CFG,
+                c.s.ser_rxpol_auto = 1;
+                c.s.ser_reset_n = lane_mask);
         }
 
         /* Figure out how many lanes we need */
