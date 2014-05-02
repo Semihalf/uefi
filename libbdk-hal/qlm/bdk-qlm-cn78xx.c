@@ -581,6 +581,11 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.lmac_type = lmac_type);
     }
 
+    /* FIXME: This needs to be needed for PCIe */
+    if (is_pcie)
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(qlm),
+            c.s.tx_rx_detect_lvl_enc = 7);
+
     /* Bring phy out of reset */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_reset = 0);
