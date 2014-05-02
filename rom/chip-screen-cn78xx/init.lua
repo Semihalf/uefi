@@ -13,9 +13,19 @@ print("")
 
 local board_name = menu.prompt_string("Board type: ", "ebb7800")
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
+local config_num = menu.prompt_number("Config Number (1 or 2): ", 1)
 
 -- Do board specific setup
-menu.dofile("screen-ebb7800")
+if (config_num == 1) then
+    menu.dofile("screen-ebb7800")
+else 
+    if (config_num == 2) then
+        menu.dofile("screen-ebb7800-config2")
+    else
+        print ("ERROR: Invalid configuration number\n");
+    --    return 
+    end
+end
 
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
@@ -32,7 +42,7 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
     octeon.c.bdk_wait_usec(to_secs * 1000000)
     tg:command("rx_octets_total")
     local stats = tg:get_stats()
-    local ports_pass = true
+    local ports_pass = false
     for port,stat in pairs(stats) do
         local pass = true
         pass = pass and (stat.tx_packets_total == count)
@@ -43,7 +53,7 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
         if not pass then
             pprint(port, stat)
         end
-        ports_pass = ports_pass and pass
+        ports_pass = pass
     end
     if ports_pass then
         printf("Test %s, size %d, count %d: PASS\n", ports, size, count)
@@ -135,6 +145,10 @@ print("test start: traffic")
 local tg_pass = true
 local trafficgen = require("trafficgen")
 local tg = trafficgen.new()
+
+--Wait for the links to come up
+octeon.c.bdk_wait_usec(5 * 1000000)
+
 -- Wait for PHY link messages while testing loop ports
 --tg_pass = tg_run(tg, "LOOP0-LOOP3", 60, 10000, 1000, 2)
 --tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 1500, 10000, 1000, 2)
@@ -154,26 +168,29 @@ local tg = trafficgen.new()
 --all_pass = all_pass and tg_pass
 
 --RXAUII 2*2 for now
-tg_pass = tg_run(tg, "RXAUI0.0-RXAUI0.1", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1", 8000, 1000, 100, 2)
-all_pass = all_pass and tg_pass
 
-tg_pass = tg_run(tg, "RXAUI1.0-RXAUI1.1", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "RXAUI1.0-RXAUI1.1", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "RXAUI1.0-RXAUI1.1", 8000, 1000, 100, 2)
-all_pass = all_pass and tg_pass
 
-tg_pass = tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 8000, 1000, 100, 2)
-all_pass = all_pass and tg_pass
+if (config_num == 1) then
+    tg_pass = tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 60, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 1500, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 8000, 1000, 100, 3)
+    all_pass = all_pass and tg_pass
 
-tg_pass = tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 8000, 1000, 100, 2)
-all_pass = all_pass and tg_pass
+    tg_pass = tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 60, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 1500, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 8000, 1000, 100, 3)
+    all_pass = all_pass and tg_pass
+else
+    tg_pass = tg_run(tg, "XAUI0-XAUI1", 60, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XAUI0-XAUI1", 1500, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XAUI0-XAUI1", 8000, 1000, 100, 3)
+    all_pass = all_pass and tg_pass
 
+    tg_pass = tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 60, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 1500, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 8000, 1000, 100, 3)
+    all_pass = all_pass and tg_pass
+end
 
 print("test end: traffic")
 
