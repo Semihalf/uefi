@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <malloc.h>
 
+/* PKO seems to have major performance issues if we request queries and
+   responses from submit. This workaround disables all of these and uses
+   the DQ watermarks to track queue depth */
+#define PKO_WATERMARK_WORKAROUND 1
+
 /* PKO uses three scratch dwords, two for commands and one for return status */
 #define BDK_IF_SCR_PKO(dword) (BDK_IF_SCR_LMTDMA + (dword<<3))
 
@@ -555,6 +560,11 @@ static int pko_port_init(bdk_if_handle_t handle)
     handle->pko_port = pq;
     handle->pko_queue = dq;
 
+    /* Have the PKO DQ watermarks count packets. This way they are equivalent
+       to the queue depth */
+    BDK_CSR_MODIFY(c, handle->node, BDK_PKO_DQX_WM_CTL(dq),
+        c.s.kind = 1);
+
     //bdk_dprintf("%s: pko mac=%d, pq=%d, l2=%d, l3=%d, l4=%d, l5=%d, dq=%d\n",
     //    bdk_if_name(handle), lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
 
@@ -831,19 +841,32 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     /* FIXME: This is a hack to avoid emptying the PKO FPA queue. CN78XX
        PKO crashes hard if you run the FPA empty */
-    bdk_pko_send_dma_s_t pko_send_dma_s;
-    pko_send_dma_s.u = 1ull<<63;
-    pko_send_dma_s.u |= 1ull<<48;
-    pko_send_dma_s.s.did = 0x51;
-    pko_send_dma_s.s.node = handle->node;
-    pko_send_dma_s.s.dqop = 3; /* 3=Query */
-    pko_send_dma_s.s.dq = handle->pko_queue;
-    bdk_pko_query_rtn_s_t status;
-    status.u = bdk_read64_uint64(pko_send_dma_s.u);
-    if (status.s.dqstatus || (status.s.depth > 256))
+    /* Get the current DQ depth to make sure we don't overflow */
+    if (PKO_WATERMARK_WORKAROUND)
     {
-        //bdk_error("%s: PKO transmit aborted due to status 0x%016lx\n", bdk_if_name(handle), status.u);
-        return -1;
+        uint64_t depth = BDK_CSR_READ(handle->node, BDK_PKO_DQX_WM_CNT(handle->pko_queue));
+        if (depth > 1024)
+        {
+            //bdk_error("%s: PKO transmit aborted due to status 0x%016lx\n", bdk_if_name(handle), status.u);
+            return -1;
+        }
+    }
+    else
+    {
+        bdk_pko_send_dma_s_t pko_send_dma_s;
+        pko_send_dma_s.u = 1ull<<63;
+        pko_send_dma_s.u |= 1ull<<48;
+        pko_send_dma_s.s.did = 0x51;
+        pko_send_dma_s.s.node = handle->node;
+        pko_send_dma_s.s.dqop = 3; /* 3=Query */
+        pko_send_dma_s.s.dq = handle->pko_queue;
+        bdk_pko_query_rtn_s_t status;
+        status.u = bdk_read64_uint64(pko_send_dma_s.u);
+        if (status.s.dqstatus || (status.s.depth > 1024))
+        {
+            //bdk_error("%s: PKO transmit aborted due to status 0x%016lx\n", bdk_if_name(handle), status.u);
+            return -1;
+        }
     }
 
     /* Build the two PKO comamnd words we need */
@@ -865,10 +888,13 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     bdk_scratch_write64(BDK_IF_SCR_PKO(2), -1);
 
     /* Build LMTDMA store data */
-    //bdk_pko_send_dma_s_t pko_send_dma_s;
+    bdk_pko_send_dma_s_t pko_send_dma_s;
     pko_send_dma_s.u = 0;
     pko_send_dma_s.s.scraddr = BDK_IF_SCR_PKO(2) >> 3;
-    pko_send_dma_s.s.rtnlen = 1; /* One result work */
+    if (PKO_WATERMARK_WORKAROUND)
+        pko_send_dma_s.s.rtnlen = 0; /* No result expected */
+    else
+        pko_send_dma_s.s.rtnlen = 1; /* One result status word */
     pko_send_dma_s.s.did = 0x51;
     pko_send_dma_s.s.node = handle->node;
     pko_send_dma_s.s.dqop = 0; /* 0=Send */
@@ -881,12 +907,19 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     BDK_SYNCIOBDMA;
 
     /* Check transmit status */
-    //bdk_pko_query_rtn_s_t status;
-    status.u = bdk_scratch_read64(BDK_IF_SCR_PKO(2));
-    if (bdk_unlikely(status.s.dqstatus))
+    if (PKO_WATERMARK_WORKAROUND)
     {
-        bdk_error("%s: PKO transmit failed with status 0x%x\n", bdk_if_name(handle), status.s.dqstatus);
-        return -1;
+        /* We can't check status with the workaround */
+    }
+    else
+    {
+        bdk_pko_query_rtn_s_t status;
+        status.u = bdk_scratch_read64(BDK_IF_SCR_PKO(2));
+        if (bdk_unlikely(status.s.dqstatus))
+        {
+            bdk_error("%s: PKO transmit failed with status 0x%x\n", bdk_if_name(handle), status.s.dqstatus);
+            return -1;
+        }
     }
 
     /* Updates the statistics in software if need to. The simulator
