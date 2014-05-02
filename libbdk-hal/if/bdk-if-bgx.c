@@ -18,7 +18,8 @@ typedef union
     void *ptr;
     struct
     {
-        uint64_t    reserved_33_64  : 31;
+        uint64_t    reserved_33_64  : 30;
+        uint64_t    use_training    : 1;    /* True if this port is in 10G or 40G and uses training */
         uint64_t    higig           : 1;    /* True if this port is in higig mode */
         uint64_t    num_port        : 4;    /* Number of physical ports on this interface */
         uint64_t    port            : 4;    /* Which physical port this handle connects to */
@@ -69,10 +70,12 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
         case BDK_QLM_MODE_10GR_4X1:
             priv.s.num_port = 4;
             priv.s.mode = BGX_MODE_10G;
+            priv.s.use_training = 1;
             break;
         case BDK_QLM_MODE_40GR4_1X4:
             priv.s.num_port = 1;
             priv.s.mode = BGX_MODE_40G;
+            priv.s.use_training = 1;
             break;
         default:
             priv.s.num_port = 0;
@@ -529,7 +532,7 @@ static int xaui_init(bdk_if_handle_t handle)
 
     /* 3d. For 10GBASE-KR or 40GBASE-KR, enable link training by writing
        BGX(0..5)_SPU(0..3)_BR_PMD_CONTROL[TRAIN_EN] = 1. */
-    if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+    if (priv.s.use_training)
     {
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
             c.s.train_en = 1);
@@ -592,7 +595,7 @@ static int xaui_link(bdk_if_handle_t handle)
 
     if (!bdk_is_simulation())
     {
-        if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+        if (priv.s.use_training)
         {
             /* Check if training is done */
             BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
@@ -606,6 +609,7 @@ static int xaui_link(bdk_if_handle_t handle)
                 /* Restart training */
                 BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
                     c.s.train_restart = 1);
+                BDK_TRACE("%s: Restarting link training\n", handle->name);
                 return -1;
             }
         }
@@ -642,6 +646,19 @@ static int xaui_link(bdk_if_handle_t handle)
         if (spux_status2.s.rcvflt)
         {
             BDK_TRACE("%s: Receive fault, need to retry\n", handle->name);
+            if (priv.s.use_training)
+            {
+                /* Restart training */
+                BDK_CSR_DEFINE(spux_int, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
+                /* Clear the training interrupts (W1C) */
+                spux_int.u = 0;
+                spux_int.s.training_failure = 1;
+                spux_int.s.training_done = 1;
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
+                /* Restart training */
+                BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
+                    c.s.train_restart = 1);
+            }
             return -1;
         }
         /* Wait for MAC RX to be ready */
