@@ -80,6 +80,32 @@ if (board_name == "evb7800_sff") then
 end
 print("test end: mmc")
 
+local oci0_status = true
+local oci1_status = true
+local oci2_status = true
+print("test start: oci")
+if ((octeon.csr.OCX_COM_LINKX_CTL(0).UP ~= 1) or
+    (octeon.csr.OCX_COM_LINKX_CTL(0).VALID ~= 1)) then
+    print ("oci0: FAIL")
+    oci0_status = false
+end
+if ((octeon.csr.OCX_COM_LINKX_CTL(1).UP ~= 1) or
+    (octeon.csr.OCX_COM_LINKX_CTL(1).VALID ~= 1)) then
+    print ("oci1: FAIL")
+    oci1_status = false
+end
+if ((octeon.csr.OCX_COM_LINKX_CTL(2).UP ~= 1) or
+    (octeon.csr.OCX_COM_LINKX_CTL(2).VALID ~= 1)) then
+    print ("oci2: FAIL")
+    oci2_status = false
+end
+if (oci0_status and oci1_status and oci2_status) then
+    print ("OCI Test: PASS")
+else
+    print ("OCI Test: FAIL")
+    all_pass = false
+end
+    
 
 --
 -- PCIe
@@ -138,14 +164,14 @@ tg_pass = tg_pass and tg_run(tg, "RXAUI1.0-RXAUI1.1", 1500, 10000, 100, 2)
 tg_pass = tg_pass and tg_run(tg, "RXAUI1.0-RXAUI1.1", 8000, 1000, 100, 2)
 all_pass = all_pass and tg_pass
 
-tg_pass = tg_run(tg, "10G2.0-10G2.3,10G4.0-10G4.3", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "10G2.0-10G2.3,10G4.0-10G4.3", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "10G2.0-10G2.3,10G4.0-10G4.3", 8000, 1000, 100, 2)
+tg_pass = tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 8000, 1000, 100, 2)
 all_pass = all_pass and tg_pass
 
-tg_pass = tg_run(tg, "10G3.0-10G3.3,10G5.0-10G5.3", 60, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "10G3.0-10G3.3,10G5.0-10G5.3", 1500, 10000, 100, 2)
-tg_pass = tg_pass and tg_run(tg, "10G3.0-10G3.3,10G5.0-10G5.3", 8000, 1000, 100, 2)
+tg_pass = tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 60, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 1500, 10000, 100, 2)
+tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 8000, 1000, 100, 2)
 all_pass = all_pass and tg_pass
 
 
