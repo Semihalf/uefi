@@ -329,10 +329,41 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     bdk_sli_mem_access_subidx_t mem_access_subid;
     bdk_pemx_bar1_indexx_t bar1_index;
 
-    if (bdk_qlm_get(node, BDK_IF_DPI, pcie_port) < 0)
+    const int qlm = bdk_qlm_get(node, BDK_IF_DPI, pcie_port);
+    if (qlm < 0)
     {
         bdk_error("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
         return -1;
+    }
+
+    /* Make sure the PEM agrees with GSERX about the speed its going to try */
+    const int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
+    switch (gbaud)
+    {
+        case 2500: /* Gen1 */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
+                c.s.md = 0);
+            /* Set the target link speed */
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
+                c.s.tls = 1);
+            break;
+        case 5000: /* Gen2 */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
+                c.s.md = 1);
+            /* Set the target link speed */
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
+                c.s.tls = 2);
+            break;
+        case 8000: /* Gen3 */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
+                c.s.md = 2);
+            /* Set the target link speed */
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
+                c.s.tls = 3);
+            break;
+        default:
+            bdk_error("PCIe%d: Unexpected rate of %d GBaud on QLM%d\n", pcie_port, gbaud, qlm);
+            return -1;
     }
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
@@ -351,6 +382,13 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     {
         bdk_dprintf("PCIe%d: Port in endpoint mode.\n", pcie_port);
         return -1;
+    }
+
+    /* Link Width Mode (PCIERCn_CFG452[LME]) */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
+            c.s.lme = (pemx_cfg.cn78xx.lanes8) ? 0xf : 0x7);
     }
 
     /* Bring the PCIe out of reset */
@@ -399,15 +437,8 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     /* Bring the link up */
     if (__bdk_pcie_rc_initialize_link_gen2(node, pcie_port))
     {
-        /* Some gen1 devices don't handle the gen 2 training correctly. Disable
-            gen2 and try again with only gen1 */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG031(pcie_port),
-            c.s.mls = 1);
-        if (__bdk_pcie_rc_initialize_link_gen2(node, pcie_port))
-        {
-            bdk_dprintf("PCIe: Link timeout on port %d, probably the slot is empty\n", pcie_port);
-            return -1;
-        }
+        bdk_dprintf("PCIe: Link timeout on port %d, probably the slot is empty\n", pcie_port);
+        return -1;
     }
 
     /* Store merge control (SLI_MEM_ACCESS_CTL[TIMER,MAX_WORD]) */
