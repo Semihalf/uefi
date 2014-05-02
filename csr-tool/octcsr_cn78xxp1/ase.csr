@@ -897,6 +897,8 @@ structs:
 
   - name: ASE_LUE_ERROR_LOG_TIC_BAD_WRITE_S
     title: ASE LUE TIC Bad Write Error Log Structure
+    attributes:
+      exempt_name_length: "True"
     description: Error log structure for ASE_LUE_ERROR_LOG[DATA] when ASE_LUE_ERROR_LOG[ERROR_ID] == TIC_BAD_WRITE.
     fields:
       - name: TID

@@ -908,11 +908,11 @@ registers:
       core clocks or the RML timeout specified in SLI_WINDOW_CTL[TIME] coprocessor clocks if
       accesses to the bootbus occur while DMA operations are in progress.
       The DMA operation duration in coprocessor clocks as:
-      MIO_BOOT_DMA_CFGn[SIZE] * MIO_BOOT_DMA_TIMn[TIM_MULT] * CYCLE_TIME.
+      MIO_BOOT_DMA_CFG()[SIZE] * MIO_BOOT_DMA_TIM()[TIM_MULT] * CYCLE_TIME.
       Where:
       CYCLE_TIME = MIO_BOOT_DMA_TIMn[RD_DLY+PAUSE+DMACK_H+WE_N+WE_A+OE_N+OE_A+DMACK_S].
       Coprocessor clocks can be converted to core clocks by multiplying the value by the clock ratio
-      MIO_RST_BOOT[C_MUL] / MIO_RST_BOOT[PNR_MUL]
+      RST_BOOT[C_MUL] / RST_BOOT[PNR_MUL].
     fields:
       - name: EN
         bits: 63

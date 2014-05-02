@@ -130,6 +130,7 @@ def build_struct(chip_info, struct):
         check_keys("struct[attributes]", struct["attributes"], [
                    "ignore_naming_convention",  # FIXME: What is this?
                    "allow_missing_bits",        # Not all bits are specified, assume reserved for others
+                   "exempt_name_length",
                    "mif_operation",
                    "subblock"])                 # FIXME: What is this?
         # FIXME: What to do with attributes?
