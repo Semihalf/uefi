@@ -675,6 +675,11 @@ static int init_oci(void)
     if (failures)
     {
         BDK_TRACE("Not enabling OCX due to errors\n");
+        const uint64_t exists_mask = bdk_numa_get_exists_mask();
+        BDK_CSR_MODIFY(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL,
+            l2c_oci_ctl.s.iofrcl = 1;
+            l2c_oci_ctl.s.gksegnode = bdk_numa_local();
+            l2c_oci_ctl.s.enaoci = exists_mask);
         return -1;
     }
 
