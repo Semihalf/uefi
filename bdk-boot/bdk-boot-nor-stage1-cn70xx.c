@@ -34,7 +34,7 @@ int main(void)
     //setenv("ddr_verbose", "yes",  1);
 
     printf("Initializing DRAM with conservative settings...\n");
-    int dram_mb = bdk_dram_config(board_name, ddr_clock_hertz);
+    int dram_mb = bdk_dram_config(bdk_numa_local(), board_name, ddr_clock_hertz);
     if (dram_mb <= 0)
         bdk_fatal("DRAM initialization failed\n");
 
