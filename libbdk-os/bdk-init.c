@@ -414,11 +414,11 @@ static int init_oci(void)
     memset(lk_info, 0, sizeof(lk_info));
 
     /* Clear all local OCI error status bits */
-    BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_INT, -1);
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_INT, BDK_CSR_READ(bdk_numa_local(), BDK_OCX_COM_INT));
 
     /* Clear all OCI lane error status bits */
     for (int lane=0; lane<24; lane++)
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_LNEX_INT(lane), -1);
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(bdk_numa_local(), BDK_OCX_LNEX_INT(lane)));
 
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
@@ -708,7 +708,7 @@ static void setup_node(bdk_node_t node)
 {
     /* Clear all OCI lane error status bits */
     for (int lane=0; lane<24; lane++)
-        BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), -1);
+        BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(node, BDK_OCX_LNEX_INT(lane)));
 
     /* Use all available links for OCI */
     BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
