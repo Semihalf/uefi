@@ -646,6 +646,7 @@ static int init_oci(void)
     }
 
     BDK_TRACE("Checking the PP_CMD still works\n");
+    int failures = 0;
     for (int link = 0; link < MAX_LINKS; link++)
     {
         BDK_CSR_INIT(local_link_ctl, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
@@ -653,15 +654,28 @@ static int init_oci(void)
             continue;
         BDK_TRACE("    Local link %d: Checking\n", link);
         if (local_link_ctl.s.id != lk_info[link].node.s.id)
+        {
             BDK_TRACE("        Failed: Local link ID doesn't match expect node ID\n");
+            failures++;
+        }
         bdk_ocx_com_node_t com_node;
         com_node.u = ocx_pp_read(local_link_ctl.s.id, BDK_OCX_COM_NODE);
         if (com_node.s.fixed &&
             (com_node.s.id == lk_info[link].node.s.id) &&
             local_link_ctl.s.id == lk_info[link].node.s.id)
+        {
             BDK_TRACE("        Passed\n");
+        }
         else
+        {
             BDK_TRACE("        Failed\n");
+            failures++;
+        }
+    }
+    if (failures)
+    {
+        BDK_TRACE("Not enabling OCX due to errors\n");
+        return -1;
     }
 
     /* All OCX links are up and running. Now tell local L2 that OCX is good */
