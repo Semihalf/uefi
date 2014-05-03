@@ -47,6 +47,7 @@ function TrafficGen.new()
     local transmit_time = 0
     local l2_stats_table = {}
     local show_l2_stats = false
+    local oci_stats = {{0,0}, {0,0}, {0,0}}
 
     --
     -- Public variables
@@ -634,6 +635,16 @@ function TrafficGen.new()
                     collectgarbage("count"),
                     octeon.c.get_sbrk() / 1024,
                     ERASE_EOL);
+                local oci_load = {}
+                for link=1,3 do
+                    local data = octeon.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
+                    local idle = octeon.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
+                    oci_load[link] = (data - oci_stats[link][1]) * 100 / (data + idle - oci_stats[link][1] - oci_stats[link][2])
+                    oci_stats[link][1] = data
+                    oci_stats[link][2] = idle
+                end
+                printf("OCI Link0 %3d%%, Link1 %3d%%, Link2 %3d%%%s\n",
+                    oci_load[1], oci_load[2], oci_load[3], ERASE_EOL);
             else
                 printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
                     octeon.csr.FPA_QUEX_AVAILABLE(0).read(), -- Packet pool
