@@ -105,11 +105,12 @@ end
 
 ---
 -- Given a board name or DRAM config structure, configure DRAM.
+-- @param node Node ot initialize DRAM on.
 -- @param board_entry DRAM configuration of a string board name.
 -- @param ddr_clock_hertz DRAM clock in Hertz.
 -- @return Returns the amount of memory in megabytes or raises an error.
 --
-function ddr.set_config(board_entry, ddr_clock_hertz)
+function ddr.set_config(node, board_entry, ddr_clock_hertz)
     -- A board name or structure is required
     assert(board_entry, "board_entry is nil")
     -- set default clock hertz if not provided
@@ -121,7 +122,7 @@ function ddr.set_config(board_entry, ddr_clock_hertz)
     end
 
     -- Configure DRAM
-    local mbytes = bdk_dram_config_raw(board_entry, ddr_clock_hertz)
+    local mbytes = bdk_dram_config_raw(node, board_entry, ddr_clock_hertz)
     if mbytes < 0 then
         error("DRAM configuration failed")
     end

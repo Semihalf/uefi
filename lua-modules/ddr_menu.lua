@@ -159,7 +159,11 @@ if not octeon.is_model(octeon.CN70XX) then
         if not ddr_config then
             error "ERROR: unable to configure DRAM controller with empty config.\n"
         end
-        ddr.set_config(ddr_config, ddr_clock_hz)
+        local node = octeon.MASTER
+        if octeon.is_model(octeon.CN78XX) then
+            node = menu.prompt_number("Node to initialize", node, 0, 3)
+        end
+        ddr.set_config(node, ddr_config, ddr_clock_hz)
     end)
 end -- not CN70XX
 
