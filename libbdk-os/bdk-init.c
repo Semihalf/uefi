@@ -355,13 +355,13 @@ static uint64_t ocx_pp_read(bdk_node_t node, uint64_t address)
         BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_PP_RD_DATA, -1);
         BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_PP_CMD, pp_cmd.u);
 
-        uint64_t data = -1;
-        while (data == (uint64_t)-1)
+        /* Wait for 1ms for read ot complete */
+        if (BDK_CSR_WAIT_FOR_FIELD(bdk_numa_local(), BDK_OCX_PP_RD_DATA, data, !=, 0xffffffffffffffffull, 1000))
         {
-            bdk_thread_yield();
-            data = BDK_CSR_READ(bdk_numa_local(), BDK_OCX_PP_RD_DATA);
+            bdk_error("N%d: Timeout reading CSR from node %d\n", bdk_numa_local(), node);
+            return -1;
         }
-        return data;
+        return BDK_CSR_READ(bdk_numa_local(), BDK_OCX_PP_RD_DATA);
     }
 }
 
