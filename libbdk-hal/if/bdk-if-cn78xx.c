@@ -845,7 +845,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     if (PKO_WATERMARK_WORKAROUND)
     {
         uint64_t depth = BDK_CSR_READ(handle->node, BDK_PKO_DQX_WM_CNT(handle->pko_queue));
-        if (depth > 1024)
+        if (depth > 256)
         {
             //bdk_error("%s: PKO transmit aborted due to status 0x%016lx\n", bdk_if_name(handle), status.u);
             return -1;
@@ -862,7 +862,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         pko_send_dma_s.s.dq = handle->pko_queue;
         bdk_pko_query_rtn_s_t status;
         status.u = bdk_read64_uint64(pko_send_dma_s.u);
-        if (status.s.dqstatus || (status.s.depth > 1024))
+        if (status.s.dqstatus || (status.s.depth > 256))
         {
             //bdk_error("%s: PKO transmit aborted due to status 0x%016lx\n", bdk_if_name(handle), status.u);
             return -1;
