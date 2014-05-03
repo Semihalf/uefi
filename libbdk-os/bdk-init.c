@@ -203,7 +203,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     extern void __bdk_reset_vector(void);
     extern void __bdk_reset_vector_data(void);
 
-    BDK_TRACE("Install reset vector node %d\n", node);
+    BDK_TRACE("N%d: Install reset vector node\n", node);
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_ADR, 0);
     int length = (__bdk_reset_vector_data - __bdk_reset_vector)/8;
     if (length > 16)
@@ -221,7 +221,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Now set the address and enable it */
     BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
     BDK_CSR_READ(node, BDK_MIO_BOOT_LOC_CFGX(0));
-    BDK_TRACE("Reset vector installed\n");
+    BDK_TRACE("N%d: Reset vector installed\n", node);
 
     /* Choose all cores by default */
     if (coremask == 0)
@@ -238,32 +238,33 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_octeon_num_cores(node)) - 1;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+    /* We may also need to turn power on (new in Octeon 3) */
+    uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
+    if (power & coremask)
     {
-        /* We may also need to turn power on (new in Octeon 3) */
-        uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
-        if (power & coremask)
-        {
-            power &= ~coremask;
-            BDK_TRACE("Enabling RST_PP_POWER\n");
-            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
-            if (!bdk_is_simulation())
-                bdk_wait_usec(1000); /* A delay seems to be needed here */
-        }
+        power &= ~coremask;
+        BDK_TRACE("N%d: Enabling RST_PP_POWER\n", node);
+        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
+        if (!bdk_is_simulation())
+            bdk_wait_usec(1000); /* A delay seems to be needed here */
     }
 
-    BDK_TRACE("First send a NMI\n");
-    BDK_CSR_WRITE(node, BDK_CIU_NMI, coremask);
-
-    BDK_TRACE("Then take cores out of reset\n");
     uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
-    if (reset & coremask)
+    BDK_TRACE("N%d: Cores currently in reset: 0x%lx\n", node, reset);
+    uint64_t need_reset_off = reset & coremask;
+    if (need_reset_off)
     {
-        reset &= ~coremask;
-        BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset);
+        BDK_TRACE("N%d: Taking cores out of reset (0x%lx)\n", node, need_reset_off);
+        BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset & ~need_reset_off);
+    }
+    uint64_t need_nmi = ~reset & coremask;
+    if (need_nmi)
+    {
+        BDK_TRACE("N%d: Sending NMI to cores that weren't in reset (0x%lx)\n", node, need_nmi);
+        BDK_CSR_WRITE(node, BDK_CIU_NMI, need_nmi);
     }
 
-    BDK_TRACE("Wait up to 10ms for the cores to boot\n");
+    BDK_TRACE("N%d: Wait up to 10ms for the cores to boot\n", node);
     uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 100 + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
@@ -276,7 +277,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
             node, __bdk_alive_coremask[node], coremask);
         return -1;
     }
-    BDK_TRACE("All cores booted\n");
+    BDK_TRACE("N%d: All cores booted\n", node);
     return 0;
 }
 
@@ -413,9 +414,17 @@ static int init_oci(void)
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
        running node masks */
-    BDK_TRACE("Marking the current node ID %d as fixed\n", bdk_numa_local());
-    BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_NODE,
-        c.s.fixed = 1);
+    BDK_CSR_INIT(ocx_com_node, bdk_numa_local(), BDK_OCX_COM_NODE);
+    if (ocx_com_node.s.fixed)
+    {
+        BDK_TRACE("Current node ID %d is already marked fixed\n", bdk_numa_local());
+    }
+    else
+    {
+        BDK_TRACE("Marking the current node ID %d as fixed\n", bdk_numa_local());
+        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_NODE,
+            c.s.fixed = 1);
+    }
 
     /* Write a unique value to OCX_TLKX_LNK_DATA for every possible link. This
         allows us to later figure out which link goes where. Also mark all
