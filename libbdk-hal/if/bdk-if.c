@@ -594,8 +594,12 @@ static int bdk_if_dispatch(void)
         if (raw_work)
         {
             /* Get a pointer to the work */
-            wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
-            BDK_PREFETCH(wqe, 0);
+            if ((raw_work>>63) == 0)
+            {
+                /* Valid work, prefetch it */
+                wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
+                BDK_PREFETCH(wqe, 0);
+            }
 
             /* The get work should already be done, but this insures that it is */
             BDK_SYNCIOBDMA;
