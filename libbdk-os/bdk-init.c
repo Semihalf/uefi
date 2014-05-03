@@ -411,6 +411,13 @@ static int init_oci(void)
     lk_info_t lk_info[MAX_LINKS + 1]; /* Index MAX_LINKS is used for the local node */
     memset(lk_info, 0, sizeof(lk_info));
 
+    /* Clear all local OCI error status bits */
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_INT, -1);
+
+    /* Clear all OCI lane error status bits */
+    for (int lane=0; lane<24; lane++)
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_LNEX_INT(lane), -1);
+
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
        running node masks */
@@ -677,6 +684,10 @@ static int init_oci(void)
 
 static void setup_node(bdk_node_t node)
 {
+    /* Clear all OCI lane error status bits */
+    for (int lane=0; lane<24; lane++)
+        BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), -1);
+
     bdk_rng_enable(node);
     if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
     {
