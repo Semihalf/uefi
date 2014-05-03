@@ -688,6 +688,10 @@ static void setup_node(bdk_node_t node)
     for (int lane=0; lane<24; lane++)
         BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), -1);
 
+    /* Use all available links for OCI */
+    BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
+        c.s.sort = 2);
+
     bdk_rng_enable(node);
     if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
     {
