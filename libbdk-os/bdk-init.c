@@ -494,6 +494,12 @@ static int init_oci(void)
         {
             lk_info[link].unique_value[rlink] = ocx_pp_read(rid, BDK_OCX_RLKX_LNK_DATA(rlink));
             BDK_TRACE("        Remote link %d: Read link data 0x%lx\n", rlink, lk_info[link].unique_value[rlink]);
+            if (lk_info[link].unique_value[rlink] == 0xffffffffffffffffull)
+            {
+                BDK_TRACE("            Invalid link data, marking link invalid\n");
+                lk_info[LOCAL_NODE].ctl[link].s.valid = 0;
+                continue;
+            }
         }
         lk_info[link].node.u = ocx_pp_read(rid, BDK_OCX_COM_NODE);
     }
