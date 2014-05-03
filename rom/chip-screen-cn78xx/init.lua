@@ -169,26 +169,29 @@ octeon.c.bdk_wait_usec(5 * 1000000)
 
 --RXAUII 2*2 for now
 
-
+tg_pass = 1;
 if (config_num == 1) then
-    tg_pass = tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 60, 10000, 100, 3)
-    tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 1500, 10000, 100, 3)
     tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 8000, 1000, 100, 3)
-    all_pass = all_pass and tg_pass
 
-    tg_pass = tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 60, 10000, 100, 3)
-    tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 1500, 10000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "RXAUI0.0,RXAUI1.0", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "RXAUI0.1,RXAUI1.1", 8000, 1000, 100, 3)
+
     tg_pass = tg_pass and tg_run(tg, "XFI2.0-XFI2.3,XFI4.0-XFI4.3", 8000, 1000, 100, 3)
+
+    tg_pass = tg_pass and tg_run(tg, "XFI2.0,XFI4.0", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI2.1,XFI4.1", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI2.2,XFI4.2", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI2.3,XFI4.3", 8000, 1000, 100, 3)
     all_pass = all_pass and tg_pass
 else
-    tg_pass = tg_run(tg, "XAUI0-XAUI1", 60, 10000, 100, 3)
-    tg_pass = tg_pass and tg_run(tg, "XAUI0-XAUI1", 1500, 10000, 100, 3)
     tg_pass = tg_pass and tg_run(tg, "XAUI0-XAUI1", 8000, 1000, 100, 3)
-    all_pass = all_pass and tg_pass
 
-    tg_pass = tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 60, 10000, 100, 3)
-    tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 1500, 10000, 100, 3)
     tg_pass = tg_pass and tg_run(tg, "XFI3.0-XFI3.3,XFI5.0-XFI5.3", 8000, 1000, 100, 3)
+
+    tg_pass = tg_pass and tg_run(tg, "XFI3.0,XFI5.0", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI3.1,XFI5.1", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI3.2,XFI5.2", 8000, 1000, 100, 3)
+    tg_pass = tg_pass and tg_run(tg, "XFI3.3,XFI5.3", 8000, 1000, 100, 3)
     all_pass = all_pass and tg_pass
 end
 
