@@ -3,6 +3,8 @@
 ---
 name: PEM
 description: PEM Registers lists the PEM registers.
+attributes:
+  mif_heading2: "PEM"
 enums:
   - name: PEM_INTSN_E
     title: PEM Interrupt Source Enumeration
@@ -999,10 +1001,14 @@ registers:
         typical: 0x1
         description: |
           PCIe Port 0 Bar1 Size.
-          0x0: reserved. 0x4: 512MB.
-          0x1: 64MB. 0x5: 1024MB.
-          0x2: 128MB. 0x6: 2048MB.
-          0x3: 256MB. 0x7: reserved.
+          0x0 = Reserved.
+          0x1 = 64 MB.
+          0x2 = 128 MB.
+          0x3 = 256 MB.
+          0x4 = 512 MB.
+          0x5 = 1024 MB.
+          0x6 = 2048 MB.
+          0x7 = Reserved.
 
       - name: BAR2_ENB
         bits: 3

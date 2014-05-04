@@ -3,24 +3,27 @@
 ---
 name: PCIEEPVF
 description: |
-  The PCIEEPVF(0..3)_CFG* registers (PCICONFIGEP) can be accessed from a remote device via PCIe Port
-  0 or Port 1, or they can be accessed via the PEM*_CFG_WR/PEM*_CFG_RD registers. Note that each
-  port can directly access only its local EP PCIe configuration registers via standard PCIe
-  configuration read/write operations. When accessing the PCIEEPVF(0..3)_CFG* registers via the
-  PEM*_CFG_WR/PEM*_CFG_RD registers, the ADDR field must match the PCIe configuration space address.
+  The PCIEEPVF()_CFG* registers (PCICONFIGEP) can be accessed from a remote device via PCIe Port 0
+  or Port 1, or they can be accessed via the PEM()_CFG_WR/PEM()_CFG_RD registers. Note that
+  each port can directly access only its local EP PCIe configuration registers via standard PCIe
+  configuration read/write operations. When accessing the PCIEEPVF()_CFG* registers via the
+  PEM()_CFG_WR/PEM()_CFG_RD registers, the ADDR field must match the PCIe configuration space
+  address.
   PCIEEPVF Registers lists the PCICONFIGEP registers.
+
   Note that the RO/WRSL field access type applies to PCICONFIGEP registers only. The RO/WRSL
   fields are RO if accessed from the physical PCIe port, and R/W if accessed via
-  PEM*_CFG_WR/PEM*_CFG_RD.
+  PEM()_CFG_WR/PEM()_CFG_RD.
 attributes:
   dv_fc_scratch_exempt: "PCICONFIGEP"
   exempt_title_check: "True"
+  mif_heading2: "PCIe EP-Mode SR-IOV Configuration"
 registers:
   - name: PCIEEPVF(0..3)_CFG000
     title: PCIe Vendor and Device Register
     address: 0x50000000000 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the first 32-bits of type 0 PCIe configuration space.
+    description: This register contains the first 32-bits of PCIe type 0 configuration space.
     fields:
       - name: DEVID
         bits: 31..16
@@ -41,7 +44,7 @@ registers:
     title: Command/Status Register
     address: 0x50000000004 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the second 32-bits of type 0 PCIe configuration space.
+    description: This register contains the second 32-bits of PCIe type 0 configuration space.
     attributes:
       exempt_w1c_w: "True"
     fields:
@@ -176,21 +179,21 @@ registers:
         access: RO
         reset: 0
         typical: 0
-        description: VGA palette snoop.
+        description: VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: MWICE
         bits: 4
         access: RO
         reset: 0
         typical: 0
-        description: Memory write & invalidate command enable. Not applicable for PCI Express. Must be hardwired to 0.
+        description: Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: SCSE
         bits: 3
         access: RO
         reset: 0
         typical: 0
-        description: Special cycle snooping enable. Not applicable for PCI Express. Must be hardwired to 0.
+        description: Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0.
 
       - name: ME
         bits: 2
@@ -218,7 +221,7 @@ registers:
     title: Class Code/Revision ID Register
     address: 0x50000000008 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the third 32-bits of type 0 PCIe configuration space.
+    description: This register contains the third 32-bits of PCIe type 0 configuration space.
     fields:
       - name: BCC
         bits: 31..24
@@ -253,7 +256,7 @@ registers:
     title: BIST, Header Type, Master Latency Timer, Cache Line Size Register
     address: 0x5000000000C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the fourth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the fourth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: BIST
         bits: 31..24
@@ -300,7 +303,7 @@ registers:
     title: Base Address 0 Low Register
     address: 0x50000000010 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the fifth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the fifth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -314,7 +317,7 @@ registers:
     title: Base Address 0 High Register
     address: 0x50000000014 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the sixth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the sixth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -328,7 +331,7 @@ registers:
     title: Base Address 1 Low Register
     address: 0x50000000018 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the seventh 32-bits of type 0 PCIe configuration space.
+    description: This register contains the seventh 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -342,7 +345,7 @@ registers:
     title: Base Address 1 High Register
     address: 0x5000000001C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the eighth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the eighth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -356,7 +359,7 @@ registers:
     title: Base Address 2 Low Register
     address: 0x50000000020 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -370,7 +373,7 @@ registers:
     title: Base Address Register 2 - High Register
     address: 0x50000000024 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the tenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the tenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..0
@@ -384,7 +387,7 @@ registers:
     title: Card Bus CIS Pointer Register
     address: 0x50000000028 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the eleventh 32-bits of type 0 PCIe configuration space.
+    description: This register contains the eleventh 32-bits of PCIe type 0 configuration space.
     fields:
       - name: CISP
         bits: 31..0
@@ -398,7 +401,7 @@ registers:
     title: SubSystem ID/Subsystem Vendor ID Register
     address: 0x5000000002C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the twelfth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the twelfth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: SSID
         bits: 31..16
@@ -419,7 +422,7 @@ registers:
     title: Expansion ROM Base Address Register
     address: 0x50000000030 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirteenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirteenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: ERADDR
         bits: 31..16
@@ -447,7 +450,7 @@ registers:
     title: Capability Pointer Register
     address: 0x50000000034 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the fourteenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..8
@@ -468,7 +471,7 @@ registers:
     title: Interrupt Line/Interrupt Pin/Bridge Control Register
     address: 0x5000000003C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the sixteenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the sixteenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: ML
         bits: 31..24
@@ -503,7 +506,7 @@ registers:
     title: PCIe Capabilities/PCIe Capabilities List Register
     address: 0x50000000070 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the twenty-ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the twenty-ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..30
@@ -559,7 +562,7 @@ registers:
     title: Device Capabilities Register
     address: 0x50000000074 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirtieth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirtieth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..29
@@ -608,21 +611,21 @@ registers:
         access: RAZ
         reset: --
         typical: --
-        description: Undefined
+        description: Undefined.
 
       - name: --
         bits: 13
         access: RAZ
         reset: --
         typical: --
-        description: Undefined
+        description: Undefined.
 
       - name: --
         bits: 12
         access: RAZ
         reset: --
         typical: --
-        description: Undefined
+        description: Undefined.
 
       - name: EL1AL
         bits: 11..9
@@ -664,7 +667,7 @@ registers:
     title: Device Control/Device Status Register
     address: 0x50000000078 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirty-first 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..22
@@ -716,7 +719,7 @@ registers:
           Nonfatal error detected. Errors are logged in this register regardless of whether or not
           error reporting is enabled in the device control register. This field is set if we receive
           any of the errors in
-          PCIEEP(0..3)_CFG066 that has a severity set to nonfatal and does not meet advisory
+          PCIEEP()_CFG066 that has a severity set to nonfatal and does not meet advisory
           nonfatal criteria, which most poisoned TLPs should.
 
       - name: CE_D
@@ -783,9 +786,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Max payload size. Legal values: 0x0 = 128B, 0x1 = 256B.
+          Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
           Larger sizes are not supported by CN78XX.
-          DPI_SLI_PRT(0..3)_CFG[MPS] must be set to the same value as this field for proper
+          DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
           functionality.
 
       - name: RO_EN
@@ -828,7 +831,7 @@ registers:
     title: Link Capabilities Register
     address: 0x5000000007C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirty-second 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
     fields:
       - name: PNUM
         bits: 31..24
@@ -916,11 +919,9 @@ registers:
         description: |
           Maximum link width.
           The reset value of this field is determined by the value read from the PEM
-          csr PEM(0..3)_CFG[LANES8].
-          PEM(0..2)_CFG.LANES8       RST_VALUE     NOTE
-            0                          0x4           4 lanes
-            1                          0x8           8 lanes
-          This field is writable through PEM(0..3)_CFG_WR.
+          csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x4, otherwise 0x8.
+
+          This field is writable through PEM()_CFG_WR.
 
       - name: MLS
         bits: 3..0
@@ -928,16 +929,18 @@ registers:
         reset: --
         typical: --
         description: |
-          Maximum link speed.The reset value of this field is controlled by the value read from
-          PEM(0..3)_CFG[MD].
-          PEM*_CFG
-          [MD] RST_VALUE NOTE
-          0x0 0001b 2.5 GHz supported
-          0x1 0010b 5.0 GHz and 2.5 GHz supported
-          0x2 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          0x3 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          (RC Mode)
-          This field is writable through PEM(0..3)_CFG_WR. However, the application must not change
+          Maximum link speed. The reset value of this field is controlled by the value read from
+          PEM()_CFG[MD].
+
+          _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+          _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+          _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+          _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
+
+          This field is writable through PEM()_CFG_WR. However, the application must not change
           this field.
 
 
@@ -945,7 +948,7 @@ registers:
     title: Link Control/Link Status Register
     address: 0x50000000080 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirty-third 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
     fields:
       - name: LAB
         bits: 31
@@ -1005,9 +1008,9 @@ registers:
         typical: 0x1
         description: |
           Link speed.
-          0x1 = The negotiated link speed: 2.5 Gbps
-          0x2 = The negotiated link speed: 5.0 Gbps
-          0x4 = The negotiated link speed: 8.0 Gbps
+          0x1 = The negotiated link speed: 2.5 Gbps.
+          0x2 = The negotiated link speed: 5.0 Gbps.
+          0x4 = The negotiated link speed: 8.0 Gbps.
 
       - name: --
         bits: 15..12
@@ -1097,14 +1100,14 @@ registers:
         access: RO
         reset: 0x0
         typical: 0x0
-        description: Active state Link PM control.
+        description: Active state link PM control.
 
 
   - name: PCIEEPVF(0..3)_CFG037
     title: Device Capabilities 2 Register
     address: 0x50000000094 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirty-eighth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -1120,24 +1123,24 @@ registers:
         typical: 0x0
         description: |
           Max end-end TLP prefixes.
-          0x1 = 1
-          0x2 = 2
-          0x3 = 3
-          0x0 = 4
+          0x1 = 1.
+          0x2 = 2.
+          0x3 = 3.
+          0x0 = 4.
 
       - name: EETPS
         bits: 21
         access: RO
         reset: 0
         typical: 0
-        description: End-end TLP prefix supported.
+        description: End-end TLP prefix supported (not supported).
 
       - name: EFFS
         bits: 20
         access: RO
         reset: 0
         typical: 0
-        description: Extended Fmt field supported.
+        description: Extended fmt field supported (not supported).
 
       - name: OBFFS
         bits: 19..18
@@ -1228,7 +1231,7 @@ registers:
     title: Device Control 2 Register/Device Status 2 Register
     address: 0x50000000098 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the thirty-ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..16
@@ -1314,7 +1317,7 @@ registers:
     title: Link Capabilities 2 Register
     address: 0x5000000009C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the fortieth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the fortieth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..9
@@ -1339,18 +1342,24 @@ registers:
           Supported link speeds vector. Indicates the supported link speeds of the associated port.
           For each bit, a value of 1b indicates that the corresponding link speed is supported;
           otherwise, the link speed is not supported. Bit definitions are:
-          Bit <1> = 2.5 GT/s
-          Bit <2> = 5.0 GT/s
-          Bit <3> = 8.0 GT/s
-          Bits <7:4> are reserved
-          The reset value of this field is controlled by the value read from PEM(0..3)_CFG[MD].
-          PEM*_CFG
-          [MD] RST_VALUE NOTE
-          0x0 0001b 2.5 GHz supported
-          0x1 0011b 5.0 GHz and 2.5 GHz supported
-          0x2 0111b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          0x3 0111b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          (RC Mode)
+
+          _ Bit <1> =  2.5 GT/s.
+
+          _ Bit <2> = 5.0 GT/s.
+
+          _ Bit <3> = 8.0 GT/s.
+
+          _ Bits <7:4> are reserved.
+
+          The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+          _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+          _ MD is 0x1, reset to 0x3: 5.0 GHz and 2.5 GHz supported.
+
+          _ MD is 0x2, reset to 0x7: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+          _ MD is 0x3, reset to 0x7: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
       - name: --
         bits: 0
@@ -1364,7 +1373,7 @@ registers:
     title: Link Control 2 Register/Link Status 2 Register
     address: 0x500000000A0 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the forty-first 32-bits of type 0 PCIe configuration space.
+    description: This register contains the forty-first 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..17
@@ -1381,8 +1390,9 @@ registers:
         description: |
           Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
           the level of deemphasis. Encodings:
-          1 = -3.5 dB
-          0 = -6 dB
+          1 = -3.5 dB.
+          0 = -6 dB.
+
           The value in this bit is undefined when the link is operating at 2.5 GT/s speed.
 
       - name: --
@@ -1400,8 +1410,9 @@ registers:
         description: |
           Compliance deemphasis. This bit sets the deemphasis level in polling. Compliance state if
           the entry occurred due to the Tx compliance receive bit being 1. Encodings:
-          1 =  -3.5 dB
-          0 =  -6 dB
+          1 = -3.5 dB.
+          0 = -6 dB.
+
           When the link is operating at 2.5 GT/s, the setting of this bit has no effect.
 
       - name: CSOS
@@ -1421,7 +1432,7 @@ registers:
         typical: 0
         description: |
           Enter modified compliance. When this bit is set to 1, the device transmits a modified
-          compliance pattern if the LTSSM enters polling.Compliance state.
+          compliance pattern if the LTSSM enters polling compliance state.
 
       - name: TM
         bits: 9..7
@@ -1431,10 +1442,11 @@ registers:
         description: |
           Transmit margin. This field controls the value of the non-deemphasized voltage level at
           the transmitter pins:
-          0x0 =  800-1200 mV for full swing 400-600 mV for half-swing
-          0x1-0x2 = Values must be monotonic with a nonzero slope
-          0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing
-          0x4-0x7 = Reserved
+          0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+          0x1-0x2 = Values must be monotonic with a nonzero slope.
+          0x3 = 200-400 mV for full-swing and 100-200 mV for halfswing.
+          0x4-0x7 = Reserved.
+
           This field is reset to 0x0 on entry to the LTSSM polling compliance substate. When
           operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
           +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB.
@@ -1476,30 +1488,34 @@ registers:
           Target link speed. For downstream ports, this field sets an upper limit on link
           operational speed by restricting the values advertised by the upstream component in its
           training sequences:
-          0x1: 2.5 Gb/s target link speed
-          0x2: 5 Gb/s target link speed
-          0x4: 8Gb/s target link speed (not supported)
+
+          0x1 = 2.5 Gb/s target link speed.
+          0x2 = 5 Gb/s target link speed.
+          0x4 = 8 Gb/s target link speed (not supported).
+
           All other encodings are reserved.
+
           If a value is written to this field that does not correspond to a speed included in the
           supported link speeds field, the result is undefined.
           For both upstream and downstream ports, this field is used to set the target compliance
           mode speed when software is using the enter compliance bit to force a link into compliance
           mode.
-          The reset value of this field is controlled by the value read from PEM(0..3)_CFG[MD].
-          PEM*_CFG
-          [MD] RST_VALUE NOTE
-          00 0001b 2.5 GHz supported
-          01 0010b 5.0 GHz and 2.5 GHz supported
-          10 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          11 0011b 8.0 Ghz, 5.0 GHz and 2.5 GHz supported
-          (RC Mode)
+          The reset value of this field is controlled by the value read from PEM()_CFG[MD].
+
+          _ MD is 0x0, reset to 0x1: 2.5 GHz supported.
+
+          _ MD is 0x1, reset to 0x2: 5.0 GHz and 2.5 GHz supported.
+
+          _ MD is 0x2, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported.
+
+          _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
 
   - name: PCIEEPVF(0..3)_CFG044
     title: PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
     address: 0x500000000B0 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the forty-fifth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the forty-fifth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: MSIXEN
         bits: 31
@@ -1552,7 +1568,7 @@ registers:
     title: PCI Express MSI-X Table Offset and BIR Register
     address: 0x500000000B4 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the forty-sixth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the forty-sixth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: MSIXTOFFS
         bits: 31..3
@@ -1569,17 +1585,15 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+          MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
           table into memory space.
-          0x0 - 0x4 = BAR#
-          0x6 - 0x7 = Reserved"
 
 
   - name: PCIEEPVF(0..3)_CFG046
     title: PCI Express MSI-X PBA Offset and BIR Register
     address: 0x500000000B8 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the forty-seventh 32-bits of type 0 PCIe configuration space.
+    description: This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
     fields:
       - name: MSIXPOFFS
         bits: 31..3
@@ -1596,11 +1610,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
-          pending bit array                                                  into memory space.
-          0x0 - 0x4 = BAR#
-          0x6 - 0x7 = Reserved
-          Writable through PEM(0..3)_CFG_WR. However, the application must not change this field."
+          MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+          pending bit array into memory space.
+          Writable through PEM()_CFG_WR. However, the application must not change this field.
 
 
   - name: PCIEEPVF(0..3)_CFG048
@@ -1609,7 +1621,7 @@ registers:
       Capabilities Register
     address: 0x500000000C0 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the forty-ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the forty-ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: PMES
         bits: 31..27
@@ -1618,11 +1630,16 @@ registers:
         typical: 0x0
         description: |
           PME_Support.
-          Bit 11: If set, PME messages can be generated from D0
-          Bit 12: If set, PME messages can be generated from D1
-          Bit 13: If set, PME messages can be generated from D2
-          Bit 14: If set, PME messages can be generated from D3hot
-          Bit 15: Always zero. VFs do not support D3cold
+
+          _ Bit 11: If set, PME Messages can be generated from D0.
+
+          _ Bit 12: If set, PME Messages can be generated from D1.
+
+          _ Bit 13: If set, PME Messages can be generated from D2.
+
+          _ Bit 14: If set, PME Messages can be generated from D3hot.
+
+          _ Bit 15: If set, PME Messages can be generated from D3cold.
 
       - name: D2S
         bits: 26
@@ -1692,7 +1709,7 @@ registers:
     title: Power Management Control and Status Register
     address: 0x500000000C4 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the fiftieth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the fiftieth 32-bits of PCIe type 0 configuration space.
     attributes:
       exempt_w1c_w: "True"
     fields:
@@ -1780,10 +1797,11 @@ registers:
         typical: 0x0
         description: |
           Power state. Controls the device power state:
-          0x0 = D0
-          0x1 = D1
-          0x2 = D2
-          0x3 = D3
+          0x0 = D0.
+          0x1 = D1.
+          0x2 = D2.
+          0x3 = D3.
+
           The written value is ignored if the specific state is not supported.
 
 
@@ -1791,7 +1809,7 @@ registers:
     title: PCI Express Extended Capability Header Register
     address: 0x50000000100 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the sixty-fifth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the sixty-fifth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: NCO
         bits: 31..20
@@ -1819,21 +1837,21 @@ registers:
     title: PCI Express ARI Capability Header Register
     address: 0x50000000148 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the eighty-third 32-bits of type 0 PCIe configuration space.
+    description: This register contains the eighty-third 32-bits of PCIe type 0 configuration space.
     fields:
       - name: NCO
         bits: 31..20
         access: RO/H
         reset: 0x0
         typical: 0x0
-        description: Next capability offset
+        description: Next capability offset.
 
       - name: CV
         bits: 19..16
         access: RO
         reset: 0x1
         typical: 0x1
-        description: Capability version
+        description: Capability version.
 
       - name: ARIID
         bits: 15..0
@@ -1847,7 +1865,7 @@ registers:
     title: PCI Express ARI Capability Register/PCI Express ARI Control Register
     address: 0x5000000014C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the eighty-fourth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the eighty-fourth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -1917,7 +1935,7 @@ registers:
     title: Ack Latency Timer/Replay Timer Register
     address: 0x50000000700 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred forty-ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred forty-ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: RTL
         bits: 31..16
@@ -1929,7 +1947,7 @@ registers:
           bus initiates a replay upon reception of a nak or when the replay timer expires. This
           value is set correctly by the hardware out of reset or when the negotiated link width or
           payload size changes. If the user changes this value through a CSR write or by an EEPROM
-          load, they should refer to the PCIe Specification for the correct value.
+          load, they should refer to the PCIe specification for the correct value.
 
       - name: RTLTL
         bits: 15..0
@@ -1947,7 +1965,7 @@ registers:
     title: Other Message Register
     address: 0x50000000704 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fiftieth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fiftieth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: OMR
         bits: 31..0
@@ -1956,9 +1974,11 @@ registers:
         typical: --
         description: |
           Other message register. This register can be used for either of the following purposes:
+
           * To send a specific PCI Express message, the application writes the payload of the
           message into this register, then sets bit 0 of the port link control register to send the
           message.
+
           * To store a corruption pattern for corrupting the LCRC on all TLPs, the application
           places a 32-bit corruption pattern into this register and enables this function by setting
           bit 25 of the port link control register. When enabled, the transmit LCRC result is XORed
@@ -1969,7 +1989,7 @@ registers:
     title: Port Force Link Register
     address: 0x50000000708 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-first 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-first 32-bits of PCIe type 0 configuration space.
     fields:
       - name: LPEC
         bits: 31..24
@@ -1978,10 +1998,11 @@ registers:
         typical: 0x7
         description: |
           Low power entrance count. The power management state waits this many clock cycles for the
-          associated completion of a CfgWr to PCIE_CFG017 register, power state (PS) field register
+          associated completion of a CfgWr to PCIEEP()_CFG017 register, power state (PS) field
+          register
           to go low-power. This register is intended for applications that do not let the PCI
           Express bus handle a completion for configuration request to the power management control
-          and status (PCIE_CFG017) register.
+          and status (PCIEP()_CFG017) register.
 
       - name: --
         bits: 23..22
@@ -1998,22 +2019,38 @@ registers:
         description: |
           Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
           is set. State encoding:
-          0x0: DETECT_QUIET. 0x10: RCVRY_IDLE.
-          0x1: DETECT_ACT. 0x11: L0.
-          0x2: POLL_ACTIVE. 0x12: L0S.
-          0x3: POLL_COMPLIANCE. 0x13: L123_SEND_EIDLE.
-          0x4: POLL_CONFIG. 0x14: L1_IDLE.
-          0x5: PRE_DETECT_QUIET. 0x15: L2_IDLE.
-          0x6: DETECT_WAIT. 0x16: L2_WAKE.
-          0x7: CFG_LINKWD_START. 0x17: DISABLED_ENTRY.
-          0x8: CFG_LINKWD_ACEPT. 0x18: DISABLED_IDLE.
-          0x9: CFG_LANENUM_WAIT. 0x19: DISABLED.
-          0xA: CFG_LANENUM_ACEPT. 0x1A: LPBK_ENTRY.
-          0xB: CFG_COMPLETE. 0x1B: LPBK_ACTIVE.
-          0xC: CFG_IDLE. 0x1C: LPBK_EXIT.
-          0xD: RCVRY_LOCK. 0x1D: LPBK_EXIT_TIMEOUT.
-          0xE: RCVRY_SPEED. 0x1E: HOT_RESET_ENTRY.
-          0xF: RCVRY_RCVRCFG. 0x1F: HOT_RESET.
+          0x0 = DETECT_QUIET.
+          0x1 = DETECT_ACT.
+          0x2 = POLL_ACTIVE.
+          0x3 = POLL_COMPLIANCE.
+          0x4 = POLL_CONFIG.
+          0x5 = PRE_DETECT_QUIET.
+          0x6 = DETECT_WAIT.
+          0x7 = CFG_LINKWD_START.
+          0x8 = CFG_LINKWD_ACEPT.
+          0x9 = CFG_LANENUM_WAIT.
+          0xA = CFG_LANENUM_ACEPT.
+          0xB = CFG_COMPLETE.
+          0xC = CFG_IDLE.
+          0xD = RCVRY_LOCK.
+          0xE = RCVRY_SPEED.
+          0xF = RCVRY_RCVRCFG.
+          0x10 = RCVRY_IDLE.
+          0x11 = L0.
+          0x12 = L0S.
+          0x13 = L123_SEND_EIDLE.
+          0x14 = L1_IDLE.
+          0x15 = L2_IDLE.
+          0x16 = L2_WAKE.
+          0x17 = DISABLED_ENTRY.
+          0x18 = DISABLED_IDLE.
+          0x19 = DISABLED.
+          0x1A = LPBK_ENTRY.
+          0x1B = LPBK_ACTIVE.
+          0x1C = LPBK_EXIT.
+          0x1D = LPBK_EXIT_TIMEOUT.
+          0x1E = HOT_RESET_ENTRY.
+          0x1F = HOT_RESET.
 
       - name: FORCE_LINK
         bits: 15
@@ -2045,7 +2082,7 @@ registers:
     title: Ack Frequency Register
     address: 0x5000000070C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-second 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-second 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31
@@ -2071,13 +2108,13 @@ registers:
         typical: 0x3
         description: |
           L1 entrance latency. Values correspond to:
-          0x0 = 1 ms
-          0x1 = 2 ms
-          0x2 = 4 ms
-          0x3 = 8 ms
-          0x4 = 16 ms
-          0x5 = 32 ms
-          0x6 or 0x7 = 64 ms
+          0x0 = 1 ms.
+          0x1 = 2 ms.
+          0x2 = 4 ms.
+          0x3 = 8 ms.
+          0x4 = 16 ms.
+          0x5 = 32 ms.
+          0x6 or 0x7 = 64 ms.
 
       - name: L0EL
         bits: 26..24
@@ -2086,13 +2123,13 @@ registers:
         typical: 0x3
         description: |
           L0s entrance latency. Values correspond to:
-          0x0 = 1 ms
-          0x1 = 2 ms
-          0x2 = 3 ms
-          0x3 = 4 ms
-          0x4 = 5 ms
-          0x5 = 6 ms
-          0x6 or 0x7 = 7 ms
+          0x0 = 1 ms.
+          0x1 = 2 ms.
+          0x2 = 3 ms.
+          0x3 = 4 ms.
+          0x4 = 5 ms.
+          0x5 = 6 ms.
+          0x6 or 0x7 = 7 ms.
 
       - name: N_FTS_CC
         bits: 23..16
@@ -2131,7 +2168,7 @@ registers:
     title: Port Link Control Register
     address: 0x50000000710 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-third 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-third 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..22
@@ -2147,20 +2184,22 @@ registers:
         typical: 0xf
         description: |
           Link mode enable set as follows:
-          000001 (0x1) =  *1
-          000011 (0x3) =  *2
-          000111 (0x7) =  *4
-          001111 (0xF) =  *8 (not supported)
-          011111 (0x1F) =  *16 (not supported)
-          111111 (0x3F) =  *32 (not supported)
+          0x1 = x1.
+          0x3 = x2.
+          0x7 = x4.
+          0xF = x8.
+          0x1F = x16 (not supported).
+          0x3F = x32 (not supported).
+
           This field indicates the maximum number of lanes supported by the PCIe port. The value can
-          be set less than 0x7 to limit the number of lanes that the PCIe will attempt to use. If
+          be set less than 0xF to limit the number of lanes that the PCIe will attempt to use. If
           the value of 0xF set by the hardware is not desired, this field can be programmed to a
-          smaller value (i.e. EEPROM). See also PCIEEP(0..3)_CFG031[MLW].
+          smaller value (i.e. EEPROM). See also PCIEEP()_CFG031[MLW].
           The value of this field does not indicate the number of lanes in use by the PCIe. This
           field sets the maximum number of lanes in the PCIe core that could be used. As per the
-          PCIe specification, the PCIe core can negotiate a smaller link width, so all of *8, *4,
-          *2, and *1 are supported when LME = 0xF, for example.
+          PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
+          x2, and x1 are supported when
+          LME = 0xF, for example.
 
       - name: --
         bits: 15..12
@@ -2199,8 +2238,8 @@ registers:
         reset: 1
         typical: 1
         description: |
-          DLL link enable. Enables Link initialization. If DLL Link Enable = 0, the PCI Express bus
-          does not transmit InitFC DLLPs and does not establish a Link.
+          DLL link enable. Enables link initialization. If DLL link enable = 0, the PCI Express bus
+          does not transmit InitFC DLLPs and does not establish a link.
 
       - name: --
         bits: 4
@@ -2250,7 +2289,7 @@ registers:
     title: Lane Skew Register
     address: 0x50000000714 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-fourth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-fourth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: DLLD
         bits: 31
@@ -2296,7 +2335,7 @@ registers:
     title: Symbol Number Register
     address: 0x50000000718 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-fifth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..29
@@ -2311,9 +2350,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Used to be "timer modifier for flow control watchdog timer." No longer used. Repl and
-          enhanced func moved to "queue status" register - CFG463. Kept for now to prevent software
-          from breaking.
+          Used to be 'timer modifier for flow control watchdog timer.' This field is no longer used.
+          and has moved to the queue status register -- PCIEEP()_CFG463. This field remains to
+          prevent software from breaking.
 
       - name: TMANLT
         bits: 23..19
@@ -2352,7 +2391,7 @@ registers:
     title: Symbol Timer/Filter Mask Register 1
     address: 0x5000000071C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-sixth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-sixth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: M_CFG0_FILT
         bits: 31
@@ -2443,7 +2482,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: Mask Type 1 configuration request filtering..
+        description: Mask type 1 configuration request filtering.
 
       - name: M_BAR_MATCH
         bits: 18
@@ -2492,7 +2531,7 @@ registers:
     title: Filter Mask Register 2
     address: 0x50000000720 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-seventh 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-seventh 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..4
@@ -2513,28 +2552,28 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Mask DLLP abort for unexpected CPL
+        description: Mask DLLP abort for unexpected CPL.
 
       - name: M_VEND1_DRP
         bits: 1
         access: R/W
         reset: 0
         typical: 0
-        description: Mask vendor MSG Type 1 dropped silently.
+        description: Mask vendor MSG type 1 dropped silently.
 
       - name: M_VEND0_DRP
         bits: 0
         access: R/W
         reset: 0
         typical: 0
-        description: Mask vendor MSG Type 0 dropped with UR error reporting.
+        description: Mask vendor MSG type 0 dropped with UR error reporting.
 
 
   - name: PCIEEPVF(0..3)_CFG458
     title: Debug Register 0
     address: 0x50000000728 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred fifty-ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: DBG_INFO_L32
         bits: 31..0
@@ -2548,7 +2587,7 @@ registers:
     title: Debug Register 1
     address: 0x5000000072C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixtieth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixtieth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: DBG_INFO_U32
         bits: 31..0
@@ -2562,7 +2601,7 @@ registers:
     title: Transmit Posted FC Credit Status Register
     address: 0x50000000730 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-first 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-first 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..20
@@ -2594,7 +2633,7 @@ registers:
     title: Transmit Nonposted FC Credit Status Register
     address: 0x50000000734 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-second 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-second 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..20
@@ -2626,7 +2665,7 @@ registers:
     title: Transmit Completion FC Credit Status Register
     address: 0x50000000738 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-third 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-third 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..20
@@ -2658,7 +2697,7 @@ registers:
     title: Queue Status Register
     address: 0x5000000073C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-fourth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-fourth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: FCLTOE
         bits: 31
@@ -2667,7 +2706,7 @@ registers:
         typical: 0
         description: |
           FC latency timer override enable. When this bit is set, the value from
-          PCIEEPVF(0..3)_CFG463[FCLTOV] will override the FC latency timer value that the core
+          PCIEEPVF()_CFG463[FCLTOV] will override the FC latency timer value that the core
           calculates according to the PCIe specification.
 
       - name: --
@@ -2683,11 +2722,10 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          FC latency timer override value. When you set PCIEEPVF(0..3)_CFG463[FCLTOE], the value in
+          FC latency timer override value. When you set PCIEEPVF()_CFG463[FCLTOE], the value in
           this
           field will override the FC latency timer value that the core calculates according to the
-          PCIe
-          specification.
+          PCIe specification.
 
       - name: --
         bits: 15..3
@@ -2725,7 +2763,7 @@ registers:
     title: VC Transmit Arbitration Register 1
     address: 0x50000000740 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-fifth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-fifth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: WRR_VC3
         bits: 31..24
@@ -2760,7 +2798,7 @@ registers:
     title: VC Transmit Arbitration Register 2
     address: 0x50000000744 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-sixth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-sixth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: WRR_VC7
         bits: 31..24
@@ -2795,7 +2833,7 @@ registers:
     title: VC0 Posted Receive Queue Control Register
     address: 0x50000000748 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-seventh 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-seventh 32-bits of PCIe type 0 configuration space.
     fields:
       - name: RX_QUEUE_ORDER
         bits: 31
@@ -2804,7 +2842,7 @@ registers:
         typical: 0
         description: |
           VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
-          used only in the segmented-buffer configuration, writable through PEM(0..3)_CFG_WR:
+          used only in the segmented-buffer configuration, writable through PEM()_CFG_WR:
           0 = Round robin.
           1 = Strict ordering, higher numbered VCs have higher priority.
 
@@ -2833,12 +2871,15 @@ registers:
         typical: 0x2
         description: |
           VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
-          only in the segmented-buffer configuration, writable through PEM(0..3)_CFG_WR.
+          only in the segmented-buffer configuration, writable through PEM()_CFG_WR.
           However, the application must not change this field.
           Only one bit can be set at a time:
-          Bit 23 = Bypass
-          Bit 22 = Cut-through
-          Bit 21 = Store-and-forward
+
+          _ Bit 23 = Bypass.
+
+          _ Bit 22 = Cut-through.
+
+          _ Bit 21 = Store-and-forward.
 
       - name: --
         bits: 20
@@ -2870,7 +2911,7 @@ registers:
     title: VC0 Nonposted Receive Queue Control Register
     address: 0x5000000074C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-eighth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-eighth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -2887,11 +2928,14 @@ registers:
         description: |
           VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
           used only in the segmented-buffer configuration. This field is writable through
-          PEM(0..3)_CFG_WR. However, the application must not change this field.
+          PEM()_CFG_WR. However, the application must not change this field.
           Only one bit can be set at a time:
-          Bit 23 = Bypass
-          Bit 22 = Cut-through
-          Bit 21 = Store-and-forward
+
+          _ Bit 23 = Bypass.
+
+          _ Bit 22 = Cut-through.
+
+          _ Bit 21 = Store-and-forward.
 
       - name: --
         bits: 20
@@ -2908,7 +2952,7 @@ registers:
         description: |
           VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
           for all receive queue buffer configurations. This field is writable through
-          PEM(0..3)_CFG_WR. However, the application must not change this field.
+          PEM()_CFG_WR. However, the application must not change this field.
 
       - name: DATA_CREDITS
         bits: 11..0
@@ -2918,14 +2962,14 @@ registers:
         description: |
           VC0 non-posted data credits. The number of initial nonposted data credits for VC0, used
           for all receive queue buffer configurations. This field is writable through
-          PEM(0..3)_CFG_WR. However, the application must not change this field.
+          PEM()_CFG_WR. However, the application must not change this field.
 
 
   - name: PCIEEPVF(0..3)_CFG468
     title: VC0 Completion Receive Queue Control Register
     address: 0x50000000750 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred sixty-ninth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred sixty-ninth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..24
@@ -2946,7 +2990,7 @@ registers:
           Bit 23 = Bypass
           Bit 22 = Cut-through
           Bit 21 = Store-and-forward
-          This field is writable through PEM(0..3)_CFG_WR. However, the application must not change
+          This field is writable through PEM()_CFG_WR. However, the application must not change
           this field.
 
       - name: --
@@ -2964,7 +3008,7 @@ registers:
         description: |
           VC0 completion header credits. The number of initial completion header credits for VC0,
           used for all receive queue buffer configurations. This field is writable through
-          PEM(0..3)_CFG_WR. However, the application must not change this field.
+          PEM()_CFG_WR. However, the application must not change this field.
 
       - name: DATA_CREDITS
         bits: 11..0
@@ -2974,14 +3018,14 @@ registers:
         description: |
           VC0 completion data credits. The number of initial completion data credits for VC0, used
           for all receive queue buffer configurations. This field is writable through
-          PEM(0..3)_CFG_WR. However, the application must not change this field.
+          PEM()_CFG_WR. However, the application must not change this field.
 
 
   - name: PCIEEPVF(0..3)_CFG490
     title: VC0 Posted Buffer Depth Register
     address: 0x500000007A8 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred ninety-first 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred ninety-first 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..26
@@ -3020,7 +3064,7 @@ registers:
     title: VC0 Nonposted Buffer Depth Register
     address: 0x500000007AC | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred ninety-second 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred ninety-second 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..26
@@ -3059,7 +3103,7 @@ registers:
     title: VC0 Completion Buffer Depth Register
     address: 0x500000007B0 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the four hundred ninety-third 32-bits of type 0 PCIe configuration space.
+    description: This register contains the four hundred ninety-third 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..26
@@ -3098,7 +3142,7 @@ registers:
     title: Gen2 Port Logic Register
     address: 0x5000000080C | a<<32
     bus: PCICONFIGEP
-    description: This register contains the five hundred sixteenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the five hundred sixteenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: --
         bits: 31..21
@@ -3146,7 +3190,7 @@ registers:
         typical: 0x8
         description: |
           Lane enable. Indicates the number of lanes to check for exit from electrical idle in
-          Polling.Active and Polling.Compliance. 0x1 = *1, 0x2 = *2, etc. Used to limit the maximum
+          Polling.Active and Polling.Compliance. 0x1 = x1, 0x2 = x2, etc. Used to limit the maximum
           link width to ignore broken lanes that detect a receiver, but will not exit electrical
           idle and would otherwise prevent a valid link from being configured.
 
@@ -3159,6 +3203,7 @@ registers:
           N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
           N_FTS during GEN2 Link training. This value is used to inform the link partner about the
           PHY's ability to recover synchronization after a low power state.
+
           Do not set N_FTS to zero; doing so can cause the LTSSM to go into the recovery state when
           exiting from L0s.
 
@@ -3167,7 +3212,7 @@ registers:
     title: PHY Status Register
     address: 0x50000000810 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the five hundred seventeenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the five hundred seventeenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: PHY_STAT
         bits: 31..0
@@ -3181,7 +3226,7 @@ registers:
     title: PHY Control Register
     address: 0x50000000814 | a<<32
     bus: PCICONFIGEP
-    description: This register contains the five hundred eighteenth 32-bits of type 0 PCIe configuration space.
+    description: This register contains the five hundred eighteenth 32-bits of PCIe type 0 configuration space.
     fields:
       - name: PHY_CTRL
         bits: 31..0

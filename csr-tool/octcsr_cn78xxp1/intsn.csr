@@ -156,7 +156,7 @@ enums:
           major_val: "(0x3)"
           reg_addr: "(0x1070000000A00+a*0x8)"
           reg_name: "GPIO_INTR(0..15)"
-        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR]. This interrupt is level sensitive.
+        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR]. This interrupt is level-sensitive.
 
       - name: GPIO_MC_INTR(4..7)_PP(0..47)
         value: 0x03800 + (a-0x4)*0x100 + b
@@ -170,7 +170,7 @@ enums:
           major_val: "(0x3)"
           reg_addr: "(0x1070000000C00+a*0x8)"
           reg_name: "GPIO_MC_INTR(4..7)"
-        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>]. This interrupt is level sensitive.
+        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>]. This interrupt is level-sensitive.
 
       - name: SW_MBOX(0..511)
         value: 0x04000 + a

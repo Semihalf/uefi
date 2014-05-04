@@ -14,21 +14,21 @@ enums:
         attributes:
           intsn_level_sensitive: "True"
           intsn_lsb_mismatch: "True"
-        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR]. This interrupt is level sensitive.
+        description: GPIO general interrupts; see GPIO_INTR(0..15)[INTR]. This interrupt is level-sensitive.
 
       - name: GPIO_MC_INTR(4..7)_PP(0..47)
         value: 0x03800 + (a-0x4)*0x100 + b
         attributes:
           exempt_equation_subtraction: "True"
           intsn_level_sensitive: "True"
-        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>]. This interrupt is level sensitive.
+        description: GPIO multicast interrupts; see GPIO_MC_INTR(4..7)[INTR<b>]. This interrupt is level-sensitive.
 
 
   - name: GPIO_OUTSEL_E
     title: GPIO Output Select Enumeration
     attributes:
       width: "5"
-    description: Enumerates the different GPIO output selections for GPIO_BIT_CFG(0..19)[OUTPUT_SEL].
+    description: Enumerates the different GPIO output selections for GPIO_BIT_CFG()[OUTPUT_SEL].
     values:
       - name: TX
         value: 0x00
@@ -46,7 +46,7 @@ enums:
         value: 0x03 + a
         attributes:
           exempt_natural_alignment: "a"
-        description: CLK_SYNCE(a); see GPIO_CLK_SYNCE(0..1).
+        description: CLK_SYNCE(a); see GPIO_CLK_SYNCE().
 
       - name: MCD(0..2)
         value: 0x05 + a
@@ -56,11 +56,11 @@ enums:
 
       - name: LMC_ECC(0..3)
         value: 0x08 + a
-        description: LMC ECC error detected; see LMC(0..3)_INT.
+        description: LMC ECC error detected; see LMC()_INT.
 
       - name: CLK(0..3)
         value: 0x10 + a
-        description: GPIO clock generator; see GPIO_CLK_GEN(0..3).
+        description: GPIO clock generator; see GPIO_CLK_GEN().
 
       - name: USBH_VBUS_CTRL
         value: 0x14
@@ -261,7 +261,7 @@ registers:
     bus: NCB
     description: |
       A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
-      to send out any GPIO pin as configured by GPIO_BIT_CFG(0..19)[SYNCE_SEL]. The clock can be
+      to send out any GPIO pin as configured by GPIO_BIT_CFG()[SYNCE_SEL]. The clock can be
       divided by 20, 40, 80 or 160 of the selected RX lane clock.
     fields:
       - name: --
@@ -400,7 +400,7 @@ registers:
         typical: 0
         description: |
           GPIO signalled interrupt. If interrupts are edge sensitive, write one to clear, otherwise
-          will clear automatically when GPIO pin de-asserts. Throws GPIO_INTSN_E::GPIO_INTR(0..15).
+          will clear automatically when GPIO pin de-asserts. Throws GPIO_INTSN_E::GPIO_INTR(5).
 
 
   - name: GPIO_MC_INTR(4..7)
@@ -425,7 +425,7 @@ registers:
           GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and MILTI_CAST
           is enabled, a GPIO assertion will set all 48 bits. Each bit is expected to be routed to
           interrupt a different core using the CIU, and each core will then write one to clear its
-          corresponding bit in this register. Throws GPIO_INTSN_E::GPIO_MC_INTR(4..7)_PP(0..47).
+          corresponding bit in this register. Throws GPIO_INTSN_E::GPIO_MC_INTR()_PP().
 
 
   - name: GPIO_COMP
