@@ -639,7 +639,12 @@ function TrafficGen.new()
                 for link=1,3 do
                     local data = octeon.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
                     local idle = octeon.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
-                    oci_load[link] = (data - oci_stats[link][1]) * 100 / (data + idle - oci_stats[link][1] - oci_stats[link][2])
+                    local interval = data + idle - oci_stats[link][1] - oci_stats[link][2]
+                    if interval > 0 then
+                        oci_load[link] = (data - oci_stats[link][1]) * 100 / interval
+                    else
+                        oci_load[link] = 0
+                    end
                     oci_stats[link][1] = data
                     oci_stats[link][2] = idle
                 end
