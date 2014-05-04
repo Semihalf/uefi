@@ -1004,8 +1004,8 @@ static void qlm_init_one(bdk_node_t node, int qlm)
            http://mawiki.caveonetworks.com/wiki/78xx/GSER_WEST */
         BDK_CSR_INIT(pll_mode_0 , node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode));
         BDK_CSR_INIT(pll_mode_1 , node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode));
-        BDK_CSR_INIT(lane_mode_0, node, BDK_GSERX_LANEX_PX_MODE_0(qlm, 0, lane_mode));
-        BDK_CSR_INIT(lane_mode_1, node, BDK_GSERX_LANEX_PX_MODE_1(qlm, 0, lane_mode));
+        BDK_CSR_INIT(lane_mode_0, node, BDK_GSERX_LANE_PX_MODE_0(qlm, lane_mode));
+        BDK_CSR_INIT(lane_mode_1, node, BDK_GSERX_LANE_PX_MODE_1(qlm, lane_mode));
         switch (lane_mode)
         {
             case R_25G_REFCLK100:
@@ -1299,11 +1299,8 @@ static void qlm_init_one(bdk_node_t node, int qlm)
         }
         BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_0(qlm, lane_mode), pll_mode_0.u);
         BDK_CSR_WRITE(node, BDK_GSERX_PLL_PX_MODE_1(qlm, lane_mode), pll_mode_1.u);
-        for (int lane = 0; lane < 4; lane++)
-        {
-            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_0(qlm, lane, lane_mode), lane_mode_0.u);
-            BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PX_MODE_1(qlm, lane, lane_mode), lane_mode_1.u);
-        }
+        BDK_CSR_WRITE(node, BDK_GSERX_LANE_PX_MODE_0(qlm, lane_mode), lane_mode_0.u);
+        BDK_CSR_WRITE(node, BDK_GSERX_LANE_PX_MODE_1(qlm, lane_mode), lane_mode_1.u);
     }
 }
 
