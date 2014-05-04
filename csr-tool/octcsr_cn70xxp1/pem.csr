@@ -388,8 +388,8 @@ registers:
       - name: SLI_CPL
         bits: 23..16
         access: R/W/H
-        reset: 0x80
-        typical: 0x80
+        reset: --
+        typical: --
         description: |
           TLP 8B credits for Completion TLPs in the SLI.
           Legal values are 0x24 to 0x80. When multiple PEMS
@@ -406,8 +406,8 @@ registers:
       - name: SLI_NP
         bits: 15..8
         access: R/W/H
-        reset: 0x10
-        typical: 0x10
+        reset: --
+        typical: --
         description: |
           TLP 8B credits for Non-Posted TLPs in the SLI.
           Legal values are 0x8 to 0x10. When multiple PEMS
@@ -424,8 +424,8 @@ registers:
       - name: SLI_P
         bits: 7..0
         access: R/W/H
-        reset: 0x80
-        typical: 0x80
+        reset: --
+        typical: --
         description: |
           TLP 8B credits for Posted TLPs in the SLI.
           Legal values are 0x24 to 0x80. When multiple PEMS

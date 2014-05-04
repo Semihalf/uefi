@@ -385,14 +385,15 @@ registers:
           (Software must do all the OCI GSER configuration to use OCI in the case of SW_MODE.)
           When SPD!=SW_MODE after a chip cold reset, the hardware has initialized the following
           registers (based on the OCI_SPD selection):
-           * GSER(8..13)_LANE_MODE[LMODE]=Z
-           * GSER(8..13)_PLL_P(Z)_MODE_0
-           * GSER(8..13)_PLL_P(Z)_MODE_1
-           * GSER(8..13)_LANE(0..3)_P(Z)_MODE_0
-           * GSER(8..13)_LANE(0..3)_P(Z)_MODE_1
-           * GSER(8..13)_LANE(0..3)_RX_VALBBD_CTRL_0
-           * GSER(8..13)_LANE(0..3)_RX_VALBBD_CTRL_1
-           * GSER(8..13)_LANE(0..3)_RX_VALBBD_CTRL_2
+           * GSER(8..13)_LANE_MODE[LMODE]=Z.
+           * GSER(8..13)_PLL_P(Z)_MODE_0.
+           * GSER(8..13)_PLL_P(Z)_MODE_1.
+           * GSER(8..13)_LANE_P(Z)_MODE_0.
+           * GSER(8..13)_LANE_P(Z)_MODE_1.
+           * GSER(8..13)_LANE_RX_VALBBD_CTRL_0.
+           * GSER(8..13)_LANE_RX_VALBBD_CTRL_1.
+           * GSER(8..13)_LANE_RX_VALBBD_CTRL_2.
+
           where Z is the LMODE indicated by the prior table.
 
 
@@ -611,8 +612,8 @@ registers:
           recommended values.
           Write GSER(0..13)_PLL_P(Z)_MODE_0.
           Write GSER(0..13)_PLL_P(Z)_MODE_1.
-          Write GSER(0..13)_LANE(0..3)_P(Z)_MODE_0.
-          Write GSER(0..13)_LANE(0..3)_P(Z)_MODE_1.
+          Write GSER(0..13)_LANE_P(Z)_MODE_0.
+          Write GSER(0..13)_LANE_P(Z)_MODE_1.
           where Z equals LMODE.
 
 
@@ -1257,6 +1258,402 @@ registers:
           For diagnostic use only.
 
 
+  - name: GSER(0..13)_LANE(0..3)_RX_CFG_0
+    title: GSER Lane SerDes RX Configuration 0 Register
+    address: 0x1180090440000 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_DATARATE_OVRRD_EN
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for RX Power State Machine data rate signal.
+
+      - name: PCS_SDS_RX_TRISTATE_ENABLE
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RX termination high-Z enable.
+
+      - name: RX_RESETN_OVVRD_VAL
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          This value overrides the RX Power State machine rx_resetn control
+          signal when GSEX_LANE(0..3)_PWR_CTRL[RX_RESETN_OVRRD_EN] is set.
+
+      - name: PCS_SDS_RX_EYEMON_EN
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RX eyemon test enable.
+
+      - name: PCS_SDS_RX_PCM_CTRL
+        bits: 11..8
+        access: R/W
+        reset: 0x4
+        typical: 0x4
+        description: |
+          <11>: Reserved
+          <10-8>:
+            0x0 = 540mV.
+            0x1 = 540mV + 20mV.
+            0x2-0x3 = Reserved.
+            0x4 = 100-620mV (default).
+            0x5-0x7 = Reserved.
+
+      - name: RX_DATARATE_OVRRD_VAL
+        bits: 7..6
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Specifies the data rate when RX_DATARATE_OVRRD_EN is asserted:
+          0x0 = Full rate.
+          0x1 = 1/2 data rate.
+          0x2 = 1/4 data rate.
+          0x3 = 1/8 data rate.
+
+      - name: CFG_RX_POL_INVERT
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Invert the receive data.  Allies with GSERX_LANE(0..3)_MISC_CFG_0[USE_PMA_POLARITY]
+          is deasserted.
+
+      - name: RX_SUBBLK_PD_OVRRD_VAL
+        bits: 4..0
+        access: R/W
+        reset: 0x17
+        typical: 0x17
+        description: |
+          Override value for RX sub-block powerdown controls to RX
+          when GSERX_LANE(0..3)_PWR_CTRL[RX_PD_OVVRD_EN] is asserted.
+          <4> = CTLE.
+          <3> = Reserved.
+          <2> = Lane DLL.
+          <1> = DFE/Samplers.
+          <0> = Termination.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_CFG_1
+    title: GSER Lane SerDes RX Configuration 1 Register
+    address: 0x1180090440008 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_CHPD_OVRRD_VAL
+        bits: 15
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Override value for RX bias powerdown.  Applies when
+          GSERX_LANE(3..0)_PWR_CTRL[RX_PD_PVRRD_EN] is asserted.
+
+      - name: PCS_SDS_RX_OS_MEN
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RX Offset manual enable.
+
+      - name: EIE_EN_OVVRD_EN
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for Electrical-Idle-Exit circuit.
+
+      - name: EIE_EN_OVVRD_VAL
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override value for Electrical-Idle-Exit circuit.
+
+      - name: --
+        bits: 11
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_PCIE_MODE_OVVRD_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for RX_PCIE_MODE_OVVRD_VAL
+
+      - name: RX_PCIE_MODE_OVVRD_VAL
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override value for RX_PCIE_MODE_OVVRD_VAL;
+          selects between RX terminations.
+          0x0 = pcs_sds_rx_terminate_to_vdda.
+          0x1 = VDDA.
+
+      - name: CFG_RX_DLL_LOCKEN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Enable DLL lock when GSERX_LANE()_RX_MISC_OVRRD[CFG_RX_DLL_LOCKEN_OVRRD_EN] is asserted.
+
+      - name: PCS_SDS_RX_CDR_SSC_MODE
+        bits: 7..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Per lane RX CDR SSC control:
+          <7:4> = Resrted.
+          <3> = Clean SSC error flag.
+          <2> = Diable SSC filter.
+          <1> = Enable SSC value usage.
+          <0> = Reserved.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_CFG_2
+    title: GSER Lane SerDes RX Configuration 2 Register
+    address: 0x1180090440010 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..15
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_RX_TERMINATE_TO_VDDA
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          RX Termination control:
+          0 = Floating.
+          1 = Terminate to sds_vdda.
+
+      - name: PCS_SDS_RX_SAMPLER_BOOST
+        bits: 13..12
+        access: R/W
+        reset: 0x1
+        typical: 0x1
+        description: |
+          Controls amount of boost.
+          Note that this control can negatively impact reliability.
+
+      - name: PCS_SDS_RX_SAMPLER_BOOST_EN
+        bits: 11
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Faster sampler c2q. For debug use only.
+
+      - name: --
+        bits: 10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_SDS_RX_AGC_MVAL
+        bits: 9..0
+        access: R/W
+        reset: 0x5f
+        typical: 0x5f
+        description: |
+          AGC manual value only used when GSERX_LANE()_RX_CFG_5[RX_AGC_MEN_OVVRD_VAL] is set.
+
+          <9:8>: Reserved.
+
+          <7:4>: Pre-CTL gain:
+          0x0 = -6dB.
+          0x1 = -5dB.
+          0x3 = +5dB.
+
+          <3:0>: Post-CTL gain (steps of 0.0875):
+          0x0 = lowest.
+          0xf = lowest * 2.3125.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_CFG_3
+    title: GSER Lane SerDes RX Configuration 3 Register
+    address: 0x1180090440018 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RX_ERRDET_CTRL
+        bits: 15..0
+        access: R/W
+        reset: 0x600b
+        typical: 0x600b
+        description: |
+          RX Adaptive Equalizer Control.
+          Value of pcs_sds_rx_err_det_ctrl when
+          GSERX_LANE(0..3)_MISC_OVVRD[CFG_RS_ERRDET_CTRL_OVRRD_EN}
+          is set.
+
+          <15:13>: Starting delta (6.7mV/step, 13.4mV + 6.7mV*N).
+
+          <12:10>: Minimum delta to adapt to (6.7mV/step, 13.4mV + 6.7mV*N).
+
+          <9:7>: Window mode (PM) delta (6.7mV/step, 13.4mV + 6.7mV*N).
+
+          <6>: Enable DFE for edge samplers.
+
+          <5:4>: Edge sampler DEF alpha:
+          0x0 = 1/4.
+          0x1 = 1/2.
+          0x2 = 3/4.
+          0x3 = 1.
+
+          <3:0>: Q/QB error sampler 1 threshold, 6.7mV/step.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_CFG_4
+    title: GSER Lane SerDes RX Configuration 4 Register
+    address: 0x1180090440020 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RX_ERRDET_CTRL
+        bits: 15..0
+        access: R/W
+        reset: 0xcf6f
+        typical: 0xcf6f
+        description: |
+          RX adaptive equalizer control.
+          Value of pcs_sds_rx_err_det_ctrl when
+          GSERX_LANE()_MISC_OVVRD[CFG_RS_ERRDET_CTRL_OVRRD_EN] is set.
+
+          <15:14>: Reserved
+
+          <13:8>: Q/QB error sampler 0 threshold, 6.7mV/step, used for training/LMS.
+
+          <7>: Enable Window mode, after training has finished.
+
+          <6:5>: Control sds_pcs_rx_vma_status[15:8].
+
+          0x0 = window counter[19:12] (FOM).
+          0x1 = window ouunter[11:4].
+          0x2 = CTLE pole, SDLL_IQ.
+          0x3 = pre-CTLE gain, CTLE peak.
+
+          <4>: Offset cancellation enable.
+
+          <3:0>: Max CTLE peak setting during training when pcs_sds_rx_vma_ctl[7] is set in
+          GSERX_LANE()_RX_VMA_CTRL.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_CFG_5
+    title: GSER Lane SerDes RX Configuration 5 Register
+    address: 0x1180090440028 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..5
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RX_AGC_MEN_OVVRD_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for AGC manual mode.
+
+      - name: RX_AGC_MEN_OVVRD_VAL
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override value for AGC manual mode.
+
+      - name: RX_WIDTHSEL_OVVRD_EN
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for RX width select to the SerDes pcs_sds_rx_widthsel.
+
+      - name: RX_WIDTHSEL_OVVRD_VAL
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Override value for RX width select to the SerDes pcs_sds_rx_widthsel.
+          0x0 = 8-bit raw data.
+          0x1 = 10-bit raw data.
+          0x2 = 16-bit raw data.
+          0x3 = 20-bit raw data.
+
+
   - name: GSER(0..13)_LANE(0..3)_RX_CTLE_CTRL
     title: GSER Lane RX Pre-Correlation Control Register
     address: 0x1180090440058 + a*0x1000000 + b*0x100000
@@ -1725,6 +2122,38 @@ registers:
           <3:0> = Pre-cursor.
 
 
+  - name: GSER(0..13)_LANE(0..3)_PMA_LOOPBACK_CTRL
+    title: GSER Lane PMA Loopback Control Register
+    address: 0x11800904400D0 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_LN_LPBK_MODE_OVRRD_EN
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Enable override mac_pcs_loopbk_mode[3:0] with value of FG_LN_LPBK_MODE.
+
+      - name: CFG_LN_LPBK_MODE
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Overide value when CFG_LN_LPBK_MODE_OVRRD_EN is set.
+
+
   - name: GSER(0..13)_LANE(0..3)_RX_VMA_CTRL
     title: GSER Lane RX VMA Control Register
     address: 0x1180090440200 + a*0x1000000 + b*0x100000
@@ -2023,6 +2452,251 @@ registers:
           other modes this register can be ignored.
 
 
+  - name: GSER(0..13)_LANE(0..3)_RX_MISC_OVRRD
+    title: GSER Lane RX Miscellaneous Override Register
+    address: 0x1180090440258 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..12
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RX_EIE_DET_OVRRD_VAL
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override value for RX Electrical-Idle-Exit
+          Detect Enable.
+
+      - name: CFG_RX_EIE_DET_OVRRD_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override enable for RX Electrical-Idle-Exit
+          Detect Enable.
+
+      - name: CFG_RX_CDR_CTRL_OVVRD_EN
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override enable for RX CDR Control
+          When asserted, the pcs_sds_rx_cdr_ctrl value
+          is defined in registers
+          GSERX_LANE(0..3)_RX_CDR_CTRL_0,
+          GSERX_LANE(0..3)_RX_CDR_CTRL_1, and
+          GSERX_LANE(0..3)_RX_CDR_CTRL_2.
+
+      - name: CFG_RX_EQ_EVAL_OVRRD_VAL
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Training mode control in override mode.
+
+      - name: CFG_RX_EQ_EVAL_OVRRD_EN
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override enable for RX-EQ Eval
+          When asserted, training mode is controlled by
+          CFG_RX_EQ_EVAL_OVRRD_VAL.
+
+      - name: --
+        bits: 6
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RX_DLL_LOCKEN_OVVRD_EN
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, override DLL lock enable
+          signal from the RX Power State machine with
+          CFG_RX_DLL_LOCKEN in register
+          GSERX_LANE()_RX_CFG_1.
+
+      - name: CFG_RX_ERRDET_CTRL_OVVRD_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, pcs_sds_rx_err_det_ctrl is set
+          to cfg_rx_errdet_ctrl in registers
+          GSERX_LANE()_RX_CFG_3 and GSERX_LANE()_RX_CFG_4.
+
+      - name: --
+        bits: 3..0
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_AEQ_OUT_0
+    title: GSER Lane SerDes RX Adaptive Equalizer 0 Register
+    address: 0x1180090440280 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SDS_PCS_RX_AEQ_OUT
+        bits: 9..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          <9:5>: DFE TAP5
+          <4:0>: DFE TAP4
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_AEQ_OUT_1
+    title: GSER Lane SerDes RX Adaptive Equalizer 1 Register
+    address: 0x1180090440288 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..15
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SDS_PCS_RX_AEQ_OUT
+        bits: 14..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          <14:10>: DFE TAP3
+          <9:5>: DFE TAP2
+          <4:0>: DFE TAP1
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_AEQ_OUT_2
+    title: GSER Lane SerDes RX Adaptive Equalizer 2 Register
+    address: 0x1180090440290 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..15
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SDS_PCS_RX_AEQ_OUT
+        bits: 14..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          <9:8> = Reserved.
+          <7:4> = Pre-CTLE gain.
+          <3:0> = Post-CTLE gain.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_VMA_STATUS_0
+    title: GSER Lane SerDes RX CDR Status 0 Register
+    address: 0x11800904402B8 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..8
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SDS_PCS_RX_VMA_STATUS
+        bits: 7..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          <8>: DFE Powerdown
+          <7>: Reserved
+          <6:2>: CTLE Peak
+          <1:0>: CTLE Pole.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_VMA_STATUS_1
+    title: GSER Lane SerDes RX CDR Status 1 Register
+    address: 0x11800904402C0 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: SDS_PCS_RX_VMA_STATUS
+        bits: 15..0
+        access: RO/H
+        reset: --
+        typical: --
+        description: |
+          <15:8>: Output is controlled by GSERX_LANE(0..3)_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]
+          0x0 = Pre-CTL gain, CTLE Peak.
+          0x1 = CTL pole, SDLL_IQ.
+          0x2 = Window counter[11:3].
+          0x3 = Window counter[19:12] (VMA RAW FOM).
+
+          <7>: Training done
+
+          <6>: Internal state machine training done
+
+          <5:3>: Internal state machine Delta
+
+          <2:0>: CDR Phase Offset, DLL IQ Training value.
+
+
   - name: GSER(0..13)_SLICE_CFG
     title: GSER Slice Configuration Register
     address: 0x1180090460060 + a*0x1000000
@@ -2192,6 +2866,169 @@ registers:
           0x2 = Selects lane 2.
           0x3 = Selects lane 3.
           0x4-0x7 = Reserved.
+
+
+  - name: GSER(0..13)_LANE(0..3)_MISC_CFG_0
+    title: GSER Lane Miscellaneous Configuration 0 Register
+    address: 0x11800904C0000 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: USE_PMA_POLARITY
+        bits: 15
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          If set, the PMA control is used to define the polarity.
+          In not set, GSERX_LANE(0..3)_RX_CFG_0[CFG_RX_POL_INVERT]
+          is used.
+
+      - name: CFG_PCS_LOOPBACK
+        bits: 14
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Assert for Parallel Loopback Raw PCS TX to Raw PCS RX.
+
+      - name: PCS_TX_MODE_OVRRD_EN
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for Raw PCS TX data width.
+
+      - name: PCS_RX_MODE_OVRRD_EN
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Override enable for Raw PCS RX data width.
+
+      - name: CFG_EIE_DET_CNT
+        bits: 11..8
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          EIE detect state machine required number of consecutive
+          PHY EIE status assertions to determine EIE and assert Raw
+          PCS output pcs_mac_rx_eie_det_sts.
+
+      - name: EIE_DET_STL_ON_TIME
+        bits: 7..5
+        access: R/W
+        reset: 0x2
+        typical: 0x2
+        description: |
+          EIE detec state machine "on" delay prior to sampling
+          PHY EIE status.
+
+      - name: EIE_DET_STL_OFF_TIME
+        bits: 4..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          EIE detec state machine "off" delay prior to sampling
+          PHY EIE status.
+
+      - name: TX_BIT_ORDER
+        bits: 1
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          0x1: Reverse bit order of parallel data to SerDes TX.
+          0x0: Maintain bit order of parallel data to SerDes TX.
+
+      - name: RX_BIT_ORDER
+        bits: 0
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          0x1: Reverse bit order of parallel data to SerDes RX.
+          0x0: Maintain bit order of parallel data to SerDes RX.
+
+
+  - name: GSER(0..13)_LANE(0..3)_MISC_CFG_1
+    title: GSER Lane Miscellaneous Configuration 1 Register
+    address: 0x11800904C0008 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..13
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PAR_TX_INIT
+        bits: 12
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          Performs parallel initialization of SerDes interface TX
+          fifo pointers.
+
+      - name: TX_POLARITY
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Invert polarity of trasmitted bit stream.  Inversion is
+          performed in the SerDes interface transmit datapth.
+
+      - name: RX_POLARITY_OVRRD_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_rxX_polarity control pin values
+          When set, RX polarity inversion is specified from
+          RX_POLARITY_OVRRD_VAL, and mac_pcs_rxX_polarity is ignored.
+
+      - name: RX_POLARITY_OVRRD_VAL
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Controls RX polarity inversion when RX_POLARITY_OVRRD_EN
+          is set. Inversion is performed in the SerDes interface receive
+          datapath.
+
+      - name: --
+        bits: 8..2
+        access: RO/H
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: MAC_TX_FIFO_RD_PTR_IVAL
+        bits: 1..0
+        access: R/W/H
+        reset: 0x0
+        typical: 0x0
+        description: Initial value for MAC to PCS TX FIFO read pointer.
 
 
   - name: GSER(0..13)_LANE(0..3)_LBERT_PAT_CFG
@@ -2376,6 +3213,277 @@ registers:
           count by 128.
 
 
+  - name: GSER(0..13)_LANE(0..3)_PCS_CTLIFC_0
+    title: GSER Lane Raw PCS Control Interface Configuration 0 Register
+    address: 0x11800904C0060 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..14
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_TX_VBOOST_EN_OVRRD_VAL
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Specifies TX VBOOST Enable request when its override bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_VBOOST_EN_OVRRD_EN].
+
+      - name: CFG_TX_COEFF_REQ_OVRRD_VAL
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Specifies TX Coefficient request when its override bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_COEFF_REQ_OVRRD_EN].
+
+      - name: CFG_RX_CDR_COAST_REQ_OVRRD_VAL
+        bits: 11
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Specifies RX CDR Coast request when its override bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_RX_COAST_REQ_OVRRD_EN].
+
+      - name: CFG_TX_DETRX_EN_REQ_OVRRD_VAL
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Specifies TX Detect RX request when its override bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_DETRX_EN_REQ_OVRRD_EN].
+
+      - name: CFG_SOFT_RESET_REQ_OVRRD_VAL
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Specifies Soft Reset request when its override bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_SOFT_RESET_REQ_OVRRD_EN].
+
+      - name: CFG_LANE_PWR_OFF_OVRRD_VAL
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Specifies Lane Power Off Reset request when its override bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_LANE_PWR_OFF_OVRRD_EN].
+
+      - name: CFG_TX_MODE_OVRRD_VAL
+        bits: 7..6
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Overide PCS TX mode (data width) when its overide bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_MODE_OVRRD_EN].
+          0x0 = 8-bit raw data (not supported).
+          0x1 = 10-bit raw data (not supported).
+          0x2 = 16-bit raw data (not supported).
+          0x3 = 20-bit raw data.
+
+      - name: CFG_TX_PSTATE_REQ_OVRRD_VAL
+        bits: 5..4
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Overide TX pstate request when its overide bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_EN].
+
+      - name: CFG_LANE_MODE_REQ_OVRRD_VAL
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          Overide Lane Mode request when its overide bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_LANE_MODE_REQ_OVRRD_EN].
+
+
+  - name: GSER(0..13)_LANE(0..3)_PCS_CTLIFC_1
+    title: GSER Lane Raw PCS Control Interface Configuration 1 Register
+    address: 0x11800904C0068 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..9
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RX_PSTATE_REQ_OVRRD_VAL
+        bits: 8..7
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Overide RX pstate request when its overide bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_EN].
+
+      - name: --
+        bits: 6..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_RX_MODE_OVRRD_VAL
+        bits: 1..0
+        access: R/W
+        reset: 0x3
+        typical: 0x3
+        description: |
+          Overide PCS RX mode (data width) when its overide bit
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_RX_MODE_OVRRD_EN].
+          0x0 = 8-bit raw data (not supported).
+          0x1 = 10-bit raw data (not supported).
+          0x2 = 16-bit raw data (not supported).
+          0x3 = 20-bit raw data.
+
+
+  - name: GSER(0..13)_LANE(0..3)_PCS_CTLIFC_2
+    title: GSER Lane Raw PCS Control Interface Configuration 2 Register
+    address: 0x11800904C0070 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CTLIFC_OVRRD_REQ
+        bits: 15
+        access: WO
+        reset: --
+        typical: --
+        description: |
+          Writing to set this bit initiates a state machine interface request
+          for GSERX_LANE(0..3)_PCS_CTLIFC_0 and GSERX_LANE(0..3)_PCS_CTLIFC_1
+          overide values.
+
+      - name: --
+        bits: 14..9
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: CFG_TX_VBOOST_EN_OVRRD_EN
+        bits: 8
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_txX vboost_en signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_VBOOST_EN_OVRRD_VAL].
+
+      - name: CFG_TX_COEFF_REQ_OVRRD_EN
+        bits: 7
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_txX_coeff_req signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL].
+
+      - name: CFG_RX_CDR_COAST_REQ_OVRRD_EN
+        bits: 6
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_rxX_cdr_coast signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_RX_COAST_REQ_OVRRD_VAL].
+
+      - name: CFG_TX_DETRX_EN_REQ_OVRRD_EN
+        bits: 5
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_txX_detrx_en signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_DETRX_EN_REQ_OVRRD_VAL].
+
+      - name: CFG_SOFT_RESET_REQ_OVRRD_EN
+        bits: 4
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_laneX_soft_rst signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_SOFT_RESET_REQ_OVRRD_VAL].
+
+      - name: CFG_LANE_PWR_OFF_OVRRD_EN
+        bits: 3
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_laneX_pwr_off signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_LANE_PWR_OFF_OVRRD_VAL].
+
+      - name: CFG_TX_PSTATE_REQ_OVRRD_EN
+        bits: 2
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_txX_pstate[1:0] signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_VAL].
+          When using this field to change the TX Power State, you must also set
+          the override enable bits for the lane_mode, soft_reset and lane_pwr_off
+          fields.  The corresponding orrd_val fields should be programmed so as
+          not to cause undesired changes.
+
+      - name: CFG_RX_PSTATE_REQ_OVRRD_EN
+        bits: 1
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_rxX_pstate[1:0] signal with the value specified in
+          GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_RX_PSTATE_REQ_OVRRD_VAL].
+          When using this field to change the RX Power State, you must also set
+          the override enable bits for the lane_mode, soft_reset and lane_pwr_off
+          fields.  The corresponding orrd_val fields should be programmed so as
+          not to cause undesired changes.
+
+      - name: CFG_LANE_MODE_REQ_OVRRD_EN
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          Override mac_pcs_laneX_mode[3:0] signal with the value specified in
+          is asserted GSERX_LANE(0..3)_PCS_CTLIFC_2[CFG_LANE_MODE_REQ_OVRRD_VAL].
+
+
   - name: GSER(0..13)_RDET_TIME
     title: GSER Receiver Detect Wait Times Register
     address: 0x11800904E0008 + a*0x1000000
@@ -2485,11 +3593,11 @@ registers:
           Recommended settings:
           1.25G:    0x28
           2.5G:     0x5
-          3.125G:   0x24
+          3.125G:   0x14
           5.0G:     0xA
           6.25G:    0xA
           8.0G:     0xA
-          10.3125G: 0x24
+          10.3125G: 0xA
 
 
   - name: GSER(0..13)_PLL_P(0..11)_MODE_1
@@ -2591,18 +3699,18 @@ registers:
           A 'NS' indicates that the rate is not supported at the specified reference clock.
 
 
-  - name: GSER(0..13)_LANE(0..3)_P(0..11)_MODE_0
+  - name: GSER(0..13)_LANE_P(0..11)_MODE_0
     title: GSER Lane Protocol Mode 0 Register
-    address: 0x11800904E0040 + a*0x1000000 + b*0x100000 + c*0x20
+    address: 0x11800904E0040 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
-      These are the RAW PCS per lane settings mode 0 registers. There is one register per
-      lane (0..3) per GSER per GSER_LMODE_E (0..11). Only one entry is used at any given time in a
+      These are the RAW PCS lane settings mode 0 registers. There is one register per
+      4 lanes per GSER per GSER_LMODE_E (0..11). Only one entry is used at any given time in a
       given GSER lane - the one selected by the corresponding GSER(0..13)_LANE_MODE[LMODE].
       These registers are only reset by hardware during chip cold reset.
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
     attributes:
-      exempt_natural_alignment: "c"
+      exempt_natural_alignment: "b"
     fields:
       - name: --
         bits: 63..15
@@ -2761,18 +3869,18 @@ registers:
           0x3 = 20-bit raw data.
 
 
-  - name: GSER(0..13)_LANE(0..3)_P(0..11)_MODE_1
+  - name: GSER(0..13)_LANE_P(0..11)_MODE_1
     title: GSER Lane Protocol Mode 1 Register
-    address: 0x11800904E0048 + a*0x1000000 + b*0x100000 + c*0x20
+    address: 0x11800904E0048 + a*0x1000000 + b*0x20
     bus: RSL
     description: |
-      These are the RAW PCS per lane settings mode 1 registers. There is one register per lane
+      These are the RAW PCS lane settings mode 1 registers. There is one register per 4 lanes,
       (0..3) per GSER per GSER_LMODE_E (0..11). Only one entry is used at any given time in a given
       GSER lane - the one selected by the corresponding GSER(0..13)_LANE_MODE[LMODE].
       These registers are only reset by hardware during chip cold reset.
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
     attributes:
-      exempt_natural_alignment: "c"
+      exempt_natural_alignment: "b"
     fields:
       - name: --
         bits: 63..16
@@ -2844,9 +3952,9 @@ registers:
           R_8G_REFCLK125:           0x23
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_COARSE_CTRL_0
+  - name: GSER(0..13)_LANE_VMA_COARSE_CTRL_0
     title: GSER Lane VMA Coarse Control 0 Register
-    address: 0x11800904E01B0 + a*0x1000000 + b*0x100000
+    address: 0x11800904E01B0 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
@@ -2898,9 +4006,9 @@ registers:
           statistics in VMA coarse mode.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_COARSE_CTRL_1
+  - name: GSER(0..13)_LANE_VMA_COARSE_CTRL_1
     title: GSER Lane VMA Coarse Control 1 Register
-    address: 0x11800904E01B8 + a*0x1000000 + b*0x100000
+    address: 0x11800904E01B8 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
@@ -2936,9 +4044,9 @@ registers:
         description: CTLE peak step size in VMA coarse mode.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_COARSE_CTRL_2
+  - name: GSER(0..13)_LANE_VMA_COARSE_CTRL_2
     title: GSER Lane VMA Coarse Control 2 Register
-    address: 0x11800904E01C0 + a*0x1000000 + b*0x100000
+    address: 0x11800904E01C0 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
@@ -2974,9 +4082,9 @@ registers:
         description: CTLE PRE-peak gain step size in VMA coarse mode.
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_FINE_CTRL_0
+  - name: GSER(0..13)_LANE_VMA_FINE_CTRL_0
     title: GSER Lane VMA Fine Control 0 Register
-    address: 0x11800904E01C8 + a*0x1000000 + b*0x100000
+    address: 0x11800904E01C8 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
@@ -3042,9 +4150,9 @@ registers:
           [VMA_FINE_CFG_SEL=1] and GSER(0..13)_LANE(0..3)_P(0..11)_MODE_1[VMA_MM]=0).
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_FINE_CTRL_1
+  - name: GSER(0..13)_LANE_VMA_FINE_CTRL_1
     title: GSER Lane VMA Fine Control 1 Register
-    address: 0x11800904E01D0 + a*0x1000000 + b*0x100000
+    address: 0x11800904E01D0 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
@@ -3088,9 +4196,9 @@ registers:
           [VMA_FINE_CFG_SEL=1] and GSER(0..13)_LANE(0..3)_P(0..11)_MODE_1[VMA_MM]=0).
 
 
-  - name: GSER(0..13)_LANE(0..3)_VMA_FINE_CTRL_2
+  - name: GSER(0..13)_LANE_VMA_FINE_CTRL_2
     title: GSER Lane VMA Coarse Control 2 Register
-    address: 0x11800904E01D8 + a*0x1000000 + b*0x100000
+    address: 0x11800904E01D8 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.

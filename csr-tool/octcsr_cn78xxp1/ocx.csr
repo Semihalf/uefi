@@ -254,11 +254,31 @@ registers:
       uvm_default_constraint: "True"
     fields:
       - name: --
-        bits: 63..9
+        bits: 63..10
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CCLK_DIS
+        bits: 9
+        access: RO
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: CCLK_DIS
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          Reserved.  INTERNAL:  Disable conditional clocking.  Set to force link clocks on
+          unconditionally.
 
       - name: LOOPBACK
         bits: 8
@@ -286,7 +306,18 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Enable clock gating on this link to save power.
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: GATE
+        bits: 6
+        access: RO
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Reserved.
 
       - name: AUTO_CLR
         bits: 5

@@ -28897,7 +28897,7 @@ $PEM(0..2)_TLP_CREDITS   Address=(0x11800C0000038+a*0x1000000)   Bus=(RSL)
                                                 value in this register should not be changed. Values
                                                 other than 0x80 can lead to unpredictable behavior.
  <47:24> --       RAZ     --         --         Reserved.                                         
- <23:16> SLI_CPL  R/W/H   0x80       0x80       TLP 8B credits for Completion TLPs in the SLI.    
+ <23:16> SLI_CPL  R/W/H   --         --         TLP 8B credits for Completion TLPs in the SLI.    
                                                 Legal values are 0x24 to 0x80. When multiple PEMS
                                                 are wire-OR'd together, the sum of all PEMs' SLI_CPL
                                                 fields must not exceed 0x80. The reset value for this
@@ -28908,7 +28908,7 @@ $PEM(0..2)_TLP_CREDITS   Address=(0x11800C0000038+a*0x1000000)   Bus=(RSL)
                                                 SW may also need to reprogram this register for performance
                                                 reasons (configured as the only PEM, but as 2-lane - in
                                                 this case, this PEM can take all of the credits).
- <15:8>  SLI_NP   R/W/H   0x10       0x10       TLP 8B credits for Non-Posted TLPs in the SLI.    
+ <15:8>  SLI_NP   R/W/H   --         --         TLP 8B credits for Non-Posted TLPs in the SLI.    
                                                 Legal values are 0x8 to 0x10. When multiple PEMS
                                                 are wire-OR'd together, the sum of all PEMs' SLI_NP
                                                 fields must not exceed 0x10. The reset value for this
@@ -28919,7 +28919,7 @@ $PEM(0..2)_TLP_CREDITS   Address=(0x11800C0000038+a*0x1000000)   Bus=(RSL)
                                                 SW may also need to reprogram this register for performance
                                                 reasons (configured as the only PEM, but as 2-lane - in
                                                 this case, this PEM can take all of the credits).
- <7:0>   SLI_P    R/W/H   0x80       0x80       TLP 8B credits for Posted TLPs in the SLI.        
+ <7:0>   SLI_P    R/W/H   --         --         TLP 8B credits for Posted TLPs in the SLI.        
                                                 Legal values are 0x24 to 0x80. When multiple PEMS
                                                 are wire-OR'd together, the sum of all PEMs' SLI_P
                                                 fields must not exceed 0x80. The reset value for this
