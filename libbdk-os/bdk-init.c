@@ -773,7 +773,10 @@ int bdk_init_nodes(void)
         if (bdk_numa_exists(node))
         {
             setup_node(node);
-            result |= bdk_init_cores(node, 0);
+            if ((node != bdk_numa_master()) && !__bdk_is_dram_enabled(bdk_numa_master()))
+                bdk_warn("Skipping core start on node %d since DRAM isn't setup\n", node);
+            else
+                result |= bdk_init_cores(node, 0);
         }
     }
     return result;
