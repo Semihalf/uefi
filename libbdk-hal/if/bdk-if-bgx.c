@@ -715,8 +715,6 @@ static int if_init(bdk_if_handle_t handle)
     {
         case BGX_MODE_SGMII:
             /* Don't add a FCS as PKO does that */
-            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_APPEND(bgx_block, bgx_index),
-                c.s.fcs_d = 0);
             BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_APPEND(bgx_block, bgx_index),
                 c.s.fcs = 0);
             break;
