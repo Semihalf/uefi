@@ -601,6 +601,28 @@ static int xaui_init(bdk_if_handle_t handle)
     return 0;
 }
 
+static void link_errata_20844(bdk_if_handle_t handle)
+{
+    /* Errata #20844
+    2) When a link down event is registered, write the following
+        register across all lanes twice. */
+    const int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+    for (int lane=0; lane<4; lane++)
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
+            c.s.cfg_rx_eie_det_ovrrd_en = 1;
+            c.s.cfg_rx_eie_det_ovrrd_val = 0);
+    }
+    for (int lane=0; lane<4; lane++)
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
+            c.s.cfg_rx_eie_det_ovrrd_en = 1;
+            c.s.cfg_rx_eie_det_ovrrd_val = 1);
+        BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+            c.s.ctlifc_ovrrd_req = 1);
+    }
+}
+
 static int xaui_link(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
@@ -645,24 +667,7 @@ static int xaui_link(bdk_if_handle_t handle)
             if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BR_STATUS1(bgx_block, bgx_index), blk_lock, ==, 1, TIMEOUT))
             {
                 BDK_TRACE("%s: BASE-R PCS block not locked\n", handle->name);
-                /* Errata #20844
-                2) When a link down event is registered, write the following
-                    register across all lanes twice. */
-                const int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
-                for (int lane=0; lane<4; lane++)
-                {
-                    BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
-                        c.s.cfg_rx_eie_det_ovrrd_en = 1;
-                        c.s.cfg_rx_eie_det_ovrrd_val = 0);
-                }
-                for (int lane=0; lane<4; lane++)
-                {
-                    BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
-                        c.s.cfg_rx_eie_det_ovrrd_en = 1;
-                        c.s.cfg_rx_eie_det_ovrrd_val = 1);
-                    BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-                        c.s.ctlifc_ovrrd_req = 1);
-                }
+                link_errata_20844(handle);
                 return -1;
             }
         }
@@ -672,6 +677,7 @@ static int xaui_link(bdk_if_handle_t handle)
             if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BX_STATUS(bgx_block, bgx_index), alignd, ==, 1, TIMEOUT))
             {
                 BDK_TRACE("%s: PCS not aligned\n", handle->name);
+                link_errata_20844(handle);
                 return -1;
             }
         }
