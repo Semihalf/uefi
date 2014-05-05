@@ -95,7 +95,7 @@ end
 -- Add an item for each ILK port
 local if_ilk = octeon.IF_ILK
 for interface = 0,octeon.c.bdk_if_num_interfaces(node, if_ilk)-1 do
-    addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface, 0, 8)
+    addMenu("Interlaken port " .. interface .. " lanes", octeon.CONFIG_ILK0_LANES + interface, 0, 16)
     addMenu("Interlaken port " .. interface .. " channels", octeon.CONFIG_ILK0_PORTS + interface, 1, 64)
 end
 
