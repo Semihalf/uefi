@@ -70,12 +70,13 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
         case BDK_QLM_MODE_10GR_4X1:
             priv.s.num_port = 4;
             priv.s.mode = BGX_MODE_10G;
+            /* Only XFI supports training */
             priv.s.use_training = 1;
             break;
         case BDK_QLM_MODE_40GR4_1X4:
             priv.s.num_port = 1;
             priv.s.mode = BGX_MODE_40G;
-            priv.s.use_training = 1;
+            /* XLAUI doesn't support training */
             break;
         default:
             priv.s.num_port = 0;
