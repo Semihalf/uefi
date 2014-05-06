@@ -722,6 +722,11 @@ static void setup_node(bdk_node_t node)
     bdk_rng_enable(node);
     if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
     {
+        /* Don't apply OCI workaround if we're running on a single node */
+        int nodes = bdk_dpop(bdk_numa_get_exists_mask());
+        if (nodes == 1)
+            return;
+
         /* Errata (L2C-19720) STORE data FIFO overflow when OCI is used */
         BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
             c.s.exlrq = 0;
