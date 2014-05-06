@@ -79,7 +79,7 @@ int __bdk_dram_test_mem_self_addr(uint64_t area, uint64_t max_address, int burst
         for (uint64_t address = area; address < max_address; address+=8)
         {
             uint64_t data = READ64(address);
-            if (data != address)
+            if (bdk_unlikely(data != address))
                 failures += retry_failure(burst, address, data, address);
         }
         __bdk_dram_flush_to_mem_range(area, max_address);
@@ -92,7 +92,7 @@ int __bdk_dram_test_mem_self_addr(uint64_t area, uint64_t max_address, int burst
         for (uint64_t address = end; address >= area; address-=8)
         {
             uint64_t data = READ64(address);
-            if (data != address)
+            if (bdk_unlikely(data != address))
                 failures += retry_failure(burst, address, data, address);
         }
         __bdk_dram_flush_to_mem_range(area, max_address);
@@ -107,7 +107,7 @@ int __bdk_dram_test_mem_self_addr(uint64_t area, uint64_t max_address, int burst
             address += area;
             address &= -8;
             uint64_t data = READ64(address);
-            if (data != address)
+            if (bdk_unlikely(data != address))
                 failures += retry_failure(burst, address, data, address);
         }
     }
@@ -148,7 +148,7 @@ static uint32_t test_mem_pattern(uint64_t area, uint64_t max_address, uint64_t p
         for (uint64_t address = area; address < max_address; address += 8)
         {
             uint64_t data = READ64(address);
-            if (data != pattern)
+            if (bdk_unlikely(data != pattern))
                 failures += retry_failure(pass, address, data, pattern);
         }
     }
@@ -272,7 +272,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     for (uint64_t address = area; address < max_address; address += 8)
     {
         uint64_t data = READ64(address);
-        if (data != pattern)
+        if (bdk_unlikely(data != pattern))
             failures += retry_failure(1, address, data, pattern);
         WRITE64(address, ~pattern);
     }
@@ -285,7 +285,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     for (uint64_t address = area; address < max_address; address += 8)
     {
         uint64_t data = READ64(address);
-        if (data != ~pattern)
+        if (bdk_unlikely(data != ~pattern))
             failures += retry_failure(1, address, data, ~pattern);
         WRITE64(address, pattern);
     }
@@ -299,7 +299,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     for (uint64_t address = end; address >= area; address -= 8)
     {
         uint64_t data = READ64(address);
-        if (data != pattern)
+        if (bdk_unlikely(data != pattern))
             failures += retry_failure(1, address, data, pattern);
         WRITE64(address, ~pattern);
     }
@@ -312,7 +312,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     for (uint64_t address = end; address >= area; address -= 8)
     {
         uint64_t data = READ64(address);
-        if (data != ~pattern)
+        if (bdk_unlikely(data != ~pattern))
             failures += retry_failure(1, address, data, ~pattern);
         WRITE64(address, pattern);
     }
@@ -325,7 +325,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     for (uint64_t address = area; address < max_address; address += 8)
     {
         uint64_t data = READ64(address);
-        if (data != pattern)
+        if (bdk_unlikely(data != pattern))
             failures += retry_failure(1, address, data, pattern);
     }
 
@@ -411,7 +411,7 @@ int __bdk_dram_test_mem_random(uint64_t area, uint64_t max_address, int bursts)
         for (uint64_t address = area; address < max_address; address += 8)
         {
             uint64_t data = READ64(address);
-            if (data != pattern)
+            if (bdk_unlikely(data != pattern))
                 failures += retry_failure(burst, address, data, pattern);
             pattern += INC;
         }
@@ -523,7 +523,7 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
         {
             uint64_t d1 = READ64(address1);
             uint64_t d2 = READ64(address2);
-            if (d1 != d2)
+            if (bdk_unlikely(d1 != d2))
             {
                 if (__bdk_dram_report_error2(address1, d1, address2, d2, burst) == 0)
                     retry_xor_failure(burst, address1, address2);
@@ -602,7 +602,7 @@ int __bdk_dram_test_mem_rows(uint64_t area, uint64_t max_address, int bursts)
         {
             uint64_t d1 = READ64(address1);
             uint64_t d2 = READ64(address2);
-            if (d1 != d2)
+            if (bdk_unlikely(d1 != d2))
             {
                 __bdk_dram_report_error2(address1, d1, address2, d2, burst);
                 failures++;
