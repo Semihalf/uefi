@@ -3,12 +3,20 @@ print("Configuring for the EBB7800")
 
 local set_config = octeon.c.bdk_config_set
 
--- BGX0 (QLM0 or QLM2)
+--------------------------------------------------------------
+-- Configuring PHY addresses for various BGX interfaces
+--------------------------------------------------------------
+-- This code sets the default MDIO addresses for SGMII PHYs
+-- The number is "(0x100 * bus) + phy". For the first etch
+-- of the EBB7800, all PHYs are on MDIO bus 0 due to a board
+-- workaround.
+
+-- BGX0 (QLM0 or QLM2), we assume QLM0 here
 set_config(octeon.CONFIG_PHY_IF0_PORT0, 0)
 set_config(octeon.CONFIG_PHY_IF0_PORT1, 1)
 set_config(octeon.CONFIG_PHY_IF0_PORT2, 2)
 set_config(octeon.CONFIG_PHY_IF0_PORT3, 3)
--- BGX1 (QLM1 or QLM3)
+-- BGX1 (QLM1 or QLM3), we assume QLM1 here
 set_config(octeon.CONFIG_PHY_IF1_PORT0, 4)
 set_config(octeon.CONFIG_PHY_IF1_PORT1, 5)
 set_config(octeon.CONFIG_PHY_IF1_PORT2, 6)
@@ -35,13 +43,82 @@ set_config(octeon.CONFIG_PHY_IF5_PORT2, 30)
 set_config(octeon.CONFIG_PHY_IF5_PORT3, 31)
 
 -- printf("Configuring QLMs for a sample setup\n");
--- local node = octeon.MASTER_NODE
--- octeon.c.bdk_qlm_set_mode(node, 0, octeon.QLM_MODE_SGMII, 1250, 0)
--- octeon.c.bdk_qlm_set_mode(node, 1, octeon.QLM_MODE_XAUI_1X4, 3125, 0)
--- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 8000, octeon.QLM_MODE_FLAG_GEN3)
--- octeon.c.bdk_qlm_set_mode(node, 3, octeon.QLM_MODE_PCIE_1X8, 8000, octeon.QLM_MODE_FLAG_GEN3)
--- octeon.c.bdk_qlm_set_mode(node, 4, octeon.QLM_MODE_RXAUI_2X2, 6250, 0)
--- octeon.c.bdk_qlm_set_mode(node, 5, octeon.QLM_MODE_10GR_4X1, 10321, 0)
--- octeon.c.bdk_qlm_set_mode(node, 6, octeon.QLM_MODE_40GR4_1X4, 10321, 0)
--- octeon.c.bdk_qlm_set_mode(node, 7, octeon.QLM_MODE_ILK, 5000, 0)
 
+--------------------------------------------------------------
+-- Configuring QLMs in Lua code
+--------------------------------------------------------------
+-- The QLMs can be configured here to make the BDK automatically
+-- setup a configuration on boot. The comments below list the
+-- possibilities. Remember to specify which reference clock is
+-- configured for the QLM on the board.
+
+-- local node = octeon.MASTER_NODE
+-- local qlm = 0
+
+--------------------------------------------------------------
+-- Choosing reference clocks (QLMs 0-7)
+--------------------------------------------------------------
+-- External reference clock
+-- octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
+-- octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+
+-- Common clock 0
+-- octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+-- octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+
+-- Common clock 1
+-- octeon.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+-- octeon.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
+
+--------------------------------------------------------------
+-- Choosing QLM modes for BGX (QLMs 0-7)
+--------------------------------------------------------------
+-- SGMII modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_SGMII, 1250, 0)
+
+-- *XAUI modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_XAUI_1X4, 3125, 0)
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_XAUI_1X4, 6250, 0)
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_RXAUI_2X2, 6250, 0)
+
+-- XFI modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_XFI_4X1, 10321, 0)
+
+-- XLAUI modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_XLAUI_1X4, 10321, 0)
+
+-- 10GBASE-KR modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_10G_KR_4X1, 10321, 0)
+
+-- 40GBASE-KR modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_40G_KR4_1X4, 10321, 0)
+
+--------------------------------------------------------------
+-- Choosing QLM modes for Interlaken (QLMs 4-7)
+--------------------------------------------------------------
+-- Interlaken modes
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_ILK, 3125, 0)
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_ILK, 6250, 0)
+-- octeon.c.bdk_qlm_set_mode(node, qlm, octeon.QLM_MODE_ILK, 10321, 0)
+
+--------------------------------------------------------------
+-- Choosing QLM modes for PCIe (QLMs 0-4)
+--------------------------------------------------------------
+-- PCIe x4 modes (QLMs 0-4)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X4, 2500, octeon.QLM_MODE_FLAG_GEN1)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X4, 8000, octeon.QLM_MODE_FLAG_GEN3)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X4, 2500, octeon.QLM_MODE_FLAG_GEN1+octeon.QLM_MODE_FLAG_ENDPOINT)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2+octeon.QLM_MODE_FLAG_ENDPOINT)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X4, 8000, octeon.QLM_MODE_FLAG_GEN3+octeon.QLM_MODE_FLAG_ENDPOINT)
+
+-- PCIe x8 modes (QLMs 0&1, 2&3, 3&4)
+-- Only call for the first QLM of the pair
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 2500, octeon.QLM_MODE_FLAG_GEN1)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 5000, octeon.QLM_MODE_FLAG_GEN2)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 8000, octeon.QLM_MODE_FLAG_GEN3)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 2500, octeon.QLM_MODE_FLAG_GEN1+octeon.QLM_MODE_FLAG_ENDPOINT)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 5000, octeon.QLM_MODE_FLAG_GEN2+octeon.QLM_MODE_FLAG_ENDPOINT)
+-- octeon.c.bdk_qlm_set_mode(node, 2, octeon.QLM_MODE_PCIE_1X8, 8000, octeon.QLM_MODE_FLAG_GEN3+octeon.QLM_MODE_FLAG_ENDPOINT)
+
+-- End of QLM examples

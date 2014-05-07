@@ -65,8 +65,10 @@ void register_octeon_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_MODE_XAUI_1X4);
     push_bdk_enum(BDK_QLM_MODE_RXAUI_2X2);
     push_bdk_enum(BDK_QLM_MODE_OCI);
-    push_bdk_enum(BDK_QLM_MODE_10GR_4X1);
-    push_bdk_enum(BDK_QLM_MODE_40GR4_1X4);
+    push_bdk_enum(BDK_QLM_MODE_XFI_4X1);
+    push_bdk_enum(BDK_QLM_MODE_XLAUI_1X4);
+    push_bdk_enum(BDK_QLM_MODE_10G_KR_4X1);
+    push_bdk_enum(BDK_QLM_MODE_40G_KR4_1X4);
 
     push_bdk_enum(BDK_QLM_MODE_FLAG_ENDPOINT);
     push_bdk_enum(BDK_QLM_MODE_FLAG_GEN1);

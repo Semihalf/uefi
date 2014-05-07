@@ -30,13 +30,15 @@ typedef enum
     BDK_QLM_MODE_RXAUI_1X2, /* 1 RXAUI, 2 lanes (cn70xx) */
     BDK_QLM_MODE_SATA_2X1,  /* 2 SATA, one lane each (cn70xx) */
 
-    BDK_QLM_MODE_ILK,       /* ILK 4 lanes (cn78xx) */
-    BDK_QLM_MODE_SGMII,     /* SGMII, each lane independent (cn78xx) */
-    BDK_QLM_MODE_XAUI_1X4,  /* 1 XAUI, 4 lanes (cn78xx) */
-    BDK_QLM_MODE_RXAUI_2X2, /* 2 RXAUI, 2 lanes each (cn78xx) */
-    BDK_QLM_MODE_OCI,       /* OCI Multichip interconnect (cn78xx) */
-    BDK_QLM_MODE_10GR_4X1,  /* 4 10GBASE-R, 1 lane each (cn78xx) */
-    BDK_QLM_MODE_40GR4_1X4,  /* 1 40GBASE-R4, 4 lanes each (cn78xx) */
+    BDK_QLM_MODE_ILK,           /* ILK 4 lanes (cn78xx) */
+    BDK_QLM_MODE_SGMII,         /* SGMII, each lane independent (cn78xx) */
+    BDK_QLM_MODE_XAUI_1X4,      /* 1 XAUI or DXAUI, 4 lanes (cn78xx), use gbaud to tell difference */
+    BDK_QLM_MODE_RXAUI_2X2,     /* 2 RXAUI, 2 lanes each (cn78xx) */
+    BDK_QLM_MODE_OCI,           /* OCI Multichip interconnect (cn78xx) */
+    BDK_QLM_MODE_XFI_4X1,       /* 4 XFI, 1 lane each (cn78xx) */
+    BDK_QLM_MODE_XLAUI_1X4,     /* 1 XLAUI, 4 lanes each (cn78xx) */
+    BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn78xx) */
+    BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn78xx) */
 } bdk_qlm_modes_t;
 
 typedef enum

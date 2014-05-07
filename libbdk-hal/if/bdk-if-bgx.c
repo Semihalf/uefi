@@ -1,16 +1,19 @@
 #include <bdk.h>
 
 /* This file implements interfaces connected to the BGX block introduced
-    for CN78XX. This block combines SGMII, XAUI, DXAUI, 10G, and 40G all
-    into one interface */
+    for CN78XX. This block combines SGMII, XAUI, DXAUI, RXAUI, XFI, XLAUI,
+    10GBASE-KR, and 40GBASE-KR all into one interface */
 
 typedef enum
 {
-    BGX_MODE_SGMII,
-    BGX_MODE_XAUI,
-    BGX_MODE_RXAUI,
-    BGX_MODE_10G,
-    BGX_MODE_40G,
+    BGX_MODE_SGMII, /* 1 lane, 1.250 Gbaud */
+    BGX_MODE_XAUI,  /* 4 lanes, 3.125 Gbaud */
+    BGX_MODE_DXAUI, /* 4 lanes, 6.250 Gbaud */
+    BGX_MODE_RXAUI, /* 2 lanes, 6.250 Gbaud */
+    BGX_MODE_XFI,   /* 1 lane, 10.3125 Gbaud */
+    BGX_MODE_XLAUI, /* 4 lanes, 10.3125 Gbaud */
+    BGX_MODE_10G_KR,/* 1 lane, 10.3125 Gbaud */
+    BGX_MODE_40G_KR,/* 4 lanes, 10.3125 Gbaud */
 } bgx_mode_t;
 
 typedef union
@@ -50,6 +53,7 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
         return priv;
 
     bdk_qlm_modes_t qlm_mode = bdk_qlm_get_mode(node, qlm);
+    int gbaud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
 
     switch (qlm_mode)
     {
@@ -61,22 +65,35 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
             priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
             priv.s.num_port = 1;
             priv.s.mode = BGX_MODE_XAUI;
+            if (gbaud_mhz == 3125)
+                priv.s.mode = BGX_MODE_XAUI;
+            else
+                priv.s.mode = BGX_MODE_DXAUI;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
             priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
             priv.s.num_port = 2;
             priv.s.mode = BGX_MODE_RXAUI;
             break;
-        case BDK_QLM_MODE_10GR_4X1:
+        case BDK_QLM_MODE_XFI_4X1:
             priv.s.num_port = 4;
-            priv.s.mode = BGX_MODE_10G;
-            /* Only XFI supports training */
-            priv.s.use_training = 1;
+            priv.s.mode = BGX_MODE_XFI;
+            /* XFI doesn't support tx training */
             break;
-        case BDK_QLM_MODE_40GR4_1X4:
+        case BDK_QLM_MODE_XLAUI_1X4:
             priv.s.num_port = 1;
-            priv.s.mode = BGX_MODE_40G;
-            /* XLAUI doesn't support training */
+            priv.s.mode = BGX_MODE_XLAUI;
+            /* XLAUI doesn't support tx training */
+            break;
+        case BDK_QLM_MODE_10G_KR_4X1:
+            priv.s.num_port = 4;
+            priv.s.mode = BGX_MODE_10G_KR;
+            priv.s.use_training = 1; /* 10GBASE-KR supports tx training */
+            break;
+        case BDK_QLM_MODE_40G_KR4_1X4:
+            priv.s.num_port = 1;
+            priv.s.mode = BGX_MODE_40G_KR;
+            priv.s.use_training = 1; /* 40GBASE-KR4 supports tx training */
             break;
         default:
             priv.s.num_port = 0;
@@ -129,6 +146,7 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
             lane_to_sds = handle->index;
             break;
         case BGX_MODE_XAUI:
+        case BGX_MODE_DXAUI:
             lmac_type = 1;
             lane_to_sds = 0xe4;
             break;
@@ -136,15 +154,24 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
             lmac_type = 2;
             lane_to_sds = (handle->index) ? 0xe : 0x4;
             break;
-        case BGX_MODE_10G:
+        case BGX_MODE_XFI:
             lmac_type = 3;
             lane_to_sds = handle->index;
             break;
-        case BGX_MODE_40G:
-        default:
+        case BGX_MODE_XLAUI:
             lmac_type = 4;
             lane_to_sds = 0xe4;
             break;
+        case BGX_MODE_10G_KR:
+            lmac_type = 3;
+            lane_to_sds = handle->index;
+            break;
+        case BGX_MODE_40G_KR:
+            lmac_type = 4;
+            lane_to_sds = 0xe4;
+            break;
+        default:
+            return -1;
     }
     /* Set mode and lanes */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index),
@@ -176,7 +203,7 @@ static int if_probe(bdk_if_handle_t handle)
     handle->priv = priv.ptr;
 
     /* Change name to be something that might be meaningful to the user */
-    const char *name_format;
+    const char *name_format = "UNKNOWN";
     switch (priv.s.mode)
     {
         case BGX_MODE_SGMII:
@@ -191,26 +218,42 @@ static int if_probe(bdk_if_handle_t handle)
             else
                 name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
             break;
+        case BGX_MODE_DXAUI:
+            if (bdk_numa_is_only_one())
+                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "DXAUI%d";
+            else
+                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.DXAUI%d";
+            break;
         case BGX_MODE_RXAUI:
             if (bdk_numa_is_only_one())
                 name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
             else
                 name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
             break;
-        case BGX_MODE_10G:
+        case BGX_MODE_XFI:
             if (bdk_numa_is_only_one())
                 name_format = "XFI%d.%d";
             else
                 name_format = "N%d.XFI%d.%d";
             break;
-        case BGX_MODE_40G:
+        case BGX_MODE_XLAUI:
             if (bdk_numa_is_only_one())
                 name_format = "XLAUI%d";
             else
                 name_format = "N%d.XLAUI%d";
             break;
-        default:
-            return -1;
+        case BGX_MODE_10G_KR:
+            if (bdk_numa_is_only_one())
+                name_format = "10GKR%d.%d";
+            else
+                name_format = "N%d.10GKR%d.%d";
+            break;
+        case BGX_MODE_40G_KR:
+            if (bdk_numa_is_only_one())
+                name_format = "40GKR%d";
+            else
+                name_format = "N%d.40GKR%d";
+            break;
     }
     if (bdk_numa_is_only_one())
         snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv.s.port, priv.s.channel);
@@ -434,8 +477,12 @@ static int setup_auto_neg(bdk_if_handle_t handle)
     const int bgx_index = handle->index;
     bgx_priv_t priv = {.ptr = handle->priv};
 
+    /* 10GBASE-KR and 40GBASE-KR4 optionally support auto negotiation. Note
+       that this referse to auto negotiation for links other than SGMII. SGMII
+       takes a different code path */
+    int use_auto_neg = (priv.s.mode == BGX_MODE_10G_KR) || (priv.s.mode == BGX_MODE_40G_KR);
     // FIXME: Disabled as it currently doesn't work
-    int use_auto_neg = 0;//(priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G);
+    use_auto_neg = 0;
 
     /* Software should do the following to execute Auto-Negotiation when
        desired: */
@@ -452,10 +499,10 @@ static int setup_auto_neg(bdk_if_handle_t handle)
         c.s.fec_req = fec_control.s.fec_en;
         c.s.fec_able = 1;
         c.s.a100g_cr10 = 0;
-        c.s.a40g_cr4 = (priv.s.mode == BGX_MODE_40G);
-        c.s.a40g_kr4 = (priv.s.mode == BGX_MODE_40G);
-        c.s.a10g_kr = (priv.s.mode == BGX_MODE_10G);
-        c.s.a10g_kx4 = (priv.s.mode == BGX_MODE_10G);
+        c.s.a40g_cr4 = 0;
+        c.s.a40g_kr4 = (priv.s.mode == BGX_MODE_40G_KR);
+        c.s.a10g_kr = (priv.s.mode == BGX_MODE_10G_KR);
+        c.s.a10g_kx4 = 0;
         c.s.a1g_kx = 0;
         c.s.rf = 0);
 
@@ -473,6 +520,15 @@ static int setup_auto_neg(bdk_if_handle_t handle)
     return 0;
 }
 
+/**
+ * Port intialization for all protocols except for SGMII. Its
+ * call xaui_init() for the lack of a better name, but it
+ * applies to everything other than SGMII.
+ *
+ * @param handle Handle to the port
+ *
+ * @return Zero on success, negative on failure
+ */
 static int xaui_init(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
@@ -548,7 +604,7 @@ static int xaui_init(bdk_if_handle_t handle)
 
     /* 3f. If Forward Error Correction is desired for 10GBASE-R or 40GBASE-R,
        enable it by writing BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN] = 1. */
-    if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+    if ((priv.s.mode == BGX_MODE_10G_KR) || (priv.s.mode == BGX_MODE_40G_KR))
     {
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_FEC_CONTROL(bgx_block, bgx_index),
             c.s.fec_en = 1);
@@ -583,6 +639,15 @@ static int xaui_init(bdk_if_handle_t handle)
     return 0;
 }
 
+/**
+ * Link up/down processing for all protocols except for SGMII. Its call
+ * xaui_link() for the lack of a better name, but it applies to
+ * everything other than SGMII.
+ *
+ * @param handle Handle to the port
+ *
+ * @return Zero on success, negative on failure
+ */
 static int xaui_link(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
@@ -621,7 +686,8 @@ static int xaui_link(bdk_if_handle_t handle)
             return -1;
         }
 
-        if ((priv.s.mode == BGX_MODE_10G) || (priv.s.mode == BGX_MODE_40G))
+        if ((priv.s.mode == BGX_MODE_XFI) || (priv.s.mode == BGX_MODE_XLAUI) ||
+            (priv.s.mode == BGX_MODE_10G_KR) || (priv.s.mode == BGX_MODE_40G_KR))
         {
             /* 10G-R/40G-R - Wait for BASE-R PCS block lock */
             if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BR_STATUS1(bgx_block, bgx_index), blk_lock, ==, 1, TIMEOUT))
@@ -712,20 +778,16 @@ static int if_init(bdk_if_handle_t handle)
     const int bgx_index = handle->index;
     bgx_priv_t priv = {.ptr = handle->priv};
 
-    switch (priv.s.mode)
+    if (priv.s.mode == BGX_MODE_SGMII)
     {
-        case BGX_MODE_SGMII:
-            /* Don't add a FCS as PKO does that */
-            BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_APPEND(bgx_block, bgx_index),
-                c.s.fcs = 0);
-            break;
-        case BGX_MODE_XAUI:
-        case BGX_MODE_RXAUI:
-        case BGX_MODE_10G:
-        case BGX_MODE_40G:
-        default:
-            xaui_init(handle);
-            break;
+        /* Don't add a FCS as PKO does that */
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_APPEND(bgx_block, bgx_index),
+            c.s.fcs = 0);
+    }
+    else
+    {
+        /* Everything other than SGMII */
+        xaui_init(handle);
     }
 
     /* Set GMX to buffer as much data as possible before starting transmit.
@@ -777,7 +839,6 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     bdk_if_link_t result;
-    //bgx_priv_t priv = {.ptr = handle->priv};
 
     result.u64 = 0;
 
@@ -867,6 +928,13 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
     return result;
 }
 
+/**
+ * Get link status of ports in modes other than SGMII
+ *
+ * @param handle Port to query
+ *
+ * @return Port speed structure
+ */
 static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
@@ -885,8 +953,10 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
         uint64_t speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm);
         switch (priv.s.mode)
         {
-            case BGX_MODE_10G:
-            case BGX_MODE_40G:
+            case BGX_MODE_XFI:
+            case BGX_MODE_XLAUI:
+            case BGX_MODE_10G_KR:
+            case BGX_MODE_40G_KR:
                 /* Using 64b66b symbol encoding */
                 speed = (speed * 64 + 33) / 66;
                 break;
@@ -911,42 +981,24 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
     bdk_if_link_t result;
     result.u64 = 0;
 
-    switch (priv.s.mode)
-    {
-        case BGX_MODE_SGMII:
-            result = if_link_get_sgmii(handle);
-            break;
-        case BGX_MODE_XAUI:
-        case BGX_MODE_RXAUI:
-        case BGX_MODE_10G:
-        case BGX_MODE_40G:
-        default:
-            result = if_link_get_xaui(handle);
-            break;
-    }
+    if (priv.s.mode == BGX_MODE_SGMII)
+        result = if_link_get_sgmii(handle);
+    else
+        result = if_link_get_xaui(handle);
     return result;
 }
 
 static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
-    switch (priv.s.mode)
+    if (priv.s.mode == BGX_MODE_SGMII)
     {
-        case BGX_MODE_SGMII:
-        {
-            int status = sgmii_link(handle);
-            if (status == 0)
-                sgmii_speed(handle, link_info);
-            break;
-        }
-        case BGX_MODE_XAUI:
-        case BGX_MODE_RXAUI:
-        case BGX_MODE_10G:
-        case BGX_MODE_40G:
-        default:
-            xaui_link(handle);
-            break;
+        int status = sgmii_link(handle);
+        if (status == 0)
+            sgmii_speed(handle, link_info);
     }
+    else
+        xaui_link(handle);
 }
 
 
@@ -960,19 +1012,10 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv.s.port),
         c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
 
-    switch (priv.s.mode)
-    {
-        case BGX_MODE_SGMII:
-            sgmii_link(handle);
-            break;
-        case BGX_MODE_XAUI:
-        case BGX_MODE_RXAUI:
-        case BGX_MODE_10G:
-        case BGX_MODE_40G:
-        default:
-            xaui_link(handle);
-            break;
-    }
+    if (priv.s.mode == BGX_MODE_SGMII)
+        sgmii_link(handle);
+    else
+        xaui_link(handle);
     return 0;
 }
 
@@ -989,7 +1032,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
-    /* Counters seem to only be wrong in XAUI and RXAUI */
+    /* Counters seem to only be wrong in non SGMII modes */
     const int bytes_off_tx = (priv.s.mode != BGX_MODE_SGMII) ? -8 : 0;
     const int bytes_off_rx = 0;
 

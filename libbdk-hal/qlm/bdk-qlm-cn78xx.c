@@ -225,13 +225,24 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         {
             int bgx = (qlm < 2) ? qlm : qlm - 2;
             BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 0));
+            BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx, 0));
             switch (cmrx_config.s.lmac_type)
             {
                 case 0x0: return BDK_QLM_MODE_SGMII;
-                case 0x1: return BDK_QLM_MODE_XAUI_1X4;
+                case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differntiate between XAUI and DXAUI */
                 case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
-                case 0x3: return BDK_QLM_MODE_10GR_4X1;
-                case 0x4: return BDK_QLM_MODE_40GR4_1X4;
+                case 0x3:
+                    /* Use training to determine if we're in 10GBASE-KR or XFI */
+                    if (spux_br_pmd_control.s.train_en)
+                        return BDK_QLM_MODE_10G_KR_4X1;
+                    else
+                        return BDK_QLM_MODE_XFI_4X1;
+                case 0x4:
+                    /* Use training to determine if we're in 40GBASE-KR4 or XLAUI */
+                    if (spux_br_pmd_control.s.train_en)
+                        return BDK_QLM_MODE_40G_KR4_1X4;
+                    else
+                        return BDK_QLM_MODE_XLAUI_1X4;
                 default:  return BDK_QLM_MODE_DISABLED;
             }
         }
@@ -327,6 +338,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
             return -1;
         }
     }
+    bdk_error("Invalid speed for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
     return -1;
 }
 
@@ -349,6 +361,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int is_pcie = 0;
     int is_ilk = 0;
     int is_bgx = 0;
+    int bgx_block = (qlm < 2) ? qlm : qlm - 2;
 
     /* Almost all supported QLM speeds require a 156.25Mhz clock */
     int ref_clk = REF_156MHZ;
@@ -526,23 +539,45 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             if (lane_mode == -1)
                 return -1;
             break;
-        case BDK_QLM_MODE_10GR_4X1:
+        case BDK_QLM_MODE_XFI_4X1:
+            lmac_type = 3; /* 10G_R */
+            is_bgx = 1;
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("XFI", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
+            /* Disable training. We use this to tell the difference between 10GBASE-KR and XFI */
+            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 0);
+            break;
+        case BDK_QLM_MODE_XLAUI_1X4:
+            lmac_type = 4; /* 40G_R */
+            is_bgx = 1; /* There is an errata where QUAD mode doesn't work */
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("XLAUI", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
+            /* Disable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
+            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 0);
+            break;
+        case BDK_QLM_MODE_10G_KR_4X1:
             lmac_type = 3; /* 10G_R */
             is_bgx = 1;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
+            /* Enable training. We use this to tell the difference between 10GBASE-KR and XFI */
+            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
             break;
-        case BDK_QLM_MODE_40GR4_1X4:
+        case BDK_QLM_MODE_40G_KR4_1X4:
             lmac_type = 4; /* 40G_R */
             is_bgx = 1; /* There is an errata where QUAD mode doesn't work */
             lane_mode = get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
+            /* Enable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
+            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
             break;
         default:
-            /* Unknown, do nothing */
-            break;
+            bdk_error("Unsupported QLM mode %d\n", mode);
+            return -1;
     }
 
     /* Power up phy, but keep it in reset */
