@@ -416,9 +416,16 @@ static int init_oci(void)
     /* Clear all local OCI error status bits */
     BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_INT, BDK_CSR_READ(bdk_numa_local(), BDK_OCX_COM_INT));
 
+    /* Enable the OCX lane counters across all lanes. This way they count
+       errors that happen during our init */
     /* Clear all OCI lane error status bits */
     for (int lane=0; lane<24; lane++)
+    {
+        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNEX_CFG(lane),
+            c.s.rx_stat_wrap_dis = 1;
+            c.s.rx_stat_ena = 1);
         BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(bdk_numa_local(), BDK_OCX_LNEX_INT(lane)));
+    }
 
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
