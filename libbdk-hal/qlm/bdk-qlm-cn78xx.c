@@ -992,8 +992,41 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     return -1;
 }
 
+static void qlm_init_errata_20844(int node, int qlm)
+{
+    /* Errata #20844
+    1) After the link first comes up write the following
+       register on each lane to prevent the application logic
+       from stomping on the Coast inputs. This is a one time write,
+       or if you prefer you could put it in the link up loop and
+       write it every time the link comes up.
+    1a) Then write GSER(0..13)_LANE(0..3)_PCS_CTLIFC_2
+            Set CTLIFC_OVRRD_REQ (later)
+            Set CFG_RX_CDR_COAST_REQ_OVRRD_EN
+       Its not clear if #1 and #1a can be combined, lets try it
+       this way first. */
+    for (int lane = 0; lane < 4; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+            c.s.cfg_rx_cdr_coast_req_ovrrd_en = 1);
+
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
+            c.s.cfg_rx_eie_det_ovrrd_en = 1;
+            c.s.cfg_rx_eie_det_ovrrd_val = 0);
+
+        bdk_wait_usec(1);
+
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
+            c.s.cfg_rx_eie_det_ovrrd_en = 1;
+            c.s.cfg_rx_eie_det_ovrrd_val = 1);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+            c.s.ctlifc_ovrrd_req = 1);
+    }
+}
+
 static void qlm_init_one(bdk_node_t node, int qlm)
 {
+    qlm_init_errata_20844(node, qlm);
     /* The QLM PLLs are controlled by an array of parameters indexed
        by the QLM mode for each QLM. We need to fill in these tables.
        Also each lane has some mode parameters, again in a array index
@@ -1309,6 +1342,13 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
+    /* Apply Errata #20844 to all QLMs that are out of reset */
+    for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
+    {
+        BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+        if (gserx_phy_ctl.s.phy_reset == 0)
+            qlm_init_errata_20844(node, qlm);
+    }
 }
 
 
