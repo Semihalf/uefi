@@ -192,6 +192,17 @@ static int if_init(bdk_if_handle_t handle)
                 c.s.ser_reset_n = lane_mask);
         }
 
+        /* Enable per lane RX error counts */
+        for (int lane=0; lane<16; lane++)
+        {
+            if (priv.s.all_lanes & (1<<lane))
+            {
+                BDK_CSR_MODIFY(c, handle->node, BDK_ILK_RX_LNEX_CFG(lane),
+                    c.s.stat_rdclr = 0;
+                    c.s.stat_ena = 1);
+            }
+        }
+
         /* Figure out how many lanes we need */
         const int needed_lanes = bdk_config_get(BDK_CONFIG_ILK0_LANES + handle->interface);
         /* Mask off lanes that are already in use */
