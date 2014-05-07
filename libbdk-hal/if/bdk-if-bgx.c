@@ -603,12 +603,16 @@ static int xaui_init(bdk_if_handle_t handle)
         c.s.fcs_d = 0);
 
     /* 3f. If Forward Error Correction is desired for 10GBASE-R or 40GBASE-R,
-       enable it by writing BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN] = 1. */
-    if ((priv.s.mode == BGX_MODE_10G_KR) || (priv.s.mode == BGX_MODE_40G_KR))
-    {
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_FEC_CONTROL(bgx_block, bgx_index),
-            c.s.fec_en = 1);
-    }
+       enable it by writing BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN] = 1.
+       BDK:
+        FEC is optional for 10GBASE-KR, 40GBASE-KR4, and XLAUI. We're going
+        to disable it by default per recommendation from Scott Meninger */
+    int use_fec = 0;
+    use_fec &= ((priv.s.mode == BGX_MODE_10G_KR) ||
+                (priv.s.mode == BGX_MODE_40G_KR) ||
+                (priv.s.mode == BGX_MODE_XLAUI));
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_FEC_CONTROL(bgx_block, bgx_index),
+        c.s.fec_en = use_fec);
 
     /* 3g. If Auto-Negotiation is desired, configure and enable
        Auto-Negotiation as described in Section 33.6.2. */
