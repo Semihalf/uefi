@@ -45,8 +45,7 @@ typedef union
     {
         uint64_t    reserved2   : 32;
         unsigned    speed       : 24;
-        unsigned    lanes       : 4;
-        int         reserved    : 2;
+        unsigned    lanes       : 6;
         int         full_duplex : 1;
         int         up          : 1;
     } s;
