@@ -274,7 +274,8 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     break;
                 default: /* 4 */
                     cfg.s.size = 3; /* 10kb */
-                    cfg.s.rate = 2; /* Boost big ports to 25 Gb/s */
+                    if (lmac != 0) /* Don't boost LOOP as it crashes */
+                        cfg.s.rate = 2; /* Boost big ports to 25 Gb/s */
                     break;
             }
             break;
