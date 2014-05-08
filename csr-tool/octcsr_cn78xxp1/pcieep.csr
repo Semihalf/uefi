@@ -1363,7 +1363,7 @@ registers:
         typical: 0x0
         description: |
           Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
-          Larger sizes are not supported by CN78XX.
+          Larger sizes are not supported by CNXXXX.
           DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
           functionality.
 
@@ -3993,7 +3993,7 @@ registers:
         typical: 0xfffff
         description: |
           "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-          0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CN78XX
+          0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
           advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
           zeros through PEM()_CFG_WR to this field."
 

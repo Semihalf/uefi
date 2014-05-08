@@ -1428,7 +1428,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Phantom function enable. This bit should never be set; CN78XX requests never use phantom functions.
+        description: Phantom function enable. This bit should never be set; CNXXXX requests never use phantom functions.
 
       - name: ETF_EN
         bits: 8

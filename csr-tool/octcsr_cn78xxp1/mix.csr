@@ -273,7 +273,7 @@ registers:
           MIX(0..1)_CTL[TS_THRESH], then a programmable TimeStamp interrupt is issued (see
           MIX(0..1)_INTR[TS]).
 
-          For CN78XX, since the implementation only supports four outstanding timestamp interrupts,
+          For CNXXXX, since the implementation only supports four outstanding timestamp interrupts,
           this field should only be programmed from [0..3].
 
       - name: CRC_STRIP
@@ -403,7 +403,7 @@ registers:
           * in half-duplex mode: force collisions.
 
           This programmable mechanism is provided as a means to backpressure input traffic early
-          enough so that packets are not dropped by CN78XX.
+          enough so that packets are not dropped by CNXXXX.
 
       - name: IRHWM
         bits: 19..0

@@ -3269,7 +3269,7 @@ registers:
     bus: NCB
     description: |
       For information on this register, refer to the xHCI Specification, v1.0, section 7.1.2. Note
-      that the SMI interrupts are not connected to anything in a CN78XX configuration. This register
+      that the SMI interrupts are not connected to anything in a CNXXXX configuration. This register
       can be reset in the following ways:
       * IOI reset.
       * UCTL(0)_CTL[UAHC_RESET] = 1.

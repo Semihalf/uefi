@@ -132,6 +132,8 @@ def build_struct(chip_info, struct):
                    "allow_missing_bits",        # Not all bits are specified, assume reserved for others
                    "exempt_name_length",
                    "mif_operation",
+                   "mif_columns",
+                   "mif_exclude",
                    "subblock"])                 # FIXME: What is this?
         # FIXME: What to do with attributes?
     for field in struct["fields"]:

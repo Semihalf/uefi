@@ -2,6 +2,13 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: SSO
+description: |
+  This section describes the SSO registers. Note that in registers and structure definitions:
+  * Unused and unaddressed fields in the address are reserved and must be set to zeros by the
+  software.
+  * Unused fields in the results are actually zeros.
+  * The SSO load result is unpredictable when anything but 64-bit load or stores as appropriate are
+  used (i.e. anything other than an LD/SD) is used.
 enums:
   - name: SSO_INTSN_E
     title: SSO Interrupt Source Enumeration
@@ -397,6 +404,8 @@ enums:
 structs:
   - name: SSO_ALLOC_WE_DMA_S
     title: SSO Alloc Work IOBDMA Address Structure
+    attributes:
+      mif_operation: "SSO Alloc Work Operations"
     description: ALLOC_WE operations form an IOBDMA with this structure.
     fields:
       - name: --
@@ -432,6 +441,8 @@ structs:
 
   - name: SSO_ALLOC_WE_LD_S
     title: SSO Alloc Work Load Address Structure
+    attributes:
+      mif_operation: "SSO Alloc Work Operations"
     description: ALLOC_WE operations form a load addresses with this structure.
     fields:
       - name: --
@@ -461,6 +472,8 @@ structs:
 
   - name: SSO_ALLOC_WE_RTN_S
     title: SSO Alloc Work Return Structure
+    attributes:
+      mif_operation: "SSO Alloc Work Operations"
     description: ALLOC_WE operations return load or IOBDMA data formed with this structure.
     fields:
       - name: STATE
@@ -474,6 +487,8 @@ structs:
 
   - name: SSO_CLR_NSCHED_DATA_S
     title: SSO Clear No-Schedule Store Data Structure
+    attributes:
+      mif_operation: "SSO Clear No-Schedule Operation"
     description: Store CLR_NSCHED operations form store data with this structure.
     fields:
       - name: WQP
@@ -507,6 +522,8 @@ structs:
 
   - name: SSO_CLR_NSCHED_ST_S
     title: SSO Clear No-Schedule Store Address Structure
+    attributes:
+      mif_operation: "SSO Clear No-Schedule Operation"
     description: Store CLR_NSCHED operations form a store address with this structure.
     fields:
       - name: --
@@ -550,6 +567,8 @@ structs:
 
   - name: SSO_CSR_RD_DMA_S
     title: SSO CSR Read IOBDMA Address Structure
+    attributes:
+      mif_operation: "SSO CSR Operations"
     description: |
       CSR_RD operations form an IOBDMA with this structure. CSR_RD operations may be used to
       background read a single configuration register.
@@ -593,10 +612,12 @@ structs:
 
   - name: SSO_CSR_WR_DMA_S
     title: SSO CSR Write LMTST Address Structure
+    attributes:
+      mif_operation: "SSO CSR Operations"
     description: |
       CSR_WR operations form an LMTST with this structure. CSR_WR operations may be used to
       efficiently update many configuration registers simultaneously, such as
-      SSO_PP(0..47)_S(0..1)_GRPMSK(0..3).
+      SSO_PP()_S()_GRPMSK().
     fields:
       - name: ADDR
         bits: 31..0
@@ -639,6 +660,8 @@ structs:
 
   - name: SSO_GET_WORK_DMA_S
     title: SSO Get Work IOBDMA Address Structure
+    attributes:
+      mif_operation: "SSO Get Work Operations"
     description: GET_WORK load operations form an IOBDMA with this structure.
     fields:
       - name: --
@@ -657,7 +680,7 @@ structs:
         bits: 15..4
         attributes:
           const: "--"
-        description: See SSO_GET_WORK_LD_S[INDEX].
+        description: See SSO_GET_WORK_LD_S[INDEX_GRP_MASK].
 
       - name: --
         bits: 28..16
@@ -707,10 +730,10 @@ structs:
           const: "--"
         description: |
           Length of return IOBDMA transaction in words.
-          0x1 = Word 0 of the return will contain SSO_GET_WORK_RTN_SSSO_GET_WORK_RTN_S.
-          0x2 = Word 0 of the return will contain SSO_GET_WORK_RTN_SSSO_GET_WORK_RTN_S and word 1
+          0x1 = Word 0 of the return will contain SSO_GET_WORK_RTN_S.
+          0x2 = Word 0 of the return will contain SSO_GET_WORK_RTN_S and word 1
           will contain SSO_GET_WORK_RTN1_S.
-          all other values = reserved.
+          _ all other values = reserved.
 
       - name: SCRADDR
         bits: 63..56
@@ -721,6 +744,8 @@ structs:
 
   - name: SSO_GET_WORK_LD_S
     title: SSO Get Work Load Address Structure
+    attributes:
+      mif_operation: "SSO Get Work Operations"
     description: GET_WORK load operations form a load addresses with this structure.
     fields:
       - name: --
@@ -743,11 +768,14 @@ structs:
           const: "--"
         description: |
           Index or group or masks.
+
           If [INDEXED] = 1, <15:4> provides the index to get work from.
+
           If [GROUPED] = 1, <13:4> provides the group number; the group number's OCI node must
           correspond to the local OCI node, as SSO does not forward the request to a remote OCI
           node.
-          Otherwise, <5:4> indicates how to use the mask sets in SSO_PP(0..47)_S(0..1)_GRPMSK(0..3)
+
+          Otherwise, <5:4> indicates how to use the mask sets in SSO_PP()_S()_GRPMSK()
           (<15:6> are ignored):
           0x0 = use mask set 0 as high priority, and mask set 1 as lower priority if no groups
           satisfy mask set 0.
@@ -774,13 +802,13 @@ structs:
         bits: 30
         attributes:
           const: "--"
-        description: Get from a specific group number, specified in [INDEX].
+        description: Get from a specific group number, specified in [INDEX_GRP_MASK].
 
       - name: INDEXED
         bits: 31
         attributes:
           const: "--"
-        description: Indexed get work. If set, indexed get work, specified in [INDEX].
+        description: Indexed get work. If set, indexed get work, specified in [INDEX_GRP_MASK].
 
       - name: --
         bits: 35..32
@@ -809,6 +837,8 @@ structs:
 
   - name: SSO_GET_WORK_RTN1_S
     title: SSO Get Work Return Word 1 Structure
+    attributes:
+      mif_operation: "SSO Get Work Operations"
     description: |
       GET_WORK operations return IOBDMA data word 1 formed with this structure. This is only
       returned if IOBDMA is used and the IOBDMA requested a two-word return.
@@ -829,6 +859,8 @@ structs:
 
   - name: SSO_GET_WORK_RTN_S
     title: SSO Get Work Return Word 0 Structure
+    attributes:
+      mif_operation: "SSO Get Work Operations"
     description: GET_WORK operations return load or IOBDMA data formed with this structure.
     fields:
       - name: WQP
@@ -874,6 +906,8 @@ structs:
 
   - name: SSO_SW_DATA_S
     title: SSO Switch Store Data Structure
+    attributes:
+      mif_operation: "SSO Switch Operations"
     description: Store SWTAG, SWTAG_DESCHED, ADDWQ and UPD_WQP_GRP operations form store data with this structure.
     fields:
       - name: WQP
@@ -891,10 +925,14 @@ structs:
         bits: 47..44
         description: |
           Operation to perform. Enumerated by SSO_OP_E. The following op types are used:
-          0x0 = SWTAG 0x4 = ADDWQ
-          0x1 = SWTAG_FULL 0x5 = UPD_WQP_GRP
-          0x2 = SWTAG_DESCHED 0x6-0xE = reserved
-          0x3 = DESCHED 0xF = NOP
+          0x0 = SWTAG.
+          0x1 = SWTAG_FULL.
+          0x2 = SWTAG_DESCHED.
+          0x3 = DESCHED.
+          0x4 = ADDWQ.
+          0x5 = UPD_WQP_GRP.
+          0x6-0xE = Reserved.
+          0xF = NOP.
 
       - name: --
         bits: 48
@@ -925,6 +963,8 @@ structs:
 
   - name: SSO_SW_ST_S
     title: SSO Switch Store Address Structure
+    attributes:
+      mif_operation: "SSO Switch Operations"
     description: |
       Store SWTAG, SWTAG_DESCHED, ADDWQ and UPD_WQP_GRP operations form a store addresses with this
       structure.
@@ -954,10 +994,10 @@ structs:
         attributes:
           const: "0x60"
         description: |
-          DID = 0x60 for SWTAG_FULL, SWTAGs not switching to UNTAGGED
-          DID = 0x61 otherwise
-          DID = 0x63 for DESCHED, SWTAG_DESCHED
-          DID = 0x66 for ADDWQ
+          DID = 0x60 for SWTAG_FULL, SWTAGs not switching to UNTAGGED.
+          DID = 0x61 otherwise.
+          DID = 0x63 for DESCHED, SWTAG_DESCHED.
+          DID = 0x66 for ADDWQ.
 
       - name: IO
         bits: 48
@@ -1035,10 +1075,10 @@ registers:
         typical: 0x4
         description: |
           New-work-timer period.
-          0x0 = 1024 clock cycles
-          0x1 = 2048 clock cycles
-          0x2 = 3072 clock cycles
-          ... etc.
+          0x0 = 1024 clock cycles.
+          0x1 = 2048 clock cycles.
+          0x2 = 3072 clock cycles.
+          _ ... etc.
 
 
   - name: SSO_NOS_CNT
@@ -1084,7 +1124,7 @@ registers:
         description: |
           Number of free reserved entries. Used to ensure that each group can get a specific number
           of entries. Must always be greater than or equal to the sum across all
-          SSO_GRP(0..255)_IAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
+          SSO_GRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
           to RSVD_THR are going to be made. To prevent races, software should not change this
           register when SSO is being used; instead use SSO_AW_ADD[RSVD_FREE].
 
@@ -1126,14 +1166,14 @@ registers:
         description: |
           Enable OCLA backpressure stalls. For diagnostic use only.
           INTERNAL:
-          <55> NCBB input fifo stall (ncbo.)
-          <54> Work-slot response. (arbrsp.)
-          <53> Work-slot switching of descheduled work entries. (arbx.)
-          <52> Work-slot SWTAG response. (arbs.)
-          <51> Work-slot access to get-work engine. (arbgw.)
-          <50> Work-slot CAM access. (arbc.)
-          <49> Work-slot RAM access. (arbr.)
-          <48> Work-slot pushes to AQ, CQ, DQ. (arbq.)
+          <55> = NCBB input fifo stall (ncbo).
+          <54> = Work-slot response. (arbrsp).
+          <53> = Work-slot switching of descheduled work entries. (arbx).
+          <52> = Work-slot SWTAG response. (arbs).
+          <51> = Work-slot access to get-work engine. (arbgw).
+          <50> = Work-slot CAM access. (arbc).
+          <49> = Work-slot RAM access. (arbr).
+          <48> = Work-slot pushes to AQ, CQ, DQ. (arbq).
 
       - name: --
         bits: 47..5
@@ -1256,16 +1296,16 @@ registers:
           at. Changes on each work search, even if unsuccessful or retried. For diagnostic use only,
           must not be zero. INTERNAL: Uses 16, 15, 13, 4 tap LFSR (this choice is important to
           insure even group probabilities) with the formula:
-          grp_to_start_arb_at = RND[7:0];
-          RND_next[15:8] = RND[7:0];
-          RND_next[7] = ^(RND[15:0] & 0xd008);
-          RND_next[6] = ^(RND[15:0] & 0x6804);
-          RND_next[5] = ^(RND[15:0] & 0x3402);
-          RND_next[4] = ^(RND[15:0] & 0x1a01);
-          RND_next[3] = ^(RND[15:0] & 0xdd08);
-          RND_next[2] = ^(RND[15:0] & 0x6e84);
-          RND_next[1] = ^(RND[15:0] & 0x3742);
-          RND_next[0] = ^(RND[15:0] & 0x1ba1);
+          _ grp_to_start_arb_at = RND[7:0];
+          _ RND_next[15:8] = RND[7:0];
+          _ RND_next[7] = ^(RND[15:0] & 0xd008);
+          _ RND_next[6] = ^(RND[15:0] & 0x6804);
+          _ RND_next[5] = ^(RND[15:0] & 0x3402);
+          _ RND_next[4] = ^(RND[15:0] & 0x1a01);
+          _ RND_next[3] = ^(RND[15:0] & 0xdd08);
+          _ RND_next[2] = ^(RND[15:0] & 0x6e84);
+          _ RND_next[1] = ^(RND[15:0] & 0x3742);
+          _ RND_next[0] = ^(RND[15:0] & 0x1ba1);
 
 
   - name: SSO_AW_STATUS
@@ -1381,8 +1421,8 @@ registers:
         attributes:
           regtest_force: "0"
         description: |
-          Enable XAQ operations. This bit should be set after SSO_XAQ(0..255)_HEAD_PTR and
-          SSO_XAQ(0..255)_TAIL_PTR have been programmed. If cleared, all cached buffers will be
+          Enable XAQ operations. This bit should be set after SSO_XAQ()_HEAD_PTR and
+          SSO_XAQ()_TAIL_PTR have been programmed. If cleared, all cached buffers will be
           returned from the FPA as soon as possible, and TAQ arbitration is simplified.
 
 
@@ -1456,16 +1496,16 @@ registers:
         typical: 0x0
         description: |
           Memory BIST status. 0 = pass, 1 = fail. INTERNAL:
-          <9> = WES
-          <8> = FFF
-          <7> = XAQ
-          <6> = QTC
-          <5> = INP
-          <4> = LLM
-          <3> = TIAQ_HPTR
-          <2> = TIAQ_TPTR
-          <1> = TOAQ_HPTR
-          <0> = TOAQ_TPTR
+          <9> = WES.
+          <8> = FFF.
+          <7> = XAQ.
+          <6> = QTC.
+          <5> = INP.
+          <4> = LLM.
+          <3> = TIAQ_HPTR.
+          <2> = TIAQ_TPTR.
+          <1> = TOAQ_HPTR.
+          <0> = TOAQ_TPTR.
 
 
   - name: SSO_BIST_STATUS1
@@ -1490,13 +1530,13 @@ registers:
         typical: 0x0
         description: |
           Memory BIST status. 0 = pass, 1 = fail. INTERNAL:
-          <6> = THRINT
-          <5> = MASK
-          <4> = GDW
-          <3> = QIDX
-          <2> = TPTR
-          <1> = HPTR
-          <0> = CNTR
+          <6> = THRINT.
+          <5> = MASK.
+          <4> = GDW.
+          <3> = QIDX.
+          <2> = TPTR.
+          <1> = HPTR.
+          <0> = CNTR.
 
 
   - name: SSO_BIST_STATUS2
@@ -1521,15 +1561,15 @@ registers:
         typical: 0x0
         description: |
           Memory BIST status. 0 = pass, 1 = fail. INTERNAL:
-          <8> = PC_WS
-          <7> = PC_WA
-          <6> = PC_TS
-          <5> = PC_DS
-          <4> = NCB0
-          <3> = PND
-          <2> = OTH
-          <1> = NIDX
-          <0> = PIDX
+          <8> = PC_WS.
+          <7> = PC_WA.
+          <6> = PC_TS.
+          <5> = PC_DS.
+          <4> = NCB0.
+          <3> = PND.
+          <2> = OTH.
+          <1> = NIDX.
+          <0> = PIDX.
 
 
   - name: SSO_ERR0
@@ -1719,7 +1759,7 @@ registers:
         typical: 0
         description: |
           Add work dropped due to wrong command/DID requested. Throws
-          SSO_INTSN_E::SSO_ERR0_ADD_WQDROPPED.
+          SSO_INTSN_E::SSO_ERR0_ADDWQ_DROPPED.
 
       - name: AWEMPTY
         bits: 4
@@ -1736,7 +1776,7 @@ registers:
         typical: 0
         description: |
           Add work to disabled group. An ADDWQ was received and dropped to a group with
-          SSO_GRP(0..255)_IAQ_THR[RSVD_THR] = 0. Throws SSO_INTSN_E::SSO_ERR0_GRPDIS.
+          SSO_GRP()_IAQ_THR[RSVD_THR] = 0. Throws SSO_INTSN_E::SSO_ERR0_GRPDIS.
 
       - name: BFP
         bits: 2
@@ -2559,7 +2599,7 @@ registers:
         description: |
           Number of free reserved buffers. Used to insure each group may get a specific number of
           buffers. Must always be greater than or equal to the sum across all
-          SSO_GRP(0..255)_TAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
+          SSO_GRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
           to RSVD_THR are going to be made. To prevent races, software should not change this
           register when SSO is being used; instead use SSO_TAQ_ADD[RSVD_FREE].
 
@@ -2635,8 +2675,8 @@ registers:
         typical: --
         description: |
           FPA local-node aura to use for SSO XAQ allocations and frees. The FPA aura selected by
-          LAURA must select a pool with FPA_POOL(0..63)_CFG[NAT_ALIGN]=1, and
-          (FPA_POOL(0..63)_CFG[BUF_SIZE] - FPA_POOL(0..63)_CFG[BUF_OFFSET]) >= 4 KB / 128.
+          LAURA must select a pool with FPA_POOL()_CFG[NAT_ALIGN]=1, and
+          (FPA_POOL()_CFG[BUF_SIZE] - FPA_POOL()_CFG[BUF_OFFSET]) >= 4 KB / 128.
 
 
   - name: SSO_XAQ(0..255)_HEAD_PTR
@@ -2646,8 +2686,8 @@ registers:
     description: |
       These registers contain the pointer to the first entry of the external linked list(s) for a
       particular group. Software must initialize the external linked list(s) by programming
-      SSO_XAQ(0..255)_HEAD_PTR, SSO_XAQ(0..255)_HEAD_NEXT, SSO_XAQ(0..255)_TAIL_PTR and
-      SSO_XAQ(0..255)_TAIL_NEXT to identical values.
+      SSO_XAQ()_HEAD_PTR, SSO_XAQ()_HEAD_NEXT, SSO_XAQ()_TAIL_PTR and
+      SSO_XAQ()_TAIL_NEXT to identical values.
     fields:
       - name: --
         bits: 63..42
@@ -2690,7 +2730,7 @@ registers:
     bus: NCB
     description: |
       These registers contain the pointer to the last entry of the external linked list(s) for a
-      particular group.  Register fields are identical to those in SSO_XAQ(0..255)_HEAD_PTR above.
+      particular group.  Register fields are identical to those in SSO_XAQ()_HEAD_PTR above.
     inherits: SSO_XAQ(0..255)_HEAD_PTR
 
   - name: SSO_XAQ(0..255)_HEAD_NEXT
@@ -2734,7 +2774,7 @@ registers:
     description: |
       These registers contain the pointer to the next buffer to become the tail when the final cache
       line in this buffer is written.  Register fields are identical to those in
-      SSO_XAQ(0..255)_HEAD_NEXT above.
+      SSO_XAQ()_HEAD_NEXT above.
     inherits: SSO_XAQ(0..255)_HEAD_NEXT
 
   - name: SSO_TIAQ(0..255)_STATUS
@@ -2752,7 +2792,7 @@ registers:
           dv_uvm_force_compare: "True"
         description: |
           Head's WAE number within current cache line, 0-12. This provides the second index into
-          SSO_TAQ(0..1279)_WAE(0..12)_TAG and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP.
 
       - name: WAE_TAIL
         bits: 59..56
@@ -2763,7 +2803,7 @@ registers:
           dv_uvm_force_compare: "True"
         description: |
           Tail's WAE number within current cache line, 0-12. This provides the second index into
-          SSO_TAQ(0..1279)_WAE(0..12)_TAG and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP.
 
       - name: --
         bits: 55..47
@@ -2796,8 +2836,8 @@ registers:
         attributes:
           dv_uvm_force_compare: "True"
         description: |
-          Head's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
-          and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          Head's entry number. This provides the first index into SSO_TAQ()_WAE()_TAG
+          and SSO_TAQ()_WAE()_WQP.
 
       - name: --
         bits: 11
@@ -2814,8 +2854,8 @@ registers:
         attributes:
           dv_uvm_force_compare: "True"
         description: |
-          Tail's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
-          and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          Tail's entry number. This provides the first index into SSO_TAQ()_WAE()_TAG
+          and SSO_TAQ()_WAE()_WQP.
 
 
   - name: SSO_TOAQ(0..255)_STATUS
@@ -2858,7 +2898,7 @@ registers:
           dv_uvm_force_compare: "True"
         description: |
           If PARTIAL is set, tail's WAE number within current cache line, 0-12. This provides the
-          second index into SSO_TAQ(0..1279)_WAE(0..12)_TAG and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          second index into SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP.
 
       - name: --
         bits: 55..43
@@ -2891,8 +2931,8 @@ registers:
         attributes:
           dv_uvm_force_compare: "True"
         description: |
-          Head's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
-          and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          Head's entry number. This provides the first index into SSO_TAQ()_WAE()_TAG
+          and SSO_TAQ()_WAE()_WQP.
 
       - name: --
         bits: 11
@@ -2909,8 +2949,8 @@ registers:
         attributes:
           dv_uvm_force_compare: "True"
         description: |
-          Tail's entry number. This provides the first index into SSO_TAQ(0..1279)_WAE(0..12)_TAG
-          and SSO_TAQ(0..1279)_WAE(0..12)_WQP.
+          Tail's entry number. This provides the first index into SSO_TAQ()_WAE()_TAG
+          and SSO_TAQ()_WAE()_WQP.
 
 
   - name: SSO_GRP(0..255)_IAQ_THR
@@ -3099,9 +3139,10 @@ registers:
         typical: --
         description: |
           Priority for this group relative to other groups. To prevent a core from receiving work on
-          a group use SSO_PP(0..47)_S(0..1)_GRPMSK(0..3).
+          a group use SSO_PP()_S()_GRPMSK().
           0x0 = highest priority.
           0x7 = lowest priority.
+
           Changing priority while GET_WORKs are in flight may result in a GET_WORK using either the
           old or new priority, or a mix thereof.
 
@@ -3122,8 +3163,8 @@ registers:
         description: |
           Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
           IAQ_CNT/IAQ_THR check when this bit is set. EXE_DIS is cleared by hardware whenever:
-          * SSO_GRP(0..255)_INT_CNT[IAQ_CNT] is zero, or
-          * SSO_GRP(0..255)_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
+          * SSO_GRP()_INT_CNT[IAQ_CNT] is zero, or
+          * SSO_GRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
           equal to 0.
 
       - name: --
@@ -3140,19 +3181,23 @@ registers:
         typical: --
         description: |
           Work-executable interrupt. Generally used to indicate work is waiting for software. Throws
-          SSO_INTSN_E::SSO_GRP(0..255)_EXE. Set by hardware whenever:
-          * SSO_GRP(0..255)_INT_CNT[IAQ_CNT] >= SSO_GRP(0..255)_INT_THR [IAQ_THR] and [IAQ_THR] != 0
+          SSO_INTSN_E::SSO_GRP()_EXE. Set by hardware whenever:
+
+          * SSO_GRP()_INT_CNT[IAQ_CNT] >= SSO_GRP()_INT_THR [IAQ_THR] and [IAQ_THR] != 0
           and EXE_DIS is clear.
-          * SSO_GRP(0..255)_INT_CNT[DS_CNT] >= SSO_GRP(0..255)_INT_THR[DS_THR] and [DS_THR] != 0 and
+
+          * SSO_GRP()_INT_CNT[DS_CNT] >= SSO_GRP()_INT_THR[DS_THR] and [DS_THR] != 0 and
           EXE_DIS is clear.
-          * SSO_GRP(0..255)_INT_CNT[CQ_CNT] >= SSO_GRP(0..255)_INT_THR[CQ_THR] and [CQ_THR] != 0 and
+
+          * SSO_GRP()_INT_CNT[CQ_CNT] >= SSO_GRP()_INT_THR[CQ_THR] and [CQ_THR] != 0 and
           EXE_DIS is clear.
-          * SSO_GRP(0..255)_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
-          equal to 0 and SSO_GRP(0..255)_INT_THR[TC_EN] is set and at least one of the following is
+
+          * SSO_GRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
+          equal to 0 and SSO_GRP()_INT_THR[TC_EN] is set and at least one of the following is
           true:
-          SSO_GRP(0..255)_INT_CNT[IAQ_CNT] > 0
-          SSO_GRP(0..255)_INT_CNT[DS_CNT] > 0
-          SSO_GRP(0..255)_INT_CNT[CQ_CNT] > 0
+          _ SSO_GRP()_INT_CNT[IAQ_CNT] > 0
+          _ SSO_GRP()_INT_CNT[DS_CNT] > 0
+          _ SSO_GRP()_INT_CNT[CQ_CNT] > 0
 
       - name: AQ_INT
         bits: 0
@@ -3160,9 +3205,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          External group queue threshold interrupt. Set if SSO_GRP(0..255)_AQ_CNT changes, and the
-          resulting value is equal to SSO_GRP(0..255)_AQ_THR. Throws
-          SSO_INTSN_E::SSO_GRP(0..255)_AQ.
+          External group queue threshold interrupt. Set if SSO_GRP()_AQ_CNT changes, and the
+          resulting value is equal to SSO_GRP()_AQ_THR. Throws
+          SSO_INTSN_E::SSO_GRP()_AQ.
 
 
   - name: SSO_GRP(0..255)_INT_THR
@@ -3194,8 +3239,8 @@ registers:
         typical: --
         description: |
           Time counter interrupt threshold for this group. Compared against
-          SSO_GRP(0..255)_INT_CNT[TC_CNT]. When this field is equal to 0,
-          SSO_GRP(0..255)_INT_CNT[TC_CNT] is zero.
+          SSO_GRP()_INT_CNT[TC_CNT]. When this field is equal to 0,
+          SSO_GRP()_INT_CNT[TC_CNT] is zero.
 
       - name: --
         bits: 47..45
@@ -3211,7 +3256,7 @@ registers:
         typical: --
         description: |
           Conflicted queue count threshold for this group. Compared against
-          SSO_GRP(0..255)_INT_CNT[CQ_CNT]. When this field is 0, the threshold interrupt is
+          SSO_GRP()_INT_CNT[CQ_CNT]. When this field is 0, the threshold interrupt is
           disabled.
 
       - name: --
@@ -3228,7 +3273,7 @@ registers:
         typical: --
         description: |
           Deschedule count threshold for this group. Compared against
-          SSO_GRP(0..255)_INT_CNT[DS_CNT]. When this field is 0, the threshold interrupt is
+          SSO_GRP()_INT_CNT[DS_CNT]. When this field is 0, the threshold interrupt is
           disabled.
 
       - name: --
@@ -3245,7 +3290,7 @@ registers:
         typical: --
         description: |
           In-unit admission queue threshold for this group. Compared against
-          SSO_GRP(0..255)_INT_CNT[IAQ_CNT]. When this field is 0, the threshold interrupt is
+          SSO_GRP()_INT_CNT[IAQ_CNT]. When this field is 0, the threshold interrupt is
           disabled.
 
 
@@ -3271,14 +3316,15 @@ registers:
         typical: --
         description: |
           Time counter current value for this group. Hardware sets this field to the value of
-          SSO_GRP(0..255)_INT_THR[TC_THR] whenever:
-          * Corresponding SSO_GRP(0..255)_INT_CNT[IAQ_CNT, DS_CNT and CQ_CNT] are all equal to 0.
-          * Corresponding SSO_GRP(0..255)_INT[EXE_INT] is written with a one to clear by software.
-          * Corresponding SSO_GRP(0..255)_INT[EXE_DIS] is written with a one to clear by software.
-          * Corresponding SSO_GRP(0..255)_INT_THR is written by software.
+          SSO_GRP()_INT_THR[TC_THR] whenever:
+          * Corresponding SSO_GRP()_INT_CNT[IAQ_CNT, DS_CNT and CQ_CNT] are all equal to 0.
+          * Corresponding SSO_GRP()_INT[EXE_INT] is written with a one to clear by software.
+          * Corresponding SSO_GRP()_INT[EXE_DIS] is written with a one to clear by software.
+          * Corresponding SSO_GRP()_INT_THR is written by software.
           * TC_CNT is equal to 1 and periodic counter SSO_WQ_INT_PC[PC] is equal to 0.
+
           Otherwise, hardware decrements this field whenever the periodic counter SSO_WQ_INT_PC[PC]
-          is equal to 0. This field is 0 whenever SSO_GRP(0..255)_INT_THR[TC_THR] is equal to 0.
+          is equal to 0. This field is 0 whenever SSO_GRP()_INT_THR[TC_THR] is equal to 0.
 
       - name: --
         bits: 47..45
@@ -3361,7 +3407,7 @@ registers:
         reset: all-ones
         typical: --
         description: |
-          Total admission queue entry threshold. Compared against SSO_GRP(0..255)_AQ_CNT for
+          Total admission queue entry threshold. Compared against SSO_GRP()_AQ_CNT for
           triggering AQ interrupts.
 
 
@@ -3514,12 +3560,13 @@ registers:
         description: |
           Core group mask. A one in any bit position sets the core's membership in the corresponding
           group:
-          GRPMSK(0) for groups <63:0>
-          GRPMSK(1) for groups <127:64>
-          GRPMSK(2) for groups <191:128>
-          GRPMSK(3) for groups <255:192>
-          A value of 0x0 in each GRPMSK(0..3) for a given core prevents the core from receiving new
-          work. Cores that will never receive work should use GRPMSK(0..3)=0x0; while this setting
+          _ GRPMSK(0) for groups <63:0>.
+          _ GRPMSK(1) for groups <127:64>.
+          _ GRPMSK(2) for groups <191:128>.
+          _ GRPMSK(3) for groups <255:192>.
+
+          A value of 0x0 in each GRPMSK() for a given core prevents the core from receiving new
+          work. Cores that will never receive work should use GRPMSK()=0x0; while this setting
           is not special in SSO, for backward and forward compatibility this may enable reallocation
           of internal resources to the remaining (non-zero-mask) cores.
 
@@ -3733,8 +3780,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The group attached to the core (updated when new tag list entered on SWTAG_FULL). The
-          upper two bits are hardcoded to the node number.
+          The group attached to the core (updated when new tag list entered on SWTAG_FULL).
+          The upper two bits are hardcoded to the node number.
 
       - name: HEAD
         bits: 35
@@ -3788,8 +3835,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The group attached to the core (updated when new tag list entered on SWTAG_FULL). The
-          upper two bits are hardcoded to the node number.
+          The group attached to the core (updated when new tag list entered on SWTAG_FULL).
+          The upper two bits are hardcoded to the node number.
 
       - name: --
         bits: 47..42
@@ -3848,8 +3895,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          The group attached to the core (updated when new tag list entered on SWTAG_FULL). The
-          upper two bits are hardcoded to the node number.
+          The group attached to the core (updated when new tag list entered on SWTAG_FULL).
+          The upper two bits are hardcoded to the node number.
 
       - name: HEAD
         bits: 27
@@ -4028,7 +4075,7 @@ registers:
     bus: NCB
     description: |
       Returns list status for the deschedule list indexed by group; see Debug Visibility.  Register
-      fields are identical to those in SSO_IPL_IAQ(0..255) above.
+      fields are identical to those in SSO_IPL_IAQ() above.
     inherits: SSO_IPL_IAQ(0..255)
 
   - name: SSO_IPL_CONF(0..255)
@@ -4037,7 +4084,7 @@ registers:
     bus: NCB
     description: |
       Returns list status for the conflicted list indexed by group; see Debug Visibility.  Register
-      fields are identical to those in SSO_IPL_IAQ(0..255) above.
+      fields are identical to those in SSO_IPL_IAQ() above.
     inherits: SSO_IPL_IAQ(0..255)
 
   - name: SSO_IENT(0..4095)_TAG
@@ -4132,8 +4179,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Group of the SSO entry. The upper bits are not stored in the RAM, but rather indicate the
-          OCI node number.
+          Group of the SSO entry.
+          The upper bits are not stored in the RAM, but rather indicate the OCI node number.
 
       - name: --
         bits: 47..42

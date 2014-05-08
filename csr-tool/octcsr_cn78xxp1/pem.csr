@@ -1055,7 +1055,7 @@ registers:
         access: R/W
         reset: 0x7fffffffff
         typical: 0x7fffffffff
-        description: The value to be ANDed with the address sent to the CN78XX memory.
+        description: The value to be ANDed with the address sent to the CNXXXX memory.
 
       - name: --
         bits: 2..0
@@ -1331,7 +1331,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Completer aborted a request. This bit is never set because CN78XX does not generate
+          Completer aborted a request. This bit is never set because CNXXXX does not generate
           completer aborts.
 
       - name: RACCA

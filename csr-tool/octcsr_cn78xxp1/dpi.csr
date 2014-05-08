@@ -1693,7 +1693,7 @@ registers:
         typical: --
         description: |
           DPI_SLI_PRT(0..3)_ERR and DPI_SLI_PRT(0..3)_ERR_INFO have captured and locked contents.
-          When CN78XX first detects an ErrorResponse, the TYPE, REQQ, and ADDR of the error is saved
+          When CNXXXX first detects an ErrorResponse, the TYPE, REQQ, and ADDR of the error is saved
           and an internal lock state is set so the data associated with the initial error is
           preserved.
           Subsequent ErrorResponses will optionally raise an interrupt, but will not modify the

@@ -420,7 +420,7 @@ registers:
           reset, this field is initialized as follows:
           0 when RST_CTL*[HOST_MODE] = 0
           1 when RST_CTL*[HOST_MODE] = 1
-          When set, CN78XX drives the corresponding PERST*_L pin. Otherwise, CN78XX does not drive
+          When set, CNXXXX drives the corresponding PERST*_L pin. Otherwise, CNXXXX does not drive
           the corresponding PERST*_L pin.
 
       - name: RST_RCV
@@ -482,7 +482,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set, resets the CN78XX core. When performing a soft reset from a remote PCIe host,
+          When set, resets the CNXXXX core. When performing a soft reset from a remote PCIe host,
           always read this register and wait for the results before setting SOFT_RST to 1.
 
 
@@ -508,7 +508,7 @@ registers:
           all modes, not just RC mode.
           * If the RST_CTL*[HOST_MODE] = 0, SOFT_PRST resets to 0.
           * If the RST_CTL*[HOST_MODE] = 1, SOFT_PRST resets to 1.
-          When CN78XX is configured to drive PERST*_L (i.e.
+          When CNXXXX is configured to drive PERST*_L (i.e.
           RST_CTL(0..3)[RST_DRV] = 1), this controls the output value on PERST*_L.
 
 

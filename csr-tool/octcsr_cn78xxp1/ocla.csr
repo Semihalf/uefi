@@ -364,7 +364,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Multichip Debug (MCD0..2) set. Asserted on MCD received from another coprocessor or code,
+          Multichip debug (MCD0..2) set. Asserted on MCD received from another coprocessor or code,
           or FSM MCD request or W1S to OCLA()_STATE_SET[MCD].
 
       - name: TRIG
@@ -1104,7 +1104,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Multichip Debug (MCD) 0..2 inputs.
+        description: Multichip debug (MCD) 0..2 inputs.
 
       - name: MATCH
         bits: 11..8

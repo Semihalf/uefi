@@ -86,30 +86,27 @@ enums:
         attributes:
           cib_rtl_module: "none"
           intsn_complex: "1"
-        description: |
-          Watchdog interrupts, see CIU_WDOG(0..47) and Per-Core Watchdog Timers. INTERNAL:
+        description: Watchdog interrupts, see CIU_WDOG().
 
       - name: CIU_TIMER(0..9)_PP(0..47)
         value: 0x02000 + a*0x80 + b
         attributes:
           cib_rtl_module: "none"
           intsn_complex: "1"
-        description: |
-          General timer interrupts from the corresponding CIU timer expires, see CIU_TIM(0..9) and
-          General Timers. INTERNAL:
+        description: General timer interrupts from the corresponding CIU timer expires, see CIU_TIM().
 
       - name: SW_MBOX(0..511)
         value: 0x04000 + a
         attributes:
           cib_rtl_module: "none"
           intsn_complex: "1"
-        description: |
-          Software mailbox interrupts. See Software Interrupts. INTERNAL:
+        description: Software mailbox interrupts. See Software Interrupts.
 
 
   - name: CIU_INTSN_MAJOR_E
     title: Master Interrupt Source Number Enumeration
     attributes:
+      mif_columns: "See Enumeration"
       width: "8"
     internal: |
       INTERNAL: Where possible, these numbers match the RSLDID assignments in chip_defines.vh.
@@ -118,272 +115,272 @@ enums:
       - name: CIB
         value: 0x00
         attributes:
-          see_enumeration: "CIU_INTSN_E on CIU_INTSN_E"
-        description: Internal use only
+          see_enumeration: "CIU_INTSN_E"
+        description: Internal use only.
 
       - name: CIU
         value: 0x01
         attributes:
           see_enumeration: "CIU_INTSN_E"
-        description: CIU
+        description: CIU interrupts.
 
       - name: CIU_TIMER
         value: 0x02
         attributes:
           see_enumeration: "CIU_INTSN_E"
-        description: Timer interrupts
+        description: CIU Timer interrupts.
 
       - name: GPIO
         value: 0x03
         attributes:
           see_enumeration: "GPIO_INTSN_E"
-        description: GPIO interrupts; see General Purpose I/O (GPIO).
+        description: GPIO interrupts.
 
       - name: SW
         value: 0x04
         attributes:
           see_enumeration: "CIU_INTSN_E"
-        description: Software interrupts
+        description: Software interrupts.
 
       - name: MPI
         value: 0x05
         attributes:
           see_enumeration: "MPI_INTSN_E"
-        description: MPI interrupts; see Multiprocessor Peripheral Interface (MPI).
+        description: MPI interrupts.
 
       - name: RST
         value: 0x06
         attributes:
           see_enumeration: "RST_INTSN_E"
-        description: Reset interrupts; see Reser Unit (RST).
+        description: Reset Unit (RST) interrupts.
 
       - name: MIO_PTP
         value: 0x07
         attributes:
           see_enumeration: "MIO_PTP_INTSN_E"
-        description: PTP interrupts; see Precision Time Protocol (PTP).
+        description: PTP interrupts.
 
       - name: MIO_UART
         value: 0x08
         attributes:
           see_enumeration: "MIO_UART_INTSN_E"
-        description: UART interrupts; see UART interface (UART).
+        description: UART interrupts.
 
       - name: MIO_EMM
         value: 0x09
         attributes:
           see_enumeration: "MIO_EMM_INTSN_E"
-        description: eMMC interrupts; see eMMC interface (EMM).
+        description: eMMC interrupts.
 
       - name: MIO_BOOT
         value: 0x0A
         attributes:
           see_enumeration: "MIO_BOOT_INTSN_E"
-        description: Boot-Bus interrupts; see Boot-Bus Interface (BOOT).
+        description: Boot-Bus interrupts.
 
       - name: MIO_TWS
         value: 0x0B
         attributes:
           see_enumeration: "TWS_INTSN_E"
-        description: TWSI interrupts; see TWSI interface (TWSI).
+        description: TWSI interrupts.
 
       - name: LAP(0..1)
         value: 0x0C + a
         attributes:
           see_enumeration: "LAP_INTSN_E"
-        description: LAP interrupts; see Look-aside Processor Unit (LAP).
+        description: LAP interrupts.
 
       - name: MIX
         value: 0x10
         attributes:
           see_enumeration: "MIX_INTSN_E"
-        description: MIX interrupts; see MIX unit for BGX (MIX).
+        description: MIX interrupts.
 
       - name: OCX
         value: 0x11
         attributes:
           see_enumeration: "OCX_INTSN_E"
-        description: OCX interrupts; see OCX block.
+        description: OCX interrupts.
 
       - name: LBK
         value: 0x12
         attributes:
           see_enumeration: "LBK_INTSN_E"
-        description: Loopback interrupts; see Loopback Interface Unit (LBK).
+        description: Loopback interrupts.
 
       - name: ILK
         value: 0x14
         attributes:
           see_enumeration: "ILK_INTSN_E"
-        description: Interlaken interrupts; see Interlaken (ILK) Interface.
+        description: Interlaken interrupts.
 
       - name: ILA
         value: 0x17
         attributes:
           see_enumeration: "ILA_INTSN_E"
-        description: Interlaken-LA interrupts; see Interlaken Look-Aside (ILA) Interface.
+        description: Interlaken-LA interrupts.
 
       - name: SLI_MSI
         value: 0x1E
         attributes:
           see_enumeration: "SLI_INTSN_E"
-        description: SLI MSI interrupts; see Switch Logic Interface Unit (SLI).
+        description: SLI MSI interrupts.
 
       - name: SLI
         value: 0x1F
         attributes:
           see_enumeration: "SLI_INTSN_E"
-        description: SLI interrupts; see  Switch Logic Interface Unit (SLI).
+        description: SLI interrupts.
 
       - name: KEY
         value: 0x20
         attributes:
           see_enumeration: "KEY_INTSN_E"
-        description: KEY interrupts; see Key Memory Unit (KEY).
+        description: KEY interrupts.
 
       - name: FPA
         value: 0x28
         attributes:
           see_enumeration: "FPA_INTSN_E"
-        description: FPA interrupts; see Free Pool Unit (FPA).
+        description: Free Pool Unit (FPA) interrupts.
 
       - name: FPA_AURA
         value: 0x29
         attributes:
           see_enumeration: "FPA_INTSN_E"
-        description: FPA aura interrupts; see Hyper Finite Automata (HFA).
+        description: FPA aura interrupts.
 
       - name: DFA
         value: 0x37
         attributes:
           see_enumeration: "DFA_INTSN_E"
-        description: HFA interrupts; see Hyper Finite Automata (HFA).
+        description: Hyper Finite Automata (HFA) interrupts.
 
       - name: ZIP
         value: 0x38
         attributes:
           see_enumeration: "ZIP_INTSN_E"
-        description: ZIP interface interrupts; see ZIP Compression/Decompression Coprocessor.
+        description: ZIP interrupts.
 
       - name: PKI
         value: 0x44
         attributes:
           see_enumeration: "PKI_INTSN_E"
-        description: Packet input interrupts; see Packet Input Unit (PKI).
+        description: PKI interrupts.
 
       - name: HNA
         value: 0x47
         attributes:
           see_enumeration: "HNA_INTSN_E"
-        description: HNA interrupts; see Hyper Nondeterministic Automata (HNA).
+        description: HNA interrupts.
 
       - name: PKO
         value: 0x50
         attributes:
           see_enumeration: "PKO_INTSN_E"
-        description: PKO interrupts; see Packet-Output Processing Unit (PKO).
+        description: PKO interrupts.
 
       - name: PKO_Q
         value: 0x52
         attributes:
           see_enumeration: "PKO_INTSN_E"
-        description: PKO queue interrupts; see Packet-Output Processing Unit (PKO).
+        description: PKO interrupts.
 
       - name: TIM
         value: 0x58
         attributes:
           see_enumeration: "TIM_INTSN_E"
-        description: Timer interrupts; see Timer Unit (TIM).
+        description: Timer interrupts.
 
       - name: SSO_TGQ
         value: 0x60
         attributes:
           see_enumeration: "SSO_INTSN_E"
-        description: SSO group interrupts; see Schedule/Synchronize/Order Unit (SSO).
+        description: SSO group interrupts.
 
       - name: SSO_EXE
         value: 0x61
         attributes:
           see_enumeration: "SSO_INTSN_E"
-        description: SSO group interrupts; see Schedule/Synchronize/Order Unit (SSO).
+        description: SSO group interrupts.
 
       - name: SSO
         value: 0x67
         attributes:
           see_enumeration: "SSO_INTSN_E"
-        description: SSO interrupts; see Schedule/Synchronize/Order Unit (SSO).
+        description: SSO interrupts.
 
       - name: UCTL(0)
         value: 0x68 + a
         attributes:
           see_enumeration: "UCTL_INTSN_E"
-        description: USB controller interrupts; see Bridge Unit between IOI and USB(UCTL).
+        description: USB controller interrupts.
 
       - name: RAD
         value: 0x70
         attributes:
           see_enumeration: "RAD_INTSN_E"
-        description: RAID interrupts; see RAID Unit (RAD).
+        description: RAID interrupts.
 
       - name: L2C
         value: 0x80
         attributes:
           see_enumeration: "L2C_INTSN_E"
-        description: L2C interrupts; see Coherent Memory Interconnect and Level 2 Cache Controller (L2C).
+        description: L2C interrupts.
 
       - name: LMC(0..3)
         value: 0x88 + a
         attributes:
           see_enumeration: "LMC_INTSN_E"
-        description: LMC interrupts; see Local DDR3 memory controller (LMC).
+        description: LMC interrupts.
 
       - name: OCLA(0..5)
         value: 0xA8 + a
         attributes:
           see_enumeration: "OCLA_INTSN_E"
-        description: OCLA interrupts; see On-Chip Logic Analyzer Unit (OCLA).
+        description: OCLA interrupts.
 
       - name: PEM(0..3)
         value: 0xC0 + a
         attributes:
           see_enumeration: "PEM_INTSN_E"
-        description: PEM interrupts; see PCI Express MAC (PEM).
+        description: PEM interrupts.
 
       - name: OSM
         value: 0xDC
         attributes:
           see_enumeration: "OSM_INTSN_E"
-        description: OSM interrupts; see On-Chip Search Memory (OSM).
+        description: OSM interrupts.
 
       - name: ASE
         value: 0xDD
         attributes:
           see_enumeration: "ASE_INTSN_E"
-        description: ASE interrupts; see Algorithmic Search Engine (ASE).
+        description: ASE interrupts.
 
       - name: DPI
         value: 0xDF
         attributes:
           see_enumeration: "DPI_INTSN_E"
-        description: DPI interrupts; see DMA Packet Interface Unit (DPI).
+        description: DPI interrupts.
 
       - name: BGX(0..5)
         value: 0xE0 + a
         attributes:
           see_enumeration: "BGX_INTSN_E"
-        description: BGX interface interrupts; see BGX Common Ethernet Interface (BGX).
+        description: BGX interface interrupts.
 
       - name: IOBN
         value: 0xF0
         attributes:
           see_enumeration: "IOBN_INTSN_E"
-        description: IOBN interrupts; see I/O Bridge (IOBN).
+        description: IOBN interrupts.
 
       - name: IOBP
         value: 0xF1
         attributes:
           see_enumeration: "IOBP_INTSN_E"
-        description: IOBP interrupts; see I/O Bridge (IOBP).
+        description: IOBP interrupts.
 
 
 structs:
@@ -394,7 +391,7 @@ structs:
     fields:
       - name: TAG
         bits: w0(31..0)
-        description: SSO Tag. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO tag to add work with.
+        description: SSO Tag. When CIU_ISC()_CTL[AW] is set, the SSO tag to add work with.
 
       - name: --
         bits: w0(55..32)
@@ -417,12 +414,12 @@ structs:
 
       - name: TT
         bits: w1(51..50)
-        description: SSO Tag Type. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO tag type to add work with.
+        description: SSO Tag Type. When CIU_ISC()_CTL[AW] is set, the SSO tag type to add work with.
 
       - name: GRP
         bits: w1(61..52)
         description: |
-          SSO Group. When CIU_ISC(0..1048575)_CTL[AW] is set, the SSO group number to add work to.
+          SSO Group. When CIU_ISC()_CTL[AW] is set, the SSO group number to add work to.
           Note the upper two bits correspond to a node number.
 
       - name: --
@@ -988,8 +985,8 @@ registers:
         typical: 0
         description: |
           One-shot mode when LEN != 0x0:
-          0 = timer is in periodic mode.
-          1 = timer is in one-shot mode.
+          0 = Timer is in periodic mode.
+          1 = Timer is in one-shot mode.
 
       - name: LEN
         bits: 35..0
@@ -1034,7 +1031,7 @@ registers:
         typical: 0x0
         description: |
           Number of 1024-cycle intervals until next watchdog expiration. Cleared on write to
-          associated CIU_PP_POKE(0..47) register.
+          associated CIU_PP_POKE() register.
 
       - name: LEN
         bits: 19..4
@@ -1052,7 +1049,7 @@ registers:
         typical: 0x0
         description: |
           Watchdog state. The number of watchdog time expirations since last core poke. Cleared on
-          write to associated CIU_PP_POKE(0..47) register.
+          write to associated CIU_PP_POKE() register.
 
       - name: MODE
         bits: 1..0
@@ -1088,10 +1085,11 @@ registers:
         typical: --
         description: |
           Core poke. Writing any value to this register does the following:
-          clears any pending interrupt generated by the associated watchdog
-          resets CIU_WDOG(0..47)[STATE] to 0x0
-          sets CIU_WDOG(0..47)[CNT] to ( CIU_WDOG(0..47)[LEN] << 8).
-          Reading this register returns the associated CIU_WDOG(0..47) register.
+          * clears any pending interrupt generated by the associated watchdog.
+          * resets CIU_WDOG()[STATE] to 0x0.
+          * sets CIU_WDOG()[CNT] to ( CIU_WDOG()[LEN] << 8).
+
+          Reading this register returns the associated CIU_WDOG() register.
 
 
   - name: CIU_IDT(0..255)_CTL
@@ -1226,7 +1224,7 @@ registers:
         description: |
           Interrupt source number causing the current interrupt, or most recent interrupt if INTR is
           clear. Note this field is not stored in the DEST ram itself; it is instead read from
-          CIU_IDT(0..255)_CTL[INTIDT][INTSN].
+          CIU_IDT()_CTL[INTSN].
 
       - name: --
         bits: 31..10
@@ -1255,7 +1253,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Interrupt pending. This bit is recalculated when CIU_ISC(0..1048575)_CTL or interrupts
+          Interrupt pending. This bit is recalculated when CIU_ISC()_CTL or interrupts
           change, so does not need to be cleared by software.
 
 
@@ -1265,7 +1263,7 @@ registers:
     bus: NCB
     description: |
       This register contains reduced interrupt source numbers for delivery to software, indexed by
-      I/O bridge number. Fields are identical to CIU_DEST(0..143)_PP_INT.
+      I/O bridge number. Fields are identical to CIU_DEST()_PP_INT.
     attributes:
       arch_max: "64"
     inherits: CIU_DEST(0..143)_PP_INT
@@ -1311,7 +1309,7 @@ registers:
           Interrupt Delivery Table entry number. Zero indicates IDT delivery is disabled. This field
           may only be changed when EN was previously clear, though it may be changed with the same
           write that sets EN. Thus if EN is set, to change IDT two register writes are required, the
-          first to clear EN (perhaps by a store to CIU_ISC(0..1048575)_W1C), and the second to make
+          first to clear EN (perhaps by a store to CIU_ISC()_W1C), and the second to make
           the change to IDT.
 
       - name: IMP
@@ -1368,7 +1366,7 @@ registers:
         typical: 0
         description: |
           Interrupt pending before masking. Note read only, must use
-          CIU_ISC(0..1048575)_W1C/CIU_ISC(0..1048575)_W1S to toggle.
+          CIU_ISC()_W1C/CIU_ISC()_W1S to toggle.
 
 
   - name: CIU_ISC(0..1048575)_W1C
@@ -1399,14 +1397,14 @@ registers:
         access: R/W1C
         reset: 0
         typical: 0
-        description: Clear enable interrupt delivery. See CIU_ISC(0..1048575)_CTL[EN].
+        description: Clear enable interrupt delivery. See CIU_ISC()_CTL[EN].
 
       - name: RAW
         bits: 0
         access: R/W1C/H
         reset: 0
         typical: 0
-        description: Clear interrupt pending. See CIU_ISC(0..1048575)_CTL[RAW].
+        description: Clear interrupt pending. See CIU_ISC()_CTL[RAW].
 
 
   - name: CIU_ISC(0..1048575)_W1S
@@ -1437,14 +1435,14 @@ registers:
         access: R/W1S
         reset: 0
         typical: 0
-        description: Set enable interrupt delivery. See CIU_ISC(0..1048575)_CTL[EN].
+        description: Set enable interrupt delivery. See CIU_ISC()_CTL[EN].
 
       - name: RAW
         bits: 0
         access: R/W1S/H
         reset: 0
         typical: 0
-        description: Set interrupt pending. See CIU_ISC(0..1048575)_CTL[RAW].
+        description: Set interrupt pending. See CIU_ISC()_CTL[RAW].
 
 
 

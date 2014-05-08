@@ -2496,7 +2496,9 @@ registers:
           reset by writing the reset bit assocaited with a ring, a FLR or the MAC the ring is
           associated with
           being in reset, will cause this bit to clear and be able to be set againg till the reset
-          condition is removed.
+          condition is removed. This is a mirror of SLI_PKT(0..63)_OUTPUT_CONTROL[ENB] (setting a
+          bit
+          here will set a bit in that CSR).
 
 
   - name: SLI_PKT_MAC(0..3)_RINFO
@@ -3711,7 +3713,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: The MAC that the ring belongs to. Legal value are 0-3.
+        description: |
+          The MAC that the ring belongs to. Legal value are 0-3. This applies for both
+          input and output rings.
 
       - name: --
         bits: 28..27
@@ -3748,7 +3752,8 @@ registers:
         description: |
           Packet reset. This bit is set for a ring when the ring enters the reset state. This can be
           done by writing a 1 to the field, when a FLR associated with the ring occurs, or when an
-          error response is received for a read done by the ring. See SLI_INT_SUM[PGL_ERR]. When
+          error response is received for a read done by the ring. This applies for both
+          input and output rings. See SLI_INT_SUM[PGL_ERR]. When
           receiving a PGL_ERR interrupt, software should:
           1. Wait 2ms to allow any outstanding reads to return or be timed out.
           2. Write a 0 to this bit.
@@ -4030,11 +4035,14 @@ registers:
         reset: 0
         typical: --
         description: |
-          Packet input enable. When ENB=1, packet input ring is enabled. When the ring is in reset,
+          Packet output enable. When ENB=1, packet output ring is enabled. When the ring is in
+          reset,
           caused by a failing read associated with the ring, the ring being put into reset by
           writing the reset bit associated with a ring, a FLR or the MAC the ring is associated with
           being in reset, will cause this bit to clear and be able to be set again till the reset
-          condition is removed.
+          condition is removed. This is a mirror of SLI_PKT_OUT_ENB (setting a bit here will set a
+          bit
+          in that CSR).
 
 
   - name: SLI_PKT(0..63)_VF_SIG

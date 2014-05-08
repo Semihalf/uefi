@@ -110,7 +110,8 @@ registers:
         typical: 0
         description: |
           Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-          Not applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
+          Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+          only.
 
       - name: SWAP
         bits: 0
@@ -137,7 +138,7 @@ registers:
         access: R/W
         reset: 0
         typical: 0
-        description: Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+        description: Enable this DTX instance as the responder to DTX broadcast read/write operations.
 
 
   - name: DTX_RST_SEL(0..1)
@@ -1199,7 +1200,8 @@ registers:
         typical: 0
         description: |
           Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-          Not applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
+          Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+          only.
 
       - name: SWAP
         bits: 0

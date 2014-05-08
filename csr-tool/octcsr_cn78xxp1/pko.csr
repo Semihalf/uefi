@@ -1564,7 +1564,7 @@ structs:
         description: |
           No L2 Allocate. When clear, PKO allocates all load data into the L2 cache. When set, PKO
           does not allocate blocks containing segment bytes into the L2 cache.
-          [N2] affects performance, but otherwise does not affect CN78XX behavior. It may be
+          [N2] affects performance, but otherwise does not affect CNXXXX behavior. It may be
           advantageous to set [N2] if packet data will not be used after PKO sends the packet, which
           will allow the L2 cache to retain other more useful information.
 

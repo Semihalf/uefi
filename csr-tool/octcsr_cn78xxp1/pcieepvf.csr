@@ -787,7 +787,7 @@ registers:
         typical: 0x0
         description: |
           Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
-          Larger sizes are not supported by CN78XX.
+          Larger sizes are not supported by CNXXXX.
           DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
           functionality.
 

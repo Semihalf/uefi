@@ -7,7 +7,7 @@ enums:
     title: PKI Backend Layer Type Enumeration
     attributes:
       width: "3"
-    description: Enumerates the values for  PKI_LTYPE(0..31)_MAP[BELTYPE].
+    description: Enumerates the values for  PKI_LTYPE()_MAP[BELTYPE].
     values:
       - name: "NONE"
         value: 0x0
@@ -81,7 +81,7 @@ enums:
       - name: RE
         value: 0x0
         description: |
-          Receive error or no error. If WQE[OPCODE]==0 (PKI_OPCODE_E::RE_NONE) then no error. Else
+          Receive error or no error. If WQE[OPCODE]=0x0 (PKI_OPCODE_E::RE_NONE) then no error. Else
           used for L1, MAC and PKI RAM parity errors.
 
       - name: LA
@@ -121,39 +121,39 @@ enums:
     values:
       - name: IP
         value: 0x0800
-        description: IP. See IP Header.
+        description: IP.
 
       - name: ARP
         value: 0x0806
-        description: Address Resolution Protocol. See ARP/RARP Header
+        description: Address Resolution Protocol.
 
       - name: CNM
         value: 0x22E9
-        description: Congestion Notification Message. See Congestion Notification Tags
+        description: Congestion Notification Message.
 
       - name: REVARP
         value: 0x8035
-        description: Reverse Address Resolution Protocol. See ARP/RARP Header.
+        description: Reverse Address Resolution Protocol.
 
       - name: VLAN
         value: 0x8100
-        description: Standard VLAN Ethertype. See VLAN Ethertypes.
+        description: Standard VLAN Ethertype.
 
       - name: IP6
         value: 0x86DD
-        description: IPv6. See Layer C (IP) Parsing Algorithm
+        description: IPv6.
 
       - name: MPLS_8847
         value: 0x8847
-        description: MPLS. See MPLS Label Stack.
+        description: MPLS.
 
       - name: MPLS_8848
         value: 0x8848
-        description: MPLS. See MPLS Label Stack.
+        description: MPLS.
 
       - name: VLAN_88A8
         value: 0x88A8
-        description: Alternative VLAN Ethertype. See VLAN Ethertypes.
+        description: Alternative VLAN Ethertype.
 
       - name: ROCE
         value: 0x8915
@@ -161,15 +161,15 @@ enums:
 
       - name: VLAN_9100
         value: 0x9100
-        description: Alternative VLAN Ethertype. See VLAN Ethertypes.
+        description: Alternative VLAN Ethertype.
 
       - name: VLAN_9200
         value: 0x9200
-        description: Alternative VLAN Ethertype. See VLAN Ethertypes.
+        description: Alternative VLAN Ethertype.
 
       - name: VLAN_9300
         value: 0x9300
-        description: Alternative VLAN Ethertype. See VLAN Ethertypes.
+        description: Alternative VLAN Ethertype.
 
 
   - name: PKI_INTSN_E
@@ -536,71 +536,73 @@ enums:
     values:
       - name: HOP_BY_HOP
         value: 0x00
-        description: Hop-by-hop Options. See Layer C (IP) Parsing Algorithm
+        description: Hop-by-hop Options.
 
       - name: IP4
         value: 0x04
-        description: IPv4 in IP. See Inner IP Header.
+        description: IPv4 in IP.
 
       - name: TCP
         value: 0x06
-        description: TCP. See L4 Header.
+        description: TCP.
 
       - name: UDP
         value: 0x11
-        description: UDP. See L4 Header.
+        description: UDP.
 
       - name: IP6
         value: 0x29
-        description: IPv6 in IP. See Inner IP Header.
+        description: IPv6 in IP.
 
       - name: ROUTING
         value: 0x2B
-        description: Routing. See Layer C (IP) Parsing Algorithm
+        description: Routing.
 
       - name: FRAG
         value: 0x2C
-        description: Fragment. See Layer C (IP) Parsing Algorithm
+        description: Fragment.
 
       - name: GRE
         value: 0x2F
-        description: Generic Route Encapsulation Protocol. See Layer C (IP) Parsing Algorithm.
+        description: Generic Route Encapsulation Protocol.
 
       - name: ESP
         value: 0x32
-        description: Encapsulating Security Payload. See Layer C (IP) Parsing Algorithm.
+        description: Encapsulating Security Payload.
 
       - name: AH
         value: 0x33
-        description: Authentication Header. See Layer C (IP) Parsing Algorithm.
+        description: Authentication Header.
 
       - name: DEST
         value: 0x3C
-        description: Destination Options. See Layer C (IP) Parsing Algorithm
+        description: Destination Options.
 
       - name: IPCOMP
         value: 0x6C
-        description: IP Payload Compression Protocol. See Layer C (IP) Parsing Algorithm.
+        description: IP Payload Compression Protocol.
 
       - name: SCTP
         value: 0x84
-        description: Stream Control Transmission Protocol. See L4 Header.
+        description: Stream Control Transmission Protocol.
 
 
   - name: PKI_LTYPE_E
     title: PKI Layer Type Enumeration
     attributes:
+      mif_columns: "BELTYPE,Layers"
       width: "5"
     description: |
       Enumerates the values of WQE[LBTY], WQE[LCTY], WQE[LDTY], WQE[LETY], WQE[LFTY] and WQE[LGTY].
-      Also shows the setting of PKI_LTYPE(0..31)_MAP[BELTYPE], which layers create this layer type,
-      and (in the description) the usage of PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[SETTY].
+
+      Also shows the setting of PKI_LTYPE()_MAP[BELTYPE], which layers create this layer type,
+      and (in the description) the usage of PKI_CL()_PCAM()_ACTION()[SETTY].
     values:
       - name: "NONE"
         value: 0x00
         attributes:
           beltype: "NONE"
-          creating_layers: "Any"
+          layers: "Any"
         description: |
           No parsing was attempted at this layer. For PCAM*_ACTION[SETTY] indicates the pointer
           should not be changed.
@@ -609,23 +611,23 @@ enums:
         value: 0x01
         attributes:
           beltype: "MISC"
-          creating_layers: "--"
+          layers: "--"
         description: Reserved.
 
       - name: VLAN
         value: 0x02
         attributes:
           beltype: "MISC"
-          creating_layers: "--"
+          layers: "--"
         description: |
-          VLAN. Not used in WQE[*TY], but only in PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[SETTY] to
+          VLAN. Not used in PKI_WQE_S[*TY], but only in PKI_CL()_PCAM()_ACTION()[SETTY] to
           indicate a VLAN behavior.
 
       - name: SNAP_PAYLD
         value: 0x05
         attributes:
           beltype: "MISC"
-          creating_layers: "LC"
+          layers: "LC"
         description: |
           L2 parsing detected the L3 beginning location, but it did not match any known protocols.
           Also used to indicate the beginning of a 802.3 SNAP payload.
@@ -634,21 +636,21 @@ enums:
         value: 0x06
         attributes:
           beltype: "MISC"
-          creating_layers: "LC"
+          layers: "LC"
         description: ARP. The packet's L2 HDR TYPE field indicates ARP (i.e. equals 0x0835).
 
       - name: RARP
         value: 0x07
         attributes:
           beltype: "MISC"
-          creating_layers: "LC"
+          layers: "LC"
         description: RARP. The packet's L2 HDR TYPE field indicates RARP (i.e. equals 0x0806).
 
       - name: IP4
         value: 0x08
         attributes:
           beltype: "IP4"
-          creating_layers: "LC or LE"
+          layers: "LC or LE"
         description: |
           IPv4 without options. The IP version field is 4, and the IP HLEN field is 5.
           Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
@@ -658,7 +660,7 @@ enums:
         value: 0x09
         attributes:
           beltype: "IP4"
-          creating_layers: "LC or LE"
+          layers: "LC or LE"
         description: |
           IPv4 with options. The IP version field is 4, and the IP HLEN field is not 5. (Note that
           the case where HLEN < 5 is flagged in the IP malformed-header check).
@@ -669,7 +671,7 @@ enums:
         value: 0x0A
         attributes:
           beltype: "IP6"
-          creating_layers: "LC or LE"
+          layers: "LC or LE"
         description: |
           IPv6 without options. The IP version field is 6, and IP6_OPT below does not apply.
           Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
@@ -679,13 +681,14 @@ enums:
         value: 0x0B
         attributes:
           beltype: "IP6"
-          creating_layers: "LC or LE"
+          layers: "LC or LE"
         description: |
           IPv6 with options. The IP version field is 6, and the extension headers matching any of
           the following:
-          0 (hop-by-hop)
-          43 (routing)
-          60 (destination)
+          * 0 (hop-by-hop).
+          * 43 (routing).
+          * 60 (destination).
+
           Also used when the final extension header is not one listed in PKI_IPPROTO_E.
           Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
           applied to test for all of these encodings in parallel.
@@ -694,54 +697,54 @@ enums:
         value: 0x0C
         attributes:
           beltype: "MISC"
-          creating_layers: "LF"
+          layers: "LF"
         description: |
           IPSEC (ESP/AH). The IP packet may require IPSEC decryption or tunnel handling:
-          The packet is IPSEC ESP (i.e. the IPv4 protocol value or the initial IPv6 next header
-          equals 50).
-          The packet is IPSEC AH (i.e. the IPv4 protocol value or the initial IPv6 next header
-          equals 51).
+          * The packet is IPSEC ESP (i.e. the IPv4 protocol value or the initial IPv6 next
+          header equals 50).
+          * The packet is IPSEC AH (i.e. the IPv4 protocol value or the initial IPv6 next
+          header equals 51).
 
       - name: IPFRAG
         value: 0x0D
         attributes:
           beltype: "MISC"
-          creating_layers: "LD or LF"
+          layers: "LD or LF"
         description: Fragment. Previous layer (L3/IL3) indicated a fragment.
 
       - name: IPCOMP
         value: 0x0E
         attributes:
           beltype: "MISC"
-          creating_layers: "LD or LF"
+          layers: "LD or LF"
         description: IP Compressed. Previous layer (L3/IL3) protocol value or IPv6 next header equals 108.
 
       - name: TCP
         value: 0x10
         attributes:
           beltype: "TCP"
-          creating_layers: "LF"
+          layers: "LF"
         description: TCP.
 
       - name: UDP
         value: 0x11
         attributes:
           beltype: "UDP"
-          creating_layers: "LF"
+          layers: "LF"
         description: UDP.
 
       - name: SCTP
         value: 0x12
         attributes:
           beltype: "SCTP"
-          creating_layers: "LF"
+          layers: "LF"
         description: SCTP.
 
       - name: UDP_VXLAN
         value: 0x13
         attributes:
           beltype: "UDP"
-          creating_layers: "LD"
+          layers: "LD"
         description: |
           UDP+VXLAN. The layer points at a UDP header immediately followed by a VXLAN header and
           inner Ethernet frame.
@@ -750,51 +753,51 @@ enums:
         value: 0x14
         attributes:
           beltype: "MISC"
-          creating_layers: "LD"
+          layers: "LD"
         description: GRE, but not NVGRE.
 
       - name: NVGRE
         value: 0x15
         attributes:
           beltype: "MISC"
-          creating_layers: "LD"
+          layers: "LD"
         description: NVGRE with following inner Ethernet frame.
 
       - name: GTP
         value: 0x16
         attributes:
           beltype: "MISC"
-          creating_layers: "LG"
+          layers: "LG"
         description: GTP under UDP.
 
       - name: SW28
         value: 0x1C
         attributes:
           beltype: "--"
-          creating_layers: "Any"
+          layers: "Any"
         description: |
           Reserved for software use. No preassigned use by hardware; only created when a layer
-          matches a PCAM entry with PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[SETTY]==SW28.
+          matches a PCAM entry with PKI_CL()_PCAM()_ACTION()[SETTY]==SW28.
 
       - name: SW29
         value: 0x1D
         attributes:
           beltype: "--"
-          creating_layers: "Any"
+          layers: "Any"
         description: Reserved for software use. Similar to SW28.
 
       - name: SW30
         value: 0x1E
         attributes:
           beltype: "--"
-          creating_layers: "Any"
+          layers: "Any"
         description: Reserved for software use. Similar to SW28.
 
       - name: SW31
         value: 0x1F
         attributes:
           beltype: "--"
-          creating_layers: "Any"
+          layers: "Any"
         description: Reserved for software use. Similar to SW28.
 
 
@@ -859,7 +862,7 @@ enums:
         value: 0x0C
         description: |
           Skip error: packet was not large enough to accommodate MAC skip data. For BGX interfaces,
-          the BGX(0..5)_SMU(0..3)_RX_UDD_SKP[LEN] exceeded the received packet byte count.  For ILK
+          the BGX()_SMU()_RX_UDD_SKP[LEN] exceeded the received packet byte count.  For ILK
           interfaces, ILK received a packet with an 'Error and end of packet' indication. Not
           applicable when the packet arrived via the DPI interface nor LBK interface.
 
@@ -873,18 +876,21 @@ enums:
         value: 0x13
         description: |
           PKI parity error: Uncorrected PKI-internal parity error was detected during the reassembly
-          or processing of this packet. PKI_CL(0..3)_ECC_INT[DMEM_PERR] or [RF_PERR] will indicate
+          or processing of this packet. PKI_CL()_ECC_INT[DMEM_PERR] or [RF_PERR] will indicate
           the RAM with the parity error. This error has highest priority over any other errors.
 
       - name: RE_PKIPCAM
         value: 0x14
         description: |
           PKI PCAM access error. Either:
+
           1) Internal port conflict, or,
+
           2) Soft error or programming conflict was detected during the processing of this packet.
-          PKI_CL(0..3)_INT[PCAM_CONF] was also set. Once a conflict is detected, the PCAM state is
+          PKI_CL()_INT[PCAM_CONF] was also set. Once a conflict is detected, the PCAM state is
           unpredictable and is required to be fully reconfigured before further valid processing can
           take place.
+
           INTERNAL: Case 1 is where the sequencer had PCAM operations with overlapping accesses
           between two engines.
 
@@ -895,14 +901,12 @@ enums:
       - name: L2_FRAGMENT
         value: 0x20
         description: |
-          Fragment error: the packet is shorter than allowed and had an FCS error. See Receive
-          Length Errors/Exceptions.
+          Fragment error: the packet is shorter than allowed and had an FCS error.
 
       - name: L2_OVERRUN
         value: 0x21
         description: |
-          Overrun error: the packet is longer than allowed and had an FCS error. See Receive Length
-          Errors/Exceptions.
+          Overrun error: the packet is longer than allowed and had an FCS error.
 
       - name: L2_PFCS
         value: 0x22
@@ -912,8 +916,7 @@ enums:
       - name: L2_PUNY
         value: 0x23
         description: |
-          PUNY error: the packet was 4B or less when FCS stripping is enabled. See Receive Length
-          Errors/Exceptions.
+          PUNY error: the packet was 4B or less when FCS stripping is enabled.
 
       - name: L2_MAL
         value: 0x24
@@ -924,18 +927,18 @@ enums:
       - name: L2_OVERSIZE
         value: 0x25
         description: |
-          Oversize error: the packet is longer than allowed. See Receive Length Errors/Exceptions.
+          Oversize error: the packet is longer than allowed.
 
       - name: L2_UNDERSIZE
         value: 0x26
         description: |
-          Undersize error: the packet is shorter than allowed. See Receive Length Errors/Exceptions.
+          Undersize error: the packet is shorter than allowed.
 
       - name: L2_LENMISM
         value: 0x27
         description: |
           Length mismatch error: the packet had a length that did not match the length field in the
-          L2 header. See Receive Length Errors/Exceptions.
+          L2 header.
 
       - name: IP_NOT
         value: 0x41
@@ -951,30 +954,40 @@ enums:
         value: 0x43
         description: |
           IP malformed header: the packet is not long enough to contain the IP header.
-          IPv4 packet
-          received packet length - fcs_pres_size < WQE[LCPTR]+IPv4_parsed_header_length
-          or
-          ipv4_header_length < 5
-          or
-          ipv4_total_length < 20
-          IPv6 packet
-          received packet length - fcs_pres_size < WQE[LCPTR]+IPv6_header(40 bytes)
-          where fcs_pres_size = (PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] ? 4:0).
+
+          IPv4 packet:
+
+          _ received packet length - fcs_pres_size < WQE[LCPTR]+IPv4_parsed_header_length
+
+          _ or ipv4_header_length < 5
+
+          _ or ipv4_total_length < 20
+
+          IPv6 packet:
+
+          _ received packet length - fcs_pres_size < WQE[LCPTR]+IPv6_header(40 bytes)
+
+          where fcs_pres_size = (PKI_CL()_PKIND()_CFG[FCS_PRES] ? 4:0).
 
       - name: IP_MALD
         value: 0x44
         description: |
           IP malformed payload: the packet is not long enough to contain the payload bytes indicated
           by the IP header.
-          IPv4 packet
-          received packet length - fcs_strip_size
-          <  WQE[LCPTR]+IPv4_total_length
-          IPv6 packet
-          received packet length - fcs_strip_size
-          < WQE[LCPTR] + IPv6_header(40) + ipv6_payload_lengthIP_ML
+
+          IPv4 packet:
+
+          _ received packet length - fcs_strip_size <  WQE[LCPTR]+IPv4_total_length
+
+          IPv6 packet:
+
+          _ received packet length - fcs_strip_size
+          < WQE[LCPTR] + IPv6_header(40) + ipv6_payload_length
+
           Note this check also covers IPv6 extension headers, as extension headers are included in
           the payload length field.
-          where fcs_strip_size = (PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_STRIP] ? 4:0).
+
+          where fcs_strip_size = (PKI_CL()_STYLE()_CFG[FCS_STRIP] ? 4:0).
 
       - name: IP_HOP
         value: 0x45
@@ -985,14 +998,17 @@ enums:
         value: 0x61
         description: |
           Malformed L4:
-          TCP
-          received packet length - fcs_pres_size
-          < WQE[LFPTR] + (TCP_data_offset * 4)
-          or TCP_data_offset < 5
-          UDP
-          received_packet_length - fcs_pres_size
-          < WQE[LFPTR] + UDP_header_length (8B)
-          where fcs_pres_size = (PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] ? 4:0).
+          TCP:
+
+          _ received packet length - fcs_pres_size < WQE[LFPTR] + (TCP_data_offset * 4)
+
+          _ or TCP_data_offset < 5
+
+          UDP:
+
+          _ received_packet_length - fcs_pres_size < WQE[LFPTR] + UDP_header_length (8B)
+
+          where fcs_pres_size = (PKI_CL()_PKIND()_CFG[FCS_PRES] ? 4:0).
 
       - name: L4_CHK
         value: 0x62
@@ -1005,12 +1021,12 @@ enums:
         description: |
           UDP length error: The UDP length field would make the UDP data longer than what remains in
           the IP packet (as defined by the IP header length field).
-          IP/TCP, IP/SCTP
-          Will not assert
-          IPv4/UDP
-          ipv4_total_length < IP_header_len + UDP_length
-          IPv6/UDP
-          ipv6_payload_length < IPv6_extension_len + UDP_length
+
+          IP/TCP, IP/SCTP: Will not assert.
+
+          IPv4/UDP: ipv4_total_length < IP_header_len + UDP_length
+
+          IPv6/UDP: ipv6_payload_length < IPv6_extension_len + UDP_length
 
       - name: L4_PORT
         value: 0x64
@@ -1021,6 +1037,8 @@ enums:
         value: 0x65
         description: |
           The packet is TCP and has bad flags. Indicates any of the following conditions:
+
+          <pre>
           {URG, ACK, PSH, RST, SYN, FIN}
           6'b000001 = (FIN only)
           6'b000000 = (0)
@@ -1028,26 +1046,30 @@ enums:
           6'b1xxx1x = (URG+SYN+*)
           6'bxxx11x = (RST+SYN+*)
           6'bxxxx11 = (SYN+FIN+*)
+          </pre>
 
 
   - name: PKI_PCAM_TERM_E
     title: PKI PCAM Term Enumeration
     attributes:
+      mif_columns: "Bank,Adv,PMC,SETTY"
       width: "6"
     description: |
-      Enumerates the virtual-CAM type for the PKI_CL(0..3)_PCAM(0..1)_TERM(0..191)[TERM] field.
+      Enumerates the virtual-CAM type for the PKI_CL()_PCAM()_TERM()[TERM] field.
       In the table below:
-      * 'MATCH' refers to PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191).
-      * 'ACTION' refers to PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191) for the PCAM entry that matches.
+      * 'MATCH' refers to PKI_CL()_PCAM()_MATCH().
+      * 'ACTION' refers to PKI_CL()_PCAM()_ACTION() for the PCAM entry that matches.
       * The 'Bank' column indicates which PCAM bank must contain the match data.
-      * The 'Adv' column indicates if ACTION[ADVANCE] may be non-zero.
-      * The 'PMC' column indicates if ACTION[PMC] may be non-zero.
-
-      The 'SETTY' column indicates if ACTION[SETTY] may be non-zero, and if so which WQE pointer
+      * The 'Adv' column indicates if PKI_CL()_PCAM()_ACTION()[ADVANCE] may be non-zero.
+      * The 'PMC' column indicates if PKI_CL()_PCAM()_ACTION()[PMC] may be non-zero.
+      * The 'SETTY' column indicates if PKI_CL()_PCAM()_ACTION()[SETTY] may be non-zero,
+      and if so which WQE pointer
       field and type field will get set with the specified value. For example, LFTY indicates if
-      ACTION[SETTY] then WQE[LFTY] will be set to ACTION[SETTY] and WQE[LFPTR] will be set to the
+      PKI_CL()_PCAM()_ACTION()[SETTY] then WQE[LFTY] will be set to
+      PKI_CL()_PCAM()_ACTION()[SETTY] and WQE[LFPTR] will be set to the
       current parse point.
-      INTERNAL The CAM is banked for alternating accesses, so PKI_PCAM_TERM_E's LSB must toggle
+
+      INTERNAL: The CAM is banked for alternating accesses, so PKI_PCAM_TERM_E's LSB must toggle
       between each sequencer access for maximum performance.
     values:
       - name: "NONE"
@@ -1068,7 +1090,8 @@ enums:
           setty: "--"
         description: |
           Pre-L2 custom header.
-          MATCH<31:0> Custom extract controlled by PKI_CL(0..3)_PKIND(0..63)_L2_CUSTOM.
+
+          _ MATCH<31:0> = Custom extract controlled by PKI_CL()_PKIND()_L2_CUSTOM.
 
       - name: HIGIG
         value: 0x05
@@ -1079,15 +1102,17 @@ enums:
           setty: "--"
         description: |
           HiGig header. This match is only performed if HiGig parsing was enabled. If HiGig2:
-          MATCH<31:24> HiGig2 header source module id.
-          MATCH<23:16> HiGig2 header source port id.
-          MATCH<15:4> Reserved.
-          MATCH<3:0> HiGig2 header traffic class.
+          _ MATCH<31:24> = HiGig2 header source module id.
+          _ MATCH<23:16> = HiGig2 header source port id.
+          _ MATCH<15:4> = Reserved.
+          _ MATCH<3:0> = HiGig2 header traffic class.
+
           If HiGig1:
-          MATCH<31:27> HiGig header source module id <5:0>.
-          MATCH<26:9> Reserved.
-          MATCH<8> HiGig header module id <6>.
-          MATCH<7:0> Reserved.
+          _ MATCH<31:27> = HiGig header source module id <5:0>.
+          _ MATCH<26:9> = Reserved.
+          _ MATCH<8> = HiGig header module id <6>.
+          _ MATCH<7:0> = Reserved.
+
           INTERNAL: MATCH includes all bits from bytes 9,8,1,0 of the header but we do not commit to
           other bits from those bytes in the above specification to leave room for future
           extractions.
@@ -1101,8 +1126,8 @@ enums:
           setty: "--"
         description: |
           L2 Destination MAC address high. This match is only performed if L2 parsing was enabled.
-          MATCH<31:16> Reserved.
-          MATCH<15:0> First two bytes of DMAC.
+          _ MATCH<31:16> = Reserved.
+          _ MATCH<15:0> = First two bytes of DMAC.
 
       - name: DMACL
         value: 0x0B
@@ -1113,9 +1138,10 @@ enums:
           setty: "--"
         description: |
           L2 Destination MAC address low. This match is only performed if L2 parsing was enabled.
-          MATCH<31:0> Low four bytes of DMAC.
+          _ MATCH<31:0> = Low four bytes of DMAC.
+
           The parser will add an offset of 12 in addition to any
-          PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[OFFSET].
+          PKI_CL()_PCAM()_ACTION()[OFFSET].
 
       - name: GLORT
         value: 0x12
@@ -1126,8 +1152,9 @@ enums:
           setty: "--"
         description: |
           Fulcrum routing address. This match is only performed if FULCRUM parsing was enabled.
-          MATCH<31:16> Fulcrum source GLORT.
-          MATCH<15:0> Fulcrum destination GLORT.
+          _ MATCH<31:16> = Fulcrum source GLORT.
+          _ MATCH<15:0> = Fulcrum destination GLORT.
+
           ACTION[SETTY] has special behavior; if ACTION[SETTY]==VLAN, then indicates the glort is
           treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
 
@@ -1140,7 +1167,9 @@ enums:
           setty: "--"
         description: |
           DSA header. This match is only performed if DSA was enabled.
-          MATCH<31:0> First 32 bits of DSA header.
+
+          _ MATCH<31:0> = First 32 bits of DSA header.
+
           ACTION[SETTY] has special behavior; if ACTION[SETTY]==VLAN, then indicates the DSA data is
           treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
 
@@ -1153,8 +1182,9 @@ enums:
           setty: "LBTY"
         description: |
           L2 first custom Ethertype. This match is only performed if L2 parsing was enabled.
-          MATCH<31:16> Ethertype.
-          MATCH<15:0> Next 2 bytes following ethertype.
+          _ MATCH<31:16> = Ethertype.
+          _ MATCH<15:0> = Next 2 bytes following ethertype.
+
           ACTION[SETTY] has special behavior; if ACTION[SETTY]==VLAN, then indicates the Ethertype
           is treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
           If SETTY is non-zero and non-VLAN, then WQE[LBTY] and WQE[LBPTR] will be set.
@@ -1201,10 +1231,10 @@ enums:
           setty: "--"
         description: |
           Top MPLS Label.
-          MATCH<31:12> Label
-          MATCH<11:9> QoS
-          MATCH<8> Last-Label indicator
-          MATCH<7:0> TTL
+          _ MATCH<31:12> = Label
+          _ MATCH<11:9> = QoS
+          _ MATCH<8> = Last-Label indicator
+          _ MATCH<7:0> = TTL
 
       - name: L3_FLAGS
         value: 0x23
@@ -1216,10 +1246,10 @@ enums:
         description: |
           L3 flags summary. This match is only performed if LC parsing was enabled and IP was found
           (WQE[LCTY]==IP*).
-          MATCH<31:24> DiffSrv (IPv4) or Flowclass (IPv6).
-          MATCH<23:16> Next header/ Protocol.
-          MATCH<12:8> WQE[LCTY] as decoded up to this point.
-          MATCH<0> Fragment.
+          _ MATCH<31:24> = DiffSrv (IPv4) or Flowclass (IPv6).
+          _ MATCH<23:16> = Next header/ Protocol.
+          _ MATCH<12:8> = WQE[LCTY] as decoded up to this point.
+          _ MATCH<0> = Fragment.
 
       - name: LD_VNI
         value: 0x28
@@ -1231,8 +1261,8 @@ enums:
         description: |
           Virtualization tunnel identifier. This match is only performed if LD parsing was enabled
           and NVGRE/VXLAN was found (WQE[LDTY]==NVGRE/VXLAN).
-          MATCH<31:8> TNI (GRE) / VNI (VXLAN).
-          MATCH<7:0> Reserved.
+          _ MATCH<31:8> = TNI (GRE) / VNI (VXLAN).
+          _ MATCH<7:0> = Reserved.
 
       - name: IL3_FLAGS
         value: 0x2B
@@ -1244,10 +1274,10 @@ enums:
         description: |
           Inner L3 flags summary. This match is only performed if LE parsing was enabled and IP-in-
           IP was found (WQE[LETY]==IP*).
-          MATCH<31:24> DiffSrv (IPv4) or Flowclass (IPv6).
-          MATCH<23:16> Next header/ Protocol.
-          MATCH<12:8> WQE[LETY] as decoded up to this point.
-          MATCH<0> Fragment.
+          _ MATCH<31:24> = DiffSrv (IPv4) or Flowclass (IPv6).
+          _ MATCH<23:16> = Next header/ Protocol.
+          _ MATCH<12:8> = WQE[LETY] as decoded up to this point.
+          _ MATCH<0> = Fragment.
 
       - name: L4_PORT
         value: 0x30
@@ -1259,9 +1289,10 @@ enums:
         description: |
           L4 destination port and flags. This match is only performed if LF parsing was enabled and
           IP was found (see algorithms).
-          MATCH<23:16> IPv4 proto or IPv6 next_header.
+          _ MATCH<23:16> = IPv4 proto or IPv6 next_header.
           (Use 6 to match TCP, 17 for UDP, 132 for SCTP.)
-          MATCH<15:0> TCP/UDP/SCTP destination port. (Specifically the 16 bits from packet bytes
+
+          _ MATCH<15:0> = TCP/UDP/SCTP destination port. (Specifically the 16 bits from packet bytes
           WQE[LFPTR]+2, as the packet need not be TCP/UDP/SCTP.)
 
       - name: LG_CUSTOM
@@ -1273,14 +1304,14 @@ enums:
           setty: "LGTY"
         description: |
           LG custom match. This match is only performed if LE and LG parsing was enabled.
-          MATCH<31:0> Custom extract controlled by PKI_CL(0..3)_PKIND(0..63)_LG_CUSTOM
+          _ MATCH<31:0> = Custom extract controlled by PKI_CL()_PKIND()_LG_CUSTOM
 
 
   - name: PKI_QPGQOS_E
     title: PKI QPG QoS Algorithm Enumeration
     attributes:
       width: "3"
-    description: Enumerates the values of PKI_CL(0..3)_STYLE(0..63)_ALG. See QPG.
+    description: Enumerates the values of PKI_CL()_STYLE()_ALG.
     values:
       - name: "NONE"
         value: 0x0
@@ -1313,6 +1344,8 @@ structs:
   - name: PKI_BEWQ_S
     title: |
       INTERNAL: PKI Back End WQE Structure
+    attributes:
+      mif_columns: "WQE Related Field Name"
     description: |
       This structure describes the handoff structure between an IPE and PKI back end. The fields are
       similar to the WQE.
@@ -1341,7 +1374,7 @@ structs:
           wqe_related_field_name: "(Rep w/ WQE[BUFS])"
         description: |
           Byte location at which to start FCS calculation. Sequencer loads from
-          PKI_CL(0..3)_PKIND(0..63)_SKIP[FCS_SKIP].
+          PKI_CL()_PKIND()_SKIP[FCS_SKIP].
 
       - name: PORT
         bits: w0(43..32)
@@ -1534,14 +1567,14 @@ structs:
         attributes:
           wqe_related_field_name: "--"
         description: |
-          Value of PKI_CL(0..3)_STYLE(0..63)_CFG2<31:0> for this packet. BE replaces with Size/Addr.
+          Value of PKI_CL()_STYLE()_CFG2<31:0> for this packet. BE replaces with Size/Addr.
 
       - name: CFG
         bits: w3(63..32)
         attributes:
           wqe_related_field_name: "--"
         description: |
-          Value of PKI_CL(0..3)_STYLE(0..63)_CFG<31:0> for this packet. BE replaces with Size/Addr..
+          Value of PKI_CL()_STYLE()_CFG<31:0> for this packet. BE replaces with Size/Addr..
 
       - name: LAPTR
         bits: w4(7..0)
@@ -1672,7 +1705,7 @@ structs:
       - name: ADDR
         bits: 41..0
         description: |
-          Physical Address. ADDR is the physical L2/DRAM address of the first byte of packet data in
+          Physical address. ADDR is the physical L2/DRAM address of the first byte of packet data in
           the buffer. The ADDR field in the PKI_BUFLINK_S in the work-queue entry (located at
           WQE[ADDR] minus 8 bytes) might not be aligned on a 64-bit boundary, but the buffer
           pointers in all subsequent buffers are naturally aligned on a 64-bit boundary.
@@ -1684,7 +1717,7 @@ structs:
       - name: I
         bits: 44
         description: |
-          Invert Free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
+          Invert free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
           buffer returns as described in Packet-Output Processing Unit (PKO).
 
       - name: --
@@ -1775,74 +1808,112 @@ structs:
       - name: TAG
         bits: 31..0
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <31:0>.
-          ...
+          When PKI_INST_HDR_S[UTAG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TAG] is used to
+          compute WQE[TAG].
+
+          This field is not present unless PKI_INST_HDR_S [UTAG] is set.
 
       - name: QPG
         bits: 42..32
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <42:32>.
-          ...
+          When PKI_INST_HDR_S[UQPG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S [QPG] is used to
+          indirectly compute WQE[AURA] and WQE[GRP].
+
+          This field is not present unless PKI_INST_HDR_S[W] is set.
+
+          The QPG table is generally allocated by software. As the QPG index points into this
+          software allocated table, it is recommended that external components allow the
+          PKI_INST_HDR_S[QPG] values they send to based off a programmable base (perhaps from a CSR
+          inside that component) instead of hard-coding the base.
 
       - name: TT
         bits: 46..45
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <46:45>.
-          ...
+          When PKI_INST_HDR_S [UTT] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TT] is used to
+          compute WQE[TT].
+
+          This field is not present unless PKI_INST_HDR_S[W] is set.
 
       - name: UTT
         bits: 47
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <47>. When set, PKI uses
-          PKI_INST_HDR[TT] to compute WQE[TT]. Refer toWQE[TT].
-          ...
+          When set, PKI uses PKI_INST_HDR_S[TT] to compute WQE[TT].
+
+          This field is not present unless PKI_INST_HDR_S[W] is set.
 
       - name: SL
         bits: 55..48
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <55:48>.
-          ...
+          The number of bytes in the PKI_INST_HDR_S and number of bytes to advance to find the next
+          parse item.
+          The following bullets describe the minimum PKI_INST_HDR_S size and, thus, the minimum SL
+          values for a packet:
+          * When PKI_INST_HDR_S [UTAG] = 1, the PKI_INST_HDR_S must be eight bytes, so SL must be
+          eight or more.
+
+          * When PKI_INST_HDR_S[W] = 1 and PKI_INST_HDR_S [UTAG] = 0, the PKI_INST_HDR_S must be
+          four bytes or more, so SL must be four or more.
+
+          * When PKI_INST_HDR_S[W] = 0, the PKI_INST_HDR_S may be as small as two bytes, so SL must
+          be two or more.
+
+          The sum of PKI_INST_HDR_S[SL] and other advances is subject to restrictions as described
+          elsewhere.
 
       - name: PM
         bits: 58..56
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bits <58:56>.
-          ...
+          The mode used to parse the packet, as an encoded value. The legal values are:
+            0x0 = Parse starting at LA (L2).
+            0x1 = Parse starting at LB (Custom).
+            0x2 = Parse starting at LC (L3).
+            0x3 = Reserved; parse starting at LD not supported.
+            0x4 = Reserved; parse starting at LE not supported.
+            0x5 = Reserved; parse starting at LF not supported.
+            0x6 = Parse starting at LG (Custom/Application).
+            0x7 = Parse nothing, uninterpreted.
+            _ else = reserved.
+
+            If most or all parsing stages are skipped, then PKI will have little input in the
+          scheduling information loaded into the WQE. PKI_INST_HDR_S[QPG], PKI_INST_HDR_S[TT], and
+          PKI_INST_HDR_S[TAG] may be of use to specify this scheduling information. In this case
+          PKI_STYLE()_WQ2 and PKI_STYLE()_WQ4 may be used to force the decoded information in WQE
+          WORD 2 and WORD 4.
 
       - name: UQPG
         bits: 60
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <60>. When set, PKI will use
-          PKI_INST_HDR[QPG] to compute the QPG and indirectly WQE[AURA] and WQE[GRP].
-          ...
+          When set, PKI will use PKI_INST_HDR_S [QPG] to compute the QPG and indirectly WQE[AURA]
+          and WQE[GRP].
+
+          Must be 0 when PKI_INST_HDR_S[W] = 0.
 
       - name: UTAG
         bits: 61
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <61>. When set, PKI will use
-          PKI_INST_HDR[TAG] to compute WQE[TAG].
-          ...
+          When set, PKI will use PKI_INST_HDR_S [TAG] to compute WQE[TAG].
+
+          Must be 0 when PKI_INST_HDR_S[W] = 0.
 
       - name: RAW
         bits: 62
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <62>. When set, WQE[RAW] is
-          set, statistics will accumulate in PKI_STAT(0..63)_STAT2 and the packet will never be
-          dropped due to RED unless PKI_STYLE(0..63)_BUF[RAWDRP] is set.
-          ...
+          When set, WQE[RAW] will be set and statistics will accumulate in PKI_STAT()_STAT2 and the
+          packet will never be dropped due to RED unless PKI_STYLE()_BUF[RAWDRP] is set.
 
       - name: W
         bits: 63
         description: |
-          Refer to Packet Instruction Header Format (PKI_INST_HDR), bit <63>. Indicates wider
-          PKI_INST_HDR_S.
-          ...
+          Indicates wider PKI_INST_HDR_S.
+          0 = The PKI_INST_HDR_S is two bytes.
+          1 = The PKI_INST_HDR_S is four or eight bytes.
 
 
   - name: PKI_WQE_S
     title: PKI Work-Queue Entry Structure
     attributes:
       allow_missing_bits: "True"
+      mif_exclude: "True"
     description: This section is a description of each field in WORD0 - WORD4 of the work-queue entry.
     fields:
       - name: PKND
@@ -1951,8 +2022,8 @@ structs:
       - name: RAW
         bits: w2(11)
         description: |
-          Refer to Work-Queue Entry Format; Word 2 Cases, word2<11>. Set when PKI_INST_HDR[RAW] was
-          set.
+          Refer to Work-Queue Entry Format; Word 2 Cases, word2<11>. Set when PKI_INST_HDR_S [RAW]
+          was set.
           ...
 
       - name: L2M
@@ -3226,19 +3297,19 @@ registers:
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
           register collects status for PKI_PFE.
-          <30> - INB_ERRS
-          <29> - INB OCTS
-          <28> - INB PKTS
-          <27> - LD FIF
-          <26> - PBE STATE
-          <25> - WADR STATE
-          <24> - NXT PTAG
-          <23> - CUR PTAG
-          <22> - X2P FIF
-          <21> - DROP FIF
-          <20> - NXT BLK
-          <19..16> - KMEM
-          <15..0> - ASM BUFF
+          <30> = INB_ERRS.
+          <29> = INB OCTS.
+          <28> = INB PKTS.
+          <27> = LD FIF.
+          <26> = PBE STATE.
+          <25> = WADR STATE.
+          <24> = NXT PTAG.
+          <23> = CUR PTAG.
+          <22> = X2P FIF.
+          <21> = DROP FIF.
+          <20> = NXT BLK.
+          <19..16> = KMEM.
+          <15..0> = ASM BUFF.
 
 
   - name: PKI_BIST_STATUS1
@@ -3266,24 +3337,24 @@ registers:
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
           register collects status for PKI_PBE.
-          <20>: STATS_MEM0
-          <19>: STATS_MEM1
-          <18>: STATS_MEM2
-          <17>: STATS_MEM3
-          <16>: SWS
-          <15>: WQEOUT
-          <14>: DOA
-          <13>: BPID
-          <12:10>: Reserved
-          <9>: PLC
-          <8>: PKTWQ
-          <7:6>: Reserved
-          <5>: TAG
-          <4>: AURA
-          <3>: CHAN
-          <2>: PBTAG
-          <1>: STYLEWQ
-          <0>: QPG
+          <20> = STATS_MEM0.
+          <19> = STATS_MEM1.
+          <18> = STATS_MEM2.
+          <17> = STATS_MEM3.
+          <16> = SWS.
+          <15> = WQEOUT.
+          <14> = DOA.
+          <13> = BPID.
+          <12 =10> = Reserved.
+          <9> = PLC.
+          <8> = PKTWQ.
+          <7 =6> = Reserved.
+          <5> = TAG.
+          <4> = AURA.
+          <3> = CHAN.
+          <2> = PBTAG.
+          <1> = STYLEWQ.
+          <0> = QPG.
 
 
   - name: PKI_BIST_STATUS2
@@ -3311,19 +3382,19 @@ registers:
         description: |
           BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
           register collects status for PKI_PIX (verif/vkits/pki/pki_mem_info_table.sv).
-          24: IMEM
-          23: IPEC3 / IPEs 10 .. 19 (RegFile + DMEM)
-          22: IPEC3 / IPEs  0 ..  9 (RegFile + DMEM)
-          21: IPEC2 / IPEs 10 .. 19 (RegFile + DMEM)
-          20: IPEC2 / IPEs  0 ..  9 (RegFile + DMEM)
-          19: IPEC1 / IPEs 10 .. 19 (RegFile + DMEM)
-          18: IPEC1 / IPEs  0 ..  9 (RegFile + DMEM)
-          17: IPEC0 / IPEs 10 .. 19 (RegFile + DMEM)
-          16: IPEC0 / IPEs  0 ..  9 (RegFile + DMEM)
-          15..12: IPEC SMEM
-          11..8: IPEC PCAM ECC
-          7..4: IPEC PCAM RES
-          3..0: IPEC PCAM CAM
+          24 = IMEM.
+          23 = IPEC3 / IPEs 10 .. 19 (RegFile + DMEM).
+          22 = IPEC3 / IPEs  0 ..  9 (RegFile + DMEM).
+          21 = IPEC2 / IPEs 10 .. 19 (RegFile + DMEM).
+          20 = IPEC2 / IPEs  0 ..  9 (RegFile + DMEM).
+          19 = IPEC1 / IPEs 10 .. 19 (RegFile + DMEM).
+          18 = IPEC1 / IPEs  0 ..  9 (RegFile + DMEM).
+          17 = IPEC0 / IPEs 10 .. 19 (RegFile + DMEM).
+          16 = IPEC0 / IPEs  0 ..  9 (RegFile + DMEM).
+          15..12 = IPEC SMEM.
+          11..8 = IPEC PCAM ECC.
+          7..4 = IPEC PCAM RES.
+          3..0 = IPEC PCAM CAM.
 
 
   - name: PKI_BUF_CTL
@@ -3432,9 +3503,10 @@ registers:
         description: |
           The PKI_STAT*_X registers can be indexed either by port kind (pkind), or final style.
           (Does not apply to the PKI_STAT_INB* registers.)
-          0 = X represents the packet's pkind
-          1 = X represents the low 6-bits of packet's final style
-          2,3 = Reserved
+
+          _ 0x0 = X represents the packet's pkind.
+          _ 0x1 = X represents the low 6-bits of packet's final style.
+          _ 0x2-0x3 = Reserved.
 
 
   - name: PKI_REQ_WGT
@@ -3551,7 +3623,7 @@ registers:
         typical: 0
         description: |
           Custom LG parsing enable.
-          0 = Custom LG is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[LG_CUSTOM] is
+          0 = Custom LG is never used in any style; i.e. PKI_CL()_PKIND()_CFG[LG_CUSTOM] is
           zero for all indices. This enables internal power and latency reductions.
           1 = Custom LG parsing may be used.
 
@@ -3562,7 +3634,7 @@ registers:
         typical: 0
         description: |
           Custom L2 parsing enable.
-          0 = Custom L2 is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_L2_CUSTOM[VALID]
+          0 = Custom L2 is never used in any style; i.e. PKI_CL()_PKIND()_L2_CUSTOM[VALID]
           is zero for all indices. This enables internal power and latency reductions.
           1 = Custom L2 parsing may be used.
 
@@ -3606,7 +3678,7 @@ registers:
         typical: 0
         description: |
           MPLS parsing enable.
-          0 = MPLS parsing is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[MPLS_EN]
+          0 = MPLS parsing is never used in any style; i.e. PKI_CL()_PKIND()_CFG[MPLS_EN]
           is zero for all indices. This enables internal power and latency reductions.
           1 = MPLS parsing may be used.
 
@@ -3618,7 +3690,7 @@ registers:
         description: |
           Fulcrum parsing enable.
           0 = Fulcrum parsing is never used in any style; i.e.
-          PKI_CL(0..3)_PKIND(0..63)_CFG[FULC_EN] is zero for all indices. This enables internal
+          PKI_CL()_PKIND()_CFG[FULC_EN] is zero for all indices. This enables internal
           power and latency reductions.
           1 = Fulcrum parsing may be used.
 
@@ -3629,7 +3701,7 @@ registers:
         typical: 0
         description: |
           DSA parsing enable. Must be zero if HG_PEN is set.
-          0 = DSA parsing is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[DSA_EN] is
+          0 = DSA parsing is never used in any style; i.e. PKI_CL()_PKIND()_CFG[DSA_EN] is
           zero for all indices. This enables internal power and latency reductions.
           1 = DSA parsing may be used.
 
@@ -3640,7 +3712,7 @@ registers:
         typical: 0
         description: |
           HiGig parsing enable. Must be zero if DSA_PEN is set.
-          0 = HiGig parsing is never used in any style; i.e. PKI_CL(0..3)_PKIND(0..63)_CFG[HG2_EN,
+          0 = HiGig parsing is never used in any style; i.e. PKI_CL()_PKIND()_CFG[HG2_EN,
           HG_EN] are zero for all indices. This enables internal power and latency reductions.
           1 = HiGig parsing may be used.
 
@@ -3744,7 +3816,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Controls the conditional clocking within PKI
+          Controls the conditional clocking within PKI.
           0 = Allow hardware to control the clocks.
           1 = Force the clocks to be always on.
 
@@ -3896,7 +3968,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Resulting data from matching line's PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191), or zero if no
+          Resulting data from matching line's PKI_CL()_PCAM()_ACTION(), or zero if no
           match. Unpredictable unless [CONFLICT] is clear.
 
 
@@ -4073,7 +4145,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Which pointer to use for the bitmask in PKI_TAG_INC(0..31)_MASK.
+          Which pointer to use for the bitmask in PKI_TAG_INC()_MASK.
           0 = Absolute from start of packet.
           1-7 = Reserved.
           8 = Relative to start of WQE[LAPTR]. LAPTR must be valid (see WQE[LAPTR]) or mask is
@@ -4100,7 +4172,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Offset for PKI_TAG_INC(0..31)_MASK. Number of bytes to add to the selected pointer before
+          Offset for PKI_TAG_INC()_MASK. Number of bytes to add to the selected pointer before
           applying the mask.
 
 
@@ -4119,7 +4191,7 @@ registers:
         typical: --
         description: |
           Include byte in mask-tag algorithm. Each EN bit corresponds to 64 consecutive bytes in the
-          data stream, as controlled by PKI_TAG_INC(0..31)_CTL as described in WQE[TAG].
+          data stream, as controlled by PKI_TAG_INC()_CTL as described in WQE[TAG].
 
 
   - name: PKI_ICG(0..3)_CFG
@@ -4248,8 +4320,8 @@ registers:
         typical: 0
         description: |
           Reserved. INTERNAL: Deprecated. PCAM sequencer trapz interrupt. Throws
-          PKI_INTSN_E::PKI_CL(0..3)_INT_TRAPZ. Caused by TRAP sequence state, may indicate PKI
-          enabled without proper sequencer code loaded in PKI_IMEM(0..2047). Based on PCAM sequencer
+          PKI_INTSN_E::PKI_CL()_INT_TRAPZ. Caused by TRAP sequence state, may indicate PKI
+          enabled without proper sequencer code loaded in PKI_IMEM(). Based on PCAM sequencer
           execution, will likely throw an additional IPTINT interrupt.
 
       - name: IPTINT
@@ -4258,7 +4330,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PCAM sequencer debug interrupt. Throws PKI_INTSN_E::PKI_CL(0..3)_INT_IPTINT. INTERNAL:
+          PCAM sequencer debug interrupt. Throws PKI_INTSN_E::PKI_CL()_INT_IPTINT. INTERNAL:
           Caused by TRAP or INTR sequence state.
 
       - name: SCHED_CONF
@@ -4268,7 +4340,7 @@ registers:
         typical: 0
         description: |
           PCAM/SMEM internal port conflict. Internal error, should not occur. Throws
-          PKI_INTSN_E::PKI_CL(0..3)_INT_SCHED_CONF. INTERNAL: Sequencer mis-scheduled PCAM or SMEM
+          PKI_INTSN_E::PKI_CL()_INT_SCHED_CONF. INTERNAL: Sequencer mis-scheduled PCAM or SMEM
           ops with overlapping accesses.
 
       - name: PCAM_CONF
@@ -4277,9 +4349,9 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          PCAM(0..1) match hit multiple rows, indicating either a soft error in the PCAM or a
-          programming error in PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191) or related registers. Throws
-          PKI_INTSN_E::PKI_CL(0..3)_INT_PCAM_CONF(0..1). Once a conflict is detected, the PCAM state
+          PCAM() match hit multiple rows, indicating either a soft error in the PCAM or a
+          programming error in PKI_CL()_PCAM()_MATCH() or related registers. Throws
+          PKI_INTSN_E::PKI_CL()_INT_PCAM_CONF(). Once a conflict is detected, the PCAM state
           is unpredictable and is required to be fully reconfigured before further valid processing
           can take place.
 
@@ -4304,7 +4376,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PCAM1 ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM1_DBE.
+          PCAM1 ECC double bit error. Throws PKI_INTSN_E::PKI_CL()_ECC_PCAM1_DBE.
 
       - name: PCAM1_SBE
         bits: 6
@@ -4312,7 +4384,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PCAM1 ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM1_SBE.
+          PCAM1 ECC single bit error. Throws PKI_INTSN_E::PKI_CL()_ECC_PCAM1_SBE.
 
       - name: PCAM0_DBE
         bits: 5
@@ -4320,7 +4392,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PCAM0 ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM0_DBE.
+          PCAM0 ECC double bit error. Throws PKI_INTSN_E::PKI_CL()_ECC_PCAM0_DBE.
 
       - name: PCAM0_SBE
         bits: 4
@@ -4328,7 +4400,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          PCAM0 ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_PCAM0_SBE.
+          PCAM0 ECC single bit error. Throws PKI_INTSN_E::PKI_CL()_ECC_PCAM0_SBE.
 
       - name: SMEM_DBE
         bits: 3
@@ -4336,7 +4408,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          SMEM ECC double bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_SMEM_DBE.
+          SMEM ECC double bit error. Throws PKI_INTSN_E::PKI_CL()_ECC_SMEM_DBE.
 
       - name: SMEM_SBE
         bits: 2
@@ -4344,7 +4416,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          SMEM ECC single bit error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_SMEM_SBE.
+          SMEM ECC single bit error. Throws PKI_INTSN_E::PKI_CL()_ECC_SMEM_SBE.
 
       - name: DMEM_PERR
         bits: 1
@@ -4352,7 +4424,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DMEM parity error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_DMEM_PERR.
+          DMEM parity error. Throws PKI_INTSN_E::PKI_CL()_ECC_DMEM_PERR.
 
       - name: RF_PERR
         bits: 0
@@ -4360,7 +4432,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          RF RAM parity error. Throws PKI_INTSN_E::PKI_CL(0..3)_ECC_RF_PERR.
+          RF RAM parity error. Throws PKI_INTSN_E::PKI_CL()_ECC_RF_PERR.
 
 
   - name: PKI_CL(0..3)_ECC_CTL
@@ -4510,7 +4582,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Cluster group that will service traffic on this pkind. See also PKI_ICG(0..3)_CFG, the
+          Cluster group that will service traffic on this pkind. See also PKI_ICG()_CFG, the
           register to which this field indexes.
 
 
@@ -4596,7 +4668,7 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          Index for TAG_INC<0>. This value is multipled by 4 to index into PKI_TAG_INC(0..31)_MASK.
+          Index for TAG_INC<0>. This value is multipled by 4 to index into PKI_TAG_INC()_MASK.
           See WQE[TAG].
 
 
@@ -4625,8 +4697,8 @@ registers:
           no_soft_reset: "1"
         description: |
           When set, each bit excludes corresponding bit of the tuple computed tag from being
-          included in the final tag. PKI_CL(0..3)_STYLE(0..63)_CFG2 [TAG_MASKEN] must be set. Does
-          not affect tags from packets with a PKI_INST_HDR_S when PKI_INST_HDR[UTAG] is set.
+          included in the final tag. PKI_CL()_STYLE()_CFG2 [TAG_MASKEN] must be set. Does
+          not affect tags from packets with a PKI_INST_HDR_S when PKI_INST_HDR_S[UTAG] is set.
 
 
   - name: PKI_STYLE(0..63)_WQ2
@@ -4680,7 +4752,7 @@ registers:
     internal: |
       INTERNAL: This register is in BE.
       Configures skip amounts and other information based on the final style, stored in
-      WQE[STYLE]PKI Registers for address.
+      WQE[STYLE].
     attributes:
       arch_max: "256"
     fields:
@@ -4708,10 +4780,10 @@ registers:
         description: |
           Work queue header size:
           0x0 = WORD0..4, standard WQE_S. Note FIRST_SKIP may be set to not include WORD4 in memory.
-          0x1 = WORD0..5
-          0x2 = WORD0..6
-          0x3 = WORD0..7
-          else = Reserved
+          0x1 = WORD0..5.
+          0x2 = WORD0..6.
+          0x3 = WORD0..7.
+
           INTERNAL: Selects which PIX words are transferred to the PKI BE. If a word is not
           transferred and the word will reach memory (FIRST_SKIP is greater than that word number),
           then the final WQE memory word will be zero, not the PIX register contents.
@@ -4734,7 +4806,7 @@ registers:
           The number of eight-byte words from the top of the first MBUF that the PKI stores the next
           pointer. If [DIS_WQ_DAT]=1, any value is legal. If [DIS_WQ_DAT]=0, legal values must
           satisfy:
-          * FIRST_SKIP <= PKI_STYLE(0..63)_BUF[MB_SIZE] - 18.
+          * FIRST_SKIP <= PKI_STYLE()_BUF[MB_SIZE] - 18.
           * FIRST_SKIP must be at least 0x4, but 0x5 is recommended minimum. 0x4 will drop WQE
           WORD4, for use in backward compatible applications.
           * WQE_SKIP * (128/8) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry
@@ -4747,7 +4819,7 @@ registers:
         typical: 0x0
         description: |
           The number of eight-byte words from the top of any MBUF that is not the first MBUF that
-          PKI writes the next-pointer to. Legal values are 0 to PKI_STYLE(0..63)_BUF[MB_SIZE] - 18.
+          PKI writes the next-pointer to. Legal values are 0 to PKI_STYLE()_BUF[MB_SIZE] - 18.
 
       - name: OPC_MODE
         bits: 15..14
@@ -4756,11 +4828,12 @@ registers:
         typical: 0x0
         description: |
           Select the style of write to the L2C.
-          0 = all packet data and next-buffer pointers are written through to memory.
-          1 = all packet data and next-buffer pointers are written into the cache.
-          2 = the first aligned cache block holding the WQE and/or front packet data are written to
+          0x0 = all packet data and next-buffer pointers are written through to memory.
+          0x1 = all packet data and next-buffer pointers are written into the cache.
+          0x2 = the first aligned cache block holding the WQE and/or front packet data are written
+          to
           the L2 cache. All remaining cache blocks are not written to the L2 cache.
-          3 = the first two aligned cache blocks holding the WQE and front packet data are written
+          0x3 = the first two aligned cache blocks holding the WQE and front packet data are written
           to the L2 cache. All remaining cache blocks are not written to the L2 cache.
 
       - name: DIS_WQ_DAT
@@ -4814,10 +4887,10 @@ registers:
     bus: RSL
     description: |
       The register initialization value for each PKIND and register number (plus 32 or 48 based on
-      PKI_ICG(0..3)_CFG[MLO]). The other PKI_PKND* registers alias inside regions of
-      PKI_CL(0..3)_PKIND(0..63)_KMEM(0..15). To avoid confusing tools, these aliases have address
+      PKI_ICG()_CFG[MLO]). The other PKI_PKND* registers alias inside regions of
+      PKI_CL()_PKIND()_KMEM(). To avoid confusing tools, these aliases have address
       bit 20 set; the PKI address decoder ignores bit 20 when accessing
-      PKI_CL(0..3)_PKIND(0..63)_KMEM(0..15).
+      PKI_CL()_PKIND()_KMEM().
     attributes:
       arch_max: "4,256,128"
     fields:
@@ -4878,7 +4951,7 @@ registers:
           0 = FCS not present. FCS may not be checked nor stripped.
           1 = FCS present; the last four bytes of the packet are part of the FCS and may not be
           considered part of a IP, TCP or other header for length error checks.
-          PKI_CL(0..3)_STYLE(0..63)_CFG[FCS_CHK or FCS_STRIP] may optionally be set.
+          PKI_CL()_STYLE()_CFG[FCS_CHK or FCS_STRIP] may optionally be set.
 
       - name: MPLS_EN
         bits: 6
@@ -5005,20 +5078,22 @@ registers:
           no_soft_reset: "1"
         description: |
           Initial parse mode. Bit mask of which sequence steps to perform, refer to Parse Mode:
-          <0> = LA (L2)
-          <1> = LB (Custom)
-          <2> = LC (L3)
-          <3> = LD (L4 Virt)
-          <4> = LE (IL3)
-          <5> = LF (L4)
-          <6> = LG (Custom/Application)
+          _ <0> = LA (L2)
+          _ <1> = LB (Custom)
+          _ <2> = LC (L3)
+          _ <3> = LD (L4 Virt)
+          _ <4> = LE (IL3)
+          _ <5> = LF (L4)
+          _ <6> = LG (Custom/Application)
+
           The legal values are:
-          0x0 =   Parse LA..LG
-          0x1 =   Parse LB..LG
-          0x3 =   Parse LC..LG
-          0x3F = Parse LG
-          0x7F = Parse nothing
-          else = Reserved
+
+          _ 0x0 = Parse LA..LG
+          _ 0x1 = Parse LB..LG
+          _ 0x3 = Parse LC..LG
+          _ 0x3F = Parse LG
+          _ 0x7F = Parse nothing
+          _ else = Reserved
 
       - name: STYLE
         bits: 7..0
@@ -5069,7 +5144,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Skip amount from front of packet to begin parsing at. If
-          PKI_CL(0..3)_PKIND(0..63)_CFG[INST_HDR] is set, points at the first byte of the
+          PKI_CL()_PKIND()_CFG[INST_HDR] is set, points at the first byte of the
           instruction header. If INST_HDR is clear, points at the first byte to begin parsing at.
           The skip must be even. If PTP_MODE, the 8-byte timestamp is prepended to the packet, and
           INST_SKIP must be at least 8.
@@ -5162,9 +5237,9 @@ registers:
     address: 0x1180044400000 | a<<16 | b<<3
     bus: RSL
     description: |
-      PKI_STYLE* registers alias inside regions of PKI_CL(0..3)_SMEM(0..2047). To avoid confusing
+      PKI_STYLE* registers alias inside regions of PKI_CL()_SMEM(). To avoid confusing
       tools, these aliases have address bit 20 set; the PKI address decoder ignores bit 20 when
-      accessing PKI_CL(0..3)_SMEM(0..2047).
+      accessing PKI_CL()_SMEM().
     attributes:
       arch_max: "4,16k"
     fields:
@@ -5261,10 +5336,10 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          Selects which PKI_FRM_LEN_CHK(0..1) register is used for this pkind for MINERR and MAXERR
+          Selects which PKI_FRM_LEN_CHK() register is used for this pkind for MINERR and MAXERR
           checks.
-          0 = use PKI_FRM_LEN_CHK0
-          1 = use PKI_FRM_LEN_CHK1
+          0 = use PKI_FRM_LEN_CHK0.
+          1 = use PKI_FRM_LEN_CHK1.
 
       - name: MAXERR_EN
         bits: 26
@@ -5304,7 +5379,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Strip L2 FCS bytes from packet, decrease WQE[LEN] by 4 bytes.
-          PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] must be set.
+          PKI_CL()_PKIND()_CFG[FCS_PRES] must be set.
 
       - name: FCS_CHK
         bits: 22
@@ -5313,7 +5388,7 @@ registers:
         typical: 1
         attributes:
           no_soft_reset: "1"
-        description: FCS checking enabled. PKI_CL(0..3)_PKIND(0..63)_CFG[FCS_PRES] must be set.
+        description: FCS checking enabled. PKI_CL()_PKIND()_CFG[FCS_PRES] must be set.
 
       - name: RAWDRP
         bits: 21
@@ -5325,7 +5400,7 @@ registers:
         description: |
           Allow RAW packet drop.
           0 = Never drop packets with WQE[RAW] set.
-          1 = Allow the PKI to drop RAW packets based on PKI_AURA(0..1023)_CFG[ENA_RED/ENA_DROP].
+          1 = Allow the PKI to drop RAW packets based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
 
       - name: DROP
         bits: 20
@@ -5336,8 +5411,8 @@ registers:
           no_soft_reset: "1"
         description: |
           Force packet dropping.
-          0 = Drop packet based on PKI_AURA(0..1023)_CFG[ENA_RED/ENA_DROP].
-          1 = Always drop the packet. Overrides NODROP, RAWDRP.
+          0 = Drop packet based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+          1 = Always drop the packet. Overrides [NODROP], [RAWDRP].
 
       - name: NODROP
         bits: 19
@@ -5348,8 +5423,8 @@ registers:
           no_soft_reset: "1"
         description: |
           Disable QoS packet drop.
-          0 = Allowed to drop packet based on PKI_AURA(0..1023)_CFG[ENA_RED/ENA_DROP].
-          1 = Never drop the packet. Overrides RAWDRP.
+          0 = Allowed to drop packet based on PKI_AURA()_CFG[ENA_RED/ENA_DROP].
+          1 = Never drop the packet. Overrides [RAWDRP].
 
       - name: QPG_DIS_PADD
         bits: 18
@@ -5397,7 +5472,7 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          Base index into PKI_QPG_TBL(0..2047). INTERNAL: Sequencer starts with QPG_BASE, performs
+          Base index into PKI_QPG_TBL(). INTERNAL: Sequencer starts with QPG_BASE, performs
           the QPG calculation and packs the resulting QPG index back into this field for PKI_BE_S.
 
 
@@ -5427,7 +5502,7 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          Include masked tags using PKI_TAG_INC(0..31)_MASK. Each bit indicates to include the
+          Include masked tags using PKI_TAG_INC()_MASK. Each bit indicates to include the
           corresponding PKI_TAG_INC_MASK range, see PKI_INST_HDR_S.
 
       - name: RSVDRW27
@@ -5447,7 +5522,7 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          Apply PKI_STYLE(0..63)_TAG_MASK to computed tag. INTERNAL: Sequencer must clear for PKI BE
+          Apply PKI_STYLE()_TAG_MASK to computed tag. INTERNAL: Sequencer must clear for PKI BE
           when the tag comes from the PKI_INST_HDR_S.
 
       - name: TAG_SRC_LG
@@ -5882,14 +5957,14 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: See TERM0.
+        description: See [TERM0].
 
       - name: STYLE1
         bits: 39..32
         access: R/W
         reset: 0x0
         typical: --
-        description: See STYLE0.
+        description: See [STYLE0].
 
       - name: --
         bits: 31..16
@@ -5906,11 +5981,11 @@ registers:
         description: |
           Comparison type. Enumerated with PKI_PCAM_TERM_E. The field value is ternary, where each
           bit matches as follows:
-          TERM1<n> TERM0<n>
-          0 0 Always match; data<n> don't care.
-          0 1 Match when data<n> == 0.
-          1 0 Match when data<n> == 1.
-          1 1 Reserved.
+
+          _ TERM1<n>=0, TERM0<n>=0: Always match; data<n> don't care.
+          _ TERM1<n>=0, TERM0<n>=1: Match when data<n> == 0.
+          _ TERM1<n>=1, TERM0<n>=0: Match when data<n> == 1.
+          _ TERM1<n>=1, TERM0<n>=1: Reserved.
 
       - name: STYLE0
         bits: 7..0
@@ -5919,15 +5994,16 @@ registers:
         typical: --
         description: |
           Previous interim style. The style that must have been calculated by the port
-          PKI_CL(0..3)_PKIND(0..63)_STYLE[STYLE] or as modified by previous CAM hits's
-          PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)[STYLE]. This is used to form AND style matches; see
+          PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits's
+          PKI_CL()_PCAM()_ACTION()[STYLE]. This is used to form AND style matches; see
           Styles.
+
           The field value is ternary, where each bit matches as follows:
-          STYLE1<n> STYLE0<n>
-          0 0 Always match; data<n> don't care.
-          0 1 Match when data<n> == 0.
-          1 0 Match when data<n> == 1.
-          1 1 Reserved.
+
+          _ STYLE1<n>=0, STYLE0<n>=0: Always match; data<n> don't care.
+          _ STYLE1<n>=0, STYLE0<n>=1: Match when data<n> == 0.
+          _ STYLE1<n>=1, STYLE0<n>=0: Match when data<n> == 1.
+          _ STYLE1<n>=1, STYLE0<n>=1: Reserved.
 
 
   - name: PKI_CL(0..3)_PCAM(0..1)_MATCH(0..191)
@@ -5942,7 +6018,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: See DATA0.
+        description: See [DATA0].
 
       - name: DATA0
         bits: 31..0
@@ -5951,14 +6027,14 @@ registers:
         typical: --
         description: |
           The packet data to compare against. Bits may be ignored in comparison based on [DATA0] and
-          [DATA1]. If the entry matches, PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191) will determine the
+          [DATA1]. If the entry matches, PKI_CL()_PCAM()_ACTION() will determine the
           action to be taken. See PKI_PCAM_TERM_E for comparison bit definitions.
           The field value is ternary, where each bit matches as follows:
-          DATA1<n> DATA0<n>
-          0 0 Always match; data<n> don't care.
-          0 1 Match when data<n> == 0.
-          1 0 Match when data<n> == 1.
-          1 1 Reserved.
+
+          _ DATA1<n>=0, DATA0<n>=0: Always match; data<n> don't care.
+          _ DATA1<n>=0, DATA0<n>=1: Match when data<n> == 0.
+          _ DATA1<n>=1, DATA0<n>=0: Match when data<n> == 1.
+          _ DATA1<n>=1, DATA0<n>=1: Reserved.
 
 
   - name: PKI_CL(0..3)_PCAM(0..1)_ACTION(0..191)
@@ -5991,31 +6067,30 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Parse Mode Change. Where to resume parsing after applying the scan offset (if any) as bit
+          Parse mode change. Where to resume parsing after applying the scan offset (if any) as bit
           mask of which sequence steps to no longer process:
-          <0> = LA (L2)
-          <1> = LB (Custom)
-          <2> = LC (L3)
-          <3> = LD (Virt)
-          <4> = LE (IL3)
-          <5> = LF (L4)
-          <6> = LG (Custom/Application)
+
+          _ <0> = LA (L2)
+          _ <1> = LB (Custom)
+          _ <2> = LC (L3)
+          _ <3> = LD (Virt)
+          _ <4> = LE (IL3)
+          _ <5> = LF (L4)
+          _ <6> = LG (Custom/Application)
+
           The legal values are:
-          0x0 = no change in parsing
-          0x1 = Skip further LA parsing; start LB parsing.
-          For TERM==L2_CUSTOM only)
-          0x3 = Skip further LA/LB parsing; start LC parsing.
-          For TERMs through Ethertypes only)
-          0x7 = Skip further LA-LC parsing; start LD parsing.
-          For TERMs through L3FLAGS only)
-          0x7F = Skip all parsing; no further packet inspection.
-          For TERMs through L3FLAGS only)
+          0x0 = no change in parsing.
+          0x1 = Skip further LA parsing; start LB parsing. For TERM==L2_CUSTOM only).
+          0x3 = Skip further LA/LB parsing; start LC parsing. For TERMs through Ethertypes only).
+          0x7 = Skip further LA-LC parsing; start LD parsing. For TERMs through L3FLAGS only).
+          0x7F = Skip all parsing; no further packet inspection. For TERMs through L3FLAGS only).
+
           For example an Ethertype match action that wishes to resume with additional Ethertype
           matches would use a zero PMC to indicate no parse mode change. An Ethertype match action
           that wishes to not parse any additional Ethertypes and resume at LC would use 0x3.
+
           Must be zero for invalid entries, or for TERMs that do not allow a parse mode change as
           specified in the PKI_PCAM_TERM_E table.
-          See also Parse Mode.
 
       - name: STYLE_ADD
         bits: 23..16
@@ -6024,7 +6099,7 @@ registers:
         typical: --
         description: |
           Resulting interim style adder. If this CAM entry matches, the value to add to the current
-          style (may wrap around through 256). See Styles. Must be zero for invalid entries.
+          style (may wrap around through 256). Must be zero for invalid entries.
 
       - name: PF
         bits: 15..13
@@ -6036,13 +6111,15 @@ registers:
           may also specify setting one of four user flags in the generated work queue entry,
           WQE[PF1] through WQE[PF4]. These flags are not used by hardware; they are intended to
           indicate to software that exceptional handling may be required, such as the presence of an
-          encrypted packet.:
-          0x0 = no change.
-          0x1 = Set WQE[PF1].
-          0x2 = Set WQE[PF2].
-          0x3 = Set WQE[PF3].
-          0x4 = Set WQE[PF4].
-          else = reserved.
+          encrypted packet:
+
+          _ 0x0 = no change.
+          _ 0x1 = Set WQE[PF1].
+          _ 0x2 = Set WQE[PF2].
+          _ 0x3 = Set WQE[PF3].
+          _ 0x4 = Set WQE[PF4].
+          _ else = reserved.
+
           Must be zero for invalid entries.
 
       - name: SETTY
@@ -6060,8 +6137,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Relative number of bytes to advance scan pointer when entry matches. See Parser Skip and
-          Advancing. Must be even. Must be zero for invalid entries and for TERMs that do not allow
+          Relative number of bytes to advance scan pointer when entry matches.
+          Must be even. Must be zero for invalid entries and for TERMs that do not allow
           an advance as specified in the PKI_PCAM_TERM_E table.
 
 
@@ -6200,10 +6277,10 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          Specifies what to add to FPA_AURA(0..1023)_CNT when PKI enqueues a packet:
+          Specifies what to add to FPA_AURA()_CNT when PKI enqueues a packet:
           0 = zero.
           1 = one.
-          2 = The number of FPA buffers allocated; i.e. if PKI_STYLE(0..63)_BUF[DIS_WQ_DAT] is set,
+          2 = The number of FPA buffers allocated; i.e. if PKI_STYLE()_BUF[DIS_WQ_DAT] is set,
           WQE[BUFS]+1, else WQE[BUFS].
           3 = WQE[LEN] (i.e. the packet length).
 
@@ -6223,7 +6300,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Enable RED drop between PASS and DROP levels. See also
-          FPA_AURA(0..1023)_POOL_LEVELS[RED_ENA] and FPA_AURA(0..1023)_CNT_LEVELS[RED_ENA].
+          FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA].
 
       - name: ENA_DROP
         bits: 17
@@ -6234,7 +6311,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Enable tail drop when maximum DROP level exceeded. See also
-          FPA_AURA(0..1023)_POOL_LEVELS[DROP] and FPA_AURA(0..1023)_CNT_LEVELS[DROP].
+          FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP].
 
       - name: ENA_BP
         bits: 16
@@ -6245,7 +6322,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Enable asserting backpressure on BPID when maximum DROP level exceeded. See also
-          FPA_AURA(0..1023)_POOL_LEVELS[RED_ENA] and FPA_AURA(0..1023)_CNT_LEVELS[RED_ENA].
+          FPA_AURA()_POOL_LEVELS[RED_ENA] and FPA_AURA()_CNT_LEVELS[RED_ENA].
 
       - name: --
         bits: 15..10
@@ -6292,6 +6369,7 @@ registers:
           0 = this index is read only.
           1 = this index is read-write.
           INTERNAL: Write to a non-implemented channel is ignored but returns write commit. Reading
+
           non-implemented channel returns all zero data.
 
       - name: --
@@ -6603,7 +6681,7 @@ registers:
         typical: --
         attributes:
           no_soft_reset: "1"
-        description: Inbound packets dropped by RED, buffer exhaustion, or PKI_CL(0..3)_STYLE(0..63)_CFG[DROP].
+        description: Inbound packets dropped by RED, buffer exhaustion, or PKI_CL()_STYLE()_CFG[DROP].
 
 
   - name: PKI_STAT(0..63)_STAT4
@@ -6627,7 +6705,7 @@ registers:
         typical: --
         attributes:
           no_soft_reset: "1"
-        description: Inbound octets dropped by RED, buffer exhaustion, or PKI_CL(0..3)_STYLE(0..63)_CFG[DROP].
+        description: Inbound octets dropped by RED, buffer exhaustion, or PKI_CL()_STYLE()_CFG[DROP].
 
 
   - name: PKI_STAT(0..63)_STAT5
@@ -6878,7 +6956,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Number of packets with L2 broadcast DMAC that were dropped by RED, buffer exhaustion, or
-          PKI_CL(0..3)_STYLE(0..63)_CFG[DROP]. See WQE[L2B] for the definition of L2 broadcast.
+          PKI_CL()_STYLE()_CFG[DROP]. See WQE[L2B] for the definition of L2 broadcast.
 
 
   - name: PKI_STAT(0..63)_STAT15
@@ -6904,7 +6982,7 @@ registers:
           no_soft_reset: "1"
         description: |
           Number of packets with L2 multicast DMAC that were dropped by RED, buffer exhaustion, or
-          PKI_CL(0..3)_STYLE(0..63)_CFG[DROP]. See WQE[L2M] for the definition of L2 multicast.
+          PKI_CL()_STYLE()_CFG[DROP]. See WQE[L2M] for the definition of L2 multicast.
 
 
   - name: PKI_STAT(0..63)_STAT16

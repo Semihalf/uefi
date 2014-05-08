@@ -382,7 +382,7 @@ structs:
           0x1000 0000 (i.e. 256 MB) from the L2/DRAM physical address if it is upper 511.75GB of
           DDR3/4 address. If all ranks of DRAM in all LMCs have the same amount of DRAM attached,
           then the L2C+LMC internal DRAM address is contiguous, ranging from 0 up to what is
-          necessary to cover the total amount of DRAM attached to CN78XX. If some ranks of DRAM in
+          necessary to cover the total amount of DRAM attached to CNXXXX. If some ranks of DRAM in
           some LMCs do not have the same amount of DRAM attached, there may be holes in the L2C+LMC
           internal DRAM address space. CN78XX supports two modes: a four-LMC mode, and a two-LMC
           mode.

@@ -125,8 +125,7 @@ enums:
           major_val: "(0x1)"
           reg_addr: "0"
           reg_name: ""
-        description: |
-          Watchdog interrupts, see CIU3_WDOG(0..47) and Per-Core Watchdog Timers. INTERNAL:
+        description: Watchdog interrupts, see CIU3_WDOG().
 
       - name: CIU_TIMER(0..9)_PP(0..47)
         value: 0x02000 + a*0x80 + b
@@ -140,9 +139,7 @@ enums:
           major_val: "(0x2)"
           reg_addr: "0"
           reg_name: ""
-        description: |
-          General timer interrupts from the corresponding CIU timer expires, see CIU3_TIM(0..9) and
-          General Timers. INTERNAL:
+        description: General timer interrupts from the corresponding CIU timer expires, see CIU3_TIM().
 
       - name: GPIO_INTR(0..15)
         value: 0x03000 + a
@@ -184,8 +181,7 @@ enums:
           major_val: "(0x4)"
           reg_addr: "0"
           reg_name: ""
-        description: |
-          Software mailbox interrupts. See Software Interrupts. INTERNAL:
+        description: Software mailbox interrupts. See Software Interrupts.
 
       - name: MPI_STS_INTR
         value: 0x05001

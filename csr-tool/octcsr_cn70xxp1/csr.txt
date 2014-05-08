@@ -4118,7 +4118,8 @@ $DTX_MIO_CTL   Address=(0x11800FE000060)   Bus=(RSL)
  <4>     ACTIVE R/W     0          0          Force block's gated clocks on, so that the state of idle signals may be captured.
  <3:2>   --     RAZ     0x0        0x0        Reserved.                                         
  <1>     ECHOEN R/W     0          0          Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-                                              Not applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
+                                              Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                              only.
  <0>     SWAP   R/W     0          0          Swap the high and low 36-bit debug bus outputs.   
 -----------------------------------------------------------------------------------------------------------------------------------
 
@@ -4132,7 +4133,7 @@ $DTX_MIO_BCST_RSP   Address=(0x11800FE000080)   Bus=(RSL)
  Pos     Name  Type    Value      Value      Description                                       
 -----------------------------------------------------------------------------------------------------------------------------------
  <63:1>  --    RAZ     0x0        0x0        Reserved.                                         
- <0>     ENA   R/W     0          0          Enable this DTX instance as the responder to DTX Broadcast reads/writes.
+ <0>     ENA   R/W     0          0          Enable this DTX instance as the responder to DTX broadcast read/write operations.
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -5117,7 +5118,8 @@ $DTX_BROADCAST_CTL   Address=(0x11800FE7F0060)   Bus=(RSL)
  <4>     ACTIVE R/W     0          0          Force block's gated clocks on, so that the state of idle signals may be captured.
  <3:2>   --     RAZ     0x0        0x0        Reserved.                                         
  <1>     ECHOEN R/W     0          0          Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-                                              Not applicable when SW directly reads the DAT(0..1) registers.  For diagnostic use only.
+                                              Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                              only.
  <0>     SWAP   R/W     0          0          Swap the high and low 36-bit debug bus outputs.   
 -----------------------------------------------------------------------------------------------------------------------------------
 
