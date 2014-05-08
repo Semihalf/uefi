@@ -343,6 +343,29 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
 }
 
 /**
+ * Some QLM speeds need to override the default tuning parameters
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param mode     Desired mode
+ * @param baud_mhz Desired speed
+ */
+static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
+{
+    /* Change the default tuning for 6.25G, from lab measurements */
+    if (baud_mhz == 6250)
+    {
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                c.s.cfg_tx_swing = 0xa);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                c.s.cfg_tx_premptap = 0xa0);
+        }
+    }
+}
+
+/**
  * For chips that don't use pin strapping, this function programs
  * the QLM to the specified mode
  *
@@ -666,6 +689,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             }
         }
     }
+
+    /* Apply any custom tuning */
+    qlm_tune(node, qlm, mode, baud_mhz);
     return 0;
 }
 
