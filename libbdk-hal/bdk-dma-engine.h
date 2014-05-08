@@ -343,21 +343,6 @@ typedef union
 } bdk_dma_engine_buffer_t;
 
 /**
- * Initialize the DMA engines for use
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_dma_engine_initialize(bdk_node_t node);
-
-/**
- * Shutdown all DMA engines. The engeines must be idle when this
- * function is called.
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_dma_engine_shutdown(bdk_node_t node);
-
-/**
  * Return the number of DMA engimes supported by this chip
  *
  * @return Number of DMA engines

@@ -432,9 +432,6 @@ int main()
         c.s.rst_link = 0;
         c.s.rst_chip = 0);
 
-    RETURN_ON_FAIL(bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL, 16));
-    RETURN_ON_FAIL(bdk_dma_engine_initialize(node));
-
     RETURN_ON_FAIL(setup_pcie(node, 0));
     RETURN_ON_FAIL(setup_pcie(node, 1));
 

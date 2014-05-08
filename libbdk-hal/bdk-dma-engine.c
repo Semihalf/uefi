@@ -1,6 +1,8 @@
 #include <bdk.h>
 
 static bdk_cmd_queue_state_t dma_queue[BDK_NUMA_MAX_NODES][8];
+static int __bdk_dma_init_done = 0; /* Bitmask of Nodes that have done init */
+static bdk_spinlock_t dma_lock;     /* Protects __bdk_dma_init_done */
 
 /**
  * Return the number of DMA engimes supported by this chip
@@ -17,16 +19,23 @@ int bdk_dma_engine_get_num(bdk_node_t node)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_dma_engine_initialize(bdk_node_t node)
+static int __bdk_dma_engine_initialize(bdk_node_t node)
 {
-    int engine;
-
-    for (engine=0; engine < bdk_dma_engine_get_num(node); engine++)
+    bdk_spinlock_lock(&dma_lock);
+    if (__bdk_dma_init_done & (1<<node))
+    {
+        bdk_spinlock_unlock(&dma_lock);
+        return 0;
+    }
+    for (int engine = 0; engine < bdk_dma_engine_get_num(node); engine++)
     {
         bdk_cmd_queue_result_t result;
         result = bdk_cmd_queue_initialize(node, dma_queue[node] + engine);
         if (result != BDK_CMD_QUEUE_SUCCESS)
+        {
+            bdk_spinlock_unlock(&dma_lock);
             return -1;
+        }
 
         bdk_dpi_dmax_ibuff_saddr_t dpi_dmax_ibuff_saddr;
         dpi_dmax_ibuff_saddr.u64 = 0;
@@ -75,10 +84,13 @@ int bdk_dma_engine_initialize(bdk_node_t node)
     dpi_ctl.s.en = 1;
     BDK_CSR_WRITE(node, BDK_DPI_CTL, dpi_ctl.u64);
 
+    __bdk_dma_init_done |= 1 << node;
+    bdk_spinlock_unlock(&dma_lock);
     return 0;
 }
 
 
+#if 0
 /**
  * Shutdown all DMA engines. The engeines must be idle when this
  * function is called.
@@ -87,6 +99,13 @@ int bdk_dma_engine_initialize(bdk_node_t node)
  */
 int bdk_dma_engine_shutdown(bdk_node_t node)
 {
+    bdk_spinlock_lock(&dma_lock);
+    if ((__bdk_dma_init_done & (1<<node)) == 0)
+    {
+        bdk_spinlock_unlock(&dma_lock);
+        return 0;
+    }
+
     bdk_dpi_dma_control_t dma_control;
     dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
     dma_control.s.dma_enb = 0;
@@ -100,8 +119,11 @@ int bdk_dma_engine_shutdown(bdk_node_t node)
         BDK_CSR_WRITE(node, BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
     }
 
+    __bdk_dma_init_done &= ~(1 << node);
+    bdk_spinlock_unlock(&dma_lock);
     return 0;
 }
+#endif
 
 
 /**
@@ -117,6 +139,9 @@ int bdk_dma_engine_shutdown(bdk_node_t node)
  */
 int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t header, int num_buffers, bdk_dma_engine_buffer_t buffers[])
 {
+    if (__bdk_dma_engine_initialize(node))
+        return -1;
+
     bdk_cmd_queue_result_t result;
     int cmd_count = 1;
     uint64_t cmds[num_buffers + 2];

@@ -13,6 +13,15 @@
  */
 bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_node_t node, bdk_cmd_queue_state_t *qstate)
 {
+    static int fpa_is_ready = 0;
+
+    /* Allocate command buffers on first call */
+    if (!fpa_is_ready)
+    {
+        bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL, bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS));
+        fpa_is_ready = 1;
+    }
+
     int fpa_pool = BDK_FPA_OUTPUT_BUFFER_POOL;
     int pool_size = bdk_fpa_get_block_size(node, fpa_pool);
 
