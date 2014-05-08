@@ -43,8 +43,8 @@ typedef union
     uint64_t u64;
     struct
     {
-        uint64_t    reserved2   : 40;
-        unsigned    speed       : 16;
+        uint64_t    reserved2   : 32;
+        unsigned    speed       : 24;
         unsigned    lanes       : 4;
         int         reserved    : 2;
         int         full_duplex : 1;
