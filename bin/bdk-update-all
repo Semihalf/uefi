@@ -31,7 +31,7 @@ cat ${DIR}/original/emm-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-emmc-cn70xx.b
 cat ${DIR}/bdk-xmodem-load.bin >> ${DIR}/bdk-boot-emmc-cn70xx.bin
 
 # CN70XX - Xmodem boot from SPI
-cat ${DIR}/original/spi-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-spi-cn70xx.bin bs=1024 count=8 > /dev/null 2>&1
+cat ${DIR}/original/spi-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-spi-cn70xx.bin bs=1024 count=64 > /dev/null 2>&1
 cat ${DIR}/bdk-xmodem-load.bin >> ${DIR}/bdk-boot-spi-cn70xx.bin
 
 # CN70XX - Chip screen boot from NOR
@@ -48,8 +48,8 @@ cp ${DIR}/bdk-boot-cn78xx.bin ${DIR}/bdk-boot-nor-cn78xx.bin
 cat ${DIR}/original/emm-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-emmc-cn78xx.bin bs=1024 count=8 > /dev/null 2>&1
 cat ${DIR}/bdk-boot-cn78xx.bin >> ${DIR}/bdk-boot-emmc-cn78xx.bin
 
-# CN78XX - Xmodem boot from SPI
-cat ${DIR}/original/spi-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-spi-cn78xx.bin bs=1024 count=8 > /dev/null 2>&1
+# CN78XX - BDK boot from SPI
+cat ${DIR}/original/spi-boot.bin /dev/zero | dd of=${DIR}/bdk-boot-spi-cn78xx.bin bs=1024 count=64 > /dev/null 2>&1
 cat ${DIR}/bdk-boot-cn78xx.bin >> ${DIR}/bdk-boot-spi-cn78xx.bin
 
 # CN78XX - Chip screen boot from NOR
