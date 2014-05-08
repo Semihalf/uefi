@@ -361,6 +361,9 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
                 c.s.cfg_tx_swing = 0xa);
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
                 c.s.cfg_tx_premptap = 0xa0);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrd_en = 1;
+                c.s.tx_premptap_ovrd_val = 1);
         }
     }
 }
