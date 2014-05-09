@@ -20,7 +20,11 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_node_t node, bdk_cmd_queue_s
     if (!fpa_is_ready)
     {
         BDK_TRACE("N%d:     Setting up FPA pool for command buffers\n", node);
-        bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL, bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS));
+        if (bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL, bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS)))
+        {
+            bdk_error("bdk_cmd_queue_initialize: Unable to setup FPA pool\n");
+            return BDK_CMD_QUEUE_NO_MEMORY;
+        }
         fpa_is_ready = 1;
     }
 
