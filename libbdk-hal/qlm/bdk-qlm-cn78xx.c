@@ -554,7 +554,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_XAUI_1X4:
             lmac_type = 1; /* XAUI */
-            is_bgx = 1; /* There is an errata where QUAD mode doesn't work */
+            is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
@@ -577,7 +577,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_XLAUI_1X4:
             lmac_type = 4; /* 40G_R */
-            is_bgx = 1; /* There is an errata where QUAD mode doesn't work */
+            is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("XLAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
@@ -595,7 +595,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
             lmac_type = 4; /* 40G_R */
-            is_bgx = 1; /* There is an errata where QUAD mode doesn't work */
+            is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
@@ -611,6 +611,11 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_pd = 0;
         c.s.phy_reset = 1);
+
+    /* Errata GSER-20788: GSER(0..13)_CFG[BGX_QUAD]=1 is broken. Force the
+       BGX_QUAD bit to be clear for CN78XX pass 1.x */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+        is_bgx &= 3;
 
     /* Set gser for the interface mode */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
