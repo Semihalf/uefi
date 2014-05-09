@@ -53,23 +53,22 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     bdk_dpi_ctl_t dpi_ctl;
 
     BDK_TRACE("    Configuring DMA engine buffers\n");
-    /* Give engine 0-4 1KB, and 5 3KB. This gives the packet engines better
-        performance. Total must not exceed 8KB */
+    /* Give engine 0-3 2KB, and 4-5 4KB. This gives the packet engines better
+        performance. Total must not exceed 16KB */
     dpi_engx_buf.u64 = 0;
-    dpi_engx_buf.s.blks = 2;
+    dpi_engx_buf.s.blks = 4; /* 2KB */
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(0), dpi_engx_buf.u64);
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(1), dpi_engx_buf.u64);
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(2), dpi_engx_buf.u64);
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(3), dpi_engx_buf.u64);
+    dpi_engx_buf.s.blks = 8; /* 4KB */
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(4), dpi_engx_buf.u64);
-    dpi_engx_buf.s.blks = 6;
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(5), dpi_engx_buf.u64);
 
     BDK_TRACE("    Configuring DMA control settings\n");
     dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
-    dma_control.s.pkt_hp = 1;
     dma_control.s.pkt_en = 1;
-    dma_control.s.dma_enb = 0x1f;
+    dma_control.s.dma_enb = 0xf; /* Enable 0-3, 4-5 reserved for packets */
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
         dma_control.cn78xx.ldwb = BDK_USE_DWB;
