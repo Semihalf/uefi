@@ -752,7 +752,8 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
         return -1;
     }
 
-    /* CN78XX pass 1 has a bug where the packet pointer in each segmetn is
+    /* Errata (PKI-20776) PKI_BUFLINK_S's are endian-swapped
+       CN78XX pass 1.x has a bug where the packet pointer in each segment is
        written in the opposite endianness of the configured mode. Fix these
        here */
     if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
