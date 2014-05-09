@@ -1079,7 +1079,10 @@ static void qlm_pcie_errata(int node, int qlm)
 
 static void qlm_init_errata_20844(int node, int qlm)
 {
-    /* Errata #20844
+    /* Only applies to CN78XX pass 1.x */
+    if (!OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+        return;
+    /* Errata GSER-20844: Electrical Idle logic can coast
     1) After the link first comes up write the following
        register on each lane to prevent the application logic
        from stomping on the Coast inputs. This is a one time write,
@@ -1427,7 +1430,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
-    /* Apply Errata #20844 to all QLMs that are out of reset */
+    /* Apply erratas to all QLMs that are out of reset */
     for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
     {
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
