@@ -260,7 +260,6 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     int index = fifo >> 2;
     BDK_CSR_INIT(cfg, node, BDK_PKO_PTGFX_CFG(index));
     cfg.s.reset = 1;
-    cfg.s.rate = 1; /* Default to 12.5 Gb/s */
     switch (cfg.s.size)
     {
         case 0: /* 2.5kb, 2.5kb, 2.5kb, 2.5kb */
@@ -274,8 +273,6 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     break;
                 default: /* 4 */
                     cfg.s.size = 3; /* 10kb */
-                    if (lmac != 0) /* Don't boost LOOP as it crashes */
-                        cfg.s.rate = 2; /* Boost big ports to 25 Gb/s */
                     break;
             }
             break;
