@@ -32,7 +32,7 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     {
         BDK_TRACE("    Setting up command queue for DMA engine %d\n", engine);
         bdk_cmd_queue_result_t result;
-        result = bdk_cmd_queue_initialize(node, dma_queue[node] + engine);
+        result = bdk_cmd_queue_initialize(node, &dma_queue[node][engine]);
         if (result != BDK_CMD_QUEUE_SUCCESS)
         {
             bdk_spinlock_unlock(&dma_lock);
