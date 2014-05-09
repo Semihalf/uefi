@@ -748,7 +748,7 @@ static void setup_node(bdk_node_t node)
         c.s.sort = 1);
 
     bdk_rng_enable(node);
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0))
     {
         /* Don't apply OCI workaround if we're running on a single node */
         int nodes = bdk_dpop(bdk_numa_get_exists_mask());
