@@ -713,6 +713,27 @@ static int init_oci(void)
         }
     }
     BDK_TRACE("OCX is functional, starting to boot nodes\n");
+
+    /* Make sure all cores on remote nodes are in reset. The L2 will
+       have invalid aliases for memory if we changed the node ID while
+       a core was running */
+    for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node) && (node != bdk_numa_master()))
+        {
+            BDK_CSR_INIT(ciu_fuse, node, BDK_CIU_FUSE);
+            BDK_CSR_INIT(ciu_pp_rst, node, BDK_CIU_PP_RST);
+            if (ciu_fuse.u & ~ciu_pp_rst.u)
+            {
+                bdk_warn("*****************************************************\n");
+                bdk_warn("Cores booted on remote node %d before OCI setup. L2\n", node);
+                bdk_warn("aliases will make software unstable. Configure remote\n");
+                bdk_warn("nodes for remote boot using pin REMOTE_BOOT.\n");
+                bdk_warn("*****************************************************\n");
+            }
+        }
+    }
+
     return 0;
 }
 
