@@ -15,9 +15,11 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_node_t node, bdk_cmd_queue_s
 {
     static int fpa_is_ready = 0;
 
+    BDK_TRACE("N%d: Setting up command buffer for queue %p\n", node, qstate);
     /* Allocate command buffers on first call */
     if (!fpa_is_ready)
     {
+        BDK_TRACE("N%d:     Setting up FPA pool for command buffers\n", node);
         bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL, bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS));
         fpa_is_ready = 1;
     }
@@ -31,13 +33,15 @@ bdk_cmd_queue_result_t bdk_cmd_queue_initialize(bdk_node_t node, bdk_cmd_queue_s
         bdk_error("bdk_cmd_queue_initialize: Unable to allocate initial buffer.\n");
         return BDK_CMD_QUEUE_NO_MEMORY;
     }
-
+    BDK_TRACE("N%d:     Using FPA buffer %p\n", node, buffer);
+    BDK_TRACE("N%d:     Setting up qstate %p\n", node, qstate);
     bdk_zero_memory(qstate, sizeof(*qstate));
     qstate->fpa_pool = fpa_pool;
     qstate->node = node;
     qstate->pool_size_m1 = (pool_size>>3)-1;
     qstate->base_ptr = buffer;
     BDK_SYNCW;
+    BDK_TRACE("N%d:     Command queue init complete for %p\n", node, qstate);
     return BDK_CMD_QUEUE_SUCCESS;
 }
 

@@ -27,8 +27,10 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
         bdk_spinlock_unlock(&dma_lock);
         return 0;
     }
+    BDK_TRACE("Initializing DMA engines\n");
     for (int engine = 0; engine < bdk_dma_engine_get_num(node); engine++)
     {
+        BDK_TRACE("    Setting up command queue for DMA engine %d\n", engine);
         bdk_cmd_queue_result_t result;
         result = bdk_cmd_queue_initialize(node, dma_queue[node] + engine);
         if (result != BDK_CMD_QUEUE_SUCCESS)
@@ -50,6 +52,7 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     bdk_dpi_dma_control_t dma_control;
     bdk_dpi_ctl_t dpi_ctl;
 
+    BDK_TRACE("    Configuring DMA engine buffers\n");
     /* Give engine 0-4 1KB, and 5 3KB. This gives the packet engines better
         performance. Total must not exceed 8KB */
     dpi_engx_buf.u64 = 0;
@@ -62,6 +65,7 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     dpi_engx_buf.s.blks = 6;
     BDK_CSR_WRITE(node, BDK_DPI_ENGX_BUF(5), dpi_engx_buf.u64);
 
+    BDK_TRACE("    Configuring DMA control settings\n");
     dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
     dma_control.s.pkt_hp = 1;
     dma_control.s.pkt_en = 1;
@@ -80,10 +84,12 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     dma_control.s.o_es = 1;
     dma_control.s.o_mode = 1;
     BDK_CSR_WRITE(node, BDK_DPI_DMA_CONTROL, dma_control.u64);
+    BDK_TRACE("    Enabling DMA engines\n");
     dpi_ctl.u64 = BDK_CSR_READ(node, BDK_DPI_CTL);
     dpi_ctl.s.en = 1;
     BDK_CSR_WRITE(node, BDK_DPI_CTL, dpi_ctl.u64);
 
+    BDK_TRACE("DMA engine initialization is complete\n");
     __bdk_dma_init_done |= 1 << node;
     bdk_spinlock_unlock(&dma_lock);
     return 0;
