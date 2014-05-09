@@ -484,7 +484,7 @@ static int pko_port_init(bdk_if_handle_t handle)
         if (fifo<0)
             return -1;
         pko_macx_cfg.s.fifo_num = fifo;
-        pko_macx_cfg.s.min_pad_ena = fcs_ena; /* Pad to 60 bytes */
+        pko_macx_cfg.s.min_pad_ena = 0; /* Don't use padding due to Errata (PKO-20715) */
         pko_macx_cfg.s.fcs_ena = fcs_ena; /* FCS */
         pko_macx_cfg.s.fcs_sop_off = 0; /* No FCS offset */
         pko_macx_cfg.s.skid_max_cnt = skid_max_cnt;
@@ -545,9 +545,6 @@ static int pko_port_init(bdk_if_handle_t handle)
             c.s.rr_quantum = 0);
         BDK_CSR_MODIFY(c, handle->node, BDK_PKO_DQX_TOPOLOGY(dq+q),
             c.s.parent = sq_l5);
-        /* Enable padding to 60 bytes */
-        BDK_CSR_MODIFY(c, handle->node, BDK_PKO_PDM_DQX_MINPAD(dq+q),
-            c.s.minpad = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0;);
     }
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_LUTX(compressed_channel_id),
         c.s.valid = 1;
@@ -868,6 +865,16 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     bdk_pko_send_link_s_t pko_send_link_s;
     pko_send_link_s = packet->packet;
+
+    /* Errata (PKO-20715) PKO problems with min padding
+       Due to this errata, we are doing padding in software. This code
+       assumes the runt packet is in a single buffer and we can just spew
+       the data after it as our padding */
+    if ((packet->length < 60) && (handle->flags & BDK_IF_FLAGS_HAS_FCS))
+    {
+        pko_send_hdr_s.s.total = 60;
+        pko_send_link_s.v3.size = 60;
+    }
 
     /* Write the PKO commands to scratch */
     bdk_scratch_write64(BDK_IF_SCR_PKO(0), pko_send_hdr_s.u);
