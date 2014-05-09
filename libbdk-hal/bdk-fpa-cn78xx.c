@@ -162,6 +162,7 @@ static int fpa_init_pool(bdk_node_t node, int pool, int num_blocks, int block_si
     BDK_CSR_MODIFY(c, node, BDK_FPA_POOLX_CFG(pool),
         c.s.buf_size = block_size / BDK_CACHE_LINE_SIZE;
         c.s.buf_offset = 0;
+        c.s.l_type = (BDK_USE_DWB) ? 2 : 0;
         c.s.nat_align = 1;
         c.s.ena = 1);
 
