@@ -227,6 +227,45 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         pciercx_cfg075.s.fere = 1; /* Fatal error reporting enable. */
         BDK_CSR_WRITE(node, BDK_PCIERCX_CFG075(pcie_port), pciercx_cfg075.u32);
     }
+
+    /* Make sure the PEM agrees with GSERX about the speed its going to try */
+    const int qlm = bdk_qlm_get(node, BDK_IF_DPI, pcie_port);
+    const int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
+    switch (gbaud)
+    {
+        case 2500: /* Gen1 */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
+                c.s.md = 0);
+            /* Set the target link speed */
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
+                c.s.tls = 1);
+            break;
+        case 5000: /* Gen2 */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
+                c.s.md = 1);
+            /* Set the target link speed */
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
+                c.s.tls = 2);
+            break;
+        case 8000: /* Gen3 */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
+                c.s.md = 2);
+            /* Set the target link speed */
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
+                c.s.tls = 3);
+            break;
+        default:
+            bdk_error("PCIe%d: Unexpected rate of %d GBaud on QLM%d\n", pcie_port, gbaud, qlm);
+            break;
+    }
+
+    /* Link Width Mode (PCIERCn_CFG452[LME]) */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
+        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
+            c.s.lme = (pemx_cfg.cn78xx.lanes8) ? 0xf : 0x7);
+    }
 }
 
 
@@ -323,7 +362,6 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     bdk_pemx_bar_ctl_t pemx_bar_ctl;
     bdk_pemx_bist_status_t pemx_bist_status;
     bdk_pemx_bist_status2_t pemx_bist_status2;
-    bdk_pciercx_cfg032_t pciercx_cfg032;
     bdk_sli_ctl_portx_t sli_ctl_portx;
     bdk_sli_mem_access_ctl_t sli_mem_access_ctl;
     bdk_sli_mem_access_subidx_t mem_access_subid;
@@ -334,36 +372,6 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     {
         bdk_error("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
         return -1;
-    }
-
-    /* Make sure the PEM agrees with GSERX about the speed its going to try */
-    const int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
-    switch (gbaud)
-    {
-        case 2500: /* Gen1 */
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
-                c.s.md = 0);
-            /* Set the target link speed */
-            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
-                c.s.tls = 1);
-            break;
-        case 5000: /* Gen2 */
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
-                c.s.md = 1);
-            /* Set the target link speed */
-            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
-                c.s.tls = 2);
-            break;
-        case 8000: /* Gen3 */
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
-                c.s.md = 2);
-            /* Set the target link speed */
-            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
-                c.s.tls = 3);
-            break;
-        default:
-            bdk_error("PCIe%d: Unexpected rate of %d GBaud on QLM%d\n", pcie_port, gbaud, qlm);
-            return -1;
     }
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
@@ -382,13 +390,6 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
     {
         bdk_dprintf("PCIe%d: Port in endpoint mode.\n", pcie_port);
         return -1;
-    }
-
-    /* Link Width Mode (PCIERCn_CFG452[LME]) */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-    {
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
-            c.s.lme = (pemx_cfg.cn78xx.lanes8) ? 0xf : 0x7);
     }
 
     /* Bring the PCIe out of reset */
@@ -522,7 +523,7 @@ static int __bdk_pcie_rc_initialize_gen2(bdk_node_t node, int pcie_port)
         c.s.cfg_rtry = 32);
 
     /* Display the link status */
-    pciercx_cfg032.u32 = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
+    BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
     bdk_dprintf("PCIe: Port %d link active, %d lanes, speed gen%d\n", pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls);
 
     return 0;
