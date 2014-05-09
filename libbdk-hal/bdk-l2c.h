@@ -106,8 +106,6 @@ int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len);
 
 /**
  * Flushes (and unlocks) the entire L2 cache.
- * IMPORTANT: Must only be run by one core at a time due to use
- * of L2C debug features.
  */
 void bdk_l2c_flush(bdk_node_t node);
 
