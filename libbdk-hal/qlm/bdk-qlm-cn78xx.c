@@ -22,6 +22,7 @@ static const int REF_156MHZ = 156250000;
 static uint64_t prbs_errors[14][4];
 
 static void qlm_init_one(bdk_node_t node, int qlm);
+static void qlm_pcie_errata(int node, int qlm);
 
 /**
  * Return the number of QLMs supported for the chip
@@ -650,11 +651,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
        read/write commands.*/
     bdk_wait_usec(1);
 
-    /* FIXME: This needs to be needed for PCIe */
-    if (is_pcie)
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(qlm),
-            c.s.tx_rx_detect_lvl_enc = 9);
-
     /* Configure the gser pll */
     qlm_init_one(node, qlm);
 
@@ -664,6 +660,11 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
         return -1;
     }
+
+    /* Perform PCIe errata workaround */
+    if (is_pcie)
+        qlm_pcie_errata(node, qlm);
+
     /* PCIe mode doesn't become ready until the PEM block attempts to bring
        the interface up. Skip this check for PCIe */
     if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
@@ -1056,6 +1057,21 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     return -1;
 }
 
+static void qlm_pcie_errata(int node, int qlm)
+{
+    /* The presence detect threshold has the wrong default value */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(qlm),
+        c.s.tx_rx_detect_lvl_enc = 7);
+    /* Override TX Power State machine TX reset control signal */
+    for (int lane = 0; lane < 4; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+            c.s.tx_resetn_ovrd_val = 1);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, lane),
+            c.s.tx_p2s_resetn_ovrrd_en = 1);
+    }
+}
+
 static void qlm_init_errata_20844(int node, int qlm)
 {
     /* Errata #20844
@@ -1411,7 +1427,13 @@ static void qlm_init(bdk_node_t node)
     {
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
         if (gserx_phy_ctl.s.phy_reset == 0)
+        {
             qlm_init_errata_20844(node, qlm);
+            /* Perform PCIe errata workaround */
+            BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+            if (gserx_cfg.s.pcie)
+                qlm_pcie_errata(node, qlm);
+        }
     }
 }
 
