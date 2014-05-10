@@ -709,8 +709,8 @@ function TrafficGen.new()
         return tab
     end
 
-    function self:get_stats()
-        local stats = do_update(false)
+    function self:get_stats(zero_stats)
+        local stats = do_update(zero_stats)
         local result = {}
         for _,port in ipairs(default_ports) do
             result[port] = stats[port]

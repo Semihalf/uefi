@@ -18,6 +18,7 @@ ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-chip-screen-stage2-cn70xx.b
 # CN78XX
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-boot-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-chip-screen-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen-cn78xx/*
+${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-network-perf-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/network-perf-cn78xx/*
 
 #
 # Create combined boot images for CN70XX
