@@ -853,11 +853,6 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         //bdk_error("%s: PKO transmit aborted due queue depth\n", bdk_if_name(handle));
         return -1;
     }
-    else
-    {
-        /* Increment the PKO depth. PKO will decrement it when its done */
-        bdk_atomic_add64_nosync(&handle->pko_depth, 1);
-    }
 
     /* Build the three PKO comamnd words we need */
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
@@ -889,11 +884,6 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         pko_send_link_s.v3.size = 60;
     }
 
-    /* Write the PKO commands to scratch */
-    bdk_scratch_write64(BDK_IF_SCR_PKO(0), pko_send_hdr_s.u);
-    bdk_scratch_write64(BDK_IF_SCR_PKO(1), pko_send_link_s.u64);
-    bdk_scratch_write64(BDK_IF_SCR_PKO(2), pko_send_mem_s.u);
-
     /* Build LMTDMA store data */
     bdk_pko_send_dma_s_t pko_send_dma_s;
     pko_send_dma_s.u = 0;
@@ -903,6 +893,16 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_dma_s.s.node = handle->node;
     pko_send_dma_s.s.dqop = 0; /* 0=Send */
     pko_send_dma_s.s.dq = handle->pko_queue;
+
+    /* Increment the PKO depth. PKO will decrement it when its done. This
+       will invalidate our L1 copy, so do it last before submit. It needs
+       to be before the submit to insure the depth never goes negative */
+    bdk_atomic_add64_nosync(&handle->pko_depth, 1);
+
+    /* Write the PKO commands to scratch */
+    bdk_scratch_write64(BDK_IF_SCR_PKO(0), pko_send_hdr_s.u);
+    bdk_scratch_write64(BDK_IF_SCR_PKO(1), pko_send_link_s.u64);
+    bdk_scratch_write64(BDK_IF_SCR_PKO(2), pko_send_mem_s.u);
 
     /* Issue LMTDMA with 2 dwords of data, no response */
     bdk_write64_uint64(BDK_LMTDMA_ADDR(3), pko_send_dma_s.u);
