@@ -434,10 +434,10 @@ function TrafficGen.new()
         octeon.c.bdk_reset_octeon(octeon.MASTER_NODE)
     end
 
-    function self:cmd_l2_stats(port_range, args)
-        assert (#args == 1, "One argument expected, on or off")
-        show_l2_stats = args[1]
-    end
+    --function self:cmd_l2_stats(port_range, args)
+    --    assert (#args == 1, "One argument expected, on or off")
+    --    show_l2_stats = args[1]
+    --end
 
     function self:cmd_sleep(port_range, args)
         assert (#args == 1, "One argument expected, how long to sleep in seconds")
