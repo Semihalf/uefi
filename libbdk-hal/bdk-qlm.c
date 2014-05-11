@@ -274,6 +274,18 @@ uint64_t bdk_qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
 }
 
 /**
+ * Inject an error into PRBS
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ */
+void bdk_qlm_inject_prbs_error(bdk_node_t node, int qlm, int lane)
+{
+    qlm_ops->inject_prbs_error(node, qlm, lane);
+}
+
+/**
  * Enable shallow loopback on a QLM
  *
  * @param node   Node to use in a numa setup

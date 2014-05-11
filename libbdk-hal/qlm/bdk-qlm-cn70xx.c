@@ -945,6 +945,19 @@ static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
 }
 
 /**
+ * Inject an error into PRBS
+ *
+ * @param node   Node to use in numa setup
+ * @param qlm    QLM to use
+ * @param lane   Which lane
+ */
+static void qlm_inject_prbs_error(bdk_node_t node, int qlm, int lane)
+{
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+        c.s.lbert_pg_err_insert = 1);
+}
+
+/**
  * Enable shallow loopback on a QLM
  *
  * @param node   Node to use in a numa setup
@@ -983,6 +996,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn70xx = {
     .reset = qlm_reset,
     .enable_prbs = qlm_enable_prbs,
     .get_prbs_errors = qlm_get_prbs_errors,
+    .inject_prbs_error = qlm_inject_prbs_error,
     .enable_loop = qlm_enable_loop,
 };
 

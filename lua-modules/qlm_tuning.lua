@@ -102,7 +102,7 @@ local function do_prbs(mode)
     -- Display PRBS status on the console
     local function display_status(run_time)
         printf("\n\n");
-        printf("PRBS-%d time: %d seconds (Press return to exit)\n", mode, run_time)
+        printf("PRBS-%d time: %d seconds (Press return to exit, 'E' to inject an error)\n", mode, run_time)
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
                 return (lane == 0) and ("--- QLM " .. qlm) or "----------"
@@ -184,7 +184,17 @@ local function do_prbs(mode)
             display_status(t - start_time)
             next_print = next_print + 5
         end
-    until readline.getkey() == '\r'
+        local key = readline.getkey()
+        if (key == 'e') or (key == 'E') then
+            print("Injecting error into PRBS")
+            for _,qlm_num in ipairs(qlm_list) do
+                local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
+                for lane=0, num_lanes-1 do
+                    octeon.c.bdk_qlm_inject_prbs_error(node, qlm_num, lane)
+                end
+            end
+        end
+    until key == '\r'
 end
 
 -- Main menu
