@@ -54,9 +54,14 @@ local function tg_perf(tg, tx_ports, size, rate_mbps)
     tg:command("stop all")
     local tx_mbps = 0
     local rx_mbps = 0
+    -- LOOP ports use PKI counters that given bogus values randomly. Ignore
+    -- these ports unless we really need to count them
+    local use_loop_stats = tx_ports:find("LOOP")
     for port,stat in pairs(stats) do
-        tx_mbps = tx_mbps + stat.tx_bits
-        rx_mbps = rx_mbps + stat.rx_bits
+        if (not port:find("LOOP")) or use_loop_stats then
+            tx_mbps = tx_mbps + stat.tx_bits
+            rx_mbps = rx_mbps + stat.rx_bits
+        end
     end
     tx_mbps = (tx_mbps + 500000) / 1000000
     rx_mbps = (rx_mbps + 500000) / 1000000
