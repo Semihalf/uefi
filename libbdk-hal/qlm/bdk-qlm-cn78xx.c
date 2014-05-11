@@ -1019,11 +1019,16 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
                 c.s.lbert_pm_width = 3; /* 20 bit */
                 c.s.lbert_pm_mode = mode);
         }
-        /* Tell the matcher to resync */
-        for (int lane = 0; lane < NUM_LANES; lane++)
+        /* Tell the matcher to start sync */
+        for (int retry=0; retry < 4; retry++)
         {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
-                c.s.lbert_pm_sync_start = 1);
+            for (int lane = 0; lane < NUM_LANES; lane++)
+            {
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+                    c.s.lbert_pm_sync_start = 1);
+            }
+            /* Wait 10ms */
+            bdk_wait_usec(10000);
         }
     }
     return 0;
@@ -1040,8 +1045,12 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
  */
 static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
 {
-    /* This CSR is self clearing per the CSR description */
+    /* This CSR is self clearing per the CSR description, but it doesn't
+       seem to do that. Instead it clears when we trigger sync again */
     BDK_CSR_INIT(rx, node, BDK_GSERX_LANEX_LBERT_ECNT(qlm, lane));
+    /* Restart synchronization */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+        c.s.lbert_pm_sync_start = 1);
     uint64_t errors = rx.s.lbert_err_cnt;
     if (rx.s.lbert_err_ovbit14)
         errors <<= 7;
