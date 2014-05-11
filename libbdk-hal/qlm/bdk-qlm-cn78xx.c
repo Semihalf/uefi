@@ -938,8 +938,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
 static int qlm_reset(bdk_node_t node, int qlm)
 {
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
-        c.s.phy_reset = 1;
-        c.s.phy_pd = 1);
+        c.s.phy_reset = 1);
     return 0;
 }
 
@@ -983,6 +982,9 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
             bdk_error("Invalid PRBS mode %d\n", prbs);
             return -1;
     }
+
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
+        c.s.phy_reset = 0);
 
     if (dir & BDK_QLM_DIRECTION_TX)
     {
