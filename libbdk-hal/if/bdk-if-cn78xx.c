@@ -823,6 +823,21 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         uint64_t u;
         struct
         {
+            uint64_t    reserved_63     : 1;
+            uint64_t    wmem            : 1;    /**< Wait for memory */
+            uint64_t    dsz             : 2;    /**< Memory data size. Use 0 for 64bit due to Errata PKO-19988 */
+            uint64_t    alg             : 4;    /**< Algorithm to use */
+            uint64_t    offset          : 8;    /**< Adder offset */
+            uint64_t    subdc4          : 4;    /**< Must be 0xC */
+            uint64_t    reserved_42_43  : 2;
+            uint64_t    addr            :42;    /**< Address */
+        } s;
+    } bdk_pko_send_mem_s_t;
+    typedef union
+    {
+        uint64_t u;
+        struct
+        {
             uint64_t    dqstatus        : 4;    /**< Success/failure: 0=pass */
             uint64_t    reserved_59_50  :10;
             uint64_t    dqop            : 2;    /**< Indictates operation that returned the status */
@@ -835,25 +850,16 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     if (handle->pko_depth >= PKO_DEPTH_LIMIT)
     {
-        /* Get the current DQ depth to make sure we don't overflow. CN78XX
-           PKO crashes hard if you run the FPA empty */
-        handle->pko_depth = BDK_CSR_READ(handle->node, BDK_PKO_DQX_WM_CNT(handle->pko_queue));
-        if (handle->pko_depth >= PKO_DEPTH_LIMIT)
-        {
-            //bdk_error("%s: PKO transmit aborted due queue depth\n", bdk_if_name(handle));
-            return -1;
-        }
+        //bdk_error("%s: PKO transmit aborted due queue depth\n", bdk_if_name(handle));
+        return -1;
     }
     else
     {
-        /* Increment the PKO depth assuming the packet will be delayed. Once
-           this gets to the limit, we're read the hardware counter and get
-           the correct value. This allows us to only read PKO every
-           PKO_DEPTH_LIMIT packets when PKO keeps up */
-        handle->pko_depth++;
+        /* Increment the PKO depth. PKO will decrement it when its done */
+        bdk_atomic_add64_nosync(&handle->pko_depth, 1);
     }
 
-    /* Build the two PKO comamnd words we need */
+    /* Build the three PKO comamnd words we need */
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
     pko_send_hdr_s.u = 0;
     pko_send_hdr_s.s.node = packet->if_handle->node;
@@ -862,9 +868,16 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_hdr_s.s.ii = 1;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
-
+    /* Packet pointer */
     bdk_pko_send_link_s_t pko_send_link_s;
     pko_send_link_s = packet->packet;
+    /* Memory decrement when done */
+    bdk_pko_send_mem_s_t pko_send_mem_s;
+    pko_send_mem_s.u = 0;
+    pko_send_mem_s.s.offset = 1;
+    pko_send_mem_s.s.alg = 9; /* Subtract */
+    pko_send_mem_s.s.subdc4 = 0xc;
+    pko_send_mem_s.s.addr = bdk_ptr_to_phys(&handle->pko_depth);
 
     /* Errata (PKO-20715) PKO problems with min padding
        Due to this errata, we are doing padding in software. This code
@@ -879,6 +892,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Write the PKO commands to scratch */
     bdk_scratch_write64(BDK_IF_SCR_PKO(0), pko_send_hdr_s.u);
     bdk_scratch_write64(BDK_IF_SCR_PKO(1), pko_send_link_s.u64);
+    bdk_scratch_write64(BDK_IF_SCR_PKO(2), pko_send_mem_s.u);
 
     /* Build LMTDMA store data */
     bdk_pko_send_dma_s_t pko_send_dma_s;
@@ -891,7 +905,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_dma_s.s.dq = handle->pko_queue;
 
     /* Issue LMTDMA with 2 dwords of data, no response */
-    bdk_write64_uint64(BDK_LMTDMA_ADDR(2), pko_send_dma_s.u);
+    bdk_write64_uint64(BDK_LMTDMA_ADDR(3), pko_send_dma_s.u);
 
     /* Updates the statistics in software if need to. The simulator
         doesn't implement the hardware counters */
