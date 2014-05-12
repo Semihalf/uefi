@@ -78,6 +78,7 @@ typedef struct __bdk_if_port
     int         pko_queue   : 16;   /* CN78XX has 1024, CN6XXX has 256 */
     int         aura        : 16;   /* CN78XX has 1024, CN6XXX doesn't use */
     bdk_if_flags_t flags    : 8;
+    uint64_t    pko_depth_addr;     /* Physical address of pko_depth, Converting CKSEG0 addresses is slow, so we cache it here */
     int64_t     pko_depth;          /* Tracks the PKO DQ depth on 78, decremented by hardware. This is a workaround for slow PKO performance */
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;

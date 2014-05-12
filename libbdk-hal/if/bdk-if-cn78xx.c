@@ -562,6 +562,10 @@ static int pko_port_init(bdk_if_handle_t handle)
     //bdk_dprintf("%s: pko mac=%d, pq=%d, l2=%d, l3=%d, l4=%d, l5=%d, dq=%d\n",
     //    bdk_if_name(handle), lmac, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
 
+    /* This can be slow, so cache the PA so the fastpath doesn't need
+       to covert CKSEG0 to physical address */
+    handle->pko_depth_addr = bdk_ptr_to_phys(&handle->pko_depth);
+
     return 0;
 }
 
@@ -873,7 +877,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_mem_s.s.offset = 1;
     pko_send_mem_s.s.alg = 9; /* Subtract */
     pko_send_mem_s.s.subdc4 = 0xc;
-    pko_send_mem_s.s.addr = bdk_ptr_to_phys(&handle->pko_depth);
+    pko_send_mem_s.s.addr = handle->pko_depth_addr;
 
     /* Errata (PKO-20715) PKO problems with min padding
        Due to this errata, we are doing padding in software. This code
