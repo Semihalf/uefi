@@ -310,7 +310,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     BDK_CSR_WRITE(node, BDK_PKO_PTGFX_CFG(index), cfg.u);
 
     /* Setup PKO MCI0 credits */
-    int pko_peb_buffering = size * (1024 + 512); /* 2.5KB per fifo */
+    int pko_peb_buffering = size * (2048 + 512); /* 2.5KB per fifo */
     int mac_buffering;
     switch (lmac)
     {
