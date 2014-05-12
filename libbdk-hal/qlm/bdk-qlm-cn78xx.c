@@ -353,9 +353,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
-    /* Change the default tuning for 6.25G, from lab measurements */
     if (baud_mhz == 6250)
     {
+        /* Change the default tuning for 6.25G, from lab measurements */
         for (int lane = 0; lane < 4; lane++)
         {
             if (mode == BDK_QLM_MODE_OCI)
@@ -372,6 +372,20 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
                     c.s.cfg_tx_premptap = 0xa0);
             }
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrd_en = 1;
+                c.s.tx_premptap_ovrd_val = 1);
+        }
+    }
+    else if (baud_mhz == 10312)
+    {
+        /* Change the default tuning for 10.3125G, from lab measurements */
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                c.s.cfg_tx_swing = 0xd);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                c.s.cfg_tx_premptap = 0xd0);
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
                 c.s.tx_swing_ovrd_en = 1;
                 c.s.tx_premptap_ovrd_val = 1);
