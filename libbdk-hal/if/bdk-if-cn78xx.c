@@ -215,6 +215,7 @@ static int pko_global_init(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
+        c.s.iobp1_magic_addr = bdk_numa_get_address(bdk_numa_master(), 0) >> 7;
         c.s.max_read_size = 16); /* Recommended by Joe Tompkins */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
         c.s.pko_pad_minlen = 60);
