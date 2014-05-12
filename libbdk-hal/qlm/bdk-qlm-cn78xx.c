@@ -358,10 +358,20 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
     {
         for (int lane = 0; lane < 4; lane++)
         {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-                c.s.cfg_tx_swing = 0xa);
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
-                c.s.cfg_tx_premptap = 0xa0);
+            if (mode == BDK_QLM_MODE_OCI)
+            {
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                    c.s.cfg_tx_swing = 0xc);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                    c.s.cfg_tx_premptap = 0xc0);
+            }
+            else
+            {
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                    c.s.cfg_tx_swing = 0xa);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                    c.s.cfg_tx_premptap = 0xa0);
+            }
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
                 c.s.tx_swing_ovrd_en = 1;
                 c.s.tx_premptap_ovrd_val = 1);
@@ -1465,6 +1475,10 @@ static void qlm_init(bdk_node_t node)
             BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
             if (gserx_cfg.s.pcie)
                 qlm_pcie_errata(node, qlm);
+            /* Apply tuning to all QLMs that are up */
+            bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
+            int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
+            qlm_tune(node, qlm, mode, baud_mhz);
         }
     }
 }
