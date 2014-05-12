@@ -52,10 +52,13 @@ registers:
         description: |
           Region 0 DMACK. If non-zero, this field asserts the corresponding BOOT_DMACK[n] pin when
           an access to this region is performed. DMACK is encoded as follows:
-          0x0 = disabled, 0x1 = BOOT_DMACK[0],
+          0x0 = disabled.
+          0x1 = BOOT_DMACK[0].
           0x2 = BOOT_DMACK[1].
+
           This is useful for CF cards in PC card memory mode that support DMA because the -REG and
           -DMACK pins are shared.
+
           The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIM(0..1)[DMACK_PI].
 
       - name: TIM_MULT
@@ -80,6 +83,7 @@ registers:
           coprocessor-clock edge that drives BOOT_OE_L to the inactive state (or the coprocessor-
           clock edge that toggles the lower address bits in page mode). This parameter can delay
           that sampling edge by up to seven coprocessor-clock cycles.
+
           The number of coprocessor-clock cycles counted by the PAGE and RD_HLD timing parameters
           must be greater than or equal to RD_DLY.
 
@@ -91,6 +95,7 @@ registers:
         description: |
           Region 0 strobe AND mode. Internally combines the output-enable and write-enable strobes
           into a single strobe that is then driven onto both BOOT_OE_L and BOOT_WE_L.
+
           This is useful for parts that use a single strobe along with a read/write bit (the
           read/write bit can be driven from an address pin).
 
@@ -182,11 +187,15 @@ registers:
         description: |
           Region 1-7 DMACK. If non-zero, this field asserts the corresponding BOOT_DMACK[n] pin when
           an access to this region is performed. DMACK is encoded as follows:
-          0x0 = disabled, 0x1 = BOOT_DMACK[0],
-          0x2 = BOOT_DMACK[1], 0x3 = BOOT_DMACK[2].
+          0x0 = disabled.
+          0x1 = BOOT_DMACK[0].
+          0x2 = BOOT_DMACK[1].
+          0x3 = BOOT_DMACK[2].
+
           This is useful for CF cards in PC card memory mode that support DMA because the -REG and
           -DMACK pins are shared.
-          The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIMn[DMACK_PI].
+
+          The assertion level of boot_dmack is specified by MIO_BOOT_DMA_TIM()[DMACK_PI].
 
       - name: TIM_MULT
         bits: 41..40
@@ -221,6 +230,7 @@ registers:
         description: |
           Region 1-7 strobe AND mode. Internally combines the output-enable and write-enable strobes
           into a single strobe that is then driven onto both BOOT_OE_L and BOOT_WE_L.
+
           This is useful for parts that use a single strobe along with a read/write bit (the
           read/write bit can be driven from an address pin).
 
@@ -253,6 +263,7 @@ registers:
         description: |
           Region 1-7 ORBIT bit. Asserts the given region's chip enable when there is an address hit
           in the previous region.
+
           This is useful for CF cards because it allows the use of 2 separate timing configurations
           for common memory and attribute memory.
 
@@ -417,14 +428,14 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Region 1-7 page mode
+        description: Region 1-7 page mode.
 
       - name: WAITM
         bits: 62
         access: R/W
         reset: 0
         typical: --
-        description: Region 1-7 wait mode
+        description: Region 1-7 wait mode.
 
       - name: PAGES
         bits: 61..60
@@ -432,7 +443,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Region 1-7 page size: 00 = 8 bytes, 01 = 2 bytes, 10 = 4 bytes, 11 = 8 bytes
+          Region 1-7 page size: 00 = 8 bytes, 01 = 2 bytes, 10 = 4 bytes, 11 = 8 bytes.
 
       - name: ALE
         bits: 59..54
@@ -466,21 +477,21 @@ registers:
         access: R/W
         reset: 0x3f
         typical: --
-        description: Region 1-7 pause count
+        description: Region 1-7 pause count.
 
       - name: WR_HLD
         bits: 35..30
         access: R/W
         reset: 0x3f
         typical: --
-        description: Region 1-7 write-hold count
+        description: Region 1-7 write-hold count.
 
       - name: RD_HLD
         bits: 29..24
         access: R/W
         reset: 0x3f
         typical: --
-        description: Region 1-7 read-hold count
+        description: Region 1-7 read-hold count.
 
       - name: WE
         bits: 23..18
@@ -497,7 +508,7 @@ registers:
         reset: 0x3f
         typical: --
         description: |
-          Region 1-7 output-enable count . Must be non-zero to ensure legal transitions on the
+          Region 1-7 output-enable count. Must be non-zero to ensure legal transitions on the
           corresponding boot bus outputs.
 
       - name: CE
@@ -505,14 +516,14 @@ registers:
         access: R/W
         reset: 0x3f
         typical: --
-        description: Region 1-7 chip-enable count
+        description: Region 1-7 chip-enable count.
 
       - name: ADR
         bits: 5..0
         access: R/W
         reset: 0x3f
         typical: --
-        description: Region 1-7 address count
+        description: Region 1-7 address count.
 
 
   - name: MIO_BOOT_LOC_CFG(0..1)
@@ -536,7 +547,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Local region 0/1 enable
+        description: Local region 0/1 enable.
 
       - name: --
         bits: 30..28
@@ -569,7 +580,9 @@ registers:
       The local-region memory-address register specifies the address for reading or writing the
       local memory. This address post-increments following an access to the MIO boot local-memory
       data register.
+
       Local-memory region 0 is addresses 0x00-0x78.
+
       Local-memory region 1 is addresses 0x80-0xF8.
     fields:
       - name: --
@@ -584,7 +597,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Local memory address
+        description: Local memory address.
 
       - name: --
         bits: 2..0
@@ -607,7 +620,7 @@ registers:
         access: R/W/H
         reset: --
         typical: --
-        description: Local memory data
+        description: Local memory data.
 
 
   - name: MIO_BOOT_ERR
@@ -716,9 +729,9 @@ registers:
         description: |
           Boot bus PCTL. This controls the pull-up drive strength of the boot-bus drivers. Reset
           value is as follows:
-          * 0x6 = No pullups (50ohm termination)
-          * 0x7 = Pullup on BOOT_AD<9> (40ohm termination)
-          * 0x4 = Pullup on BOOT_AD<10> (75ohm termination)
+          * 0x6 = No pullups (50 ohm termination).
+          * 0x7 = Pullup on BOOT_AD<9> (40 ohm termination).
+          * 0x4 = Pullup on BOOT_AD<10> (75 ohm termination).
 
       - name: --
         bits: 7..3
@@ -735,9 +748,9 @@ registers:
         description: |
           Boot bus NCTL. This controls the pull-down drive strength of the boot-bus drivers. Reset
           value is as follows:
-          * 0x6 = No pullups (50ohm termination)
-          * 0x7 = Pullup on BOOT_AD<9> (40ohm termination)
-          * 0x4 = Pullup on BOOT_AD<10> (75ohm termination)
+          * 0x6 = No pullups (50 ohm termination).
+          * 0x7 = Pullup on BOOT_AD<9> (40 ohm termination).
+          * 0x4 = Pullup on BOOT_AD<10> (75 ohm termination).
 
 
   - name: MIO_BOOT_PIN_DEFS
@@ -791,7 +804,7 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: VRM disabled
+        description: VRM disabled.
 
       - name: USER1
         bits: 31..19
@@ -799,7 +812,7 @@ registers:
         reset: --
         typical: --
         description: |
-          BOOT_AD<31:19> latched during power up
+          BOOT_AD<31:19> latched during power up.
 
       - name: DEVICE
         bits: 18..16
@@ -822,35 +835,35 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Region 0 default ALE mode
+        description: Region 0 default ALE mode.
 
       - name: WIDTH
         bits: 14
         access: RO
         reset: --
         typical: --
-        description: Region 0 default bus width
+        description: Region 0 default bus width.
 
       - name: USER13
         bits: 13
         access: RO
         reset: --
         typical: --
-        description: BOOT_AD<13> latched during power up
+        description: BOOT_AD<13> latched during power up.
 
       - name: DMACK_P1
         bits: 12
         access: RO
         reset: --
         typical: --
-        description: BOOT_DMACK<1> default polarity
+        description: BOOT_DMACK<1> default polarity.
 
       - name: DMACK_P0
         bits: 11
         access: RO
         reset: --
         typical: --
-        description: BOOT_DMACK<0> default polarity
+        description: BOOT_DMACK<0> default polarity.
 
       - name: TERM
         bits: 10..9
@@ -859,10 +872,10 @@ registers:
         typical: --
         description: |
           Selects default boot-bus driver termination.
-          0x0 = full strength
-          0x1 = 25ohm
-          0x2 = 50ohm
-          0x3 = 65ohm
+          0x0 = full strength.
+          0x1 = 25ohm.
+          0x2 = 50ohm.
+          0x3 = 65ohm.
 
       - name: USER0
         bits: 8..0
@@ -870,7 +883,7 @@ registers:
         reset: --
         typical: --
         description: |
-          BOOT_AD<8:0> latched during power up
+          BOOT_AD<8:0> latched during power up.
 
 
   - name: MIO_BOOT_BIST_STAT
@@ -910,7 +923,7 @@ registers:
       The DMA operation duration in coprocessor clocks as:
       MIO_BOOT_DMA_CFG()[SIZE] * MIO_BOOT_DMA_TIM()[TIM_MULT] * CYCLE_TIME.
       Where:
-      CYCLE_TIME = MIO_BOOT_DMA_TIMn[RD_DLY+PAUSE+DMACK_H+WE_N+WE_A+OE_N+OE_A+DMACK_S].
+      CYCLE_TIME = MIO_BOOT_DMA_TIM()[RD_DLY+PAUSE+DMACK_H+WE_N+WE_A+OE_N+OE_A+DMACK_S].
       Coprocessor clocks can be converted to core clocks by multiplying the value by the clock ratio
       RST_BOOT[C_MUL] / RST_BOOT[PNR_MUL].
     fields:
@@ -977,13 +990,12 @@ registers:
         typical: --
         description: |
           DMA engine 0-1 size. SIZE is specified in number of bus transfers, where one transfer is
-          equal to the following number of bytes, dependent on MIO_BOOT_DMA_TIMn[WIDTH] and
-          MIO_BOOT_DMA_TIMn[DDR]:
-          WIDTH DDR  Transfer Size (bytes)
-          0 0 2
-          0 1 4
-          1 0 4
-          1 1 8
+          equal to the following number of bytes, dependent on MIO_BOOT_DMA_TIM()[WIDTH] and
+          MIO_BOOT_DMA_TIM()[DDR]:
+          _ If WIDTH=0, DDR=0, then transfer is 2 bytes.
+          _ If WIDTH=0, DDR=1, then transfer is 4 bytes.
+          _ If WIDTH=1, DDR=0, then transfer is 4 bytes.
+          _ If WIDTH=1, DDR=1, then transfer is 8 bytes.
 
       - name: --
         bits: 35..0

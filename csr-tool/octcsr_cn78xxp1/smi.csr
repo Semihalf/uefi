@@ -70,12 +70,16 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          PHY opcode, depending on SMI(0..3)_CLK[MODE] setting.
-          * If SMI(0..3)_CLK[MODE] = 0 (<=1Gbs / Clause 22),
+          PHY opcode, depending on SMI()_CLK[MODE] setting.
+          * If SMI()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
           0 = write operation, encoded in the frame as 01
           1 = read operation, encoded in the frame as 10.
-          * If SMI(0..3)_CLK[MODE] = 1 (>1Gbs / Clause 45),
-          00=address, 01=write, 11=read, 10=post-read-increment-address.
+
+          * If SMI()_CLK[MODE] = 1 (>1Gbs / Clause 45):
+          0x0 = Address.
+          0x1 = Write.
+          0x2 = Post-read-increment-address.
+          0x3 = Read.
 
       - name: --
         bits: 15..13
@@ -256,8 +260,10 @@ registers:
         description: |
           Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
           of SMIn_MDC to wait before sampling read data.
-          (SAMPLE_HI,SAMPLE) > 1
-          (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE
+
+          _ (SAMPLE_HI,SAMPLE) > 1
+
+          _ (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE
 
       - name: PHASE
         bits: 7..0
@@ -267,7 +273,8 @@ registers:
         description: |
           MDC clock phase. Specifies the number of coprocessor clock cycles that make up an SMIn_MDC
           phase.
-          PHASE > 2
+
+          _ PHASE > 2
 
 
   - name: SMI(0..3)_EN

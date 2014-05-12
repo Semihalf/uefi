@@ -538,7 +538,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Digital PLL error. Throws MIO_PTP_INTSN_E::MIO_PTP_DPLL_ERR_INT.
+          Digital PLL error. Throws MIO_PTP_INTSN_E::MIO_PTP_DPLL_INT.
 
 
 

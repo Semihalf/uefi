@@ -628,4 +628,53 @@ registers:
         description: If set, bypass MC and NOFF fuses which feed the temperature sensor.
 
 
+  - name: VRM(0..1)_DEVICE_STATUS
+    title: VRM Device Status Register
+    address: 0x11800210000A8 + a*0x1000000
+    bus: RSL
+    attributes:
+      chip_pass: "o78>=2.0"
+      exempt_natural_alignment: "a"
+    fields:
+      - name: --
+        bits: 63..18
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: REMOVE_IDLE
+        bits: 17
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When set, will remove IDLE as described below.
+          Software should not set this bit, unless the reason for PEC mismatch is known.
+
+      - name: STATUS_IDLE
+        bits: 16
+        access: RO/H
+        reset: 0
+        typical: 0
+        description: |
+          If set, faulty external controller operation was detected, for example in the ISL636*.
+          Sixteen attempts were made to communicate with device that came back with PEC faults.
+          See STATUS_CML in the PMbus documentation.
+
+      - name: STATUS_BYTE
+        bits: 15..8
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Reads STATUS_BYTE register. See PMBus documentation.
+
+      - name: STATUS_CML
+        bits: 7..0
+        access: RO/H
+        reset: 0x0
+        typical: 0x0
+        description: Reads STATUS_CML register. See PMBus documentation.
+
+
 

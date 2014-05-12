@@ -103,6 +103,7 @@ registers:
           Number of entries in the DMA FIFO. This count is incremented by writes to the
           MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
           the previous command successfully.
+
           Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will be
           ignored.
 
@@ -143,6 +144,7 @@ registers:
       successfully. Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
       MIO_EMM_DMA_FIFO_ADR contents into the FIFO and increment the MIO_EMM_DMA_FIFO_CFG[COUNT]
       field.
+
       Note: This register has a similar format to the MIO_EMM_DMA_CFG register with the exception
       that the EN and CLR fields are absent. These are supported in the MIO_EMM_DMA_FIFO_CFG.
     fields:
@@ -373,11 +375,11 @@ registers:
         description: |
           Software should set BOOT_FAIL when an unrecoverable error occurs while attempting to boot
           from eMMC or NOR Flash. When set, the following pattern will be output:
-          BOOT_AD<31:0> driven to 0
-          BOOT_CE_<7:0>_L driven to 1
-          BOOT_ALE driven to 1
-          BOOT_OE_L driven to 0
-          BOOT_WE_L driven to 0
+          * BOOT_AD<31:0> driven to 0.
+          * BOOT_CE_<7:0>_L driven to 1.
+          * BOOT_ALE driven to 1.
+          * BOOT_OE_L driven to 0.
+          * BOOT_WE_L driven to 0.
 
       - name: --
         bits: 15..4
@@ -393,13 +395,18 @@ registers:
         typical: --
         description: |
           eMMC bus enable mask.
+
           Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
           disabling any NOR use).
+
           Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
           disabling any NOR use).
+
           Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
           disabling any NOR use).
+
           Bit3 of BUS_ENA is reserved.
+
           Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
           bus1.
 
@@ -472,14 +479,14 @@ registers:
         access: RO/H
         reset: 0x9c4
         typical: --
-        description: Current number of coprocessor-clocks to hold the eMMC CLK pin high
+        description: Current number of coprocessor-clocks to hold the eMMC CLK pin high.
 
       - name: CLK_LO
         bits: 15..0
         access: RO/H
         reset: 0x9c4
         typical: --
-        description: Current number of coprocessor-clocks to hold the eMMC CLK pin low
+        description: Current number of coprocessor-clocks to hold the eMMC CLK pin low.
 
 
   - name: MIO_EMM_SWITCH
@@ -499,7 +506,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Specify the eMMC bus
+        description: Specifies the eMMC bus id.
 
       - name: SWITCH_EXE
         bits: 59
@@ -510,16 +517,21 @@ registers:
           When SWITCH_EXE is 0, the operating modes are updated directly without performing any
           SWITCH operations. This allows software to perform the SWITCH operations manually, then
           update the hardware.
+
           Software writes this bit to a 1 to indicate that hardware should perform the necessary
           SWITCH operations.
+
           * First, the POWER_CLASS switch is performed. If it fails, SWITCH_ERR0 is set and the
           remaining SWITCH operations are not performed. If it succeeds, the POWER_CLASS field is
           updated and the HS_TIMING switch is performed.
+
           * If the HS_TIMING switch fails, SWITCH_ERR1 is set and the remaining SWITCH operations
           are not performed. If it succeeds, the HS_TIMING field is updated and the BUS_WIDTH switch
           operation is performed.
+
           * If the BUS_WIDTH switch operation fails, SWITCH_ERR2 is set. If it succeeds, the
           BUS_WITDH is updated.
+
           Changes to CLK_HI and CLK_LO are discarded if any SWITCH_ERR occurs.
 
       - name: SWITCH_ERR0
@@ -869,6 +881,7 @@ registers:
         description: |
           The DMA engine has a pending transfer resulting from an error. Software can resume the
           transfer by writing MIO_EMM_DMA[DMA_VAL] = 1.
+
           Software can terminate the transfer by writing MIO_EMM_DMA[DMA_VAL] = 1 and
           MIO_EMM_DMA[DAT_NULL] = 1. Hardware will then clear DMA_PEND and perform the DMA
           operation.
@@ -898,7 +911,7 @@ registers:
         description: |
           For CMD_TYPE = 1, indicates that a DMA read data arrived from the card without a free
           DBUF. For CMD_TYPE = 2, indicates a DBUF underflow occurred during a DMA write. See
-          MIO_EMM_DMA[THRESH].
+          MIO_EMM_DMA[THRES].
 
       - name: --
         bits: 27..24
@@ -929,6 +942,7 @@ registers:
         description: |
           For CMD_TYPE = 1, indicates a card read data CRC mismatch. MIO_EMM_RSP_STS[DBUF] indicates
           the failing data buffer.
+
           For CMD_TYPE = 2, indicates card returned 3-bit CRC status token indicating that the card
           encountered a write data CRC check mismatch. MIO_EMM_RSP_STS[DBUF] indicates the failing
           data buffer.
@@ -1044,40 +1058,47 @@ registers:
         reset: --
         typical: --
         description: |
-          Command response (as per JEDEC eMMC spec and SD Specifications)
-          RSP_TYPE = 1
-          DAT[63:46]  0x0
-          DAT[45:40]  Command index
-          DAT[39: 8]  Card status
-          DAT[ 7: 1]  CRC7
-          DAT[    0]  End bit
-          RSP_TYPE = 2
-          DAT[63: 1]  CID[63:1] or CSD[63:1] including CRC
-          DAT[    0]  End bit
-          RSP_TYPE = 3
-          DAT[63:46]  0x0
-          DAT[45:40]  Check bits (0x3F)
-          DAT[39: 8]  OCR register
-          DAT[ 7: 1]  Check bits (0x7F)
-          DAT[    0]  End bit
-          RSP_TYPE = 4
-          DAT[63:46]  0x0
-          DAT[45:40]  CMD39 ('10111')
-          DAT[39:24]  RCA[31:16]
-          DAT[   23]  Status
-          DAT[22:16]  Register address
-          DAT[15: 8]  Register contents
-          DAT[ 7: 1]  CRC7
-          DAT[    0]  End bit
-          RSP_TYPE = 5
-          DAT[63:46]  0x0
-          DAT[45:40]  CMD40 ('10100')
-          DAT[39:24]  RCA[31:16]
-          DAT[   23]  Status
-          DAT[22:16]  Register address
-          DAT[15: 8]  Not defined. May be used for IRQ data
-          DAT[ 7: 1] CRC7
-          DAT[    0]  End bit
+          Command response (as per JEDEC eMMC spec and SD Specifications).
+
+          <pre>
+          RSP_TYPE = 1:
+          DAT[63:46] = 0x0
+          DAT[45:40] = Command index
+          DAT[39: 8] = Card status
+          DAT[ 7: 1] = CRC7
+          DAT[    0] = End bit
+
+          RSP_TYPE = 2:
+          DAT[63: 1] = CID[63:1] or CSD[63:1] including CRC
+          DAT[    0] = End bit
+
+          RSP_TYPE = 3:
+          DAT[63:46] = 0x0
+          DAT[45:40] = Check bits (0x3F)
+          DAT[39: 8] = OCR register
+          DAT[ 7: 1] = Check bits (0x7F)
+          DAT[    0] = End bit
+
+          RSP_TYPE = 4:
+          DAT[63:46] = 0x0
+          DAT[45:40] = CMD39 ('10111')
+          DAT[39:24] = RCA[31:16]
+          DAT[   23] = Status
+          DAT[22:16] = Register address
+          DAT[15: 8] = Register contents
+          DAT[ 7: 1] = CRC7
+          DAT[    0] = End bit
+
+          RSP_TYPE = 5:
+          DAT[63:46] = 0x0
+          DAT[45:40] = CMD40 ('10100')
+          DAT[39:24] = RCA[31:16]
+          DAT[   23] = Status
+          DAT[22:16] = Register address
+          DAT[15: 8] = Not defined. May be used for IRQ data
+          DAT[ 7: 1] = CRC7
+          DAT[    0] = End bit
+          </pre>
 
 
   - name: MIO_EMM_RSP_HI
@@ -1091,12 +1112,12 @@ registers:
         reset: --
         typical: --
         description: |
-          Command response (as per JEDEC eMMC spec and SD Specifications)
-          RSP_TYPE = 1 DAT[63:0] 0x0
-          RSP_TYPE = 2 DAT[63:0] CID[127:64] or CSD[127:64]
-          RSP_TYPE = 3 DAT[63:0] 0x0
-          RSP_TYPE = 4 DAT[63:0] 0x0
-          RSP_TYPE = 5 DAT[63:0] 0x0
+          Command response (as per JEDEC eMMC spec and SD Specifications):
+          _ RSP_TYPE = 1: DAT[63:0] = 0x0.
+          _ RSP_TYPE = 2: DAT[63:0] = CID[127:64] or CSD[127:64].
+          _ RSP_TYPE = 3: DAT[63:0] = 0x0.
+          _ RSP_TYPE = 4: DAT[63:0] = 0x0.
+          _ RSP_TYPE = 5: DAT[63:0] = 0x0.
 
 
   - name: MIO_EMM_INT
@@ -1192,19 +1213,26 @@ registers:
         description: |
           Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
           the 3-bit CRC status token following write data. The following timeouts are detected:
+
           Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT].
+
           On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
           On a multi read command, expected data isn't returned causing
           MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
           On a write command, expected token to a write block isn't received causing
           MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
           If a stop command is issued by the hardware and no response is returned causing
           MIO_EMM_RSP_STS[STP_TIMEOUT].
+
           Issues this timeout doesn't cover are stalls induced by the card which are not limited by
           the specifications.
           For example, when a write multi command is issued to the card and a block (not the last)
           is transferred the card can "stall" the Octeon by forcing emmc_data<0> low for as long as
           it wants to free up buffer space.
+
           The second case is when the last block of a write or multi write is being transferred and
           the card elects to perform some background tasks. The same stall mechanism with
           emmc_data<0> is used but this can last for an extend time period.

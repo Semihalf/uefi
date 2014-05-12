@@ -1654,6 +1654,47 @@ registers:
         description: Link partner status report field data.
 
 
+  - name: OCX_LNE(0..23)_TRN_CTL
+    title: OCX Lane Training Link Partner Register
+    address: 0x11800110080D0 + a*0x100
+    bus: RSL
+    fields:
+      - name: --
+        bits: 63..4
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LOCK
+        bits: 3
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Training frame boundary locked.
+
+      - name: DONE
+        bits: 2
+        access: R/W/H
+        reset: 0
+        typical: --
+        description: Training done. For diagnostic use only may be written to 1 to force training done.
+
+      - name: ENA
+        bits: 1
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Training enabled.
+
+      - name: EIE_DETECT
+        bits: 0
+        access: RO/H
+        reset: 0
+        typical: --
+        description: Electrical idle exit (EIE) detected.
+
+
   - name: OCX_QLM(0..5)_CFG
     title: OCX QLM 0-5 Configuration Registers
     address: 0x118001100F800 + a*0x8

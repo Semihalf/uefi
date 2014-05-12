@@ -226,6 +226,12 @@ enums:
           cib_rtl_module: "pki_pfe"
         description: See PKI_GEN_INT[X2P_REQ_OFL].
 
+      - name: PKI_GEN_MEMOUT_ERR
+        value: 0x44008
+        attributes:
+          cib_rtl_module: "pki_pfe"
+        description: See PKI_GEN_INT[MEMOUT_ERR].
+
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:
@@ -2387,11 +2393,21 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..8
+        bits: 63..9
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: MEMOUT_ERR
+        bits: 8
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Set when PKI needs to use MEMOUT_ERR_BUF[ADDR] because no fpa pointers are available
+          and it's still set to reset value of 0x0.
+          Throws PKI_INTSN_E::PKI_GEN_MEMOUT_ERR.
 
       - name: X2P_REQ_OFL
         bits: 7
@@ -3584,6 +3600,39 @@ registers:
         reset: 0xf
         typical: 0xf
         description: Weight for BGX0.
+
+
+  - name: PKI_MEMOUT_ERR_BUF
+    title: PKI Request Weight Register
+    address: 0x1180044000130
+    bus: RSL
+    description: |
+      Contains address to write data when there is no buffer available.  Software needs to allocate
+      a FPA buffer to PKI when PKI_BUF_CTL[FPA_WAIT] = 0.  This is to give PKI a scratch pad buffer
+      to write incoming data when FPA runs out of buffers for a packets aura. Added in pass 2.
+    attributes:
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..42
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ADDR
+        bits: 41..7
+        access: R/W
+        reset: 0x0
+        typical: --
+        description: Address of FPA buffer reserved to write out data when no other FPA buffer available
+
+      - name: --
+        bits: 6..0
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
 
 
   - name: PKI_GBL_PEN

@@ -15640,6 +15640,21 @@ local csr_db = {
                 {name = "TX_LNK_STAT", start = 0, stop = 0},
             }
         },
+        OCX_LNEX_TRN_CTL = {
+            name = "OCX_LNE#_TRN_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x11800110080d0,
+            range1 = {0,23},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "LOCK", start = 3, stop = 3},
+                {name = "DONE", start = 2, stop = 2},
+                {name = "ENA", start = 1, stop = 1},
+                {name = "EIE_DETECT", start = 0, stop = 0},
+            }
+        },
         OCX_LNEX_TRN_LD = {
             name = "OCX_LNE#_TRN_LD",
             type = "RSL",
@@ -21453,7 +21468,8 @@ local csr_db = {
             width = 8,
             address = 0x1180044000020,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "MEMOUT_ERR", start = 8, stop = 8},
                 {name = "X2P_REQ_OFL", start = 7, stop = 7},
                 {name = "DRP_NOAVAIL", start = 6, stop = 6},
                 {name = "DAT", start = 5, stop = 5},
@@ -21505,6 +21521,17 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_3_63", start = 3, stop = 63},
                 {name = "BELTYPE", start = 0, stop = 2},
+            }
+        },
+        PKI_MEMOUT_ERR_BUF = {
+            name = "PKI_MEMOUT_ERR_BUF",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044000130,
+            fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "ADDR", start = 7, stop = 41},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         PKI_PCAM_LOOKUP = {
@@ -30227,6 +30254,21 @@ local csr_db = {
                 {name = "SLOPE", start = 16, stop = 23},
                 {name = "V_BASE", start = 8, stop = 15},
                 {name = "V_MAX", start = 0, stop = 7},
+            }
+        },
+        VRMX_DEVICE_STATUS = {
+            name = "VRM#_DEVICE_STATUS",
+            type = "RSL",
+            width = 8,
+            address = 0x11800210000a8,
+            range1 = {0,1},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_18_63", start = 18, stop = 63},
+                {name = "REMOVE_IDLE", start = 17, stop = 17},
+                {name = "STATUS_IDLE", start = 16, stop = 16},
+                {name = "STATUS_BYTE", start = 8, stop = 15},
+                {name = "STATUS_CML", start = 0, stop = 7},
             }
         },
         VRMX_FUSE_BYPASS = {
@@ -52497,6 +52539,21 @@ local csr_db = {
                 {name = "SLOPE", start = 16, stop = 23},
                 {name = "V_BASE", start = 8, stop = 15},
                 {name = "V_MAX", start = 0, stop = 7},
+            }
+        },
+        VRMX_DEVICE_STATUS = {
+            name = "VRM#_DEVICE_STATUS",
+            type = "RSL",
+            width = 8,
+            address = 0x11800210000a8,
+            range1 = {0,0},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_18_63", start = 18, stop = 63},
+                {name = "REMOVE_IDLE", start = 17, stop = 17},
+                {name = "STATUS_IDLE", start = 16, stop = 16},
+                {name = "STATUS_BYTE", start = 8, stop = 15},
+                {name = "STATUS_CML", start = 0, stop = 7},
             }
         },
         VRMX_FUSE_BYPASS = {

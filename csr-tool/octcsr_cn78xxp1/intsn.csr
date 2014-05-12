@@ -3059,6 +3059,19 @@ enums:
           reg_name: "PKI_GEN_INT"
         description: See PKI_GEN_INT[X2P_REQ_OFL].
 
+      - name: PKI_GEN_MEMOUT_ERR
+        value: 0x44008
+        attributes:
+          bit_name: "MEMOUT_ERR"
+          bit_num: "8"
+          blk_enum_name: "PKI_INTSN_E"
+          cib_rtl_module: "pki_pfe"
+          major_name: "PKI"
+          major_val: "(0x44)"
+          reg_addr: "(0x1180044000020)"
+          reg_name: "PKI_GEN_INT"
+        description: See PKI_GEN_INT[MEMOUT_ERR].
+
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:

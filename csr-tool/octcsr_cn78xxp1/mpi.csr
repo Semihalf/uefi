@@ -41,8 +41,8 @@ registers:
         typical: 0x0
         description: |
           Clock divisor.
-          SPI_CK = coprocessor clock / (2 * CLKDIV)
-          CLKDIV = coprocessor clock / (2 * SPI_CK)
+          _ SPI_CK = coprocessor clock / (2 * CLKDIV)
+          _ CLKDIV = coprocessor clock / (2 * SPI_CK)
 
       - name: CSENA3
         bits: 15
@@ -51,8 +51,9 @@ registers:
         typical: 0
         description: |
           SPI_CS3_L enable:
-          0=UART1_RTS_L/SPI_CS3_L pin is UART pin.
-          1=UART1_RTS_L/SPI_CS3_L pin is MPI/SPI pin.
+          0 = UART1_RTS_L/SPI_CS3_L pin is UART pin.
+          1 = UART1_RTS_L/SPI_CS3_L pin is MPI/SPI pin.
+
           SPI_CS3_L drives UART1_RTS_L/SPI_CS3_L.
 
       - name: CSENA2
@@ -62,8 +63,8 @@ registers:
         typical: 0
         description: |
           SPI_CS2_L enable:
-          0=UART1_CTS_L/SPI_CS2_L pin is UART pin.
-          1=UART1_CTS_L/SPI_CS2_L pin is MPI/SPI pin.
+          0 = UART1_CTS_L/SPI_CS2_L pin is UART pin.
+          1 = UART1_CTS_L/SPI_CS2_L pin is MPI/SPI pin.
           SPI_CS2_L drives UART1_CTS_L/SPI_CS2_L.
 
       - name: CSENA1
@@ -73,8 +74,8 @@ registers:
         typical: 0
         description: |
           SPI_CS1_L enable:
-          0=BOOT_CE_N<7>/SPI_CS1_L pin is boot-bus pin.
-          1=BOOT_CE_N<7>/SPI_CS1_L pin is MPI/SPI pin.
+          0 = BOOT_CE_N<7>/SPI_CS1_L pin is boot-bus pin.
+          1 = BOOT_CE_N<7>/SPI_CS1_L pin is MPI/SPI pin.
           SPI_CS1_L drives BOOT_CE_N<7>/SPI_CS1_L.
 
       - name: CSENA0
@@ -84,8 +85,8 @@ registers:
         typical: 0
         description: |
           SPI_CS0_L enable:
-          0=BOOT_CE_N<6>/SPI_CS0_L pin is boot-bus pin
-          1=BOOT_CE_N<6>/SPI_CS0_L pin is MPI/SPI pin
+          0 = BOOT_CE_N<6>/SPI_CS0_L pin is boot-bus pin.
+          1 = BOOT_CE_N<6>/SPI_CS0_L pin is MPI/SPI pin.
           SPI_CS0_L drives BOOT_CE_N<6>/SPI_CS0_L.
 
       - name: CSLATE
@@ -147,6 +148,7 @@ registers:
           Wire-OR DO and DI.
           0 = SPI_DO and SPI_DI are separate wires (SPI). SPI_DO pin is always driven.
           1 = SPI_DO/DI is all from SPI_DO pin (MPI). SPI_DO pin is tristated when not transmitting.
+
           If WIREOR = 1, SPI_DI pin is not used by the MPI/SPI engine.
 
       - name: CLK_CONT

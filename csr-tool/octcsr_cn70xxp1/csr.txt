@@ -41630,4 +41630,26 @@ $VRM(0)_FUSE_BYPASS   Address=(0x1180021000098+a*0x1000000)   Bus=(RSL)
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
+ * 
+ * VRM_DEVICE_STATUS = VRM Device Status Register
+ * 
+ *  Attribute: -chip_pass=o70>=2.0.
+ *  Attribute: -exempt_natural_alignment=a.
+ * 
+$VRM(0)_DEVICE_STATUS   Address=(0x11800210000A8+a*0x1000000)   Bus=(RSL)
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bit     Field       Field   Reset      Typical    Field                                             
+ Pos     Name        Type    Value      Value      Description                                       
+-----------------------------------------------------------------------------------------------------------------------------------
+ <63:18> --          RAZ     --         --         Reserved.                                         
+ <17>    REMOVE_IDLE R/W     0          0          When set, will remove IDLE as described below.    
+                                                   Software should not set this bit, unless the reason for PEC mismatch is known.
+ <16>    STATUS_IDLE RO/H    0          0          If set, faulty external controller operation was detected, for example in the ISL636*.
+                                                   Sixteen attempts were made to communicate with device that came back with PEC faults.
+                                                   See STATUS_CML in the PMbus documentation.
+ <15:8>  STATUS_BYTE RO/H    0x0        0x0        Reads STATUS_BYTE register. See PMBus documentation.
+ <7:0>   STATUS_CML  RO/H    0x0        0x0        Reads STATUS_CML register. See PMBus documentation.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
 
