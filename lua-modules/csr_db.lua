@@ -8371,6 +8371,27 @@ local csr_db = {
                 {name = "RX_INV", start = 0, stop = 3},
             }
         },
+        GSERX_RX_PWR_CTRL_P1 = {
+            name = "GSER#_RX_PWR_CTRL_P1",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090460098,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "P1_RX_RESETN", start = 13, stop = 13},
+                {name = "PQ_RX_ALLOW_PLL_PD", start = 12, stop = 12},
+                {name = "PQ_RX_PCS_RESET", start = 11, stop = 11},
+                {name = "P1_RX_AGC_EN", start = 10, stop = 10},
+                {name = "P1_RX_DFE_EN", start = 9, stop = 9},
+                {name = "P1_RX_CDR_EN", start = 8, stop = 8},
+                {name = "P1_RX_CDR_COAST", start = 7, stop = 7},
+                {name = "P1_RX_CDR_CLR", start = 6, stop = 6},
+                {name = "P1_RX_SUBBLK_PD", start = 1, stop = 5},
+                {name = "P1_RX_CHPD", start = 0, stop = 0},
+            }
+        },
         GSERX_SCRATCH = {
             name = "GSER#_SCRATCH",
             type = "RSL",
@@ -8387,7 +8408,7 @@ local csr_db = {
             name = "GSER#_SLICE_CFG",
             type = "RSL",
             width = 8,
-            address = 0x1180090460060,
+            address = 0x11800904600b0,
             range1 = {0,13},
             range1_inc = 0x1000000,
             fields = {

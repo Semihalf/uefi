@@ -3090,9 +3090,106 @@ registers:
           <2:0>: CDR Phase Offset, DLL IQ Training value.
 
 
+  - name: GSER(0..13)_RX_PWR_CTRL_P1
+    title: GSER RX Power Control P1 Register
+    address: 0x1180090460098 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..14
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: P1_RX_RESETN
+        bits: 13
+        access: R/W
+        reset: 1
+        typical: 1
+        description: Place the receiver in reset (active low).
+
+      - name: PQ_RX_ALLOW_PLL_PD
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: |
+          When asserted, permit PLL powerdown (PLL is powered
+          down if all other factors permit).
+
+      - name: PQ_RX_PCS_RESET
+        bits: 11
+        access: R/W
+        reset: 1
+        typical: 1
+        description: |
+          When asserted, the RX power state machine puts the raw PCS RX logic
+          in reset state to save power.
+
+      - name: P1_RX_AGC_EN
+        bits: 10
+        access: R/W
+        reset: 0
+        typical: 0
+        description: AGC enable.
+
+      - name: P1_RX_DFE_EN
+        bits: 9
+        access: R/W
+        reset: 0
+        typical: 0
+        description: DFE enable.
+
+      - name: P1_RX_CDR_EN
+        bits: 8
+        access: R/W
+        reset: 1
+        typical: 1
+        description: CDR enable.
+
+      - name: P1_RX_CDR_COAST
+        bits: 7
+        access: R/W
+        reset: 1
+        typical: 1
+        description: CDR coast; freezes the frequency of the CDR.
+
+      - name: P1_RX_CDR_CLR
+        bits: 6
+        access: R/W
+        reset: 1
+        typical: 1
+        description: CDR clear; clears the frequency of the CDR.
+
+      - name: P1_RX_SUBBLK_PD
+        bits: 5..1
+        access: R/W
+        reset: 0x1e
+        typical: 0x1e
+        description: |
+          RX sub-block powerdown controls to RX:
+          <4> = CTLE.
+          <3> = Reserved.
+          <2> = Lane DLL.
+          <1> = DFE/samplers.
+          <0> = Termination.
+
+      - name: P1_RX_CHPD
+        bits: 0
+        access: R/W
+        reset: 0
+        typical: 0
+        description: RX lane powerdown.
+
+
   - name: GSER(0..13)_SLICE_CFG
     title: GSER Slice Configuration Register
-    address: 0x1180090460060 + a*0x1000000
+    address: 0x11800904600B0 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
