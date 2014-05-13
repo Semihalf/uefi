@@ -863,7 +863,6 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(bgx_block, bgx_index),
         c.s.align = !txx_append.s.preamble);
 
-    bdk_if_link_autoconf(handle);
     return 0;
 }
 
