@@ -394,6 +394,26 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
 }
 
 /**
+ * Setup the PEM to either driver or receive reset from PRST based on RC or EP
+ *
+ * @param node   Node to use in a Numa setup
+ * @param pem    Which PEM to setuo
+ * @param is_endpoint
+ *               Non zero if PEM is a EP
+ */
+static void setup_pem_reset(bdk_node_t node, int pem, int is_endpoint)
+{
+    /* Make sure is_endpoint is either 0 or 1 */
+    is_endpoint = (is_endpoint != 0);
+    BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(pem),
+        c.s.prst_link = 0;          /* Link down causes soft reset */
+        c.s.rst_link = is_endpoint; /* EP PERST causes a soft reset */
+        c.s.rst_drv = !is_endpoint; /* Drive if RC */
+        c.s.rst_rcv = is_endpoint;  /* Only read PERST in EP mode */
+        c.s.rst_chip = 0);          /* PERST doesn't pull CHIP_RESET */
+}
+
+/**
  * For chips that don't use pin strapping, this function programs
  * the QLM to the specified mode
  *
@@ -482,6 +502,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                             c.s.pemon = 1);
+                    setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                 case 1: /* Either PEM0 x8 or PEM1 x4 */
                     if (mode == BDK_QLM_MODE_PCIE_1X8)
                     {
@@ -499,6 +520,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.cn78xx.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1),
                             c.s.pemon = 1);
+                        setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     }
                     break;
                 case 2: /* Either PEM2 x4 or PEM2 x8 */
@@ -510,6 +532,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
+                    setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     break;
                 case 3: /* Either PEM2 x8, PEM3 x4, or PEM3 x8 */
                 {
@@ -534,6 +557,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         if (mode == BDK_QLM_MODE_PCIE_1X4)
                             BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                                 c.s.pemon = 1);
+                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     }
                     break;
                 }
@@ -556,6 +580,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.pem3qlm = 1); /* PEM3 is on QLM4 */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                             c.s.pemon = 1);
+                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     }
                     break;
                 default:
