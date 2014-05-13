@@ -471,6 +471,13 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
     return 0;
 }
 
+/**
+ * Setup auto neg on a port. Called one at init for each port
+ *
+ * @param handle Port to configure
+ *
+ * @return Zero no success, negative on failure
+ */
 static int setup_auto_neg(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
@@ -488,6 +495,7 @@ static int setup_auto_neg(bdk_if_handle_t handle)
        desired: */
     /* 1. Set BGX(0..5)_SPU(0..3)_AN_CONTROL[AN_EN] = 1. */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index),
+        c.s.xnp_en=0; /* Disable extended next pages */
         c.s.an_en = use_auto_neg);
 
     /* 2. Program the negotiation parameters to be advertised to the link
@@ -504,10 +512,12 @@ static int setup_auto_neg(bdk_if_handle_t handle)
         c.s.a10g_kr = (priv.s.mode == BGX_MODE_10G_KR);
         c.s.a10g_kx4 = 0;
         c.s.a1g_kx = 0;
+        c.s.xnp_able = 0;
         c.s.rf = 0);
 
     /* 3. Set BGX(0..5)_SPU_DBG_CONTROL[AN_ARB_LINK_CHK_EN] = 1. */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPU_DBG_CONTROL(bgx_block),
+        c.s.an_nonce_match_dis=1; /* Needed for loopback */
         c.s.an_arb_link_chk_en = use_auto_neg);
 
     /* 4. Execute the link bring-up sequence in Section 33.6.3. */
@@ -591,6 +601,11 @@ static int xaui_init(bdk_if_handle_t handle)
        BGX(0..5)_SPU(0..3)_BR_PMD_CONTROL[TRAIN_EN] = 1. */
     if (priv.s.use_training)
     {
+        /* These registers aren't cleared when training is restarted. Manually
+           clear them */
+        BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LP_CUP(bgx_block, bgx_index), 0);
+        BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LD_CUP(bgx_block, bgx_index), 0);
+        BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LD_REP(bgx_block, bgx_index), 0);
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
             c.s.train_en = 1);
     }
@@ -644,6 +659,31 @@ static int xaui_init(bdk_if_handle_t handle)
 }
 
 /**
+ * Restart training after traiing fails
+ *
+ * @param handle Port to restart
+ */
+static void restart_training(bdk_if_handle_t handle)
+{
+    const int bgx_block = handle->interface;
+    const int bgx_index = handle->index;
+    BDK_CSR_DEFINE(spux_int, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
+    /* Clear the training interrupts (W1C) */
+    spux_int.u = 0;
+    spux_int.s.training_failure = 1;
+    spux_int.s.training_done = 1;
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
+    /* These registers aren't cleared when training is restarted. Manually
+       clear them */
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LP_CUP(bgx_block, bgx_index), 0);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LD_CUP(bgx_block, bgx_index), 0);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LD_REP(bgx_block, bgx_index), 0);
+    /* Restart training */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
+        c.s.train_restart = 1);
+}
+
+/**
  * Link up/down processing for all protocols except for SGMII. Its call
  * xaui_link() for the lack of a better name, but it applies to
  * everything other than SGMII.
@@ -665,20 +705,34 @@ static int xaui_link(bdk_if_handle_t handle)
 
     if (!bdk_is_simulation())
     {
+        /* Check if we're using auto negotiation */
+        BDK_CSR_INIT(spux_an_control, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index));
+        if (spux_an_control.s.an_en)
+        {
+            BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
+            if (!spux_int.s.an_link_good)
+            {
+                /* Clear the auto negotiation (W1C) */
+                spux_int.u = 0;
+                spux_int.s.an_complete = 1;
+                spux_int.s.an_link_good = 1;
+                spux_int.s.an_page_rx = 1;
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
+                /* Restart auto negotiation */
+                BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index),
+                    c.s.an_restart = 1);
+                BDK_TRACE("%s: Restarting auto negotiation\n", handle->name);
+                return -1;
+            }
+        }
+
         if (priv.s.use_training)
         {
             /* Check if training is done */
             BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
             if (!spux_int.s.training_done)
             {
-                /* Clear the training interrupts (W1C) */
-                spux_int.u = 0;
-                spux_int.s.training_failure = 1;
-                spux_int.s.training_done = 1;
-                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
-                /* Restart training */
-                BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
-                    c.s.train_restart = 1);
+                restart_training(handle);
                 BDK_TRACE("%s: Restarting link training\n", handle->name);
                 return -1;
             }
@@ -718,18 +772,7 @@ static int xaui_link(bdk_if_handle_t handle)
         {
             BDK_TRACE("%s: Receive fault, need to retry\n", handle->name);
             if (priv.s.use_training)
-            {
-                /* Restart training */
-                BDK_CSR_DEFINE(spux_int, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
-                /* Clear the training interrupts (W1C) */
-                spux_int.u = 0;
-                spux_int.s.training_failure = 1;
-                spux_int.s.training_done = 1;
-                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
-                /* Restart training */
-                BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
-                    c.s.train_restart = 1);
-            }
+                restart_training(handle);
             return -1;
         }
         /* Wait for MAC RX to be ready */
