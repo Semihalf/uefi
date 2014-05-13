@@ -678,7 +678,6 @@ static void restart_training(bdk_if_handle_t handle)
     BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LP_CUP(bgx_block, bgx_index), 0);
     BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LD_CUP(bgx_block, bgx_index), 0);
     BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_PMD_LD_REP(bgx_block, bgx_index), 0);
-    bdk_wait_usec(1700); // Must wait 1.7ms after training_failure is set before setting train_restart
     /* Restart training */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, bgx_index),
         c.s.train_restart = 1);
