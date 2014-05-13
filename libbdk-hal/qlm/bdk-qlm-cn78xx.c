@@ -1112,14 +1112,16 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 
 static void qlm_pcie_errata(int node, int qlm)
 {
-    /* The presence detect threshold has the wrong default value */
+    /* (GSER-20936) GSER has wrong PCIe RX detect reset value */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(qlm),
         c.s.tx_rx_detect_lvl_enc = 7);
     /* Clear the bit in GSERX_RX_PWR_CTRL_P1[p1_rx_subblk_pd]
        that coresponds to "Lane DLL" */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_PWR_CTRL_P1(qlm),
         c.s.p1_rx_subblk_pd &= ~4);
-    /* Override TX Power State machine TX reset control signal */
+
+    /* Errata (GSER-20888) GSER incorrect synchronizers hurts PCIe
+       Override TX Power State machine TX reset control signal */
     for (int lane = 0; lane < 4; lane++)
     {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
