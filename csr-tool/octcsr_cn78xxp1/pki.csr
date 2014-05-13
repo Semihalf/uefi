@@ -56,10 +56,10 @@ enums:
         value: 0x100 | a
         description: DPI ring a.
 
-      - name: NQM_CH(0..255)
-        value: 0x200 | a
+      - name: NQM_CH
+        value: 0x200
         description: |
-          Reserved. INTERNAL: NQM channel a.
+          Reserved. INTERNAL: NQM traffic.
 
       - name: ILK(0..1)_CH(0..255)
         value: 0x400 | a<<8 | b
@@ -1066,8 +1066,10 @@ enums:
       * 'MATCH' refers to PKI_CL()_PCAM()_MATCH().
       * 'ACTION' refers to PKI_CL()_PCAM()_ACTION() for the PCAM entry that matches.
       * The 'Bank' column indicates which PCAM bank must contain the match data.
-      * The 'Adv' column indicates if PKI_CL()_PCAM()_ACTION()[ADVANCE] may be non-zero.
+      * The 'Adv' column indicates if PKI_CL()_PCAM()_ACTION()[ADVANCE] may be non-zero;
+        'No' indicates it may not be non-zero; otherwise indicates the typical ADVANCE value.
       * The 'PMC' column indicates if PKI_CL()_PCAM()_ACTION()[PMC] may be non-zero.
+        The typical PMC value is zero.
       * The 'SETTY' column indicates if PKI_CL()_PCAM()_ACTION()[SETTY] may be non-zero,
       and if so which WQE pointer
       field and type field will get set with the specified value. For example, LFTY indicates if
@@ -1102,7 +1104,7 @@ enums:
       - name: HIGIG
         value: 0x05
         attributes:
-          adv: "Yes"
+          adv: "8/12"
           bank: "1"
           pmc: "Yes"
           setty: "--"
@@ -1126,7 +1128,7 @@ enums:
       - name: DMACH
         value: 0x0A
         attributes:
-          adv: "--"
+          adv: "No"
           bank: "0"
           pmc: "--"
           setty: "--"
@@ -1138,7 +1140,7 @@ enums:
       - name: DMACL
         value: 0x0B
         attributes:
-          adv: "Yes"
+          adv: "0x0"
           bank: "1"
           pmc: "Yes"
           setty: "--"
@@ -1152,7 +1154,7 @@ enums:
       - name: GLORT
         value: 0x12
         attributes:
-          adv: "Yes"
+          adv: "4/8/12"
           bank: "0"
           pmc: "Yes"
           setty: "--"
@@ -1167,7 +1169,7 @@ enums:
       - name: DSA
         value: 0x13
         attributes:
-          adv: "Yes"
+          adv: "4/8/12"
           bank: "1"
           pmc: "Yes"
           setty: "--"
@@ -1182,7 +1184,7 @@ enums:
       - name: ETHTYPE0
         value: 0x18
         attributes:
-          adv: "Yes"
+          adv: "0x4"
           bank: "0"
           pmc: "Yes"
           setty: "LBTY"
@@ -1198,7 +1200,7 @@ enums:
       - name: ETHTYPE1
         value: 0x19
         attributes:
-          adv: "Yes"
+          adv: "0x4"
           bank: "1"
           pmc: "Yes"
           setty: "LBTY"
@@ -1209,7 +1211,7 @@ enums:
       - name: ETHTYPE2
         value: 0x1A
         attributes:
-          adv: "Yes"
+          adv: "0x4"
           bank: "0"
           pmc: "Yes"
           setty: "LBTY"
@@ -1220,7 +1222,7 @@ enums:
       - name: ETHTYPE3
         value: 0x1B
         attributes:
-          adv: "Yes"
+          adv: "0x4"
           bank: "1"
           pmc: "Yes"
           setty: "LBTY"
@@ -1245,7 +1247,7 @@ enums:
       - name: L3_FLAGS
         value: 0x23
         attributes:
-          adv: "Yes"
+          adv: "0x0"
           bank: "1"
           pmc: "Yes"
           setty: "LDTY"
@@ -1273,7 +1275,7 @@ enums:
       - name: IL3_FLAGS
         value: 0x2B
         attributes:
-          adv: "Yes"
+          adv: "0x0"
           bank: "1"
           pmc: "Yes"
           setty: "LFTY"
@@ -1288,7 +1290,7 @@ enums:
       - name: L4_PORT
         value: 0x30
         attributes:
-          adv: "Yes"
+          adv: "0x0"
           bank: "0"
           pmc: "Yes"
           setty: "LGTY"
@@ -1304,7 +1306,7 @@ enums:
       - name: LG_CUSTOM
         value: 0x39
         attributes:
-          adv: "Yes"
+          adv: "0x0"
           bank: "1"
           pmc: "Yes"
           setty: "LGTY"
@@ -2397,6 +2399,17 @@ registers:
         access: RAZ
         reset: --
         typical: --
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: Reserved.
+
+      - name: --
+        bits: 63..8
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78<2.0"
         description: Reserved.
 
       - name: MEMOUT_ERR
@@ -2404,6 +2417,8 @@ registers:
         access: R/W1C/H
         reset: 0
         typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
         description: |
           Set when PKI needs to use MEMOUT_ERR_BUF[ADDR] because no fpa pointers are available
           and it's still set to reset value of 0x0.
@@ -3625,7 +3640,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Address of FPA buffer reserved to write out data when no other FPA buffer available
+        description: Address of FPA buffer reserved to write out data when no other FPA buffer available.
 
       - name: --
         bits: 6..0
@@ -6091,8 +6106,16 @@ registers:
     address: 0x1180044708000 | a<<16 | b<<12 | c<<3
     bus: RSL
     description: |
-      If multiple PCAM entries hit, the PKI_GEN_INT[PCAMERR] error interrupt is signaled, and it is
-      unpredictable which PCAM action register will be used.
+      Action performed based on PCAM lookup using the PKI_CL()_PCAM()_TERM() and
+      PKI_CL()_PCAM()_MATCH() registers.
+
+      If lookup data matches no PCAM entries, then no action takes place. No matches indicates
+      normal parsing will continue.
+
+      If data matches multiple PCAM entries, PKI_WQE_S[OPCODE] of the processed packet may be set to
+      PKI_OPCODE_E::RE_PKIPCAM and the PKI_CL()_INT[PCAM_CONF] error interrupt is signaled.  Once a
+      conflict is detected, the PCAM state is unpredictable and is required to be fully reconfigured
+      before further valid processing can take place.
     attributes:
       arch_max: "4,4,512"
     fields:

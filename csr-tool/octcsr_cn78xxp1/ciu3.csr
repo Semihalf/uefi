@@ -1196,7 +1196,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: IO bridges to receive interrupts via this IDT. Enumerated with CIU_DEST_IO_E.
+        description: |
+          Bitmask of which IO bridges or MCD to receive interrupts via this IDT.
+          Enumerated with CIU_DEST_IO_E.
 
 
   - name: CIU_DEST(0..143)_PP_INT
@@ -1320,8 +1322,12 @@ registers:
         description: |
           Entry implemented. Although the table has 1M entries, most of those do not correspond to
           any INTSN, and as such are not implemented.
-          1 = This index is implemented, and the bits are R/W.
-          0 = This index is not implemented, all bits will return as zero.
+
+          1 = The IDT and EN fields for this index are R/W, and may have a corresponding INTSN,
+          although some indices may have IMP set but not have any INTSN use.
+
+          0 = The IDT and EN fields for this index are RAZ, and do not have any corresponding
+          INTSN.
 
       - name: SSO_PEND
         bits: 14
@@ -1348,7 +1354,8 @@ registers:
         attributes:
           regtest_force: "0"
         description: |
-          Reserved. INTERNAL: Deprecated. Use SSO delivery.
+          Reserved. This field may be read-only for some indexes.
+          INTERNAL: Deprecated. Use SSO delivery.
 
       - name: EN
         bits: 1
