@@ -3090,9 +3090,50 @@ registers:
           <2:0>: CDR Phase Offset, DLL IQ Training value.
 
 
+  - name: GSER(0..13)_SLICE_CFG
+    title: GSER Slice Configuration Register
+    address: 0x1180090460060 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..12
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: TX_RX_DETECT_LVL_ENC
+        bits: 11..8
+        access: R/W
+        reset: 0x5
+        typical: 0x5
+        description: |
+          Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
+          (which is a 1-hot signal), where the level is equal to to
+          2^TX_RX_DETECT_LVL_ENC.
+
+      - name: --
+        bits: 7..2
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_TX_STRESS_EYE
+        bits: 1..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Controls TX stress eye.
+
+
   - name: GSER(0..13)_RX_PWR_CTRL_P1
     title: GSER RX Power Control P1 Register
-    address: 0x1180090460098 + a*0x1000000
+    address: 0x11800904600B0 + a*0x1000000
     bus: RSL
     description: |
       These registers are for diagnostic use only.
@@ -3185,47 +3226,6 @@ registers:
         reset: 0
         typical: 0
         description: RX lane powerdown.
-
-
-  - name: GSER(0..13)_SLICE_CFG
-    title: GSER Slice Configuration Register
-    address: 0x11800904600B0 + a*0x1000000
-    bus: RSL
-    description: |
-      These registers are for diagnostic use only.
-      These registers are only reset by hardware during chip cold reset.
-      The values of the CSR fields in these registers do not change during chip warm or soft resets.
-    fields:
-      - name: --
-        bits: 63..12
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TX_RX_DETECT_LVL_ENC
-        bits: 11..8
-        access: R/W
-        reset: 0x5
-        typical: 0x5
-        description: |
-          Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
-          (which is a 1-hot signal), where the level is equal to to
-          2^TX_RX_DETECT_LVL_ENC.
-
-      - name: --
-        bits: 7..2
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_TX_STRESS_EYE
-        bits: 1..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: Controls TX stress eye.
 
 
   - name: GSER(0..13)_GLBL_TAD
