@@ -1115,6 +1115,10 @@ static void qlm_pcie_errata(int node, int qlm)
     /* The presence detect threshold has the wrong default value */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(qlm),
         c.s.tx_rx_detect_lvl_enc = 7);
+    /* Clear the bit in GSERX_RX_PWR_CTRL_P1[p1_rx_subblk_pd]
+       that coresponds to "Lane DLL" */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_PWR_CTRL_P1(qlm),
+        c.s.p1_rx_subblk_pd &= ~4);
     /* Override TX Power State machine TX reset control signal */
     for (int lane = 0; lane < 4; lane++)
     {
