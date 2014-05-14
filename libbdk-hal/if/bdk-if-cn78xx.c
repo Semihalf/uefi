@@ -550,7 +550,7 @@ static int pko_port_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_LUTX(compressed_channel_id),
         c.s.valid = 1;
         c.s.pq_idx = pq;
-        c.s.queue_number = sq_l5);
+        c.s.queue_number = sq_l2); /* Would be sql_l2 if PKO_CHANNEL_LEVEL[cc_level]=1 */
     handle->pko_port = pq;
     handle->pko_queue = dq;
 
