@@ -265,26 +265,6 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
             c.s.lme = (pemx_cfg.cn78xx.lanes8) ? 0xf : 0x7);
-
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
-        {
-            /* Figure out if we need to change one or two QLMs */
-            int top_qlm = (pemx_cfg.cn78xx.lanes8) ? qlm + 1 : qlm;
-            for (int q = qlm; q <= top_qlm; q++)
-            {
-                /* Override RX Power State machine. Toggle the override enable to force
-                   the state machine to start again */
-                for (int lane = 0; lane < 4; lane++)
-                {
-                    BDK_CSR_INIT(lanex_pwr_ctrl, node, BDK_GSERX_LANEX_PWR_CTRL(q, lane));
-                    lanex_pwr_ctrl.s.rx_resetn_ovrrd_en = 1;
-                    BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PWR_CTRL(q, lane), lanex_pwr_ctrl.u);
-                    bdk_wait(1000);
-                    lanex_pwr_ctrl.s.rx_resetn_ovrrd_en = 0;
-                    BDK_CSR_WRITE(node, BDK_GSERX_LANEX_PWR_CTRL(q, lane), lanex_pwr_ctrl.u);
-                }
-            }
-        }
     }
 }
 
@@ -328,7 +308,7 @@ static int __bdk_pcie_rc_initialize_link_gen2(bdk_node_t node, int pcie_port)
     {
         if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE))
             return -1;
-        bdk_wait(10000);
+        bdk_wait_usec(1000);
         pciercx_cfg032.u32 = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
     } while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1));
 
