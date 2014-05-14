@@ -1158,7 +1158,7 @@ static void qlm_pcie_errata(int node, int qlm)
 
 static void qlm_init_errata_20844(int node, int qlm)
 {
-    /* Only applies to CN78XX pass 1.x */
+    /* Only applies to CN78XX pass 1.x to QLMs not in PCIe mode */
     if (!OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
         return;
     /* Errata GSER-20844: Electrical Idle logic can coast
@@ -1193,7 +1193,9 @@ static void qlm_init_errata_20844(int node, int qlm)
 
 static void qlm_init_one(bdk_node_t node, int qlm)
 {
-    qlm_init_errata_20844(node, qlm);
+    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+    if (!gserx_cfg.s.pcie)
+        qlm_init_errata_20844(node, qlm);
     /* The QLM PLLs are controlled by an array of parameters indexed
        by the QLM mode for each QLM. We need to fill in these tables.
        Also each lane has some mode parameters, again in a array index
@@ -1515,9 +1517,11 @@ static void qlm_init(bdk_node_t node)
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
         if (gserx_phy_ctl.s.phy_reset == 0)
         {
+            BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+            if (!gserx_cfg.s.pcie)
+                qlm_init_errata_20844(node, qlm);
             qlm_init_errata_20844(node, qlm);
             /* Perform PCIe errata workaround */
-            BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
             if (gserx_cfg.s.pcie)
                 qlm_pcie_errata(node, qlm);
             /* Apply tuning to all QLMs that are up */
