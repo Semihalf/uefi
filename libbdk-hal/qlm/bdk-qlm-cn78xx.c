@@ -407,7 +407,7 @@ static void setup_pem_reset(bdk_node_t node, int pem, int is_endpoint)
     is_endpoint = (is_endpoint != 0);
     BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(pem),
         c.s.prst_link = 0;          /* Link down causes soft reset */
-        c.s.rst_link = is_endpoint; /* EP PERST causes a soft reset */
+        c.s.rst_link = 0;           /* EP PERST causes a soft reset */
         c.s.rst_drv = !is_endpoint; /* Drive if RC */
         c.s.rst_rcv = is_endpoint;  /* Only read PERST in EP mode */
         c.s.rst_chip = 0);          /* PERST doesn't pull CHIP_RESET */
@@ -1529,6 +1529,13 @@ static void qlm_init(bdk_node_t node)
             int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
             qlm_tune(node, qlm, mode, baud_mhz);
         }
+    }
+
+    /* Setup how each PEM drives the PERST lines */
+    for (int pem = 0; pem < 4; pem++)
+    {
+        BDK_CSR_INIT(rst_ctlx, node, BDK_RST_CTLX(pem));
+        setup_pem_reset(node, pem, !rst_ctlx.s.host_mode);
     }
 }
 
