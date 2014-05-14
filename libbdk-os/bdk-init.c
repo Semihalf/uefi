@@ -739,15 +739,19 @@ static int init_oci(void)
 
 static void setup_node(bdk_node_t node)
 {
-    /* Clear all OCI lane error status bits */
-    for (int lane=0; lane<24; lane++)
-        BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(node, BDK_OCX_LNEX_INT(lane)));
-
-    /* Split across two links as HW currently only support 2 node */
-    BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
-        c.s.sort = 1);
-
     bdk_rng_enable(node);
+
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* Clear all OCI lane error status bits */
+        for (int lane=0; lane<24; lane++)
+            BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(node, BDK_OCX_LNEX_INT(lane)));
+
+        /* Split across two links as HW currently only support 2 node */
+        BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
+            c.s.sort = 1);
+    }
+
     if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0))
     {
         /* Don't apply OCI workaround if we're running on a single node */
