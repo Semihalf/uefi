@@ -1511,6 +1511,18 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
+    /* (G-20798) JTAG/EJTAG issues with GSER */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    {
+        BDK_CSR_MODIFY(c,node,BDK_UCTLX_CTL(0),
+            c.s.ref_ssp_en = 1;
+            c.s.h_clk_en = 1;
+            c.s.csclk_en = 1;
+            c.s.ss_power_en = 1;
+            c.s.hs_power_en = 1;
+            c.s.h_clkdiv_rst = 0);
+    }
+
     /* Apply erratas to all QLMs that are out of reset */
     for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
     {
