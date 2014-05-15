@@ -1532,7 +1532,6 @@ static void qlm_init(bdk_node_t node)
             BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
             if (!gserx_cfg.s.pcie)
                 qlm_init_errata_20844(node, qlm);
-            qlm_init_errata_20844(node, qlm);
             /* Perform PCIe errata workaround */
             if (gserx_cfg.s.pcie)
                 qlm_pcie_errata(node, qlm);
