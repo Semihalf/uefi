@@ -261,6 +261,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     int index = fifo >> 2;
     BDK_CSR_INIT(cfg, node, BDK_PKO_PTGFX_CFG(index));
     cfg.s.reset = 1;
+    cfg.s.rate = 1; /* Default rate for all ports is 12.5 Gb/s */
     switch (cfg.s.size)
     {
         case 0: /* 2.5kb, 2.5kb, 2.5kb, 2.5kb */
@@ -274,6 +275,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     break;
                 default: /* 4 */
                     cfg.s.size = 4; /* 10kb */
+                    cfg.s.rate = 3; /* Large FIFOs are for 40G links, use 50 Gb/s */
                     break;
             }
             break;
