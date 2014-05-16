@@ -194,6 +194,13 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_CHAN_MSK_AND(handle->interface),
         c.s.msk_and |= ((1<<priv.s.num_channels) - 1) << (handle->index * 16));
 
+    /* Disable all MAC filtering */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_ADR_CTL(handle->interface, handle->index),
+        c.s.cam_accept = 0;
+        c.s.mcst_mode = 0x1; /* Accept multicasts */
+        c.s.bcst_accept = 0x1); /* Accept broadcasts */
+    for (int i = 0; i < 32; i++)
+        BDK_CSR_WRITE(handle->node, BDK_BGXX_CMR_RX_ADRX_CAM(handle->interface, i), 0);
     return 0;
 }
 
