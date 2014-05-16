@@ -273,7 +273,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     cfg.s.size = 1; /* 5kb, 2.5kb, 2.5kb */
                     break;
                 default: /* 4 */
-                    cfg.s.size = 3; /* 10kb */
+                    cfg.s.size = 4; /* 10kb */
                     break;
             }
             break;
@@ -287,7 +287,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     break;
                 case 2:
                     /* 2nd buffer is now 5kb */
-                    cfg.s.size = 2; /* 5kb, 5kb */
+                    cfg.s.size = 3; /* 5kb, 5kb */
                     break;
                 default: /* 4 */
                     /* This shouldn't be possible */
