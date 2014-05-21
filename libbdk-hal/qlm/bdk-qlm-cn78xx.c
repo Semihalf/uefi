@@ -1213,6 +1213,7 @@ static void qlm_pcie_errata(int node, int qlm)
         for (int q = low_qlm; q <= high_qlm; q++)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(q),
                 c.s.phy_reset = 0);
+        bdk_wait_usec(5);
     }
 
     /* (GSER-20936) GSER has wrong PCIe RX detect reset value */
