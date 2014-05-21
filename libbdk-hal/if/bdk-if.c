@@ -206,11 +206,15 @@ static int __bdk_if_init_node(bdk_node_t node)
     if (result)
         return result;
 
-    /* Create dispatch threads */
+    /* Create dispatch threads for every running core */
+    uint64_t coremask = bdk_get_running_coremask(node);
     for (int core=0; core<bdk_octeon_num_cores(node); core++)
     {
-        if (bdk_thread_create(node, 1ull<<core, bdk_if_dispatch_thread, 0, NULL, 0))
-            bdk_error("Failed to create dispatch thread for core %d\n", core);
+        if (coremask & (1ull << core))
+        {
+            if (bdk_thread_create(node, 1ull << core, bdk_if_dispatch_thread, 0, NULL, 0))
+                bdk_error("Failed to create dispatch thread for core %d\n", core);
+        }
     }
 
     return result;
