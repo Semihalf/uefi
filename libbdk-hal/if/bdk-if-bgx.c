@@ -1120,11 +1120,15 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     /* Read the TX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface, handle->index));
     BDK_CSR_INIT(tx_packets, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface, handle->index));
+    BDK_CSR_INIT(tx_pause, handle->node, BDK_BGXX_CMRX_TX_STAT17(handle->interface, handle->index));
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.octs, handle->stats.tx.octets, 48);
     handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.pkts, handle->stats.tx.packets, 48);
     handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
+    /* Remove stats count for pause frames */
+    handle->stats.tx.packets -= tx_pause.s.ctl;
+    handle->stats.tx.octets -= 64ull * tx_pause.s.ctl;
 
     return &handle->stats;
 }
