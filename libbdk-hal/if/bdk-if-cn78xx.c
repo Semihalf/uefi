@@ -8,7 +8,7 @@
 static const int PKO_QUEUES_PER_CHANNEL = 1;
 static const int PKO_POOL_BUFFERS = 256;
 static const int MAX_SSO_ENTRIES = 1024;
-static const int PKO_DEPTH_LIMIT = 256; /* Max packets to have pending in PKO queues */
+static const int PKO_DEPTH_LIMIT = 1024; /* Max packets to have pending in PKO queues */
 extern const uint64_t __BDK_PKI_MICROCODE_CN78XX[];
 extern const int __BDK_PKI_MICROCODE_CN78XX_LENGTH;
 
@@ -864,7 +864,17 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Flush pending writes */
     BDK_SYNCW;
 
-    if (handle->pko_depth >= PKO_DEPTH_LIMIT)
+    /* To reduce NCB bus traffic, we decrement the queue depth for PKO
+       every pko_decrement_block packets instead of on every packet.
+       pko_decrement_block must be a power of 2 */
+    int pko_decrement_block = PKO_DEPTH_LIMIT / 4;
+    /* Offset is a 8 bit field, so 128 is the largest power of 2 that will fit */
+    if (pko_decrement_block > 128)
+        pko_decrement_block = 128;
+    int pko_depth = (volatile int64_t)handle->pko_depth;
+    int need_decrement = pko_depth && !(pko_depth & (pko_decrement_block-1));
+
+    if (pko_depth >= PKO_DEPTH_LIMIT)
     {
         //bdk_error("%s: PKO transmit aborted due queue depth\n", bdk_if_name(handle));
         return -1;
@@ -885,7 +895,7 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Memory decrement when done */
     bdk_pko_send_mem_s_t pko_send_mem_s;
     pko_send_mem_s.u = 0;
-    pko_send_mem_s.s.offset = 1;
+    pko_send_mem_s.s.offset = pko_decrement_block;
     pko_send_mem_s.s.alg = 9; /* Subtract */
     pko_send_mem_s.s.subdc4 = 0xc;
     pko_send_mem_s.s.addr = handle->pko_depth_addr;
@@ -920,8 +930,9 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     bdk_scratch_write64(BDK_IF_SCR_PKO(1), pko_send_link_s.u64);
     bdk_scratch_write64(BDK_IF_SCR_PKO(2), pko_send_mem_s.u);
 
-    /* Issue LMTDMA with 2 dwords of data, no response */
-    bdk_write64_uint64(BDK_LMTDMA_ADDR(3), pko_send_dma_s.u);
+    /* Issue LMTDMA with 2 or 3 dwords of data, no response */
+    int words = (need_decrement) ? 3 : 2;
+    bdk_write64_uint64(BDK_LMTDMA_ADDR(words), pko_send_dma_s.u);
 
     /* Updates the statistics in software if need to. The simulator
         doesn't implement the hardware counters */
