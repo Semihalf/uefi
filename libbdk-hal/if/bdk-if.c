@@ -655,10 +655,12 @@ static void bdk_if_dispatch_thread(int unused, void *unused2)
     bdk_if_handle_t link_handle = NULL;
     uint64_t last_poll = 0;
     const uint64_t poll_rate = bdk_is_simulation() ? 1000000 : bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 16;
+    const int do_link_poll = bdk_is_boot_core();
 
     while (1)
     {
-        if ((bdk_if_dispatch() == 0) && bdk_is_boot_core())
+        bdk_if_dispatch();
+        if (do_link_poll)
         {
             /* Poll the link state */
             uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
