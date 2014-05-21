@@ -1137,23 +1137,134 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 
 static void qlm_pcie_errata(int node, int qlm)
 {
+    int pem;
+    int is_8lanes;
+    int is_high_lanes;
+
+    /* Only applies to CN78XX pass 1.x */
+    if (!OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+        return;
+
+    /* Determine the PEM for this QLM, whether we're in 8 lane mode,
+       and whether these are the top lanes of the 8 */
+    switch (qlm)
+    {
+        case 0: /* First 4 lanes of PEM0 */
+        {
+            BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
+            pem = 0;
+            is_8lanes = pem0_cfg.cn78xx.lanes8;
+            is_high_lanes = 0;
+            break;
+        }
+        case 1: /* Either last 4 lanes of PEM0, or PEM1 */
+        {
+            BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
+            pem = (pem0_cfg.cn78xx.lanes8) ? 0 : 1;
+            is_8lanes = pem0_cfg.cn78xx.lanes8;
+            is_high_lanes = is_8lanes;
+            break;
+        }
+        case 2: /* First 4 lanes of PEM2 */
+        {
+            BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+            pem = 2;
+            is_8lanes = pem2_cfg.cn78xx.lanes8;
+            is_high_lanes = 0;
+            break;
+        }
+        case 3: /* Either last 4 lanes of PEM2 or first 4 lanes of PEM3 */
+        {
+            BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+            BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
+            pem = (pem2_cfg.cn78xx.lanes8) ? 2 : 3;
+            is_8lanes = (pem == 2) ? pem2_cfg.cn78xx.lanes8 : pem3_cfg.cn78xx.lanes8;
+            is_high_lanes = (pem == 2) && is_8lanes;
+            break;
+        }
+        case 4: /* Last 4 lanes of PEM3 */
+            pem = 3;
+            is_8lanes = 1;
+            is_high_lanes = 1;
+            break;
+        default:
+            bdk_error("Invalid QLM passed to qlm_pcie_errata()\n");
+            return;
+    }
+
+    /* These workaround must be applied once per PEM. Since we're called per
+       QLM, wait for the 2nd half of 8 lane setups before doing the workaround */
+    if (is_8lanes && !is_high_lanes)
+        return;
+
+    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pem));
+    int is_host = pemx_cfg.cn78xx.hostmd;
+    int low_qlm = (is_8lanes) ? qlm - 1 : qlm;
+    int high_qlm = qlm;
+    qlm = -1; /* Just so I don't mistakenly use it below */
+
+    if (is_host)
+    {
+        /* (GSER-XXXX) GSER PHY needs to be reset at initialization */
+        for (int q = low_qlm; q <= high_qlm; q++)
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(q),
+                c.s.phy_reset = 1);
+        bdk_wait_usec(5);
+        for (int q = low_qlm; q <= high_qlm; q++)
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(q),
+                c.s.phy_reset = 0);
+    }
+
     /* (GSER-20936) GSER has wrong PCIe RX detect reset value */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(qlm),
-        c.s.tx_rx_detect_lvl_enc = 7);
+    for (int q = low_qlm; q <= high_qlm; q++)
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICE_CFG(q),
+            c.s.tx_rx_detect_lvl_enc = 7);
+
     /* Clear the bit in GSERX_RX_PWR_CTRL_P1[p1_rx_subblk_pd]
        that coresponds to "Lane DLL" */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_PWR_CTRL_P1(qlm),
-        c.s.p1_rx_subblk_pd &= ~4);
+    for (int q = low_qlm; q <= high_qlm; q++)
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_PWR_CTRL_P1(q),
+            c.s.p1_rx_subblk_pd &= ~4);
 
     /* Errata (GSER-20888) GSER incorrect synchronizers hurts PCIe
        Override TX Power State machine TX reset control signal */
-    for (int lane = 0; lane < 4; lane++)
+    for (int q = low_qlm; q <= high_qlm; q++)
     {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-            c.s.tx_resetn_ovrd_val = 1);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, lane),
-            c.s.tx_p2s_resetn_ovrrd_en = 1);
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(q, lane),
+                c.s.tx_resetn_ovrd_val = 1);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(q, lane),
+                c.s.tx_p2s_resetn_ovrrd_en = 1);
+        }
     }
+
+    if (!is_host)
+        return;
+
+    /* De-assert the SOFT_RST bit for this QLM (PEM) */
+    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(pem),
+        c.s.soft_prst = 0);
+    bdk_wait_usec(1);
+
+    for (int q = low_qlm; q <= high_qlm; q++)
+    {
+        for (int lane = 0; lane < 4; lane++)
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(q, lane),
+                c.s.rx_resetn_ovrrd_en = 1);
+    }
+    bdk_wait_usec(1);
+
+    for (int q = low_qlm; q <= high_qlm; q++)
+    {
+        for (int lane = 0; lane < 4; lane++)
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(q, lane),
+                c.s.rx_resetn_ovrrd_en = 0);
+    }
+
+    /* Assert the SOFT_RST bit for this QLM (PEM) */
+    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(pem),
+        c.s.soft_prst = 1);
 }
 
 static void qlm_init_errata_20844(int node, int qlm)
