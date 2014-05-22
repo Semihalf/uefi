@@ -1213,6 +1213,16 @@ static void qlm_pcie_errata(int node, int qlm)
     int high_qlm = qlm;
     qlm = -1; /* Just so I don't mistakenly use it below */
 
+    if (!is_host)
+    {
+        /* Read the current slice config value. If its at the value we will
+           program then skip doing the workaround. We're probably doing a
+           hot reset and the workaround is already applied */
+        BDK_CSR_INIT(gserx_slice_cfg, node, BDK_GSERX_SLICE_CFG(qlm));
+        if (gserx_slice_cfg.s.tx_rx_detect_lvl_enc == 7)
+            return;
+    }
+
     if (is_host)
     {
         /* (GSER-XXXX) GSER PHY needs to be reset at initialization */
