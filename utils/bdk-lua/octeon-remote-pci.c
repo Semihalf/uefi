@@ -459,16 +459,35 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
                     address |= 3ull<<49;
                     break;
             }
-            bar0_write32(BDK_SLI_WIN_RD_ADDR+4, address>>32);
-            bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
-#ifdef __ppc__
-            /* This read is needed to enforce ordering on PowerPC */
-            bar0_read32(BDK_SLI_WIN_RD_ADDR);
-#endif
-            /* This read triggers the actual read */
-            uint64_t v = (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
-            uint64_t reg_addr = (octeon_pci_port) ? BDK_SLI_LAST_WIN_RDATA1 : BDK_SLI_LAST_WIN_RDATA0;
-            v |= ((uint64_t)bar0_read32(reg_addr+4))<<32;
+            uint64_t v;
+            if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            {
+                bar0_write32(BDK_SLI_WIN_RD_ADDR + 4, address >> 32);
+                bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
+    #ifdef __ppc__
+                /* This read is needed to enforce ordering on PowerPC */
+                bar0_read32(BDK_SLI_WIN_RD_ADDR);
+    #endif
+                /* This read triggers the actual read */
+                v = (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
+                uint64_t reg_addr = (octeon_pci_port) ? BDK_SLI_LAST_WIN_RDATA1 : BDK_SLI_LAST_WIN_RDATA0;
+                v |= ((uint64_t)bar0_read32(reg_addr+4))<<32;
+            }
+            else
+            {
+                bar0_write32(BDK_SLI_WIN_RD_ADDR + 4, address >> 32);
+    #ifdef __ppc__
+                bar0_read32(BDK_SLI_WIN_RD_ADDR + 4);
+    #endif
+                /* Writing the LSB of the address triggers the read */
+                bar0_write32(BDK_SLI_WIN_RD_ADDR, address);
+    #ifdef __ppc__
+                bar0_read32(BDK_SLI_WIN_RD_ADDR);
+    #endif
+                /* Read the data that was triggered above */
+                v = (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA);
+                v |= (uint64_t)bar0_read32(BDK_SLI_WIN_RD_DATA+4)<<32;
+            }
             if (size != 8)
                 v &= (1<<(size*8)) - 1;
             return v;
