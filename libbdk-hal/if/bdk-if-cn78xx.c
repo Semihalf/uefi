@@ -451,7 +451,9 @@ static int pko_port_init(bdk_if_handle_t handle)
                     break;
             }
             lmac = 4 + 4 * handle->interface + port;
-            compressed_channel_id = 512 + handle->interface * 64 + handle->index;
+            /* BGX could have 16 channels per port, 4 ports per BGX, totaling
+               64 IDs per BGX. This code currently doesn't handle channels */
+            compressed_channel_id = 512 + handle->interface * 64 + handle->index * 16;
             break;
         }
         case BDK_IF_DPI:
