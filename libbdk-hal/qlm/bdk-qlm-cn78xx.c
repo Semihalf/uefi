@@ -494,6 +494,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             switch (qlm)
             {
                 case 0: /* Either x4 or x8 based on PEM0 */
+                    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(0),
+                        c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                    setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
                         c.cn78xx.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
                         c.cn78xx.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -502,7 +505,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                             c.s.pemon = 1);
-                    setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                 case 1: /* Either PEM0 x8 or PEM1 x4 */
                     if (mode == BDK_QLM_MODE_PCIE_1X8)
                     {
@@ -514,16 +516,21 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     else
                     {
                         /* Four lanes for PEM1 */
+                        BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(1),
+                            c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                        setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
                             c.cn78xx.lanes8 = 0;
                             c.cn78xx.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.cn78xx.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1),
                             c.s.pemon = 1);
-                        setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     }
                     break;
                 case 2: /* Either PEM2 x4 or PEM2 x8 */
+                    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
+                        c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                    setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
                         c.cn78xx.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
                         c.cn78xx.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -532,7 +539,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
-                    setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     break;
                 case 3: /* Either PEM2 x8, PEM3 x4, or PEM3 x8 */
                 {
@@ -547,6 +553,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     else
                     {
                         /* First 4 lanes of PEM3 */
+                        BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
+                            c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
                             c.cn78xx.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
                             c.cn78xx.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -557,7 +566,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         if (mode == BDK_QLM_MODE_PCIE_1X4)
                             BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                                 c.s.pemon = 1);
-                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     }
                     break;
                 }
@@ -572,6 +580,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     else
                     {
                         /* 4 lanes of PEM3 */
+                        BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
+                            c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
                             c.cn78xx.lanes8 = 0;
                             c.cn78xx.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -580,7 +591,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.pem3qlm = 1); /* PEM3 is on QLM4 */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                             c.s.pemon = 1);
-                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     }
                     break;
                 default:
