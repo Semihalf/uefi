@@ -505,6 +505,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                             c.s.pemon = 1);
+                    break;
                 case 1: /* Either PEM0 x8 or PEM1 x4 */
                     if (mode == BDK_QLM_MODE_PCIE_1X8)
                     {
