@@ -60,11 +60,6 @@ end
 
 -- Start PRBS on a list of QLMs
 local function start_prbs(mode, qlm_list)
-    -- Reset the QLMs. Do this independently from PRBS so that all
-    -- resets are complete before we start PRBS
-    for _,qlm_num in ipairs(qlm_list) do
-        octeon.c.bdk_qlm_reset(node, qlm_num)
-    end
     -- Start PRBS on the QLMs.
     for _,qlm_num in ipairs(qlm_list) do
         octeon.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 1)
