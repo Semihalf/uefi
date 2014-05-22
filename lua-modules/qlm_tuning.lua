@@ -97,7 +97,7 @@ local function do_prbs(mode)
     -- Display PRBS status on the console
     local function display_status(run_time)
         printf("\n\n");
-        printf("PRBS-%d time: %d seconds (Press return to exit, 'E' to inject an error)\n", mode, run_time)
+        printf("Time: %d seconds (Press return to exit, 'E' to inject an error)\n", run_time)
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
                 return (lane == 0) and ("--- QLM " .. qlm) or "----------"
@@ -105,7 +105,7 @@ local function do_prbs(mode)
             output_line(qlm_base, "", function(qlm, lane)
                 return "Lane " .. lane
             end)
-            output_line(qlm_base, "PRBS Errors", function(qlm, lane)
+            output_line(qlm_base, "Errors", function(qlm, lane)
                 local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
                 if v == -1 then
                     return "No Lock"
@@ -121,7 +121,7 @@ local function do_prbs(mode)
                     end
                 end
             end)
-            output_line(qlm_base, "PRBS Error Rate", function(qlm, lane)
+            output_line(qlm_base, "Error Rate", function(qlm, lane)
                 local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm)
                 local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
                 if (v == -1) or (run_time == 0) then
@@ -167,7 +167,7 @@ local function do_prbs(mode)
         end
     end
 
-    printf("PRBS-%d running. Statistics shown every 5 seconds\n", mode)
+    printf("Running. Statistics shown every 5 seconds\n", mode)
     start_prbs(mode, qlm_list)
 
     local start_time = os.time()
@@ -181,7 +181,7 @@ local function do_prbs(mode)
         end
         local key = readline.getkey()
         if (key == 'e') or (key == 'E') then
-            print("Injecting error into PRBS")
+            print("Injecting error into bit stream")
             for _,qlm_num in ipairs(qlm_list) do
                 local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
                 for lane=0, num_lanes-1 do
@@ -190,6 +190,11 @@ local function do_prbs(mode)
             end
         end
     until key == '\r'
+end
+
+local function do_custom(mode)
+    local pattern = menu.prompt_number("10 bit pattern", 0x155, 0, 0x3ff)
+    do_prbs(pattern * 256 + mode)
 end
 
 -- Main menu
@@ -211,6 +216,9 @@ function qlm_tuning.run()
         end
         m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
+        m:item("fixedw", "Fixed 10 bit word (PAT)", do_custom, 0x8)
+        m:item("dc-bal", "DC-balanced word (PAT, ~PAT)", do_custom, 0x9)
+        m:item("fixedp", "Fixed pattern (000, PAT, 3ff, ~PAT)", do_custom, 0xa)
         m:item("quit",   "Main menu")
     until (m:show() == "quit")
 end

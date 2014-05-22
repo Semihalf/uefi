@@ -1039,7 +1039,10 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
             mode = 7;
             break;
         default:
-            bdk_error("Invalid PRBS mode %d\n", prbs);
+            mode = prbs & 0xff;
+            for (int lane = 0; lane < NUM_LANES; lane++)
+                BDK_CSR_WRITE(node, BDK_GSERX_LANEX_LBERT_PAT_CFG(qlm, lane), prbs >> 8);
+            BDK_TRACE("Using mode 0x%x with custom pattern 0x%x\n", mode, prbs >> 8);
             return -1;
     }
 
@@ -1052,8 +1055,6 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
         for (int lane = 0; lane < NUM_LANES; lane++)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
                 c.s.lbert_pg_en = 0);
-        /* Program PRBS mode. This code doesn't support the other
-            pattern modes */
         for (int lane = 0; lane < NUM_LANES; lane++)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
                 c.s.lbert_pg_en = 1; /* Enable generator */
@@ -1070,8 +1071,6 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
                 c.s.lbert_pm_en = 0);
         }
-        /* Program PRBS mode. This code doesn't support the other
-            pattern modes */
         for (int lane = 0; lane < NUM_LANES; lane++)
         {
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
