@@ -403,6 +403,7 @@ static int pci_open(const char *remote_spec)
 
     /* Determine the port number */
     octeon_pci_port = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_SLI_MAC_NUMBER) & 0xff;
+    octeon_remote_debug(3, "Octeon is connected using its PCIe port %d\n", octeon_pci_port);
     return 0;
 }
 
