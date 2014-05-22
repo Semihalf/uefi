@@ -22,7 +22,7 @@ enums:
     title: LAP Error Enumeration
     attributes:
       width: "6"
-    description: Enumerates the different errors for returns in LAP_CTL_RTN_S[ERR]; see also LAP(0..1)_GEN_INT.
+    description: Enumerates the different errors for returns in LAP_CTL_RTN_S[ERR]; see also LAP()_GEN_INT.
     values:
       - name: "NONE"
         value: 0x00
@@ -57,14 +57,14 @@ enums:
       - name: RESP_TIME
         value: 0x23
         description: |
-          The LAP(0..1)_TIMEOUT[RESP] timer expired and transitioned this LAB to error state. Only
+          The LAP()_TIMEOUT[RESP] timer expired and transitioned this LAB to error state. Only
           possible in non-exception queues.
 
       - name: MISMATCH
         value: 0x24
         description: |
-          The response packet did not match LAP(0..1)_EXP(0..15)_DATA and
-          LAP(0..1)_EXP(0..15)_VALID. Not reported if packet also has CRC errors. Only delivered to
+          The response packet did not match LAP()_EXP()_DATA and
+          LAP()_EXP()_VALID. Not reported if packet also has CRC errors. Only delivered to
           exception queue.
 
       - name: XID_BAD
@@ -229,7 +229,7 @@ structs:
       - name: EQNE
         bits: 22
         description: |
-          Exception queue not empty. Asserted whenever LAP(0..1)_QUE(0..2)_STATE[LABS_RX] for queue
+          Exception queue not empty. Asserted whenever LAP()_QUE()_STATE[LABS_RX] for queue
           2 is non-zero. This indicates software may want to read the received exception entry.
 
       - name: TIMEOUT
@@ -284,6 +284,8 @@ structs:
 
   - name: LAP_RD_IOBDMA_S
     title: LAP Read IOBDMA Operation Structure
+    attributes:
+      mif_operation: "LAP Read Operations"
     description: IOBDMA return operations are created with an address formed with this structure.
     fields:
       - name: --
@@ -373,6 +375,8 @@ structs:
 
   - name: LAP_RD_LD_S
     title: LAP Read Load Operation Structure
+    attributes:
+      mif_operation: "LAP Read Operations"
     description: IO read loads are created with an address formed with this structure.
     fields:
       - name: --
@@ -456,6 +460,8 @@ structs:
 
   - name: LAP_SEND_LMTDMA_S
     title: LAP LMTDMA Send Operation Address Structure
+    attributes:
+      mif_operation: "LAP Send Operation"
     description: LMTST or LMTDMA send operations are created with an address formed with this structure.
     fields:
       - name: --
@@ -665,7 +671,7 @@ registers:
         description: |
           A response packet's transaction ID was targeted to an LAB not in PROCESSING state. Not
           reported if packet also has CRC or MISMATCH errors. Typically indicates TCAM or
-          configuration error. Throws LAP_INTSN_E::LAP(0..1)_GEN_XID_BAD.
+          configuration error. Throws LAP_INTSN_E::LAP()_GEN_XID_BAD.
 
       - name: NBR_DBE
         bits: 17
@@ -674,7 +680,7 @@ registers:
         typical: 0
         description: |
           An ECC uncorrectable error has occurred in the NBR RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_NBR_DBE.
+          LAP_INTSN_E::LAP()_GEN_NBR_DBE.
 
       - name: NBR_SBE
         bits: 16
@@ -683,7 +689,7 @@ registers:
         typical: 0
         description: |
           An ECC correctable error has occurred in the NBR RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_NBR_SBE.
+          LAP_INTSN_E::LAP()_GEN_NBR_SBE.
 
       - name: EDAT_DBE
         bits: 15
@@ -692,7 +698,7 @@ registers:
         typical: 0
         description: |
           An ECC uncorrectable error has occurred in the EDAT RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_EDAT_DBE. See also LAP(0..1)_EDAT_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_EDAT_DBE. See also LAP()_EDAT_ERR_ST.
 
       - name: EDAT_SBE
         bits: 14
@@ -701,7 +707,7 @@ registers:
         typical: 0
         description: |
           An ECC correctable error has occurred in the EDAT RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_EDAT_SBE. See also LAP(0..1)_EDAT_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_EDAT_SBE. See also LAP()_EDAT_ERR_ST.
 
       - name: EMSK_DBE
         bits: 13
@@ -710,7 +716,7 @@ registers:
         typical: 0
         description: |
           An ECC uncorrectable error has occurred in the EMSK RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_EMSK_DBE. See also LAP(0..1)_EMSK_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_EMSK_DBE. See also LAP()_EMSK_ERR_ST.
 
       - name: EMSK_SBE
         bits: 12
@@ -719,7 +725,7 @@ registers:
         typical: 0
         description: |
           An ECC correctable error has occurred in the EMSK RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_EMSK_SBE. See also LAP(0..1)_EMSK_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_EMSK_SBE. See also LAP()_EMSK_ERR_ST.
 
       - name: NXT_DBE
         bits: 11
@@ -728,7 +734,7 @@ registers:
         typical: 0
         description: |
           An ECC uncorrectable error has occurred in the NXT RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_NXT_DBE. See also LAP(0..1)_NXT_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_NXT_DBE. See also LAP()_NXT_ERR_ST.
 
       - name: NXT_SBE
         bits: 10
@@ -737,7 +743,7 @@ registers:
         typical: 0
         description: |
           An ECC correctable error has occurred in the NXT RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_NXT_SBE. See also LAP(0..1)_NXT_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_NXT_SBE. See also LAP()_NXT_ERR_ST.
 
       - name: STA_DBE
         bits: 9
@@ -746,7 +752,7 @@ registers:
         typical: 0
         description: |
           An ECC uncorrectable error has occurred in the STA RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_STA_DBE. See also LAP(0..1)_STA_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_STA_DBE. See also LAP()_STA_ERR_ST.
 
       - name: STA_SBE
         bits: 8
@@ -755,7 +761,7 @@ registers:
         typical: 0
         description: |
           An ECC correctable error has occurred in the STA RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_STA_SBE. See also LAP(0..1)_STA_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_STA_SBE. See also LAP()_STA_ERR_ST.
 
       - name: LAB_DBE
         bits: 7
@@ -764,7 +770,7 @@ registers:
         typical: 0
         description: |
           An ECC uncorrectable error has occurred in the LAB RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_LAB_DBE. See also LAP(0..1)_LAB_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_LAB_DBE. See also LAP()_LAB_ERR_ST.
 
       - name: LAB_SBE
         bits: 6
@@ -773,7 +779,7 @@ registers:
         typical: 0
         description: |
           An ECC correctable error has occurred in the LAB RAM. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_LAB_SBE. See also LAP(0..1)_LAB_ERR_ST.
+          LAP_INTSN_E::LAP()_GEN_LAB_SBE. See also LAP()_LAB_ERR_ST.
 
       - name: --
         bits: 5..4
@@ -789,7 +795,7 @@ registers:
         typical: 0
         description: |
           Indication timer transitioned an LAB to error state. This interrupt will typically be
-          masked off, as error delivery can be in-band. Throws LAP_INTSN_E::LAP(0..1)_GEN_TIMEOUT.
+          masked off, as error delivery can be in-band. Throws LAP_INTSN_E::LAP()_GEN_TIMEOUT.
 
       - name: NEW_EXC
         bits: 2
@@ -798,7 +804,7 @@ registers:
         typical: 0
         description: |
           Indication the exception queue contains any received packet. Software should check the
-          exception queue for new packets. Throws LAP_INTSN_E::LAP(0..1)_GEN_NEW_EXC.
+          exception queue for new packets. Throws LAP_INTSN_E::LAP()_GEN_NEW_EXC.
 
       - name: LOST_EXC
         bits: 1
@@ -807,7 +813,7 @@ registers:
         typical: 0
         description: |
           Error indicating exception packet received with no LABs available on the exception queue;
-          the exception packet was dropped. Throws LAP_INTSN_E::LAP(0..1)_GEN_LOST_EXC.
+          the exception packet was dropped. Throws LAP_INTSN_E::LAP()_GEN_LOST_EXC.
 
       - name: LABS_OUT
         bits: 0
@@ -816,8 +822,8 @@ registers:
         typical: 0
         description: |
           Error indicating did push with no free LABs available, or
-          LAP(0..1)_QUE(0..2)_CFG[MAX_LABS] was exceeded. Throws
-          LAP_INTSN_E::LAP(0..1)_GEN_LABS_OUT.
+          LAP()_QUE()_CFG[MAX_LABS] was exceeded. Throws
+          LAP_INTSN_E::LAP()_GEN_LABS_OUT.
 
 
   - name: LAP(0..1)_CFG
@@ -863,6 +869,7 @@ registers:
           Timeout increment on XOFF:
           0 = If an ILA/ASE channel is backpressured, the response timeout counters are paused.
           1 = If an ILA/ASE channel is backpressured, the response timeout counters continue to run.
+
           This may result in timeouts due to temporary backpressure.
 
       - name: OOO
@@ -887,6 +894,7 @@ registers:
           Enable LAP.
           0 = LAP disabled, any lookups will result in out-of-LAB interrupt.
           1 = LAP enabled.
+
           When ENA transitions from 0 to 1, LAP will build the free list and empty all queue lists.
           Results are unpredictable if ENA is toggled with traffic outstanding.
 
@@ -1045,7 +1053,7 @@ registers:
           0x0 = Timeout between 256 and 511 cycles.
           0x1 = Timeout between 512 and 1023 cycles.
           0x2 = Timeout between 768 and 1535 cycles.
-          etc.
+          _ etc.
 
       - name: --
         bits: 15..12
@@ -1062,18 +1070,18 @@ registers:
         description: |
           Timeout waiting for a response in number of SCLKs minus one divided by 256. After between
           one and two times this interval an in-flight LAB will be considered lost and marked as
-          RECEIVED with error. RESP must be set to >= (2 * LAP(0..1)_TIMEOUT[IOBDMA] + 1).
+          RECEIVED with error. RESP must be set to >= (2 * LAP()_TIMEOUT[IOBDMA] + 1).
           0x0 = Timeout between 256 and 511 cycles.
           0x1 = Timeout between 512 and 1023 cycles.
           0x2 = Timeout between 768 and 1535 cycles.
-          etc.
+          _ etc.
 
 
   - name: LAP(0..1)_XID_POS
     title: LAP Transaction Position Register
     address: 0x118000C010070 | a<<24
     bus: RSL
-    description: Configures how to insert and extract transaction ids; see Transaction ID Assignment.
+    description: Configures how to insert and extract transaction ids.
     fields:
       - name: --
         bits: 63..33
@@ -1090,8 +1098,7 @@ registers:
         description: |
           Insert/extract in Interlaken-LA application specific AS fields. If set and REQ_WD or
           RTN_WD are zero, the XID field that is inserted or extracted respectively will skip over
-          the non-application specific fields in the Interlaken LA header. See Transaction ID
-          Packing.
+          the non-application specific fields in the Interlaken LA header.
 
       - name: --
         bits: 31..26
@@ -1259,7 +1266,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Syndrome of last LAB data ram ECC error. Latched when LAP(0..1)_GEN_INT[LAB_SBE] or [LAB_DBE] set
+        description: Syndrome of last LAB data ram ECC error. Latched when LAP()_GEN_INT[LAB_SBE] or [LAB_DBE] set
 
       - name: --
         bits: 15..10
@@ -1301,7 +1308,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Syndrome of last LAB state ram ECC error. Latched when LAP(0..1)_GEN_INT[STA_SBE] or [STA_DBE] set
+        description: Syndrome of last LAB state ram ECC error. Latched when LAP()_GEN_INT[STA_SBE] or [STA_DBE] set
 
       - name: --
         bits: 15..8
@@ -1315,7 +1322,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: Address of last LAB state ram ECC error. Latched when LAP(0..1)_GEN_INT[STA_SBE] or [STA_DBE] set.
+        description: Address of last LAB state ram ECC error. Latched when LAP()_GEN_INT[STA_SBE] or [STA_DBE] set.
 
 
   - name: LAP(0..1)_NXT_ERR_ST
@@ -1337,7 +1344,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Syndrome of last Next Pointer Ram ECC error. Latched when LAP(0..1)_GEN_INT[NXT_SBE] or
+          Syndrome of last Next Pointer Ram ECC error. Latched when LAP()_GEN_INT[NXT_SBE] or
           [NXT_DBE] set
 
       - name: --
@@ -1353,7 +1360,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of last Next Pointer Ram ECC error. Latched when LAP(0..1)_GEN_INT[NXT_SBE] or
+          Address of last Next Pointer Ram ECC error. Latched when LAP()_GEN_INT[NXT_SBE] or
           [NXT_DBE] set.
 
 
@@ -1376,7 +1383,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Syndrome of last Expected Data Ram ECC error. Latched when LAP(0..1)_GEN_INT[EMSK_SBE] or
+          Syndrome of last Expected Data Ram ECC error. Latched when LAP()_GEN_INT[EMSK_SBE] or
           [EMSK_DBE] set
 
       - name: --
@@ -1392,7 +1399,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of last Expected Data Ram ECC error. Latched when LAP(0..1)_GEN_INT[EMSK_SBE] or
+          Address of last Expected Data Ram ECC error. Latched when LAP()_GEN_INT[EMSK_SBE] or
           [EMSK_DBE] set.
 
 
@@ -1415,7 +1422,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Syndrome of last Expected Mask Ram ECC error. Latched when LAP(0..1)_GEN_INT[EDAT_SBE] or
+          Syndrome of last Expected Mask Ram ECC error. Latched when LAP()_GEN_INT[EDAT_SBE] or
           [EDAT_DBE] set
 
       - name: --
@@ -1431,7 +1438,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Address of last Expected Mask Ram ECC error. Latched when LAP(0..1)_GEN_INT[EDAT_SBE] or
+          Address of last Expected Mask Ram ECC error. Latched when LAP()_GEN_INT[EDAT_SBE] or
           [EDAT_DBE] set.
 
 
@@ -1439,7 +1446,7 @@ registers:
     title: LAP Expected Data Register
     address: 0x118000C020000 | a<<24 | b<<3
     bus: RSL
-    description: Configures exception error masking; see Errors.
+    description: Configures exception error masking.
     attributes:
       arch_max: "x,16"
       dv_fc_scratch: "a;b=(0)"
@@ -1451,14 +1458,14 @@ registers:
         typical: --
         description: |
           Data value expected. The packet must have bits matching this value if the corresponding
-          bits in LAP(0..1)_EXP(0..15)_VALID are set.
+          bits in LAP()_EXP()_VALID are set.
 
 
   - name: LAP(0..1)_EXP(0..15)_VALID
     title: LAP Expected Mask Register
     address: 0x118000C030000 | a<<24 | b<<3
     bus: RSL
-    description: Configures exception error masking; see Errors.
+    description: Configures exception error masking.
     fields:
       - name: VALID
         bits: 63..0
@@ -1466,11 +1473,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Valid mask. Each bit corresponds to a bit in
-          LAP(0..1)_EXP(0..15)_VALID:
+          Valid mask. Each bit corresponds to a bit in LAP()_EXP()_VALID:
           0 = Corresponding bit is a don't care.
-          1 = Corresponding bit compared against
-          LAP(0..1)_EXP(0..15)_VALID.
+          1 = Corresponding bit compared against LAP()_EXP()_VALID.
+
           Note that some response bits indicated by LAP_CTL_RTN_S are for Interlaken control, and
           thus should always be zero (don't care) in LAP(0..1)_EXP_VALID(0).
 
@@ -1496,9 +1502,9 @@ registers:
         typical: --
         description: |
           Maximum number of LABS allowed to be assigned to this queue; compared against
-          LAP(0..1)_QUE(0..2)_STATE[LABS_RX] + LAP(0..1)_QUE(0..2)_STATE[LABS_PROC] to generate
+          LAP()_QUE()_STATE[LABS_RX] + LAP()_QUE()_STATE[LABS_PROC] to generate
           errors. The total across all queues' [MAX_LABS] may be over-provisioned, in which case the
-          global LAP(0..1)_SFT_RSTLAP(0..1)_CFG[LAB_SIZE] number of LABs will throttle the
+          global LAP()_CFG[LAB_SIZE] number of LABs will throttle the
           transaction count.
 
 
@@ -1661,8 +1667,8 @@ registers:
     address: 0x118000C080000 | a<<24 | b<<3
     bus: RSL
     description: |
-      "This register reads raw data from the LABs. The address is calculated from (LAB#  *
-      words_per_lab_from_table_in_LAP(0..1)_CFG[LAB_SIZE] + offset_in_LAB) * 8."
+      This register reads raw data from the LABs. The address is calculated from (LAB_number *
+      words_per_lab_from_table_in_LAP()_CFG[LAB_SIZE] + offset_in_LAB) * 8.
     attributes:
       arch_max: "x,16384"
     fields:

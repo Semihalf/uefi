@@ -31,14 +31,14 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: Encryption enable register locked
+        description: Encryption enable register locked.
 
       - name: EER_VAL
         bits: 9
         access: RO/H
         reset: 0
         typical: 0
-        description: Dormant encryption key match
+        description: Dormant encryption key match.
 
       - name: ENT_SEL
         bits: 8..5
@@ -47,14 +47,22 @@ registers:
         typical: 0x0
         description: |
           Select input to RNM FIFO.
-          0x0 = 0-7 0x8 = 64-71
-          0x1 = 8-15 0x9 = 72-79
-          0x2 = 16-23 0xA = 80-87
-          0x3 = 24-31 0xB = 88-95
-          0x4 = 32-39 0xC = 96-103
-          0x5 = 40-47 0xD = 104-111
-          0x6 = 48-55 0xE = 112-119
-          0x7 = 56-63 0xF = 120-127
+          0x0 = 0-7.
+          0x1 = 8-15.
+          0x2 = 16-23.
+          0x3 = 24-31.
+          0x4 = 32-39.
+          0x5 = 40-47.
+          0x6 = 48-55.
+          0x7 = 56-63.
+          0x8 = 64-71.
+          0x9 = 72-79.
+          0xA = 80-87.
+          0xB = 88-95.
+          0xC = 96-103.
+          0xD = 104-111.
+          0xE = 112-119.
+          0xF = 120-127.
 
       - name: EXP_ENT
         bits: 4
@@ -113,7 +121,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Status of the RRC memory block BIST: 1 = failed BIST, 0 = passed BIST
+          Status of the RRC memory block BIST: 1 = failed BIST, 0 = passed BIST.
 
       - name: MEM
         bits: 0
@@ -121,7 +129,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Status of MEM block BIST: 1 = failed BIST, 0 = passed BIST
+          Status of MEM block BIST: 1 = failed BIST, 0 = passed BIST.
 
 
   - name: RNM_EER_KEY
@@ -164,7 +172,7 @@ registers:
         access: RO/H
         reset: --
         typical: --
-        description: Dormant encryption serial number
+        description: Dormant encryption serial number.
 
 
 

@@ -245,7 +245,7 @@ registers:
         typical: --
         description: |
           Enable RX-TX data external loopback. Note that with differing transmit and receive clocks,
-          skip word are inserted/deleted. Must set ILA_TX(0)_CFG1[RX_LINK_FC_IGN] whenever enabling
+          skip word are inserted/deleted. Must set ILA_TX()_CFG1[RX_LINK_FC_IGN] whenever enabling
           external loopback.
 
       - name: INT_LPBK
@@ -274,7 +274,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: CSR read to ILA_TXx_STAT* clears the counter after returning its current value.
+        description: CSR read to ILA_TX(0)_STAT* clears the counter after returning its current value.
 
       - name: LNK_STATS_ENA
         bits: 54
@@ -298,9 +298,10 @@ registers:
         description: |
           The quantity of data sent on each lane including one sync word, scrambler state, diag
           word, zero or more skip words, and the data payload. Must be larger than
-          ILA_TX(0)_CFG1[SKIP_CNT] + 9.
+          ILA_TX()_CFG1[SKIP_CNT] + 9.
+
           Supported range:
-          ILA_TX(0)_CFG1[SKIP_CNT] + 9 < MFRM_LEN <= 4096)
+          _ ILA_TX()_CFG1[SKIP_CNT] + 9 < MFRM_LEN <= 4096)
 
       - name: BRST_SHRT
         bits: 38..32
@@ -347,16 +348,16 @@ registers:
           regtest_force: "0"
         description: |
           Lane enable mask. Link is enabled if any lane is enabled. The same lane should not be
-          enabled in multiple ILA_TX(0)_CFG0. Each bit of LANE_ENA maps to a TX lane (TLE) and a QLM
+          enabled in multiple ILA_TX()_CFG0. Each bit of LANE_ENA maps to a TX lane (TLE) and a QLM
           lane. Note that LANE_REV has no effect on this mapping.
-          LANE_ENA[0] = TLE0  =  QLM2 lane 0
-          LANE_ENA[1] = TLE1  =  QLM2 lane 1
-          LANE_ENA[2] = TLE2  =  QLM2 lane 2
-          LANE_ENA[3] = TLE3  =  QLM2 lane 3
-          LANE_ENA[4] = TLE4  =  QLM3 lane 0
-          LANE_ENA[5] = TLE5  =  QLM3 lane 1
-          LANE_ENA[6] = TLE6  =  QLM3 lane 2
-          LANE_ENA[7] = TLE7  =  QLM3 lane 3
+          _ LANE_ENA[0] = TLE0  =  QLM2 lane 0
+          _ LANE_ENA[1] = TLE1  =  QLM2 lane 1
+          _ LANE_ENA[2] = TLE2  =  QLM2 lane 2
+          _ LANE_ENA[3] = TLE3  =  QLM2 lane 3
+          _ LANE_ENA[4] = TLE4  =  QLM3 lane 0
+          _ LANE_ENA[5] = TLE5  =  QLM3 lane 1
+          _ LANE_ENA[6] = TLE6  =  QLM3 lane 2
+          _ LANE_ENA[7] = TLE7  =  QLM3 lane 3
 
 
   - name: ILA_TX(0)_CFG1
@@ -401,10 +402,11 @@ registers:
         description: |
           Reduce latency by limiting the amount of data in flight for each SerDes. If 0x0, hardware
           will compute it. Otherwise, SER_LIMIT must be set as follows:
-          SER_LIMIT >= 148 + (BAUD / SCLK) * (12 + NUM_LANES)
+          _ SER_LIMIT >= 148 + (BAUD / SCLK) * (12 + NUM_LANES)
+
           For instance, for SCLK=1.1GHz,BAUD=10.3125,NUM_LANES=8:
-          SER_LIMIT >= 148 + (10.3125 / 1.1 * (12+ 8))
-          SER_LIMIT >= 336
+          _ SER_LIMIT >= 148 + (10.3125 / 1.1 * (12+ 8))
+          _ SER_LIMIT >= 336
 
       - name: SER_LIMIT
         bits: 42..33
@@ -526,7 +528,7 @@ registers:
         typical: --
         description: |
           Number of packets transmitted per channel. Wraps on overflow. On overflow, sets
-          ILA_TX(0)_INT[STAT_CNT_OVFL].
+          ILA_TX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_TX(0)_BYTE_CNT(0..1)
@@ -548,7 +550,7 @@ registers:
         typical: --
         description: |
           Number of bytes transmitted per channel. Wraps on overflow. On overflow, sets
-          ILA_TX(0)_INT[STAT_CNT_OVFL].
+          ILA_TX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_TX(0)_RMATCH
@@ -661,7 +663,7 @@ registers:
           The number of coprocessor-clocks to transmit 32 words, where each word is 67 bits.  HW
           will automatically calculate a conservative value for this field.  SW can override the
           calculation by writing
-          TX_DAT_RATE = roundup((67*SCLK / GBAUD)*32).
+          _ DAT_RATE = roundup((67*SCLK / GBAUD)*32).
 
       - name: LOW_DELAY
         bits: 15..10
@@ -731,8 +733,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          TX FIFO double-bit error. Throws ILA_INTSN_E::ILA_TX(0..1)_TXF_DBE. See also
-          ILA_TX(0..1)_TXF_ERR_ST.
+          TX FIFO double-bit error. Throws ILA_INTSN_E::ILA_TX()_TXF_DBE. See also
+          ILA_TX()_ERR_CFG.
 
       - name: TXF_SBE
         bits: 4
@@ -740,8 +742,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          TX FIFO single-bit error. Throws ILA_INTSN_E::ILA_TX(0..1)_TXF_SBE. See also
-          ILA_TX(0..1)_TXF_ERR_ST.
+          TX FIFO single-bit error. Throws ILA_INTSN_E::ILA_TX()_TXF_SBE. See also
+          ILA_TX()_ERR_CFG.
 
       - name: STAT_CNT_OVFL
         bits: 3
@@ -749,7 +751,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Statistics counter overflow. Throws ILA_INTSN_E::ILA_TX(0..1)_STAT_CNT_OVFL.
+          Statistics counter overflow. Throws ILA_INTSN_E::ILA_TX()_STAT_CNT_OVFL.
 
       - name: --
         bits: 2..0
@@ -845,8 +847,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Enable that a CSR read operation to ILA_RX(0)_STAT* clears the counter after returning its
-          current value.
+          Enable that a CSR read operation to ILA_RX()_STAT0..ILA_RX()_STAT9 clears the counter
+          after returning its current value.
 
       - name: LNK_STATS_ENA
         bits: 54
@@ -870,9 +872,10 @@ registers:
         description: |
           The quantity of data sent on each lane including one sync word, scrambler state,
           diagnostic word, zero or more skip words, and the data payload. Must be larger than
-          ILA_RX(0)_CFG1[SKIP_CNT] + 32.
+          ILA_TX()_CFG1[SKIP_CNT] + 32.
+
           Supported range:
-          ILA_RX(0)_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
+          _ ILA_TX()_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
 
       - name: BRST_SHRT
         bits: 38..32
@@ -882,7 +885,7 @@ registers:
         description: |
           Minimum interval between burst control words, as a multiple of eight bytes. Supported
           range from 8 to 512 bytes (i.e. 0 < BRST_SHRT <= 64).
-          This field affects the ILA_RX(0)_STAT4[BRST_SHRT_ERR_CNT] counter. It does not affect
+          This field affects the ILA_RX()_STAT4[BRST_SHRT_ERR_CNT] counter. It does not affect
           correct operation of the link.
 
       - name: LANE_REV
@@ -903,8 +906,9 @@ registers:
           Maximum size of a data burst, as a multiple of 64-byte blocks. Supported range is from 64
           to 1024 bytes
           (i.e. 0 < BRST_MAX <= 16).
-          This field affects the ILA_RX(0)_STAT2[BRST_NOT_FULL_CNT] and
-          ILA_RX(0)_STAT3[BRST_MAX_ERR_CNT] counters. It does not affect correct operation of the
+
+          This field affects the ILA_RX()_STAT2[BRST_NOT_FULL_CNT] and
+          ILA_RX()_STAT3[BRST_MAX_ERR_CNT] counters. It does not affect correct operation of the
           link.
 
       - name: --
@@ -925,14 +929,14 @@ registers:
           Lane enable mask. The link is enabled if any lane is enabled. The same lane should not be
           enabled in multiple ILA_RXn_CFG0. Each bit of LANE_ENA maps to an RX lane (RLE) and a QLM
           lane. Note that LANE_REV has no effect on this mapping.
-          LANE_ENA[0] = RLE0 =  QLM2 lane 0
-          LANE_ENA[1] = RLE1 =  QLM2 lane 1
-          LANE_ENA[2] = RLE2 =  QLM2 lane 2
-          LANE_ENA[3] = RLE3 =  QLM2 lane 3
-          LANE_ENA[4] = RLE4 =  QLM3 lane 0
-          LANE_ENA[5] = RLE5 =  QLM3 lane 1
-          LANE_ENA[6] = RLE6 =  QLM3 lane 2
-          LANE_ENA[7] = RLE7 =  QLM3 lane 3
+          _ LANE_ENA[0] = RLE0 =  QLM2 lane 0
+          _ LANE_ENA[1] = RLE1 =  QLM2 lane 1
+          _ LANE_ENA[2] = RLE2 =  QLM2 lane 2
+          _ LANE_ENA[3] = RLE3 =  QLM2 lane 3
+          _ LANE_ENA[4] = RLE4 =  QLM3 lane 0
+          _ LANE_ENA[5] = RLE5 =  QLM3 lane 1
+          _ LANE_ENA[6] = RLE6 =  QLM3 lane 2
+          _ LANE_ENA[7] = RLE7 =  QLM3 lane 3
 
 
   - name: ILA_RX(0)_CFG1
@@ -1077,7 +1081,7 @@ registers:
         typical: --
         description: |
           Lane alignment fails after four tries. Hardware repeats lane alignment until is succeeds
-          or until ILA_RX(0)_CFG1[RX_ALIGN_ENA] = 0.
+          or until ILA_RX()_CFG1[RX_ALIGN_ENA] = 0.
 
 
   - name: ILA_RX(0)_STAT0
@@ -1099,8 +1103,8 @@ registers:
         typical: --
         description: |
           Indicates the number of CRC24 matches received. Wraps on overflow if
-          ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILA_RX(0)_INT[STAT_CNT_OVFL].
+          ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
+          ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT1
@@ -1122,8 +1126,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts with a detected CRC error. Wraps on overflow if
-          ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILA_RX(0)_INT[STAT_CNT_OVFL].
+          ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
+          ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT2
@@ -1145,8 +1149,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts received that terminated without an EOP and contained fewer
-          than BurstMax words. Wraps on overflow if ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILA_RX(0)_INT[STAT_CNT_OVFL].
+          than BurstMax words. Wraps on overflow if ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILA_RX()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..28
@@ -1162,8 +1166,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts correctly received (i.e. good CRC24, not in violation of
-          BurstMax or BurstShort). Wraps on overflow if ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILA_RX(0)_INT[STAT_CNT_OVFL].
+          BurstMax or BurstShort). Wraps on overflow if ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT3
@@ -1185,8 +1189,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts received longer than the BurstMax parameter. Wraps on
-          overflow if ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate,
-          sets ILA_RX(0)_INT[STAT_CNT_OVFL].
+          overflow if ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate,
+          sets ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT4
@@ -1208,8 +1212,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts received that violate the BurstShort parameter. Wraps on
-          overflow if ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate,
-          sets ILA_RX(0)_INT[STAT_CNT_OVFL].
+          overflow if ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate,
+          sets ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT5
@@ -1231,8 +1235,8 @@ registers:
         typical: --
         description: |
           Indicates the number of alignment sequences received (i.e. those that do not violate the
-          current alignment). Wraps on overflow if ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILA_RX(0)_INT[STAT_CNT_OVFL].
+          current alignment). Wraps on overflow if ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT6
@@ -1254,8 +1258,8 @@ registers:
         typical: --
         description: |
           Indicates the number of alignment sequences received in error (i.e. those that violate the
-          current alignment). Wraps on overflow if ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILA_RX(0)_INT[STAT_CNT_OVFL].
+          current alignment). Wraps on overflow if ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT7
@@ -1277,8 +1281,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bad 64B/67B code words. Wraps on overflow if
-          ILA_RX(0)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILA_RX(0)_INT[STAT_CNT_OVFL].
+          ILA_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
+          ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_STAT8
@@ -1328,7 +1332,7 @@ registers:
         typical: --
         description: |
           Indicates the number of packets received per channel. Wraps on overflow. On overflow, sets
-          ILA_RX(0)_INT[STAT_CNT_OVFL].
+          ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX(0)_CHA_XON
@@ -1381,7 +1385,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bytes received per channel. Wraps on overflow. On overflow, sets
-          ILA_RX(0)_INT[STAT_CNT_OVFL].
+          ILA_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_LNE_STS_MSG
@@ -1574,7 +1578,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Disable the RX disparity check, see ILA_RX_LNE(0..7)_INT[DISP_ERR].
+        description: Disable the RX disparity check, see ILA_RX_LNE()_INT[DISP_ERR].
 
       - name: RX_SCRM_SYNC
         bits: 5
@@ -1641,7 +1645,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX disparity error encountered. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_DISP_ERR.
+          RX disparity error encountered. Throws ILA_INTSN_E::ILA_RXLNE()_DISP_ERR.
 
       - name: BAD_64B67B
         bits: 8
@@ -1650,8 +1654,8 @@ registers:
         typical: --
         description: |
           Bad 64B/67B code word encountered. Once the bad word reaches the burst-control unit (as
-          indicated by ILA_RX(0)_INT[LANE_BAD_WORD]) it is discarded and all open packets receive an
-          error. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_BAD_64B67B.
+          indicated by ILA_RX()_INT[LANE_BAD_WORD]) it is discarded and all open packets receive an
+          error. Throws ILA_INTSN_E::ILA_RXLNE()_BAD_64B67B.
 
       - name: STAT_CNT_OVFL
         bits: 7
@@ -1659,7 +1663,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX-lane statistic counter overflow. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_STAT_CNT_OVFL.
+          RX-lane statistic counter overflow. Throws ILA_INTSN_E::ILA_RXLNE()_STAT_CNT_OVFL.
 
       - name: STAT_MSG
         bits: 6
@@ -1668,7 +1672,7 @@ registers:
         typical: --
         description: |
           Indicates that status bits for the link or a lane transitioned from a 1 (healthy) to a 0
-          (problem). Throws ILA_INTSN_E::ILA_RXLNE(0..7)_STAT_MSG.
+          (problem). Throws ILA_INTSN_E::ILA_RXLNE()_STAT_MSG.
 
       - name: DSKEW_FIFO_OVFL
         bits: 5
@@ -1676,7 +1680,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX deskew-FIFO overflow occurred. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_DSKEW_FIFO_OVFL.
+          RX deskew-FIFO overflow occurred. Throws ILA_INTSN_E::ILA_RXLNE()_DSKEW_FIFO_OVFL.
 
       - name: SCRM_SYNC_LOSS
         bits: 4
@@ -1685,7 +1689,7 @@ registers:
         typical: --
         description: |
           Indicates that four consecutive bad sync words or three consecutive scramble-state
-          mismatches occurred. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_SCRM_SYNC_LOSS.
+          mismatches occurred. Throws ILA_INTSN_E::ILA_RXLNE()_SCRM_SYNC_LOSS.
 
       - name: UKWN_CNTL_WORD
         bits: 3
@@ -1694,7 +1698,7 @@ registers:
         typical: --
         description: |
           Unknown framing-control word. Block type does not match any of (SYNC,SCRAM,SKIP,DIAG).
-          Throws ILA_INTSN_E::ILA_RXLNE(0..7)_UKWN_CNTL_WORD.
+          Throws ILA_INTSN_E::ILA_RXLNE()_UKWN_CNTL_WORD.
 
       - name: CRC32_ERR
         bits: 2
@@ -1702,7 +1706,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Diagnostic CRC32 errors. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_CRC32_ERR.
+          Diagnostic CRC32 errors. Throws ILA_INTSN_E::ILA_RXLNE()_CRC32_ERR.
 
       - name: BDRY_SYNC_LOSS
         bits: 1
@@ -1711,7 +1715,7 @@ registers:
         typical: --
         description: |
           RX logic loses word-boundary sync (16 tries). Hardware automatically attempts to regain
-          word-boundary sync. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_BDRY_SYNC_LOSS.
+          word-boundary sync. Throws ILA_INTSN_E::ILA_RXLNE()_BDRY_SYNC_LOSS.
 
       - name: SERDES_LOCK_LOSS
         bits: 0
@@ -1719,7 +1723,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX SerDes loses lock. Throws ILA_INTSN_E::ILA_RXLNE(0..7)_SERDES_LOCK_LOSS.
+          RX SerDes loses lock. Throws ILA_INTSN_E::ILA_RXLNE()_SERDES_LOCK_LOSS.
 
 
   - name: ILA_RX_LNE(0..7)_STAT0
@@ -1741,7 +1745,7 @@ registers:
         typical: --
         description: |
           Indicates the number of times the lane lost clock-data-recovery. On overflow, saturates
-          and sets ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          and sets ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT1
@@ -1763,7 +1767,7 @@ registers:
         typical: --
         description: |
           Indicates the number of times a lane lost word-boundary synchronization. On overflow,
-          saturates and sets ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          saturates and sets ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT2
@@ -1785,7 +1789,7 @@ registers:
         typical: --
         description: |
           Indicates the number of good synchronization words. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..18
@@ -1801,7 +1805,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bad synchronization words. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT3
@@ -1823,7 +1827,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bad 64B/67B words, meaning bit <65> or bit <64> has been
-          corrupted. On overflow, saturates and sets ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          corrupted. On overflow, saturates and sets ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT4
@@ -1845,7 +1849,7 @@ registers:
         typical: --
         description: |
           Indicates the number of control words received. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..27
@@ -1861,7 +1865,7 @@ registers:
         typical: --
         description: |
           Indicates the number of data words received. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT5
@@ -1883,7 +1887,7 @@ registers:
         typical: --
         description: |
           Indicates the number of unknown control words. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT6
@@ -1906,7 +1910,7 @@ registers:
         description: |
           Indicates the number of times scrambler synchronization was lost (due to either four
           consecutive bad sync words or three consecutive scrambler-state mismatches). On overflow,
-          saturates and sets ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          saturates and sets ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT7
@@ -1928,7 +1932,7 @@ registers:
         typical: --
         description: |
           Indicates the number of scrambler-state matches received. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT8
@@ -1950,7 +1954,7 @@ registers:
         typical: --
         description: |
           Indicates the number of good skip words. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT9
@@ -1972,7 +1976,7 @@ registers:
         typical: --
         description: |
           Indicates the number of errors in the lane CRC. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..27
@@ -1988,7 +1992,7 @@ registers:
         typical: --
         description: |
           Indicates the number of CRC32 matches received. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_RX_LNE(0..7)_STAT10
@@ -2010,7 +2014,7 @@ registers:
         typical: --
         description: |
           Indicates the number of training frames with bad PRBS. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..11
@@ -2026,7 +2030,7 @@ registers:
         typical: --
         description: |
           Indicates the number of training frames with correct PRBS. On overflow, saturates and sets
-          ILA_RX_LNE(0..7)_INT[STAT_CNT_OVFL].
+          ILA_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILA_LNE(0..7)_TRN_LD

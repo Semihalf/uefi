@@ -2,9 +2,11 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: MIO_FUS
+attributes:
+  mif_heading2: "MIO FUS"
 registers:
   - name: MIO_FUS_DAT0
-    title: MIO Fuse Data0 Register
+    title: MIO Fuse Data 0 Register
     address: 0x1180000001400
     bus: RSL
     fields:
@@ -21,11 +23,11 @@ registers:
         reset: --
         typical: --
         description: |
-          Fuse information - manufacturing info [31:0]
+          Fuse information - manufacturing info [31:0].
 
 
   - name: MIO_FUS_DAT1
-    title: MIO Fuse Data1 Register
+    title: MIO Fuse Data 1 Register
     address: 0x1180000001408
     bus: RSL
     fields:
@@ -42,11 +44,11 @@ registers:
         reset: --
         typical: --
         description: |
-          Fuse information - manufacturing info [63:32]
+          Fuse information - manufacturing info [63:32].
 
 
   - name: MIO_FUS_DAT2
-    title: MIO Fuse Data2 Register
+    title: MIO Fuse Data 2 Register
     address: 0x1180000001410
     bus: RSL
     fields:
@@ -128,10 +130,14 @@ registers:
         description: |
           Fuse information - DORM_CRYPTO and NOCRYPTO together select one of four mutually-exclusive
           modes:
-          DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
-          DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
-          DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
-          DORM_CRYPTO = 1, NOCRYPTO = 1 Authentik mode.
+
+          _ DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
+
+          _ DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
+
+          _ DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
+
+          _ DORM_CRYPTO = 1, NOCRYPTO = 1 Authentik mode.
 
       - name: --
         bits: 25..24
@@ -156,7 +162,7 @@ registers:
 
 
   - name: MIO_FUS_DAT3
-    title: MIO Fuse Data3 Register
+    title: MIO Fuse Data 3 Register
     address: 0x1180000001418
     bus: RSL
     fields:
@@ -166,8 +172,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow
-          of these fuses will XOR with this value.
+          Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow of these fuses
+          will XOR with this value.
 
       - name: PLL_CTL
         bits: 57..48
@@ -225,11 +231,11 @@ registers:
         typical: 0x0
         description: |
           Fuse information - L2C cripple:
-          0 -- full cache (4-way 512KB)
-          1 -- 3/4 ways   (3-way 384KB)
-          2 -- 1/2 ways   (2-way 256KB)
-          3 -- 1/4 ways   (1-way 128KB)
-          4-7 -- illegal
+          0x0 = Full cache (4-way 512 KB).
+          0x1 = 3/4 ways (3-way 384 KB).
+          0x2 = 1/2 ways (2-way 256 KB).
+          0x3 = 1/4 ways (1-way 128 KB).
+          0x4-0x7 = Reserved.
 
       - name: --
         bits: 31
@@ -243,7 +249,7 @@ registers:
         access: RO
         reset: --
         typical: 0x0
-        description: Fuse information - Zip information
+        description: Fuse information - Zip information.
 
       - name: BAR2_SZ_CONF
         bits: 28
@@ -257,28 +263,28 @@ registers:
         access: RO
         reset: --
         typical: 0
-        description: Fuse information - efuse lockdown
+        description: Fuse information - efuse lockdown.
 
       - name: EFUS_IGN
         bits: 26
         access: RO
         reset: --
         typical: 0
-        description: Fuse information - efuse ignore
+        description: Fuse information - efuse ignore.
 
       - name: NOZIP
         bits: 25
         access: RO
         reset: --
         typical: 0
-        description: Fuse information - ZIP disable
+        description: Fuse information - ZIP disable.
 
       - name: NODFA_DTE
         bits: 24
         access: RO
         reset: --
         typical: 0
-        description: Fuse information - HFA disable (HTE)
+        description: Fuse information - HFA disable (HTE).
 
       - name: EMA1
         bits: 23..18
@@ -298,7 +304,7 @@ registers:
 
 
   - name: MIO_FUS_DAT4
-    title: MIO Fuse Data4 Register
+    title: MIO Fuse Data 4 Register
     address: 0x1180000001420
     bus: RSL
     fields:
@@ -322,6 +328,7 @@ registers:
         access: RO
         reset: 0
         typical: 0
+        description: Reserved.
 
       - name: EAST_RCLK_BYP_SETTING
         bits: 50..39
@@ -363,12 +370,14 @@ registers:
         access: RO
         reset: 0
         typical: 0
+        description: Reserved.
 
       - name: TAD_RCLK_BYP_SETTING
         bits: 11..0
         access: RO
         reset: 0x0
         typical: 0x0
+        description: Reserved.
 
 
   - name: MIO_FUS_PDF
@@ -389,19 +398,17 @@ registers:
     address: 0x1180000001430
     bus: RSL
     description: |
-      This register exists to support Authentik. Authentik code should read
-      this register, then clear VAL to prevent other software from observing the
-      value of the TGG fuses.
-      INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD.
-      Whenever the fuse corresponding to VAL (TGG<63>) is blown, it is not possible to
-      blow any of TGG<62:0>. The fuse corresponding to VAL must be the one and only
-      lock down bit for TGG<62:0> - no other fuse lockdown bit can prevent blowing
-      TGG<62:0>. It must always be possible to blow the fuse corresponding to
-      VAL when it is not already blown. If an Authentik part may be converted
-      to a non-Authentik part (via some JTAG mechanism or any other mechanism),
-      it must not be possible to read the TGG fuse values from the Authentik
-      part by performing this conversion -> the reset value of VAL should be zero in this
-      converted case.
+      This register exists to support Authentik. Authentik code should read this register, then
+      clear VAL to prevent other software from observing the value of the TGG fuses.
+
+      INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD. Whenever the fuse
+      corresponding to VAL (TGG<63>) is blown, it is not possible to blow any of TGG<62:0>. The fuse
+      corresponding to VAL must be the one and only lock down bit for TGG<62:0> - no other fuse
+      lockdown bit can prevent blowing TGG<62:0>. It must always be possible to blow the fuse
+      corresponding to VAL when it is not already blown. If an Authentik part may be converted to a
+      non-Authentik part (via some JTAG mechanism or any other mechanism), it must not be possible
+      to read the TGG fuse values from the Authentik part by performing this conversion -> the reset
+      value of VAL should be zero in this converted case.
     fields:
       - name: VAL
         bits: 63
@@ -409,9 +416,9 @@ registers:
         reset: --
         typical: --
         description: |
-          Software may write VAL to zero, but cannot write VAL to a one. When VAL is
-          a 1, DAT reads the corresponding TGG fuses. When VAL is a zero, DAT reads as
-          zeroes. The reset value of this VAL bit is normally its fuse setting (i.e. TGG<63>).
+          Software may write VAL to zero, but cannot write VAL to a one. When VAL is a 1, DAT reads
+          the corresponding TGG fuses. When VAL is a zero, DAT reads as zeros. The reset value of
+          this VAL bit is normally its fuse setting (i.e. TGG<63>).
 
       - name: DAT
         bits: 62..0
@@ -656,7 +663,7 @@ registers:
         reset: --
         typical: 0x0
         description: |
-          INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic purposes only.
+          INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic use only.
 
       - name: AUTOBLOW
         bits: 17
@@ -734,6 +741,7 @@ registers:
       IFB fuses are 0 to 1791. The reset values are for IFB fuses for PLL_REF_CLK up to 100MHz when
       core PLL is engaged. If any of the formulas below result in a value less than zero, the
       corresponding timing parameter should be set to zero.
+
       Prior to issuing a read to the fuse banks (via MIO_FUS_RCMD), this register should be written
       with the timing parameters that will be read.
       This register should not be written while MIO_FUS_RCMD[PEND] = 1.
@@ -801,7 +809,7 @@ registers:
         description: |
           Setup of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in PLL_REF_CLK
           + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0 yields 20 ns
-          plush ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz.
+          plus ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz.
 
 
   - name: MIO_FUS_PLL
@@ -854,8 +862,10 @@ registers:
         typical: --
         description: |
           Core clockout select:
-          0x0 = core clock 0x2 = PLL output
-          0x1 = PS output 0x3 = undivided core clock
+          0x0 = Core clock.
+          0x1 = PS output.
+          0x2 = PLL output.
+          0x3 = Undivided core clock.
 
       - name: PNR_COUT_RST
         bits: 4
@@ -874,8 +884,10 @@ registers:
         typical: --
         description: |
           PNR clockout select:
-          0x0 = coprocessor clock 0x2 = PLL output
-          0x1 = PS output 0x3 = undivided core clock
+          0x0 = Coprocessor clock.
+          0x1 = PS output.
+          0x2 = PLL output.
+          0x3 = Undivided core clock.
 
       - name: --
         bits: 1..0

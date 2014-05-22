@@ -328,24 +328,25 @@ registers:
         typical: --
         description: |
           SerDes lane receive polarity.
-          0 = RX without inversion
-          1 = RX with inversion
-          SER_RXPOL[0]  = QLM4 lane 0
-          SER_RXPOL[1]  = QLM4 lane 1
-          SER_RXPOL[2]  = QLM4 lane 2
-          SER_RXPOL[3]  = QLM4 lane 3
-          SER_RXPOL[4]  = QLM5 lane 0
-          SER_RXPOL[5]  = QLM5 lane 1
-          SER_RXPOL[6]  = QLM5 lane 2
-          SER_RXPOL[7]  = QLM5 lane 3
-          SER_RXPOL[8]  = QLM6 lane 0
-          SER_RXPOL[9]  = QLM6 lane 1
-          SER_RXPOL[10] = QLM6 lane 2
-          SER_RXPOL[11] = QLM6 lane 3
-          SER_RXPOL[12] = QLM7 lane 0
-          SER_RXPOL[13] = QLM7 lane 1
-          SER_RXPOL[14] = QLM7 lane 2
-          SER_RXPOL[15] = QLM7 lane 3
+          0 = RX without inversion.
+          1 = RX with inversion.
+
+          _ SER_RXPOL<0>  = QLM4 lane 0.
+          _ SER_RXPOL<1>  = QLM4 lane 1.
+          _ SER_RXPOL<2>  = QLM4 lane 2.
+          _ SER_RXPOL<3>  = QLM4 lane 3.
+          _ SER_RXPOL<4>  = QLM5 lane 0.
+          _ SER_RXPOL<5>  = QLM5 lane 1.
+          _ SER_RXPOL<6>  = QLM5 lane 2.
+          _ SER_RXPOL<7>  = QLM5 lane 3.
+          _ SER_RXPOL<8>  = QLM6 lane 0.
+          _ SER_RXPOL<9>  = QLM6 lane 1.
+          _ SER_RXPOL<10> = QLM6 lane 2.
+          _ SER_RXPOL<11> = QLM6 lane 3.
+          _ SER_RXPOL<12> = QLM7 lane 0.
+          _ SER_RXPOL<13> = QLM7 lane 1.
+          _ SER_RXPOL<14> = QLM7 lane 2.
+          _ SER_RXPOL<15> = QLM7 lane 3.
 
       - name: SER_TXPOL
         bits: 39..24
@@ -356,22 +357,23 @@ registers:
           SerDes lane transmit polarity.
           0 = TX without inversion
           1 = TX with inversion
-          SER_TXPOL[0]  = QLM4 lane 0
-          SER_TXPOL[1]  = QLM4 lane 1
-          SER_TXPOL[2]  = QLM4 lane 2
-          SER_TXPOL[3]  = QLM4 lane 3
-          SER_TXPOL[4]  = QLM5 lane 0
-          SER_TXPOL[5]  = QLM5 lane 1
-          SER_TXPOL[6]  = QLM5 lane 2
-          SER_TXPOL[7]  = QLM5 lane 3
-          SER_TXPOL[8]  = QLM6 lane 0
-          SER_TXPOL[9]  = QLM6 lane 1
-          SER_TXPOL[10] = QLM6 lane 2
-          SER_TXPOL[11] = QLM6 lane 3
-          SER_TXPOL[12] = QLM7 lane 0
-          SER_TXPOL[13] = QLM7 lane 1
-          SER_TXPOL[14] = QLM7 lane 2
-          SER_TXPOL[15] = QLM7 lane 3
+
+          _ SER_TXPOL<0>  = QLM4 lane 0.
+          _ SER_TXPOL<1>  = QLM4 lane 1.
+          _ SER_TXPOL<2>  = QLM4 lane 2.
+          _ SER_TXPOL<3>  = QLM4 lane 3.
+          _ SER_TXPOL<4>  = QLM5 lane 0.
+          _ SER_TXPOL<5>  = QLM5 lane 1.
+          _ SER_TXPOL<6>  = QLM5 lane 2.
+          _ SER_TXPOL<7>  = QLM5 lane 3.
+          _ SER_TXPOL<8>  = QLM6 lane 0.
+          _ SER_TXPOL<9>  = QLM6 lane 1.
+          _ SER_TXPOL<10> = QLM6 lane 2.
+          _ SER_TXPOL<11> = QLM6 lane 3.
+          _ SER_TXPOL<12> = QLM7 lane 0.
+          _ SER_TXPOL<13> = QLM7 lane 1.
+          _ SER_TXPOL<14> = QLM7 lane 2.
+          _ SER_TXPOL<15> = QLM7 lane 3.
 
       - name: SER_RESET_N
         bits: 23..8
@@ -830,7 +832,8 @@ registers:
           Maximum number of reassembly IDs (RIDs) allowed for both links. If
           an SOP arrives and the total number of RIDs already allocated to
           both links is at least MAX_CNT, the packet is dropped.
-          An SOP allocates a RID; an EOP frees a RID. ILK_RX(0..1)_RID can be used to further
+
+          An SOP allocates a RID; an EOP frees a RID. ILK_RX()_RID can be used to further
           restrict each link individually.
 
       - name: --
@@ -848,14 +851,21 @@ registers:
         description: |
           The base RID for ILK. There is a shared pool of 96 RIDs for all MACs.
           ILK can allocate any RID in the range of
-          BASE -> (BASE+(MAX_CNT-1)).
+          _ BASE -> (BASE+(MAX_CNT-1)).
+
           BASE and MAX_CNT must be constrained such that:
-          1) BASE >= 2.
-          2) BASE + MAX_CNT <= 96.
-          3) BASE..(BASE+(MAX_CNT-1)) does not overlap with any other MAC programming.
+
+          _ 1) BASE >= 2.
+
+          _ 2) BASE + MAX_CNT <= 96.
+
+          _ 3) BASE..(BASE+(MAX_CNT-1)) does not overlap with any other MAC programming.
+
           The reset value for this CSR has been chosen such that all these conditions are satisfied.
+
           The reset value supports up to a total of 64 outstanding incomplete packets between ILK0
           and ILK1.
+
           Changes to BASE must only occur when ILK0 and ILK1 are both quiescent (i.e. Both ILK0 and
           ILK1 receive interfaces are down and the RX fifo is empty).
 
@@ -1006,7 +1016,7 @@ registers:
         typical: --
         description: |
           When set, the multiuse field of control words contains flow-control status. Otherwise, the
-          multiuse field contains ILK_TX(0..1)_CFG1[TX_MLTUSE]
+          multiuse field contains ILK_TX()_CFG1[TX_MLTUSE]
 
       - name: CAL_ENA
         bits: 52
@@ -1016,17 +1026,20 @@ registers:
         description: |
           Enable TX calendar. When not asserted, the default calendar is used:
           First control word:
-          entry 0 = link
-          entry 1 = backpressure ID 0
-          entry 2 = backpressure ID 1
-          ...
-          entry 15 = backpressure ID 14
+          _ entry 0 = link
+          _ entry 1 = backpressure ID 0
+          _ entry 2 = backpressure ID 1
+          _ ...
+          _ entry 15 = backpressure ID 14
+
           Second control word:
-          entry 16 = link
-          entry 17 = backpressure ID 15
-          entry 18 = backpressure ID 16
-          ...
+          _ entry 16 = link
+          _ entry 17 = backpressure ID 15
+          _ entry 18 = backpressure ID 16
+          _ ...
+
           This continues until the calendar depth is reached.
+
           To disable backpressure completely, enable the calendar table and program each calendar
           table entry to transmit XON.
 
@@ -1038,9 +1051,10 @@ registers:
         description: |
           The quantity of data sent on each lane including one sync word, scrambler state, diag
           word, zero or more skip words, and the data payload. Must be large than
-          ILK_TX(0..1)_CFG1[SKIP_CNT] + 32.
+          _ ILK_TX()_CFG1[SKIP_CNT] + 32.
+
           Supported range:
-          ILK_TX(0..1)_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
+          _ ILK_TX()_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
 
       - name: BRST_SHRT
         bits: 38..32
@@ -1067,8 +1081,7 @@ registers:
         typical: --
         description: |
           Maximum size of a data burst, as a multiple of 64-byte blocks. Supported range is from 64
-          to 1024 bytes
-          (i.e. 0 < BRST_MAX <= 16).
+          to 1024 bytes (i.e. 0 < BRST_MAX <= 16).
 
       - name: --
         bits: 25
@@ -1100,22 +1113,22 @@ registers:
           enabled in multiple
           ILK_TX0/1_CFG0. Each bit of LANE_ENA maps to a TX lane (TLE) and a QLM lane. Note that
           LANE_REV has no effect on this mapping.
-          LANE_ENA[0] = TLE0  =  QLM4 lane 0
-          LANE_ENA[1] = TLE1  =  QLM4 lane 1
-          LANE_ENA[2] = TLE2  =  QLM4 lane 2
-          LANE_ENA[3] = TLE3  =  QLM4 lane 3
-          LANE_ENA[4] = TLE4  =  QLM5 lane 0
-          LANE_ENA[5] = TLE5  =  QLM5 lane 1
-          LANE_ENA[6] = TLE6  =  QLM5 lane 2
-          LANE_ENA[7] = TLE7  =  QLM5 lane 3
-          LANE_ENA[8] = TLE8  =  QLM6 lane 0
-          LANE_ENA[9] = TLE9  =  QLM6 lane 1
-          LANE_ENA[10] = TLE10  =  QLM6 lane 2
-          LANE_ENA[11] = TLE11  =  QLM6 lane 3
-          LANE_ENA[12] = TLE12  =  QLM7 lane 0
-          LANE_ENA[13] = TLE13  =  QLM7 lane 1
-          LANE_ENA[14] = TLE14  =  QLM7 lane 2
-          LANE_ENA[15] = TLE15  =  QLM7 lane 3
+          _ LANE_ENA<0> = TLE0  =  QLM4 lane 0.
+          _ LANE_ENA<1> = TLE1  =  QLM4 lane 1.
+          _ LANE_ENA<2> = TLE2  =  QLM4 lane 2.
+          _ LANE_ENA<3> = TLE3  =  QLM4 lane 3.
+          _ LANE_ENA<4> = TLE4  =  QLM5 lane 0.
+          _ LANE_ENA<5> = TLE5  =  QLM5 lane 1.
+          _ LANE_ENA<6> = TLE6  =  QLM5 lane 2.
+          _ LANE_ENA<7> = TLE7  =  QLM5 lane 3.
+          _ LANE_ENA<8> = TLE8  =  QLM6 lane 0.
+          _ LANE_ENA<9> = TLE9  =  QLM6 lane 1.
+          _ LANE_ENA<10> = TLE10  =  QLM6 lane 2.
+          _ LANE_ENA<11> = TLE11  =  QLM6 lane 3.
+          _ LANE_ENA<12> = TLE12  =  QLM7 lane 0.
+          _ LANE_ENA<13> = TLE13  =  QLM7 lane 1.
+          _ LANE_ENA<14> = TLE14  =  QLM7 lane 2.
+          _ LANE_ENA<15> = TLE15  =  QLM7 lane 3.
 
 
   - name: ILK_TX(0..1)_CFG1
@@ -1159,7 +1172,7 @@ registers:
         description: |
           Minimum size of a data burst, as a multiple of 32-byte blocks. 0 disables the scheduling
           enhancement. When non-zero, must satisfy:
-          (BRST_SHRT*8) <= (BRST_MIN*32) <= (BRST_MAX*64)/2.
+          _ (BRST_SHRT*8) <= (BRST_MIN*32) <= (BRST_MAX*64)/2.
 
       - name: --
         bits: 47..43
@@ -1178,10 +1191,11 @@ registers:
         description: |
           Reduce latency by limiting the amount of data in flight for each SerDes. If 0x0, hardware
           will compute it. Otherwise, SER_LIMIT must be set as follows:
-          SER_LIMIT >= 148 + (BAUD / SCLK) * (12 + (NUM_LANES/2))
+          _ SER_LIMIT >= 148 + (BAUD / SCLK) * (12 + (NUM_LANES/2))
+
           For instance, for sclk=1.1GHz,BAUD=10.3125,NUM_LANES=16 :
-          SER_LIMIT >= 148 + (10.3125 / 1.1 * (12 + (12/2))
-          SER_LIMIT >= 317
+          _ SER_LIMIT >= 148 + (10.3125 / 1.1 * (12 + (12/2))
+          _ SER_LIMIT >= 317
 
       - name: SER_LIMIT
         bits: 42..33
@@ -1310,7 +1324,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Multiuse bits are used when ILK_TX(0..1)_CFG0[MLTUSE_FC_ENA] = 0.
+        description: Multiuse bits are used when ILK_TX()_CFG0[MLTUSE_FC_ENA] = 0.
 
 
   - name: ILK_TX(0..1)_RMATCH
@@ -1458,7 +1472,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Flow control calendar table double-bit error. Throws ILK_INTSN_E::ILK_TX(0..1)_FWC_DBE.
+          Flow control calendar table double-bit error. Throws ILK_INTSN_E::ILK_TX()_FWC_DBE.
 
       - name: FWC_SBE
         bits: 6
@@ -1466,7 +1480,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Flow control calendar table single-bit error. Throws ILK_INTSN_E::ILK_TX(0..1)_FWC_SBE.
+          Flow control calendar table single-bit error. Throws ILK_INTSN_E::ILK_TX()_FWC_SBE.
 
       - name: TXF_DBE
         bits: 5
@@ -1474,7 +1488,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          TX FIFO double-bit error. Throws ILK_INTSN_E::ILK_TX(0..1)_TXF_DBE.
+          TX FIFO double-bit error. Throws ILK_INTSN_E::ILK_TX()_TXF_DBE.
 
       - name: TXF_SBE
         bits: 4
@@ -1482,7 +1496,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          TX FIFO single-bit error. Throws ILK_INTSN_E::ILK_TX(0..1)_TXF_SBE.
+          TX FIFO single-bit error. Throws ILK_INTSN_E::ILK_TX()_TXF_SBE.
 
       - name: STAT_CNT_OVFL
         bits: 3
@@ -1490,7 +1504,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Statistics counter overflow. Throws ILK_INTSN_E::ILK_TX(0..1)_STAT_CNT_OVFL.
+          Statistics counter overflow. Throws ILK_INTSN_E::ILK_TX()_STAT_CNT_OVFL.
 
       - name: BAD_PIPE
         bits: 2
@@ -1506,7 +1520,7 @@ registers:
         typical: --
         description: |
           Received sequence is not SOP followed by 0 or more data cycles followed by EOP. Throws
-          ILK_INTSN_E::ILK_TX(0..1)_BAD_SEQ.
+          ILK_INTSN_E::ILK_TX()_BAD_SEQ.
 
       - name: TXF_ERR
         bits: 0
@@ -1583,10 +1597,10 @@ registers:
         description: |
           PKI flow control status for backpressure ID 255-0, where a 0 indicates the presence of
           backpressure (i.e. XOFF) and 1 indicates the absence of backpressure (i.e. XON).
-          ILK_TX(0..1)_CHA_XON[0]--Channels 63-0
-          ILK_TX(0..1)_CHA_XON[1]--Channels 127-64
-          ILK_TX(0..1)_CHA_XON[2]--Channels 191-128
-          ILK_TX(0..1)_CHA_XON[3]--Channels 255-192
+          _ ILK_TX(0..1)_CHA_XON[0] -- Channels 63-0.
+          _ ILK_TX(0..1)_CHA_XON[1] -- Channels 127-64.
+          _ ILK_TX(0..1)_CHA_XON[2] -- Channels 191-128.
+          _ ILK_TX(0..1)_CHA_XON[3] -- Channels 255-192.
 
 
   - name: ILK_TX(0..1)_CAL_ENTRY(0..287)
@@ -1607,11 +1621,12 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Select source of XON/XOFF for entry (IDX * 8) + 0
-          0 = PKI backpressure channel
-          1 = Link
-          2 = XOFF
-          3 = XON
+          Select source of XON/XOFF for entry (IDX * 8) + 0:
+          0 = PKI backpressure channel.
+          1 = Link.
+          2 = XOFF.
+          3 = XON.
+
           This field applies to one of bits <55>, <47>, or <31> in the Interlaken control word.
 
       - name: --
@@ -1648,7 +1663,7 @@ registers:
         typical: --
         description: |
           Number of packets transmitted per channel. Wraps on overflow. On overflow, sets
-          ILK_TX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_TX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_TX(0..1)_BYTE_CNT(0..255)
@@ -1670,7 +1685,7 @@ registers:
         typical: --
         description: |
           Number of bytes transmitted per channel. Wraps on overflow. On overflow, sets
-          ILK_TX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_TX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_CFG0
@@ -1737,8 +1752,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          Enable that a CSR read operation to ILK_RX(0..1)_STAT* clears the counter after returning
-          its current value.
+          Enable that a CSR read operation to ILK_RX()_STAT0..ILK_RX()_STAT9 clears the counter
+          after returning its current value.
 
       - name: LNK_STATS_ENA
         bits: 54
@@ -1769,9 +1784,10 @@ registers:
         description: |
           The quantity of data sent on each lane including one sync word, scrambler state,
           diagnostic word, zero or more skip words, and the data payload. Must be large than
-          ILK_RX(0..1)_CFG1[SKIP_CNT] + 32.
+          _ ILK_TX()_CFG1[SKIP_CNT] + 32.
+
           Supported range:
-          ILK_RX(0..1)_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
+          _ ILK_TX()_CFG1[SKIP_CNT] + 32 < MFRM_LEN <= 4096
 
       - name: BRST_SHRT
         bits: 38..32
@@ -1781,7 +1797,7 @@ registers:
         description: |
           Minimum interval between burst control words, as a multiple of eight bytes. Supported
           range from 8 to 512 bytes (i.e. 4 <= BRST_SHRT <= 64).
-          This field affects the ILK_RX(0..1)_STAT4[BRST_SHRT_ERR_CNT] counter. It does not affect
+          This field affects the ILK_RX()_STAT4[BRST_SHRT_ERR_CNT] counter. It does not affect
           correct operation of the link.
 
       - name: LANE_REV
@@ -1802,8 +1818,9 @@ registers:
           Maximum size of a data burst, as a multiple of 64-byte blocks. Supported range is from 64
           to 1024 bytes
           (i.e. 0 < BRST_MAX <= 16).
-          This field affects the ILK_RX(0..1)_STAT2[BRST_NOT_FULL_CNT] and
-          ILK_RX(0..1)_STAT3[BRST_MAX_ERR_CNT] counters. It does not affect correct operation of the
+
+          This field affects the ILK_RX()_STAT2[BRST_NOT_FULL_CNT] and
+          ILK_RX()_STAT3[BRST_MAX_ERR_CNT] counters. It does not affect correct operation of the
           link.
 
       - name: --
@@ -1831,22 +1848,22 @@ registers:
           Lane-enable mask. The link is enabled if any lane is enabled. The same lane should not be
           enabled in multiple ILK_RXn_CFG0. Each bit of LANE_ENA maps to an RX lane (RLE) and a QLM
           lane. Note that LANE_REV has no effect on this mapping.
-          LANE_ENA[0] = RLE0 =  QLM4 lane 0
-          LANE_ENA[1] = RLE1 =  QLM4 lane 1
-          LANE_ENA[2] = RLE2 =  QLM4 lane 2
-          LANE_ENA[3] = RLE3 =  QLM4 lane 3
-          LANE_ENA[4] = RLE4 =  QLM5 lane 0
-          LANE_ENA[5] = RLE5 =  QLM5 lane 1
-          LANE_ENA[6] = RLE6 =  QLM5 lane 2
-          LANE_ENA[7] = RLE7 =  QLM5 lane 3
-          LANE_ENA[8] = RLE8 =  QLM6 lane 0
-          LANE_ENA[9] = RLE9 =  QLM6 lane 1
-          LANE_ENA[10] = RLE10 =  QLM6 lane 2
-          LANE_ENA[11] = RLE11 =  QLM6 lane 3
-          LANE_ENA[12] = RLE12 =  QLM7 lane 0
-          LANE_ENA[13] = RLE13 =  QLM7 lane 1
-          LANE_ENA[14] = RLE14 =  QLM7 lane 2
-          LANE_ENA[15] = RLE15 =  QLM7 lane 3
+          _ LANE_ENA<0> = RLE0 = QLM4 lane 0.
+          _ LANE_ENA<1> = RLE1 = QLM4 lane 1.
+          _ LANE_ENA<2> = RLE2 = QLM4 lane 2.
+          _ LANE_ENA<3> = RLE3 = QLM4 lane 3.
+          _ LANE_ENA<4> = RLE4 = QLM5 lane 0.
+          _ LANE_ENA<5> = RLE5 = QLM5 lane 1.
+          _ LANE_ENA<6> = RLE6 = QLM5 lane 2.
+          _ LANE_ENA<7> = RLE7 = QLM5 lane 3.
+          _ LANE_ENA<8> = RLE8 = QLM6 lane 0.
+          _ LANE_ENA<9> = RLE9 = QLM6 lane 1.
+          _ LANE_ENA<10> = RLE10 = QLM6 lane 2.
+          _ LANE_ENA<11> = RLE11 = QLM6 lane 3.
+          _ LANE_ENA<12> = RLE12 = QLM7 lane 0.
+          _ LANE_ENA<13> = RLE13 = QLM7 lane 1.
+          _ LANE_ENA<14> = RLE14 = QLM7 lane 2.
+          _ LANE_ENA<15> = RLE15 = QLM7 lane 3.
 
 
   - name: ILK_RX(0..1)_CFG1
@@ -1885,8 +1902,8 @@ registers:
           status from XON to XOFF. LSB must be zero. A typical single-link configuration should set
           this to 2048. A typical multi-link configuration should set this to NL*128 where NL is the
           number of lanes enabled for a given link.
-          XON = RX_FIFO_CNT < RX_FIFO_HWM
-          XOFF = RX_FIFO_CNT >= RX_FIFO_HWM.
+          _ XON = RX_FIFO_CNT < RX_FIFO_HWM
+          _ XOFF = RX_FIFO_CNT >= RX_FIFO_HWM.
 
       - name: --
         bits: 35
@@ -1990,7 +2007,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Port-kind map double-bit error. Throws ILK_INTSN_E::ILK_RX(0..1)_PMAP_DBE.
+          Port-kind map double-bit error. Throws ILK_INTSN_E::ILK_RX()_PMAP_DBE.
 
       - name: PMAP_SBE
         bits: 11
@@ -1998,7 +2015,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Port-kind map single-bit error. Throws ILK_INTSN_E::ILK_RX(0..1)_PMAP_SBE.
+          Port-kind map single-bit error. Throws ILK_INTSN_E::ILK_RX()_PMAP_SBE.
 
       - name: FWC_DBE
         bits: 10
@@ -2006,7 +2023,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Flow control calendar table double-bit error. Throws ILK_INTSN_E::ILK_RX(0..1)_FWC_DBE.
+          Flow control calendar table double-bit error. Throws ILK_INTSN_E::ILK_RX()_FWC_DBE.
 
       - name: FWC_SBE
         bits: 9
@@ -2014,7 +2031,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Flow control calendar table single-bit error. Throws ILK_INTSN_E::ILK_RX(0..1)_FWC_SBE.
+          Flow control calendar table single-bit error. Throws ILK_INTSN_E::ILK_RX()_FWC_SBE.
 
       - name: PKT_DROP_SOP
         bits: 8
@@ -2023,7 +2040,7 @@ registers:
         typical: --
         description: |
           Entire packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX, lack of reassembly IDs or because
-          ILK_RX(0..1)_CFG1[PKT_ENA]=0. Throws ILK_INTSN_E::ILK_RX(0..1)_PKT_DROP_SOP.
+          ILK_RX()_CFG1[PKT_ENA]=0. Throws ILK_INTSN_E::ILK_RX()_PKT_DROP_SOP.
 
       - name: PKT_DROP_RID
         bits: 7
@@ -2032,7 +2049,7 @@ registers:
         typical: --
         description: |
           Entire packet dropped due to the lack of reassembly IDs or because
-          ILK_RX(0..1)_CFG1[PKT_ENA]=0. Throws ILK_INTSN_E::ILK_RX(0..1)_PKT_DROP_RID.
+          ILK_RX()_CFG1[PKT_ENA]=0. Throws ILK_INTSN_E::ILK_RX()_PKT_DROP_RID.
 
       - name: PKT_DROP_RXF
         bits: 6
@@ -2041,7 +2058,7 @@ registers:
         typical: --
         description: |
           Some/all of a packet dropped due to RX_FIFO_CNT == RX_FIFO_MAX. Throws
-          ILK_INTSN_E::ILK_RX(0..1)_PKT_DROP_RXF.
+          ILK_INTSN_E::ILK_RX()_PKT_DROP_RXF.
 
       - name: LANE_BAD_WORD
         bits: 5
@@ -2050,7 +2067,7 @@ registers:
         typical: --
         description: |
           A lane encountered either a bad 64B/67B codeword or an unknown control word type. Throws
-          ILK_INTSN_E::ILK_RX(0..1)_LANE_BAD_WORD.
+          ILK_INTSN_E::ILK_RX()_LANE_BAD_WORD.
 
       - name: STAT_CNT_OVFL
         bits: 4
@@ -2058,7 +2075,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Statistics counter overflow. Throws ILK_INTSN_E::ILK_RX(0..1)_STAT_CNT_OVFL.
+          Statistics counter overflow. Throws ILK_INTSN_E::ILK_RX()_STAT_CNT_OVFL.
 
       - name: LANE_ALIGN_DONE
         bits: 3
@@ -2066,7 +2083,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Lane alignment successful. Throws ILK_INTSN_E::ILK_RX(0..1)_LANE_ALIGN_DONE.
+          Lane alignment successful. Throws ILK_INTSN_E::ILK_RX()_LANE_ALIGN_DONE.
 
       - name: WORD_SYNC_DONE
         bits: 2
@@ -2075,7 +2092,7 @@ registers:
         typical: --
         description: |
           All enabled lanes have achieved word boundary lock and scrambler synchronization. Lane
-          alignment may now be enabled. Throws ILK_INTSN_E::ILK_RX(0..1)_WORD_SYNC_DONE.
+          alignment may now be enabled. Throws ILK_INTSN_E::ILK_RX()_WORD_SYNC_DONE.
 
       - name: CRC24_ERR
         bits: 1
@@ -2084,7 +2101,7 @@ registers:
         typical: --
         description: |
           Burst CRC24 error. All open packets receive an error. Throws
-          ILK_INTSN_E::ILK_RX(0..1)_CRC24_ERR.
+          ILK_INTSN_E::ILK_RX()_CRC24_ERR.
 
       - name: LANE_ALIGN_FAIL
         bits: 0
@@ -2093,8 +2110,8 @@ registers:
         typical: --
         description: |
           Lane Alignment fails (4 tries). Hardware repeats lane alignment until is succeeds or until
-          ILK_RX(0..1)_CFG1[RX_ALIGN_ENA] is cleared. Throws
-          ILK_INTSN_E::ILK_RX(0..1)_LANE_ALIGN_FAIL.
+          ILK_RX()_CFG1[RX_ALIGN_ENA] is cleared. Throws
+          ILK_INTSN_E::ILK_RX()_LANE_ALIGN_FAIL.
 
 
   - name: ILK_RX(0..1)_STAT0
@@ -2116,8 +2133,8 @@ registers:
         typical: --
         description: |
           Indicates the number of CRC24 matches received. Wraps on overflow if
-          ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
+          ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT1
@@ -2139,8 +2156,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts with a detected CRC error. Wraps on overflow if
-          ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
+          ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT2
@@ -2162,8 +2179,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts received that terminated without an EOP and contained fewer
-          than BurstMax words. Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          than BurstMax words. Wraps on overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..30
@@ -2179,8 +2196,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts correctly received. (i.e. good CRC24, not in violation of
-          BurstMax or BurstShort). Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1.
-          Otherwise, saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          BurstMax or BurstShort). Wraps on overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1.
+          Otherwise, saturates. On overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT3
@@ -2202,8 +2219,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts received longer than the BurstMax parameter. Wraps on
-          overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On
-          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On
+          overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT4
@@ -2225,8 +2242,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bursts received that violate the BurstShort parameter. Wraps on
-          overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On
-          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On
+          overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT5
@@ -2248,8 +2265,8 @@ registers:
         typical: --
         description: |
           Indicates the number of alignment sequences received (i.e. those that do not violate the
-          current alignment). Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          current alignment). Wraps on overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT6
@@ -2271,8 +2288,8 @@ registers:
         typical: --
         description: |
           Indicates the number of alignment sequences received in error (i.e. those that violate the
-          current alignment). Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise,
-          saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          current alignment). Wraps on overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise,
+          saturates. On overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT7
@@ -2294,8 +2311,8 @@ registers:
         typical: --
         description: |
           Indicates the number of bad 64B/67B code words.Wraps on overflow if
-          ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_RX()_CFG0[LNK_STATS_WRAP]=1. Otherwise, saturates. On overflow/saturate, sets
+          ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT8
@@ -2317,8 +2334,8 @@ registers:
         typical: --
         description: |
           Indicates the number of packets dropped due to the lack of reassembly IDs or because
-          ILK_RX(0..1)_CFG1[PKT_ENA] = 0. Wraps on overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1.
-          Otherwise, saturates. On overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_RX()_CFG1[PKT_ENA] = 0. Wraps on overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1.
+          Otherwise, saturates. On overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
       - name: PKT_DROP_RXF_CNT
         bits: 15..0
@@ -2327,8 +2344,8 @@ registers:
         typical: --
         description: |
           Indicates the number of packets dropped due to RX_FIFO_CNT >= RX_FIFO_MAX. Wraps on
-          overflow if ILK_RX(0..1)_CFG0[LNK_STATS_WRAP]=1.Otherwise, saturates. On
-          overflow/saturate, sets ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          overflow if ILK_RX()_CFG0[LNK_STATS_WRAP]=1.Otherwise, saturates. On
+          overflow/saturate, sets ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_STAT9
@@ -2459,10 +2476,10 @@ registers:
         description: |
           Flow control status for channels 0-255, where a 0 indicates the presence of backpressure
           (i.e. XOFF) and 1 indicates the absence of backpressure (i.e. XON).
-          ILK_RX(0..1)_CHA_XON[0]--Channels 63-0
-          ILK_RX(0..1)_CHA_XON[1]--Channels 127-64
-          ILK_RX(0..1)_CHA_XON[2]--Channels 191-128
-          ILK_RX(0..1)_CHA_XON[3]--Channels 255-192
+          _ ILK_RX(0..1)_CHA_XON[0] -- Channels 63-0.
+          _ ILK_RX(0..1)_CHA_XON[1] -- Channels 127-64.
+          _ ILK_RX(0..1)_CHA_XON[2] -- Channels 191-128.
+          _ ILK_RX(0..1)_CHA_XON[3] -- Channels 255-192.
 
 
   - name: ILK_RX(0..1)_CAL_ENTRY(0..287)
@@ -2484,10 +2501,11 @@ registers:
         typical: --
         description: |
           Select source of XON/XOFF for entry (IDX * 8) + 0.
-          0 = PKO backpressure channel
-          1 = link
-          2 = XOFF
-          3 = XON
+          0 = PKO backpressure channel.
+          1 = link.
+          2 = XOFF.
+          3 = XON.
+
           This field applies to one of bits <55>, <47>, or <31> in the Interlaken control word.
 
       - name: --
@@ -2524,7 +2542,7 @@ registers:
         typical: --
         description: |
           Number of packets received per channel. Wraps on overflow. On overflow, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX(0..1)_BYTE_CNT(0..255)
@@ -2546,7 +2564,7 @@ registers:
         typical: --
         description: |
           Number of bytes received per channel. Wraps on overflow. On overflow, sets
-          ILK_RX(0..1)_INT[STAT_CNT_OVFL].
+          ILK_RX()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_LNE_STS_MSG
@@ -2690,7 +2708,7 @@ registers:
         access: R/W
         reset: 0
         typical: --
-        description: Disable the RX disparity check, see ILK_RX_LNE(0..15)_INT[DISP_ERR].
+        description: Disable the RX disparity check, see ILK_RX_LNE()_INT[DISP_ERR].
 
       - name: RX_SCRM_SYNC
         bits: 5
@@ -2757,7 +2775,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX disparity error encountered. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_DISP_ERR.
+          RX disparity error encountered. Throws ILK_INTSN_E::ILK_RXLNE()_DISP_ERR.
 
       - name: BAD_64B67B
         bits: 8
@@ -2766,8 +2784,8 @@ registers:
         typical: --
         description: |
           Bad 64B/67B code word encountered. Once the bad word reaches the burst control unit (as
-          denoted by ILK_RX(0..1)_INT[LANE_BAD_WORD]) it is discarded and all open packets receive
-          an error. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_BAD_64B67B.
+          denoted by ILK_RX()_INT[LANE_BAD_WORD]) it is discarded and all open packets receive
+          an error. Throws ILK_INTSN_E::ILK_RXLNE()_BAD_64B67B.
 
       - name: STAT_CNT_OVFL
         bits: 7
@@ -2775,7 +2793,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Rx lane statistic counter overflow. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_STAT_CNT_OVFL.
+          Rx lane statistic counter overflow. Throws ILK_INTSN_E::ILK_RXLNE()_STAT_CNT_OVFL.
 
       - name: STAT_MSG
         bits: 6
@@ -2784,7 +2802,7 @@ registers:
         typical: --
         description: |
           Status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem).
-          Throws ILK_INTSN_E::ILK_RXLNE(0..15)_STAT_MSG.
+          Throws ILK_INTSN_E::ILK_RXLNE()_STAT_MSG.
 
       - name: DSKEW_FIFO_OVFL
         bits: 5
@@ -2792,7 +2810,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX deskew FIFO overflow occurred. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_DSKEW_FIFO_OVFL.
+          RX deskew FIFO overflow occurred. Throws ILK_INTSN_E::ILK_RXLNE()_DSKEW_FIFO_OVFL.
 
       - name: SCRM_SYNC_LOSS
         bits: 4
@@ -2801,7 +2819,7 @@ registers:
         typical: --
         description: |
           Four consecutive bad sync words or three consecutive scramble state mismatches. Throws
-          ILK_INTSN_E::ILK_RXLNE(0..15)_SCRM_SYNC_LOSS.
+          ILK_INTSN_E::ILK_RXLNE()_SCRM_SYNC_LOSS.
 
       - name: UKWN_CNTL_WORD
         bits: 3
@@ -2810,7 +2828,7 @@ registers:
         typical: --
         description: |
           Unknown framing control word. Block type does not match any of (SYNC,SCRAM,SKIP,DIAG).
-          Throws ILK_INTSN_E::ILK_RXLNE(0..15)_UKWN_CNTL_WORD.
+          Throws ILK_INTSN_E::ILK_RXLNE()_UKWN_CNTL_WORD.
 
       - name: CRC32_ERR
         bits: 2
@@ -2818,7 +2836,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          Diagnostic CRC32 errors. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_CRC32_ERR.
+          Diagnostic CRC32 errors. Throws ILK_INTSN_E::ILK_RXLNE()_CRC32_ERR.
 
       - name: BDRY_SYNC_LOSS
         bits: 1
@@ -2827,7 +2845,7 @@ registers:
         typical: --
         description: |
           RX logic loses word boundary sync (16 tries). Hardware will automatically attempt to
-          regain word boundary sync. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_BDRY_SYNC_LOSS.
+          regain word boundary sync. Throws ILK_INTSN_E::ILK_RXLNE()_BDRY_SYNC_LOSS.
 
       - name: SERDES_LOCK_LOSS
         bits: 0
@@ -2835,7 +2853,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          RX SerDes loses lock. Throws ILK_INTSN_E::ILK_RXLNE(0..15)_SERDES_LOCK_LOSS.
+          RX SerDes loses lock. Throws ILK_INTSN_E::ILK_RXLNE()_SERDES_LOCK_LOSS.
 
 
   - name: ILK_RX_LNE(0..15)_STAT0
@@ -2857,7 +2875,7 @@ registers:
         typical: --
         description: |
           Indicates the number of times the lane lost clock-data-recovery. On overflow, saturates
-          and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          and sets ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT1
@@ -2879,7 +2897,7 @@ registers:
         typical: --
         description: |
           Indicates the number of times a lane lost word-boundary synchronization. On overflow,
-          saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          saturates and sets ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT2
@@ -2901,7 +2919,7 @@ registers:
         typical: --
         description: |
           Indicates the number of good synchronization words. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..18
@@ -2917,7 +2935,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bad synchronization words. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT3
@@ -2939,7 +2957,7 @@ registers:
         typical: --
         description: |
           Indicates the number of bad 64B/67B words, meaning bit <65> or bit <64> has been
-          corrupted. On overflow, saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          corrupted. On overflow, saturates and sets ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT4
@@ -2961,7 +2979,7 @@ registers:
         typical: --
         description: |
           Indicates the number of control words received. SOn overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..27
@@ -2977,7 +2995,7 @@ registers:
         typical: --
         description: |
           Indicates the number of data words received. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT5
@@ -2999,7 +3017,7 @@ registers:
         typical: --
         description: |
           Indicates the number of unknown control words.On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT6
@@ -3022,7 +3040,7 @@ registers:
         description: |
           Indicates the number of times scrambler synchronization was lost (due to either four
           consecutive bad sync words or three consecutive scrambler-state mismatches). On overflow,
-          saturates and sets ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          saturates and sets ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT7
@@ -3044,7 +3062,7 @@ registers:
         typical: --
         description: |
           Indicates the number of scrambler-state matches received. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT8
@@ -3066,7 +3084,7 @@ registers:
         typical: --
         description: |
           Indicates the number of good skip words. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT9
@@ -3088,7 +3106,7 @@ registers:
         typical: --
         description: |
           Indicates the number of errors in the lane CRC. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..27
@@ -3104,7 +3122,7 @@ registers:
         typical: --
         description: |
           Indicates the number of CRC32 matches received. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_RX_LNE(0..15)_STAT10
@@ -3126,7 +3144,7 @@ registers:
         typical: --
         description: |
           Indicates the number of training frames with bad PRBS. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
       - name: --
         bits: 31..11
@@ -3142,7 +3160,7 @@ registers:
         typical: --
         description: |
           Indicates the number of training frames with correct PRBS. On overflow, saturates and sets
-          ILK_RX_LNE(0..15)_INT[STAT_CNT_OVFL].
+          ILK_RX_LNE()_INT[STAT_CNT_OVFL].
 
 
   - name: ILK_LNE(0..15)_TRN_LD

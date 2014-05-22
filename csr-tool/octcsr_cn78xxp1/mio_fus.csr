@@ -87,7 +87,7 @@ registers:
         access: RO
         reset: --
         typical: 0
-        description: Fuse information - Dormant encryption enable.
+        description: Fuse information - Dormant encryption enable. See NOCRYPTO.
 
       - name: FUS318
         bits: 33
@@ -258,7 +258,7 @@ registers:
         access: RO
         reset: --
         typical: 0
-        description: Fuse information - When 0, BAR2 size conforms to PCIE specification.
+        description: Fuse information - When 0, BAR2 size conforms to PCIe specification.
 
       - name: EFUS_LCK
         bits: 27
@@ -344,7 +344,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Bits 11:1. Reserved.
+          Bits<11:1>. Reserved.
 
       - name: EAST_RCLK_BYP_SELECT
         bits: 51
@@ -852,7 +852,7 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: Core clock PLL status information.
+        description: Core-clock PLL status information.
 
       - name: --
         bits: 11
@@ -866,7 +866,7 @@ registers:
         access: RO
         reset: --
         typical: --
-        description: PNR clock PLL status information.
+        description: Coprocessor-clock PLL status information.
 
       - name: C_COUT_RST
         bits: 7
@@ -875,8 +875,8 @@ registers:
         typical: --
         description: |
           Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
-          least 10 ref-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
-          should remain under reset for at least 10 ref-clock cycles after C_COUT_SEL changes.
+          least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
+          should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes.
 
       - name: C_COUT_SEL
         bits: 6..5
@@ -884,7 +884,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Core clockout select:
+          Core-clock output select:
           0x0 = Core clock.
           0x1 = PS output.
           0x2 = PLL output.
@@ -896,9 +896,11 @@ registers:
         reset: 0
         typical: --
         description: |
-          PNR clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
-          least 10 ref-clock cycles prior to changing PNR_COUT_SEL. The PNR clockout postscaler
-          should remain under reset for at least 10 ref-clock cycles after PNR_COUT_SEL changes.
+          SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
+          least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
+          postscaler
+          should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
+          changes.
 
       - name: PNR_COUT_SEL
         bits: 3..2
@@ -906,7 +908,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          PNR clockout select:
+          Coprocessor-clock output select:
           0x0 = Coprocessor clock.
           0x1 = PS output.
           0x2 = PLL output.

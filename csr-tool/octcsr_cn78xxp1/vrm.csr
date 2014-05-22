@@ -9,7 +9,7 @@ enums:
       width: "5"
     description: |
       Indicates type of device connected to this controller, as loaded into
-      VRM(0..1)_MISC_INFO[VRM_TYPE] and VRM(0..1)_MISC_INFO[VRM_TYPE2].
+      VRM()_MISC_INFO[VRM_TYPE] and VRM()_MISC_INFO[VRM_TYPE2].
     values:
       - name: PMB_LIN
         value: 0x00

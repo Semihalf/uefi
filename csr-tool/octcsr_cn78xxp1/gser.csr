@@ -3111,6 +3111,20 @@ registers:
         access: R/W
         reset: 0x5
         typical: 0x5
+        attributes:
+          chip_pass: "o78<2.0"
+        description: |
+          Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
+          (which is a 1-hot signal), where the level is equal to to
+          2^TX_RX_DETECT_LVL_ENC.
+
+      - name: TX_RX_DETECT_LVL_ENC
+        bits: 11..8
+        access: R/W
+        reset: 0x7
+        typical: 0x7
+        attributes:
+          chip_pass: "o78>=2.0"
         description: |
           Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
           (which is a 1-hot signal), where the level is equal to to

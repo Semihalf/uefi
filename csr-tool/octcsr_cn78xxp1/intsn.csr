@@ -3065,6 +3065,7 @@ enums:
           bit_name: "MEMOUT_ERR"
           bit_num: "8"
           blk_enum_name: "PKI_INTSN_E"
+          chip_pass: "o78>=2.0"
           cib_rtl_module: "pki_pfe"
           major_name: "PKI"
           major_val: "(0x44)"

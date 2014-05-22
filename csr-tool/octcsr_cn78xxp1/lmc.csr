@@ -1230,7 +1230,7 @@ registers:
       0xB: mem_msb = mem_adr[36].
       0xC-0xF = Reserved.
 
-      For example, for a DIMM made of Samsung's K4B1G0846C-ZCF7 1Gb (16M * 8 bit * 8 bank) DDR3
+      For example, for a DIMM made of Samsung's K4B1G0846C-ZCF7 1Gb (16M * 8 bit * 8 bank)
       parts, the column address width = 10; so with 10b of col, 3b of bus, 3b of bank, row_lsb = 16.
       Therefore, row = mem_adr[29:16] and mem_msb = 4.
 
@@ -1641,9 +1641,11 @@ registers:
         description: |
           Memory reset. 1 = DDR contents preserved.
 
-          May be useful for system software to determine when the DDR3 contents have been preserved.
+          May be useful for system software to determine when the DDR3/DDR4 contents have been
+          preserved.
           Cleared by hardware during a cold reset. Never cleared by hardware during a warm/soft
-          reset. Set by hardware during a warm/soft reset if the hardware automatically put the DDR3
+          reset. Set by hardware during a warm/soft reset if the hardware automatically put the
+          DDR3/DDR4
           DRAM into self-refresh during the reset sequence.
           Can also be written by software (to any value).
 
@@ -1655,10 +1657,12 @@ registers:
         description: |
           Memory reset. 1 = Enable preserve mode during soft reset.
 
-          Enables preserve mode during a soft reset. When set, the DDR3 controller hardware
-          automatically puts the attached DDR3 DRAM parts into self-refresh at the beginning of a
-          soft reset sequence (see LMC()_SEQ_CTL[SEQ_SEL]), provided that the DDR3 controller
-          is up. When clear, the DDR3 controller hardware does not put the attached DDR3 DRAM
+          Enables preserve mode during a soft reset. When set, the DDR3/DDR4 controller hardware
+          automatically puts the attached DDR3/DDR4 DRAM parts into self-refresh at the beginning of
+          a
+          soft reset sequence (see LMC()_SEQ_CTL[SEQ_SEL]), provided that the DDR3/DDR4 controller
+          is up. When clear, the DDR3/DDR4 controller hardware does not put the attached DDR3/DDR4
+          DRAM
           parts into self-refresh during a soft reset sequence.
           DDR3PSOFT is cleared on a cold reset. Warm and soft chip resets do not affect the
           DDR3PSOFT value. Outside of cold reset, only software CSR write operations change the
@@ -1672,16 +1676,18 @@ registers:
         description: |
           Memory reset. 1 = Enable preserve mode during warm reset.
 
-          Enables preserve mode during a warm reset. When set, the DDR3 controller hardware
-          automatically puts the attached DDR3 DRAM parts into self-refresh at the beginning of a
-          warm reset sequence (see LMC()_SEQ_CTL[SEQ_SEL]), provided that the DDR3 controller
-          is up. When clear, the DDR3 controller hardware does not put the attached DDR3 DRAM
+          Enables preserve mode during a warm reset. When set, the DDR3/DDR4 controller hardware
+          automatically puts the attached DDR3/DDR4 DRAM parts into self-refresh at the beginning of
+          a
+          warm reset sequence (see LMC()_SEQ_CTL[SEQ_SEL]), provided that the DDR3/DDR4 controller
+          is up. When clear, the DDR3/DDR4 controller hardware does not put the attached DDR3/DDR4
+          DRAM
           parts into self-refresh during a warm reset sequence.
           DDR3PWARM is cleared on a cold reset. Warm and soft chip resets do not affect the
           DDR3PWARM value. Outside of cold reset, only software CSR write operations change the
           DDR3PWARM value.
 
-          Note that if a warm reset follows a soft reset, DDR3PWARM has no effect, as the DDR3
+          Note that if a warm reset follows a soft reset, DDR3PWARM has no effect, as the DDR3/DDR4
           controller is no longer up after any cold/warm/soft reset sequence.
 
       - name: DDR3RST
@@ -1692,7 +1698,7 @@ registers:
         description: |
           "Memory reset. 0 = Reset asserted; 1 = Reset deasserted.
 
-          DDR3 DRAM parts have a RESET# pin that was not present in DDR2 parts. The DDR3RST CSR
+          DDR3/DDR4 DRAM parts have a RESET# pin that was not present in DDR2 parts. The DDR3RST CSR
           field controls the assertion of the new CNXXXX pin that attaches to RESET#. When DDR3RST
           is set, CNXXXX asserts RESET#. When DDR3RST is clear, CNXXXX deasserts RESET#.
           DDR3RST is set on a cold reset. Warm and soft chip resets do not affect the DDR3RST value.
@@ -2207,7 +2213,7 @@ registers:
         typical: 1
         description: |
           When 1, LMC automatically shuts off its internal clock to conserve power when there is no
-          traffic. Note that this has no effect on the DDR3 PHY and pads clocks.
+          traffic. Note that this has no effect on the DDR3/DDR4 PHY and pads clocks.
 
       - name: XOR_BANK
         bits: 16
@@ -2470,8 +2476,8 @@ registers:
 
           _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
 
-          where TZQCS is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration.
 
@@ -2505,8 +2511,8 @@ registers:
 
           _ RNDUP[TXPDLL(ns) / TCYC(ns)] - 1
 
-          where TXPDLL is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not
-          data rate).
+          where TXPDLL is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP=max(10nCK, 24 ns)
 
@@ -2520,8 +2526,8 @@ registers:
 
           _ RNDUP[TFAW(ns) / (4 * TCYC(ns))]
 
-          where TFAW is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TFAW is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = 30-40 ns
 
@@ -2535,8 +2541,8 @@ registers:
 
           _ RNDUP[TWLDQSEN(ns) / (4 * TCYC(ns))]
 
-          where TWLDQSEN is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not
-          data rate).
+          where TWLDQSEN is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = max(25nCK)
 
@@ -2550,8 +2556,8 @@ registers:
 
           _ RNDUP[TWLMRD(ns) / (4 * TCYC(ns))]
 
-          where TWLMRD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not
-          data rate).
+          where TWLMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = max(40nCK)
 
@@ -2565,8 +2571,8 @@ registers:
 
           _ RNDUP[TXP(ns) / TCYC(ns)] - 1
 
-          where TXP is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TXP is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP=max(3nCK, 7.5 ns)
 
@@ -2580,8 +2586,8 @@ registers:
 
           _ RNDUP[TRRD(ns) / TCYC(ns)] - 1,
 
-          where TRRD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TRRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = max(4nCK, 10 ns)
 
@@ -2603,8 +2609,8 @@ registers:
 
           _ RNDUP[TRFC(ns) / (8 * TCYC(ns))]
 
-          where TRFC is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TRFC is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = 90-350 ns
 
@@ -2627,8 +2633,8 @@ registers:
 
           _ RNDUP[TWTR(ns) / TCYC(ns)] - 1
 
-          where TWTR is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TWTR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = max(4nCK, 7.5 ns)
 
@@ -2650,8 +2656,8 @@ registers:
 
           _ RNDUP[TRCD(ns) / TCYC(ns)]
 
-          where TRCD is from the JEDEC DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data
-          rate).
+          where TRCD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+          frequency (not data rate).
 
           TYP = 10-15 ns
 
@@ -2674,7 +2680,8 @@ registers:
 
           _ RNDUP[TRAS(ns)/TCYC(ns)] - 1,
 
-          where TRAS is from the DDR3 spec, and TCYC(ns) is the DDR clock frequency (not data rate).
+          where TRAS is from the DDR3/DDR4 spec, and TCYC(ns) is the DDR clock frequency (not data
+          rate).
 
           TYP = 35ns - 9 * TREFI
 
@@ -2723,11 +2730,13 @@ registers:
           0 = Slow exit (DLL off).
           1 = Fast exit (DLL on).
 
-          LMC writes this value to MR0[PPD] in the selected DDR3 parts during power-up/init and, if
+          LMC writes this value to MR0[PPD] in the selected DDR3/DDR4 parts during power-up/init
+          and, if
           LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
           LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK]. This value must
           equal
-          the MR0[PPD] value in all the DDR3 parts attached to all ranks during normal operation.
+          the MR0[PPD] value in all the DDR3/DDR4 parts attached to all ranks during normal
+          operation.
 
       - name: WRP
         bits: 23..21
@@ -2747,11 +2756,13 @@ registers:
           0x6 = 12.
           0x7 = 14.
 
-          LMC writes this value to MR0[WR] in the selected DDR3 parts during power-up/init and, if
+          LMC writes this value to MR0[WR] in the selected DDR3/DDR4 parts during power-up/init and,
+          if
           LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh exit instruction sequences. See
           LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK]. This value must
           equal
-          the MR0[WR] value in all the DDR3 parts attached to all ranks during normal operation.
+          the MR0[WR] value in all the DDR3/DDR4 parts attached to all ranks during normal
+          operation.
 
       - name: DLLR
         bits: 20
@@ -2759,11 +2770,11 @@ registers:
         reset: 0
         typical: 0
         description: |
-          DLL reset. LMC writes this value to MR0[DLL] in the selected DDR3 parts during power-
+          DLL reset. LMC writes this value to MR0[DLL] in the selected DDR3/DDR4 parts during power-
           up/init and, if LMC()_CONFIG [SREF_WITH_DLL] is set, self-refresh exit instruction
           sequences. See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK].
-          The MR0[DLL] value must be 0 in all the DDR3 parts attached to all ranks during normal
-          operation.
+          The MR0[DLL] value must be 0 in all the DDR3/DDR4 parts attached to all ranks during
+          normal operation.
 
       - name: TM
         bits: 19
@@ -2771,10 +2782,10 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Test mode. LMC writes this value to MR0[TM] in the selected DDR3 parts during power-
+          Test mode. LMC writes this value to MR0[TM] in the selected DDR3/DDR4 parts during power-
           up/init and, if LMC()_CONFIG [SREF_WITH_DLL] is set, self-refresh exit instruction
           sequences. See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK].
-          The MR0[TM] value must be 0 in all the DDR3 parts attached to all ranks during normal
+          The MR0[TM] value must be 0 in all the DDR3/DDR4 parts attached to all ranks during normal
           operation.
 
       - name: RBT
@@ -2784,10 +2795,10 @@ registers:
         typical: 1
         description: |
           Read burst. Type 1 = interleaved (fixed). LMC writes this value to MR0[RBT] in the
-          selected DDR3 parts during power-up/init and, if LMC()_CONFIG[SREF_WITH_DLL] is set,
+          selected DDR3/DDR4 parts during power-up/init and, if LMC()_CONFIG[SREF_WITH_DLL] is set,
           self-refresh exit instruction sequences. See LMC()_CONFIG[SEQ_SEL,INIT_START,
-          RANKMASK]. The MR0[RBT] value must be 1 in all the DDR3 parts attached to all ranks during
-          normal operation.
+          RANKMASK]. The MR0[RBT] value must be 1 in all the DDR3/DDR4 parts attached to all ranks
+          during normal operation.
 
       - name: CL
         bits: 17..14

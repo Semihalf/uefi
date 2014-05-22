@@ -187,6 +187,7 @@ def build_csr(chip_info, register, raw):
                    "exempt_name_length",
                    "min_stride",
                    "mem_to_csr",
+                   "mif_marker_name",
                    "regtest_alias",
                    "regtest_skip",
                    "rtlgen_cib",

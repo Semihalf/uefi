@@ -229,6 +229,7 @@ enums:
       - name: PKI_GEN_MEMOUT_ERR
         value: 0x44008
         attributes:
+          chip_pass: "o78>=2.0"
           cib_rtl_module: "pki_pfe"
         description: See PKI_GEN_INT[MEMOUT_ERR].
 
@@ -722,7 +723,7 @@ enums:
         value: 0x0E
         attributes:
           beltype: "MISC"
-          layers: "LD or LF"
+          layers: "LF"
         description: IP Compressed. Previous layer (L3/IL3) protocol value or IPv6 next header equals 108.
 
       - name: TCP
@@ -759,7 +760,7 @@ enums:
         value: 0x14
         attributes:
           beltype: "MISC"
-          layers: "LD"
+          layers: "LF"
         description: GRE, but not NVGRE.
 
       - name: NVGRE
@@ -1071,9 +1072,10 @@ enums:
       * The 'PMC' column indicates if PKI_CL()_PCAM()_ACTION()[PMC] may be non-zero.
         The typical PMC value is zero.
       * The 'SETTY' column indicates if PKI_CL()_PCAM()_ACTION()[SETTY] may be non-zero,
-      and if so which WQE pointer
-      field and type field will get set with the specified value. For example, LFTY indicates if
-      PKI_CL()_PCAM()_ACTION()[SETTY] then WQE[LFTY] will be set to
+      and if so either which values it may take or which WQE pointer
+      field and type field will be set to the SETTY value when SETTY!=NONE (0). For example, LFTY
+      indicates that if
+      PKI_CL()_PCAM()_ACTION()[SETTY]!=NONE then WQE[LFTY] will be set to
       PKI_CL()_PCAM()_ACTION()[SETTY] and WQE[LFPTR] will be set to the
       current parse point.
 
@@ -1157,14 +1159,15 @@ enums:
           adv: "4/8/12"
           bank: "0"
           pmc: "Yes"
-          setty: "--"
+          setty: "NONE or VLAN"
         description: |
           Fulcrum routing address. This match is only performed if FULCRUM parsing was enabled.
           _ MATCH<31:16> = Fulcrum source GLORT.
           _ MATCH<15:0> = Fulcrum destination GLORT.
 
-          ACTION[SETTY] has special behavior; if ACTION[SETTY]==VLAN, then indicates the glort is
+          ACTION[SETTY] has special behavior for GLORT; if ACTION[SETTY]==VLAN, then the glort is
           treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
+          If ACTION[SETTY]==NONE (0), the PCAM entry will not affect any of WQE[VV,VLPTR,VS].
 
       - name: DSA
         value: 0x13
@@ -1172,14 +1175,15 @@ enums:
           adv: "4/8/12"
           bank: "1"
           pmc: "Yes"
-          setty: "--"
+          setty: "NONE or VLAN"
         description: |
           DSA header. This match is only performed if DSA was enabled.
 
           _ MATCH<31:0> = First 32 bits of DSA header.
 
-          ACTION[SETTY] has special behavior; if ACTION[SETTY]==VLAN, then indicates the DSA data is
+          ACTION[SETTY] has special behavior for DSA; if ACTION[SETTY]==VLAN, then the DSA data is
           treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
+          If ACTION[SETTY]==NONE (0), the PCAM entry will not affect any of WQE[VV,VLPTR,VS].
 
       - name: ETHTYPE0
         value: 0x18
@@ -1193,9 +1197,16 @@ enums:
           _ MATCH<31:16> = Ethertype.
           _ MATCH<15:0> = Next 2 bytes following ethertype.
 
-          ACTION[SETTY] has special behavior; if ACTION[SETTY]==VLAN, then indicates the Ethertype
+          ACTION[SETTY] has special behavior for ETHTYPE*; if ACTION[SETTY]==VLAN, then the
+          Ethertype
           is treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
-          If SETTY is non-zero and non-VLAN, then WQE[LBTY] and WQE[LBPTR] will be set.
+          If ACTION[SETTY] is neither NONE nor VLAN, then WQE[LBTY] and WQE[LBPTR] will be set.
+          If ACTION[SETTY]==NONE (0), the PCAM entry will not affect any of
+          WQE[VV,VLPTR,VS,LBTY,LBPTR].
+
+          NONE or VLAN may be the most common ACTION[SETTY] values used in these ETHTYPE cases.
+          SW28,
+          SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
 
       - name: ETHTYPE1
         value: 0x19
@@ -1259,6 +1270,10 @@ enums:
           _ MATCH<12:8> = WQE[LCTY] as decoded up to this point.
           _ MATCH<0> = Fragment.
 
+          NONE may be the most common ACTION[SETTY] value used in this case. SW28,
+          SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
+          If ACTION[SETTY]!=NONE (0), then WQE[LDTY] and WQE[LDPTR] will be set.
+
       - name: LD_VNI
         value: 0x28
         attributes:
@@ -1287,6 +1302,10 @@ enums:
           _ MATCH<12:8> = WQE[LETY] as decoded up to this point.
           _ MATCH<0> = Fragment.
 
+          NONE may be the most common ACTION[SETTY] value used in this case. SW28,
+          SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
+          If ACTION[SETTY]!=NONE (0), then WQE[LFTY] and WQE[LFPTR] will be set.
+
       - name: L4_PORT
         value: 0x30
         attributes:
@@ -1303,6 +1322,10 @@ enums:
           _ MATCH<15:0> = TCP/UDP/SCTP destination port. (Specifically the 16 bits from packet bytes
           WQE[LFPTR]+2, as the packet need not be TCP/UDP/SCTP.)
 
+          NONE may be the most common ACTION[SETTY] value used in this case. GTP, SW28,
+          SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
+          If ACTION[SETTY]!=NONE (0), then WQE[LGTY] and WQE[LGPTR] will be set.
+
       - name: LG_CUSTOM
         value: 0x39
         attributes:
@@ -1313,6 +1336,10 @@ enums:
         description: |
           LG custom match. This match is only performed if LE and LG parsing was enabled.
           _ MATCH<31:0> = Custom extract controlled by PKI_CL()_PKIND()_LG_CUSTOM
+
+          NONE may be the most common ACTION[SETTY] value used in this case. SW28,
+          SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
+          If ACTION[SETTY]!=NONE (0), then WQE[LGTY] and WQE[LGPTR] will be set.
 
 
   - name: PKI_QPGQOS_E
@@ -4860,6 +4887,11 @@ registers:
         description: |
           WQE start offset. The number of 128-byte cache lines to skip between the buffer pointer
           and WORD0 of the work-queue entry. See PKI Hardware Allocating Multiple Buffers.
+          If [DIS_WQ_DAT]=1, legal values must satisfy:
+            * MB_SIZE >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
+          If [DIS_WQ_DAT]=0, legal values must satisfy:
+            * (WQE_SKIP * (128/8)) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry
+              words will fit within FIRST_SKIP.
 
       - name: FIRST_SKIP
         bits: 27..22
@@ -4868,13 +4900,15 @@ registers:
         typical: 0x5
         description: |
           The number of eight-byte words from the top of the first MBUF that the PKI stores the next
-          pointer. If [DIS_WQ_DAT]=1, any value is legal. If [DIS_WQ_DAT]=0, legal values must
-          satisfy:
-          * FIRST_SKIP <= PKI_STYLE()_BUF[MB_SIZE] - 18.
-          * FIRST_SKIP must be at least 0x4, but 0x5 is recommended minimum. 0x4 will drop WQE
-          WORD4, for use in backward compatible applications.
-          * WQE_SKIP * (128/8) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry
-          words will fit within FIRST_SKIP.
+          pointer.
+          If [DIS_WQ_DAT]=1, legal values must satisfy:
+            * FIRST_SKIP <= PKI_STYLE()_BUF[MB_SIZE] - 18.
+          If [DIS_WQ_DAT]=0, legal values must satisfy:
+            * FIRST_SKIP <= PKI_STYLE()_BUF[MB_SIZE] - 18.
+            * (WQE_SKIP * (128/8)) + X <= FIRST_SKIP,
+              X must be at least 0x4 to insure the minimum of four work-queue entry,
+              but 0x5 is recommended minimum. X=0x4 will drop WQE WORD4, for use in
+              backward compatible applications.
 
       - name: LATER_SKIP
         bits: 21..16
@@ -4921,9 +4955,18 @@ registers:
         reset: 0x20
         typical: 0x20
         description: |
-          The number of eight-byte words to store into a buffer. This must be even, in the range of
-          32 to 4096. This must be less than or equal to the maximum size of every free page in
-          every FPA pool this style may use.
+          The number of eight-byte words between the start of a buffer and the last word
+          that PKI may write into that buffer. The total amount of data stored by PKI into
+          the buffer will be MB_SIZE minus FIRST_SKIP or LATER_SKIP.
+          This must be even, in the range of 32 to 4096. This must be less than or equal
+          to the maximum size of every free page in every FPA pool this style may use.
+          If [DIS_WQ_DAT]=1, legal values must satisfy:
+            * MB_SIZE >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
+            * MB_SIZE >= PKI_STYLE()_BUF[FIRST_SKIP] + 18.
+            * MB_SIZE >= PKI_STYLE()_BUF[LATER_SKIP] + 18.
+          If [DIS_WQ_DAT]=0, legal values must satisfy:
+            * MB_SIZE >= PKI_STYLE()_BUF[FIRST_SKIP] + 18.
+            * MB_SIZE >= PKI_STYLE()_BUF[LATER_SKIP] + 18.
 
 
   - name: PKI_IMEM(0..2047)
@@ -6202,6 +6245,7 @@ registers:
         description: |
           Set pointer type. If non-zero, indicates the layer type to be set as described under
           PKI_PCAM_TERM_E. Values are enumerated in PKI_LTYPE_E. Must be zero for invalid entries.
+          The PKI_PCAM_TERM_E table enumerates legal/common SETTY values.
 
       - name: ADVANCE
         bits: 7..0

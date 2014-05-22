@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: RST
+attributes:
+  mif_heading2: "RST"
 enums:
   - name: RST_INTSN_E
     title: |
@@ -52,7 +54,7 @@ registers:
         access: R/W
         reset: --
         typical: 0
-        description: When set, external EJTAG access is disabled This field resets to 1 in Authentik mode, else 0.
+        description: When set, external EJTAG access is disabled. This field resets to 1 in Authentik mode, else 0.
 
       - name: ROMEN
         bits: 60
@@ -60,7 +62,7 @@ registers:
         reset: --
         typical: 0
         description: |
-          When set, Authentik/eMMC boot ROM is visible in the boot bus address space.  This field
+          When set, Authentik/eMMC boot ROM is visible in the boot bus address space. This field
           resets to 1 in an Authentik part or when booting from eMMC. Else, resets to 0.
 
       - name: CKILL_PPDIS
@@ -101,9 +103,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Core clock multiplier.
-          C_MUL = (core CLK speed) / (ref clock speed)
-          'ref clock speed' should always be 50MHz.
+          Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). 'ref-clock speed'
+          should always be 50MHz.
 
       - name: PNR_MUL
         bits: 29..24
@@ -111,9 +112,8 @@ registers:
         reset: --
         typical: --
         description: |
-          Coprocessor clock multiplier.
-          PNR_MUL = (coprocessor CLK speed) /(ref clock speed)
-          'ref clock speed' should always be 50MHz.
+          Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
+          'ref-clock speed' should always be 50MHz.
 
       - name: --
         bits: 23..21
@@ -154,16 +154,16 @@ registers:
         typical: --
         description: |
           Last boot cause mask; resets only with DCOK.
-          <11> Soft reset due to watchdog.
-          <10> Soft reset due to RST_SOFT_RST write.
-          <9> Warm reset due to Cntl0 link-down or hot-reset.
-          <8> Warm reset due to Cntl1 link-down or hot-reset.
-          <7> Cntl1 reset due to PERST1_L pin.
-          <6> Cntl0 reset due to PERST0_L pin.
-          <5> Warm reset due to PERST1_L pin.
-          <4> Warm reset due to PERST0_L pin.
-          <3> Warm reset due to CHIP_RESET_L pin.
-          <2> Cold reset due to PLL_DC_OK pin.
+          <11> = Soft reset due to watchdog.
+          <10> = Soft reset due to RST_SOFT_RST write.
+          <9> = Warm reset due to Cntl1 link-down or hot-reset.
+          <8> = Warm reset due to Cntl0 link-down or hot-reset.
+          <7> = Cntl1 reset due to PERST1_L pin.
+          <6> = Cntl0 reset due to PERST0_L pin.
+          <5> = Warm reset due to PERST1_L pin.
+          <4> = Warm reset due to PERST0_L pin.
+          <3> = Warm reset due to CHIP_RESET_L pin.
+          <2> = Cold reset due to PLL_DC_OK pin.
 
       - name: RBOOT
         bits: 1
@@ -282,7 +282,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          PERST*_L asserted while RST_CTL*[RST_RCV] = 1 and RST_CTL*[RST_CHIP] = 0. One bit
+          PERST*_L asserted while RST_CTL()[RST_RCV] = 1 and RST_CTL()[RST_CHIP] = 0. One bit
           corresponds to each controller.
 
       - name: --
@@ -298,8 +298,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          A controller link-down/hot-reset occurred while RST_CTL*[RST_LINK] = 0. Software must
-          assert then deassert RST_SOFT_PRST*[SOFT_PRST]. One bit corresponds to each controller.
+          A controller link-down/hot-reset occurred while RST_CTL()[RST_LINK] = 0. Software must
+          assert then deassert RST_SOFT_PRST()[SOFT_PRST]. One bit corresponds to each controller.
 
 
   - name: RST_CKILL
@@ -343,7 +343,7 @@ registers:
         typical: --
         description: |
           Controls whether corresponding controller link-down or hot-reset causes the assertion of
-          RST_SOFT_PRST*[SOFT_PRST].
+          RST_SOFT_PRST()[SOFT_PRST].
           A warm/soft reset does not change this field. On cold reset, this field is initialized to
           0.
 
@@ -355,8 +355,8 @@ registers:
         description: |
           Read-only access to controller reset status. RST_DONE is always zero (i.e. the controller
           is held in reset) when:
-          RST_SOFT_PRST*[SOFT_PRST] = 1, or
-          RST_RCV = 1 and PERST*_L pin is asserted.
+          * RST_SOFT_PRST()[SOFT_PRST] = 1, or
+          * RST_RCV = 1 and PERST*_L pin is asserted.
 
       - name: RST_LINK
         bits: 7
@@ -366,10 +366,13 @@ registers:
         description: |
           Reset link. Controls whether corresponding controller link-down reset or hot reset causes
           a warm chip reset. On cold reset, this field is initialized as follows:
-          0 when RST_CTL*[HOST_MODE] = 1
-          1 when RST_CTL*[HOST_MODE] = 0
+
+          _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+          _ 1 when RST_CTL()[HOST_MODE] = 0.
+
           Note that a link-down or hot-reset event can never cause a warm chip reset when the
-          controller is in reset (i.e. can never cause a warm reset when RST_DONE = 0).
+          controller is in reset (i.e. can never cause a warm reset when [RST_DONE] = 0).
 
       - name: HOST_MODE
         bits: 6
@@ -395,9 +398,12 @@ registers:
         description: |
           Controls whether PERST*_L is driven. A warm/soft reset does not change this field. On cold
           reset, this field is initialized as follows:
-          0 when RST_CTL*[HOST_MODE] = 0
-          1 when RST_CTL*[HOST_MODE] = 1
-          When set, CN70XX drives the corresponding PERST*_L pin. Otherwise, CN70XX does not drive
+
+          _ 0 when RST_CTL()[HOST_MODE] = 0.
+
+          _ 1 when RST_CTL()[HOST_MODE] = 1.
+
+          When set, CNXXXX drives the corresponding PERST*_L pin. Otherwise, CNXXXX does not drive
           the corresponding PERST*_L pin.
 
       - name: RST_RCV
@@ -408,14 +414,20 @@ registers:
         description: |
           Controls whether PERST*_L is received. A warm/soft reset will not change this field. On
           cold reset, this field is initialized as follows:
-          0 when RST_CTL*[HOST_MODE] = 1
-          1 when RST_CTL*[HOST_MODE] = 0
+
+          _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+          _ 1 when RST_CTL()[HOST_MODE] = 0.
+
           When RST_RCV is equal to 1, the PERST*_L value is received and may be used to reset the
           controller and (optionally, based on RST_CHIP) warm reset the chip.
+
           When RST_RCV is equal to 1 (and RST_CHIP = 0), RST_INT[PERST*] gets set when the PERST*_L
           pin asserts. (This interrupt can alert software whenever the external reset pin initiates
           a controller reset sequence.)
+
           RST_VAL gives the PERST*_L pin value when RST_RCV = 1.
+
           When RST_RCV = 0, the PERST*_L pin value is ignored.
 
       - name: RST_CHIP
@@ -426,7 +438,9 @@ registers:
         description: |
           Controls whether PERST*_L causes a chip warm reset like CHIP_RESET_L. A warm/soft reset
           will not change this field. On cold reset, this field is initialized to 0.
+
           When RST_RCV = 0, RST_CHIP is ignored.
+
           When RST_RCV = 1, RST_CHIP = 1, and PERST*_L asserts, a chip warm reset is generated.
 
       - name: RST_VAL
@@ -436,8 +450,10 @@ registers:
         typical: --
         description: |
           Read-only access to PERST*_L. Unpredictable when RST_RCV = 0.
+
           Reads as 1 when RST_RCV is equal to 1 and the
           PERST*_L pin is asserted.
+
           Reads as 0 when RST_RCV = 1 and the PERST*_L pin is not asserted.
 
 
@@ -459,7 +475,7 @@ registers:
         reset: 0
         typical: --
         description: |
-          When set, resets the CN70XX core. When performing a soft reset from a remote PCIe host,
+          When set, resets the CNXXXX core. When performing a soft reset from a remote PCIe host,
           always read this register and wait for the results before setting SOFT_RST to 1.
 
 
@@ -483,14 +499,15 @@ registers:
         description: |
           Resets the PCIe logic and corresponding common logic associated with the SLI controller in
           all modes, not just RC mode.
-          If the RST_CTL*[HOST_MODE] = 0, SOFT_PRST resets to 0.
-          If the RST_CTL*[HOST_MODE] = 1, SOFT_PRST resets to 1.
-          When CN70XX is configured to drive PERST*_L (i.e.
-          RST_CTLn[RST_DRV] = 1), this controls the output value on PERST*_L.
+          * If the RST_CTL()[HOST_MODE] = 0, SOFT_PRST resets to 0.
+          * If the RST_CTL()[HOST_MODE] = 1, SOFT_PRST resets to 1.
+
+          When CNXXXX is configured to drive PERST*_L (i.e.
+          RST_CTL()[RST_DRV] = 1), this controls the output value on PERST*_L.
 
 
   - name: RST_PP_POWER
-    title: RST PP Power Gating Control Register
+    title: RST Core Power Gating Control Register
     address: 0x1180006001700
     bus: RSL
     description: These bits should only be changed while the corresponding PP is in reset (see CIU3_PP_RST).
