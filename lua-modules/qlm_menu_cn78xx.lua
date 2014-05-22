@@ -67,8 +67,7 @@ qlm_modes[2] = {
     {"40G-KR4 @ 40 Gbps", octeon.QLM_MODE_40G_KR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
-qlm_modes[3] = qlm_modes[2]
-qlm_modes[4] = {
+qlm_modes[3] = {
     {"PCIe x4 - GEN 1", octeon.QLM_MODE_PCIE_1X4, 2500, octeon.QLM_MODE_FLAG_GEN1},
     {"PCIe x4 - GEN 2", octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2},
     {"PCIe x4 - GEN 3", octeon.QLM_MODE_PCIE_1X4, 8000, octeon.QLM_MODE_FLAG_GEN3},
@@ -86,6 +85,7 @@ qlm_modes[4] = {
     {"40G-KR4 @ 40 Gbps", octeon.QLM_MODE_40G_KR4_1X4, 10312, 0},
     {"Disabled", octeon.QLM_MODE_DISABLED, 0, 0}
 }
+qlm_modes[4] = qlm_modes[3]
 qlm_modes[5] = {
     {"ILK  x4 @  3.125  GBaud", octeon.QLM_MODE_ILK, 3125, 0},
     {"ILK  x4 @  6.250  GBaud", octeon.QLM_MODE_ILK, 6250, 0},
