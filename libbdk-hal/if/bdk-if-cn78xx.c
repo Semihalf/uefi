@@ -275,7 +275,10 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     break;
                 default: /* 4 */
                     cfg.s.size = 4; /* 10kb */
-                    cfg.s.rate = 3; /* Large FIFOs are for 40G links, use 50 Gb/s */
+                    if (lmac < 4)
+                        cfg.s.rate = 4; /* Large FIFOs are for LBK, DPI, or ILK, use 100 Gb/s */
+                    else
+                        cfg.s.rate = 3; /* Large FIFOs are for 40G links, use 50 Gb/s */
                     break;
             }
             break;
