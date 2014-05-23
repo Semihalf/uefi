@@ -42,6 +42,16 @@ set_config(octeon.CONFIG_PHY_IF5_PORT1, 29)
 set_config(octeon.CONFIG_PHY_IF5_PORT2, 30)
 set_config(octeon.CONFIG_PHY_IF5_PORT3, 31)
 
+-- For RXAUI, We're using a Marvel PHY on the plugin modules. The code below
+-- programs all BGXs to use "Interleaved running disparity", which is required
+-- for these PHYs. This will need to be changed if PHYs are used that expect
+-- "Common running disparity".
+for bgx=0,5 do
+    for i=0,1 do
+        octeon.csr.BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
+    end
+end
+
 -- printf("Configuring QLMs for a sample setup\n");
 
 --------------------------------------------------------------
