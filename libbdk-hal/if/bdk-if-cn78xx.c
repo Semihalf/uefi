@@ -5,6 +5,7 @@
 /* PKO uses three scratch dwords, two for commands and one for return status */
 #define BDK_IF_SCR_PKO(dword) (BDK_IF_SCR_LMTDMA + (dword<<3))
 
+static const int USE_PKND_PER_PORT = 1; /* Use a PKND for every channel so we get PKI stats on CN78XX pass 1.x */
 static const int PKO_QUEUES_PER_CHANNEL = 1;
 static const int PKO_POOL_BUFFERS = 256;
 static const int MAX_SSO_ENTRIES = 1024;
@@ -116,10 +117,21 @@ static int pki_port_init(bdk_if_handle_t handle)
         return -1;
     }
 
-    if ((handle->index == 0) && (node_state->next_free_pknd >= 64))
+    if (USE_PKND_PER_PORT)
     {
-        bdk_error("PKI ran out of PKNDs\n");
-        return -1;
+        if (node_state->next_free_pknd >= 64)
+        {
+            bdk_error("PKI ran out of PKNDs\n");
+            return -1;
+        }
+    }
+    else
+    {
+        if ((handle->index == 0) && (node_state->next_free_pknd >= 64))
+        {
+            bdk_error("PKI ran out of PKNDs\n");
+            return -1;
+        }
     }
 
     /* FIXME: How many buffers should be given to each aura? */
@@ -128,12 +140,19 @@ static int pki_port_init(bdk_if_handle_t handle)
         return -1;
     handle->aura = aura;
 
-    /* Find the PKND for this port. This code only works since the
-        ports are enumerated in order */
-    if ((handle->index == 0) || (handle->iftype == BDK_IF_LOOP))
+    if (USE_PKND_PER_PORT)
+    {
         handle->pknd = node_state->next_free_pknd++;
+    }
     else
-        handle->pknd = node_state->next_free_pknd - 1;
+    {
+        /* Find the PKND for this port. This code only works since the
+            ports are enumerated in order */
+        if ((handle->index == 0) || (handle->iftype == BDK_IF_LOOP))
+            handle->pknd = node_state->next_free_pknd++;
+        else
+            handle->pknd = node_state->next_free_pknd - 1;
+    }
 
     // Setup QPG table per channel
     int qpg = node_state->next_free_qpg_table++;
