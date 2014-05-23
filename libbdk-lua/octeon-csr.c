@@ -275,7 +275,22 @@ static int octeon_csr_namecall(lua_State* L)
     const char *basename = lua_tostring(L, lua_upvalueindex(1));
     int num_args = lua_gettop(L);
 
-    if(num_args == 2)
+    if(num_args == 4)
+    {
+        int arg1 = luaL_checkinteger(L, 1);
+        int arg2 = luaL_checkinteger(L, 2);
+        int arg3 = luaL_checkinteger(L, 3);
+        int arg4 = luaL_checkinteger(L, 4);
+        snprintf(fullname, sizeof(fullname), "%s(%d,%d,%d,%d)", basename, arg1, arg2, arg3, arg4);
+    }
+    else if(num_args == 3)
+    {
+        int arg1 = luaL_checkinteger(L, 1);
+        int arg2 = luaL_checkinteger(L, 2);
+        int arg3 = luaL_checkinteger(L, 3);
+        snprintf(fullname, sizeof(fullname), "%s(%d,%d,%d)", basename, arg1, arg2, arg3);
+    }
+    else if(num_args == 2)
     {
         int arg1 = luaL_checkinteger(L, 1);
         int arg2 = luaL_checkinteger(L, 2);
