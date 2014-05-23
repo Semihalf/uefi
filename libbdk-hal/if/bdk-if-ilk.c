@@ -399,6 +399,10 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
+    #define REREAD(v, csr)                              \
+        while ((v.u >= 1ull<<48) || (v.u != BDK_CSR_READ(handle->node, csr)))  \
+            v.u = BDK_CSR_READ(handle->node, csr)
+
     const int bytes_off_tx = 0;
     const int bytes_off_rx = 0;
 
@@ -406,12 +410,13 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     BDK_CSR_INIT(rx_packets, handle->node, BDK_ILK_RXX_PKT_CNTX(handle->interface, handle->index));
     BDK_CSR_INIT(rx_octets, handle->node, BDK_ILK_RXX_BYTE_CNTX(handle->interface, handle->index));
 
-    /* Disable drop and error counts because they aren't per channel and PKI
-       counters have some sort of issue on CN78XX */
-#if 0
+    /* PKI counters randomly give bogus values, so reread if the result isn't valid */
     BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_PKI_STATX_STAT3(handle->pknd));
+    REREAD(rx_dropped_packets, BDK_PKI_STATX_STAT3(handle->pknd));
     BDK_CSR_INIT(rx_dropped_octets, handle->node, BDK_PKI_STATX_STAT4(handle->pknd));
+    REREAD(rx_dropped_octets, BDK_PKI_STATX_STAT4(handle->pknd));
     BDK_CSR_INIT(rx_errors, handle->node, BDK_PKI_STATX_STAT7(handle->pknd));
+    REREAD(rx_errors, BDK_PKI_STATX_STAT7(handle->pknd));
 
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
@@ -421,7 +426,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
     handle->stats.rx.errors = bdk_update_stat_with_overflow(
         rx_errors.s.fcs, handle->stats.rx.errors, 48);
-#endif
+
     handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
     handle->stats.rx.octets = bdk_update_stat_with_overflow(
         rx_octets.s.rx_bytes, handle->stats.rx.octets, 40);
