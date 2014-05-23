@@ -849,14 +849,12 @@ static int if_init(bdk_if_handle_t handle)
         xaui_init(handle);
     }
 
-    /* Set GMX to buffer as much data as possible before starting transmit.
-        This reduces the chances that we have a TX under run due to memory
-        contention. Any packet that fits entirely in the GMX FIFO can never
-        have an under run regardless of memory load */
+    /* Set BGX to buffer half its FIFO before starting transmit. This reduces
+       the chances that we have a TX under run due to memory contention */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(bgx_block, bgx_index),
-        c.s.cnt = (0x800 / priv.s.num_port) - 1);
+        c.s.cnt = (0x800 / 2 / priv.s.num_port) - 1);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(bgx_block, bgx_index),
-        c.s.cnt = (0x800 / priv.s.num_port) - 1);
+        c.s.cnt = (0x800 / 2 / priv.s.num_port) - 1);
 
     /* Configure to allow max sized frames */
     BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_RXX_JABBER(bgx_block, bgx_index), 0xfff8);
