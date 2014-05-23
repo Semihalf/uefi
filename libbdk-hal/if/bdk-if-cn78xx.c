@@ -8,7 +8,7 @@
 static const int USE_PKND_PER_PORT = 1; /* Use a PKND for every channel so we get PKI stats on CN78XX pass 1.x */
 static const int PKO_QUEUES_PER_CHANNEL = 1;
 static const int PKO_POOL_BUFFERS = 256;
-static const int MAX_SSO_ENTRIES = 1024;
+static const int MAX_SSO_ENTRIES = 8192;
 static const int PKO_DEPTH_LIMIT = 1024; /* Max packets to have pending in PKO queues */
 extern const uint64_t __BDK_PKI_MICROCODE_CN78XX[];
 extern const int __BDK_PKI_MICROCODE_CN78XX_LENGTH;
