@@ -1090,6 +1090,10 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     if (bdk_unlikely(bdk_is_simulation()))
         return &handle->stats;
 
+    #define REREAD(v, csr)                              \
+        while ((v.u >= 1ull<<48) || (v.u != BDK_CSR_READ(handle->node, csr)))  \
+            v.u = BDK_CSR_READ(handle->node, csr)
+
     /* Counters seem to only be wrong in non SGMII modes */
     const int bytes_off_tx = (priv.s.mode != BGX_MODE_SGMII) ? -8 : 0;
     const int bytes_off_rx = 0;
@@ -1097,25 +1101,30 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     /* Read the RX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(rx_packets, handle->node, BDK_BGXX_CMRX_RX_STAT0(handle->interface, handle->index));
     BDK_CSR_INIT(rx_octets, handle->node, BDK_BGXX_CMRX_RX_STAT1(handle->interface, handle->index));
-    BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_BGXX_CMRX_RX_STAT6(handle->interface, handle->index));
-    BDK_CSR_INIT(rx_dropped_octets, handle->node, BDK_BGXX_CMRX_RX_STAT7(handle->interface, handle->index));
-    BDK_CSR_INIT(rx_errors, handle->node, BDK_BGXX_CMRX_RX_STAT8(handle->interface, handle->index));
-
-    handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
-        rx_dropped_octets.s.cnt, handle->stats.rx.dropped_octets, 48);
-    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
-    handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
-        rx_dropped_packets.s.cnt, handle->stats.rx.dropped_packets, 48);
-    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
 
     handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
     handle->stats.rx.octets = bdk_update_stat_with_overflow(
         rx_octets.s.cnt, handle->stats.rx.octets, 48);
     handle->stats.rx.packets = bdk_update_stat_with_overflow(
         rx_packets.s.cnt, handle->stats.rx.packets, 48);
-    handle->stats.rx.errors = bdk_update_stat_with_overflow(
-        rx_errors.s.cnt, handle->stats.rx.errors, 48);
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
+
+    /* PKI counters randomly give bogus values, so reread if the result isn't valid */
+    BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_PKI_STATX_STAT3(handle->pknd));
+    REREAD(rx_dropped_packets, BDK_PKI_STATX_STAT3(handle->pknd));
+    BDK_CSR_INIT(rx_dropped_octets, handle->node, BDK_PKI_STATX_STAT4(handle->pknd));
+    REREAD(rx_dropped_octets, BDK_PKI_STATX_STAT4(handle->pknd));
+    BDK_CSR_INIT(rx_errors, handle->node, BDK_PKI_STATX_STAT7(handle->pknd));
+    REREAD(rx_errors, BDK_PKI_STATX_STAT7(handle->pknd));
+
+    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
+    handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
+        rx_dropped_octets.s.drp_octs, handle->stats.rx.dropped_octets, 48);
+    handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
+        rx_dropped_packets.s.drp_pkts, handle->stats.rx.dropped_packets, 48);
+    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
+    handle->stats.rx.errors = bdk_update_stat_with_overflow(
+        rx_errors.s.fcs, handle->stats.rx.errors, 48);
 
     /* Read the TX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface, handle->index));
