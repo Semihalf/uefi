@@ -87,16 +87,22 @@ structs:
           which the operation is sent.
 
       - name: --
-        bits: 34..26
+        bits: 33..26
         attributes:
           const: "--"
         description: Reserved.
+
+      - name: DROP
+        bits: 34
+        attributes:
+          const: "--"
+        description: Perform DROP processing on allocation.
 
       - name: RED
         bits: 35
         attributes:
           const: "--"
-        description: Perform RED on allocation.
+        description: Perform RED processing on allocation.
 
       - name: NODE
         bits: 39..36
@@ -148,16 +154,22 @@ structs:
           which the operation is sent.
 
       - name: --
-        bits: 34..26
+        bits: 33..26
         attributes:
           const: "--"
         description: Reserved.
+
+      - name: DROP
+        bits: 34
+        attributes:
+          const: "--"
+        description: Perform DROP processing on allocation. Refer to Sections 10.3.3 and 10.3.4.
 
       - name: RED
         bits: 35
         attributes:
           const: "--"
-        description: Perform RED on allocation.
+        description: Perform RED processing on allocation. Refer to Sections 10.3.2 and 10.3.4.
 
       - name: NODE
         bits: 39..36
@@ -188,7 +200,7 @@ structs:
         bits: 41..0
         description: |
           Address newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
-          selected pool is empty or RED was applied.
+          selected pool is empty, aura limit has been hit, or RED/DROP was applied.
 
       - name: --
         bits: 63..42
@@ -1140,7 +1152,7 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Number of allocations or returns performed to this pool, including those that fail due to RED.
+        description: Number of allocations or returns performed to this pool, including those that fail due to RED/DROP.
 
 
   - name: FPA_AURA(0..1023)_POOL
@@ -1379,7 +1391,10 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Packet will be dropped if the average shifted level is equal to or less than this value.
+        description: |
+          Packet will be dropped if the average shifted level (for FPA_ALLOC_IOBDMA_S[RED]) or
+          immediate shifted level (for FPA_ALLOC_IOBDMA_S[DROP]) is equal to or greater than this
+          value.
 
       - name: PASS
         bits: 15..8
@@ -1450,7 +1465,10 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Packet will be dropped if the average shifted level is equal to or greater than this value.
+        description: |
+          Packet will be dropped if the average shifted level (for FPA_ALLOC_IOBDMA_S[RED]) or
+          immediate shifted level (for FPA_ALLOC_IOBDMA_S[DROP]) is equal to or greater than this
+          value.
 
       - name: PASS
         bits: 15..8

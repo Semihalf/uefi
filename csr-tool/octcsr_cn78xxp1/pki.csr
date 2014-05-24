@@ -3560,11 +3560,15 @@ registers:
         typical: 0x1
         description: |
           The PKI_STAT*_X registers can be indexed either by port kind (pkind), or final style.
-          (Does not apply to the PKI_STAT_INB* registers.)
+          (Does not apply to the PKI_STAT_INB* nor PKI_DSTAT_* registers.)
 
           _ 0x0 = X represents the packet's pkind.
           _ 0x1 = X represents the low 6-bits of packet's final style.
-          _ 0x2-0x3 = Reserved.
+          _ 0x2 = X represents the packet's PKI_QPG_TBL2()[DSTAT_ID].
+            PKI_STAT()_STAT0..PKI_STAT()_STAT18 and PKI_STAT()_HIST0..PKI_STAT()_HIST6 will only
+            be incremented if the DSTAT_ID is less than 64; i.e. fits in the index of the
+            PKI_STAT()_STAT0 etc. Added in pass 2.
+          _ 0x3 = Reserved.
 
 
   - name: PKI_REQ_WGT
@@ -4886,12 +4890,14 @@ registers:
         typical: 0x0
         description: |
           WQE start offset. The number of 128-byte cache lines to skip between the buffer pointer
-          and WORD0 of the work-queue entry. See PKI Hardware Allocating Multiple Buffers.
+          and WORD0 of the work-queue entry.
+
           If [DIS_WQ_DAT]=1, legal values must satisfy:
-            * MB_SIZE >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
+            * [MB_SIZE] >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
+
           If [DIS_WQ_DAT]=0, legal values must satisfy:
-            * (WQE_SKIP * (128/8)) + 4 <= FIRST_SKIP, to insure the minimum of four work-queue entry
-              words will fit within FIRST_SKIP.
+            * ([WQE_SKIP] * (128/8)) + 4 <= [FIRST_SKIP], to insure the minimum of four
+              work-queue entry words will fit within [FIRST_SKIP].
 
       - name: FIRST_SKIP
         bits: 27..22
@@ -4901,13 +4907,15 @@ registers:
         description: |
           The number of eight-byte words from the top of the first MBUF that the PKI stores the next
           pointer.
+
           If [DIS_WQ_DAT]=1, legal values must satisfy:
-            * FIRST_SKIP <= PKI_STYLE()_BUF[MB_SIZE] - 18.
+            * [FIRST_SKIP] <= PKI_STYLE()_BUF[MB_SIZE] - 18.
+
           If [DIS_WQ_DAT]=0, legal values must satisfy:
-            * FIRST_SKIP <= PKI_STYLE()_BUF[MB_SIZE] - 18.
-            * (WQE_SKIP * (128/8)) + X <= FIRST_SKIP,
-              X must be at least 0x4 to insure the minimum of four work-queue entry,
-              but 0x5 is recommended minimum. X=0x4 will drop WQE WORD4, for use in
+            * [FIRST_SKIP] <= PKI_STYLE()_BUF[MB_SIZE] - 18.
+            * ([WQE_SKIP] * (128/8)) + X <= [FIRST_SKIP].
+            _ X must be at least 0x4 to insure the minimum of four work-queue entry,
+              but 0x5 is recommended minimum. X = 0x4 will drop WQE WORD4, for use in
               backward compatible applications.
 
       - name: LATER_SKIP
@@ -4960,10 +4968,12 @@ registers:
           the buffer will be MB_SIZE minus FIRST_SKIP or LATER_SKIP.
           This must be even, in the range of 32 to 4096. This must be less than or equal
           to the maximum size of every free page in every FPA pool this style may use.
+
           If [DIS_WQ_DAT]=1, legal values must satisfy:
             * MB_SIZE >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
             * MB_SIZE >= PKI_STYLE()_BUF[FIRST_SKIP] + 18.
             * MB_SIZE >= PKI_STYLE()_BUF[LATER_SKIP] + 18.
+
           If [DIS_WQ_DAT]=0, legal values must satisfy:
             * MB_SIZE >= PKI_STYLE()_BUF[FIRST_SKIP] + 18.
             * MB_SIZE >= PKI_STYLE()_BUF[LATER_SKIP] + 18.
@@ -5896,7 +5906,7 @@ registers:
         typical: --
         attributes:
           no_soft_reset: "1"
-        description: Algorithm to select QoS field in QPG calculation. Enumerated with PKI_QPGQOS_E. See QPG.
+        description: Algorithm to select QoS field in QPG calculation. Enumerated with PKI_QPGQOS_E.
 
       - name: QPG_PORT_SH
         bits: 23..21
@@ -5905,7 +5915,7 @@ registers:
         typical: --
         attributes:
           no_soft_reset: "1"
-        description: Number of bits to shift port number in QPG calculation. See QPG.
+        description: Number of bits to shift port number in QPG calculation.
 
       - name: QPG_PORT_MSB
         bits: 20..17
@@ -5915,7 +5925,7 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: |
-          MSB to take from port number in QPG calculation. See QPG.
+          MSB to take from port number in QPG calculation.
           0 = Exclude port number from QPG.
           4 = Include port<3:0>.
           8 = Include port<7:0>.
@@ -6265,6 +6275,7 @@ registers:
     description: |
       The QPG table is used to indirectly calculate the Portadd/Aura/Group from the Diffsrv, HiGig
       or VLAN information as described in QPG.
+      See also PKI_QPG_TBL2().
     internal: |
       INTERNAL: This register is outside SMEM due to opcode detection.
     attributes:
@@ -6368,6 +6379,39 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: Aura on local node for QOS calculations and loading into WQE[AURA]WQE[AURA].
+
+
+  - name: PKI_QPG_TBL2(0..2047)
+    title: PKI QPG Table Registers 2
+    address: 0x1180044820000 | a<<3
+    bus: RSL
+    description: |
+      This register configures the QPG table. See also PKI_QPG_TBL().
+      Added in pass 2.
+      INTERNAL: This register is outside SMEM due to opcode detection.
+    attributes:
+      arch_max: "16k"
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..10
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DSTAT_ID
+        bits: 9..0
+        access: R/W
+        reset: 0x0
+        typical: --
+        attributes:
+          no_soft_reset: "1"
+        description: |
+          Deep statistic bucket to use for traffic to this QPG. This determines which
+          index of PKI_DSTAT()_STAT0..PKI_DSTAT()_STAT4 will increment. Additionally, if
+          PKI_STAT_CTL[MODE] = 0x2, then DSTAT_ID values 0-63 will increment
+          PKI_STAT()_STAT0..PKI_STAT()_STAT18 and PKI_STAT()_HIST0..PKI_STAT()_HIST6.
 
 
   - name: PKI_AURA(0..1023)_CFG
@@ -6530,6 +6574,159 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: The corresponding bpid is being backpressured.
+
+
+  - name: PKI_DSTAT(0..1023)_STAT0
+    title: PKI Packets Deep Statistic Registers
+    address: 0x1180044C00000 | a<<6
+    bus: RSL
+    description: |
+      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
+      Added in pass 2.
+    attributes:
+      arch_max: "4k"
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..32
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PKTS
+        bits: 31..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          no_soft_reset: "1"
+        description: |
+          Number of non-dropped packets processed by PKI.
+          The corresponding wide statistic is PKI_STAT()_STAT0.
+
+
+  - name: PKI_DSTAT(0..1023)_STAT1
+    title: PKI Octects Deep Statistic Registers
+    address: 0x1180044C00008 | a<<6
+    bus: RSL
+    description: |
+      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
+      Added in pass 2.
+    attributes:
+      arch_max: "4k"
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..40
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: OCTS
+        bits: 39..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          no_soft_reset: "1"
+        description: |
+          Number of non-dropped octets received by PKI (good and bad).
+          The corresponding wide statistic is PKI_STAT()_STAT1.
+
+
+  - name: PKI_DSTAT(0..1023)_STAT2
+    title: PKI Error Packets Deep Statistic Registers
+    address: 0x1180044C00010 | a<<6
+    bus: RSL
+    description: |
+      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
+      Added in pass 2.
+    attributes:
+      arch_max: "4k"
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..32
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: ERR_PKTS
+        bits: 31..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          no_soft_reset: "1"
+        description: |
+          Number of packets with errors, including length < minimum, length > maximum, FCS
+          errors, or WQE[ERRLEV]==RE or L2.
+          This corresponds to a sum across the wide statistics PKI_STAT()_STAT7, PKI_STAT()_STAT7,
+          PKI_STAT()_STAT8, PKI_STAT()_STAT9, PKI_STAT()_STAT10, PKI_STAT()_STAT11, and
+          PKI_STAT()_STAT12.
+
+
+  - name: PKI_DSTAT(0..1023)_STAT3
+    title: PKI Dropped Packets Deep Statistic Registers
+    address: 0x1180044C00018 | a<<6
+    bus: RSL
+    description: |
+      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
+      Added in pass 2.
+    attributes:
+      arch_max: "4k"
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..32
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DRP_PKTS
+        bits: 31..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          no_soft_reset: "1"
+        description: |
+          Inbound packets dropped by RED, buffer exhaustion, or PKI_CL()_STYLE()_CFG[DROP].
+          The corresponding wide statistic is PKI_STAT()_STAT3.
+
+
+  - name: PKI_DSTAT(0..1023)_STAT4
+    title: PKI Dropped Octets Deep Statistic Registers
+    address: 0x1180044C00020 | a<<6
+    bus: RSL
+    description: |
+      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
+      Added in pass 2.
+    attributes:
+      arch_max: "4k"
+      chip_pass: "o78>=2.0"
+    fields:
+      - name: --
+        bits: 63..40
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: DRP_OCTS
+        bits: 39..0
+        access: R/W/H
+        reset: 0x0
+        typical: --
+        attributes:
+          no_soft_reset: "1"
+        description: |
+          Inbound octets dropped by RED, buffer exhaustion, or PKI_CL()_STYLE()_CFG[DROP].
+          The corresponding wide statistic is PKI_STAT()_STAT4.
 
 
   - name: PKI_STAT(0..63)_HIST0

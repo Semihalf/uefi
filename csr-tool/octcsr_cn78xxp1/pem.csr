@@ -90,25 +90,37 @@ enums:
         value: 0xC003C + a*0x1000
         attributes:
           cib_rtl_module: "pem_int0"
-        description: See PEM(0..3)_INT_SUM[INTA].
+          intsn_level_sensitive: "1"
+        description: |
+          See PEM(0..3)_INT_SUM[INTA].
+          Level sensitive added in pass 2.
 
       - name: PEM(0..3)_ERROR_INTB
         value: 0xC003D + a*0x1000
         attributes:
           cib_rtl_module: "pem_int0"
-        description: See PEM(0..3)_INT_SUM[INTB].
+          intsn_level_sensitive: "1"
+        description: |
+          See PEM(0..3)_INT_SUM[INTB].
+          Level sensitive added in pass 2.
 
       - name: PEM(0..3)_ERROR_INTC
         value: 0xC003E + a*0x1000
         attributes:
           cib_rtl_module: "pem_int0"
-        description: See PEM(0..3)_INT_SUM[INTC].
+          intsn_level_sensitive: "1"
+        description: |
+          See PEM(0..3)_INT_SUM[INTC].
+          Level sensitive added in pass 2.
 
       - name: PEM(0..3)_ERROR_INTD
         value: 0xC003F + a*0x1000
         attributes:
           cib_rtl_module: "pem_int0"
-        description: See PEM(0..3)_INT_SUM[INTD].
+          intsn_level_sensitive: "1"
+        description: |
+          See PEM(0..3)_INT_SUM[INTD].
+          Level sensitive added in pass 2.
 
       - name: PEM(0..3)_ERROR_SPOISON
         value: 0xC0040 + a*0x1000
@@ -791,49 +803,102 @@ registers:
         bits: 23..16
         access: R/W
         reset: 0x80
-        typical: 0x80
+        typical: --
         description: |
-          TLP 8B credits for completion TLPs in the SLI. Legal values are 0x24 to 0x80. When
-          multiple PEMs are wire-OR'd together, the sum of all PEMs' SLI_CPL fields must not exceed
-          0x80. The reset value for this register is based on the pi_select_8lanes and the
-          PCIE0/2_MODE<1:0> straps. For EP mode PEMs, the 8-lanes strap determines the credits reset
-          value; 1'b0 = 4 lanes = 64 credits, 1'b1 = 8 lanes = 128 credits. For RC mode PEMs, the
-          credits are reset assuming a 4-lane configuration. Software can bump this value up in the
-          case of 8-lane RC mode PEMS. Software may need to reprogram this register for performance
-          reasons (configured as the only PEM, but as 4-lane -- in this case, this PEM can take all
-          of the credits).
+          TLP 8B credits for completion TLPs in the SLI. Legal values are 0x24 to
+          0xFF. Pairs of PEMs share a single SLI interface. PEM(0) and PEM(1) share one
+          SLI interface, while PEM(2) and PEM(3) share the other. When both PEMs of a pair
+          are configured, the sum of both PEMs' SLI_CPL fields must not exceed 0x100. The
+          reset value for this register assumes the minimum (e.g. 4-lane)
+          configuration. This ensures that for configurations where the total number of
+          lanes for a pair of PEMs exceeds 8, the total allocated credits does not
+          oversubscribe the SLI.
+
+          For configurations other than two 4-lane PEMs connected to a single SLI port,
+          software may safely reprogram this register (i.e. increase the value) to achieve
+          optimal performance.  See the following table of example configurations of PEM
+          pairs for recommended credit values.
+
+          <pre>
+             Configuration  PEM  Lanes  Typical [SLI_CPL]
+             --------------------------------------------
+             1 8-ln PEM     n    8             0xFF
+
+             2 4-ln PEMs    n    4             0x80
+                           n+1   4             0x80
+
+             1 4-ln PEM     n    4             0xFF
+
+             1 8-ln PEM,    n    8             0xAA
+             1 4-ln PEM    n+1   4             0x55
+          </pre>
 
       - name: SLI_NP
         bits: 15..8
         access: R/W
         reset: 0x10
-        typical: 0x10
+        typical: --
         description: |
-          TLP 8B credits for nonposted TLPs in the SLI. Legal values are 0x8 to 0x10. When multiple
-          PEMS are wire-OR'd together, the sum of all PEMs' SLI_CPL fields must not exceed 0x80. The
-          reset value for this register is based on the pi_select_8lanes and the pi_select_mode
-          straps. For EP mode PEMs, the 8lanes strap determines the credits reset value; 1'b0 = 4
-          lanes = 8 credits, 1'b1 = 8 lanes = 16 credits. For RC mode PEMs, the credits are reset
-          assuming a 4 lane configuration. software can bump this value up in the case of 8 lane RC
-          mode PEMS. software may need to reprogram this register for performance reasons
-          (configured as the only PEM, but as 4-lane - in this case, this PEM can take all of the
-          credits).
+          TLP 8B credits for nonposted TLPs in the SLI. Legal values are 0x4 to
+          0x20. Pairs of PEMs share a single SLI interface. PEM(0) and PEM(1) share one
+          SLI interface, while PEM(2) and PEM(3) share the other. When both PEMs of a pair
+          are configured, the sum of both PEMs' SLI_NP fields must not exceed 0x20. The
+          reset value for this register assumes the minimum (e.g. 4-lane)
+          configuration. This ensures that for configurations where the total number of
+          lanes for a pair of PEMs exceeds 8, the total allocated credits does not
+          oversubscribe the SLI.
+
+          For configurations other than two 4-lane PEMs connected to a single SLI port,
+          software may safely reprogram this register (i.e. increase the value) to achieve
+          optimal performance.  See the following table of example configurations of PEM
+          pairs for recommended credit values.
+
+          <pre>
+             Configuration  PEM  Lanes  Typical [SLI_CPL]
+             --------------------------------------------
+             1 8-ln PEM     n    8             0x20
+
+             2 4-ln PEMs    n    4             0x10
+                           n+1   4             0x10
+
+             1 4-ln PEM     n    4             0x20
+
+             1 8-ln PEM,    n    8             0x15
+             1 4-ln PEM    n+1   4             0x0B
+          </pre>
 
       - name: SLI_P
         bits: 7..0
         access: R/W
         reset: 0x80
-        typical: 0x80
+        typical: --
         description: |
-          TLP 8B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80. When multiple
-          PEMs are wire-OR'd together, the sum of all PEMs' SLI_CPL fields must not exceed 0x80. The
-          reset value for this register is based on the pi_select_8lanes and the PCIE0/2_MODE<1:0>
-          straps. For EP mode PEMs, the 8-lanes strap determines the credits reset value; 1'b0 = 4
-          lanes = 64 credits, 1'b1 = 8 lanes = 128 credits. For RC mode PEMs, the credits are reset
-          assuming a 4-lane configuration. Software can bump this value up in the case of 8-lane RC
-          mode PEMS. Software may need to reprogram this register for performance reasons
-          (configured as the only PEM, but as 4-lane -- in this case, this PEM can take all of the
-          credits).
+          TLP 8B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0xFF. Pairs
+          of PEMs share a single SLI interface. PEM(0) and PEM(1) share one SLI interface,
+          while PEM(2) and PEM(3) share the other. When both PEMs of a pair are
+          configured, the sum of both PEMs' SLI_P fields must not exceed 0x100. The reset
+          value for this register assumes the minimum (e.g. 4-lane) configuration. This
+          ensures that for configurations where the total number of lanes for a pair of
+          PEMs exceeds 8, the total allocated credits does not oversubscribe the SLI.
+
+          For configurations other than two 4-lane PEMs connected to a single SLI port,
+          software may safely reprogram this register (i.e. increase the value) to achieve
+          optimal performance.  See the following table of example configurations of PEM
+          pairs for recommended credit values.
+
+          <pre>
+             Configuration  PEM  Lanes  Typical [SLI_CPL]
+             --------------------------------------------
+             1 8-ln PEM     n    8             0xFF
+
+             2 4-ln PEMs    n    4             0x80
+                           n+1   4             0x80
+
+             1 4-ln PEM     n    4             0xFF
+
+             1 8-ln PEM,    n    8             0xAA
+             1 4-ln PEM    n+1   4             0x55
+          </pre>
 
 
   - name: PEM(0..3)_P2P_BAR(0..3)_START
@@ -1749,7 +1814,7 @@ registers:
         typical: --
         description: |
           This field enables overwriting the value for lane swapping. The reset value is captured on
-          cold reset by the pin straps (see PEM(0..3)_STRAP.PILANESWAP). When set, lane swapping is
+          cold reset by the pin straps (see PEM()_STRAP[PILANESWAP]). When set, lane swapping is
           performed to/from the SerDes. When clear, no lane swapping is performed.
 
       - name: LANES8
@@ -1759,7 +1824,7 @@ registers:
         typical: --
         description: |
           This field enables overwriting the value for the maximum number of lanes. The reset value
-          is captured on cold reset by the pin straps (see PEM(0..3)_STRAP.PILANES8). When set, the
+          is captured on cold reset by the pin straps (see PEM()_STRAP[PILANES8]). When set, the
           PEM is configured for a maximum of 8 lanes. When clear, the PEM is configured for a
           maximum of 4 lanes. This value is used to set the maximum link width field in the core's
           link capabilities register (CFG031) to indicate the maximum number of lanes
@@ -1773,9 +1838,10 @@ registers:
         typical: --
         description: |
           This field enables overwriting the value for host mode. The reset value is captured on
-          cold reset by the pin straps (see PEM(0..3)_STRAP.PIMODE). When set, the PEM is configured
-          to be a root complex.
-          When clear, the PEM is configured to be an end point.
+          cold reset by the pin straps. (See PEM()_STRAP[PIMODE]. The HOSTMD reset value is the
+          bit-wise AND of the PIMODE straps.  As such, PEMs 0 and 2 are configurable and PEMs 1
+          and 3 default to 0x1.)  When set, the PEM is configured to be a root complex. When clear,
+          the PEM is configured to be an end point.
 
       - name: MD
         bits: 1..0
@@ -1784,7 +1850,7 @@ registers:
         typical: --
         description: |
           This field enables overwriting the value for speed. The reset value is captured on cold
-          reset by the pin straps (see PEM(0..3)_STRAP.PIMODE). For a root complex configuration
+          reset by the pin straps (see PEM()_STRAP[PIMODE]). For a root complex configuration
           that is not running at Gen3 speed, the HOSTMD bit of this register must be set when this
           field is changed.
           0x0 = Gen1 speed.

@@ -3242,6 +3242,61 @@ registers:
         description: RX lane powerdown.
 
 
+  - name: GSER(0..13)_SLICE(0..1)_RX_SDLL_CTRL
+    title: GSER Slice RX SDLL Register
+    address: 0x1180090460220 + a*0x1000000 + b*0x200000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..16
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_OOB_CLK_CTRL
+        bits: 15..14
+        access: R/W/H
+        reset: --
+        typical: --
+        description: Not Supported.
+
+      - name: --
+        bits: 13..7
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_RX_SDLL_TUNE
+        bits: 6..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Tuning bits for the regulator and the loop filter.
+
+      - name: PCS_SDS_RX_SDLL_SWSEL
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: |
+          DMON control; selects which signal is passed to the output
+          of DMON.
+          0x1 = dllout[0] (first output clock phase, out of 8 phases,
+          of the Slice DLL).
+          0x2 = dllout[1] (second output clock phase, out of 8 phases,
+          of the Slice DLL).
+          0x4 = piclk (output clock of the PI)
+          0x8 = vdda_int.
+
+          All other values in this field are reserved.
+
+
   - name: GSER(0..13)_GLBL_TAD
     title: GSER Global Test Analog and Digital Monitor Register
     address: 0x1180090460400 + a*0x1000000

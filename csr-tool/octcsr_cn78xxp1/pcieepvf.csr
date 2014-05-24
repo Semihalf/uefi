@@ -28,8 +28,8 @@ registers:
       - name: DEVID
         bits: 31..16
         access: RO
-        reset: 0x96
-        typical: 0x96
+        reset: 0x95
+        typical: 0x95
         description: Device ID.
 
       - name: VENDID

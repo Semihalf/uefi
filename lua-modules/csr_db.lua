@@ -4050,7 +4050,8 @@ local csr_db = {
                 {name = "PKT_EN", start = 56, stop = 56},
                 {name = "RESERVED_54_55", start = 54, stop = 55},
                 {name = "DMA_ENB", start = 48, stop = 53},
-                {name = "RESERVED_34_47", start = 34, stop = 47},
+                {name = "RESERVED_35_47", start = 35, stop = 47},
+                {name = "NCB_TAG", start = 34, stop = 34},
                 {name = "B0_LEND", start = 33, stop = 33},
                 {name = "LDWB", start = 32, stop = 32},
                 {name = "AURA_ICHK", start = 20, stop = 31},
@@ -8402,6 +8403,23 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "SCRATCH", start = 0, stop = 15},
+            }
+        },
+        GSERX_SLICEX_RX_SDLL_CTRL = {
+            name = "GSER#_SLICE#_RX_SDLL_CTRL",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090460220,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,1},
+            range2_inc = 0x200000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "PCS_SDS_OOB_CLK_CTRL", start = 14, stop = 15},
+                {name = "RESERVED_7_13", start = 7, stop = 13},
+                {name = "PCS_SDS_RX_SDLL_TUNE", start = 4, stop = 6},
+                {name = "PCS_SDS_RX_SDLL_SWSEL", start = 0, stop = 3},
             }
         },
         GSERX_SLICE_CFG = {
@@ -21309,6 +21327,66 @@ local csr_db = {
                 {name = "CLKEN", start = 0, stop = 0},
             }
         },
+        PKI_DSTATX_STAT0 = {
+            name = "PKI_DSTAT#_STAT0",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044c00000,
+            range1 = {0,1023},
+            range1_inc = 0x40,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "PKTS", start = 0, stop = 31},
+            }
+        },
+        PKI_DSTATX_STAT1 = {
+            name = "PKI_DSTAT#_STAT1",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044c00008,
+            range1 = {0,1023},
+            range1_inc = 0x40,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "OCTS", start = 0, stop = 39},
+            }
+        },
+        PKI_DSTATX_STAT2 = {
+            name = "PKI_DSTAT#_STAT2",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044c00010,
+            range1 = {0,1023},
+            range1_inc = 0x40,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ERR_PKTS", start = 0, stop = 31},
+            }
+        },
+        PKI_DSTATX_STAT3 = {
+            name = "PKI_DSTAT#_STAT3",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044c00018,
+            range1 = {0,1023},
+            range1_inc = 0x40,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "DRP_PKTS", start = 0, stop = 31},
+            }
+        },
+        PKI_DSTATX_STAT4 = {
+            name = "PKI_DSTAT#_STAT4",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044c00020,
+            range1 = {0,1023},
+            range1_inc = 0x40,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "DRP_OCTS", start = 0, stop = 39},
+            }
+        },
         PKI_ECC_CTL0 = {
             name = "PKI_ECC_CTL0",
             type = "RSL",
@@ -21692,6 +21770,18 @@ local csr_db = {
                 {name = "RESERVED_12_15", start = 12, stop = 15},
                 {name = "AURA_NODE", start = 10, stop = 11},
                 {name = "LAURA", start = 0, stop = 9},
+            }
+        },
+        PKI_QPG_TBL2X = {
+            name = "PKI_QPG_TBL2#",
+            type = "RSL",
+            width = 8,
+            address = 0x1180044820000,
+            range1 = {0,2047},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "DSTAT_ID", start = 0, stop = 9},
             }
         },
         PKI_REASM_SOPX = {

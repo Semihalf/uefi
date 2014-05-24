@@ -876,11 +876,33 @@ registers:
           When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0.
 
       - name: --
-        bits: 47..34
+        bits: 47..35
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: NCB_TAG
+        bits: 34
+        access: RO
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: NCB_TAG
+        bits: 34
+        access: R/W
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          NCB tag enable. It allows DMA Read/Write transactions over NCB to be mapped to
+          individual request queues by using tags. This enables more parallelism, giving a
+          performance boost.
+          Added in pass 2.
 
       - name: B0_LEND
         bits: 33

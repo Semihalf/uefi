@@ -1678,13 +1678,32 @@ registers:
         access: R/W
         reset: 0xf
         typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
         description: |
           Enable OCI processing (one bit per node_id). When set, perform OCI processing. When clear,
           OCI memory writes are blocked and OCI memory reads return unpredictable data. When clear,
           OCI I/O requests and MOC references are processed and sent to OCX where they are
           ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
-          if the corresponding ENAOCI[node] bit is clear. References to the local node (configured
-          via OCX_COM_NODE[ID]) ignore the value of ENAOCI[node] because no OCI processing is
+          if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
+          via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no OCI processing is
+          required. Similarly, all I/O references ignore the value of ENAOCI when
+          L2C_OCI_CTL[IOFRCL] is set.
+
+      - name: ENAOCI
+        bits: 3..0
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78>=2.0"
+        description: |
+          Enable OCI processing (one bit per node_id). When set, perform OCI processing. When clear,
+          OCI memory writes are blocked and OCI memory reads return unpredictable data. When clear,
+          OCI I/O requests and MOC references are processed and sent to OCX where they are
+          ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
+          if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
+          via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no OCI processing is
           required. Similarly, all I/O references ignore the value of ENAOCI when
           L2C_OCI_CTL[IOFRCL] is set.
 
