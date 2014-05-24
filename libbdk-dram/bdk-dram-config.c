@@ -135,7 +135,7 @@ static int thread_dram_config_raw(int arg1, void *arg2)
     buffer[sizeof(buffer)-1] = 0;
     setenv("dram_size_mbytes", buffer, 1);
 
-    printf("DRAM: %d MB, %d MHz\n", mbytes, measured_ddr_hertz/1000000);
+    printf("BDK DRAM: %d MB, %d MHz\n", mbytes, ((measured_ddr_hertz + 500000) /1000000));
     thread_mbyte_result = mbytes;
     return mbytes;
 }
