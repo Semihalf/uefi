@@ -422,6 +422,10 @@ function TrafficGen.new()
         end
     end
 
+    function self:cmd_threads(port_range, args)
+        octeon.c.bdk_thread_show_stats()
+    end
+
     function self:cmd_cls(port_range, args)
         assert (#args == 0, "No arguments expected")
         printf(ERASE_WIN .. GOTO_BOTTOM);

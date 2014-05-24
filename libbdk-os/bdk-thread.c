@@ -21,7 +21,12 @@ typedef struct
     bdk_thread_t*    head;
     bdk_thread_t*    tail;
     bdk_spinlock_t   lock;
-    uint64_t         __padding[16-3];
+    int64_t         __padding1[16-3]; /* Stats in different cache line for speed */
+    int64_t         stat_num_threads;
+    int64_t         stat_no_schedulable_threads;
+    int64_t         stat_next_calls;
+    int64_t         stat_next_walks;
+    int64_t         __padding2[16-5];
 } bdk_thread_node_t;
 
 static bdk_thread_node_t bdk_thread_node[BDK_NUMA_MAX_NODES];
@@ -58,13 +63,18 @@ static bdk_thread_t *__bdk_thread_next(void)
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_local()];
     uint64_t coremask = bdk_core_to_mask();
 
+    bdk_atomic_add64_nosync(&t_node->stat_next_calls, 1);
     bdk_thread_t *prev = NULL;
     bdk_thread_t *next = t_node->head;
+    int walks = 0;
     while (next && !(next->coremask & coremask))
     {
         prev = next;
         next = next->next;
+        walks++;
     }
+    if (walks)
+        bdk_atomic_add64_nosync(&t_node->stat_next_walks, walks);
 
     if (next)
     {
@@ -76,6 +86,9 @@ static bdk_thread_t *__bdk_thread_next(void)
             t_node->head = next->next;
         next->next = NULL;
     }
+    else
+        bdk_atomic_add64_nosync(&t_node->stat_no_schedulable_threads, 1);
+
     return next;
 }
 
@@ -181,6 +194,7 @@ int bdk_thread_create(bdk_node_t node, uint64_t coremask, bdk_thread_func_t func
     if (thread == NULL)
         return -1;
 
+    bdk_atomic_add64_nosync(&t_node->stat_num_threads, 1);
     bdk_spinlock_lock(&t_node->lock);
     if (t_node->tail)
         t_node->tail->next = thread;
@@ -202,6 +216,7 @@ void bdk_thread_destroy(void)
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
+    bdk_atomic_add64_nosync(&t_node->stat_num_threads, -1);
     if (current)
         fflush(NULL);
 
@@ -286,9 +301,36 @@ void bdk_thread_first(bdk_thread_func_t func, int arg0, void *arg1, int stack_si
     void *thread = __bdk_thread_create(bdk_core_to_mask(), func, arg0, arg1, stack_size);
     if (thread)
     {
+        bdk_atomic_add64_nosync(&t_node->stat_num_threads, 1);
         bdk_spinlock_lock(&t_node->lock);
         __bdk_thread_switch(thread, 0);
     }
     bdk_fatal("Create of __bdk_init_main thread failed\n");
 }
 
+/**
+ * Display statistics about the number of threads and scheduling
+ */
+void bdk_thread_show_stats()
+{
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (!bdk_numa_exists(node))
+            continue;
+        bdk_thread_node_t *t_node = &bdk_thread_node[node];
+        printf("Node %d\n", node);
+        printf("   Active threads:      %ld\n", t_node->stat_num_threads);
+        printf("   Schedule checks:     %ld\n", t_node->stat_next_calls);
+        int64_t div = t_node->stat_next_calls;
+        if (!div)
+            div = 1;
+        printf("   Average walk depth:  %ld\n",
+            t_node->stat_next_walks / div);
+        printf("   Not switching: %ld (%ld%%)\n",
+            t_node->stat_no_schedulable_threads,
+            t_node->stat_no_schedulable_threads * 100 / div);
+        bdk_atomic_set64(&t_node->stat_next_calls, 0);
+        bdk_atomic_set64(&t_node->stat_next_walks, 0);
+        bdk_atomic_set64(&t_node->stat_no_schedulable_threads, 0);
+    }
+}
