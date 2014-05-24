@@ -208,7 +208,10 @@ static int __bdk_if_init_node(bdk_node_t node)
 
     /* Create dispatch threads for every running core */
     uint64_t coremask = bdk_get_running_coremask(node);
-    for (int core=0; core<bdk_octeon_num_cores(node); core++)
+    /* If there are 16 or more cores, only create threads on half of them */
+    if (bdk_octeon_num_cores(node) >= 16)
+        coremask &= 0x5555555555555555ull;
+    for (int core = 0; core < bdk_octeon_num_cores(node); core++)
     {
         if (coremask & (1ull << core))
         {
