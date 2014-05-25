@@ -694,6 +694,21 @@ static int sso_init(bdk_node_t node)
     /* Setup how the SSO accesses memory */
     BDK_CSR_MODIFY(c, node, BDK_SSO_AW_CFG,
         c.s.rwen = 1);
+
+    /* Setup the group mask for all cores */
+    for (int core=0; core<bdk_octeon_num_cores(node); core++)
+    {
+        for (int group_set = 0; group_set < 2; group_set++)
+        {
+            for (int group_bank = 0; group_bank < 4; group_bank++)
+            {
+                /* Only enable work from low cores. CN78XX performance
+                   is reduced when too many cores are getting work */
+                BDK_CSR_WRITE(node, BDK_SSO_PPX_SX_GRPMSKX(core, group_set, group_bank),
+                    (core >= 32) ? 0 : -1);
+            }
+        }
+    }
     return 0;
 }
 
