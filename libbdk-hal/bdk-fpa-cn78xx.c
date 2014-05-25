@@ -61,6 +61,8 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
 {
     bdk_fpa_state_t *fpa_state = &fpa_node_state[node];
 
+    int pool_num_blocks = (pool < (int)NUM_POOLS) ? num_blocks : BDK_CSR_READ(node, BDK_FPA_POOLX_AVAILABLE(pool));
+
     if (aura < 0)
     {
         if (fpa_state->next_free_aura >= NUM_AURAS)
@@ -80,6 +82,9 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
     int shift = 0;
     while ((num_blocks>>shift) >= 256)
         shift++;
+    int pool_shift = 0;
+    while ((pool_num_blocks>>pool_shift) >= 256)
+        pool_shift++;
 
     /* Start count at zero */
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT(aura), 0);
@@ -87,18 +92,27 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_POOL(aura), pool);
     /* Limit to not overflow */
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT_LIMIT(aura), num_blocks);
-    /* Set backpressure limits based on aura count */
+    /* Set backpressure limits based on aura count. This affects only
+       this channel and is unrelated to the pool. If we had unlimited
+       memory we'd set this so all the channels added up to less than
+       the pool. Unfortunately that isn't the case, so we don't use RED
+       here */
     BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_CNT_LEVELS(aura),
         c.s.bp_ena = 1;                     /* Enable backpressure based on [BP] level */
-        c.s.red_ena = 1;                    /* Enable RED based on [DROP] and [PASS] levels */
+        c.s.red_ena = 0;                    /* Don't use RED. Wait till the pool does it (below) */
         c.s.shift = shift;                  /* Right shift to apply to FPA_AURA(0..1023)_CNT */
-        c.s.bp = (num_blocks/2)>>shift;     /* Backpressure will be applied if the immediate shifted level is equal to or greater than this value */
-        c.s.drop = (num_blocks*3/4)>>shift; /* Packet will be dropped if the average shifted level is equal to or greater than this value */
-        c.s.pass = (num_blocks/2)>>shift);  /* Packet will be passed if the average shifted level is less than this value */
-    /* Set backpressure limits based on pool count */
+        c.s.bp = (num_blocks/2)>>shift;     /* Backpressure when half empty */
+        c.s.drop = (num_blocks)>>shift;     /* Drop everything when empty (If RED was enabled) */
+        c.s.pass = (num_blocks*3/4)>>shift);/* Start dropping when 3/4 empty (If RED was enabled) */
+    /* Set backpressure limits based on pool count. These affect all channels
+       based on the underlying pool */
     BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_POOL_LEVELS(aura),
-        c.s.bp_ena = 0;                     /* Enable backpressure based on [BP] level */
-        c.s.red_ena = 0);                   /* Enable RED based on [DROP] and [PASS] levels */
+        c.s.bp_ena = 1;
+        c.s.red_ena = 1;
+        c.s.shift = pool_shift;
+        c.s.bp = (pool_num_blocks/2)>>pool_shift;       /* Start backpressure when pool is 1/2 empty */
+        c.s.drop = 0;                                   /* Drop everything when the pool is completely empty */
+        c.s.pass = (pool_num_blocks*1/4)>>pool_shift);  /* Begin dropping when 3/4 of buffers are in use */
     /* Disable the threshold */
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_CNT_THRESHOLD(aura), 0xffffffffffull);
     BDK_CSR_WRITE(node, BDK_FPA_AURAX_INT(aura), 1);
