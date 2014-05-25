@@ -438,10 +438,10 @@ function TrafficGen.new()
         octeon.c.bdk_reset_octeon(octeon.MASTER_NODE)
     end
 
-    --function self:cmd_l2_stats(port_range, args)
-    --    assert (#args == 1, "One argument expected, on or off")
-    --    show_l2_stats = args[1]
-    --end
+    function self:cmd_l2_stats(port_range, args)
+        assert (#args == 1, "One argument expected, on or off")
+        show_l2_stats = args[1]
+    end
 
     function self:cmd_sleep(port_range, args)
         assert (#args == 1, "One argument expected, how long to sleep in seconds")
@@ -679,10 +679,14 @@ function TrafficGen.new()
         num_rows = num_rows + 1
         if show_l2_stats then
             l2_stats_table = octeon.perf.get_l2(l2_stats_table)
-            for _,n in ipairs(table.sorted_keys(l2_stats_table["tad0"])) do
+            for _,n in ipairs(table.sorted_keys(l2_stats_table["bank0"])) do
                 printf("%-20s", n)
-                for _,tad in ipairs(table.sorted_keys(l2_stats_table)) do
-                    printf("%s%10s", COL_SEP, tostring(l2_stats_table[tad][n]))
+                for _,l2 in ipairs(table.sorted_keys(l2_stats_table)) do
+                    if l2_stats_table[l2][n] then
+                        printf("%s%10s", COL_SEP, tostring(l2_stats_table[l2][n]))
+                    else
+                        printf("%s%10s", COL_SEP, "")
+                    end
                 end
                 printf("%s\n", ERASE_EOL)
                 num_rows = num_rows + 1
