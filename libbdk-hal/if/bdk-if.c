@@ -160,6 +160,9 @@ static int __bdk_if_init_node(bdk_node_t node)
     if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL,
         bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS)))
         return -1;
+    if (bdk_fpa_fill_pool(node, BDK_FPA_OUTPUT_BUFFER_POOL,
+        bdk_config_get(BDK_CONFIG_NUM_OUTPUT_BUFFERS)))
+        return -1;
 
     /* Setup the SSO */
     result = __bdk_if_global_ops.sso_init(node);
