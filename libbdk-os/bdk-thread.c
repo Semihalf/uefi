@@ -110,6 +110,9 @@ void bdk_thread_yield(void)
     if (bdk_unlikely(current->stack_canary != STACK_CANARY))
         bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
 
+    /* Handle any outstanding packets before yielding */
+    bdk_if_dispatch();
+
     if (t_node->head == NULL)
         return;
 
@@ -250,7 +253,8 @@ void bdk_thread_destroy(void)
             }
             bdk_spinlock_unlock(&t_node->lock);
         }
-        BDK_ASM_PAUSE;
+        if (!bdk_if_dispatch())
+            BDK_ASM_PAUSE;
         if (bdk_atomic_get32(&dead_cores) == num_cores)
             __bdk_die();
     }

@@ -22,7 +22,6 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_BGX] = &__bdk_if_ops_bgx,
 };
 
-static void bdk_if_dispatch_thread(int unused, void *unused2);
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
@@ -205,25 +204,7 @@ static int __bdk_if_init_node(bdk_node_t node)
         return result;
 
     /* Enable PKI now that all setup is complete */
-    result = __bdk_if_global_ops.pki_enable(node);
-    if (result)
-        return result;
-
-    /* Create dispatch threads for every running core */
-    uint64_t coremask = bdk_get_running_coremask(node);
-    /* If there are 16 or more cores, only create threads on half of them */
-    if (bdk_octeon_num_cores(node) >= 16)
-        coremask &= 0x5555555555555555ull;
-    for (int core = 0; core < bdk_octeon_num_cores(node); core++)
-    {
-        if (coremask & (1ull << core))
-        {
-            if (bdk_thread_create(node, 1ull << core, bdk_if_dispatch_thread, 0, NULL, 0))
-                bdk_error("Failed to create dispatch thread for core %d\n", core);
-        }
-    }
-
-    return result;
+    return __bdk_if_global_ops.pki_enable(node);
 }
 
 /**
@@ -579,14 +560,36 @@ static inline void dispatch(bdk_if_packet_t *packet)
         bdk_if_free(packet);
 }
 
+static void __bdk_if_link_poll()
+{
+    static bdk_if_handle_t link_handle = NULL;
+    static uint64_t next_poll = 0;
+    static uint64_t poll_rate = 0;
+
+    uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
+    if (bdk_likely(current_time < next_poll))
+        return;
+
+    if (bdk_unlikely(poll_rate == 0))
+        poll_rate = bdk_is_simulation() ? 1000000 : bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 16;
+
+    /* Poll the link state */
+    next_poll = current_time + poll_rate;
+    link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
+    if (link_handle)
+        bdk_if_link_autoconf(link_handle);
+}
 
 /**
- * Called by the dispatcher thread to dispatch pending packets
+ * Called by idle threads to handle packet IO
  */
-static int bdk_if_dispatch(void)
+int bdk_if_dispatch(void)
 {
     if (!bdk_if_is_configured())
         return 0;
+    if (bdk_is_boot_core())
+        __bdk_if_link_poll();
+
     int count = 0;
     bdk_if_packet_t packet;
 
@@ -647,39 +650,6 @@ static int bdk_if_dispatch(void)
         dispatch(&packet);
     }
     return count;
-}
-
-
-/**
- * Thread that dispatches packets. One thread per core.
- *
- * @param unused
- * @param unused2
- */
-static void bdk_if_dispatch_thread(int unused, void *unused2)
-{
-    bdk_if_handle_t link_handle = NULL;
-    uint64_t last_poll = 0;
-    const uint64_t poll_rate = bdk_is_simulation() ? 1000000 : bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 16;
-    const int do_link_poll = bdk_is_boot_core();
-
-    while (1)
-    {
-        bdk_if_dispatch();
-        if (do_link_poll)
-        {
-            /* Poll the link state */
-            uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
-            if (current_time > last_poll + poll_rate)
-            {
-                last_poll = current_time;
-                link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
-                if (link_handle)
-                    bdk_if_link_autoconf(link_handle);
-            }
-        }
-        bdk_thread_yield();
-    }
 }
 
 /**
