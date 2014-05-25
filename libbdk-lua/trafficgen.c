@@ -237,7 +237,13 @@ static int trafficgen_do_update(bool do_clear)
         switch (bdk_if_get_type(tg_port->handle))
         {
             case BDK_IF_DPI:
+                break;
             case BDK_IF_LOOP:
+                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                {
+                    BDK_CSR_INIT(pki_bpidx_state, tg_port->handle->node, BDK_PKI_BPIDX_STATE(tg_port->handle->aura));
+                    tg_port->pinfo.stats.rx_backpressure += pki_bpidx_state.s.xoff;
+                }
                 break;
             case BDK_IF_XAUI:
             {
