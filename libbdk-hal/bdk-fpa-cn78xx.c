@@ -61,7 +61,7 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
 {
     bdk_fpa_state_t *fpa_state = &fpa_node_state[node];
 
-    int pool_num_blocks = (pool < (int)NUM_POOLS) ? num_blocks : BDK_CSR_READ(node, BDK_FPA_POOLX_AVAILABLE(pool));
+    int pool_num_blocks = (pool < NUM_POOLS) ? num_blocks : (int)BDK_CSR_READ(node, BDK_FPA_POOLX_AVAILABLE(pool));
 
     if (aura < 0)
     {
