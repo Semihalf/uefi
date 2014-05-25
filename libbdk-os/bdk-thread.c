@@ -101,6 +101,9 @@ void bdk_thread_yield(void)
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
 
+    /* Yield can be called without a thread context during core init. The
+       cores call bdk_wait_usec(), which yields. In this case yielding
+       does nothing */
     if (bdk_unlikely(!current))
         return;
 
@@ -215,10 +218,11 @@ void bdk_thread_destroy(void)
     static int dead_cores = 0;
     bdk_thread_t *current;
     BDK_MF_COP0(current, COP0_USERLOCAL);
+    if (bdk_unlikely(!current))
+        bdk_fatal("bdk_thread_destroy() called without thread context\n");
 
+    fflush(NULL);
     bdk_atomic_add64_nosync(&t_node->stat_num_threads, -1);
-    if (current)
-        fflush(NULL);
 
     int num_cores = 0;
     for (int node = 0; node<BDK_NUMA_MAX_NODES; node++)
@@ -241,7 +245,7 @@ void bdk_thread_destroy(void)
             if (next)
             {
                 bdk_atomic_add32(&dead_cores, -1);
-                __bdk_thread_switch(next, !!current);
+                __bdk_thread_switch(next, 1);
                 bdk_fatal("bdk_thread_destroy() should never get here\n");
             }
             bdk_spinlock_unlock(&t_node->lock);
