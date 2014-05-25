@@ -26,7 +26,7 @@ typedef struct
     int64_t         stat_no_schedulable_threads;
     int64_t         stat_next_calls;
     int64_t         stat_next_walks;
-    int64_t         __padding2[16-5];
+    int64_t         __padding2[16-4];
 } bdk_thread_node_t;
 
 static bdk_thread_node_t bdk_thread_node[BDK_NUMA_MAX_NODES];
