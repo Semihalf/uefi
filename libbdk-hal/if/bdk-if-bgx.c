@@ -1091,7 +1091,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
         return &handle->stats;
 
     #define REREAD(v, csr)                              \
-        while (v.u >= 1ull<<48)                         \
+        while (v.u == bdk_build_mask(64))               \
             v.u = BDK_CSR_READ(handle->node, csr)
 
     /* Counters seem to only be wrong in non SGMII modes */

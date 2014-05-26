@@ -108,7 +108,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     const int bytes_off_rx = 0;
 
     #define REREAD(v, csr)                              \
-        while (v.u >= 1ull<<48)                         \
+    while (v.u == bdk_build_mask(64))                   \
             v.u = BDK_CSR_READ(handle->node, csr)
 
     /* Read the RX statistics from PKI */
