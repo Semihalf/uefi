@@ -271,7 +271,7 @@ static int if_probe(bdk_if_handle_t handle)
     /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
     handle->ipd_port = 0x800 + handle->interface*0x100 + priv.s.port*0x10 + priv.s.channel;
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
-    return bgx_setup_one_time(handle);
+    return 0;
 }
 
 static int sgmii_link(bdk_if_handle_t handle)
@@ -836,6 +836,8 @@ static int if_init(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     bgx_priv_t priv = {.ptr = handle->priv};
+    if (bgx_setup_one_time(handle))
+        return -1;
 
     if (priv.s.mode == BGX_MODE_SGMII)
     {
