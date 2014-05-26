@@ -33,7 +33,10 @@
  */
 static inline uint64_t bdk_build_mask(uint64_t bits)
 {
-    return ~((~0x0ull) << bits);
+    if (bits == 64)
+        return -1;
+    else
+        return ~((~0x0ull) << bits);
 }
 
 
