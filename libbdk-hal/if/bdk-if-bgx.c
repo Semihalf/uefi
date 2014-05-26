@@ -1094,11 +1094,23 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
         while (v.u == bdk_build_mask(64))               \
             v.u = BDK_CSR_READ(handle->node, csr)
 
-    /* Counters seem to only be wrong in non SGMII modes */
-    const int bytes_off_tx = (priv.s.mode != BGX_MODE_SGMII) ? -8 : 0;
     const int bytes_off_rx = 0;
 
+#if 1
+    /* Read the RX statistics from PKI. These already include the ethernet FCS */
+    BDK_CSR_INIT(rx_packets, handle->node, BDK_PKI_STATX_STAT0(handle->pknd));
+    REREAD(rx_packets, BDK_PKI_STATX_STAT0(handle->pknd));
+    BDK_CSR_INIT(rx_octets, handle->node, BDK_PKI_STATX_STAT1(handle->pknd));
+    REREAD(rx_octets, BDK_PKI_STATX_STAT1(handle->pknd));
+
+    handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
+    handle->stats.rx.octets = bdk_update_stat_with_overflow(
+        rx_octets.s.octs, handle->stats.rx.octets, 48);
+    handle->stats.rx.packets = bdk_update_stat_with_overflow(
+        rx_packets.s.pkts, handle->stats.rx.packets, 48);
+    handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
     /* Read the RX statistics from BGX. These already include the ethernet FCS */
+#else
     BDK_CSR_INIT(rx_packets, handle->node, BDK_BGXX_CMRX_RX_STAT0(handle->interface, handle->index));
     BDK_CSR_INIT(rx_octets, handle->node, BDK_BGXX_CMRX_RX_STAT1(handle->interface, handle->index));
 
@@ -1108,7 +1120,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.packets = bdk_update_stat_with_overflow(
         rx_packets.s.cnt, handle->stats.rx.packets, 48);
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
-
+#endif
     /* PKI counters randomly give bogus values, so reread if the result isn't valid */
     BDK_CSR_INIT(rx_dropped_packets, handle->node, BDK_PKI_STATX_STAT3(handle->pknd));
     REREAD(rx_dropped_packets, BDK_PKI_STATX_STAT3(handle->pknd));
@@ -1126,6 +1138,8 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.errors = bdk_update_stat_with_overflow(
         rx_errors.s.fcs, handle->stats.rx.errors, 48);
 
+    /* Counters seem to only be wrong in non SGMII modes */
+    const int bytes_off_tx = (priv.s.mode != BGX_MODE_SGMII) ? -8 : 0;
     /* Read the TX statistics from BGX. These already include the ethernet FCS */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface, handle->index));
     BDK_CSR_INIT(tx_packets, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface, handle->index));
