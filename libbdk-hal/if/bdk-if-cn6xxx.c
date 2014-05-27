@@ -170,10 +170,12 @@ static int pki_enable(bdk_node_t node)
  */
 static int pko_global_init(bdk_node_t node)
 {
+    /* We can't use the normal FPA queue size here as the command queue aren't
+       setup yet and the FPA pool hasn't been configured yet */
     BDK_CSR_DEFINE(config, BDK_PKO_REG_CMD_BUF);
     config.u64 = 0;
     config.s.pool = BDK_FPA_OUTPUT_BUFFER_POOL;
-    config.s.size = bdk_fpa_get_block_size(node, BDK_FPA_OUTPUT_BUFFER_POOL) / 8;
+    config.s.size = bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0 + BDK_FPA_OUTPUT_BUFFER_POOL) / 8;
     BDK_CSR_WRITE(node, BDK_PKO_REG_CMD_BUF, config.u64);
 
     /* Clear out all queue state */

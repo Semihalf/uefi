@@ -23,7 +23,7 @@ static int __bdk_fpa_init(bdk_node_t node)
             __bdk_fpa_ops = __bdk_fpa_ops_cn78xx;
         else
             __bdk_fpa_ops = __bdk_fpa_ops_cn6xxx;
-        //bdk_dprintf("FPA: Performing global init node %d\n", node);
+        BDK_TRACE("N%d: FPA: Performing global init\n", node);
         result = __bdk_fpa_ops.init(node);
         __bdk_fpa_init_done |= 1<<node;
     }
@@ -52,7 +52,7 @@ int bdk_fpa_fill_pool(bdk_node_t node, int pool, int num_blocks)
             return result;
     }
     int block_size = bdk_config_get(BDK_CONFIG_FPA_POOL_SIZE0 + pool);
-    //bdk_dprintf("FPA: Fill pool %d with %d blocks of %d bytes\n", pool, num_blocks, block_size);
+    BDK_TRACE("N%d: FPA: Fill pool %d with %d blocks of %d bytes\n", node, pool, num_blocks, block_size);
     return __bdk_fpa_ops.init_pool(node, pool, num_blocks, block_size);
 }
 
@@ -71,7 +71,7 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
     int result = -1;
     if (__bdk_fpa_ops.init_aura)
         result = __bdk_fpa_ops.init_aura(node, aura, pool, num_blocks);
-    //bdk_dprintf("FPA: Init aura %d for pool %d with %d blocks\n", result, pool, num_blocks);
+    BDK_TRACE("N%d: FPA: Init aura %d for pool %d with %d blocks\n", node, result, pool, num_blocks);
     return result;
 }
 
