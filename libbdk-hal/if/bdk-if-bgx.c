@@ -1141,9 +1141,9 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     /* Counters seem to only be wrong in non SGMII modes */
     const int bytes_off_tx = (priv.s.mode != BGX_MODE_SGMII) ? -8 : 0;
     /* Read the TX statistics from BGX. These already include the ethernet FCS */
+    BDK_CSR_INIT(tx_pause, handle->node, BDK_BGXX_CMRX_TX_STAT17(handle->interface, handle->index));
     BDK_CSR_INIT(tx_octets, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface, handle->index));
     BDK_CSR_INIT(tx_packets, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface, handle->index));
-    BDK_CSR_INIT(tx_pause, handle->node, BDK_BGXX_CMRX_TX_STAT17(handle->interface, handle->index));
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.octs, handle->stats.tx.octets, 48);
