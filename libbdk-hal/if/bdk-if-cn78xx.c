@@ -424,7 +424,15 @@ static int pko_port_init(bdk_if_handle_t handle)
     sq_l4 = node_state->pko_next_free_l4_queue++;
     sq_l5 = node_state->pko_next_free_l5_queue++;
     dq = node_state->pko_next_free_descr_queue;
-    node_state->pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0))
+    {
+        /* (PKO-21124) One or more PKO DQs may hang leaving packets inflight
+           Use every 8th DQ in PKO so there is a limit in how fast PKO
+           can fill its internal FIFO */
+        node_state->pko_next_free_descr_queue += 8;
+    }
+    else
+        node_state->pko_next_free_descr_queue += PKO_QUEUES_PER_CHANNEL;
 
     int lmac;
     int fcs_ena;
@@ -625,8 +633,12 @@ static int pko_enable(bdk_node_t node)
     /* Read needed to make sure enable is done before accesses below */
     BDK_CSR_READ(node, BDK_PKO_ENABLE);
 
+    /* (PKO-21124) One or more PKO DQs may hang leaving packets inflight
+       Use every 8th DQ in PKO so there is a limit in how fast PKO
+       can fill its internal FIFO */
+    int dq_inc = (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0)) ? 8 : 1;
     /* Open all configured descriptor queues */
-    for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq++)
+    for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq+=dq_inc)
     {
         uint64_t pko_address = 1ull<<63;
         pko_address |= 1ull<<48;
