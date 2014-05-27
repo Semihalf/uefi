@@ -156,7 +156,7 @@ static bdk_spinlock_t lock;
 static int wait_for_zero(int engine, const char *label, volatile uint8_t *zero_loc)
 {
     uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) * 8;
-    //printf("Waiting for DMA %d\n", engine);
+    BDK_TRACE("Waiting for DMA %d\n", engine);
     while (*zero_loc)
     {
         if (bdk_clock_get_count(BDK_CLOCK_CORE) > timeout)
@@ -237,9 +237,11 @@ static int dma_test(bdk_node_t node, void *unused2)
                     dma_header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
                     dma_header.word0.v1.addr = zero_base + 0;
                 }
+                uint64_t pci_address = ptr_to_sli(lport, dma_out_buffer + remote_align);
+                BDK_TRACE("Core%2d: DMA submit outbound 0x%016lx size %d\n", bdk_get_core_num(), pci_address, size);
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                                          bdk_ptr_to_phys(starting_buffer + local_align),
-                                         ptr_to_sli(lport, dma_out_buffer + remote_align), size)))
+                                         pci_address, size)))
                 {
                     bdk_spinlock_lock(&lock);
                     printf("DMA OUTBOUND submit failed\n");
@@ -266,9 +268,12 @@ static int dma_test(bdk_node_t node, void *unused2)
                     dma_header.word0.v1.lport = lport;
                     dma_header.word0.v1.addr = zero_base + 1;
                 }
+                uint64_t pci_address1 = ptr_to_sli(fport, dma_out_buffer + remote_align);
+                uint64_t pci_address2 = ptr_to_sli(lport, dma_external_buffer + remote_align);
+                BDK_TRACE("Core%2d: DMA submit external 0x%016lx to 0x%016lx size %d\n", bdk_get_core_num(), pci_address1, pci_address2, size);
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
-                    ptr_to_sli(fport, dma_out_buffer + remote_align),
-                    ptr_to_sli(lport, dma_external_buffer + remote_align), size)))
+                    pci_address1,
+                    pci_address2, size)))
                 {
                     bdk_spinlock_lock(&lock);
                     printf("DMA EXTERNAL submit failed\n");
@@ -295,6 +300,8 @@ static int dma_test(bdk_node_t node, void *unused2)
                     dma_header.word0.v1.lport = lport;
                     dma_header.word0.v1.addr = zero_base + 2;
                 }
+                pci_address = ptr_to_sli(lport, dma_external_buffer + remote_align);
+                BDK_TRACE("Core%2d: DMA submit inbound 0x%016lx size %d\n", bdk_get_core_num(), pci_address, size);
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                     bdk_ptr_to_phys(dma_in_buffer + local_align),
                     ptr_to_sli(lport, dma_external_buffer + remote_align), size)))
@@ -424,6 +431,13 @@ int main()
 {
     bdk_node_t node = bdk_numa_local();
 
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    {
+        /* Hard coded config for now. PEM0=RC, PEM1=EP */
+        bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_PCIE_1X4, 5000, BDK_QLM_MODE_FLAG_GEN2);
+        bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_PCIE_1X4, 5000, BDK_QLM_MODE_FLAG_GEN2 | BDK_QLM_MODE_FLAG_ENDPOINT);
+    }
+
     /* Disable reset on loss of link or prst*/
     BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(0),
         c.s.rst_link = 0;
@@ -439,7 +453,10 @@ int main()
     printf("Starting all cores\n");
     bdk_init_cores(node, 0);
     int num_cores = bdk_octeon_num_cores(node);
-    for (int core=0; core<num_cores; core++)
+    // FIXME: Figure out and remove this limit - CN78XX
+    if (num_cores > bdk_dma_engine_get_num(node))
+        num_cores = bdk_dma_engine_get_num(node);
+    for (int core = 0; core < num_cores; core++)
     {
         if (bdk_thread_create(node, 1ull<<core, (bdk_thread_func_t)dma_test, node, NULL, 0))
             bdk_error("Failed to create thread for core %d\n", core);
