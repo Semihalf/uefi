@@ -248,9 +248,6 @@ static int dma_test(bdk_node_t node, void *unused2)
                     return -1;
                 }
 
-                if (wait_for_zero(engine, "OUTBOUND", &zero_loc[0]))
-                    goto fail;
-
                 /* DMA dma_out_buffer to dma_external_buffer */
                 fport = 0;
                 lport = 1;
@@ -280,9 +277,6 @@ static int dma_test(bdk_node_t node, void *unused2)
                     return -1;
                 }
 
-                if (wait_for_zero(engine, "EXTERNAL", &zero_loc[1]))
-                    goto fail;
-
                 /* DMA dma_external_buffer to dma_in_buffer */
                 fport = 0;
                 lport = 1;
@@ -311,6 +305,10 @@ static int dma_test(bdk_node_t node, void *unused2)
                     return -1;
                 }
 
+                if (wait_for_zero(engine, "OUTBOUND", &zero_loc[0]))
+                    goto fail;
+                if (wait_for_zero(engine, "EXTERNAL", &zero_loc[1]))
+                    goto fail;
                 if (wait_for_zero(engine, "INBOUND", &zero_loc[2]))
                     goto fail;
 
