@@ -8,7 +8,7 @@ BDK_REQUIRE_DEFINE(FS_PCIE);
 static void *pcie_open(const char *name, int flags)
 {
     long pcie_port = atoi(name);
-    if ((pcie_port < 0) || (pcie_port >= 2))
+    if ((pcie_port < 0) || (pcie_port >= 4))
         return NULL;
 
     long state = pcie_port + 1;
