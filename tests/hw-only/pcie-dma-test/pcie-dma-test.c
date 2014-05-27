@@ -17,9 +17,17 @@ uint64_t physical_map[2];
 
 void hex_dump(const char *message,  uint8_t *buffer,  int size)
 {
+    int count = 0;
     printf("%8s:", message);
     while (size--)
+    {
         printf(" %02x", 0xff & *buffer++);
+        if (size && (count >= 16))
+        {
+            printf("\n");
+            count = 0;
+        }
+    }
     printf("\n");
 }
 
@@ -238,7 +246,7 @@ static int dma_test(bdk_node_t node, void *unused2)
                     dma_header.word0.v1.addr = zero_base + 0;
                 }
                 uint64_t pci_address = ptr_to_sli(lport, dma_out_buffer + remote_align);
-                BDK_TRACE("Core%2d: DMA submit outbound 0x%016lx size %d\n", bdk_get_core_num(), pci_address, size);
+                BDK_TRACE("Core%2d: DMA submit outbound internal 0x%016lx to pcie 0x%016lx size %d\n", bdk_get_core_num(), bdk_ptr_to_phys(starting_buffer + local_align), pci_address, size);
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                                          bdk_ptr_to_phys(starting_buffer + local_align),
                                          pci_address, size)))
@@ -267,7 +275,7 @@ static int dma_test(bdk_node_t node, void *unused2)
                 }
                 uint64_t pci_address1 = ptr_to_sli(fport, dma_out_buffer + remote_align);
                 uint64_t pci_address2 = ptr_to_sli(lport, dma_external_buffer + remote_align);
-                BDK_TRACE("Core%2d: DMA submit external 0x%016lx to 0x%016lx size %d\n", bdk_get_core_num(), pci_address1, pci_address2, size);
+                BDK_TRACE("Core%2d: DMA submit external pcie 0x%016lx to pcie 0x%016lx size %d\n", bdk_get_core_num(), pci_address1, pci_address2, size);
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                     pci_address1,
                     pci_address2, size)))
@@ -295,7 +303,7 @@ static int dma_test(bdk_node_t node, void *unused2)
                     dma_header.word0.v1.addr = zero_base + 2;
                 }
                 pci_address = ptr_to_sli(lport, dma_external_buffer + remote_align);
-                BDK_TRACE("Core%2d: DMA submit inbound 0x%016lx size %d\n", bdk_get_core_num(), pci_address, size);
+                BDK_TRACE("Core%2d: DMA submit inbound pcie 0x%016lx to internal 0x%016lx size %d\n", bdk_get_core_num(), pci_address, bdk_ptr_to_phys(dma_in_buffer + local_align), size);
                 if (bdk_unlikely(bdk_dma_engine_transfer(node, engine, dma_header,
                     bdk_ptr_to_phys(dma_in_buffer + local_align),
                     ptr_to_sli(lport, dma_external_buffer + remote_align), size)))
@@ -319,12 +327,14 @@ static int dma_test(bdk_node_t node, void *unused2)
                     {
                         bdk_spinlock_lock(&lock);
                         printf("starting_buffer prefix not 0xaa\n");
+                        hex_dump("starting_buffer prefix",  starting_buffer,  local_align);
                         goto fail;
                     }
                     if (bdk_unlikely(dma_in_buffer[i] != 0xdd))
                     {
                         bdk_spinlock_lock(&lock);
-                        printf("dma_in_buffer prefix not 0xaa\n");
+                        printf("dma_in_buffer prefix not 0xdd\n");
+                        hex_dump("dma_in_buffer prefix",  dma_in_buffer,  local_align);
                         goto fail;
                     }
                 }
@@ -334,12 +344,14 @@ static int dma_test(bdk_node_t node, void *unused2)
                     {
                         bdk_spinlock_lock(&lock);
                         printf("dma_out_buffer prefix not 0xbb\n");
+                        hex_dump("dma_out_buffer prefix",  dma_out_buffer,  remote_align);
                         goto fail;
                     }
                     if (bdk_unlikely(dma_external_buffer[i] != 0xcc))
                     {
                         bdk_spinlock_lock(&lock);
                         printf("dma_external_buffer prefix not 0xcc\n");
+                        hex_dump("dma_external_buffer prefix",  dma_external_buffer,  remote_align);
                         goto fail;
                     }
                 }
@@ -351,12 +363,14 @@ static int dma_test(bdk_node_t node, void *unused2)
                     {
                         bdk_spinlock_lock(&lock);
                         printf("starting_buffer end not 0xaa\n");
+                        hex_dump("starting_buffer end",  starting_buffer + local_align + size, 8);
                         goto fail;
                     }
                     if (bdk_unlikely(dma_in_buffer[i] != 0xdd))
                     {
                         bdk_spinlock_lock(&lock);
-                        printf("dma_in_buffer end not 0xaa\n");
+                        printf("dma_in_buffer end not 0xdd\n");
+                        hex_dump("dma_in_buffer end",  dma_in_buffer + local_align + size, 8);
                         goto fail;
                     }
                 }
@@ -366,12 +380,14 @@ static int dma_test(bdk_node_t node, void *unused2)
                     {
                         bdk_spinlock_lock(&lock);
                         printf("dma_out_buffer end not 0xbb\n");
+                        hex_dump("dma_out_buffer end",  dma_out_buffer + remote_align + size, 8);
                         goto fail;
                     }
                     if (bdk_unlikely(dma_external_buffer[i] != 0xcc))
                     {
                         bdk_spinlock_lock(&lock);
                         printf("dma_external_buffer end not 0xcc\n");
+                        hex_dump("dma_external_buffer end",  dma_external_buffer + remote_align + size, 8);
                         goto fail;
                     }
                 }
