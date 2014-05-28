@@ -147,7 +147,7 @@ typedef struct
 } __bdk_if_global_ops_t;
 
 extern int bdk_if_is_configured(void);
-extern int bdk_if_dispatch(void);
+extern int bdk_if_dispatch(void) BDK_WEAK;
 extern int bdk_if_num_interfaces(bdk_node_t node, bdk_if_t iftype);
 extern int bdk_if_num_ports(bdk_node_t node, bdk_if_t iftype, int interface);
 extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);
