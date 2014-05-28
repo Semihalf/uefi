@@ -108,7 +108,7 @@ static int fpa_init_aura(bdk_node_t node, int aura, int pool, int num_blocks)
        based on the underlying pool */
     BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_POOL_LEVELS(aura),
         c.s.bp_ena = 1;
-        c.s.red_ena = 1;
+        c.s.red_ena = 0;                                /* RED is disabled for now */
         c.s.shift = pool_shift;
         c.s.bp = (pool_num_blocks/2)>>pool_shift;       /* Start backpressure when pool is 1/2 empty */
         c.s.drop = 0;                                   /* Drop everything when the pool is completely empty */

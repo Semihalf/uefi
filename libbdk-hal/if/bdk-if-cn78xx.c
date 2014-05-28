@@ -53,8 +53,8 @@ static int pki_global_init(bdk_node_t node)
     {
         BDK_CSR_MODIFY(c, node, BDK_PKI_AURAX_CFG(aura),
             c.s.pkt_add = 0; /* Increment was already done in FPA alloc */
-            c.s.ena_red = 1; /* Enable RED */
-            c.s.ena_drop = 1; /* Enable drop */
+            c.s.ena_red = 0; /* Disable RED */
+            c.s.ena_drop = 0; /* Disable drop */
             c.s.ena_bp = 1; /* Enable backpressure */
             c.s.bpid = aura); /* 1:1 mapping between aura and bpid */
     }
