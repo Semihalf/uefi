@@ -135,6 +135,7 @@ if not octeon.is_model(octeon.CN70XX) then
         end)
     end
     update_verbose_label()
+end -- not CN70XX
 
     m:item("setenv", "Set environment variable", function()
         local name = menu.prompt_string("Name")
@@ -155,6 +156,7 @@ if not octeon.is_model(octeon.CN70XX) then
         end
     end)
 
+if not octeon.is_model(octeon.CN70XX) then
     m:item("init", "Initialize DRAM controller using current config", function()
         if not ddr_config then
             error "ERROR: unable to configure DRAM controller with empty config.\n"
