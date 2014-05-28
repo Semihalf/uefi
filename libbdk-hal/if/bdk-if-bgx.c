@@ -1120,13 +1120,15 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.errors = bdk_update_stat_with_overflow(
         rx_errors.s.fcs, handle->stats.rx.errors, 48);
 
-    /* Read the TX statistics from PKO. These already include the ethernet FCS.
+    /* Read the TX statistics from PKO. These don't include the ethernet FCS.
        We use the PKO counters instead of BGX as the BGX counters include
        pause frames */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_PKO_DQX_BYTES(handle->pko_queue));
     BDK_CSR_INIT(tx_packets, handle->node, BDK_PKO_DQX_PACKETS(handle->pko_queue));
+    handle->stats.tx.octets -= handle->stats.tx.packets * 4;
     handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.count, handle->stats.tx.octets, 48);
     handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.count, handle->stats.tx.packets, 40);
+    handle->stats.tx.octets += handle->stats.tx.packets * 4;
 
     return &handle->stats;
 }
