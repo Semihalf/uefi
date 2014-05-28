@@ -1031,6 +1031,11 @@ static int packet_alloc(bdk_if_packet_t *packet, int length)
         /* The next chain pointer is at the beginning of the buffer */
         buffer_ptr = buffer;
     }
+    /* Set the last unused buffer_ptr to be an obvious bogus value. This
+       way we can tell if some hardware widget walks off the end by mistake */
+    buffer_ptr->u64 = 0;
+    buffer_ptr->v3.size = -1;
+    buffer_ptr->v3.addr = 0x3badbaddeed; /* node 3 bad address */
     /* Fix length as it will likely be too large since we increment in FPA
         chunks */
     packet->length = length;
