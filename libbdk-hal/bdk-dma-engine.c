@@ -203,6 +203,8 @@ static inline int __bdk_dma_engine_build_internal_pointers(bdk_dma_engine_buffer
         buffers[segments].u64 = 0;
         if (OCTEON_IS_MODEL(OCTEON_CN78XX))
         {
+            /* Errata (DPI-20132) Local Pointers that are destination must allocate */
+            buffers[segments].internal_v3.a = 1;
             buffers[segments].internal_v3.size = chunk;
             buffers[segments].internal_v3.addr = address;
         }
