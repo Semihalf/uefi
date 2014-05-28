@@ -82,8 +82,8 @@ static inline int bdk_octeon_num_cores(bdk_node_t node)
  */
 static inline int __bdk_is_dram_enabled(bdk_node_t node)
 {
-    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(0));
-    return lmcx_dll_ctl2.s.intf_en;
+    BDK_CSR_INIT(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0));
+    return lmcx_ddr_pll_ctl.s.reset_n;
 }
 
 /**
