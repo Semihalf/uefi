@@ -10,16 +10,57 @@ print("Copyright (C) 2013 Cavium Networks")
 print("Version ".. require("bdk-version"))
 print("")
 
-
 local board_name = menu.prompt_string("Board type: ", "ebb7800")
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 local config_num = menu.prompt_number("Config Number (1 or 2): ", 1)
+local all_pass = true
+
+local function pci_test(rc_port, ep_port)
+    local ret_value = false
+    print ("In function pci_test\n")
+--QLM 0
+    octeon.csr.GSERX_REFCLK_SEL(rc_port).USE_COM1 = 0
+    octeon.csr.GSERX_REFCLK_SEL(rc_port).COM_CLK_SEL = 1
+    octeon.c.bdk_qlm_reset(0, rc_port)
+    octeon.c.bdk_qlm_set_mode(0, rc_port, octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2)
+
+--QLM 1
+    octeon.csr.GSERX_REFCLK_SEL(ep_port).USE_COM1 = 0
+    octeon.csr.GSERX_REFCLK_SEL(ep_port).COM_CLK_SEL = 1
+    octeon.c.bdk_qlm_reset(0, ep_port)
+    octeon.c.bdk_qlm_set_mode(0, ep_port, octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2+octeon.QLM_MODE_FLAG_ENDPOINT)
+
+--
+-- PCIe
+--
+    print("test start: PCIe")
+    local pcie = require("pcie")
+    local status, rc = pcall(pcie.initialize, 0, rc_port)
+    if status then
+--    t
+--    t
+--    w
+        rc:scan()
+        rc:enumerate()
+        rc:display()
+        print("PCIe%d init: PASS" % rc_port)
+        ret_value = true
+    else
+        print("PCIe%d init: FAIL" % rc_port)
+    end
+    print("test end: PCIe")
+    return ret_value
+end
 
 -- Do board specific setup
 if (config_num == 1) then
+    all_pass = all_pass and pci_test(2,3)
+    all_pass = all_pass and pci_test(3,2)
     menu.dofile("screen-ebb7800")
 else 
     if (config_num == 2) then
+        all_pass = all_pass and pci_test(0,1)
+        all_pass = all_pass and pci_test(1,0)
         menu.dofile("screen-ebb7800-config2")
     else
         print ("ERROR: Invalid configuration number\n");
@@ -30,6 +71,7 @@ end
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
 octeon.c.bdk_init_cores(0, coremask)
+
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
     print("")
@@ -63,7 +105,6 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
     return ports_pass
 end
 
-local all_pass = true
 --
 -- MMC Tests
 --
@@ -171,7 +212,7 @@ octeon.c.bdk_wait_usec(5 * 1000000)
 
 tg_pass = 1;
 if (config_num == 1) then
-    tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 8000, 100000, 100, 10)
+    tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 8000, 100000, 1000, 3)
     tg_pass = tg_pass and tg_run(tg, "RXAUI0.0-RXAUI0.1,RXAUI1.0-RXAUI1.1", 8000, 1000, 1000, 3)
 
     tg_pass = tg_pass and tg_run(tg, "RXAUI0.0,RXAUI1.0", 8000, 10000, 1000, 3)
@@ -185,7 +226,7 @@ if (config_num == 1) then
     tg_pass = tg_pass and tg_run(tg, "10GKR2.3,10GKR4.3", 8000, 10000, 600, 3)
     all_pass = all_pass and tg_pass
 else
-    tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 8000, 100000, 100, 10)
+    tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 8000, 100000, 1000, 3)
     tg_pass = tg_pass and tg_run(tg, "DXAUI0-DXAUI1", 8000, 10000, 1000, 3)
 
     tg_pass = tg_pass and tg_run(tg, "10GKR3.0-10GKR3.3,10GKR5.0-10GKR5.3", 8000, 10000, 600, 3)
