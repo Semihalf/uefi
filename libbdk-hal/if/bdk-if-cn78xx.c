@@ -654,6 +654,19 @@ static int pko_enable(bdk_node_t node)
 }
 
 /**
+ * Get the current TX queue depth. Note that this operation may be slow
+ * and adversly affect packet IO performance.
+ *
+ * @param handle Port to check
+ *
+ * @return Depth of the queue in packets
+ */
+static int pko_get_queue_depth(bdk_if_handle_t handle)
+{
+    return BDK_CSR_READ(handle->node, BDK_PKO_DQX_WM_CNT(handle->pko_queue));
+}
+
+/**
  * Initialize the SSO
  *
  * @return Zero on success, negative on failure
@@ -1141,6 +1154,7 @@ __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx = {
     .pko_global_init = pko_global_init,
     .pko_port_init = pko_port_init,
     .pko_enable = pko_enable,
+    .pko_get_queue_depth = pko_get_queue_depth,
     .sso_init = sso_init,
     .sso_wqe_to_packet = sso_wqe_to_packet,
     .pko_transmit = pko_transmit,

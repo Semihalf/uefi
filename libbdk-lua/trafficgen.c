@@ -796,12 +796,20 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     if ((use_v3_packet && packet.packet.v3.i) ||
         (!use_v3_packet && packet.packet.v1.i))
     {
-        /* Packet has not been freed on TX, so free it now */
-        /* This should only happen in the error case.  Normal
-        ** ending of transmission has the PKO free the packet buffer
-        ** after sending the last one. */
-        bdk_wait_usec(5000);
-        bdk_if_free(&packet);
+        /* Packet has not been freed on TX, so free it now. This should only
+           happen in the error case.  Normal ending of transmission has the
+           PKO free the packet buffer after sending the last one. */
+        uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
+        while (bdk_if_get_queue_depth(tg_port->handle))
+        {
+            if (bdk_clock_get_count(BDK_CLOCK_CORE) > timeout)
+                break;
+            bdk_wait_usec(100);
+        }
+        if (bdk_if_get_queue_depth(tg_port->handle) == 0)
+            bdk_if_free(&packet);
+        else
+            bdk_error("%s: Transmit packet not freed as output queue still active\n", tg_port->handle->name);
     }
     port_tx->output_enable = 0;
     BDK_SYNCW;

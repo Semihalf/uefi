@@ -566,6 +566,19 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     return 0;
 }
 
+/**
+ * Get the current TX queue depth. Note that this operation may be slow
+ * and adversly affect packet IO performance.
+ *
+ * @param handle Port to check
+ *
+ * @return Depth of the queue in packets
+ */
+static int if_get_queue_depth(bdk_if_handle_t handle)
+{
+    BDK_CSR_INIT(mix_oring2, handle->node, BDK_MIXX_ORING2(handle->index));
+    return mix_oring2.s.odbell;
+}
 
 /**
  * The OPs structure for bdk_if
@@ -582,5 +595,6 @@ const __bdk_if_ops_t __bdk_if_ops_mgmt = {
     .if_get_stats = if_get_stats,
     .if_transmit = if_transmit,
     .if_receive = if_receive,
+    .if_get_queue_depth = if_get_queue_depth,
 };
 

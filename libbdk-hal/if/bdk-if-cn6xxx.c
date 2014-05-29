@@ -7,6 +7,7 @@
 #define BDK_PKO_MAX_OUTPUT_QUEUES 256
 static __bdk_if_port_t *__bdk_if_ipd_map[0x1000];
 static int bdk_pko_next_free_queue = 0;
+bdk_spinlock_t __bdk_pko_reg_lock; /* Lock used to protect PKO_REG_READ_IDX */
 
 /**
  * One time init of global Packet Input
@@ -279,6 +280,25 @@ static int pko_enable(bdk_node_t node)
     flags.s.store_be =1;  /* always enable big endian for 3-word command. Does nothing for 2-word */
     BDK_CSR_WRITE(node, BDK_PKO_REG_FLAGS, flags.u64);
     return 0;
+}
+
+/**
+ * Get the current TX queue depth. Note that this operation may be slow
+ * and adversly affect packet IO performance.
+ *
+ * @param handle Port to check
+ *
+ * @return Depth of the queue in packets
+ */
+static int pko_get_queue_depth(bdk_if_handle_t handle)
+{
+    bdk_spinlock_lock(&__bdk_pko_reg_lock);
+    BDK_CSR_INIT(pko_reg_read_idx, handle->node, BDK_PKO_REG_READ_IDX);
+    BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, handle->pko_queue);
+    BDK_CSR_INIT(pko_mem_debug8, handle->node, BDK_PKO_MEM_DEBUG8);
+    BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
+    bdk_spinlock_unlock(&__bdk_pko_reg_lock);
+    return pko_mem_debug8.s.doorbell;
 }
 
 /**
@@ -627,6 +647,7 @@ __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx = {
     .pko_global_init = pko_global_init,
     .pko_port_init = pko_port_init,
     .pko_enable = pko_enable,
+    .pko_get_queue_depth = pko_get_queue_depth,
     .sso_init = sso_init,
     .sso_wqe_to_packet = sso_wqe_to_packet,
     .pko_transmit = pko_transmit,

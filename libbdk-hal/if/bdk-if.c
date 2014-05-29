@@ -26,6 +26,7 @@ static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
 static __bdk_if_global_ops_t __bdk_if_global_ops;
+extern bdk_spinlock_t __bdk_pko_reg_lock;
 
 static inline void sso_get_work_async(int scr_addr, int wait)
 {
@@ -346,6 +347,22 @@ int bdk_if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
     }
 }
 
+/**
+ * Read the current queue depth for a port. Note that this
+ * operation may be slow and adversly affect packet IO
+ * performance.
+ *
+ * @param handle Port to read
+ *
+ * @return Depth of the queue in packets. Zero means the queue is empty
+ */
+int bdk_if_get_queue_depth(bdk_if_handle_t handle)
+{
+    if (bdk_unlikely(handle->pko_port == -1))
+        return __bdk_if_ops[handle->iftype]->if_get_queue_depth(handle);
+    else
+        return __bdk_if_global_ops.pko_get_queue_depth(handle);
+}
 
 /**
  * Return the human readable name of a handle
@@ -492,11 +509,13 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.errors = bdk_update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
     handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
 
+    bdk_spinlock_lock(&__bdk_pko_reg_lock);
     BDK_CSR_INIT(pko_reg_read_idx, handle->node, BDK_PKO_REG_READ_IDX);
     BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, handle->pko_port);
     BDK_CSR_INIT(pko_mem_count0, handle->node, BDK_PKO_MEM_COUNT0);
     BDK_CSR_INIT(pko_mem_count1, handle->node, BDK_PKO_MEM_COUNT1);
     BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
+    bdk_spinlock_unlock(&__bdk_pko_reg_lock);
 
     handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
     handle->stats.tx.octets = bdk_update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);

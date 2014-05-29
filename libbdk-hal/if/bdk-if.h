@@ -127,6 +127,7 @@ typedef struct
     int (*if_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* TX a packet. Not needed if using PKO */
     int (*if_receive)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* RX a packet. not needed if using IPD */
     int (*if_loopback)(bdk_if_handle_t handle, bdk_if_loopback_t loopback); /* Configure loopback for the port */
+    int (*if_get_queue_depth)(bdk_if_handle_t handle); /* Get the current TX queue depth */
 } __bdk_if_ops_t;
 
 typedef struct
@@ -137,6 +138,7 @@ typedef struct
     int (*pko_global_init)(bdk_node_t node);
     int (*pko_port_init)(bdk_if_handle_t handle);
     int (*pko_enable)(bdk_node_t node);
+    int (*pko_get_queue_depth)(bdk_if_handle_t handle); /* Get the current TX queue depth */
     int (*sso_init)(bdk_node_t node);
     int (*sso_wqe_to_packet)(const void *wqe, bdk_if_packet_t *packet);
     int (*pko_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
@@ -161,6 +163,7 @@ extern bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle);
 extern bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle);
 extern const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle);
 extern bdk_if_link_t __bdk_if_phy_get(int phy_addr);
+extern int bdk_if_get_queue_depth(bdk_if_handle_t handle);
 
 extern int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet);
 extern void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg);
