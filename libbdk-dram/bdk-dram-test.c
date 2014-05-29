@@ -202,16 +202,8 @@ static void dram_test_thread(int arg, void *arg1)
  */
 static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start_address, uint64_t length)
 {
-    /* Figure out how much DRAM we have */
-    const char *dram_mbytes = getenv("dram_size_mbytes");
-    if (!dram_mbytes)
-    {
-        bdk_error("DRAM not setup\n");
-        return -1;
-    }
-
     /* Figure out the addess of the byte one off the top of memory */
-    uint64_t max_address = atoi(dram_mbytes);
+    uint64_t max_address = bdk_dram_get_size_mbytes(bdk_numa_local());
     BDK_TRACE("DRAM available per node: %lu MB\n", max_address);
     max_address <<= 20;
     /* More than 256MB gets offset by 256MB due to the bootbus hole */
@@ -490,3 +482,31 @@ int __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address
     else
         return -1;
 }
+
+
+/**
+ * Get the amount of DRAM configured for a node. This is read from the LMC
+ * controller after DRAM is setup.
+ *
+ * @param node   Node to query
+ *
+ * @return Size in megabytes
+ */
+uint64_t bdk_dram_get_size_mbytes(int node)
+{
+    /* Return zero if dram isn't enabled */
+    if (!__bdk_is_dram_enabled(node))
+        return 0;
+
+    uint64_t memsize = 0;
+    const int num_dram_controllers = __bdk_dram_get_num_lmc(node);
+    for (int lmc = 0; lmc < num_dram_controllers; lmc++)
+    {
+        BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
+        int num_ranks = bdk_pop(lmcx_config.s.init_status);
+        uint64_t rank_size = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena);
+        memsize += rank_size * num_ranks;
+    }
+    return memsize >> 20;
+}
+

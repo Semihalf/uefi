@@ -56,18 +56,13 @@ caddr_t sbrk(int incr)
         uint64_t start_paddr = bdk_fs_romfs_get_end();
         next = bdk_phys_to_ptr(start_paddr);
         end = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), l2_size));
-
-        /* If DRAM is setup assume there is at least 256MB */
-        if (__bdk_is_dram_enabled(bdk_numa_master()))
-            end = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), 256<<20));
     }
 
     /* See of DRAM was setup and we can use more memory */
-    const char *dram_mbytes = getenv("dram_size_mbytes");
+    uint64_t dram_mbytes = bdk_dram_get_size_mbytes(bdk_numa_master());
     if (dram_mbytes)
     {
-        uint64_t dram_top = atoi(dram_mbytes);
-        dram_top <<= 20;
+        uint64_t dram_top = dram_mbytes << 20;
         /* More than 256MB gets offset by 256MB due to the bootbus hole */
         if (dram_top > 0x10000000)
             dram_top += 0x10000000;

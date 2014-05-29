@@ -21,4 +21,14 @@
  */
 extern int bdk_dram_config(int node, const char *board_name, int ddr_clock_hertz);
 
+/**
+ * Get the amount of DRAM configured for a node. This is read from the LMC
+ * controller after DRAM is setup.
+ *
+ * @param node   Node to query
+ *
+ * @return Size in megabytes
+ */
+extern uint64_t bdk_dram_get_size_mbytes(int node);
+
 /** @} */
