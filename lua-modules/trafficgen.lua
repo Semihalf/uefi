@@ -453,6 +453,11 @@ function TrafficGen.new()
     end
 
     function self:cmdp_scan_sizes(port_range, args)
+        -- Optional arguments
+        --  args[1] = packet count, defaults to 100
+        --  args[2] = min packet size, defaults to 60
+        --  args[3] = max packet size, default is calculated
+        --  args[4] = increment, defaults to 1
         -- Get the size of one FPA buffer
         local fpa_size = octeon.c.bdk_config_get(octeon.BDK_CONFIG_FPA_POOL_SIZE0)
         -- PKO can only handle a maximum of 63 segments. Each segment has
@@ -463,10 +468,10 @@ function TrafficGen.new()
             max_packet = 65524
         end
         -- Get our setup params
-        local output_count = 100
-        local size_start = 60
-        local size_stop = max_packet
-        local size_incr = 1
+        local output_count = args[1] or 100
+        local size_start = args[2] or 60
+        local size_stop = args[3] or max_packet
+        local size_incr = args[4] or 1
         -- Get the latest statistics
         local all_stats = self:display(true)
         -- Start with current counts
