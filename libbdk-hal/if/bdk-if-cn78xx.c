@@ -135,7 +135,7 @@ static int pki_port_init(bdk_if_handle_t handle)
     }
 
     /* FIXME: How many buffers should be given to each aura? */
-    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS) / 16);
+    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS));
     if (aura < 0)
         return -1;
     handle->aura = aura;
