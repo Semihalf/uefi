@@ -160,7 +160,7 @@ void __bdk_config_init(void)
     int num_output_buffers = 256;
     if (OCTEON_IS_MODEL(OCTEON_CN78XX))
     {
-        num_packet_buffers = 4096;
+        num_packet_buffers = 8192;
     }
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_NUM_OUTPUT_BUFFERS, num_output_buffers);
