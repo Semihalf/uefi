@@ -867,6 +867,18 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
             uint64_t    total           :16;    /**< Total byte count */
         } s;
     } bdk_pko_send_hdr_s_t;
+    typedef union
+    {
+        uint64_t u;
+        struct
+        {
+            uint64_t    size            :16;    /**< Pakcet size */
+            uint64_t    subdc3          : 3;    /**< Must be 0x1 for gather */
+            uint64_t    i               : 1;    /**< Don't free */
+            uint64_t    reserved_42_43  : 2;
+            uint64_t    addr            :42;    /**< Block address */
+        } s;
+    } bdk_pko_send_gather_s_t;
     typedef bdk_buf_ptr_t bdk_pko_send_link_s_t;
     typedef union
     {
@@ -930,6 +942,8 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         return -1;
     }
 
+    int need_padding = (packet->length < 60) && (handle->flags & BDK_IF_FLAGS_HAS_FCS);
+    int lmstore_words = 0;
     /* Build the three PKO comamnd words we need */
     bdk_pko_send_hdr_s_t pko_send_hdr_s;
     pko_send_hdr_s.u = 0;
@@ -939,25 +953,71 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     pko_send_hdr_s.s.ii = 1;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
-    /* Packet pointer */
-    bdk_pko_send_link_s_t pko_send_link_s;
-    pko_send_link_s = packet->packet;
-    /* Memory decrement when done */
-    bdk_pko_send_mem_s_t pko_send_mem_s;
-    pko_send_mem_s.u = 0;
-    pko_send_mem_s.s.offset = pko_decrement_block;
-    pko_send_mem_s.s.alg = 9; /* Subtract */
-    pko_send_mem_s.s.subdc4 = 0xc;
-    pko_send_mem_s.s.addr = handle->pko_depth_addr;
-
     /* Errata (PKO-20715) PKO problems with min padding
        Due to this errata, we are doing padding in software. This code
        assumes the runt packet is in a single buffer and we can just spew
        the data after it as our padding */
-    if ((packet->length < 60) && (handle->flags & BDK_IF_FLAGS_HAS_FCS))
-    {
+    if (need_padding)
         pko_send_hdr_s.s.total = 60;
-        pko_send_link_s.v3.size = 60;
+    bdk_scratch_write64(BDK_IF_SCR_PKO(lmstore_words), pko_send_hdr_s.u);
+    lmstore_words++;
+
+    /* Packet pointer */
+    if (bdk_likely(packet->segments == 1))
+    {
+        bdk_pko_send_gather_s_t pko_send_gather_s;
+        pko_send_gather_s.u = 0;
+        pko_send_gather_s.s.size = packet->length;
+        pko_send_gather_s.s.subdc3 = 0x1;
+        pko_send_gather_s.s.i = packet->packet.v3.i;
+        pko_send_gather_s.s.addr = packet->packet.v3.addr;
+        /* Errata (PKO-20715) PKO problems with min padding
+           Due to this errata, we are doing padding in software. This code
+           assumes the runt packet is in a single buffer and we can just spew
+           the data after it as our padding */
+        if (need_padding)
+            pko_send_gather_s.s.size = 60;
+        bdk_scratch_write64(BDK_IF_SCR_PKO(lmstore_words), pko_send_gather_s.u);
+        lmstore_words++;
+    }
+    else if (bdk_likely(packet->segments <= 13)) /* PKO allows a max of 15 minus header and decrement */
+    {
+        int segments = packet->segments;
+        bdk_buf_ptr_t buf_ptr = packet->packet;
+        while (segments--)
+        {
+            bdk_pko_send_gather_s_t pko_send_gather_s;
+            pko_send_gather_s.u = 0;
+            pko_send_gather_s.s.size = buf_ptr.v3.size;
+            pko_send_gather_s.s.subdc3 = 0x1;
+            pko_send_gather_s.s.i = packet->packet.v3.i;
+            pko_send_gather_s.s.addr = buf_ptr.v3.addr;
+            bdk_scratch_write64(BDK_IF_SCR_PKO(lmstore_words), pko_send_gather_s.u);
+            lmstore_words++;
+            if (segments)
+                buf_ptr = *(bdk_buf_ptr_t *)bdk_phys_to_ptr(buf_ptr.v3.addr - 8);
+        }
+    }
+    else /* Use segemnt send as list is long */
+    {
+
+        bdk_pko_send_link_s_t pko_send_link_s;
+        pko_send_link_s = packet->packet;
+        bdk_scratch_write64(BDK_IF_SCR_PKO(lmstore_words), pko_send_link_s.u64);
+        lmstore_words++;
+    }
+
+    /* Memory decrement when done */
+    if (need_decrement)
+    {
+        bdk_pko_send_mem_s_t pko_send_mem_s;
+        pko_send_mem_s.u = 0;
+        pko_send_mem_s.s.offset = pko_decrement_block;
+        pko_send_mem_s.s.alg = 9; /* Subtract */
+        pko_send_mem_s.s.subdc4 = 0xc;
+        pko_send_mem_s.s.addr = handle->pko_depth_addr;
+        bdk_scratch_write64(BDK_IF_SCR_PKO(lmstore_words), pko_send_mem_s.u);
+        lmstore_words++;
     }
 
     /* Build LMTDMA store data */
@@ -975,14 +1035,8 @@ static int pko_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
        to be before the submit to insure the depth never goes negative */
     bdk_atomic_add64_nosync(&handle->pko_depth, 1);
 
-    /* Write the PKO commands to scratch */
-    bdk_scratch_write64(BDK_IF_SCR_PKO(0), pko_send_hdr_s.u);
-    bdk_scratch_write64(BDK_IF_SCR_PKO(1), pko_send_link_s.u64);
-    bdk_scratch_write64(BDK_IF_SCR_PKO(2), pko_send_mem_s.u);
-
-    /* Issue LMTDMA with 2 or 3 dwords of data, no response */
-    int words = (need_decrement) ? 3 : 2;
-    bdk_write64_uint64(BDK_LMTDMA_ADDR(words), pko_send_dma_s.u);
+    /* Issue LMTDMA, no response */
+    bdk_write64_uint64(BDK_LMTDMA_ADDR(lmstore_words), pko_send_dma_s.u);
 
     /* Updates the statistics in software if need to. The simulator
         doesn't implement the hardware counters */
