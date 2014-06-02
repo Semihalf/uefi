@@ -10,8 +10,45 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon3-bdk-2014.05-FIXME (r95818)
-----------------------------------
+octeon3-bdk-2014.06-r99397
+--------------------------
+* BDK documantation has been reorganized into PDF manual with most all
+        content in a single document.
+* First release tested on CN78XX hardware.
+* Traffic-gen round to the nearest Mbps instead of truncation
+* Fix bug where link status polling would never happen if there was enough
+    traffic that core 0 always gets at least one packet every dispatch
+    packet poll.
+* Fix Lua bug with handling CSRs with more than 2 parameters
+* Make scan_sizes take optional arguments for various parameters
+* EBB7800:
+    * Update SGMII addresses for PHYs to match the values after the EBB7800
+        MDIO workaround.  All PHYs are on MDIO bus 0 with address as qlm*4+port.
+        This file assumes BGX0 and BGX1 are usign QLM0 and QLM1.
+    * Add code to the EBB7800 board startup file to put any RXAUI ports in
+        Interleaved running disparity required by Marvell PHYs
+* CN78XX:
+    * Software is unable to measure the current QLM reference clock. It is very
+        important that users select the proper one in the QLM initialization
+        menu.
+    * PCIe gen3 is known to be broken in this release.
+    * PCIe gen2 may not always work in this release.
+    * Auto negotiation for 10G-KR and 40G-KR4 are not supported.
+    * The following QLM modes are supported: SGMII, XAUI, DXAUI, RXAUI, XFI,
+        XLAUI, 10G-KR, 40G-KE4, ILK, PCIe x4, PCIE x8
+    * Per port backpressure and RED are not configured
+    * OCI has poor performance on CN78XX pass 1.0
+    * In a multi-node setup, you must configure DRAM before cores on the
+        secondary nodes are allowed to boot. The secondary nodes must be
+        configured for remote boot.
+    * Forward Error Correction (FEC) is not supported
+    * PRBS with error injection now supported
+    * A maximum of 64 network channels can be configured across all interfaces.
+        This mostly limits ILK as channelization is currently not supported
+        on BGX.
+
+octeon3-bdk-2014.05-r95818
+--------------------------
 * CN78XX:
     ** Initial support for CN78XX and CN77XX
     ** Preliminary multi-node support (NUMA)
