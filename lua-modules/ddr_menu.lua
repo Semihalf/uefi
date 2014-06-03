@@ -15,6 +15,7 @@ end
 local BOARD_CHOICES = {
     "evb7000",
     "ebb7800",
+    "ebb7800_cfg1",
 }
 
 
