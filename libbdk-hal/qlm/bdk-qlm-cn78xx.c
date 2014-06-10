@@ -1263,27 +1263,15 @@ static void qlm_pcie_errata(int node, int qlm)
     if (!is_host)
         return;
 
-    /* De-assert the SOFT_RST bit for this QLM (PEM) */
+    /* De-assert the SOFT_RST bit for this QLM (PEM), causing the PCIe
+       workarounds code above to take effect. */
     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(pem),
         c.s.soft_prst = 0);
     bdk_wait_usec(1);
 
-    for (int q = low_qlm; q <= high_qlm; q++)
-    {
-        for (int lane = 0; lane < 4; lane++)
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(q, lane),
-                c.s.rx_resetn_ovrrd_en = 1);
-    }
-    bdk_wait_usec(1);
 
-    for (int q = low_qlm; q <= high_qlm; q++)
-    {
-        for (int lane = 0; lane < 4; lane++)
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(q, lane),
-                c.s.rx_resetn_ovrrd_en = 0);
-    }
-
-    /* Assert the SOFT_RST bit for this QLM (PEM) */
+    /* Assert the SOFT_RST bit for this QLM (PEM), putting the PCIe back into
+       reset state with disturbing the workarounds. */
     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(pem),
         c.s.soft_prst = 1);
 }
