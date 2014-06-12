@@ -1145,6 +1145,79 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     return -1;
 }
 
+static void qlm_pcie_errata_ep(int pem, void *unused)
+{
+    const bdk_node_t node = bdk_numa_local();
+    BDK_CSR_INIT(pemx_on, node, BDK_PEMX_ON(pem));
+
+    /* Errata (GSER-21178) PCIe gen3 doesn't work, continued */
+
+    /* Wait for the link to come up as Gen1 */
+    printf("PCIe%d: Waiting for EP out of reset\n", pem);
+    while (pemx_on.s.pemoor == 0)
+    {
+        bdk_wait_usec(1000);
+        pemx_on.u = BDK_CSR_READ(node, BDK_PEMX_ON(pem));
+    }
+    /* Enable gen3 speed selection */
+    printf("PCIe%d: Enabling Gen3 for EP\n", pem);
+    /* Force Gen1 for initial link bringup. We'll fix it later */
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pem),
+        c.s.md = 2);
+    BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG031(pem),
+        c.s.mls = 2);
+    BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG040(pem),
+        c.s.tls = 3);
+    /* Force a demand speed change */
+    //BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG515(pem),
+        //c.s.dsc = 1);
+    //bdk_wait_usec(500);
+
+    /* Wait up to 10ms for the link speed change to complete */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PCIEEPX_CFG032(pem), ls, ==, 3, 10000))
+    {
+        bdk_warn("PCIe%d: Timeout waiting for Gen3 speed change\n", pem);
+        /* Continue with the link at its current speed */
+    }
+
+    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pem));
+    int low_qlm = bdk_qlm_get(node, BDK_IF_DPI, pem);
+    int high_qlm = (pemx_cfg.cn78xx.lanes8) ? low_qlm+1 : low_qlm;
+
+    /* Toggle cfg_rx_dll_locken_ovvrd_en and rx_resetn_ovrrd_en across
+       all QM lanes in use */
+    for (int qlm = low_qlm; qlm <= high_qlm; qlm++)
+    {
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
+                            c.s.cfg_rx_dll_locken_ovvrd_en = 1);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, lane),
+                            c.s.rx_resetn_ovrrd_en = 1);
+        }
+    }
+    for (int qlm = low_qlm; qlm <= high_qlm; qlm++)
+    {
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
+                            c.s.cfg_rx_dll_locken_ovvrd_en = 0);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, lane),
+                            c.s.rx_resetn_ovrrd_en = 0);
+        }
+    }
+
+    //printf("PCIe%d: Waiting for EP link up at Gen3\n", pem);
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pem), pemoor, ==, 1, 1000000))
+    {
+        printf("PCIe%d: Timeout waiting for EP link up at Gen3\n", pem);
+        return;
+    }
+
+    //BDK_CSR_INIT(pcieepx_cfg032, node, BDK_PCIEEPX_CFG032(pem));
+    //printf("PCIe%d: EP link active, %d lanes, speed gen%d\n", pem, pcieepx_cfg032.s.nlw, pcieepx_cfg032.s.ls);
+}
+
 static void qlm_pcie_errata(int node, int qlm)
 {
     int pem;
@@ -1261,7 +1334,54 @@ static void qlm_pcie_errata(int node, int qlm)
     }
 
     if (!is_host)
+    {
+        /* Errata (GSER-21178) PCIe gen3 doesn't work */
+        /* The starting equalization hints are incorrect on CN78XX pass 1.x. Fix
+           them for the 8 possible lanes. It doesn't hurt to program them even for
+           lanes not in use */
+        BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG089(pem),
+            c.s.l1dph= 2;
+            c.s.l1dtp = 7;
+            c.s.l0dph = 2;
+            c.s.l0dtp = 7);
+        BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG090(pem),
+            c.s.l3dph= 2;
+            c.s.l3dtp = 7;
+            c.s.l2dph = 2;
+            c.s.l2dtp = 7);
+        BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG091(pem),
+            c.s.l5dph= 2;
+            c.s.l5dtp = 7;
+            c.s.l4dph = 2;
+            c.s.l4dtp = 7);
+        BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG092(pem),
+            c.s.l7dph= 2;
+            c.s.l7dtp = 7;
+            c.s.l6dph = 2;
+            c.s.l6dtp = 7);
+        /* FIXME: Disable phase 2 and phase 3 equalization */
+        BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG548(pem),
+            c.s.ep2p3d = 1);
+        /* Errata (GSER-21331) GEN3 Equalization may fail */
+        /* Disable preset #10 and disable the 2ms timeout */
+        BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG554(pem),
+            c.s.p23td = 1;
+            c.s.prv = 0x3ff);
+        int need_ep_monitor = (pemx_cfg.s.md == 2);
+        if (need_ep_monitor)
+        {
+            /* Force Gen1 for initial link bringup. We'll fix it later */
+            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pem),
+                c.s.md = 0);
+            BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG031(pem),
+                c.s.mls = 0);
+            BDK_CSR_MODIFY(c, node, BDK_PCIEEPX_CFG040(pem),
+                c.s.tls = 1);
+            if (bdk_thread_create(node, 0, qlm_pcie_errata_ep, pem, NULL, 0))
+                bdk_error("PCIe%d: Unable to create thread to monitor EP\n", pem);
+        }
         return;
+    }
 
     /* De-assert the SOFT_RST bit for this QLM (PEM), causing the PCIe
        workarounds code above to take effect. */
