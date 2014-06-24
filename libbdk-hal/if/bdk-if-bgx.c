@@ -192,7 +192,7 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
        the upper channels are used for anything. That's why this code only uses
        16 channels per interface */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_CHAN_MSK_AND(handle->interface),
-        c.s.msk_and |= ((1<<priv.s.num_channels) - 1) << (handle->index * 16));
+        c.s.msk_and |= ((1ull <<priv.s.num_channels) - 1ull) << (handle->index * 16));
 
     /* Disable all MAC filtering */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_ADR_CTL(handle->interface, handle->index),
