@@ -126,7 +126,14 @@ static void dram_test_thread(int arg, void *arg1)
     const int bursts = test_info->bursts;
     const int range_number = arg;
 
-    /* Figure out our work memory range */
+    /* Figure out our work memory range.
+     *
+     * Note start_address and end_address just provide the physical offset
+     * portion of the OCTEON address and do not have the node bits set. This is
+     * is to simplify address checks and calculations. Later, when about to run
+     * the memory test, the routines adds in the node bits to form the final
+     * addresses.
+     */
     uint64_t start_address = dram_test_thread_start + dram_test_thread_size * range_number;
     uint64_t end_address = start_address + dram_test_thread_size;
     if (dram_test_thread_start < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE)
@@ -225,7 +232,8 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Make sure the start address is lower than the top of memory */
     if (start_address >= max_address)
     {
-        bdk_error("Start address is larger than the amount of memory\n");
+        bdk_error("Start address is larger than the amount of memory: 0x%016lx versus 0x%016lx\n",
+	          start_address, max_address);
         return -1;
     }
     if (length == (uint64_t)-1)
@@ -410,9 +418,14 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
         return -1;
     }
 
-    /* Make sure the start address is higher that the BDK's active range */
+    /* Make sure the start address is higher that the BDK's active range.
+     *
+     * As sbrk() returns an OCTEON final address, mask off the node portion of
+     * the address to make it a physical offset. Doing this simplifies the
+     * address checks and calculations which only work with physical offsets.
+     */
     extern caddr_t sbrk(int incr);
-    uint64_t top_of_bdk = bdk_ptr_to_phys(sbrk(0));
+    uint64_t top_of_bdk = (bdk_ptr_to_phys(sbrk(0)) & 0x000000FFFFFFFFFF);
     if (start_address < top_of_bdk)
     {
         /* Give 4MB of extra so the BDK has room to grow while the test runs */
