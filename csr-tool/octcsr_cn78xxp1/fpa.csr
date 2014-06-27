@@ -108,7 +108,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -175,7 +175,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -231,7 +231,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -308,8 +308,8 @@ structs:
         attributes:
           const: "--"
         description: |
-          OCI node number. For a pointer allocated from a hardware block, the return the node number
-          may be determined from bits <11:10> of the hardware provided aura.
+          CCPI node number. For a pointer allocated from a hardware block, the return the
+          node number may be determined from bits <11:10> of the hardware provided aura.
 
       - name: DID
         bits: 47..40
@@ -1361,14 +1361,21 @@ registers:
         access: R/W
         reset: 0
         typical: 1
-        description: Enable backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
+        description: |
+          Enable aura-unique pool backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must
+          be nonzero.
 
       - name: RED_ENA
         bits: 38
         access: R/W
         reset: 0
         typical: 1
-        description: Enable RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
+        description: |
+          Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
+          must be nonzero.
+          If set, aura-unique pool RED is performed on core requests with
+          FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
+          allocation request for a packet (depending on PKI style and aura configuration).
 
       - name: SHIFT
         bits: 37..32
@@ -1376,15 +1383,27 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Right shift to apply to FPA_POOL()_AVAILABLE to result in a 8-bit relative depth to
-          be used for [DROP/PASS/LEVEL].
+          Right shift to FPA_POOL()_AVAILABLE[COUNT] used to create a narrower depth for
+          aura-unique pool QOS and backpressure calculations. PKI saturates the shifted
+          FPA_POOL()_AVAILABLE[COUNT] to 8-bits for the aura, and compares this 8-bit
+          shifted and saturated depth directly to [DROP/BP]. PKI also creates [LEVEL],
+          which is a moving average of the 8-bit shifted and saturated depth for the aura,
+          for comparison to [DROP/PASS] in aura-unique pool RED calculations.
+
+          Though [SHIFT] may differ amongst the auras sharing a given pool, they may most
+          commonly be the same (i.e. the 8-bit shifted and saturated depth and [LEVEL] may
+          typically be the same for all auras sharing a pool), with the [DROP/PASS/BP]
+          configuration providing aura-uniqueness in aura-unique pool RED/DROP/BP
+          processing.
 
       - name: BP
         bits: 31..24
         access: R/W
         reset: 0x0
         typical: --
-        description: Backpressure will be indicated if the immediate shifted level is equal to or less than this value.
+        description: |
+          Backpressure can assert if the current 8-bit shifted and saturated
+          FPA_POOL()_AVAILABLE[COUNT] for the aura is equal to or less than this value.
 
       - name: DROP
         bits: 23..16
@@ -1392,16 +1411,20 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Packet will be dropped if the average shifted level (for FPA_ALLOC_IOBDMA_S[RED]) or
-          immediate shifted level (for FPA_ALLOC_IOBDMA_S[DROP]) is equal to or greater than this
-          value.
+          If [RED_ENA]==1 and RED processing is requested, the packet will be dropped if
+          [LEVEL] is equal to or less than this value.
+          If DROP processing is requested, the packet will be dropped if the current 8-bit
+          shifted and saturated FPA_POOL()_AVAILABLE[COUNT] for the aura is equal to or
+          less than this value.
 
       - name: PASS
         bits: 15..8
         access: R/W
         reset: 0x0
         typical: --
-        description: Packet will be passed if the average shifted level is larger than this value.
+        description: |
+          Aura-unique pool RED processing will not drop an allocation request if [LEVEL] is larger
+          than this value.
 
       - name: LEVEL
         bits: 7..0
@@ -1409,8 +1432,11 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Current shifted level, averaged with FPA_POOL()_AVAILABLE[AVG_CON].
-          FPA levels track availability; the higher the level the more free resources.
+          Current moving average of the 8-bit shifted and saturated FPA_POOL()_AVAILABLE[COUNT] for
+          the aura.
+          The higher [LEVEL] is, the more free resources. The lowest [LEVEL]'s indicate buffer
+          exhaustion.
+          See [SHIFT].
 
 
   - name: FPA_AURA(0..1023)_CNT_LEVELS
@@ -1440,9 +1466,12 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Enable RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
-          If set, RED is performed on core requests with FPA_ALLOC_LD_S[RED] set, and/or PKI
-          requests if PKI_AURA()_CFG[ENA_RED] is set.
+          Enable aura RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be
+          nonzero.
+          If set, aura RED is performed on core requests with
+          FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the
+          first PKI allocation request for a packet (depends on PKI style and aura
+          configuration).
 
       - name: SHIFT
         bits: 37..32
@@ -1450,15 +1479,21 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Right shift to apply to FPA_AURA()_CNT to result in a 8-bit relative depth to be
-          used for [DROP/PASS/LEVEL].
+          Right shift to FPA_AURA()_CNT[CNT] to create a narrower depth for aura QOS and
+          backpressure calculations. PKI saturates the shifted FPA_AURA()_CNT[CNT] to
+          8-bits, and compares this 8-bit shifted and saturated depth directly to
+          [DROP/BP]. PKI also creates [LEVEL], which is a moving average of the 8-bit
+          shifted and saturated depth of the aura, for comparison to [DROP/PASS] in RED
+          calculations.
 
       - name: BP
         bits: 31..24
         access: R/W
         reset: 0x0
         typical: --
-        description: Backpressure will be applied if the immediate shifted level is equal to or greater than this value.
+        description: |
+          Backpressure can assert if the current 8-bit shifted and saturated FPA_AURA()_CNT[CNT] is
+          equal to or greater than this value.
 
       - name: DROP
         bits: 23..16
@@ -1466,8 +1501,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Packet will be dropped if the average shifted level (for FPA_ALLOC_IOBDMA_S[RED]) or
-          immediate shifted level (for FPA_ALLOC_IOBDMA_S[DROP]) is equal to or greater than this
+          If [RED_ENA]==1 and RED processing is requested, the packet will be dropped if
+          [LEVEL] is equal to or greater than this value.
+          If DROP processing is requested, the packet will be dropped if the current 8-bit
+          shifted and saturated FPA_AURA()_CNT[CNT] is equal to or greater than this
           value.
 
       - name: PASS
@@ -1475,7 +1512,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Packet will be passed if the average shifted level is less than this value.
+        description: Aura RED processing will not drop an allocation request if [LEVEL] is less than this value.
 
       - name: LEVEL
         bits: 7..0
@@ -1483,8 +1520,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Current shifted level, averaged with FPA_AURA()_CNT.
-          CNT levels track usage; the lower the level the more free resources.
+          Current moving average of the 8-bit shifted and saturated FPA_AURA()_CNT[CNT].
+          The lower [LEVEL] is, the more free resources. The highest [LEVEL]'s indicate buffer
+          exhaustion.
+          See [SHIFT].
 
 
 

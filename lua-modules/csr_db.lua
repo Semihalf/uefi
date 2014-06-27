@@ -3258,8 +3258,8 @@ local csr_db = {
             width = 8,
             address = 0x10100000001c0,
             fields = {
-                {name = "RESERVED_11_63", start = 11, stop = 63},
-                {name = "BIST", start = 0, stop = 10},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "BIST", start = 0, stop = 8},
             }
         },
         CIU_CONST = {
@@ -3427,8 +3427,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_46_63", start = 46, stop = 63},
                 {name = "INDEX", start = 32, stop = 45},
-                {name = "SSO_CNT", start = 16, stop = 31},
-                {name = "RESERVED_1_15", start = 1, stop = 15},
+                {name = "RESERVED_1_31", start = 1, stop = 31},
                 {name = "READY", start = 0, stop = 0},
             }
         },
@@ -3453,9 +3452,7 @@ local csr_db = {
                 {name = "RESERVED_24_63", start = 24, stop = 63},
                 {name = "IDT", start = 16, stop = 23},
                 {name = "IMP", start = 15, stop = 15},
-                {name = "SSO_PEND", start = 14, stop = 14},
-                {name = "RESERVED_3_13", start = 3, stop = 13},
-                {name = "SSO", start = 2, stop = 2},
+                {name = "RESERVED_2_14", start = 2, stop = 14},
                 {name = "EN", start = 1, stop = 1},
                 {name = "RAW", start = 0, stop = 0},
             }
@@ -3468,8 +3465,7 @@ local csr_db = {
             range1 = {0,1048575},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
-                {name = "SSO", start = 2, stop = 2},
+                {name = "RESERVED_2_63", start = 2, stop = 63},
                 {name = "EN", start = 1, stop = 1},
                 {name = "RAW", start = 0, stop = 0},
             }
@@ -3482,21 +3478,9 @@ local csr_db = {
             range1 = {0,1048575},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
-                {name = "SSO", start = 2, stop = 2},
+                {name = "RESERVED_2_63", start = 2, stop = 63},
                 {name = "EN", start = 1, stop = 1},
                 {name = "RAW", start = 0, stop = 0},
-            }
-        },
-        CIU_ISCMEM_BASE = {
-            name = "CIU_ISCMEM_BASE",
-            type = "NCB",
-            width = 8,
-            address = 0x10100000002c0,
-            fields = {
-                {name = "RESERVED_42_63", start = 42, stop = 63},
-                {name = "ADDR", start = 4, stop = 41},
-                {name = "ADDRL4", start = 0, stop = 3},
             }
         },
         CIU_NMI = {
@@ -4131,10 +4115,10 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_37_63", start = 37, stop = 63},
-                {name = "COMPBLKS", start = 32, stop = 36},
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "BASE", start = 4, stop = 8},
+                {name = "RESERVED_38_63", start = 38, stop = 63},
+                {name = "COMPBLKS", start = 32, stop = 37},
+                {name = "RESERVED_10_31", start = 10, stop = 31},
+                {name = "BASE", start = 4, stop = 9},
                 {name = "BLKS", start = 0, stop = 3},
             }
         },
@@ -7254,22 +7238,6 @@ local csr_db = {
                 {name = "TXT_CUR", start = 0, stop = 13},
             }
         },
-        GSERX_BR_TXX_TAP = {
-            name = "GSER#_BR_TX#_TAP",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090000440,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            range2 = {0,3},
-            range2_inc = 0x80,
-            fields = {
-                {name = "RESERVED_14_63", start = 14, stop = 63},
-                {name = "TXT_PRE", start = 10, stop = 13},
-                {name = "TXT_SWING", start = 5, stop = 9},
-                {name = "TXT_POST", start = 0, stop = 4},
-            }
-        },
         GSERX_CFG = {
             name = "GSER#_CFG",
             type = "RSL",
@@ -7296,6 +7264,19 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_1_63", start = 1, stop = 63},
                 {name = "RXQTM_ON", start = 0, stop = 0},
+            }
+        },
+        GSERX_EQ_WAIT_TIME = {
+            name = "GSER#_EQ_WAIT_TIME",
+            type = "RSL",
+            width = 8,
+            address = 0x11800904e0000,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RXEQ_WAIT_CNT", start = 4, stop = 7},
+                {name = "TXEQ_WAIT_CNT", start = 0, stop = 3},
             }
         },
         GSERX_GLBL_TAD = {
@@ -7701,6 +7682,22 @@ local csr_db = {
                 {name = "PCS_SDS_RX_CTLE_POLE_STEP", start = 0, stop = 0},
             }
         },
+        GSERX_LANEX_RX_LOOP_CTRL = {
+            name = "GSER#_LANE#_RX_LOOP_CTRL",
+            type = "RSL",
+            width = 8,
+            address = 0x1180090440048,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "FAST_DLL_LOCK", start = 11, stop = 11},
+                {name = "FAST_OFST_CNCL", start = 10, stop = 10},
+                {name = "CFG_RX_LCTRL", start = 0, stop = 9},
+            }
+        },
         GSERX_LANEX_RX_MISC_OVRRD = {
             name = "GSER#_LANE#_RX_MISC_OVRRD",
             type = "RSL",
@@ -7711,7 +7708,9 @@ local csr_db = {
             range2 = {0,3},
             range2_inc = 0x100000,
             fields = {
-                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "CFG_RX_OOB_CLK_EN_OVRRD_VAL", start = 13, stop = 13},
+                {name = "CFG_RX_OOB_CLK_EN_OVRRD_EN", start = 12, stop = 12},
                 {name = "CFG_RX_EIE_DET_OVRRD_VAL", start = 11, stop = 11},
                 {name = "CFG_RX_EIE_DET_OVRRD_EN", start = 10, stop = 10},
                 {name = "CFG_RX_CDR_CTRL_OVVRD_EN", start = 9, stop = 9},
@@ -7841,66 +7840,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "SDS_PCS_RX_VMA_STATUS", start = 0, stop = 15},
-            }
-        },
-        GSERX_LANEX_SDS_PIN_MON_0 = {
-            name = "GSER#_LANE#_SDS_PIN_MON_0",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090440130,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            range2 = {0,3},
-            range2_inc = 0x100000,
-            fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
-                {name = "PCS_SDS_TX_WIDTHSEL", start = 8, stop = 9},
-                {name = "PCS_SDS_RX_PCIE_MODE", start = 7, stop = 7},
-                {name = "RESERVED_5_6", start = 5, stop = 6},
-                {name = "PCS_SDS_RX_MISC_CTRL_5", start = 4, stop = 4},
-                {name = "TX_DETRX_STATE", start = 2, stop = 3},
-                {name = "PCS_SDS_TX_RX_DETECT_DIS", start = 1, stop = 1},
-                {name = "PCS_SDS_TX_DETECT_PULSEN", start = 0, stop = 0},
-            }
-        },
-        GSERX_LANEX_SDS_PIN_MON_1 = {
-            name = "GSER#_LANE#_SDS_PIN_MON_1",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090440138,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            range2 = {0,3},
-            range2_inc = 0x100000,
-            fields = {
-                {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "PCS_SDS_RX_CHPD", start = 15, stop = 15},
-                {name = "PCS_SDS_RX_EIE_EN", start = 14, stop = 14},
-                {name = "RESERVED_13_13", start = 13, stop = 13},
-                {name = "PCS_SDS_LN_LOOPBACK_MODE", start = 12, stop = 12},
-                {name = "PCS_SDS_TX_CHPD", start = 11, stop = 11},
-                {name = "PCS_SDS_RX_WIDTHSEL", start = 9, stop = 10},
-                {name = "RESERVED_8_8", start = 8, stop = 8},
-                {name = "PCS_SDS_TX_RESETN", start = 7, stop = 7},
-                {name = "PCS_SDS_TX_TRISTATE_EN", start = 6, stop = 6},
-                {name = "PCS_SDS_TX_SWING", start = 1, stop = 5},
-                {name = "PCS_SDS_TX_ELEC_IDLE", start = 0, stop = 0},
-            }
-        },
-        GSERX_LANEX_SDS_PIN_MON_2 = {
-            name = "GSER#_LANE#_SDS_PIN_MON_2",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090440140,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            range2 = {0,3},
-            range2_inc = 0x100000,
-            fields = {
-                {name = "RESERVED_11_63", start = 11, stop = 63},
-                {name = "PCS_SDS_TX_VBOOST_EN", start = 10, stop = 10},
-                {name = "PCS_SDS_TX_TURBOS_EN", start = 9, stop = 9},
-                {name = "PCS_SDS_PREMPTAP", start = 0, stop = 8},
             }
         },
         GSERX_LANEX_TX_CFG_0 = {
@@ -8271,31 +8210,6 @@ local csr_db = {
                 {name = "RDET_TIME_1", start = 0, stop = 7},
             }
         },
-        GSERX_REFCLK_EVT_CNTR = {
-            name = "GSER#_REFCLK_EVT_CNTR",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090000178,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "COUNT", start = 0, stop = 31},
-            }
-        },
-        GSERX_REFCLK_EVT_CTRL = {
-            name = "GSER#_REFCLK_EVT_CTRL",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090000170,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_2_63", start = 2, stop = 63},
-                {name = "CLR", start = 1, stop = 1},
-                {name = "ENB", start = 0, stop = 0},
-            }
-        },
         GSERX_REFCLK_SEL = {
             name = "GSER#_REFCLK_SEL",
             type = "RSL",
@@ -8432,7 +8346,9 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_12_63", start = 12, stop = 63},
                 {name = "TX_RX_DETECT_LVL_ENC", start = 8, stop = 11},
-                {name = "RESERVED_2_7", start = 2, stop = 7},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "PCS_SDS_RX_PCIE_PTERM", start = 4, stop = 5},
+                {name = "PCS_SDS_RX_PCIE_NTERM", start = 2, stop = 3},
                 {name = "PCS_SDS_TX_STRESS_EYE", start = 0, stop = 1},
             }
         },
@@ -8470,31 +8386,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_4_63", start = 4, stop = 63},
                 {name = "VBOOST", start = 0, stop = 3},
-            }
-        },
-        GSERX_TXCLK_EVT_CNTR = {
-            name = "GSER#_TXCLK_EVT_CNTR",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090000188,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "COUNT", start = 0, stop = 31},
-            }
-        },
-        GSERX_TXCLK_EVT_CTRL = {
-            name = "GSER#_TXCLK_EVT_CTRL",
-            type = "RSL",
-            width = 8,
-            address = 0x1180090000180,
-            range1 = {0,13},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_2_63", start = 2, stop = 63},
-                {name = "CLR", start = 1, stop = 1},
-                {name = "ENB", start = 0, stop = 0},
             }
         },
         HNA_BIST0 = {
@@ -10916,7 +10807,9 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x40000,
             fields = {
-                {name = "RESERVED_59_63", start = 59, stop = 63},
+                {name = "IORDDISOCI", start = 63, stop = 63},
+                {name = "IOWRDISOCI", start = 62, stop = 62},
+                {name = "RESERVED_59_61", start = 59, stop = 61},
                 {name = "CMD", start = 52, stop = 58},
                 {name = "PPVID", start = 46, stop = 51},
                 {name = "NODE", start = 44, stop = 45},
@@ -11348,7 +11241,8 @@ local csr_db = {
             width = 8,
             address = 0x1180080800018,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "FRCNALC", start = 32, stop = 32},
                 {name = "DISRSTP", start = 31, stop = 31},
                 {name = "WTLMCWRDN", start = 30, stop = 30},
                 {name = "WTINVDN", start = 29, stop = 29},
@@ -11856,16 +11750,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_6_63", start = 6, stop = 63},
                 {name = "PKIND", start = 0, stop = 5},
-            }
-        },
-        LBK_CLK_GATE_CTL = {
-            name = "LBK_CLK_GATE_CTL",
-            type = "RSL",
-            width = 8,
-            address = 0x1180012000008,
-            fields = {
-                {name = "RESERVED_1_63", start = 1, stop = 63},
-                {name = "DIS", start = 0, stop = 0},
             }
         },
         LBK_DAT_ERR_INFO = {
@@ -12758,37 +12642,6 @@ local csr_db = {
                 {name = "DDR3PSOFT", start = 2, stop = 2},
                 {name = "DDR3PWARM", start = 1, stop = 1},
                 {name = "DDR3RST", start = 0, stop = 0},
-            }
-        },
-        LMCX_RETRY_CONFIG = {
-            name = "LMC#_RETRY_CONFIG",
-            type = "RSL",
-            width = 8,
-            address = 0x1180088000110,
-            range1 = {0,3},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
-                {name = "MAX_ERRORS", start = 32, stop = 55},
-                {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "RETRY_ENABLE", start = 0, stop = 0},
-            }
-        },
-        LMCX_RETRY_STATUS = {
-            name = "LMC#_RETRY_STATUS",
-            type = "RSL",
-            width = 8,
-            address = 0x1180088000118,
-            range1 = {0,3},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "CLEAR_ERROR_COUNT", start = 63, stop = 63},
-                {name = "RESERVED_45_62", start = 45, stop = 62},
-                {name = "ERROR_SEQUENCE", start = 40, stop = 44},
-                {name = "RESERVED_33_39", start = 33, stop = 39},
-                {name = "ERROR_TYPE", start = 32, stop = 32},
-                {name = "RESERVED_24_31", start = 24, stop = 31},
-                {name = "ERROR_COUNT", start = 0, stop = 23},
             }
         },
         LMCX_RLEVEL_CTL = {
@@ -15338,12 +15191,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_17_63", start = 17, stop = 63},
-                {name = "INVERT", start = 16, stop = 16},
-                {name = "LOCK", start = 15, stop = 15},
-                {name = "STATE", start = 12, stop = 14},
-                {name = "COURSE", start = 4, stop = 11},
-                {name = "INTERP", start = 0, stop = 3},
+                {name = "RESERVED_0_63", start = 0, stop = 63},
             }
         },
         OCX_FRCX_STAT0 = {
@@ -21327,66 +21175,6 @@ local csr_db = {
                 {name = "CLKEN", start = 0, stop = 0},
             }
         },
-        PKI_DSTATX_STAT0 = {
-            name = "PKI_DSTAT#_STAT0",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044c00000,
-            range1 = {0,1023},
-            range1_inc = 0x40,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "PKTS", start = 0, stop = 31},
-            }
-        },
-        PKI_DSTATX_STAT1 = {
-            name = "PKI_DSTAT#_STAT1",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044c00008,
-            range1 = {0,1023},
-            range1_inc = 0x40,
-            fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
-                {name = "OCTS", start = 0, stop = 39},
-            }
-        },
-        PKI_DSTATX_STAT2 = {
-            name = "PKI_DSTAT#_STAT2",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044c00010,
-            range1 = {0,1023},
-            range1_inc = 0x40,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "ERR_PKTS", start = 0, stop = 31},
-            }
-        },
-        PKI_DSTATX_STAT3 = {
-            name = "PKI_DSTAT#_STAT3",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044c00018,
-            range1 = {0,1023},
-            range1_inc = 0x40,
-            fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "DRP_PKTS", start = 0, stop = 31},
-            }
-        },
-        PKI_DSTATX_STAT4 = {
-            name = "PKI_DSTAT#_STAT4",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044c00020,
-            range1 = {0,1023},
-            range1_inc = 0x40,
-            fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
-                {name = "DRP_OCTS", start = 0, stop = 39},
-            }
-        },
         PKI_ECC_CTL0 = {
             name = "PKI_ECC_CTL0",
             type = "RSL",
@@ -21567,8 +21355,7 @@ local csr_db = {
             width = 8,
             address = 0x1180044000020,
             fields = {
-                {name = "RESERVED_9_63", start = 9, stop = 63},
-                {name = "MEMOUT_ERR", start = 8, stop = 8},
+                {name = "RESERVED_8_63", start = 8, stop = 63},
                 {name = "X2P_REQ_OFL", start = 7, stop = 7},
                 {name = "DRP_NOAVAIL", start = 6, stop = 6},
                 {name = "DAT", start = 5, stop = 5},
@@ -21620,17 +21407,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_3_63", start = 3, stop = 63},
                 {name = "BELTYPE", start = 0, stop = 2},
-            }
-        },
-        PKI_MEMOUT_ERR_BUF = {
-            name = "PKI_MEMOUT_ERR_BUF",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044000130,
-            fields = {
-                {name = "RESERVED_42_63", start = 42, stop = 63},
-                {name = "ADDR", start = 7, stop = 41},
-                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         PKI_PCAM_LOOKUP = {
@@ -21770,18 +21546,6 @@ local csr_db = {
                 {name = "RESERVED_12_15", start = 12, stop = 15},
                 {name = "AURA_NODE", start = 10, stop = 11},
                 {name = "LAURA", start = 0, stop = 9},
-            }
-        },
-        PKI_QPG_TBL2X = {
-            name = "PKI_QPG_TBL2#",
-            type = "RSL",
-            width = 8,
-            address = 0x1180044820000,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
-                {name = "DSTAT_ID", start = 0, stop = 9},
             }
         },
         PKI_REASM_SOPX = {
@@ -22637,8 +22401,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_28_63", start = 28, stop = 63},
-                {name = "IP4_CK", start = 27, stop = 27},
+                {name = "RESERVED_27_63", start = 27, stop = 63},
                 {name = "OFFSET", start = 16, stop = 26},
                 {name = "Y_MASK", start = 12, stop = 15},
                 {name = "Y_VAL", start = 8, stop = 11},
@@ -22817,7 +22580,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x200,
             fields = {
-                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "DUMMY", start = 24, stop = 63},
                 {name = "RR_QUANTUM", start = 0, stop = 23},
             }
         },
@@ -22829,9 +22592,12 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x200,
             fields = {
-                {name = "RESERVED_18_63", start = 18, stop = 63},
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "LENGTH_DISABLE", start = 24, stop = 24},
+                {name = "RESERVED_18_23", start = 18, stop = 23},
                 {name = "LINK", start = 13, stop = 17},
-                {name = "RESERVED_0_12", start = 0, stop = 12},
+                {name = "RESERVED_9_12", start = 9, stop = 12},
+                {name = "ADJUST", start = 0, stop = 8},
             }
         },
         PKO_L1_SQX_SHAPE_STATE = {
@@ -24122,7 +23888,8 @@ local csr_db = {
             width = 8,
             address = 0x1540000e00010,
             fields = {
-                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "TSO_SEGMENT_CNT", start = 1, stop = 1},
                 {name = "NCB_TX_ERROR", start = 0, stop = 0},
             }
         },
@@ -24677,7 +24444,7 @@ local csr_db = {
                 {name = "SEND_MEM_FIFO", start = 3, stop = 3},
                 {name = "PKT_MRK_RAM", start = 2, stop = 2},
                 {name = "PEB_ST_INF_RAM", start = 1, stop = 1},
-                {name = "RESERVED_0_0", start = 0, stop = 0},
+                {name = "PEB_SM_JMP_RAM", start = 0, stop = 0},
             }
         },
         PKO_PEB_ECC_CTL0 = {
@@ -24696,7 +24463,8 @@ local csr_db = {
                 {name = "PDM_RESP_BUF_RAM_CDIS", start = 52, stop = 52},
                 {name = "PDM_PSE_BUF_RAM_FLIP", start = 50, stop = 51},
                 {name = "PDM_PSE_BUF_RAM_CDIS", start = 49, stop = 49},
-                {name = "RESERVED_46_48", start = 46, stop = 48},
+                {name = "PEB_SM_JMP_RAM_FLIP", start = 47, stop = 48},
+                {name = "PEB_SM_JMP_RAM_CDIS", start = 46, stop = 46},
                 {name = "PEB_ST_INF_RAM_FLIP", start = 44, stop = 45},
                 {name = "PEB_ST_INF_RAM_CDIS", start = 43, stop = 43},
                 {name = "PD_BANK3_RAM_FLIP", start = 41, stop = 42},
@@ -24752,7 +24520,7 @@ local csr_db = {
                 {name = "IOBP1_FIFO_RAM_DBE", start = 61, stop = 61},
                 {name = "PDM_RESP_BUF_RAM_DBE", start = 60, stop = 60},
                 {name = "PDM_PSE_BUF_RAM_DBE", start = 59, stop = 59},
-                {name = "RESERVED_58_58", start = 58, stop = 58},
+                {name = "PEB_SM_JMP_RAM_DBE", start = 58, stop = 58},
                 {name = "PEB_ST_INF_RAM_DBE", start = 57, stop = 57},
                 {name = "PD_BANK3_RAM_DBE", start = 56, stop = 56},
                 {name = "PD_BANK2_RAM_DBE", start = 55, stop = 55},
@@ -24793,7 +24561,7 @@ local csr_db = {
                 {name = "IOBP1_FIFO_RAM_SBE", start = 61, stop = 61},
                 {name = "PDM_RESP_BUF_RAM_SBE", start = 60, stop = 60},
                 {name = "PDM_PSE_BUF_RAM_SBE", start = 59, stop = 59},
-                {name = "RESERVED_58_58", start = 58, stop = 58},
+                {name = "PEB_SM_JMP_RAM_SBE", start = 58, stop = 58},
                 {name = "PEB_ST_INF_RAM_SBE", start = 57, stop = 57},
                 {name = "PD_BANK3_RAM_SBE", start = 56, stop = 56},
                 {name = "PD_BANK2_RAM_SBE", start = 55, stop = 55},
@@ -24969,6 +24737,18 @@ local csr_db = {
                 {name = "VAL", start = 19, stop = 19},
                 {name = "FIFO", start = 12, stop = 18},
                 {name = "CHAN", start = 0, stop = 11},
+            }
+        },
+        PKO_PEB_TSO_CFG = {
+            name = "PKO_PEB_TSO_CFG",
+            type = "NCB",
+            width = 8,
+            address = 0x1540000900310,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "FSF", start = 16, stop = 23},
+                {name = "MSF", start = 8, stop = 15},
+                {name = "LSF", start = 0, stop = 7},
             }
         },
         PKO_PQ_CSR_BUS_DEBUG = {
@@ -30365,21 +30145,6 @@ local csr_db = {
                 {name = "SLOPE", start = 16, stop = 23},
                 {name = "V_BASE", start = 8, stop = 15},
                 {name = "V_MAX", start = 0, stop = 7},
-            }
-        },
-        VRMX_DEVICE_STATUS = {
-            name = "VRM#_DEVICE_STATUS",
-            type = "RSL",
-            width = 8,
-            address = 0x11800210000a8,
-            range1 = {0,1},
-            range1_inc = 0x1000000,
-            fields = {
-                {name = "RESERVED_18_63", start = 18, stop = 63},
-                {name = "REMOVE_IDLE", start = 17, stop = 17},
-                {name = "STATUS_IDLE", start = 16, stop = 16},
-                {name = "STATUS_BYTE", start = 8, stop = 15},
-                {name = "STATUS_CML", start = 0, stop = 7},
             }
         },
         VRMX_FUSE_BYPASS = {

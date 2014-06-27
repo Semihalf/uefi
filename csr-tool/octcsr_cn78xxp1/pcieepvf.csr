@@ -246,10 +246,14 @@ registers:
 
       - name: RID
         bits: 7..0
-        access: RO
-        reset: 0x8
-        typical: 0x8
-        description: Revision ID.
+        access: RO/WRSL
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<=1.0"
+        description: |
+          Revision ID, writable through PEM()_CFG_WR. However, the application must not change
+          this field.
 
 
   - name: PCIEEPVF(0..3)_CFG003

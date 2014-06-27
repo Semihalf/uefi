@@ -265,18 +265,7 @@ registers:
         reset: 0x0
         typical: 0x0
         attributes:
-          chip_pass: "o78<2.0"
-        description: |
-          Revision ID, writable through PEM()_CFG_WR. However, the application must not change
-          this field.
-
-      - name: RID
-        bits: 7..0
-        access: RO/WRSL
-        reset: 0x8
-        typical: 0x8
-        attributes:
-          chip_pass: "o78>=2.0"
+          chip_pass: "o78<=1.0"
         description: |
           Revision ID, writable through PEM()_CFG_WR. However, the application must not change
           this field.
@@ -5366,6 +5355,8 @@ registers:
         access: R/W
         reset: 0x7ff
         typical: 0x7ff
+        attributes:
+          chip_pass: "o78<=1.0"
         description: |
           Preset request vector. Requesting of presets during the initial part of the EQ master
           phase. Encoding scheme as follows:
@@ -5374,31 +5365,31 @@ registers:
 
           Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
 
-          _ 0000000000000000: No preset req/evaluated in EQ master phase
+          _ 0b0000000000000000 = No preset req/evaluated in EQ master phase.
 
-          _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
+          _ 0b00000xxxxxxxxxx1 = Preset 0 req/evaluated in EQ master phase.
 
-          _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
+          _ 0b00000xxxxxxxxx1x = Preset 1 req/evaluated in EQ master phase.
 
-          _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
+          _ 0b00000xxxxxxxx1xx = Preset 2 req/evaluated in EQ master phase.
 
-          _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
+          _ 0b00000xxxxxxx1xxx = Preset 3 req/evaluated in EQ master phase.
 
-          _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
+          _ 0b00000xxxxxx1xxxx = Preset 4 req/evaluated in EQ master phase.
 
-          _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
+          _ 0b00000xxxxx1xxxxx = Preset 5 req/evaluated in EQ master phase.
 
-          _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
+          _ 0b00000xxxx1xxxxxx = Preset 6 req/evaluated in EQ master phase.
 
-          _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
+          _ 0b00000xxx1xxxxxxx = Preset 7 req/evaluated in EQ master phase.
 
-          _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
+          _ 0b00000xx1xxxxxxxx = Preset 8 req/evaluated in EQ master phase.
 
-          _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
+          _ 0b00000x1xxxxxxxxx = Preset 9 req/evaluated in EQ master phase.
 
-          _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
+          _ 0b000001xxxxxxxxxx = Preset 10 req/evaluated in EQ master phase.
 
-          _ All other encodings: Reserved
+          _ All other encodings = Reserved.
 
       - name: --
         bits: 7..6
@@ -5412,6 +5403,8 @@ registers:
         access: R/W
         reset: 0
         typical: 0
+        attributes:
+          chip_pass: "o78<=1.0"
         description: |
           Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
           the PHY does not respond within 2 ms to the assertion of RxEqEval:

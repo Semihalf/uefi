@@ -148,7 +148,7 @@ class Csr:
         # Make sure all bits are account for
         for bit in bitmask:
             if bit == 0:
-                raise Exception("Unused Bit in CSR: " + str(bitmask))
+                raise Exception("Unused Bit in CSR %s: %s" % (self.name, str(bitmask)))
 
         # Set the c_type if it isn't set already
         for f in self.fields:

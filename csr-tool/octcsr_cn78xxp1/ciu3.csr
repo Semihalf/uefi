@@ -384,50 +384,6 @@ enums:
 
 
 structs:
-  - name: CIU_ISCMEM_S
-    title: |
-      INTERNAL: Interrupt Source Memory Entry Structure
-    description: Deprecated. This structure specifies the layout of the in-memory entry for SSO delivery.
-    fields:
-      - name: TAG
-        bits: w0(31..0)
-        description: SSO Tag. When CIU_ISC()_CTL[AW] is set, the SSO tag to add work with.
-
-      - name: --
-        bits: w0(55..32)
-        description: Reserved.
-
-      - name: --
-        bits: w0(63..56)
-        description: |
-          Reserved. INTERNAL: VMID
-
-      - name: ADDR
-        bits: w1(43..0)
-        description: |
-          Physical Address. ADDR is a pointer to a work queue entry. ADDR must be 8 byte aligned.
-          ADDR is a big-endian pointer unless CIU_CTL[ISCMEM_LE] is set. ADDR<43:42> must be zero.
-
-      - name: --
-        bits: w1(49..44)
-        description: Reserved.
-
-      - name: TT
-        bits: w1(51..50)
-        description: SSO Tag Type. When CIU_ISC()_CTL[AW] is set, the SSO tag type to add work with.
-
-      - name: GRP
-        bits: w1(61..52)
-        description: |
-          SSO Group. When CIU_ISC()_CTL[AW] is set, the SSO group number to add work to.
-          Note the upper two bits correspond to a node number.
-
-      - name: --
-        bits: w1(63..62)
-        description: |
-          Reserved. INTERNAL: More group bits.
-
-
   - name: CIU_PP_INT_S
     title: |
       INTERNAL: Core Interrupt Delivery Structure
@@ -692,23 +648,21 @@ registers:
       dv_bist_all_fail_test: "ALL"
     fields:
       - name: --
-        bits: 63..11
+        bits: 63..9
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BIST
-        bits: 10..0
+        bits: 8..0
         access: RO/H
         reset: 0x0
         typical: 0x0
         description: |
           BIST results. Hardware sets a bit for each memory that fails BIST. INTERNAL:
-          <10>= ncbo_crd_fif_mem0.
-          <9> = ciu_nbt_sso_req_ram.
-          <8> = ciu_nbt_rsp_ram.
-          <7> = ciu_sso_output_fifo_mem.
+          <8>= ncbo_crd_fif_mem0.
+          <7> = ciu_nbt_rsp_ram.
           <6> = ciu_isc_ram2.
           <5> = ciu_isc_ram1.
           <4> = ciu_isc_ram0.
@@ -906,16 +860,8 @@ registers:
           Scanner index. If [READY] set, the current index, else the index the scanner stopped at.
           For diagnostic use only.
 
-      - name: SSO_CNT
-        bits: 31..16
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Reserved. INTERNAL: Deprecated. Number of SSO events waiting to be sent to SSO.
-
       - name: --
-        bits: 15..1
+        bits: 31..1
         access: RAZ
         reset: --
         typical: --
@@ -929,39 +875,6 @@ registers:
         description: |
           CIU is idle. If clear, CIU is performing a background scan searching for secondary
           interrupts. Write one to force a new scan. For diagnostic use only.
-
-
-  - name: CIU_ISCMEM_BASE
-    title: |
-      INTERNAL: CIU Source Memory Table Base Register
-    address: 0x10100000002C0
-    bus: NCB
-    description: Deprecated.
-    fields:
-      - name: --
-        bits: 63..42
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: ADDR
-        bits: 41..4
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Base address of CIU_INTSN_E table. Note must be 16-byte aligned and is in root-physical
-          address space. Endinaness is selected with CIU_CTL[ISCMEM_LE].
-
-      - name: ADDRL4
-        bits: 3..0
-        access: RO
-        reset: 0x0
-        typical: 0x0
-        description: |
-          Lowest 4 bits of Base address of CIU_INTSN_E table, always zero as CIU_ISCMEM_S structure
-          is 16-byte aligned.
 
 
   - name: CIU_TIM(0..9)
@@ -1329,33 +1242,12 @@ registers:
           0 = The IDT and EN fields for this index are RAZ, and do not have any corresponding
           INTSN.
 
-      - name: SSO_PEND
-        bits: 14
-        access: RO/H
-        reset: 0
-        typical: 0
-        description: |
-          Reserved. INTERNAL: Deprecated. Transaction needs to be sent to SSO. CIU internal state
-          for diagnostic use. [SSO_PEND] will be cleared when the entry is transmitted to SSO, or by
-          a software clear of [SSO], [RAW] or [EN].
-
       - name: --
-        bits: 13..3
+        bits: 14..2
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: SSO
-        bits: 2
-        access: R/W
-        reset: 0
-        typical: 0
-        attributes:
-          regtest_force: "0"
-        description: |
-          Reserved. This field may be read-only for some indexes.
-          INTERNAL: Deprecated. Use SSO delivery.
 
       - name: EN
         bits: 1
@@ -1385,19 +1277,11 @@ registers:
       dv_uvm_no_create: "True"
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..2
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: SSO
-        bits: 2
-        access: R/W1C
-        reset: 0
-        typical: 0
-        description: |
-          Reserved. INTERNAL: Deprecated. Use SSO work-queue-entry delivery.
 
       - name: EN
         bits: 1
@@ -1423,19 +1307,11 @@ registers:
       dv_uvm_no_create: "True"
     fields:
       - name: --
-        bits: 63..3
+        bits: 63..2
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: SSO
-        bits: 2
-        access: R/W1S
-        reset: 0
-        typical: 0
-        description: |
-          Reserved. INTERNAL: Deprecated. Use SSO work-queue-entry delivery.
 
       - name: EN
         bits: 1

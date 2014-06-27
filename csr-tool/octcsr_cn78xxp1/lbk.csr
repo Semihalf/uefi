@@ -55,28 +55,6 @@ registers:
         description: Reset. When set, causes a reset of Loopback, except RSL.
 
 
-  - name: LBK_CLK_GATE_CTL
-    title: Loopback Reset Register
-    address: 0x1180012000008
-    bus: RSL
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..1
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DIS
-        bits: 0
-        access: R/W
-        reset: 1
-        typical: 0
-        description: Clock gate disable. When set, forces gated clock to always on. Added in pass 2.
-
-
   - name: LBK_BIST_RESULT
     title: Loopback BIST Result Register
     address: 0x1180012000020

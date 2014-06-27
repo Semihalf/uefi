@@ -104,6 +104,7 @@ registers:
         description: |
           Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). 'ref-clock speed'
           should always be 50MHz.
+          INTERNAL:  C_MUL is set from the pi_pll_mul pins plus 6.
 
       - name: PNR_MUL
         bits: 29..24
@@ -113,6 +114,7 @@ registers:
         description: |
           Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
           'ref-clock speed' should always be 50MHz.
+          INTERNAL:  C_MUL is set from the pi_pnr_pll_mul pins plus 6.
 
       - name: --
         bits: 23..21
@@ -128,9 +130,9 @@ registers:
         typical: --
         description: |
           Last boot cause mask; resets only with DCOK.
-          <20> = Warm reset due to OCI Link 2 going down.
-          <19> = Warm reset due to OCI Link 1 going down.
-          <18> = Warm reset due to OCI Link 0 going down.
+          <20> = Warm reset due to CCPI link 2 going down.
+          <19> = Warm reset due to CCPI link 1 going down.
+          <18> = Warm reset due to CCPI link 0 going down.
 
       - name: LBOOT_EXT
         bits: 17..12
@@ -277,9 +279,11 @@ registers:
 
       - name: RST_LINK
         bits: 2..0
-        access: R/W
+        access: WO
         reset: 0x0
         typical: --
+        attributes:
+          chip_pass: "o78<2.0"
         description: |
           Controls whether corresponding OCX link going down causes a chip reset. A warm/soft reset
           does not change this field. On cold reset, this field is initialized to 0. See

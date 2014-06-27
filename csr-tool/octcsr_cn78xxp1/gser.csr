@@ -63,7 +63,7 @@ enums:
 
 
   - name: GSER_QLM_E
-    title: GSER QLM/OCI Enumeration
+    title: GSER QLM/CCPI Enumeration
     attributes:
       width: "4"
     description: Enumerates the GSER to QLM.
@@ -102,27 +102,27 @@ enums:
 
       - name: GSER8
         value: 0x8
-        description: GSER8 corresponds to OCI0.
+        description: GSER8 corresponds to CCPI0.
 
       - name: GSER9
         value: 0x9
-        description: GSER9 corresponds to OCI1.
+        description: GSER9 corresponds to CCPI1.
 
       - name: GSER10
         value: 0xA
-        description: GSER10 corresponds to OCI2.
+        description: GSER10 corresponds to CCPI2.
 
       - name: GSER11
         value: 0xB
-        description: GSER11 corresponds to OCI3.
+        description: GSER11 corresponds to CCPI3.
 
       - name: GSER12
         value: 0xC
-        description: GSER12 corresponds to OCI4.
+        description: GSER12 corresponds to CCPI4.
 
       - name: GSER13
         value: 0xD
-        description: GSER13 corresponds to OCI5.
+        description: GSER13 corresponds to CCPI5.
 
 
 registers:
@@ -149,9 +149,9 @@ registers:
         typical: --
         description: |
           When asserted, the PHY is held in reset. This bit is initialized as follows:
-          0 = (not reset) = Bootable PCIe, or OCI when GSER(8..13)_SPD[SPD] comes up in a bootable
+          0 = (not reset) = Bootable PCIe, or CCPI when GSER(8..13)_SPD[SPD] comes up in a bootable
           mode.
-          1 = (reset) =  Non-bootable PCIe, BGX/ILK, or OCI when GSER(8..13)_SPD[SPD] comes up in
+          1 = (reset) =  Non-bootable PCIe, BGX/ILK, or CCPI when GSER(8..13)_SPD[SPD] comes up in
           SW_MODE.
 
       - name: PHY_PD
@@ -204,7 +204,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          For non-OCI links, this bit controls the external mux select. When set, QLMC_REF_CLK1_N/P
+          For non-CCPI links, this bit controls the external mux select. When set, QLMC_REF_CLK1_N/P
           are selected as the reference clock. When clear, QLMC_REF_CLK0_N/P are selected as the
           reference clock.
 
@@ -295,8 +295,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          For non-OCI links, indicates the BGX is in quad aggregation mode when GSER()_CFG[BGX]
-          is also set. A single controller is used for all four lanes. For OCI links, this bit has
+          For non-CCPI links, indicates the BGX is in quad aggregation mode when GSER()_CFG[BGX]
+          is also set. A single controller is used for all four lanes. For CCPI links, this bit has
           no meaning.
 
       - name: BGX_DUAL
@@ -305,9 +305,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          For non-OCI links, indicates the BGX is in dual aggregation mode when GSER()_CFG[BGX]
+          For non-CCPI links, indicates the BGX is in dual aggregation mode when GSER()_CFG[BGX]
           is also set. A single controller is used for lanes 0 and 1 and another controller is used
-          for lanes 2 and 3. For OCI links, this bit has no meaning.
+          for lanes 2 and 3. For CCPI links, this bit has no meaning.
 
       - name: BGX
         bits: 2
@@ -315,8 +315,8 @@ registers:
         reset: 0
         typical: --
         description: |
-          For non-OCI links, indicates the GSER is configured for BGX mode. Only one of the BGX,
-          ILA, or PCIE modes can be set at any one time. For OCI links, this bit has no meaning.
+          For non-CCPI links, indicates the GSER is configured for BGX mode. Only one of the BGX,
+          ILA, or PCIE modes can be set at any one time. For CCPI links, this bit has no meaning.
 
       - name: ILA
         bits: 1
@@ -324,9 +324,9 @@ registers:
         reset: 0
         typical: --
         description: |
-          For non-OCI links, indicates the GSER is configured for ILK/ILA mode. For OCI links this
+          For non-CCPI links, indicates the GSER is configured for ILK/ILA mode. For CCPI links this
           bit will be set. Only one of the BGX, ILA, or PCIE modes can be set at any one time. For
-          OCI links, this bit has no meaning.
+          CCPI links, this bit has no meaning.
 
       - name: PCIE
         bits: 0
@@ -334,8 +334,8 @@ registers:
         reset: --
         typical: --
         description: |
-          For non-OCI links, indicates the GSER is configured for PCIE mode. Only one of the BGX,
-          ILA, or PCIE modes can be set at any one time. For OCI links, this bit has no meaning.
+          For non-CCPI links, indicates the GSER is configured for PCIE mode. Only one of the BGX,
+          ILA, or PCIE modes can be set at any one time. For CCPI links, this bit has no meaning.
 
 
   - name: GSER(0..13)_SPD
@@ -359,8 +359,8 @@ registers:
         reset: --
         typical: --
         description: |
-          For OCI links (i.e. GSER8..13), the hardware loads this CSR field from the OCI_SPD<3:0>
-          pins during chip cold reset. For non-OCI links, this field is not used.
+          For CCPI links (i.e. GSER8..13), the hardware loads this CSR field from the OCI_SPD<3:0>
+          pins during chip cold reset. For non-CCPI links, this field is not used.
           For SPD settings that configure a non-default reference clock, hardware updates the PLL
           settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
 
@@ -384,9 +384,9 @@ registers:
           0xF:                          SW_MODE
           </pre>
 
-          Note that a value of 0xF is called SW_MODE. The OCI link does not come up configured in
+          Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
           SW_MODE.
-          (Software must do all the OCI GSER configuration to use OCI in the case of SW_MODE.)
+          (Software must do all the CCPI GSER configuration to use CCPI in the case of SW_MODE.)
           When SPD!=SW_MODE after a chip cold reset, the hardware has initialized the following
           registers (based on the OCI_SPD selection):
 
@@ -499,7 +499,7 @@ registers:
         reset: 0
         typical: 0
         description: |
-          For links that are not in PCIE mode (including all OCI links), resets all 4 lanes
+          For links that are not in PCIE mode (including all CCPI links), resets all 4 lanes
           (equivalent to the P2 power state) after any pending requests (power state change, rate
           change) are complete. The lanes remain in reset state while this signal is asserted. When
           the signal deasserts, the lanes exit the reset state and the PHY returns to the power
@@ -527,7 +527,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          For links that are not in PCIE mode (including all OCI links), allows for per lane power
+          For links that are not in PCIE mode (including all CCPI links), allows for per lane power
           down.
           <3>: Lane 3.
           <2>: Lane 2.
@@ -556,7 +556,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          For links that are not in PCIE mode (including all OCI links). When asserted in P0 state,
+          For links that are not in PCIE mode (including all CCPI links). When asserted in P0 state,
           allows per lane TX-to-RX serial loopback activation.
           <3>: Lane 3.
           <2>: Lane 2.
@@ -585,7 +585,7 @@ registers:
         reset: --
         typical: --
         description: |
-          For links that are not in PCIE mode (including all OCI links), used to index into the PHY
+          For links that are not in PCIE mode (including all CCPI links), used to index into the PHY
           table to select electrical specs and link rate. Note that the PHY table can be modified
           such that any supported link rate can be derived regardless of the configured LMODE.
 
@@ -611,8 +611,9 @@ registers:
           0xB: R_8G_REFCLK125.
           0xC - 0xF: Reserved.
 
-          This register is not used for PCIE configurations. For non-OCI links, this register
-          defaults to R_625G_REFCLK15625_RXAUI. For OCI links, the value is mapped at reset from the
+          This register is not used for PCIE configurations. For non-CCPI links, this register
+          defaults to R_625G_REFCLK15625_RXAUI. For CCPI links, the value is mapped at reset from
+          the
           GSER()_SPD and the appropriate table updates are performed so the rate is obtained for the
           particular reference clock.
 
@@ -653,7 +654,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          For links that are not in PCIE mode (including all OCI links), boosts the TX Vswing from
+          For links that are not in PCIE mode (including all CCPI links), boosts the TX Vswing from
           VDD to 1.0 VPPD.
           <3>: Lane 3.
           <2>: Lane 2.
@@ -682,7 +683,7 @@ registers:
         reset: 0xf
         typical: 0x0
         description: |
-          For links that are not in PCIE mode (including all OCI links), control signals to freeze
+          For links that are not in PCIE mode (including all CCPI links), control signals to freeze
           the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
           state, come up asserted and are deasserted in hardware after detecting the electrical idle
           exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
@@ -715,7 +716,7 @@ registers:
         reset: 0xf
         typical: 0xf
         description: |
-          For links that are not in PCIE mode (including all OCI links), these bits enable per lane
+          For links that are not in PCIE mode (including all CCPI links), these bits enable per lane
           electrical idle exit (EIE) detection. When EIE is detected,
           GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
           EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
@@ -848,143 +849,13 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          For links that are not in PCIE mode (including all OCI links), control signal to invert
+          For links that are not in PCIE mode (including all CCPI links), control signal to invert
           the polarity of received data. When asserted, the polarity of the received data is
           inverted.
           <3>: Lane 3.
           <2>: Lane 2.
           <1>: Lane 1.
           <0>: Lane 0.
-
-
-  - name: GSER(0..13)_REFCLK_EVT_CTRL
-    title: GSER QLM Reference Clock Event Counter Control Register
-    address: 0x1180090000170 + a*0x1000000
-    bus: RSL
-    description: Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..2
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CLR
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: When set, clears GSER()_REFCLK_EVT_CNTR[COUNT].
-
-      - name: ENB
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          When set, enables the GSER()_REFCLK_EVT_CNTR[COUNT] to increment
-          on positive edges of the QLM reference clock.
-
-
-  - name: GSER(0..13)_REFCLK_EVT_CNTR
-    title: GSER QLM Reference Clock Event Counter Register
-    address: 0x1180090000178 + a*0x1000000
-    bus: RSL
-    description: Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..32
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: COUNT
-        bits: 31..0
-        access: RO
-        reset: 0x0
-        typical: 0x0
-        description: |
-          This register can only be reliably read when GSER()_REFCLK_EVT_CTRL[ENB]
-          is clear.
-
-          When GSER()_REFCLK_EVT_CTRL[CLR] is set, [COUNT] goes to zero.
-
-          When GSER()_REFCLK_EVT_CTRL[ENB] is set, [COUNT] is incremented
-          in positve edges of the QLM reference clock.
-
-          When GSER()_REFCLK_EVT_CTRL[ENB] is not set, [COUNT] is held; this must
-          be used when [COUNT] is being read for reliable results.
-
-
-  - name: GSER(0..13)_TXCLK_EVT_CTRL
-    title: GSER QLM Transmit Clock Event Counter Control Register
-    address: 0x1180090000180 + a*0x1000000
-    bus: RSL
-    description: Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..2
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: CLR
-        bits: 1
-        access: R/W
-        reset: 0
-        typical: 0
-        description: When set, clears GSER()_TXCLK_EVT_CNTR[COUNT].
-
-      - name: ENB
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
-        description: |
-          When set, enables the GSER()_TXCLK_EVT_CNTR[COUNT] to increment
-          on positive edges of the QLM reference clock.
-
-
-  - name: GSER(0..13)_TXCLK_EVT_CNTR
-    title: GSER QLM Transmit Clock Event Counter Register
-    address: 0x1180090000188 + a*0x1000000
-    bus: RSL
-    description: Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..32
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: COUNT
-        bits: 31..0
-        access: RO
-        reset: 0x0
-        typical: 0x0
-        description: |
-          This register can only be reliably read when GSER()_TXCLK_EVT_CTRL[ENB]
-          is clear.
-
-          When GSER()_TXCLK_EVT_CTRL[CLR] is set, [COUNT] goes to zero.
-
-          When GSER()_TXCLK_EVT_CTRL[ENB] is set, [COUNT] is incremented
-          in positve edges of the QLM reference clock.
-
-          When GSER()_TXCLK_EVT_CTRL[ENB] is not set, [COUNT] value is held;
-          this must be used when [COUNT] is being read for reliable results.
 
 
   - name: GSER(0..13)_PIPE_LPBK
@@ -1175,55 +1046,6 @@ registers:
           <3:0> = TX_PRE<4:0>.
 
 
-  - name: GSER(0..13)_BR_TX(0..3)_TAP
-    title: GSER Base-R TX Coefficient Tap Register
-    address: 0x1180090000440 + a*0x1000000 + b*0x80
-    bus: RSL
-    description: Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..14
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: TXT_PRE
-        bits: 13..10
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          After TX Base-R Link Training, this is the resultant POST Tap value that was
-          written to the PHY.  This field has no meaning if TX Base-R Link Traning was
-          not performed.
-          For diagnostic use only.
-
-      - name: TXT_SWING
-        bits: 9..5
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          After TX Base-R Link Training, this is the resultant SWING Tap value that was
-          written to the PHY.  This field has no meaning if TX Base-R Link Traning was
-          not performed.
-          For diagnostic use only.
-
-      - name: TXT_POST
-        bits: 4..0
-        access: RO/H
-        reset: 0x0
-        typical: 0x0
-        description: |
-          After TX Base-R Link Training, this is the resultant POST Tap value that was
-          written to the PHY.  This field has no meaning if TX Base-R Link Traning was
-          not performed.
-          For diagnostic use only.
-
-
   - name: GSER(0..13)_ANA_ATEST
     title: GSER Analog Test Register
     address: 0x1180090000800 + a*0x1000000
@@ -1243,8 +1065,8 @@ registers:
         typical: 0x0
         description: |
           Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
-          is tied to the analog test block, for non-OCI links. Note that the OCI4 register is tied
-          to the analog test block, for OCI links. The other GSER()_ANA_ATEST registers are
+          is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
+          to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
           unused. For diagnostic use only.
 
       - name: ANA_DAC_A
@@ -1254,8 +1076,8 @@ registers:
         typical: 0x0
         description: |
           Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
-          tied to the analog test block, for non-OCI links. Note that the OCI4 register is tied to
-          the analog test block, for OCI links. The other GSER()_ANA_ATEST registers are unused.
+          tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
+          the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
           For diagnostic use only.
 
 
@@ -1278,8 +1100,8 @@ registers:
         typical: 0x1ff
         description: |
           Used to control the adr_global input to the analog test block. Note that the QLM0 register
-          is tied to the analog test block, for non-OCI links. Note that the QLM8 register is tied
-          to the analog test block, for OCI links. The other GSER()_ANA_SEL registers are unused.
+          is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
+          to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
           For diagnostic use only.
 
 
@@ -1670,6 +1492,55 @@ registers:
           0x1 = 10-bit raw data.
           0x2 = 16-bit raw data.
           0x3 = 20-bit raw data.
+
+
+  - name: GSER(0..13)_LANE(0..3)_RX_LOOP_CTRL
+    title: GSER Lane RX Loop Control Registers
+    address: 0x1180090440048 + a*0x1000000 + b*0x100000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..12
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FAST_DLL_LOCK
+        bits: 11
+        access: R/W/H
+        reset: --
+        typical: --
+        description: Assert to enable fast DLL lock (for simulation purposes only).
+
+      - name: FAST_OFST_CNCL
+        bits: 10
+        access: R/W/H
+        reset: --
+        typical: --
+        description: Assert to enable fast Offset cancellation (for simulation purposes only).
+
+      - name: CFG_RX_LCTRL
+        bits: 9..0
+        access: R/W
+        reset: 0x270
+        typical: 0x270
+        description: |
+          When GSER()_LANE()_PWR_CTRL[RX_LCTRL_OVRRD_EN] is set, loop control settings.
+          0x0 = cdr_en_byp.
+          0x1 = dfe_en_byp.
+          0x2 = agc_en_byp.
+          0x3 = ofst_cncl_en_byp.
+          0x4 = CDR resetn.
+          0x5 = CTLE resetn.
+          0x6 = VMA resetn.
+          0x7 = ofst_cncl_rstn_byp.
+          0x8 = lctrl_men.
+          0x9 - 0x3ff = Reserved.
 
 
   - name: GSER(0..13)_LANE(0..3)_RX_CTLE_CTRL
@@ -2262,7 +2133,8 @@ registers:
         typical: 0
         description: |
           Override RX Power State machine loop control
-          signals.
+          signals.  When set, the loop control settings are
+          specified in the GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL] field.
 
       - name: RX_LCTRL_OVRRD_VAL
         bits: 5
@@ -2326,239 +2198,6 @@ registers:
           control signal
           When set, TX reset is controlled by
           GSER()_LANE()_TX_CFG_0[TX_RESETN_OVRRD_VAL].
-
-
-  - name: GSER(0..13)_LANE(0..3)_SDS_PIN_MON_0
-    title: GSER Lane SerDes Pin Monitor 1 Register
-    address: 0x1180090440130 + a*0x1000000 + b*0x100000
-    bus: RSL
-    description: |
-      These registers are for diagnostic use only.
-      These registers are only reset by hardware during chip cold reset.
-      The values of the CSR fields in these registers do not change during chip warm or soft resets.
-      Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..10
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_TX_WIDTHSEL
-        bits: 9..8
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          TX parallel interface width settings (RAW PCS to
-          SerDes TX).
-          0x0 = 8-bit raw data (not supported).
-          0x1 = 10-bit raw data (not supported).
-          0x2 = 16-bit raw data (not supported).
-          0x3 = 20-bit raw data.
-
-      - name: PCS_SDS_RX_PCIE_MODE
-        bits: 7
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          Selects between RX terminations:
-          0x0 = pcs_sds_rx_terminate_to_vdda.
-          0x1 = VSS.
-
-      - name: --
-        bits: 6..5
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_RX_MISC_CTRL_5
-        bits: 4
-        access: RO/H
-        reset: --
-        typical: --
-        description: Not Used.
-
-      - name: TX_DETRX_STATE
-        bits: 3..2
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          RX detection state:
-          0x0 = IDLE.
-          0x1 = Charge Up.
-          0x2 = Detection.
-          0x3 = Restore common mode.
-
-      - name: PCS_SDS_TX_RX_DETECT_DIS
-        bits: 1
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX detect RX, mode disable.
-
-      - name: PCS_SDS_TX_DETECT_PULSEN
-        bits: 0
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX detect RX, pulse enable.
-
-
-  - name: GSER(0..13)_LANE(0..3)_SDS_PIN_MON_1
-    title: GSER Lane SerDes Pin Monitor 1 Register
-    address: 0x1180090440138 + a*0x1000000 + b*0x100000
-    bus: RSL
-    description: |
-      These registers are for diagnostic use only.
-      These registers are only reset by hardware during chip cold reset.
-      The values of the CSR fields in these registers do not change during chip warm or soft resets.
-      Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..16
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_RX_CHPD
-        bits: 15
-        access: RO/H
-        reset: --
-        typical: --
-        description: RX channel powerdown signal.
-
-      - name: PCS_SDS_RX_EIE_EN
-        bits: 14
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          Enable for electrical idle detection circuit
-          in SerDes RX.
-
-      - name: --
-        bits: 13
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_LN_LOOPBACK_MODE
-        bits: 12
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX to RX on chip loopback control signal.
-
-      - name: PCS_SDS_TX_CHPD
-        bits: 11
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX channel powerdown signal.
-
-      - name: PCS_SDS_RX_WIDTHSEL
-        bits: 10..9
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          Width select.
-          0x0 = 8-bit raw data.
-          0x1 = 10-bit raw data.
-          0x2 = 16-bit raw data.
-          0x3 = 20-bit raw data.
-
-      - name: --
-        bits: 8
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_TX_RESETN
-        bits: 7
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX reset, active low (RAW PCS output to lane TX).
-
-      - name: PCS_SDS_TX_TRISTATE_EN
-        bits: 6
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX driver tristate enable (RAW PCS output to lane TX).
-
-      - name: PCS_SDS_TX_SWING
-        bits: 5..1
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX swing (RAW PCS output to lane TX).
-
-      - name: PCS_SDS_TX_ELEC_IDLE
-        bits: 0
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX electrical idle control (RAW PCS output to lane TX).
-
-
-  - name: GSER(0..13)_LANE(0..3)_SDS_PIN_MON_2
-    title: GSER Lane SerDes Pin Monitor 1 Register
-    address: 0x1180090440140 + a*0x1000000 + b*0x100000
-    bus: RSL
-    description: |
-      These registers are for diagnostic use only.
-      These registers are only reset by hardware during chip cold reset.
-      The values of the CSR fields in these registers do not change during chip warm or soft resets.
-      Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..11
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PCS_SDS_TX_VBOOST_EN
-        bits: 10
-        access: RO/H
-        reset: --
-        typical: --
-        description: TX boost enable.
-
-      - name: PCS_SDS_TX_TURBOS_EN
-        bits: 9
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          TX turbo mode enable signal, increases swing of TX
-          through current mode.
-
-      - name: PCS_SDS_PREMPTAP
-        bits: 8..0
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          Pre-emphasis control.
-          <8:4> = Post-cursor.
-          <3:0> = Pre-cursor.
 
 
   - name: GSER(0..13)_LANE(0..3)_RX_VMA_CTRL
@@ -2861,11 +2500,25 @@ registers:
       The values of the CSR fields in these registers do not change during chip warm or soft resets.
     fields:
       - name: --
-        bits: 63..12
+        bits: 63..14
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: CFG_RX_OOB_CLK_EN_OVRRD_VAL
+        bits: 13
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Not supported.
+
+      - name: CFG_RX_OOB_CLK_EN_OVRRD_EN
+        bits: 12
+        access: R/W
+        reset: 0
+        typical: 0
+        description: Not supported.
 
       - name: CFG_RX_EIE_DET_OVRRD_VAL
         bits: 11
@@ -3112,29 +2765,31 @@ registers:
         reset: 0x5
         typical: 0x5
         attributes:
-          chip_pass: "o78<2.0"
-        description: |
-          Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
-          (which is a 1-hot signal), where the level is equal to to
-          2^TX_RX_DETECT_LVL_ENC.
-
-      - name: TX_RX_DETECT_LVL_ENC
-        bits: 11..8
-        access: R/W
-        reset: 0x7
-        typical: 0x7
-        attributes:
-          chip_pass: "o78>=2.0"
+          chip_pass: "o78<=1.0"
         description: |
           Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
           (which is a 1-hot signal), where the level is equal to to
           2^TX_RX_DETECT_LVL_ENC.
 
       - name: --
-        bits: 7..2
+        bits: 7..6
         access: RAZ
         reset: --
         typical: --
+        description: Reserved.
+
+      - name: PCS_SDS_RX_PCIE_PTERM
+        bits: 5..4
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        description: Reserved.
+
+      - name: PCS_SDS_RX_PCIE_NTERM
+        bits: 3..2
+        access: R/W
+        reset: 0x0
+        typical: 0x0
         description: Reserved.
 
       - name: PCS_SDS_TX_STRESS_EYE
@@ -4041,6 +3696,43 @@ registers:
         description: |
           Override mac_pcs_laneX_mode[3:0] signal with the value specified in
           is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_LANE_MODE_REQ_OVRRD_VAL].
+
+
+  - name: GSER(0..13)_EQ_WAIT_TIME
+    title: GSER TX and RX Equalization Wait Times Register
+    address: 0x11800904E0000 + a*0x1000000
+    bus: RSL
+    description: |
+      These registers are for diagnostic use only.
+      These registers are only reset by hardware during chip cold reset.
+      The values of the CSR fields in these registers do not change during chip warm or soft resets.
+    fields:
+      - name: --
+        bits: 63..8
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: RXEQ_WAIT_CNT
+        bits: 7..4
+        access: R/W
+        reset: 0x6
+        typical: 0x6
+        attributes:
+          chip_pass: "o78<=1.0"
+        description: |
+          Determines the wait time after VMA RX-EQ completes and before sampling
+          tap1 and starting the precorrelation check.
+
+      - name: TXEQ_WAIT_CNT
+        bits: 3..0
+        access: R/W
+        reset: 0xa
+        typical: 0xa
+        description: |
+          Determines the wait time from applying the TX-EQ controls (swing/pre/post)
+          to the sampling of the sds_pcs_tx_comp_out.
 
 
   - name: GSER(0..13)_RDET_TIME

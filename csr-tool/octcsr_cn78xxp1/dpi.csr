@@ -2,6 +2,8 @@
 # You must run "csr3 rtl" after editing this file!
 ---
 name: DPI
+attributes:
+  mif_heading2: "DPI"
 enums:
   - name: DPI_HDR_PT_E
     title: DPI Header Pointer Type Enumeration
@@ -27,7 +29,7 @@ enums:
         value: 0x2
         description: |
           Work-queue Pointer. DPI_DMA_INSTR_HDR_S[PTR] is work queue entry pointer for SSO. When PTR
-          == 0, the operation is ignored.
+          = 0x0, the operation is ignored.
 
       - name: CNT
         value: 0x3
@@ -152,7 +154,6 @@ structs:
       - name: AURA
         bits: w0(11..0)
         description: |
-          New field for 78xx.
           FPA Aura.  Indicates the AURA sent to FPA when HW determines that buffers are to be freed
           based on FL, II, and LocalPtr[I].
 
@@ -163,13 +164,11 @@ structs:
 
       - name: TT
         bits: w0(17..16)
-        description: |
-          New field for 78xx.
-          SSO Tag Type.  Sent to SSO upon instruction completion if PT == DPI_HDR_PT_WQP.
+        description: SSO Tag Type.  Sent to SSO upon instruction completion if PT = DPI_HDR_PT_WQP.
 
       - name: GRP
         bits: w0(27..18)
-        description: SSO Group.  Sent to SSO upon instruction completion if PT == DPI_HDR_PT_WQP.
+        description: SSO Group.  Sent to SSO upon instruction completion if PT = DPI_HDR_PT_WQP.
 
       - name: --
         bits: w0(29..28)
@@ -183,8 +182,21 @@ structs:
       - name: NFST
         bits: w0(35..32)
         description: |
-          See HRM.
-          Number of first pointers.
+          Number of first pointers. The number of pointers in the first-pointers area.
+
+          In the inbound, outbound, and internal-only cases, the first-pointers area
+          contains local pointers, and the number of 64-bit words required in the
+          first-pointers area is HDR[NFST].
+
+          In the external-only case, the first-pointers area contains DPI components, and
+          the number of 64-bit words required in the first-pointers area is:
+
+            _ HDR[NFST] + ((HDR[NFST] + 3)/4)
+
+          where the division removes the fraction.
+
+          Note that the sum of the number of 64-bit words in the last-pointers and
+          first-pointers area must never exceed 30.
 
       - name: --
         bits: w0(36)
@@ -198,8 +210,21 @@ structs:
       - name: NLST
         bits: w0(41..38)
         description: |
-          See HRM.
-          Number of last pointers.
+          Number last pointers. The number of pointers in the last-pointers area.
+
+          In the inbound, outbound, and external-only cases, the last-pointers area
+          contains DPI components, and the number of 64-bit words required in the
+          last-pointers area is:
+
+          _  HDR[NLST] + ((HDR[NLST] + 3)/4)
+
+          where the division removes the fraction.
+
+          In the internal-only case, the last-pointers area contains local pointers, and
+          the number of 64-bit words required in the last-pointers area is HDR[NLST].
+
+          Note that the sum of the number of 64-bit words in the last-pointers and
+          first-pointers area must never exceed 30.
 
       - name: --
         bits: w0(42)
@@ -209,14 +234,20 @@ structs:
       - name: DEALLOCE
         bits: w0(43)
         description: |
-          Refer to DMA Instruction-Header Format, word0<43>. Dealloc value enable.
-          ...
+          Deallocation value enable. When set, use the DEALLOCV to decrement the aura
+          count on the instruction's final pointer return.
 
       - name: PT
         bits: w0(45..44)
         description: |
-          Formerly WQP.  See WQP description for most.  Add two flavors of cached and uncached ZBW.
-          Pointer type.  Determines the contents of the PTR field.  See DPI_HDR_PT_E.
+          Pointer Type.
+          0 = PTR<41:0> is byte address for ZBW with cache allocate.
+          1 = PTR<41:0> is byte address for ZBW with no cache allocate.
+          2 = PTR<41:3> is QW address for SSO PTR.
+          3 = PTR<5:0> is CNT(0..47) to increment.
+
+          If no competition indication is required for the instruction, software should
+          set PTR = 0x0.
 
       - name: --
         bits: w0(46)
@@ -226,40 +257,97 @@ structs:
       - name: FL
         bits: w0(47)
         description: |
-          Refer to DMA Instruction-Header Format, word0<47>. Free local buffer.
-          ...
+          Free local buffer. When FL = 1, for an outbound operation, it indicates that the
+          local buffers in the FIRST BUFFERS area should be freed.
+
+          If II = 1, the FL bit alone indicates whether the local buffer should be freed:
+
+          * when FL = 1, DPI frees the local buffer when II = 1.
+
+          * when FL = 0, DPI does not free the local buffer when II = 1.
+
+          If II = 0, DPI_DMA_LOCAL_PTR_S[I] determines whether the local buffer is freed:
+
+          * when (FL xor I) is true, DPI frees the local buffer when II = 0.
+
+          For an inbound, internal-only, or external-only DMA transfer, FL must never be
+          set, and DPI never frees local buffers.
 
       - name: II
         bits: w0(48)
         description: |
-          Refer to DMA Instruction-Header Format, word0<48>. Ignore the I bit (i.e. the I bit of the
-          DPI DMA instruction local pointer. See DPI DMA Local-Pointer Format).
-          ...
+          Ignore the I bit (DPI_DMA_LOCAL_PTR_S[I]).
+
+          For outbound transfers when II = 1, ignore DPI_DMA_LOCAL_PTR_S[I] and the
+          DPI_DMA_INSTR_HDR_S[FL] bit alone determines whether the hardware frees any/all
+          of the local buffers in the first-pointers area:
+
+            * when FL = 1, DPI frees the local buffer when II = 1.
+
+            * when FL = 0, DPI does not free the local buffer when II = 1.
+
+          For outbound transfers when II = 0, DPI_DMA_LOCAL_PTR_S[I] selects
+          whether local buffers are freed on a pointer-by-pointer basis:
+
+            * when (FL xor I) is true, DPI frees the local buffer when II = 0.
+
+          For inbound, internal-only, and external-only DMA transfers, II must never be
+          set, and DPI never frees local buffers.
 
       - name: FI
         bits: w0(49)
         description: |
-          Refer to DMA Instruction-Header Format, word0<49>. Force interrupt.
-          ...
+          Force interrupt.
+          When FI is set for an outbound or external-only transfer, DPI sets a forced
+          interrupt bit after it completes the DMA instruction. If C = 0, DPI sets
+          SLI_INT_SUM[DMAFI<0>], else sets SLI_INT_SUM[DMAFI<1>]. For an inbound or
+          internal-only DMA operation, FI must never be set, and DPI never generates
+          interrupts.
 
       - name: CA
         bits: w0(50)
         description: |
-          Refer to DMA Instruction-Header Format, word0<50>. Counter add.
-          ...
+          Counter add.
+
+          When CA = 1, DPI updates the selected counter after it completes the DMA
+          outbound or external-only instruction.
+
+          _ If C = 0, DPI updates SLI_DMA0_CNT[CNT].
+          _ If C = 1, DPI updates SLI_DMA1_CNT[CNT].
+
+          Note that this update may indirectly cause SLI_INT_SUM[DCNT,DTIME] to become set
+          (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+          occur on a remote MAC host.
+
+          If DPI_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+          If DPI_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+          the transfer.
+
+          When CA = 0, DPI does not update any counters.
+
+          For an inbound or internal-only DMA transfer, CA must never be set, and DPI
+          never adds to the counters.
 
       - name: CSEL
         bits: w0(51)
         description: |
-          Refer to DMA Instruction-Header Format, word0<51>. Counter. 1 = use counter 1, 0 = use
-          counter 0.
-          ...
+          Counter. The CSEL bit selects between the two counters (SLI_DMA()_CNT[CNT]) that DPI
+          can optionally update after an outbound or external-only transfer, and also
+          selects between the two forced-interrupt bits (SLI_INT_SUM[DMAFI]) that DPI can
+          optionally set after an outbound or external-only transfer. CSEL must be zero
+          for inbound or internal-only transfers.
+          0 = Use counter 0.
+          1 = Use counter 1,
 
       - name: XTYPE
         bits: w0(53..52)
         description: |
-          Formerly TYPE.  See HRM.
-          Transfer type.
+          Transfer type. A given DMA transfer is either outbound (read operation from
+          L2/DRAM, write operation into MAC memory space), inbound (read operation from
+          MAC memory space, write operation into L2/DRAM), internal-only (read operation
+          from L2/DRAM, write operation into L2/DRAM), or external-only (read operation
+          from MAC memory space, write operation into MAC memory space).
           0x0 = Outbound.
           0x1 = Inbound.
           0x2 = Internal-only.
@@ -273,8 +361,9 @@ structs:
       - name: FPORT
         bits: w0(57..56)
         description: |
-          See HRM.
-          First port.
+          First port. FPORT indicates the physical MAC port used for the MAC memory space
+          pointers in the first-pointers block in the external-only case. Must be zero in
+          the outbound, inbound, and internal-only cases.
 
       - name: --
         bits: w0(59..58)
@@ -284,8 +373,9 @@ structs:
       - name: LPORT
         bits: w0(61..60)
         description: |
-          See HRM.
-          Last port.
+          Last port. LPORT indicates the physical MAC port used for the MAC memory space
+          pointers in the last-pointers block in the outbound, inbound, and external-only
+          cases. Must be zero in the internal-only case.
 
       - name: --
         bits: w0(63..62)
@@ -295,8 +385,25 @@ structs:
       - name: PTR
         bits: w1(41..0)
         description: |
-          See HRM.
           Pointer.
+
+          When PT = 0x2 and PTR != 0x0, DPI inserts the work-queue entry indicated by PTR
+          into a SSO input queue after the DMA operation is complete. PTR<2:0> must be 0x0.
+
+          When PT = 0x0 and PTR != 0x0, DPI writes the single byte in local memory indicated
+          by PTR to 0x0 with cache allocation after the DMA operation is
+          complete. DPI_DMA_CONTROL[B0_LEND] selects the endian-ness of PTR in this
+          case. PTR values between 0x1 and 0x3F are reserved values.
+
+          When PT = 0x1 and PTR != 0x0, DPI writes the single byte in local memory indicated
+          by PTR to 0x0 without cache allocation after the DMA operation is
+          complete. DPI_DMA_CONTROL[B0_LEND] selects the endian-ness of PTR in this
+          case. PTR values between 0x1 and 0x3F are reserved values.
+
+          When PT = 0x3, PTR is between 1 and 48, DPI increments the DPI_DMA_PP()_CNT[CNT],
+          where the value for core n is PTR<5:0>-1.
+
+          When PTR = 0x0, DPI performs no operation after the DMA operation is complete.
 
       - name: --
         bits: w1(47..42)
@@ -306,8 +413,8 @@ structs:
       - name: DEALLOCV
         bits: w1(63..48)
         description: |
-          See HRM.
-          Dealloc value to decrement the aura count on the instruction's final pointer return.
+          Deallocation value to decrement the aura count on the instruction's final
+          pointer return.
 
 
   - name: DPI_DMA_LOCAL_PTR_S
@@ -319,8 +426,9 @@ structs:
       - name: PTR
         bits: 41..0
         description: |
-          See HRM.
-          Pointer.
+          L2/DRAM byte pointer. Points to where the packet data starts. PTR can be any
+          byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
+          is clear, a little-endian byte pointer when L is set.
 
       - name: --
         bits: 46..42
@@ -330,33 +438,77 @@ structs:
       - name: L
         bits: 47
         description: |
-          Refer to DPI DMA Local-Pointer Format word0<47>. Little-endian.
-          ...
+          Little-endian.
+          When L is set, the data at PTR is in little-endian format rather than big-endian.
 
       - name: SIZE
         bits: 60..48
         description: |
-          Refer to DPI DMA Local-Pointer Format word0<60:48>. Size in bytes of the contiguous space
-          specified by PTR. A Size value of 0 is illegal.
-          ...
+          Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+          illegal.
+
+          Note that the sum of the sizes in the first-pointers area must always exactly
+          equal the sum of the sizes/lengths in the last-pointers area:
+
+          * In the outbound and inbound cases, the HDR[NFST] size fields in the local
+          pointers in the first-pointers area must exactly equal the lengths of the
+          HDR[NLST] fragments in the DPI components in the last-pointers area.
+
+          * In the internal-only case, the HDR[NFST] size fields in the local pointers in
+          the first-pointers area must equal the HDR[NLST] size fields in the local
+          pointers in the last-pointers area.
 
       - name: AC
         bits: 61
         description: |
-          Refer to DPI DMA Local-Pointer Format word0<61>. Allocate L2.
-          ...
+          Allocate L2. This is a hint to DPI that the cache blocks should be allocated in
+          the L2 cache (if they were not already). Should typically be set to allocate the
+          referenced cache blocks into the L2 cache.
+
+          When the local pointer is a source of data (e.g. an outbound transfer), the
+          referenced cache blocks are not allocated into the L2 cache as part of
+          completing the DMA (when not already present in the L2) if the AC bit is clear.
+
+          When the local pointer is a destination for data (e.g. an inbound transfer), the
+          referenced cache blocks are not allocated into the cache as part of completing
+          the DMA (when not already present in the L2) if the AC bit is clear, and either:
+
+          * the entire cache block is written by this local pointer.
+
+          * or, the F bit is set so that the entire cache block can be written.
 
       - name: F
         bits: 62
         description: |
-          Refer to DPI DMA Local-Pointer Format word0<62>. Full-block write operations are allowed.
-          ...
+          Full-block write operations are allowed.
+
+          When set, the hardware is permitted to write all the bytes in the cache blocks
+          covered by PTR, PTR + Size - 1. This can improve memory system performance when
+          the write misses in the L2 cache.
+
+          F can only be set for local pointers that can be written to:
+
+          * The local pointers in the first-pointers area that are write pointers for
+          inbound transfers.
+
+          * The local pointers in the last-pointers area that are always write pointers
+          (when present for internal-only transfers).
+
+          F must not be set for local pointers that are not written to:
+
+          * The local pointers in the first-pointers area for outbound and internal-only
+          transfers.
 
       - name: I
         bits: 63
         description: |
-          Refer to DPI DMA Local-Pointer Format, word0<63>. Invert free.
-          ...
+          Invert free. This bit gives the software the ability to free buffers
+          independently for an outbound DMA transfer. See DPI_DMA_INSTR_HDR_S[II] and
+          DPI_DMA_INSTR_HDR_S[FL].
+
+          I is not used by DPI when DPI_DMA_INSTR_HDR_S[II] is set. I must not be set, and
+          buffers are never freed, for inbound, internal-only, and external-only DMA
+          transfers.
 
 
 registers:
@@ -418,7 +570,7 @@ registers:
         typical: 0
         description: |
           SLI port 3 in-reset error. DMA instruction was dropped because the source or destination
-          port was in reset. Throws DPI_INTSN_E::SPRT3_RST.
+          port was in reset. Throws DPI_INTSN_E::DPI_INT_SPRT3_RST.
 
       - name: SPRT2_RST
         bits: 26
@@ -427,7 +579,7 @@ registers:
         typical: 0
         description: |
           SLI port 2 in-reset error. DMA instruction was dropped because the source or destination
-          port was in reset. Throws DPI_INTSN_E::SPRT2_RST.
+          port was in reset. Throws DPI_INTSN_E::DPI_INT_SPRT2_RST.
 
       - name: SPRT1_RST
         bits: 25
@@ -436,7 +588,7 @@ registers:
         typical: 0
         description: |
           SLI port 1 in-reset error. DMA instruction was dropped because the source or destination
-          port was in reset. Throws DPI_INTSN_E::SPRT1_RST.
+          port was in reset. Throws DPI_INTSN_E::DPI_INT_SPRT1_RST.
 
       - name: SPRT0_RST
         bits: 24
@@ -445,7 +597,7 @@ registers:
         typical: 0
         description: |
           SLI port 0 in-reset error 0. DMA instruction was dropped because the source or destination
-          port was in reset. Throws DPI_INTSN_E::SPRT0_RST.
+          port was in reset. Throws DPI_INTSN_E::DPI_INT_SPRT0_RST.
 
       - name: --
         bits: 23
@@ -461,7 +613,7 @@ registers:
         typical: 0
         description: |
           Unexpected fill error. This bit is set when an instruction fill is received when there is
-          no outstanding request. Throws DPI_INTSN_E::REQ_BADFIL.
+          no outstanding request. Throws DPI_INTSN_E::DPI_INT_REQ_BADFIL.
 
       - name: REQ_INULL
         bits: 21
@@ -477,7 +629,7 @@ registers:
         typical: 0
         description: |
           Instruction bad error. This bit is set when a fetched instruction word was 0x0. Throws
-          DPI_INTSN_E::REQ_ANULL.
+          DPI_INTSN_E::DPI_INT_REQ_ANULL.
 
       - name: REQ_UNDFLW
         bits: 19
@@ -486,7 +638,7 @@ registers:
         typical: 0
         description: |
           Instruction FIFO underflow error. This bit is set when the instruction FIFO underflows.
-          Throws DPI_INTSN_E::REQ_UNDFLW.
+          Throws DPI_INTSN_E::DPI_INT_REQ_UNDFLW.
 
       - name: REQ_OVRFLW
         bits: 18
@@ -495,7 +647,7 @@ registers:
         typical: 0
         description: |
           Instruction FIFO overflow error. This bit is set when the instruction FIFO overflows.
-          Throws DPI_INTSN_E::REQ_OVRFLW.
+          Throws DPI_INTSN_E::DPI_INT_REQ_OVRFLW.
 
       - name: REQ_BADLEN
         bits: 17
@@ -504,7 +656,7 @@ registers:
         typical: 0
         description: |
           Fetch with length zero error. This bit is set when DPI forms an instruction fetch with
-          length of zero. Throws DPI_INTSN_E::REQ_BADLEN.
+          length of zero. Throws DPI_INTSN_E::DPI_INT_REQ_BADLEN.
 
       - name: REQ_BADADR
         bits: 16
@@ -513,7 +665,7 @@ registers:
         typical: 0
         description: |
           Fetch with bad pointer error. This bit is set when DPI forms an instruction fetch to the
-          NULL pointer. Throws DPI_INTSN_E::REQ_BADADR.
+          NULL pointer. Throws DPI_INTSN_E::DPI_INT_REQ_BADADR.
 
       - name: DMADBO
         bits: 15..8
@@ -523,7 +675,7 @@ registers:
         description: |
           Doorbell overflow error. DPI has a 32-bit counter for each request queue's outstanding
           doorbell counts. A bit is set when the corresponding doorbell count overflows. Throws
-          DPI_INTSN_E::DPI_INT_DMADBO.
+          DPI_INTSN_E::DPI_INT_DMADBO().
 
       - name: --
         bits: 7..2
@@ -611,40 +763,40 @@ registers:
     title: DPI ECC Interrupt Register
     address: 0x1DF0000000020
     bus: NCB
-    description: This register contains ECC error interrupt summary bits.
-    internal: |
+    description: |
+      This register contains ECC error interrupt summary bits.
       INTERNAL:
-      RAM[14] dpi.pnl.pkt.sli_pkt_msix.msix_vfaddr
-      RAM[13] dpi.pnl.pkt.sli_pkt_msix.msix_vfdata
-      RAM[12] dpi.pnl.pkt.sli_pkt_csr.pcsr_in_done
-      RAM[11] dpi.pnl.pkt.sli_pkt_csr.pcsr_instr_mem
-      RAM[10] dpi.pnl.pkt.sli_pkt_csr.pcsr_pout_size
-      RAM[ 9] dpi.pnl.pkt.sli_pkt_csr.pcsr_slist
-      RAM[ 8] dpi.pnl.pkt.sli_pkt_csr.pout_int
-      RAM[ 7] dpi.pnl.pkt.sli_pkt_csr.pout_signal
-      RAM[ 6] dpi.pnl.pkt.sli_pkt_pof.sli_pkt_poi.poi_fifo
-      RAM[ 5] dpi.pnl.pkt.sli_pkt_pof.sli_pkt_psf.psf_fifo
-      RAM[ 4] dpi.pnl.pkt.sli_pkt_pof.sli_pkt_pdf.pdf_fifo
-      RAM[ 3] dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pbn.pbn_fifo
-      RAM[ 2] dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pfp.pfp_fifo
-      RAM[ 1] dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem1
-      RAM[ 1] dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem0
-      RAM[ 0] dpi.dma.rdb.buff.bnk0a
-      RAM[ 0] dpi.dma.rdb.buff.bnk0b
-      RAM[ 0] dpi.dma.rdb.buff.bnk1a
-      RAM[ 0] dpi.dma.rdb.buff.bnk1b
-      RAM[ 0] dpi.dma.rdb.buff.bnk3a
-      RAM[ 0] dpi.dma.rdb.buff.bnk3b
-      RAM[ 0] dpi.dma.rdb.buff.bnk4a
-      RAM[ 0] dpi.dma.rdb.buff.bnk4b
-      RAM[ 0] dpi.dma.rdb.buff.bnk6a
-      RAM[ 0] dpi.dma.rdb.buff.bnk6b
-      RAM[ 0] dpi.dma.rdb.buff.bnk7a
-      RAM[ 0] dpi.dma.rdb.buff.bnk7b
-      RAM[ 0] dpi.dma.rdb.buff.bnk9a
-      RAM[ 0] dpi.dma.rdb.buff.bnk9b
-      RAM[ 0] dpi.dma.rdb.buff.bnk10a
-      RAM[ 0] dpi.dma.rdb.buff.bnk10b
+      RAM[14] = dpi.pnl.pkt.sli_pkt_msix.msix_vfaddr
+      RAM[13] = dpi.pnl.pkt.sli_pkt_msix.msix_vfdata
+      RAM[12] = dpi.pnl.pkt.sli_pkt_csr.pcsr_in_done
+      RAM[11] = dpi.pnl.pkt.sli_pkt_csr.pcsr_instr_mem
+      RAM[10] = dpi.pnl.pkt.sli_pkt_csr.pcsr_pout_size
+      RAM[ 9] = dpi.pnl.pkt.sli_pkt_csr.pcsr_slist
+      RAM[ 8] = dpi.pnl.pkt.sli_pkt_csr.pout_int
+      RAM[ 7] = dpi.pnl.pkt.sli_pkt_csr.pout_signal
+      RAM[ 6] = dpi.pnl.pkt.sli_pkt_pof.sli_pkt_poi.poi_fifo
+      RAM[ 5] = dpi.pnl.pkt.sli_pkt_pof.sli_pkt_psf.psf_fifo
+      RAM[ 4] = dpi.pnl.pkt.sli_pkt_pof.sli_pkt_pdf.pdf_fifo
+      RAM[ 3] = dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pbn.pbn_fifo
+      RAM[ 2] = dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pfp.pfp_fifo
+      RAM[ 1] = dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem1
+      RAM[ 1] = dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem0
+      RAM[ 0] = dpi.dma.rdb.buff.bnk0a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk0b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk1a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk1b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk3a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk3b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk4a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk4b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk6a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk6b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk7a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk7b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk9a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk9b
+      RAM[ 0] = dpi.dma.rdb.buff.bnk10a
+      RAM[ 0] = dpi.dma.rdb.buff.bnk10b
     fields:
       - name: --
         bits: 63..47
@@ -660,7 +812,7 @@ registers:
         typical: 0x0
         description: |
           Set when a single-bit error is detected in the corresponding RAM. Throws
-          DPI_INTSN_E::DPI_ERR_RAM_SBE.
+          DPI_INTSN_E::DPI_ERR_RAM_SBE().
 
       - name: --
         bits: 31..15
@@ -676,7 +828,7 @@ registers:
         typical: 0x0
         description: |
           Set when a double-bit error is detected in the corresponding RAM. Throws
-          DPI_INTSN_E::DPI_ERR_RAM_DBE.
+          DPI_INTSN_E::DPI_ERR_RAM_DBE().
 
 
   - name: DPI_NCB_CTL
@@ -779,7 +931,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: DPI DMA per-core instruction completion interrupt. See DPI_DMA_PP(0..47)_CNT.
+        description: DPI DMA per-core instruction completion interrupt. See DPI_DMA_PP()_CNT.
 
 
   - name: DPI_CTL
@@ -835,11 +987,13 @@ registers:
           DMA engine commit mode.
           When COMMIT_MODE=1, DPI considers an instruction complete when the hardware internally
           generates the final write for the current instruction.
+
           When COMMIT_MODE=0, DPI additionally waits for the final write to reach the interface
           coherency point to declare the instructions complete.
-          Please note: when COMMIT_MODE == 1, DPI may not follow the HRM ordering rules. DPI
-          hardware performance may be better with COMMIT_MODE == 1 than with COMMIT_MODE == 0 due to
-          the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE == 0.
+
+          When COMMIT_MODE=1, DPI may not follow the HRM ordering rules. DPI
+          hardware performance may be better with COMMIT_MODE=1 than with COMMIT_MODE=0 due to
+          the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE=0.
 
       - name: --
         bits: 57
@@ -891,19 +1045,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Reserved.
 
-      - name: NCB_TAG
-        bits: 34
-        access: R/W
-        reset: 0
-        typical: 0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          NCB tag enable. It allows DMA Read/Write transactions over NCB to be mapped to
-          individual request queues by using tags. This enables more parallelism, giving a
-          performance boost.
-          Added in pass 2.
-
       - name: B0_LEND
         bits: 33
         access: R/W
@@ -940,8 +1081,8 @@ registers:
         typical: 1
         description: |
           Add one.
-          1 = add 1 to the SLI SLI_DMA*_CNT DMA counters
-          0 = the number of bytes in the DMA transfer is added to SLI_DMA*_CNT.
+          0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
+          1 = Add 1 to the SLI_DMA()_CNT DMA counters.
 
       - name: O_RO
         bits: 18
@@ -964,10 +1105,10 @@ registers:
         typical: 0x0
         description: |
           Endian swap mode for DMA.
-          0 = pass-through mode (no swap)
-          1 = 64-bit byte-swap mode [ABCD_EFGH] -> [HGFE_DCBA]
-          2 = 32-bit byte-swap mode [ABCD_EFGH] -> [DCBA_HGFE]
-          3 = 32-bit exchange mode [ABCD_EFGH] -> [EFGH_ABCD]
+          0 = pass-through mode (no swap).
+          1 = 64-bit byte-swap mode [ABCD_EFGH] -> [HGFE_DCBA].
+          2 = 32-bit byte-swap mode [ABCD_EFGH] -> [DCBA_HGFE].
+          3 = 32-bit exchange mode [ABCD_EFGH] -> [EFGH_ABCD].
 
       - name: O_MODE
         bits: 14
@@ -1142,7 +1283,9 @@ registers:
         description: |
           Instruction queue enable. This field specifies which of eight logical instruction queues
           can be serviced by the DMA engine.
-          1 = allow service, 0 = prevent service
+            0 = Prevent service.
+            1 = Allow service.
+
           Setting QEN = 0x0 effectively disables the engine. When DPI_DMA_CONTROL[PKT_EN] = 1, then
           DPI_DMA_ENG4/5_EN [QEN] must be zero.
 
@@ -1265,8 +1408,8 @@ registers:
           Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
           <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
           SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
-          the queue's doorbell (DPI_DMA(0..7)_COUNTS[DBELL) and its tail pointer
-          (DPI_DMA(0..7)_NADDR[ADDR]).
+          the queue's doorbell (DPI_DMA()_COUNTS[DBELL) and its tail pointer
+          (DPI_DMA()_NADDR[ADDR]).
 
       - name: --
         bits: 6..0
@@ -1462,28 +1605,28 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..37
+        bits: 63..38
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: COMPBLKS
-        bits: 36..32
+        bits: 37..32
         access: RO/H
         reset: --
         typical: --
         description: Computed engine block size
 
       - name: --
-        bits: 31..9
+        bits: 31..10
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
 
       - name: BASE
-        bits: 8..4
+        bits: 9..4
         access: RO/H
         reset: --
         typical: --
@@ -1496,7 +1639,7 @@ registers:
         typical: --
         description: |
           The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
-          DPI_ENG(0..5)_BUF[BLKS] registers must not exceed the overall RDB memory size of
+          DPI_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
           16 KB.
           0x0 = Engine disabled.
           0x1 = 0.5 KB FIFO.
@@ -1509,6 +1652,7 @@ registers:
           0x8 = 4.0 KB FIFO.
           0x9 = 6.0 KB FIFO.
           0xA = 8.0 KB FIFO.
+          0xB = 16.0 KB FIFO.
 
 
   - name: DPI_SLI_PRT(0..3)_CFG
@@ -1534,7 +1678,7 @@ registers:
         description: |
           When set, HALT indicates that the MAC has detected a reset condition. No further
           instructions that reference the MAC from any instruction queue will be issued until the
-          MAC comes out of reset and HALT is cleared in SLI_CTL_PORT(0..3)[DIS_PORT].
+          MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT].
 
       - name: --
         bits: 23..21
@@ -1549,10 +1693,13 @@ registers:
         reset: --
         typical: --
         description: |
-          Read only copy of the QLM CFG pin. 0 = MAC is DPI; 1 = reserved.
+          Read only copy of the QLM CFG pin.
+          0 = MAC is DPI.
+          1 = Reserved.
+
           Since QLM_CFG is simply a copy of the QLM CFG pins, it could reflect values that are not
           normal for DMA or packet operations. QLM_CFG does not indicate if a port is disabled.
-          GSER(0..13)_CFG can be used for more complete QLM configuration information.
+          GSER()_CFG can be used for more complete QLM configuration information.
 
       - name: --
         bits: 19..17
@@ -1602,6 +1749,7 @@ registers:
           When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
           aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
           would eliminate a write by doing so.)
+
           When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
           boundary of size defined by MPS.
 
@@ -1621,6 +1769,7 @@ registers:
           Maximum payload size.
           0 = 128B.
           1 = 256B.
+
           The MPS size must not exceed the size selected by PCIE*_CFG030[MPS].
 
       - name: MRRS_LIM
@@ -1630,9 +1779,11 @@ registers:
         typical: 0
         description: |
           MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
           When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
           aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
           would eliminate a read by doing so.)
+
           When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
           boundary of size defined by MRRS.
 
@@ -1654,6 +1805,7 @@ registers:
           0x1 = 256B.
           0x2 = 512B.
           0x3 = 1024B.
+
           The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS].
 
 
@@ -1670,8 +1822,8 @@ registers:
         typical: --
         description: |
           Address of the failed load request. Address is locked along with the
-          DPI_SLI_PRT(0..3)_ERR_INFO register. See the
-          DPI_SLI_PRT(0..3)_ERR_INFO[LOCK] description for further information.
+          DPI_SLI_PRT()_ERR_INFO register. See the
+          DPI_SLI_PRT()_ERR_INFO[LOCK] description for further information.
 
       - name: --
         bits: 2..0
@@ -1714,12 +1866,14 @@ registers:
         reset: 0
         typical: --
         description: |
-          DPI_SLI_PRT(0..3)_ERR and DPI_SLI_PRT(0..3)_ERR_INFO have captured and locked contents.
+          DPI_SLI_PRT()_ERR and DPI_SLI_PRT()_ERR_INFO have captured and locked contents.
           When CNXXXX first detects an ErrorResponse, the TYPE, REQQ, and ADDR of the error is saved
           and an internal lock state is set so the data associated with the initial error is
           preserved.
+
           Subsequent ErrorResponses will optionally raise an interrupt, but will not modify the
           TYPE, REQQ, or ADDR fields until the internal lock state is cleared.
+
           Software can clear the internal lock state by writing a 1 to the appropriate bit in either
           DPI_REQ_ERR_RSP or DPI_PKT_ERR_RSP depending on the TYPE field. Once the internal lock
           state is cleared, the next ErrorResponse will set the TYPE, REQQ, and ADDR for the new
@@ -1847,7 +2001,7 @@ registers:
           QUE captures the ErrorResponse status of the last 6 instructions for each instruction
           queue. STATUS<5> represents the status for first instruction in instruction order while
           STATUS<0> represents the last or most recent instruction. If STATUS<n> is set, then the
-          nth instruction in the given queue experienced an ErrorResponse. Otherwise, it completed
+          Nth instruction in the given queue experienced an ErrorResponse. Otherwise, it completed
           normally.
 
 
@@ -1872,8 +2026,9 @@ registers:
           DPI DMA per-core instruction completion counter. The counter is incremented according to
           conditions described below and is decremented by values written to this field. A CNT of
           nonzero causes an interrupt in DPI_DMA_PP_INT.
-          Each DMA instruction that has the DPI_DMA_INSTR_HDR_S[PT]==CNT and a PTR value of 1 to
-          0x30 will increment DPI_DMA_PP(0..47)_CNT value -1 counter. Hardware reserves the values
+
+          Each DMA instruction that has the DPI_DMA_INSTR_HDR_S[PT]=CNT and a PTR value of 1 to
+          0x30 will increment DPI_DMA_PP()_CNT value -1 counter. Hardware reserves the values
           0x31 to 0x3F for future use, treats them as a PTR of 0, and does nothing.
 
 

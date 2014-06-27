@@ -226,13 +226,6 @@ enums:
           cib_rtl_module: "pki_pfe"
         description: See PKI_GEN_INT[X2P_REQ_OFL].
 
-      - name: PKI_GEN_MEMOUT_ERR
-        value: 0x44008
-        attributes:
-          chip_pass: "o78>=2.0"
-          cib_rtl_module: "pki_pfe"
-        description: See PKI_GEN_INT[MEMOUT_ERR].
-
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
         attributes:
@@ -955,7 +948,8 @@ enums:
         value: 0x42
         description: |
           IPv4 header checksum error: the IPv4 header has a checksum violation. Note that the
-          hardware checksum calculation complies with section 5 of RFC 1624.
+          hardware checksum calculation complies with section 5 of RFC 1624.  Note that this
+          can be set in the case of an IPV4 packet with less bytes then specified in the IHL
 
       - name: IP_MAL
         value: 0x43
@@ -1200,7 +1194,8 @@ enums:
           ACTION[SETTY] has special behavior for ETHTYPE*; if ACTION[SETTY]==VLAN, then the
           Ethertype
           is treated as a VLAN and WQE[VV], WQE[VLPTR] and conditionally WQE[VS] will be set.
-          If ACTION[SETTY] is neither NONE nor VLAN, then WQE[LBTY] and WQE[LBPTR] will be set.
+          If ACTION[SETTY] is neither NONE nor VLAN, then PKI will set WQE[LBTY] and WQE[LBPTR] on a
+          match.
           If ACTION[SETTY]==NONE (0), the PCAM entry will not affect any of
           WQE[VV,VLPTR,VS,LBTY,LBPTR].
 
@@ -1272,12 +1267,12 @@ enums:
 
           NONE may be the most common ACTION[SETTY] value used in this case. SW28,
           SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
-          If ACTION[SETTY]!=NONE (0), then WQE[LDTY] and WQE[LDPTR] will be set.
+          If ACTION[SETTY]!=NONE (0), then PKI will set WQE[LDTY] and WQE[LDPTR] on a match.
 
       - name: LD_VNI
         value: 0x28
         attributes:
-          adv: "No"
+          adv: "0x8"
           bank: "0"
           pmc: "Yes"
           setty: "--"
@@ -1304,7 +1299,7 @@ enums:
 
           NONE may be the most common ACTION[SETTY] value used in this case. SW28,
           SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
-          If ACTION[SETTY]!=NONE (0), then WQE[LFTY] and WQE[LFPTR] will be set.
+          If ACTION[SETTY]!=NONE (0), then PKI will set WQE[LFTY] and WQE[LFPTR] on a match.
 
       - name: L4_PORT
         value: 0x30
@@ -1324,7 +1319,10 @@ enums:
 
           NONE may be the most common ACTION[SETTY] value used in this case. GTP, SW28,
           SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
-          If ACTION[SETTY]!=NONE (0), then WQE[LGTY] and WQE[LGPTR] will be set.
+          If ACTION[SETTY]!=NONE (0), then ACTION[ADVANCE] may be non-zero (typically the
+          TCP/UDP/SCTP header
+          size), and PKI will set WQE[LGTY]=ACTION[SETTY] and WQE[LGPTR]=ACTION[ADVANCE]+WQE[LFPTR]
+          on a match.
 
       - name: LG_CUSTOM
         value: 0x39
@@ -1339,7 +1337,7 @@ enums:
 
           NONE may be the most common ACTION[SETTY] value used in this case. SW28,
           SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
-          If ACTION[SETTY]!=NONE (0), then WQE[LGTY] and WQE[LGPTR] will be set.
+          If ACTION[SETTY]!=NONE (0), then PKI will set WQE[LGTY] and WQE[LGPTR] on a match.
 
 
   - name: PKI_QPGQOS_E
@@ -1948,7 +1946,7 @@ structs:
     title: PKI Work-Queue Entry Structure
     attributes:
       allow_missing_bits: "True"
-      mif_exclude: "True"
+      mif_extern: "PKI"
     description: This section is a description of each field in WORD0 - WORD4 of the work-queue entry.
     fields:
       - name: PKND
@@ -1998,7 +1996,7 @@ structs:
         description: |
           Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura including the FPA
           node computed for the packet. See Auras for an overview on auras and QPG for the aura
-          calculation. Note the high two bits (WQE[AURA]<11:10>) correspond to an OCI node number,
+          calculation. Note the high two bits (WQE[AURA]<11:10>) correspond to an CCPI node number,
           from PKI_QPG_TBL(0..2047)[AURA_NODE], and indicate the node on which the packet was
           received by PKI.
           ...
@@ -2021,7 +2019,7 @@ structs:
         bits: w1(43..34)
         description: |
           Refer to PKI Hardware Work-Queue Entry, word1<43:34>. The SSO group number used for the
-          packet's ADD_WORK, with the two high bits correspond to an OCI node number, from
+          packet's ADD_WORK, with the two high bits correspond to an CCPI node number, from
           PKI_QPG_TBL(0..2047)[GRP_OK, GRP_BAD]. GRP is calculated as part of the QPG calculations,
           see QPG. Note that the GRP may be optionally selected differently if the packet has an
           error (WQE[ERRLEV]!=NONE).
@@ -2422,15 +2420,6 @@ registers:
     bus: RSL
     fields:
       - name: --
-        bits: 63..9
-        access: RAZ
-        reset: --
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Reserved.
-
-      - name: --
         bits: 63..8
         access: RAZ
         reset: --
@@ -2438,18 +2427,6 @@ registers:
         attributes:
           chip_pass: "o78<2.0"
         description: Reserved.
-
-      - name: MEMOUT_ERR
-        bits: 8
-        access: R/W1C/H
-        reset: 0
-        typical: 0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          Set when PKI needs to use MEMOUT_ERR_BUF[ADDR] because no fpa pointers are available
-          and it's still set to reset value of 0x0.
-          Throws PKI_INTSN_E::PKI_GEN_MEMOUT_ERR.
 
       - name: X2P_REQ_OFL
         bits: 7
@@ -3648,39 +3625,6 @@ registers:
         description: Weight for BGX0.
 
 
-  - name: PKI_MEMOUT_ERR_BUF
-    title: PKI Request Weight Register
-    address: 0x1180044000130
-    bus: RSL
-    description: |
-      Contains address to write data when there is no buffer available.  Software needs to allocate
-      a FPA buffer to PKI when PKI_BUF_CTL[FPA_WAIT] = 0.  This is to give PKI a scratch pad buffer
-      to write incoming data when FPA runs out of buffers for a packets aura. Added in pass 2.
-    attributes:
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..42
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: ADDR
-        bits: 41..7
-        access: R/W
-        reset: 0x0
-        typical: --
-        description: Address of FPA buffer reserved to write out data when no other FPA buffer available.
-
-      - name: --
-        bits: 6..0
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-
   - name: PKI_GBL_PEN
     title: PKI Global Parser Enable Register
     address: 0x1180044000200
@@ -4876,8 +4820,8 @@ registers:
           Work queue header size:
           0x0 = WORD0..4, standard WQE_S. Note FIRST_SKIP may be set to not include WORD4 in memory.
           0x1 = WORD0..5.
-          0x2 = WORD0..6.
-          0x3 = WORD0..7.
+          0x2 = Reserved
+          0x3 = Reserved
 
           INTERNAL: Selects which PIX words are transferred to the PKI BE. If a word is not
           transferred and the word will reach memory (FIRST_SKIP is greater than that word number),
@@ -6381,39 +6325,6 @@ registers:
         description: Aura on local node for QOS calculations and loading into WQE[AURA]WQE[AURA].
 
 
-  - name: PKI_QPG_TBL2(0..2047)
-    title: PKI QPG Table Registers 2
-    address: 0x1180044820000 | a<<3
-    bus: RSL
-    description: |
-      This register configures the QPG table. See also PKI_QPG_TBL().
-      Added in pass 2.
-      INTERNAL: This register is outside SMEM due to opcode detection.
-    attributes:
-      arch_max: "16k"
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..10
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DSTAT_ID
-        bits: 9..0
-        access: R/W
-        reset: 0x0
-        typical: --
-        attributes:
-          no_soft_reset: "1"
-        description: |
-          Deep statistic bucket to use for traffic to this QPG. This determines which
-          index of PKI_DSTAT()_STAT0..PKI_DSTAT()_STAT4 will increment. Additionally, if
-          PKI_STAT_CTL[MODE] = 0x2, then DSTAT_ID values 0-63 will increment
-          PKI_STAT()_STAT0..PKI_STAT()_STAT18 and PKI_STAT()_HIST0..PKI_STAT()_HIST6.
-
-
   - name: PKI_AURA(0..1023)_CFG
     title: PKI Aura Configuration Register
     address: 0x1180044900000 | a<<3
@@ -6574,159 +6485,6 @@ registers:
         attributes:
           no_soft_reset: "1"
         description: The corresponding bpid is being backpressured.
-
-
-  - name: PKI_DSTAT(0..1023)_STAT0
-    title: PKI Packets Deep Statistic Registers
-    address: 0x1180044C00000 | a<<6
-    bus: RSL
-    description: |
-      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
-      Added in pass 2.
-    attributes:
-      arch_max: "4k"
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..32
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: PKTS
-        bits: 31..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        attributes:
-          no_soft_reset: "1"
-        description: |
-          Number of non-dropped packets processed by PKI.
-          The corresponding wide statistic is PKI_STAT()_STAT0.
-
-
-  - name: PKI_DSTAT(0..1023)_STAT1
-    title: PKI Octects Deep Statistic Registers
-    address: 0x1180044C00008 | a<<6
-    bus: RSL
-    description: |
-      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
-      Added in pass 2.
-    attributes:
-      arch_max: "4k"
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..40
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: OCTS
-        bits: 39..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        attributes:
-          no_soft_reset: "1"
-        description: |
-          Number of non-dropped octets received by PKI (good and bad).
-          The corresponding wide statistic is PKI_STAT()_STAT1.
-
-
-  - name: PKI_DSTAT(0..1023)_STAT2
-    title: PKI Error Packets Deep Statistic Registers
-    address: 0x1180044C00010 | a<<6
-    bus: RSL
-    description: |
-      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
-      Added in pass 2.
-    attributes:
-      arch_max: "4k"
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..32
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: ERR_PKTS
-        bits: 31..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        attributes:
-          no_soft_reset: "1"
-        description: |
-          Number of packets with errors, including length < minimum, length > maximum, FCS
-          errors, or WQE[ERRLEV]==RE or L2.
-          This corresponds to a sum across the wide statistics PKI_STAT()_STAT7, PKI_STAT()_STAT7,
-          PKI_STAT()_STAT8, PKI_STAT()_STAT9, PKI_STAT()_STAT10, PKI_STAT()_STAT11, and
-          PKI_STAT()_STAT12.
-
-
-  - name: PKI_DSTAT(0..1023)_STAT3
-    title: PKI Dropped Packets Deep Statistic Registers
-    address: 0x1180044C00018 | a<<6
-    bus: RSL
-    description: |
-      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
-      Added in pass 2.
-    attributes:
-      arch_max: "4k"
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..32
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DRP_PKTS
-        bits: 31..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        attributes:
-          no_soft_reset: "1"
-        description: |
-          Inbound packets dropped by RED, buffer exhaustion, or PKI_CL()_STYLE()_CFG[DROP].
-          The corresponding wide statistic is PKI_STAT()_STAT3.
-
-
-  - name: PKI_DSTAT(0..1023)_STAT4
-    title: PKI Dropped Octets Deep Statistic Registers
-    address: 0x1180044C00020 | a<<6
-    bus: RSL
-    description: |
-      This register contains statistics indexed by PKI_QPG_TBL2()[DSTAT_ID].
-      Added in pass 2.
-    attributes:
-      arch_max: "4k"
-      chip_pass: "o78>=2.0"
-    fields:
-      - name: --
-        bits: 63..40
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
-
-      - name: DRP_OCTS
-        bits: 39..0
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        attributes:
-          no_soft_reset: "1"
-        description: |
-          Inbound octets dropped by RED, buffer exhaustion, or PKI_CL()_STYLE()_CFG[DROP].
-          The corresponding wide statistic is PKI_STAT()_STAT4.
 
 
   - name: PKI_STAT(0..63)_HIST0

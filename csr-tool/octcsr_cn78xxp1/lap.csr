@@ -352,7 +352,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -443,7 +443,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -521,7 +521,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40

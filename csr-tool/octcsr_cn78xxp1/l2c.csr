@@ -377,7 +377,7 @@ enums:
 
       - name: L2_OPEN_OCI
         value: 0x48
-        description: LFB open OCI cycle (each cycle adds number of LFBs with an open OCI cycle)
+        description: LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI cycle)
 
       - name: QD(0..7)_IDX
         value: 0x80 | a<<4
@@ -1244,7 +1244,7 @@ registers:
         typical: 0
         description: |
           Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
-          sub-blocks when possible. In an OCI system all nodes must use the same setting of
+          sub-blocks when possible. In an CCPI system all nodes must use the same setting of
           DISSBLKDTY or operation is undefined.
           INTERNAL: PASS2: DISSBLKDTY should reset to 0, once verif supports it.
 
@@ -1413,10 +1413,19 @@ registers:
       * If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB - 3.
     fields:
       - name: --
-        bits: 63..32
+        bits: 63..33
         access: RAZ
         reset: --
         typical: --
+        description: Reserved.
+
+      - name: FRCNALC
+        bits: 32
+        access: RAZ
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
         description: Reserved.
 
       - name: DISRSTP
@@ -1424,9 +1433,9 @@ registers:
         access: R/W
         reset: 1
         typical: 0
-        description: |
-          When set, if the L2 receives an RSTP XMC command, it treats it as a STP.
-          INTERNAL: PASS2: DISRSTP should reset to 0, once verif supports it.
+        attributes:
+          chip_pass: "o78<2.0"
+        description: When set, if the L2 receives an RSTP XMC command, it treats it as a STP.
 
       - name: WTLMCWRDN
         bits: 30
@@ -1464,7 +1473,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Extra LFBs to reserve for Rxxx OCI commands beyond the 1 required for OCI protocol
+          Extra LFBs to reserve for Rxxx CCPI commands beyond the 1 required for CCPI protocol
           functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: EXFWD
@@ -1473,7 +1482,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Extra LFBs to reserve for Fxxx/SINV OCI commands beyond the 1 required for OCI protocol
+          Extra LFBs to reserve for Fxxx/SINV CCPI commands beyond the 1 required for CCPI protocol
           functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: EXVIC
@@ -1482,7 +1491,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Extra LFBs to reserve for VICx OCI commands beyond the 1 required for OCI protocol
+          Extra LFBs to reserve for VICx CCPI commands beyond the 1 required for CCPI protocol
           functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0.
 
       - name: VBF_THRESH
@@ -1510,7 +1519,7 @@ registers:
 
 
   - name: L2C_OCI_CTL
-    title: L2C OCI Control Register
+    title: L2C CCPI Control Register
     address: 0x1180080800020
     bus: RSL
     fields:
@@ -1593,7 +1602,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          When set, if the corresponding OCI link is down, the hardware sets [SHTO].
+          When set, if the corresponding CCPI link is down, the hardware sets [SHTO].
           See OCX_COM_LINK(0..2)_CTL for a description of what events can contribute to the
           link_down condition.
 
@@ -1613,7 +1622,7 @@ registers:
         reset: 0x0
         typical: 0x0
         description: |
-          Describes how aggressive to be when waiting for local invalidates before sending OCI
+          Describes how aggressive to be when waiting for local invalidates before sending CCPI
           responses which act like commits at the remote.
           0x0 = Conservative mode, waits until all local invalidates have been sent by their
           respective CBCs to the cores.
@@ -1681,29 +1690,13 @@ registers:
         attributes:
           chip_pass: "o78<2.0"
         description: |
-          Enable OCI processing (one bit per node_id). When set, perform OCI processing. When clear,
-          OCI memory writes are blocked and OCI memory reads return unpredictable data. When clear,
-          OCI I/O requests and MOC references are processed and sent to OCX where they are
+          Enable CCPI processing (one bit per node_id). When set, perform CCPI
+          processing. When clear, CCPI memory writes are blocked and CCPI memory reads
+          return unpredictable data. When clear,
+          CCPI I/O requests and MOC references are processed and sent to OCX where they are
           ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
           if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
-          via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no OCI processing is
-          required. Similarly, all I/O references ignore the value of ENAOCI when
-          L2C_OCI_CTL[IOFRCL] is set.
-
-      - name: ENAOCI
-        bits: 3..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          Enable OCI processing (one bit per node_id). When set, perform OCI processing. When clear,
-          OCI memory writes are blocked and OCI memory reads return unpredictable data. When clear,
-          OCI I/O requests and MOC references are processed and sent to OCX where they are
-          ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
-          if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
-          via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no OCI processing is
+          via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no CCPI processing is
           required. Similarly, all I/O references ignore the value of ENAOCI when
           L2C_OCI_CTL[IOFRCL] is set.
 
@@ -1778,7 +1771,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: OCI node to use for simulated ADD bus request.
+        description: CCPI node to use for simulated ADD bus request.
 
       - name: ADDR
         bits: 39..0
@@ -1859,7 +1852,8 @@ registers:
       1. RD and SEL are as defined in the description of Core Coprocessor 0 registers.
 
       2. If a COP0 register cannot be accessed by this mechanism the write be silently ignored and
-      the read data will be 0x2bad2bad2bad2bad.
+      the read data will be 0x2bad2bad2bad2bad. Otherwise, if the COP0 register doesn't exist,
+      the read data value will be 0x000000000BADDEED.
 
       3. If the PPID is outside the range of 0-47,255 or if the core in question is in reset
       a write will be ignored and reads will timeout the RSL bus.
@@ -2341,7 +2335,7 @@ registers:
         typical: 0x0
         description: |
           The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-          address. TAG<41:40> is the OCI node of the address. The RTG must always have the
+          address. TAG<41:40> is the CCPI node of the address. The RTG must always have the
           TAG<41:40> equal to the current node or operation is undefined.
 
       - name: --
@@ -2681,7 +2675,7 @@ registers:
         description: |
           Source id of the original request, that is 'source' of request. This is only valid if the
           request is a local request (valid if L2C_TAD()_TIMEOUT[CMD] is an XMC request and not
-          relevant if it is an OCI request).
+          relevant if it is an CCPI request).
 
       - name: BUSID
         bits: 28..25
@@ -2765,7 +2759,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Encoding of XMC or OCI command causing error.
+          Encoding of XMC or CCPI command causing error.
           INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
           OCI_MREQ_CMD_E to
           decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
@@ -2853,7 +2847,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Encoding of XMC or OCI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
+          Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
           decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
           use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
           CMD[4:0].
@@ -2874,7 +2868,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          OCI Node of XMC request causing error. For BIG* errors NODE is always the node that
+          CCPI node of XMC request causing error. For BIG* errors NODE is always the node that
           generated request causing the error (BIG* errors are logged at the home node). For *DISOCI
           errors, is the NODE the request is directed to (DISOCI request is always the current
           Node).
@@ -3526,7 +3520,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Encoding of XMC or OCI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
+          Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
           decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
           use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
           CMD[4:0].
@@ -3545,7 +3539,7 @@ registers:
         access: RO/H
         reset: 0x0
         typical: --
-        description: OCI Node of XMC request causing error.For HOLE* errors, is the NODE the request is directed to.
+        description: CCPI node of XMC request causing error. For HOLE* errors, is the NODE the request is directed to.
 
       - name: ADDR
         bits: 39..0
@@ -3569,8 +3563,26 @@ registers:
       IORDDISOCI and IOWRDISOCI. See L2C_CBC()_INT for information about which I/O transactions
       may result in IORDDISOCI/IOWRDISOCI interrupts.
     fields:
+      - name: IORDDISOCI
+        bits: 63
+        access: RAZ
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: IOWRDISOCI
+        bits: 62
+        access: RAZ
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
       - name: --
-        bits: 63..59
+        bits: 61..59
         access: RAZ
         reset: --
         typical: --

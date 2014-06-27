@@ -1858,7 +1858,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[PCNT]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[PCNT]. This interrupt is level-sensitive.
 
       - name: SLI_INT_PTIME
         value: 0x1F005
@@ -1871,7 +1871,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[PTIME]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[PTIME]. This interrupt is level-sensitive.
 
       - name: SLI_INT_MIO_INT2
         value: 0x1F006
@@ -1884,7 +1884,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT2]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[MIO_INT2]. This interrupt is level-sensitive.
 
       - name: SLI_INT_MIO_INT3
         value: 0x1F007
@@ -1897,7 +1897,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT3]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[MIO_INT3]. This interrupt is level-sensitive.
 
       - name: SLI_INT_M0_UP_B0
         value: 0x1F008
@@ -2006,7 +2006,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT0]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[MIO_INT0]. This interrupt is level-sensitive.
 
       - name: SLI_INT_MIO_INT1
         value: 0x1F011
@@ -2019,7 +2019,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[MIO_INT1]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[MIO_INT1]. This interrupt is level-sensitive.
 
       - name: SLI_INT_M2_UP_B0
         value: 0x1F014
@@ -2164,7 +2164,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DCNT<0>]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[DCNT<0>]. This interrupt is level-sensitive.
 
       - name: SLI_INT_DCNT1
         value: 0x1F023
@@ -2177,7 +2177,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DCNT<1>]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[DCNT<1>]. This interrupt is level-sensitive.
 
       - name: SLI_INT_DTIME0
         value: 0x1F024
@@ -2190,7 +2190,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DTIME<0>]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[DTIME<0>]. This interrupt is level-sensitive.
 
       - name: SLI_INT_DTIME1
         value: 0x1F025
@@ -2203,7 +2203,7 @@ enums:
           major_val: "(0x1F)"
           reg_addr: "(0x11F0000010330)"
           reg_name: "SLI_INT_SUM"
-        description: See SLI_INT_SUM[DTIME<1>]. This interrupt is level sensitive.
+        description: See SLI_INT_SUM[DTIME<1>]. This interrupt is level-sensitive.
 
       - name: SLI_INT_PIDBOF
         value: 0x1F030
@@ -3058,20 +3058,6 @@ enums:
           reg_addr: "(0x1180044000020)"
           reg_name: "PKI_GEN_INT"
         description: See PKI_GEN_INT[X2P_REQ_OFL].
-
-      - name: PKI_GEN_MEMOUT_ERR
-        value: 0x44008
-        attributes:
-          bit_name: "MEMOUT_ERR"
-          bit_num: "8"
-          blk_enum_name: "PKI_INTSN_E"
-          chip_pass: "o78>=2.0"
-          cib_rtl_module: "pki_pfe"
-          major_name: "PKI"
-          major_val: "(0x44)"
-          reg_addr: "(0x1180044000020)"
-          reg_name: "PKI_GEN_INT"
-        description: See PKI_GEN_INT[MEMOUT_ERR].
 
       - name: PKI_ECC0_ASM_SBE
         value: 0x44040
@@ -4595,6 +4581,20 @@ enums:
           reg_addr: "(0x1540000800008)"
           reg_name: "PKO_PDM_STS"
         description: See PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP].
+
+      - name: PKO_NCB_TSO_SEGMENT_CNT
+        value: 0x500FE
+        attributes:
+          bit_name: "TSO_SEGMENT_CNT"
+          bit_num: "1"
+          blk_enum_name: "PKO_INTSN_E"
+          cib_rtl_module: "pko_ncb"
+          intsn_lsb_mismatch: "True"
+          major_name: "PKO"
+          major_val: "(0x50)"
+          reg_addr: "(0x1540000E00010)"
+          reg_name: "PKO_NCB_INT"
+        description: See PKO_NCB_INT[TSO_SEGMENT_CNT].
 
       - name: PKO_DESC_CRC_ERR
         value: 0x500FF

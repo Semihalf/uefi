@@ -163,7 +163,8 @@ registers:
         typical: --
         description: |
           ID Valid associated with the chip. This register is used by the link initialization
-          software to help assign IDs and is transmitted over OCI. The FIXED field set during a cold
+          software to help assign IDs and is transmitted over CCPI. The FIXED field set during a
+          cold
           reset to the value of the OCI_FIXED_NODE pin. The value is also readable in the
           OCX_LNE(0..23)_STS_MSG[TX_META_DAT<2>] for each lane. The FIXED field of the link partner
           can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<2>] on each
@@ -176,7 +177,7 @@ registers:
         typical: --
         description: |
           Node ID associated with the chip. This register is used by the rest of the chip to
-          determine what traffic is transmitted over OCI. The value should not match the
+          determine what traffic is transmitted over CCPI. The value should not match the
           OCX_COM_LINK(0..2)_CTL[ID] of any active link. The ID field is set during a cold reset to
           the value of the OCI_NODE_ID pins. The value is also readable in the
           OCX_LNE(0..23)_STS_MSG[TX_META_DAT<1:0>] for each lane. The ID field of the link partner
@@ -269,17 +270,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Reserved.
 
-      - name: CCLK_DIS
-        bits: 9
-        access: R/W
-        reset: 0
-        typical: 0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          Reserved.  INTERNAL:  Disable conditional clocking.  Set to force link clocks on
-          unconditionally.
-
       - name: LOOPBACK
         bits: 8
         access: R/W
@@ -308,15 +298,6 @@ registers:
         typical: 0
         attributes:
           chip_pass: "o78<2.0"
-        description: Reserved.
-
-      - name: GATE
-        bits: 6
-        access: RO
-        reset: 0
-        typical: 0
-        attributes:
-          chip_pass: "o78>=2.0"
         description: Reserved.
 
       - name: AUTO_CLR
@@ -443,12 +424,12 @@ registers:
           The address used in both the load and store operations:
           <47:40> = NCB_ID.
           <39:38> = 0, Not used.
-          <37:36> = OCI_ID.
+          <37:36> = CCPI_ID.
           <35:0> = Address.
 
           When <47:43> == SLI & <42:40> == 0 bits <39:0> are:
           <39:38> = 0, Not used.
-          <37:36> = OCI_ID.
+          <37:36> = CCPI_ID.
           <35:32> = 0, Not used.
           <31:24> = RSL_ID.
           <23:0> = RSL register offset.
@@ -509,55 +490,13 @@ registers:
       1 the southeast DLL.
     fields:
       - name: --
-        bits: 63..17
+        bits: 63..0
         access: RAZ
         reset: --
         typical: --
+        attributes:
+          chip_pass: "o78<2.0"
         description: Reserved.
-
-      - name: INVERT
-        bits: 16
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          DLL invert status.
-          0 = Normal clock.
-          1 = Inverted clock. Falling edge of core clock occurs before rising edge of reference
-          clock.
-
-      - name: LOCK
-        bits: 15
-        access: RO/H
-        reset: --
-        typical: --
-        description: DLL lock status.
-
-      - name: STATE
-        bits: 14..12
-        access: RO/H
-        reset: --
-        typical: --
-        description: |
-          DLL state.
-          0x0 = Idle.
-          0x1-0x4 = Intermediate states.
-          0x5 = Locked.
-          0x6-0x7 = Reserved.
-
-      - name: COURSE
-        bits: 11..4
-        access: RO/H
-        reset: --
-        typical: --
-        description: DLL course settings.
-
-      - name: INTERP
-        bits: 3..0
-        access: RO/H
-        reset: --
-        typical: --
-        description: DLL interpolator settings.
 
 
   - name: OCX_PP_WR_DATA
@@ -1711,18 +1650,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Reserved.
 
-      - name: SER_LOW
-        bits: 63..60
-        access: R/W/H
-        reset: 0x0
-        typical: 0x0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          Reduce latency by limiting the amount of data in flight for each SerDes.  Writing to 0
-          causes
-          hardware to determine a typically optimal value.   Added in pass 2.
-
       - name: --
         bits: 59..42
         access: RAZ
@@ -1740,15 +1667,6 @@ registers:
         description: |
           Reduce latency by limiting the amount of data in flight for each SerDes. For diagnostic
           use only.  Removed in pass 2.
-
-      - name: SER_LIMIT
-        bits: 41..32
-        access: RAZ
-        reset: 0x0
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Reserved.  Removed in pass 2.
 
       - name: CRD_DIS
         bits: 31
@@ -1974,20 +1892,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Reserved.
 
-      - name: DATA_RATE
-        bits: 28..16
-        access: R/W/H
-        reset: 0x0
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          The number of rclk to transmit 32 words, where each word is 67 bits.  HW will
-          automatically
-          calculate a conservative value for this field.   SW can override the calculation by
-          writing
-          TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32).  Added in pass 2.
-
       - name: LOW_DELAY
         bits: 15..10
         access: RO
@@ -1996,17 +1900,6 @@ registers:
         attributes:
           chip_pass: "o78<2.0"
         description: Reserved.
-
-      - name: LOW_DELAY
-        bits: 15..10
-        access: R/W
-        reset: 0x0
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          The delay before reacting to a lane low data indication, as a multiple of 64 rclks.
-          Added in pass 2.
 
       - name: LANE_ALIGN_DIS
         bits: 9
@@ -2610,7 +2503,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of idle blocks transferred over the OCI link while OCX_TLK(0..2)_STAT_CTL[ENABLE]
+          Number of idle blocks transferred over the CCPI link while OCX_TLK(0..2)_STAT_CTL[ENABLE]
           has been set.
 
 
@@ -2625,7 +2518,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of data blocks transferred over the OCI Link while OCX_TLK(0..2)_STAT_CTL[ENABLE]
+          Number of data blocks transferred over the CCPI Link while OCX_TLK(0..2)_STAT_CTL[ENABLE]
           has been set.
 
 
@@ -2640,7 +2533,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of sync (control) blocks transferred over the OCI link while
+          Number of sync (control) blocks transferred over the CCPI link while
           OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set.
 
 
@@ -2654,7 +2547,9 @@ registers:
         access: R/W
         reset: --
         typical: --
-        description: Number of data blocks repeated over the OCI link while OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set.
+        description: |
+          Number of data blocks repeated over the CCPI link while OCX_TLK(0..2)_STAT_CTL[ENABLE] has
+          been set.
 
 
   - name: OCX_TLK(0..2)_STAT_ERR_CNT
@@ -2668,7 +2563,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of blocks received with an error over the OCI link while
+          Number of blocks received with an error over the CCPI link while
           OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set.
 
 
@@ -2684,7 +2579,7 @@ registers:
         typical: --
         description: |
           Number of packets that have matched OCX_TLK(a)_STAT_MATCH0 and have been transferred over
-          the OCI Link while OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set.
+          the CCPI link while OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set.
 
 
   - name: OCX_TLK(0..2)_STAT_VC(0..5)_CMD
@@ -2698,7 +2593,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of commands on this VC that have been transfered over the OCI link while
+          Number of commands on this VC that have been transfered over the CCPI link while
           OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set. For VCs 6 through 13 the number of commands
           is equal to the number of packets.
 
@@ -2714,7 +2609,7 @@ registers:
         reset: --
         typical: --
         description: |
-          Number of packets on this VC that have been transferred over the OCI link while
+          Number of packets on this VC that have been transferred over the CCPI link while
           OCX_TLK(0..2)_STAT_CTL[ENABLE] has been set.
 
 

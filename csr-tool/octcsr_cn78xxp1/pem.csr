@@ -1930,28 +1930,28 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTD. This is a level sensitive interrupt.
+        description: The PCIe controller received an INTD. This is a level-sensitive interrupt.
 
       - name: INTC
         bits: 62
         access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTC. This is a level sensitive interrupt.
+        description: The PCIe controller received an INTC. This is a level-sensitive interrupt.
 
       - name: INTB
         bits: 61
         access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTB. This is a level sensitive interrupt.
+        description: The PCIe controller received an INTB. This is a level-sensitive interrupt.
 
       - name: INTA
         bits: 60
         access: RO/H
         reset: 0
         typical: 0
-        description: The PCIe controller received an INTA. This is a level sensitive interrupt.
+        description: The PCIe controller received an INTA. This is a level-sensitive interrupt.
 
       - name: --
         bits: 59..14
@@ -2042,7 +2042,7 @@ registers:
         access: RO/H
         reset: 0
         typical: 0
-        description: PME interrupt (cfg_pme_int). This is a level sensitive interrupt.
+        description: PME interrupt (cfg_pme_int). This is a level-sensitive interrupt.
 
       - name: SE
         bits: 1
@@ -2058,7 +2058,7 @@ registers:
         typical: 0
         description: |
           Advanced error reporting interrupt, RC mode only (cfg_aer_rc_err_int).
-          This is a level sensitive interrupt.
+          This is a level-sensitive interrupt.
 
 
   - name: PEM(0..3)_BIST_STATUS

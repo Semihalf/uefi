@@ -418,7 +418,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number. For ALLOC_WE, this must always indicate the local node, or an error will result.
+        description: CCPI node number. For ALLOC_WE, this must always indicate the local node, or an error will result.
 
       - name: DID
         bits: 47..40
@@ -455,7 +455,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number. For ALLOC_WE, this must always indicate the local node, or an error will result.
+        description: CCPI node number. For ALLOC_WE, this must always indicate the local node, or an error will result.
 
       - name: DID
         bits: 47..40
@@ -549,8 +549,8 @@ structs:
         attributes:
           const: "--"
         description: |
-          OCI node number. CLR_NSCHED must always be to the local node or an illegal operation error
-          will result.
+          CCPI node number. CLR_NSCHED must always be to the local node or an illegal
+          operation error will result.
 
       - name: DID
         bits: 47..40
@@ -589,7 +589,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -637,7 +637,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -716,7 +716,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number. For GET_WORK, this must always indicate the local node, or an error will result.
+        description: CCPI node number. For GET_WORK, this must always indicate the local node, or an error will result.
 
       - name: DID
         bits: 47..40
@@ -771,8 +771,8 @@ structs:
 
           If [INDEXED] = 1, <15:4> provides the index to get work from.
 
-          If [GROUPED] = 1, <13:4> provides the group number; the group number's OCI node must
-          correspond to the local OCI node, as SSO does not forward the request to a remote OCI
+          If [GROUPED] = 1, <13:4> provides the group number; the group number's CCPI node must
+          correspond to the local CCPI node, as SSO does not forward the request to a remote CCPI
           node.
 
           Otherwise, <5:4> indicates how to use the mask sets in SSO_PP()_S()_GRPMSK()
@@ -820,7 +820,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number. For GET_WORK, this must always indicate the local node, or an error will result.
+        description: CCPI node number. For GET_WORK, this must always indicate the local node, or an error will result.
 
       - name: DID
         bits: 47..40
@@ -986,7 +986,7 @@ structs:
         attributes:
           const: "--"
         description: |
-          OCI node number. For non-ADDWQ this must always indicate the local node, or an error will
+          CCPI node number. For non-ADDWQ this must always indicate the local node, or an error will
           result. ADDWQ can be performed onto any node.
 
       - name: DID
@@ -1357,17 +1357,6 @@ registers:
         attributes:
           chip_pass: "o78<2.0"
         description: Reserved.
-
-      - name: LOL
-        bits: 7
-        access: R/W
-        reset: 0
-        typical: 0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: |
-          Legalize OCI loopback by forcing ADD_WORKs arriving from IOBN to have node equal to
-          global_node_id. For diagnostic use only. Added in pass 2.
 
       - name: XAQ_ALLOC_DIS
         bits: 6
@@ -3109,7 +3098,7 @@ registers:
         access: R/W
         reset: all-ones
         typical: --
-        description: Cross-group arbitration weight to apply to this group. Must be non-zero.
+        description: Cross-group arbitration weight to apply to this group. Must be >= 0x2.
 
       - name: --
         bits: 15..12
@@ -3123,7 +3112,10 @@ registers:
         access: R/W
         reset: all-ones
         typical: --
-        description: Processor affinity arbitration weight to apply to this group. If zero, affinity is disabled.
+        description: |
+          Processor affinity arbitration weight to apply to this group. If zero, affinity
+          is disabled. A change to AFFINITY will not take effect until the old AFFINITY's
+          value loaded into SSO_PP()_ARB[AFF_LEFT] has drained to zero.
 
       - name: --
         bits: 7..3
@@ -4180,7 +4172,7 @@ registers:
         typical: --
         description: |
           Group of the SSO entry.
-          The upper bits are not stored in the RAM, but rather indicate the OCI node number.
+          The upper bits are not stored in the RAM, but rather indicate the CCPI node number.
 
       - name: --
         bits: 47..42

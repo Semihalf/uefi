@@ -58,7 +58,7 @@ registers:
         access: R/W1
         reset: 0
         typical: 0
-        description: Reset oneshot pulse (lasts for 4 cycles).
+        description: Reset one-shot pulse (lasts for 4 cycles).
 
 
   - name: RAD_REG_CMD_BUF
@@ -114,16 +114,7 @@ registers:
     title: RAD Polynomial Register
     address: 0x1180070000010
     bus: RSL
-    description: |
-      The polynomial is x
-      8 + C7*x
-      7 + C6*x
-      6 + C5*x
-      5 + C4*x
-      4 + C3*x
-      3 + C2*x
-      2 + C1*x
-      1 + C0.
+    description: The polynomial is x^8 + C7*x^7 + C6*x^6 + C5*x^5 + C4*x^4 + C3*x^3 + C2*x^2 + C1*x^1 + C0.
     attributes:
       dv_fc_scratch: "ALL"
     fields:
@@ -139,7 +130,7 @@ registers:
         access: R/W
         reset: 0x1d
         typical: 0x1d
-        description: Coefficients of GF(28) irreducible polynomial
+        description: Coefficients of GF(2^8) irreducible polynomial
 
 
   - name: RAD_REG_READ_IDX

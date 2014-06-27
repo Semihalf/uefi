@@ -90,6 +90,8 @@ structs:
 
       - name: --
         bits: 36
+        attributes:
+          chip_pass: "o78<2.0"
         description: Reserved.
 
       - name: CTL
@@ -549,7 +551,9 @@ registers:
         access: R/W/H
         reset: 0x0
         typical: --
-        description: Current time as free running counter. Loaded into captured control packets.
+        description: |
+          Current time as free running counter. Loaded into captured control packets.
+          Unconditionally clocked, independent of OCLA()_SFT_RST.
 
 
   - name: OCLA(0..4)_RAW(0..1)
@@ -724,7 +728,7 @@ registers:
         access: R/W
         reset: 0x0
         typical: --
-        description: Memory address for base of overflow stack. This address must be on the local node in a OCI system.
+        description: Memory address for base of overflow stack. This address must be on the local node in a CCPI system.
 
       - name: --
         bits: 6..0
@@ -752,8 +756,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Memory address for top of overflow stack plus one. This address must be on the local node
-          in a OCI system.
+          Memory address for top of overflow stack plus one. This address must be on the
+          local node in a CCPI system.
 
       - name: --
         bits: 6..0
@@ -823,8 +827,8 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Next address to write for overflow stack. This address must be on the local node in a OCI
-          system. During initialization this must be between OCLA()_STACK_BASE and
+          Next address to write for overflow stack. This address must be on the local node in a
+          CCPI system. During initialization this must be between OCLA()_STACK_BASE and
           OCLA()_STACK_TOP.
 
       - name: --
@@ -1155,10 +1159,19 @@ registers:
     description: See State Outputs for more details on each of these actions.
     fields:
       - name: --
-        bits: 63..30
+        bits: 63..31
         access: RAZ
         reset: --
         typical: --
+        description: Reserved.
+
+      - name: --
+        bits: 30
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78<2.0"
         description: Reserved.
 
       - name: SET_INT

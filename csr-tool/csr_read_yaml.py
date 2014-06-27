@@ -134,6 +134,8 @@ def build_struct(chip_info, struct):
                    "mif_operation",
                    "mif_columns",
                    "mif_exclude",
+                   "mif_extern",
+                   "mif_heading3",
                    "subblock"])                 # FIXME: What is this?
         # FIXME: What to do with attributes?
     for field in struct["fields"]:

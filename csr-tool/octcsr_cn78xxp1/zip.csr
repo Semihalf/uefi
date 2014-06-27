@@ -203,12 +203,15 @@ structs:
         bits: 41..0
         description: |
           When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
-          A direct byte pointer into L2C/DDR attached memory, or
-          A pointer to a gather/scatter list in memory.
+          * A direct byte pointer into L2C/DDR attached memory, or
+          * A pointer to a gather/scatter list in memory.
+
           When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
-          A direct byte pointer into the attached memory.
+          * A direct byte pointer into the attached memory.
+
           In case (b) above, and for context and result pointers, [ADDR]<2:0> must be zero. (All
           these cases must be aligned on an 8 byte boundary.)
+
           In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context and result
           pointers).
 
@@ -232,6 +235,7 @@ structs:
           Note that in case (b) above, [NC] indicates that the gather/scatter list should not be
           loaded into the cache. In cases (a) and (c) above, [NC] indicates that the data or results
           should not be loaded into the L2 cache.
+
           Note that the ZIP hardware will ignore [NC] for write operations when full cache blocks
           cannot be written.
 
@@ -249,9 +253,11 @@ structs:
         description: |
           In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
           [LENGTH] must be nonzero in this case.
+
           In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
           pointed at by ADDR. ([LENGTH]*8 is the number of bytes.) [LENGTH] must be at least 2 in
           this case.
+
           [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
           size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively).
 

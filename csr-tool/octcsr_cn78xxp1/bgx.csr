@@ -126,6 +126,7 @@ description: |
     </pre>
   "
 attributes:
+  chip_pass_replace_0: "o76/BGX(0..5)/BGX(0..2)/"
   rtlgen: "True"
   rtlgen_clock: "sclk"
   rtlgen_reset_n: "srst_n"
@@ -1095,7 +1096,7 @@ registers:
           When set, LMAC operation is enabled, including link bring-up, synchronization, and
           transmit/receive of idles and fault sequences. Note that configuration registers for an
           LMAC are not reset when this bit is clear, allowing software to program them before
-          setting this bit to enable the LMAC. This bit together with the LMAC_TYPE is also used to
+          setting this bit to enable the LMAC. This bit together with LMAC_TYPE is also used to
           enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
           is enabled when any of the paths are enabled.
 
@@ -1105,9 +1106,9 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Data packet receive enable. When ENABLE=1 and DATA_PKT_RX_EN=1, the reception of data
-          packets is enabled in the MAC layer. When ENABLE=1 and DATA_PKT_RX_EN=0, the MAC layer
-          drops received data and flow control packets.
+          Data packet receive enable. When ENABLE = 1 and DATA_PKT_RX_EN = 1, the reception of data
+          packets is enabled in the MAC layer. When ENABLE = 1 and DATA_PKT_RX_EN = 0, the MAC layer
+          drops received data and flow-control packets.
 
       - name: DATA_PKT_TX_EN
         bits: 13
@@ -1115,8 +1116,9 @@ registers:
         reset: 0
         typical: 1
         description: |
-          Data packet transmit enable. When ENABLE=1 and DATA_PKT_TX_EN=1, the transmission of data
-          packets is enabled in the MAC layer. When ENABLE=1 and DATA_PKT_TX_EN=0, the MAC layer
+          Data packet transmit enable. When ENABLE = 1 and DATA_PKT_TX_EN = 1, the transmission of
+          data
+          packets is enabled in the MAC layer. When ENABLE = 1 and DATA_PKT_TX_EN = 0, the MAC layer
           suppresses the transmission of new data and packets for the LMAC.
 
       - name: INT_BEAT_GEN
@@ -1127,7 +1129,7 @@ registers:
         description: |
           Internal beat generation. This bit is used for debug/test purposes and should be clear
           during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
-          TXREADY/TXCREDIT from the associated SerDes lane(s), internally generates fake (idle)
+          TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
           RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes.
 
       - name: MIX_EN
@@ -1170,7 +1172,7 @@ registers:
           based on the programming of [LANE_TO_SDS].
 
           This field must be programmed to its final value before [ENABLE] is set, and must not
-          be changed when [ENABLE]=1.
+          be changed when [ENABLE] = 1.
 
       - name: LANE_TO_SDS
         bits: 7..0
@@ -1206,7 +1208,7 @@ registers:
           BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
           This field must be programmed to its final value before [ENABLE] is set, and must not
-          be changed when [ENABLE]=1.
+          be changed when [ENABLE] = 1.
 
 
   - name: BGX(0..5)_CMR_GLOBAL_CONFIG
@@ -2283,9 +2285,10 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          DMAC address in the CAM used for matching. The CAM matches against unicast or multicast
-          DMAC addresses. All BGX()_CMR_RX_ADR()_CAM CSRs can be used in any of the
-          LMAC_TYPE combinations such that any BGX MAC can use any of the 32 common DMAC entries.
+          DMAC address in the CAM used for matching. Specified in network byte order, i.e.
+          ADR[47:40] is for the first DMAC byte on the wire. The CAM matches against unicast or
+          multicast DMAC addresses. All BGX()_CMR_RX_ADR()_CAM CSRs can be used in any of the LMAC
+          combinations such that any BGX MAC can use any of the 32 common DMAC entries.
 
 
   - name: BGX(0..5)_CMR_CHAN_MSK_AND
@@ -2596,7 +2599,7 @@ registers:
       - name: LMAC_IDLE
         bits: 13
         access: RO/H
-        reset: 0
+        reset: 1
         typical: 0
         description: |
           Idle signal to identify when all credits and other pipeline buffers are also cleared out
@@ -3068,7 +3071,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Number of packets sent to multicast DMAC. Does not include MCST packets.
+          Number of packets sent to broadcast DMAC. Does not include MCST packets.
 
           Not cleared on read; cleared on a write with 0x0. Counters will wrap.
 
@@ -5331,7 +5334,7 @@ registers:
       - name: U
         bits: 47..16
         access: RO/H
-        reset: 0x1
+        reset: 0x0
         typical: 0x1
         description: Unformatted code field.
 
@@ -5373,7 +5376,7 @@ registers:
       - name: M_U
         bits: 10..0
         access: RO/H
-        reset: 0x1
+        reset: 0x0
         typical: 0x1
         description: Message/unformatted code field.
 
@@ -6465,7 +6468,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: Control PAUSE frames can match globally assign multicast address.
+        description: Control PAUSE frames can match globally assigned multicast address.
 
       - name: CTL_BCK
         bits: 3
@@ -7325,10 +7328,12 @@ registers:
 
           In 10G/40G mode, CNT = 0x100.
 
-          In all modes, this register cannot exceed the TX FIFO depth as follows.
+          In all modes, cannot exceed the TX FIFO depth as follows.
           _ BGX()_CMR_TX_PRTS = 0,1:  CNT maximum = 0x7FF.
           _ BGX()_CMR_TX_PRTS = 2:    CNT maximum = 0x3FF.
           _ BGX()_CMR_TX_PRTS = 3,4:  CNT maximum = 0x1FF.
+
+          Additionally, cannot exceed corresponding PKO_MCI1_MAX_CRED(0..27)[MAX_CRED_LIM] - 9.
 
 
   - name: BGX(0..5)_SMU(0..3)_CTRL
@@ -9106,7 +9111,7 @@ registers:
         access: R/W
         reset: 1
         typical: 1
-        description: Control PAUSE frames can match globally assign multicast address.
+        description: Control PAUSE frames can match globally assigned multicast address.
 
       - name: CTL_BCK
         bits: 3

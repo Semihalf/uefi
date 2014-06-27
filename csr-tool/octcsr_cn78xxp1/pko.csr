@@ -573,6 +573,13 @@ enums:
           intsn_lsb_mismatch: "True"
         description: See PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP].
 
+      - name: PKO_NCB_TSO_SEGMENT_CNT
+        value: 0x500FE
+        attributes:
+          cib_rtl_module: "pko_ncb"
+          intsn_lsb_mismatch: "True"
+        description: See PKO_NCB_INT[TSO_SEGMENT_CNT].
+
       - name: PKO_DESC_CRC_ERR
         value: 0x500FF
         attributes:
@@ -816,7 +823,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -870,7 +877,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -961,7 +968,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -1026,7 +1033,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -1268,7 +1275,7 @@ structs:
         bits: 39..36
         attributes:
           const: "--"
-        description: OCI node number.
+        description: CCPI node number.
 
       - name: DID
         bits: 47..40
@@ -1623,7 +1630,7 @@ structs:
         description: |
           Aura including FPA node. Specifies the aura that buffers will be returned to and whose
           count may be decremented by subsequent subdescriptors. The upper two bits correspond to an
-          OCI node
+          CCPI node
           number. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees needed while
           processing the PKO_SEND.
 
@@ -1959,15 +1966,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Reserved.
 
-      - name: --
-        bits: 63..24
-        access: RAZ
-        reset: --
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Reserved.
-
       - name: RR_QUANTUM
         bits: 23..0
         access: RO
@@ -1977,15 +1975,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
 
-      - name: RR_QUANTUM
-        bits: 23..0
-        access: R/W
-        reset: 0x0
-        typical: 0x0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned integer).
-
 
   - name: PKO_L1_SQ(0..31)_SHAPE
     title: PKO PSE Level 1 Shaping Control Register
@@ -1993,7 +1982,22 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..18
+        bits: 63..25
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: LENGTH_DISABLE
+        bits: 24
+        access: RO
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
+
+      - name: --
+        bits: 23..18
         access: RAZ
         reset: --
         typical: --
@@ -2007,11 +2011,19 @@ registers:
         description: Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK].
 
       - name: --
-        bits: 12..0
+        bits: 12..9
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: ADJUST
+        bits: 8..0
+        access: RO
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
 
 
   - name: PKO_L1_SQ(0..31)_CIR
@@ -3227,8 +3239,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Length disable. Disables the use of packet lengths in shaping calculations such that only
-          the values of PKO_L2_SQ()_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
+          Length disable. Disables the use of packet lengths in DWRR scheduling
+          and shaping calculations such that only the values of
+          PKO_L2_SQ()_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
 
       - name: --
         bits: 23..13
@@ -4693,8 +4706,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Length disable. Disables the use of packet lengths in shaping calculations such that only
-          the value of the ADJUST field is used.
+          Length disable. Disables the use of packet lengths in DWRR scheduling
+          and shaping calculations such that only the values of
+          PKO_L3_SQ()_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
 
       - name: --
         bits: 23..13
@@ -6812,8 +6826,9 @@ registers:
         reset: 0
         typical: 0
         description: |
-          Length disable. Disables the use of packet lengths in shaping calculations such that only
-          the value of PKO_L5_SQ()_SHAPE[ADJUST].
+          Length disable. Disables the use of packet lengths in DWRR scheduling
+          and shaping calculations such that only the values of
+          PKO_L5_SQ()_SHAPE[ADJUST] and PKO_SEND_EXT_S[SHAPECHG] are used.
 
       - name: --
         bits: 23..13
@@ -12105,6 +12120,12 @@ registers:
     title: PKO MAC Configuration Register
     address: 0x1540000900000 + a*0x8
     bus: NCB
+    description: |
+      These registers create the links between the MACs and the TxFIFO used to store the data, and
+      hold
+      the per-MAC configuration bits.  These registers must be disabled (FIFO_NUM set to 0x1f) prior
+      to
+      reconfiguration of any of the other bits.
     fields:
       - name: --
         bits: 63..17
@@ -12327,7 +12348,7 @@ registers:
         bits: 6..0
         access: R/W
         reset: 0x0
-        typical: 0x48
+        typical: 0x10
         description: Maximum number of IOBP1 read requests outstanding to be allowed by any given PEB TX FIFO.
 
 
@@ -12352,14 +12373,45 @@ registers:
           chip_pass: "o78<2.0"
         description: Reserved.
 
-      - name: RSTP
-        bits: 0
-        access: R/W
-        reset: 0
-        typical: 0
+
+  - name: PKO_PEB_TSO_CFG
+    title: PKO PEB TSO Segmentation Configuration Register
+    address: 0x1540000900310
+    bus: NCB
+    fields:
+      - name: --
+        bits: 63..24
+        access: RAZ
+        reset: --
+        typical: --
+        description: Reserved.
+
+      - name: FSF
+        bits: 23..16
+        access: RAZ
+        reset: --
+        typical: --
         attributes:
-          chip_pass: "o78>=2.0"
-        description: Convert STP operations to RSTP. Added in pass 2.
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: MSF
+        bits: 15..8
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
+
+      - name: LSF
+        bits: 7..0
+        access: RAZ
+        reset: --
+        typical: --
+        attributes:
+          chip_pass: "o78<2.0"
+        description: Reserved.
 
 
   - name: PKO_FORMAT(0..127)_CTL
@@ -12368,18 +12420,11 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..28
+        bits: 63..27
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
-
-      - name: IP4_CK
-        bits: 27
-        access: R/W
-        reset: 0
-        typical: 0
-        description: IPv4 header checksum recalculate
 
       - name: OFFSET
         bits: 26..16
@@ -13040,12 +13085,14 @@ registers:
         typical: --
         description: PEB_ST_INF RAM BIST status.
 
-      - name: --
+      - name: PEB_SM_JMP_RAM
         bits: 0
-        access: RAZ
+        access: RO
         reset: 0
         typical: --
-        description: Reserved.
+        attributes:
+          chip_pass: "o78<2.0"
+        description: PEB_SM_JMP RAM BIST status (Pass 1 only).
 
 
   - name: PKO_PEB_ECC_CTL1
@@ -13156,12 +13203,23 @@ registers:
         typical: 0
         description: PDM_PSE_BUF_RAM ECC correction disable.
 
-      - name: --
-        bits: 48..46
-        access: RAZ
-        reset: --
-        typical: --
-        description: Reserved.
+      - name: PEB_SM_JMP_RAM_FLIP
+        bits: 48..47
+        access: R/W
+        reset: 0x0
+        typical: 0x0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: PEB_SM_JMP_RAM flip syndrome bits on write.
+
+      - name: PEB_SM_JMP_RAM_CDIS
+        bits: 46
+        access: R/W
+        reset: 0
+        typical: 0
+        attributes:
+          chip_pass: "o78<2.0"
+        description: PEB_SM_JMP_RAM ECC correction disable.
 
       - name: PEB_ST_INF_RAM_FLIP
         bits: 45..44
@@ -13527,12 +13585,16 @@ registers:
           Double-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i
 
-      - name: --
+      - name: PEB_SM_JMP_RAM_DBE
         bits: 58
-        access: RAZ
-        reset: --
+        access: R/W1C/H
+        reset: 0
         typical: --
-        description: Reserved.
+        attributes:
+          chip_pass: "o78<2.0"
+        description: |
+          Double-bit error for PEB_SM_JMP_RAM. INTERNAL: Instances:
+            pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_sm_jmp_uid_mem_i
 
       - name: PEB_ST_INF_RAM_DBE
         bits: 57
@@ -13738,12 +13800,16 @@ registers:
           Single-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
           pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i
 
-      - name: --
+      - name: PEB_SM_JMP_RAM_SBE
         bits: 58
-        access: RAZ
-        reset: --
+        access: R/W1C/H
+        reset: 0
         typical: --
-        description: Reserved.
+        attributes:
+          chip_pass: "o78<2.0"
+        description: |
+          Single-bit error for PEB_SM_JMP_RAM. INTERNAL: Instances:
+            pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_sm_jmp_uid_mem_i
 
       - name: PEB_ST_INF_RAM_SBE
         bits: 57
@@ -13916,16 +13982,10 @@ registers:
         typical: 0x0
         attributes:
           chip_pass: "o78<2.0"
-        description: Max credit limit.
-
-      - name: MAX_CRED_LIM
-        bits: 11..0
-        access: RO
-        reset: 0x0
-        typical: 0x0
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Max credit limit. Deprecated in pass 2.
+        description: |
+          Max credit limit.  Should be set to (FIFO_CREDIT - MAC_CREDIT) / 16, where FIFO_CREDIT
+          is the size of the TxFIFO for this MAC (2560, 5120 or 10240), and MAC_CREDIT is the size
+          of the MAC FIFO.
 
 
   - name: PKO_MCI0_CRED_CNT(0..27)
@@ -13949,15 +14009,6 @@ registers:
           chip_pass: "o78<2.0"
         description: Credit count.
 
-      - name: CRED_CNT
-        bits: 12..0
-        access: RAZ
-        reset: --
-        typical: --
-        attributes:
-          chip_pass: "o78>=2.0"
-        description: Deprecated in pass 2.
-
 
   - name: PKO_MCI1_MAX_CRED(0..27)
     title: PKO MCI1 Maximum Credit Registers
@@ -13976,7 +14027,9 @@ registers:
         access: R/W
         reset: 0x0
         typical: 0x0
-        description: Max credit limit.
+        description: |
+          Max credit limit.  Should be set to (MAC_CREDIT) / 16, where MAC_CREDIT is
+          the size of the MAC FIFO.
 
 
   - name: PKO_MCI1_CRED_CNT(0..27)
@@ -14362,7 +14415,7 @@ registers:
         reset: 0x0
         typical: --
         description: |
-          Local aura to use for PKO command buffering. Must be on local OCI node.
+          Local aura to use for PKO command buffering. Must be on local CCPI node.
           The FPA aura selected by LAURA must select an FPA pool whose
           FPA_POOL()_CFG[NAT_ALIGN]=1, and
           (FPA_POOL()_CFG[BUF_SIZE] - FPA_POOL()_CFG[BUF_OFFSET]) >= 4 KB/128.
@@ -14615,11 +14668,31 @@ registers:
     bus: NCB
     fields:
       - name: --
-        bits: 63..1
+        bits: 63..2
         access: RAZ
         reset: --
         typical: --
         description: Reserved.
+
+      - name: TSO_SEGMENT_CNT
+        bits: 1
+        access: R/W1C/H
+        reset: 0
+        typical: 0
+        description: |
+          Message segment size is too small to transmit entire packet within the
+          maximum allowed number of segments in TCP segmentation offload. The
+          packet will be transmitted in multiple TSO segments till the maximum
+          number of segments is reached. At this point, the interrupt will be
+          raised, transmission of the packet will cease, and other available
+          packets will be transmitted. This interrupt shares the NCB_TX_ERROR_INFO
+          and NCB_TX_ERROR_WORD registers with the NCB_TX_ERROR interrupt to
+          record information about the erroneous send packet command. Hence,
+          NCB_TX_ERROR_INFO and NCB_TX_ERROR interrupts are onehot; neither
+          will be set till both are cleared. The TSO engine makes no guarantees
+          about the state of memory and pointers allocated for the packet if
+          this interrupt is raised. Throws
+          PKO_INTSN_E::PKO_NCB_TSO_SEGMENT_CNT.
 
       - name: NCB_TX_ERROR
         bits: 0
