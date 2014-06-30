@@ -271,7 +271,7 @@ static int octeon_csr_lookup(lua_State* L)
  */
 static int octeon_csr_namecall(lua_State* L)
 {
-    char fullname[32];
+    char fullname[64];
     const char *basename = lua_tostring(L, lua_upvalueindex(1));
     int num_args = lua_gettop(L);
 
