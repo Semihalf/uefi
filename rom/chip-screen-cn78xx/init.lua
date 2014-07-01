@@ -118,7 +118,7 @@ else
     all_pass = false
 end
 
-if (board_name == "evb7800_sff") then
+if ((board_name == "evb7800_sff") or (board_name == "ebb7800")) then
 -- EMMC on SFF board
     capacity = octeon.c.bdk_mmc_initialize(1)
     if (capacity > 0) then
