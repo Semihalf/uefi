@@ -57,15 +57,15 @@ if (config_num == 1) then
     all_pass = all_pass and pci_test(2,3)
     all_pass = all_pass and pci_test(3,2)
     menu.dofile("screen-ebb7800")
-else 
-    if (config_num == 2) then
-        all_pass = all_pass and pci_test(0,1)
-        all_pass = all_pass and pci_test(1,0)
-        menu.dofile("screen-ebb7800-config2")
-    else
-        print ("ERROR: Invalid configuration number\n");
+elseif (config_num == 2) then
+    all_pass = all_pass and pci_test(0,1)
+    all_pass = all_pass and pci_test(1,0)
+    menu.dofile("screen-ebb7800-config2")
+elseif (config_num == 3) then
+    menu.dofile("screen-ebb7800-config3");
+else
+    print ("ERROR: Invalid configuration number\n");
     --    return 
-    end
 end
 
 -- Go multicore, based on coremask provided by script.
@@ -225,7 +225,7 @@ if (config_num == 1) then
     tg_pass = tg_pass and tg_run(tg, "10GKR2.2,10GKR4.2", 8000, 10000, 600, 3)
     tg_pass = tg_pass and tg_run(tg, "10GKR2.3,10GKR4.3", 8000, 10000, 600, 3)
     all_pass = all_pass and tg_pass
-else
+elseif (config_num == 2) then 
     tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 8000, 100000, 1000, 3)
     tg_pass = tg_pass and tg_run(tg, "DXAUI0-DXAUI1", 8000, 10000, 1000, 3)
 
@@ -235,6 +235,10 @@ else
     tg_pass = tg_pass and tg_run(tg, "10GKR3.1,10GKR5.1", 8000, 10000, 600, 3)
     tg_pass = tg_pass and tg_run(tg, "10GKR3.2,10GKR5.2", 8000, 10000, 600, 3)
     tg_pass = tg_pass and tg_run(tg, "10GKR3.3,10GKR5.3", 8000, 10000, 600, 3)
+    all_pass = all_pass and tg_pass
+elseif (config_num == 3) then
+    tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.1", 8000, 10000, 1000, 3)
+    tg_pass = tg_pass and tg_run(tg, "SGMII0.2-SGMII0.3", 8000, 10000, 1000, 3)
     all_pass = all_pass and tg_pass
 end
 
