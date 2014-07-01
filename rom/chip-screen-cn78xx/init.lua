@@ -239,6 +239,8 @@ elseif (config_num == 2) then
 elseif (config_num == 3) then
     tg_pass = tg_pass and tg_run(tg, "SGMII0.0-SGMII0.1", 8000, 10000, 1000, 3)
     tg_pass = tg_pass and tg_run(tg, "SGMII0.2-SGMII0.3", 8000, 10000, 1000, 3)
+    tg_pass = tg_pass and tg_run(tg, "XAUI1", 8000, 10000, 1000, 3)
+    tg_pass = tg_pass and tg_run(tg, "XAUI3", 8000, 10000, 1000, 3)
     all_pass = all_pass and tg_pass
 end
 
