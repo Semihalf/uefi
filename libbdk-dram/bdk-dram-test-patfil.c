@@ -19,6 +19,9 @@ static int retry_failure(int burst, uint64_t address, uint64_t data, uint64_t ex
     int repass = 0;
     int refail = 0;
     int didFail = 1;
+    uint64_t lastData;
+
+    lastData = data;
 
     /* Try re-reading the memory location. A transient error may fail on
      * on one read and work on another. Keep on retrying even when a
@@ -27,10 +30,15 @@ static int retry_failure(int burst, uint64_t address, uint64_t data, uint64_t ex
     for (int i = 0; i < RETRY_LIMIT; i++)
     {
         __bdk_dram_flush_to_mem(address);
-        BDK_DCACHE_INVALIDATE;
+	BDK_DCACHE_INVALIDATE;
         data = READ64(address);
+
         if ((data != expected))
         {
+            if (data != lastData) {
+                printf("  Reread differs: prev 0x%08lX now 0x%08lX\n", lastData, data);
+                lastData = data;
+            }
             refail++;
             didFail = 1;
         }
@@ -543,10 +551,15 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
 /**
  * test_mem_rows
  *
+ * Write a pattern of alternating 64-bit words of all one bits and then all
+ * bits. This pattern generates the maximum amount of simultaneous switching
+ * activity on the memory channels. Each pass flips the pattern with words
+ * going from all ones to all zeros and vice versa.
+ *
  * @param area   Start of the physical memory area
  * @param max_address
  *               End of the physical memory area
- * @param bursts Number of time to repeat the test over the entire area
+ * @param bursts Number of times to repeat the test over the entire area
  *
  * @return Number of errors, zero on success
  */
@@ -554,10 +567,12 @@ int __bdk_dram_test_mem_rows(uint64_t area, uint64_t max_address, int bursts)
 {
     int failures = 0;
     uint64_t pattern = 0x0;
-    uint64_t extent = max_address - area;
-    uint64_t count  = (extent / sizeof(uint64_t)) / 2;
+    uint64_t extent = (max_address - area);
+    uint64_t count  = (extent / 2) / sizeof(uint64_t); // in terms of 64bit words
 
-    /* Fill both halves of the memory area with identical data pattern.
+    /* Fill both halves of the memory area with identical data pattern. Odd
+     * address 64-bit words get the pattern, while even address words get the
+     * inverted pattern.
      */
     uint64_t address1 = area;
     uint64_t address2 = area + count * sizeof(uint64_t);
@@ -577,16 +592,15 @@ int __bdk_dram_test_mem_rows(uint64_t area, uint64_t max_address, int bursts)
     /* Make a series of passes over the memory areas. */
     for (int burst = 0; burst < bursts; burst++)
     {
-        /* XOR the data with a random value, applying the change to both
-         * memory areas.
+        /* Invert the data, applying the change to both memory areas. Thus on
+	 * alternate passes, the data flips from 0 to 1 and vice versa.
          */
         address1 = area;
         address2 = area + count * sizeof(uint64_t);
-
         for (uint64_t j = 0; j < count; j++)
         {
-            WRITE64(address1, READ64(address1));
-            WRITE64(address2, READ64(address2));
+            WRITE64(address1, ~READ64(address1));
+            WRITE64(address2, ~READ64(address2));
             address1 += 8;
             address2 += 8;
         }
