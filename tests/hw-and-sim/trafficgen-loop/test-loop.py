@@ -16,7 +16,7 @@ sim_args = [
 sim = octeon_sim.Simulator("test-loop-sim.log", sim_args)
 sim.waitFor("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
 sim.waitFor("Octeon Bringup and Diagnostic Kit")
-sim.waitFor("Copyright (C) 2010-2013 Cavium Networks")
+sim.waitFor("Copyright (C) 2010-2014 Cavium Networks")
 sim.waitFor("Version")
 sim.waitFor("Menu choice []: ")
 sim.send("keys\r")
