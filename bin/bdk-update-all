@@ -15,6 +15,14 @@ DIR=${BDK_ROOT}/target-bin
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-boot-nor-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/original/bdk-chip-screen-stage2-cn70xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen-cn70xx/*
 
+# CN76XX
+#
+# Build explicitly for the CN7600 evaluation board (TB7600). Note that the
+# OCTEON can not tell if it is a CN7800 or CN7600 and therefore can not
+# determine which evaluation board it is operating within. Thus the need to be
+# explicit.
+${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-boot-tb7600.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full-tb7600/*
+
 # CN78XX
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-boot-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/full/*
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-chip-screen-cn78xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/chip-screen-cn78xx/*

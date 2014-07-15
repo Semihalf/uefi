@@ -20,11 +20,17 @@ require("octeon")
 -- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 1, 115200, true)
 
 -- Do board specific setup
-if octeon.is_model(octeon.CN70XX) then
+--
+-- When there is a general board setup file present in the filesystem, execute
+-- that. Otherwise, execute the board setup based on the OCTEON model. 
+if package.searchpath("board-setup", package.path) then
+    menu.dofile("board-setup")
+elseif octeon.is_model(octeon.CN70XX) then
     menu.dofile("board-evb7000")
 elseif octeon.is_model(octeon.CN78XX) then
     menu.dofile("board-ebb7800")
 end
+
 -- Allow the user to do some board specific customization
 utils.run("autorun-board")
 
