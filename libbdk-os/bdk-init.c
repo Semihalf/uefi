@@ -122,13 +122,16 @@ void __bdk_init(long base_address)
     {
         /* Shut off cores in reset to save power. This is a new feature in
             Octeon 3. It is optional, but probably good practice. When taking
-            cores out of reset, it will be necessary t oclear the correct bit
+            cores out of reset, it will be necessary to clear the correct bit
             that was set here */
-        if (OCTEON_IS_MODEL(OCTEON_CN70XX) || OCTEON_IS_MODEL(OCTEON_CN78XX))
+	/* FIXME: Do not do this for CN7800 Pass 1.0 as this tends to cause the
+	    PPs to hang comming out of reset. Adjust this logic when/if later
+	    CN7800s fix this issue */
+        if (OCTEON_IS_MODEL(OCTEON_CN70XX) /*|| OCTEON_IS_MODEL(OCTEON_CN78XX)*/)
         {
             /* Get a list of cores in reset */
             uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
-            /* Power off the core in reset */
+            /* Power off the cores in reset */
             BDK_CSR_WRITE(node, BDK_RST_PP_POWER, reset);
         }
 
@@ -802,8 +805,17 @@ int bdk_init_nodes(void)
 {
     int result = 0;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+      /* Enable OCI for a CN78XX but not for a CN76XX. As there is not direct
+       * OCTEON model for a CN76XX, we must infer it by seeing the device is a
+       * CN78XX Pass 1.0 with a NUMA node #3 assignment. The node assignment
+       * comes from CN7600 package strapping of the OCI control pins. Node #3 is
+       * illegal for a twin CN7800 OCI configuration.
+       */
+    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0) && bdk_numa_local() == 0x3) {
+	//nothing
+    } else if (OCTEON_IS_MODEL(OCTEON_CN78XX)) {
         result |= init_oci();
+    }
 
     for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
