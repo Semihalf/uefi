@@ -4,7 +4,7 @@ import os
 import sys
 
 def read_functions(elf, func_list):
-    file = os.popen("mipsisa64-octeon-elf-readelf --wide -s %s | grep -v LOCAL | grep FUNC" % elf)
+    file = os.popen("aarch64-thunder-linux-gnu-readelf --wide -s %s | grep -v LOCAL | grep FUNC" % elf)
     for line in file:
         parts = line.split()
         func = parts[-1]

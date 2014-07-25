@@ -1,6 +1,6 @@
-CROSS=mipsisa64-octeon-elf
+CROSS=aarch64-thunder-linux-gnu
 
-mipsisa64-octeon-elf/lib/libc.a: build/Makefile
+${CROSS}/lib/libc.a: build/Makefile
 	$(MAKE) -C build
 	$(MAKE) -j1 -C build install
 
@@ -10,5 +10,5 @@ build/Makefile:
 	cd build && CC=$(CROSS)-gcc CFLAGS="-D__FILENAME_MAX__=64 -D__BUFSIZ__=512 -g -march=octeon3 -Os -fno-asynchronous-unwind-tables" ../newlib-1.18.0/newlib/configure --host=$(CROSS) --target=$(CROSS) --disable-multilib --disable-newlib-io-float --silent --prefix=$(BDK_ROOT)/libc
 
 clean:
-	rm -rf build mipsisa64-octeon-elf
+	rm -rf build ${CROSS}
 

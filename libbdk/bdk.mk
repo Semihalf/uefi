@@ -13,26 +13,21 @@ SHELL=/bin/bash
 #
 # Setup the compiler for the BDK libraries
 #
-CROSS=mipsisa64-octeon-elf-
+CROSS=aarch64-thunder-linux-gnu-
+LIBC_DIR=aarch64-thunder-linux-gnu
 CC=$(CROSS)gcc
 AR=$(CROSS)ar
 AS=$(CROSS)as
 LD=$(CROSS)ld
 RANLIB=$(CROSS)ranlib
 STRIP=$(CROSS)strip
-SIM=cn78xx
-ifeq ($(shell uname -m),x86_64)
-    SIMULATOR=${OCTEON_ROOT}/host/bin/$(SIM)-simulator64
-else
-    SIMULATOR=${OCTEON_ROOT}/host/bin/$(SIM)-simulator
-endif
 
 #
 # Setup the compile flags
 #
 CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
-CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/mipsisa64-octeon-elf/include
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -Os -g -march=octeon3 -std=gnu99 -fno-asynchronous-unwind-tables
+CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/${LIBC_DIR}/include
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -Os -g -std=gnu99 -fno-asynchronous-unwind-tables
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles
@@ -46,7 +41,7 @@ TEXT_SECTIONS=.text .rodata
 INIT_SECTIONS := $(foreach s,$(INIT_SECTIONS), --only-section=$(s))
 DATA_SECTIONS := $(foreach s,$(DATA_SECTIONS), --only-section=$(s))
 TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
-IMAGE_END=`mipsisa64-octeon-elf-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9a-f]*\).*/print 0x\1/g" | python`
+IMAGE_END=`${CROSS}-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9a-f]*\).*/print 0x\1/g" | python`
 #
 # This is needed to generate the depends files
 # The -M creates the dependencies to stdout
@@ -60,8 +55,8 @@ IMAGE_END=`mipsisa64-octeon-elf-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9
 # Convert an ELF file into a binary
 #
 %.bin: %
-	mipsisa64-octeon-elf-objcopy $^ $(INIT_SECTIONS) -O binary $@-init.tmp
-	mipsisa64-octeon-elf-objcopy $^ $(TEXT_SECTIONS) $(DATA_SECTIONS) -O binary $@-text-data.tmp
+	${CROSS}-objcopy $^ $(INIT_SECTIONS) -O binary $@-init.tmp
+	${CROSS}-objcopy $^ $(TEXT_SECTIONS) $(DATA_SECTIONS) -O binary $@-text-data.tmp
 	cat $@-init.tmp $@-text-data.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
 	rm $@-init.tmp $@-text-data.tmp
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@

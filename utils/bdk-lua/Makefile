@@ -36,8 +36,8 @@ CPPFLAGS_octeon =
 CFLAGS_octeon = -march=octeon
 ASFLAGS_octeon = -march=octeon
 LDFLAGS_octeon =
-CC_octeon = mips64-octeon-linux-gnu-gcc
-STRIP_octeon = mips64-octeon-linux-gnu-strip
+CC_octeon = aarch64-thunder-linux-gnu-gcc
+STRIP_octeon = aarch64-thunder-linux-gnu-strip
 
 #
 # These are the directories where source files are found
@@ -94,9 +94,9 @@ $(foreach arch,x86 ppc octeon,\
 )
 
 mips-%.o: mips-%.S
-	mips64-octeon-linux-gnu-gcc -W -Wall -o $@ -c $<
+	aarch64-thunder-linux-gnu-gcc -W -Wall -o $@ -c $<
 mips-%.bin: mips-%.o
-	mips64-octeon-linux-gnu-objcopy -j .text -O binary $< $@
+	aarch64-thunder-linux-gnu-objcopy -j .text -O binary $< $@
 
 .PHONY: clean
 clean:
