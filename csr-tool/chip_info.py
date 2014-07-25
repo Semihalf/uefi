@@ -1,6 +1,7 @@
 from csr import Csr
 from chip_enum import ChipEnum
 from chip_struct import ChipStruct
+from chip_bar import ChipBar
 
 #
 # ChipInfo represents all information about a specific chip. This includes:
@@ -15,6 +16,7 @@ class ChipInfo:
         self._csrs = {}
         self._enums = {}
         self._structs = {}
+        self._bars = {}
 
     def addCsr(self, csr):
         assert isinstance(csr, Csr), type(Csr)
@@ -49,6 +51,14 @@ class ChipInfo:
         assert not struct.name in self._structs
         self._structs[struct.name] = struct
 
+    def addBar(self, bar):
+        assert isinstance(bar, ChipBar)
+        assert not bar.name in self._bars
+        for n in self._bars:
+            b = self._bars[n]
+            assert (bar.start >= b.start + (1 << b.size)) or (bar.start + (1 << bar.size) <= b.start)
+        self._bars[bar.name] = bar
+
     def iterCsr(self):
         keys = self._csrs.keys()
         keys.sort()
@@ -71,5 +81,13 @@ class ChipInfo:
         sorted = []
         for k in keys:
             sorted.append(self._structs[k])
+        return sorted.__iter__()
+
+    def iterBar(self):
+        keys = self._bars.keys()
+        keys.sort()
+        sorted = []
+        for k in keys:
+            sorted.append(self._bars[k])
         return sorted.__iter__()
 

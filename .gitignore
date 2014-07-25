@@ -8,7 +8,7 @@
 *.pickle
 *.coverage
 *.map
-/csr-tool/cisco
+/csr-tool/output
 /csr-tool/html
 /libc/build
 /libc/mipsisa64-octeon-elf

@@ -198,75 +198,7 @@ def fixDescription(descr):
 
 def fixFieldName(csr, field):
     old_name = field.name
-    if ((old_name == "ns") or old_name.startswith("rsvrd") or old_name.startswith("rsvd") or
-        old_name.startswith("unused") or (old_name == "revrd")) and (old_name != "rsvd_thr"):
-        return "reserved_" + str(field.start_bit) + "_" + str(field.stop_bit)
-    elif (csr.name == "ciu_mbox_set#") and (old_name == "set"):
-        return "bits"
-    elif (csr.name == "ciu_mbox_clr#") and (old_name == "clr"):
-        return "bits"
-    elif (csr.name == "ipd_wqe_fpa_queue") and (old_name == "wqe_que"):
-        return "wqe_pool"
-    elif (csr.name == "pko_mem_queue_ptrs") and (old_name == "qid"):
-        return "queue"
-    elif (csr.name == "pko_mem_queue_ptrs") and (old_name == "pid"):
-        return "port"
-    elif csr.name == "pip_prt_tag#":
-        remap = {"inc_prt": "inc_prt_flag", "ip6_dprt": "ip6_dprt_flag", "ip4_dprt": "ip4_dprt_flag",
-                "ip6_sprt": "ip6_sprt_flag", "ip4_sprt": "ip4_sprt_flag", "ip4_pctl": "ip4_pctl_flag",
-                "ip6_nxth": "ip6_nxth_flag", "ip6_dst": "ip6_dst_flag", "ip4_dst": "ip4_dst_flag",
-                "ip6_src": "ip6_src_flag", "ip4_src": "ip4_src_flag", "tcp6_tag": "tcp6_tag_type",
-                "tcp4_tag": "tcp4_tag_type", "ip6_tag": "ip6_tag_type", "ip4_tag": "ip4_tag_type",
-                "non_tag": "non_tag_type"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "pip_qos_watch#":
-        remap = {"match":"match_value", "type":"match_type", "watcher":"qos"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "tim_reg_flags":
-        remap = {"ena_tim": "enable_timers", "ena_dwb": "enable_dwb"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "tim_mem_ring0":
-        remap = {"rid": "ring", "bsize": "num_buckets", "base": "first_bucket"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "tim_mem_ring1":
-        remap = {"rid": "ring", "csize": "words_per_chunk", "cpool": "pool", "ena": "enable"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "pci_dma_cnt#":
-        remap = {"dma0_cnt": "dma_cnt"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "mio_boot_bist_stat":
-        remap = {"ncbo": "ncbo_0"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif csr.name == "npi_rsl_int_blocks":
-        remap = {"rint_4": "key"}
-        try:
-            return remap[old_name]
-        except:
-            return old_name.lower()
-    elif old_name == "idx":
-        return "index"
-    elif old_name == "break":
+    if old_name == "break":
         return "brk"
     elif old_name == "int":
         return "intr"
@@ -280,14 +212,6 @@ def fixFieldName(csr, field):
         return "switchf"
     elif old_name == "enum":
         return "enumb"
-    elif old_name == "a":
-        return "addr"
-    elif old_name == "d":
-        return "data"
-    elif (csr.name == "lmc#_ctl") and (old_name == "sparef"):
-        return "reserved_" + str(field.start_bit) + "_" + str(field.stop_bit)
-    elif (csr.name == "l2d_fus3") and (old_name == "fus_spare"):
-        return "reserved_" + str(field.start_bit) + "_" + str(field.stop_bit)
     else:
         return old_name.lower()
 

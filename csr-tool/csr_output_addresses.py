@@ -1,17 +1,15 @@
-from csr_output_header import writeCopyrightBanner
-from csr_output_header import getCname
 
 CHIP_TO_MODEL = {
-    "cn78xx":   "OCTEON_CN78XX_PASS1_X",
-    "cn70xx":   "OCTEON_CN70XX_PASS1_X",
+    "cn88xx":   "CAVIUM_CN88XX_PASS1_X",
+    "cn85xx":   "CAVIUM_CN85XX_PASS1_X",
 }
 
 # This is filled in when write() is called. It is derived from the chip list
 # and CHIP_TO_MODEL. Format is:
-# CHIP_PASS_LIST["CN70XX"] = ["PASS1_X", "PASS2_X"]
+# CHIP_PASS_LIST["CN88XX"] = ["PASS1_X", "PASS2_X"]
 CHIP_PASS_LIST = {}
 
-FATAL_FUNCTION = "__bdk_csr_fatal"
+FATAL_FUNCTION = "csr_fatal"
 
 def toHex(v, digits=0):
     if digits == 0:
@@ -22,13 +20,6 @@ def toHex(v, digits=0):
         bit_shift = (digits - digit - 1) * 4
         result += hex_digit[(v>>bit_shift) & 0xf]
     return result
-
-def getBitMask(max_number):
-    mask = 0;
-    while max_number:
-        mask = (mask<<1) | 1
-        max_number = max_number>>1
-    return mask
 
 def createRangeCheck(arg, ranges):
     index = 0
@@ -48,28 +39,28 @@ def createRangeCheck(arg, ranges):
 
 def writeAddress(out, csr, chip_list):
     num_params = len(csr["s"].range)
-    name = getCname(csr["s"]).upper()
+    name = "BDK_" + csr["s"].getCname()
     if num_params == 0:
         out.write("#define %s %s_FUNC()\n" % (name, name))
         out.write("static inline uint64_t %s_FUNC(void) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s_FUNC(void)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 0, "0", "0", "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 0, "0", "0", "0", "0")
     elif num_params == 1:
         out.write("static inline uint64_t %s(unsigned long param1) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 1, "param1", "0", "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 1, "param1", "0", "0", "0")
     elif num_params == 2:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 2, "param1", "param2", "0", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 2, "param1", "param2", "0", "0")
     elif num_params == 3:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 3, "param1", "param2", "param3", "0")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 3, "param1", "param2", "param3", "0")
     elif num_params == 4:
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4) __attribute__ ((pure, always_inline));\n" % name)
         out.write("static inline uint64_t %s(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4)\n" % name)
-        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name[4:], 4, "param1", "param2", "param3", "param4")
+        error_message = "%s(\"%s\", %d, %s, %s, %s, %s);" % (FATAL_FUNCTION, name, 4, "param1", "param2", "param3", "param4")
     else:
         raise Exception("Unexpected number of parameters")
     out.write("{\n")
@@ -93,9 +84,7 @@ def writeAddress(out, csr, chip_list):
         if range_check:
             out.write("\tif (%s)\n" % (range_check[4:]))
             out.write("\t\treturn %s;\n" % address_list[0][2])
-            out.write("\telse {\n")
-            out.write("\t\t%s /* No return */\n" % error_message);
-            out.write("\t}\n");
+            out.write("\t%s /* No return */\n" % error_message);
         else:
             out.write("\treturn %s;\n" % address_list[0][2])
     else:
@@ -105,7 +94,7 @@ def writeAddress(out, csr, chip_list):
         #
         model_by_pass = {}
         for line in address_list:
-            octeon, chip_model, chip_pass = line[0].split("_", 2)
+            chip_family, chip_model, chip_pass = line[0].split("_", 2)
             if not chip_model in model_by_pass:
                 model_by_pass[chip_model] = {}
             model_by_pass[chip_model][chip_pass] = line
@@ -139,26 +128,26 @@ def writeAddress(out, csr, chip_list):
         for chip_model in t:
             for chip_pass in model_by_pass[chip_model]:
                 line = model_by_pass[chip_model][chip_pass]
-                full = "OCTEON_" + chip_model
+                full = "CAVIUM_" + chip_model
                 if chip_pass:
                     full += "_" + chip_pass
-                out.write("if (OCTEON_IS_MODEL(%s)%s)\n" % (full, line[1]))
+                out.write("if (CAVIUM_IS_MODEL(%s)%s)\n" % (full, line[1]))
                 out.write("\t\treturn %s;\n" % line[2])
                 out.write("\telse ")
-        out.write("{\n")
         out.write("\t\t%s /* No return */\n" % error_message);
-        out.write("\t}\n");
     out.write("}\n");
 
 def write(out, csr, chip_list):
     # Build the constant CHIP_PASS_LIST table on the first call
     if not CHIP_PASS_LIST:
         for chip in chip_list:
+            if chip == "s":
+                continue
             full = CHIP_TO_MODEL[chip]
-            octeon, chip_model, chip_pass = full.split("_", 2)
+            chip_family, chip_model, chip_pass = full.split("_", 2)
             if not chip_model in CHIP_PASS_LIST:
                 CHIP_PASS_LIST[chip_model] = []
             if not chip_pass in CHIP_PASS_LIST[chip_model]:
                 CHIP_PASS_LIST[chip_model].append(chip_pass)
-    writeAddress(out, csr, chip_list)
+    writeAddress(out, csr, CHIP_PASS_LIST)
 

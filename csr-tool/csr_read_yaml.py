@@ -6,8 +6,10 @@ from csr import CsrField
 from chip_info import ChipInfo
 from chip_enum import ChipEnum
 from chip_enum import ChipEnumValue
+from chip_enum import iterateEnumValues
 from chip_struct import ChipStruct
 from chip_struct import ChipStructField
+from chip_bar import ChipBar
 from types import *
 
 pp = pprint.PrettyPrinter(indent=4, width=132)
@@ -50,7 +52,7 @@ def parseBitRange(bits):
     else:
         start_bit = long(bits)
         stop_bit = start_bit
-    assert word < 16
+    assert word < 32
     assert (start_bit >= 0) and (start_bit < 64)
     assert (stop_bit >= start_bit) and (stop_bit < 64)
     start_bit = start_bit + word*64
@@ -64,6 +66,7 @@ def parseBitRange(bits):
 def parseCsrName(name):
     assert isinstance(name, StringType)
     result = []
+    name = name.replace("(S)", "s")
     while "(" in name:
         paren = name.find("(")
         result.append(name[0:paren])
@@ -111,31 +114,89 @@ def parseAddress(addressStr, num_params):
         address_info.append(tmp)
     return address_info
 
-def build_enum(chip_info, enum):
-    pass # FIXME: Not implementing the enum craziness
+#
+# Build an enumeration object from its yaml representation
+#
+def build_enum(chip_info, group, enum):
+    #pp.pprint(enum)
+    check_keys("enum", enum, [
+               "name",          # Name of the enum (text)
+               "title",         # Short description (text)
+               "attributes",    # Optional attributes (sub tree)
+               "description",   # Optional description (text)
+               "internal",      # Optional internal (text)
+               "values"])       # Enum values (sub tree)
+    name = enum["name"]
+    description = enum.get("title", "")
+    if "description" in enum:
+        description += "\n" + enum.get("description")
+    width = int(enum["attributes"]["width"])
+    chip_enum = ChipEnum(group, name, description, width)
+    for enum_value in enum["values"]:
+        check_keys("enum[values]", enum_value, [
+                   "name",          # Value name (text)
+                   "value",         # Value (number or equation)
+                   "attributes",    # Optional attributes (sub tree)
+                   "description"])  # Optional description (text)
+        bar_size = 0
+	class_code = 0
+        if "attributes" in enum_value:
+            if "pcc_bar_size_bits" in enum_value["attributes"]:
+                bar_size = int(enum_value["attributes"]["pcc_bar_size_bits"])
+	    elif "class_code" in enum_value["attributes"]:
+		if enum_value["attributes"]["class_code"] != "--":
+		    class_code = int(enum_value["attributes"]["class_code"], 0)
+        n = enum_value["name"]
+        v = enum_value["value"]
+        if "(" in n:
+            n = parseCsrName(n)
+            range = []
+            for part in n:
+                if isinstance(part, ListType):
+                    range.append(part)
+            value_info = parseAddress(v, len(range))
+            for data in iterateEnumValues(n, range, value_info):
+                if bar_size:
+                    chip_bar = ChipBar(group, data[0], description, data[1], bar_size, name)
+                    chip_info.addBar(chip_bar)
+                else:
+                    chip_value = ChipEnumValue(data[0], data[1], enum_value.get("description", ""))
+                    chip_enum.addValue(chip_value)
+        else:
+            if bar_size:
+                chip_bar = ChipBar(group, n, description, v, bar_size, name)
+                chip_info.addBar(chip_bar)
+            else:
+                chip_value = ChipEnumValue(n, v, enum_value.get("description", ""))
+		if class_code:
+		    class_value = ChipEnumValue(n + "_CLASS_CODE", class_code, "")
+		    chip_enum.addValue(class_value)
+                chip_enum.addValue(chip_value)
+    chip_enum.validate()
+    if len(chip_enum.values) > 0:
+        chip_info.addEnum(chip_enum)
 
-def build_struct(chip_info, struct):
+#
+# Build a structure object from its yaml representation
+#
+def build_struct(chip_info, group, struct):
     #pp.pprint(struct)
     check_keys("struct", struct, [
                "name",          # Name of the structure (text)
+               "title",         # Short description (text)
                "description",   # Optional description (text)
                "fields",        # Structure fields (sub tree)
-               "title",
-               "internal",      # Comments for internal use
                "attributes"])   # Optional attributes (sub tree)
     name = struct["name"]
-    description = struct.get("description", "")
-    chip_struct = ChipStruct(name, description)
+    description = struct.get("title", "")
+    if "description" in struct:
+        description += "\n" + struct.get("description")
+    chip_struct = ChipStruct(group, name, description)
     if "attributes" in struct:
         check_keys("struct[attributes]", struct["attributes"], [
                    "ignore_naming_convention",  # FIXME: What is this?
                    "allow_missing_bits",        # Not all bits are specified, assume reserved for others
-                   "exempt_name_length",
                    "mif_operation",
-                   "mif_columns",
-                   "mif_exclude",
-                   "mif_extern",
-                   "mif_heading3",
                    "subblock"])                 # FIXME: What is this?
         # FIXME: What to do with attributes?
     for field in struct["fields"]:
@@ -151,15 +212,19 @@ def build_struct(chip_info, struct):
             check_keys("struct.fields[attributes]", field["attributes"], [
                        "const",                     # Field has a constant value
                        "verilog_struct_row_offset", # FIXME?
-                       "chip_pass",                 # FIXME: What is this?
-                       "wqe_related_field_name"])   # Affects this WQE field. Text not well formated
+                       "wqe_related_field_name",    # Affects this WQE field. Text not well formated
+                       "exempt_keyword"])
             # FIXME: What to do with attributes?
         chip_field = ChipStructField(name, None, start_bit, stop_bit, description)
         chip_struct.addField(chip_field)
 
     chip_info.addStruct(chip_struct)
 
-def build_csr(chip_info, register, raw):
+#
+# Build a csr object from its yaml representation
+#
+def build_csr(chip_info, group, register, raw):
+    #pp.pprint(register)
     check_keys("csr", register, [
                "name",          # CSR name (text with range info embedded)
                "inherits",      # Where to get fields if it doesn't exist (text name of csr)
@@ -170,38 +235,57 @@ def build_csr(chip_info, register, raw):
                "address",       # Address equation for register (text equation)
                "bus",           # Type of the register (keyword)
                "attributes",    # Optional attributes (sub tree)
+               "bar",           # Information about how to device the CSR space inot PCIe BARs
                "internal"])     # Internal description (text)
     if not "fields" in register:
         assert "inherits" in register, "No fields and no inherits %s" % register["name"]
         for r in raw["registers"]:
             if r["name"] == register["inherits"]:
                 register["fields"] = r["fields"]
+                if "attributes" in r or "attributes" in register:
+		    if "attributes" in register and "attributes" in r:
+		        register["attributes"] = dict(register["attributes"].items() + r["attributes"].items())
+		    elif "attributes" in r:
+			register["attributes"] = r["attributes"]
         assert "fields" in register, "Inherits not found by name"
     else:
         assert not "inherits" in register, "Fields and inherits"
     if "attributes" in register:
         check_keys("register[attributes]", register["attributes"], [
                    "arch_max",
-                   "chip_pass",
+                   "backdoor_mem_path",
+                   "dv_bist_all_fail_test",
+                   "dv_fc_scratch",
                    "dv_force_no_compare",
-                   "dv_uvm_no_create",
                    "dv_testbuilder_no_create",
+                   "dv_uvm_no_create",
                    "exempt_name_length",
-                   "min_stride",
+                   "exempt_name_inherits",
+                   "exempt_natural_alignment",
+                   "exempt_no_bar",
+                   "exempt_w1c_w",
+                   "inherits_algorithm",
                    "mem_to_csr",
-                   "mif_marker_name",
+                   "min_stride",
+                   "min_write_size",
+                   "pcc_present_if",
                    "regtest_alias",
                    "regtest_skip",
                    "rtlgen_cib",
+                   "rtlgen_extern",
+                   "rtlgen_msix",
+                   "rtlgen_pib",
                    "rtlgen_soft_reset",
                    "rtlgen_tie_rst_data",
+                   "secure",
+		   "secure_alias",
+                   "secure_banked",
+                   "secure_ignore_aware",
+                   "stage",
+                   "subblock",
+                   "tns_fused",
                    "uvm_default_constraint",
-                   "dv_bist_all_fail_test",
-                   "dv_fc_scratch",
-                   "exempt_natural_alignment",
-                   "exempt_w1c_w",
-                   "subblock"])
-    #pp.pprint(register)
+                   "xpliant_xml_skip"])
     # Parse the register name, description, and notes
     name_list = parseCsrName(register["name"])
     description = register.get("description", "").split("\n")
@@ -213,7 +297,12 @@ def build_csr(chip_info, register, raw):
     if name_list[0].startswith("POW_"):
         name_list[0] = "SSO_" + name_list[0][4:]
     # We now have enough to start building the CSR
-    csr = Csr(name_list, register["bus"], description)
+    is_banked = "attributes" in register and "secure_banked" in register["attributes"]
+    inherits_algorithm = "None"
+    if "attributes" in register:
+        if "inherits_algorithm" in register["attributes"]:
+	    inherits_algorithm = register["attributes"]["inherits_algorithm"]
+    csr = Csr(group, name_list, register["bus"], description, [], is_banked, inherits_algorithm)
     # Parse this address information
     csr.address_info = parseAddress(register["address"], len(csr.range))
     # Due to a carry over from the old CSRs, some CSRs are special
@@ -231,17 +320,19 @@ def build_csr(chip_info, register, raw):
                    "reset",         # Reset value of the fields
                    "typical",       # Typical value
                    "description",   # Description of the field (text)
+                   "internal",      # Hardware team internal only notes
                    "attributes"])   # Optional attributes (sub tree)
         if "attributes" in field:
            check_keys("register.field[attributes]", field["attributes"], [
-                      "chip_pass",
                       "no_soft_reset",
                       "dv_uvm_force_compare",
                       "dv_uvm_cov_val_disable",
                       "exempt_keyword",
                       "exempt_name_double_underscore",
-                      "exempt_name_length",
                       "regtest_force",
+                      "pcc_conditional",
+                      "pcc_exempt_access",
+                      "tns_fused",
                       "uvm_default_constraint"])
         name = field["name"]
         # Bits is either a single number or a range separated by ".."
@@ -254,9 +345,6 @@ def build_csr(chip_info, register, raw):
         # The new files sometimes use "--" as a name for reserved fields
         if name == "--":
             name = "reserved"
-        # FIXME: Why do types have a "/H"
-        if field_type.endswith("/H"):
-            field_type = field_type[0:-2]
         reset_value = field["reset"]
         if isinstance(reset_value, IntType):
             reset_value = long(reset_value)
@@ -264,22 +352,14 @@ def build_csr(chip_info, register, raw):
         if isinstance(typical_value, IntType):
             typical_value = long(typical_value)
         # Reset and Typical uses "--" instead of "NS" as in previous chips. Convert
-        # it to the old style to preserve compatability
+        # it to the old style to preserve compatibility
         if typical_value == "--":
             typical_value = "NS"
         if reset_value == "--":
             reset_value = "NS"
         description = field.get("description", "").split("\n")
-        # Ignore all fields with "<" in the chip_pass. This is a complete hack
-        # to skip duplicate fields. FIXME later!
-        skip_field = False
-        if "attributes" in field:
-            if "chip_pass" in field["attributes"]:
-                if "<" in field["attributes"]["chip_pass"]:
-                    skip_field = True
-        if not skip_field:
-            csrField = CsrField(start_bit, stop_bit, name, field_type, reset_value, typical_value, description)
-            csr.addField(csrField)
+        csrField = CsrField(start_bit, stop_bit, name, field_type, reset_value, typical_value, description)
+        csr.addField(csrField)
     # The CSR should be complete
     csr.validate()
     # Merge MIO_BOOT_REG_CFG0 into MIO_BOOT_REG_CFGX
@@ -288,6 +368,7 @@ def build_csr(chip_info, register, raw):
     if csr.name == "mio_boot_reg_cfg#":
         csr.range[0][0] = 0
     chip_info.addCsr(csr)
+
 #
 # Read a single YAML file and add its registers to the supplied csr list
 #
@@ -296,18 +377,27 @@ def read_yaml(chip_info, filename):
     inf = open(filename, "r")
     raw = yaml.load(inf)
     inf.close()
+    check_keys("Top level", raw, [
+        "name",         # High level block name
+        "attributes",   # Attrbiutes for the block
+        "description",  # Description of the block
+        "enums",        # List of enumerations
+        "structs",      # List of structures
+        "registers",    # List of CSRs
+        "internal"])    # Hardware team stuff
+    group = raw["name"]
     # Iterate through the enum list
     if "enums" in raw:
         for enum in raw["enums"]:
-            build_enum(chip_info, enum)
+            build_enum(chip_info, group, enum)
     # Iterate through the struct list
     if "structs" in raw:
         for struct in raw["structs"]:
-            build_struct(chip_info, struct)
+            build_struct(chip_info, group, struct)
     # Iterate through the register list
     if "registers" in raw:
         for register in raw["registers"]:
-            build_csr(chip_info, register, raw)
+            build_csr(chip_info, group, register, raw)
 
 #
 # Read all the YAML files in a directory and create a complete CSR list
@@ -317,7 +407,7 @@ def read(chip_name, input_dir):
     chip_info = ChipInfo(chip_name)
     input_files = os.listdir(input_dir)
     for file in input_files:
-        if file in [".svn", ".gitignore", "csr.txt", "csr_pass1.txt"]:
+        if file in [".svn", ".gitignore", "csr.txt"]:
             continue
         try:
             print "\t\t%s" % file

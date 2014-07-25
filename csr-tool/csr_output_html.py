@@ -11,36 +11,6 @@ BG_CHANGED = "cyan"
 
 BEGIN_TABLE = "<table cellspacing=1 cellpadding=1 bgcolor=black>\n"
 
-REPLACE_PREFIX_TABLE = [
-    ("sli_", "npei_"),
-    ("pem", "pesc"),
-    ("pem#_", "npei_"),
-    ("dpi_", "npei_"),
-    ("lmc#_ops_cnt", "lmc#_ops_cnt_lo"),
-    ("ciu_block_int", "npei_rsl_int_blocks"),
-    ("sso_", "pow_"),
-    ("iob0_", "iob_"),
-    ("smi_#", "smi#"),
-    ("pip_stat0_pknd#", "pip_stat0_prt#"),
-    ("pip_stat10_pknd#", "pip_stat10_prt#"),
-    ("pip_stat11_pknd#", "pip_stat11_prt#"),
-    ("pip_stat1_pknd#", "pip_stat1_prt#"),
-    ("pip_stat2_pknd#", "pip_stat2_prt#"),
-    ("pip_stat3_pknd#", "pip_stat3_prt#"),
-    ("pip_stat4_pknd#", "pip_stat4_prt#"),
-    ("pip_stat5_pknd#", "pip_stat5_prt#"),
-    ("pip_stat6_pknd#", "pip_stat6_prt#"),
-    ("pip_stat7_pknd#", "pip_stat7_prt#"),
-    ("pip_stat8_pknd#", "pip_stat8_prt#"),
-    ("pip_stat9_pknd#", "pip_stat9_prt#"),
-    ("pip_stat_inb_errs_pknd#", "pip_stat_inb_errs#"),
-    ("pip_stat_inb_octs_pknd#", "pip_stat_inb_octs#"),
-    ("pip_stat_inb_pkts_pknd#", "pip_stat_inb_pkts#"),
-    ("ciu3_", "ciu2_"),
-    ("ciu3_", "ciu_"),
-    ("iob_", "iob0_"),
-]
-
 def TD(s, width=None, rowspan=1, colspan=1, bgcolor=None):
     result = "<td align=left valign=top"
 
@@ -100,8 +70,6 @@ def writePageFooter(out):
 def writeCsrHeader(out, csr, hide_address=0):
     display_name = csr_link_text(csr.name).upper()
     out.write(BEGIN_TABLE)
-    if csr.cisco_only:
-        out.write("<tr>" + TD("Warning", bgcolor=BG_TITLE) + TD("Cisco specific CSR") + "</tr>\n")
     out.write("<tr>" + TD("Name", bgcolor=BG_TITLE) + TD(display_name) + "</tr>\n")
     out.write("<tr>" + TD("Type", bgcolor=BG_TITLE) + TD(csr.type) + "</tr>\n")
     out.write("<tr>" + TD("Range", bgcolor=BG_TITLE) + TD(rangeAsString(csr.range)) + "</tr>\n")
@@ -253,7 +221,7 @@ def writeCsrIndex(filename, title, csr_name_list):
     current_prefix = None
     columns = 0
     out = open("html/s/index.html", "w")
-    writePageHeader(out, "Octeon CSRs for all chips")
+    writePageHeader(out, "Thunder CSRs across all chips")
     link_dict = {}
     for name in csr_name_list:
         link_dict[csr_link_text(name)] = csr_output_filename(name)
@@ -344,26 +312,10 @@ def writeChipDiffList(out, list, old_chip, new_chip):
         link_dict[csr_link_text(csr.name)] = csr_output_filename(csr.name)
     writeLinkTable(out, link_dict)
 
-def findReplacement(new_name, old_chip, combined_list):
-    old_name = None
-    for pair in REPLACE_PREFIX_TABLE:
-        if new_name.startswith(pair[0]):
-            old_name = pair[1] + new_name[len(pair[0]):]
-            if old_name in combined_list.getNameList():
-                break
-            else:
-                old_name = None
-    if old_name and combined_list.hasChip(old_name, old_chip):
-        return combined_list.get(old_name, old_chip)
-    else:
-        return None
-
 def writeChipDiff(combined_list, old_chip, new_chip):
     added_csrs = []
     deleted_csrs = []
     modified_csrs = []
-    renamed_m_csrs = []
-    renamed_i_csrs = []
     same_csrs = []
     for csr in combined_list:
         old_csr = csr.get(old_chip, None)
@@ -381,40 +333,28 @@ def writeChipDiff(combined_list, old_chip, new_chip):
                 writeDiffCsr(old_chip, old_csr, new_chip, None)
         else:
             if new_chip in csr:
-                replaced = findReplacement(new_csr.name, old_chip, combined_list)
-                if replaced:
-                    if replaced.getSignature() != new_csr.getSignature():
-                        renamed_m_csrs.append(new_csr)
-                    else:
-                        renamed_i_csrs.append(new_csr)
-                    writeDiffCsr(old_chip, replaced, new_chip, new_csr)
-                else:
-                    added_csrs.append(new_csr)
-                    writeDiffCsr(old_chip, None, new_chip, new_csr)
+                added_csrs.append(new_csr)
+                writeDiffCsr(old_chip, None, new_chip, new_csr)
             else:
                 continue # CSR not in either the old or new chips
     out = open("html/%s-%s-diff/index.html" % (old_chip, new_chip), "w")
-    writePageHeader(out, "Octeon CSR Differences between %s and %s" % (old_chip.upper(), new_chip.upper()))
-    out.write("<font size=+2>%s</font>\n" % "Modified CSRs")
+    writePageHeader(out, "CSR Differences between %s (old) and %s (new)" % (old_chip.upper(), new_chip.upper()))
+    out.write("<font size=+2>%s</font>\n" % "Modified")
     writeChipDiffList(out, modified_csrs, old_chip, new_chip)
-    out.write("<font size=+2>%s</font>\n" % "Renamed and Modified CSRs")
-    writeChipDiffList(out, renamed_m_csrs, old_chip, new_chip)
-    out.write("<font size=+2>%s</font>\n" % "Renamed but Identical CSRs")
-    writeChipDiffList(out, renamed_i_csrs, old_chip, new_chip)
-    out.write("<font size=+2>%s</font>\n" % "Added CSRs")
+    out.write("<font size=+2>%s</font>\n" % ("Added in %s" % new_chip.upper()))
     writeChipDiffList(out, added_csrs, old_chip, new_chip)
-    out.write("<font size=+2>%s</font>\n" % "Deleted CSRs")
+    out.write("<font size=+2>%s</font>\n" % ("Deleted in %s" % new_chip.upper()))
     writeChipDiffList(out, deleted_csrs, old_chip, new_chip)
-    out.write("<font size=+2>%s</font>\n" % "Identical CSRs")
+    out.write("<font size=+2>%s</font>\n" % "Identical")
     writeChipDiffList(out, same_csrs, old_chip, new_chip)
     writePageFooter(out)
 
 
-def writeAll(combined_list, diff=None):
+def writeAll(combined_list, diff=[]):
     os.mkdir("html/s")
     for csr in combined_list:
         writeCombinedCsr(csr)
-    writeCsrIndex("html/s/index.html", "Octeon CSRs for all chips", combined_list.getNameList())
+    writeCsrIndex("html/s/index.html", "CSRs across all chips", combined_list.getNameList())
 
     chip_link_list = {}
     for csr in combined_list:
@@ -447,25 +387,16 @@ def writeAll(combined_list, diff=None):
         writeChipDiff(combined_list, pair[0], pair[1])
 
     out = open("html/index.html", "w")
-    writePageHeader(out, "Octeon CSRs")
+    writePageHeader(out, "Cavium Thunder CSRs")
     out.write("<a href=s/index.html>CSRs for all chips</a><br><br>\n")
     groups = {}
-    groups["Octeon"] = []
-    groups["Octeon Plus"] = []
-    groups["Octeon II"] = []
-    groups["Octeon III"] = []
+    groups["Thunder"] = []
     for chip in chip_link_list:
-        if chip.startswith("cn3"):
-            groups["Octeon"].append(chip)
-        elif chip.startswith("cn5"):
-            groups["Octeon Plus"].append(chip)
-        elif chip.startswith("cn6"):
-            groups["Octeon II"].append(chip)
-        elif chip.startswith("cn7"):
-            groups["Octeon III"].append(chip)
+        if chip.startswith("cn8"):
+            groups["Thunder"].append(chip)
         else:
             assert(0)
-    archs = ["Octeon", "Octeon Plus", "Octeon II", "Octeon III"]
+    archs = ["Thunder"]
     out.write(BEGIN_TABLE)
     out.write("<tr>")
     for arch in archs:

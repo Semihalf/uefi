@@ -10,10 +10,10 @@ def range_string(range):
 #
 # Create a CSR database
 #
-def write(file, separate_chip_infos, include_cisco_only):
+def write(file, separate_chip_infos):
     out = open(file, "w")
     out.write('--\n')
-    out.write('-- Definitions for Octeon CSR\n')
+    out.write('-- Definitions for Cavium CSR\n')
     out.write('-- Auto generated, do not edit\n')
     out.write('--\n')
     out.write("local csr_db = {\n")
@@ -24,8 +24,6 @@ def write(file, separate_chip_infos, include_cisco_only):
         chip = chip_info.name
         out.write("    %s = {\n" % chip.upper())
         for csr in chip_info.iterCsr():
-            if csr.cisco_only and not include_cisco_only:
-                continue
             name = csr.name.replace("#", "X")
             out.write("        %s = {\n" % name.upper())
             out.write("            name = \"%s\",\n" % csr.name.upper())

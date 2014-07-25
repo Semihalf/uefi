@@ -39,6 +39,10 @@ class CombinedCsrList:
             self._csrs[csr.name][chip] = csr
         else:
             self._csrs[csr.name] = {chip:csr}
+    # Add a CSR that has already been combined by a different CombinedCsrList
+    def addCombined(self, ccsr):
+        for c in ccsr:
+            self.addCsr(c, ccsr[c])
 
 def combine(chip_infos):
     final_list = CombinedCsrList()
@@ -69,10 +73,8 @@ def combine(chip_infos):
         current = csr_by_chip[chips[0]]
 
         # Make sure all CSRs are mostly the same
-        cisco_only = current.cisco_only
         for chip in chips[1:]:
             csr = csr_by_chip[chip]
-            cisco_only |= csr.cisco_only
             # Silently convert mismatches between NCB and RSL CSRs into NCB.
             # They are both access in the same way, so nobody should care
             if (csr.type == "NCB") and (current.type == "RSL"):
@@ -127,8 +129,7 @@ def combine(chip_infos):
                 description = csr_by_chip[chip].description
                 notes = csr_by_chip[chip].notes
                 break
-        combined_csr = Csr([name], current.type, description, notes)
-        combined_csr.cisco_only = cisco_only
+        combined_csr = Csr(current.group, [name], current.type, description, notes, current.is_banked, current.inherits_algorithm)
         combined_csr.range = csr_range
         combined_csr.address_info = current.address_info
 
@@ -158,7 +159,7 @@ def combine(chip_infos):
                             conflict = 1
                             # Mark all bits in this field as conflicting
                             for b in xrange(start_bit, field.stop_bit+1):
-                                used_bits[b] = "conflict"
+                                used_bits[b] = "__conflict__"
                                 field_type[b] = "RAZ"
                                 reset_value[b] = "X"
                                 typical_value[b] = "X"
@@ -171,7 +172,7 @@ def combine(chip_infos):
                             conflict = 1
                             # Mark all bits in this field as conflicting
                             for b in xrange(start_bit, field.stop_bit+1):
-                                used_bits[b] = "conflict"
+                                used_bits[b] = "__conflict__"
                                 field_type[b] = "RAZ"
                                 reset_value[b] = "X"
                                 typical_value[b] = "X"
@@ -184,7 +185,7 @@ def combine(chip_infos):
                         conflict_name = used_bits[bit]
                         for b in xrange(bits_in_csr):
                             if used_bits[b] in [conflict_name, field.name]:
-                                used_bits[b] = "conflict"
+                                used_bits[b] = "__conflict__"
                                 field_type[b] = "RAZ"
                                 reset_value[b] = "X"
                                 typical_value[b] = "X"
@@ -198,7 +199,7 @@ def combine(chip_infos):
                         typical_value[bit] = field.typical_value
                         description[bit] = field.description
                         c_type[bit] = field.c_type
-        if "conflict" in used_bits:
+        if "__conflict__" in used_bits:
             print "    Conflicting fields: " + csr.name
         bit = 0L
         while bit < bits_in_csr:
@@ -206,7 +207,7 @@ def combine(chip_infos):
             while (bit<bits_in_csr) and used_bits[bit] == used_bits[start_bit]:
                 bit += 1
             stop_bit = bit-1
-            if used_bits[start_bit] == "conflict":
+            if used_bits[start_bit] == "__conflict__":
                 field = CsrField(start_bit, stop_bit, "reserved", "RAZ", "X", "X", [], None)
             else:
                 field = CsrField(start_bit, stop_bit, used_bits[start_bit], field_type[start_bit], reset_value[start_bit], typical_value[start_bit], description[start_bit], c_type[start_bit])

@@ -1,7 +1,5 @@
-CHIP_TO_MODEL = {
-    "cn78xx":   "OCTEON_CN78XX", # FIXME: Need pass also if we have CSRs for differnet passes
-    "cn70xx":   "OCTEON_CN70XX",
-}
+from csr_output_header import writeCopyrightBanner
+from csr_output_addresses import CHIP_TO_MODEL
 
 def toHex(v):
     return hex(v).replace("L","").rjust(18)
@@ -127,8 +125,9 @@ def getCsrTable(csr_str):
 #
 # Create a CSR database
 #
-def write(file, separate_chip_infos, include_cisco_only):
+def write(file, separate_chip_infos):
     out = open(file, "w")
+    writeCopyrightBanner(out)
     out.write('#include <bdk.h>\n')
     out.write("\n")
     empty_range = getRangeTable([-1,-1])
@@ -141,8 +140,6 @@ def write(file, separate_chip_infos, include_cisco_only):
         chip = separate_chip_infos[chip_index].name
         out.write("static const int16_t __bdk_csr_db_%s[] = {\n" % chip)
         for csr in separate_chip_infos[chip_index].iterCsr():
-            if csr.cisco_only and not include_cisco_only:
-                continue
             num_fields = len(csr.fields.keys())
             range_len = len(csr.range)
             assert range_len <= 4, "Only support four params for now"

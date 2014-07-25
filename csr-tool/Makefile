@@ -10,16 +10,17 @@ fetch: clean
 
 .PHONY: generate
 generate:
-	rm -rf html
+	rm -rf html output
+	mkdir html output
 	./csr-tool.py --html \
 	    --csr cn88xx,cn88xx \
 	    --csr cn85xx,cn85xx
 
 .PHONY: copy-headers
 copy-headers:
-	mv bdk-csrs.h ../libbdk-arch/
-	mv bdk-csrs.c ../libbdk-arch/
-	mv csr_db.lua ../lua-modules/
+	mv output/bdk-csrs*.h ../libbdk-arch/
+	mv output/bdk-csrs.c ../libbdk-arch/
+	mv output/bdk-csrs.lua ../lua-modules/csr_db.lua
 
 .PHONY: copy-html
 copy-html:
@@ -31,5 +32,5 @@ copy: copy-headers copy-html
 
 .PHONY: clean
 clean:
-	rm -rf c-code html cn8??? *.pickle *.pyc
+	rm -rf output html cn8??? *.pickle *.pyc
 

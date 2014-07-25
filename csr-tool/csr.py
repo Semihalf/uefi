@@ -2,40 +2,45 @@ import re
 from csr_fixes import fixCsrName
 from csr_fixes import fixCsr
 from types import *
-from csr_output_addresses import getBitMask
 
-VALID_FIELD_TYPES = ["RAZ",     # Read as zero
-                     "R/W",     # Read / Write
-                     "R/W1C",   # Read, write ones to clear
-                     "R/W1S",   # Read, write ones to set
-                     "R/W0C",   # Read, write zeros to clear
-                     "RO",      # Read only
-                     "RC/W",    # Read to clear, write
-                     "RC",      # Read clear
-                     "WO",      # Write only
-                     "R/W1",    # Read, write one
-                     "WR0",
-                     "RO/WRSL", # Read only, cna be written through RSL
-                     "WORSL"]
-VALID_CSR_TYPES = ["RSL", "NCB",
+VALID_CSR_TYPES = ["RSL",           # Slow CSR
+                   "RSL32b",        # Slow CSR, 32bit
+                   "NCB",           # Non coherent bus - Fast CSR
+                   "NCB32b",        # Non coherent bus 32bit - Fast CSR
                    "PEXP",          # PCIe BAR 0 address only
                    "PEXP_NCB",      # NCB-direct and PCIe BAR0 address
                    "PEXPV_NCB",     # Virtual NCB-direct and PCIe BAR0 address
-                   "PCICONFIGEP", "PCICONFIGEP0", "PCICONFIGEP1",   # PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR
-                   "PCICONFIGRC", "PCICONFIGRC0", "PCICONFIGRC1",   # PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR
-                   ]
+                   "PCICONFIGEP",   # PCIe config space in EP mode
+                   "PCICONFIGRC",   # PCIe config space in RC mode
+                   "PCCBR",
+                   "PCCPF",
+                   "PCCVF",
+                   "DAB32b",
+                   "DAB"]
+
+def getBitMask(max_number):
+    mask = 0;
+    while max_number:
+        mask = (mask<<1) | 1
+        max_number = max_number>>1
+    return mask
 
 #
 # The basic definition of a CSR. Each one only supports a single chip's version
 #
 class Csr:
-    def __init__(self, name, csr_type, description, notes=[]):
+    def __init__(self, group, name, csr_type, description, notes, is_banked, inherits_algorithm):
+        assert isinstance(group, StringType), type(group)
         assert isinstance(name, ListType), type(name)
         assert isinstance(csr_type, StringType), type(csr_type)
         assert isinstance(description, ListType), type(description)
         assert isinstance(notes, ListType), type(notes)
+        assert isinstance(is_banked, BooleanType), type(is_banked)
+        self.group = group;
         name = fixCsrName(name)
         self.name = ""
+        self.is_banked = is_banked
+	self.inherits_algorithm = inherits_algorithm
         self.range = []
         while len(name):
             self.name += name[0]
@@ -53,13 +58,12 @@ class Csr:
         self.type = csr_type
         self.description = description
         self.fields = {}
-        self.cisco_only = 0
         self.setNotes(notes)
         self.address_info = None
-        for i in xrange(len(self.description)-1, -1, -1):
-            if "CISCO-SPECIFIC" in self.description[i]:
-                self.cisco_only = 1
-                del self.description[i]
+
+    def getCname(self):
+        # Return the C version of the CSR's name
+        return self.name.replace("#","x").upper()
 
     def addField(self, field):
         assert isinstance(field, CsrField), type(field)
@@ -75,10 +79,6 @@ class Csr:
 
     def setNotes(self, notes):
         assert isinstance(notes, ListType), type(notes)
-        for i in xrange(len(notes)-1, -1, -1):
-            if "CISCO-SPECIFIC" in notes[i]:
-                self.cisco_only = 1
-                del notes[i]
         self.notes = notes
 
     def getNumBits(self):
@@ -148,7 +148,7 @@ class Csr:
         # Make sure all bits are account for
         for bit in bitmask:
             if bit == 0:
-                raise Exception("Unused Bit in CSR %s: %s" % (self.name, str(bitmask)))
+                raise Exception("Unused Bit in CSR: " + str(bitmask))
 
         # Set the c_type if it isn't set already
         for f in self.fields:
@@ -169,6 +169,7 @@ class Csr:
         if not self.type in VALID_CSR_TYPES:
             raise Exception("Incorrect CSR type: " + self.type)
         self.validateBits()
+        self.generate_masks()
         # FIXME: Address stuff not loaded yet. Done in csr-tool.py
         #self.validateAddresses()
 
@@ -265,6 +266,112 @@ class Csr:
             address_part = address_part.replace("ull", "")
         return address_part
 
+    #
+    # Each CSR has a series of bit mask that represent aspects of its
+    # individual bits:
+    # AND mask: Bits not set in this mask are read only, possibly always zero
+    # OR mask: Bits set in this mask are always set
+    # COPY mask: These bits are read only, copy old value
+    # Secure copy mask: These bits are read only in secure mode, copy old value
+    # Reset value: The initial value of the CSR
+    #
+    def generate_masks(self):
+        bits = self.getNumBits()
+        self.and_mask = (1L << bits) - 1 # Bits not set here are always zero
+        self.or_mask = 0        # Bits in this mask are always one
+        self.copy_mask = 0      # Bits in this mask are RO in non-secure mode
+        self.scopy_mask = 0     # Bits in this mask are RO in secure mode
+        self.secure_mask = 0    # Bits in this mask are secure and forced to zero for non-secure reads
+        self.w1s_mask = 0       # Bits in this mask are set on a write of 1
+        self.w1c_mask = 0       # Bits in this mask are clear on a write of 1
+        self.wclear_mask = 0    # Bits in this mask are cleared on any write
+        self.reset_value = 0    # Hardware reset value
+        for f in self.fields:
+            field = self.fields[f]
+            bits = (1L<<(field.stop_bit - field.start_bit + 1)) - 1
+            bits = bits << field.start_bit
+            self.reset_value |= field.reset_value << field.start_bit
+            if field.type == "RAZ":         # Read as zero, write ignore
+                self.and_mask = self.and_mask & ~bits
+            elif field.type == "R/W":       # Read, write
+                pass
+            elif field.type == "R/W/H":     # Read, write, changed by hardware
+                pass
+            elif field.type == "R/W1C":     # Read, write 1 clear
+                self.w1c_mask = self.w1c_mask | bits
+            elif field.type == "R/W1C/H":   # Read, write 1 clear, changed by hardware
+                self.w1c_mask = self.w1c_mask | bits
+            elif field.type == "R/W1S":     # Read, write 1 set
+                self.w1s_mask = self.w1s_mask | bits
+            elif field.type == "R/W1S/H":   # Read, write 1 set, changed by hardware
+                self.w1s_mask = self.w1s_mask | bits
+            elif field.type == "RO":        # Read, write ignore
+                self.copy_mask = self.copy_mask | bits
+                self.scopy_mask = self.scopy_mask | bits
+            elif field.type == "RO/H":      # Read, write ignore, changed by hardware
+                self.copy_mask = self.copy_mask | bits
+                self.scopy_mask = self.scopy_mask | bits
+            elif field.type == "RC/W/H":    # Special hardware knowledge needed
+                pass
+            elif field.type == "RC/H":      # Special hardware knowledge needed
+                pass
+            elif field.type == "RO/WRSL":   # Read only, writable through RSL (PCIe regs)
+                self.copy_mask = self.copy_mask | bits
+                self.scopy_mask = self.scopy_mask | bits
+            elif field.type == "RO/WRSL/H": # Read only, writable through RSL (PCIe regs), changed by hardware
+                self.copy_mask = self.copy_mask | bits
+                self.scopy_mask = self.scopy_mask | bits
+            elif field.type == "R/W1":      # Read, write any value clears
+                self.wclear_mask = self.wclear_mask | bits
+            elif field.type == "R/W1/H":    # Read, write any value clears, changed by hardware
+                self.wclear_mask = self.wclear_mask | bits
+            elif field.type == "SR/W":      # Secure read, write
+                self.copy_mask = self.copy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+            elif field.type == "SR/W/H":    # Secure read, write, changed by hardware
+                self.copy_mask = self.copy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+            elif field.type == "SR/W1C":    # Secure read, write one clear
+                self.copy_mask = self.copy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+                self.w1c_mask = self.w1c_mask | bits
+            elif field.type == "SR/W1C/H":    # Secure read, write one clear, changed by hardware
+                self.copy_mask = self.copy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+                self.w1c_mask = self.w1c_mask | bits
+            elif field.type == "SR/W1S":    # Secure read, write one set
+                self.copy_mask = self.copy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+                self.w1s_mask = self.w1s_mask | bits
+            elif field.type == "SR/W1S/H":    # Secure read, write one set, changed by hardware
+                self.copy_mask = self.copy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+                self.w1s_mask = self.w1s_mask | bits
+            elif field.type == "SRO":       # Secure read, write ignore
+                self.copy_mask = self.copy_mask | bits
+                self.scopy_mask = self.scopy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+            elif field.type == "SRO/H":     # Secure read, write ignore, changed by hardware
+                self.copy_mask = self.copy_mask | bits
+                self.scopy_mask = self.scopy_mask | bits
+                self.secure_mask = self.secure_mask | bits
+            elif field.type == "SWO":       # Secure write only, FIXME: read?
+                self.secure_mask = self.secure_mask | bits
+            elif field.type == "WO":        # Write only?
+                pass
+            elif field.type == "WO/H":      # Write only?, changed by hardware
+                pass
+            elif field.type == "WORSL/H":   # Only writable through RSL (PCIe regs), FIXME: Read?
+                pass
+            else:
+                assert False, "Add support for field type %s to mask generation" % field.type
+	if self.inherits_algorithm == "int_w1s" or self.inherits_algorithm == "int_ena_w1s":
+	    temp = self.w1s_mask
+	    self.w1s_mask = self.w1c_mask
+            self.w1c_mask = temp
+	elif self.inherits_algorithm == "int_ena_w1c":
+	    pass   # Not sure what else this algorithm requires, masks don't change
+
 class CsrField:
     # These are the characters allowed in field names
     RE_AZ09 = re.compile("^[a-z][a-z0-9_]*$")
@@ -274,6 +381,12 @@ class CsrField:
     RE_RESERVED_NAMES = re.compile("^((%s))[0-9]*$" % ")|(".join(begins))
 
     def __init__(self, start_bit, stop_bit, name, field_type, reset_value, typical_value, description, c_type=None):
+        # The craptastic YAML parser is turning ON/OFF into true/false. Idiots.
+        if isinstance(name, BooleanType):
+            if name:
+                name = "on"
+            else:
+                name = "off"
         assert isinstance(start_bit, LongType), type(start_bit)
         assert isinstance(stop_bit, LongType), type(stop_bit)
         assert isinstance(name, StringType), type(name)
@@ -290,7 +403,16 @@ class CsrField:
         self.name = name
         self.description = description
         self.type = field_type
-        self.reset_value = reset_value
+        if reset_value in ["NS", "X"]:
+            self.reset_value = 0L
+        elif reset_value in ["all-ones", "All-ones"]:
+            self.reset_value = (1L<<(stop_bit - start_bit + 1)) - 1
+        elif isinstance(reset_value, LongType):
+            self.reset_value = reset_value
+        else:
+            assert reset_value.startswith("0x"), reset_value
+            assert reset_value.endswith("L"), reset_value
+            self.reset_value = long(reset_value, 0)
         self.typical_value = typical_value
         self.c_type = c_type
         self.validate()
@@ -302,8 +424,6 @@ class CsrField:
             raise Exception("Incorrect CSR field stop bit")
         if not CsrField.RE_AZ09.match(self.name):
             raise Exception("Invalid field name: " + self.name)
-        if not self.type in VALID_FIELD_TYPES:
-            raise Exception("Incorrect CSR field type: " + self.type)
         # Anything for reset_value
         # Anything for typical_value
 
