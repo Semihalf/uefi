@@ -23,33 +23,83 @@ int __bdk_is_simulation;
  */
 void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_control)
 {
-    /* Setup the UART */
-    BDK_CSR_MODIFY(u, node, BDK_MIO_UARTX_LCR(uart),
-        u.s.dlab = 1; /* Divisor Latch Address bit */
-        u.s.eps = 0; /* Even Parity Select bit */
-        u.s.pen = 0; /* Parity Enable bit */
-        u.s.stop = 0; /* Stop Control bit */
-        u.s.cls = 3); /* Character Length Select */
+    /* 1.2.1 Initialization Sequence (Power-On/Hard/Cold Reset) */
+    /* 1. Wait for IOI reset (srst_n) to deassert. */
+    /* 2. Assert all resets:
+        a. UAA reset: UCTL_CTL[UAA_RST] = 1
+        b. UCTL reset: UCTL_CTL[UCTL_RST] = 1  */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
+        c.s.uaa_rst = 1;
+        c.s.uctl_rst = 1);
 
-    /* FCR is a write only register */
-    BDK_CSR_WRITE(node, BDK_MIO_UARTX_FCR(uart), 7);
+    /* 3. Configure the HCLK:
+        a. Reset the clock dividers: UCTL_CTL[H_CLKDIV_RST] = 1.
+        b. Select the HCLK frequency
+            i. UCTL_CTL[H_CLKDIV] = desired value,
+            ii. UCTL_CTL[H_CLKDIV_EN] = 1 to enable the HCLK.
+            iii. Readback UCTL_CTL to ensure the values take effect.
+        c. Deassert the HCLK clock divider reset: UCTL_CTL[H_CLKDIV_RST] = 0. */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
+        c.s.h_clkdiv_sel = 1; /* Run at SCLK / 4 */
+        c.s.h_clk_byp_sel = 0;
+        c.s.h_clk_en = 1);
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
+        c.s.h_clkdiv_rst = 0);
 
-    int divisor = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / baudrate / 16;
-    if (bdk_is_simulation())
-        divisor = 1;
+    /* 4. Wait 20 HCLK cycles from step 3 for HCLK to start and async fifo
+       to properly reset. */
+    bdk_wait(200); /* Overkill */
 
-    BDK_CSR_WRITE(node, BDK_MIO_UARTX_DLH(uart), divisor>>8);
-    BDK_CSR_WRITE(node, BDK_MIO_UARTX_DLL(uart), divisor & 0xff);
+    /* 5. Deassert UCTL and UAHC resets:
+        a. UCTL_CTL[UCTL_RST] = 0
+        b. Wait 10 HCLK cycles.
+        c. UCTL_CTL[UAHC_RST] = 0
+        d. You will have to wait 10 HCLK cycles before accessing any
+            HCLK-only registers. */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.uctl_rst = 1);
+    bdk_wait(100); /* Overkill */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.uaa_rst = 1);
+    bdk_wait(100); /* Overkill */
 
-    BDK_CSR_MODIFY(u, node, BDK_MIO_UARTX_LCR(uart),
-        u.s.dlab = 0); /* Divisor Latch Address bit */
-    BDK_CSR_READ(node, BDK_MIO_UARTX_LCR(uart));
-    bdk_wait(1000);
+    /* 6. Enable conditional SCLK of UCTL by writing UCTL_CTL[CSCLK_EN] = 1. */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.csclk_en = 1);
 
-    use_flow_control = !!use_flow_control;
-    BDK_CSR_MODIFY(mcr, node, BDK_MIO_UARTX_MCR(uart),
-        mcr.s.afce = use_flow_control;
-        mcr.s.rts = use_flow_control);
+    /* 7. Initialize the integer and fractional baud rate divider registers
+        UARTIBRD and UARTFBRD as follows:
+        a. Baud Rate Divisor = UARTCLK/(16xBaud Rate) = BRDI + BRDF
+        b. The fractional register BRDF, m is calculated as integer(BRDF x 64 + 0.5)
+        Example calculation:
+            If the required baud rate is 230400 and hclk = 4MHz then:
+                Baud Rate Divisor = (4x10^6)/(16x230400) = 1.085
+                This means BRDI = 1 and BRDF = 0.085.
+                Therefore, fractional part, BRDF = integer((0.085x64)+0.5) = 5
+                Generated baud rate divider = 1+5/64 = 1.078 */
+    uint64_t divisor_x_64 = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (baudrate * 16 * 4 / 64);
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_IBRD(uart),
+        c.s.baud_divint = divisor_x_64 >> 6);
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_FBRD(uart),
+        c.s.baud_divfrac = divisor_x_64 & 0x3f);
+
+    /* 8. Program the line control register UAA(0..1)_LCR_H and the control
+       register UAA(0..1)_CR */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_LCR_H(uart),
+        c.s.sps = 0; /* No parity */
+        c.s.wen = 3; /* 8 bits */
+        c.s.fen = 1; /* FIFOs enabled */
+        c.s.stp2 = 0; /* Use one stop bit, not two */
+        c.s.eps = 0; /* No parity */
+        c.s.pen = 0; /* No parity */
+        c.s.brk = 0); /* Don't send a break */
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_CR(uart),
+        c.s.ctsen = use_flow_control;
+        c.s.rtsen = use_flow_control;
+        c.s.out1 = 1; /* Drive data carrier detect */
+        c.s.rts = 0; /* Don't override RTS */
+        c.s.dtr = 0; /* Don't override DTR */
+        c.s.rxe = 1; /* Enable receive */
+        c.s.txe = 1; /* Enable transmit */
+        c.s.lbe = 0; /* Disable loopback */
+        c.s.uarten = 1); /* Enable uart */
 }
 
 static void __bdk_init_exception(bdk_node_t node)
