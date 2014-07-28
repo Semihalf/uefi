@@ -69,9 +69,7 @@ extern uint64_t bdk_get_running_coremask(bdk_node_t node);
  */
 static inline int bdk_get_num_running_cores(bdk_node_t node)
 {
-    int result;
-    BDK_DPOP(result, bdk_get_running_coremask(node));
-    return result;
+    return __builtin_popcountl(bdk_get_running_coremask(node));
 }
 
 #ifndef BDK_SHOW_BOOT_BANNERS

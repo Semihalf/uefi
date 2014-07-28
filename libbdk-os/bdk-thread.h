@@ -28,8 +28,10 @@ extern void bdk_thread_first(bdk_thread_func_t func, int arg0, void *arg1, int s
  */
 static inline int bdk_get_core_num(void)
 {
-    int core_num;
-    BDK_RDHWRNV(core_num, 0);
+    int mpidr_el1;
+    BDK_MRS(MPIDR_EL1, mpidr_el1);
+    int core_num = mpidr_el1 & 0xf;
+    core_num |= (mpidr_el1 & 0xff00) >> 4;
     return core_num;
 }
 
@@ -40,19 +42,21 @@ static inline int bdk_get_core_num(void)
  */
 static inline uint64_t bdk_core_to_mask(void)
 {
-    return 1ull << (bdk_get_core_num() & 0x7f);
+    return 1ull << bdk_get_core_num();
 }
 
 static inline int bdk_is_boot_core(void)
 {
-    unsigned int coreid = bdk_get_core_num();
-    return coreid == (bdk_numa_master() << 7);
+    const int master = 0x80000000 | (bdk_numa_master() << 16);
+    int mpidr_el1;
+    BDK_MRS(MPIDR_EL1, mpidr_el1);
+    return mpidr_el1 == master;
 }
 
 static inline void *bdk_thread_get_id(void)
 {
     uint64_t current;
-    BDK_MF_COP0(current, COP0_USERLOCAL);
+    BDK_MRS(TPIDR_EL3, current);
     /* If we haven't started threading yet use the core number. Add one
         so the thread id is never zero */
     if (!current)

@@ -24,9 +24,9 @@ typedef enum
 static inline bdk_node_t bdk_numa_local(void)
 {
 #ifndef BDK_BUILD_HOST
-    int core_num;
-    BDK_RDHWRNV(core_num, 0);
-    return BDK_NODE_0 + (core_num >> 7);
+    int mpidr_el1;
+    BDK_MRS(MPIDR_EL1, mpidr_el1);
+    return BDK_NODE_0 + ((mpidr_el1 >> 16) & 0xff);
 #else
     return BDK_NODE_0; /* FIXME: choose remote node */
 #endif

@@ -20,7 +20,6 @@
 #define bdk_likely(x)      __builtin_expect(!!(x), 1)
 #define bdk_unlikely(x)    __builtin_expect(!!(x), 0)
 
-#define CASTPTR(type, v) ((type *)(long)(v))
 #define BDK_CACHE_LINE_SIZE    (128)   // In bytes
 #define BDK_CACHE_LINE_MASK    (BDK_CACHE_LINE_SIZE - 1)   // In bytes
 #define BDK_CACHE_LINE_ALIGNED __attribute__ ((aligned (BDK_CACHE_LINE_SIZE)))
@@ -104,7 +103,7 @@ static inline void bdk_zero_memory(void *start, uint64_t length)
         void *end = start + length;
         while (start<end)
         {
-            BDK_ZCB(start);
+            asm volatile ("dc zva,(%[rbase])" : : [rbase] "d"(start));
             start += BDK_CACHE_LINE_SIZE;
         }
     }

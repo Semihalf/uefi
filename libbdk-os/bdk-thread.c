@@ -99,7 +99,7 @@ void bdk_thread_yield(void)
 {
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_local()];
     bdk_thread_t *current;
-    BDK_MF_COP0(current, COP0_USERLOCAL);
+    BDK_MRS(TPIDR_EL3, current);
 
     /* Yield can be called without a thread context during core init. The
        cores call bdk_wait_usec(), which yields. In this case yielding
@@ -221,7 +221,7 @@ void bdk_thread_destroy(void)
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_local()];
     static int dead_cores = 0;
     bdk_thread_t *current;
-    BDK_MF_COP0(current, COP0_USERLOCAL);
+    BDK_MRS(TPIDR_EL3, current);
     if (bdk_unlikely(!current))
         bdk_fatal("bdk_thread_destroy() called without thread context\n");
 
@@ -264,7 +264,7 @@ void bdk_thread_destroy(void)
 struct _reent *__bdk_thread_getreent(void)
 {
     bdk_thread_t *current;
-    BDK_MF_COP0(current, COP0_USERLOCAL);
+    BDK_MRS(TPIDR_EL3, current);
     if (current)
         return &current->lib_state;
     else
