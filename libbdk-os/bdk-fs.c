@@ -402,9 +402,7 @@ int bdk_jump_address(uint64_t paddress)
     }
     asm volatile (
         ".set push\n"
-        ".set noreorder\n"
-        "j       %0\n"
-        "cache   0, ($0)\n"
+        "b       %0\n"
         ".set pop\n"
         : : "d" (ptr) : "memory");
     return 0; // Not reached
