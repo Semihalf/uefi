@@ -764,6 +764,39 @@ static inline uint64_t BDK_GIC_RIB_ERR_STATUSR_FUNC(void)
 
 
 /**
+ * NCB - gic_scratch
+ *
+ * This is a scratch register.
+ *
+ */
+typedef union bdk_gic_scratch {
+	uint64_t u;
+	struct bdk_gic_scratch_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t data                        : 64; /**< R/W - This is a scratch register. Reads and writes of this register have no side effects. */
+#else
+		uint64_t data                        : 64;
+#endif
+	} s;
+	/* struct bdk_gic_scratch_s           cn88xx; */
+} bdk_gic_scratch_t;
+
+#define BDK_GIC_SCRATCH BDK_GIC_SCRATCH_FUNC()
+static inline uint64_t BDK_GIC_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GIC_SCRATCH_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+		return 0x0000801000010080ull;
+	else 		csr_fatal("BDK_GIC_SCRATCH", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GIC_SCRATCH bdk_gic_scratch_t
+#define bustype_BDK_GIC_SCRATCH BDK_CSR_TYPE_NCB
+#define busnum_BDK_GIC_SCRATCH 0
+#define arguments_BDK_GIC_SCRATCH -1,-1,-1,-1
+#define basename_BDK_GIC_SCRATCH "GIC_SCRATCH"
+
+
+/**
  * NCB32b - gicd_cidr0
  */
 typedef union bdk_gicd_cidr0 {

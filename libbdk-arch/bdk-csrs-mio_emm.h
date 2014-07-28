@@ -464,22 +464,6 @@ typedef union bdk_mio_emm_dma_fifo_adr {
 	uint64_t u;
 	struct bdk_mio_emm_dma_fifo_adr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_0_63               : 64;
-#else
-		uint64_t reserved_0_63               : 64;
-#endif
-	} s;
-	struct bdk_mio_emm_dma_fifo_adr_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_49_63              : 15;
-		uint64_t adr                         : 49; /**< R/W - DMA engine address. Must be 64-bit aligned. */
-#else
-		uint64_t adr                         : 49;
-		uint64_t reserved_49_63              : 15;
-#endif
-	} cn85xx;
-	struct bdk_mio_emm_dma_fifo_adr_cn88xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t adr                         : 46; /**< R/W - DMA engine address. Must be 64-bit aligned. */
 		uint64_t reserved_0_2                : 3;
@@ -488,7 +472,9 @@ typedef union bdk_mio_emm_dma_fifo_adr {
 		uint64_t adr                         : 46;
 		uint64_t reserved_49_63              : 15;
 #endif
-	} cn88xx;
+	} s;
+	/* struct bdk_mio_emm_dma_fifo_adr_s  cn85xx; */
+	/* struct bdk_mio_emm_dma_fifo_adr_s  cn88xx; */
 } bdk_mio_emm_dma_fifo_adr_t;
 
 #define BDK_MIO_EMM_DMA_FIFO_ADR BDK_MIO_EMM_DMA_FIFO_ADR_FUNC()

@@ -100,7 +100,7 @@ typedef union bdk_iobnx_bistr_reg {
 	struct bdk_iobnx_bistr_reg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_19_63              : 45;
-		uint64_t status                      : 19; /**< RO - Memory BIST status. INTERNAL:
+		uint64_t status                      : 19; /**< RO/H - Memory BIST status. INTERNAL:
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
                                                                  <17> = sli_preq_2_ffifo_bstatus_rclk.
                                                                  <16> = sli_req_2_ffifo_bstatus_rclk.
@@ -132,9 +132,11 @@ typedef union bdk_iobnx_bistr_reg {
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long param1)
 {
-	if (((param1 <= 1)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX) && ((param1 <= 1)))
 		return 0x000087E0F0005008ull + (param1 & 1) * 0x1000000ull;
-	csr_fatal("BDK_IOBNX_BISTR_REG", 1, param1, 0, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+		return 0x000087E0F0005080ull + (param1 & 1) * 0x1000000ull;
+	else 		csr_fatal("BDK_IOBNX_BISTR_REG", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_IOBNX_BISTR_REG(...) bdk_iobnx_bistr_reg_t
 #define bustype_BDK_IOBNX_BISTR_REG(...) BDK_CSR_TYPE_RSL
@@ -154,7 +156,7 @@ typedef union bdk_iobnx_bists_reg {
 	struct bdk_iobnx_bists_reg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_11_63              : 53;
-		uint64_t status                      : 11; /**< RO - Memory BIST status: INTERNAL:
+		uint64_t status                      : 11; /**< RO/H - Memory BIST status: INTERNAL:
                                                                  <10> = irp0_flid_mem_status.
                                                                  <9>  = irp1_flid_mem_status.
                                                                  <8>  = icc0_xmc_fifo_ecc_bstatus.
@@ -337,6 +339,49 @@ static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long param1)
 #define busnum_BDK_IOBNX_CHIP_PWR_OUT(p1) (p1)
 #define arguments_BDK_IOBNX_CHIP_PWR_OUT(p1) (p1),-1,-1,-1
 #define basename_BDK_IOBNX_CHIP_PWR_OUT(...) "IOBNX_CHIP_PWR_OUT"
+
+
+/**
+ * RSL - iobn#_core_bist_status
+ *
+ * This register contains the result of the BIST run on the cores.
+ *
+ */
+typedef union bdk_iobnx_core_bist_status {
+	uint64_t u;
+	struct bdk_iobnx_core_bist_status_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_24_63              : 40;
+		uint64_t core_bstat                  : 24; /**< RO/H - BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
+                                                                 IOBN1 contains the BIST status for the odd numbered cores.
+
+                                                                 <pre>
+                                                                    BIT    IOBN0     IOBN1
+                                                                    [0]    Core 0    Core 1
+                                                                    [1]    Core 2    Core 3
+                                                                    - ...
+                                                                    [23]   Core 46   Core 47
+                                                                 </pre> */
+#else
+		uint64_t core_bstat                  : 24;
+		uint64_t reserved_24_63              : 40;
+#endif
+	} s;
+	/* struct bdk_iobnx_core_bist_status_s cn88xx; */
+} bdk_iobnx_core_bist_status_t;
+
+static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+		return 0x000087E0F0005008ull + (param1 & 1) * 0x1000000ull;
+	else 		csr_fatal("BDK_IOBNX_CORE_BIST_STATUS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_IOBNX_CORE_BIST_STATUS(...) bdk_iobnx_core_bist_status_t
+#define bustype_BDK_IOBNX_CORE_BIST_STATUS(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_IOBNX_CORE_BIST_STATUS(p1) (p1)
+#define arguments_BDK_IOBNX_CORE_BIST_STATUS(p1) (p1),-1,-1,-1
+#define basename_BDK_IOBNX_CORE_BIST_STATUS(...) "IOBNX_CORE_BIST_STATUS"
 
 
 /**

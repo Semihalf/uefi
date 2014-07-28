@@ -5128,7 +5128,7 @@ static inline uint64_t BDK_BGXX_GMP_PCS_ANX_EXT_ST(unsigned long param1, unsigne
 /**
  * RSL - bgx#_gmp_pcs_an#_lp_abil
  *
- * This is the Auto-Negotiation Link partner ability register 5 as per IEEE 802.3, Clause 37.
+ * This is the autonegotiation Link partner ability register 5 as per IEEE 802.3, Clause 37.
  *
  */
 typedef union bdk_bgxx_gmp_pcs_anx_lp_abil {
@@ -5869,11 +5869,11 @@ static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long param1, unsigned 
 /**
  * RSL - bgx#_gmp_pcs_sgm#_an_adv
  *
- * This is the SGMII Auto-Negotiation advertisement register (sent out as TX_CONFIG_REG). This
- * register is sent during Auto-Negotiation if
+ * This is the SGMII autonegotiation advertisement register (sent out as TX_CONFIG_REG). This
+ * register is sent during autonegotiation if
  * BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] is set (1 = PHY mode). If the bit is not set (0 =
  * MAC mode), the TX_CONFIG_REG<14> becomes ACK bit and <0> is always 1. All other bits in
- * TX_CONFIG_REG sent will be 0. The PHY dictates the Auto-Negotiation results.
+ * TX_CONFIG_REG sent will be 0. The PHY dictates the autonegotiation results.
  */
 typedef union bdk_bgxx_gmp_pcs_sgmx_an_adv {
 	uint64_t u;
@@ -7724,11 +7724,11 @@ static inline uint64_t BDK_BGXX_SMUX_TX_THRESH(unsigned long param1, unsigned lo
  * RSL - bgx#_spu#_an_adv
  *
  * Software programs this register with the contents of the AN-link code word base page to be
- * transmitted during Auto-Negotiation. (See Std 802.3 section 73.6 for details.) Any write
- * operations to this register prior to completion of Auto-Negotiation, as indicated by
+ * transmitted during autonegotiation. (See Std 802.3 section 73.6 for details.) Any write
+ * operations to this register prior to completion of autonegotiation, as indicated by
  * BGX()_SPU()_AN_STATUS[AN_COMPLETE], should be followed by a renegotiation in order for
  * the new values to take effect. Renegotiation is initiated by setting
- * BGX()_SPU()_AN_CONTROL[AN_RESTART]. Once Auto-Negotiation has completed, software can
+ * BGX()_SPU()_AN_CONTROL[AN_RESTART]. Once autonegotiation has completed, software can
  * examine this register along with BGX()_SPU()_AN_LP_BASE to determine the highest
  * common denominator technology.
  */
@@ -7801,7 +7801,7 @@ static inline uint64_t BDK_BGXX_SPUX_AN_ADV(unsigned long param1, unsigned long 
  * RSL - bgx#_spu#_an_bp_status
  *
  * The contents of this register (with the exception of the static BP_AN_ABLE bit) are updated
- * during Auto-Negotiation and are valid when BGX()_SPU()_AN_STATUS[AN_COMPLETE] is set.
+ * during autonegotiation and are valid when BGX()_SPU()_AN_STATUS[AN_COMPLETE] is set.
  * At that time, one of the port type bits (A100G_CR10, A40G_CR4, A40G_KR4, A10G_KR, A10G_KX4,
  * A1G_KX) will be set depending on the AN priority resolution. If a BASE-R type is negotiated,
  * then the FEC bit will be set to indicate that FEC operation has been negotiated, and will be
@@ -7910,7 +7910,7 @@ static inline uint64_t BDK_BGXX_SPUX_AN_CONTROL(unsigned long param1, unsigned l
  * RSL - bgx#_spu#_an_lp_base
  *
  * This register captures the contents of the latest AN link code word base page received from
- * the link partner during Auto-Negotiation. (See Std 802.3 section 73.6 for details.)
+ * the link partner during autonegotiation. (See Std 802.3 section 73.6 for details.)
  * BGX()_SPU()_AN_STATUS[PAGE_RX] is set when this register is updated by hardware.
  */
 typedef union bdk_bgxx_spux_an_lp_base {
@@ -7980,7 +7980,7 @@ static inline uint64_t BDK_BGXX_SPUX_AN_LP_BASE(unsigned long param1, unsigned l
  * RSL - bgx#_spu#_an_lp_xnp
  *
  * This register captures the contents of the latest next page code word received from the link
- * partner during Auto-Negotiation, if any. See section 802.3 section 73.7.7 for details.
+ * partner during autonegotiation, if any. See section 802.3 section 73.7.7 for details.
  */
 typedef union bdk_bgxx_spux_an_lp_xnp {
 	uint64_t u;
@@ -8095,7 +8095,7 @@ static inline uint64_t BDK_BGXX_SPUX_AN_STATUS(unsigned long param1, unsigned lo
  * RSL - bgx#_spu#_an_xnp_tx
  *
  * Software programs this register with the contents of the AN message next page or unformatted
- * next page link code word to be transmitted during auto-negotiation. Next page exchange occurs
+ * next page link code word to be transmitted during autonegotiation. Next page exchange occurs
  * after the base link code words have been exchanged if either end of the link segment sets the
  * NP bit to 1, indicating that it has at least one next page to send. Once initiated, next page
  * exchange continues until both ends of the link segment set their NP bits to 0. See section

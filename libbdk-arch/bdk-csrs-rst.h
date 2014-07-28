@@ -508,8 +508,12 @@ typedef union bdk_rst_dbg_reset {
 	struct bdk_rst_dbg_reset_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t rst                         : 48; /**< R/W - Debug logic reset for each core: 1 = holds the debug logic in its reset state, 0 = the
-                                                                 debug logic operates normally. */
+		uint64_t rst                         : 48; /**< R/W - Debug logic reset for each core:
+                                                                   0 = Debug logic operates normally.
+                                                                   1 = Holds the debug logic in its reset state.
+
+                                                                 The register is reset to 0 only during cold reset, the value is unaffected by
+                                                                 warm and soft reset. */
 #else
 		uint64_t rst                         : 48;
 		uint64_t reserved_48_63              : 16;

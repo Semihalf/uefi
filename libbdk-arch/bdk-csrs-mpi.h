@@ -88,8 +88,8 @@ enum mpi_int_vec_e {
 /**
  * NCB - mpi_cfg
  *
- * This register provides configuration for the MPI/SPI interface. Note that some of the MPI/SPI
- * pins are multiplexed with UART and BOOT pins.
+ * This register provides configuration for the MPI/SPI interface.
+ *
  */
 typedef union bdk_mpi_cfg {
 	uint64_t u;
