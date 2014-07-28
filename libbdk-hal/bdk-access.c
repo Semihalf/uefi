@@ -22,14 +22,13 @@ void bdk_wait_usec(uint64_t usec)
  */
 void bdk_reset_octeon(bdk_node_t node)
 {
-    bdk_mio_uartx_lsr_t lsrval;
-
     fflush(NULL);
 
+    /* Wait for TX fifo to empty */
     while (1)
     {
-        lsrval.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(0));
-        if (lsrval.s.temt)
+        BDK_CSR_INIT(fr, node, BDK_UAAX_FR(0));
+        if (fr.s.txfe)
             break;
         bdk_thread_yield();
     }
