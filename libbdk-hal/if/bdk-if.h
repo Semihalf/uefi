@@ -12,6 +12,7 @@
 
 /* CVMSEG location to use for async work */
 #define BDK_IF_SCR_WORK 0
+#define BDK_IF_MAX_GATHER 16 /* CN88XX RX support 1 + 15 */
 
 #define BDK_IF_PHY_FIXED_1GB 0x1000
 #define BDK_IF_PHY_FIXED_100MB 0x1001
@@ -85,6 +86,16 @@ typedef struct __bdk_if_port
 
 typedef __bdk_if_port_t *bdk_if_handle_t;
 
+typedef union
+{
+    uint64_t u;
+    struct
+    {
+        uint64_t size : 16;
+        uint64_t address : 48;
+    } s;
+} bdk_packet_ptr_t;
+
 typedef struct
 {
     bdk_if_handle_t if_handle;
@@ -92,7 +103,7 @@ typedef struct
     int             aura;
     int             segments;
     int             rx_error;
-    bdk_buf_ptr_t   packet;
+    bdk_packet_ptr_t packet[BDK_IF_MAX_GATHER];
 } bdk_if_packet_t;
 
 typedef enum
