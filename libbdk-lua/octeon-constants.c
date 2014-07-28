@@ -17,13 +17,18 @@ void register_octeon_constants(lua_State* L)
             lua_setfield(L, -2, #enum + 4); \
         } while (0)
 
-    push_bdk_enum(BDK_CSR_TYPE_RSL);
+    push_bdk_enum(BDK_CSR_TYPE_DAB);
+    push_bdk_enum(BDK_CSR_TYPE_DAB32b);
     push_bdk_enum(BDK_CSR_TYPE_NCB);
+    push_bdk_enum(BDK_CSR_TYPE_NCB32b);
+    push_bdk_enum(BDK_CSR_TYPE_PCCBR);
+    push_bdk_enum(BDK_CSR_TYPE_PCCPF);
+    push_bdk_enum(BDK_CSR_TYPE_PCCVF);
+    push_bdk_enum(BDK_CSR_TYPE_PCICONFIGRC);
     push_bdk_enum(BDK_CSR_TYPE_PEXP);
     push_bdk_enum(BDK_CSR_TYPE_PEXP_NCB);
-    push_bdk_enum(BDK_CSR_TYPE_PEXPV_NCB);
-    push_bdk_enum(BDK_CSR_TYPE_PCICONFIGEP);
-    push_bdk_enum(BDK_CSR_TYPE_PCICONFIGRC);
+    push_bdk_enum(BDK_CSR_TYPE_RSL);
+    push_bdk_enum(BDK_CSR_TYPE_RSL32b);
 #ifndef BDK_BUILD_HOST
     push_bdk_enum(BDK_MPI_FLAGS_ENABLE_CS0);
     push_bdk_enum(BDK_MPI_FLAGS_ENABLE_CS1);

@@ -13,13 +13,18 @@
  * Possible CSR bus types
  */
 typedef enum {
-   BDK_CSR_TYPE_RSL,        /**< Octeon internal address, but indirect and slow (not used for addresses) */
-   BDK_CSR_TYPE_NCB,        /**< Octeon internal address */
-   BDK_CSR_TYPE_PEXP,       /**< PCIe BAR 0 address only */
-   BDK_CSR_TYPE_PEXP_NCB,   /**< NCB-direct and PCIe BAR0 address */
-   BDK_CSR_TYPE_PEXPV_NCB,  /**< Virtual NCB-direct and PCIe BAR0 address */
-   BDK_CSR_TYPE_PCICONFIGEP,/**< PCIe config address (EP mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
-   BDK_CSR_TYPE_PCICONFIGRC,/**< PCICONFIGRC - PCIe config address (RC mode) + indirect through PESC*_CFG_RD/PESC*_CFG_WR */
+   BDK_CSR_TYPE_DAB,            /**< External debug 64bit CSR */
+   BDK_CSR_TYPE_DAB32b,         /**< External debug 32bit CSR */
+   BDK_CSR_TYPE_NCB,            /**< Fast 64bit CSR */
+   BDK_CSR_TYPE_NCB32b,         /**< Fast 32bit CSR */
+   BDK_CSR_TYPE_PCCBR,
+   BDK_CSR_TYPE_PCCPF,
+   BDK_CSR_TYPE_PCCVF,
+   BDK_CSR_TYPE_PCICONFIGRC,    /**< PCIe config address (RC mode) */
+   BDK_CSR_TYPE_PEXP,           /**< PCIe BAR 0 address only */
+   BDK_CSR_TYPE_PEXP_NCB,       /**< NCB-direct and PCIe BAR0 address */
+   BDK_CSR_TYPE_RSL,            /**< Slow 64bit CSR */
+   BDK_CSR_TYPE_RSL32b,         /**< Slow 32bit CSR */
 } bdk_csr_type_t;
 
 #define BDK_CSR_DB_MAX_PARAM 4
@@ -67,12 +72,16 @@ static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int bu
     extern uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address);
     switch (type)
     {
-        case BDK_CSR_TYPE_PEXP_NCB:
-        case BDK_CSR_TYPE_PEXPV_NCB:
-        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_DAB:
+        case BDK_CSR_TYPE_DAB32b:
         case BDK_CSR_TYPE_NCB:
-            address |= 1ull<<63;
-            address |= (uint64_t)node << 36;
+        case BDK_CSR_TYPE_NCB32b:
+        case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_RSL32b:
+            address |= (uint64_t)node << 44;
+            /* Note: This code assume a 1:1 mapping of all of address space.
+               It is designed to run with the MMU disabled */
             switch (size)
             {
                 case 1:
@@ -82,7 +91,7 @@ static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int bu
                 case 4:
                     return bdk_le32_to_cpu(*(volatile uint32_t *)address);
                 default:
-                    return *(volatile uint64_t *)address;
+                    return bdk_le64_to_cpu(*(volatile uint64_t *)address);
             }
         default:
             return __bdk_csr_read_slow(node, type, busnum, size, address);
@@ -108,12 +117,16 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
     extern void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
     switch (type)
     {
-        case BDK_CSR_TYPE_PEXP_NCB:
-        case BDK_CSR_TYPE_PEXPV_NCB:
-        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_DAB:
+        case BDK_CSR_TYPE_DAB32b:
         case BDK_CSR_TYPE_NCB:
-            address |= 1ull<<63;
-            address |= (uint64_t)node << 36;
+        case BDK_CSR_TYPE_NCB32b:
+        case BDK_CSR_TYPE_PEXP_NCB:
+        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_RSL32b:
+            address |= (uint64_t)node << 44;
+            /* Note: This code assume a 1:1 mapping of all of address space.
+               It is designed to run with the MMU disabled */
             switch (size)
             {
                 case 1:
@@ -126,7 +139,7 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
                     *(volatile uint32_t *)address = bdk_cpu_to_le32(value);
                     break;
                 default:
-                    *(volatile uint64_t *)address = value;
+                    *(volatile uint64_t *)address = bdk_cpu_to_le64(value);
                     break;
             }
             break;
@@ -134,12 +147,6 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
         default:
             __bdk_csr_write_slow(node, type, busnum, size, address, value);
     }
-}
-
-static inline void bdk_send_single(uint64_t data) __attribute__ ((always_inline));
-static inline void bdk_send_single(uint64_t data)
-{
-    *(volatile uint64_t *)0xffffffffffffa200ull = data;
 }
 
 #else
