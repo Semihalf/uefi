@@ -13,24 +13,6 @@ typedef struct
 #define AS_INIT(name, default_value) [name] = {#name, default_value}
 static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 {
-    /* CN78XX currently requires FPA buffers to be a power of 2. The memalign()
-       used to allocate the buffers isn't smart enough to handle arbitrary
-       alignment */
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE0, 256),
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE1, 128),
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE2, 4096), /* CN78XX SSO requires 4KB */
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE3, 4096), /* CN78XX PKO requires 4KB */
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE4, 0),
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE5, 0),
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE6, 0),
-    AS_INIT(BDK_CONFIG_FPA_POOL_SIZE7, 0),
-
-    AS_INIT(BDK_CONFIG_INPUT_TAG_TYPE, BDK_WQE_TAG_TYPE_ORDERED),
-    AS_INIT(BDK_CONFIG_INPUT_PORT_SKIP_MODE, 2),
-
-    AS_INIT(BDK_CONFIG_PHY_MGMT_PORT0, -1),
-    AS_INIT(BDK_CONFIG_PHY_MGMT_PORT1, -1),
-
     AS_INIT(BDK_CONFIG_PHY_IF0_PORT0, -1),
     AS_INIT(BDK_CONFIG_PHY_IF0_PORT1, -1),
     AS_INIT(BDK_CONFIG_PHY_IF0_PORT2, -1),
@@ -62,19 +44,6 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
         part of the Cavium range. The lower three bytes will be updated with
         the wafer info later */
     AS_INIT(BDK_CONFIG_MAC_ADDRESS, 0x020fb7000000ull),
-
-    AS_INIT(BDK_CONFIG_ILK0_LANES, 4),
-    AS_INIT(BDK_CONFIG_ILK1_LANES, 4),
-    AS_INIT(BDK_CONFIG_ILK0_PORTS, 8),
-    AS_INIT(BDK_CONFIG_ILK1_PORTS, 8),
-
-    /* No ports default to Higig mode. 0 = XAUI, 1 = Higig(+), 2 = Higig2 */
-    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF0, 0),
-    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF1, 0),
-    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF2, 0),
-    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF3, 0),
-    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF4, 0),
-    AS_INIT(BDK_CONFIG_HIGIG_MODE_IF5, 0),
 
     /* The number of packet buffers is filled in dynamically in __bdk_config_init() */
     AS_INIT(BDK_CONFIG_NUM_PACKET_BUFFERS, 0),
@@ -152,26 +121,12 @@ void __bdk_config_init(void)
         for production parts */
     BDK_CSR_INIT(fus_dat0, bdk_numa_local(), BDK_MIO_FUS_DAT0);
     uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
-    mac_address |= fus_dat0.u64 & 0xffffff;
+    mac_address |= fus_dat0.u & 0xffffff;
     bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
 
-    /* Set the number of packet buffers in FPA pool 0 */
+    /* Set the number of packet buffers */
     int num_packet_buffers = 768;
     int num_output_buffers = 256;
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
-    {
-        num_packet_buffers = 8192;
-    }
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_NUM_OUTPUT_BUFFERS, num_output_buffers);
-
-    if (__bdk_is_dram_enabled(bdk_numa_local()))
-    {
-        /* Use more packet buffers if DRAM is enabled */
-        bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, 2048);
-        /* Use larger packet buffers if DRAM is enabled */
-        bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE0, 2048);
-        /* Use larger command buffers if DRAM is enabled */
-        bdk_config_set(BDK_CONFIG_FPA_POOL_SIZE1, 2048);
-    }
 }
