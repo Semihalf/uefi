@@ -147,7 +147,7 @@ void __bdk_init(long base_address)
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
 
-    BDK_MT_COP0(0, COP0_USERLOCAL);
+    BDK_MSR(TPIDR_EL3, 0);
 
     /* Initialize async WQE area with no work */
     bdk_scratch_write64(BDK_IF_SCR_WORK, 1ull<<63);
@@ -183,19 +183,16 @@ void __bdk_init(long base_address)
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
-            l2c_tadx_int.u64 = 0;
+            l2c_tadx_int.u = 0;
             l2c_tadx_int.s.rddislmc = 1;
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
-            if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
-            {
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(2), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(3), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(4), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(5), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(6), l2c_tadx_int.u64);
-                BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(7), l2c_tadx_int.u64);
-            }
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(1), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(2), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(3), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(4), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(5), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(6), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(7), l2c_tadx_int.u);
 
             /* The locked region isn't considered dirty by L2. Do read
                read/write of each cache line to force each to be dirty */
@@ -745,7 +742,7 @@ static void setup_node(bdk_node_t node)
 {
     bdk_rng_enable(node);
 
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
         /* Clear all OCI lane error status bits */
         for (int lane=0; lane<24; lane++)
@@ -754,45 +751,6 @@ static void setup_node(bdk_node_t node)
         /* Split across two links as HW currently only support 2 node */
         BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
             c.s.sort = 1);
-    }
-
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_0))
-    {
-        /* Don't apply OCI workaround if we're running on a single node */
-        int nodes = bdk_dpop(bdk_numa_get_exists_mask());
-        if (nodes == 1)
-            return;
-
-        /* Errata (L2C-19720) STORE data FIFO overflow when OCI is used */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
-            c.s.exlrq = 0;
-            c.s.exrrq = 0;
-            c.s.exfwd = 2;
-            c.s.exvic = 1);
-        /* Errata (L2C-20027) OCI remote atomics don't work */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
-            c.s.lock_local_pp = 1;
-            c.s.lock_local_iob = 1);
-        /* Errata (L2C-20169) RSTP's don't work in pass 1 */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
-            c.s.disrstp = 1);
-        /* Errata (L2C-20174) L2C_OCI_CTL[RLDD_PSHA]=1 may not work */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
-            c.s.rldd_psha = 0);
-        /* Errata (L2C-20175) L2C_CTL[DISSBLKDTY]=0 may not work */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
-            c.s.dissblkdty = 1);
-        /* Errata (L2C-20177) L2C_OCI_CTL[LOCK_LOCAL_STC]=1 may not work */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
-            c.s.lock_local_stc = 0);
-        /* Errata (L2C-20247) Hang when OCI victim hits home request */
-        /* (L2C-20328) FIFO overflow can cause lost MIB command */
-        BDK_CSR_MODIFY(c, node, BDK_L2C_TAD_CTL,
-            c.s.maxlfb = 4;
-            c.s.exlrq = 0;
-            c.s.exrrq = 0;
-            c.s.exfwd = 0;
-            c.s.exvic = 0);
     }
 }
 
@@ -806,17 +764,8 @@ int bdk_init_nodes(void)
 {
     int result = 0;
 
-      /* Enable OCI for a CN78XX but not for a CN76XX. As there is not direct
-       * OCTEON model for a CN76XX, we must infer it by seeing the device is a
-       * CN78XX Pass 1.0 with a NUMA node #3 assignment. The node assignment
-       * comes from CN7600 package strapping of the OCI control pins. Node #3 is
-       * illegal for a twin CN7800 OCI configuration.
-       */
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_0) && bdk_numa_local() == 0x3) {
-	//nothing
-    } else if (CAVIUM_IS_MODEL(OCTEON_CN78XX)) {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         result |= init_oci();
-    }
 
     for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
     {

@@ -254,7 +254,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     }
 
     /* Link Width Mode (PCIERCn_CFG452[LME]) */
-    if (CAVIUM_IS_MODEL(OCTEON_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
         BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),

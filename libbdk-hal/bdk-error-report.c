@@ -93,7 +93,7 @@ static void enable_cn88xx(bdk_node_t node)
 void (*bdk_error_check)(bdk_node_t node) = NULL;
 void bdk_error_enable(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(OCTEON_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
         enable_cn88xx(node);
         check_cn88xx(node);

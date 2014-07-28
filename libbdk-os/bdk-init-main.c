@@ -24,33 +24,6 @@ static void __bdk_init_cop0(void)
     memctl &= -64;          // Setup two lines of scratch
     memctl |= 2;
     BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
-
-    /* Setup LMTDMA to cache line 1 */
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
-    {
-        BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
-        memctl |= 1ull<<51;     // Enable LMTDMA
-        memctl |= 1ull<<45;     // Use cache line 1
-        BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
-        /* Zero the LMT cache line */
-        for (int i=128; i<256; i+=8)
-            bdk_scratch_write64(i, 0);
-    }
-}
-
-
-static void __bdk_setup_bootbus(bdk_node_t node)
-{
-    /* Set each region to be max size, 256MB. Align regions such that
-        a 128MB flash would alias to allow the MIPS boot region to see
-        the first 4MB. This is only needed on region 0, but we do it on
-        all regions to make the code easier */
-    for (int region=0; region<8; region++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_MIO_BOOT_REG_CFGX(region),
-            c.s.size = 0xfff;
-            c.s.base = 0x0fc0 + region*0x2000);
-    }
 }
 
 static void __bdk_error_poll(int arg, void *arg1)
@@ -91,8 +64,6 @@ void __bdk_init_main(int arg, void *arg1)
         if (!environ)
             bdk_error("Failed to allocate environment, setenv will crash\n");
 
-        if (!bdk_is_simulation())
-            __bdk_setup_bootbus(node);
         bdk_rng_enable(node);
 
         if (BDK_IS_REQUIRED(TWSI))
@@ -123,14 +94,14 @@ void __bdk_init_main(int arg, void *arg1)
         }
 
         /* Make sure SMI/MDIO is enabled so we can query PHYs */
-        int num_mdio = (CAVIUM_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
+        int num_mdio = 4;
         for (int i=0; i<num_mdio; i++)
         {
             BDK_CSR_INIT(smix_en, node, BDK_SMI_X_EN(i));
             if (!smix_en.s.en)
             {
                 smix_en.s.en = 1;
-                BDK_CSR_WRITE(node, BDK_SMI_X_EN(i), smix_en.u64);
+                BDK_CSR_WRITE(node, BDK_SMI_X_EN(i), smix_en.u);
             }
         }
     }
