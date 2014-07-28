@@ -32,25 +32,25 @@ static void print_cmd_status(void)
     switch (sts_reg.s.rsp_type)
     {
         case 1:
-            printf("Response type 1, card status = 0x%08x\n", (uint32_t) ((rsp_lo.u64 >>8) & 0xFFFFFFFF));
+            printf("Response type 1, card status = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
             break;
         case 2:
-            printf("Response type 2, rsp_hi-bits = 0x%016llx, rsp_lo-bits = 0x%016llx\n", (ULL)rsp_hi.u64, (ULL)rsp_lo.u64);
+            printf("Response type 2, rsp_hi-bits = 0x%016llx, rsp_lo-bits = 0x%016llx\n", (ULL)rsp_hi.u, (ULL)rsp_lo.u);
             break;
         case 3:
-            printf("Response type 3, OCR Register = 0x%08x\n", (uint32_t) ((rsp_lo.u64 >>8) & 0xFFFFFFFF));
+            printf("Response type 3, OCR Register = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
             break;
         case 4:
             printf("Response type 4, RCA = 0x%llx, status =0x%llx, reg. addr. = 0x%llx, reg. contents = 0x%llx\n",
-                   (ULL)((rsp_lo.u64 >> 24) & 0xffff), (ULL)((rsp_lo.u64 >> 23) & 0x1), (ULL)((rsp_lo.u64 >> 16) & 0x7F), (ULL)((rsp_lo.u64 >> 8) & 0xFF));
+                   (ULL)((rsp_lo.u >> 24) & 0xffff), (ULL)((rsp_lo.u >> 23) & 0x1), (ULL)((rsp_lo.u >> 16) & 0x7F), (ULL)((rsp_lo.u >> 8) & 0xFF));
             break;
         case 5:
             printf("Response type 5, RCA = 0x%llx, status =0x%llx, reg. addr. = 0x%llx\n",
-                   (ULL)((rsp_lo.u64 >> 24) & 0xffff), (ULL)((rsp_lo.u64 >> 23) & 0x1), (ULL)((rsp_lo.u64 >> 16) & 0x7F));
+                   (ULL)((rsp_lo.u >> 24) & 0xffff), (ULL)((rsp_lo.u >> 23) & 0x1), (ULL)((rsp_lo.u >> 16) & 0x7F));
             break;
 
         default:
-            printf("Unknown response type, rsp_sts. reg. = 0x%llx\n", (ULL)sts_reg.u64);
+            printf("Unknown response type, rsp_sts. reg. = 0x%llx\n", (ULL)sts_reg.u);
     }
 }
 
@@ -72,7 +72,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
 {
     bdk_node_t node = bdk_numa_local();
     BDK_CSR_DEFINE(cmd_reg, BDK_MIO_EMM_CMD);
-    cmd_reg.u64 = 0;
+    cmd_reg.u = 0;
     cmd_reg.s.bus_id = busid;
     cmd_reg.s.cmd_idx = cmd;
     cmd_reg.s.arg = arg;
@@ -82,7 +82,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
     cmd_reg.s.offset = offset;
     cmd_reg.s.cmd_val = 1;
 
-    BDK_CSR_WRITE(node, BDK_MIO_EMM_CMD, cmd_reg.u64);
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_CMD, cmd_reg.u);
     BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
 
     /* We use loops ever 1ms here instead of a wall time based timeout so
@@ -92,7 +92,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
     do
     {
         bdk_wait_usec(1000);
-        sts_reg.u64 = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
+        sts_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
         if (--wait_loops <= 0)
         {
             if (show_debug)
@@ -108,7 +108,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         {
             BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
             if (show_debug)
-                printf("Response bad status, cmd response = 0x%08x\n", (uint32_t) ((rsp_lo.u64 >>8) & 0xFFFFFFFF));
+                printf("Response bad status, cmd response = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
             cmd_error++;
         }
         if (sts_reg.s.rsp_crc_err || sts_reg.s.stp_crc_err)
@@ -156,21 +156,21 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         {
             if (show_debug)
             {
-                cmd_reg.u64 = BDK_CSR_READ(node, BDK_MIO_EMM_CMD);
-                sts_reg.u64 = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
+                cmd_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_CMD);
+                sts_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
                 BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
                 BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
                 printf("No valid response\n");
-                printf("mio_emm_cmd     = 0x%016llx\n", (ULL)cmd_reg.u64);
-                printf("mio_emm_rsp_sts = 0x%016llx\n", (ULL)sts_reg.u64);
-                printf("mio_emm_rsp_lo  = 0x%016llx\n", (ULL)rsp_lo.u64);
-                printf("mio_emm_rsp_hi  = 0x%016llx\n", (ULL)rsp_hi.u64);
+                printf("mio_emm_cmd     = 0x%016llx\n", (ULL)cmd_reg.u);
+                printf("mio_emm_rsp_sts = 0x%016llx\n", (ULL)sts_reg.u);
+                printf("mio_emm_rsp_lo  = 0x%016llx\n", (ULL)rsp_lo.u);
+                printf("mio_emm_rsp_hi  = 0x%016llx\n", (ULL)rsp_hi.u);
             }
             return sts_reg;
         }
     }
 
-    sts_reg.u64 = 0;
+    sts_reg.u = 0;
     return sts_reg;
 }
 
@@ -202,8 +202,8 @@ static void print_csd_reg(uint64_t reg_hi, uint64_t reg_lo)
     {
         sd_csd_register_hi_t  sd_csd_reg_hi;
         sd_csd_register_lo_t  sd_csd_reg_lo;
-        sd_csd_reg_hi.u64 = reg_hi;
-        sd_csd_reg_lo.u64 = reg_lo;
+        sd_csd_reg_hi.u = reg_hi;
+        sd_csd_reg_lo.u = reg_lo;
         printf("\nCSD Register fields --\n");
         printf("csd_structure       = 0x%x\n", sd_csd_reg_hi.s.csd_structure);
         printf("reserved_120_125    = 0x%x\n", sd_csd_reg_hi.s.reserved_120_125);
@@ -244,8 +244,8 @@ static void print_csd_reg(uint64_t reg_hi, uint64_t reg_lo)
     {
         mmc_csd_register_hi_t mmc_csd_reg_hi;
         mmc_csd_register_lo_t mmc_csd_reg_lo;
-        mmc_csd_reg_hi.u64 = reg_hi;
-        mmc_csd_reg_lo.u64 = reg_lo;
+        mmc_csd_reg_hi.u = reg_hi;
+        mmc_csd_reg_lo.u = reg_lo;
         printf("\nCSD Register fields --\n");
         printf("csd_structure       = 0x%x\n", mmc_csd_reg_hi.s.csd_structure);
         printf("spec_vers           = 0x%x\n", mmc_csd_reg_hi.s.spec_vers);
@@ -307,7 +307,7 @@ static void wdog_default()
 #define MMC_CMD_OR_ERROR(L, cmd, arg, busid, dbuf, rtype_xor, ctype_xor, offset)    \
 do {                                                                                \
     bdk_mio_emm_rsp_sts_t status = mmc_cmd(cmd, arg, busid, dbuf, rtype_xor, ctype_xor, offset); \
-    if(status.u64)                                                                  \
+    if(status.u)                                                                  \
         return luaL_error(L, "eMMC: Command " #cmd " failed");                            \
 } while (0)
 
@@ -363,20 +363,20 @@ static int mmc_init(lua_State *L)
 
     // Do a CMD SEND_EXT_CSD (8)
     status = mmc_cmd(MMC_CMD_SEND_EXT_CSD, 0x000001AA, 0, 0, 2, 1, 0);
-    if (status.u64 == 0x0)
+    if (status.u == 0x0)
     {
         // We may have an SD card, as it should respond
         BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
-        if (((rsp_lo.u64 >>8) & 0xFFFFFFFFFF) != 0x08000001AA)
+        if (((rsp_lo.u >>8) & 0xFFFFFFFFFF) != 0x08000001AA)
             return luaL_error(L, "eMMC: Unexpected response from MMC_CMD_SEND_EXT_CSD");
         // Send a ACMD 41
         do
         {
             status = mmc_cmd(MMC_CMD_APP_CMD, 0, 0, 0, 0, 0, 0);
-            if (status.u64 == 0x0)
+            if (status.u == 0x0)
             {
                 status = mmc_cmd(41, 0x40ff8000, 0, 0, 3, 0, 0);
-                if (status.u64)
+                if (status.u)
                     return luaL_error(L, "eMMC: Failed to recognize card");
                 card_is_sd = 1;
             }
@@ -397,10 +397,10 @@ static int mmc_init(lua_State *L)
         do
         {
             status = mmc_cmd(MMC_CMD_APP_CMD, 0, 0, 0, 0, 0, 0);
-            if (status.u64 == 0x0)
+            if (status.u == 0x0)
             {
                 status = mmc_cmd(41, 0x40ff8000, 0, 0, 3, 0, 0);
-                if (status.u64)
+                if (status.u)
                 {
                     // Have an SD card, version less than 2.0
                     // fall thru, exit the loop
@@ -416,7 +416,7 @@ static int mmc_init(lua_State *L)
             ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
         } while (ocr_reg.s.done_bit == 0x0);
 
-        if (status.u64 == 0x0)
+        if (status.u == 0x0)
         {
             // Success, we have an SD card version 2.0 or less
             card_is_sd = 1;
@@ -448,8 +448,8 @@ static int mmc_init(lua_State *L)
         BDK_CSR_INIT(sts_mask, node, BDK_MIO_EMM_STS_MASK);
         BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, 0xE000);
         status = mmc_cmd(MMC_CMD_SET_RELATIVE_ADDR, 0, 0, 0, 0, 0, 0);
-        BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, sts_mask.u64);
-        if (status.u64)
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, sts_mask.u);
+        if (status.u)
             return luaL_error(L, "eMMC: Command MMC_CMD_SET_RELATIVE_ADDR failed");
         relative_address = ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>24) &0xFFFF);
     }
@@ -465,16 +465,16 @@ static int mmc_init(lua_State *L)
     // Get CSD Register
     MMC_CMD_OR_ERROR(L, MMC_CMD_SEND_CSD, relative_address << 16, 0, 0, 0, 0, 0);
     mmc_csd_register_lo_t csd_reg_lo;
-    csd_reg_lo.u64 = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO));
+    csd_reg_lo.u = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO));
     mmc_csd_register_hi_t csd_reg_hi;
-    csd_reg_hi.u64 = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_HI));
+    csd_reg_hi.u = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_HI));
     uint64_t mmc_capacity;
     if (card_is_sd)
     {
         sd_csd_register_hi_t  sd_csd_reg_hi;
         sd_csd_register_lo_t  sd_csd_reg_lo;
-        sd_csd_reg_hi.u64 = csd_reg_hi.u64;
-        sd_csd_reg_lo.u64 = csd_reg_lo.u64;
+        sd_csd_reg_hi.u = csd_reg_hi.u;
+        sd_csd_reg_lo.u = csd_reg_lo.u;
         mmc_capacity = (sd_csd_reg_hi.s.c_size << 2) + sd_csd_reg_lo.s.c_size;
         mmc_capacity = (mmc_capacity + 1) << (sd_csd_reg_lo.s.c_size_mult + 2);
         mmc_capacity *= 1<<sd_csd_reg_hi.s.read_bl_len;
@@ -483,15 +483,15 @@ static int mmc_init(lua_State *L)
     {
         mmc_csd_register_hi_t mmc_csd_reg_hi;
         mmc_csd_register_lo_t mmc_csd_reg_lo;
-        mmc_csd_reg_hi.u64 = csd_reg_hi.u64;
-        mmc_csd_reg_lo.u64 = csd_reg_lo.u64;
+        mmc_csd_reg_hi.u = csd_reg_hi.u;
+        mmc_csd_reg_lo.u = csd_reg_lo.u;
         mmc_capacity = (mmc_csd_reg_hi.s.c_size << 2) + mmc_csd_reg_lo.s.c_size;
         mmc_capacity = (mmc_capacity + 1) << (mmc_csd_reg_lo.s.c_size_mult + 2);
         mmc_capacity *= 1<<mmc_csd_reg_hi.s.read_bl_len;
     }
 
     if (show_debug)
-        print_csd_reg(csd_reg_hi.u64, csd_reg_lo.u64);
+        print_csd_reg(csd_reg_hi.u, csd_reg_lo.u);
 
     // Select Card
     MMC_CMD_OR_ERROR(L, MMC_CMD_SELECT_CARD, relative_address << 16 , 0, 0, 0, 0, 0);
@@ -538,16 +538,16 @@ static int mmc_read(lua_State *L)
         /* Send the read command */
         BDK_CSR_DEFINE(status, BDK_MIO_EMM_RSP_STS);
         status = mmc_cmd(MMC_CMD_READ_SINGLE_BLOCK, (block_addressable_device) ? address/512 : address, 0, 0, 0, 0, 0);
-        if (status.u64)
+        if (status.u)
             return luaL_error(L, "eMMC: Read single block failed");
 
         /* Set our location in the internal buffer */
         BDK_CSR_DEFINE(buf_idx, BDK_MIO_EMM_BUF_IDX);
-        buf_idx.u64 = 0;
+        buf_idx.u = 0;
         buf_idx.s.inc = 1;
         buf_idx.s.buf_num = 0;
         buf_idx.s.offset = 0;
-        BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u64);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u);
 
         /* Read out the data block and add it to the output buffer */
         for (int i=0; i<512/8; i++)
@@ -595,11 +595,11 @@ static int mmc_write(lua_State *L)
     {
         /* Set our location in the internal buffer */
         BDK_CSR_DEFINE(buf_idx, BDK_MIO_EMM_BUF_IDX);
-        buf_idx.u64 = 0;
+        buf_idx.u = 0;
         buf_idx.s.inc = 1;
         buf_idx.s.buf_num = 0;
         buf_idx.s.offset = 0;
-        BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u64);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u);
 
         /* Fill the internal buffer */
         for (int i=0; i<512/8; i++)
@@ -611,7 +611,7 @@ static int mmc_write(lua_State *L)
         /* Write single block */
         BDK_CSR_DEFINE(status, BDK_MIO_EMM_RSP_STS);
         status = mmc_cmd(MMC_CMD_WRITE_BLOCK, (block_addressable_device) ? address/512 : address, 0, 0, 0, 0, 0);
-        if (status.u64)
+        if (status.u)
             return luaL_error(L, "eMMC: Write single block failed");
         data_len -= 512;
     }

@@ -91,7 +91,7 @@ typedef union ocr_register
 
 typedef union mmc_csd_register_hi
 {
-	uint64_t u64;
+	uint64_t u;
 
     struct mmc_csd_register_hi_s
     {
@@ -134,7 +134,7 @@ typedef union mmc_csd_register_hi
 
 typedef union mmc_csd_register_lo
 {
-	uint64_t u64;
+	uint64_t u;
 
     struct mmc_csd_register_lo_s
     {
@@ -196,7 +196,7 @@ typedef union mmc_csd_register_lo
 
 typedef union sd_csd_register_hi
 {
-	uint64_t u64;
+	uint64_t u;
 
     struct sd_csd_register_hi_s
     {
@@ -237,7 +237,7 @@ typedef union sd_csd_register_hi
 
 typedef union sd_csd_register_lo
 {
-	uint64_t u64;
+	uint64_t u;
 
     struct sd_csd_register_lo_s
     {
@@ -299,7 +299,7 @@ typedef union sd_csd_register_lo
 
 typedef union scr_register
 {
-    uint64_t u64;
+    uint64_t u;
 
     struct scr_register_s
     {
