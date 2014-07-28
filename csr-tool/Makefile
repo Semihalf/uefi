@@ -21,6 +21,7 @@ copy-headers:
 	mv output/bdk-csrs*.h ../libbdk-arch/
 	mv output/bdk-csrs.c ../libbdk-arch/
 	mv output/bdk-csrs.lua ../lua-modules/csr_db.lua
+	svn export --force -q ${SVNROOT}/asim/branches/development/processor/sysreg/system_registers.h ../libbdk-arch/bdk-sysreg.h
 
 .PHONY: copy-html
 copy-html:

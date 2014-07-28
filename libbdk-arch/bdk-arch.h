@@ -29,6 +29,13 @@
 #ifndef BDK_BUILD_HOST
 #include "bdk-asm.h"
 #endif
+
+#define SYSTEM_REGISTER(name, op0, op1, crn, crm, op2, ...)
+#define INCLUDE_SYSTEM_REGISTER_TYPEDEFS 1
+#include "bdk-sysreg.h"
+#undef INCLUDE_SYSTEM_REGISTER_TYPEDEFS
+#undef SYSTEM_REGISTER
+
 #include "bdk-model.h"
 #include "bdk-numa.h"
 #include "bdk-csr.h"
