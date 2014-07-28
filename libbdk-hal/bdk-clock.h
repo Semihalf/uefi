@@ -16,8 +16,6 @@ typedef enum{
     BDK_CLOCK_RCLK,        /**< Clock used by cores, coherent bus and L2 cache. */
     BDK_CLOCK_SCLK,        /**< Clock used by IO blocks. */
     BDK_CLOCK_CORE,        /**< Alias for BDK_CLOCK_RCLK */
-    BDK_CLOCK_TIM,         /**< Alias for BDK_CLOCK_SCLK */
-    BDK_CLOCK_IPD,         /**< Alias for BDK_CLOCK_SCLK */
 } bdk_clock_t;
 
 /**
@@ -34,18 +32,12 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
         case BDK_CLOCK_RCLK:
         case BDK_CLOCK_CORE:
         {
-            uint64_t cycle;
-            BDK_RDHWR(cycle, 31);
-            return(cycle);
+            return 0;// FIXME: Read RCLK
         }
 
         case BDK_CLOCK_SCLK:
-        case BDK_CLOCK_TIM:
-        case BDK_CLOCK_IPD:
-            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-                return BDK_CSR_READ(bdk_numa_local(), BDK_FPA_CLK_COUNT);
-            else
-                return BDK_CSR_READ(bdk_numa_local(), BDK_IPD_CLK_COUNT);
+            // FIXME: Read SCLK
+            return 0;//BDK_CSR_READ(bdk_numa_local(), BDK_FPA_CLK_COUNT);
     }
     return 0;
 }
