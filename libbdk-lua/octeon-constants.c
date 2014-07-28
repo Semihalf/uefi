@@ -35,13 +35,6 @@ void register_octeon_constants(lua_State* L)
     push_bdk_enum(BDK_MPI_FLAGS_IDLE_LOW);
     push_bdk_enum(BDK_MPI_FLAGS_LSB_FIRST);
 
-    push_bdk_enum(BDK_IF_SGMII);
-    push_bdk_enum(BDK_IF_XAUI);
-    push_bdk_enum(BDK_IF_HIGIG);
-    push_bdk_enum(BDK_IF_DPI);
-    push_bdk_enum(BDK_IF_LOOP);
-    push_bdk_enum(BDK_IF_MGMT);
-    push_bdk_enum(BDK_IF_ILK);
     push_bdk_enum(BDK_IF_BGX);
 
     push_bdk_enum(BDK_QLM_MODE_DISABLED);

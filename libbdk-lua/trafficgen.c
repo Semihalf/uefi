@@ -236,48 +236,6 @@ static int trafficgen_do_update(bool do_clear)
         /* Get the backpressure counters */
         switch (bdk_if_get_type(tg_port->handle))
         {
-            case BDK_IF_DPI:
-                break;
-            case BDK_IF_LOOP:
-                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
-                {
-                    BDK_CSR_INIT(pki_bpidx_state, tg_port->handle->node, BDK_PKI_BPIDX_STATE(tg_port->handle->aura));
-                    tg_port->pinfo.stats.rx_backpressure += pki_bpidx_state.s.xoff;
-                }
-                break;
-            case BDK_IF_XAUI:
-            {
-                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_block(tg_port->handle), 0));
-                tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
-                break;
-            }
-            case BDK_IF_HIGIG:
-            {
-                BDK_CSR_INIT(gmxx_rx_hg2_status, tg_port->handle->node, BDK_GMXX_RX_HG2_STATUS(__bdk_if_get_gmx_block(tg_port->handle)));
-                tg_port->pinfo.stats.rx_backpressure += gmxx_rx_hg2_status.s.lgtim2go;
-                break;
-            }
-            case BDK_IF_SGMII:
-            {
-                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_GMXX_TXX_PAUSE_TOGO(__bdk_if_get_gmx_block(tg_port->handle), __bdk_if_get_gmx_index(tg_port->handle)));
-                tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
-                break;
-            }
-            case BDK_IF_MGMT:
-            {
-                BDK_CSR_INIT(txx_pause_togo, tg_port->handle->node, BDK_AGL_GMX_TXX_PAUSE_TOGO(tg_port->handle->index));
-                tg_port->pinfo.stats.rx_backpressure += txx_pause_togo.s.time;
-                break;
-            }
-            case BDK_IF_ILK:
-            {
-                int chunk = tg_port->handle->index >> 6;
-                int bit = tg_port->handle->index & 63;
-                BDK_CSR_INIT(ilk_rxx_cha_xonx, tg_port->handle->node, BDK_ILK_RXX_CHA_XONX(tg_port->handle->interface, chunk));
-                if ((ilk_rxx_cha_xonx.u & (1ull << bit)) == 0)
-                    tg_port->pinfo.stats.rx_backpressure++;
-                break;
-            }
             case BDK_IF_BGX:
             {
                 int port = tg_port->handle->index;

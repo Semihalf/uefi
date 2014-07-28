@@ -2,23 +2,9 @@
 #include <stdio.h>
 #include <malloc.h>
 
-extern const __bdk_if_ops_t __bdk_if_ops_sgmii;
-extern const __bdk_if_ops_t __bdk_if_ops_xaui;
-extern const __bdk_if_ops_t __bdk_if_ops_higig;
-extern const __bdk_if_ops_t __bdk_if_ops_dpi;
-extern const __bdk_if_ops_t __bdk_if_ops_loop;
-extern const __bdk_if_ops_t __bdk_if_ops_mgmt;
-extern const __bdk_if_ops_t __bdk_if_ops_ilk;
 extern const __bdk_if_ops_t __bdk_if_ops_bgx;
 
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
-    [BDK_IF_SGMII] = &__bdk_if_ops_sgmii,
-    [BDK_IF_XAUI] = &__bdk_if_ops_xaui,
-    [BDK_IF_HIGIG] = &__bdk_if_ops_higig,
-    [BDK_IF_DPI] = &__bdk_if_ops_dpi,
-    [BDK_IF_LOOP] = &__bdk_if_ops_loop,
-    [BDK_IF_MGMT] = &__bdk_if_ops_mgmt,
-    [BDK_IF_ILK] = &__bdk_if_ops_ilk,
     [BDK_IF_BGX] = &__bdk_if_ops_bgx,
 };
 
@@ -179,7 +165,7 @@ static int __bdk_if_init_node(bdk_node_t node)
         return result;
 
     /* Loop through all types */
-    for (bdk_if_t iftype=BDK_IF_SGMII; iftype<__BDK_IF_LAST; iftype++)
+    for (bdk_if_t iftype=BDK_IF_BGX; iftype<__BDK_IF_LAST; iftype++)
     {
         /* Loop through all interfaces for each type */
         int num_interfaces = bdk_if_num_interfaces(node, iftype);
