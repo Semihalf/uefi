@@ -17,20 +17,24 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
 {
     switch (type)
     {
-        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_DAB:
+        case BDK_CSR_TYPE_DAB32b:
         case BDK_CSR_TYPE_NCB:
+        case BDK_CSR_TYPE_NCB32b:
         case BDK_CSR_TYPE_PEXP_NCB:
-        case BDK_CSR_TYPE_PEXPV_NCB:
+        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_RSL32b:
             /* Handled by inline code, we should never get here */
             bdk_error("%s: Passed type that should be handled inline\n", __FUNCTION__);
             break;
 
+        case BDK_CSR_TYPE_PCCBR:
+        case BDK_CSR_TYPE_PCCPF:
+        case BDK_CSR_TYPE_PCCVF:
         case BDK_CSR_TYPE_PEXP:
-            /* We don't handle BAR0 CSRs */
-            bdk_error("%s: PEXP registers not supported\n", __FUNCTION__);
+            bdk_error("%s: Register not supported\n", __FUNCTION__);
             break;
 
-        case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
             bdk_pemx_cfg_rd_t pemx_cfg_rd;
@@ -58,20 +62,24 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
 {
     switch (type)
     {
-        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_DAB:
+        case BDK_CSR_TYPE_DAB32b:
         case BDK_CSR_TYPE_NCB:
+        case BDK_CSR_TYPE_NCB32b:
         case BDK_CSR_TYPE_PEXP_NCB:
-        case BDK_CSR_TYPE_PEXPV_NCB:
+        case BDK_CSR_TYPE_RSL:
+        case BDK_CSR_TYPE_RSL32b:
             /* Handled by inline code, we should never get here */
             bdk_error("%s: Passed type that should be handled inline\n", __FUNCTION__);
             break;
 
+        case BDK_CSR_TYPE_PCCBR:
+        case BDK_CSR_TYPE_PCCPF:
+        case BDK_CSR_TYPE_PCCVF:
         case BDK_CSR_TYPE_PEXP:
-            /* We don't handle BAR0 CSRs */
-            bdk_error("%s: PEXP registers not supported\n", __FUNCTION__);
+            bdk_error("%s: Register not supported\n", __FUNCTION__);
             break;
 
-        case BDK_CSR_TYPE_PCICONFIGEP:
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
             bdk_pemx_cfg_wr_t pemx_cfg_wr;
