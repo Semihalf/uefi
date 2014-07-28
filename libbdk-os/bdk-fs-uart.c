@@ -17,12 +17,13 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
     int id = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
 
-    BDK_CSR_INIT(lsr, node, BDK_MIO_UARTX_LSR(id));
-    while (lsr.s.dr && length)
+    BDK_CSR_INIT(fr, node, BDK_UAAX_FR(id));
+    while (!fr.s.rxfe && length)
     {
-        int has_error = lsr.s.ferr;
-        *(uint8_t*)buffer = BDK_CSR_READ(node, BDK_MIO_UARTX_RBR(id));
-        lsr.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(id));
+        BDK_CSR_INIT(dr, node, BDK_UAAX_DR(id));
+        int has_error = dr.s.fe;
+        *(uint8_t*)buffer = dr.s.data;
+        fr.u = BDK_CSR_READ(node, BDK_UAAX_FR(id));
         /* Character has an error, so skip it */
         if (has_error)
             continue;
@@ -36,17 +37,17 @@ static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
 static void uart_write_byte(bdk_node_t node, int id, uint8_t byte)
 {
     static bdk_spinlock_t tx_lock;
-    BDK_CSR_DEFINE(lsr, BDK_MIO_UARTX_LSR(id));
+    BDK_CSR_INIT(fr, node, BDK_UAAX_FR(id));
 
     /* Spin until there is room */
     while (1)
     {
         bdk_spinlock_lock(&tx_lock);
-        lsr.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(id));
-        if (lsr.s.thre)
+        fr.u = BDK_CSR_READ(node, BDK_UAAX_FR(id));
+        if (!fr.s.txff) /* Are we not full? */
         {
             /* Write the byte */
-            BDK_CSR_WRITE(node, BDK_MIO_UARTX_THR(id), 0xff & byte);
+            BDK_CSR_WRITE(node, BDK_UAAX_DR(id), byte);
             bdk_spinlock_unlock(&tx_lock);
             break;
         }
@@ -54,8 +55,8 @@ static void uart_write_byte(bdk_node_t node, int id, uint8_t byte)
         do
         {
             bdk_thread_yield();
-            lsr.u64 = BDK_CSR_READ(node, BDK_MIO_UARTX_LSR(id));
-        } while (!lsr.s.thre);
+            fr.u = BDK_CSR_READ(node, BDK_UAAX_FR(id));
+        } while (fr.s.txff); /* Spin while full */
     }
 }
 
