@@ -855,7 +855,7 @@ int octeon_remote_get_num_cores(void)
 {
     if (!__octeon_remote_num_cores)
     {
-        __octeon_remote_num_cores = __builtin_popcountl(OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_FUSE));
+        __octeon_remote_num_cores = __builtin_popcountl(OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_PP_AVAILABLE));
     }
     return __octeon_remote_num_cores;
 }

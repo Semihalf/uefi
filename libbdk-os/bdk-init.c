@@ -130,7 +130,7 @@ void __bdk_init(long base_address)
         if (OCTEON_IS_MODEL(OCTEON_CN70XX) /*|| OCTEON_IS_MODEL(OCTEON_CN78XX)*/)
         {
             /* Get a list of cores in reset */
-            uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
+            uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
             /* Power off the cores in reset */
             BDK_CSR_WRITE(node, BDK_RST_PP_POWER, reset);
         }
@@ -252,13 +252,13 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
             bdk_wait_usec(1000); /* A delay seems to be needed here */
     }
 
-    uint64_t reset = BDK_CSR_READ(node, BDK_CIU_PP_RST);
+    uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
     BDK_TRACE("N%d: Cores currently in reset: 0x%lx\n", node, reset);
     uint64_t need_reset_off = reset & coremask;
     if (need_reset_off)
     {
         BDK_TRACE("N%d: Taking cores out of reset (0x%lx)\n", node, need_reset_off);
-        BDK_CSR_WRITE(node, BDK_CIU_PP_RST, reset & ~need_reset_off);
+        BDK_CSR_WRITE(node, BDK_RST_PP_RESET, reset & ~need_reset_off);
     }
     uint64_t need_nmi = ~reset & coremask;
     if (need_nmi)
@@ -724,9 +724,9 @@ static int init_oci(void)
     {
         if (bdk_numa_exists(node) && (node != bdk_numa_master()))
         {
-            BDK_CSR_INIT(ciu_fuse, node, BDK_CIU_FUSE);
-            BDK_CSR_INIT(ciu_pp_rst, node, BDK_CIU_PP_RST);
-            if (ciu_fuse.u & ~ciu_pp_rst.u)
+            BDK_CSR_INIT(rst_pp_available, node, BDK_RST_PP_AVAILABLE);
+            BDK_CSR_INIT(rst_pp_reset, node, BDK_RST_PP_RESET);
+            if (rst_pp_available.u & ~rst_pp_reset.u)
             {
                 bdk_warn("*****************************************************\n");
                 bdk_warn("Cores booted on remote node %d before OCI setup. L2\n", node);

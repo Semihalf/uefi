@@ -506,7 +506,7 @@ retry_ack:
 
 
 /**
- * Based on the state of ciu_pp_rst, update which cores are in
+ * Based on the state of RST_PP_RESET, update which cores are in
  * reset.
  */
 static void do_update_reset_state(void)
@@ -515,7 +515,7 @@ static void do_update_reset_state(void)
 
     /* Read which cores are in reset */
     int num_cores = octeon_remote_get_num_cores();
-    uint64_t pp_rst = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_RST);
+    uint64_t pp_rst = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_PP_RESET);
 
     for (core=0; core<64; core++)
     {

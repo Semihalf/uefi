@@ -663,11 +663,11 @@ static void pci_start_cores(uint64_t start_mask)
 
     /* Handle Core 0 in reset as a special case. If core 0 is in reset, interpret
         this as a request to take it out of reset */
-    reset_status = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_RST);
+    reset_status = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_RST_PP_RESET);
     if (reset_status & 1)
     {
         if (start_mask & 1)
-            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_CIU_PP_RST, reset_status & -2);
+            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_RST_PP_RESET, reset_status & -2);
     }
     else
     {

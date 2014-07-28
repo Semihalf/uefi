@@ -582,7 +582,7 @@ bdk-remote:
 
 Parameter descriptions:
     <csr>
-        A name of a CSR, such as CIU_FUSE or CIU_INTX_SUM0(0).
+        A name of a CSR, such as RST_PP_AVAILABLE or CIU_INTX_SUM0(0).
     <value>
         A numeric value specified in either decimal or hexadecimal.
     <filename>
