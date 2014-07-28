@@ -121,33 +121,17 @@ static void __bdk_init_exception(bdk_node_t node)
 void __bdk_init(long base_address) __attribute((noreturn));
 void __bdk_init(long base_address)
 {
-    /* Enable RDHWR */
-    BDK_MT_COP0(0xe000000f, COP0_HWRENA);
-
-    /* Clear cause */
-    BDK_MT_COP0(0, COP0_CAUSE);
-
-    /* Clear ENTRYHI[ASID] to keep simulator happy */
-    BDK_MT_COP0(0, COP0_ENTRYHI);
-
-    /* Disable ERL, EXL, and IE */
-    uint32_t status;
-    BDK_MF_COP0(status, COP0_STATUS);
-    status &= ~(0xff<<8);   /* Clear IM enables */
-    status |= 1<<23;        /* Enable 64bit user opcodes */
-    status |= 7<<5;         /* Enable 64bit in Kernel, super, and user */
-    status &= ~(3<<3);      /* Set kernel mode */
-    status &= ~(1<<2);      /* Disable ERL */
-    status &= ~(1<<1);      /* Disable EXL */
-    status &= ~(1<<0);      /* Disable IE */
-    BDK_MT_COP0(status, COP0_STATUS);
-
-    /* Use unaligned instructions */
-    uint64_t cvmctl;
-    BDK_MF_COP0(cvmctl, COP0_CVMCTL);
-    cvmctl |= 1<<12;    /* Use unaligned instructions */
-    cvmctl |= 1<<14;    /* Fix unaligned accesses */
-    BDK_MT_COP0(cvmctl, COP0_CVMCTL);
+    /* Setup chacing with no mmu */
+    bdk_sys_sctlr_elx_t sctlr_el3;
+    BDK_MRS(SCTLR_EL3, sctlr_el3.u);
+    sctlr_el3.s.ee = 0; /* Little endian */
+    sctlr_el3.s.wxn = 0; /* No write perm changes */
+    sctlr_el3.s.i = 1;  /* Enable Icache */
+    sctlr_el3.s.sa = 1; /* Enable stack alignment checking */
+    sctlr_el3.s.c = 1; /* Enable Dcache */
+    sctlr_el3.s.a = 0; /* Allow unaligned accesses */
+    sctlr_el3.s.m = 0; /* Disable MMU */
+    BDK_MSR(SCTLR_EL3, sctlr_el3.u);
 
     bdk_node_t node = bdk_numa_local();
     bdk_numa_set_running(node);
