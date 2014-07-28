@@ -116,7 +116,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u64);
 
-        if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (!CAVIUM_IS_MODEL(OCTEON_CN78XX))
         {
             BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
                 c.cn70xx.mrrs = MRRS_CN6XXX);
@@ -260,14 +260,14 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     }
 
     /* Link Width Mode (PCIERCn_CFG452[LME]) */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
             c.s.lme = (pemx_cfg.cn78xx.lanes8) ? 0xf : 0x7);
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
     {
         /* Errata (GSER-21178) PCIe gen3 doesn't work */
         /* The starting equalization hints are incorrect on CN78XX pass 1.x. Fix
@@ -340,7 +340,7 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     int try_gen3 = (pciercx_cfg031.s.mls == 3);
 
     /* Errata (GSER-21178) PCIe gen3 doesn't work */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X) && try_gen3)
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X) && try_gen3)
     {
         /* Force Gen1 for initial link bringup. We'll fix it later */
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG031(pcie_port),
@@ -365,7 +365,7 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     } while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1));
 
     /* Errata (GSER-21178) PCIe gen3 doesn't work, continued */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X) && try_gen3)
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X) && try_gen3)
     {
         /* Enable gen3 speed selection */
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG031(pcie_port),
@@ -490,9 +490,9 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Make sure we aren't trying to setup a target mode interface in host mode */
     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
     int host_mode;
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
         host_mode = pemx_cfg.cn70xx.hostmd;
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    else if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
         host_mode = pemx_cfg.cn78xx.hostmd;
     else
     {
@@ -534,7 +534,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     pemx_bist_status.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u64)
         bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status.u64);
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
     {
         pemx_bist_status2.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS2(pcie_port));
         if (pemx_bist_status2.u64)
@@ -578,7 +578,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         mem_access_subid.s.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
-    if (!OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (!CAVIUM_IS_MODEL(OCTEON_CN70XX))
     {
         /* Disable the peer to peer forwarding register. This must be setup
             by the OS after it enumerates the bus and assigns addresses to the
@@ -861,7 +861,7 @@ int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u64);
 
-        if (!OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (!CAVIUM_IS_MODEL(OCTEON_CN78XX))
         {
             BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
                 c.cn70xx.mrrs = MRRS_CN6XXX);

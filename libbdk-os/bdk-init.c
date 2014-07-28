@@ -127,7 +127,7 @@ void __bdk_init(long base_address)
 	/* FIXME: Do not do this for CN7800 Pass 1.0 as this tends to cause the
 	    PPs to hang comming out of reset. Adjust this logic when/if later
 	    CN7800s fix this issue */
-        if (OCTEON_IS_MODEL(OCTEON_CN70XX) /*|| OCTEON_IS_MODEL(OCTEON_CN78XX)*/)
+        if (CAVIUM_IS_MODEL(OCTEON_CN70XX) /*|| CAVIUM_IS_MODEL(OCTEON_CN78XX)*/)
         {
             /* Get a list of cores in reset */
             uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
@@ -155,7 +155,7 @@ void __bdk_init(long base_address)
             bdk_l2c_lock_mem_region(node, bdk_numa_get_address(node, 0), bdk_l2c_get_cache_size_bytes(node));
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
-            if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
             {
                 BDK_CSR_DEFINE(ciu_cib_l2c_rawx, BDK_CIU_CIB_L2C_RAWX(0));
                 ciu_cib_l2c_rawx.u64 = 0;
@@ -166,7 +166,7 @@ void __bdk_init(long base_address)
             l2c_tadx_int.u64 = 0;
             l2c_tadx_int.s.rddislmc = 1;
             BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u64);
-            if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+            if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
             {
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(1), l2c_tadx_int.u64);
                 BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(2), l2c_tadx_int.u64);
@@ -744,7 +744,7 @@ static void setup_node(bdk_node_t node)
 {
     bdk_rng_enable(node);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         /* Clear all OCI lane error status bits */
         for (int lane=0; lane<24; lane++)
@@ -755,7 +755,7 @@ static void setup_node(bdk_node_t node)
             c.s.sort = 1);
     }
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_0))
     {
         /* Don't apply OCI workaround if we're running on a single node */
         int nodes = bdk_dpop(bdk_numa_get_exists_mask());
@@ -811,9 +811,9 @@ int bdk_init_nodes(void)
        * comes from CN7600 package strapping of the OCI control pins. Node #3 is
        * illegal for a twin CN7800 OCI configuration.
        */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0) && bdk_numa_local() == 0x3) {
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_0) && bdk_numa_local() == 0x3) {
 	//nothing
-    } else if (OCTEON_IS_MODEL(OCTEON_CN78XX)) {
+    } else if (CAVIUM_IS_MODEL(OCTEON_CN78XX)) {
         result |= init_oci();
     }
 

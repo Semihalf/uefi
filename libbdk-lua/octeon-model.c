@@ -2,16 +2,16 @@
 // Module for interfacing with Octeon
 
 /**
- * Lua wrapper for OCTEON_IS_MODEL
+ * Lua wrapper for CAVIUM_IS_MODEL
  *
  * @param L
  *
  * @return
  */
-static int octeon_is_model(lua_State* L)
+static int is_model(lua_State* L)
 {
     uint32_t m = luaL_checkinteger(L, 1);
-    lua_pushboolean(L, OCTEON_IS_MODEL(m));
+    lua_pushboolean(L, CAVIUM_IS_MODEL(m));
     return 1;
 }
 
@@ -24,7 +24,7 @@ static int octeon_is_model(lua_State* L)
  */
 void register_octeon_model(lua_State* L)
 {
-    lua_pushcfunction(L, octeon_is_model);
+    lua_pushcfunction(L, is_model);
     lua_setfield(L, -2, "is_model");
 
     /* Add constants for the different models that can be used with

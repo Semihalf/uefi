@@ -107,7 +107,7 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
 
 static int if_num_interfaces(bdk_node_t node)
 {
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
         return 6;
     else
         return 0;

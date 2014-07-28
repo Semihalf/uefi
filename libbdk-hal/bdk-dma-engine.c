@@ -69,7 +69,7 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
     dma_control.s.pkt_en = 1;
     dma_control.s.dma_enb = 0xf; /* Enable 0-3, 4-5 reserved for packets */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         dma_control.cn78xx.ldwb = BDK_USE_DWB;
         dma_control.cn78xx.aura_ichk = BDK_FPA_OUTPUT_BUFFER_POOL;
@@ -152,7 +152,7 @@ int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t h
     uint64_t cmds[num_buffers + 2];
 
     cmds[0] = header.word0.u64;
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
         cmds[cmd_count++] = header.word1.u64;
     while (num_buffers--)
     {
@@ -201,7 +201,7 @@ static inline int __bdk_dma_engine_build_internal_pointers(bdk_dma_engine_buffer
         if (chunk > 8191)
             chunk = 8191;
         buffers[segments].u64 = 0;
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
         {
             /* Errata (DPI-20132) Local Pointers that are destination must allocate */
             buffers[segments].internal_v3.a = 1;
@@ -345,7 +345,7 @@ int bdk_dma_engine_transfer(bdk_node_t node, int engine, bdk_dma_engine_header_t
     bdk_dma_engine_buffer_t buffers[32];
     int words = 0;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         switch (header.word0.v3.type)
         {

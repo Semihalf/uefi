@@ -231,7 +231,7 @@ static int dma_test(bdk_node_t node, void *unused2)
                 int lport = 0;
                 dma_header.word0.u64 = 0;
                 dma_header.word1.u64 = 0;
-                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
                 {
                     dma_header.word0.v3.fport = fport;
                     dma_header.word0.v3.lport = lport;
@@ -259,7 +259,7 @@ static int dma_test(bdk_node_t node, void *unused2)
                 /* DMA dma_out_buffer to dma_external_buffer */
                 fport = 0;
                 lport = 1;
-                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
                 {
                     dma_header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_EXTERNAL;
                     dma_header.word0.v3.fport = fport;
@@ -288,7 +288,7 @@ static int dma_test(bdk_node_t node, void *unused2)
                 /* DMA dma_external_buffer to dma_in_buffer */
                 fport = 0;
                 lport = 1;
-                if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
                 {
                     dma_header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
                     dma_header.word0.v3.fport = fport;
@@ -445,7 +445,7 @@ int main()
 {
     bdk_node_t node = bdk_numa_local();
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         /* Hard coded config for now. PEM0=RC, PEM1=EP */
         bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_PCIE_1X4, 5000, BDK_QLM_MODE_FLAG_GEN2);

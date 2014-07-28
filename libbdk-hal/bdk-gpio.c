@@ -23,7 +23,7 @@ int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_val
     else
         bdk_gpio_clear(node, 1<<gpio);
 
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX) && (gpio >= 16) && (gpio < 20))
+    if (CAVIUM_IS_MODEL(OCTEON_CN70XX) && (gpio >= 16) && (gpio < 20))
     {
         BDK_CSR_DEFINE(cfg, BDK_GPIO_XBIT_CFGX(gpio));
         cfg.u64 = 0;

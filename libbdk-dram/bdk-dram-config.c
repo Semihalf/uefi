@@ -116,12 +116,12 @@ static int thread_dram_config_raw(int arg1, void *arg2)
 
     /* Clear any DRAM errors set during init */
     BDK_TRACE("N%d: Clearing L2 errors\n", node);
-    if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
     {
         cvmx_write_csr_node(node, CVMX_CIU_CIB_LMCX_RAWX(0, 0), cvmx_read_csr_node(node, CVMX_CIU_CIB_LMCX_RAWX(0, 0)));
         cvmx_write_csr_node(node, CVMX_LMCX_INT(0), cvmx_read_csr_node(node, CVMX_LMCX_INT(0)));
     }
-    else if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    else if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         cvmx_write_csr_node(node, CVMX_LMCX_INT(0), cvmx_read_csr_node(node, CVMX_LMCX_INT(0)));
         cvmx_write_csr_node(node, CVMX_LMCX_INT(1), cvmx_read_csr_node(node, CVMX_LMCX_INT(1)));

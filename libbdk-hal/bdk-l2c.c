@@ -135,9 +135,9 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
     if (bdk_unlikely(l2_node_state[node].set_bits == 0))
     {
         int l2_set_bits;
-        if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+        if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
             l2_set_bits =  13; /* 8192 sets */
-        else if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        else if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
         {
             if (bdk_is_simulation())
                 l2_set_bits =  12; /* Enlarge os sim can run as cache is too small */
@@ -167,7 +167,7 @@ int bdk_l2c_get_num_assoc(bdk_node_t node)
     {
         int l2_assoc;
         /* Get the starting number of associations */
-        if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
             l2_assoc = 4;
         else
             l2_assoc = 16;

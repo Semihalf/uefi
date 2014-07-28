@@ -76,7 +76,6 @@ typedef struct __bdk_if_port
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     void *      priv;
-    bdk_cmd_queue_state_t cmd_queue[2]; /* Not used on CN78XX */
     bdk_if_stats_t stats;
     bdk_if_link_t link_info;
     char        name[16];

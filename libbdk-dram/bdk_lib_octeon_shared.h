@@ -19,8 +19,8 @@
 extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 #endif
 
-/* Replace OCTEON_IS_MODEL with our version to avoid the feature nastiness */
-#define OCTEON_IS_MODEL bdk_is_model_wrapper
+/* Replace CAVIUM_IS_MODEL with our version to avoid the feature nastiness */
+#define CAVIUM_IS_MODEL bdk_is_model_wrapper
 #define USE_RUNTIME_MODEL_CHECKS 1
 extern int bdk_is_model_wrapper(unsigned int arg_model) __attribute__ ((pure));
 

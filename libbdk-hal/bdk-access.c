@@ -66,7 +66,7 @@ uint64_t __bdk_ptr_to_phys_slow(void *ptr)
                 case 0xffffffff80000000ull: /* Kernel Unmapped */
                 case 0xffffffffa0000000ull: /* Kernel Unmapped, Uncached */
                     address &= bdk_build_mask(30);
-                    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+                    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
                     {
                         uint64_t cvmmemctl2;
                         BDK_MF_COP0(cvmmemctl2, COP0_CVMMEMCTL2);

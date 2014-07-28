@@ -71,7 +71,7 @@ static int __bdk_csr_lookup_index(const char *name, int params[])
     {
         /* Search the CSR DB for a csr map for this chip */
         const __bdk_csr_db_map_t *map = __bdk_csr_db;
-        while (map->model && !OCTEON_IS_MODEL(map->model))
+        while (map->model && !CAVIUM_IS_MODEL(map->model))
             map++;
         if (map->model == 0)
         {

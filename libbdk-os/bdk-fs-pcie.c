@@ -26,7 +26,7 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
     bdk_dma_engine_header_t header;
     header.word0.u64 = 0;
     header.word1.u64 = 0;
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         header.word0.v3.lport = pcie_port;
         header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
@@ -65,7 +65,7 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     bdk_dma_engine_header_t header;
     header.word0.u64 = 0;
     header.word1.u64 = 0;
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         header.word0.v3.lport = pcie_port;
         header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;

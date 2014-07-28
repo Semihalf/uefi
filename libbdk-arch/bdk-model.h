@@ -27,8 +27,8 @@ static inline int __OCTEON_MATCH_MASK__(uint32_t x, uint32_t y, uint32_t z)
     return (x & z) == (y & z);
 }
 
-static inline int OCTEON_IS_MODEL(uint32_t arg_model) __attribute__ ((pure, always_inline));
-static inline int OCTEON_IS_MODEL(uint32_t arg_model)
+static inline int CAVIUM_IS_MODEL(uint32_t arg_model) __attribute__ ((pure, always_inline));
+static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
 {
     /* The revision byte (low byte) has two different encodings.
     **     <7>:   reserved (0)
@@ -61,7 +61,7 @@ static inline int OCTEON_IS_MODEL(uint32_t arg_model)
         case 0x10000000: /* FIXME: Match all cn7XXX Octeon models from SDK. Needed for lib_octeon_shared */
             return 1;
         default:
-            //bdk_error("OCTEON_IS_MODEL: Unexpected flags 0x%08x\n", arg_model & __OM_FLAG_MASK);
+            //bdk_error("CAVIUM_IS_MODEL: Unexpected flags 0x%08x\n", arg_model & __OM_FLAG_MASK);
             return 0;
     }
     return 0;

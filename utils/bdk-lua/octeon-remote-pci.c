@@ -461,7 +461,7 @@ static uint64_t pci_read_csr(bdk_csr_type_t type, int busnum, int size, uint64_t
                     break;
             }
             uint64_t v;
-            if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+            if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
             {
                 bar0_write32(BDK_SLI_WIN_RD_ADDR + 4, address >> 32);
                 bar0_write32(BDK_SLI_WIN_RD_ADDR, address);

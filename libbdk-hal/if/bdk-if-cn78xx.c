@@ -424,7 +424,7 @@ static int pko_port_init(bdk_if_handle_t handle)
     sq_l4 = node_state->pko_next_free_l4_queue++;
     sq_l5 = node_state->pko_next_free_l5_queue++;
     dq = node_state->pko_next_free_descr_queue;
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_0))
     {
         /* (PKO-21124) One or more PKO DQs may hang leaving packets inflight
            Use every 8th DQ in PKO so there is a limit in how fast PKO
@@ -636,7 +636,7 @@ static int pko_enable(bdk_node_t node)
     /* (PKO-21124) One or more PKO DQs may hang leaving packets inflight
        Use every 8th DQ in PKO so there is a limit in how fast PKO
        can fill its internal FIFO */
-    int dq_inc = (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_0)) ? 8 : 1;
+    int dq_inc = (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_0)) ? 8 : 1;
     /* Open all configured descriptor queues */
     for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq+=dq_inc)
     {
@@ -819,7 +819,7 @@ static int sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
        CN78XX pass 1.x has a bug where the packet pointer in each segment is
        written in the opposite endianness of the configured mode. Fix these
        here */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
     {
         bdk_buf_ptr_t buffer_next = packet->packet;
         int segments = packet->segments - 1;

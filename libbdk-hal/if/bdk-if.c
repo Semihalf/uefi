@@ -136,7 +136,7 @@ static int __bdk_if_init_node(bdk_node_t node)
     extern __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx;
     int result = 0;
 
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
         __bdk_if_global_ops = __bdk_if_global_ops_cn78xx;
     else
         __bdk_if_global_ops = __bdk_if_global_ops_cn6xxx;

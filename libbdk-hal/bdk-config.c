@@ -158,7 +158,7 @@ void __bdk_config_init(void)
     /* Set the number of packet buffers in FPA pool 0 */
     int num_packet_buffers = 768;
     int num_output_buffers = 256;
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         num_packet_buffers = 8192;
     }

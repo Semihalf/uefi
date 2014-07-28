@@ -207,7 +207,7 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 
     if (bdk_is_simulation())
     {
-        if (OCTEON_IS_MODEL(OCTEON_CN70XX))
+        if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
         {
             /* CN70XX's default reference is 100Mhz */
             return 100000000;
@@ -308,7 +308,7 @@ void bdk_qlm_init(bdk_node_t node)
     int i = 0;
     while (qlm_ops_list[i])
     {
-        if (OCTEON_IS_MODEL(qlm_ops_list[i]->chip_model))
+        if (CAVIUM_IS_MODEL(qlm_ops_list[i]->chip_model))
         {
             qlm_ops = qlm_ops_list[i];
             break;

@@ -674,7 +674,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* Errata GSER-20788: GSER(0..13)_CFG[BGX_QUAD]=1 is broken. Force the
        BGX_QUAD bit to be clear for CN78XX pass 1.x */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
         is_bgx &= 3;
 
     /* Set gser for the interface mode */
@@ -1225,7 +1225,7 @@ static void qlm_pcie_errata(int node, int qlm)
     int is_high_lanes;
 
     /* Only applies to CN78XX pass 1.x */
-    if (!OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (!CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
         return;
 
     /* Determine the PEM for this QLM, whether we're in 8 lane mode,
@@ -1399,7 +1399,7 @@ static void qlm_pcie_errata(int node, int qlm)
 static void qlm_init_errata_20844(int node, int qlm)
 {
     /* Only applies to CN78XX pass 1.x to QLMs not in PCIe mode */
-    if (!OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (!CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
         return;
     /* Errata GSER-20844: Electrical Idle logic can coast
     1) After the link first comes up write the following
@@ -1752,7 +1752,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
 static void qlm_init(bdk_node_t node)
 {
     /* (G-20798) JTAG/EJTAG issues with GSER */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
     {
         BDK_CSR_MODIFY(c,node,BDK_UCTLX_CTL(0),
             c.s.ref_ssp_en = 1;

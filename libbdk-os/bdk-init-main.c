@@ -26,7 +26,7 @@ static void __bdk_init_cop0(void)
     BDK_MT_COP0(memctl, COP0_CVMMEMCTL);
 
     /* Setup LMTDMA to cache line 1 */
-    if (OCTEON_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
     {
         BDK_MF_COP0(memctl, COP0_CVMMEMCTL);
         memctl |= 1ull<<51;     // Enable LMTDMA
@@ -123,7 +123,7 @@ void __bdk_init_main(int arg, void *arg1)
         }
 
         /* Make sure SMI/MDIO is enabled so we can query PHYs */
-        int num_mdio = (OCTEON_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
+        int num_mdio = (CAVIUM_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
         for (int i=0; i<num_mdio; i++)
         {
             BDK_CSR_INIT(smix_en, node, BDK_SMIX_EN(i));

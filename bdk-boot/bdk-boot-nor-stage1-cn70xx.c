@@ -20,7 +20,7 @@ void __bdk_require_depends(void)
 int main(void)
 {
     printf("BDK version: %s\n", bdk_version_string());
-    if (!OCTEON_IS_MODEL(OCTEON_CN70XX))
+    if (!CAVIUM_IS_MODEL(OCTEON_CN70XX))
     {
         bdk_fatal("This binary only supports CN70XX and CN71XX");
     }
