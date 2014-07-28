@@ -239,28 +239,9 @@ void __bdk_init(long base_address)
 
 int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 {
-    extern void __bdk_reset_vector(void);
-    extern void __bdk_reset_vector_data(void);
-
-    BDK_TRACE("N%d: Install reset vector node\n", node);
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_ADR, 0);
-    int length = (__bdk_reset_vector_data - __bdk_reset_vector)/8;
-    if (length > 16)
-    {
-        bdk_error("Reset vector too large. No secondary cores can boot\n");
-        return -1;
-    }
-    const uint64_t *src = (const uint64_t *)__bdk_reset_vector;
-    while (length--)
-        BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, *src++);
-    /* We will now be at __bdk_reset_vector_data. Write the jump address
-        and KSEGNODE */
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, 0xffffffff80002000);
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_DAT, bdk_numa_master());
-    /* Now set the address and enable it */
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_LOC_CFGX(0), 0x81fc0000ull);
-    BDK_CSR_READ(node, BDK_MIO_BOOT_LOC_CFGX(0));
-    BDK_TRACE("N%d: Reset vector installed\n", node);
+    /* Write the address of the main entry point */
+    BDK_TRACE("N%d: Setting address for boot jump\n", node);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_AP_JUMP, bdk_numa_master() << 44);
 
     /* Choose all cores by default */
     if (coremask == 0)

@@ -6,8 +6,6 @@
 
     .globl __start
     .globl __init
-    .globl __bdk_reset_vector
-    .globl __bdk_reset_vector_data
     .globl __bdk_remote_console
 
     .macro exception_stub label
@@ -280,40 +278,4 @@ after_relocate:
 .align 7
     .set pop
     .end __start
-
-    .section .text
-    .ent __bdk_reset_vector
-    .set push
-    .set noreorder
-    .align 3
-__bdk_reset_vector:
-    /* Figure out the location of code as an offset from our link address */
-    dla     t1, 1f          /* VA of label 1 */
-    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
-     nop
-1:
-    dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
-    dla     t1, __bdk_reset_vector_data
-    daddu   t1, s0          /* This is the real location of __bdk_reset_vector_data */
-
-    /* Read Processor ID and only set KSEGNODE on chips that support it  */
-    dmfc0   k0, COP0_PRID
-    ext     k0, k0, 8, 16   /* Extract bits 23:16 */
-    li      k1, 0x0d95      /* CN78XX CPU Processor ID */
-    bne     k0, k1, 1f      /* Branch if not CN78XX */
-     ld     k1, 8(t1)       /* Desired KSEGNODE is 2nd dword */
-    dmfc0   k0, COP0_CVMMEMCTL2
-    ins     k0, k1, 12, 2   /* Set KSEGNODE */
-    ld      k1, 0(t1)       /* Jump address is 1st DWORD */
-    j       k1
-     dmtc0  k0, COP0_CVMMEMCTL2 /* Set in delay slot so next isntruction gets update */
-1:  ld      k0, 0(t1)       /* Jump address is 1st DWORD */
-    j       k0
-     nop
-    .align 3
-__bdk_reset_vector_data:
-    .dword   0              /* ld above loads this, so replace with real address */
-    .dword   0              /* ld above loads this, so replace with KSEGNODE */
-    .set pop
-    .end __bdk_reset_vector
 
