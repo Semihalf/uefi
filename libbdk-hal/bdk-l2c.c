@@ -135,11 +135,11 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
     if (bdk_unlikely(l2_node_state[node].set_bits == 0))
     {
         int l2_set_bits;
-        if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
             l2_set_bits =  13; /* 8192 sets */
         else
         {
-            bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
+            bdk_error("Unsupported Cavium Model in %s\n", __FUNCTION__);
             l2_set_bits =  11; /* 2048 sets */
         }
         l2_node_state[node].set_bits = l2_set_bits;

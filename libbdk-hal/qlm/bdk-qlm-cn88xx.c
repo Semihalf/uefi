@@ -1486,7 +1486,7 @@ static void qlm_init(bdk_node_t node)
 
 /* Each chip has its own QLM operation table */
 const bdk_qlm_ops_t bdk_qlm_ops_cn78xx = {
-    .chip_model = OCTEON_CN78XX,
+    .chip_model = CAVIUM_CN88XX,
     .init = qlm_init,
     .get_num = qlm_get_num,
     .get_lanes = qlm_get_lanes,
