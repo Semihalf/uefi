@@ -126,11 +126,11 @@ void __bdk_init_main(int arg, void *arg1)
         int num_mdio = (CAVIUM_IS_MODEL(OCTEON_CN78XX)) ? 4 : 2;
         for (int i=0; i<num_mdio; i++)
         {
-            BDK_CSR_INIT(smix_en, node, BDK_SMIX_EN(i));
+            BDK_CSR_INIT(smix_en, node, BDK_SMI_X_EN(i));
             if (!smix_en.s.en)
             {
                 smix_en.s.en = 1;
-                BDK_CSR_WRITE(node, BDK_SMIX_EN(i), smix_en.u64);
+                BDK_CSR_WRITE(node, BDK_SMI_X_EN(i), smix_en.u64);
             }
         }
     }
