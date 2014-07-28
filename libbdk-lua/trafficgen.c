@@ -6,6 +6,8 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(TRAFFIC_GEN);
 
+#if 0
+
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
 static const int CYCLE_SHIFT = 12;
@@ -1418,6 +1420,7 @@ static int is_transmitting(lua_State* L)
     return 1;
 }
 
+#endif
 
 /**
  * Initialize the trafficgen module
@@ -1428,6 +1431,7 @@ static int is_transmitting(lua_State* L)
  */
 void register_trafficgen(lua_State *L)
 {
+#if 0
     lua_newtable(L);
     lua_pushcfunction(L, get_port_names);
     lua_setfield(L, -2, "get_port_names");
@@ -1450,5 +1454,6 @@ void register_trafficgen(lua_State *L)
     lua_pushcfunction(L, is_transmitting);
     lua_setfield(L, -2, "is_transmitting");
     lua_setfield(L, -2, "trafficgen");
+#endif
 }
 
