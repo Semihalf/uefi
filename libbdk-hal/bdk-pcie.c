@@ -115,12 +115,6 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         prt_cfg.s.mps = MPS_CN6XXX;
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u);
-
-        if (!CAVIUM_IS_MODEL(OCTEON_CN78XX))
-        {
-            BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
-                c.cn70xx.mrrs = MRRS_CN6XXX);
-        }
     }
 
     /* ECRC Generation (PCIE*_CFG070[GE,CE]) */
@@ -260,48 +254,11 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     }
 
     /* Link Width Mode (PCIERCn_CFG452[LME]) */
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN88XX))
     {
         BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
-            c.s.lme = (pemx_cfg.cn78xx.lanes8) ? 0xf : 0x7);
-    }
-
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X))
-    {
-        /* Errata (GSER-21178) PCIe gen3 doesn't work */
-        /* The starting equalization hints are incorrect on CN78XX pass 1.x. Fix
-           them for the 8 possible lanes. It doesn't hurt to program them even for
-           lanes not in use */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG089(pcie_port),
-            c.s.l1urph= 2;
-            c.s.l1utp = 7;
-            c.s.l0urph = 2;
-            c.s.l0utp = 7);
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG090(pcie_port),
-            c.s.l3urph= 2;
-            c.s.l3utp = 7;
-            c.s.l2urph = 2;
-            c.s.l2utp = 7);
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG091(pcie_port),
-            c.s.l5urph= 2;
-            c.s.l5utp = 7;
-            c.s.l4urph = 2;
-            c.s.l4utp = 7);
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG092(pcie_port),
-            c.s.l7urph= 2;
-            c.s.l7utp = 7;
-            c.s.l6urph = 2;
-            c.s.l6utp = 7);
-        /* FIXME: Disable phase 2 and phase 3 equalization */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG548(pcie_port),
-            c.s.ep2p3d = 1);
-        /* Errata (GSER-21331) GEN3 Equalization may fail */
-        /* Disable preset #10 and disable the 2ms timeout */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
-            c.s.p23td = 1;
-            c.s.prv = 0x3ff);
-
+            c.s.lme = (pemx_cfg.s.lanes8) ? 0xf : 0x7);
     }
 }
 
@@ -334,21 +291,6 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
         return -1;
     }
 
-    /* Remember if the link should try Gen3. This is needed for the CN78XX
-       pass 1.x workaround below */
-    BDK_CSR_INIT(pciercx_cfg031, node, BDK_PCIERCX_CFG031(pcie_port));
-    int try_gen3 = (pciercx_cfg031.s.mls == 3);
-
-    /* Errata (GSER-21178) PCIe gen3 doesn't work */
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X) && try_gen3)
-    {
-        /* Force Gen1 for initial link bringup. We'll fix it later */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG031(pcie_port),
-            c.s.mls = 1);
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
-            c.s.tls = 1);
-    }
-
     /* Bring up the link */
     pem_ctl_status.u = BDK_CSR_READ(node, BDK_PEMX_CTL_STATUS(pcie_port));
     pem_ctl_status.s.lnk_enb = 1;
@@ -363,64 +305,6 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
         bdk_wait_usec(1000);
         pciercx_cfg032.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
     } while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1));
-
-    /* Errata (GSER-21178) PCIe gen3 doesn't work, continued */
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX_PASS1_X) && try_gen3)
-    {
-        /* Enable gen3 speed selection */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG031(pcie_port),
-            c.s.mls = 3);
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
-            c.s.tls = 3);
-        /* Force a demand speed change */
-        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG515(pcie_port),
-            c.s.dsc = 1);
-        bdk_wait_usec(500);
-
-        /* Wait up to 10ms for the link speed change to complete */
-        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PCIERCX_CFG032(pcie_port), ls, ==, 3, 10000))
-        {
-            //bdk_warn("PCIe%d: Timeout waiting for Gen3 speed change\n", pcie_port);
-            /* Continue with the link at its current speed */
-        }
-
-        BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
-        int low_qlm = bdk_qlm_get(node, BDK_IF_DPI, pcie_port);
-        int high_qlm = (pemx_cfg.cn78xx.lanes8) ? low_qlm+1 : low_qlm;
-
-        /* Toggle cfg_rx_dll_locken_ovvrd_en and rx_resetn_ovrrd_en across
-           all QM lanes in use */
-        for (int qlm = low_qlm; qlm <= high_qlm; qlm++)
-        {
-            for (int lane = 0; lane < 4; lane++)
-            {
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
-                                c.s.cfg_rx_dll_locken_ovvrd_en = 1);
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, lane),
-                                c.s.rx_resetn_ovrrd_en = 1);
-            }
-        }
-        for (int qlm = low_qlm; qlm <= high_qlm; qlm++)
-        {
-            for (int lane = 0; lane < 4; lane++)
-            {
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_OVRRD(qlm, lane),
-                                c.s.cfg_rx_dll_locken_ovvrd_en = 0);
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL(qlm, lane),
-                                c.s.rx_resetn_ovrrd_en = 0);
-            }
-        }
-
-        /* Wait for the link to come up (hopefully Gen3) and link training to be complete */
-        start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-        do
-        {
-            if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE))
-                return -1;
-            bdk_wait_usec(1000);
-            pciercx_cfg032.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
-        } while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1));
-    }
 
     /* Update the Replay Time Limit. Empirically, some PCIe devices take a
         little longer to respond than expected under load. As a workaround for
@@ -489,14 +373,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
-    int host_mode;
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
-        host_mode = pemx_cfg.cn78xx.hostmd;
-    else
-    {
-        bdk_dprintf("PCIe%d: Unable to determine host mode for this chip.\n", pcie_port);
-        return -1;
-    }
+    int host_mode = pemx_cfg.s.hostmd;
     if (!host_mode)
     {
         bdk_dprintf("PCIe%d: Port in endpoint mode.\n", pcie_port);
@@ -852,12 +729,6 @@ int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
         prt_cfg.s.mps = MPS_CN6XXX;
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u);
-
-        if (!CAVIUM_IS_MODEL(OCTEON_CN78XX))
-        {
-            BDK_CSR_MODIFY(c, node, BDK_SLI_S2M_PORTX_CTL(pcie_port),
-                c.cn70xx.mrrs = MRRS_CN6XXX);
-        }
     }
 
     /* Setup Mem access SubDID 12 to access Host memory */
