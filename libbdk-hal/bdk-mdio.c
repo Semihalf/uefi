@@ -20,12 +20,12 @@ static void __bdk_mdio_set_clause45_mode(bdk_node_t node, int bus_id)
 {
     bdk_smi_x_clk_t smi_clk;
     /* Put bus into clause 45 mode */
-    smi_clk.u64 = BDK_CSR_READ(node, BDK_SMI_X_CLK(bus_id));
+    smi_clk.u = BDK_CSR_READ(node, BDK_SMI_X_CLK(bus_id));
     if (smi_clk.s.mode != 1)
     {
         smi_clk.s.mode = 1;
         smi_clk.s.preamble = 1;
-        BDK_CSR_WRITE(node, BDK_SMI_X_CLK(bus_id), smi_clk.u64);
+        BDK_CSR_WRITE(node, BDK_SMI_X_CLK(bus_id), smi_clk.u);
     }
 }
 
@@ -38,11 +38,11 @@ static void __bdk_mdio_set_clause22_mode(bdk_node_t node, int bus_id)
 {
     bdk_smi_x_clk_t smi_clk;
     /* Put bus into clause 22 mode */
-    smi_clk.u64 = BDK_CSR_READ(node, BDK_SMI_X_CLK(bus_id));
+    smi_clk.u = BDK_CSR_READ(node, BDK_SMI_X_CLK(bus_id));
     if (smi_clk.s.mode != 0)
     {
         smi_clk.s.mode = 0;
-        BDK_CSR_WRITE(node, BDK_SMI_X_CLK(bus_id), smi_clk.u64);
+        BDK_CSR_WRITE(node, BDK_SMI_X_CLK(bus_id), smi_clk.u);
     }
 }
 
@@ -64,7 +64,7 @@ static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(bdk_node_t node, int bus_id)
     do
     {
         bdk_wait(1000);
-        smi_rd.u64 = BDK_CSR_READ(node, BDK_SMI_X_RD_DAT(bus_id));
+        smi_rd.u = BDK_CSR_READ(node, BDK_SMI_X_RD_DAT(bus_id));
     } while (smi_rd.s.pending && (bdk_clock_get_count(BDK_CLOCK_CORE) < done));
     return smi_rd;
 }
@@ -88,11 +88,11 @@ int bdk_mdio_read(bdk_node_t node, int bus_id, int phy_id, int location)
 
     __bdk_mdio_set_clause22_mode(node, bus_id);
 
-    smi_cmd.u64 = 0;
+    smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_22_READ;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
     smi_rd = __bdk_mdio_read_rd_dat(node, bus_id);
     if (smi_rd.s.val)
@@ -122,15 +122,15 @@ int bdk_mdio_write(bdk_node_t node, int bus_id, int phy_id, int location, int va
 
     __bdk_mdio_set_clause22_mode(node, bus_id);
 
-    smi_wr.u64 = 0;
+    smi_wr.u = 0;
     smi_wr.s.dat = val;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
-    smi_cmd.u64 = 0;
+    smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_22_WRITE;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
@@ -159,15 +159,15 @@ int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int lo
 
     __bdk_mdio_set_clause45_mode(node, bus_id);
 
-    smi_wr.u64 = 0;
+    smi_wr.u = 0;
     smi_wr.s.dat = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
-    smi_cmd.u64 = 0;
+    smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_ADDRESS;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
     {
@@ -175,11 +175,11 @@ int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int lo
         return -1;
     }
 
-    smi_cmd.u64 = 0;
+    smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_READ;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
     smi_rd = __bdk_mdio_read_rd_dat(node, bus_id);
     if (smi_rd.s.pending)
@@ -219,28 +219,28 @@ int bdk_mdio_45_write(bdk_node_t node, int bus_id, int phy_id, int device, int l
 
     __bdk_mdio_set_clause45_mode(node, bus_id);
 
-    smi_wr.u64 = 0;
+    smi_wr.u = 0;
     smi_wr.s.dat = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
-    smi_cmd.u64 = 0;
+    smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_ADDRESS;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
-    smi_wr.u64 = 0;
+    smi_wr.u = 0;
     smi_wr.s.dat = val;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
-    smi_cmd.u64 = 0;
+    smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_WRITE;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u64);
+    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;

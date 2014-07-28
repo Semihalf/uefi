@@ -37,7 +37,7 @@ int bdk_mpi_initialize(bdk_node_t node, int clock_rate_hz, bdk_mpi_flags_t flags
     mpi_cfg.s.clk_cont = mpi_cfg.s.idleclks;
     mpi_cfg.s.idlelo = (flags & BDK_MPI_FLAGS_IDLE_LOW) != 0;
     mpi_cfg.s.enable = 1;
-    BDK_CSR_WRITE(node, BDK_MPI_CFG, mpi_cfg.u64);
+    BDK_CSR_WRITE(node, BDK_MPI_CFG, mpi_cfg.u);
     return 0;
 }
 
@@ -91,12 +91,12 @@ uint64_t bdk_mpi_transfer(bdk_node_t node, int chip_select,
 
     /* Do the operation */
     BDK_CSR_DEFINE(mpi_tx, BDK_MPI_TX);
-    mpi_tx.u64 = 0;
+    mpi_tx.u = 0;
     mpi_tx.s.csid = chip_select;
     mpi_tx.s.leavecs = leave_cs_enabled;
     mpi_tx.s.txnum = tx_count;
     mpi_tx.s.totnum = tx_count + rx_count;
-    BDK_CSR_WRITE(node, BDK_MPI_TX, mpi_tx.u64);
+    BDK_CSR_WRITE(node, BDK_MPI_TX, mpi_tx.u);
 
     /* Wait for completion */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MPI_STS, busy, ==, 0, TIMEOUT))

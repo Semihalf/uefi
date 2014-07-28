@@ -32,7 +32,7 @@ int bdk_twsix_initialize(bdk_node_t node)
     }
 
     BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(bus));
-    sw_twsi.u64 = 0;
+    sw_twsi.u = 0;
     sw_twsi.s.v = 1;       /* Clear valid bit */
     sw_twsi.s.op = 0x6;    /* See EOP field */
     sw_twsi.s.r = 0;       /* Select CLKCTL when R = 0 */
@@ -40,7 +40,7 @@ int bdk_twsix_initialize(bdk_node_t node)
     sw_twsi.s.data = ((M_divider & 0xf) << 3) | ((N_divider & 0x7) << 0);
 
     for (int bus=0; bus<2; bus++)
-        BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(bus), sw_twsi.u64);
+        BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(bus), sw_twsi.u);
     return 0;
 }
 
@@ -67,8 +67,8 @@ int64_t bdk_twsix_read_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16
     if (num_bytes < 1 || num_bytes > 4 || ia_width_bytes < 0 || ia_width_bytes > 2)
         return -1;
 retry:
-    twsi_ext.u64 = 0;
-    sw_twsi_val.u64 = 0;
+    twsi_ext.u = 0;
+    sw_twsi_val.u = 0;
     sw_twsi_val.s.v = 1;
     sw_twsi_val.s.r = 1;
     sw_twsi_val.s.sovr = 1;
@@ -84,12 +84,12 @@ retry:
         {
             sw_twsi_val.s.eia = 1;
             twsi_ext.s.ia = internal_addr >> 8;
-            BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
+            BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u);
         }
     }
 
-    BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
-    while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u64 = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
+    BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u);
+    while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
         bdk_wait_usec(1);
     if (!sw_twsi_val.s.r)
     {
@@ -146,9 +146,9 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
     if (num_bytes < 1 || num_bytes > 8 || ia_width_bytes < 0 || ia_width_bytes > 2)
         return -1;
 
-    twsi_ext.u64 = 0;
+    twsi_ext.u = 0;
 
-    sw_twsi_val.u64 = 0;
+    sw_twsi_val.u = 0;
     sw_twsi_val.s.v = 1;
     sw_twsi_val.s.sovr = 1;
     sw_twsi_val.s.size = num_bytes - 1;
@@ -169,9 +169,9 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
     if (num_bytes > 4)
         twsi_ext.s.data = data >> 32;
 
-    BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u64);
-    BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u64);
-    while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u64 = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
+    BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u);
+    BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u);
+    while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
         ;
 
     /* Poll until reads succeed, or polling times out */
