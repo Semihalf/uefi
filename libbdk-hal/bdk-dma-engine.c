@@ -4,6 +4,8 @@ static bdk_cmd_queue_state_t dma_queue[BDK_NUMA_MAX_NODES][8];
 static int __bdk_dma_init_done = 0; /* Bitmask of Nodes that have done init */
 static bdk_spinlock_t dma_lock;     /* Protects __bdk_dma_init_done */
 
+#if 0
+
 /**
  * Return the number of DMA engimes supported by this chip
  *
@@ -11,7 +13,7 @@ static bdk_spinlock_t dma_lock;     /* Protects __bdk_dma_init_done */
  */
 int bdk_dma_engine_get_num(bdk_node_t node)
 {
-    return 8;
+    return 0; // FIXME
 }
 
 /**
@@ -398,3 +400,4 @@ int bdk_dma_engine_transfer(bdk_node_t node, int engine, bdk_dma_engine_header_t
     return bdk_dma_engine_submit(node, engine, header, words, buffers);
 }
 
+#endif

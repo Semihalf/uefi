@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#if 0
+
 extern const __bdk_if_ops_t __bdk_if_ops_bgx;
 
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
@@ -735,3 +737,4 @@ int __bdk_if_get_gmx_index(bdk_if_handle_t handle)
     return handle->index;
 }
 
+#endif

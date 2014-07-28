@@ -1,6 +1,8 @@
 #include <bdk.h>
 // Module for interfacing with performance counters
 
+#if 0
+
 #define MAX_L2_COPIES 8 /* CN78XX uses 0-7, CN70XX use 0 */
 #define MAX_L2_PFC 10 /* CN78XX uses 8-9 for IO */
 #define MAX_TADS 4
@@ -347,3 +349,4 @@ void register_octeon_perf(lua_State *L)
     lua_setfield(L, -2, "perf");
 }
 
+#endif

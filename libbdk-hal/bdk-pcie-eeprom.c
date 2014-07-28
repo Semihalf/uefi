@@ -4,6 +4,8 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE_EEPROM);
 
+#if 0
+
 /**
  * Read the specified offset in the PCIe EEPROM and returns its
  * value. In the case the EEPROM isn't there or can't be read -1
@@ -112,3 +114,5 @@ int bdk_pcie_eeprom_write(bdk_node_t node, int pcie_port, int offset, uint64_t v
     /* All done */
     return 0;
 }
+
+#endif

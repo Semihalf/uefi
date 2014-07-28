@@ -4,6 +4,8 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
+#if 0
+
 #define MRRS_CN5XXX 0 /* 128 byte Max Read Request Size */
 #define MPS_CN5XXX  0 /* 128 byte Max Packet Size (Limit of most PCs) */
 #define MRRS_CN6XXX 3 /* 1024 byte Max Read Request Size */
@@ -747,3 +749,4 @@ int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
     return 0;
 }
 
+#endif

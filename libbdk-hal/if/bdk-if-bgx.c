@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+#if 0
+
 /* This file implements interfaces connected to the BGX block introduced
     for CN78XX. This block combines SGMII, XAUI, DXAUI, RXAUI, XFI, XLAUI,
     10GBASE-KR, and 40GBASE-KR all into one interface */
@@ -1146,3 +1148,4 @@ const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .if_get_stats = if_get_stats,
 };
 
+#endif

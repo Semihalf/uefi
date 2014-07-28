@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include <stdio.h>
 
+#if 0
+
 static const int REF_100MHZ = 100000000;
 static const int REF_125MHZ = 125000000;
 static const int REF_156MHZ = 156250000;
@@ -1500,4 +1502,4 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn78xx = {
     .enable_loop = qlm_enable_loop,
 };
 
-
+#endif

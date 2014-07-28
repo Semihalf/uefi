@@ -1,5 +1,7 @@
 #include <bdk.h>
 
+#if 0
+
 /**
  * Perform a crc32 on the supplied data
  *
@@ -67,3 +69,4 @@ uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
     return ~crc32;
 }
 
+#endif
