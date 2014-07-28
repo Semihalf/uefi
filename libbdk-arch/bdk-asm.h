@@ -46,8 +46,8 @@
 // used.
 #define BDK_DONT_WRITE_BACK(address, offset) BDK_PREFETCH_PREFX(29, address, offset)
 
-#define BDK_ICACHE_INVALIDATE  { asm volatile ("synci 0($0)" : : ); }    // flush stores, invalidate entire icache
-#define BDK_DCACHE_INVALIDATE  { asm volatile ("cache 9, 0($0)" : : ); } // complete prefetches, invalidate entire dcache
+#define BDK_ICACHE_INVALIDATE  { asm volatile ("ic iallu" : : ); }    // invalidate entire icache
+#define BDK_DCACHE_INVALIDATE  { asm volatile ("dc civac,xzr" : : ); } // invalidate entire dcache
 
 #endif	/* __ASSEMBLER__ */
 
