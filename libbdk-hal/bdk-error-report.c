@@ -29,53 +29,45 @@ static void display_error(bdk_node_t node, const char *csr_name, int arg1, int a
         bdk_error("N%d %s[%s]\n", node, csr_name, field_name);
 }
 
-static void check_cn78xx(bdk_node_t node)
+static void check_cn88xx(bdk_node_t node)
 {
     for (int index = 0; index < 4; index++)
     {
         {
-            BDK_CSR_INIT(c, node, BDK_L2C_CBCX_INT(index));
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, holerd);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, holewr);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, iowrdisoci);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, iorddisoci);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, mibdbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, mibsbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, ioccmddbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, ioccmdsbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, rsddbe);
-            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT(index), s, rsdsbe);
+            BDK_CSR_INIT(c, node, BDK_L2C_CBCX_INT_W1C(index));
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, iowrdisoci);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, iorddisoci);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, mibdbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, mibsbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsddbe);
+            CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsdsbe);
         }
         {
-            BDK_CSR_INIT(c, node, BDK_L2C_MCIX_INT(index));
-            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT(index), s, vbfdbe);
-            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT(index), s, vbfsbe);
+            BDK_CSR_INIT(c, node, BDK_L2C_MCIX_INT_W1C(index));
+            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT_W1C(index), s, vbfdbe);
+            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT_W1C(index), s, vbfsbe);
         }
     }
     for (int index = 0; index < 8; index++)
     {
-        BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT(index));
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, wrdisoci);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rddisoci);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rtgdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rtgsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, lfbto);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, wrdislmc);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, rddislmc);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, bigrd);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, bigwr);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, holerd);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, holewr);
-        //CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, noway); /* Happens when we run with L2 locked */
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, tagdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, tagsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, reserved_6_7);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, fbfdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, fbfsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, sbfdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, sbfsbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, l2ddbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT(index), s, l2dsbe);
+        BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT_W1C(index));
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, wrdisoci);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rddisoci);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rtgdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rtgsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, lfbto);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, wrdislmc);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rddislmc);
+        //CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, noway); /* Happens when we run with L2 locked */
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, tagdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, tagsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, reserved_6_7);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, fbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, fbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, sbfdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, sbfsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, l2ddbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, l2dsbe);
     }
 
     for (int index = 0; index < 4; index++)
@@ -93,7 +85,7 @@ static void check_cn78xx(bdk_node_t node)
     }
 }
 
-static void enable_cn78xx(bdk_node_t node)
+static void enable_cn88xx(bdk_node_t node)
 {
     /* Do nothing for now */
 }
@@ -101,11 +93,11 @@ static void enable_cn78xx(bdk_node_t node)
 void (*bdk_error_check)(bdk_node_t node) = NULL;
 void bdk_error_enable(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN88XX))
     {
-        enable_cn78xx(node);
-        check_cn78xx(node);
-        bdk_error_check = check_cn78xx;
+        enable_cn88xx(node);
+        check_cn88xx(node);
+        bdk_error_check = check_cn88xx;
     }
     else
         bdk_error("Error reporting not implemented for this chip\n");
