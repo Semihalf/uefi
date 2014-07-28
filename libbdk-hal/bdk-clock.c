@@ -30,8 +30,6 @@ uint64_t bdk_clock_get_rate(bdk_node_t node, bdk_clock_t clock)
     switch (clock)
     {
         case BDK_CLOCK_SCLK:
-        case BDK_CLOCK_TIM:
-        case BDK_CLOCK_IPD:
             return sclk;
 
         case BDK_CLOCK_RCLK:
