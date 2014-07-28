@@ -111,9 +111,9 @@ static uint64_t __bdk_config_get_slow(bdk_config_t cfg)
         }
     }
     __bdk_config_cache[cfg] = result;
-    BDK_SYNCW;
+    BDK_WMB;
     __bdk_config_is_valid[cfg] = 1;
-    BDK_SYNCW;
+    BDK_WMB;
     return result;
 }
 
@@ -130,9 +130,9 @@ uint64_t bdk_config_get(bdk_config_t cfg)
 void bdk_config_set(bdk_config_t cfg, uint64_t value)
 {
     __bdk_config_cache[cfg] = value;
-    BDK_SYNCW;
+    BDK_WMB;
     __bdk_config_is_valid[cfg] = 1;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 const char *bdk_config_get_name(bdk_config_t cfg)

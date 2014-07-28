@@ -41,9 +41,9 @@ static inline void bdk_atomic_add32_nosync(int32_t *ptr, int32_t incr)
  */
 static inline void bdk_atomic_add32(int32_t *ptr, int32_t incr)
 {
-    BDK_SYNCW;
+    BDK_WMB;
     bdk_atomic_add32_nosync(ptr, incr);
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 /**
@@ -54,9 +54,9 @@ static inline void bdk_atomic_add32(int32_t *ptr, int32_t incr)
  */
 static inline void bdk_atomic_set32(int32_t *ptr, int32_t value)
 {
-    BDK_SYNCW;
+    BDK_WMB;
     *ptr = value;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 /**
@@ -103,9 +103,9 @@ static inline void bdk_atomic_add64_nosync(int64_t *ptr, int64_t incr)
  */
 static inline void bdk_atomic_add64(int64_t *ptr, int64_t incr)
 {
-    BDK_SYNCW;
+    BDK_WMB;
     bdk_atomic_add64_nosync(ptr, incr);
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 /**
@@ -116,9 +116,9 @@ static inline void bdk_atomic_add64(int64_t *ptr, int64_t incr)
  */
 static inline void bdk_atomic_set64(int64_t *ptr, int64_t value)
 {
-    BDK_SYNCW;
+    BDK_WMB;
     *ptr = value;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 /**
@@ -183,9 +183,9 @@ static inline uint32_t bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint
 static inline uint32_t bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
     uint32_t ret;
-    BDK_SYNCW;
+    BDK_WMB;
     ret = bdk_atomic_compare_and_store32_nosync(ptr, old_val, new_val);
-    BDK_SYNCW;
+    BDK_WMB;
     return ret;
 
 
@@ -241,9 +241,9 @@ static inline uint64_t bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint
 static inline uint64_t bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
     uint64_t ret;
-    BDK_SYNCW;
+    BDK_WMB;
     ret = bdk_atomic_compare_and_store64_nosync(ptr, old_val, new_val);
-    BDK_SYNCW;
+    BDK_WMB;
     return ret;
 }
 
@@ -302,9 +302,9 @@ static inline int64_t bdk_atomic_fetch_and_add64_nosync(int64_t *ptr, int64_t in
 static inline int64_t bdk_atomic_fetch_and_add64(int64_t *ptr, int64_t incr)
 {
     uint64_t ret;
-    BDK_SYNCW;
+    BDK_WMB;
     ret = bdk_atomic_fetch_and_add64_nosync(ptr, incr);
-    BDK_SYNCW;
+    BDK_WMB;
     return ret;
 }
 
@@ -363,9 +363,9 @@ static inline int32_t bdk_atomic_fetch_and_add32_nosync(int32_t *ptr, int32_t in
 static inline int32_t bdk_atomic_fetch_and_add32(int32_t *ptr, int32_t incr)
 {
     uint32_t ret;
-    BDK_SYNCW;
+    BDK_WMB;
     ret = bdk_atomic_fetch_and_add32_nosync(ptr, incr);
-    BDK_SYNCW;
+    BDK_WMB;
     return ret;
 }
 

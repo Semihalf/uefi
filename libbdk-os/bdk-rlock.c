@@ -62,10 +62,10 @@ void bdk_rlock_unlock(bdk_rlock_t *lock)
     assert(lock->count > 0);
     if (lock->count == 1)
     {
-        BDK_SYNCW;
+        BDK_WMB;
         lock->owner = NULL;
         lock->count = 0;
-        BDK_SYNCW;
+        BDK_WMB;
     }
     else
         lock->count--;

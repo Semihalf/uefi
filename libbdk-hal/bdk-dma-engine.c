@@ -169,7 +169,7 @@ int bdk_dma_engine_submit(bdk_node_t node, int engine, bdk_dma_engine_header_t h
     /* This SYNCW is needed since the command queue didn't do locking, which
         normally implies the SYNCW. This one makes sure the command queue
         updates make it to L2 before we ring the doorbell */
-    BDK_SYNCW;
+    BDK_WMB;
     /* A syncw isn't needed here since the command queue did one as part of the queue unlock */
     if (bdk_likely(result == BDK_CMD_QUEUE_SUCCESS))
         BDK_CSR_WRITE(node, BDK_DPI_DMAX_DBELL(engine), cmd_count);

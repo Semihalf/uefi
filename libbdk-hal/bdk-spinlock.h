@@ -40,9 +40,9 @@ static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
  */
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 {
-    BDK_SYNCW;
+    BDK_WMB;
     lock->s.serving++;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 /**
@@ -52,7 +52,7 @@ static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
  */
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
-    BDK_SYNCW;
+    BDK_WMB;
     int64_t combined = bdk_atomic_fetch_and_add64_nosync(&lock->combined, 1ull<<32);
     int32_t ticket = combined >> 32;
     int32_t serving = (int32_t)combined;

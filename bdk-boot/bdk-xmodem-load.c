@@ -76,7 +76,7 @@ static void do_upload(const char *dest_file, int offset)
        during slow flash accesses */
     write_count = 0;
     write_needed = 1;
-    BDK_SYNCW;
+    BDK_WMB;
     bdk_thread_create(bdk_numa_local(), 0, write_thread, 0, (void*)outf, 0);
     /* Let the thread start */
     bdk_thread_yield();
@@ -86,9 +86,9 @@ static void do_upload(const char *dest_file, int offset)
     if (!inf)
     {
         bdk_error("Failed to open /xmodem\n");
-        BDK_SYNCW;
+        BDK_WMB;
         write_needed = 0;
-        BDK_SYNCW;
+        BDK_WMB;
         return;
     }
 
@@ -106,7 +106,7 @@ static void do_upload(const char *dest_file, int offset)
             /* Put the data in the write buffer */
             bdk_spinlock_lock(&write_lock);
             memcpy(write_buffer, buffer, count);
-            BDK_SYNCW;
+            BDK_WMB;
             write_count = count;
             bdk_spinlock_unlock(&write_lock);
         }
@@ -114,9 +114,9 @@ static void do_upload(const char *dest_file, int offset)
     fclose(inf);
     printf("\nXmodem complete\n");
     /* Wait for the write thread to finish */
-    BDK_SYNCW;
+    BDK_WMB;
     write_needed = 0;
-    BDK_SYNCW;
+    BDK_WMB;
     while (write_count)
         bdk_thread_yield();
 }

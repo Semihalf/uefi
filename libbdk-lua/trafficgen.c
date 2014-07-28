@@ -695,7 +695,7 @@ loop_begin:
     ptr.s.is_io      = 1;
     ptr.s.port       = pko_port;
     ptr.s.queue      = pko_queue;
-    BDK_SYNCW;  /* Need to make sure output queue data is in DRAM before doorbell write */
+    BDK_WMB;  /* Need to make sure output queue data is in DRAM before doorbell write */
     bdk_write64_uint64(ptr.u64, 2);
     count--;
 
@@ -735,7 +735,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     if (build_packet(tg_port, &packet))
     {
         port_tx->output_enable = 0;
-        BDK_SYNCW;
+        BDK_WMB;
         return;
     }
     if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
@@ -784,7 +784,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
             bdk_error("%s: Transmit packet not freed as output queue still active\n", tg_port->handle->name);
     }
     port_tx->output_enable = 0;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 
@@ -1069,7 +1069,7 @@ static int do_start(tg_port_t *tg_port)
     if (tg_port->pinfo.setup.output_enable == 0)
     {
         tg_port->pinfo.setup.output_enable = 1;
-        BDK_SYNCW;
+        BDK_WMB;
         bdk_thread_create(tg_port->handle->node, 0, (bdk_thread_func_t)packet_transmitter, 0, tg_port, 0);
     }
     return 0;
@@ -1084,7 +1084,7 @@ static int do_start(tg_port_t *tg_port)
 static int do_stop(tg_port_t *tg_port)
 {
     tg_port->pinfo.setup.output_enable = 0;
-    BDK_SYNCW;
+    BDK_WMB;
     return 0;
 }
 
@@ -1214,7 +1214,7 @@ static int set_config(lua_State* L)
     getfield(higig2.dw1.u32,       number);
     getfield(higig2.dw2.u32,       number);
     getfield(higig2.dw3.u32,       number);
-    BDK_SYNCW;
+    BDK_WMB;
     return 0;
 }
 

@@ -905,7 +905,7 @@ void test_crypto(int unused0, void *unused1)
     }
     fflush(NULL);
     done = 1;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 /**
@@ -934,7 +934,7 @@ int main()
         for (int core=0; core<num_cores; core++)
         {
             done = 0;
-            BDK_SYNCW;
+            BDK_WMB;
             if (bdk_thread_create(node, 1ull<<core, test_crypto, 0, NULL, 0))
             {
                 bdk_error("Failed to create thread for core %d\n", core);

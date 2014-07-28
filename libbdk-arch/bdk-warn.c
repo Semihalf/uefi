@@ -52,7 +52,7 @@ void bdk_dprintf(const char *format, ...)
 void __bdk_die(void)
 {
 #ifndef BDK_BUILD_HOST
-    BDK_SYNC;
+    BDK_MB;
     if (bdk_is_simulation())
     {
         while (1)

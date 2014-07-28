@@ -114,7 +114,7 @@ static void __bdk_init_exception(bdk_node_t node)
     memcpy(ebase + 0x100, &__bdk_exception, 0x80); /* Cache Error */
     memcpy(ebase + 0x180, &__bdk_exception, 0x80); /* General Exception */
     memcpy(ebase + 0x200, &__bdk_exception, 0x80); /* Interrupt */
-    BDK_SYNC;
+    BDK_MB;
     BDK_ICACHE_INVALIDATE;
 }
 
@@ -155,7 +155,7 @@ void __bdk_init(long base_address)
     /* Sync cycle counter */
     uint64_t core_rate = bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000;
     uint64_t sclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000;
-    BDK_SYNC;
+    BDK_MB;
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
 

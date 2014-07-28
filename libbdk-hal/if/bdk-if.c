@@ -540,14 +540,14 @@ void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_
 {
     /* Set the receiver to NULL before we update the argument */
     handle->receiver = NULL;
-    BDK_SYNCW;
+    BDK_WMB;
     /* Update the argument now that we know it can't arrive at other
         cores with an old receiver */
     handle->receiver_arg = arg;
-    BDK_SYNCW;
+    BDK_WMB;
     /* Finally update the receiver now that the argument must be set */
     handle->receiver = receiver;
-    BDK_SYNCW;
+    BDK_WMB;
 }
 
 

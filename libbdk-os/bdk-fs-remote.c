@@ -40,11 +40,11 @@ static void *remote_open(const char *name, int flags)
     }
     memset(remote, 0, sizeof(*remote));
     remote->version = REMOTE_VERSION;
-    BDK_SYNCW;
+    BDK_WMB;
     /* The console can be used as soon as the magic value is written. The
         magic value must be the last part of init done */
     remote->magic = REMOTE_MAGIC;
-    BDK_SYNCW;
+    BDK_WMB;
     return remote;
 }
 
@@ -78,12 +78,12 @@ static int remote_read(__bdk_fs_file_t *handle, void *buffer, int length)
     if (length < remote->to_octeon)
     {
         memcpy(remote->to_buffer, remote->to_buffer + length, remote->to_octeon - length);
-        BDK_SYNCW;
+        BDK_WMB;
     }
     /* Updating the amount of data must be last as the remote host is allowed
         to write again as soon as this is zero */
     remote->to_octeon -= length;
-    BDK_SYNCW;
+    BDK_WMB;
     return length;
 }
 
@@ -116,11 +116,11 @@ static int remote_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         if (l > (int)sizeof(remote->from_buffer))
             l = sizeof(remote->from_buffer);
         memcpy(remote->from_buffer, buffer, l);
-        BDK_SYNCW;
+        BDK_WMB;
         /* Updating the count msut be last as the remtoe host can read data
             as soon as it is non zero */
         remote->from_octeon = l;
-        BDK_SYNCW;
+        BDK_WMB;
         length -= l;
         buffer += l;
         count += l;

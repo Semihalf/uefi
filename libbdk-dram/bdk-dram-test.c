@@ -286,7 +286,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     dram_test_thread_start = start_address;
     dram_test_thread_end = end_address;
     dram_test_thread_size = size;
-    BDK_SYNCW;
+    BDK_WMB;
 #if ENABLE_LMC_PERCENT
     /* Remember the LMC perf counters for stats after the test */
     uint64_t start_dram_dclk[BDK_NUMA_MAX_NODES][4];
