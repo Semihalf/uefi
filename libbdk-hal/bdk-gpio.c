@@ -26,9 +26,9 @@ int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_val
     if (gpio < 20)
     {
         BDK_CSR_DEFINE(cfg, BDK_GPIO_BIT_CFGX(gpio));
-        cfg.u64 = 0;
+        cfg.u = 0;
         cfg.s.tx_oe = !!is_output;
-        BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(gpio), cfg.u64);
+        BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(gpio), cfg.u);
     }
     else
     {
@@ -47,7 +47,7 @@ int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_val
 uint32_t bdk_gpio_read(bdk_node_t node)
 {
     bdk_gpio_rx_dat_t gpio_rx_dat;
-    gpio_rx_dat.u64 = BDK_CSR_READ(node, BDK_GPIO_RX_DAT);
+    gpio_rx_dat.u = BDK_CSR_READ(node, BDK_GPIO_RX_DAT);
     return gpio_rx_dat.s.dat;
 }
 
@@ -60,9 +60,9 @@ uint32_t bdk_gpio_read(bdk_node_t node)
 void bdk_gpio_clear(bdk_node_t node, uint32_t clear_mask)
 {
     bdk_gpio_tx_clr_t gpio_tx_clr;
-    gpio_tx_clr.u64 = 0;
+    gpio_tx_clr.u = 0;
     gpio_tx_clr.s.clr = clear_mask;
-    BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, gpio_tx_clr.u64);
+    BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, gpio_tx_clr.u);
 }
 
 
@@ -74,8 +74,8 @@ void bdk_gpio_clear(bdk_node_t node, uint32_t clear_mask)
 void bdk_gpio_set(bdk_node_t node, uint32_t set_mask)
 {
     bdk_gpio_tx_set_t gpio_tx_set;
-    gpio_tx_set.u64 = 0;
+    gpio_tx_set.u = 0;
     gpio_tx_set.s.set = set_mask;
-    BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, gpio_tx_set.u64);
+    BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, gpio_tx_set.u);
 }
 
