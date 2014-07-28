@@ -116,8 +116,6 @@ int bdk_lua_start(void)
     bdk_fs_rom_init();
     extern int bdk_fs_mem_init(void);
     bdk_fs_mem_init();
-    extern int bdk_fs_nor_init(void);
-    bdk_fs_nor_init();
     extern int bdk_fs_mmc_init(void);
     bdk_fs_mmc_init();
     extern int bdk_fs_mpi_init(void);

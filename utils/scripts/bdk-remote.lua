@@ -9,7 +9,6 @@ require("strict")
 require("utils")
 local oremote = require("oremote")
 local bit64 = require("bit64")
-local norflash = require("norflash")
 local remoteconsole = require("remoteconsole")
 
 local remote = {}
@@ -225,52 +224,6 @@ function remote.console(args)
     -- reset
     assert(args[1] == "console", "Expected keyword 'console'")
     remoteconsole.run()
-end
-
-function remote.flash(args)
-    -- flash info
-    -- flash read <filename> <address> <length>
-    -- flash write <filename> <address>
-    assert(args[1] == "flash", "Expected keyword 'flash'")
-    oremote.stop_cores(-1)
-    if args[2] == "info" then
-        assert(#args == 2, "Expected two arguments")
-        local nor = assert(norflash.query(0))
-        pprint(nor.params)
-    elseif args[2] == "read" then
-        assert(#args == 5, "Expected five arguments")
-        local nor = assert(norflash.query(0))
-        local f = assert(io.open(args[3], "w"))
-        local len = args[5]
-        local address = args[4]
-        printf("Reading %s: ", args[3])
-        printf("  0%%")
-        local loc = 0
-        while loc < len do
-            local percent = 100 * loc / len
-            printf("\b\b\b\b%3d%%", percent)
-            io.flush()
-            local s = len - loc
-            if s > 0x10000 then
-                s = 0x10000
-            end
-            f:write(nor:read(address, s))
-            address = address + s
-            loc = loc + s
-        end
-        printf("\b\b\b\b100%%\n")
-        f:close()
-    elseif args[2] == "write" then
-        assert(#args == 4, "Expected four arguments")
-        local nor = assert(norflash.query(0))
-        local f = assert(io.open(args[3], "r"))
-        local d = f:read("*a")
-        f:close()
-        printf("Writing %s: ", args[3])
-        nor:burn(args[4], d, true)
-    else
-        error("Invalid number of args")
-    end
 end
 
 function remote.mmc(args)
@@ -537,14 +490,6 @@ bdk-remote:
     console
         Access the BDK console remotely.
 
-    flash info
-        Probe a NOR flash and display information about it.
-    flash read <filename> <address> <length>
-        Read <length> bytes from <address> in NOR flash on
-        CS0 and save it to <filename>.
-    flash write <filename> <address>
-        Write <filename> to a NOR flash on CS0 starting at <address>.
-
     mmc info
         Probe a eMMC, MMC, or SD and display information about it.
     mmc read <filename> <address> <length>
@@ -624,9 +569,6 @@ local function parse_args()
         "boot <filename>",
         "reset",
         "console",
-        "flash info",
-        "flash read <filename> <address> <length>",
-        "flash write <filename> <address>",
         "mmc info",
         "mmc read <filename> <address> <length>",
         "mmc write <filename> <address>",

@@ -134,17 +134,14 @@ int main(void)
         "BDK Xmodem file load utility\n"
         "\n"
         "This utility can load files through Xmodem into:\n"
-        "\tParallel NOR\n"
         "\tMMC, eMMC, or SD\n"
         "\tSPI EEPROM or NOR\n"
         "\n", bdk_version_string());
 
     extern int bdk_fs_xmodem_init(void);
-    extern int bdk_fs_nor_init(void);
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);
     bdk_fs_xmodem_init();
-    bdk_fs_nor_init();
     bdk_fs_mmc_init();
     bdk_fs_mpi_init();
 
@@ -156,10 +153,9 @@ int main(void)
             "Main Menu\n"
             "=================================\n"
             " 1) Change baud rate and flow control\n"
-            " 2) Load file into parallel NOR\n"
-            " 3) Load file into MMC, eMMC, or SD\n"
-            " 4) Load file into SPI EEPROM or NOR\n"
-            " 5) Soft reset Octeon\n");
+            " 2) Load file into MMC, eMMC, or SD\n"
+            " 3) Load file into SPI EEPROM or NOR\n"
+            " 4) Soft reset Octeon\n");
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         switch (atoi(input))
         {
@@ -181,22 +177,7 @@ int main(void)
                 printf("Baudrate is now %d\n", baudrate);
                 break;
             }
-            case 2: /* pNOR */
-            {
-                const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
-                int offset = atoi(offset_str);
-                if ((offset < 0) || (offset > (1 << 30)))
-                    bdk_error("Illegal offset\n");
-                else
-                {
-                    printf("\n");
-                    bdk_flash_initialize(bdk_numa_local());
-                    printf("\n");
-                    do_upload("/dev/nor/0", offset);
-                }
-                break;
-            }
-            case 3: /* eMMC / SD */
+            case 2: /* eMMC / SD */
             {
                 const char *chip_str = bdk_readline("Chip select [0]: ", NULL, 0);
                 int chip_sel = atoi(chip_str);
@@ -219,7 +200,7 @@ int main(void)
                 do_upload(filename, offset);
                 break;
             }
-            case 4: /* SPI NOR */
+            case 3: /* SPI NOR */
             {
                 const char *chip_str = bdk_readline("Chip select [0]: ", NULL, 0);
                 int chip_sel = atoi(chip_str);
@@ -252,7 +233,7 @@ int main(void)
                 do_upload(filename, offset);
                 break;
             }
-            case 5: /* Soft reset */
+            case 4: /* Soft reset */
                 printf("Performing a soft reset\n");
                 bdk_reset_octeon(bdk_numa_local());
                 break;
