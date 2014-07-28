@@ -81,9 +81,7 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
         else
         {
             /* The debug stub requires SIZE*(1 + num_cores) */
-            if (CAVIUM_IS_MODEL(OCTEON_CN70XX)) // FIXME: Cache not big enough, now what?
-                debug_handler_base = 0x80000 - DEBUG_CORE_STATE_SIZE * (4 + 1);
-            else if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+            if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
                 debug_handler_base = 0x1000000 - DEBUG_CORE_STATE_SIZE * (48 + 1);
             else
             {

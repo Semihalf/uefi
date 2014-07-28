@@ -207,17 +207,9 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 
     if (bdk_is_simulation())
     {
-        if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-        {
-            /* CN70XX's default reference is 100Mhz */
-            return 100000000;
-        }
-        else
-        {
-            /* Force the reference to 156.25Mhz when running in simulation.
-                This supports the most speeds */
-            return 156250000;
-        }
+        /* Force the reference to 156.25Mhz when running in simulation.
+            This supports the most speeds */
+        return 156250000;
     }
     ref_clock[node][qlm] = qlm_ops->measure_refclock(node, qlm);
     BDK_TRACE("QLM%d: Ref clock %d Hz\n", qlm, ref_clock[node][qlm]);

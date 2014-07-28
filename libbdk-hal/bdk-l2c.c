@@ -137,13 +137,6 @@ int bdk_l2c_get_set_bits(bdk_node_t node)
         int l2_set_bits;
         if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
             l2_set_bits =  13; /* 8192 sets */
-        else if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-        {
-            if (bdk_is_simulation())
-                l2_set_bits =  12; /* Enlarge os sim can run as cache is too small */
-            else
-                l2_set_bits =  10; /* 1024 sets */
-        }
         else
         {
             bdk_error("Unsupported OCTEON Model in %s\n", __FUNCTION__);
@@ -167,10 +160,7 @@ int bdk_l2c_get_num_assoc(bdk_node_t node)
     {
         int l2_assoc;
         /* Get the starting number of associations */
-        if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-            l2_assoc = 4;
-        else
-            l2_assoc = 16;
+        l2_assoc = 16;
         /* The l2 can be reduced in 25% increments */
         BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
         switch (mio_fus_dat3.s.l2c_crip)

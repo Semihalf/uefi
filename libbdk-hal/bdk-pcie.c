@@ -490,9 +490,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Make sure we aren't trying to setup a target mode interface in host mode */
     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
     int host_mode;
-    if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-        host_mode = pemx_cfg.cn70xx.hostmd;
-    else if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
         host_mode = pemx_cfg.cn78xx.hostmd;
     else
     {
@@ -534,12 +532,6 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     pemx_bist_status.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u64)
         bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status.u64);
-    if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-    {
-        pemx_bist_status2.u64 = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS2(pcie_port));
-        if (pemx_bist_status2.u64)
-            bdk_dprintf("PCIe: BIST2 FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status2.u64);
-    }
 
     /* Initialize the config space CSRs */
     __bdk_pcie_rc_initialize_config_space(node, pcie_port);
@@ -578,7 +570,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         mem_access_subid.s.ba += 1; /* Set each SUBID to extend the addressable range */
     }
 
-    if (!CAVIUM_IS_MODEL(OCTEON_CN70XX))
+    if (1)
     {
         /* Disable the peer to peer forwarding register. This must be setup
             by the OS after it enumerates the bus and assigns addresses to the

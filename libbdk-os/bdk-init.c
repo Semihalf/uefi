@@ -127,13 +127,6 @@ void __bdk_init(long base_address)
 	/* FIXME: Do not do this for CN7800 Pass 1.0 as this tends to cause the
 	    PPs to hang comming out of reset. Adjust this logic when/if later
 	    CN7800s fix this issue */
-        if (CAVIUM_IS_MODEL(OCTEON_CN70XX) /*|| CAVIUM_IS_MODEL(OCTEON_CN78XX)*/)
-        {
-            /* Get a list of cores in reset */
-            uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
-            /* Power off the cores in reset */
-            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, reset);
-        }
 
         /* Initialize the is_simulation flag */
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
@@ -155,13 +148,6 @@ void __bdk_init(long base_address)
             bdk_l2c_lock_mem_region(node, bdk_numa_get_address(node, 0), bdk_l2c_get_cache_size_bytes(node));
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
-            if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-            {
-                BDK_CSR_DEFINE(ciu_cib_l2c_rawx, BDK_CIU_CIB_L2C_RAWX(0));
-                ciu_cib_l2c_rawx.u64 = 0;
-                ciu_cib_l2c_rawx.s.tadx_int_rddislmc = 1;
-                BDK_CSR_WRITE(node, BDK_CIU_CIB_L2C_RAWX(0), ciu_cib_l2c_rawx.u64);
-            }
             BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
             l2c_tadx_int.u64 = 0;
             l2c_tadx_int.s.rddislmc = 1;

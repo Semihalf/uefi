@@ -52,8 +52,6 @@ static uint64_t dram_test_thread_size;
  */
 int __bdk_dram_get_num_lmc(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(OCTEON_CN70XX))
-        return 1;
     BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(2));
     if (lmcx_dll_ctl2.s.intf_en)
         return 4;
