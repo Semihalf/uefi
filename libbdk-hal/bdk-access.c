@@ -34,9 +34,9 @@ void bdk_reset_octeon(bdk_node_t node)
     }
 
     bdk_rst_soft_rst_t rst_soft_rst;
-    rst_soft_rst.u64 = 0;
+    rst_soft_rst.u = 0;
     rst_soft_rst.s.soft_rst = 1;
-    BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, rst_soft_rst.u64);
+    BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, rst_soft_rst.u);
 }
 
 
