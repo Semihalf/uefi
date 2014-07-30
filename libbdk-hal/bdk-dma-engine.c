@@ -1,10 +1,10 @@
 #include <bdk.h>
 
+#if 0
+
 static bdk_cmd_queue_state_t dma_queue[BDK_NUMA_MAX_NODES][8];
 static int __bdk_dma_init_done = 0; /* Bitmask of Nodes that have done init */
 static bdk_spinlock_t dma_lock;     /* Protects __bdk_dma_init_done */
-
-#if 0
 
 /**
  * Return the number of DMA engimes supported by this chip
