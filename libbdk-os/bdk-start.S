@@ -1,28 +1,22 @@
-#include "machine/asm.h"
-#include "machine/regdef.h"
-#include "../libbdk-arch/bdk-asm.h"
+#define BDK_INITIAL_STACK_SIZE 256
 
-#define STACK_CACHE_LINES 54      /* Number of cache lines to use in scratch for a stack */
-
-    .globl __start
-    .globl __init
-    .globl __bdk_remote_console
+    .global __start
+    .global __bdk_remote_console
 
     .macro exception_stub label
 exception_\label:
-    dla     k0, __bdk_exception2
-    jalr    k1, k0  /* Save our address in k1, so we can tell which vector we are coming from. */
+    stp     x0, x1, [sp], -16
+    mov     x1, 0 /* FIXME __bdk_exception2 */
+    adr     x0, pc-8
+    br      x1
     .endm
-
 
     #
     # This is our entry point. The processor starts fetching instructions here
     #
     .section .init
-    .ent __start
 __start:
-    b   __init              /* This is replaced with the header, so jump to __init */
-     nop
+    b   __init  /* This is replaced with the header, so jump to __init */
     .word 0     /* Header Magic     (4 bytes) */
     .word 0     /* Header CRC       (4 bytes) */
 #define OFFSET_HEADER_LENGTH 16
@@ -37,8 +31,6 @@ __start:
     #
     # Exception handlers
     #
-    .set push
-    .set noat
 .org 0x200
      exception_stub tlb
 .org 0x280
@@ -51,148 +43,21 @@ __start:
      exception_stub interrupt
 .org 0x480
      exception_stub ejtag
-    .set pop
 
-    .set push
-    .set noreorder
 .org 0x500
 __bdk_remote_console:
     # 0x500 - 0x700 is used for the remote console, see bdk-fs-remote.c
-    # 0x700 - 0x1000 is unused
-    # 0x1000 - 0x2000 is reserved for a Uboot style environment
+    # 0x700 - 0x2000 is unused
 
 .org 0x2000
 __init:
-    /* Clear all registers in case we are running in RTL sim. They start off
-        unpredicatable */
-    .set push
-    .set noat
-    move $1, $0
-    .set pop
-    move $2, $0
-    move $3, $0
-    move $4, $0
-    move $5, $0
-    move $6, $0
-    move $7, $0
-    move $8, $0
-    move $9, $0
-    move $10, $0
-    move $11, $0
-    move $12, $0
-    move $13, $0
-    move $14, $0
-    move $15, $0
-    move $16, $0
-    move $17, $0
-    move $18, $0
-    move $19, $0
-    move $20, $0
-    move $21, $0
-    move $22, $0
-    move $23, $0
-    move $24, $0
-    move $25, $0
-    move $26, $0
-    move $27, $0
-    move $28, $0
-    move $29, $0
-    move $30, $0
-    move $31, $0
-    mtlo    $0
-    mthi    $0
-
-    /* Clear many COP0 registers in case we are running in RTL sim.
-        They start off unpredicatable */
-    dmtc0 $0, COP0_INDEX
-    dmtc0 $0, COP0_RANDOM
-    dmtc0 $0, COP0_ENTRYLO0
-    dmtc0 $0, COP0_ENTRYLO1
-    dmtc0 $0, COP0_CONTEXT
-    dmtc0 $0, COP0_USERLOCAL
-    dmtc0 $0, COP0_PAGEMASK
-    dmtc0 $0, COP0_PAGEGRAIN
-    dmtc0 $0, COP0_WIRED
-    dmtc0 $0, COP0_HWRENA
-    dmtc0 $0, COP0_BADVADDR
-    dmtc0 $0, COP0_COUNT
-    dmtc0 $0, COP0_CVMCOUNT
-    /* dmtc0 $0, COP0_CVMCTL */
-    dmtc0 $0, COP0_ENTRYHI
-    dmtc0 $0, COP0_COMPARE
-    /* dmtc0 $0, COP0_POWTHROTTLE */
-    /* dmtc0 $0, COP0_CVMMEMCTL */
-    li k0, 0x4400004
-    dmtc0 k0, COP0_STATUS
-    dmtc0 $0, COP0_INTCTL
-    dmtc0 $0, COP0_SRSCTL
-    dmtc0 $0, COP0_CAUSE
-    dmtc0 $0, COP0_EPC
-    /* dmtc0 $0, COP0_PRID */
-    dmtc0 $0, COP0_EBASE
-    /* dmtc0 $0, COP0_CONFIG */
-    /* dmtc0 $0, COP0_CONFIG1 */
-    /* dmtc0 $0, COP0_CONFIG2 */
-    /* dmtc0 $0, COP0_CONFIG3 */
-    /* dmtc0 $0, COP0_CONFIG4 */
-    dmtc0 $0, COP0_WATCHLO0
-    dmtc0 $0, COP0_WATCHLO1
-    dmtc0 $0, COP0_WATCHHI0
-    dmtc0 $0, COP0_WATCHHI1
-    dmtc0 $0, COP0_XCONTEXT
-    dmtc0 $0, COP0_MULTICOREDEBUG
-    /* dmtc0 $0, COP0_DEBUG */
-    /* dmtc0 $0, COP0_DEBUG2 */
-    dmtc0 $0, COP0_DEPC
-    dmtc0 $0, COP0_PERFCONTROL0
-    dmtc0 $0, COP0_PERFCONTROL1
-    dmtc0 $0, COP0_PERFVALUE0
-    dmtc0 $0, COP0_PERFVALUE1
-    dmtc0 $0, COP0_CACHEERRI
-    dmtc0 $0, COP0_CACHEERRD
-    dmtc0 $0, COP0_TAGLOI
-    dmtc0 $0, COP0_TAGLOD
-    dmtc0 $0, COP0_DATALOI
-    dmtc0 $0, COP0_DATALOD
-    dmtc0 $0, COP0_TAGHI
-    dmtc0 $0, COP0_DATAHII
-    dmtc0 $0, COP0_DATAHID
-    dmtc0 $0, COP0_ERROREPC
-    dmtc0 $0, COP0_DESAVE
-    dmtc0 $0, COP0_KSCRATCH1
-    dmtc0 $0, COP0_KSCRATCH2
-    dmtc0 $0, COP0_KSCRATCH3
-
-    dmfc0 t0, COP0_CVMCTL
-    and   t0, 1 << 27  /* nomul */
-    bnez  t0, nomul
-    nop
-    /* Clear extended multiplier for RTL sim */
-    MTM0 $0
-    MTM1 $0
-    MTM2 $0
-    MTP0 $0
-    MTP1 $0
-    MTP2 $0
-nomul:
-
-    /* Enable 64bit addressing and FP */
-    MFC0    t0, COP0_STATUS
-    or      t0, 1<<7    /* KX */
-    or      t0, 1<<29   /* CU1 */
-    MTC0    t0, COP0_STATUS
-    CTC1    zero, $31
-
     /* Figure out the location of code as an offset from our link address */
-    dla     t1, 1f          /* VA of label 1 */
-    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
-     nop
 1:
-    dsubu   s0, ra, t1      /* s0 = offset to add to VA to get current address */
-    li      t0, 0xc0400000  /* Skip relocate if we're already there */
-    beq     t0, s0, after_relocate
-     nop
-
+    adr     x0, pc          /* Jump to label, saving our PC in RA */
+    mov     x1, 1b          /* VA of label 1 */
+    sub     x0, x0, x1      /* x0 = offset to add to VA to get current address */
+    cbz     x0, after_relocate /* Skip relocate if we're already there */
+#if 0
     /* Copy copy_code to L2 at address 0 */
     li      a0, 0x80000100  /* Where we are putting copy_code */
     dla     a1, copy_code   /* Load the address of the copy_code */
@@ -212,7 +77,6 @@ nomul:
     cache   0, ($0)         /* Flush Icache */
     li      a0, 0x80000100  /* Load new location of copy_code */
     j       a0              /* Jump to it */
-     nop
 .align 3
 copy_code:
     li      a0, 0x80002000  /* Where we're copying to (skip first 0x2000) */
@@ -242,40 +106,21 @@ copy_code:
 
     /* Note the above code is run at a gofoy address, so it is disconnected
         from the code below */
-
+#endif
 after_relocate:
-    # Initialise gp
-    dla     gp, _gp
-
-    # Setup stack in scratch so we can jump to C code
-    dmfc0   t0, COP0_CVMMEMCTL
-    and     t0, -64
-    or      t0, STACK_CACHE_LINES | (7<<6)
-    dmtc0   t0, COP0_CVMMEMCTL
-    li      sp, -32768 + STACK_CACHE_LINES * 128
-
-    # Zero the scratch stack. This is needed due to an errata on CN63XXp1
-    li      t0, STACK_CACHE_LINES * 128 / 8
-    li      t1, -32768
-1:  sd      $0, (t1)
-    sub     t0, 1
-    bnez    t0, 1b
-     daddu   t1, 8
-
-    # Convert __bdk_init into an address based on my current location
-    li      t0, 0x1fffffff  /* 512MB mask */
-    dla     a0, __bdk_init  /* Virtual address of __bdk_init */
-    and     a0, t0          /* Offset from zero of __bdk_init in image */
-    dla     t1, 1f          /* Address of the upcoming label when image was linked */
-    dla     t0, __start     /* Virtual address of __start */
-    bgezal  $0, 1f          /* Jump to label, saving our PC in RA */
-     dsubu  t1, t0          /* T1 is the offset of the label from the beginning of the image */
-1:  dsubu   ra, t1          /* RA is the current location of __start */
-    daddu   a0, ra          /* Add RA to A0, getting the current address of __bdk_init() */
-    jal     a0              /* Call __bdk_init(). Its address is in A0 */
-     nop
-
-.align 7
-    .set pop
-    .end __start
+    /* Enable FP */
+    /* FIXME */
+    /* Initialise gp */
+    adr     x29, _gp
+    /* Initialise the stack */
+    adr     x0, __bdk_initial_stack
+    add     x0, x0, BDK_INITIAL_STACK_SIZE
+    msr     SP_EL0, x0
+    /* Setup so a eret will return with EL3 and using SP_EL0 */
+    adr     x0, __bdk_init
+    msr     ELR_EL3, x0
+    mov     x0, 0x000003cc /* DAIF=0xf, EL=3, SP=0 */
+    msr     SPSR_EL3, x0
+    eret
+1:  b       1b              /* Infinite loop we should never reach */
 
