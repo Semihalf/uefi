@@ -28,7 +28,7 @@ static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
     bdk_sys_midr_el1_t midr_el1;
 
     arg_midr_el1.u = arg_model;
-    BDK_MRS(MIDR_EL1, midr_el1.u);
+    asm ("mrs %[rd],MIDR_EL1" : [rd] "=r" (midr_el1.u));
 
     if (arg_model & __OM_IGNORE_REVISION)
     {
