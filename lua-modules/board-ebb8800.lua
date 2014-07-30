@@ -1,5 +1,5 @@
--- Configure the BDK for a ebb7800 board.
-print("Configuring for the EBB7800")
+-- Configure the BDK for a ebb8800 board.
+print("Configuring for the EBB8800")
 
 local set_config = octeon.c.bdk_config_set
 
@@ -48,7 +48,7 @@ set_config(octeon.CONFIG_PHY_IF5_PORT3, 31)
 -- "Common running disparity".
 for bgx=0,5 do
     for i=0,1 do
-        octeon.csr.BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
+        -- octeon.csr.BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
     end
 end
 

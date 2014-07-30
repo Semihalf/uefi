@@ -25,10 +25,10 @@ require("octeon")
 -- that. Otherwise, execute the board setup based on the OCTEON model. 
 if package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
-elseif octeon.is_model(octeon.CN70XX) then
-    menu.dofile("board-evb7000")
-elseif octeon.is_model(octeon.CN78XX) then
-    menu.dofile("board-ebb7800")
+elseif octeon.is_model(octeon.CN88XX) then
+    menu.dofile("board-ebb8800")
+elseif octeon.is_model(octeon.CN85XX) then
+    menu.dofile("board-ebb8500")
 end
 
 -- Allow the user to do some board specific customization
