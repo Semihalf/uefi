@@ -123,6 +123,11 @@ static void __bdk_init_exception(bdk_node_t node)
 void __bdk_init(long base_address) __attribute((noreturn));
 void __bdk_init(long base_address)
 {
+    extern void __bdk_exception_current_el_sync_sp0();
+    BDK_MSR(VBAR_EL3, __bdk_exception_current_el_sync_sp0);
+    BDK_MSR(VBAR_EL2, __bdk_exception_current_el_sync_sp0);
+    BDK_MSR(VBAR_EL1, __bdk_exception_current_el_sync_sp0);
+
     /* Setup chacing with no mmu */
     bdk_sys_sctlr_elx_t sctlr_el3;
     BDK_MRS(SCTLR_EL3, sctlr_el3.u);
