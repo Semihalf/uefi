@@ -11,17 +11,17 @@
  */
 
 #ifndef __BYTE_ORDER
-    #if defined(__BIG_ENDIAN) && !defined(__LITTLE_ENDIAN)
-        #define __BYTE_ORDER __BIG_ENDIAN
-    #elif !defined(__BIG_ENDIAN) && defined(__LITTLE_ENDIAN)
-        #define __BYTE_ORDER __LITTLE_ENDIAN
-        #define __BIG_ENDIAN 4321
-    #elif !defined(__BIG_ENDIAN) && !defined(__LITTLE_ENDIAN)
-        #define __BIG_ENDIAN 4321
-        #define __BYTE_ORDER __BIG_ENDIAN
+    #if !defined(__ORDER_BIG_ENDIAN__) || !defined(__ORDER_LITTLE_ENDIAN__) || !defined(__BYTE_ORDER__)
+        #error Unable to determine Endian mode
+    #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+        #define __BYTE_ORDER __ORDER_BIG_ENDIAN__
+    #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+        #define __BYTE_ORDER __ORDER_LITTLE_ENDIAN__
     #else
         #error Unable to determine Endian mode
     #endif
+    #define __BIG_ENDIAN    __ORDER_BIG_ENDIAN__
+    #define __LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
 #endif
 
 #include "bdk-require.h"
