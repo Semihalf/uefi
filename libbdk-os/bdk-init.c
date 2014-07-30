@@ -258,12 +258,6 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         BDK_TRACE("N%d: Taking cores out of reset (0x%lx)\n", node, need_reset_off);
         BDK_CSR_WRITE(node, BDK_RST_PP_RESET, reset & ~need_reset_off);
     }
-    uint64_t need_nmi = ~reset & coremask;
-    if (need_nmi)
-    {
-        BDK_TRACE("N%d: Sending NMI to cores that weren't in reset (0x%lx)\n", node, need_nmi);
-        BDK_CSR_WRITE(node, BDK_CIU_NMI, need_nmi);
-    }
 
     BDK_TRACE("N%d: Wait up to 10ms for the cores to boot\n", node);
     uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 100 + bdk_clock_get_count(BDK_CLOCK_CORE);
