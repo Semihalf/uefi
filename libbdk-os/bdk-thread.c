@@ -6,10 +6,9 @@
 typedef struct bdk_thread
 {
     struct bdk_thread *next;
-    uint64_t    pc;
+    uint64_t    coremask;
     uint64_t    gpr[32];   /* Reg 31 is SP */
     __uint128_t fpr[32];
-    uint64_t    coremask;
     struct _reent lib_state;
     uint64_t    stack_canary;
     uint64_t    stack[0];
@@ -165,9 +164,8 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
     thread->gpr[1] = arg0;              /* x1 = Argument 1 to __bdk_thread_body */
     thread->gpr[2] = (uint64_t)arg1;    /* x2 = Argument 2 to __bdk_thread_body */
     thread->gpr[29] = 0;                /* x29 = Frame pointer */
-    thread->gpr[30] = 0;                /* x30 = Link register (never returns) */
+    thread->gpr[30] = (uint64_t)__bdk_thread_body; /* x30 = Link register */
     thread->gpr[31] = (uint64_t)thread->stack + stack_size; /* x31 = Stack pointer */
-    thread->pc = (uint64_t)__bdk_thread_body;   /* Where the new thread starts */
     _REENT_INIT_PTR(&thread->lib_state);
     thread->stack_canary = STACK_CANARY;
     thread->next = NULL;
