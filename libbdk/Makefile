@@ -79,10 +79,6 @@ clean:
 distclean: clean
 	rm -f $(deps) bdk.pch
 
-UBOOT_PATH=$(OCTEON_ROOT)/bootloader/u-boot
-UBOOT_INCLUDE=-I $(UBOOT_PATH)/include -I $(UBOOT_PATH)/arch/mips/include/asm/arch-octeon
-$(BDK_ROOT)/libbdk-dram/bdk-dram-config.o $(BDK_ROOT)/libbdk-dram/bdk-dram-config.d: CPPFLAGS += -I $(OCTEON_ROOT)/target/include $(UBOOT_INCLUDE)
-
 $(BDK_ROOT)/libbdk-os/bdk-init.o: CFLAGS+="-fpic"
 $(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+="-O3"
 $(BDK_ROOT)/libbdk-lua/trafficgen.o: CFLAGS+="-O3"
