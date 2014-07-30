@@ -13,7 +13,7 @@ void bdk_setenv(const char *name, const char *value)
     else
        unsetenv(name);
 }
-
+#if 0
 void bdk_write_env(void)
 {
     if (!*environ)
@@ -32,4 +32,4 @@ void bdk_write_env(void)
     }
     *base_ptr = bdk_crc32(base_ptr+1, 0x1000 - 4, 0);
 }
-
+#endif
