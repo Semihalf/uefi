@@ -84,7 +84,7 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
        register UAA(0..1)_CR */
     BDK_CSR_MODIFY(c, node, BDK_UAAX_LCR_H(uart),
         c.s.sps = 0; /* No parity */
-        c.s.wen = 3; /* 8 bits */
+        c.s.wlen = 3; /* 8 bits */
         c.s.fen = 1; /* FIFOs enabled */
         c.s.stp2 = 0; /* Use one stop bit, not two */
         c.s.eps = 0; /* No parity */
