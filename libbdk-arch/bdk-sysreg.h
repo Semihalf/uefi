@@ -88,7 +88,7 @@ SYSTEM_REGISTER(CVM_MEMDEBUG4_EL3, 3,6,11,5,4, 0x0, 0x0, 0xffffffffffffffff, 0x0
 SYSTEM_REGISTER(CVM_MEMDEBUG5_EL3, 3,6,11,5,5, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_MEMDEBUG6_EL3, 3,6,11,5,6, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_MEMDEBUG7_EL3, 3,6,11,5,7, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
-SYSTEM_REGISTER(CVM_DEBUG4_EL3, 3,6,11,5,0, 0x0, 0x0, 0x1f, 0x0, 0x0, true)
+SYSTEM_REGISTER(CVM_DEBUG4_EL3, 3,6,11,5,0, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_DLL_OBSERVABILTY_EL3, 3,6,11,5,1, 0x0, 0x0, 0xfffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_DEBUG6_EL3, 3,6,11,5,2, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_DEBUG7_EL3, 3,6,11,5,3, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
@@ -2959,7 +2959,7 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t reserved_5_63 : 59;
+        uint64_t undocumented : 59;
         uint64_t mem_stall_4a : 1;
         uint64_t waiting_for_pfill_4a : 1;
         uint64_t waiting_for_ifill_4a : 1;
@@ -2969,7 +2969,7 @@ typedef union
         uint64_t waiting_for_ifill_4a : 1;
         uint64_t waiting_for_pfill_4a : 1;
         uint64_t mem_stall_4a : 1;
-        uint64_t reserved_5_63 : 59;
+        uint64_t undocumented : 59;
 #endif
     } s;
 #ifdef __cplusplus

@@ -132,11 +132,9 @@ typedef union bdk_iobnx_bistr_reg {
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX) && ((param1 <= 1)))
-		return 0x000087E0F0005008ull + (param1 & 1) * 0x1000000ull;
-	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+	if (((param1 <= 1)))
 		return 0x000087E0F0005080ull + (param1 & 1) * 0x1000000ull;
-	else 		csr_fatal("BDK_IOBNX_BISTR_REG", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_IOBNX_BISTR_REG", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_IOBNX_BISTR_REG(...) bdk_iobnx_bistr_reg_t
 #define bustype_BDK_IOBNX_BISTR_REG(...) BDK_CSR_TYPE_RSL
@@ -367,15 +365,16 @@ typedef union bdk_iobnx_core_bist_status {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
+	/* struct bdk_iobnx_core_bist_status_s cn85xx; */
 	/* struct bdk_iobnx_core_bist_status_s cn88xx; */
 } bdk_iobnx_core_bist_status_t;
 
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+	if (((param1 <= 1)))
 		return 0x000087E0F0005008ull + (param1 & 1) * 0x1000000ull;
-	else 		csr_fatal("BDK_IOBNX_CORE_BIST_STATUS", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_IOBNX_CORE_BIST_STATUS", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_IOBNX_CORE_BIST_STATUS(...) bdk_iobnx_core_bist_status_t
 #define bustype_BDK_IOBNX_CORE_BIST_STATUS(...) BDK_CSR_TYPE_RSL

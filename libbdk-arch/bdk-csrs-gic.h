@@ -778,6 +778,7 @@ typedef union bdk_gic_scratch {
 		uint64_t data                        : 64;
 #endif
 	} s;
+	/* struct bdk_gic_scratch_s           cn85xx; */
 	/* struct bdk_gic_scratch_s           cn88xx; */
 } bdk_gic_scratch_t;
 
@@ -785,9 +786,7 @@ typedef union bdk_gic_scratch {
 static inline uint64_t BDK_GIC_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GIC_SCRATCH_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x0000801000010080ull;
-	else 		csr_fatal("BDK_GIC_SCRATCH", 0, 0, 0, 0, 0); /* No return */
+	return 0x0000801000010080ull;
 }
 #define typedef_BDK_GIC_SCRATCH bdk_gic_scratch_t
 #define bustype_BDK_GIC_SCRATCH BDK_CSR_TYPE_NCB

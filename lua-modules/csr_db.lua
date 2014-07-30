@@ -42916,6 +42916,65 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_TNS_BCST_RSP = {
+            name = "DTX_TNS_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fea10080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_TNS_CTL = {
+            name = "DTX_TNS_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fea10060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_TNS_DATX = {
+            name = "DTX_TNS_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fea10040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_TNS_ENAX = {
+            name = "DTX_TNS_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fea10020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_TNS_SELX = {
+            name = "DTX_TNS_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fea10000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_UAAX_BCST_RSP = {
             name = "DTX_UAA#_BCST_RSP",
             type = "RSL",
@@ -43451,6 +43510,15 @@ local csr_db = {
                 {name = "SECURE", start = 28, stop = 28},
                 {name = "RESERVED_20_27", start = 20, stop = 27},
                 {name = "INT_ID", start = 0, stop = 19},
+            }
+        },
+        GIC_SCRATCH = {
+            name = "GIC_SCRATCH",
+            type = "NCB",
+            width = 8,
+            address = 0x801000010080,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         GICD_CIDR0 = {
@@ -47576,7 +47644,7 @@ local csr_db = {
             name = "IOBN#_BISTR_REG",
             type = "RSL",
             width = 8,
-            address = 0x87e0f0005008,
+            address = 0x87e0f0005080,
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
@@ -47635,6 +47703,18 @@ local csr_db = {
                 {name = "CHIP_POWER", start = 32, stop = 47},
                 {name = "COPROC_POWER", start = 16, stop = 31},
                 {name = "AVG_CHIP_POWER", start = 0, stop = 15},
+            }
+        },
+        IOBNX_CORE_BIST_STATUS = {
+            name = "IOBN#_CORE_BIST_STATUS",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0f0005008,
+            range1 = {0,1},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "CORE_BSTAT", start = 0, stop = 23},
             }
         },
         IOBNX_DIS_NCBI_IO = {

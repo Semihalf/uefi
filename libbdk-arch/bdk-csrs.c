@@ -3018,6 +3018,11 @@ static const int16_t __bdk_csr_db_cn85xx[] = {
     492, /* dtx_sliX_datX */
     493, /* dtx_sliX_enaX */
     494, /* dtx_sliX_selX */
+    495, /* dtx_tns_bcst_rsp */
+    496, /* dtx_tns_ctl */
+    497, /* dtx_tns_datX */
+    498, /* dtx_tns_enaX */
+    499, /* dtx_tns_selX */
     500, /* dtx_uaaX_bcst_rsp */
     501, /* dtx_uaaX_ctl */
     502, /* dtx_uaaX_datX */
@@ -3059,6 +3064,7 @@ static const int16_t __bdk_csr_db_cn85xx[] = {
     538, /* gic_ecc_int_statusr */
     539, /* gic_rib_err_adrr */
     540, /* gic_rib_err_statusr */
+    541, /* gic_scratch */
     542, /* gicd_cidr0 */
     543, /* gicd_cidr1 */
     544, /* gicd_cidr2 */
@@ -3384,11 +3390,12 @@ static const int16_t __bdk_csr_db_cn85xx[] = {
     864, /* gti_wrX_pidr7 */
     865, /* gti_wrX_w_iidr */
     866, /* gti_wrX_wrr */
-    2478, /* iobnX_bistr_reg */
+    867, /* iobnX_bistr_reg */
     868, /* iobnX_bists_reg */
     869, /* iobnX_chip_cur_pwr */
     870, /* iobnX_chip_glb_pwr_throttle */
     871, /* iobnX_chip_pwr_out */
+    872, /* iobnX_core_bist_status */
     873, /* iobnX_dis_ncbi_io */
     874, /* iobnX_gbl_dll */
     875, /* iobnX_int_ena_w1c */
@@ -4183,35 +4190,35 @@ static const int16_t __bdk_csr_db_cn85xx[] = {
     1664, /* pemX_p2n_bar1_start */
     1665, /* pemX_p2n_bar2_start */
     1666, /* pemX_tlp_credits */
-    2479, /* phys_dbg_break_cfg */
-    2480, /* phys_djcnt_cfgX */
-    2481, /* phys_gpint_ena_w1c */
-    2482, /* phys_gpint_ena_w1s */
-    2483, /* phys_gpint_sum */
-    2484, /* phys_gpint_sum_w1s */
-    2485, /* phys_int_ena_w1c */
-    2486, /* phys_int_ena_w1s */
-    2487, /* phys_int_sum */
-    2488, /* phys_int_sum_w1s */
-    2489, /* phys_log_base */
-    2490, /* phys_log_cfg */
-    2491, /* phys_log_ptr */
-    2492, /* phys_max_creditX */
-    2493, /* phys_queue_busy_sts */
-    2494, /* phys_queue_cfgX */
-    2495, /* phys_queue_cmd_hiX */
-    2496, /* phys_queue_cmd_loX */
-    2497, /* phys_queue_ena */
-    2498, /* phys_queue_full_sts */
-    2499, /* phys_queue_ptrX */
-    2500, /* phys_queue_ramX */
-    2501, /* phys_queue_spaceX */
-    2502, /* phys_rsrc_tblX */
-    2503, /* phys_rst */
-    2504, /* phys_svmid */
-    2505, /* phys_tim_trig_cfgX */
-    2506, /* phys_tim_val */
-    2507, /* phys_timeout_cfg */
+    2478, /* phys_dbg_break_cfg */
+    2479, /* phys_djcnt_cfgX */
+    2480, /* phys_gpint_ena_w1c */
+    2481, /* phys_gpint_ena_w1s */
+    2482, /* phys_gpint_sum */
+    2483, /* phys_gpint_sum_w1s */
+    2484, /* phys_int_ena_w1c */
+    2485, /* phys_int_ena_w1s */
+    2486, /* phys_int_sum */
+    2487, /* phys_int_sum_w1s */
+    2488, /* phys_log_base */
+    2489, /* phys_log_cfg */
+    2490, /* phys_log_ptr */
+    2491, /* phys_max_creditX */
+    2492, /* phys_queue_busy_sts */
+    2493, /* phys_queue_cfgX */
+    2494, /* phys_queue_cmd_hiX */
+    2495, /* phys_queue_cmd_loX */
+    2496, /* phys_queue_ena */
+    2497, /* phys_queue_full_sts */
+    2498, /* phys_queue_ptrX */
+    2499, /* phys_queue_ramX */
+    2500, /* phys_queue_spaceX */
+    2501, /* phys_rsrc_tblX */
+    2502, /* phys_rst */
+    2503, /* phys_svmid */
+    2504, /* phys_tim_trig_cfgX */
+    2505, /* phys_tim_val */
+    2506, /* phys_timeout_cfg */
     1667, /* pmuX_pmauthstatus */
     1668, /* pmuX_pmccfiltr_el0 */
     1669, /* pmuX_pmccntr_el0_hi */
@@ -7505,36 +7512,35 @@ const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {47652, BDK_CSR_TYPE_NCB,8,8728,{ 0, 0, 0, 0},2456,{ 0, 0, 0, 0}}, /* 2475 */
     {47658, BDK_CSR_TYPE_NCB,8,948,{ 0, 0, 0, 0},2457,{ 0, 0, 0, 0}}, /* 2476 */
     {47664, BDK_CSR_TYPE_NCB,8,8731,{ 0, 0, 0, 0},2458,{ 0, 0, 0, 0}}, /* 2477 */
-    {15411, BDK_CSR_TYPE_RSL,8,2411,{ 3, 0, 0, 0},881,{ 0, 0, 0, 0}}, /* 2478 */
-    {47675, BDK_CSR_TYPE_NCB,8,8734,{ 0, 0, 0, 0},2459,{ 0, 0, 0, 0}}, /* 2479 */
-    {47717, BDK_CSR_TYPE_NCB,8,8741,{24, 0, 0, 0},2460,{61, 0, 0, 0}}, /* 2480 */
-    {47801, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2461,{ 0, 0, 0, 0}}, /* 2481 */
-    {47814, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2462,{ 0, 0, 0, 0}}, /* 2482 */
-    {47824, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2463,{ 0, 0, 0, 0}}, /* 2483 */
-    {47832, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2464,{ 0, 0, 0, 0}}, /* 2484 */
-    {47842, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2465,{ 0, 0, 0, 0}}, /* 2485 */
-    {47889, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2466,{ 0, 0, 0, 0}}, /* 2486 */
-    {47898, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2467,{ 0, 0, 0, 0}}, /* 2487 */
-    {47905, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2468,{ 0, 0, 0, 0}}, /* 2488 */
-    {47914, BDK_CSR_TYPE_NCB,8,8768,{ 0, 0, 0, 0},2469,{ 0, 0, 0, 0}}, /* 2489 */
-    {47926, BDK_CSR_TYPE_NCB,8,8771,{ 0, 0, 0, 0},2470,{ 0, 0, 0, 0}}, /* 2490 */
-    {47962, BDK_CSR_TYPE_NCB,8,8779,{ 0, 0, 0, 0},2471,{ 0, 0, 0, 0}}, /* 2491 */
-    {47973, BDK_CSR_TYPE_NCB,8,8782,{ 6, 0, 0, 0},2472,{61, 0, 0, 0}}, /* 2492 */
-    {48030, BDK_CSR_TYPE_NCB,8,8799,{ 0, 0, 0, 0},2473,{ 0, 0, 0, 0}}, /* 2493 */
-    {48040, BDK_CSR_TYPE_NCB,8,8802,{ 9, 0, 0, 0},2474,{61, 0, 0, 0}}, /* 2494 */
-    {48051, BDK_CSR_TYPE_NCB,8,8809,{ 9, 0, 0, 0},2475,{124, 0, 0, 0}}, /* 2495 */
-    {48061, BDK_CSR_TYPE_NCB,8,8809,{ 9, 0, 0, 0},2476,{124, 0, 0, 0}}, /* 2496 */
-    {48071, BDK_CSR_TYPE_NCB,8,8811,{ 0, 0, 0, 0},2477,{ 0, 0, 0, 0}}, /* 2497 */
-    {48079, BDK_CSR_TYPE_NCB,8,8814,{ 0, 0, 0, 0},2478,{ 0, 0, 0, 0}}, /* 2498 */
-    {48089, BDK_CSR_TYPE_NCB,8,8817,{ 9, 0, 0, 0},2479,{61, 0, 0, 0}}, /* 2499 */
-    {48102, BDK_CSR_TYPE_NCB,8,8825,{135, 0, 0, 0},2480,{61, 0, 0, 0}}, /* 2500 */
-    {48110, BDK_CSR_TYPE_NCB,8,8827,{ 9, 0, 0, 0},2481,{61, 0, 0, 0}}, /* 2501 */
-    {48122, BDK_CSR_TYPE_NCB,8,8830,{87, 0, 0, 0},2482,{61, 0, 0, 0}}, /* 2502 */
-    {48134, BDK_CSR_TYPE_NCB,8,8832,{ 0, 0, 0, 0},2483,{ 0, 0, 0, 0}}, /* 2503 */
-    {48145, BDK_CSR_TYPE_NCB,8,8836,{ 0, 0, 0, 0},2484,{ 0, 0, 0, 0}}, /* 2504 */
-    {48154, BDK_CSR_TYPE_NCB,8,8839,{12, 0, 0, 0},2485,{61, 0, 0, 0}}, /* 2505 */
-    {48179, BDK_CSR_TYPE_NCB,8,8845,{ 0, 0, 0, 0},2486,{ 0, 0, 0, 0}}, /* 2506 */
-    {48218, BDK_CSR_TYPE_NCB,8,8853,{ 0, 0, 0, 0},2487,{ 0, 0, 0, 0}}, /* 2507 */
+    {47675, BDK_CSR_TYPE_NCB,8,8734,{ 0, 0, 0, 0},2459,{ 0, 0, 0, 0}}, /* 2478 */
+    {47717, BDK_CSR_TYPE_NCB,8,8741,{24, 0, 0, 0},2460,{61, 0, 0, 0}}, /* 2479 */
+    {47801, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2461,{ 0, 0, 0, 0}}, /* 2480 */
+    {47814, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2462,{ 0, 0, 0, 0}}, /* 2481 */
+    {47824, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2463,{ 0, 0, 0, 0}}, /* 2482 */
+    {47832, BDK_CSR_TYPE_NCB,8,8758,{ 0, 0, 0, 0},2464,{ 0, 0, 0, 0}}, /* 2483 */
+    {47842, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2465,{ 0, 0, 0, 0}}, /* 2484 */
+    {47889, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2466,{ 0, 0, 0, 0}}, /* 2485 */
+    {47898, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2467,{ 0, 0, 0, 0}}, /* 2486 */
+    {47905, BDK_CSR_TYPE_NCB,8,8760,{ 0, 0, 0, 0},2468,{ 0, 0, 0, 0}}, /* 2487 */
+    {47914, BDK_CSR_TYPE_NCB,8,8768,{ 0, 0, 0, 0},2469,{ 0, 0, 0, 0}}, /* 2488 */
+    {47926, BDK_CSR_TYPE_NCB,8,8771,{ 0, 0, 0, 0},2470,{ 0, 0, 0, 0}}, /* 2489 */
+    {47962, BDK_CSR_TYPE_NCB,8,8779,{ 0, 0, 0, 0},2471,{ 0, 0, 0, 0}}, /* 2490 */
+    {47973, BDK_CSR_TYPE_NCB,8,8782,{ 6, 0, 0, 0},2472,{61, 0, 0, 0}}, /* 2491 */
+    {48030, BDK_CSR_TYPE_NCB,8,8799,{ 0, 0, 0, 0},2473,{ 0, 0, 0, 0}}, /* 2492 */
+    {48040, BDK_CSR_TYPE_NCB,8,8802,{ 9, 0, 0, 0},2474,{61, 0, 0, 0}}, /* 2493 */
+    {48051, BDK_CSR_TYPE_NCB,8,8809,{ 9, 0, 0, 0},2475,{124, 0, 0, 0}}, /* 2494 */
+    {48061, BDK_CSR_TYPE_NCB,8,8809,{ 9, 0, 0, 0},2476,{124, 0, 0, 0}}, /* 2495 */
+    {48071, BDK_CSR_TYPE_NCB,8,8811,{ 0, 0, 0, 0},2477,{ 0, 0, 0, 0}}, /* 2496 */
+    {48079, BDK_CSR_TYPE_NCB,8,8814,{ 0, 0, 0, 0},2478,{ 0, 0, 0, 0}}, /* 2497 */
+    {48089, BDK_CSR_TYPE_NCB,8,8817,{ 9, 0, 0, 0},2479,{61, 0, 0, 0}}, /* 2498 */
+    {48102, BDK_CSR_TYPE_NCB,8,8825,{135, 0, 0, 0},2480,{61, 0, 0, 0}}, /* 2499 */
+    {48110, BDK_CSR_TYPE_NCB,8,8827,{ 9, 0, 0, 0},2481,{61, 0, 0, 0}}, /* 2500 */
+    {48122, BDK_CSR_TYPE_NCB,8,8830,{87, 0, 0, 0},2482,{61, 0, 0, 0}}, /* 2501 */
+    {48134, BDK_CSR_TYPE_NCB,8,8832,{ 0, 0, 0, 0},2483,{ 0, 0, 0, 0}}, /* 2502 */
+    {48145, BDK_CSR_TYPE_NCB,8,8836,{ 0, 0, 0, 0},2484,{ 0, 0, 0, 0}}, /* 2503 */
+    {48154, BDK_CSR_TYPE_NCB,8,8839,{12, 0, 0, 0},2485,{61, 0, 0, 0}}, /* 2504 */
+    {48179, BDK_CSR_TYPE_NCB,8,8845,{ 0, 0, 0, 0},2486,{ 0, 0, 0, 0}}, /* 2505 */
+    {48218, BDK_CSR_TYPE_NCB,8,8853,{ 0, 0, 0, 0},2487,{ 0, 0, 0, 0}}, /* 2506 */
 };
 
 const uint16_t __bdk_csr_db_fieldList[] = {

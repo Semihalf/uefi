@@ -4065,6 +4065,7 @@ typedef union bdk_dtx_tns_bcst_rsp {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
+	/* struct bdk_dtx_tns_bcst_rsp_s      cn85xx; */
 	/* struct bdk_dtx_tns_bcst_rsp_s      cn88xx; */
 } bdk_dtx_tns_bcst_rsp_t;
 
@@ -4072,9 +4073,7 @@ typedef union bdk_dtx_tns_bcst_rsp {
 static inline uint64_t BDK_DTX_TNS_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_BCST_RSP_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x000087E0FEA10080ull;
-	else 		csr_fatal("BDK_DTX_TNS_BCST_RSP", 0, 0, 0, 0, 0); /* No return */
+	return 0x000087E0FEA10080ull;
 }
 #define typedef_BDK_DTX_TNS_BCST_RSP bdk_dtx_tns_bcst_rsp_t
 #define bustype_BDK_DTX_TNS_BCST_RSP BDK_CSR_TYPE_RSL
@@ -4105,6 +4104,7 @@ typedef union bdk_dtx_tns_ctl {
 		uint64_t reserved_5_63               : 59;
 #endif
 	} s;
+	/* struct bdk_dtx_tns_ctl_s           cn85xx; */
 	/* struct bdk_dtx_tns_ctl_s           cn88xx; */
 } bdk_dtx_tns_ctl_t;
 
@@ -4112,9 +4112,7 @@ typedef union bdk_dtx_tns_ctl {
 static inline uint64_t BDK_DTX_TNS_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_CTL_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x000087E0FEA10060ull;
-	else 		csr_fatal("BDK_DTX_TNS_CTL", 0, 0, 0, 0, 0); /* No return */
+	return 0x000087E0FEA10060ull;
 }
 #define typedef_BDK_DTX_TNS_CTL bdk_dtx_tns_ctl_t
 #define bustype_BDK_DTX_TNS_CTL BDK_CSR_TYPE_RSL
@@ -4138,15 +4136,16 @@ typedef union bdk_dtx_tns_datx {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
+	/* struct bdk_dtx_tns_datx_s          cn85xx; */
 	/* struct bdk_dtx_tns_datx_s          cn88xx; */
 } bdk_dtx_tns_datx_t;
 
 static inline uint64_t BDK_DTX_TNS_DATX(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_DATX(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+	if (((param1 <= 1)))
 		return 0x000087E0FEA10040ull + (param1 & 1) * 0x8ull;
-	else 		csr_fatal("BDK_DTX_TNS_DATX", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_DTX_TNS_DATX", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_DTX_TNS_DATX(...) bdk_dtx_tns_datx_t
 #define bustype_BDK_DTX_TNS_DATX(...) BDK_CSR_TYPE_RSL
@@ -4170,15 +4169,16 @@ typedef union bdk_dtx_tns_enax {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
+	/* struct bdk_dtx_tns_enax_s          cn85xx; */
 	/* struct bdk_dtx_tns_enax_s          cn88xx; */
 } bdk_dtx_tns_enax_t;
 
 static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+	if (((param1 <= 1)))
 		return 0x000087E0FEA10020ull + (param1 & 1) * 0x8ull;
-	else 		csr_fatal("BDK_DTX_TNS_ENAX", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_DTX_TNS_ENAX", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_DTX_TNS_ENAX(...) bdk_dtx_tns_enax_t
 #define bustype_BDK_DTX_TNS_ENAX(...) BDK_CSR_TYPE_RSL
@@ -4201,15 +4201,16 @@ typedef union bdk_dtx_tns_selx {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
+	/* struct bdk_dtx_tns_selx_s          cn85xx; */
 	/* struct bdk_dtx_tns_selx_s          cn88xx; */
 } bdk_dtx_tns_selx_t;
 
 static inline uint64_t BDK_DTX_TNS_SELX(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_SELX(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 1)))
+	if (((param1 <= 1)))
 		return 0x000087E0FEA10000ull + (param1 & 1) * 0x8ull;
-	else 		csr_fatal("BDK_DTX_TNS_SELX", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_DTX_TNS_SELX", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_DTX_TNS_SELX(...) bdk_dtx_tns_selx_t
 #define bustype_BDK_DTX_TNS_SELX(...) BDK_CSR_TYPE_RSL
