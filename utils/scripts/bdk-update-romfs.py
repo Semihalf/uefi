@@ -18,13 +18,13 @@ BOOTLOADER_HEADER_IMAGE_TYPE = 3
 
 def pack(width, data):
     if width == 1:
-        return struct.pack(">B", data)
+        return struct.pack("<B", data)
     elif width == 2:
-        return struct.pack(">H", data)
+        return struct.pack("<H", data)
     elif width == 4:
-        return struct.pack(">I", data)
+        return struct.pack("<I", data)
     elif width == 8:
-        return struct.pack(">Q", data)
+        return struct.pack("<Q", data)
     else:
         raise Exception("Invalid width")
 
