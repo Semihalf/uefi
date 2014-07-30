@@ -1,1 +1,0 @@
-../../lua-modules/qlm_menu_cn70xx.lua

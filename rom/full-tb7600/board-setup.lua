@@ -1,1 +1,0 @@
-../../lua-modules/board-tb7600.lua
