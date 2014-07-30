@@ -103,7 +103,7 @@ static inline void bdk_zero_memory(void *start, uint64_t length)
         void *end = start + length;
         while (start<end)
         {
-            asm volatile ("dc zva,(%[rbase])" : : [rbase] "d"(start));
+            asm volatile ("dc zva,%0" : : "r"(start));
             start += BDK_CACHE_LINE_SIZE;
         }
     }
