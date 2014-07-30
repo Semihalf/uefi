@@ -17,8 +17,13 @@ typedef union
     int64_t combined;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         int32_t ticket;
         int32_t serving;
+#else
+        int32_t serving;
+        int32_t ticket;
+#endif
     } s;
 } bdk_spinlock_t;
 
@@ -58,7 +63,7 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
     int32_t serving = (int32_t)combined;
 
     while (bdk_unlikely(serving != ticket))
-        serving = *(volatile int32_t*)&lock->s.serving;
+        serving = bdk_atomic_get32(&lock->s.serving);
 }
 
 /** @} */
