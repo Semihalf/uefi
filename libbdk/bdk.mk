@@ -41,7 +41,7 @@ TEXT_SECTIONS=.text .rodata
 INIT_SECTIONS := $(foreach s,$(INIT_SECTIONS), --only-section=$(s))
 DATA_SECTIONS := $(foreach s,$(DATA_SECTIONS), --only-section=$(s))
 TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
-IMAGE_END=`${CROSS}-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9a-f]*\).*/print 0x\1/g" | python`
+IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9a-f]*\).*/print 0x\1/g" | python`
 #
 # This is needed to generate the depends files
 # The -M creates the dependencies to stdout
@@ -55,8 +55,8 @@ IMAGE_END=`${CROSS}-objdump -t $^ | grep " _end$$" | sed "s/^8\([0-9a-f]*\).*/pr
 # Convert an ELF file into a binary
 #
 %.bin: %
-	${CROSS}-objcopy $^ $(INIT_SECTIONS) -O binary $@-init.tmp
-	${CROSS}-objcopy $^ $(TEXT_SECTIONS) $(DATA_SECTIONS) -O binary $@-text-data.tmp
+	${CROSS}objcopy $^ $(INIT_SECTIONS) -O binary $@-init.tmp
+	${CROSS}objcopy $^ $(TEXT_SECTIONS) $(DATA_SECTIONS) -O binary $@-text-data.tmp
 	cat $@-init.tmp $@-text-data.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
 	rm $@-init.tmp $@-text-data.tmp
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
