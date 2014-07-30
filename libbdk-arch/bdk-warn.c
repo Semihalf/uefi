@@ -53,16 +53,8 @@ void __bdk_die(void)
 {
 #ifndef BDK_BUILD_HOST
     BDK_MB;
-    if (bdk_is_simulation())
-    {
-        while (1)
-            asm volatile ("break" ::: "memory");
-    }
-    else
-    {
-        while (1)
-            asm volatile ("wait" ::: "memory");
-    }
+    while (1)
+        asm volatile ("wfi" ::: "memory");
 #else
     abort();
 #endif
