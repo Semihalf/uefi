@@ -110,6 +110,7 @@ static void __bdk_init_exception(bdk_node_t node)
     BDK_MSR(VBAR_EL1, 0);
     BDK_MSR(VBAR_EL2, 0);
     BDK_MSR(VBAR_EL3, 0);
+    void *ebase = NULL;
     memcpy(ebase, &__bdk_exception, 0x80); /* TLB */
     memcpy(ebase + 0x80, &__bdk_exception, 0x80); /* XTLB */
     memcpy(ebase + 0x100, &__bdk_exception, 0x80); /* Cache Error */
@@ -137,21 +138,20 @@ void __bdk_init(long base_address)
     bdk_node_t node = bdk_numa_local();
     bdk_numa_set_running(node);
 
+#if 0
     /* Sync cycle counter */
     uint64_t core_rate = bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000;
     uint64_t sclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000;
     BDK_MB;
     uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
     BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
+#endif
 
     static const char BANNER_1[] = "Bringup and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
 
     BDK_MSR(TPIDR_EL3, 0);
-
-    /* Initialize async WQE area with no work */
-    bdk_scratch_write64(BDK_IF_SCR_WORK, 1ull<<63);
 
     if (bdk_is_boot_core())
     {
@@ -183,17 +183,17 @@ void __bdk_init(long base_address)
             bdk_l2c_lock_mem_region(node, bdk_numa_get_address(node, 0), bdk_l2c_get_cache_size_bytes(node));
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
-            BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT(0));
+            BDK_CSR_DEFINE(l2c_tadx_int, BDK_L2C_TADX_INT_W1C(0));
             l2c_tadx_int.u = 0;
             l2c_tadx_int.s.rddislmc = 1;
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(0), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(1), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(2), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(3), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(4), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(5), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(6), l2c_tadx_int.u);
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT(7), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(0), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(1), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(2), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(3), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(4), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(5), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(6), l2c_tadx_int.u);
+            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(7), l2c_tadx_int.u);
 
             /* The locked region isn't considered dirty by L2. Do read
                read/write of each cache line to force each to be dirty */
@@ -219,7 +219,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 {
     /* Write the address of the main entry point */
     BDK_TRACE("N%d: Setting address for boot jump\n", node);
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_AP_JUMP, bdk_numa_master() << 44);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_AP_JUMP, (uint64_t)bdk_numa_master() << 44);
 
     /* Choose all cores by default */
     if (coremask == 0)
