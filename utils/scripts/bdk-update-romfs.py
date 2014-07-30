@@ -38,7 +38,7 @@ def load_file(filename):
 def update_header(filename, data):
     raw_instructions = data[0:8]
     data = data[BOOTLOADER_HEADER_SIZE:]
-    # Header begins with two raw mips instructions for 8 bytes
+    # Header begins with two raw instructions for 8 bytes
     header = raw_instructions
     # Four bytes of magic number
     header += BOOTLOADER_HEADER_MAGIC

@@ -8,11 +8,6 @@
  * @{
 */
 
-/* We're going to assume that if we are compiling for Mips then we must be
-    running natively on Octoen. It is possible that this code could be
-    compiled on a non Octeon Mips that is acting as a PCI/PCIe host. In this
-    case this assumption will be wrong and cause issues We can't key off of
-    __octeon__ since some people use stock gcc toolchains */
 #define BDK_FUNCTION static inline
 
 /**
