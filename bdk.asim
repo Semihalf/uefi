@@ -1,10 +1,36 @@
 
-CORECOUNT = 1
-MEMBASE = 0
-UART0PORT = 2000
-@../asim/tests/io/cn88xx.asim
-load bdk-boot/bdk-xmodem-load
-trace cpu0 step
+# Load the CN88XX IOs
+@../asim/tests/io/cn88xx-1s48p.asim
+
+# Load the BDK image
+load target-bin/bdk-boot-cn88xx.bin 0
+symbols bdk-boot/bdk-full-no-romfs
+
+# Set PC to zero
+rm0 pc = 0
+
+# Control tracing
+trace cpu0 debug
+show_source off
+
+# Break on synchronous exceptions for debugging
 bp __bdk_exception_current_el_sync_sp0
-show_source on
+bp __bdk_exception_current_el_irq_sp0
+bp __bdk_exception_current_el_fiq_sp0
+bp __bdk_exception_current_el_serror_sp0
+bp __bdk_exception_current_el_sync_spx
+bp __bdk_exception_current_el_irq_spx
+bp __bdk_exception_current_el_fiq_spx
+bp __bdk_exception_current_el_serror_spx
+bp __bdk_exception_lower_el_sync_sp0
+bp __bdk_exception_lower_el_irq_sp0
+bp __bdk_exception_lower_el_fiq_sp0
+bp __bdk_exception_lower_el_serror_sp0
+bp __bdk_exception_lower_el_sync_spx
+bp __bdk_exception_lower_el_irq_spx
+bp __bdk_exception_lower_el_fiq_spx
+bp __bdk_exception_lower_el_serror_spx
+#bp __bdk_thread_switch
+#bp bdk_thread_destroy
+
 
