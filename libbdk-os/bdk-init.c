@@ -686,7 +686,6 @@ static int init_oci(void)
         const uint64_t exists_mask = bdk_numa_get_exists_mask();
         BDK_CSR_MODIFY(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL,
             l2c_oci_ctl.s.iofrcl = 1;
-            l2c_oci_ctl.s.gksegnode = bdk_numa_local();
             l2c_oci_ctl.s.enaoci = exists_mask);
         return -1;
     }
@@ -700,7 +699,6 @@ static int init_oci(void)
         {
             BDK_CSR_MODIFY(l2c_oci_ctl, node, BDK_L2C_OCI_CTL,
                 l2c_oci_ctl.s.iofrcl = 0;
-                l2c_oci_ctl.s.gksegnode = bdk_numa_local();
                 l2c_oci_ctl.s.enaoci = exists_mask);
         }
         else if (bdk_numa_exists(node))
@@ -708,7 +706,6 @@ static int init_oci(void)
             bdk_l2c_oci_ctl_t l2c_oci_ctl;
             l2c_oci_ctl.u = ocx_pp_read(node, BDK_L2C_OCI_CTL);
             l2c_oci_ctl.s.iofrcl = 0;
-            l2c_oci_ctl.s.gksegnode = node;
             l2c_oci_ctl.s.enaoci = exists_mask;
             ocx_pp_write(node, BDK_L2C_OCI_CTL, l2c_oci_ctl.u);
         }
