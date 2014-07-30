@@ -22,11 +22,7 @@
  */
 static inline void bdk_atomic_add32_nosync(int32_t *ptr, int32_t incr)
 {
-    __asm__ __volatile__(
-    "   saa %[inc], (%[base]) \n"
-    : "+m" (*ptr)
-    : [inc] "r" (incr), [base] "r" (ptr)
-    : "memory");
+    __atomic_fetch_add(ptr, incr, __ATOMIC_RELAXED);
 }
 
 /**
@@ -55,7 +51,7 @@ static inline void bdk_atomic_add32(int32_t *ptr, int32_t incr)
 static inline void bdk_atomic_set32(int32_t *ptr, int32_t value)
 {
     BDK_WMB;
-    *ptr = value;
+    __atomic_store_4(ptr, value, __ATOMIC_RELAXED);
     BDK_WMB;
 }
 
@@ -68,7 +64,7 @@ static inline void bdk_atomic_set32(int32_t *ptr, int32_t value)
  */
 static inline int32_t bdk_atomic_get32(int32_t *ptr)
 {
-    return *(volatile int32_t *)ptr;
+    return __atomic_load_4(ptr, __ATOMIC_RELAXED);
 }
 
 /**
@@ -84,11 +80,7 @@ static inline int32_t bdk_atomic_get32(int32_t *ptr)
  */
 static inline void bdk_atomic_add64_nosync(int64_t *ptr, int64_t incr)
 {
-    __asm__ __volatile__(
-    "   saad %[inc], (%[base])  \n"
-    : "+m" (*ptr)
-    : [inc] "r" (incr), [base] "r" (ptr)
-    : "memory");
+    __atomic_fetch_add(ptr, incr, __ATOMIC_RELAXED);
 }
 
 /**
@@ -117,7 +109,7 @@ static inline void bdk_atomic_add64(int64_t *ptr, int64_t incr)
 static inline void bdk_atomic_set64(int64_t *ptr, int64_t value)
 {
     BDK_WMB;
-    *ptr = value;
+    __atomic_store_8(ptr, value, __ATOMIC_RELAXED);
     BDK_WMB;
 }
 
@@ -130,7 +122,7 @@ static inline void bdk_atomic_set64(int64_t *ptr, int64_t value)
  */
 static inline int64_t bdk_atomic_get64(int64_t *ptr)
 {
-    return *(volatile int64_t *)ptr;
+    return __atomic_load_8(ptr, __ATOMIC_RELAXED);
 }
 
 /**
@@ -147,25 +139,7 @@ static inline int64_t bdk_atomic_get64(int64_t *ptr)
  */
 static inline uint32_t bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
-    uint32_t tmp, ret;
-
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "1: ll   %[tmp], %[val] \n"
-    "   li   %[ret], 0     \n"
-    "   bne  %[tmp], %[old], 2f \n"
-    "   move %[tmp], %[new_val] \n"
-    "   sc   %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "   li   %[ret], 1      \n"
-    "2: nop               \n"
-    ".set reorder           \n"
-    : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-    : [old] "r" (old_val), [new_val] "r" (new_val)
-    : "memory");
-
-    return(ret);
-
+    return __sync_val_compare_and_swap(ptr, old_val, new_val);
 }
 
 /**
@@ -205,25 +179,7 @@ static inline uint32_t bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t ol
  */
 static inline uint64_t bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
-    uint64_t tmp, ret;
-
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "1: lld  %[tmp], %[val] \n"
-    "   li   %[ret], 0     \n"
-    "   bne  %[tmp], %[old], 2f \n"
-    "   move %[tmp], %[new_val] \n"
-    "   scd  %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "   li   %[ret], 1      \n"
-    "2: nop               \n"
-    ".set reorder           \n"
-    : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-    : [old] "r" (old_val), [new_val] "r" (new_val)
-    : "memory");
-
-    return(ret);
-
+    return __sync_val_compare_and_swap(ptr, old_val, new_val);
 }
 
 /**
@@ -263,28 +219,7 @@ static inline uint64_t bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t ol
  */
 static inline int64_t bdk_atomic_fetch_and_add64_nosync(int64_t *ptr, int64_t incr)
 {
-    uint64_t ret;
-
-    if (__builtin_constant_p(incr) && incr == 1)
-    {
-        __asm__ __volatile__(
-            "laid  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else if (__builtin_constant_p(incr) && incr == -1)
-    {
-        __asm__ __volatile__(
-            "ladd  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else
-    {
-        __asm__ __volatile__(
-            "laad  %0,(%2),%3"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (incr) : "memory");
-    }
-
-    return (ret);
+    return __atomic_fetch_add(ptr, incr, __ATOMIC_RELAXED);
 }
 
 /**
@@ -324,28 +259,7 @@ static inline int64_t bdk_atomic_fetch_and_add64(int64_t *ptr, int64_t incr)
  */
 static inline int32_t bdk_atomic_fetch_and_add32_nosync(int32_t *ptr, int32_t incr)
 {
-    uint32_t ret;
-
-    if (__builtin_constant_p(incr) && incr == 1)
-    {
-        __asm__ __volatile__(
-            "lai  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else if (__builtin_constant_p(incr) && incr == -1)
-    {
-        __asm__ __volatile__(
-            "lad  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else
-    {
-        __asm__ __volatile__(
-            "laa  %0,(%2),%3"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (incr) : "memory");
-    }
-
-    return (ret);
+    return __atomic_fetch_add(ptr, incr, __ATOMIC_RELAXED);
 }
 
 /**
@@ -384,22 +298,7 @@ static inline int32_t bdk_atomic_fetch_and_add32(int32_t *ptr, int32_t incr)
  */
 static inline uint64_t bdk_atomic_fetch_and_bset64_nosync(uint64_t *ptr, uint64_t mask)
 {
-    uint64_t tmp, ret;
-
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "1: lld  %[tmp], %[val] \n"
-    "   move %[ret], %[tmp] \n"
-    "   or   %[tmp], %[msk] \n"
-    "   scd  %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "   nop                 \n"
-    ".set reorder           \n"
-    : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-    : [msk] "r" (mask)
-    : "memory");
-
-    return (ret);
+    return __atomic_fetch_or(ptr, mask, __ATOMIC_RELAXED);
 }
 
 /**
@@ -417,22 +316,7 @@ static inline uint64_t bdk_atomic_fetch_and_bset64_nosync(uint64_t *ptr, uint64_
  */
 static inline uint32_t bdk_atomic_fetch_and_bset32_nosync(uint32_t *ptr, uint32_t mask)
 {
-    uint32_t tmp, ret;
-
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "1: ll   %[tmp], %[val] \n"
-    "   move %[ret], %[tmp] \n"
-    "   or   %[tmp], %[msk] \n"
-    "   sc   %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "   nop                 \n"
-    ".set reorder           \n"
-    : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret)
-    : [msk] "r" (mask)
-    : "memory");
-
-    return (ret);
+    return __atomic_fetch_or(ptr, mask, __ATOMIC_RELAXED);
 }
 
 /**
@@ -450,22 +334,7 @@ static inline uint32_t bdk_atomic_fetch_and_bset32_nosync(uint32_t *ptr, uint32_
  */
 static inline uint64_t bdk_atomic_fetch_and_bclr64_nosync(uint64_t *ptr, uint64_t mask)
 {
-    uint64_t tmp, ret;
-
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "   nor  %[msk], 0      \n"
-    "1: lld  %[tmp], %[val] \n"
-    "   move %[ret], %[tmp] \n"
-    "   and  %[tmp], %[msk] \n"
-    "   scd  %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "   nop                 \n"
-    ".set reorder           \n"
-    : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret), [msk] "+r" (mask)
-    : : "memory");
-
-    return (ret);
+    return __atomic_fetch_and(ptr, ~mask, __ATOMIC_RELAXED);
 }
 
 /**
@@ -483,100 +352,7 @@ static inline uint64_t bdk_atomic_fetch_and_bclr64_nosync(uint64_t *ptr, uint64_
  */
 static inline uint32_t bdk_atomic_fetch_and_bclr32_nosync(uint32_t *ptr, uint32_t mask)
 {
-    uint32_t tmp, ret;
-
-    __asm__ __volatile__(
-    ".set noreorder         \n"
-    "   nor  %[msk], 0      \n"
-    "1: ll   %[tmp], %[val] \n"
-    "   move %[ret], %[tmp] \n"
-    "   and  %[tmp], %[msk] \n"
-    "   sc   %[tmp], %[val] \n"
-    "   beqz %[tmp], 1b     \n"
-    "   nop                 \n"
-    ".set reorder           \n"
-    : [val] "+m" (*ptr), [tmp] "=&r" (tmp), [ret] "=&r" (ret), [msk] "+r" (mask)
-    : : "memory");
-
-    return (ret);
-}
-
-/**
- * Atomically swaps value in 64 bit (aligned) memory location,
- * and returns previous value.
- *
- * This version does not perform 'sync' operations to enforce memory
- * operations.  This should only be used when there are no memory operation
- * ordering constraints.
- *
- * @param ptr       address in memory
- * @param new_val   new value to write
- *
- * @return Value of memory location before swap operation
- */
-static inline uint64_t bdk_atomic_swap64_nosync(uint64_t *ptr, uint64_t new_val)
-{
-    uint64_t ret;
-
-    if (__builtin_constant_p(new_val) && new_val == 0)
-    {
-        __asm__ __volatile__(
-            "lacd  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else if (__builtin_constant_p(new_val) && new_val == ~0ull)
-    {
-        __asm__ __volatile__(
-            "lasd  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else
-    {
-        __asm__ __volatile__(
-            "lawd  %0,(%2),%3"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (new_val) : "memory");
-    }
-
-    return (ret);
-}
-
-/**
- * Atomically swaps value in 32 bit (aligned) memory location,
- * and returns previous value.
- *
- * This version does not perform 'sync' operations to enforce memory
- * operations.  This should only be used when there are no memory operation
- * ordering constraints.
- *
- * @param ptr       address in memory
- * @param new_val   new value to write
- *
- * @return Value of memory location before swap operation
- */
-static inline uint32_t bdk_atomic_swap32_nosync(uint32_t *ptr, uint32_t new_val)
-{
-    uint32_t ret;
-
-    if (__builtin_constant_p(new_val) && new_val == 0)
-    {
-        __asm__ __volatile__(
-            "lac  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else if (__builtin_constant_p(new_val) && new_val == ~0u)
-    {
-        __asm__ __volatile__(
-            "las  %0,(%2)"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr) : "memory");
-    }
-    else
-    {
-        __asm__ __volatile__(
-            "law  %0,(%2),%3"
-            : "=r" (ret), "+m" (*ptr) : "r" (ptr), "r" (new_val) : "memory");
-    }
-
-    return (ret);
+    return __atomic_fetch_and(ptr, ~mask, __ATOMIC_RELAXED);
 }
 
 /** @} */
