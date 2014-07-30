@@ -11,7 +11,7 @@
 /csr-tool/output
 /csr-tool/html
 /libc/build
-/libc/mipsisa64-octeon-elf
+/libc/aarch64-thunder-elf
 /docs/*.pdf
 /docs/api-docs
 /docs/lua-modules

@@ -7,7 +7,7 @@ TFTPBOOT?=/tftpboot/
 
 .PHONY: all
 all: version
-	#$(MAKE) -C libc
+	$(MAKE) -C libc
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
