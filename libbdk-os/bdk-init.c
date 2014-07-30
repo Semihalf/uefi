@@ -110,6 +110,14 @@ void __bdk_init(long base_address)
     BDK_MSR(VBAR_EL2, __bdk_exception_current_el_sync_sp0);
     BDK_MSR(VBAR_EL1, __bdk_exception_current_el_sync_sp0);
 
+    /* Use Cavium specific function to change memory to normal instead of
+       device attributes */
+    bdk_sys_cvmmemctl0_el1_t cvmmemctl0_el1;
+    BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
+    cvmmemctl0_el1.s.dcva47 = 1;
+    BDK_MSR(s3_0_c11_c0_4, cvmmemctl0_el1.u);
+
+
     /* Setup chacing with no mmu */
     bdk_sys_sctlr_elx_t sctlr_el3;
     BDK_MRS(SCTLR_EL3, sctlr_el3.u);
