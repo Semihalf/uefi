@@ -20,12 +20,13 @@ void bdk_rlock_lock(bdk_rlock_t *lock)
         lock->count++;
         return;
     }
-    assert((current != lock->owner) || !current);
+    assert(current != lock->owner);
     do
     {
         while ((volatile uint32_t)lock->count)
             bdk_thread_yield();
     } while (bdk_atomic_compare_and_store32(&lock->count, 0, 1) == 0);
+    assert(lock->owner == NULL);
     lock->owner = current;
 }
 
@@ -44,9 +45,10 @@ int bdk_rlock_try_lock(bdk_rlock_t *lock)
     }
     else
     {
-        assert((current != lock->owner) || !current);
+        assert(current != lock->owner);
         if (bdk_atomic_compare_and_store32(&lock->count, 0, 1))
         {
+            assert(lock->owner == NULL);
             lock->owner = current;
             return 0;
         }
@@ -62,8 +64,8 @@ void bdk_rlock_unlock(bdk_rlock_t *lock)
     assert(lock->count > 0);
     if (lock->count == 1)
     {
-        BDK_WMB;
         lock->owner = NULL;
+        BDK_WMB;
         lock->count = 0;
         BDK_WMB;
     }
