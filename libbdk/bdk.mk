@@ -35,13 +35,8 @@ LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
 LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map
 LDLIBS = -lbdk -lgcc
 
-INIT_SECTIONS=.init
-DATA_SECTIONS=.data .sdata .sbss .bss .eh_frame
-TEXT_SECTIONS=.text .rodata
-INIT_SECTIONS := $(foreach s,$(INIT_SECTIONS), --only-section=$(s))
-DATA_SECTIONS := $(foreach s,$(DATA_SECTIONS), --only-section=$(s))
-TEXT_SECTIONS := $(foreach s,$(TEXT_SECTIONS), --only-section=$(s))
 IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^0\([0-9a-f]*\).*/print 0x\1/g" | python`
+
 #
 # This is needed to generate the depends files
 # The -M creates the dependencies to stdout
@@ -55,10 +50,9 @@ IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^0\([0-9a-f]*\).*/pri
 # Convert an ELF file into a binary
 #
 %.bin: %
-	${CROSS}objcopy $^ $(INIT_SECTIONS) -O binary $@-init.tmp
-	${CROSS}objcopy $^ $(TEXT_SECTIONS) $(DATA_SECTIONS) -O binary $@-text-data.tmp
-	cat $@-init.tmp $@-text-data.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
-	rm $@-init.tmp $@-text-data.tmp
+	${CROSS}objcopy $^ -O binary $@.tmp
+	cat $@.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
+	rm $@.tmp
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
 
 
