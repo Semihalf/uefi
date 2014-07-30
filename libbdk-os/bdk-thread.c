@@ -6,11 +6,10 @@
 typedef struct bdk_thread
 {
     struct bdk_thread *next;
-    uint64_t    regs[31];   /* Reg 0 not stored */
-    uint64_t    coremask;
     uint64_t    pc;
-    uint64_t    lo;
-    uint64_t    hi;
+    uint64_t    gpr[32];   /* Reg 31 is SP */
+    __uint128_t fpr[32];
+    uint64_t    coremask;
     struct _reent lib_state;
     uint64_t    stack_canary;
     uint64_t    stack[0];
@@ -31,7 +30,7 @@ typedef struct
 
 static bdk_thread_node_t bdk_thread_node[BDK_NUMA_MAX_NODES];
 
-extern void __bdk_thread_switch(void* next_context, int delete_old);
+extern void __bdk_thread_switch(bdk_thread_t* next_context, int delete_old);
 
 /**
  * Main thread body for all threads
@@ -163,12 +162,13 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
     if (coremask == 0)
         coremask = -1;
     thread->coremask = coremask;
-    thread->regs[4-1] = (uint64_t)func;
-    thread->regs[5-1] = arg0;
-    thread->regs[6-1] = (uint64_t)arg1;
-    thread->regs[28-1] = (uint64_t)&_gp;
-    thread->regs[29-1] = (uint64_t)thread->stack + stack_size;
-    thread->pc = (uint64_t)__bdk_thread_body;
+    thread->gpr[0] = (uint64_t)func;    /* x0 = Argument 0 to __bdk_thread_body */
+    thread->gpr[1] = arg0;              /* x1 = Argument 1 to __bdk_thread_body */
+    thread->gpr[2] = (uint64_t)arg1;    /* x2 = Argument 2 to __bdk_thread_body */
+    thread->gpr[29] = (uint64_t)&_gp;   /* x29 = Frame pointer */
+    thread->gpr[30] = 0;                /* x30 = Link register (never returns) */
+    thread->gpr[31] = (uint64_t)thread->stack + stack_size; /* x31 = Stack pointer */
+    thread->pc = (uint64_t)__bdk_thread_body;   /* Where the new thread starts */
     _REENT_INIT_PTR(&thread->lib_state);
     thread->stack_canary = STACK_CANARY;
     thread->next = NULL;
