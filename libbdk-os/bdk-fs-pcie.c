@@ -38,8 +38,12 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
         header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
         header.word0.v1.addr = bdk_ptr_to_phys((void*)&in_progress);
     }
+#if 0
     if (bdk_dma_engine_transfer(node, 0, header, bdk_ptr_to_phys(buffer), handle->location, length))
         return -1;
+#else
+    return -1;
+#endif
 
     /* Wait up to 2 seconds for the DMA to complete */
     uint64_t timeout = bdk_clock_get_rate(node, BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
@@ -77,8 +81,12 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
         header.word0.v1.addr = bdk_ptr_to_phys((void*)&in_progress);
     }
+#if 0
     if (bdk_dma_engine_transfer(node, 0, header, bdk_ptr_to_phys((void*)buffer), handle->location, length))
         return -1;
+#else
+    return -1;
+#endif
 
     /* Wait up to 2 seconds for the DMA to complete */
     uint64_t timeout = bdk_clock_get_rate(node, BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
