@@ -400,7 +400,7 @@ int bdk_jump_address(uint64_t paddress)
         errno = EBADF;
         return -1;
     }
-    asm volatile ("b %0\n" : : "r" (ptr) : "memory");
+    asm volatile ("br %0\n" : : "r" (ptr) : "memory");
     return 0; // Not reached
 }
 

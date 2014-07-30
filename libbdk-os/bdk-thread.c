@@ -148,7 +148,6 @@ void bdk_thread_yield(void)
  */
 static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int arg0, void *arg1, int stack_size)
 {
-    extern void _gp();
     bdk_thread_t *thread;
     if (!stack_size)
         stack_size = bdk_config_get(BDK_CONFIG_THREAD_STACK_SIZE);
@@ -165,7 +164,7 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
     thread->gpr[0] = (uint64_t)func;    /* x0 = Argument 0 to __bdk_thread_body */
     thread->gpr[1] = arg0;              /* x1 = Argument 1 to __bdk_thread_body */
     thread->gpr[2] = (uint64_t)arg1;    /* x2 = Argument 2 to __bdk_thread_body */
-    thread->gpr[29] = (uint64_t)&_gp;   /* x29 = Frame pointer */
+    thread->gpr[29] = 0;                /* x29 = Frame pointer */
     thread->gpr[30] = 0;                /* x30 = Link register (never returns) */
     thread->gpr[31] = (uint64_t)thread->stack + stack_size; /* x31 = Stack pointer */
     thread->pc = (uint64_t)__bdk_thread_body;   /* Where the new thread starts */

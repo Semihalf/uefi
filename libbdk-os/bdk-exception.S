@@ -3,7 +3,7 @@
 __bdk_exception:
     stp     x0, x1, [sp], -16
     mov     x1, __bdk_exception2
-    adr     x0, pc-8
+    adr     x0, .-8
     br      x1
 
     .global __bdk_exception2

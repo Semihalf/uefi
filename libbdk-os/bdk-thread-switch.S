@@ -41,7 +41,7 @@ __bdk_thread_switch:
     stp     q26, q27,[x10, 16 * 43]
     stp     q28, q29,[x10, 16 * 45]
     stp     q30, q31,[x10, 16 * 47]
-    adr     x10,pc                  /* Store the PC */
+    adr     x10, .                  /* Store the PC */
     str     x10,[x10, 8]
     dsb     st                      /* We're done with the old context, push writes out */
 

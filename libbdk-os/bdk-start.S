@@ -1,6 +1,6 @@
 #define BDK_INITIAL_STACK_SIZE 256
 
-    .global __start
+    .global _start
     .global __bdk_remote_console
 
     .macro exception_stub label
@@ -15,7 +15,7 @@ exception_\label:
     # This is our entry point. The processor starts fetching instructions here
     #
     .section .init
-__start:
+_start:
     b   __init  /* This is replaced with the header, so jump to __init */
     .word 0     /* Header Magic     (4 bytes) */
     .word 0     /* Header CRC       (4 bytes) */
@@ -47,7 +47,9 @@ __start:
 .org 0x500
 __bdk_remote_console:
     # 0x500 - 0x700 is used for the remote console, see bdk-fs-remote.c
-    # 0x700 - 0x2000 is unused
+    # 0x700 - 0x1000 is unused
+__bdk_initial_stack:
+    # 0x1000 - 0x2000 is initial stack
 
 .org 0x2000
 __init:
@@ -111,7 +113,7 @@ after_relocate:
     /* Enable FP */
     /* FIXME */
     /* Initialise gp */
-    adr     x29, _gp
+    /* adr     x29, _gp */
     /* Initialise the stack */
     adr     x0, __bdk_initial_stack
     add     x0, x0, BDK_INITIAL_STACK_SIZE
