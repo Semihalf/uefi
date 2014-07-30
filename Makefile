@@ -41,56 +41,9 @@ tftp: all
 suid: all
 	$(MAKE) -C utils/bdk-lua suid
 
-RUN_SIM_ARGS =
-#
-# Use these to boot off Node 0
-#
-RUN_SIM_ARGS += -ld0:target-bin/original/bdk-full-no-romfs
-RUN_SIM_ARGS += -ld0x1fc00000:target-bin/bdk-boot-nor-cn78xx.bin
-RUN_SIM_ARGS += -ld0:0x1000000
-#
-# Use these to boot off Node 1
-#
-#RUN_SIM_ARGS += -remoteboot=0xd
-#RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/original/bdk-full-no-romfs
-#RUN_SIM_ARGS += -ld0x100101fc00000:target-bin/bdk-boot-nor-cn78xx.bin
-#RUN_SIM_ARGS += -ld0x0010000000000:0x1000000
-#
-# Common sim options
-#
-RUN_SIM_ARGS += -modes=fastboot,pass1
-RUN_SIM_ARGS += -numcores=1
-RUN_SIM_ARGS += -noperf
-RUN_SIM_ARGS += -quiet
-#RUN_SIM_ARGS += -trace=all
-# Sim option for Node 0
-RUN_SIM_ARGS += -serve=2000
-RUN_SIM_ARGS += -uart0=2020
-RUN_SIM_ARGS += -uart1=2030
-ifeq ($(SIM),cn78xx)
-    RUN_SIM_ARGS += -numnodes=4
-    # Sim option for Node 0
-    # Sim option for Node 1
-    RUN_SIM_ARGS += -serve=1:2001
-    RUN_SIM_ARGS += -uart0=1:2021
-    RUN_SIM_ARGS += -uart1=1:2031
-    # Sim option for Node 2
-    RUN_SIM_ARGS += -serve=2:2002
-    RUN_SIM_ARGS += -uart0=2:2022
-    RUN_SIM_ARGS += -uart1=2:2032
-    # Sim option for Node 3
-    RUN_SIM_ARGS += -serve=3:2003
-    RUN_SIM_ARGS += -uart0=3:2023
-    RUN_SIM_ARGS += -uart1=3:2033
-endif
-
 .PHONY: run
 run:
-	$(SIMULATOR) $(RUN_SIM_ARGS)
-
-.PHONY: run-rtl
-run-rtl:
-	$(SIMULATOR) bdk-boot/bdk-reset-rtl -ld0:0x200000 -ld0:target-bin/bdk-full.bin -modes=pass2 -uart0=2020 -quiet -serve=2000
+	../asim/asim -e bdk.asim
 
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")

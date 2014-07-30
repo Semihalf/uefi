@@ -1,0 +1,10 @@
+
+CORECOUNT = 1
+MEMBASE = 0
+UART0PORT = 2000
+@../asim/tests/io/cn88xx.asim
+load bdk-boot/bdk-xmodem-load
+trace cpu0 step
+bp __bdk_exception_current_el_sync_sp0
+show_source on
+
