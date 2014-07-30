@@ -121,7 +121,7 @@ static __bdk_fs_file_t *get_file(int handle)
  *
  * @return Zero on success
  */
-int stat(const char *name, struct stat *st)
+int _stat(const char *name, struct stat *st)
 {
     int mount = get_mount(name);
     if ((mount != -1) && mount_points[mount].ops->stat)
@@ -144,7 +144,7 @@ int stat(const char *name, struct stat *st)
  *
  * @return Zero on success
  */
-int unlink(const char *name)
+int _unlink(const char *name)
 {
     int mount = get_mount(name);
     if ((mount != -1) && mount_points[mount].ops->unlink)
@@ -169,7 +169,7 @@ int unlink(const char *name)
  *
  * @return File handle, or -1 on failure
  */
-int open(const char *name, int flags, int mode)
+int _open(const char *name, int flags, int mode)
 {
     int handle;
     int mount = get_mount(name);
@@ -227,7 +227,7 @@ int open(const char *name, int flags, int mode)
  *
  * @return Zero on success
  */
-int close(int handle)
+int _close(int handle)
 {
     int result = 0;
     __bdk_fs_file_t *file = get_file(handle);
@@ -260,7 +260,7 @@ int close(int handle)
  *
  * @return The new location in the file
  */
-off_t lseek(int handle, off_t offset, int whence)
+off_t _lseek(int handle, off_t offset, int whence)
 {
     __bdk_fs_file_t *file = get_file(handle);
     if (!file)
@@ -294,7 +294,7 @@ off_t lseek(int handle, off_t offset, int whence)
  *
  * @return Number of bytes read, can be zero. Negative is a failure
  */
-int read(int handle, void *buffer, int length)
+int _read(int handle, void *buffer, int length)
 {
     __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->read)
@@ -321,7 +321,7 @@ int read(int handle, void *buffer, int length)
  *
  * @return Number of bytes written. Negative on failure
  */
-int write(int handle, const void *buffer, int length)
+int _write(int handle, const void *buffer, int length)
 {
     __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->write)
@@ -347,7 +347,7 @@ int write(int handle, const void *buffer, int length)
  *
  * @return Zero on success
  */
-int fstat(int handle, struct stat *st)
+int _fstat(int handle, struct stat *st)
 {
     __bdk_fs_file_t *file = get_file(handle);
     if (file && file->ops->stat)

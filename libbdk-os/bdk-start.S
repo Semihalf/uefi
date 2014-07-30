@@ -7,7 +7,7 @@
 exception_\label:
     stp     x0, x1, [sp], -16
     mov     x1, 0 /* FIXME __bdk_exception2 */
-    adr     x0, pc-8
+    adr     x0, exception_\label
     br      x1
     .endm
 
@@ -53,7 +53,7 @@ __bdk_remote_console:
 __init:
     /* Figure out the location of code as an offset from our link address */
 1:
-    adr     x0, pc          /* Jump to label, saving our PC in RA */
+    adr     x0, 1b          /* Jump to label, saving our PC in RA */
     mov     x1, 1b          /* VA of label 1 */
     sub     x0, x0, x1      /* x0 = offset to add to VA to get current address */
     cbz     x0, after_relocate /* Skip relocate if we're already there */

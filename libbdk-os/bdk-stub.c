@@ -8,41 +8,41 @@
 #undef errno
 extern int errno;
 
-int execve(const char *name, const char **argv, const char **env)
+int _execve(const char *name, const char **argv, const char **env)
 {
     errno = ENOMEM;
     return -1;
 }
 
-int fork(void)
+int _fork(void)
 {
     errno = EAGAIN;
     return -1;
 }
 
-int getpid(void)
+int _getpid(void)
 {
     return 1;
 }
 
-int isatty(int file)
+int _isatty(int file)
 {
     return 1;
 }
 
-int kill(int pid, int sig)
+int _kill(int pid, int sig)
 {
     errno = EINVAL;
     return -1;
 }
 
-int link(const char *old, const char *new)
+int _link(const char *old, const char *new)
 {
     errno = EMLINK;
     return -1;
 }
 
-caddr_t sbrk(int incr)
+caddr_t _sbrk(int incr)
 {
     static caddr_t next = NULL;
     static caddr_t end;
@@ -85,18 +85,18 @@ caddr_t sbrk(int incr)
     return result;
 }
 
-clock_t times(struct tms *buf)
+clock_t _times(struct tms *buf)
 {
     return -1;
 }
 
-int wait(int *status)
+int _wait(int *status)
 {
     errno = ECHILD;
     return -1;
 }
 
-int gettimeofday(struct timeval *tv, void *tz)
+int _gettimeofday(struct timeval *tv, void *tz)
 {
     uint64_t rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
     uint64_t count = bdk_clock_get_count(BDK_CLOCK_CORE);
