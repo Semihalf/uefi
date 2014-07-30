@@ -14,7 +14,7 @@ BDK_REQUIRE_DEFINE(DRAM_CONFIG);
  */
 void register_octeon_dram(lua_State* L)
 {
-    extern int luaopen_bdk_board_table_entry(lua_State *L);
-    luaopen_bdk_board_table_entry(L);
+    //extern int luaopen_bdk_board_table_entry(lua_State *L);
+    //luaopen_bdk_board_table_entry(L);
 }
 
