@@ -75,7 +75,7 @@ int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 
     while (len)
     {
-        BDK_CACHE_LCKL2(start, 0);
+        BDK_CACHE_LCKL2(start);
         start += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }
@@ -95,7 +95,7 @@ void bdk_l2c_flush(bdk_node_t node)
         for(int assoc=0; assoc < n_assoc; assoc++)
         {
             uint64_t address = (1ull<<63) | (assoc << assoc_shift) | (set << set_shift);
-            BDK_CACHE_WBIL2(address, 0);
+            BDK_CACHE_WBIL2(address);
         }
     }
 }
@@ -111,7 +111,7 @@ int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 
     while (len > 0)
     {
-        BDK_CACHE_WBIL2(start, 0);
+        BDK_CACHE_WBIL2(start);
         start += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }

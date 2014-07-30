@@ -71,7 +71,7 @@ void __bdk_dram_flush_to_mem(uint64_t address)
     /* The DRAM code doesn't use the normal bdk_phys_to_ptr() because of the
        NULL check in it. This greatly slows down the memory tests */
     char *ptr = (void*)(address | (1ull<<63));
-    BDK_CACHE_WBIL2(ptr, 0);
+    BDK_CACHE_WBIL2(ptr);
 }
 
 /**
@@ -90,7 +90,7 @@ void __bdk_dram_flush_to_mem_range(uint64_t area, uint64_t max_address)
     BDK_MB;
     while (ptr < end)
     {
-        BDK_CACHE_WBIL2(ptr, 0);
+        BDK_CACHE_WBIL2(ptr);
         ptr += 128;
     }
 }
