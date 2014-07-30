@@ -102,24 +102,6 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
         c.s.uarten = 1); /* Enable uart */
 }
 
-static void __bdk_init_exception(bdk_node_t node)
-{
-    extern void __bdk_exception(void);
-
-    /* Install exception vectors */
-    BDK_MSR(VBAR_EL1, 0);
-    BDK_MSR(VBAR_EL2, 0);
-    BDK_MSR(VBAR_EL3, 0);
-    void *ebase = NULL;
-    memcpy(ebase, &__bdk_exception, 0x80); /* TLB */
-    memcpy(ebase + 0x80, &__bdk_exception, 0x80); /* XTLB */
-    memcpy(ebase + 0x100, &__bdk_exception, 0x80); /* Cache Error */
-    memcpy(ebase + 0x180, &__bdk_exception, 0x80); /* General Exception */
-    memcpy(ebase + 0x200, &__bdk_exception, 0x80); /* Interrupt */
-    BDK_MB;
-    BDK_ICACHE_INVALIDATE;
-}
-
 void __bdk_init(long base_address) __attribute((noreturn));
 void __bdk_init(long base_address)
 {
@@ -178,7 +160,6 @@ void __bdk_init(long base_address)
 
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_1, sizeof(BANNER_1)-1);
-        __bdk_init_exception(node);
 
         /* Only lock L2 if DDR3 isn't initialized */
         if (!__bdk_is_dram_enabled(node) && !bdk_is_simulation())
