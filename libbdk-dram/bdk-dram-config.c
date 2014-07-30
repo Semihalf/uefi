@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#if 0
+
 #include "bdk_lib_octeon_shared.h"
 #include "cvmx.h"
 #include "lib_octeon_shared.h"
@@ -192,3 +194,4 @@ int bdk_dram_config(int node, const char *board_name, int ddr_clock_hertz)
     return bdk_dram_config_raw(node, ddr_config, ddr_clock_hertz);
 }
 
+#endif
