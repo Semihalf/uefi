@@ -107,8 +107,9 @@ static void __bdk_init_exception(bdk_node_t node)
     extern void __bdk_exception(void);
 
     /* Install exception vectors */
-    void *ebase = (void*)0xffffffff80000000l;
-    BDK_MT_COP0(ebase, COP0_EBASE);
+    BDK_MSR(VBAR_EL1, 0);
+    BDK_MSR(VBAR_EL2, 0);
+    BDK_MSR(VBAR_EL3, 0);
     memcpy(ebase, &__bdk_exception, 0x80); /* TLB */
     memcpy(ebase + 0x80, &__bdk_exception, 0x80); /* XTLB */
     memcpy(ebase + 0x100, &__bdk_exception, 0x80); /* Cache Error */
@@ -209,10 +210,6 @@ void __bdk_init(long base_address)
             write(1, BANNER_3, sizeof(BANNER_3)-1);
         bdk_thread_initialize();
     }
-
-    BDK_MF_COP0(status, COP0_STATUS);
-    status &= ~(1<<22); // Clear BEV
-    BDK_MT_COP0(status, COP0_STATUS);
 
     bdk_atomic_add64(&__bdk_alive_coremask[node], bdk_core_to_mask());
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
