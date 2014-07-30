@@ -139,7 +139,8 @@ static inline int64_t bdk_atomic_get64(int64_t *ptr)
  */
 static inline uint32_t bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
-    return __sync_val_compare_and_swap(ptr, old_val, new_val);
+    uint32_t mem = __sync_val_compare_and_swap(ptr, old_val, new_val);
+    return mem == old_val;
 }
 
 /**
@@ -177,9 +178,10 @@ static inline uint32_t bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t ol
  * @return 1 on success (match and store)
  *         0 on no match
  */
-static inline uint64_t bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
+static inline int bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
-    return __sync_val_compare_and_swap(ptr, old_val, new_val);
+    uint64_t mem = __sync_val_compare_and_swap(ptr, old_val, new_val);
+    return mem == old_val;
 }
 
 /**
@@ -194,7 +196,7 @@ static inline uint64_t bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint
  * @return 1 on success (match and store)
  *         0 on no match
  */
-static inline uint64_t bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
+static inline int bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
     uint64_t ret;
     BDK_WMB;
