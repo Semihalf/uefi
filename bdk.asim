@@ -2,6 +2,10 @@
 # Load the CN88XX IOs
 @../asim/tests/io/cn88xx-1s48p.asim
 
+# Listen for uart connections on port 2000, 2001
+control n0.uaa0 connect 2000
+control n0.uaa1 connect 2001
+
 # Load the BDK image
 load target-bin/bdk-boot-cn88xx.bin 0
 symbols bdk-boot/bdk-full-no-romfs
