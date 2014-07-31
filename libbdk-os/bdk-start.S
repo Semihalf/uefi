@@ -105,8 +105,6 @@ after_relocate:
     .global __bdk_exception_\label
     .align 7
 __bdk_exception_\label:
-    stp     x0, x1, [sp], -16
-    adr     x0, __bdk_exception_\label
     b       __bdk_exception2
     .endm
 

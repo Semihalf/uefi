@@ -205,6 +205,11 @@ void __bdk_init(long base_address)
         bdk_thread_initialize();
     }
 
+    /* Setup an exception stack in case we crash */
+    void *exception_stack = malloc(1024);
+    extern void __bdk_init_exception_stack(void *ptr);
+    __bdk_init_exception_stack(exception_stack + 1024);
+
     bdk_atomic_add64(&__bdk_alive_coremask[node], bdk_core_to_mask());
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
