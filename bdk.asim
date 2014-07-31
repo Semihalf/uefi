@@ -14,8 +14,8 @@ symbols bdk-boot/bdk-full-no-romfs
 rm0 pc = 0
 
 # Control tracing
-trace cpu0 debug
-show_source off
+#trace cpu0 step
+#show_source on
 
 # Break on synchronous exceptions for debugging
 bp __bdk_exception_current_el_sync_sp0
