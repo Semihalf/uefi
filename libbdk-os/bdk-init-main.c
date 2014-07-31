@@ -45,15 +45,18 @@ void __bdk_init_main(int arg, void *arg1)
         if (!environ)
             bdk_error("Failed to allocate environment, setenv will crash\n");
 
-        if (BDK_IS_REQUIRED(TWSI))
-            bdk_twsix_initialize(node);
-        if (BDK_IS_REQUIRED(QLM))
-            bdk_qlm_init(node);
-        if (bdk_error_enable)
+        if (!bdk_is_simulation()) // FIXME: Not modelled in asim
         {
-            if (BDK_SHOW_BOOT_BANNERS)
-                printf("Enabling error reporting\n");
-            bdk_error_enable(node);
+            if (BDK_IS_REQUIRED(TWSI))
+                bdk_twsix_initialize(node);
+            if (BDK_IS_REQUIRED(QLM))
+                bdk_qlm_init(node);
+            if (bdk_error_enable)
+            {
+                if (BDK_SHOW_BOOT_BANNERS)
+                    printf("Enabling error reporting\n");
+                bdk_error_enable(node);
+            }
         }
 
         if (BDK_SHOW_BOOT_BANNERS)
