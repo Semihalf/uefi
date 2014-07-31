@@ -159,8 +159,12 @@ void __bdk_init(long base_address)
 	    CN7800s fix this issue */
 
         /* Initialize the is_simulation flag */
+#if 0
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
         __bdk_is_simulation = (c.u == 0);
+#else
+        __bdk_is_simulation = 1; // FIXME: Asim doesn't support OCLA
+#endif
 
         bdk_set_baudrate(node, 0, BDK_UART_BAUDRATE, 0);
         bdk_set_baudrate(node, 1, BDK_UART_BAUDRATE, 0);
