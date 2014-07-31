@@ -1,23 +1,48 @@
 
-# Load the CN88XX IOs
-@../asim/tests/io/cn88xx-1s48p.asim
+# Load the CN88XX IOs, one node
+#@../asim/tests/io/cn88xx-1s48p.asim
+# Load the CN88XX IOs, two nodes
+@../asim/tests/io/cn88xx-2s48p.asim
+
+# Make 2nd node remote boot
+control n1.gpio0 set strap 0x8
 
 # Listen for uart connections on port 2000, 2001
 control n0.uaa0 connect 2000
 control n0.uaa1 connect 2001
 
-# Load the BDK image
-load target-bin/bdk-boot-cn88xx.bin 0
-symbols bdk-boot/bdk-full-no-romfs
+# Load BOOT ROM
+load target-bin/mio_boot_rom $(NODEIOBASE + 0x87d000000000)
 
-# Set PC to zero
+# Set GPIO strap pins (boot method)
+# 24bit SPI
+control n0.gpio0 set strap 0x5
+# 32bit SPI
+#control n0.gpio0 set strap 0x6
+# eMMC
+#control n0.gpio0 set strap 0x2
+
+# Load SPI image
+control n0.mpi0 connect 0 target-bin/bdk-boot-spi-cn88xx.bin
+
+# Load eMMC image
+control n0.emm0 connect target-bin/bdk-boot-emmc-cn88xx.bin
+
+# Load the BDK image
+load target-bin/bdk-cn88xx.bin 0
+symbols target-bin/original/bdk-full-no-romfs
+
+# Set PC to zero, bypassing boot rom as the BDK doesn't support it yet
 rm0 pc = 0
 
 # Control tracing
 #trace cpu0 step
 #show_source on
 
-# Break on synchronous exceptions for debugging
+# Break ROM not booting
+#bp fatal_spin
+
+# Break on BDK exceptions
 bp __bdk_exception_current_el_sync_sp0
 bp __bdk_exception_current_el_irq_sp0
 bp __bdk_exception_current_el_fiq_sp0
