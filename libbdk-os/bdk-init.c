@@ -731,6 +731,8 @@ static int init_oci(void)
 
 static void setup_node(bdk_node_t node)
 {
+    if (bdk_is_simulation())
+        return; // FIXME: This stuff not modelled in Asim
     bdk_rng_enable(node);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
