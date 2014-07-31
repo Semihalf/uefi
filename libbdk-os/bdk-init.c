@@ -166,6 +166,13 @@ void __bdk_init(long base_address)
         __bdk_is_simulation = 1; // FIXME: Asim doesn't support OCLA
 #endif
 
+        BDK_MSR(CNTFRQ_EL0, 400000000);
+        bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
+        cntps_ctl_el1.u = 0;
+        cntps_ctl_el1.s.imask = 1;
+        cntps_ctl_el1.s.enable = 1;
+        BDK_MSR(CNTPS_CTL_EL1, cntps_ctl_el1.u);
+
         bdk_set_baudrate(node, 0, BDK_UART_BAUDRATE, 0);
         bdk_set_baudrate(node, 1, BDK_UART_BAUDRATE, 0);
         bdk_fs_set_uart_node(node);

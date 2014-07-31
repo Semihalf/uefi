@@ -32,12 +32,17 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
         case BDK_CLOCK_RCLK:
         case BDK_CLOCK_CORE:
         {
-            return 0;// FIXME: Read RCLK
+            uint64_t count;
+            BDK_MRS(CNTPCT_EL0, count);
+            return count;// FIXME: Read RCLK
         }
 
         case BDK_CLOCK_SCLK:
-            // FIXME: Read SCLK
-            return 0;//BDK_CSR_READ(bdk_numa_local(), BDK_FPA_CLK_COUNT);
+        {
+            uint64_t count;
+            BDK_MRS(CNTPCT_EL0, count);
+            return count;// FIXME: Read SCLK
+        }
     }
     return 0;
 }
