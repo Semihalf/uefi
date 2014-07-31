@@ -5,7 +5,6 @@
 */
 
 #include <string.h>
-#include <endian.h>
 
 #define lundump_c
 #define LUA_CORE
