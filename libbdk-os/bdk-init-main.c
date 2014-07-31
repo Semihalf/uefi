@@ -73,7 +73,7 @@ void __bdk_init_main(int arg, void *arg1)
         }
 
         /* Make sure SMI/MDIO is enabled so we can query PHYs */
-        int num_mdio = 4;
+        int num_mdio = bdk_is_simulation() ? 0 : 4; // FIXME: Not modelled in asim
         for (int i=0; i<num_mdio; i++)
         {
             BDK_CSR_INIT(smix_en, node, BDK_SMI_X_EN(i));
