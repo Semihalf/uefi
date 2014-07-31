@@ -12,6 +12,7 @@ TARGETS += $(BDK_ROOT)/target-bin/bdk-xmodem-load.bin
 all: ${TARGETS}
 
 ${DIR}/bdk-full-no-romfs.bin: bdk-full-no-romfs.bin
+	mkdir -p ${DIR}
 	cp bdk-full-no-romfs ${DIR}/
 	cp bdk-full-no-romfs.map ${DIR}/
 	cp bdk-full-no-romfs.bin ${DIR}/
