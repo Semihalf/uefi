@@ -14,8 +14,8 @@ typedef struct
     uint32_t magic;
     uint8_t  version;
     uint8_t  unused;
-    uint8_t  to_octeon;
-    uint8_t  from_octeon;
+    uint8_t  to_me;
+    uint8_t  from_me;
     uint8_t  to_buffer[256-4];
     uint8_t  from_buffer[256-4];
 } remote_console_t;
@@ -67,22 +67,22 @@ static int remote_read(__bdk_fs_file_t *handle, void *buffer, int length)
     }
 
     /* Return if no data is waiting */
-    if (!remote->to_octeon)
+    if (!remote->to_me)
         return -1;
 
-    if (length > remote->to_octeon)
-        length = remote->to_octeon;
+    if (length > remote->to_me)
+        length = remote->to_me;
     memcpy(buffer, remote->to_buffer, length);
 
     /* Save extra data if there was more than we needed */
-    if (length < remote->to_octeon)
+    if (length < remote->to_me)
     {
-        memcpy(remote->to_buffer, remote->to_buffer + length, remote->to_octeon - length);
+        memcpy(remote->to_buffer, remote->to_buffer + length, remote->to_me - length);
         BDK_WMB;
     }
     /* Updating the amount of data must be last as the remote host is allowed
         to write again as soon as this is zero */
-    remote->to_octeon -= length;
+    remote->to_me -= length;
     BDK_WMB;
     return length;
 }
@@ -109,7 +109,7 @@ static int remote_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     while (length)
     {
         /* Wait for room */
-        while (remote->from_octeon)
+        while (remote->from_me)
             bdk_thread_yield();
         /* Write to the buffer */
         int l = length;
@@ -119,7 +119,7 @@ static int remote_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         BDK_WMB;
         /* Updating the count msut be last as the remtoe host can read data
             as soon as it is non zero */
-        remote->from_octeon = l;
+        remote->from_me = l;
         BDK_WMB;
         length -= l;
         buffer += l;
