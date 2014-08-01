@@ -22,7 +22,7 @@ require("octeon")
 -- Do board specific setup
 --
 -- When there is a general board setup file present in the filesystem, execute
--- that. Otherwise, execute the board setup based on the OCTEON model. 
+-- that. Otherwise, execute the board setup based on the chip model.
 if package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
 elseif octeon.is_model(octeon.CN88XX) then

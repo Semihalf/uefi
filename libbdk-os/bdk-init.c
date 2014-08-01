@@ -150,13 +150,10 @@ void __bdk_init(long base_address)
 
     if (bdk_is_boot_core())
     {
-        /* Shut off cores in reset to save power. This is a new feature in
-            Octeon 3. It is optional, but probably good practice. When taking
-            cores out of reset, it will be necessary to clear the correct bit
-            that was set here */
-	/* FIXME: Do not do this for CN7800 Pass 1.0 as this tends to cause the
-	    PPs to hang comming out of reset. Adjust this logic when/if later
-	    CN7800s fix this issue */
+        /* Shut off cores in reset to save power. It is optional, but probably
+            good practice. When taking cores out of reset, it will be necessary
+            to clear the correct bit that was set here */
+	/* FIXME */
 
         /* Initialize the is_simulation flag */
 #if 0
@@ -247,7 +244,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_octeon_num_cores(node)) - 1;
 
-    /* We may also need to turn power on (new in Octeon 3) */
+    /* We may also need to turn power on */
     uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
     if (power & coremask)
     {

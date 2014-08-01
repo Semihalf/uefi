@@ -5,8 +5,8 @@ require("octeon")
 
 -- Print out a banner
 print("")
-print("Octeon Chip Screen")
-print("Copyright (C) 2013 Cavium Networks")
+print("Chip Screen")
+print("Copyright (C) 2014 Cavium Networks")
 print("Version ".. require("bdk-version"))
 print("")
 
@@ -254,6 +254,6 @@ print("")
 if all_pass then
     print("All tested summary: PASS")
 end
-print("Octeon Chip Screen complete.")
+print("Chip Screen complete.")
 print("")
 

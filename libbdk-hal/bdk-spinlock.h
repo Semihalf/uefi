@@ -10,7 +10,7 @@
  */
 
 /**
- * Spinlocks for Octeon
+ * Spinlocks
  */
 typedef union
 {

@@ -18,7 +18,7 @@
 #define BDK_IF_PHY_FIXED_100MB 0x1001
 
 /**
- * Enumeration of different interfaces in Octeon.
+ * Enumeration of different interfaces.
  */
 typedef enum
 {

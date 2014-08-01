@@ -4,8 +4,8 @@
 /**
  * @file
  *
- * Master include file for Octeon hardware support. Use bdk.h instead of
- * including this file directly.
+ * Master include file for hardware support. Use bdk.h instead
+ * of including this file directly.
  *
  * <hr>$Revision: 49448 $<hr>
  *

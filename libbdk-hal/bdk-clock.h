@@ -10,7 +10,7 @@
  */
 
 /**
- * Enumeration of different Clocks in Octeon.
+ * Enumeration of different Clocks.
  */
 typedef enum{
     BDK_CLOCK_RCLK,        /**< Clock used by cores, coherent bus and L2 cache. */

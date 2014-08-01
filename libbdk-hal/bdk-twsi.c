@@ -48,7 +48,7 @@ int bdk_twsix_initialize(bdk_node_t node)
  * Do a twsi read from a 7 bit device address using an (optional)
  * internal address. Up to 4 bytes can be read at a time.
  *
- * @param twsi_id   which Octeon TWSI bus to use
+ * @param twsi_id   which TWSI bus to use
  * @param dev_addr  Device address (7 bit)
  * @param internal_addr
  *                  Internal address.  Can be 0, 1 or 2 bytes in width
@@ -123,7 +123,7 @@ retry:
 /**
  * Write 1-8 bytes to a TWSI device using an internal address.
  *
- * @param twsi_id   which TWSI interface on Octeon to use
+ * @param twsi_id   which TWSI interface to use
  * @param dev_addr  TWSI device address (7 bit only)
  * @param internal_addr
  *                  TWSI internal address (0, 8, or 16 bits)

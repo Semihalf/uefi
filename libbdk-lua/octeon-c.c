@@ -1,6 +1,6 @@
 #include <bdk.h>
 #include <unistd.h>
-// Module for interfacing with Octeon
+// Module for interfacing with C functions
 
 /**
  * Wrapper to call a generic C function from Lua. A maximum
@@ -66,7 +66,7 @@ static int get_sbrk(lua_State* L)
 }
 
 /**
- * Called to register the octeon module
+ * Called to register the C module
  *
  * @param L
  *

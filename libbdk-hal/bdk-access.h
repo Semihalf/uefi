@@ -1,6 +1,6 @@
 /**
  * @file
- * Function prototypes for accessing memory and CSRs on Octeon.
+ * Function prototypes for accessing memory and CSRs.
  *
  * <hr>$Revision: 38306 $<hr>
  *
@@ -12,7 +12,7 @@
 
 /**
  * Convert a memory pointer (void*) into a hardware compatible
- * memory address (uint64_t). Octeon hardware widgets don't
+ * memory address (uint64_t). Cavium hardware widgets don't
  * understand logical addresses.
  *
  * @param ptr    C style memory pointer
@@ -83,7 +83,7 @@ BDK_FUNCTION void bdk_wait(uint64_t cycles);
 extern void bdk_wait_usec(uint64_t usec);
 
 /**
- * Perform a soft reset of Octeon
+ * Perform a soft reset of the chip
  *
  * @return
  */

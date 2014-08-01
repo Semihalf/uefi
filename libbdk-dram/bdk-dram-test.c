@@ -127,7 +127,7 @@ static void dram_test_thread(int arg, void *arg1)
     /* Figure out our work memory range.
      *
      * Note start_address and end_address just provide the physical offset
-     * portion of the OCTEON address and do not have the node bits set. This is
+     * portion of the address and do not have the node bits set. This is
      * is to simplify address checks and calculations. Later, when about to run
      * the memory test, the routines adds in the node bits to form the final
      * addresses.
@@ -418,7 +418,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
 
     /* Make sure the start address is higher that the BDK's active range.
      *
-     * As sbrk() returns an OCTEON final address, mask off the node portion of
+     * As sbrk() returns an final address, mask off the node portion of
      * the address to make it a physical offset. Doing this simplifies the
      * address checks and calculations which only work with physical offsets.
      */

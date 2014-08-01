@@ -1,6 +1,6 @@
 #include <bdk.h>
 #include <unistd.h>
-// Module for interfacing with Octeon
+// Module for interfacing with the chip
 
 /**
  * Called to register the octeon module

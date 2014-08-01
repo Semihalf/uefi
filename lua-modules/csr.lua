@@ -1,6 +1,6 @@
---- Pure Lua implementation of OCTEON CSR access by name.
+--- Pure Lua implementation of CSR access by name.
 -- This module creates a "csr" table that contains names for each CSR
--- supported by the OCTEON chip. CSRs can then be accessed with code
+-- supported by the chip. CSRs can then be accessed with code
 -- using names and field names.
 --
 -- * value = X.csr.NAME.read()

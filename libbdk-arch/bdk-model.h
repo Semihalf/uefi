@@ -1,10 +1,11 @@
 /**
  * @file
  *
- * Functions for determining which Octeon chip you are running on.
+ * Functions for determining which Cavium chip you are running
+ * on.
  *
  * <hr>$Revision: 49448 $<hr>
- * @addtogroup octeon
+ * @addtogroup chips
  * @{
  */
 

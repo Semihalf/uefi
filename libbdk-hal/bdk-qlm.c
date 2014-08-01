@@ -131,7 +131,7 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
             result = "2 RXAUI, 2 lanes each";
             break;
         case BDK_QLM_MODE_OCI:
-            result = "Octeon Coherent Interconnect";
+            result = "Cavium Coherent Processor Interconnect";
             break;
         case BDK_QLM_MODE_XFI_4X1:
             result = "4 XFI, 1 lane each";

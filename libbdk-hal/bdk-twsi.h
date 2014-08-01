@@ -27,7 +27,7 @@ extern int bdk_twsix_initialize(bdk_node_t node) BDK_WEAK;
  *
  * @param node      Node to use in a Numa setup. Can be an exact ID or a special
  *                  value.
- * @param twsi_id   which Octeon TWSI bus to use
+ * @param twsi_id   which TWSI bus to use
  * @param dev_addr  Device address (7 bit)
  * @param internal_addr
  *                  Internal address.  Can be 0, 1 or 2 bytes in width
@@ -44,7 +44,7 @@ extern int64_t bdk_twsix_read_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr,
  *
  * @param node      Node to use in a Numa setup. Can be an exact ID or a special
  *                  value.
- * @param twsi_id   which TWSI interface on Octeon to use
+ * @param twsi_id   which TWSI interface to use
  * @param dev_addr  TWSI device address (7 bit only)
  * @param internal_addr
  *                  TWSI internal address (0, 8, or 16 bits)

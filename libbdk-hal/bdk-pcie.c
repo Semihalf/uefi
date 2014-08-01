@@ -17,7 +17,7 @@ BDK_REQUIRE_DEFINE(PCIE);
  *
  * @param pcie_port PCIe port the IO is for
  *
- * @return 64bit Octeon IO base address for read/write
+ * @return 64bit IO base address for read/write
  */
 uint64_t bdk_pcie_get_io_base_address(bdk_node_t node, int pcie_port)
 {
@@ -54,7 +54,7 @@ uint64_t bdk_pcie_get_io_size(bdk_node_t node, int pcie_port)
  *
  * @param pcie_port PCIe port the IO is for
  *
- * @return 64bit Octeon IO base address for read/write
+ * @return 64bit IO base address for read/write
  */
 uint64_t bdk_pcie_get_mem_base_address(bdk_node_t node, int pcie_port)
 {
@@ -101,7 +101,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         pciercx_cfg030.s.mps = MPS_CN6XXX;
         pciercx_cfg030.s.mrrs = MRRS_CN6XXX;
         pciercx_cfg030.s.ro_en = 1; /* Enable relaxed order processing. This will allow devices to affect read response ordering */
-        pciercx_cfg030.s.ns_en = 1; /* Enable no snoop processing. Not used by Octeon */
+        pciercx_cfg030.s.ns_en = 1; /* Enable no snoop processing. Not used */
         pciercx_cfg030.s.ce_en = 1; /* Correctable error reporting enable. */
         pciercx_cfg030.s.nfe_en = 1; /* Non-fatal error reporting enable. */
         pciercx_cfg030.s.fe_en = 1; /* Fatal error reporting enable. */
@@ -543,7 +543,7 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
  * @param fn        Device sub function
  * @param reg       Register to access
  *
- * @return 64bit Octeon IO address
+ * @return 64bit IO address
  */
 static inline uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {

@@ -155,7 +155,7 @@ int main(void)
             " 1) Change baud rate and flow control\n"
             " 2) Load file into MMC, eMMC, or SD\n"
             " 3) Load file into SPI EEPROM or NOR\n"
-            " 4) Soft reset Octeon\n");
+            " 4) Soft reset chip\n");
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         switch (atoi(input))
         {

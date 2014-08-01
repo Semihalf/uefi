@@ -92,7 +92,7 @@ if not octeon.is_model(octeon.CN70XX) then
             print "ERROR: invalid DRAM interface\n"
             return
         end
-        local twsi_bus = menu.prompt_number("Octeon TWSI interface number  (0-4)")
+        local twsi_bus = menu.prompt_number("TWSI interface number (0-4)")
         local twsi_addr
 
         -- clear all SPD entries for the the interface, then loop through

@@ -79,7 +79,7 @@ typedef union
  *                  value.
  * @param pcie_port PCIe port the IO is for
  *
- * @return 64bit Octeon IO base address for read/write
+ * @return 64bit IO base address for read/write
  */
 uint64_t bdk_pcie_get_io_base_address(bdk_node_t node, int pcie_port);
 
@@ -103,7 +103,7 @@ uint64_t bdk_pcie_get_io_size(bdk_node_t node, int pcie_port);
  *                  value.
  * @param pcie_port PCIe port the IO is for
  *
- * @return 64bit Octeon IO base address for read/write
+ * @return 64bit IO base address for read/write
  */
 uint64_t bdk_pcie_get_mem_base_address(bdk_node_t node, int pcie_port);
 

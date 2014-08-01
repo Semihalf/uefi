@@ -1,6 +1,6 @@
 #include <bdk.h>
 #include <unistd.h>
-// Module for interfacing with Octeon
+// Module for interfacing with Cavium CSRs
 
 /* This code is an optional part of the BDK. It is only linked in
     if BDK_REQUIRE() needs it */
@@ -406,7 +406,7 @@ static int octeon_csr_call(lua_State* L)
  */
 void register_octeon_csr(lua_State* L)
 {
-    /* Add octeon.csr, magic table access to Octeon CSRs */
+    /* Add octeon.csr, magic table access to CSRs */
     lua_newtable(L); /* csr table */
     lua_pushcfunction(L, octeon_csr_lookup);
     lua_setfield(L, -2, "lookup");

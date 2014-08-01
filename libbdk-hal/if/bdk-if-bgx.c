@@ -316,7 +316,7 @@ static int sgmii_link(bdk_if_handle_t handle)
 
         /* Wait for PCS*_MR*_STATUS_REG[AN_CPT] to be set, indicating that
             sgmii autonegotiation is complete. In MAC mode this isn't an ethernet
-            link, but a link between Octeon and the PHY */
+            link, but a link between the chip and the PHY */
         if (!bdk_is_simulation() &&
             BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index), an_cpt, ==, 1, 10000))
         {

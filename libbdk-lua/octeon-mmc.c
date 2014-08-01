@@ -7,8 +7,8 @@
 #endif
 
 /**
- *  Module for the OcteonII eMMC/MMC/SD interface
- *  Copyright 2012 Cavium, Inc.
+ *  Module for the eMMC/MMC/SD interface
+ *  Copyright 2014 Cavium, Inc.
  */
 
 #define ULL unsigned long long
@@ -620,8 +620,8 @@ static int mmc_write(lua_State *L)
 
 
 /**
- * Register the Octeon eMMC/MMC/SD functions into a table
- * on the Lua stack under the module name "mmc".
+ * Register the eMMC/MMC/SD functions into a table on the Lua
+ * stack under the module name "mmc".
  *
  * @param L
  */

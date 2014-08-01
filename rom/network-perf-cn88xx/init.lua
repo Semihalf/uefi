@@ -5,7 +5,7 @@ require("octeon")
 
 -- Print out a banner
 print("")
-print("Octeon Network Performance Test")
+print("Network Performance Test")
 print("Copyright (C) 2014 Cavium Networks")
 printf("Version %s\n", require("bdk-version"))
 print("")

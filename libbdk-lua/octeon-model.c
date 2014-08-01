@@ -1,5 +1,5 @@
 #include <bdk.h>
-// Module for interfacing with Octeon
+// Module for determining chips models
 
 /**
  * Lua wrapper for CAVIUM_IS_MODEL
@@ -16,7 +16,7 @@ static int is_model(lua_State* L)
 }
 
 /**
- * Called to register the octeon module
+ * Called to register the chip model module
  *
  * @param L
  *

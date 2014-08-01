@@ -1,7 +1,7 @@
 /**
  * @file
  *
- * Functions and macros for accessing Octeon CSRs.
+ * Functions and macros for accessing Cavium CSRs.
  *
  * <hr>$Revision: 49448 $<hr>
  *

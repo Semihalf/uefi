@@ -1,8 +1,8 @@
 /**
  * @file
  *
- * Functions for dealing with multiple Octeon chips organized
- * into a NUMA cluster.
+ * Functions for dealing with multiple chips organized into a
+ * NUMA cluster.
  *
  * <hr>$Revision: 49448 $<hr>
  */

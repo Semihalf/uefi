@@ -52,7 +52,7 @@ promptPhy = function(port_name, config_item)
     local phy_addr
     local has_phy = menu.prompt_yes_no("Does %s have a PHY" % port_name)
     if has_phy then
-        local has_mdio = menu.prompt_yes_no("Does the PHY connect to OCTEON's SMI/MDIO")
+        local has_mdio = menu.prompt_yes_no("Does the PHY connect to THUNDERX's SMI/MDIO")
         if has_mdio then
             local bus = menu.prompt_number("SMI/MDIO bus", nil, 0, 3)
             local address = menu.prompt_number("PHY address on bus", nil, 0, 63)

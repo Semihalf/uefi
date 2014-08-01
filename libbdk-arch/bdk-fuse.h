@@ -1,7 +1,7 @@
 /**
  * @file
  *
- * Functions for reading Octeon chip fuses.
+ * Functions for reading Cavium chip fuses.
  *
  * <hr>$Revision: 49448 $<hr>
  */

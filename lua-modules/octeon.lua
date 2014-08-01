@@ -1,5 +1,5 @@
 --
--- Lua module supporting remote Octeon connections through
+-- Lua module supporting remote connections through
 -- RPC or locally on the target. When running on the target,
 -- the module "octeon-internal" is already pre-loaded, so
 -- this file use it as a base. On the host, this will be

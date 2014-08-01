@@ -16,7 +16,7 @@ void bdk_wait_usec(uint64_t usec)
 }
 
 /**
- * Perform a soft reset of Octeon
+ * Perform a soft reset of the chip
  *
  * @return
  */

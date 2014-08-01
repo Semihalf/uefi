@@ -1,6 +1,6 @@
 /**
  * @file
- * Functions for accessing memory and CSRs on Octeon when we are compiling
+ * Functions for accessing memory and CSRs when we are compiling
  * natively.
  *
  * <hr>$Revision: 38306 $<hr>
@@ -8,7 +8,7 @@
 
 /**
  * Convert a memory pointer (void*) into a hardware compatible
- * memory address (uint64_t). Octeon hardware widgets don't
+ * memory address (uint64_t). Cavium hardware widgets don't
  * understand logical addresses.
  *
  * @param ptr    C style memory pointer

@@ -330,12 +330,12 @@ static inline int __bdk_dma_engine_build_external_pointers(bdk_dma_engine_buffer
  *               need to be filled in. All other fields must be set properly.
  * @param first_address
  *               Address to use for the first pointers. In the case of INTERNAL,
- *               INBOUND, and OUTBOUND this is an Octeon memory address. In the
+ *               INBOUND, and OUTBOUND this is an memory address. In the
  *               case of EXTERNAL, this is the source PCI / PCIe address.
  * @param last_address
  *               Address to use for the last pointers. In the case of EXTERNAL,
  *               INBOUND, and OUTBOUND this is a PCI / PCIe address. In the
- *               case of INTERNAL, this is the Octeon memory destination address.
+ *               case of INTERNAL, this is the memory destination address.
  * @param size   Size of the transfer to perform.
  *
  * @return Zero on success, negative on failure

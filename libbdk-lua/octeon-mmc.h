@@ -1,8 +1,8 @@
 #ifndef __OCTEON_MMC_H__
 #define __OCTEON_MMC_H__
 
-// Basic definitions for the OCTEON II eMMC interface
-// Copyright 2012 Cavium,Inc.
+// Basic definitions for the eMMC interface
+// Copyright 2014 Cavium,Inc.
 
 // Basic Commands
 #define MMC_CMD_GO_IDLE_STATE		0

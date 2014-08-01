@@ -1,6 +1,6 @@
 /**
  * @file
- * Small utility functions and macros to ease programming of Octeon.
+ * Small utility functions and macros to ease programming.
  *
  * <hr>$Revision: 38306 $<hr>
  *

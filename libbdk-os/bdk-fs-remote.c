@@ -6,7 +6,7 @@
 /**
  * Format of the shared buffer used by the remote console. This
  * data structure is exactly 512 bytes and at a fixed location in
- * Octeon's memory. The location is __bdk_remote_console, which
+ * memory. The location is __bdk_remote_console, which
  * is a symbol in bdk-start.S.
  */
 typedef struct

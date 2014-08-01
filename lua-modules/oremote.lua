@@ -2,7 +2,7 @@
 -- Get the table of C functions for the bases of the oremote module
 local oremote = require("oremote-internal")
 
--- Open a connection so the CSR database can determine the Octeon model
+-- Open a connection so the CSR database can determine the chip model
 oremote.open()
 
 -- Create the oremote.csr table

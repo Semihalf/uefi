@@ -5,14 +5,14 @@
  *
  * <hr>$Revision: 49448 $<hr>
  *
- * @defgroup octeon Octeon chips and features
+ * @defgroup chips Chips and features
  * @{
  */
 
 
 /**
  * Return true if the software is currently running on the
- * Octeon software simulator.
+ * software simulator.
  *
  * @return Non zero if simulation
  */

@@ -1,7 +1,7 @@
 ---
 -- Lua module supporting DDR DRAM.
 --
--- This module supplies an interface to OCTEON's DRAM controllers. The BDK
+-- This module supplies an interface to Cavium's DRAM controllers. The BDK
 -- runs from L2 and doesn't initialize DRAM by default. The functions in
 -- this module are used by the DDR menu to configure and initialize memory
 -- on the fly. Once DRAM is initialized, the BDK heap is expanded to allow
