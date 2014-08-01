@@ -31,6 +31,20 @@ __bdk_initial_stack:
     # 0x280 - 0x1000 is initial stack
 .org 0x1000
 __bdk_start:
+    # Setup L2 to allow secure access to all of the address space
+    #define L2C_ASC_REGIONX 0x87E080800000
+    #define REGIONX_START   0x1000
+    #define REGIONX_END     0x1008
+    #define REGIONX_ATTR    0x1010
+    mov     x0, L2C_ASC_REGIONX >> 32
+    lsl     x0, x0, 32
+    mov     x1, (L2C_ASC_REGIONX & 0xffffffff)
+    orr      x0, x0, x1
+    str     xzr, [x0, REGIONX_START]    /* Start of zero */
+    mov     x1, 0xfffff00000            /* End of max address */
+    str     x1, [x0, REGIONX_END]
+    mov     x1, 2                       /* Secure only access */
+    str     x1, [x0, REGIONX_ATTR]
     /* Figure out the location of code as an offset from our link address */
 1:
     adr     x0, 1b          /* Jump to label, saving our PC in RA */
