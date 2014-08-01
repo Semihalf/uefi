@@ -466,7 +466,7 @@ int main()
     printf("Setup complete\n");
     printf("Starting all cores\n");
     bdk_init_cores(node, 0);
-    int num_cores = bdk_octeon_num_cores(node);
+    int num_cores = bdk_get_num_cores(node);
     // FIXME: Figure out and remove this limit - CN78XX
     if (num_cores > bdk_dma_engine_get_num(node))
         num_cores = bdk_dma_engine_get_num(node);

@@ -28,10 +28,6 @@ int bdk_l2c_initialize(bdk_node_t node)
 
 int bdk_l2c_get_core_way_partition(bdk_node_t node, int core)
 {
-    /* Validate the core number */
-    if (core >= bdk_octeon_num_cores(node))
-        return -1;
-
     return (BDK_CSR_READ(node, BDK_L2C_WPAR_PPX(core)) & 0xffff);
 }
 
@@ -39,10 +35,6 @@ int bdk_l2c_set_core_way_partition(bdk_node_t node, int core, uint32_t mask)
 {
     uint32_t valid_mask = (1 << bdk_l2c_get_num_assoc(node)) - 1;
     mask &= valid_mask;
-
-    /* Validate the core number */
-    if (core >= bdk_octeon_num_cores(node))
-        return -1;
 
     BDK_CSR_WRITE(node, BDK_L2C_WPAR_PPX(core), mask);
     return 0;

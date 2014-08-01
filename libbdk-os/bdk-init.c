@@ -242,7 +242,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         coremask &= config_coremask;
 
     /* Limit to the cores that exist */
-    coremask &= (1ull<<bdk_octeon_num_cores(node)) - 1;
+    coremask &= (1ull<<bdk_get_num_cores(node)) - 1;
 
     /* We may also need to turn power on */
     uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);

@@ -930,7 +930,7 @@ int main()
         /* Skip nodes that aren't running */
         if (((1 << node) & bdk_numa_get_running_mask()) == 0)
             continue;
-        const int num_cores = bdk_octeon_num_cores(node);
+        const int num_cores = bdk_get_num_cores(node);
         for (int core=0; core<num_cores; core++)
         {
             done = 0;

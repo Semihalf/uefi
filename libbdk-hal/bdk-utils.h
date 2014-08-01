@@ -67,7 +67,7 @@ static inline uint64_t bdk_build_bits(uint64_t high_bit, uint64_t low_bit, uint6
  *
  * @return
  */
-static inline int bdk_octeon_num_cores(bdk_node_t node)
+static inline int bdk_get_num_cores(bdk_node_t node)
 {
     uint64_t available = BDK_CSR_READ(node, BDK_RST_PP_AVAILABLE);
     return bdk_dpop(available);

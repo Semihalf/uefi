@@ -315,7 +315,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     {
         if (bdk_numa_exists(node))
         {
-            const int num_cores = bdk_octeon_num_cores(node);
+            const int num_cores = bdk_get_num_cores(node);
             int per_node = 0;
             for (int core = 0; core < num_cores; core++)
             {

@@ -229,7 +229,7 @@ void bdk_thread_destroy(void)
     for (int node = 0; node<BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_get_running_mask() & (1<<node))
-            num_cores += bdk_octeon_num_cores(bdk_numa_local());
+            num_cores += bdk_get_num_cores(bdk_numa_local());
     }
 
     bdk_atomic_add32(&dead_cores, 1);
