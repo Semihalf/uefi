@@ -40,29 +40,6 @@ static inline uint64_t bdk_build_mask(uint64_t bits)
 
 
 /**
- * Perform mask and shift to place the supplied value into
- * the supplied bit rage.
- *
- * Example: bdk_build_bits(39,24,value)
- * <pre>
- * 6       5       4       3       3       2       1
- * 3       5       7       9       1       3       5       7      0
- * +-------+-------+-------+-------+-------+-------+-------+------+
- * 000000000000000000000000___________value000000000000000000000000
- * </pre>
- *
- * @param high_bit Highest bit value can occupy (inclusive) 0-63
- * @param low_bit  Lowest bit value can occupy inclusive 0-high_bit
- * @param value    Value to use
- * @return Value masked and shifted
- */
-static inline uint64_t bdk_build_bits(uint64_t high_bit, uint64_t low_bit, uint64_t value)
-{
-    return ((value & bdk_build_mask(high_bit - low_bit + 1)) << low_bit);
-}
-
-
-/**
  * Return the number of cores available in the chip
  *
  * @return
