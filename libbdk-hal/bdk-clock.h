@@ -13,9 +13,8 @@
  * Enumeration of different Clocks.
  */
 typedef enum{
-    BDK_CLOCK_RCLK,        /**< Clock used by cores, coherent bus and L2 cache. */
+    BDK_CLOCK_CORE,        /**< Clock used by cores, coherent bus and L2 cache. */
     BDK_CLOCK_SCLK,        /**< Clock used by IO blocks. */
-    BDK_CLOCK_CORE,        /**< Alias for BDK_CLOCK_RCLK */
 } bdk_clock_t;
 
 /**
@@ -29,7 +28,6 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
 {
     switch(clock)
     {
-        case BDK_CLOCK_RCLK:
         case BDK_CLOCK_CORE:
         {
             uint64_t count;

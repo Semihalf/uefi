@@ -32,7 +32,6 @@ uint64_t bdk_clock_get_rate(bdk_node_t node, bdk_clock_t clock)
         case BDK_CLOCK_SCLK:
             return sclk;
 
-        case BDK_CLOCK_RCLK:
         case BDK_CLOCK_CORE:
             return eclk;
     }
