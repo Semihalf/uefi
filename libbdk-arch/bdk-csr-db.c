@@ -385,6 +385,12 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
                 params[i] = __bdk_csr_db_range[db->range[i]+1];
         }
     }
+    else
+    {
+        /* Fill in params for the first DB entry */
+        for (int i=0; i<BDK_CSR_DB_MAX_PARAM; i++)
+            params[i] = __bdk_csr_db_range[db->range[i]+1];
+    }
 
     /* End of list, return failure */
     if (db->width == 0)
