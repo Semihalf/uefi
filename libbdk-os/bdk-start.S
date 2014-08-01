@@ -1,12 +1,12 @@
-#define BDK_INITIAL_STACK_SIZE 256
 
     .global _start
+    .global __bdk_start
     .global __bdk_remote_console
     .global __bdk_exception_base
 
     .section .init
 _start:
-    b   __init  /* This is replaced with the header, so jump to __init */
+    b   __bdk_start /* This is replaced with the header, so jump to __bdk_start */
     .word 0     /* Header Magic     (4 bytes) */
     .word 0     /* Header CRC       (4 bytes) */
 #define OFFSET_HEADER_LENGTH 16
@@ -23,14 +23,14 @@ _start:
     # 256 bytes into the image. Everything before this is header data
     #
 .org 0x100
-    b   __init
+    b   __bdk_start
 __bdk_remote_console:
     # 0x100 - 0x300 is used for the remote console, see bdk-fs-remote.c
 .org 0x300
 __bdk_initial_stack:
     # 0x280 - 0x1000 is initial stack
 .org 0x1000
-__init:
+__bdk_start:
     /* Figure out the location of code as an offset from our link address */
 1:
     adr     x0, 1b          /* Jump to label, saving our PC in RA */
@@ -53,7 +53,7 @@ copy_code:
 
 after_relocate:
     /* Initialise the stack */
-    adr     x0, __init
+    adr     x0, __bdk_start
     msr     SP_EL0, x0
     msr     SPSel, 0
     /* Jump to C code */

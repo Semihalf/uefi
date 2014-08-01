@@ -227,9 +227,10 @@ void __bdk_init(long base_address)
 
 int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 {
+    extern void __bdk_start();
     /* Write the address of the main entry point */
     BDK_TRACE("N%d: Setting address for boot jump\n", node);
-    BDK_CSR_WRITE(node, BDK_MIO_BOOT_AP_JUMP, (uint64_t)bdk_numa_master() << 44);
+    BDK_CSR_WRITE(node, BDK_MIO_BOOT_AP_JUMP, (uint64_t)__bdk_start);
 
     /* Choose all cores by default */
     if (coremask == 0)
