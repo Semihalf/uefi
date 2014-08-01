@@ -394,10 +394,17 @@ typedef union bdk_iobnx_dis_ncbi_io {
 	struct bdk_iobnx_dis_ncbi_io_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_3_63               : 61;
-		uint64_t oci_key_only                : 1;  /**< R/W - When set, allows CCPI-sourced I/O write requests to KEY_MEM(0..2047) (e.g. 16KB, not
-                                                                 all of KEY_MEM).
-                                                                 CCPI-sourced writes to __any__ other address (non-KEY), or any CCPI source read will be
-                                                                 redirected to ECAM0_NOP_ZF. This does not affect local-node originated traffic. */
+		uint64_t oci_key_only                : 1;  /**< R/W - Restrict CCPI-sourced I/O write requests.
+
+                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
+                                                                 IOB, including allowing read/writes to all of KEY_MEM().
+
+                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
+                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
+                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
+                                                                 ECAM0_NOP_ZF.
+
+                                                                 This setting does not affect local-node originated traffic. */
 		uint64_t all_gic                     : 1;  /**< R/W - All-to-GIC. For diagnostic use only. INTERNAL:
                                                                    0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
                                                                  with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-

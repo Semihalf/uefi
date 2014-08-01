@@ -1201,11 +1201,7 @@ typedef union bdk_pciercx_cfg030 {
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
                                                                  0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes.
-
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
-                                                                 max read request size. */
+                                                                 0x5 = 4096 bytes. */
 		uint32_t ns_en                       : 1;  /**< R/W - Enable no snoop. */
 		uint32_t ap_en                       : 1;  /**< R/W/H - AUX power PM enable. */
 		uint32_t pf_en                       : 1;  /**< R/W/H - Phantom function enable. This bit should never be set; phantom functions not used in this device. */

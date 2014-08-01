@@ -222,7 +222,7 @@ typedef union bdk_ctix_ctiapppulse {
 	struct bdk_ctix_ctiapppulse_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
-		uint32_t apppulse                    : 3;  /**< RO - Generate event pulse on ECT channel <x>.
+		uint32_t apppulse                    : 3;  /**< WO - Generate event pulse on ECT channel <x>.
                                                                  N is the number of ECT channels implemented as defined by the
                                                                      CTIDEVID.NUMCHAN field.
                                                                  Bits [31:N] are RAZ/WI.

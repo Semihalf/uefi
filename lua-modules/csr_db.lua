@@ -7887,8 +7887,8 @@ local csr_db = {
             width = 8,
             address = 0x87e004000108,
             fields = {
-                {name = "RESERVED_6_63", start = 6, stop = 63},
-                {name = "ADDR", start = 0, stop = 5},
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "ADDR", start = 0, stop = 3},
             }
         },
         GIC_BIST_STATUSR = {

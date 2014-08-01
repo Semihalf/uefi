@@ -2468,7 +2468,7 @@ typedef union bdk_dbgx_edwar_hi {
 	uint32_t u;
 	struct bdk_dbgx_edwar_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t address                     : 32; /**< R/W - FIXME */
+		uint32_t address                     : 32; /**< RO - FIXME */
 #else
 		uint32_t address                     : 32;
 #endif
@@ -2501,7 +2501,7 @@ typedef union bdk_dbgx_edwar_lo {
 	uint32_t u;
 	struct bdk_dbgx_edwar_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t address                     : 32; /**< R/W - FIXME */
+		uint32_t address                     : 32; /**< RO - FIXME */
 #else
 		uint32_t address                     : 32;
 #endif

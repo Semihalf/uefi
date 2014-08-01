@@ -202,13 +202,13 @@ SYSTEM_REGISTER(ICC_BPR0_EL1, 3,0,12,8,3, 0x7, 0x0, 0x0, 0x2, 0x2, true)
 SYSTEM_REGISTER(ICC_BPR1_EL1, 3,0,12,12,3, 0x7, 0x0, 0x0, 0x3, 0x3, true)
 SYSTEM_REGISTER(ICC_CTLR_EL1, 3,0,12,12,4, 0x43, 0x0, 0xff00, 0xc00, 0x400, true)
 SYSTEM_REGISTER(ICC_CTLR_EL3, 3,6,12,12,4, 0x7f, 0x0, 0xff00, 0xc00, 0x400, true)
-SYSTEM_REGISTER(ICC_DIR_EL1, 3,0,12,11,1, 0xffff, 0x0, 0x0, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICC_EOIR0_EL1, 3,0,12,8,1, 0xffff, 0x0, 0x0, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICC_EOIR1_EL1, 3,0,12,12,1, 0xffff, 0x0, 0x0, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICC_HPPIR0_EL1, 3,0,12,8,2, 0x0, 0x0, 0xffff, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICC_HPPIR1_EL1, 3,0,12,12,2, 0x0, 0x0, 0xffff, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICC_IAR0_EL1, 3,0,12,8,0, 0x0, 0x0, 0xffff, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICC_IAR1_EL1, 3,0,12,12,0, 0x0, 0x0, 0xffff, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_DIR_EL1, 3,0,12,11,1, 0xffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_EOIR0_EL1, 3,0,12,8,1, 0xffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_EOIR1_EL1, 3,0,12,12,1, 0xffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_HPPIR0_EL1, 3,0,12,8,2, 0x0, 0x0, 0xffffff, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_HPPIR1_EL1, 3,0,12,12,2, 0x0, 0x0, 0xffffff, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_IAR0_EL1, 3,0,12,8,0, 0x0, 0x0, 0xffffff, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICC_IAR1_EL1, 3,0,12,12,0, 0x0, 0x0, 0xffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICC_IGRPEN0_EL1, 3,0,12,12,6, 0x1, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICC_IGRPEN1_EL1, 3,0,12,12,7, 0x1, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICC_IGRPEN1_EL3, 3,6,12,12,7, 0x3, 0x0, 0x0, 0x0, 0x0, true)
@@ -230,7 +230,7 @@ SYSTEM_REGISTER(ICH_AP1R2_EL2, 3,4,12,9,2, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICH_AP1R3_EL2, 3,4,12,9,3, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICH_EISR_EL2, 3,4,12,11,3, 0x0, 0x0, 0xffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICH_ELSR_EL2, 3,4,12,11,5, 0x0, 0x0, 0xffffffff, 0x0, 0x0, true)
-SYSTEM_REGISTER(ICH_HCR_EL2, 3,4,12,11,0, 0xf8003eff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(ICH_HCR_EL2, 3,4,12,11,0, 0xf8001eff, 0x0, 0x2000, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICH_MISR_EL2, 3,4,12,11,2, 0x0, 0x0, 0x1ff, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICH_LR0_EL2, 3,4,12,12,0, 0xf0ff03ffffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(ICH_LR1_EL2, 3,4,12,12,1, 0xf0ff03ffffffffff, 0x0, 0x0, 0x0, 0x0, true)
@@ -4349,11 +4349,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t interruptid : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t interruptid : 24;
 #else
-        uint32_t interruptid : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t interruptid : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus
@@ -4377,11 +4377,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t IntVector : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t IntVector : 24;
 #else
-        uint32_t IntVector : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t IntVector : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus
@@ -4405,11 +4405,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t IntVector : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t IntVector : 24;
 #else
-        uint32_t IntVector : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t IntVector : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus
@@ -4433,11 +4433,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t IntVector : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t IntVector : 24;
 #else
-        uint32_t IntVector : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t IntVector : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus
@@ -4461,11 +4461,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t IntVector : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t IntVector : 24;
 #else
-        uint32_t IntVector : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t IntVector : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus
@@ -4489,11 +4489,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t IntVector : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t IntVector : 24;
 #else
-        uint32_t IntVector : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t IntVector : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus
@@ -4517,11 +4517,11 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint32_t reserved_16_31 : 16;
-        uint32_t IntVector : 16;
+        uint32_t reserved_24_31 : 8;
+        uint32_t IntVector : 24;
 #else
-        uint32_t IntVector : 16;
-        uint32_t reserved_16_31 : 16;
+        uint32_t IntVector : 24;
+        uint32_t reserved_24_31 : 8;
 #endif
     } s;
 #ifdef __cplusplus

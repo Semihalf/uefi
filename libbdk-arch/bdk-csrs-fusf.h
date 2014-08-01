@@ -291,7 +291,8 @@ typedef union bdk_fusf_prog {
 	struct bdk_fusf_prog_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
-		uint64_t volt_en                     : 1;  /**< SR/W - Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
+		uint64_t volt_en                     : 1;  /**< SWO - Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin.
+                                                                 Made readable in pass 2. */
 		uint64_t prog_pin                    : 1;  /**< SRO - Efuse program voltage (EFUS_PROG) is applied.
                                                                  INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
 		uint64_t sft                         : 1;  /**< SR/W/H - When set with [PROG], causes only the local storage to change and will not blow
@@ -511,7 +512,15 @@ typedef union bdk_fusf_wadr {
 #endif
 	} s;
 	/* struct bdk_fusf_wadr_s             cn85xx; */
-	/* struct bdk_fusf_wadr_s             cn88xx; */
+	struct bdk_fusf_wadr_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_4_63               : 60;
+		uint64_t addr                        : 4;  /**< SR/W - Indicates which of the banks of 128 fuses to blow. */
+#else
+		uint64_t addr                        : 4;
+		uint64_t reserved_4_63               : 60;
+#endif
+	} cn88xx;
 } bdk_fusf_wadr_t;
 
 #define BDK_FUSF_WADR BDK_FUSF_WADR_FUNC()
