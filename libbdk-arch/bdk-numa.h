@@ -21,6 +21,7 @@ typedef enum
  *
  * @return Node number
  */
+static inline bdk_node_t bdk_numa_local(void) __attribute__ ((always_inline, pure));
 static inline bdk_node_t bdk_numa_local(void)
 {
 #ifndef BDK_BUILD_HOST
