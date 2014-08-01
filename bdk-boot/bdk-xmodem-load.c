@@ -235,7 +235,7 @@ int main(void)
             }
             case 4: /* Soft reset */
                 printf("Performing a soft reset\n");
-                bdk_reset_octeon(bdk_numa_local());
+                bdk_reset_chip(bdk_numa_local());
                 break;
             default:
                 bdk_error("Illegal input\n");

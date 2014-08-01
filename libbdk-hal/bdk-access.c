@@ -20,7 +20,7 @@ void bdk_wait_usec(uint64_t usec)
  *
  * @return
  */
-void bdk_reset_octeon(bdk_node_t node)
+void bdk_reset_chip(bdk_node_t node)
 {
     fflush(NULL);
 

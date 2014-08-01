@@ -435,7 +435,7 @@ function TrafficGen.new()
         assert (#args == 0, "No arguments expected")
         printf(SCROLL_FULL .. GOTO_BOTTOM)
         io.flush()
-        cavium.c.bdk_reset_octeon(cavium.MASTER_NODE)
+        cavium.c.bdk_reset_chip(cavium.MASTER_NODE)
     end
 
     function self:cmd_l2_stats(port_range, args)

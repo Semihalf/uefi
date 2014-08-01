@@ -55,7 +55,7 @@ m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 if cavium.trafficgen then
     m:item("tg",    "Traffic Generator",    do_trafficgen)
 end
-m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_octeon, 0)
+m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, 0)
 if cavium.global then
     m:item("quit", "Exit menu")
 end
