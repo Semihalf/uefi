@@ -9,15 +9,15 @@ require("strict")
 require("utils")
 require("menu")
 require("rpc")
-require("octeon")
+require("cavium")
 
 -- Set the baudrate. Many messages have already been printed, but we needed
--- to wait for the octeon module.
+-- to wait for the cavium module.
 -- The first argument is the uart number (0-1)
 -- The second argument is the baud rate (9600, 19200, 115200, etc).
 -- The third argument is whether flow control is enabled.
--- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 0, 115200, true)
--- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 1, 115200, true)
+-- cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 0, 115200, true)
+-- cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 1, 115200, true)
 
 -- Do board specific setup
 --
@@ -25,9 +25,9 @@ require("octeon")
 -- that. Otherwise, execute the board setup based on the chip model.
 if package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
-elseif octeon.is_model(octeon.CN88XX) then
+elseif cavium.is_model(cavium.CN88XX) then
     menu.dofile("board-ebb8800")
-elseif octeon.is_model(octeon.CN85XX) then
+elseif cavium.is_model(cavium.CN85XX) then
     menu.dofile("board-ebb8500")
 end
 
@@ -52,11 +52,11 @@ m:item("smi",   "SMI/MDIO options",         menu.dofile, "smi_menu")
 m:item("mpi",   "SPI/MPI options",          menu.dofile, "mpi_menu")
 m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
-if octeon.trafficgen then
+if cavium.trafficgen then
     m:item("tg",    "Traffic Generator",    do_trafficgen)
 end
-m:item("rbt",   "Reboot",                   octeon.c.bdk_reset_octeon, 0)
-if octeon.global then
+m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_octeon, 0)
+if cavium.global then
     m:item("quit", "Exit menu")
 end
 

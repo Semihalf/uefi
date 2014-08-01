@@ -43,13 +43,13 @@ local function run_one_test(test_number)
     if length == -1 then
         length = 0x10000000000
     end
-    return octeon.c.bdk_dram_test(test_number, range_start, length)
+    return cavium.c.bdk_dram_test(test_number, range_start, length)
 end
 
 local function run_all_tests()
     local errors = -1
     for test_number=0,100 do
-        local name = octeon.c.bdk_dram_get_test_name(test_number);
+        local name = cavium.c.bdk_dram_get_test_name(test_number);
         if not name then
             break
         end
@@ -89,7 +89,7 @@ end
 repeat
     local m = menu.new("DRAM Test Menu")
     m:item("cores", "Bringup Cores for multi-core testing",
-           octeon.c.bdk_init_nodes)
+           cavium.c.bdk_init_nodes)
     if range_repeat == -1 then
         m:item("repeat", "Number of time to repeat the test (Forever)" % range_repeat, set_range_repeat)
     else
@@ -107,7 +107,7 @@ repeat
     end)
     m:item("all", "Run all DRAM tests", do_test, run_all_tests, nil)
     for test_number=0,100 do
-        local name = octeon.c.bdk_dram_get_test_name(test_number);
+        local name = cavium.c.bdk_dram_get_test_name(test_number);
         if not name then
             break
         end

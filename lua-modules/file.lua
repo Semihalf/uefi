@@ -43,12 +43,12 @@ end)
 
 m:item("bin",   "Execute binary image file", function()
     local name = menu.prompt_filename("Enter filename")
-    local paddress = octeon.c.bdk_mmap(name, 0)
+    local paddress = cavium.c.bdk_mmap(name, 0)
     if paddress == -1 then
         print("ERROR: File does not support mmap()")
     else
         printf("Jumping to 0x%x\n", paddress)
-        local status = octeon.c.bdk_jump_address(paddress)
+        local status = cavium.c.bdk_jump_address(paddress)
         if status ~= 0 then
             print("ERROR: Jump didn't succeed")
         end
@@ -59,8 +59,8 @@ m:item("uboot", "Chain load Uboot", function()
     local source = menu.prompt_filename("Enter filename for Uboot")
     -- Uboot needs to be at a 4MB boundary
     fileio.copy(source, nil, "/dev/mem", 0x400000)
-    octeon.c.bdk_write_env()
-    local status = octeon.c.bdk_jump_address(0xffffffff80400000)
+    cavium.c.bdk_write_env()
+    local status = cavium.c.bdk_jump_address(0xffffffff80400000)
     if status ~= 0 then
         print("ERROR: Jump to Uboot didn't succeed")
     end

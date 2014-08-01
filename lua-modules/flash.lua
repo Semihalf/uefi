@@ -6,12 +6,12 @@ require("fileio")
 require("menu")
 
 local option = ""
-local node = octeon.MASTER_NODE
+local node = cavium.MASTER_NODE
 
 while (option ~= "quit") do
     local m = menu.new("Flash Menu")
     m:item("init", "Query for NOR flash", function()
-        octeon.c.bdk_flash_initialize(node)
+        cavium.c.bdk_flash_initialize(node)
     end)
     m:item("mmc-vw", "View eMMC, MMC, or SD", function()
         local chip_sel = menu.prompt_number("Chip select", 0, 0, 3)

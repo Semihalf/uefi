@@ -8,7 +8,7 @@ local pcie = require("pcie")
 local bit64 = require("bit64")
 
 local pcie_root = {}
-local default_node = octeon.MASTER_NODE
+local default_node = cavium.MASTER_NODE
 
 --
 -- PCIe host mode functions
@@ -76,7 +76,7 @@ end
 
 local function do_eeprom_dump(pcie_port)
     for offset=0,512-8,8 do
-        local data = octeon.c.bdk_pcie_eeprom_read(default_node, pcie_port, offset)
+        local data = cavium.c.bdk_pcie_eeprom_read(default_node, pcie_port, offset)
         printf("0x%03x: 0x%016x", offset, data)
         local preamble = bit64.bextract(data, 48, 63)
         if preamble ~= 0x9da1 then
@@ -92,7 +92,7 @@ end
 local function do_eeprom_write(pcie_port)
     local offset = menu.prompt_number("Offset into EEPROM", 0, 0, 512-8)
     local data = menu.prompt_number("EEPROM value")
-    assert(octeon.c.bdk_pcie_eeprom_write(default_node, pcie_port, offset, data) == 0, "EEPROM write failed")
+    assert(cavium.c.bdk_pcie_eeprom_write(default_node, pcie_port, offset, data) == 0, "EEPROM write failed")
 end
 
 local function do_eeprom_menu(pcie_port)
@@ -130,9 +130,9 @@ end
 
 local m = menu.new("PCIe Menu")
 local max_ports = 2
-if octeon.is_model(octeon.CN78XX) then
+if cavium.is_model(cavium.CN78XX) then
     max_ports = 4
-elseif octeon.is_model(octeon.CN70XX) then
+elseif cavium.is_model(cavium.CN70XX) then
     max_ports = 3
 end
 

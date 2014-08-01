@@ -6,19 +6,19 @@ require("menu")
 local readline = require("readline")
 
 local qlm_tuning = {}
-local node = octeon.MASTER_NODE
+local node = cavium.MASTER_NODE
 qlm_tuning.qlm = 0
 
 -- Prompt for which QLM/DLM to edit
 local function select_qlm()
-    local num_qlms = octeon.c.bdk_qlm_get_num(node)
+    local num_qlms = cavium.c.bdk_qlm_get_num(node)
     qlm_tuning.qlm = menu.prompt_number("QLM/DLM", qlm_tuning.qlm, 0, num_qlms-1)
     return qlm_tuning.qlm
 end
 
 -- Prompt for which lane to edit
 local function select_lane(qlm_num, allow_all)
-    local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(node, qlm_num)
     local default = allow_all and -1 or 0
     local lane
     if allow_all then
@@ -31,7 +31,7 @@ end
 
 -- Select a list of QLMs to perform operations on
 local function select_qlm_list(qlm_list)
-    local num_qlms = octeon.c.bdk_qlm_get_num(node)
+    local num_qlms = cavium.c.bdk_qlm_get_num(node)
     -- Default to all QLMs if the list wasn't supplied
     if not qlm_list then
         qlm_list = {}
@@ -62,12 +62,12 @@ end
 local function start_prbs(mode, qlm_list)
     -- Start PRBS on the QLMs.
     for _,qlm_num in ipairs(qlm_list) do
-        octeon.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 1)
+        cavium.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 1)
     end
     -- Let TX run for 1ms before starting RX
-    octeon.c.bdk_wait_usec(1000)
+    cavium.c.bdk_wait_usec(1000)
     for _,qlm_num in ipairs(qlm_list) do
-        octeon.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 2)
+        cavium.c.bdk_qlm_enable_prbs(node, qlm_num, mode, 2)
     end
 end
 
@@ -82,7 +82,7 @@ local function do_prbs(mode)
         end
         for qlm_index = qlm_base,qlm_max do
             local qlm_num = qlm_list[qlm_index]
-            local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
+            local num_lanes = cavium.c.bdk_qlm_get_lanes(node, qlm_num)
             for lane=0, num_lanes-1 do
                 local v = get_value(qlm_num, lane)
                 if lane == 0 then
@@ -106,7 +106,7 @@ local function do_prbs(mode)
                 return "Lane " .. lane
             end)
             output_line(qlm_base, "Errors", function(qlm, lane)
-                local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
+                local v = cavium.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
                 if v == -1 then
                     return "No Lock"
                 else
@@ -122,8 +122,8 @@ local function do_prbs(mode)
                 end
             end)
             output_line(qlm_base, "Error Rate", function(qlm, lane)
-                local qlm_speed = octeon.c.bdk_qlm_get_gbaud_mhz(node, qlm)
-                local v = octeon.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
+                local qlm_speed = cavium.c.bdk_qlm_get_gbaud_mhz(node, qlm)
+                local v = cavium.c.bdk_qlm_get_prbs_errors(node, qlm, lane)
                 if (v == -1) or (run_time == 0) then
                     return "-"
                 else
@@ -183,9 +183,9 @@ local function do_prbs(mode)
         if (key == 'e') or (key == 'E') then
             print("Injecting error into bit stream")
             for _,qlm_num in ipairs(qlm_list) do
-                local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_num)
+                local num_lanes = cavium.c.bdk_qlm_get_lanes(node, qlm_num)
                 for lane=0, num_lanes-1 do
-                    octeon.c.bdk_qlm_inject_prbs_error(node, qlm_num, lane)
+                    cavium.c.bdk_qlm_inject_prbs_error(node, qlm_num, lane)
                 end
             end
         end
@@ -201,17 +201,17 @@ end
 function qlm_tuning.run()
     local m = menu.new("PRBS and SERDES Tuning Menu")
     repeat
-        local num_lanes = octeon.c.bdk_qlm_get_lanes(node, qlm_tuning.qlm)
+        local num_lanes = cavium.c.bdk_qlm_get_lanes(node, qlm_tuning.qlm)
         local current_qlm = (num_lanes == 2) and "DLM" or "QLM"
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
-        m:item("down",   "Reset and power down", octeon.c.bdk_qlm_reset, node, qlm_tuning.qlm)
+        m:item("down",   "Reset and power down", cavium.c.bdk_qlm_reset, node, qlm_tuning.qlm)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
-        if octeon.is_model(octeon.CN78XX) then
+        if cavium.is_model(cavium.CN78XX) then
             m:item("prbs11",  "PRBS-11", do_prbs, 11)
         end
         m:item("prbs15", "PRBS-15", do_prbs, 15)
-        if octeon.is_model(octeon.CN78XX) then
+        if cavium.is_model(cavium.CN78XX) then
             m:item("prbs16",  "PRBS-16", do_prbs, 16)
         end
         m:item("prbs23", "PRBS-23", do_prbs, 23)

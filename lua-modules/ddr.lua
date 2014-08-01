@@ -19,8 +19,8 @@ require("fileio")
 ddr = {}
 
 -- local references to functions we need
-local bdk_dram_config_raw = octeon.bdk_board_table_entry.bdk_dram_config_raw
-local bdk_dram_lookup_board = octeon.bdk_board_table_entry.bdk_dram_lookup_board
+local bdk_dram_config_raw = cavium.bdk_board_table_entry.bdk_dram_config_raw
+local bdk_dram_lookup_board = cavium.bdk_board_table_entry.bdk_dram_lookup_board
 
 --
 -- SWIG structures are unusual as you need to iterate the metatable
@@ -30,10 +30,10 @@ local function dump_swig_object(object, prefix, file_handle)
     local getmetatable = getmetatable
     local type = type
     local tostring = tostring
-    if octeon.global then
-        getmetatable = octeon.global.getmetatable
-        type = octeon.global.type
-        tostring = octeon.global.tostring
+    if cavium.global then
+        getmetatable = cavium.global.getmetatable
+        type = cavium.global.type
+        tostring = cavium.global.tostring
     end
     local mt = object and getmetatable(object)
     if mt and mt[".get"] then
@@ -138,7 +138,7 @@ function ddr.read_spd(spd_addr)
     local node = spd_addr / 65536
     local twsi_bus = (spd_addr / 256) % 256
     local twsi_addr = spd_addr % 256
-    local spd_len = octeon.c.bdk_twsix_read_ia(node, twsi_bus, twsi_addr, 0, 1, 1)
+    local spd_len = cavium.c.bdk_twsix_read_ia(node, twsi_bus, twsi_addr, 0, 1, 1)
     assert(spd_len ~= -1, "TWSI read failed for SPD")
     spd_len = spd_len % 16
     local length
@@ -153,7 +153,7 @@ function ddr.read_spd(spd_addr)
     end
     local spd = {}
     for i=1,length do
-        local v = octeon.c.bdk_twsix_read_ia(node, twsi_bus, twsi_addr, i-1, 1, 1)
+        local v = cavium.c.bdk_twsix_read_ia(node, twsi_bus, twsi_addr, i-1, 1, 1)
         assert(v ~= -1, "TWSI read failed for SPD")
         spd[i] = string.char(v)
     end

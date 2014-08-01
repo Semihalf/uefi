@@ -1,16 +1,16 @@
 
 ---
 -- The *oremote* module provides functions for remotely controlling an
--- OCTEON over PCI or EJTAG. This allows Lua scripts to remotely probe and
--- boot OCTEON. Below is a list of the functions supported.
+-- THUNDER over PCI or EJTAG. This allows Lua scripts to remotely probe and
+-- boot THUNDER. Below is a list of the functions supported.
 --
 
 ---
 -- Open a remote connection.
 -- Protocol format
 --	Format			Description
---	PCI:<device>		Use PCI/PCIe for <device>. Zero is the first OCTEON.
---	GDB:<name>,<tcp_port>	Use GDB remote protocol to communicate with OCTEON.
+--	PCI:<device>		Use PCI/PCIe for <device>. Zero is the first THUNDER.
+--	GDB:<name>,<tcp_port>	Use GDB remote protocol to communicate with THUNDER.
 --	MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>]	Use Macraigor mpDemon EJTAG. Note the <tcp_port> is normally 1000. <jtag_speed> is optional and defaults to 1.
 --
 -- TIP: The *protocol* can also be set to *nil*.  When *nil*, the protocol
@@ -214,19 +214,19 @@
 -- @return Returns true if the current chip matches the supplied model.
 
 ---
--- OCTEON model constant
+-- CAVIUM model constant
 -- @field oremote.CN61XX
 
 ---
--- OCTEON model constant
+-- CAVIUM model constant
 -- @field oremote.CN68XX
 
 ---
--- OCTEON model constant
+-- CAVIUM model constant
 -- @field oremote.CN70XX
 
 ---
--- OCTEON model constant
+-- CAVIUM model constant
 -- @field oremote.CN78XX
 
 ---

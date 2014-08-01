@@ -1,5 +1,5 @@
 ---
--- Module accessing OCTEON's hardware
+-- Module accessing CAVIUM's hardware
 --
 
 ---
@@ -8,31 +8,31 @@
 
 ---
 -- Returns true if the current chip matches the supplied model.
--- @function octeon.is_model
--- @param model  One of the `octeon.CN*` constants
+-- @function cavium.is_model
+-- @param model  One of the `cavium.CN*` constants
 -- @return Returns true if the current chip matches the supplied model.
 
 ---
--- OCTEON model constant
--- @field octeon.CN61XX
+-- CAVIUM model constant
+-- @field cavium.CN61XX
 
 ---
--- OCTEON model constant
--- @field octeon.CN68XX
+-- CAVIUM model constant
+-- @field cavium.CN68XX
 
 ---
--- OCTEON model constant
--- @field octeon.CN70XX
+-- CAVIUM model constant
+-- @field cavium.CN70XX
 
 ---
--- OCTEON model constant
--- @field octeon.CN78XX
+-- CAVIUM model constant
+-- @field cavium.CN78XX
 
 ---
 -- BDK configuration constants
--- Constants for use with octeon.c.bdk_config_get() and
--- octeon.c.bdk_config_set().
--- @field octeon.BDK_CONFIG_*
+-- Constants for use with cavium.c.bdk_config_get() and
+-- cavium.c.bdk_config_set().
+-- @field cavium.BDK_CONFIG_*
 
 ---
 -- CSR Access
@@ -42,26 +42,26 @@
 -- Returns an iterator that iterates through the possible CSR names.
 --
 -- List all CSRs from Lua
---	for name in octeon.csr()
+--	for name in cavium.csr()
 --	do
 --		print (name)
 -- 	end
 --
--- @function octeon.csr
+-- @function cavium.csr
 -- @return Returns an iterator that iterates through the possible CSR names.
 
 ---
 -- Read the value of the CSR **NAME**.  **NAME** is name such as "CIU_FUSE"
 -- or "CIU_INTX_SUM0(0)".
 --
--- @function octeon.csr.NAME.read
+-- @function cavium.csr.NAME.read
 -- @return Returns the CSR value
 
 ---
 -- Write the value of the CSR **NAME**.  **NAME** is name such as "CIU_FUSE"
 -- or "CIU_INTX_SUM0(0)".
 --
--- @function octeon.csr.NAME.write
+-- @function cavium.csr.NAME.write
 -- @param value Value to write
 -- @return Nothing
 
@@ -70,7 +70,7 @@
 -- each field and displays it.  If **optional_value** is not supplied the actual
 -- value is read from the hardware.
 --
--- @function octeon.csr.NAME.display
+-- @function cavium.csr.NAME.display
 -- @param optional_value If supplied, value of CSR to display.
 -- @return Nothing
 
@@ -81,7 +81,7 @@
 -- hardware.
 --
 -- Decode example
---	pprint(octeon.csr.ciu_fuse.decode())
+--	pprint(cavium.csr.ciu_fuse.decode())
 --
 -- Decode output
 --	{
@@ -89,7 +89,7 @@
 --		RESERVED_6_63 = 0
 --	}
 --
--- @function octeon.csr.NAME.decode
+-- @function cavium.csr.NAME.decode
 -- @param optional_value If supplied, value of CSR to decode.
 -- @return Returns a table of the decoded values.
 
@@ -98,7 +98,7 @@
 -- hardware.  The format of the table is identical to the *decode()*
 -- format.  Missing fields are filled with zeros.
 --
--- @function octeon.csr.NAME.encode
+-- @function cavium.csr.NAME.encode
 -- @param table Table of fields to encode.
 -- @return Nothing
 
@@ -107,7 +107,7 @@
 -- For assignments, performs a read, modify, and write of a
 -- CSR changing the specified field.
 --
--- @field octeon.csr.NAME.FIELD
+-- @field cavium.csr.NAME.FIELD
 
 ---
 -- C Functions.
@@ -119,35 +119,35 @@
 -- it is very important to get the arguments correct.  Errors may crash
 -- the system.
 --
--- @function octeon.c.FUNCTION
+-- @function cavium.c.FUNCTION
 -- @param ... Arguments to C function
 -- @return C function return cast to a number
 
 ---
 -- Traffic Generation.
--- The module *octeon.trafficgen* allows Lua to generate and receive ethernet
+-- The module *cavium.trafficgen* allows Lua to generate and receive ethernet
 -- traffic on all chip interfaces. A user friendly interactive interface is
 -- available through *trafficgen.lua*.
 --
--- @section octeon.trafficgen
+-- @section cavium.trafficgen
 
 ---
 -- Return all port names as an array of strings
 --
--- @function octeon.trafficgen.get_port_names
+-- @function cavium.trafficgen.get_port_names
 -- @return Return all port names as an array of strings
 
 ---
 -- Returns a table containing the port configuration.
 --
--- @function octeon.trafficgen.get_config
+-- @function cavium.trafficgen.get_config
 -- @param port_name String port name to get the configuration for.
 -- @return Returns a table containing the port configuration.
 
 ---
 -- Get parameters for a port. Use **get_config** to find the parameter names.
 --
--- @function octeon.trafficgen.set_config
+-- @function cavium.trafficgen.set_config
 -- @param port_name String port name to set the configuration for.
 -- @param config_table Table containing the configuration items to change.
 -- @return Nothing
@@ -155,42 +155,42 @@
 ---
 -- Start traffic on a list of ports.
 --
--- @function octeon.trafficgen.start
+-- @function cavium.trafficgen.start
 -- @param port_array Array of port names to start transmitting on.
 -- @return Nothing
 
 ---
 -- Stop traffic on a list of ports.
 --
--- @function octeon.trafficgen.stop
+-- @function cavium.trafficgen.stop
 -- @param port_array Array of port names to stop transmitting on.
 -- @return Nothing
 
 ---
 -- See if any of the given ports are transmitting.
 --
--- @function octeon.trafficgen.is_transmitting
+-- @function cavium.trafficgen.is_transmitting
 -- @param port_array Array of port names to check if they are transmitting.
 -- @return Returns a boolean true or false depending on if any ports are transmitting.
 
 ---
 -- Clear hardware statistics counters.
 --
--- @function octeon.trafficgen.clear
+-- @function cavium.trafficgen.clear
 -- @param port_array Array of port names to clear statistics for.
 -- @return Nothing
 
 ---
 -- Clear and reset ports to their default state.
 --
--- @function octeon.trafficgen.reset
+-- @function cavium.trafficgen.reset
 -- @param port_array Array of port names to clear statistics and reset config for.
 -- @return Nothing
 
 ---
 -- Get the latest hardware statistics and optionally clear them.
 --
--- @function octeon.trafficgen.update
+-- @function cavium.trafficgen.update
 -- @param do_clear True if the current statistics counters should be cleared for deltas.
 -- @return Table index by port name where each entry is a table of statistics.
 

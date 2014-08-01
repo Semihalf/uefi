@@ -7,8 +7,8 @@ require("ddr")
 require("fileio")
 
 local getenv = os.getenv
-if octeon.global then
-    getenv = octeon.global.os.getenv
+if cavium.global then
+    getenv = cavium.global.os.getenv
 end
 
 -- List of board strings that can be passed to ddr.set_config()
@@ -36,7 +36,7 @@ end
 
 local m = menu.new("DRAM Menu")
 
-if not octeon.is_model(octeon.CN70XX) then
+if not cavium.is_model(cavium.CN70XX) then
     -- Build a list of choice for each board
     for _,board in ipairs(BOARD_CHOICES) do
         local text = "Load current DRAM config using \"%s\"" % board .. " board settings"
@@ -128,9 +128,9 @@ if not octeon.is_model(octeon.CN70XX) then
         m:item("verbose", label, function()
             local value = getenv("ddr_verbose")
             if value then
-                octeon.c.bdk_setenv("ddr_verbose", nil)
+                cavium.c.bdk_setenv("ddr_verbose", nil)
             else
-                octeon.c.bdk_setenv("ddr_verbose", "yes")
+                cavium.c.bdk_setenv("ddr_verbose", "yes")
             end
             update_verbose_label()
         end)
@@ -144,7 +144,7 @@ end -- not CN70XX
         if value == "" then
             value = nil
         end
-        octeon.c.bdk_setenv(name, value)
+        cavium.c.bdk_setenv(name, value)
     end)
 
     m:item("getenv", "Get environment variable", function()
@@ -157,13 +157,13 @@ end -- not CN70XX
         end
     end)
 
-if not octeon.is_model(octeon.CN70XX) then
+if not cavium.is_model(cavium.CN70XX) then
     m:item("init", "Initialize DRAM controller using current config", function()
         if not ddr_config then
             error "ERROR: unable to configure DRAM controller with empty config.\n"
         end
-        local node = octeon.MASTER
-        if octeon.is_model(octeon.CN78XX) then
+        local node = cavium.MASTER
+        if cavium.is_model(cavium.CN78XX) then
             node = menu.prompt_number("Node to initialize", node, 0, 3)
         end
         ddr.set_config(node, ddr_config, ddr_clock_hz)

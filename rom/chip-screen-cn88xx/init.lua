@@ -1,7 +1,7 @@
 require("strict")
 require("menu")
 require("utils")
-require("octeon")
+require("cavium")
 
 -- Print out a banner
 print("")
@@ -19,16 +19,16 @@ local function pci_test(rc_port, ep_port)
     local ret_value = false
     print ("In function pci_test\n")
 --QLM 0
-    octeon.csr.GSERX_REFCLK_SEL(rc_port).USE_COM1 = 0
-    octeon.csr.GSERX_REFCLK_SEL(rc_port).COM_CLK_SEL = 1
-    octeon.c.bdk_qlm_reset(0, rc_port)
-    octeon.c.bdk_qlm_set_mode(0, rc_port, octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2)
+    cavium.csr.GSERX_REFCLK_SEL(rc_port).USE_COM1 = 0
+    cavium.csr.GSERX_REFCLK_SEL(rc_port).COM_CLK_SEL = 1
+    cavium.c.bdk_qlm_reset(0, rc_port)
+    cavium.c.bdk_qlm_set_mode(0, rc_port, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
 
 --QLM 1
-    octeon.csr.GSERX_REFCLK_SEL(ep_port).USE_COM1 = 0
-    octeon.csr.GSERX_REFCLK_SEL(ep_port).COM_CLK_SEL = 1
-    octeon.c.bdk_qlm_reset(0, ep_port)
-    octeon.c.bdk_qlm_set_mode(0, ep_port, octeon.QLM_MODE_PCIE_1X4, 5000, octeon.QLM_MODE_FLAG_GEN2+octeon.QLM_MODE_FLAG_ENDPOINT)
+    cavium.csr.GSERX_REFCLK_SEL(ep_port).USE_COM1 = 0
+    cavium.csr.GSERX_REFCLK_SEL(ep_port).COM_CLK_SEL = 1
+    cavium.c.bdk_qlm_reset(0, ep_port)
+    cavium.c.bdk_qlm_set_mode(0, ep_port, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT)
 
 --
 -- PCIe
@@ -70,7 +70,7 @@ end
 
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
-octeon.c.bdk_init_cores(0, coremask)
+cavium.c.bdk_init_cores(0, coremask)
 
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
@@ -81,7 +81,7 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
     tg:command("count %d" % count)
     tg:command("tx_percent %d" % rate)
     tg:command("start")
-    octeon.c.bdk_wait_usec(to_secs * 1000000)
+    cavium.c.bdk_wait_usec(to_secs * 1000000)
     tg:command("rx_octets_total")
     local stats = tg:get_stats()
     local ports_pass = false
@@ -109,7 +109,7 @@ end
 -- MMC Tests
 --
 print("test start: mmc")
-local capacity = octeon.c.bdk_mmc_initialize(0)
+local capacity = cavium.c.bdk_mmc_initialize(0)
 if (capacity > 0) then
     print("MMC0 Init test: PASS")
 else
@@ -120,7 +120,7 @@ end
 
 if ((board_name == "evb7800_sff") or (board_name == "ebb7800")) then
 -- EMMC on SFF board
-    capacity = octeon.c.bdk_mmc_initialize(1)
+    capacity = cavium.c.bdk_mmc_initialize(1)
     if (capacity > 0) then
         print("MMC1 Init test: PASS")
     else
@@ -135,18 +135,18 @@ local oci0_status = true
 local oci1_status = true
 local oci2_status = true
 print("test start: oci")
-if ((octeon.csr.OCX_COM_LINKX_CTL(0).UP ~= 1) or
-    (octeon.csr.OCX_COM_LINKX_CTL(0).VALID ~= 1)) then
+if ((cavium.csr.OCX_COM_LINKX_CTL(0).UP ~= 1) or
+    (cavium.csr.OCX_COM_LINKX_CTL(0).VALID ~= 1)) then
     print ("oci0: FAIL")
     oci0_status = false
 end
-if ((octeon.csr.OCX_COM_LINKX_CTL(1).UP ~= 1) or
-    (octeon.csr.OCX_COM_LINKX_CTL(1).VALID ~= 1)) then
+if ((cavium.csr.OCX_COM_LINKX_CTL(1).UP ~= 1) or
+    (cavium.csr.OCX_COM_LINKX_CTL(1).VALID ~= 1)) then
     print ("oci1: FAIL")
     oci1_status = false
 end
-if ((octeon.csr.OCX_COM_LINKX_CTL(2).UP ~= 1) or
-    (octeon.csr.OCX_COM_LINKX_CTL(2).VALID ~= 1)) then
+if ((cavium.csr.OCX_COM_LINKX_CTL(2).UP ~= 1) or
+    (cavium.csr.OCX_COM_LINKX_CTL(2).VALID ~= 1)) then
     print ("oci2: FAIL")
     oci2_status = false
 end
@@ -188,14 +188,14 @@ local trafficgen = require("trafficgen")
 local tg = trafficgen.new()
 
 --Wait for the links to come up
-octeon.c.bdk_wait_usec(5 * 1000000)
+cavium.c.bdk_wait_usec(5 * 1000000)
 
 -- Wait for PHY link messages while testing loop ports
 --tg_pass = tg_run(tg, "LOOP0-LOOP3", 60, 10000, 1000, 2)
 --tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 1500, 10000, 1000, 2)
 --tg_pass = tg_pass and tg_run(tg, "LOOP0-LOOP3", 65524, 10000, 1000, 4)
 --all_pass = all_pass and tg_pass
--- octeon.c.bdk_wait_usec(5000000)
+-- cavium.c.bdk_wait_usec(5000000)
 
 
 --tg_pass = tg_run(tg, "SGMII0.0-SGMII0.3", 60, 10000, 100, 2)

@@ -22,8 +22,8 @@ function fileio.open(filename, mode, seek_to)
     assert(type(mode) == "string")
     assert((seek_to == nil) or tonumber(seek_to))
     local handle
-    if isglobal("octeon") and (filename:sub(1,5) == "/dev/") then
-        handle = assert(octeon.devopen(filename, mode))
+    if isglobal("cavium") and (filename:sub(1,5) == "/dev/") then
+        handle = assert(cavium.devopen(filename, mode))
     else
         handle = assert(io.open(filename, mode))
     end
@@ -38,7 +38,7 @@ end
 
 --- Transfer data from one file handle to another.
 function fileio.transfer(source_handle, dest_handle, length)
-    local on_target, unused = pcall(require, "octeon-internal")
+    local on_target, unused = pcall(require, "cavium-internal")
     if length == nil then
         -- Assume no file is larger than 64GB
         length = 0x1000000000

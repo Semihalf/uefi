@@ -6,7 +6,7 @@ require("menu")
 local fileio = require("fileio")
 local bit64 = require("bit64")
 
-local node = octeon.MASTER_NODE
+local node = cavium.MASTER_NODE
 local init_complete = false
 
 -- Use globals so menu remembers last choice
@@ -33,17 +33,17 @@ local function mpi_init()
     local lsb = menu.prompt_yes_no("Transfer LSB first", "n")
 
     local flags = 0
-    flags = flags + (cs0 and octeon.MPI_FLAGS_ENABLE_CS0 or 0)
-    flags = flags + (cs1 and octeon.MPI_FLAGS_ENABLE_CS1 or 0)
-    flags = flags + (cs2 and octeon.MPI_FLAGS_ENABLE_CS2 or 0)
-    flags = flags + (cs3 and octeon.MPI_FLAGS_ENABLE_CS3 or 0)
-    flags = flags + (cs_high and octeon.MPI_FLAGS_CS_ACTIVE_HI or 0)
-    flags = flags + (one_wire and octeon.MPI_FLAGS_ONE_WIRE or 0)
-    flags = flags + (idle_clock and octeon.MPI_FLAGS_IDLE_CLOCKS or 0)
-    flags = flags + (idle_low and octeon.MPI_FLAGS_IDLE_LOW or 0)
-    flags = flags + (lsb and octeon.MPI_FLAGS_LSB_FIRST or 0)
+    flags = flags + (cs0 and cavium.MPI_FLAGS_ENABLE_CS0 or 0)
+    flags = flags + (cs1 and cavium.MPI_FLAGS_ENABLE_CS1 or 0)
+    flags = flags + (cs2 and cavium.MPI_FLAGS_ENABLE_CS2 or 0)
+    flags = flags + (cs3 and cavium.MPI_FLAGS_ENABLE_CS3 or 0)
+    flags = flags + (cs_high and cavium.MPI_FLAGS_CS_ACTIVE_HI or 0)
+    flags = flags + (one_wire and cavium.MPI_FLAGS_ONE_WIRE or 0)
+    flags = flags + (idle_clock and cavium.MPI_FLAGS_IDLE_CLOCKS or 0)
+    flags = flags + (idle_low and cavium.MPI_FLAGS_IDLE_LOW or 0)
+    flags = flags + (lsb and cavium.MPI_FLAGS_LSB_FIRST or 0)
 
-    local result = octeon.c.bdk_mpi_initialize(node, clock_rate_hz, flags)
+    local result = cavium.c.bdk_mpi_initialize(node, clock_rate_hz, flags)
     assert(result == 0, "SPI/MPI initialization failed")
     init_complete = true
 end
@@ -54,7 +54,7 @@ local function mpi_transfer()
     local tx_data = menu.prompt_number("Transmit data")
     local rx_count = menu.prompt_number("Receive bytes", 1, 0, 9 - tx_count)
 
-    local result = octeon.c.bdk_mpi_transfer(node, chip_select, 0, tx_count, tx_data, rx_count)
+    local result = cavium.c.bdk_mpi_transfer(node, chip_select, 0, tx_count, tx_data, rx_count)
     if rx_count > 0 then
         print("Receive: 0x%x" % result)
     else
@@ -70,11 +70,11 @@ local function mpi_display()
     local count = menu.prompt_number("Bytes to read", 128, 1)
 
     local cmd = bit64.lshift(read_cmd, addr_width*8) + addr
-    local result = octeon.c.bdk_mpi_transfer(node, chip_select, true, addr_width+1, cmd, 0)
+    local result = cavium.c.bdk_mpi_transfer(node, chip_select, true, addr_width+1, cmd, 0)
     assert(result == 0, "SPI/MPI transfer failed")
     while count > 0 do
         local rx_size = (count > 8) and 8 or count
-        result = octeon.c.bdk_mpi_transfer(node, chip_select, rx_size < count, 0, 0, rx_size)
+        result = cavium.c.bdk_mpi_transfer(node, chip_select, rx_size < count, 0, 0, rx_size)
         printf("%08x: %016x\n", addr, result)
         addr = addr + rx_size
         count = count - rx_size

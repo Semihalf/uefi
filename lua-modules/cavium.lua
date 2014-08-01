@@ -1,10 +1,10 @@
 --
 -- Lua module supporting remote connections through
 -- RPC or locally on the target. When running on the target,
--- the module "octeon-internal" is already pre-loaded, so
+-- the module "cavium-internal" is already pre-loaded, so
 -- this file use it as a base. On the host, this will be
--- called when a script does a "require(octeon)". We then
--- use RPC to connect this host "octeon" module with the
+-- called when a script does a "require(cavium)". We then
+-- use RPC to connect this host "cavium" module with the
 -- one on the target.
 --
 -- * Written by Chad Reese
@@ -12,7 +12,7 @@
 --
 require("utils")
 
-local status, base = pcall(require, "octeon-internal")
+local status, base = pcall(require, "cavium-internal")
 
 if not status then
     -- Create a connection to the remote system
@@ -31,7 +31,7 @@ access the remote console.
 ]])
     require("rpc")
     local remote = rpc.connect(cnx)
-    base = remote.octeon
+    base = remote.cavium
 
     -- Add a global member that has access to the global context on the remote
     -- system
@@ -46,8 +46,8 @@ if status then
     base.csr = lookup(base, base.c.bdk_csr_read, base.c.bdk_csr_write)
 end
 
--- Make the octeon module global by default
-octeon = base
+-- Make the cavium module global by default
+cavium = base
 
 return base
 

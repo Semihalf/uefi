@@ -6,7 +6,7 @@
 --
 require("strict")
 require("utils")
-require("octeon")
+require("cavium")
 local bit64 = require("bit64")
 
 -- This is the table we use to contain the module
@@ -51,12 +51,12 @@ local PCICONFIG_IO_BASE_UPPER       = 0x30
 local PCICONFIG_IO_LIMIT_UPPER      = 0x32
 
 
-local configr8 = octeon.c.bdk_pcie_config_read8
-local configr16 = octeon.c.bdk_pcie_config_read16
-local configr32 = octeon.c.bdk_pcie_config_read32
-local configw8 = octeon.c.bdk_pcie_config_write8
-local configw16 = octeon.c.bdk_pcie_config_write16
-local configw32 = octeon.c.bdk_pcie_config_write32
+local configr8 = cavium.c.bdk_pcie_config_read8
+local configr16 = cavium.c.bdk_pcie_config_read16
+local configr32 = cavium.c.bdk_pcie_config_read32
+local configw8 = cavium.c.bdk_pcie_config_write8
+local configw16 = cavium.c.bdk_pcie_config_write16
+local configw32 = cavium.c.bdk_pcie_config_write32
 
 --
 -- This function creates a table representing a PCIe device. It reads
@@ -445,7 +445,7 @@ end
 --
 function pcie.initialize(node, pcie_port)
     -- Initialize the PCIe link
-    if octeon.c.bdk_pcie_rc_initialize(node, pcie_port) ~= 0 then
+    if cavium.c.bdk_pcie_rc_initialize(node, pcie_port) ~= 0 then
         error("bdk_pcie_rc_initialize() failed")
     end
 
@@ -462,7 +462,7 @@ function pcie.initialize(node, pcie_port)
     function pcie_root:scan()
         self.devices = {}
         -- Get the top level bus number
-        self.last_bus = octeon.csr.PCIERCX_CFG006(self.port).PBNUM
+        self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).PBNUM
         -- Read device zero, which must exist per PCIe spec
         local device = create_device(self, self.last_bus, 0, 0)
         if not device then
@@ -524,7 +524,7 @@ function pcie.initialize(node, pcie_port)
     -- Shutdown a PCIe port
     --
     function pcie_root:shutdown()
-        local status = octeon.c.bdk_pcie_rc_shutdown(self.node, self.port)
+        local status = cavium.c.bdk_pcie_rc_shutdown(self.node, self.port)
         if status ~= 0 then
             error("bdk_pcie_rc_shutdown() failed")
         end

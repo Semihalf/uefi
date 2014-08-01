@@ -4,12 +4,12 @@ require("strict")
 require("utils")
 require("menu")
 
-local node = octeon.MASTER_NODE
+local node = cavium.MASTER_NODE
 
 local function twsi_scan(twsi_bus)
     printf("TWSI%d: Scanning bus...\n", twsi_bus)
     for dev_addr = 0, 127 do
-        local data = octeon.c.bdk_twsix_read_ia(node, twsi_bus, dev_addr, 0, 1, 0)
+        local data = cavium.c.bdk_twsix_read_ia(node, twsi_bus, dev_addr, 0, 1, 0)
         if data >= 0 then
             printf("TWSI%d: Address %3d (0x%02x) responded\n", twsi_bus, dev_addr, dev_addr)
         end
@@ -24,7 +24,7 @@ local function twsi_read(twsi_bus)
         ia_address = menu.prompt_number("Internal address")
     end
     local num_bytes = menu.prompt_number("Number of bytes to read", nil, 1, 4)
-    local result = octeon.c.bdk_twsix_read_ia(node, twsi_bus, dev_addr, ia_address, num_bytes, ia_width)
+    local result = cavium.c.bdk_twsix_read_ia(node, twsi_bus, dev_addr, ia_address, num_bytes, ia_width)
     assert(result ~= -1, "TWSI read failed")
     printf("Result: %d (0x%x)\n", result, result)
 end
@@ -38,7 +38,7 @@ local function twsi_write(twsi_bus)
     end
     local num_bytes = menu.prompt_number("Number of bytes to write", nil, 1, 4)
     local data = menu.prompt_number("Data to write")
-    local result = octeon.c.bdk_twsix_write_ia(node, twsi_bus, dev_addr, ia_address, num_bytes, ia_width, data)
+    local result = cavium.c.bdk_twsix_write_ia(node, twsi_bus, dev_addr, ia_address, num_bytes, ia_width, data)
     assert(result ~= -1, "TWSI write failed")
 end
 

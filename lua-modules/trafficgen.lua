@@ -32,12 +32,12 @@ local ALIASES = {
 
 local TrafficGen = {}
 function TrafficGen.new()
-    octeon.c.bdk_init_nodes();
+    cavium.c.bdk_init_nodes();
     local self = {}
     --
     -- Private variables
     --
-    local known_ports = octeon.trafficgen.get_port_names()
+    local known_ports = cavium.trafficgen.get_port_names()
     local visible_ports = {}
     local default_ports = {}
     local is_running = true
@@ -99,7 +99,7 @@ function TrafficGen.new()
     end
 
     local function do_update(zero_stats)
-        local stats = octeon.trafficgen.update(zero_stats)
+        local stats = cavium.trafficgen.update(zero_stats)
         local labels = stats.labels
         stats.labels = nil
         local result = {}
@@ -212,15 +212,15 @@ function TrafficGen.new()
     -- Create commands for getting and setting each value in the port config
     -- structure.
     local function create_config_commands()
-        local config = octeon.trafficgen.get_config(known_ports[1])
+        local config = cavium.trafficgen.get_config(known_ports[1])
         -- Add in sorted order
         for _,field_name in ipairs(table.sorted_keys(config)) do
             self["cmdp_" .. field_name] = function (self, port_range, args)
                 for _, port in pairs(port_range) do
                     if #args == 1 then
-                        octeon.trafficgen.set_config(port, {[field_name]=args[1]})
+                        cavium.trafficgen.set_config(port, {[field_name]=args[1]})
                     else
-                        local config = octeon.trafficgen.get_config(port)
+                        local config = cavium.trafficgen.get_config(port)
                         printf("Port %s: %s = %s\n", port, field_name, tostring(config[field_name]))
                     end
                 end
@@ -315,12 +315,12 @@ function TrafficGen.new()
 
     function self:cmdp_start(port_range, args)
         assert (#args == 0, "No arguments expected")
-        octeon.trafficgen.start(port_range)
+        cavium.trafficgen.start(port_range)
     end
 
     function self:cmdp_stop(port_range, args)
         assert (#args == 0, "No arguments expected")
-        octeon.trafficgen.stop(port_range)
+        cavium.trafficgen.stop(port_range)
     end
 
     function self:cmdp_show(port_range, args)
@@ -338,27 +338,27 @@ function TrafficGen.new()
 
     function self:cmdp_clear(port_range, args)
         assert (#args == 0, "No arguments expected")
-        octeon.trafficgen.clear(port_range)
+        cavium.trafficgen.clear(port_range)
     end
 
     function self:cmdp_reset(port_range, args)
         assert (#args == 0, "No arguments expected")
-        octeon.trafficgen.reset(port_range)
+        cavium.trafficgen.reset(port_range)
     end
 
     function self:cmdp_loopback(port_range, args)
         assert (#args == 1, "Argument expected, either INTERNAL, EXTERNAL, INTERNAL+EXTERNAL, or NONE")
         for _,port in pairs(port_range) do
-            octeon.trafficgen.set_loopback(port, args[1])
+            cavium.trafficgen.set_loopback(port, args[1])
         end
     end
 
     function self:cmdp_tx_percent(port_range, args)
         for _,port in pairs(port_range) do
             if #args == 1 then
-                octeon.trafficgen.set_config(port, {output_rate_is_mbps = true, output_rate = args[1] * 10})
+                cavium.trafficgen.set_config(port, {output_rate_is_mbps = true, output_rate = args[1] * 10})
             else
-                local config = octeon.trafficgen.get_config(port)
+                local config = cavium.trafficgen.get_config(port)
                 if config.output_rate_is_mbps then
                     printf("Port %s: %d Mbps\n", port, config.output_rate)
                 else
@@ -371,9 +371,9 @@ function TrafficGen.new()
     function self:cmdp_tx_rate(port_range, args)
         for _,port in pairs(port_range) do
             if #args == 1 then
-                octeon.trafficgen.set_config(port, {output_rate_is_mbps = false, output_rate = args[1]})
+                cavium.trafficgen.set_config(port, {output_rate_is_mbps = false, output_rate = args[1]})
             else
-                local config = octeon.trafficgen.get_config(port)
+                local config = cavium.trafficgen.get_config(port)
                 if config.output_rate_is_mbps then
                     printf("Port %s: %d Mbps\n", port, config.output_rate)
                 else
@@ -384,7 +384,7 @@ function TrafficGen.new()
     end
 
     -- CSR access command only needed if we have a CSR database
-    if octeon.csr then
+    if cavium.csr then
         function self:cmd_csr(port_range, args)
             assert(args[1], "CSR name[.field] expected with optional value for write")
             local value = args[2]
@@ -393,17 +393,17 @@ function TrafficGen.new()
                 local name = args[1]:sub(1,dot-1):upper()
                 local field = args[1]:sub(dot+1):upper()
                 if value then
-                    octeon.csr[name][field] = value
+                    cavium.csr[name][field] = value
                 else
-                    local v = octeon.csr[name][field]
+                    local v = cavium.csr[name][field]
                     printf("%s.%s = %d (0x%x)\n", name, field, v, v)
                 end
             else
                 local name = args[1]:upper()
                 if value then
-                    octeon.csr.lookup(name).write(value)
+                    cavium.csr.lookup(name).write(value)
                 else
-                    octeon.csr.lookup(name).display()
+                    cavium.csr.lookup(name).display()
                 end
             end
         end
@@ -414,16 +414,16 @@ function TrafficGen.new()
             assert(prefix, "CSR prefix expected")
             local len = #prefix
             printf("Searching CSRs for prefix \"%s\". This is slow...\n", prefix)
-            for name in octeon.csr() do
+            for name in cavium.csr() do
                 if name:sub(1,len) == prefix then
-                    octeon.csr.lookup(name).display()
+                    cavium.csr.lookup(name).display()
                 end
             end
         end
     end
 
     function self:cmd_threads(port_range, args)
-        octeon.c.bdk_thread_show_stats()
+        cavium.c.bdk_thread_show_stats()
     end
 
     function self:cmd_cls(port_range, args)
@@ -435,7 +435,7 @@ function TrafficGen.new()
         assert (#args == 0, "No arguments expected")
         printf(SCROLL_FULL .. GOTO_BOTTOM)
         io.flush()
-        octeon.c.bdk_reset_octeon(octeon.MASTER_NODE)
+        cavium.c.bdk_reset_octeon(cavium.MASTER_NODE)
     end
 
     function self:cmd_l2_stats(port_range, args)
@@ -459,7 +459,7 @@ function TrafficGen.new()
         --  args[3] = max packet size, default is calculated
         --  args[4] = increment, defaults to 1
         -- Get the size of one FPA buffer
-        local fpa_size = octeon.c.bdk_config_get(octeon.BDK_CONFIG_FPA_POOL_SIZE0)
+        local fpa_size = cavium.c.bdk_config_get(cavium.BDK_CONFIG_FPA_POOL_SIZE0)
         -- PKO can only handle a maximum of 63 segments. Each segment has
         -- 8 bytes to link to the next one
         local max_packet = 63 * (fpa_size - 8)
@@ -494,7 +494,7 @@ function TrafficGen.new()
         -- Loop through the sizes
         local new_config = {output_count = output_count}
         for _,port in ipairs(port_range) do
-            octeon.trafficgen.set_config(port, new_config)
+            cavium.trafficgen.set_config(port, new_config)
         end
         new_config.output_count=nil
         for size=size_start,size_stop,size_incr do
@@ -502,7 +502,7 @@ function TrafficGen.new()
             new_config.size = size;
             -- Setup TX and count how many packets we expect
             for _,port in ipairs(port_range) do
-                octeon.trafficgen.set_config(port, new_config)
+                cavium.trafficgen.set_config(port, new_config)
                 expected_packets = expected_packets + output_count
                 if port:find("LOOP") or port:find("ILK") then
                     -- Loop doesn't have the 4 bytes of ethernet CRC
@@ -515,11 +515,11 @@ function TrafficGen.new()
             -- Limit to five seconds per size
             local timeout = os.time() + 5
             -- Do the TX
-            octeon.trafficgen.start(port_range)
-            while octeon.trafficgen.is_transmitting(port_range) and (os.time() < timeout) do
-                if octeon.global == nil then
+            cavium.trafficgen.start(port_range)
+            while cavium.trafficgen.is_transmitting(port_range) and (os.time() < timeout) do
+                if cavium.global == nil then
                     -- Waiting for TX to be done
-                    octeon.c.bdk_thread_yield();
+                    cavium.c.bdk_thread_yield();
                 end
                 -- Get the latest statistics
                 self:display(false)
@@ -529,8 +529,8 @@ function TrafficGen.new()
             local rx_errors
             local validation_errors
             repeat
-                if octeon.global == nil then
-                    octeon.c.bdk_thread_yield();
+                if cavium.global == nil then
+                    cavium.c.bdk_thread_yield();
                 end
                 -- Get the latest statistics
                 all_stats = self:display(true)
@@ -616,7 +616,7 @@ function TrafficGen.new()
         local num_rows = 0
         printf(CURSOR_OFF .. GOTO_TOP)
 
-        if octeon.trafficgen.is_transmitting(known_ports) then
+        if cavium.trafficgen.is_transmitting(known_ports) then
             transmit_time = display_cycle - transmit_start
             printf(NONZEROHI)
         else
@@ -635,21 +635,21 @@ function TrafficGen.new()
             num_rows = num_rows + display_stat(stat_name, all_stats)
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
-        if octeon.csr then
+        if cavium.csr then
             -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
-            if octeon.is_model(octeon.CN78XX) then
+            if cavium.is_model(cavium.CN78XX) then
                 printf("Packets%5d, PKO buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-                    octeon.csr.FPA_POOLX_AVAILABLE(0).read(), -- Packet pool
-                    octeon.csr.FPA_POOLX_AVAILABLE(3).read(), -- PKO pool
+                    cavium.csr.FPA_POOLX_AVAILABLE(0).read(), -- Packet pool
+                    cavium.csr.FPA_POOLX_AVAILABLE(3).read(), -- PKO pool
                     collectgarbage("count"),
-                    octeon.c.get_sbrk() / 1024,
+                    cavium.c.get_sbrk() / 1024,
                     ERASE_EOL);
                 local oci_load = {}
                 local oci_err = {}
                 for link=1,3 do
-                    local data = octeon.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
-                    local idle = octeon.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
-                    local err = octeon.csr.OCX_TLKX_STAT_ERR_CNT(link-1).read()
+                    local data = cavium.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
+                    local idle = cavium.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
+                    local err = cavium.csr.OCX_TLKX_STAT_ERR_CNT(link-1).read()
                     local total = data + idle + err
                     local old_total = oci_stats[link][1] + oci_stats[link][2] + oci_stats[link][3]
                     local interval = total - old_total
@@ -668,22 +668,22 @@ function TrafficGen.new()
                     oci_load[1], oci_err[1], oci_load[2], oci_err[2], oci_load[3], oci_err[3], ERASE_EOL);
             else
                 printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-                    octeon.csr.FPA_QUEX_AVAILABLE(0).read(), -- Packet pool
-                    octeon.csr.FPA_QUEX_AVAILABLE(1).read(), -- Comamdn buffer pool
+                    cavium.csr.FPA_QUEX_AVAILABLE(0).read(), -- Packet pool
+                    cavium.csr.FPA_QUEX_AVAILABLE(1).read(), -- Comamdn buffer pool
                     collectgarbage("count"),
-                    octeon.c.get_sbrk() / 1024,
+                    cavium.c.get_sbrk() / 1024,
                     ERASE_EOL);
             end
         else
             -- Create a row reporting Lua mem, and C mem
             printf("Lua mem%5dKB, C mem%5dKB%s\n",
                 collectgarbage("count"),
-                octeon.c.get_sbrk() / 1024,
+                cavium.c.get_sbrk() / 1024,
                 ERASE_EOL);
         end
         num_rows = num_rows + 1
         if show_l2_stats then
-            l2_stats_table = octeon.perf.get_l2(l2_stats_table)
+            l2_stats_table = cavium.perf.get_l2(l2_stats_table)
             for _,n in ipairs(table.sorted_keys(l2_stats_table["bank0"])) do
                 printf("%-20s", n)
                 for _,l2 in ipairs(table.sorted_keys(l2_stats_table)) do
