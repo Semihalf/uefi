@@ -19,7 +19,7 @@ LDFLAGS_x86 = -static
 CC_x86 = gcc
 STRIP_x86 = strip
 
-# Building for Thunder
+# Building for THUNDERX
 CPPFLAGS_thunder =
 CFLAGS_thunder =
 ASFLAGS_thunder =

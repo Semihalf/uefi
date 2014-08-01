@@ -4,7 +4,7 @@
 
 static void __bdk_init_sysreg(void)
 {
-    // FIXME: Setup Thunder sysreg
+    // FIXME: Setup THUNDERX sysreg
 }
 
 static void __bdk_error_poll(int arg, void *arg1)

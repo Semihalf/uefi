@@ -1,7 +1,7 @@
 
 -- Print out a banner
 print("")
-print("Thunder Bringup and Diagnostic Kit")
+print("THUNDERX Bringup and Diagnostic Kit")
 print("Copyright (C) 2010-2014 Cavium Networks")
 print("Version ".. require("bdk-version"))
 print("")

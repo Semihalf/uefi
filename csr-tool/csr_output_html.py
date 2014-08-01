@@ -221,7 +221,7 @@ def writeCsrIndex(filename, title, csr_name_list):
     current_prefix = None
     columns = 0
     out = open("html/s/index.html", "w")
-    writePageHeader(out, "Thunder CSRs across all chips")
+    writePageHeader(out, "THUNDERX CSRs across all chips")
     link_dict = {}
     for name in csr_name_list:
         link_dict[csr_link_text(name)] = csr_output_filename(name)
@@ -387,16 +387,16 @@ def writeAll(combined_list, diff=[]):
         writeChipDiff(combined_list, pair[0], pair[1])
 
     out = open("html/index.html", "w")
-    writePageHeader(out, "Cavium Thunder CSRs")
+    writePageHeader(out, "Cavium THUNDERX CSRs")
     out.write("<a href=s/index.html>CSRs for all chips</a><br><br>\n")
     groups = {}
-    groups["Thunder"] = []
+    groups["THUNDERX"] = []
     for chip in chip_link_list:
         if chip.startswith("cn8"):
-            groups["Thunder"].append(chip)
+            groups["THUNDERX"].append(chip)
         else:
             assert(0)
-    archs = ["Thunder"]
+    archs = ["THUNDERX"]
     out.write(BEGIN_TABLE)
     out.write("<tr>")
     for arch in archs:
