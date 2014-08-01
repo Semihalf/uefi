@@ -101,10 +101,22 @@ extern int bdk_numa_is_only_one();
  */
 static inline uint64_t bdk_numa_get_address(bdk_node_t node, uint64_t pa)
 {
-    if (pa & (1ull << 48))
-        return pa | ((uint64_t)node << 36);
+#ifndef BDK_BUILD_HOST
+    if (pa & (1ull << 47))
+    {
+        BDK_INSERT(pa, node, 44, 2);
+    }
     else
-        return pa | ((uint64_t)node << 40);
+    {
+        BDK_INSERT(pa, node, 40, 2);
+    }
+#else
+    if (pa & (1ull << 47))
+        pa |= (uint64_t)node << 44;
+    else
+        pa |= (uint64_t)node << 40;
+#endif
+    return pa;
 }
 
 

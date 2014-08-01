@@ -80,7 +80,7 @@ static inline uint64_t bdk_csr_read(bdk_node_t node, bdk_csr_type_t type, int bu
         case BDK_CSR_TYPE_PEXP_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_RSL32b:
-            address |= (uint64_t)node << 44;
+            BDK_INSERT(address, node, 44, 2);
             /* Note: This code assume a 1:1 mapping of all of address space.
                It is designed to run with the MMU disabled */
             switch (size)
@@ -125,7 +125,7 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
         case BDK_CSR_TYPE_PEXP_NCB:
         case BDK_CSR_TYPE_RSL:
         case BDK_CSR_TYPE_RSL32b:
-            address |= (uint64_t)node << 44;
+            BDK_INSERT(address, node, 44, 2);
             /* Note: This code assume a 1:1 mapping of all of address space.
                It is designed to run with the MMU disabled */
             switch (size)
