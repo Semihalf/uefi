@@ -2,13 +2,13 @@
 #include <unistd.h>
 
 /**
- * Called to register the octeon module
+ * Called to register the cavium module
  *
  * @param L
  *
  * @return
  */
-void register_octeon_config(lua_State* L)
+void register_cavium_config(lua_State* L)
 {
     /* Add constants for bdk_config */
     for (bdk_config_t c=0; c<__BDK_CONFIG_END; c++)

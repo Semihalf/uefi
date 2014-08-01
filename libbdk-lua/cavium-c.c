@@ -11,7 +11,7 @@
  *
  * @return
  */
-static int octeon_c_call(lua_State* L)
+static int cavium_c_call(lua_State* L)
 {
     long (*func)(long arg1, long arg2, long arg3, long arg4, long arg5, long arg6, long arg7, long arg8);
     long args[8];
@@ -72,7 +72,7 @@ static int get_sbrk(lua_State* L)
  *
  * @return
  */
-void register_octeon_c(lua_State* L)
+void register_cavium_c(lua_State* L)
 {
     /* Create a new table of all C functions that can be called */
     lua_newtable(L);
@@ -82,7 +82,7 @@ void register_octeon_c(lua_State* L)
         if (bdk_functions[i].func)
         {
             lua_pushlightuserdata(L, bdk_functions[i].func);
-            lua_pushcclosure(L, octeon_c_call, 1);
+            lua_pushcclosure(L, cavium_c_call, 1);
             lua_setfield(L, -2, bdk_functions[i].name);
         }
         else
@@ -95,10 +95,10 @@ void register_octeon_c(lua_State* L)
     /* Manually add CSR read and write as these are inline functions
         that are missed by bdk_functions */
     lua_pushlightuserdata(L, bdk_csr_read);
-    lua_pushcclosure(L, octeon_c_call, 1);
+    lua_pushcclosure(L, cavium_c_call, 1);
     lua_setfield(L, -2, "bdk_csr_read");
     lua_pushlightuserdata(L, bdk_csr_write);
-    lua_pushcclosure(L, octeon_c_call, 1);
+    lua_pushcclosure(L, cavium_c_call, 1);
     lua_setfield(L, -2, "bdk_csr_write");
 
     /* Add function for seeing the size of the heap */
@@ -110,11 +110,11 @@ void register_octeon_c(lua_State* L)
 
 /**
  * This function should be called inside bdk_lua_callback() to add
- * custom functions to the octeon.c table. This allows applications
- * to add functions without modifying bdk-function.
+ * custom functions to the cavium.c table. This allows
+ * applications to add functions without modifying bdk-function.
  *
  * @param L      Lua state
- * @param name   Name of the function to use in octeon.c.NAME
+ * @param name   Name of the function to use in cavium.c.NAME
  * @param func   Function to register. The function can take a maximum of eight
  *               arguments where each argument must be a type compatible with a
  *               int64_t or a constant string pointer. The return value of the
@@ -123,14 +123,14 @@ void register_octeon_c(lua_State* L)
 void bdk_lua_register_cfunc(lua_State* L, const char *name, void *func)
 {
     lua_getglobal(L, "require");
-    lua_pushstring(L, "octeon-internal");
+    lua_pushstring(L, "cavium-internal");
     lua_call(L, 1, 1);
-    /* Only "octeon-internal" on stack */
+    /* Only "cavium-internal" on stack */
     lua_getfield(L, -1, "c");
     lua_pushlightuserdata(L, func);
-    lua_pushcclosure(L, octeon_c_call, 1);
+    lua_pushcclosure(L, cavium_c_call, 1);
     lua_setfield(L, -2, name);
     lua_pop(L, 1); /* Pop the "c" table */
-    lua_pop(L, 1); /* Pop the "octeon-internal" table */
+    lua_pop(L, 1); /* Pop the "cavium-internal" table */
 }
 

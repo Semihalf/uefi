@@ -48,11 +48,11 @@ extern void bdk_lua_callback(lua_State* L) __attribute__((weak));
 
 /**
  * This function should be called inside bdk_lua_callback() to add
- * custom functions to the octeon.c table. This allows applications
- * to add functions without modifying bdk-function.
+ * custom functions to the cavium.c table. This allows
+ * applications to add functions without modifying bdk-function.
  *
  * @param L      Lua state
- * @param name   Name of the function to use in octeon.c.NAME
+ * @param name   Name of the function to use in cavium.c.NAME
  * @param func   Function to register. The function can take a maximum of eight
  *               arguments where each argument must be a type compatible with a
  *               int64_t or a constant string pointer. The return value of the

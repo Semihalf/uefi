@@ -472,7 +472,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 
 static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
 {
-    const int use_v3_packet = CAVIUM_IS_MODEL(OCTEON_CN78XX);
+    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
     uint64_t        count;
     uint64_t        remaining_bytes;
     bdk_buf_ptr_t   buffer_next;
@@ -556,7 +556,7 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     uint64_t count = port_tx->output_count;
     uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    const int use_v3_packet = CAVIUM_IS_MODEL(OCTEON_CN78XX);
+    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
 
     while (port_tx->output_enable)
     {
@@ -727,7 +727,7 @@ idle:
  */
 static void packet_transmitter(int unused, tg_port_t *tg_port)
 {
-    const int use_v3_packet = CAVIUM_IS_MODEL(OCTEON_CN78XX);
+    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     bdk_if_packet_t packet;
 
@@ -760,7 +760,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
         as we need software stats that aren't updated in the optimized PKO */
-    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation() && !CAVIUM_IS_MODEL(OCTEON_CN78XX))
+    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation() && !CAVIUM_IS_MODEL(CAVIUM_CN78XX))
         packet_transmitter_pko(tg_port, &packet, output_cycle_gap);
     else
         packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
@@ -798,7 +798,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
  */
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix)
 {
-    const int use_v3_packet = CAVIUM_IS_MODEL(OCTEON_CN78XX);
+    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
     const int FPA_SIZE = bdk_fpa_get_block_size(packet->if_handle->node, BDK_FPA_PACKET_POOL);
     uint32_t crc = 0xffffffff;
     bdk_buf_ptr_t buffer_next = packet->packet;

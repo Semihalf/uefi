@@ -6,13 +6,13 @@
 BDK_REQUIRE_DEFINE(DRAM_CONFIG);
 
 /**
- * Called to register the octeon module
+ * Called to register the cavium module
  *
  * @param L
  *
  * @return
  */
-void register_octeon_dram(lua_State* L)
+void register_cavium_dram(lua_State* L)
 {
     //extern int luaopen_bdk_board_table_entry(lua_State *L);
     //luaopen_bdk_board_table_entry(L);

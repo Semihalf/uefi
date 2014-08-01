@@ -1,5 +1,5 @@
-#ifndef __OCTEON_MMC_H__
-#define __OCTEON_MMC_H__
+#ifndef __CAVIUM_MMC_H__
+#define __CAVIUM_MMC_H__
 
 // Basic definitions for the eMMC interface
 // Copyright 2014 Cavium,Inc.
@@ -330,4 +330,4 @@ typedef union scr_register
     } s;
 } scr_register_t;
 
-#endif /* __OCTEON_MMC_H__ */
+#endif /* __CAVIUM_MMC_H__ */

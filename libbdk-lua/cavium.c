@@ -3,13 +3,13 @@
 // Module for interfacing with the chip
 
 /**
- * Called to register the octeon module
+ * Called to register the cavium module
  *
  * @param L
  *
  * @return
  */
-LUALIB_API int luaopen_octeon(lua_State* L)
+LUALIB_API int luaopen_cavium(lua_State* L)
 {
     #define REGISTER(L, name) \
         extern void register_##name(lua_State* L); \
@@ -25,12 +25,12 @@ LUALIB_API int luaopen_octeon(lua_State* L)
     lua_setfield(L, -3, "devopen");
     lua_pop(L, 1);
 
-    REGISTER(L, octeon_model);
-    REGISTER(L, octeon_c);
-    REGISTER(L, octeon_config);
-    REGISTER(L, octeon_constants);
-    //REGISTER(L, octeon_perf);
-    REGISTER(L, octeon_mmc);
+    REGISTER(L, cavium_model);
+    REGISTER(L, cavium_c);
+    REGISTER(L, cavium_config);
+    REGISTER(L, cavium_constants);
+    //REGISTER(L, cavium_perf);
+    REGISTER(L, cavium_mmc);
 
     if (BDK_IS_REQUIRED(TRAFFIC_GEN))
     {
@@ -40,14 +40,14 @@ LUALIB_API int luaopen_octeon(lua_State* L)
 
     if (BDK_IS_REQUIRED(CSR_DB))
     {
-        extern void register_octeon_csr(lua_State* L) BDK_WEAK;
-        register_octeon_csr(L);
+        extern void register_cavium_csr(lua_State* L) BDK_WEAK;
+        register_cavium_csr(L);
     }
 
     if (BDK_IS_REQUIRED(DRAM_CONFIG))
     {
-        extern void register_octeon_dram(lua_State* L) BDK_WEAK;
-        register_octeon_dram(L);
+        extern void register_cavium_dram(lua_State* L) BDK_WEAK;
+        register_cavium_dram(L);
     }
 
     return 1;

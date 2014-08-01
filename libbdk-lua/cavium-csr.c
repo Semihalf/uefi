@@ -15,13 +15,13 @@ static uint64_t build_mask(int bits, int left_shift)
 }
 
 /**
- * Called when octeon.csr.NAME.read() is invoked
+ * Called when cavium.csr.NAME.read() is invoked
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_read(lua_State* L)
+static int cavium_csr_read(lua_State* L)
 {
     const char *name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -31,13 +31,13 @@ static int octeon_csr_read(lua_State* L)
 }
 
 /**
- * Called when octeon.csr.NAME.write(value) is invoked
+ * Called when cavium.csr.NAME.write(value) is invoked
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_write(lua_State* L)
+static int cavium_csr_write(lua_State* L)
 {
     const char *name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -46,13 +46,13 @@ static int octeon_csr_write(lua_State* L)
 }
 
 /**
- * Called when octeon.csr.NAME.display(optional) is invoked
+ * Called when cavium.csr.NAME.display(optional) is invoked
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_display(lua_State* L)
+static int cavium_csr_display(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -67,13 +67,13 @@ static int octeon_csr_display(lua_State* L)
 }
 
 /**
- * Called when octeon.csr.NAME.decode(optional) is invoked
+ * Called when cavium.csr.NAME.decode(optional) is invoked
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_decode(lua_State* L)
+static int cavium_csr_decode(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -104,13 +104,13 @@ static int octeon_csr_decode(lua_State* L)
 }
 
 /**
- * Called when octeon.csr.NAME.encode(table) is invoked
+ * Called when cavium.csr.NAME.encode(table) is invoked
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_encode(lua_State* L)
+static int cavium_csr_encode(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -143,13 +143,13 @@ static int octeon_csr_encode(lua_State* L)
 }
 
 /**
- * Called when a CSR field is read using octeon.csr.NAME.FIELD
+ * Called when a CSR field is read using cavium.csr.NAME.FIELD
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_field_index(lua_State* L)
+static int cavium_csr_field_index(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -175,13 +175,13 @@ static int octeon_csr_field_index(lua_State* L)
 }
 
 /**
- * Called when a CSR field is set using octeon.csr.NAME.FIELD
+ * Called when a CSR field is set using cavium.csr.NAME.FIELD
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_field_newindex(lua_State* L)
+static int cavium_csr_field_newindex(lua_State* L)
 {
     const char *csr_name = lua_tostring(L, lua_upvalueindex(1));
     bdk_node_t node = lua_tointeger(L, lua_upvalueindex(2));
@@ -217,7 +217,7 @@ static int octeon_csr_field_newindex(lua_State* L)
  *
  * @return
  */
-static int octeon_csr_lookup(lua_State* L)
+static int cavium_csr_lookup(lua_State* L)
 {
     const char *name = luaL_checkstring(L, -1);
     bdk_node_t node = bdk_numa_local();
@@ -228,33 +228,33 @@ static int octeon_csr_lookup(lua_State* L)
     lua_newtable(L);
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_read, 2);
+    lua_pushcclosure(L, cavium_csr_read, 2);
     lua_setfield(L, -2, "read");
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_write, 2);
+    lua_pushcclosure(L, cavium_csr_write, 2);
     lua_setfield(L, -2, "write");
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_display, 2);
+    lua_pushcclosure(L, cavium_csr_display, 2);
     lua_setfield(L, -2, "display");
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_decode, 2);
+    lua_pushcclosure(L, cavium_csr_decode, 2);
     lua_setfield(L, -2, "decode");
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_encode, 2);
+    lua_pushcclosure(L, cavium_csr_encode, 2);
     lua_setfield(L, -2, "encode");
 
     lua_newtable(L);
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_field_index, 2);
+    lua_pushcclosure(L, cavium_csr_field_index, 2);
     lua_setfield(L, -2, "__index");
     lua_pushstring(L, name);
     lua_pushinteger(L, node);
-    lua_pushcclosure(L, octeon_csr_field_newindex, 2);
+    lua_pushcclosure(L, cavium_csr_field_newindex, 2);
     lua_setfield(L, -2, "__newindex");
     lua_setmetatable(L, -2);
     return 1;
@@ -262,14 +262,14 @@ static int octeon_csr_lookup(lua_State* L)
 
 /**
  * This function is called for CSRs that need indexed arguments.
- * It is given to Lua as the response to octeon.csr.NAME, which Lua
- * calls as a function when the () is added.
+ * It is given to Lua as the response to cavium.csr.NAME, which
+ * Lua calls as a function when the () is added.
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_namecall(lua_State* L)
+static int cavium_csr_namecall(lua_State* L)
 {
     char fullname[64];
     const char *basename = lua_tostring(L, lua_upvalueindex(1));
@@ -306,18 +306,18 @@ static int octeon_csr_namecall(lua_State* L)
 
     fullname[sizeof(fullname)-1] = 0;
     lua_pushstring(L, fullname);
-    return octeon_csr_lookup(L);
+    return cavium_csr_lookup(L);
 }
 
 /**
- * Called when octeon.csr.NAME needs to be resolved to a CSR table
- * or function.
+ * Called when cavium.csr.NAME needs to be resolved to a CSR
+ * table or function.
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_index(lua_State* L)
+static int cavium_csr_index(lua_State* L)
 {
     const char *name = luaL_checkstring(L, 2);
 
@@ -327,39 +327,39 @@ static int octeon_csr_index(lua_State* L)
         /* Use our argument as the first upvalue for the function */
         /* Put the node in as the second upvalue */
         lua_pushinteger(L, bdk_numa_local());
-        lua_pushcclosure(L, octeon_csr_namecall, 2);
+        lua_pushcclosure(L, cavium_csr_namecall, 2);
         return 1;
     }
     else
     {
         /* We found it, so do the function call directly */
-        return octeon_csr_lookup(L);
+        return cavium_csr_lookup(L);
     }
 }
 
 /**
- * Called when someone attempts to add something to the octeon.csr
- * table. This is not allowed.
+ * Called when someone attempts to add something to the
+ * cavium.csr table. This is not allowed.
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_newindex(lua_State* L)
+static int cavium_csr_newindex(lua_State* L)
 {
     luaL_error(L, "CSR table doesn't allow new indexes");
     return 0;
 }
 
 /**
- * Iterator function returned by octeon.csr(). It is used by
- * for loops to show all possible CSR strings.
+ * Iterator function returned by cavium.csr(). It is used by for
+ * loops to show all possible CSR strings.
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_iter(lua_State* L)
+static int cavium_csr_iter(lua_State* L)
 {
     char buffer[64];
     const char *last = NULL;
@@ -383,39 +383,39 @@ static int octeon_csr_iter(lua_State* L)
 }
 
 /**
- * Called when octeon.csr() is invoked. It returns an interator
+ * Called when cavium.csr() is invoked. It returns an interator
  * used in for loops.
  *
  * @param L
  *
  * @return
  */
-static int octeon_csr_call(lua_State* L)
+static int cavium_csr_call(lua_State* L)
 {
-    lua_pushcfunction(L, octeon_csr_iter);
+    lua_pushcfunction(L, cavium_csr_iter);
     lua_pushnil(L);
     return 2;
 }
 
 /**
- * Called to register the octeon module
+ * Called to register the cavium module
  *
  * @param L
  *
  * @return
  */
-void register_octeon_csr(lua_State* L)
+void register_cavium_csr(lua_State* L)
 {
-    /* Add octeon.csr, magic table access to CSRs */
+    /* Add cavium.csr, magic table access to CSRs */
     lua_newtable(L); /* csr table */
-    lua_pushcfunction(L, octeon_csr_lookup);
+    lua_pushcfunction(L, cavium_csr_lookup);
     lua_setfield(L, -2, "lookup");
     lua_newtable(L); /* csr metatable */
-    lua_pushcfunction(L, octeon_csr_index);
+    lua_pushcfunction(L, cavium_csr_index);
     lua_setfield(L, -2, "__index");
-    lua_pushcfunction(L, octeon_csr_newindex);
+    lua_pushcfunction(L, cavium_csr_newindex);
     lua_setfield(L, -2, "__newindex");
-    lua_pushcfunction(L, octeon_csr_call);
+    lua_pushcfunction(L, cavium_csr_call);
     lua_setfield(L, -2, "__call");
     lua_setmetatable(L, -2);
     lua_setfield(L, -2, "csr");

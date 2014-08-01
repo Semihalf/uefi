@@ -1,6 +1,6 @@
 #include <bdk.h>
 #include <unistd.h>
-#include "octeon-mmc.h"
+#include "cavium-mmc.h"
 #ifdef BDK_BUILD_HOST
     #include "utils/bdk-lua/octeon-remote.h"
     #define bdk_wait_usec(s) usleep(s)
@@ -625,7 +625,7 @@ static int mmc_write(lua_State *L)
  *
  * @param L
  */
-void register_octeon_mmc(lua_State *L)
+void register_cavium_mmc(lua_State *L)
 {
     lua_newtable(L);
     lua_pushcfunction(L, mmc_init);

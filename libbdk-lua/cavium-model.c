@@ -22,13 +22,13 @@ static int is_model(lua_State* L)
  *
  * @return
  */
-void register_octeon_model(lua_State* L)
+void register_cavium_model(lua_State* L)
 {
     lua_pushcfunction(L, is_model);
     lua_setfield(L, -2, "is_model");
 
     /* Add constants for the different models that can be used with
-        octeon.is_model() */
+        cavium.is_model() */
     lua_pushnumber(L, CAVIUM_CN88XX);
     lua_setfield(L, -2, "CN88XX");
     lua_pushnumber(L, CAVIUM_CN88XX_PASS1_X);

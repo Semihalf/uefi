@@ -29,7 +29,7 @@ static int l2_perf(lua_State* L)
         lua_newtable(L);
 
     /* Number of TADs change for each chip */
-    int num_l2_copies = CAVIUM_IS_MODEL(OCTEON_CN78XX) ? 10 : 1;
+    int num_l2_copies = CAVIUM_IS_MODEL(CAVIUM_CN78XX) ? 10 : 1;
     for (int l2=0; l2<num_l2_copies; l2++)
     {
         /* Name the L2 table */
@@ -341,7 +341,7 @@ static int l2_perf(lua_State* L)
     return 1;
 }
 
-void register_octeon_perf(lua_State *L)
+void register_cavium_perf(lua_State *L)
 {
     lua_newtable(L);
     lua_pushcfunction(L, l2_perf);

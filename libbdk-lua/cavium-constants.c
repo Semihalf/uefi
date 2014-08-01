@@ -2,13 +2,13 @@
 #include <unistd.h>
 
 /**
- * Called to register the octeon module
+ * Called to register the cavium module
  *
  * @param L
  *
  * @return
  */
-void register_octeon_constants(lua_State* L)
+void register_cavium_constants(lua_State* L)
 {
     #define push_bdk_enum(enum)             \
         do                                  \

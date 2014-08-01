@@ -68,7 +68,7 @@ void bdk_lua_init(void *lua_state)
 
 #else
 
-    PRELOAD("octeon-internal", luaopen_octeon);
+    PRELOAD("cavium-internal", luaopen_cavium);
 
     /* Enable Interrupt on uart break signal */
     lua_sethook(L, control_c_check, LUA_MASKCOUNT, 10000);
