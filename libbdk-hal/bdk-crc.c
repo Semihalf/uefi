@@ -1,6 +1,9 @@
 #include <bdk.h>
 
-#if 0
+#define CRC32X(out, in, data) asm ("CRC32X %w0, %w1, %x2" : "=r" (out) : "r" (in), "r" (data));
+#define CRC32W(out, in, data) asm ("CRC32W %w0, %w1, %w2" : "=r" (out) : "r" (in), "r" (data));
+#define CRC32H(out, in, data) asm ("CRC32H %w0, %w1, %w2" : "=r" (out) : "r" (in), "r" (data));
+#define CRC32B(out, in, data) asm ("CRC32B %w0, %w1, %w2" : "=r" (out) : "r" (in), "r" (data));
 
 /**
  * Perform a crc32 on the supplied data
@@ -14,59 +17,50 @@
 uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
 {
     BDK_PREFETCH(ptr, 0);
-    uint32_t crc32;
-    BDK_MT_CRC_POLYNOMIAL(0x04c11db7); /* Bit reversed standard CRC32 polynomial - 0xedb88320 */
-    crc32 = ~iv;
-    /* Do endian byte swap on CRC, then use reflect mode of
-    ** MT IV to reverse the bits within the bytes.  This results
-    ** in a bit-reversed IV. */
-    BDK_ES32(crc32, crc32);
-    BDK_MT_CRC_IV_REFLECT(crc32);
+    uint32_t crc32 = ~iv;
     while (len>=128)
     {
         BDK_PREFETCH(ptr, 128);
         uint64_t *p = ptr;
-        BDK_MT_CRC_DWORD_REFLECT(p[0]);
-        BDK_MT_CRC_DWORD_REFLECT(p[1]);
-        BDK_MT_CRC_DWORD_REFLECT(p[2]);
-        BDK_MT_CRC_DWORD_REFLECT(p[3]);
-        BDK_MT_CRC_DWORD_REFLECT(p[4]);
-        BDK_MT_CRC_DWORD_REFLECT(p[5]);
-        BDK_MT_CRC_DWORD_REFLECT(p[6]);
-        BDK_MT_CRC_DWORD_REFLECT(p[7]);
-        BDK_MT_CRC_DWORD_REFLECT(p[8]);
-        BDK_MT_CRC_DWORD_REFLECT(p[9]);
-        BDK_MT_CRC_DWORD_REFLECT(p[10]);
-        BDK_MT_CRC_DWORD_REFLECT(p[11]);
-        BDK_MT_CRC_DWORD_REFLECT(p[12]);
-        BDK_MT_CRC_DWORD_REFLECT(p[13]);
-        BDK_MT_CRC_DWORD_REFLECT(p[14]);
-        BDK_MT_CRC_DWORD_REFLECT(p[15]);
+        CRC32X(crc32, crc32, p[0]);
+        CRC32X(crc32, crc32, p[1]);
+        CRC32X(crc32, crc32, p[2]);
+        CRC32X(crc32, crc32, p[3]);
+        CRC32X(crc32, crc32, p[4]);
+        CRC32X(crc32, crc32, p[5]);
+        CRC32X(crc32, crc32, p[6]);
+        CRC32X(crc32, crc32, p[7]);
+        CRC32X(crc32, crc32, p[8]);
+        CRC32X(crc32, crc32, p[9]);
+        CRC32X(crc32, crc32, p[10]);
+        CRC32X(crc32, crc32, p[11]);
+        CRC32X(crc32, crc32, p[12]);
+        CRC32X(crc32, crc32, p[13]);
+        CRC32X(crc32, crc32, p[14]);
+        CRC32X(crc32, crc32, p[15]);
         ptr += 128;
         len -= 128;
     }
     while (len>=8)
     {
-        BDK_MT_CRC_DWORD_REFLECT(*(uint64_t*)ptr);
+        CRC32X(crc32, crc32, *(uint64_t*)ptr);
         ptr += 8;
         len -= 8;
     }
     if (len>=4)
     {
-        BDK_MT_CRC_WORD_REFLECT(*(uint32_t*)ptr);
+        CRC32W(crc32, crc32, *(uint32_t*)ptr);
         ptr += 4;
         len -= 4;
     }
     if (len>=2)
     {
-        BDK_MT_CRC_HALF_REFLECT(*(uint16_t*)ptr);
+        CRC32W(crc32, crc32, *(uint16_t*)ptr);
         ptr += 2;
         len -= 2;
     }
     if (len)
-        BDK_MT_CRC_BYTE_REFLECT(*(uint8_t*)ptr);
-    BDK_MF_CRC_IV_REFLECT(crc32);
-    return ~crc32;
+        CRC32W(crc32, crc32, *(uint8_t*)ptr);
+    return crc32;
 }
 
-#endif
