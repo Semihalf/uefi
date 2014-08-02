@@ -32,9 +32,9 @@
 #define BDK_WFE         asm volatile ("wfe"         : : :"memory")
 
 // normal prefetches that use the pref instruction
-#define BDK_PREFETCH_PREFX(X, address, offset) asm volatile ("pref %[type], %[off](%[rbase])" : : [rbase] "d" (address), [off] "I" (offset), [type] "n" (X))
+#define BDK_PREFETCH_PREFX(type, address, offset) asm volatile ("PRFUM " type ", [%[rbase],%[off]]" : : [rbase] "r" (address), [off] "I" (offset))
 // a normal prefetch
-#define BDK_PREFETCH(address, offset) BDK_PREFETCH_PREFX(0, address, offset)
+#define BDK_PREFETCH(address, offset) BDK_PREFETCH_PREFX("PLDL1KEEP", address, offset)
 #define BDK_ICACHE_INVALIDATE  { asm volatile ("ic iallu" : : ); }    // invalidate entire icache
 #define BDK_DCACHE_INVALIDATE  { asm volatile ("dc civac,xzr" : : ); } // invalidate entire dcache
 #define BDK_SYS_CVMCACHE_WB_L2 "#0,c11,c1,#3"
