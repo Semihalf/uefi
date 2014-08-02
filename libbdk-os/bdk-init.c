@@ -133,15 +133,6 @@ void __bdk_init(long base_address)
     bdk_node_t node = bdk_numa_local();
     bdk_numa_set_running(node);
 
-#if 0
-    /* Sync cycle counter */
-    uint64_t core_rate = bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000;
-    uint64_t sclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000;
-    BDK_MB;
-    uint64_t core_cycle = bdk_clock_get_count(BDK_CLOCK_SCLK) * core_rate / sclk_rate;
-    BDK_MT_COP0(core_cycle, COP0_CVMCOUNT);
-#endif
-
     static const char BANNER_1[] = "Bringup and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
