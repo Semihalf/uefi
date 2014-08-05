@@ -504,23 +504,15 @@ typedef union bdk_fusf_wadr {
 	uint64_t u;
 	struct bdk_fusf_wadr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_6_63               : 58;
-		uint64_t addr                        : 6;  /**< SR/W - Indicates which of the banks of 128 fuses to blow. */
-#else
-		uint64_t addr                        : 6;
-		uint64_t reserved_6_63               : 58;
-#endif
-	} s;
-	/* struct bdk_fusf_wadr_s             cn85xx; */
-	struct bdk_fusf_wadr_cn88xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
 		uint64_t addr                        : 4;  /**< SR/W - Indicates which of the banks of 128 fuses to blow. */
 #else
 		uint64_t addr                        : 4;
 		uint64_t reserved_4_63               : 60;
 #endif
-	} cn88xx;
+	} s;
+	/* struct bdk_fusf_wadr_s             cn85xx; */
+	/* struct bdk_fusf_wadr_s             cn88xx; */
 } bdk_fusf_wadr_t;
 
 #define BDK_FUSF_WADR BDK_FUSF_WADR_FUNC()

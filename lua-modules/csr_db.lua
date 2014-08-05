@@ -6286,6 +6286,65 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_KEY_BCST_RSP = {
+            name = "DTX_KEY_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_KEY_CTL = {
+            name = "DTX_KEY_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_KEY_DATX = {
+            name = "DTX_KEY_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_KEY_ENAX = {
+            name = "DTX_KEY_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_KEY_SELX = {
+            name = "DTX_KEY_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_L2C_CBCX_BCST_RSP = {
             name = "DTX_L2C_CBC#_BCST_RSP",
             type = "RSL",
@@ -7068,7 +7127,7 @@ local csr_db = {
             name = "DTX_RAD_BCST_RSP",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380080,
+            address = 0x87e0feb80080,
             fields = {
                 {name = "RESERVED_1_63", start = 1, stop = 63},
                 {name = "ENA", start = 0, stop = 0},
@@ -7078,7 +7137,7 @@ local csr_db = {
             name = "DTX_RAD_CTL",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380060,
+            address = 0x87e0feb80060,
             fields = {
                 {name = "RESERVED_5_63", start = 5, stop = 63},
                 {name = "ACTIVE", start = 4, stop = 4},
@@ -7091,7 +7150,7 @@ local csr_db = {
             name = "DTX_RAD_DAT#",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380040,
+            address = 0x87e0feb80040,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
@@ -7103,7 +7162,7 @@ local csr_db = {
             name = "DTX_RAD_ENA#",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380020,
+            address = 0x87e0feb80020,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
@@ -7115,7 +7174,7 @@ local csr_db = {
             name = "DTX_RAD_SEL#",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380000,
+            address = 0x87e0feb80000,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
@@ -41823,6 +41882,65 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_KEY_BCST_RSP = {
+            name = "DTX_KEY_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_KEY_CTL = {
+            name = "DTX_KEY_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_KEY_DATX = {
+            name = "DTX_KEY_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_KEY_ENAX = {
+            name = "DTX_KEY_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_KEY_SELX = {
+            name = "DTX_KEY_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe208000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_L2C_CBCX_BCST_RSP = {
             name = "DTX_L2C_CBC#_BCST_RSP",
             type = "RSL",
@@ -42605,7 +42723,7 @@ local csr_db = {
             name = "DTX_RAD_BCST_RSP",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380080,
+            address = 0x87e0feb80080,
             fields = {
                 {name = "RESERVED_1_63", start = 1, stop = 63},
                 {name = "ENA", start = 0, stop = 0},
@@ -42615,7 +42733,7 @@ local csr_db = {
             name = "DTX_RAD_CTL",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380060,
+            address = 0x87e0feb80060,
             fields = {
                 {name = "RESERVED_5_63", start = 5, stop = 63},
                 {name = "ACTIVE", start = 4, stop = 4},
@@ -42628,7 +42746,7 @@ local csr_db = {
             name = "DTX_RAD_DAT#",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380040,
+            address = 0x87e0feb80040,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
@@ -42640,7 +42758,7 @@ local csr_db = {
             name = "DTX_RAD_ENA#",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380020,
+            address = 0x87e0feb80020,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
@@ -42652,7 +42770,7 @@ local csr_db = {
             name = "DTX_RAD_SEL#",
             type = "RSL",
             width = 8,
-            address = 0x87e0fe380000,
+            address = 0x87e0feb80000,
             range1 = {0,1},
             range1_inc = 0x8,
             fields = {
@@ -43424,8 +43542,8 @@ local csr_db = {
             width = 8,
             address = 0x87e004000108,
             fields = {
-                {name = "RESERVED_6_63", start = 6, stop = 63},
-                {name = "ADDR", start = 0, stop = 5},
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "ADDR", start = 0, stop = 3},
             }
         },
         GIC_BIST_STATUSR = {
