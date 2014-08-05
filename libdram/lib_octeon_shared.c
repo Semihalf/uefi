@@ -270,8 +270,6 @@ static int ddr_clock_initialized(int ddr_interface)
 
 static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
 {
-        bdk_lmcx_dll_ctl2_t	dll_ctl2;
-
         /*
          * The remainder of this section describes the sequence for LMCn.
          *
@@ -283,9 +281,8 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
          * LMC(0..3)_DLL_CTL2[DLL_BRINGUP] = 1.
          */
 
-        dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(ddr_interface_num));
-        dll_ctl2.s.dll_bringup = 1;
-        DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(ddr_interface_num), dll_ctl2.u);
+        DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(ddr_interface_num),
+            c.s.dll_bringup = 1);
 
         /*
          * 3. Read LMC(0..3)_DLL_CTL2 and wait for the result.
@@ -306,9 +303,8 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
          * without restarting the LMCn DRESET initialization sequence.
          */
 
-        dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(ddr_interface_num));
-        dll_ctl2.s.quad_dll_ena = 1;
-        DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(ddr_interface_num), dll_ctl2.u);
+        DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(ddr_interface_num),
+            c.s.quad_dll_ena = 1);
 
         /*
          * 6. Read LMC(0..3)_DLL_CTL2 and wait for the result.
@@ -329,9 +325,8 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
          * without restarting the LMCn DRESET initialization sequence.
          */
 
-        dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(ddr_interface_num));
-        dll_ctl2.s.dll_bringup = 0;
-        DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(ddr_interface_num), dll_ctl2.u);
+        DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(ddr_interface_num),
+            c.s.dll_bringup = 0);
 
         /*
          * 9. Read LMC(0..3)_DLL_CTL2 and wait for the result.
@@ -351,9 +346,8 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
          * LMC(0..3)_COMP_CTL2 LMC CSRs can be accessed.
          */
 
-        dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(ddr_interface_num));
-        dll_ctl2.s.dreset= 0;
-        DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(ddr_interface_num), dll_ctl2.u);
+        DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(ddr_interface_num),
+            c.s.dreset= 0);
 }
 
 
@@ -395,7 +389,6 @@ int initialize_ddr_clock(bdk_node_t node,
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
 
         bdk_lmcx_ddr_pll_ctl_t ddr_pll_ctl;
-        bdk_lmcx_reset_ctl_t lmc_reset_ctl;
 
         /*
          * 5.9 LMC Initialization Sequence
@@ -678,9 +671,8 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC0_DDR_PLL_CTL values.
              */
 
-            ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num));
-            ddr_pll_ctl.s.reset_n = 1;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num), ddr_pll_ctl.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+                c.s.reset_n = 1);
 
             /*
              * 7. Read LMC0_DDR_PLL_CTL and wait for the result.
@@ -711,18 +703,16 @@ int initialize_ddr_clock(bdk_node_t node,
              * sequence.
              */
 
-            ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num));
-            ddr_pll_ctl.s.ddr_div_reset = 1;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num), ddr_pll_ctl.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+                c.s.ddr_div_reset = 1);
 
             /*
              * 2. Without changing any other fields in LMC(0..3)_DDR_PLL_CTL, write
              * LMC(0..3)_DDR_PLL_CTL[DDR4_MODE] = 0.
              */
 
-            ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num));
-            ddr_pll_ctl.s.ddr4_mode = 0;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num), ddr_pll_ctl.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+                c.s.ddr4_mode = 0);
 
             /*
              * 3. Read LMC(0..3)_DDR_PLL_CTL and wait for the result.
@@ -741,9 +731,8 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC(0..3)_DDR_PLL_CTL[PHY_DCOK] = 1.
              */
 
-            ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num));
-            ddr_pll_ctl.s.phy_dcok = 1;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num), ddr_pll_ctl.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+                c.s.phy_dcok = 1);
 
             /*
              * 6. Read LMC(0..3)_DDR_PLL_CTL and wait for the result.
@@ -814,9 +803,8 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC(0..3)_DDR_PLL_CTL[DDR_DIV_RESET] = 0.
              */
 
-            ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num));
-            ddr_pll_ctl.s.ddr_div_reset = 0;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num), ddr_pll_ctl.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+                c.s.ddr_div_reset = 0);
 
             /*
              * 12. Read LMC(0..3)_DDR_PLL_CTL and wait for the result.
@@ -858,9 +846,8 @@ int initialize_ddr_clock(bdk_node_t node,
                 if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
                     continue;
 
-                dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
-                dll_ctl2.s.intf_en              = 1;
-                DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(loop_interface_num), dll_ctl2.u);
+                BDK_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(loop_interface_num),
+                    c.s.intf_en              = 1);
                 BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
             }
 
@@ -1006,10 +993,9 @@ int initialize_ddr_clock(bdk_node_t node,
              * recalibrating this delay information.
              */
 
-            ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(2));
-            ddr_dll_ctl3.s.dclk90_fwd = 1;
-            ddr_dll_ctl3.s.dclk90_recal_dis = 1;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(2),	ddr_dll_ctl3.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(2),
+                c.s.dclk90_fwd = 1;
+                c.s.dclk90_recal_dis = 1);
 
             /*
              * 5. Without changing any other fields in LMC3_DLL_CTL3, write
@@ -1020,10 +1006,9 @@ int initialize_ddr_clock(bdk_node_t node,
              * recalibrating this delay information.
              */
 
-            ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(3));
-            ddr_dll_ctl3.s.dclk90_fwd = 1;
-            ddr_dll_ctl3.s.dclk90_recal_dis = 1;
-            DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(3),	ddr_dll_ctl3.u);
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(3),
+                c.s.dclk90_fwd = 1;
+                c.s.dclk90_recal_dis = 1);
 
             /*
              * 6. Read LMC3_DLL_CTL3 and wait for the result.
@@ -1099,10 +1084,9 @@ int initialize_ddr_clock(bdk_node_t node,
              * without modifying any other LMC(0..3)_RESET_CTL fields.
              */
 
-            lmc_reset_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
-            lmc_reset_ctl.s.ddr3rst = 1;
+            BDK_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+                c.s.ddr3rst = 1);
             ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
-            DRAM_CSR_WRITE(node, BDK_LMCX_RESET_CTL(ddr_interface_num), lmc_reset_ctl.u);
 
             /*
              * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
