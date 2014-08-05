@@ -18,6 +18,7 @@
 #ifndef BDK_BUILD_HOST
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"
+#include "../libdram/libdram.h"
 #include "bdk-functions.h"
 #endif
 #include "../libbdk-lua/bdk-lua.h"

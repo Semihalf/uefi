@@ -11,6 +11,7 @@ dirs += libbdk-os
 dirs += libbdk-dram
 dirs += liblua
 dirs += libbdk-lua
+dirs += libdram
 
 #
 # Create a list of all source files
