@@ -39,12 +39,16 @@ __bdk_start:
     mov     x0, L2C_ASC_REGIONX >> 32
     lsl     x0, x0, 32
     mov     x1, (L2C_ASC_REGIONX & 0xffffffff)
-    orr      x0, x0, x1
+    orr     x0, x0, x1
     str     xzr, [x0, REGIONX_START]    /* Start of zero */
     mov     x1, 0xfffff00000            /* End of max address */
     str     x1, [x0, REGIONX_END]
     mov     x1, 2                       /* Secure only access */
     str     x1, [x0, REGIONX_ATTR]
+    /* Update way partition to allow core 0 to write to L2 */
+    #define L2C_WPAR_PP0_OFFSET 0x40000
+    mov     x1, L2C_WPAR_PP0_OFFSET
+    str     xzr, [x0, x1]
     /* Figure out the location of code as an offset from our link address */
 1:
     adr     x0, 1b          /* Jump to label, saving our PC in RA */
