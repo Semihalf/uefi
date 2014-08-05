@@ -11,6 +11,7 @@
 /csr-tool/output
 /csr-tool/html
 /libc/build
+/libc/share
 /libc/aarch64-thunder-elf
 /docs/*.pdf
 /docs/api-docs
