@@ -70,8 +70,10 @@ typedef enum ddr3_spd_addrs {
     DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE      = 127
 } ddr3_spd_addr_t;
 
-extern int read_spd(const dimm_config_t *dimm_config, int dimm_index, int spd_field);
-extern int validate_dimm(const dimm_config_t *dimm_config, int dimm_index);
-extern void report_ddr3_dimm(const dimm_config_t *dimm_config, int upper_dimm,
-    int dimm);
+extern int read_spd(bdk_node_t node, const dimm_config_t *dimm_config,
+    int dimm_index, int spd_field);
+extern int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
+    int dimm_index);
+extern void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
+    int upper_dimm, int dimm);
 

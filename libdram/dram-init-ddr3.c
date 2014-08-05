@@ -793,9 +793,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     for (didx = 0; didx < DDR_CFG_T_MAX_DIMMS; ++didx)
     {
         /* Check for lower DIMM socket populated */
-        if (validate_dimm(&dimm_config_table[didx], 0)) {
+        if (validate_dimm(node, &dimm_config_table[didx], 0)) {
             if (dram_is_verbose())
-                report_ddr3_dimm(&dimm_config_table[didx], 0, dimm_count);
+                report_ddr3_dimm(node, &dimm_config_table[didx], 0, dimm_count);
             ++dimm_count;
         } else { break; }       /* Finished when there is no lower DIMM */
     }
@@ -839,14 +839,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ++fatal_error;
     }
 
-    spd_addr = read_spd(&dimm_config_table[0], 0, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
+    spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
     debug_print("spd_addr        : %#06x\n", spd_addr );
     row_bits = 12 + ((spd_addr >> 3) & 0x7);
     col_bits =  9 + ((spd_addr >> 0) & 0x7);
 
-    num_banks = 1 << (3+((read_spd(&dimm_config_table[0], 0, DDR3_SPD_DENSITY_BANKS) >> 4) & 0x7));
+    num_banks = 1 << (3+((read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_DENSITY_BANKS) >> 4) & 0x7));
 
-    spd_org = read_spd(&dimm_config_table[0], 0, DDR3_SPD_MODULE_ORGANIZATION);
+    spd_org = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MODULE_ORGANIZATION);
     debug_print("spd_org         : %#06x\n", spd_org );
     num_ranks =  1 + ((spd_org >> 3) & 0x7);
     dram_width = 4 << ((spd_org >> 0) & 0x7);
@@ -884,7 +884,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 
 
-    spd_dimm_type   = read_spd(&dimm_config_table[0], 0, DDR3_SPD_KEY_BYTE_MODULE_TYPE);
+    spd_dimm_type   = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_KEY_BYTE_MODULE_TYPE);
     spd_rdimm       = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 9);
 
     if ((s = lookup_env_parameter("ddr_rdimm_ena")) != NULL) {
@@ -954,7 +954,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int rank_mask_dimm1;
 
         if (dimm_count > 1) {
-            spd_org_dimm1 = read_spd(&dimm_config_table[1] /* dimm 1*/,
+            spd_org_dimm1 = read_spd(node, &dimm_config_table[1] /* dimm 1*/,
                                      0, DDR3_SPD_MODULE_ORGANIZATION);
             num_ranks_dimm1 = 1 + ((spd_org_dimm1 >> 3) & 0x7);
             rank_count =  num_ranks/* dimm 0 */ + num_ranks_dimm1 /* dimm 1 */;
@@ -974,34 +974,34 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     ddr_print("row bits: %d, col bits: %d, banks: %d, ranks: %d, dram width: %d, size: %d MB\n",
               row_bits, col_bits, num_banks, num_ranks, dram_width, mem_size_mbytes);
 
-    spd_ecc         = !!(read_spd(&dimm_config_table[0], 0, DDR3_SPD_MEMORY_BUS_WIDTH) & 8);
+    spd_ecc         = !!(read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEMORY_BUS_WIDTH) & 8);
 
-    spd_cas_latency  = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_LSB);
-    spd_cas_latency |= ((0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_MSB)) << 8);
+    spd_cas_latency  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_LSB);
+    spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_MSB)) << 8);
 
-    spd_mtb_dividend = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVIDEND);
-    spd_mtb_divisor  = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVISOR);
-    spd_tck_min      = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_TCKMIN);
-    spd_taa_min      = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_TAAMIN);
+    spd_mtb_dividend = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVIDEND);
+    spd_mtb_divisor  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVISOR);
+    spd_tck_min      = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_TCKMIN);
+    spd_taa_min      = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_TAAMIN);
 
-    spd_twr          = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_WRITE_RECOVERY_TWRMIN);
-    spd_trcd         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_TRCDMIN);
-    spd_trrd         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_ACTIVE_DELAY_TRRDMIN);
-    spd_trp          = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_TRPMIN);
-    spd_tras         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_PRECHARGE_LSB_TRASMIN);
-    spd_tras        |= ((0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf) << 8);
-    spd_trc          = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_TRCMIN);
-    spd_trc         |= ((0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf0) << 4);
-    spd_trfc         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_LSB_TRFCMIN);
-    spd_trfc        |= ((0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_MSB_TRFCMIN)) << 8);
-    spd_twtr         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_WRITE_READ_CMD_TWTRMIN);
-    spd_trtp         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_READ_PRECHARGE_CMD_TRTPMIN);
-    spd_tfaw         = 0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_FOUR_ACTIVE_WINDOW_TFAWMIN);
-    spd_tfaw        |= ((0xff & read_spd(&dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLE_TFAW)&0xf) << 8);
-    spd_addr_mirror  = 0xff & read_spd(&dimm_config_table[0], 0,DDR3_SPD_ADDRESS_MAPPING) & 0x1;
+    spd_twr          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_WRITE_RECOVERY_TWRMIN);
+    spd_trcd         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_TRCDMIN);
+    spd_trrd         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_ACTIVE_DELAY_TRRDMIN);
+    spd_trp          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_TRPMIN);
+    spd_tras         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_PRECHARGE_LSB_TRASMIN);
+    spd_tras        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf) << 8);
+    spd_trc          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_TRCMIN);
+    spd_trc         |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf0) << 4);
+    spd_trfc         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_LSB_TRFCMIN);
+    spd_trfc        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_MSB_TRFCMIN)) << 8);
+    spd_twtr         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_WRITE_READ_CMD_TWTRMIN);
+    spd_trtp         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_READ_PRECHARGE_CMD_TRTPMIN);
+    spd_tfaw         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_FOUR_ACTIVE_WINDOW_TFAWMIN);
+    spd_tfaw        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLE_TFAW)&0xf) << 8);
+    spd_addr_mirror  = 0xff & read_spd(node, &dimm_config_table[0], 0,DDR3_SPD_ADDRESS_MAPPING) & 0x1;
     spd_addr_mirror  = spd_addr_mirror && !spd_rdimm; /* Only address mirror unbuffered dimms.  */
-    ftb_Dividend     = read_spd(&dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) >> 4;
-    ftb_Divisor      = read_spd(&dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) & 0xf;
+    ftb_Dividend     = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) >> 4;
+    ftb_Divisor      = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) & 0xf;
     ftb_Divisor      = (ftb_Divisor == 0) ? 1 : ftb_Divisor; /* Make sure that it is not 0 */
 
     if ((s = getenv("ddr_use_ecc")) != NULL) {
@@ -1058,9 +1058,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     mtb_psec        = spd_mtb_dividend * 1000 / spd_mtb_divisor;
     tAAmin          = mtb_psec * spd_taa_min;
-    tAAmin         += ftb_Dividend * (SC_t) read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_FINE_TAAMIN) / ftb_Divisor;
+    tAAmin         += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_FINE_TAAMIN) / ftb_Divisor;
     tCKmin          = mtb_psec * spd_tck_min;
-    tCKmin         += ftb_Dividend * (SC_t) read_spd(&dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_FINE_TCKMIN) / ftb_Divisor;
+    tCKmin         += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_FINE_TCKMIN) / ftb_Divisor;
 
     CL              = divide_roundup(tAAmin, tclk_psecs);
 
@@ -1129,13 +1129,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     twr             = spd_twr  * mtb_psec;
     trcd            = spd_trcd * mtb_psec;
-    trcd           += ftb_Dividend * (SC_t) read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_FINE_TRCDMIN) / ftb_Divisor;
+    trcd           += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_FINE_TRCDMIN) / ftb_Divisor;
     trrd            = spd_trrd * mtb_psec;
     trp             = spd_trp  * mtb_psec;
-    trp            += ftb_Dividend * (SC_t) read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_FINE_TRPMIN) / ftb_Divisor;
+    trp            += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_FINE_TRPMIN) / ftb_Divisor;
     tras            = spd_tras * mtb_psec;
     trc             = spd_trc  * mtb_psec;
-    trc            += ftb_Dividend * (SC_t) read_spd(&dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_FINE_TRCMIN) / ftb_Divisor;
+    trc            += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_FINE_TRCMIN) / ftb_Divisor;
     trfc            = spd_trfc * mtb_psec;
     twtr            = spd_twtr * mtb_psec;
     trtp            = spd_trtp * mtb_psec;
@@ -1863,35 +1863,35 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         lmc_dimmx_params.u = BDK_CSR_READ(node, BDK_LMCX_DIMMX_PARAMS(dimm, ddr_interface_num));
 
-        rc = read_spd(&dimm_config_table[didx], 0, 69);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 69);
         lmc_dimmx_params.s.rc0         = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc1         = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 70);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 70);
         lmc_dimmx_params.s.rc2         = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc3         = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 71);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 71);
         lmc_dimmx_params.s.rc4         = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc5         = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 72);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 72);
         lmc_dimmx_params.s.rc6         = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc7         = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 73);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 73);
         lmc_dimmx_params.s.rc8         = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc9         = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 74);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 74);
         lmc_dimmx_params.s.rc10        = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc11        = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 75);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 75);
         lmc_dimmx_params.s.rc12        = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc13        = (rc >> 4) & 0xf;
 
-        rc = read_spd(&dimm_config_table[didx], 0, 76);
+        rc = read_spd(node, &dimm_config_table[didx], 0, 76);
         lmc_dimmx_params.s.rc14        = (rc >> 0) & 0xf;
         lmc_dimmx_params.s.rc15        = (rc >> 4) & 0xf;
 
@@ -3244,8 +3244,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             /* FIX: Detect when the WD3UN802G13LSD DIMMs are used.
                They require hard-coded read-leveling settings */
             if ((board_type == CVMX_BOARD_TYPE_EBB7800)
-                && (read_spd(&dimm_config_table[0], 0, 126) == 0xb3)
-                && (read_spd(&dimm_config_table[0], 0, 127) == 0x31)) {
+                && (read_spd(node, &dimm_config_table[0], 0, 126) == 0xb3)
+                && (read_spd(node, &dimm_config_table[0], 0, 127) == 0x31)) {
                 if ((tclk_psecs > (1500-50)) && (tclk_psecs < (1500+50))) {
                     static const uint64_t hard_rlevel_settings_1333[] = {
                         0x004A30C30B2CB28A,

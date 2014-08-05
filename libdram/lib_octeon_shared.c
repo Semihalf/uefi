@@ -1223,7 +1223,7 @@ int octeon_ddr_initialize(bdk_node_t node,
 	/* Check for lower DIMM socket populated */
 	for (interface_index=0; interface_index<4; ++interface_index) {
 		if ((ddr_interface_mask & (1<<interface_index))
-		    && validate_dimm(&ddr_configuration[(int)interface_index].dimm_config_table[0], 0))
+		    && validate_dimm(node, &ddr_configuration[(int)interface_index].dimm_config_table[0], 0))
 			ddr_config_valid_mask |= (1 << interface_index);
 	}
 
