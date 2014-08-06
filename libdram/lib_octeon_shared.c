@@ -220,7 +220,7 @@ static int ddr_memory_preserved(void)
 void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
 				       int ddr_interface_num)
 {
-	char *s;
+	const char *s;
 	int ddr_init_loops = 1;
 
 	if ((s = lookup_env_parameter("ddr%d_init_loops", ddr_interface_num)) != NULL)
@@ -360,7 +360,7 @@ int initialize_ddr_clock(bdk_node_t node,
                          uint32_t ddr_interface_mask
                          )
 {
-    char *s;
+    const char *s;
 
     if (ddr_clock_initialized(ddr_interface_num))
         return 0;
@@ -1196,7 +1196,7 @@ int octeon_ddr_initialize(bdk_node_t node,
 	    are reserved.
 	    */
 
-            char *s;
+            const char *s;
             uint64_t rdf_cnt;
             BDK_CSR_INIT(l2c_ctl, node, BDK_L2C_CTL);
             /* It is more convenient to compute the ratio using clock
@@ -1230,7 +1230,7 @@ int octeon_ddr_initialize(bdk_node_t node,
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
                 int four_lmc_mode = 1;
 
-		char *s;
+		const char *s;
 
 		if ((s = getenv("ddr_four_lmc")) != NULL) {
 			four_lmc_mode = strtoul(s, NULL, 0);

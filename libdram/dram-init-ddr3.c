@@ -626,7 +626,7 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
      *    been initialized.
      */
 
-	char *s;
+	const char *s;
 
 	static const char *sequence_str[] = {
             "Power-up/init",
@@ -685,7 +685,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                uint32_t ddr_interface_mask
                                )
 {
-    char *s;
+    const char *s;
 
     const dimm_odt_config_t *odt_1rank_config = ddr_configuration->odt_1rank_config;
     const dimm_odt_config_t *odt_2rank_config = ddr_configuration->odt_2rank_config;
@@ -1189,7 +1189,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         return(-1);
 
     {
-        char *s;
+        const char *s;
         bdk_lmcx_control_t lmc_control;
         bdk_lmcx_scramble_cfg0_t lmc_scramble_cfg0;
         bdk_lmcx_scramble_cfg1_t lmc_scramble_cfg1;
@@ -3657,7 +3657,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int byte_offset;
         unsigned short offset[9] = {0};
         int i;
-        char *s;
+        const char *s;
 
         for (i=0; i<9; ++i) {
             byte_offset = custom_lmc_config->dll_write_offset[i];
@@ -3685,7 +3685,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int byte_offset;
         unsigned short offset[9] = {0};
         int i;
-        char *s;
+        const char *s;
 
         for (i=0; i<9; ++i) {
             byte_offset = custom_lmc_config->dll_read_offset[i];
