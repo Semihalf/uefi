@@ -45,26 +45,15 @@ typedef struct {
 #define RLEVEL_ADJACENT_DELAY_ERROR             30
 
 extern int initialize_ddr_clock(bdk_node_t node,
-    const ddr_configuration_t *ddr_configuration,
-    uint32_t cpu_hertz,
-    uint32_t ddr_hertz,
-    uint32_t ddr_ref_hertz,
-    int ddr_interface_num,
-    uint32_t ddr_interface_mask
-    );
-extern int test_dram_byte(uint64_t p, int count, int byte,
-    register uint64_t bitmask);
+    const ddr_configuration_t *ddr_configuration, uint32_t cpu_hertz,
+    uint32_t ddr_hertz, uint32_t ddr_ref_hertz, int ddr_interface_num,
+    uint32_t ddr_interface_mask);
+extern int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask);
 
-extern int octeon_ddr_initialize(bdk_node_t node,
-    uint32_t cpu_hertz,
-    uint32_t ddr_hertz,
-    uint32_t ddr_ref_hertz,
-    uint32_t ddr_interface_mask,
-    const ddr_configuration_t *ddr_configuration,
-    uint32_t *measured_ddr_hertz,
-    int board_type,
-    int board_rev_maj,
-    int board_rev_min);
+extern int octeon_ddr_initialize(bdk_node_t node, uint32_t cpu_hertz,
+    uint32_t ddr_hertz, uint32_t ddr_ref_hertz, uint32_t ddr_interface_mask,
+    const ddr_configuration_t *ddr_configuration, uint32_t *measured_ddr_hertz,
+    int board_type, int board_rev_maj, int board_rev_min);
 
 #endif /* __DRAM_INTERNAL_H__ */
 

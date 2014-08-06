@@ -8,7 +8,7 @@ int libdram_config(int node, const ddr_configuration_t *ddr_config, int ddr_cloc
     /* We need to calculate the interface mask based on the provided SPD
        addresses/contents */
     uint32_t interface_mask = 0;
-    for (int i=0; i<4; i++)
+    for (int i = 0; i < 4; i++)
     {
         if (ddr_config[i].dimm_config_table[0].spd_addrs[0] ||
             ddr_config[i].dimm_config_table[0].spd_ptrs[0])
@@ -21,15 +21,15 @@ int libdram_config(int node, const ddr_configuration_t *ddr_config, int ddr_cloc
     BDK_TRACE("N%d: Calling DRAM init\n", node);
     uint32_t measured_ddr_hertz = 0;
     int mbytes = octeon_ddr_initialize(node,
-                              bdk_clock_get_rate(node, BDK_CLOCK_CORE),
-                              ddr_clock_hertz,
-                              bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF),
-                              interface_mask,
-                              ddr_config,
-                              &measured_ddr_hertz,
-                              0,
-                              0,
-                              0);
+        bdk_clock_get_rate(node, BDK_CLOCK_CORE),
+        ddr_clock_hertz,
+        bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF),
+        interface_mask,
+        ddr_config,
+        &measured_ddr_hertz,
+        0,
+        0,
+        0);
     BDK_TRACE("N%d: DRAM init returned %d, measured %u Hz\n", node, mbytes, measured_ddr_hertz);
     return mbytes;
 }

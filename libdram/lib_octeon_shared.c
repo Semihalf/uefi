@@ -132,8 +132,7 @@ static int init_octeon_dram_interface(bdk_node_t node,
 	return mem_size_mbytes;
 }
 
-int test_dram_byte(uint64_t p, int count, int byte,
-			  register uint64_t bitmask)
+int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 {
 	uint64_t p1, p2, d1, d2;
 	uint64_t i, j, k;

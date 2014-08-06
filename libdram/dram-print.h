@@ -16,11 +16,12 @@ static inline int dram_is_verbose()
 
 static inline void ddr_print(const char *format, ...)
 {
-	if (dram_is_verbose() || (DEBUG_DEFINED)) {
-		va_list args;
-		va_start(args, format);
-		vprintf(format, args);
-		va_end(args);
-	}
+    if (dram_is_verbose() || (DEBUG_DEFINED))
+    {
+        va_list args;
+        va_start(args, format);
+        vprintf(format, args);
+        va_end(args);
+    }
 }
 
