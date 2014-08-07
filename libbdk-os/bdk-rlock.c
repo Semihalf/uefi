@@ -59,6 +59,10 @@ int bdk_rlock_try_lock(bdk_rlock_t *lock)
 
 void bdk_rlock_unlock(bdk_rlock_t *lock)
 {
+    /* Newlib mistakenly unlocks a malloc lock during init that isn't
+       locked. This is a workaround */
+    if (bdk_unlikely(lock->count == 0))
+        return;
     void *current = bdk_thread_get_id();
     assert(current == lock->owner);
     assert(lock->count > 0);
