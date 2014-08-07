@@ -7,7 +7,6 @@
     .global __bdk_thread_switch
 __bdk_thread_switch:
     mrs     x10, TPIDR_EL3          /* Get the current context */
-    msr     TPIDR_EL3, x0           /* Store new context */
     cbz     x10, skip_save          /* Skip save if current context is zero */
 
     stp     x0, x1,[x10, GPR_OFFSET(0)]
@@ -46,9 +45,17 @@ __bdk_thread_switch:
     dsb     st /* We're done with the old context, push writes out */
 
 skip_save:
+    /* Switch to the new thread stack so we can call C functions */
+    ldr     x11, [x0, GPR_OFFSET(31)]   /* SP is last of GPR */
+    mov     sp, x11
+    msr     TPIDR_EL3, x0               /* Store new context */
+
+    /* Call switch complete */
+    mov     x0, x10                     /* Old context, Don't free flag is still in x1 */
+    bl      __bdk_thread_switch_complete
+
+    /* Restore our thread context */
     mrs     x11, TPIDR_EL3              /* Put the new context in x11 */
-    ldr     x12, [x11, GPR_OFFSET(31)]  /* SP is last of GPR */
-    mov     sp, x12
     ldp     x0, x1,[x11, GPR_OFFSET(0)]
     ldp     x2, x3,[x11, GPR_OFFSET(2)]
     ldp     x4, x5,[x11, GPR_OFFSET(4)]
@@ -81,19 +88,5 @@ skip_save:
     ldp     q26, q27,[x11, FPR_OFFSET(26)]
     ldp     q28, q29,[x11, FPR_OFFSET(28)]
     ldp     q30, q31,[x11, FPR_OFFSET(30)]
-
-    stp     x0, x1, [sp, -16]!          /* Save x0-x1 before making a call */
-    stp     x30, xzr, [sp, -16]!        /* Save x30-x31. Only save x31 for stack alignment */
-    mov     x0, x10                     /* Old context */
-    mov     x1, xzr                     /* Clear don't free flag */
-    cbz     x0, skip_free_flag          /* Skip restore free flag if current context is zero */
-    ldr     x1, [x0, GPR_OFFSET(1)]     /* Free flag from call */
-skip_free_flag:
-    /* At this point the values in new context is all restored such that
-        a yield in this call will not cause problems. A0 is the old context,
-        A1 is the delete flag originally passed in */
-    bl      __bdk_thread_switch_complete
-    ldp     x30, xzr, [sp], 16          /* Restore x0-x1,x30 after call */
-    ldp     x0, x1, [sp], 16
     ret
 
