@@ -766,6 +766,15 @@ void _reclaim_reent _PARAMS ((struct _reent *));
 
 /* #define _REENT_ONLY define this to get only reentrant routines */
 
+#if 1 /* Change to support BDK threads */
+
+extern struct _reent *__bdk_thread_getreent(void);
+extern struct _reent __bdk_thread_global_reent;
+#define _REENT (__bdk_thread_getreent())
+#define _GLOBAL_REENT (&__bdk_thread_global_reent)
+
+#else /* Change to support BDK threads */
+
 #if defined(__DYNAMIC_REENT__) && !defined(__SINGLE_THREAD__)
 #ifndef __getreent
   struct _reent * _EXFUN(__getreent, (void));
@@ -776,6 +785,8 @@ void _reclaim_reent _PARAMS ((struct _reent *));
 #endif /* __SINGLE_THREAD__ || !__DYNAMIC_REENT__ */
 
 #define _GLOBAL_REENT _global_impure_ptr
+
+#endif /* Change to support BDK threads */
 
 #ifdef _REENT_GLOBAL_ATEXIT
 extern struct _atexit *_global_atexit; /* points to head of LIFO stack */

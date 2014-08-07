@@ -258,6 +258,7 @@ void bdk_thread_destroy(void)
     }
 }
 
+struct _reent __bdk_thread_global_reent;
 struct _reent *__bdk_thread_getreent(void)
 {
     bdk_thread_t *current;
@@ -265,7 +266,7 @@ struct _reent *__bdk_thread_getreent(void)
     if (current)
         return &current->lib_state;
     else
-        return _global_impure_ptr;
+        return &__bdk_thread_global_reent;
 }
 
 void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
