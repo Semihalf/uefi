@@ -72,10 +72,7 @@ end
 local m = menu.new("SMI/MDIO Menu")
 
 -- Build a list of smi busses
-local smi_busses = 2
-if cavium.is_model(cavium.CN78XX) then
-    smi_busses = 4
-end
+local smi_busses = 4
 for bus = 0, smi_busses-1 do
     m:item("bus" .. bus, "SMI/MDIO bus " .. bus, smi_submenu, bus)
 end

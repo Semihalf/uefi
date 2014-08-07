@@ -129,11 +129,9 @@ end
 --
 
 local m = menu.new("PCIe Menu")
-local max_ports = 2
-if cavium.is_model(cavium.CN78XX) then
+local max_ports = 0
+if cavium.is_model(cavium.CN88XX) then
     max_ports = 4
-elseif cavium.is_model(cavium.CN70XX) then
-    max_ports = 3
 end
 
 for pcie_port=0,max_ports-1 do

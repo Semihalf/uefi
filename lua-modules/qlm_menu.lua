@@ -10,13 +10,9 @@ local qlm_tuning = require("qlm_tuning")
 --
 local m = menu.new("QLM/DLM Menu")
 repeat
-    -- Add a configuration option for chips that support it
-    if cavium.is_model(cavium.CN70XX) then
-        require("qlm_menu_cn70xx")
-        m:item("set", "Change QLM/DLM configuration", qlm_setup_cn70xx)
-    elseif cavium.is_model(cavium.CN78XX) then
-        require("qlm_menu_cn78xx")
-        m:item("set", "Change QLM/DLM configuration", qlm_setup_cn78xx)
+    if cavium.is_model(cavium.CN88XX) then
+        require("qlm_menu_cn88xx")
+        m:item("set", "Change QLM/DLM configuration", qlm_setup_cn88xx)
     end
     -- Build a list of QLMs showing the current config. Selecting them
     -- does nothing

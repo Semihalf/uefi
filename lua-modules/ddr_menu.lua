@@ -36,7 +36,7 @@ end
 
 local m = menu.new("DRAM Menu")
 
-if not cavium.is_model(cavium.CN70XX) then
+if true then
     -- Build a list of choice for each board
     for _,board in ipairs(BOARD_CHOICES) do
         local text = "Load current DRAM config using \"%s\"" % board .. " board settings"
@@ -136,7 +136,7 @@ if not cavium.is_model(cavium.CN70XX) then
         end)
     end
     update_verbose_label()
-end -- not CN70XX
+end -- true
 
     m:item("setenv", "Set environment variable", function()
         local name = menu.prompt_string("Name")
@@ -157,18 +157,16 @@ end -- not CN70XX
         end
     end)
 
-if not cavium.is_model(cavium.CN70XX) then
     m:item("init", "Initialize DRAM controller using current config", function()
         if not ddr_config then
             error "ERROR: unable to configure DRAM controller with empty config.\n"
         end
         local node = cavium.MASTER
-        if cavium.is_model(cavium.CN78XX) then
+        if cavium.is_model(cavium.CN88XX) then
             node = menu.prompt_number("Node to initialize", node, 0, 3)
         end
         ddr.set_config(node, ddr_config, ddr_clock_hz)
     end)
-end -- not CN70XX
 
 m:item("test", "Memory Testing Menu", menu.dofile, "ddr_test_menu")
 m:item("quit", "Main menu")

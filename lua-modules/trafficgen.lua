@@ -635,52 +635,11 @@ function TrafficGen.new()
             num_rows = num_rows + display_stat(stat_name, all_stats)
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
-        if cavium.csr then
-            -- Create a row reporting free packet buffers, command buffers, Lua mem, and C mem
-            if cavium.is_model(cavium.CN78XX) then
-                printf("Packets%5d, PKO buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-                    cavium.csr.FPA_POOLX_AVAILABLE(0).read(), -- Packet pool
-                    cavium.csr.FPA_POOLX_AVAILABLE(3).read(), -- PKO pool
-                    collectgarbage("count"),
-                    cavium.c.get_sbrk() / 1024,
-                    ERASE_EOL);
-                local oci_load = {}
-                local oci_err = {}
-                for link=1,3 do
-                    local data = cavium.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
-                    local idle = cavium.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
-                    local err = cavium.csr.OCX_TLKX_STAT_ERR_CNT(link-1).read()
-                    local total = data + idle + err
-                    local old_total = oci_stats[link][1] + oci_stats[link][2] + oci_stats[link][3]
-                    local interval = total - old_total
-                    if interval > 0 then
-                        oci_load[link] = (data - oci_stats[link][1]) * 100 / interval
-                        oci_err[link] = err -- Show totals instead of interval for now
-                    else
-                        oci_load[link] = 0
-                        oci_err[link] = 0
-                    end
-                    oci_stats[link][1] = data
-                    oci_stats[link][2] = idle
-                    oci_stats[link][3] = err
-                end
-                printf("OCI Link0 %3d%%(%d errors), Link1 %3d%%(%d errors), Link2 %3d%%(%d errors)%s\n",
-                    oci_load[1], oci_err[1], oci_load[2], oci_err[2], oci_load[3], oci_err[3], ERASE_EOL);
-            else
-                printf("Packets%5d, Cmd buffers%5d, Lua mem%5dKB, C mem%5dKB%s\n",
-                    cavium.csr.FPA_QUEX_AVAILABLE(0).read(), -- Packet pool
-                    cavium.csr.FPA_QUEX_AVAILABLE(1).read(), -- Comamdn buffer pool
-                    collectgarbage("count"),
-                    cavium.c.get_sbrk() / 1024,
-                    ERASE_EOL);
-            end
-        else
-            -- Create a row reporting Lua mem, and C mem
-            printf("Lua mem%5dKB, C mem%5dKB%s\n",
-                collectgarbage("count"),
-                cavium.c.get_sbrk() / 1024,
-                ERASE_EOL);
-        end
+        -- Create a row reporting Lua mem, and C mem
+        printf("Lua mem%5dKB, C mem%5dKB%s\n",
+            collectgarbage("count"),
+            cavium.c.get_sbrk() / 1024,
+            ERASE_EOL);
         num_rows = num_rows + 1
         if show_l2_stats then
             l2_stats_table = cavium.perf.get_l2(l2_stats_table)

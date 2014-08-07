@@ -1,4 +1,4 @@
--- BDK QLM menu for CN78XX configuration.
+-- BDK QLM menu for CN88XX configuration.
 require("strict")
 require("utils")
 require("menu")
@@ -153,9 +153,9 @@ local function do_setup(qlm)
 end
 
 --
--- Chip specific configuration prompting for CN78XX
+-- Chip specific configuration prompting for CN88XX
 --
-function qlm_setup_cn78xx()
+function qlm_setup_cn88xx()
     local m = menu.new("Select a QLM to Configure")
     repeat
         for qlm_num = 0, 7 do

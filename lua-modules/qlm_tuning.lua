@@ -207,13 +207,9 @@ function qlm_tuning.run()
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
         m:item("down",   "Reset and power down", cavium.c.bdk_qlm_reset, node, qlm_tuning.qlm)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
-        if cavium.is_model(cavium.CN78XX) then
-            m:item("prbs11",  "PRBS-11", do_prbs, 11)
-        end
+        m:item("prbs11", "PRBS-11", do_prbs, 11)
         m:item("prbs15", "PRBS-15", do_prbs, 15)
-        if cavium.is_model(cavium.CN78XX) then
-            m:item("prbs16",  "PRBS-16", do_prbs, 16)
-        end
+        m:item("prbs16", "PRBS-16", do_prbs, 16)
         m:item("prbs23", "PRBS-23", do_prbs, 23)
         m:item("prbs31", "PRBS-31", do_prbs, 31)
         m:item("fixedw", "Fixed 10 bit word (PAT)", do_custom, 0x8)
