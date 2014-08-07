@@ -6,8 +6,6 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(TRAFFIC_GEN);
 
-#if 0
-
 static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
 static const int CYCLE_SHIFT = 12;
@@ -49,9 +47,6 @@ typedef struct
     bool                    do_checksum;
     bool                    display_packet;
     bool                    validate;
-    int                     higig_mode;
-    bdk_higig_header_t      higig;
-    bdk_higig2_header_t     higig2;
 } trafficgen_port_setup_t;
 
 typedef struct
@@ -84,17 +79,6 @@ static int tg_packet_receiver(bdk_if_packet_t *packet, void *arg);
  */
 static void tg_init_port(tg_port_t *tg_port)
 {
-    switch (bdk_if_get_type(tg_port->handle))
-    {
-        case BDK_IF_HIGIG:
-            tg_port->pinfo.setup.higig_mode = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + tg_port->handle->interface);
-            /* HiGig headers always start with 0xfb */
-            tg_port->pinfo.setup.higig.dw0.s.start = 0xfb;
-            tg_port->pinfo.setup.higig2.dw0.s.k_sop = 0xfb;
-            break;
-        default:
-            break;
-    }
     bdk_if_register_for_packets(tg_port->handle, tg_packet_receiver, tg_port);
     bdk_if_enable(tg_port->handle);
 }
@@ -131,12 +115,7 @@ static void tg_init(void)
  */
 static int get_size_wire_overhead(const tg_port_t *tg_port)
 {
-    if (tg_port->pinfo.setup.higig_mode == 1)
-        return 8 /*INTERFRAME_GAP*/ + 12 /*Higig header*/ + ETHERNET_CRC;
-    else if (tg_port->pinfo.setup.higig_mode == 2)
-        return 8 /*INTERFRAME_GAP*/ + 16 /*Higig2 header*/ + ETHERNET_CRC;
-    else
-        return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
+    return 12 /*INTERFRAME_GAP*/ + 8 /*MAC_PREAMBLE*/ + ETHERNET_CRC;
 }
 
 /**
@@ -241,13 +220,13 @@ static int trafficgen_do_update(bool do_clear)
             case BDK_IF_BGX:
             {
                 int port = tg_port->handle->index;
-                if (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + tg_port->handle->interface))
-                    port = port >> 4;
                 BDK_CSR_INIT(rx_pause, tg_port->handle->node, BDK_BGXX_CMRX_RX_STAT2(tg_port->handle->interface, port));
                 BDK_CSR_WRITE(tg_port->handle->node, BDK_BGXX_CMRX_RX_STAT2(tg_port->handle->interface, port), 0);
                 tg_port->pinfo.stats.rx_backpressure += rx_pause.s.cnt;
                 break;
             }
+            case BDK_IF_PCIE:
+            case BDK_IF_FAKE:
             case __BDK_IF_LAST:
                 break;
         }
@@ -265,22 +244,12 @@ static int trafficgen_do_update(bool do_clear)
 /*
  *      Fold a partial checksum without adding pseudo headers
  */
-static unsigned short int csum_fold(unsigned int sum)
+static unsigned short int csum_fold(unsigned int csum)
 {
-        __asm__(
-        "       .set    push            # csum_fold\n"
-        "       .set    noat            \n"
-        "       sll     $1, %0, 16      \n"
-        "       addu    %0, $1          \n"
-        "       sltu    $1, %0, $1      \n"
-        "       srl     %0, %0, 16      \n"
-        "       addu    %0, $1          \n"
-        "       xori    %0, 0xffff      \n"
-        "       .set    pop"
-        : "=r" (sum)
-        : "0" (sum));
-
-        return sum;
+   unsigned int sum = csum;
+   sum = (sum & 0xffff) + (sum >> 16);
+   sum = (sum & 0xffff) + (sum >> 16);
+   return ~sum;
 }
 
 
@@ -351,10 +320,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     }
 
     int total_length = tg_port->pinfo.setup.size;
-    if (tg_port->pinfo.setup.higig_mode == 1)
-        total_length += sizeof(tg_port->pinfo.setup.higig);
-    if (tg_port->pinfo.setup.higig_mode == 2)
-        total_length += sizeof(tg_port->pinfo.setup.higig2);
 
     /* Allcoate a packet for transmit */
     int alloc_status = bdk_if_alloc(packet, total_length);
@@ -369,23 +334,10 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     }
     if (alloc_status)
     {
-        bdk_error("Failed to allocate TX packet for port %s\n", bdk_if_name(tg_port->handle));
+        bdk_error("%s: Failed to allocate TX packet\n", bdk_if_name(tg_port->handle));
         return -1;
     }
     int loc = 0;
-
-    /* Add the Higig header before L2 if needed */
-    if (tg_port->pinfo.setup.higig_mode == 1)
-    {
-        bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.higig), &tg_port->pinfo.setup.higig);
-        loc += sizeof(tg_port->pinfo.setup.higig);
-    }
-    /* Add the Higig2 header before L2 if needed */
-    if (tg_port->pinfo.setup.higig_mode == 2)
-    {
-        bdk_if_packet_write(packet, loc, sizeof(tg_port->pinfo.setup.higig2), &tg_port->pinfo.setup.higig2);
-        loc += sizeof(tg_port->pinfo.setup.higig2);
-    }
 
     /* Ethernet dest address */
     for (int i=0; i<6; i++)
@@ -433,10 +385,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 
     /* Fix the IP checksum */
     int begin_ip = get_size_l2(tg_port);
-    if (tg_port->pinfo.setup.higig_mode == 1)
-        begin_ip += sizeof(tg_port->pinfo.setup.higig);
-    if (tg_port->pinfo.setup.higig_mode == 2)
-        begin_ip += sizeof(tg_port->pinfo.setup.higig2);
     char buffer[20];
     if (packet->length >= begin_ip + (int)sizeof(buffer))
     {
@@ -472,10 +420,9 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 
 static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
 {
-    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
     uint64_t        count;
     uint64_t        remaining_bytes;
-    bdk_buf_ptr_t   buffer_next;
+    const bdk_packet_ptr_t *buffer_next;
     uint8_t *       data_address;
     uint8_t *       end_of_data;
 
@@ -490,22 +437,10 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
 
     while (remaining_bytes)
     {
-        if (use_v3_packet)
-        {
-            printf("    Aura:        %d\n", packet->aura);
-            printf("    Address:     0x%llx\n", (unsigned long long)buffer_next.v3.addr);
-            printf("                 ");
-            data_address = (uint8_t *)bdk_phys_to_ptr(buffer_next.v3.addr);
-            end_of_data = data_address + buffer_next.v3.size;
-        }
-        else
-        {
-            printf("    Pool:        %u\n", buffer_next.v1.pool);
-            printf("    Address:     0x%llx\n", (unsigned long long)buffer_next.v1.addr);
-            printf("                 ");
-            data_address = (uint8_t *)bdk_phys_to_ptr(buffer_next.v1.addr);
-            end_of_data = data_address + buffer_next.v1.size;
-        }
+        printf("    Address:     0x%llx\n", (unsigned long long)buffer_next->s.address);
+        printf("                 ");
+        data_address = (uint8_t *)bdk_phys_to_ptr(buffer_next->s.address);
+        end_of_data = data_address + buffer_next->s.size;
         count = 0;
         while (data_address < end_of_data)
         {
@@ -531,12 +466,7 @@ static void dump_packet(tg_port_t *tg_port, const bdk_if_packet_t *packet)
         printf("\n");
 
         if (remaining_bytes)
-        {
-            if (use_v3_packet)
-                buffer_next = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_next.v3.addr - 8);
-            else
-                buffer_next = *(bdk_buf_ptr_t*)bdk_phys_to_ptr(buffer_next.v1.addr - 8);
-        }
+            buffer_next++;
     }
     fflush(stdout);
 }
@@ -556,7 +486,6 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     uint64_t count = port_tx->output_count;
     uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
 
     while (port_tx->output_enable)
     {
@@ -565,13 +494,9 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
         if (bdk_likely(do_tx))
         {
             output_cycle += output_cycle_gap;
-            /* Only free the packet on TX if this is the last packet "i=1"
-                means the packet isn't freed */
-            if (use_v3_packet)
-                packet->packet.v3.i = (count != 1);
-            else
-                packet->packet.v1.i = (count != 1);
-            if (bdk_likely(bdk_if_transmit(packet->if_handle, packet) == 0))
+            /* Only free the packet on TX if this is the last packet */
+            packet->free_after_send = (count == 1);
+            if (bdk_likely(bdk_if_transmit(tg_port->handle, packet) == 0))
             {
                 if (bdk_unlikely(--count == 0))
                     break;
@@ -579,142 +504,13 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
             else
             {
                 /* Transmit failed. Remember we need to free the packet */
-                if (use_v3_packet)
-                    packet->packet.v3.i = 1;
-                else
-                    packet->packet.v1.i = 1;
+                packet->free_after_send = 0;
                 bdk_thread_yield();
             }
         }
         else
             bdk_thread_yield();
     }
-}
-
-
-/**
- * Transmitter loop for PKO ports. This is a PKO optimized
- * version of the above generic implementation.
- *
- * @param tg_port Trafficgen port to transmit on
- * @param packet  Packet to send
- * @param output_cycle_gap
- *                Gap between each packet in core cycles shifted by CYCLE_SHIFT
- */
-static void packet_transmitter_pko(tg_port_t *tg_port, bdk_if_packet_t *packet, uint64_t output_cycle_gap)
-{
-    /**
-     * Structure of the first packet output command word.
-     */
-    typedef union
-    {
-        uint64_t                u64;
-        struct
-        {
-            bdk_fau_op_size_t   size1       : 2; /**< The size of the reg1 operation - could be 8, 16, 32, or 64 bits */
-            bdk_fau_op_size_t   size0       : 2; /**< The size of the reg0 operation - could be 8, 16, 32, or 64 bits */
-            uint64_t            subone1     : 1; /**< If set, subtract 1, if clear, subtract packet size */
-            uint64_t            reg1        :11; /**< The register, subtract will be done if reg1 is non-zero */
-            uint64_t            subone0     : 1; /**< If set, subtract 1, if clear, subtract packet size */
-            uint64_t            reg0        :11; /**< The register, subtract will be done if reg0 is non-zero */
-            uint64_t            le          : 1; /**< When set, interpret segment pointer and segment bytes in little endian order */
-            uint64_t            n2          : 1; /**< When set, packet data not allocated in L2 cache by PKO */
-            uint64_t            wqp         : 1; /**< If set and rsp is set, word3 contains a pointer to a work queue entry */
-            uint64_t            rsp         : 1; /**< If set, the hardware will send a response when done */
-            uint64_t            gather      : 1; /**< If set, the supplied pkt_ptr is really a pointer to a list of pkt_ptr's */
-            uint64_t            ipoffp1     : 7; /**< If ipoffp1 is non zero, (ipoffp1-1) is the number of bytes to IP header,
-                                                    and the hardware will calculate and insert the  UDP/TCP checksum */
-            uint64_t            ignore_i    : 1; /**< If set, ignore the I bit (force to zero) from all pointer structures */
-            uint64_t            dontfree    : 1; /**< If clear, the hardware will attempt to free the buffers containing the packet */
-            uint64_t            segs        : 6; /**< The total number of segs in the packet, if gather set, also gather list length */
-            uint64_t            total_bytes :16; /**< Including L2, but no trailing CRC */
-        } s;
-    } bdk_pko_command_word0_t;
-
-    /**
-     * This structure defines the address to use on a packet enqueue
-     */
-    typedef union
-    {
-        uint64_t                u64;
-        struct
-        {
-            uint64_t            mem_space       : 2;    /**< Must BDK_IO_SEG */
-            uint64_t            reserved_49_61  : 13;
-            uint64_t            is_io           : 1;    /**< Must be one */
-            uint64_t            did             : 8;    /**< The ID of the device on the non-coherent bus */
-            uint64_t            reserved_21_39  : 19;
-            uint64_t            port            : 9;    /**< The hardware likes to have the output port in addition to the output queue */
-            uint64_t            queue           : 9;    /**< The output queue to send the packet to (0-127 are legal) */
-            uint64_t            reserved_0_2    : 3;
-       } s;
-    } bdk_pko_doorbell_address_t;
-    if (bdk_unlikely(packet->segments >= 64))
-    {
-        bdk_error("PKO can't transmit packets with more than 63 segments\n");
-        return;
-    }
-
-    const trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
-    const int pko_port = tg_port->handle->pko_port;
-    /* Use a second queue if it exists, otherwise use the first queue */
-    const int queue_offset = (sizeof(tg_port->handle->cmd_queue) > sizeof(tg_port->handle->cmd_queue[0])) ? 1 : 0;
-    const int pko_queue = tg_port->handle->pko_queue + queue_offset;
-    bdk_cmd_queue_state_t *cmd_queue = &tg_port->handle->cmd_queue[queue_offset];
-
-    uint64_t count = port_tx->output_count;
-    bdk_pko_command_word0_t pko_command;
-    pko_command.u64 = 0;
-    pko_command.s.dontfree = (count != 1);
-    pko_command.s.ignore_i = 1;
-    pko_command.s.segs = packet->segments;
-    pko_command.s.total_bytes = packet->length;
-    bdk_buf_ptr_t buf = packet->packet;
-    buf.v1.i = 0;
-
-    uint64_t output_cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    uint64_t cycle;
-loop_begin:
-    cycle = bdk_clock_get_count(BDK_CLOCK_CORE) << CYCLE_SHIFT;
-    if (bdk_unlikely(cycle < output_cycle))
-        goto idle;
-
-    output_cycle += output_cycle_gap;
-    /* Only free the packet on TX if this is the last packet "i=1"
-        means the packet isn't freed */
-    pko_command.s.dontfree = (count != 1);
-
-    bdk_cmd_queue_result_t result = bdk_cmd_queue_write2(cmd_queue, 0, pko_command.u64, buf.u64);
-    if (bdk_unlikely(result != BDK_CMD_QUEUE_SUCCESS))
-        goto tx_failed;
-
-    bdk_pko_doorbell_address_t ptr;
-    ptr.u64          = 0;
-    ptr.s.mem_space  = 2;
-    ptr.s.did        = 0x52;
-    ptr.s.is_io      = 1;
-    ptr.s.port       = pko_port;
-    ptr.s.queue      = pko_queue;
-    BDK_WMB;  /* Need to make sure output queue data is in DRAM before doorbell write */
-    bdk_write64_uint64(ptr.u64, 2);
-    count--;
-
-check_done:
-    if (bdk_likely(count))
-    {
-        if (bdk_unlikely(!port_tx->output_enable))
-            count = 1;
-        goto loop_begin;
-    }
-    packet->packet.v1.i = pko_command.s.dontfree;
-    return;
-
-tx_failed:
-    /* Transmit failed. Remember we need to free the packet */
-    pko_command.s.dontfree = 1;
-idle:
-    bdk_thread_yield();
-    goto check_done;
 }
 
 
@@ -727,7 +523,6 @@ idle:
  */
 static void packet_transmitter(int unused, tg_port_t *tg_port)
 {
-    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
     trafficgen_port_setup_t *port_tx = &tg_port->pinfo.setup;
     bdk_if_packet_t packet;
 
@@ -745,10 +540,7 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
     }
 
     /* Signal that this packet should not be freed */
-    if (use_v3_packet)
-        packet.packet.v3.i = 1;
-    else
-        packet.packet.v1.i = 1;
+    packet.free_after_send = 0;
 
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
@@ -758,15 +550,9 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         packet_rate = 1;
     uint64_t output_cycle_gap = (bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) << CYCLE_SHIFT) / packet_rate;
 
-    /* Use an optimized TX routine for PKO ports. Don't do so in the simulator
-        as we need software stats that aren't updated in the optimized PKO */
-    if ((tg_port->handle->pko_port != -1) && !bdk_is_simulation() && !CAVIUM_IS_MODEL(CAVIUM_CN78XX))
-        packet_transmitter_pko(tg_port, &packet, output_cycle_gap);
-    else
-        packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
+    packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
 
-    if ((use_v3_packet && packet.packet.v3.i) ||
-        (!use_v3_packet && packet.packet.v1.i))
+    if (!packet.free_after_send)
     {
         /* Packet has not been freed on TX, so free it now. This should only
            happen in the error case.  Normal ending of transmission has the
@@ -798,11 +584,9 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
  */
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix)
 {
-    const int use_v3_packet = CAVIUM_IS_MODEL(CAVIUM_CN78XX);
-    const int FPA_SIZE = bdk_fpa_get_block_size(packet->if_handle->node, BDK_FPA_PACKET_POOL);
     uint32_t crc = 0xffffffff;
-    bdk_buf_ptr_t buffer_next = packet->packet;
-    void *buffer_ptr = bdk_phys_to_ptr(use_v3_packet ? buffer_next.v3.addr : buffer_next.v1.addr);
+    bdk_packet_ptr_t *buffer_next = packet->packet;
+    void *buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
 
     /* Get a pointer to the beginning of the packet */
     void *ptr = buffer_ptr;
@@ -810,13 +594,6 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
 
     /* Skip the L2 header in the CRC calculation */
     int skip = get_size_l2(tg_port);
-    if (bdk_if_get_type(packet->if_handle) == BDK_IF_HIGIG)
-    {
-        if (tg_port->pinfo.setup.higig_mode == 2)
-            skip += sizeof(tg_port->pinfo.setup.higig2);
-        else
-            skip += sizeof(tg_port->pinfo.setup.higig);
-    }
     ptr += skip;
     remaining_bytes -= skip;
 
@@ -856,12 +633,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     while (remaining_bytes > 0)
     {
         /* Figure out the maximum bytes this buffer could hold for us */
-        void *start_of_buffer;
-        if (use_v3_packet)
-            start_of_buffer = bdk_phys_to_ptr(buffer_next.v3.addr >> 7 << 7);
-        else
-            start_of_buffer = bdk_phys_to_ptr(((buffer_next.v1.addr >> 7) - buffer_next.v1.back) << 7);
-        int buffer_bytes = FPA_SIZE - (ptr - start_of_buffer);
+        int buffer_bytes = buffer_next->s.size;
         if (bdk_likely(remaining_bytes <= buffer_bytes))
         {
             /* The rest of the crc data fits in this single buffer */
@@ -894,8 +666,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                         memcpy(ptr + remaining_bytes, &crc, buffer_bytes);
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
-                        buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
-                        buffer_ptr = bdk_phys_to_ptr(use_v3_packet ? buffer_next.v3.addr : buffer_next.v1.addr);
+                        buffer_next++;
+                        buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
                         memcpy(buffer_ptr, ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
                         return 0;
                     }
@@ -907,8 +679,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                         packet_crc1 &= ~bdk_build_mask(8*(4-buffer_bytes));
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
-                        buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
-                        buffer_ptr = bdk_phys_to_ptr(use_v3_packet ? buffer_next.v3.addr : buffer_next.v1.addr);
+                        buffer_next++;
+                        buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
                         /* Read the rest of the CRC */
                         uint32_t packet_crc2 = *(uint32_t*)buffer_ptr;
                         /* Shift off extra bytes read since some bytes are stored in part 1*/
@@ -922,8 +694,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                 else
                 {
                     /* Get a pointer to the next buffer. The CRC should be at the beginning */
-                    buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
-                    buffer_ptr = bdk_phys_to_ptr(use_v3_packet ? buffer_next.v3.addr : buffer_next.v1.addr);
+                    buffer_next++;
+                    buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
                     if (fix)
                     {
                         //printf("write crc 0x%08x\n", crc);
@@ -947,8 +719,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
             crc = bdk_crc32(ptr, buffer_bytes,  crc);
             remaining_bytes -= buffer_bytes;
             /* Get a pointer to the next buffer */
-            buffer_next = *(bdk_buf_ptr_t*)(buffer_ptr - 8);
-            buffer_ptr = bdk_phys_to_ptr(use_v3_packet ? buffer_next.v3.addr : buffer_next.v1.addr);
+            buffer_next++;
+            buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
             ptr = buffer_ptr;
         }
     }
@@ -1028,11 +800,11 @@ static int do_reset(tg_port_t *tg_port)
 {
     uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
 
-    tg_port_t *connect_to = tg_port; // FIXME
-    uint64_t src_mac = mac_addr_base + bdk_if_get_pknd(tg_port->handle);
-    uint64_t dest_mac = mac_addr_base + bdk_if_get_pknd(connect_to->handle);
-    int src_inc = bdk_if_get_pknd(tg_port->handle) << 16;
-    int dest_inc = bdk_if_get_pknd(connect_to->handle) << 16;
+    int port_offset = 0xff & (long)tg_port->handle;
+    uint64_t src_mac = mac_addr_base + port_offset;
+    uint64_t dest_mac = mac_addr_base + port_offset;
+    int src_inc = port_offset << 16;
+    int dest_inc = port_offset << 16;
     const char *name = bdk_if_name(tg_port->handle);
     int default_speed;
     if (strstr(name, "GMII")) /* SGMII, RGMII */
@@ -1159,13 +931,6 @@ static int get_config(lua_State* L)
     pushfield(do_checksum,          boolean);
     pushfield(display_packet,       boolean);
     pushfield(validate,             boolean);
-    pushfield(higig.dw0.u32,        number);
-    pushfield(higig.dw1.u32,        number);
-    pushfield(higig.dw2.u32,        number);
-    pushfield(higig2.dw0.u32,       number);
-    pushfield(higig2.dw1.u32,       number);
-    pushfield(higig2.dw2.u32,       number);
-    pushfield(higig2.dw3.u32,       number);
     return 1;
 }
 
@@ -1207,13 +972,6 @@ static int set_config(lua_State* L)
     getfield(do_checksum,          boolean);
     getfield(display_packet,       boolean);
     getfield(validate,             boolean);
-    getfield(higig.dw0.u32,        number);
-    getfield(higig.dw1.u32,        number);
-    getfield(higig.dw2.u32,        number);
-    getfield(higig2.dw0.u32,       number);
-    getfield(higig2.dw1.u32,       number);
-    getfield(higig2.dw2.u32,       number);
-    getfield(higig2.dw3.u32,       number);
     BDK_WMB;
     return 0;
 }
@@ -1420,8 +1178,6 @@ static int is_transmitting(lua_State* L)
     return 1;
 }
 
-#endif
-
 /**
  * Initialize the trafficgen module
  *
@@ -1431,7 +1187,6 @@ static int is_transmitting(lua_State* L)
  */
 void register_trafficgen(lua_State *L)
 {
-#if 0
     lua_newtable(L);
     lua_pushcfunction(L, get_port_names);
     lua_setfield(L, -2, "get_port_names");
@@ -1454,6 +1209,5 @@ void register_trafficgen(lua_State *L)
     lua_pushcfunction(L, is_transmitting);
     lua_setfield(L, -2, "is_transmitting");
     lua_setfield(L, -2, "trafficgen");
-#endif
 }
 

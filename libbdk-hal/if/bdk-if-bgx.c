@@ -1,7 +1,5 @@
 #include <bdk.h>
 
-#if 0
-
 /* This file implements interfaces connected to the BGX block introduced
     for CN78XX. This block combines SGMII, XAUI, DXAUI, RXAUI, XFI, XLAUI,
     10GBASE-KR, and 40GBASE-KR all into one interface */
@@ -64,7 +62,6 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
             priv.s.mode = BGX_MODE_SGMII;
             break;
         case BDK_QLM_MODE_XAUI_1X4:
-            priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
             priv.s.num_port = 1;
             priv.s.mode = BGX_MODE_XAUI;
             if (gbaud_mhz == 3125)
@@ -73,7 +70,6 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
                 priv.s.mode = BGX_MODE_DXAUI;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
-            priv.s.higig = bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + interface);
             priv.s.num_port = 2;
             priv.s.mode = BGX_MODE_RXAUI;
             break;
@@ -109,7 +105,7 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
 
 static int if_num_interfaces(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 6;
     else
         return 0;
@@ -197,12 +193,7 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
         c.s.msk_and |= ((1ull <<priv.s.num_channels) - 1ull) << (handle->index * 16));
 
     /* Disable all MAC filtering */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_ADR_CTL(handle->interface, handle->index),
-        c.s.cam_accept = 0;
-        c.s.mcst_mode = 0x1; /* Accept multicasts */
-        c.s.bcst_accept = 0x1); /* Accept broadcasts */
-    for (int i = 0; i < 32; i++)
-        BDK_CSR_WRITE(handle->node, BDK_BGXX_CMR_RX_ADRX_CAM(handle->interface, i), 0);
+    // FIXME: MAC filtering
     return 0;
 }
 
@@ -270,8 +261,6 @@ static int if_probe(bdk_if_handle_t handle)
         snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
     handle->name[sizeof(handle->name)-1] = 0;
 
-    /* Use IPD ports 0x800 - 0x830, 0x900 - 0x930, ... */
-    handle->ipd_port = 0x800 + handle->interface*0x100 + priv.s.port*0x10 + priv.s.channel;
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
     return 0;
 }
@@ -349,7 +338,7 @@ static int sgmii_link(bdk_if_handle_t handle)
         /* SGMII */
         pcs_linkx_timer.s.count = (1600ull * clock_mhz) >> 10;
     }
-    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_LINKX_TIMER(bgx_block, bgx_index), pcs_linkx_timer.u64);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_LINKX_TIMER(bgx_block, bgx_index), pcs_linkx_timer.u);
 
     /* Write the advertisement register to be used as the
         tx_Config_Reg<D15:D0> of the autonegotiation.
@@ -373,7 +362,7 @@ static int sgmii_link(bdk_if_handle_t handle)
         {
             bdk_dprintf("%s: Forcing PHY mode as PHY address is not set\n", handle->name);
             pcs_miscx_ctl.s.mac_phy = 1;
-            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcs_miscx_ctl.u64);
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcs_miscx_ctl.u);
         }
 
         if (pcs_miscx_ctl.s.mac_phy)
@@ -469,10 +458,10 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
     }
 
     /* Write the new misc control for PCS */
-    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcsx_miscx_ctl_reg.u64);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcsx_miscx_ctl_reg.u);
 
     /* Write the new GMX settings with the port still disabled */
-    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), prtx_cfg.u64);
+    BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), prtx_cfg.u);
 
     /* Restore the enabled / disabled state */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
@@ -941,7 +930,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
             if (bdk_unlikely(gmp_pcs_mrx_status.s.lnk_st == 0))
             {
                 /* Read a second time as the lnk_st bit is sticky */
-                gmp_pcs_mrx_status.u64 = BDK_CSR_READ(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index));
+                gmp_pcs_mrx_status.u = BDK_CSR_READ(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index));
                 if (bdk_unlikely(gmp_pcs_mrx_status.s.lnk_st == 0))
                 {
                     if (sgmii_link(handle) != 0)
@@ -1094,7 +1083,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     #define REREAD(v, csr)                              \
         while (v.u == bdk_build_mask(64))               \
             v.u = BDK_CSR_READ(handle->node, csr)
-
+#if 0 // bgx stats
     /* Read the RX statistics from PKI. These already include the ethernet FCS */
     /* PKI counters randomly give bogus values, so reread if the result isn't valid */
     BDK_CSR_INIT(rx_packets, handle->node, BDK_PKI_STATX_STAT0(handle->pknd));
@@ -1131,7 +1120,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.s.count, handle->stats.tx.octets, 48);
     handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.s.count, handle->stats.tx.packets, 40);
     handle->stats.tx.octets += handle->stats.tx.packets * 4;
-
+#endif
     return &handle->stats;
 }
 
@@ -1148,4 +1137,3 @@ const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .if_get_stats = if_get_stats,
 };
 
-#endif

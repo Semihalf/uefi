@@ -47,7 +47,7 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     /* The number of packet buffers is filled in dynamically in __bdk_config_init() */
     AS_INIT(BDK_CONFIG_NUM_PACKET_BUFFERS, 0),
-    AS_INIT(BDK_CONFIG_NUM_OUTPUT_BUFFERS, 0),
+    AS_INIT(BDK_CONFIG_PACKET_BUFFER_SIZE, 0),
 
     /* Controls if link status messages are displayed. Turning this off
         can be useful to help scripting as the messages are aynchronous */
@@ -125,8 +125,7 @@ void __bdk_config_init(void)
     bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
 
     /* Set the number of packet buffers */
-    int num_packet_buffers = 768;
-    int num_output_buffers = 256;
+    int num_packet_buffers = 256;
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
-    bdk_config_set(BDK_CONFIG_NUM_OUTPUT_BUFFERS, num_output_buffers);
+    bdk_config_set(BDK_CONFIG_PACKET_BUFFER_SIZE, 1024);
 }

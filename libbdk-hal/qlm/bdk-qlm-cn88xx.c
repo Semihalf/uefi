@@ -1,8 +1,6 @@
 #include <bdk.h>
 #include <stdio.h>
 
-#if 0
-
 static const int REF_100MHZ = 100000000;
 static const int REF_125MHZ = 125000000;
 static const int REF_156MHZ = 156250000;
@@ -24,7 +22,6 @@ static const int REF_156MHZ = 156250000;
 static uint64_t prbs_errors[14][4];
 
 static void qlm_init_one(bdk_node_t node, int qlm);
-static void qlm_pcie_errata(int node, int qlm);
 
 /**
  * Return the number of QLMs supported for the chip
@@ -49,24 +46,9 @@ static int qlm_get_num(bdk_node_t node)
  */
 static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
+    return -1;
     switch (iftype)
     {
-        case BDK_IF_ILK:
-            if (interface < 2)
-            {
-                for (int qlm = 4; qlm < 8; qlm++)
-                {
-                    /* Make sure the QLM is powered up and out of reset */
-                    BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
-                    if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
-                        continue;
-                    /* Make sure the QLM is in ILK mode */
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
-                    if (gserx_cfg.s.ila)
-                        return qlm;
-                }
-            }
-            return -1;
         case BDK_IF_BGX:
         {
             int qlm;
@@ -92,7 +74,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
             else
                 return -1;
         }
-        case BDK_IF_DPI: /* PCIe */
+        case BDK_IF_PCIE: /* PCIe */
         {
             switch (interface)
             {
@@ -145,7 +127,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                     return -1;
             }
         }
-        default: /* Not supported by CN78XX */
+        default: /* Not supported by CN88XX */
             return -1;
     }
 }
@@ -175,6 +157,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
+        return BDK_QLM_MODE_DISABLED;
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
         if (gserx_cfg.s.pcie)
         {
@@ -563,8 +546,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
                             //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
-                            c.s.pem3qlm = 0); /* PEM3 is on QLM3 */
                         /* x8 mode waits for QLM3 setup before turning on the PEM */
                         if (mode == BDK_QLM_MODE_PCIE_1X4)
                             BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
@@ -590,8 +571,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.lanes8 = 0;
                             //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
-                            c.s.pem3qlm = 1); /* PEM3 is on QLM4 */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                             c.s.pemon = 1);
                     }
@@ -722,10 +701,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
         return -1;
     }
-
-    /* Perform PCIe errata workaround */
-    if (is_pcie)
-        qlm_pcie_errata(node, qlm);
 
     /* PCIe mode doesn't become ready until the PEM block attempts to bring
        the interface up. Skip this check for PCIe */
@@ -1138,15 +1113,12 @@ static void qlm_inject_prbs_error(bdk_node_t node, int qlm, int lane)
  */
 static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 {
-    bdk_error("CN78XX doesn't support shallow QLM loopback\n");
+    bdk_error("CN88XX doesn't support shallow QLM loopback\n");
     return -1;
 }
 
 static void qlm_init_one(bdk_node_t node, int qlm)
 {
-    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
-    if (!gserx_cfg.s.pcie)
-        qlm_init_errata_20844(node, qlm);
     /* The QLM PLLs are controlled by an array of parameters indexed
        by the QLM mode for each QLM. We need to fill in these tables.
        Also each lane has some mode parameters, again in a array index
@@ -1462,7 +1434,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
-    /* Apply erratas to all QLMs that are out of reset */
+    /* Apply settings to all QLMs that are out of reset */
     for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
     {
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
@@ -1485,7 +1457,7 @@ static void qlm_init(bdk_node_t node)
 
 
 /* Each chip has its own QLM operation table */
-const bdk_qlm_ops_t bdk_qlm_ops_cn78xx = {
+const bdk_qlm_ops_t bdk_qlm_ops_cn88xx = {
     .chip_model = CAVIUM_CN88XX,
     .init = qlm_init,
     .get_num = qlm_get_num,
@@ -1502,4 +1474,3 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn78xx = {
     .enable_loop = qlm_enable_loop,
 };
 
-#endif

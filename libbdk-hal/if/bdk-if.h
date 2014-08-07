@@ -10,8 +10,6 @@
  * @{
  */
 
-/* CVMSEG location to use for async work */
-#define BDK_IF_SCR_WORK 0
 #define BDK_IF_MAX_GATHER 16 /* CN88XX RX support 1 + 15 */
 
 #define BDK_IF_PHY_FIXED_1GB 0x1000
@@ -23,6 +21,8 @@
 typedef enum
 {
     BDK_IF_BGX,
+    BDK_IF_PCIE,
+    BDK_IF_FAKE,
     __BDK_IF_LAST
 } bdk_if_t;
 
@@ -66,14 +66,8 @@ typedef struct __bdk_if_port
     bdk_node_t  node        : 8;
     int         interface   : 8;
     int         index       : 8;    /* ILK can have 256 channels on CN78XX */
-    int         pknd        : 8;    /* 0-63 on CN78XX, same as ipd_port on others */
-    int         ipd_port    : 16;   /* Sparse 0-4095 */
-    int         pko_port    : 8;    /* CN78XX uses this as PKO port queue (L1) */
-    int         pko_queue   : 16;   /* CN78XX has 1024, CN6XXX has 256 */
-    int         aura        : 16;   /* CN78XX has 1024, CN6XXX doesn't use */
     bdk_if_flags_t flags    : 8;
-    uint64_t    pko_depth_addr;     /* Physical address of pko_depth, Converting CKSEG0 addresses is slow, so we cache it here */
-    int64_t     pko_depth;          /* Tracks the PKO DQ depth on 78, decremented by hardware. This is a workaround for slow PKO performance */
+    int         pknd        : 8;
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     void *      priv;
@@ -100,8 +94,8 @@ typedef struct
 {
     bdk_if_handle_t if_handle;
     int             length;
-    int             aura;
     int             segments;
+    int             free_after_send;
     int             rx_error;
     bdk_packet_ptr_t packet[BDK_IF_MAX_GATHER];
 } bdk_if_packet_t;
@@ -135,20 +129,9 @@ typedef struct
 
 typedef struct
 {
-    int (*pki_global_init)(bdk_node_t node);
-    int (*pki_port_init)(bdk_if_handle_t handle);
-    int (*pki_enable)(bdk_node_t node);
-    int (*pko_global_init)(bdk_node_t node);
-    int (*pko_port_init)(bdk_if_handle_t handle);
-    int (*pko_enable)(bdk_node_t node);
-    int (*pko_get_queue_depth)(bdk_if_handle_t handle); /* Get the current TX queue depth */
-    int (*sso_init)(bdk_node_t node);
-    int (*sso_wqe_to_packet)(const void *wqe, bdk_if_packet_t *packet);
-    int (*pko_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet);
-    int (*packet_alloc)(bdk_if_packet_t *packet, int length);
-    void (*packet_free)(bdk_if_packet_t *packet);
-    void (*packet_read)(bdk_if_packet_t *packet, int location, int length, void *data);
-    void (*packet_write)(bdk_if_packet_t *packet, int location, int length, const void *data);
+    int (*init)(void);
+    uint64_t (*alloc)(int length);
+    void (*free)(uint64_t address, int length);
 } __bdk_if_global_ops_t;
 
 extern int bdk_if_is_configured(void);
@@ -172,11 +155,10 @@ extern int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet);
 extern void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_t receiver, void *arg);
 extern int bdk_if_alloc(bdk_if_packet_t *packet, int length);
 extern void bdk_if_free(bdk_if_packet_t *packet);
-extern void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data);
+extern void bdk_if_packet_read(const bdk_if_packet_t *packet, int location, int length, void *data);
 extern void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data);
+extern int bdk_if_copy(bdk_if_packet_t *packet, const bdk_if_packet_t *old_packet);
 
-extern int __bdk_if_get_gmx_block(bdk_if_handle_t handle);
-extern int __bdk_if_get_gmx_index(bdk_if_handle_t handle);
 extern uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size);
 
 /**
@@ -190,20 +172,6 @@ extern uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_v
 static inline bdk_if_t bdk_if_get_type(bdk_if_handle_t handle)
 {
     return handle->iftype;
-}
-
-/**
- * Get the IPD index for the tagging information of this port.
- * Use this function instead of accessing the handle directly.
- * The handle is considered private and may change.
- *
- * @param handle Handle of port to get info for
- *
- * @return IPD index for tagging information
- */
-static inline int bdk_if_get_pknd(bdk_if_handle_t handle)
-{
-    return handle->pknd;
 }
 
 /** @} */

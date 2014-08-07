@@ -32,7 +32,8 @@ local ALIASES = {
 
 local TrafficGen = {}
 function TrafficGen.new()
-    cavium.c.bdk_init_nodes();
+    --cavium.c.bdk_init_nodes(); FIXME
+    cavium.c.bdk_init_cores(0, 0xf)
     local self = {}
     --
     -- Private variables
@@ -458,15 +459,10 @@ function TrafficGen.new()
         --  args[2] = min packet size, defaults to 60
         --  args[3] = max packet size, default is calculated
         --  args[4] = increment, defaults to 1
-        -- Get the size of one FPA buffer
-        local fpa_size = cavium.c.bdk_config_get(cavium.BDK_CONFIG_FPA_POOL_SIZE0)
-        -- PKO can only handle a maximum of 63 segments. Each segment has
-        -- 8 bytes to link to the next one
-        local max_packet = 63 * (fpa_size - 8)
-        -- IPD can't handle packets larger than 65524
-        if max_packet > 65524 then
-            max_packet = 65524
-        end
+        -- Get the size of one buffer
+        local buf_size = cavium.c.bdk_config_get(cavium.CONFIG_PACKET_BUFFER_SIZE)
+        -- we can only handle a maximum of 16 segments
+        local max_packet = 16 * buf_size
         -- Get our setup params
         local output_count = args[1] or 100
         local size_start = args[2] or 60
@@ -480,11 +476,6 @@ function TrafficGen.new()
         local expected_rx_errors = 0
         local expected_validation_errors = 0
         for _,port in ipairs(port_range) do
-            if port:find("HIGIG") then
-                -- Higig has an extra 12 byte header, Higig2 has 16
-                -- Reduce max size to allow space for max size header
-                size_stop = max_packet - 16
-            end
             expected_packets = expected_packets + all_stats[port].rx_packets_total
             expected_octets = expected_octets + all_stats[port].rx_octets_total
             expected_rx_errors = expected_rx_errors + all_stats[port].rx_errors
@@ -504,7 +495,7 @@ function TrafficGen.new()
             for _,port in ipairs(port_range) do
                 cavium.trafficgen.set_config(port, new_config)
                 expected_packets = expected_packets + output_count
-                if port:find("LOOP") or port:find("ILK") then
+                if port:find("LOOP") or port:find("FAKE") or port:find("ILK") then
                     -- Loop doesn't have the 4 bytes of ethernet CRC
                     expected_octets = expected_octets + output_count * size
                 else

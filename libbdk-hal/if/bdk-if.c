@@ -2,12 +2,16 @@
 #include <stdio.h>
 #include <malloc.h>
 
-#if 0
+extern __bdk_if_global_ops_t __bdk_if_global_ops_cn88xx;
 
 extern const __bdk_if_ops_t __bdk_if_ops_bgx;
+extern const __bdk_if_ops_t __bdk_if_ops_pcie;
+extern const __bdk_if_ops_t __bdk_if_ops_fake;
 
 static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
     [BDK_IF_BGX] = &__bdk_if_ops_bgx,
+    [BDK_IF_PCIE] = &__bdk_if_ops_pcie,
+    [BDK_IF_FAKE] = &__bdk_if_ops_fake,
 };
 
 static __bdk_if_port_t *__bdk_if_head;
@@ -15,33 +19,6 @@ static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
 static __bdk_if_global_ops_t __bdk_if_global_ops;
 extern bdk_spinlock_t __bdk_pko_reg_lock;
-
-static inline void sso_get_work_async(int scr_addr, int wait)
-{
-    union
-    {
-        uint64_t u64;
-        struct
-        {
-            uint64_t    scraddr : 8;    /**< the (64-bit word) location in scratchpad to write to (if len != 0) */
-            uint64_t    len     : 8;    /**< the number of words in the response (0 => no response) */
-            uint64_t    did     : 8;    /**< the ID of the device on the non-coherent bus */
-            uint64_t    node    : 4;    /**< Node to get work from */
-            uint64_t    unused  :32;
-            uint64_t    wait    : 1;    /**< if set, don't return load response until work is available */
-            uint64_t    unused2 : 3;
-        } s;
-    } data;
-
-    /* scr_addr must be 8 byte aligned */
-    data.u64 = 0;
-    data.s.scraddr = scr_addr >> 3;
-    data.s.len = 1;
-    data.s.did = 0x60;
-    data.s.node = bdk_numa_local();
-    data.s.wait = wait;
-    bdk_send_single(data.u64);
-}
 
 /**
  * Initialize a port for use. All memory is allocated dynmically
@@ -69,10 +46,6 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     handle->interface = interface;
     handle->index = index;
     handle->next = NULL;
-    handle->pknd = -1;
-    handle->ipd_port = -1;
-    handle->pko_port = -1;
-    handle->pko_queue = -1;
     handle->flags = 0;
     snprintf(handle->name, sizeof(handle->name), "P%d.%d", interface, index);
     handle->name[sizeof(handle->name)-1] = 0;
@@ -81,20 +54,6 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     {
         bdk_error("if_probe indirect call failed\n");
         goto fail;
-    }
-
-    if (handle->ipd_port != -1)
-    {
-        if (__bdk_if_global_ops.pki_port_init(handle))
-        {
-            bdk_error("pki_port_init() failed\n");
-            goto fail;
-        }
-        if (__bdk_if_global_ops.pko_port_init(handle))
-        {
-            bdk_error("pko_port_init() failed\n");
-            goto fail;
-        }
     }
 
     if (__bdk_if_ops[iftype]->if_init(handle))
@@ -134,37 +93,7 @@ fail:
  */
 static int __bdk_if_init_node(bdk_node_t node)
 {
-    extern __bdk_if_global_ops_t __bdk_if_global_ops_cn6xxx;
-    extern __bdk_if_global_ops_t __bdk_if_global_ops_cn78xx;
     int result = 0;
-
-    if (CAVIUM_IS_MODEL(OCTEON_CN78XX))
-        __bdk_if_global_ops = __bdk_if_global_ops_cn78xx;
-    else
-        __bdk_if_global_ops = __bdk_if_global_ops_cn6xxx;
-
-
-    /* Setup the FPA packet buffers */
-    if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL,
-        bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS)))
-        return -1;
-
-    /* Setup the SSO */
-    result = __bdk_if_global_ops.sso_init(node);
-    if (result)
-        return result;
-
-    /* Setup the common global packet input. Per port stuff will be
-        done later */
-    result = __bdk_if_global_ops.pki_global_init(node);
-    if (result)
-        return result;
-
-    /* Setup the common global packet output. Per port stuff will be
-        done later */
-    result = __bdk_if_global_ops.pko_global_init(node);
-    if (result)
-        return result;
 
     /* Loop through all types */
     for (bdk_if_t iftype=BDK_IF_BGX; iftype<__BDK_IF_LAST; iftype++)
@@ -183,14 +112,7 @@ static int __bdk_if_init_node(bdk_node_t node)
             }
         }
     }
-
-    /* Enable PKO now that all setup is complete */
-    result = __bdk_if_global_ops.pko_enable(node);
-    if (result)
-        return result;
-
-    /* Enable PKI now that all setup is complete */
-    return __bdk_if_global_ops.pki_enable(node);
+    return result;
 }
 
 /**
@@ -203,6 +125,18 @@ static int __bdk_if_init_node(bdk_node_t node)
 static int __bdk_if_init(void)
 {
     int result = 0;
+
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        __bdk_if_global_ops = __bdk_if_global_ops_cn88xx;
+    else
+        bdk_fatal("bdk-if: Unsupported chip\n");
+
+    if (__bdk_if_global_ops.init())
+    {
+        bdk_error("bdk-if: Per chip global init failed\n");
+        return -1;
+    }
+
     for (int node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
         if ((1<<node) & bdk_numa_get_running_mask())
@@ -346,10 +280,7 @@ int bdk_if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
  */
 int bdk_if_get_queue_depth(bdk_if_handle_t handle)
 {
-    if (bdk_unlikely(handle->pko_port == -1))
-        return __bdk_if_ops[handle->iftype]->if_get_queue_depth(handle);
-    else
-        return __bdk_if_global_ops.pko_get_queue_depth(handle);
+    return __bdk_if_ops[handle->iftype]->if_get_queue_depth(handle);
 }
 
 /**
@@ -387,7 +318,7 @@ bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle)
  */
 bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
 {
-    static BDK_RLOCK_DEFINE(link_lock);
+    static bdk_rlock_t link_lock = { 0, 0 };
 
     bdk_rlock_lock(&link_lock);
     bdk_if_link_t link_info = __bdk_if_ops[handle->iftype]->if_link_get(handle);
@@ -397,7 +328,7 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
         handle->link_info = link_info;
         if (__bdk_if_ops[handle->iftype]->if_link_set)
             __bdk_if_ops[handle->iftype]->if_link_set(handle, handle->link_info);
-        if (bdk_config_get(BDK_CONFIG_SHOW_LINK_STATUS) && (handle->iftype != BDK_IF_LOOP))
+        if (bdk_config_get(BDK_CONFIG_SHOW_LINK_STATUS))
         {
             printf("%s: Link %s", bdk_if_name(handle), (link_info.s.up) ? "up" : "down");
             if (link_info.s.up)
@@ -444,77 +375,6 @@ uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, i
 
 
 /**
- * Get the interface RX and TX counters.
- *
- * @param handle Handle of port
- *
- * @return Statistics
- */
-const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
-{
-    if (__bdk_if_ops[handle->iftype]->if_get_stats)
-        return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
-
-    if (bdk_unlikely(bdk_is_simulation()))
-        return &handle->stats;
-
-    int bytes_off_tx;
-    int bytes_off_rx;
-
-    switch (handle->iftype)
-    {
-        case BDK_IF_HIGIG:
-            /* Subtract Higig header */
-            bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
-            int header_size = (bdk_config_get(BDK_CONFIG_HIGIG_MODE_IF0 + handle->interface) == 2) ? sizeof(bdk_higig2_header_t) : sizeof(bdk_higig_header_t);
-            bytes_off_tx += -header_size;
-            bytes_off_rx = -header_size;
-            break;
-        default:
-            /* Account for TX lack of FCS for most ports */
-            bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
-            bytes_off_rx = 0;
-            break;
-    }
-
-    bdk_pip_stat0_prtx_t stat0;
-    bdk_pip_stat1_prtx_t stat1;
-    bdk_pip_stat2_prtx_t stat2;
-
-    stat0.u64 = BDK_CSR_READ(handle->node, BDK_PIP_STAT0_PRTX(handle->pknd));
-    stat1.u64 = BDK_CSR_READ(handle->node, BDK_PIP_STAT1_PRTX(handle->pknd));
-    stat2.u64 = BDK_CSR_READ(handle->node, BDK_PIP_STAT2_PRTX(handle->pknd));
-    BDK_CSR_INIT(pip_stat_inb_errsx, handle->node, BDK_PIP_STAT_INB_ERRSX(handle->pknd));
-
-    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * bytes_off_rx;
-    handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(stat0.s.drp_octs, handle->stats.rx.dropped_octets, 32);
-    handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(stat0.s.drp_pkts, handle->stats.rx.dropped_packets, 32);
-    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * bytes_off_rx;
-
-    handle->stats.rx.octets -= handle->stats.rx.packets * bytes_off_rx;
-    handle->stats.rx.octets = bdk_update_stat_with_overflow(stat1.s.octs, handle->stats.rx.octets, 48);
-    handle->stats.rx.packets = bdk_update_stat_with_overflow(stat2.s.pkts, handle->stats.rx.packets, 32);
-    handle->stats.rx.errors = bdk_update_stat_with_overflow(pip_stat_inb_errsx.s.errs, handle->stats.rx.errors, 16);
-    handle->stats.rx.octets += handle->stats.rx.packets * bytes_off_rx;
-
-    bdk_spinlock_lock(&__bdk_pko_reg_lock);
-    BDK_CSR_INIT(pko_reg_read_idx, handle->node, BDK_PKO_REG_READ_IDX);
-    BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, handle->pko_port);
-    BDK_CSR_INIT(pko_mem_count0, handle->node, BDK_PKO_MEM_COUNT0);
-    BDK_CSR_INIT(pko_mem_count1, handle->node, BDK_PKO_MEM_COUNT1);
-    BDK_CSR_WRITE(handle->node, BDK_PKO_REG_READ_IDX, pko_reg_read_idx.u64);
-    bdk_spinlock_unlock(&__bdk_pko_reg_lock);
-
-    handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
-    handle->stats.tx.octets = bdk_update_stat_with_overflow(pko_mem_count1.s.count, handle->stats.tx.octets, 48);
-    handle->stats.tx.packets = bdk_update_stat_with_overflow(pko_mem_count0.s.count, handle->stats.tx.packets, 32);
-    handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
-
-    return &handle->stats;
-}
-
-
-/**
  * Send a packet
  *
  * @param handle Handle of port to send on
@@ -524,10 +384,7 @@ const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle)
  */
 int bdk_if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 {
-    if (bdk_unlikely(handle->ipd_port == -1))
-        return __bdk_if_ops[handle->iftype]->if_transmit(handle, packet);
-    else
-        return __bdk_if_global_ops.pko_transmit(handle, packet);
+    return __bdk_if_ops[handle->iftype]->if_transmit(handle, packet);
 }
 
 
@@ -594,65 +451,27 @@ int bdk_if_dispatch(void)
     if (bdk_is_boot_core())
         __bdk_if_link_poll();
 
-    int count = 0;
     bdk_if_packet_t packet;
-
-    while (count < 100)
+    int count = 0;
+    int got_packet = 0;
+    do
     {
-        const void *wqe;
-        /* Get the current status of the async get work */
-        uint64_t raw_work = bdk_scratch_read64(BDK_IF_SCR_WORK);
-
-        /* Issue an async get work if the previous one completed */
-        if (raw_work)
+        got_packet = 0;
+        for (bdk_if_handle_t handle = __bdk_if_poll_head; handle != NULL; handle = handle->poll_next)
         {
-            /* Get a pointer to the work */
-            if ((raw_work>>63) == 0)
+            if (__bdk_if_ops[handle->iftype]->if_receive(handle, &packet) == 0)
             {
-                /* Valid work, prefetch it */
-                wqe = (bdk_wqe_t*)bdk_phys_to_ptr(raw_work);
-                BDK_PREFETCH(wqe, 0);
-            }
-
-            /* The get work should already be done, but this insures that it is */
-            BDK_SYNCIOBDMA;
-            /* Store zero before doing async get work so we can tell when
-                it is done */
-            bdk_scratch_write64(BDK_IF_SCR_WORK, 0);
-            sso_get_work_async(BDK_IF_SCR_WORK, !bdk_is_simulation());
-        }
-
-        /* Check devices that msut be polled if no work was available */
-        if (!raw_work || (raw_work>>63))
-        {
-            for (bdk_if_handle_t handle=__bdk_if_poll_head; handle!=NULL; handle=handle->poll_next)
-                if (__bdk_if_ops[handle->iftype]->if_receive(handle, &packet) == 0)
+                dispatch(&packet);
+                got_packet = 1;
+                count++;
+                if (bdk_unlikely(count >= 100))
                 {
-                    count++;
-                    dispatch(&packet);
+                    got_packet = 0;
+                    break;
                 }
-            return count;
+            }
         }
-
-        count++;
-
-        if (__bdk_if_global_ops.sso_wqe_to_packet(wqe, &packet))
-        {
-            bdk_if_free(&packet);
-            return count;
-        }
-
-        /* Updates the statistics in software if need to. The simulator
-            doesn't implement the hardware counters */
-        if (bdk_unlikely(bdk_is_simulation()))
-        {
-            bdk_atomic_add64_nosync((int64_t*)&packet.if_handle->stats.rx.octets, packet.length);
-            bdk_atomic_add64_nosync((int64_t*)&packet.if_handle->stats.rx.packets, 1);
-            if (packet.rx_error)
-                bdk_atomic_add64_nosync((int64_t*)&packet.if_handle->stats.rx.errors, 1);
-        }
-        dispatch(&packet);
-    }
+    } while (got_packet);
     return count;
 }
 
@@ -666,7 +485,30 @@ int bdk_if_dispatch(void)
  */
 int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
-    return __bdk_if_global_ops.packet_alloc(packet, length);
+    const int buf_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    packet->if_handle = NULL;
+    packet->free_after_send = 0;
+    packet->rx_error = 0;
+    packet->length = length;
+
+    packet->segments = 0;
+    while (length > 0)
+    {
+        int size = length;
+        if (size > buf_size)
+            size = buf_size;
+        uint64_t buf = __bdk_if_global_ops.alloc(size);
+        if (bdk_unlikely(!buf))
+        {
+            bdk_if_free(packet);
+            return -1;
+        }
+        packet->packet[packet->segments].s.size = size;
+        packet->packet[packet->segments].s.address = buf;
+        packet->segments++;
+        length -= size;
+    }
+    return 0;
 }
 
 
@@ -679,9 +521,31 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
  * @param length   Length of data to read
  * @param data     Buffer to receive the data
  */
-void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void *data)
+void bdk_if_packet_read(const bdk_if_packet_t *packet, int location, int length, void *data)
 {
-    __bdk_if_global_ops.packet_read(packet, location, length, data);
+    if (location + length > packet->length)
+        bdk_fatal("Attempt to read past the end of a packet\n");
+
+    /* Skip till we get the buffer containing the start location */
+    int segment = 0;
+    while (location >= packet->packet[segment].s.size)
+        segment++;
+
+    const uint8_t *ptr = bdk_phys_to_ptr(packet->packet[segment].s.address);
+    uint8_t *out_data = data;
+    while (length > 0)
+    {
+        *out_data = ptr[location];
+        out_data++;
+        location++;
+        length--;
+        if (length && (location >= packet->packet[segment].s.size))
+        {
+            location -= packet->packet[segment].s.size;
+            segment++;
+            ptr = bdk_phys_to_ptr(packet->packet[segment].s.address);
+        }
+    }
 }
 
 
@@ -696,7 +560,29 @@ void bdk_if_packet_read(bdk_if_packet_t *packet, int location, int length, void 
  */
 void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data)
 {
-    __bdk_if_global_ops.packet_write(packet, location, length, data);
+    if (location + length > packet->length)
+        bdk_fatal("Attempt to write past the end of a packet\n");
+
+    /* Skip till we get the buffer containing the start location */
+    int segment = 0;
+    while (location >= packet->packet[segment].s.size)
+        segment++;
+
+    uint8_t *ptr = bdk_phys_to_ptr(packet->packet[segment].s.address);
+    const uint8_t *in_data = data;
+    while (length > 0)
+    {
+        ptr[location] = *in_data;
+        in_data++;
+        location++;
+        length--;
+        if (length && (location >= packet->packet[segment].s.size))
+        {
+            location -= packet->packet[segment].s.size;
+            segment++;
+            ptr = bdk_phys_to_ptr(packet->packet[segment].s.address);
+        }
+    }
 }
 
 
@@ -708,33 +594,37 @@ void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, cons
  */
 void bdk_if_free(bdk_if_packet_t *packet)
 {
-    __bdk_if_global_ops.packet_free(packet);
+    for (int s = 0; s < packet->segments; s++)
+        __bdk_if_global_ops.free(packet->packet[s].s.address, packet->packet[s].s.size);
+    packet->segments = 0;
+    packet->length = 0;
 }
 
-
-/**
- * Get the GMX block number for ports that use GMX
- *
- * @param handle Port handle
- *
- * @return GMX block number
- */
-int __bdk_if_get_gmx_block(bdk_if_handle_t handle)
+int bdk_if_copy(bdk_if_packet_t *packet, const bdk_if_packet_t *old_packet)
 {
-    return handle->interface;
+    packet->if_handle = NULL;
+    packet->free_after_send = 0;
+    packet->rx_error = 0;
+    packet->length = old_packet->length;
+
+    packet->segments = 0;
+    for (int s = 0; s < old_packet->segments; s++)
+    {
+        uint64_t buf = __bdk_if_global_ops.alloc(old_packet->packet[s].s.size);
+        if (bdk_unlikely(!buf))
+        {
+            bdk_if_free(packet);
+            return -1;
+        }
+        packet->packet[s].s.address = buf;
+        packet->packet[s].s.size = old_packet->packet[s].s.size;
+        memcpy(bdk_phys_to_ptr(buf), bdk_phys_to_ptr(old_packet->packet[s].s.address), old_packet->packet[s].s.size);
+        packet->segments++;
+    }
+    return 0;
 }
 
-
-/**
- * Get the GMX index number for ports that use GMX
- *
- * @param handle Port handle
- *
- * @return GMX index number
- */
-int __bdk_if_get_gmx_index(bdk_if_handle_t handle)
+const bdk_if_stats_t* bdk_if_get_stats(bdk_if_handle_t handle)
 {
-    return handle->index;
+    return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 }
-
-#endif

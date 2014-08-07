@@ -9,7 +9,7 @@ BDK_REQUIRE_DEFINE(QLM);
 extern const bdk_qlm_ops_t bdk_qlm_ops_cn88xx;
 
 static const bdk_qlm_ops_t *qlm_ops_list[] = {
-    //&bdk_qlm_ops_cn88xx,
+    &bdk_qlm_ops_cn88xx,
     NULL
 };
 static const bdk_qlm_ops_t *qlm_ops;

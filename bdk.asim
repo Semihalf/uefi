@@ -43,6 +43,7 @@ rm0 pc = 0
 #bp fatal_spin
 
 # Break on BDK exceptions
+bp 0
 bp __bdk_exception_current_el_sync_sp0
 bp __bdk_exception_current_el_irq_sp0
 bp __bdk_exception_current_el_fiq_sp0
