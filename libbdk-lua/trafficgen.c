@@ -586,16 +586,17 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
 {
     uint32_t crc = 0xffffffff;
     bdk_packet_ptr_t *buffer_next = packet->packet;
-    void *buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
 
     /* Get a pointer to the beginning of the packet */
-    void *ptr = buffer_ptr;
+    int buffer_bytes = buffer_next->s.size;
+    void *ptr = bdk_phys_to_ptr(buffer_next->s.address);
     int remaining_bytes = packet->length;
 
     /* Skip the L2 header in the CRC calculation */
     int skip = get_size_l2(tg_port);
     ptr += skip;
     remaining_bytes -= skip;
+    buffer_bytes -= skip;
 
     /* Skip the ethernet FCS */
     if (!fix && (packet->if_handle->flags & BDK_IF_FLAGS_HAS_FCS))
@@ -604,36 +605,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     /* Reduce the length by 4, the length of the CRC at the end */
     remaining_bytes -= 4;
 
-#if 0    /* FIXME: Force the UDP checksum to zero for CRC calculation */
-    if (!work->word2.s.not_IP && work->word2.s.tcp_or_udp)
-    {
-        int udp_checksum_offset = 0;
-        if (work->word2.s.is_v6)
-        {
-            if (*(uint8_t*)(ptr + 6) == 0x11)
-                udp_checksum_offset = get_size_ip_header(tg_port) + 6;
-        }
-        else
-        {
-            if (*(uint8_t*)(ptr + 9) == 0x11)
-                udp_checksum_offset = get_size_ip_header(tg_port) + 6;
-        }
-
-        if (udp_checksum_offset)
-        {
-            uint16_t zero = 0;
-            crc = bdk_crc32(ptr,  udp_checksum_offset,  crc);
-            crc = bdk_crc32(&zero,  2,  crc);
-            ptr += udp_checksum_offset + 2;
-            remaining_bytes -= udp_checksum_offset + 2;
-        }
-    }
-#endif
-
     while (remaining_bytes > 0)
     {
-        /* Figure out the maximum bytes this buffer could hold for us */
-        int buffer_bytes = buffer_next->s.size;
         if (bdk_likely(remaining_bytes <= buffer_bytes))
         {
             /* The rest of the crc data fits in this single buffer */
@@ -646,12 +619,13 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                 if (fix)
                 {
                     //printf("write crc 0x%08x\n", crc);
-                    *(uint32_t*)(ptr + remaining_bytes) = crc;
+                    *(uint32_t*)(ptr + remaining_bytes) = bdk_cpu_to_be32(crc);
                     return 0;
                 }
                 else
                 {
                     uint32_t from_packet = *(uint32_t*)(ptr + remaining_bytes);
+                    from_packet = bdk_be32_to_cpu(from_packet);
                     //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
                     return (crc != from_packet);
                 }
@@ -663,12 +637,13 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                     if (fix)
                     {
                         //printf("write crc 0x%08x\n", crc);
+                        crc = bdk_cpu_to_be32(crc);
                         memcpy(ptr + remaining_bytes, &crc, buffer_bytes);
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
                         buffer_next++;
-                        buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
-                        memcpy(buffer_ptr, ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
+                        ptr = bdk_phys_to_ptr(buffer_next->s.address);
+                        memcpy(ptr, ((char*)&crc) + buffer_bytes, 4 - buffer_bytes);
                         return 0;
                     }
                     else
@@ -676,17 +651,28 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                         /* Read 4 bytes from right after the data */
                         uint32_t packet_crc1 = *(uint32_t*)(ptr + remaining_bytes);
                         /* AND off the lower bits that are actually in the next buffer */
+#if __BYTE_ORDER == __BIG_ENDIAN
                         packet_crc1 &= ~bdk_build_mask(8*(4-buffer_bytes));
+#else
+                        packet_crc1 &= bdk_build_mask(8*buffer_bytes);
+#endif
                         /* Get a pointer to the next buffer. The rest of the CRC should
                         be at the beginning */
                         buffer_next++;
-                        buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
+                        ptr = bdk_phys_to_ptr(buffer_next->s.address);
                         /* Read the rest of the CRC */
-                        uint32_t packet_crc2 = *(uint32_t*)buffer_ptr;
+                        uint32_t packet_crc2 = *(uint32_t*)ptr;
+#if __BYTE_ORDER == __BIG_ENDIAN
                         /* Shift off extra bytes read since some bytes are stored in part 1*/
                         packet_crc2 >>= 32 - 8*(4-buffer_bytes);
+#else
+                        /* AND off extra bytes read since some bytes are stored in part 1*/
+                        packet_crc2 &= bdk_build_mask(8*(4-buffer_bytes));
+                        packet_crc2 <<= 8 * buffer_bytes;
+#endif
                         /* Compare the final CRC with both parts put together */
                         uint32_t from_packet = packet_crc1|packet_crc2;
+                        from_packet = bdk_be32_to_cpu(from_packet);
                         //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
                         return (crc != from_packet);
                     }
@@ -695,18 +681,19 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
                 {
                     /* Get a pointer to the next buffer. The CRC should be at the beginning */
                     buffer_next++;
-                    buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
+                    ptr = bdk_phys_to_ptr(buffer_next->s.address);
                     if (fix)
                     {
                         //printf("write crc 0x%08x\n", crc);
                         /* Write the CRC */
-                        *(uint32_t*)buffer_ptr = crc;
+                        *(uint32_t*)ptr = bdk_cpu_to_be32(crc);
                         return 0;
                     }
                     else
                     {
                         /* Read the CRC */
-                        uint32_t from_packet = *(uint32_t*)buffer_ptr;
+                        uint32_t from_packet = *(uint32_t*)ptr;
+                        from_packet = bdk_be32_to_cpu(from_packet);
                         //printf("crc 0x%08x, correct 0x%08x\n", from_packet, crc);
                         return (crc != from_packet);
                     }
@@ -720,8 +707,8 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
             remaining_bytes -= buffer_bytes;
             /* Get a pointer to the next buffer */
             buffer_next++;
-            buffer_ptr = bdk_phys_to_ptr(buffer_next->s.address);
-            ptr = buffer_ptr;
+            ptr = bdk_phys_to_ptr(buffer_next->s.address);
+            buffer_bytes = buffer_next->s.size;
         }
     }
     return 0;
