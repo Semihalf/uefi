@@ -529,7 +529,10 @@ void bdk_if_packet_read(const bdk_if_packet_t *packet, int location, int length,
     /* Skip till we get the buffer containing the start location */
     int segment = 0;
     while (location >= packet->packet[segment].s.size)
+    {
+        location -= packet->packet[segment].s.size;
         segment++;
+    }
 
     const uint8_t *ptr = bdk_phys_to_ptr(packet->packet[segment].s.address);
     uint8_t *out_data = data;
@@ -566,7 +569,10 @@ void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, cons
     /* Skip till we get the buffer containing the start location */
     int segment = 0;
     while (location >= packet->packet[segment].s.size)
+    {
+        location -= packet->packet[segment].s.size;
         segment++;
+    }
 
     uint8_t *ptr = bdk_phys_to_ptr(packet->packet[segment].s.address);
     const uint8_t *in_data = data;
