@@ -2,7 +2,7 @@
     .global _start
     .global __bdk_start
     .global __bdk_remote_console
-    .global __bdk_exception_base
+    .global __bdk_initial_stack
 
     .section .init
 _start:
@@ -74,6 +74,13 @@ after_relocate:
     adr     x0, __bdk_start
     msr     SP_EL0, x0
     msr     SPSel, 0
+    /* Lock the stack in case other cores boot */
+    adr     x0, __bdk_initial_stack
+    mov     x2, 1
+1:  ldxr    x1, [x0]
+    cbnz    x1, 1b
+    stxr    w1, x2, [x0]
+    cbnz    w1, 1b
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */

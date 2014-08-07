@@ -25,6 +25,10 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_main(int arg, void *arg1)
 {
+    /* Unlock the glbal stack now that we aren't using it anymore */
+    extern volatile uint64_t __bdk_initial_stack;
+    __bdk_initial_stack = 0;
+
     bdk_node_t node = bdk_numa_local();
     /* All cores start running threads here. Only the setup required to get
         threading up is done. More init is needed. This code will be locked to
