@@ -12,108 +12,54 @@ local node = cavium.MASTER_NODE
 -- modifications.
 local qlm_modes = {}
 qlm_modes[0] = {
-    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x4 - GEN 1 Endpoint", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 2 Endpoint", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 3 Endpoint", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x8 - GEN 1 Endpoint", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x8 - GEN 2 Endpoint", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x8 - GEN 3 Endpoint", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT},
     {"SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
     {"XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
     {"DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
-    {"RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
     {"XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_4X1, 10312, 0},
     {"XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
     {"10G-KR  @ 10 Gbps", cavium.QLM_MODE_10G_KR_4X1, 10312, 0},
     {"40G-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
-qlm_modes[1] = {
-    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x4 - GEN 1 Endpoint", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 2 Endpoint", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 3 Endpoint", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
-    {"XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
-    {"DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
-    {"RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_4X1, 10312, 0},
-    {"XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
-    {"10G-KR  @ 10 Gbps", cavium.QLM_MODE_10G_KR_4X1, 10312, 0},
-    {"40G-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
-    {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
-}
+qlm_modes[1] = qlm_modes[0]
 qlm_modes[2] = {
     {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
     {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
     {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x4 - GEN 1 Endpoint", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 2 Endpoint", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 3 Endpoint", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT},
     {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1},
     {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2},
     {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x8 - GEN 1 Endpoint", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x8 - GEN 2 Endpoint", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x8 - GEN 3 Endpoint", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"ILK  x4 @  3.125  GBaud", cavium.QLM_MODE_ILK, 3125, 0},
-    {"ILK  x4 @  6.250  GBaud", cavium.QLM_MODE_ILK, 6250, 0},
-    {"ILK  x4 @ 10.3125 GBaud", cavium.QLM_MODE_ILK, 10312, 0},
-    {"SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
-    {"XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
-    {"DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
-    {"RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_4X1, 10312, 0},
-    {"XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
-    {"10G-KR  @ 10 Gbps", cavium.QLM_MODE_10G_KR_4X1, 10312, 0},
-    {"40G-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
+    {"SATA    @ 1.500 Gbps", cavium.QLM_MODE_SATA_4X1, 1250, 0},
+    {"SATA    @ 3.000 Gbps", cavium.QLM_MODE_SATA_4X1, 2500, 0},
+    {"SATA    @ 6.000 Gbps", cavium.QLM_MODE_SATA_4X1, 5000, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[3] = {
     {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
     {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
     {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x4 - GEN 1 Endpoint", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 2 Endpoint", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"PCIe x4 - GEN 3 Endpoint", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT},
-    {"ILK  x4 @  3.125  GBaud", cavium.QLM_MODE_ILK, 3125, 0},
-    {"ILK  x4 @  6.250  GBaud", cavium.QLM_MODE_ILK, 6250, 0},
-    {"ILK  x4 @ 10.3125 GBaud", cavium.QLM_MODE_ILK, 10312, 0},
-    {"SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
-    {"XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
-    {"DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
-    {"RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_4X1, 10312, 0},
-    {"XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
-    {"10G-KR  @ 10 Gbps", cavium.QLM_MODE_10G_KR_4X1, 10312, 0},
-    {"40G-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
+    {"SATA    @ 1.500 Gbps", cavium.QLM_MODE_SATA_4X1, 1250, 0},
+    {"SATA    @ 3.000 Gbps", cavium.QLM_MODE_SATA_4X1, 2500, 0},
+    {"SATA    @ 6.000 Gbps", cavium.QLM_MODE_SATA_4X1, 5000, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
-qlm_modes[4] = qlm_modes[3]
+qlm_modes[4] = {
+    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
+    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
+    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
+    {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1},
+    {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2},
+    {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3},
+    {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+}
 qlm_modes[5] = {
-    {"ILK  x4 @  3.125  GBaud", cavium.QLM_MODE_ILK, 3125, 0},
-    {"ILK  x4 @  6.250  GBaud", cavium.QLM_MODE_ILK, 6250, 0},
-    {"ILK  x4 @ 10.3125 GBaud", cavium.QLM_MODE_ILK, 10312, 0},
-    {"SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
-    {"XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
-    {"DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
-    {"RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
-    {"XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_4X1, 10312, 0},
-    {"XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
-    {"10G-KR  @ 10 Gbps", cavium.QLM_MODE_10G_KR_4X1, 10312, 0},
-    {"40G-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
+    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
+    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
+    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
-qlm_modes[6] = qlm_modes[5]
-qlm_modes[7] = qlm_modes[5]
+qlm_modes[6] = qlm_modes[2]
+qlm_modes[7] = qlm_modes[3]
 -- GSER 8-13 are OCI only and are covered by pin straps
 
 --
