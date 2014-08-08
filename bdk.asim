@@ -4,6 +4,9 @@
 # Load the CN88XX IOs, two nodes
 @../asim/tests/io/cn88xx-2s48p.asim
 
+# Add io memory regions to conver IO block that aren't simulated
+device io_memory n0.gser config 0xe000000 0x87e090000000
+
 # Make 2nd node remote boot
 control n1.gpio0 set strap 0x8
 
