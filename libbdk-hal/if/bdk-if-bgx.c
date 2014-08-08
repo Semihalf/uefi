@@ -1051,6 +1051,16 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 }
 
 
+static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+{
+    return -1; /* FIXME: Implement BGX transmit */
+}
+
+static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+{
+    return -1; /* FIXME: Implement BGX receive */
+}
+
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
@@ -1124,6 +1134,11 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     return &handle->stats;
 }
 
+static int if_get_queue_depth(bdk_if_handle_t handle)
+{
+    return 0; /* Implement BXG depth */
+}
+
 const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
@@ -1133,7 +1148,10 @@ const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .if_disable = if_disable,
     .if_link_get = if_link_get,
     .if_link_set = if_link_set,
+    .if_transmit = if_transmit,
+    .if_receive = if_receive,
     .if_loopback = if_loopback,
+    .if_get_queue_depth = if_get_queue_depth,
     .if_get_stats = if_get_stats,
 };
 
