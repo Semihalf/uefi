@@ -5,19 +5,6 @@ static const int REF_100MHZ = 100000000;
 static const int REF_125MHZ = 125000000;
 static const int REF_156MHZ = 156250000;
 
-#define R_25G_REFCLK100             0x0
-#define R_5G_REFCLK100              0x1
-#define R_8G_REFCLK100              0x2
-#define R_125G_REFCLK15625_KX       0x3
-#define R_3125G_REFCLK15625_XAUI    0x4
-#define R_103125G_REFCLK15625_KR    0x5
-#define R_125G_REFCLK15625_SGMII    0x6
-#define R_5G_REFCLK15625_QSGMII     0x7
-#define R_625G_REFCLK15625_RXAUI    0x8
-#define R_25G_REFCLK125             0x9
-#define R_5G_REFCLK125              0xa
-#define R_8G_REFCLK125              0xb
-
 /* Indexed by QLM number and lane */
 static uint64_t prbs_errors[14][4];
 
@@ -46,23 +33,14 @@ static int qlm_get_num(bdk_node_t node)
  */
 static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
 {
-    return -1;
     switch (iftype)
     {
         case BDK_IF_BGX:
         {
-            int qlm;
+            if (interface >= 2)
+                return -1;
             /* Figure out which QLM the BGX connects to */
-            if (interface < 2)
-            {
-                BDK_CSR_INIT(gconf, node, BDK_BGXX_CMR_GLOBAL_CONFIG(interface));
-                if (gconf.s.pmux_sds_sel)
-                    qlm = interface  + 2; /* QLM 2 or 3 */
-                else
-                    qlm = interface; /* QLM 0 or 1 */
-            }
-            else
-                qlm = interface + 2; /* QLM 4-7 */
+            int qlm = interface;
             /* Make sure the QLM is powered up and out of reset */
             BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
             if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
@@ -80,50 +58,56 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
             {
                 case 0: /* PEM0 */
                 {
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(0));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(2));
                     if (gserx_cfg.s.pcie)
-                        return 0; /* PEM0 is on QLM0 and possibly QLM1 */
+                        return 2; /* PEM0 is on QLM0 and possibly QLM2 */
                     else
                         return -1; /* PEM0 is disabled */
                 }
                 case 1: /* PEM1 */
                 {
                     BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(1));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(3));
                     if (!pem0_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 1; /* PEM1 is on QLM 1 */
+                        return 3; /* PEM1 is on QLM 3 */
                     else
                         return -1; /* PEM1 is disabled */
                 }
                 case 2: /* PEM2 */
                 {
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(2));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(4));
                     if (gserx_cfg.s.pcie)
-                        return 2; /* PEM2 is on QLM2 and possibly QLM3 */
+                        return 4; /* PEM2 is on QLM2 and possibly QLM4 */
                     else
                         return -1; /* PEM2 is disabled */
                 }
                 case 3: /* PEM3 */
                 {
                     BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
-                    BDK_CSR_INIT(gser3_cfg, node, BDK_GSERX_CFG(3));
-                    BDK_CSR_INIT(gser4_cfg, node, BDK_GSERX_CFG(4));
-                    if (pem2_cfg.s.lanes8)
-                    {
-                        if (gser4_cfg.s.pcie)
-                            return 4; /* PEM3 is on QLM4 */
-                        else
-                            return -1; /* PEM3 is disabled */
-                    }
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
+                    if (!pem2_cfg.s.lanes8 && gserx_cfg.s.pcie)
+                        return 5; /* PEM3 is on QLM4 */
                     else
-                    {
-                        if (gser3_cfg.s.pcie)
-                            return 3; /* PEM3 is on QLM0 and possibly QLM1 */
-                        else
-                            return -1; /* PEM3 is disabled */
-                    }
+                        return -1; /* PEM3 is disabled */
                 }
-                default: /* Max of 4 PEMs, 0-3 */
+                case 4: /* PEM4 */
+                {
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(6));
+                    if (gserx_cfg.s.pcie)
+                        return 6; /* PEM4 is on QLM6 and possibly QLM7 */
+                    else
+                        return -1; /* PEM4 is disabled */
+                }
+                case 5: /* PEM5 */
+                {
+                    BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(7));
+                    if (!pem4_cfg.s.lanes8 && gserx_cfg.s.pcie)
+                        return 7; /* PEM5 is on QLM7 */
+                    else
+                        return -1; /* PEM5 is disabled */
+                }
+                default: /* Max of 6 PEMs, 0-5 */
                     return -1;
             }
         }
@@ -157,14 +141,13 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
-        return BDK_QLM_MODE_DISABLED;
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
         if (gserx_cfg.s.pcie)
         {
             switch (qlm)
             {
-                case 0: /* Either PEM0 x4 or PEM0 x8 */
-                case 1: /* Either PEM0 x8 or PEM1 x4 */
+                case 2: /* Either PEM0 x4 or PEM0 x8 */
+                case 3: /* Either PEM0 x8 or PEM1 x4 */
                 {
                     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
                     if (pemx_cfg.s.lanes8)
@@ -172,7 +155,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                     else
                         return BDK_QLM_MODE_PCIE_1X4;
                 }
-                case 2: /* Either PEM2 x4 or PEM2 x8 */
+                case 4: /* Either PEM2 x4 or PEM2 x8 */
                 {
                     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
                     if (pemx_cfg.s.lanes8)
@@ -180,43 +163,49 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                     else
                         return BDK_QLM_MODE_PCIE_1X4; /* PEM2 x4 */
                 }
-                case 3: /* Either PEM2 x8, PEM 3 x4, or PEM3 x8 */
+                case 5: /* Either PEM2 x8, PEM 3 x4 */
                 {
-                    /* Can be last 4 lanes of PEM2 */
                     BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
                     if (pem2_cfg.s.lanes8)
                         return BDK_QLM_MODE_PCIE_1X8; /* PEM2 x8 */
-                    /* Can be first 4 lanes of PEM3 */
-                    BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
-                    if (pem3_cfg.s.lanes8)
-                        return BDK_QLM_MODE_PCIE_1X8; /* PEM3 x8 */
                     else
                         return BDK_QLM_MODE_PCIE_1X4; /* PEM2 x4 */
                 }
-                case 4: /* Either PEM3 x8 or PEM3 x4 */
+                case 6: /* Either PEM4 x8 or PEM4 x4 */
                 {
-                    BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
+                    BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(4));
                     if (pem3_cfg.s.lanes8)
                         return BDK_QLM_MODE_PCIE_1X8; /* PEM3 x8 */
                     else
                         return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
                 }
-                default:
+                case 7: /* Either PEM4 x8 or PEM5 x4 */
+                {
+                    BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(4));
+                    if (pem3_cfg.s.lanes8)
+                        return BDK_QLM_MODE_PCIE_1X8; /* PEM3 x8 */
+                    else
+                        return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
+                }
+                default: /* QLMs 0-1 can't be PCIe */
                     return BDK_QLM_MODE_DISABLED;
             }
         }
         else if (gserx_cfg.s.ila)
             return BDK_QLM_MODE_ILK;
+        else if (gserx_cfg.s.sata)
+            return BDK_QLM_MODE_SATA_4X1;
         else if (gserx_cfg.s.bgx)
         {
-            int bgx = (qlm < 2) ? qlm : qlm - 2;
-            BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 0));
-            BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx, 0));
+            if (qlm >= 2)
+                return BDK_QLM_MODE_DISABLED;
+            int bgx_block = qlm;
+            BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0));
+            BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0));
             switch (cmrx_config.s.lmac_type)
             {
                 case 0x0: return BDK_QLM_MODE_SGMII;
-                case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differntiate between XAUI and DXAUI */
-                case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
+                case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
                 case 0x3:
                     /* Use training to determine if we're in 10GBASE-KR or XFI */
                     if (spux_br_pmd_control.s.train_en)
@@ -253,8 +242,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
 {
     if (baud_mhz <= 1250)
     {
+        /* FIXME: What about GSER_LMODE_E_R_125G_REFCLK15625_KX? */
         if (ref_clk == REF_156MHZ)
-            return R_125G_REFCLK15625_SGMII;
+            return GSER_LMODE_E_R_125G_REFCLK15625_SGMII;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -264,9 +254,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 2500)
     {
         if (ref_clk == REF_100MHZ)
-            return R_25G_REFCLK100;
+            return GSER_LMODE_E_R_25G_REFCLK100;
         else if (ref_clk == REF_125MHZ)
-            return R_25G_REFCLK125;
+            return GSER_LMODE_E_R_25G_REFCLK125;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -276,7 +266,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 3125)
     {
         if (ref_clk == REF_156MHZ)
-            return R_3125G_REFCLK15625_XAUI;
+            return GSER_LMODE_E_R_3125G_REFCLK15625_XAUI;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -286,16 +276,16 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 5000)
     {
         if (ref_clk == REF_100MHZ)
-            return R_5G_REFCLK100;
+            return GSER_LMODE_E_R_5G_REFCLK100;
         else if (ref_clk == REF_125MHZ)
-            return R_5G_REFCLK125;
+            return GSER_LMODE_E_R_5G_REFCLK125;
         else
-            return R_5G_REFCLK15625_QSGMII;
+            return GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
     }
     else if (baud_mhz <= 6250)
     {
         if (ref_clk == REF_156MHZ)
-            return R_625G_REFCLK15625_RXAUI;
+            return GSER_LMODE_E_R_625G_REFCLK15625_RXAUI;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -305,9 +295,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 8000)
     {
         if (ref_clk == REF_100MHZ)
-            return R_8G_REFCLK100;
+            return GSER_LMODE_E_R_8G_REFCLK100;
         else if (ref_clk == REF_125MHZ)
-            return R_8G_REFCLK125;
+            return GSER_LMODE_E_R_8G_REFCLK125;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -317,7 +307,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else /* Baud 10312.5 */
     {
         if (ref_clk == REF_156MHZ)
-            return R_103125G_REFCLK15625_KR;
+            return GSER_LMODE_E_R_103125G_REFCLK15625_KR;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -338,6 +328,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
+#if 0
     if (baud_mhz == 6250)
     {
         /* Change the default tuning for 6.25G, from lab measurements */
@@ -376,6 +367,7 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
                 c.s.tx_premptap_ovrd_val = 1);
         }
     }
+#endif
 }
 
 /**
@@ -415,9 +407,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int lane_mode = 0xf;
     int lmac_type = -1;
     int is_pcie = 0;
+    int is_sata = 0;
     int is_ilk = 0;
     int is_bgx = 0;
-    int bgx_block = (qlm < 2) ? qlm : qlm - 2;
+    int bgx_block = (qlm < 2) ? qlm : -1;
 
     /* Almost all supported QLM speeds require a 156.25Mhz clock */
     int ref_clk = REF_156MHZ;
@@ -447,22 +440,22 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 0);
                 if (flags & BDK_QLM_MODE_FLAG_GEN1)
-                    lane_mode = R_25G_REFCLK100;
+                    lane_mode = GSER_LMODE_E_R_25G_REFCLK100;
                 else if (flags & BDK_QLM_MODE_FLAG_GEN2)
-                    lane_mode = R_5G_REFCLK100;
+                    lane_mode = GSER_LMODE_E_R_5G_REFCLK100;
                 else
-                    lane_mode = R_8G_REFCLK100;
+                    lane_mode = GSER_LMODE_E_R_8G_REFCLK100;
             }
             else if (ref_clk == REF_125MHZ)
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 1);
                 if (flags & BDK_QLM_MODE_FLAG_GEN1)
-                    lane_mode = R_25G_REFCLK125;
+                    lane_mode = GSER_LMODE_E_R_25G_REFCLK125;
                 else if (flags & BDK_QLM_MODE_FLAG_GEN2)
-                    lane_mode = R_5G_REFCLK125;
+                    lane_mode = GSER_LMODE_E_R_5G_REFCLK125;
                 else
-                    lane_mode = R_8G_REFCLK125;
+                    lane_mode = GSER_LMODE_E_R_8G_REFCLK125;
             }
             else
             {
@@ -478,7 +471,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 cfg_md = 2; /* Gen3 Speed */
             switch (qlm)
             {
-                case 0: /* Either x4 or x8 based on PEM0 */
+                case 2: /* Either x4 or x8 based on PEM0 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(0),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -491,7 +484,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                             c.s.pemon = 1);
                     break;
-                case 1: /* Either PEM0 x8 or PEM1 x4 */
+                case 3: /* Either PEM0 x8 or PEM1 x4 */
                     if (mode == BDK_QLM_MODE_PCIE_1X8)
                     {
                         /* Last 4 lanes of PEM0 */
@@ -513,7 +506,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.pemon = 1);
                     }
                     break;
-                case 2: /* Either PEM2 x4 or PEM2 x8 */
+                case 4: /* Either PEM2 x4 or PEM2 x8 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -526,7 +519,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
                     break;
-                case 3: /* Either PEM2 x8, PEM3 x4, or PEM3 x8 */
+                case 5: /* Either PEM2 x8, or PEM3 x4 */
                 {
                     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
                     if (pemx_cfg.s.lanes8)
@@ -538,7 +531,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     }
                     else
                     {
-                        /* First 4 lanes of PEM3 */
+                        /* Four lanes of PEM3 */
                         BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -546,34 +539,29 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
                             //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
-                        /* x8 mode waits for QLM3 setup before turning on the PEM */
-                        if (mode == BDK_QLM_MODE_PCIE_1X4)
-                            BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
-                                c.s.pemon = 1);
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
+                            c.s.pemon = 1);
                     }
                     break;
                 }
-                case 4: /* Either PEM3 x4 or PEM3 x8 */
-                    if (mode == BDK_QLM_MODE_PCIE_1X8)
-                    {
-                        /* Last 4 lanes of PEM3 */
-                        /* PEMX_CFG already setup */
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
+                case 6: /* Either PEM4 x4 or PEM4 x8 */
+                    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(4),
+                        c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                    setup_pem_reset(node, 4, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(4),
+                        c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
+                        //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        c.s.md = cfg_md);
+                    /* x8 mode waits for QLM1 setup before turning on the PEM */
+                    if (mode == BDK_QLM_MODE_PCIE_1X4)
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(4),
                             c.s.pemon = 1);
-                    }
-                    else
-                    {
-                        /* 4 lanes of PEM3 */
-                        BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
-                            c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
-                        setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
-                            c.s.lanes8 = 0;
-                            //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                            c.s.md = cfg_md);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
-                            c.s.pemon = 1);
-                    }
+                    break;
+                case 7: /* PEM4 x8 */
+                    /* Last 4 lanes of PEM4 */
+                    /* PEMX_CFG already setup */
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
+                        c.s.pemon = 1);
                     break;
                 default:
                     return -1;
@@ -583,6 +571,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_ILK:
             is_ilk = 1;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("ILK", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
+            break;
+        case BDK_QLM_MODE_SATA_4X1:
+            is_sata = 1;
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("SATA", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
@@ -597,13 +591,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lmac_type = 1; /* XAUI */
             is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
-            if (lane_mode == -1)
-                return -1;
-            break;
-        case BDK_QLM_MODE_RXAUI_2X2:
-            lmac_type = 2; /* RXAUI */
-            is_bgx = 3;
-            lane_mode = get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
@@ -655,6 +642,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* Set gser for the interface mode */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
+        c.s.sata = is_sata;
         c.s.ila = is_ilk;
         c.s.bgx = is_bgx & 1;
         c.s.bgx_quad = (is_bgx >> 2) & 1;
@@ -665,21 +653,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm),
         c.s.lmode = lane_mode);
 
-    /* BGX0-1 can connect to QLM0-1 or QLM 2-3. Program the select bit if we're
-       one of these QLMs and we're using BGX */
-    if ((qlm < 4) && is_bgx)
-    {
-        int bgx = qlm & 1;
-        int use_upper = (qlm >> 1) & 1;
-        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMR_GLOBAL_CONFIG(bgx),
-            c.s.pmux_sds_sel = use_upper);
-    }
-
     /* LMAC type. We only program one port as the full setup is done in BGX */
     if (lmac_type != -1)
     {
-        int bgx = (qlm < 2) ? qlm : qlm - 2;
-        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMRX_CONFIG(bgx, 0),
+        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0),
             c.s.enable = 0;
             c.s.lmac_type = lmac_type);
     }
@@ -695,19 +672,22 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Configure the gser pll */
     qlm_init_one(node, qlm);
 
-    /* Wait for reset to complete and the PLL to lock */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
+    if (!bdk_is_simulation())
     {
-        bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
-        return -1;
-    }
+        /* Wait for reset to complete and the PLL to lock */
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
+        {
+            bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
+            return -1;
+        }
 
-    /* PCIe mode doesn't become ready until the PEM block attempts to bring
-       the interface up. Skip this check for PCIe */
-    if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
-    {
-        bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
-        return -1;
+        /* PCIe mode doesn't become ready until the PEM block attempts to bring
+           the interface up. Skip this check for PCIe */
+        if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+        {
+            bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+            return -1;
+        }
     }
 
     /* cdrlock will be checked in the BGX */
@@ -718,16 +698,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         switch (qlm)
         {
-            case 0:
             case 2:
+            case 4:
+            case 6:
                 return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
-            case 3:
-            {
-                /* Setup QLM4 if QLM2 isn't using x8 on QLM3. Confusing! */
-                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(3));
-                if (pemx_cfg.s.lanes8)
-                    return bdk_qlm_set_mode(node, 4, mode, baud_mhz, flags);
-            }
         }
     }
 
@@ -758,10 +732,10 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
             int pem;
             switch (qlm)
             {
-                case 0: /* Either PEM0 x4 or PEM0 x8 */
+                case 2: /* Either PEM0 x4 or PEM0 x8 */
                     pem = 0;
                     break;
-                case 1: /* Either PEM0 x8 or PEM1 x4 */
+                case 3: /* Either PEM0 x8 or PEM1 x4 */
                 {
                     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
                     if (pemx_cfg.s.lanes8)
@@ -770,30 +744,24 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                         pem = 1;
                     break;
                 }
-                case 2: /* Either PEM2 x4 or PEM2 x8 */
+                case 4: /* Either PEM2 x4 or PEM2 x8 */
                     pem = 2;
                     break;
-                case 3: /* Either PEM2 x8, PEM 3 x4, or PEM3 x8 */
+                case 5: /* Either PEM2 x8 or PEM 3 x4 */
                 {
                     /* Can be last 4 lanes of PEM2 */
                     BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
                     if (pem2_cfg.s.lanes8)
-                    {
                         pem = 2;
-                    }
                     else
-                    {
-                        /* Can be first 4 lanes of PEM3 */
-                        BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
-                        if (pem3_cfg.s.lanes8)
-                            pem = 3;
-                        else
-                            pem = 2;
-                    }
+                        pem = 3;
                     break;
                 }
-                case 4: /* Either PEM3 x8 or PEM3 x4 */
-                    pem = 3;
+                case 6: /* Either PEM4 x8 or PEM4 x4 */
+                    pem = 4;
+                    break;
+                case 7: /* PEM4 x8 */
+                    pem = 4;
                     break;
                 default:
                     bdk_fatal("QLM%d: In PCIe mode, which shouldn't happen\n", qlm);
@@ -818,29 +786,29 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
             BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
             switch (lane_mode.s.lmode)
             {
-                case R_25G_REFCLK100:
+                case GSER_LMODE_E_R_25G_REFCLK100:
                     return 2500;
-                case R_5G_REFCLK100:
+                case GSER_LMODE_E_R_5G_REFCLK100:
                     return 5000;
-                case R_8G_REFCLK100:
+                case GSER_LMODE_E_R_8G_REFCLK100:
                     return 8000;
-                case R_125G_REFCLK15625_KX:
+                case GSER_LMODE_E_R_125G_REFCLK15625_KX:
                     return 1250;
-                case R_3125G_REFCLK15625_XAUI:
+                case GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
                     return 3125;
-                case R_103125G_REFCLK15625_KR:
+                case GSER_LMODE_E_R_103125G_REFCLK15625_KR:
                     return 10312;
-                case R_125G_REFCLK15625_SGMII:
+                case GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
                     return 1250;
-                case R_5G_REFCLK15625_QSGMII:
+                case GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
                     return 5000;
-                case R_625G_REFCLK15625_RXAUI:
+                case GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
                     return 6250;
-                case R_25G_REFCLK125:
+                case GSER_LMODE_E_R_25G_REFCLK125:
                     return 2500;
-                case R_5G_REFCLK125:
+                case GSER_LMODE_E_R_5G_REFCLK125:
                     return 5000;
-                case R_8G_REFCLK125:
+                case GSER_LMODE_E_R_8G_REFCLK125:
                     return 8000;
                 default:
                     return 0;
@@ -884,78 +852,29 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
-    /* We can't measure the QLMs reference clocks, so just assume they match
-       the QLM modes programmed */
-    if (qlm < 8)
-    {
-        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
-        if (gserx_cfg.s.pcie)
-        {
-            BDK_CSR_INIT(gserx_refclk_sel, node, BDK_GSERX_REFCLK_SEL(qlm));
-            if (gserx_refclk_sel.s.pcie_refclk125)
-                return REF_125MHZ; /* Ref 125Mhz */
-            else
-                return REF_100MHZ; /* Ref 100Mhz */
-        }
+    /* Clear the counter */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
+        c.s.enb = 0;
+        c.s.clr = 1);
+    if (BDK_CSR_READ(node, BDK_GSERX_REFCLK_EVT_CNTR(qlm)))
+        bdk_error("GSER%d: Ref clock counter not zero\n", qlm);
+    /* Start counting */
+    uint64_t start = bdk_clock_get_count(BDK_CLOCK_CORE);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
+        c.s.enb = 1;
+        c.s.clr = 0);
+    /* Wait for a short time to get a number of counts */
+    bdk_wait_usec(10000); /* 10ms */
+    /* Stop counting */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
+        c.s.enb = 0);
+    uint64_t stop = bdk_clock_get_count(BDK_CLOCK_CORE);
 
-        BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
-        switch (lane_mode.s.lmode)
-        {
-            case R_25G_REFCLK100:
-                return REF_100MHZ;
-            case R_5G_REFCLK100:
-                return REF_100MHZ;
-            case R_8G_REFCLK100:
-                return REF_100MHZ;
-            case R_125G_REFCLK15625_KX:
-                return REF_156MHZ;
-            case R_3125G_REFCLK15625_XAUI:
-                return REF_156MHZ;
-            case R_103125G_REFCLK15625_KR:
-                return REF_156MHZ;
-            case R_125G_REFCLK15625_SGMII:
-                return REF_156MHZ;
-            case R_5G_REFCLK15625_QSGMII:
-                return REF_156MHZ;
-            case R_625G_REFCLK15625_RXAUI:
-                return REF_156MHZ;
-            case R_25G_REFCLK125:
-                return REF_125MHZ;
-            case R_5G_REFCLK125:
-                return REF_125MHZ;
-            case R_8G_REFCLK125:
-                return REF_125MHZ;
-            default:
-                return 0;
-        }
-    }
-    else
-    {
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
-        switch (gserx_spd.s.spd)
-        {
-            case 0x0:
-            case 0x1:
-            case 0x2:
-            case 0x3:
-                return 100000000; /* Ref 100Mhz */
-            case 0x4:
-            case 0x5:
-            case 0x6:
-            case 0x7:
-            case 0x8:
-            case 0x9:
-                return 125000000; /* Ref 125Mhz */
-            case 0xa:
-            case 0xb:
-            case 0xc:
-            case 0xd:
-            case 0xe:
-                return 156250000; /* Ref 156.25Mhz */
-            default:
-                return 0;
-        }
-    }
+    /* Calculate the rate */
+    uint64_t count = BDK_CSR_READ(node, BDK_GSERX_REFCLK_EVT_CNTR(qlm));
+    count *= bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
+    count /= stop - start;
+    return count;
 }
 
 
@@ -1133,7 +1052,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
         BDK_CSR_INIT(lane_mode_1, node, BDK_GSERX_LANE_PX_MODE_1(qlm, lane_mode));
         switch (lane_mode)
         {
-            case R_25G_REFCLK100:
+            case GSER_LMODE_E_R_25G_REFCLK100:
                 pll_mode_0.s.pll_icp = 0x4;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x5;
@@ -1157,7 +1076,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case R_5G_REFCLK100:
+            case GSER_LMODE_E_R_5G_REFCLK100:
                 pll_mode_0.s.pll_icp = 0x4;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1181,7 +1100,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case R_8G_REFCLK100:
+            case GSER_LMODE_E_R_8G_REFCLK100:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x5;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1205,7 +1124,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xb;
                 lane_mode_1.s.ph_acc_adj = 0x23;
                 break;
-            case R_125G_REFCLK15625_KX:
+            case GSER_LMODE_E_R_125G_REFCLK15625_KX:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x28;
@@ -1229,7 +1148,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case R_3125G_REFCLK15625_XAUI:
+            case GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x14;
@@ -1253,7 +1172,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case R_103125G_REFCLK15625_KR:
+            case GSER_LMODE_E_R_103125G_REFCLK15625_KR:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x5;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1277,7 +1196,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0xf;
                 break;
-            case R_125G_REFCLK15625_SGMII:
+            case GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x28;
@@ -1301,7 +1220,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case R_5G_REFCLK15625_QSGMII:
+            case GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1325,7 +1244,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case R_625G_REFCLK15625_RXAUI:
+            case GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1349,7 +1268,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case R_25G_REFCLK125:
+            case GSER_LMODE_E_R_25G_REFCLK125:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x5;
@@ -1373,7 +1292,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case R_5G_REFCLK125:
+            case GSER_LMODE_E_R_5G_REFCLK125:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1397,7 +1316,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case R_8G_REFCLK125:
+            case GSER_LMODE_E_R_8G_REFCLK125:
                 pll_mode_0.s.pll_icp = 0x2;
                 pll_mode_0.s.pll_rloop = 0x5;
                 pll_mode_0.s.pll_pcs_div = 0xa;

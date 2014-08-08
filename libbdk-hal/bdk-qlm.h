@@ -19,26 +19,17 @@ typedef enum
     BDK_QLM_MODE_PCIE_1X4,  /* 1 PCIe, 4 lanes */
     BDK_QLM_MODE_PCIE_1X8,  /* 1 PCIe, 8 lanes */
 
-    BDK_QLM_MODE_SGMII_SGMII, /* Two SGMII (cn70xx) */
-    BDK_QLM_MODE_SGMII_QSGMII, /* SGMII, QSGMII (cn70xx) */
-    BDK_QLM_MODE_SGMII_DISABLED, /* SGMII, Disabled (cn70xx) */
-    BDK_QLM_MODE_QSGMII_SGMII, /* QSGMII, SGMII (cn70xx) */
-    BDK_QLM_MODE_QSGMII_QSGMII, /* Two QSGMII (cn70xx) */
-    BDK_QLM_MODE_QSGMII_DISABLED, /* QSGMII, Disabled (cn70xx) */
-    BDK_QLM_MODE_DISABLED_SGMII, /* Disabled, SGMII (cn70xx) */
-    BDK_QLM_MODE_DISABLED_QSGMII, /* Disabled, QSGMII (cn70xx) */
-    BDK_QLM_MODE_RXAUI_1X2, /* 1 RXAUI, 2 lanes (cn70xx) */
-    BDK_QLM_MODE_SATA_2X1,  /* 2 SATA, one lane each (cn70xx) */
+    BDK_QLM_MODE_SATA_4X1,  /* SATA, each lane independent (cn88xx) */
 
     BDK_QLM_MODE_ILK,           /* ILK 4 lanes (cn78xx) */
-    BDK_QLM_MODE_SGMII,         /* SGMII, each lane independent (cn78xx) */
-    BDK_QLM_MODE_XAUI_1X4,      /* 1 XAUI or DXAUI, 4 lanes (cn78xx), use gbaud to tell difference */
+    BDK_QLM_MODE_SGMII,         /* SGMII, each lane independent (cn88xx) */
+    BDK_QLM_MODE_XAUI_1X4,      /* 1 XAUI or DXAUI, 4 lanes (cn88xx), use gbaud to tell difference */
     BDK_QLM_MODE_RXAUI_2X2,     /* 2 RXAUI, 2 lanes each (cn78xx) */
-    BDK_QLM_MODE_OCI,           /* OCI Multichip interconnect (cn78xx) */
-    BDK_QLM_MODE_XFI_4X1,       /* 4 XFI, 1 lane each (cn78xx) */
-    BDK_QLM_MODE_XLAUI_1X4,     /* 1 XLAUI, 4 lanes each (cn78xx) */
-    BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn78xx) */
-    BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn78xx) */
+    BDK_QLM_MODE_OCI,           /* OCI Multichip interconnect (cn88xx) */
+    BDK_QLM_MODE_XFI_4X1,       /* 4 XFI, 1 lane each (cn88xx) */
+    BDK_QLM_MODE_XLAUI_1X4,     /* 1 XLAUI, 4 lanes each (cn88xx) */
+    BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn88xx) */
+    BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn88xx) */
 } bdk_qlm_modes_t;
 
 typedef enum
@@ -52,9 +43,6 @@ typedef enum
 typedef enum
 {
     BDK_QLM_LOOP_DISABLED,  /* No shallow loopback */
-    BDK_QLM_LOOP_0_3,       /* Loopback lane 0 and 3 */
-    BDK_QLM_LOOP_1_2,       /* Loopback lane 1 and 2 */
-    BDK_QLM_LOOP_ALL,       /* Loopback all lanes */
 } bdk_qlm_loop_t;
 
 typedef enum

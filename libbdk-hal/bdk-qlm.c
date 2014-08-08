@@ -87,35 +87,8 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
             result = "1 PCIe, 8 lanes";
             break;
 
-        case BDK_QLM_MODE_SGMII_SGMII:
-            result = "Two SGMII";
-            break;
-        case BDK_QLM_MODE_SGMII_QSGMII:
-            result = "SGMII lane 0, QSGMII lane 1";
-            break;
-        case BDK_QLM_MODE_SGMII_DISABLED:
-            result = "SGMII lane 0, Disabled lane 1";
-            break;
-        case BDK_QLM_MODE_QSGMII_SGMII:
-            result = "QSGMII lane 0, SGMII lane 1";
-            break;
-        case BDK_QLM_MODE_QSGMII_QSGMII:
-            result = "Two QSGMII";
-            break;
-        case BDK_QLM_MODE_QSGMII_DISABLED:
-            result = "QSGMII lane 0, Disabled lane 1";
-            break;
-        case BDK_QLM_MODE_DISABLED_SGMII:
-            result = "Disabled lane 0, SGMII lane 1";
-            break;
-        case BDK_QLM_MODE_DISABLED_QSGMII:
-            result = "Disabled lane 0, QSGMII lane 1";
-            break;
-        case BDK_QLM_MODE_RXAUI_1X2:
-            result = "1 RXAUI, 2 lanes";
-            break;
-        case BDK_QLM_MODE_SATA_2X1:
-            result = "2 SATA, one lane each";
+        case BDK_QLM_MODE_SATA_4X1:
+            result = "4 SATA, one lane each";
             break;
 
         case BDK_QLM_MODE_ILK:

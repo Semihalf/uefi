@@ -48,16 +48,7 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_MODE_PCIE_1X2);
     push_bdk_enum(BDK_QLM_MODE_PCIE_1X4);
     push_bdk_enum(BDK_QLM_MODE_PCIE_1X8);
-    push_bdk_enum(BDK_QLM_MODE_SGMII_SGMII);
-    push_bdk_enum(BDK_QLM_MODE_SGMII_QSGMII);
-    push_bdk_enum(BDK_QLM_MODE_SGMII_DISABLED);
-    push_bdk_enum(BDK_QLM_MODE_QSGMII_SGMII);
-    push_bdk_enum(BDK_QLM_MODE_QSGMII_QSGMII);
-    push_bdk_enum(BDK_QLM_MODE_QSGMII_DISABLED);
-    push_bdk_enum(BDK_QLM_MODE_DISABLED_SGMII);
-    push_bdk_enum(BDK_QLM_MODE_DISABLED_QSGMII);
-    push_bdk_enum(BDK_QLM_MODE_RXAUI_1X2);
-    push_bdk_enum(BDK_QLM_MODE_SATA_2X1);
+    push_bdk_enum(BDK_QLM_MODE_SATA_4X1);
     push_bdk_enum(BDK_QLM_MODE_ILK);
     push_bdk_enum(BDK_QLM_MODE_SGMII);
     push_bdk_enum(BDK_QLM_MODE_XAUI_1X4);
@@ -74,9 +65,6 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_MODE_FLAG_GEN3);
 
     push_bdk_enum(BDK_QLM_LOOP_DISABLED);
-    push_bdk_enum(BDK_QLM_LOOP_0_3);
-    push_bdk_enum(BDK_QLM_LOOP_1_2);
-    push_bdk_enum(BDK_QLM_LOOP_ALL);
 
     push_bdk_enum(BDK_QLM_DIRECTION_TX);
     push_bdk_enum(BDK_QLM_DIRECTION_RX);
