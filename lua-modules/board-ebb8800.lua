@@ -7,52 +7,18 @@ local set_config = cavium.c.bdk_config_set
 -- Configuring PHY addresses for various BGX interfaces
 --------------------------------------------------------------
 -- This code sets the default MDIO addresses for SGMII PHYs
--- The number is "(0x100 * bus) + phy". For the first etch
--- of the EBB7800, all PHYs are on MDIO bus 0 due to a board
--- workaround.
+-- The number is "(0x100 * bus) + phy".
 
--- BGX0 (QLM0 or QLM2), we assume QLM0 here
+-- BGX0 (QLM0)
 set_config(cavium.CONFIG_PHY_IF0_PORT0, 0)
 set_config(cavium.CONFIG_PHY_IF0_PORT1, 1)
 set_config(cavium.CONFIG_PHY_IF0_PORT2, 2)
 set_config(cavium.CONFIG_PHY_IF0_PORT3, 3)
--- BGX1 (QLM1 or QLM3), we assume QLM1 here
+-- BGX1 (QLM1)
 set_config(cavium.CONFIG_PHY_IF1_PORT0, 4)
 set_config(cavium.CONFIG_PHY_IF1_PORT1, 5)
 set_config(cavium.CONFIG_PHY_IF1_PORT2, 6)
 set_config(cavium.CONFIG_PHY_IF1_PORT3, 7)
--- BGX2 (QLM4)
-set_config(cavium.CONFIG_PHY_IF2_PORT0, 16)
-set_config(cavium.CONFIG_PHY_IF2_PORT1, 17)
-set_config(cavium.CONFIG_PHY_IF2_PORT2, 18)
-set_config(cavium.CONFIG_PHY_IF2_PORT3, 19)
--- BGX3 (QLM5)
-set_config(cavium.CONFIG_PHY_IF3_PORT0, 20)
-set_config(cavium.CONFIG_PHY_IF3_PORT1, 21)
-set_config(cavium.CONFIG_PHY_IF3_PORT2, 22)
-set_config(cavium.CONFIG_PHY_IF3_PORT3, 23)
--- BGX4 (QLM6)
-set_config(cavium.CONFIG_PHY_IF4_PORT0, 24)
-set_config(cavium.CONFIG_PHY_IF4_PORT1, 25)
-set_config(cavium.CONFIG_PHY_IF4_PORT2, 26)
-set_config(cavium.CONFIG_PHY_IF4_PORT3, 27)
--- BGX5 (QLM7)
-set_config(cavium.CONFIG_PHY_IF5_PORT0, 28)
-set_config(cavium.CONFIG_PHY_IF5_PORT1, 29)
-set_config(cavium.CONFIG_PHY_IF5_PORT2, 30)
-set_config(cavium.CONFIG_PHY_IF5_PORT3, 31)
-
--- For RXAUI, We're using a Marvel PHY on the plugin modules. The code below
--- programs all BGXs to use "Interleaved running disparity", which is required
--- for these PHYs. This will need to be changed if PHYs are used that expect
--- "Common running disparity".
-for bgx=0,5 do
-    for i=0,1 do
-        -- cavium.csr.BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
-    end
-end
-
--- printf("Configuring QLMs for a sample setup\n");
 
 --------------------------------------------------------------
 -- Configuring QLMs in Lua code
@@ -81,7 +47,7 @@ end
 -- cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
 
 --------------------------------------------------------------
--- Choosing QLM modes for BGX (QLMs 0-7)
+-- Choosing QLM modes for BGX (QLMs 0-1)
 --------------------------------------------------------------
 -- SGMII modes
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SGMII, 1250, 0)
@@ -89,7 +55,6 @@ end
 -- *XAUI modes
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XAUI_1X4, 6250, 0)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_RXAUI_2X2, 6250, 0)
 
 -- XFI modes
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XFI_4X1, 10321, 0)
@@ -104,31 +69,34 @@ end
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_40G_KR4_1X4, 10321, 0)
 
 --------------------------------------------------------------
--- Choosing QLM modes for Interlaken (QLMs 4-7)
+-- Choosing QLM modes for SATA (QLMs 2-3, 6-7)
 --------------------------------------------------------------
--- Interlaken modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_ILK, 3125, 0)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_ILK, 6250, 0)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_ILK, 10321, 0)
+-- SATA modes
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 5000, 0)
 
 --------------------------------------------------------------
--- Choosing QLM modes for PCIe (QLMs 0-4)
+-- Choosing QLM modes for PCIe (QLMs 2-7)
 --------------------------------------------------------------
--- PCIe x4 modes (QLMs 0-4)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT)
+-- PCIe x4 modes (QLMs 2-7)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3)
 
--- PCIe x8 modes (QLMs 0&1, 2&3, 3&4)
+-- PCIe x8 modes (QLMs 2&3, 4&5, 6&7)
 -- Only call for the first QLM of the pair
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1+cavium.QLM_MODE_FLAG_ENDPOINT)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2+cavium.QLM_MODE_FLAG_ENDPOINT)
--- cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3+cavium.QLM_MODE_FLAG_ENDPOINT)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
 
 -- End of QLM examples
+
+printf("Configuring QLMs for a sample setup\n");
+local node = cavium.MASTER_NODE
+cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
+cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_XAUI_1X4, 6250, 0)
+cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
+cavium.c.bdk_qlm_set_mode(node, 5, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
+cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_SATA_4X1, 5000, 0)
+cavium.c.bdk_qlm_set_mode(node, 7, cavium.QLM_MODE_SATA_4X1, 2500, 0)
+
