@@ -106,7 +106,7 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
 static int if_num_interfaces(bdk_node_t node)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 6;
+        return 2;
     else
         return 0;
 }
