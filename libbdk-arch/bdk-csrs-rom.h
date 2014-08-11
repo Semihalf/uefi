@@ -385,8 +385,10 @@ union rom_clib_s {
 		uint64_t csib_sign2                  : 64; /**< [703:640] CSIB signature, word 2. */
 		uint64_t csib_sign1                  : 64; /**< [639:576] CSIB signature, word 1. */
 		uint64_t csib_sign0                  : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
-                                                                 contains a EC-DSA signature across the 128 bytes of the ROM_CSIB_S. The
-                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed. */
+                                                                 contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
+                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little endian
+                                                                 format. */
 		uint64_t reserved_448_511            : 64; /**< [511:448] Reserved. */
 		uint64_t reserved_384_447            : 64; /**< [447:384] Reserved. */
 		uint64_t reserved_320_383            : 64; /**< [383:320] Reserved. */
@@ -490,12 +492,13 @@ union rom_csib_s {
 		uint64_t rotpk0                      : 64; /**< [575:512] Public key, word 0.
                                                                  An ECDSA-with-SHA256 signature used to validate this certificate.
                                                                  ROM boot compares an AES256 hash of ROTPK0..3 with FUSF_ROTPK().
-
-                                                                 INTERNAL: In TBSA this is a hash of the SubjectPublicKey. */
+                                                                 These fields are to be interpreted as a coordinate pair (Qx,Qy)
+                                                                 of 256-bit integers in little endian format. */
 		uint64_t fs3                         : 64; /**< [511:448] TBL1FW image's SHA256 hash, continued. */
 		uint64_t fs2                         : 64; /**< [447:384] TBL1FW image's SHA256 hash, continued. */
 		uint64_t fs1                         : 64; /**< [383:320] TBL1FW image's SHA256 hash, continued. */
-		uint64_t fs0                         : 64; /**< [319:256] TBL1FW image's SHA256 hash, word 0.
+		uint64_t fs0                         : 64; /**< [319:256] TBL1FW image's SHA256 hash.  These fields are to be interpreted
+                                                                 as 32 consecutive bytes of the hash in canonical order.
                                                                  ROM boot compares this hash to the hash of the loaded image. */
 		uint64_t size                        : 64; /**< [255:192] Size. Indicates the size of the TBL1FW material in bytes.  Must match the value in
                                                                  ROM_CLIB_S[SIZE]. */

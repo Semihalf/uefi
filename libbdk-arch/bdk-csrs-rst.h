@@ -255,7 +255,7 @@ typedef union bdk_rst_boot {
                                                                  <3> = Warm reset due to CHIP_RESET_L pin.
                                                                  <2> = Cold reset due to PLL_DC_OK pin. */
 		uint64_t rboot                       : 1;  /**< R/W - Remote Boot. If set, indicates that core 0 will remain in reset after a
-                                                                 chip warm/soft reset.  The initial value minics the setting of the RBOOT_PIN. */
+                                                                 chip warm/soft reset.  The initial value mimics the setting of the RBOOT_PIN. */
 		uint64_t rboot_pin                   : 1;  /**< RO/H - Remote Boot Strap. Indicates the state of remote boot as initially determined by
                                                                  GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE. If set core 0 will remain in reset
                                                                  for the cold reset. */

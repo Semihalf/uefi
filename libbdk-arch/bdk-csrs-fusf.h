@@ -250,7 +250,8 @@ typedef union bdk_fusf_hukx {
 		uint64_t dat                         : 64; /**< SRO - Hardware unique key (HUK), as retrieved from FusesF.
 
                                                                  The HUK is used by the ROM and later trusted software for key derivation;
-                                                                 such as those keys used for encrypting external storage with AES.
+                                                                 such as those keys used for encrypting external storage with AES.  This register
+                                                                 is to be interpreted as 16 consecutive bytes (of an AES key) in canonical order.
 
                                                                  HUK is typically programmed at trust-fuse time with a true-random number.
                                                                  Once programmed, FUSF_CTL[ROT_LCK] must also be set as additional
@@ -388,9 +389,11 @@ typedef union bdk_fusf_rotpkx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dat                         : 64; /**< SRO - Root-of-trust public key (ROTPK), as retrieved from FusesF.
 
-                                                                 ROTPK is a AES256 hash of a secp256r1 public key used by the ROM and later
-                                                                 trusted software during signature verification to insure a certificate was
-                                                                 issued by an authority derived from the root-of-trust's certificate.
+                                                                 ROTPK is the SHA256 hash of the secp256r1 public key used by the ROM (see
+                                                                 ROM_CSIB_S[ROTPK0-7])
+                                                                 and later trusted software during signature verification to insure a certificate was
+                                                                 issued by an authority derived from the root-of-trust's certificate.  This register
+                                                                 is to interpreted as the 32 consecutive bytes of the hash in canonical order.
 
                                                                  It is typically burned at trust-fuse time with root-of-trust key hash.
                                                                  Once burned, FUSF_CTL[ROT_LCK] must also be set, as additional
@@ -429,8 +432,9 @@ typedef union bdk_fusf_sskx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dat                         : 64; /**< SRO - Secret symmetric key (SSK), as retrieved from FusesF.
 
-                                                                 SSK is an AES256 key used by the ROM and optionally TBL1FW
-                                                                 bootstrapping for decryption of firmware.
+                                                                 SSK is the AES256 key used by the ROM and optionally TBL1FW
+                                                                 bootstrapping for decryption of firmware.  This register is to be
+                                                                 interpreted as 16 consecutive bytes of the key in canonical order.
 
                                                                  It is typically programmed at trust-fuse time or later.
                                                                  Once programmed, FUSF_CTL[SSK_LCK] must also be set. */

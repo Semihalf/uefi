@@ -120,7 +120,7 @@ enum bgx_int_vec_e {
  * Enumeration BGX_OPCODE_E
  *
  * BGX Error Opcode Enumeration
- * Enumerates the error opcodes created by BGX and presented into MIX frames.
+ * Enumerates the error opcodes created by BGX and presented into NCSI frames.
  */
 enum bgx_opcode_e {
 	BGX_OPCODE_E_BAD_TERM = 0x9,
@@ -419,7 +419,7 @@ typedef union bdk_bgxx_cmrx_config {
                                                                  during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
                                                                  TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
                                                                  RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
-		uint64_t mix_en                      : 1;  /**< R/W - Must be 0x0. */
+		uint64_t mix_en                      : 1;  /**< R/W - Must be 0. */
 		uint64_t lmac_type                   : 3;  /**< R/W - Logical MAC/PCS/prt type:
 
                                                                  <pre>
@@ -2471,16 +2471,8 @@ typedef union bdk_bgxx_cmr_global_config {
                                                                  from different lmacs.  In other words there will be multiple packets in flight from
                                                                  different
                                                                  lmacs at the same time. */
-		uint64_t cmr_mix1_reset              : 1;  /**< R/W - If the MIX1 block is reset, software also needs to reset the MIX interface in the BGX by
-                                                                 setting this bit to 1. It resets the MIX interface state in the BGX (mix FIFO and pending
-                                                                 requests to MIX) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Setting this bit to 0 will not reset the MIX interface. After MIX comes out of
-                                                                 reset, software should clear CMR_MIX_RESET. */
-		uint64_t cmr_mix0_reset              : 1;  /**< R/W - If the MIX0 block is reset, software also needs to reset the MIX interface in the BGX by
-                                                                 setting this bit to 1. It resets the MIX interface state in the BGX (mix FIFO and pending
-                                                                 requests to MIX) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Setting this bit to 0 will not reset the MIX interface. After MIX comes out of
-                                                                 reset, software should clear CMR_MIX_RESET. */
+		uint64_t cmr_mix1_reset              : 1;  /**< R/W - Must be 0. */
+		uint64_t cmr_mix0_reset              : 1;  /**< R/W - Must be 0. */
 		uint64_t cmr_x2p_reset               : 1;  /**< R/W - If the NIC block is reset, software also needs to reset the X2P interface in the BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
@@ -3388,10 +3380,10 @@ typedef union bdk_bgxx_cmr_tx_lmacs {
                                                                  LMAC ID that can be used:
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 32 KB per LMAC, maximum LMAC ID is 0.
-                                                                 0x2 = 16 KB per LMAC, maximum LMAC ID is 1.
-                                                                 0x3 = 8 KB per LMAC, maximum LMAC ID is 2.
-                                                                 0x4 = 8 KB per LMAC, maximum LMAC ID is 3.
+                                                                 0x1 = 48 KB per LMAC, maximum LMAC ID is 0.
+                                                                 0x2 = 24 KB per LMAC, maximum LMAC ID is 1.
+                                                                 0x3 = 12 KB per LMAC, maximum LMAC ID is 2.
+                                                                 0x4 = 12 KB per LMAC, maximum LMAC ID is 3.
                                                                  0x5-0x7 = Reserved.
 
                                                                  The maximum LMAC ID is determined by the smaller of BGX()_CMR_RX_LMACS[LMACS]
@@ -4207,8 +4199,7 @@ typedef union bdk_bgxx_gmp_gmi_txx_append {
 	struct bdk_bgxx_gmp_gmi_txx_append_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
-		uint64_t force_fcs                   : 1;  /**< R/W - Append the Ethernet FCS on each PAUSE packet. PAUSE packets are normally padded to 60
-                                                                 bytes. If BGX()_GMP_GMI_TX()_MIN_PKT[MIN_SIZE] exceeds 59, then FCS_C is not used. */
+		uint64_t force_fcs                   : 1;  /**< R/W - Append the Ethernet FCS on each PAUSE packet. */
 		uint64_t fcs                         : 1;  /**< R/W - Append the Ethernet FCS on each packet. */
 		uint64_t pad                         : 1;  /**< R/W - Append PAD bytes such that minimum-sized packet is transmitted. */
 		uint64_t preamble                    : 1;  /**< R/W - Prepend the Ethernet preamble on each transfer. */
@@ -6182,12 +6173,12 @@ typedef union bdk_bgxx_smux_cbfc_ctl {
 	uint64_t u;
 	struct bdk_bgxx_smux_cbfc_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t phys_en                     : 16; /**< R/W - Physical backpressure enable. Determines which LMACs will have physical backpressure PAUSE
-                                                                 packets. The value placed in the Class Enable Vector field of the PFC/CBFC PAUSE packet is
-                                                                 PHYS_EN | LOGL_EN. */
-		uint64_t logl_en                     : 16; /**< R/W - Logical backpressure enable. Determines which LMACs will have logical backpressure PAUSE
-                                                                 packets. The value placed in the Class Enable Vector field of the PFC/CBFC PAUSE packet is
-                                                                 PHYS_EN | LOGL_EN. */
+		uint64_t phys_en                     : 16; /**< R/W - Physical backpressure enable. Determines which classes/channels will have physical
+                                                                 backpressure PAUSE packets. The value placed in the class enable vector field of the
+                                                                 PFC/CBFC PAUSE packet is PHYS_EN | LOGL_EN. */
+		uint64_t logl_en                     : 16; /**< R/W - Logical backpressure enable. Determines which classes/channels will have logical
+                                                                 backpressure PAUSE packets. The value placed in the class enable vector field of the
+                                                                 PFC/CBFC PAUSE packet is PHYS_EN | LOGL_EN. */
 		uint64_t reserved_4_31               : 28;
 		uint64_t bck_en                      : 1;  /**< R/W - Forward PFC/CBFC PAUSE information to the backpressure block. */
 		uint64_t drp_en                      : 1;  /**< R/W - Drop-control enable. When set, drop PFC/CBFC PAUSE frames. */

@@ -505,7 +505,7 @@ typedef union bdk_gic_bist_statusr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
 		uint64_t bist                        : 9;  /**< RO/H - Memory BIST status. 0 = Pass, 1 = Fail.
-                                                                 INTERNAL: [6:0]= [rdb(TODO),
+                                                                 INTERNAL: [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
 #else
 		uint64_t bist                        : 9;
@@ -544,6 +544,44 @@ typedef union bdk_gic_cfg_ctlr {
 		uint64_t reserved_10_31              : 22;
 		uint64_t dis_lpi_pend_cache          : 1;  /**< SR/W - Disable the LPI pending table cache. */
 		uint64_t dis_lpi_cfg_cache           : 1;  /**< SR/W - Disable the LPI configuration cache. */
+		uint64_t dis_inv_hct                 : 1;  /**< SR/W - Disable H/W invalidating ITS HCT during ITS disable process. */
+		uint64_t dis_its_cdtc                : 1;  /**< SR/W - Disable 1-entry device table cache in ITS CEU. */
+		uint64_t dis_its_itlb                : 1;  /**< SR/W - Disable ITS ITLB (interrupt translation entry lookup buffer). */
+		uint64_t dis_its_dtlb                : 1;  /**< SR/W - Disable ITS DTLB (device table entry lookup buffer). */
+		uint64_t reserved_3_3                : 1;
+		uint64_t root_dist                   : 1;  /**< SR/W - Specifies whether the distributor on this socket is root.
+                                                                 0 = Distributor is not root.
+                                                                 1 = Distributor is root.
+
+                                                                 Out of reset, this field is set. EL3 firmware will clear this field as required for multi-
+                                                                 socket operation. */
+		uint64_t om                          : 2;  /**< SR/W - Operation mode.
+                                                                 0x0 = Single-socket single-root mode.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Multi-socket single-root mode.
+                                                                 0x3 = Multi-socket multi-root mode. */
+#else
+		uint64_t om                          : 2;
+		uint64_t root_dist                   : 1;
+		uint64_t reserved_3_3                : 1;
+		uint64_t dis_its_dtlb                : 1;
+		uint64_t dis_its_itlb                : 1;
+		uint64_t dis_its_cdtc                : 1;
+		uint64_t dis_inv_hct                 : 1;
+		uint64_t dis_lpi_cfg_cache           : 1;
+		uint64_t dis_lpi_pend_cache          : 1;
+		uint64_t reserved_10_31              : 22;
+		uint64_t dis_cpu_if_load_balancer    : 1;
+		uint64_t reserved_33_63              : 31;
+#endif
+	} s;
+	struct bdk_gic_cfg_ctlr_cn85xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_33_63              : 31;
+		uint64_t dis_cpu_if_load_balancer    : 1;  /**< SR/W - Disable the CPU interface load balancer. */
+		uint64_t reserved_10_31              : 22;
+		uint64_t dis_lpi_pend_cache          : 1;  /**< SR/W - Disable the LPI pending table cache. */
+		uint64_t dis_lpi_cfg_cache           : 1;  /**< SR/W - Disable the LPI configuration cache. */
 		uint64_t reserved_7_7                : 1;
 		uint64_t dis_its_cdtc                : 1;  /**< SR/W - Disable 1-entry device table cache in ITS CEU. */
 		uint64_t dis_its_itlb                : 1;  /**< SR/W - Disable ITS ITLB (interrupt translation entry lookup buffer). */
@@ -574,8 +612,7 @@ typedef union bdk_gic_cfg_ctlr {
 		uint64_t dis_cpu_if_load_balancer    : 1;
 		uint64_t reserved_33_63              : 31;
 #endif
-	} s;
-	/* struct bdk_gic_cfg_ctlr_s          cn85xx; */
+	} cn85xx;
 	/* struct bdk_gic_cfg_ctlr_s          cn88xx; */
 } bdk_gic_cfg_ctlr_t;
 
@@ -604,12 +641,13 @@ typedef union bdk_gic_ecc_ctlr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t ram_flip1                   : 9;  /**< SR/W - Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. See COR_DIS bit definitions (rdb -- TODO). */
+                                                                 test single-bit or double-bit error handling. See COR_DIS bit definitions. */
 		uint64_t reserved_29_39              : 11;
 		uint64_t ram_flip0                   : 9;  /**< SR/W - Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. See COR_DIS bit definitions (rdb -- TODO). */
+                                                                 test single-bit or double-bit error handling. See COR_DIS bit definitions. */
 		uint64_t reserved_9_19               : 11;
-		uint64_t cor_dis                     : 9;  /**< SR/W - RAM ECC correction disable. INTERNAL: for [rdb(TODO),
+		uint64_t cor_dis                     : 9;  /**< SR/W - RAM ECC correction disable. INTERNAL: for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
+                                                                 lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
 #else
 		uint64_t cor_dis                     : 9;
@@ -649,11 +687,11 @@ typedef union bdk_gic_ecc_int_statusr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_41_63              : 23;
 		uint64_t dbe                         : 9;  /**< R/W1C/H - RAM ECC DBE detected.
-                                                                 INTERNAL: [6:0] = [rdb(TODO),
+                                                                 INTERNAL: [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
 		uint64_t reserved_9_31               : 23;
 		uint64_t sbe                         : 9;  /**< R/W1C/H - RAM ECC SBE detected.
-                                                                 INTERNAL: [6:0] = [rdb(TODO),
+                                                                 INTERNAL: [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
 #else
 		uint64_t sbe                         : 9;

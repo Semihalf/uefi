@@ -1800,8 +1800,8 @@ union nic_rx_hdr_s {
  * The Send CRC subdescriptor specifies a CRC calculation be performed during transmission. See
  * Custom Checksum.
  * There may be up to two NIC_SEND_CRC_Ss per packet send descriptor. NIC_SEND_CRC_S constraints:
- * NIC_SEND_CRC_S subdescriptors must precede all NIC_SEND_GATHER_S and NIC_SEND_IMM_S
- * subdescriptors in the send descriptor.
+ * NIC_SEND_CRC_S subdescriptors must precede all NIC_SEND_GATHER_S, NIC_SEND_IMM_S and
+ * NICX_SEND_MEM_S subdescriptors in the send descriptor.
  *
  * NIC_SEND_CRC_S subdescriptors must follow the same order as their checksum and insert regions
  * in the packet, i.e. the checksum and insert regions of a NIC_SEND_CRC_S must come after the
@@ -4740,7 +4740,7 @@ typedef union bdk_nic_pf_int_timer_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_24_63              : 40;
 		uint64_t clk_per_int_tick            : 24; /**< R/W - Number of coprocessor-clock cycles per tick for the CQ interrupt timers in
-                                                                 NIC_QS()_CQ()_STATUS[INT_TIMER]. */
+                                                                 NIC_QS()_CQ()_STATUS2[GLOBAL_TIME]. */
 #else
 		uint64_t clk_per_int_tick            : 24;
 		uint64_t reserved_24_63              : 40;
@@ -7171,7 +7171,10 @@ typedef union bdk_nic_qsx_cqx_cfg {
                                                                  0x4 = 16K entries.
                                                                  0x5 = 32K entries.
                                                                  0x6 = 64K entries.
-                                                                 0x7 = Reserved. */
+                                                                 0x7 = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
+                                                                 means empty). */
 		uint64_t reserved_25_31              : 7;
 		uint64_t avg_con                     : 9;  /**< R/W - This value controls how much of each present average resource level is used to calculate
                                                                  the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
@@ -7224,8 +7227,8 @@ typedef union bdk_nic_qsx_cqx_cfg2 {
 		uint64_t reserved_8_63               : 56;
 		uint64_t int_timer_thr               : 8;  /**< R/W - CQ interrupt timer threshold. Zero disables the interrupt timer
                                                                  This is not reset by NIC_QS()_CQ()_CFG[RESET].
-                                                                 It is up to software write '0' to this field to disable interrupt timer before reseting
-                                                                 the CQ. */
+                                                                 It is up to software write zero to this field to disable the interrupt timer before
+                                                                 reseting the CQ. */
 #else
 		uint64_t int_timer_thr               : 8;
 		uint64_t reserved_8_63               : 56;
@@ -7421,19 +7424,19 @@ typedef union bdk_nic_qsx_cqx_status2 {
 	struct bdk_nic_qsx_cqx_status2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t timer_en                    : 1;  /**< RO/H - Interrupt-timer enable for this CQ. This is enable when:
+		uint64_t timer_en                    : 1;  /**< RO/H - Interrupt-timer enable for this CQ. This is set when:
                                                                  NIC_QS()_CQ()_STATUS[QCOUNT] is not 0 and
                                                                  NIC_QS()_CQ()_CFG2[INT_TIMER_THR] is not 0. */
 		uint64_t reserved_28_30              : 3;
-		uint64_t global_time                 : 12; /**< RO/H - Global time. A free-running timer increment on each interrupt timer tick as
-                                                                 configured by NIC_PF_INT_TIMER_CFG[CLK_PER_INT_TIMER_TICK]. Wrap around at
-                                                                 maximum value. Not a per CQ counter, just copied here for easy reference. */
+		uint64_t global_time                 : 12; /**< RO/H - Global time. A free-running timer that increments on each interrupt timer tick as
+                                                                 configured by NIC_PF_INT_TIMER_CFG[CLK_PER_INT_TICK]. Wraps around at maximum value. Not a
+                                                                 per CQ counter, just provided here for reference. */
 		uint64_t reserved_12_15              : 4;
 		uint64_t int_timer                   : 12; /**< RO/H - CQ interrupt timer.
                                                                  Hardware sets [INT_TIMER] to the threshold value GLOBAL_TIME +
-                                                                 NIC_QS()_CQ()_CFG[INT_TIMER_THR] whenever one of the following occurs:
+                                                                 NIC_QS()_CQ()_CFG2[INT_TIMER_THR] whenever one of the following occurs:
                                                                  * [TIMER_EN] goes from 0 to 1.
-                                                                 * [GLOBAL_TIME] increases pass [INT_TIMER] and [TIMER_EN] is 1.
+                                                                 * [GLOBAL_TIME] crosses [INT_TIMER] and [TIMER_EN] is 1.
                                                                  * NIC_VF()_INT[CQ] for this CQ is written with a 1 to clear and [TIMER_EN] is 1.
                                                                  * NIC_QS()_CQ()_CFG2 register is written and [TIMER_EN] is 1. */
 #else
@@ -7598,7 +7601,9 @@ typedef union bdk_nic_qsx_rbdrx_cfg {
                                                                  0x4 = 128K entries.
                                                                  0x5 = 256K entries.
                                                                  0x6 = 512K entries.
-                                                                 else = Reserved. */
+                                                                 else = Reserved.
+                                                                 Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
+                                                                 means empty). */
 		uint64_t reserved_25_31              : 7;
 		uint64_t avg_con                     : 9;  /**< R/W - This value controls how much of each present average resource level is used to calculate
                                                                  the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
@@ -8121,7 +8126,10 @@ typedef union bdk_nic_qsx_sqx_cfg {
                                                                  0x4 = 16K entries.
                                                                  0x5 = 32K entries.
                                                                  0x6 = 64K entries.
-                                                                 0x7 = Reserved. */
+                                                                 0x7 = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
+                                                                 means empty). */
 		uint64_t reserved_3_7                : 5;
 		uint64_t tstmp_bgx_intf              : 3;  /**< R/W/H - Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
                                                                  the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
@@ -8548,7 +8556,7 @@ typedef union bdk_nic_vfx_ena_w1c {
                                                                  software will want this interrupt disabled. */
 		uint64_t reserved_18_19              : 2;
 		uint64_t rbdr                        : 2;  /**< R/W1C/H - RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for the following condition for its RBDR:
+                                                                 an interrupt message under any of the following condition for its RBDR:
                                                                  * NIC_QS()_RBDR()_THRESH is non-zero and
                                                                  NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
                                                                  hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
@@ -8556,7 +8564,7 @@ typedef union bdk_nic_vfx_ena_w1c {
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
 		uint64_t sq                          : 8;  /**< R/W1C/H - Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for one of the following conditions for its send queue:
+                                                                 an interrupt message under any of the following conditions for its send queue:
                                                                  * NIC_QS()_SQ()_THRESH is non-zero and NIC_QS()_SQ()_STATUS[QCOUNT]
                                                                  crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
                                                                  or NIC_QS()_SQ()_TAIL.
@@ -8567,10 +8575,9 @@ typedef union bdk_nic_vfx_ena_w1c {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * GLOBAL_TIME crosses NIC_QS()_CQ()_STATUS[INT_TIMER]
-                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT]
-                                                                 crosses NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD
-                                                                 or NIC_QS()_CQ()_TAIL.
+                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
+                                                                 NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
@@ -8628,7 +8635,7 @@ typedef union bdk_nic_vfx_ena_w1s {
                                                                  software will want this interrupt disabled. */
 		uint64_t reserved_18_19              : 2;
 		uint64_t rbdr                        : 2;  /**< R/W1C/H - RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for the following condition for its RBDR:
+                                                                 an interrupt message under any of the following condition for its RBDR:
                                                                  * NIC_QS()_RBDR()_THRESH is non-zero and
                                                                  NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
                                                                  hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
@@ -8636,7 +8643,7 @@ typedef union bdk_nic_vfx_ena_w1s {
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
 		uint64_t sq                          : 8;  /**< R/W1C/H - Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for one of the following conditions for its send queue:
+                                                                 an interrupt message under any of the following conditions for its send queue:
                                                                  * NIC_QS()_SQ()_THRESH is non-zero and NIC_QS()_SQ()_STATUS[QCOUNT]
                                                                  crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
                                                                  or NIC_QS()_SQ()_TAIL.
@@ -8647,10 +8654,9 @@ typedef union bdk_nic_vfx_ena_w1s {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * GLOBAL_TIME crosses NIC_QS()_CQ()_STATUS[INT_TIMER]
-                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT]
-                                                                 crosses NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD
-                                                                 or NIC_QS()_CQ()_TAIL.
+                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
+                                                                 NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
@@ -8708,7 +8714,7 @@ typedef union bdk_nic_vfx_int {
                                                                  software will want this interrupt disabled. */
 		uint64_t reserved_18_19              : 2;
 		uint64_t rbdr                        : 2;  /**< R/W1C/H - RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for the following condition for its RBDR:
+                                                                 an interrupt message under any of the following condition for its RBDR:
                                                                  * NIC_QS()_RBDR()_THRESH is non-zero and
                                                                  NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
                                                                  hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
@@ -8716,7 +8722,7 @@ typedef union bdk_nic_vfx_int {
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
 		uint64_t sq                          : 8;  /**< R/W1C/H - Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for one of the following conditions for its send queue:
+                                                                 an interrupt message under any of the following conditions for its send queue:
                                                                  * NIC_QS()_SQ()_THRESH is non-zero and NIC_QS()_SQ()_STATUS[QCOUNT]
                                                                  crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
                                                                  or NIC_QS()_SQ()_TAIL.
@@ -8727,10 +8733,9 @@ typedef union bdk_nic_vfx_int {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * GLOBAL_TIME crosses NIC_QS()_CQ()_STATUS[INT_TIMER]
-                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT]
-                                                                 crosses NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD
-                                                                 or NIC_QS()_CQ()_TAIL.
+                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
+                                                                 NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
@@ -8788,7 +8793,7 @@ typedef union bdk_nic_vfx_int_w1s {
                                                                  software will want this interrupt disabled. */
 		uint64_t reserved_18_19              : 2;
 		uint64_t rbdr                        : 2;  /**< R/W1C/H - RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for the following condition for its RBDR:
+                                                                 an interrupt message under any of the following condition for its RBDR:
                                                                  * NIC_QS()_RBDR()_THRESH is non-zero and
                                                                  NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
                                                                  hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
@@ -8796,7 +8801,7 @@ typedef union bdk_nic_vfx_int_w1s {
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
 		uint64_t sq                          : 8;  /**< R/W1C/H - Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
-                                                                 an interrupt message for one of the following conditions for its send queue:
+                                                                 an interrupt message under any of the following conditions for its send queue:
                                                                  * NIC_QS()_SQ()_THRESH is non-zero and NIC_QS()_SQ()_STATUS[QCOUNT]
                                                                  crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
                                                                  or NIC_QS()_SQ()_TAIL.
@@ -8807,10 +8812,9 @@ typedef union bdk_nic_vfx_int_w1s {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * GLOBAL_TIME crosses NIC_QS()_CQ()_STATUS[INT_TIMER]
-                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT]
-                                                                 crosses NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD
-                                                                 or NIC_QS()_CQ()_TAIL.
+                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
+                                                                 NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
                                                                  Subsequent interrupt messages are only generated after the bit has been cleared by
                                                                  software. */
