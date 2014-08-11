@@ -6,6 +6,13 @@ static void *free_list;
 
 static int segment_init(void)
 {
+    /* Allow all IO units to access secure memory */
+    for (int smmu = 0; smmu < 4; smmu++)
+    {
+        for (int id = 0; id < 2048; id++)
+            BDK_CSR_WRITE(bdk_numa_local(), BDK_SMMUX_SSDRX(smmu, id), 0);
+    }
+
     bdk_spinlock_init(&free_list_lock);
 
     const int num_bufs = bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS);
