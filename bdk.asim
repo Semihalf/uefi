@@ -15,6 +15,11 @@ control n1.gpio0 set strap 0x8
 control n0.uaa0 connect 2000
 control n0.uaa1 connect 2001
 
+#trace n0.nic0 debug step
+#trace n0.nic_bridge on
+#trace n1.nic0 debug step
+#trace n1.nic_bridge on
+
 # Load BOOT ROM
 load target-bin/mio_boot_rom $(NODEIOBASE + 0x87d000000000)
 

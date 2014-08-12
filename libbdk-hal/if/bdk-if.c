@@ -410,7 +410,7 @@ void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_
 }
 
 
-static inline void dispatch(bdk_if_packet_t *packet)
+void bdk_if_dispatch_packet(bdk_if_packet_t *packet)
 {
     void *receiver_arg = packet->if_handle->receiver_arg;
     bdk_if_packet_receiver_t receiver = packet->if_handle->receiver;
@@ -461,7 +461,7 @@ int bdk_if_dispatch(void)
         {
             if (__bdk_if_ops[handle->iftype]->if_receive(handle, &packet) == 0)
             {
-                dispatch(&packet);
+                bdk_if_dispatch_packet(&packet);
                 got_packet = 1;
                 count++;
                 if (bdk_unlikely(count >= 100))

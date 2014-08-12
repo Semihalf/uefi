@@ -461,7 +461,8 @@ function TrafficGen.new()
         --  args[4] = increment, defaults to 1
         -- Get the size of one buffer
         local buf_size = cavium.c.bdk_config_get(cavium.CONFIG_PACKET_BUFFER_SIZE)
-        -- we can only handle a maximum of 16 segments
+        -- we can only handle a maximum of 16 segments on transmit
+        -- Receive can only handle 12 on CN88XX
         local max_packet = 16 * buf_size
         -- Get our setup params
         local output_count = args[1] or 100

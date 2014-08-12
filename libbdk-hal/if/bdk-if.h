@@ -85,8 +85,13 @@ typedef union
     uint64_t u;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint64_t size : 16;
         uint64_t address : 48;
+#else
+        uint64_t address : 48;
+        uint64_t size : 16;
+#endif
     } s;
 } bdk_packet_ptr_t;
 
@@ -136,6 +141,7 @@ typedef struct
 
 extern int bdk_if_is_configured(void);
 extern int bdk_if_dispatch(void) BDK_WEAK;
+extern void bdk_if_dispatch_packet(bdk_if_packet_t *packet);
 extern int bdk_if_num_interfaces(bdk_node_t node, bdk_if_t iftype);
 extern int bdk_if_num_ports(bdk_node_t node, bdk_if_t iftype, int interface);
 extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);
