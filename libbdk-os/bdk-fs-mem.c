@@ -10,7 +10,7 @@ static void *mem_open(const char *name, int flags)
 static int mem_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     /* Check location to avoid warning from bdk_phys_to_ptr */
-    const void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : (const void*)(1ull<<63);
+    const void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : NULL;
     memcpy(buffer, ptr, length);
     return length;
 }
@@ -19,7 +19,7 @@ static int mem_read(__bdk_fs_file_t *handle, void *buffer, int length)
 static int mem_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     /* Check location to avoid warning from bdk_phys_to_ptr */
-    void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : (void*)(1ull<<63);
+    void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : NULL;
     memcpy(ptr, buffer, length);
     return length;
 }
