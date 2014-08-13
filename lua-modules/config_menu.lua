@@ -77,27 +77,7 @@ end
 addMenu("MAC address", cavium.CONFIG_MAC_ADDRESS)
 addMenuKey("coremask", "Good Coremask", cavium.CONFIG_COREMASK)
 
--- Add an item for each MGMT port
 local node = cavium.MASTER_NODE
-local if_mgmt = cavium.IF_MGMT
-for port = 0,cavium.c.bdk_if_num_ports(node, if_mgmt, 0)-1 do
-    addPhyMenu("RGMII/MII port " .. port, cavium.CONFIG_PHY_MGMT_PORT0 + port)
-end
-
--- Add an item for each SGMII port
-local if_sgmii = cavium.IF_SGMII
-for interface = 0,cavium.c.bdk_if_num_interfaces(node, if_sgmii)-1 do
-    for port = 0, cavium.c.bdk_if_num_ports(node, if_sgmii, interface)-1 do
-        addPhyMenu("SGMII interface " .. interface .. ", port " .. port, cavium.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
-    end
-end
-
--- Add an item for each ILK port
-local if_ilk = cavium.IF_ILK
-for interface = 0,cavium.c.bdk_if_num_interfaces(node, if_ilk)-1 do
-    addMenu("Interlaken port " .. interface .. " lanes", cavium.CONFIG_ILK0_LANES + interface, 0, 16)
-    addMenu("Interlaken port " .. interface .. " channels", cavium.CONFIG_ILK0_PORTS + interface, 1, 64)
-end
 
 -- Add an item for each BGX port
 local if_bgx = cavium.IF_BGX
@@ -107,7 +87,6 @@ for interface = 0,cavium.c.bdk_if_num_interfaces(node, if_bgx)-1 do
         addPhyMenu("BGX interface " .. interface .. ", port " .. port, cavium.CONFIG_PHY_IF0_PORT0 + interface*4 + port)
     end
 end
-
 
 -- Allow the user to enable/disable link status message
 addMenu("Show link status messages", cavium.CONFIG_SHOW_LINK_STATUS, 0, 1)
