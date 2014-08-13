@@ -10,7 +10,7 @@
  * @{
  */
 
-#define BDK_IF_MAX_GATHER 16 /* CN88XX RX support 1 + 15 */
+#define BDK_IF_MAX_GATHER 12 /* CN88XX RX supports 12 at most */
 
 #define BDK_IF_PHY_FIXED_1GB 0x1000
 #define BDK_IF_PHY_FIXED_100MB 0x1001
@@ -80,6 +80,12 @@ typedef struct __bdk_if_port
 
 typedef __bdk_if_port_t *bdk_if_handle_t;
 
+/**
+ * Format of each gather/segment entry in a packet. This is unrelated to
+ * the underlying hardware format, but is designed to be simple to munge
+ * into a hardware format. Note that only 48 bits are stored for the
+ * address. This address is a physical address not mean for SMMU translation.
+ */
 typedef union
 {
     uint64_t u;
@@ -95,14 +101,23 @@ typedef union
     } s;
 } bdk_packet_ptr_t;
 
+/**
+ * The packet format for the BDK. This structure is designed to be exactly
+ * one cache line to promote alignment and avoid false aliasing. Note that the
+ * packet structure is independent from the packet data and can have a shorter
+ * lifespan. The packet structure is normally on the stack and disappears on
+ * stack unwind. Code requiring its data to stick around needs to copy it, but
+ * not the data in the gather list.
+ */
 typedef struct
 {
-    bdk_if_handle_t if_handle;
-    int             length;
-    int             segments;
-    int             free_after_send;
-    int             rx_error;
-    bdk_packet_ptr_t packet[BDK_IF_MAX_GATHER];
+    bdk_if_handle_t if_handle;  /* Handle to interface this packet was received on */
+    int             length;     /* Length of the packet in bytes */
+    int             segments;   /* Number of segments the packet is spread over */
+    int             rx_error;   /* Error number when packet was receive or zero for no error */
+    int             reserved1;  /* Reserved for future use */
+    uint64_t        reserved2;  /* Reserved for future use */
+    bdk_packet_ptr_t packet[BDK_IF_MAX_GATHER]; /* List of segements. Each has a physical address and length */
 } bdk_if_packet_t;
 
 typedef enum

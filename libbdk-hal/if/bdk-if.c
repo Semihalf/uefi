@@ -492,7 +492,6 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
     }
     const int buf_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
     packet->if_handle = NULL;
-    packet->free_after_send = 0;
     packet->rx_error = 0;
     packet->length = length;
 
@@ -614,7 +613,6 @@ void bdk_if_free(bdk_if_packet_t *packet)
 int bdk_if_copy(bdk_if_packet_t *packet, const bdk_if_packet_t *old_packet)
 {
     packet->if_handle = NULL;
-    packet->free_after_send = 0;
     packet->rx_error = 0;
     packet->length = old_packet->length;
 

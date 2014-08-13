@@ -100,27 +100,12 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         return -1;
     }
 
-    if (packet->free_after_send)
+    /* We must make a copy of this packet */
+    if (bdk_if_copy(&priv->queue[priv->tx_free], packet))
     {
-        priv->queue[priv->tx_free].length = packet->length;
-        priv->queue[priv->tx_free].segments = packet->segments;
-        /* The caller wants us to free the data, so we'll just reuse it on
-           the receive side. This will copy more than necessary, but gcc
-           can inline it and make it efficient */
-        memcpy(priv->queue[priv->tx_free].packet, packet->packet,
-            sizeof(priv->queue[priv->tx_free].packet));
-        packet->length = 0;
-        packet->segments = 0;
-    }
-    else
-    {
-        /* We must make a copy of this packet */
-        if (bdk_if_copy(&priv->queue[priv->tx_free], packet))
-        {
-            bdk_error("%s: Failed to allocate packet space\n", handle->name);
-            bdk_spinlock_unlock(&priv->lock);
-            return -1;
-        }
+        bdk_error("%s: Failed to allocate packet space\n", handle->name);
+        bdk_spinlock_unlock(&priv->lock);
+        return -1;
     }
 
     handle->stats.tx.packets++;
@@ -153,7 +138,6 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     packet->if_handle = handle;
     packet->length = priv->queue[priv->next_rx].length;
     packet->segments = priv->queue[priv->next_rx].segments;
-    packet->free_after_send = 0;
     packet->rx_error = 0;
     /* This will copy more than necessary, but gcc can inline it and make it
        efficient */

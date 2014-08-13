@@ -494,8 +494,6 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
         if (bdk_likely(do_tx))
         {
             output_cycle += output_cycle_gap;
-            /* Only free the packet on TX if this is the last packet */
-            packet->free_after_send = (count == 1);
             if (bdk_likely(bdk_if_transmit(tg_port->handle, packet) == 0))
             {
                 if (bdk_unlikely(--count == 0))
@@ -503,8 +501,7 @@ static void packet_transmitter_generic(tg_port_t *tg_port, bdk_if_packet_t *pack
             }
             else
             {
-                /* Transmit failed. Remember we need to free the packet */
-                packet->free_after_send = 0;
+                /* Transmit failed */
                 bdk_thread_yield();
             }
         }
@@ -539,9 +536,6 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         dump_packet(tg_port, &packet);
     }
 
-    /* Signal that this packet should not be freed */
-    packet.free_after_send = 0;
-
     /* Figure out my TX rate */
     int packet_rate = port_tx->output_rate;
     if (port_tx->output_rate_is_mbps)
@@ -552,23 +546,19 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     packet_transmitter_generic(tg_port, &packet, output_cycle_gap);
 
-    if (!packet.free_after_send)
+    /* Wait for transmit to be idle before freeing the packet */
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
+    while (bdk_if_get_queue_depth(tg_port->handle))
     {
-        /* Packet has not been freed on TX, so free it now. This should only
-           happen in the error case.  Normal ending of transmission has the
-           PKO free the packet buffer after sending the last one. */
-        uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
-        while (bdk_if_get_queue_depth(tg_port->handle))
-        {
-            if (bdk_clock_get_count(BDK_CLOCK_CORE) > timeout)
-                break;
-            bdk_wait_usec(100);
-        }
-        if (bdk_if_get_queue_depth(tg_port->handle) == 0)
-            bdk_if_free(&packet);
-        else
-            bdk_error("%s: Transmit packet not freed as output queue still active\n", tg_port->handle->name);
+        if (bdk_clock_get_count(BDK_CLOCK_CORE) > timeout)
+            break;
+        bdk_wait_usec(100);
     }
+    if (bdk_if_get_queue_depth(tg_port->handle) == 0)
+        bdk_if_free(&packet);
+    else
+        bdk_error("%s: Transmit packet not freed as output queue still active\n", tg_port->handle->name);
+
     port_tx->output_enable = 0;
     BDK_WMB;
 }
