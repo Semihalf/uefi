@@ -151,6 +151,10 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
 
+    /* Strip FCS */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_GLOBAL_CONFIG(handle->interface),
+        c.s.fcs_strip = 1);
+
     /* First warn if BIST failed */
     uint64_t bist = BDK_CSR_READ(handle->node, BDK_BGXX_CMR_BIST_STATUS(handle->interface));
     if (bist)
@@ -648,9 +652,6 @@ static int xaui_init(bdk_if_handle_t handle)
     /* 3e. Program all other relevant BGX configuration while
        BGX(0..5)_CMR(0..3)_CONFIG[ENABLE] = 0. This includes all things
        described in this chapter. */
-    /* Don't add a FCS as PKO does that */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_APPEND(bgx_block, bgx_index),
-        c.s.fcs_d = 0);
 
     /* 3f. If Forward Error Correction is desired for 10GBASE-R or 40GBASE-R,
        enable it by writing BGX(0..5)_SPU(0..3)_FEC_CONTROL[FEC_EN] = 1.
@@ -1180,13 +1181,7 @@ static int if_init(bdk_if_handle_t handle)
     if (bgx_setup_one_time(handle))
         return -1;
 
-    if (priv.s.mode == BGX_MODE_SGMII)
-    {
-        /* Don't add a FCS as PKO does that */
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_APPEND(bgx_block, bgx_index),
-            c.s.fcs = 0);
-    }
-    else
+    if (priv.s.mode != BGX_MODE_SGMII)
     {
         /* Everything other than SGMII */
         xaui_init(handle);

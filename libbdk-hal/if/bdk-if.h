@@ -28,7 +28,7 @@ typedef enum
 
 typedef enum
 {
-    BDK_IF_FLAGS_HAS_FCS = 1,
+    BDK_IF_FLAGS_HAS_FCS = 1, /* The device adds and removes an FCS. On thunder we assume the hardware strips FCS */
     BDK_IF_FLAGS_ENABLED = 2,
 } bdk_if_flags_t;
 
