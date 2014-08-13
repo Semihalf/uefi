@@ -1,5 +1,5 @@
--- BDK Flash menu.
--- Displays the GUI interface for accessing NOR flash.
+-- BDK eMMC menu.
+-- Displays the GUI interface for accessing eMMC/SD.
 require("strict")
 require("utils")
 require("fileio")
@@ -9,10 +9,7 @@ local option = ""
 local node = cavium.MASTER_NODE
 
 while (option ~= "quit") do
-    local m = menu.new("Flash Menu")
-    m:item("init", "Query for NOR flash", function()
-        cavium.c.bdk_flash_initialize(node)
-    end)
+    local m = menu.new("eMMC, MMC, or SD Menu")
     m:item("mmc-vw", "View eMMC, MMC, or SD", function()
         local chip_sel = menu.prompt_number("Chip select", 0, 0, 3)
         local offset = menu.prompt_number("Starting offset")
