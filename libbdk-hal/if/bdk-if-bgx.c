@@ -1539,16 +1539,25 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
 
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv.s.port),
-        c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
-
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv.s.port),
-        c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
-
     if (priv.s.mode == BGX_MODE_SGMII)
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv.s.port),
+            c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv.s.port),
+            c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
         sgmii_link(handle);
+    }
     else
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(handle->interface, priv.s.port),
+            c.s.loopbck = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
+        if (loopback & BDK_IF_LOOPBACK_EXTERNAL)
+        {
+            /* FIXME: What about SPU external loopback? */
+            bdk_error("%s: External loopback not implemented\n", handle->name);
+        }
         xaui_link(handle);
+    }
     return 0;
 }
 
