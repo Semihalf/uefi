@@ -575,44 +575,7 @@ typedef union bdk_gic_cfg_ctlr {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	struct bdk_gic_cfg_ctlr_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_33_63              : 31;
-		uint64_t dis_cpu_if_load_balancer    : 1;  /**< SR/W - Disable the CPU interface load balancer. */
-		uint64_t reserved_10_31              : 22;
-		uint64_t dis_lpi_pend_cache          : 1;  /**< SR/W - Disable the LPI pending table cache. */
-		uint64_t dis_lpi_cfg_cache           : 1;  /**< SR/W - Disable the LPI configuration cache. */
-		uint64_t reserved_7_7                : 1;
-		uint64_t dis_its_cdtc                : 1;  /**< SR/W - Disable 1-entry device table cache in ITS CEU. */
-		uint64_t dis_its_itlb                : 1;  /**< SR/W - Disable ITS ITLB (interrupt translation entry lookup buffer). */
-		uint64_t dis_its_dtlb                : 1;  /**< SR/W - Disable ITS DTLB (device table entry lookup buffer). */
-		uint64_t reserved_3_3                : 1;
-		uint64_t root_dist                   : 1;  /**< SR/W - Specifies whether the distributor on this socket is root.
-                                                                 0 = Distributor is not root.
-                                                                 1 = Distributor is root.
-
-                                                                 Out of reset, this field is set. EL3 firmware will clear this field as required for multi-
-                                                                 socket operation. */
-		uint64_t om                          : 2;  /**< SR/W - Operation mode.
-                                                                 0x0 = Single-socket single-root mode.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = Multi-socket single-root mode.
-                                                                 0x3 = Multi-socket multi-root mode. */
-#else
-		uint64_t om                          : 2;
-		uint64_t root_dist                   : 1;
-		uint64_t reserved_3_3                : 1;
-		uint64_t dis_its_dtlb                : 1;
-		uint64_t dis_its_itlb                : 1;
-		uint64_t dis_its_cdtc                : 1;
-		uint64_t reserved_7_7                : 1;
-		uint64_t dis_lpi_cfg_cache           : 1;
-		uint64_t dis_lpi_pend_cache          : 1;
-		uint64_t reserved_10_31              : 22;
-		uint64_t dis_cpu_if_load_balancer    : 1;
-		uint64_t reserved_33_63              : 31;
-#endif
-	} cn85xx;
+	/* struct bdk_gic_cfg_ctlr_s          cn85xx; */
 	/* struct bdk_gic_cfg_ctlr_s          cn88xx; */
 } bdk_gic_cfg_ctlr_t;
 

@@ -43568,7 +43568,7 @@ local csr_db = {
                 {name = "RESERVED_10_31", start = 10, stop = 31},
                 {name = "DIS_LPI_PEND_CACHE", start = 9, stop = 9},
                 {name = "DIS_LPI_CFG_CACHE", start = 8, stop = 8},
-                {name = "RESERVED_7_7", start = 7, stop = 7},
+                {name = "DIS_INV_HCT", start = 7, stop = 7},
                 {name = "DIS_ITS_CDTC", start = 6, stop = 6},
                 {name = "DIS_ITS_ITLB", start = 5, stop = 5},
                 {name = "DIS_ITS_DTLB", start = 4, stop = 4},
@@ -47844,7 +47844,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "TLB_SYNC_DIS", start = 3, stop = 3},
                 {name = "OCI_KEY_ONLY", start = 2, stop = 2},
                 {name = "ALL_GIC", start = 1, stop = 1},
                 {name = "NCBI_OFF", start = 0, stop = 0},
