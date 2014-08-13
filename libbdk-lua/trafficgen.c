@@ -986,7 +986,7 @@ static int set_loopback(lua_State* L)
             return luaL_error(L, "Setting loopback failed");
     }
     else
-        return luaL_error(L, "Illegal loopback mode \"%s\"", loop_mode);
+        return luaL_error(L, "Illegal loopback mode \"%s\", expect \"none\", \"internal\", \"external\", or \"internal+external\"", loop_mode);
     return 0;
 }
 
