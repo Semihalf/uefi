@@ -933,8 +933,7 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
         }
         rbdr_ptr[loc] = packet.packet[0].s.address;
         loc++;
-        if (loc >= RBDR_ENTRIES)
-            loc = 0;
+        loc &= RBDR_ENTRIES - 1;
         added++;
     }
     BDK_WMB;
@@ -1421,7 +1420,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Check for space. A max sized packet will take one header and 16 gather
        entries */
     BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv.s.vnic, priv.s.qos));
-    if (sq_status.s.qcount >= SQ_ENTRIES - 17)
+    if (bdk_unlikely(sq_status.s.qcount >= SQ_ENTRIES - 17))
         return -1;
 
     /* Build the command */
@@ -1437,8 +1436,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     send_hdr.s.total = packet->length;
     *(union nic_send_hdr_s *)(sq_ptr + loc * 16) = send_hdr;
     loc++;
-    if (loc >= SQ_ENTRIES)
-        loc = 0;
+    loc &= SQ_ENTRIES - 1;
     for (int s = 0; s < packet->segments; s++)
     {
         union nic_send_gather_s gather;
@@ -1450,8 +1448,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         gather.s.size = packet->packet[s].s.size;
         *(union nic_send_gather_s *)(sq_ptr + loc * 16) = gather;
         loc++;
-        if (loc >= SQ_ENTRIES)
-            loc = 0;
+        loc &= SQ_ENTRIES - 1;
     }
 
     BDK_WMB;
@@ -1511,21 +1508,22 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Find the current CQ location */
     BDK_CSR_INIT(cq_base, handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx));
     BDK_CSR_INIT(cq_head, handle->node, BDK_NIC_QSX_CQX_HEAD(cq, cq_idx));
+    int loc = cq_head.s.head_ptr;
+    const void *cq_ptr = bdk_phys_to_ptr(cq_base.u);
 
     /* Loop through all pending CQs */
     int count = 0;
     int rbdr_free = 0;
     while (count < pending_count)
     {
-        union nic_cqe_rx_s *cq_header = bdk_phys_to_ptr(cq_base.u + cq_head.u);
+        const union nic_cqe_rx_s *cq_header = cq_ptr + loc * 512;
         if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
             rbdr_free += if_process_complete_rx(cq_header, packet);
         else
             bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
         count++;
-        cq_head.s.head_ptr++;
-        if (cq_head.s.head_ptr > CQ_ENTRIES)
-            cq_head.s.head_ptr = 0;
+        loc++;
+        loc &= CQ_ENTRIES - 1;
     }
     /* Free all the CQs that we've processed */
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
