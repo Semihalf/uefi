@@ -1,5 +1,8 @@
 ifndef BDK_ROOT
-$(error Define BDK_ROOT in the environment)
+$(error Define BDK_ROOT in the environment, the directory of the BDK)
+endif
+ifndef ASIM
+$(error Define ASIM in the environment, the directory of asim)
 endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
@@ -43,7 +46,7 @@ suid: all
 
 .PHONY: run
 run:
-	../asim/asim -e bdk.asim
+	$(ASIM)/asim -e bdk.asim
 
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
