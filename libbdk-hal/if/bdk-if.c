@@ -485,6 +485,11 @@ int bdk_if_dispatch(void)
  */
 int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
+    if (length > 9212)
+    {
+        bdk_error("Packets larger than 9212 (9216 with FCS) are not allowed\n");
+        return -1;
+    }
     const int buf_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
     packet->if_handle = NULL;
     packet->free_after_send = 0;
