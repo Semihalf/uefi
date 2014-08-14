@@ -14,15 +14,15 @@
  */
 typedef union
 {
-    int64_t combined;
+    uint64_t combined;
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        int32_t ticket;
-        int32_t serving;
+        uint32_t ticket;
+        uint32_t serving;
 #else
-        int32_t serving;
-        int32_t ticket;
+        uint32_t serving;
+        uint32_t ticket;
 #endif
     } s;
 } bdk_spinlock_t;
@@ -34,8 +34,7 @@ typedef union
  */
 static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
 {
-    lock->s.ticket = 0;
-    lock->s.serving = 0;
+    __atomic_store_8(&lock->combined, 0, __ATOMIC_RELAXED);
 }
 
 /**
@@ -43,11 +42,10 @@ static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
  *
  * @param lock   pointer to lock structure
  */
+static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 {
-    BDK_WMB;
-    lock->s.serving++;
-    BDK_WMB;
+    __atomic_store_4(&lock->s.serving, lock->s.serving + 1, __ATOMIC_RELEASE);
 }
 
 /**
@@ -55,15 +53,32 @@ static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
  *
  * @param lock   pointer to lock structure
  */
+static inline void bdk_spinlock_lock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
-    BDK_WMB;
-    int64_t combined = bdk_atomic_fetch_and_add64_nosync(&lock->combined, 1ull<<32);
-    int32_t ticket = combined >> 32;
-    int32_t serving = (int32_t)combined;
+    uint64_t combined = __atomic_fetch_add(&lock->combined, 1ull<<32, __ATOMIC_ACQUIRE);
+    uint32_t ticket = combined >> 32;
+    uint32_t serving = (uint32_t)combined;
 
     while (bdk_unlikely(serving != ticket))
-        serving = bdk_atomic_get32(&lock->s.serving);
+        serving = __atomic_load_4(&lock->s.serving, __ATOMIC_RELAXED);
+}
+
+/**
+ * Trys to get the lock, failing if we can't get it immediately
+ *
+ * @param lock   pointer to lock structure
+ */
+static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
+static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock)
+{
+    uint64_t combined = __atomic_load_8(&lock->combined, __ATOMIC_RELAXED);
+    uint32_t ticket = combined >> 32;
+    uint32_t serving = (uint32_t)combined;
+    if (ticket != serving)
+        return -1;
+    uint64_t new_combined = combined + (1ull << 32);
+    return !__atomic_compare_exchange_8(&lock->combined, &combined, new_combined, 0, __ATOMIC_ACQUIRE, __ATOMIC_RELAXED);
 }
 
 /** @} */
