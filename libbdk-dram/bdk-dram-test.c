@@ -4,10 +4,6 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(DRAM_TEST);
 
-/* The physical memory map has a hole between 256MB and 512MB for the
-   bootbus. These defines represent this in address caclulations */
-#define BDK_DRAM_HOLE_START 0x10000000ull
-#define BDK_DRAM_HOLE_SIZE 0x10000000ull
 #define MAX_ERRORS_TO_REPORT 50
 #define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
 
@@ -134,60 +130,18 @@ static void dram_test_thread(int arg, void *arg1)
      */
     uint64_t start_address = dram_test_thread_start + dram_test_thread_size * range_number;
     uint64_t end_address = start_address + dram_test_thread_size;
-    if (dram_test_thread_start < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE)
-    {
-        if (start_address >= BDK_DRAM_HOLE_START)
-        {
-            start_address += BDK_DRAM_HOLE_SIZE;
-            end_address += BDK_DRAM_HOLE_SIZE;
-        }
-        else if (end_address > BDK_DRAM_HOLE_START)
-        {
-            end_address += BDK_DRAM_HOLE_SIZE;
-        }
-    }
-    else
-    {
-        if ((end_address > BDK_DRAM_HOLE_START) && (start_address < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE))
-            end_address += BDK_DRAM_HOLE_SIZE;
-    }
     if (end_address > dram_test_thread_end)
         end_address = dram_test_thread_end;
 
     bdk_node_t node = bdk_numa_local();
 
-    /* Check if we're spanning the memory hole */
-    if ((start_address < BDK_DRAM_HOLE_START) && (end_address > BDK_DRAM_HOLE_START))
-    {
-        /* Insert the node part of the address */
-        uint64_t s1 = start_address;
-        uint64_t e1 = BDK_DRAM_HOLE_START;
-        uint64_t s2 = BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE;
-        uint64_t e2 = end_address;
-        s1 |= ((uint64_t)node) << 40;
-        e1 |= ((uint64_t)node) << 40;
-        s2 |= ((uint64_t)node) << 40;
-        e2 |= ((uint64_t)node) << 40;
-
-        /* Test before the hole */
-        BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
-            node, bdk_get_core_num() & 127, s1, e1 - 1);
-        test_info->test_func(s1, e1, bursts);
-        /* Test after the hole */
-        BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
-            node, bdk_get_core_num() & 127, s2, e2 - 1);
-        test_info->test_func(s2, e2, bursts);
-    }
-    else
-    {
-        /* Insert the node part of the address */
-        start_address |= ((uint64_t)node) << 40;
-        end_address |= ((uint64_t)node) << 40;
-        /* Test the region */
-        BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
-            node, bdk_get_core_num() & 127, start_address, end_address - 1);
-        test_info->test_func(start_address, end_address, bursts);
-    }
+    /* Insert the node part of the address */
+    start_address = bdk_numa_get_address(node, start_address);
+    end_address = bdk_numa_get_address(node, end_address);
+    /* Test the region */
+    BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+        node, bdk_get_core_num() & 127, start_address, end_address - 1);
+    test_info->test_func(start_address, end_address, bursts);
 
     /* Report that we're done */
     BDK_TRACE("Thread %d on node %d done with memory test\n", range_number, node);
@@ -211,9 +165,6 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     uint64_t max_address = bdk_dram_get_size_mbytes(bdk_numa_local());
     BDK_TRACE("DRAM available per node: %lu MB\n", max_address);
     max_address <<= 20;
-    /* More than 256MB gets offset by 256MB due to the bootbus hole */
-    if (max_address > BDK_DRAM_HOLE_START)
-        max_address += BDK_DRAM_HOLE_SIZE;
 
     /* Make sure we have enough */
     if (max_address < (16<<20))
@@ -239,25 +190,10 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
 
     /* Final range checks */
     uint64_t end_address = start_address + length;
-    if ((start_address < BDK_DRAM_HOLE_START) && (end_address > BDK_DRAM_HOLE_START))
+    if (end_address > max_address)
     {
-        /* Account for hole in length check */
-        end_address += BDK_DRAM_HOLE_SIZE;
-        if (end_address > max_address)
-        {
-            end_address = max_address;
-            length = end_address - start_address;
-            if (end_address > BDK_DRAM_HOLE_START)
-                length -= BDK_DRAM_HOLE_SIZE;
-        }
-    }
-    else
-    {
-        if (end_address > max_address)
-        {
-            end_address = max_address;
-            length = end_address - start_address;
-        }
+        end_address = max_address;
+        length = end_address - start_address;
     }
     if (length == 0)
         return 0;
@@ -399,15 +335,6 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
         bdk_error("DRAM test length must be a multiple of 64KB\n");
         return -1;
     }
-    /* Don't allow Bootbus addresses as start addresses. Other code handles
-       the case where start is before the DRAM hole and length extends into it
-       */
-    if ((start_address >= BDK_DRAM_HOLE_START) &&
-        (start_address < BDK_DRAM_HOLE_START + BDK_DRAM_HOLE_SIZE))
-    {
-        bdk_error("DRAM test start address must not be in the DRAM hole (256MB - 512MB)\n");
-        return -1;
-    }
 
     const char *name = bdk_dram_get_test_name(test);
     if (name == NULL)
@@ -418,12 +345,12 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
 
     /* Make sure the start address is higher that the BDK's active range.
      *
-     * As sbrk() returns an final address, mask off the node portion of
+     * As sbrk() returns a node address, mask off the node portion of
      * the address to make it a physical offset. Doing this simplifies the
      * address checks and calculations which only work with physical offsets.
      */
     extern caddr_t sbrk(int incr);
-    uint64_t top_of_bdk = (bdk_ptr_to_phys(sbrk(0)) & 0x000000FFFFFFFFFF);
+    uint64_t top_of_bdk = (bdk_ptr_to_phys(sbrk(0)) & bdk_build_mask(40));
     if (start_address < top_of_bdk)
     {
         /* Give 4MB of extra so the BDK has room to grow while the test runs */
