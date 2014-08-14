@@ -292,12 +292,12 @@ static void process_input_change_index(int delta)
     process_input_draw_current();
 }
 
-static inline void process_input_change_index_to(int line)
+static void process_input_change_index_to(int line)
 {
     process_input_change_index(line - history_lookup_index);
 }
 
-static inline void process_input_change_pos(int delta)
+static void process_input_change_pos(int delta)
 {
     cmd_pos += delta;
 
@@ -307,14 +307,14 @@ static inline void process_input_change_pos(int delta)
     process_input_draw_current();
 }
 
-static inline void process_input_save_undo(void)
+static void process_input_save_undo(void)
 {
     undo.cmd_len = cmd_len;
     undo.cmd_pos = cmd_pos;
     strncpy(undo.cmd, cmd, MAX_COMMAND);
 }
 
-static inline void process_input_undo(void)
+static void process_input_undo(void)
 {
     undo_t temp;
 
@@ -329,7 +329,7 @@ static inline void process_input_undo(void)
     strncpy(cmd, temp.cmd, MAX_COMMAND);
 }
 
-static inline void process_input_beginning_of_word(void)
+static void process_input_beginning_of_word(void)
 {
     cmd_pos--;
     while (((signed)cmd_pos >= 0) && (cmd[cmd_pos] == ' ')) {
@@ -341,7 +341,7 @@ static inline void process_input_beginning_of_word(void)
     cmd_pos++;
 }
 
-static inline void process_input_next_word(void)
+static void process_input_next_word(void)
 {
     cmd_pos++;
     while ((cmd_pos < cmd_len) && (cmd[cmd_pos] != ' ')) {
@@ -352,7 +352,7 @@ static inline void process_input_next_word(void)
     }
 }
 
-static inline void process_input_delete(unsigned int orig_cmd_pos)
+static void process_input_delete(unsigned int orig_cmd_pos)
 {
     int delta = cmd_pos - orig_cmd_pos;
     int len = cmd_len - cmd_pos + 1;
@@ -368,7 +368,7 @@ static inline void process_input_delete(unsigned int orig_cmd_pos)
     delete_mode=0;
 }
 
-static inline int remove_leading_spaces(void)
+static int remove_leading_spaces(void)
 {
     unsigned int num_leading_spaces;
     char *curr_cmd = command_history[history_index];
