@@ -18,7 +18,6 @@ static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
 static __bdk_if_port_t *__bdk_if_poll_head;
 static __bdk_if_global_ops_t __bdk_if_global_ops;
-extern bdk_spinlock_t __bdk_pko_reg_lock;
 
 /**
  * Initialize a port for use. All memory is allocated dynmically
