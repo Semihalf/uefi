@@ -8,7 +8,6 @@ SHELL=/bin/bash
 # Optional compile time flags for the BDK
 #
 #BDK_EXTRA_CPPFLAGS += -DBDK_SHOW_BOOT_BANNERS=0
-#BDK_EXTRA_CPPFLAGS += -DBDK_DISABLE_QLM_JTAG=1
 
 #
 # Setup the compiler for the BDK libraries

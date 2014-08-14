@@ -18,13 +18,6 @@
     DWB just causes more L2 operations without benefit */
 #define BDK_USE_DWB 0
 
-/* BDK_DISABLE_QLM_JTAG disables all QLM JTAG functions, which is most
-    useful when you are running RTL sims or need to never touch the
-    QLM JTAG chains */
-#ifndef BDK_DISABLE_QLM_JTAG
-#define BDK_DISABLE_QLM_JTAG 0
-#endif
-
 #include "bdk-access.h"
 #include "bdk-utils.h"
 #include "bdk-config.h"
