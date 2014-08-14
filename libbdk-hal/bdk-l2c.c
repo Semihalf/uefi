@@ -63,34 +63,22 @@ int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
     len += start & BDK_CACHE_LINE_MASK;
     start &= ~BDK_CACHE_LINE_MASK;
     len = (len + BDK_CACHE_LINE_MASK) & ~BDK_CACHE_LINE_MASK;
-    start |= 1ull << 63; /* Convert to XKPHYS */
+    void *ptr = bdk_phys_to_ptr(start);
 
     while (len)
     {
-        BDK_CACHE_LCKL2(start);
-        start += BDK_CACHE_LINE_SIZE;
+        BDK_CACHE_LCKL2(ptr);
+        ptr += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }
     return 0;
 }
 
-
+#if 0
 void bdk_l2c_flush(bdk_node_t node)
 {
-    int n_set = bdk_l2c_get_num_sets(node);
-    int n_assoc = bdk_l2c_get_num_assoc(node);
-    int set_shift = 7;  /* based on 128 byte cache line size */
-    int assoc_shift = set_shift + bdk_l2c_get_set_bits(node);
-
-    for (int set=0; set < n_set; set++)
-    {
-        for(int assoc=0; assoc < n_assoc; assoc++)
-        {
-            uint64_t address = (1ull<<63) | (assoc << assoc_shift) | (set << set_shift);
-            BDK_CACHE_WBIL2(address);
-        }
-    }
 }
+#endif
 
 
 int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
@@ -99,12 +87,12 @@ int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
     len += start & BDK_CACHE_LINE_MASK;
     start &= ~BDK_CACHE_LINE_MASK;
     len = (len + BDK_CACHE_LINE_MASK) & ~BDK_CACHE_LINE_MASK;
-    start |= 1ull << 63; /* Convert to XKPHYS */
+    void *ptr = bdk_phys_to_ptr(start);
 
     while (len > 0)
     {
-        BDK_CACHE_WBIL2(start);
-        start += BDK_CACHE_LINE_SIZE;
+        BDK_CACHE_WBIL2(ptr);
+        ptr += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }
 
