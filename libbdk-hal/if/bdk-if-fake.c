@@ -107,6 +107,7 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         bdk_spinlock_unlock(&priv->lock);
         return -1;
     }
+    priv->queue[priv->tx_free].if_handle = handle;
 
     handle->stats.tx.packets++;
     handle->stats.tx.octets += priv->queue[priv->tx_free].length;
@@ -131,25 +132,19 @@ static int if_receive(bdk_if_handle_t handle)
     int count = 0;
     while (priv->next_rx != priv->tx_free)
     {
-        bdk_if_packet_t packet;
-        packet.if_handle = handle;
-        packet.length = priv->queue[priv->next_rx].length;
-        packet.segments = priv->queue[priv->next_rx].segments;
-        packet.rx_error = 0;
-        for (int s = 0; s < packet.segments; s++)
-            packet.packet[s] = priv->queue[priv->next_rx].packet[s];
+        bdk_if_packet_t *packet = priv->queue + priv->next_rx;
 
         handle->stats.rx.packets++;
-        handle->stats.rx.octets += packet.length;
+        handle->stats.rx.octets += packet->length;
+
+        bdk_if_dispatch_packet(packet);
+        bdk_if_free(packet);
+        count++;
 
         /* Move to the next packet */
         priv->next_rx++;
         if (priv->next_rx >= MAX_QUEUE)
             priv->next_rx = 0;
-
-        bdk_if_dispatch_packet(&packet);
-        bdk_if_free(&packet);
-        count++;
     }
 
     bdk_spinlock_unlock(&priv->lock);
