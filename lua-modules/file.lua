@@ -55,17 +55,6 @@ m:item("bin",   "Execute binary image file", function()
     end
 end)
 
-m:item("uboot", "Chain load Uboot", function()
-    local source = menu.prompt_filename("Enter filename for Uboot")
-    -- Uboot needs to be at a 4MB boundary
-    fileio.copy(source, nil, "/dev/mem", 0x400000)
-    cavium.c.bdk_write_env()
-    local status = cavium.c.bdk_jump_address(0xffffffff80400000)
-    if status ~= 0 then
-        print("ERROR: Jump to Uboot didn't succeed")
-    end
-end)
-
 m:item("quit",  "Main menu")
 
 while (m:show() ~= "quit") do
