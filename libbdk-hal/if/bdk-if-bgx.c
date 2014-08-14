@@ -1470,6 +1470,7 @@ static int if_process_complete_rx(const union nic_cqe_rx_s *cq_header, bdk_if_pa
 
     for (int s = 0; s < packet->segments; s++)
     {
+        BDK_PREFETCH(bdk_phys_to_ptr(rb_addresses[s]), 0);
         packet->packet[s].u = rb_addresses[s];
         packet->packet[s].s.size = rb_sizes[s];
     }
@@ -1510,16 +1511,19 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Loop through all pending CQs */
     int count = 0;
     int rbdr_free = 0;
+    const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
     while (count < pending_count)
     {
-        const union nic_cqe_rx_s *cq_header = cq_ptr + loc * 512;
+        const union nic_cqe_rx_s *cq_header = cq_next;
+        loc++;
+        loc &= CQ_ENTRIES - 1;
+        cq_next = cq_ptr + loc * 512;
+        BDK_PREFETCH(cq_next, 0);
         if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
             rbdr_free += if_process_complete_rx(cq_header, packet);
         else
             bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
         count++;
-        loc++;
-        loc &= CQ_ENTRIES - 1;
     }
     /* Free all the CQs that we've processed */
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);

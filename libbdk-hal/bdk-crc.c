@@ -16,7 +16,6 @@
  */
 uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
 {
-    BDK_PREFETCH(ptr, 0);
     uint32_t crc32 = iv;
     while (len>=128)
     {
