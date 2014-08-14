@@ -14,9 +14,7 @@ BDK_REQUIRE_DEFINE(KEY_MEMORY);
  */
 uint64_t bdk_key_read(bdk_node_t node, uint64_t address)
 {
-    address |= 0x800120ull << 40;
-    address |= (uint64_t)node << 36;
-    return bdk_read64_uint64(address);
+    return BDK_CSR_READ(node, BDK_KEY_MEMX(address >> 3));
 }
 
 
@@ -30,8 +28,6 @@ uint64_t bdk_key_read(bdk_node_t node, uint64_t address)
  */
 void bdk_key_write(bdk_node_t node, uint64_t address, uint64_t value)
 {
-    address |= 0x800120ull << 40;
-    address |= (uint64_t)node << 36;
-    bdk_write64_uint64(address, value);
+    return BDK_CSR_WRITE(node, BDK_KEY_MEMX(address >> 3), value);
 }
 
