@@ -112,19 +112,3 @@ static inline int bdk_dpop(uint64_t val)
     return __builtin_popcountl(val);
 }
 
-
-/**
- * Wait for the specified number of core clock cycles
- *
- * @param cycles
- */
-static inline void bdk_wait(uint64_t cycles)
-{
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + cycles;
-
-    while (bdk_clock_get_count(BDK_CLOCK_CORE) < done)
-    {
-        /* Spin */
-    }
-}
-

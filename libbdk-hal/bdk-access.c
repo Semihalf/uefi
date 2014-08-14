@@ -16,6 +16,21 @@ void bdk_wait_usec(uint64_t usec)
 }
 
 /**
+ * Wait for the specified number of core clock cycles
+ *
+ * @param cycles
+ */
+void bdk_wait(uint64_t cycles)
+{
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + cycles;
+
+    while (bdk_clock_get_count(BDK_CLOCK_CORE) < done)
+    {
+        /* Spin */
+    }
+}
+
+/**
  * Perform a soft reset of the chip
  *
  * @return

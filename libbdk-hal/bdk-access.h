@@ -73,7 +73,7 @@ BDK_FUNCTION int bdk_dpop(uint64_t val);
  *
  * @param cycles
  */
-BDK_FUNCTION void bdk_wait(uint64_t cycles);
+extern void bdk_wait(uint64_t cycles);
 
 /**
  * Wait for the specified number of micro seconds
