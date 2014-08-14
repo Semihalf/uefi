@@ -328,7 +328,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
-#if 0
+#if 0 /* QLM tuning disabled until we have values */
     if (baud_mhz == 6250)
     {
         /* Change the default tuning for 6.25G, from lab measurements */

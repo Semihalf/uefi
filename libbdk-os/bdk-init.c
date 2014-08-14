@@ -147,7 +147,7 @@ void __bdk_init(long base_address)
 	/* FIXME */
 
         /* Initialize the is_simulation flag */
-#if 0
+#if 0 /* FIXME: Implement sim flag */
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
         __bdk_is_simulation = (c.u == 0);
 #else

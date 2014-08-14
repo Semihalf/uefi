@@ -4,7 +4,7 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
-#if 0
+#if 0 /* FIXME: PCIe support */
 
 #define MRRS_CN5XXX 0 /* 128 byte Max Read Request Size */
 #define MPS_CN5XXX  0 /* 128 byte Max Packet Size (Limit of most PCs) */

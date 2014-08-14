@@ -74,7 +74,7 @@ int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
     return 0;
 }
 
-#if 0
+#if 0 /* Disable bdk_l2c_flush() until implemented */
 void bdk_l2c_flush(bdk_node_t node)
 {
 }

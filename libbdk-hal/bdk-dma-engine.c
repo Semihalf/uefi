@@ -1,6 +1,6 @@
 #include <bdk.h>
 
-#if 0
+#if 0 /* FIXME: PCIe DMA support */
 
 static bdk_cmd_queue_state_t dma_queue[BDK_NUMA_MAX_NODES][8];
 static int __bdk_dma_init_done = 0; /* Bitmask of Nodes that have done init */
@@ -95,43 +95,6 @@ static int __bdk_dma_engine_initialize(bdk_node_t node)
     bdk_spinlock_unlock(&dma_lock);
     return 0;
 }
-
-
-#if 0
-/**
- * Shutdown all DMA engines. The engeines must be idle when this
- * function is called.
- *
- * @return Zero on success, negative on failure
- */
-int bdk_dma_engine_shutdown(bdk_node_t node)
-{
-    bdk_spinlock_lock(&dma_lock);
-    if ((__bdk_dma_init_done & (1<<node)) == 0)
-    {
-        bdk_spinlock_unlock(&dma_lock);
-        return 0;
-    }
-
-    bdk_dpi_dma_control_t dma_control;
-    dma_control.u64 = BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
-    dma_control.s.dma_enb = 0;
-    BDK_CSR_WRITE(node, BDK_DPI_DMA_CONTROL, dma_control.u64);
-    /* Make sure the disable completes */
-    BDK_CSR_READ(node, BDK_DPI_DMA_CONTROL);
-
-    for (int engine=0; engine < bdk_dma_engine_get_num(node); engine++)
-    {
-        bdk_cmd_queue_shutdown(dma_queue[node] + engine);
-        BDK_CSR_WRITE(node, BDK_DPI_DMAX_IBUFF_SADDR(engine), 0);
-    }
-
-    __bdk_dma_init_done &= ~(1 << node);
-    bdk_spinlock_unlock(&dma_lock);
-    return 0;
-}
-#endif
-
 
 /**
  * Submit a series of DMA comamnd to the DMA engines.

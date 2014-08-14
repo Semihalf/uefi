@@ -33,7 +33,7 @@ typedef struct
 static void dbg_printf(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 static void dbg_printf(const char *format, ...)
 {
-#if 0
+#if 0 /* XMODEM debug to 2nd uart */
     static FILE *debug = NULL;
     if (debug == NULL)
         debug = fopen("/dev/uart/1", "w");

@@ -4,7 +4,7 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE_EEPROM);
 
-#if 0
+#if 0 /* PCIe EEPROM access not supported on CN88XX. Likely needed on other chips */
 
 /**
  * Read the specified offset in the PCIe EEPROM and returns its
