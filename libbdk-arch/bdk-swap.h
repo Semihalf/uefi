@@ -30,10 +30,7 @@ static inline uint16_t bdk_swap16(uint16_t x)
  */
 static inline uint32_t bdk_swap32(uint32_t x)
 {
-    return ((uint32_t)((((uint32_t)(x) & (uint32_t)0x000000ffUL) << 24) |
-                       (((uint32_t)(x) & (uint32_t)0x0000ff00UL) <<  8) |
-                       (((uint32_t)(x) & (uint32_t)0x00ff0000UL) >>  8) |
-                       (((uint32_t)(x) & (uint32_t)0xff000000UL) >> 24) ));
+    return __builtin_bswap32(x);
 }
 
 
@@ -45,14 +42,7 @@ static inline uint32_t bdk_swap32(uint32_t x)
  */
 static inline uint64_t bdk_swap64(uint64_t x)
 {
-    return ((x >> 56) |
-            (((x >> 48) & 0xfful) << 8) |
-            (((x >> 40) & 0xfful) << 16) |
-            (((x >> 32) & 0xfful) << 24) |
-            (((x >> 24) & 0xfful) << 32) |
-            (((x >> 16) & 0xfful) << 40) |
-            (((x >>  8) & 0xfful) << 48) |
-            (((x >>  0) & 0xfful) << 56));
+    return __builtin_bswap64(x);
 }
 
 
