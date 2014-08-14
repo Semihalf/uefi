@@ -26,6 +26,7 @@ extern void bdk_thread_first(bdk_thread_func_t func, int arg0, void *arg1, int s
  *
  * @return Number of cores
  */
+static inline int bdk_get_core_num(void) __attribute__ ((always_inline));
 static inline int bdk_get_core_num(void)
 {
     int mpidr_el1;
@@ -53,6 +54,8 @@ static inline int bdk_is_boot_core(void)
     return mpidr_el1 == master;
 }
 
+
+static inline void *bdk_thread_get_id(void) __attribute__ ((always_inline));
 static inline void *bdk_thread_get_id(void)
 {
     uint64_t current;
