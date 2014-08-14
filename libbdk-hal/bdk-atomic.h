@@ -37,9 +37,7 @@ static inline void bdk_atomic_add32_nosync(int32_t *ptr, int32_t incr)
  */
 static inline void bdk_atomic_add32(int32_t *ptr, int32_t incr)
 {
-    BDK_WMB;
-    bdk_atomic_add32_nosync(ptr, incr);
-    BDK_WMB;
+    __atomic_fetch_add(ptr, incr, __ATOMIC_ACQ_REL);
 }
 
 /**
@@ -50,9 +48,7 @@ static inline void bdk_atomic_add32(int32_t *ptr, int32_t incr)
  */
 static inline void bdk_atomic_set32(int32_t *ptr, int32_t value)
 {
-    BDK_WMB;
-    __atomic_store_4(ptr, value, __ATOMIC_RELAXED);
-    BDK_WMB;
+    __atomic_store_4(ptr, value, __ATOMIC_RELEASE);
 }
 
 /**
@@ -95,9 +91,7 @@ static inline void bdk_atomic_add64_nosync(int64_t *ptr, int64_t incr)
  */
 static inline void bdk_atomic_add64(int64_t *ptr, int64_t incr)
 {
-    BDK_WMB;
-    bdk_atomic_add64_nosync(ptr, incr);
-    BDK_WMB;
+    __atomic_fetch_add(ptr, incr, __ATOMIC_ACQ_REL);
 }
 
 /**
@@ -108,9 +102,7 @@ static inline void bdk_atomic_add64(int64_t *ptr, int64_t incr)
  */
 static inline void bdk_atomic_set64(int64_t *ptr, int64_t value)
 {
-    BDK_WMB;
-    __atomic_store_8(ptr, value, __ATOMIC_RELAXED);
-    BDK_WMB;
+    __atomic_store_8(ptr, value, __ATOMIC_RELEASE);
 }
 
 /**
@@ -137,10 +129,9 @@ static inline int64_t bdk_atomic_get64(int64_t *ptr)
  * @return 1 on success (match and store)
  *         0 on no match
  */
-static inline uint32_t bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
+static inline int bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
-    uint32_t mem = __sync_val_compare_and_swap(ptr, old_val, new_val);
-    return mem == old_val;
+    return __atomic_compare_exchange_4(ptr, &old_val, new_val, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
 }
 
 /**
@@ -155,15 +146,9 @@ static inline uint32_t bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint
  * @return 1 on success (match and store)
  *         0 on no match
  */
-static inline uint32_t bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
+static inline int bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
-    uint32_t ret;
-    BDK_WMB;
-    ret = bdk_atomic_compare_and_store32_nosync(ptr, old_val, new_val);
-    BDK_WMB;
-    return ret;
-
-
+    return __atomic_compare_exchange_4(ptr, &old_val, new_val, 0, __ATOMIC_ACQ_REL, __ATOMIC_RELAXED);
 }
 
 /**
@@ -180,8 +165,7 @@ static inline uint32_t bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t ol
  */
 static inline int bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
-    uint64_t mem = __sync_val_compare_and_swap(ptr, old_val, new_val);
-    return mem == old_val;
+    return __atomic_compare_exchange_8(ptr, &old_val, new_val, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
 }
 
 /**
@@ -198,11 +182,7 @@ static inline int bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t 
  */
 static inline int bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
-    uint64_t ret;
-    BDK_WMB;
-    ret = bdk_atomic_compare_and_store64_nosync(ptr, old_val, new_val);
-    BDK_WMB;
-    return ret;
+    return __atomic_compare_exchange_8(ptr, &old_val, new_val, 0, __ATOMIC_ACQ_REL, __ATOMIC_RELAXED);
 }
 
 /**
@@ -238,11 +218,7 @@ static inline int64_t bdk_atomic_fetch_and_add64_nosync(int64_t *ptr, int64_t in
  */
 static inline int64_t bdk_atomic_fetch_and_add64(int64_t *ptr, int64_t incr)
 {
-    uint64_t ret;
-    BDK_WMB;
-    ret = bdk_atomic_fetch_and_add64_nosync(ptr, incr);
-    BDK_WMB;
-    return ret;
+    return __atomic_fetch_add(ptr, incr, __ATOMIC_ACQ_REL);
 }
 
 /**
@@ -278,11 +254,7 @@ static inline int32_t bdk_atomic_fetch_and_add32_nosync(int32_t *ptr, int32_t in
  */
 static inline int32_t bdk_atomic_fetch_and_add32(int32_t *ptr, int32_t incr)
 {
-    uint32_t ret;
-    BDK_WMB;
-    ret = bdk_atomic_fetch_and_add32_nosync(ptr, incr);
-    BDK_WMB;
-    return ret;
+    return __atomic_fetch_add(ptr, incr, __ATOMIC_ACQ_REL);
 }
 
 /**
