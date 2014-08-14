@@ -824,9 +824,6 @@ static void gdbremote_read_mem(void *buffer, uint64_t physical_address, int leng
     int core = 0;
     int i;
 
-    /* Access memory through XKPHYS */
-    physical_address |= 1ull<<63;
-
     /* Stop the core if it is currently running */
     if (do_core_stop(core) == GDB_CORE_DEAD)
         return;
@@ -872,9 +869,6 @@ static void gdbremote_write_mem(uint64_t physical_address, const void *buffer, i
     char response[64];
     int core = 0;
     int i;
-
-    /* Access memory through XKPHYS */
-    physical_address |= 1ull<<63;
 
     /* Stop the core if it is currently running */
     if (do_core_stop(core) == GDB_CORE_DEAD)

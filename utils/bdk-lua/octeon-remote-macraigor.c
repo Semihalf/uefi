@@ -550,10 +550,6 @@ static void macraigor_read_mem(void *buffer, uint64_t physical_address, int leng
     static uint8_t command[1 + 8 + 1 + 1 + 2];
     static uint8_t response[3 + 8 + 2 + MAX_MEMORY_TRANSFER_SIZE + 1];
 
-    if (physical_address < (512<<20))
-        physical_address |= 0xffffffff80000000ull;
-    else
-        physical_address |= 1ull<<63;
     core_state_t old_state = conditional_stop_core(memory_access_core);
 
     while (length)
@@ -604,10 +600,6 @@ static void macraigor_write_mem(uint64_t physical_address, const void *buffer, i
     static uint8_t command[1 + 8 + 1 + 1 + 1 + 2 + MAX_MEMORY_TRANSFER_SIZE];
     static uint8_t response[3 + 8 + 1];
 
-    if (physical_address < (512<<20))
-        physical_address |= 0xffffffff80000000ull;
-    else
-        physical_address |= 1ull<<63;
     core_state_t old_state = conditional_stop_core(memory_access_core);
 
     while (length)

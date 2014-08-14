@@ -117,9 +117,9 @@ int octeon_remote_debug_handler_install(octeon_remote_debug_handler_t handler)
     }
 
     uint64_t address = debug_handler_base;
-    octeon_remote_debug(2, "Writing secondary handler address 0x%llx\n", (1ull<<63) | address);
+    octeon_remote_debug(2, "Writing secondary handler address 0x%llx\n", address);
     OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_ADR, 0x98);
-    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT, (1ull<<63) | address);
+    OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT, address);
     OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_MIO_BOOT_LOC_DAT);  /* Ensure write has completed */
 
     /* For the handlers we must set the core stop
