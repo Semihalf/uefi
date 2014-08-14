@@ -329,11 +329,10 @@ static int ocx_duplicate_node(lk_info_t *lk_info, int index)
  */
 static uint64_t ocx_pp_read(bdk_node_t node, uint64_t address)
 {
-    address |= (uint64_t)node << 36;
+    address = bdk_numa_get_address(node, address);
 
     if (node == bdk_numa_local())
     {
-        address |= 1ull << 63;
         return bdk_read64_uint64(address);
     }
     else
@@ -367,11 +366,10 @@ static uint64_t ocx_pp_read(bdk_node_t node, uint64_t address)
  */
 static void ocx_pp_write(bdk_node_t node, uint64_t address, uint64_t data)
 {
-    address |= (uint64_t)node << 36;
+    address = bdk_numa_get_address(node, address);
 
     if (node == bdk_numa_local())
     {
-        address |= 1ull << 63;
         bdk_write64_uint64(address, data);
     }
     else
