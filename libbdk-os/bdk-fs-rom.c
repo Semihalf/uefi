@@ -5,13 +5,10 @@
     a two byte filename length, a four byte file length, the bytes for
     the filename, and the file's data. The filename is not \0 terminated */
 
-static void *find_file(const char *name)
+static const void *find_file(const char *name)
 {
     extern void _end();
-    /* Do a needless address transaltion to force pointer to be a XKPHYS
-        address. This is in case the filesystem is larger than my code
-        TLB entry */
-    const char *ptr = bdk_phys_to_ptr(bdk_ptr_to_phys(&_end));
+    const char *ptr = (const char *)&_end;
     int name_length = strlen(name);
     while (memcmp(ptr, "ROM-FS", 6) == 0)
     {
@@ -21,7 +18,7 @@ static void *find_file(const char *name)
         const char *fdata_ptr = fname_ptr + fname_length;
         if ((name_length == fname_length) &&
             (memcmp(name, fname_ptr, name_length) == 0))
-            return (void*)ptr;
+            return ptr;
         ptr = fdata_ptr + fdata_length;
     }
     return NULL;
@@ -30,24 +27,21 @@ static void *find_file(const char *name)
 uint64_t bdk_fs_romfs_get_end(void)
 {
     extern void _end();
-    /* Do a needless address transaltion to force pointer to be a XKPHYS
-        address. This is in case the filesystem is larger than my code
-        TLB entry */
-    char *ptr = bdk_phys_to_ptr(bdk_ptr_to_phys(&_end));
+    const char *ptr = (const char *)&_end;
     while (memcmp(ptr, "ROM-FS", 6) == 0)
     {
         uint16_t fname_length = *(uint16_t*)(ptr+6);
         uint32_t fdata_length = *(uint32_t*)(ptr+8);
-        char *fname_ptr = ptr+12;
-        char *fdata_ptr = fname_ptr + fname_length;
+        const char *fname_ptr = ptr+12;
+        const char *fdata_ptr = fname_ptr + fname_length;
         ptr = fdata_ptr + fdata_length;
     }
-    return bdk_ptr_to_phys(ptr);
+    return bdk_ptr_to_phys((char*)ptr);
 }
 
 static void *rom_open(const char *name, int flags)
 {
-    return find_file(name);
+    return (void*)find_file(name);
 }
 
 static int rom_read(__bdk_fs_file_t *handle, void *buffer, int length)
@@ -74,14 +68,14 @@ static int rom_read(__bdk_fs_file_t *handle, void *buffer, int length)
 
 uint64_t rom_mmap(const char *name, int flags)
 {
-    void *fptr = find_file(name);
+    const void *fptr = find_file(name);
     if (!fptr)
         return -1;
 
-    uint16_t fname_length = *(uint16_t*)(fptr+6);
-    char *fname_ptr = fptr+12;
-    char *fdata_ptr = fname_ptr + fname_length;
-    return bdk_ptr_to_phys(fdata_ptr);
+    uint16_t fname_length = *(const uint16_t*)(fptr+6);
+    const char *fname_ptr = fptr+12;
+    const char *fdata_ptr = fname_ptr + fname_length;
+    return bdk_ptr_to_phys((char*)fdata_ptr);
 }
 
 static const __bdk_fs_ops_t bdk_fs_rom_ops =
