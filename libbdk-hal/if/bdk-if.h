@@ -128,21 +128,21 @@ typedef enum
     BDK_IF_LOOPBACK_INTERNAL_EXTERNAL = 3,
 } bdk_if_loopback_t;
 
-typedef int (*bdk_if_packet_receiver_t)(bdk_if_packet_t *packet, void *arg);
+typedef void (*bdk_if_packet_receiver_t)(const bdk_if_packet_t *packet, void *arg);
 
 typedef struct
 {
     int (*if_num_interfaces)(bdk_node_t node); /* Returns the number of interfaces possible on this chip */
     int (*if_num_ports)(bdk_node_t node, int interface); /* For given interface, returns the number of ports on it */
-    int (*if_probe)(bdk_if_handle_t handle); /* Called to assign IPD and PKO ports. Does nothing if they aren't needed */
+    int (*if_probe)(bdk_if_handle_t handle); /* Probe to see if a port exists */
     int (*if_init)(bdk_if_handle_t handle); /* One time hardware init */
     int (*if_enable)(bdk_if_handle_t handle); /* Enable packet IO. must be called after init */
     int (*if_disable)(bdk_if_handle_t handle); /* Disable packet IO */
     bdk_if_link_t (*if_link_get)(bdk_if_handle_t handle); /* Get link speed and state */
     void (*if_link_set)(bdk_if_handle_t handle, bdk_if_link_t link_info); /* Set link speed and state */
-    const bdk_if_stats_t *(*if_get_stats)(bdk_if_handle_t handle); /* Get stats. Not needed if using IPD/PKO */
-    int (*if_transmit)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* TX a packet. Not needed if using PKO */
-    int (*if_receive)(bdk_if_handle_t handle, bdk_if_packet_t *packet); /* RX a packet. not needed if using IPD */
+    const bdk_if_stats_t *(*if_get_stats)(bdk_if_handle_t handle); /* Get stats */
+    int (*if_transmit)(bdk_if_handle_t handle, const bdk_if_packet_t *packet); /* TX a packet */
+    int (*if_receive)(bdk_if_handle_t handle); /* RX packets. Returns the number of packets processed */
     int (*if_loopback)(bdk_if_handle_t handle, bdk_if_loopback_t loopback); /* Configure loopback for the port */
     int (*if_get_queue_depth)(bdk_if_handle_t handle); /* Get the current TX queue depth */
 } __bdk_if_ops_t;
@@ -156,7 +156,6 @@ typedef struct
 
 extern int bdk_if_is_configured(void);
 extern int bdk_if_dispatch(void) BDK_WEAK;
-extern void bdk_if_dispatch_packet(bdk_if_packet_t *packet);
 extern int bdk_if_num_interfaces(bdk_node_t node, bdk_if_t iftype);
 extern int bdk_if_num_ports(bdk_node_t node, bdk_if_t iftype, int interface);
 extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);
@@ -194,5 +193,21 @@ static inline bdk_if_t bdk_if_get_type(bdk_if_handle_t handle)
 {
     return handle->iftype;
 }
+
+/**
+ * Called by each interface driver to process a received packet. After calling
+ * this function, it is the responsibility of each driver to free any resources
+ * used by the packet, probably by calling bdk_if_free().
+ *
+ * @param packet Packet that was received
+ */
+static inline void bdk_if_dispatch_packet(const bdk_if_packet_t *packet)
+{
+    void *receiver_arg = packet->if_handle->receiver_arg;
+    bdk_if_packet_receiver_t receiver = packet->if_handle->receiver;
+    if (receiver)
+        receiver(packet, receiver_arg);
+}
+
 
 /** @} */

@@ -71,7 +71,7 @@ static tg_port_t *tg_port_tail;
 
 static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, int fix);
 static int do_reset(tg_port_t *tg_port);
-static int tg_packet_receiver(bdk_if_packet_t *packet, void *arg);
+static void tg_packet_receiver(const bdk_if_packet_t *packet, void *arg);
 
 /**
  *
@@ -706,7 +706,7 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
  * @param work   Work to be processed. Ideally it should already be prefetched
  *               into memory.
  */
-static int tg_packet_receiver(bdk_if_packet_t *packet, void *arg)
+static void tg_packet_receiver(const bdk_if_packet_t *packet, void *arg)
 {
     tg_port_t *tg_port = arg;
 
@@ -718,7 +718,6 @@ static int tg_packet_receiver(bdk_if_packet_t *packet, void *arg)
 
     if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
         dump_packet(tg_port, packet);
-    return 0;
 }
 
 

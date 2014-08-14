@@ -84,7 +84,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
     /* Nothing to do */
 }
 
-static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
     priv_t *priv = handle->priv;
 
@@ -118,7 +118,7 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     return 0;
 }
 
-static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+static int if_receive(bdk_if_handle_t handle)
 {
     priv_t *priv = handle->priv;
 
@@ -128,32 +128,32 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
 
     bdk_spinlock_lock(&priv->lock);
 
-    /* check for empty again now that we have the lock as it might have changed */
-    if (priv->next_rx == priv->tx_free)
+    int count = 0;
+    while (priv->next_rx != priv->tx_free)
     {
-        bdk_spinlock_unlock(&priv->lock);
-        return -1;
+        bdk_if_packet_t packet;
+        packet.if_handle = handle;
+        packet.length = priv->queue[priv->next_rx].length;
+        packet.segments = priv->queue[priv->next_rx].segments;
+        packet.rx_error = 0;
+        for (int s = 0; s < packet.segments; s++)
+            packet.packet[s] = priv->queue[priv->next_rx].packet[s];
+
+        handle->stats.rx.packets++;
+        handle->stats.rx.octets += packet.length;
+
+        /* Move to the next packet */
+        priv->next_rx++;
+        if (priv->next_rx >= MAX_QUEUE)
+            priv->next_rx = 0;
+
+        bdk_if_dispatch_packet(&packet);
+        bdk_if_free(&packet);
+        count++;
     }
 
-    packet->if_handle = handle;
-    packet->length = priv->queue[priv->next_rx].length;
-    packet->segments = priv->queue[priv->next_rx].segments;
-    packet->rx_error = 0;
-    /* This will copy more than necessary, but gcc can inline it and make it
-       efficient */
-    memcpy(packet->packet, priv->queue[priv->next_rx].packet, sizeof(packet->packet));
-
-
-    handle->stats.rx.packets++;
-    handle->stats.rx.octets += packet->length;
-
-    /* Move to the next packet */
-    priv->next_rx++;
-    if (priv->next_rx >= MAX_QUEUE)
-        priv->next_rx = 0;
-
     bdk_spinlock_unlock(&priv->lock);
-    return 0;
+    return count;
 }
 
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)

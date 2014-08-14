@@ -1409,7 +1409,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 }
 
 
-static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
 
@@ -1455,30 +1455,32 @@ static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     return 0;
 }
 
-static int if_process_complete_rx(const union nic_cqe_rx_s *cq_header, bdk_if_packet_t *packet)
+static int if_process_complete_rx(const union nic_cqe_rx_s *cq_header)
 {
     int vnic = cq_header->s.rq_qs;
     int rbdr_free = cq_header->s.rb_cnt;
+    bdk_if_packet_t packet;
 
-    packet->length = cq_header->s.len;
-    packet->segments = rbdr_free;
-    packet->if_handle = global_handle_table[vnic];
-    packet->rx_error = cq_header->s.errop || cq_header->s.errlev;
+    packet.length = cq_header->s.len;
+    packet.segments = rbdr_free;
+    packet.if_handle = global_handle_table[vnic];
+    packet.rx_error = cq_header->s.errlev;
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
 
-    for (int s = 0; s < packet->segments; s++)
+    for (int s = 0; s < packet.segments; s++)
     {
         BDK_PREFETCH(bdk_phys_to_ptr(rb_addresses[s]), 0);
-        packet->packet[s].u = rb_addresses[s];
-        packet->packet[s].s.size = rb_sizes[s];
+        packet.packet[s].u = rb_addresses[s];
+        packet.packet[s].s.size = rb_sizes[s];
     }
 
-    if (bdk_likely(packet->if_handle))
+    if (bdk_likely(packet.if_handle))
     {
         //printf("RQ_QS %d mapped to %s\n", vnic, packet->if_handle->name);
-        bdk_if_dispatch_packet(packet);
+        bdk_if_dispatch_packet(&packet);
+        bdk_if_free(&packet);
     }
     else
         bdk_error("Unable to determine interface for VNIC %d\n", vnic);
@@ -1486,7 +1488,7 @@ static int if_process_complete_rx(const union nic_cqe_rx_s *cq_header, bdk_if_pa
     return rbdr_free;
 }
 
-static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+static int if_receive(bdk_if_handle_t handle)
 {
     if (!bdk_is_boot_core())
         return -1;
@@ -1520,7 +1522,7 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
         cq_next = cq_ptr + loc * 512;
         BDK_PREFETCH(cq_next, 0);
         if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
-            rbdr_free += if_process_complete_rx(cq_header, packet);
+            rbdr_free += if_process_complete_rx(cq_header);
         else
             bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
         count++;
@@ -1531,8 +1533,7 @@ static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
     /* Refil the receive buffers for all the packets that were extracted */
     vnic_fill_receive_buffer(handle, rbdr_free);
 
-    /* We call dispatch directly, so this function never returns a packet */
-    return -1;
+    return count;
 }
 
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)

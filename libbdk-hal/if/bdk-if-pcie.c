@@ -43,14 +43,14 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
 }
 
-static int if_transmit(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
     return -1;
 }
 
-static int if_receive(bdk_if_handle_t handle, bdk_if_packet_t *packet)
+static int if_receive(bdk_if_handle_t handle)
 {
-    return -1;
+    return 0;
 }
 
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)

@@ -409,18 +409,6 @@ void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_
     BDK_WMB;
 }
 
-
-void bdk_if_dispatch_packet(bdk_if_packet_t *packet)
-{
-    void *receiver_arg = packet->if_handle->receiver_arg;
-    bdk_if_packet_receiver_t receiver = packet->if_handle->receiver;
-    int skip_free = 0;
-    if (receiver)
-        skip_free = receiver(packet, receiver_arg);
-    if (!skip_free)
-        bdk_if_free(packet);
-}
-
 static void __bdk_if_link_poll()
 {
     static bdk_if_handle_t link_handle = NULL;
@@ -451,27 +439,9 @@ int bdk_if_dispatch(void)
     if (bdk_is_boot_core())
         __bdk_if_link_poll();
 
-    bdk_if_packet_t packet;
     int count = 0;
-    int got_packet = 0;
-    do
-    {
-        got_packet = 0;
-        for (bdk_if_handle_t handle = __bdk_if_poll_head; handle != NULL; handle = handle->poll_next)
-        {
-            if (__bdk_if_ops[handle->iftype]->if_receive(handle, &packet) == 0)
-            {
-                bdk_if_dispatch_packet(&packet);
-                got_packet = 1;
-                count++;
-                if (bdk_unlikely(count >= 100))
-                {
-                    got_packet = 0;
-                    break;
-                }
-            }
-        }
-    } while (got_packet);
+    for (bdk_if_handle_t handle = __bdk_if_poll_head; handle != NULL; handle = handle->poll_next)
+        count += __bdk_if_ops[handle->iftype]->if_receive(handle);
     return count;
 }
 
