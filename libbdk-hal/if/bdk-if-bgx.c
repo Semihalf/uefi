@@ -50,8 +50,16 @@ typedef union
     } s;
 } bgx_priv_t;
 
+typedef struct BDK_CACHE_LINE_ALIGNED
+{
+    bdk_spinlock_t lock;
+    void *base;
+    int loc;
+} vnic_queue_state_t;
+
 /* Table used to convert VNIC numbers to interface handles */
 static bdk_if_handle_t global_handle_table[128];
+static vnic_queue_state_t vnic_rbdr_state[4];
 
 /**
  * The private structure needed by BGX is small enough to fit
@@ -917,6 +925,9 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
     int rbdr = priv.s.rbdr;
     int rbdr_idx = 0;
 
+    bdk_spinlock_init(&vnic_rbdr_state[rbdr].lock);
+    bdk_spinlock_lock(&vnic_rbdr_state[rbdr].lock);
+
     BDK_CSR_INIT(rbdr_head, handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx));
     BDK_CSR_INIT(rbdr_tail, handle->node, BDK_NIC_QSX_RBDRX_TAIL(rbdr, rbdr_idx));
 
@@ -939,6 +950,9 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
     }
     BDK_WMB;
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), added);
+    vnic_rbdr_state[rbdr].base = rbdr_ptr;
+    vnic_rbdr_state[rbdr].loc = loc;
+    bdk_spinlock_unlock(&vnic_rbdr_state[rbdr].lock);
 }
 
 static int vnic_setup_rbdr(bdk_if_handle_t handle)
@@ -1408,7 +1422,14 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
         xaui_link(handle);
 }
 
-
+/**
+ * Transmit a single packet
+ *
+ * @param handle Port to transmit on
+ * @param packet Packet to transmit
+ *
+ * @return Zero on success, negative on failure
+ */
 static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
@@ -1455,14 +1476,43 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     return 0;
 }
 
-static int if_process_complete_rx(const union nic_cqe_rx_s *cq_header)
+/**
+ * Free the buffers in a packet to the RBDR used by the port
+ *
+ * @param priv   Determines which RBDR is used
+ * @param packet Packet to put in RBDR
+ */
+static void if_free_to_rbdr(bdk_if_packet_t *packet)
+{
+    bdk_if_handle_t handle = packet->if_handle;
+    bgx_priv_t priv = {.ptr = handle->priv};
+    int rbdr = priv.s.rbdr;
+    int rbdr_idx = 0;
+
+    uint64_t *rbdr_ptr = vnic_rbdr_state[rbdr].base;
+    int loc = vnic_rbdr_state[rbdr].loc;
+
+    for (int s = 0; s < packet->segments; s++)
+    {
+        rbdr_ptr[loc] = packet->packet[s].s.address;
+        loc++;
+        loc &= RBDR_ENTRIES - 1;
+    }
+    BDK_WMB;
+    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), packet->segments);
+    vnic_rbdr_state[rbdr].loc = loc;
+}
+
+/**
+ * Process a CQ receive entry
+ */
+static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_rx_s *cq_header)
 {
     int vnic = cq_header->s.rq_qs;
-    int rbdr_free = cq_header->s.rb_cnt;
-    bdk_if_packet_t packet;
 
+    bdk_if_packet_t packet;
     packet.length = cq_header->s.len;
-    packet.segments = rbdr_free;
+    packet.segments = cq_header->s.rb_cnt;
     packet.if_handle = global_handle_table[vnic];
     packet.rx_error = cq_header->s.errlev;
 
@@ -1477,17 +1527,24 @@ static int if_process_complete_rx(const union nic_cqe_rx_s *cq_header)
     }
 
     if (bdk_likely(packet.if_handle))
-    {
-        //printf("RQ_QS %d mapped to %s\n", vnic, packet->if_handle->name);
         bdk_if_dispatch_packet(&packet);
-        bdk_if_free(&packet);
-    }
     else
+    {
         bdk_error("Unable to determine interface for VNIC %d\n", vnic);
+        packet.if_handle = handle;
+    }
 
-    return rbdr_free;
+    if_free_to_rbdr(&packet);
 }
 
+/**
+ * Process all entries in a completion queue (CQ). Note that a CQ is shared
+ * among many ports, so packets will be dispatch for other port handles.
+ *
+ * @param handle Interface handle connected to the CQ
+ *
+ * @return Number of packets received
+ */
 static int if_receive(bdk_if_handle_t handle)
 {
     if (!bdk_is_boot_core())
@@ -1504,6 +1561,8 @@ static int if_receive(bdk_if_handle_t handle)
     if (bdk_likely(!pending_count))
         return -1;
 
+    bdk_spinlock_lock(&vnic_rbdr_state[priv.s.rbdr].lock);
+
     /* Find the current CQ location */
     BDK_CSR_INIT(cq_base, handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx));
     BDK_CSR_INIT(cq_head, handle->node, BDK_NIC_QSX_CQX_HEAD(cq, cq_idx));
@@ -1512,7 +1571,6 @@ static int if_receive(bdk_if_handle_t handle)
 
     /* Loop through all pending CQs */
     int count = 0;
-    int rbdr_free = 0;
     const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
     while (count < pending_count)
     {
@@ -1522,7 +1580,7 @@ static int if_receive(bdk_if_handle_t handle)
         cq_next = cq_ptr + loc * 512;
         BDK_PREFETCH(cq_next, 0);
         if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
-            rbdr_free += if_process_complete_rx(cq_header);
+            if_process_complete_rx(handle, cq_header);
         else
             bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
         count++;
@@ -1530,12 +1588,19 @@ static int if_receive(bdk_if_handle_t handle)
     /* Free all the CQs that we've processed */
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
 
-    /* Refil the receive buffers for all the packets that were extracted */
-    vnic_fill_receive_buffer(handle, rbdr_free);
+    bdk_spinlock_unlock(&vnic_rbdr_state[priv.s.rbdr].lock);
 
     return count;
 }
 
+/**
+ * Setup loopback
+ *
+ * @param handle
+ * @param loopback
+ *
+ * @return
+ */
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
     bgx_priv_t priv = {.ptr = handle->priv};
