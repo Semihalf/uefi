@@ -1550,21 +1550,26 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
  */
 static int if_receive(bdk_if_handle_t handle)
 {
-    if (!bdk_is_boot_core())
-        return -1;
+    /* Since all ports on an interface share a CQ, only check the CQ
+       on the first port */
+    if (handle->index)
+        return 0;
 
     /* Figure out which completion queue we're using */
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int cq = priv->cq;
     int cq_idx = 0;
 
+    if (bdk_spinlock_trylock(&vnic_rbdr_state[priv->rbdr].lock))
+        return 0;
+
+    int count = 0;
+
     /* Exit immediately if the CQ is empty */
     BDK_CSR_INIT(cq_status, handle->node, BDK_NIC_QSX_CQX_STATUS(cq, cq_idx));
     int pending_count = cq_status.s.qcount;
     if (bdk_likely(!pending_count))
-        return -1;
-
-    bdk_spinlock_lock(&vnic_rbdr_state[priv->rbdr].lock);
+        goto skip;
 
     /* Find the current CQ location */
     BDK_CSR_INIT(cq_base, handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx));
@@ -1573,7 +1578,6 @@ static int if_receive(bdk_if_handle_t handle)
     const void *cq_ptr = bdk_phys_to_ptr(cq_base.u);
 
     /* Loop through all pending CQs */
-    int count = 0;
     const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
     while (count < pending_count)
     {
@@ -1591,6 +1595,7 @@ static int if_receive(bdk_if_handle_t handle)
     /* Free all the CQs that we've processed */
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
 
+skip:
     bdk_spinlock_unlock(&vnic_rbdr_state[priv->rbdr].lock);
 
     return count;
