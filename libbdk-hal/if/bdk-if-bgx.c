@@ -24,30 +24,27 @@ typedef enum
     BGX_MODE_40G_KR,/* 4 lanes, 10.3125 Gbaud */
 } bgx_mode_t;
 
-typedef union
+typedef struct
 {
-    void *ptr;
-    struct
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN
-        #error Big endian not supported for BGX
-#else
-        uint64_t    channel         : 8;    /* Which logical channel this handle coresponds to (0-15 for higig, zero otherwise) */
-        uint64_t    num_channels    : 12;   /* Total number of channels on this physical port. Only greater than 1 for higig */
-        bgx_mode_t  mode            : 4;    /* BGX mode */
+    /* BGX related config */
+    int         channel;        /* Which logical channel this handle coresponds to (0-15 for higig, zero otherwise) */
+    int         num_channels;   /* Total number of channels on this physical port. Only greater than 1 for higig */
+    bgx_mode_t  mode;           /* BGX mode */
+    int         port;           /* Which physical port this handle connects to */
+    int         num_port;       /* Number of physical ports on this interface */
+    int         higig;          /* True if this port is in higig mode */
+    int         use_training;   /* True if this port is in 10G or 40G and uses training */
 
-        uint64_t    port            : 4;    /* Which physical port this handle connects to */
-        uint64_t    num_port        : 4;    /* Number of physical ports on this interface */
-        uint64_t    higig           : 1;    /* True if this port is in higig mode */
+    /* VNIC related config */
+    int         vnic;           /* NIC index number (0-127) */
+    int         qos;            /* NIC QoS level (0-7). We only use zero */
+    int         cq;             /* Which complete queue to use. The second index is always zero */
+    int         rbdr;           /* Which receive descriptor to use. The second index is always zero */
 
-        uint64_t    use_training    : 1;    /* True if this port is in 10G or 40G and uses training */
-        uint64_t    vnic            : 7;    /* NIC index number (0-127) */
-        uint64_t    qos             : 3;    /* NIC QoS level (0-7). We only use zero */
-        uint64_t    cq              : 7;    /* Which complete queue to use. The second index is always zero */
-        uint64_t    rbdr            : 7;    /* Which receive descriptor to use. The second index is always zero */
-        uint64_t    reserved_58_63  : 6;
-#endif
-    } s;
+    /* Cached data from SQ for faster transmit */
+    void *      sq_base;        /* Pointer to the begining of the SQ in memory */
+    int         sq_loc;         /* Location where the next send should go */
+    int         sq_available;   /* Amount of space left in the queue (fuzzy) */
 } bgx_priv_t;
 
 typedef struct BDK_CACHE_LINE_ALIGNED
@@ -62,9 +59,7 @@ static bdk_if_handle_t global_handle_table[128];
 static vnic_queue_state_t vnic_rbdr_state[4];
 
 /**
- * The private structure needed by BGX is small enough to fit
- * in 64bits. It will be store in the private pointer, not in
- * memory pointed to by the private pointer
+ * Create the private structure needed by BGX
  *
  * @param node      Node this BGX is on
  * @param interface Which BGX
@@ -72,14 +67,12 @@ static vnic_queue_state_t vnic_rbdr_state[4];
  *
  * @return The private structure
  */
-static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
+static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *priv)
 {
-    bgx_priv_t priv;
-    priv.ptr = NULL;
-
+    memset(priv, 0, sizeof(*priv));
     int qlm = bdk_qlm_get(node, BDK_IF_BGX, interface);
     if (qlm < 0)
-        return priv;
+        return;
 
     bdk_qlm_modes_t qlm_mode = bdk_qlm_get_mode(node, qlm);
     int gbaud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
@@ -87,49 +80,48 @@ static bgx_priv_t create_priv(bdk_node_t node, int interface, int index)
     switch (qlm_mode)
     {
         case BDK_QLM_MODE_SGMII:
-            priv.s.num_port = 4;
-            priv.s.mode = BGX_MODE_SGMII;
+            priv->num_port = 4;
+            priv->mode = BGX_MODE_SGMII;
             break;
         case BDK_QLM_MODE_XAUI_1X4:
-            priv.s.num_port = 1;
-            priv.s.mode = BGX_MODE_XAUI;
+            priv->num_port = 1;
+            priv->mode = BGX_MODE_XAUI;
             if (gbaud_mhz == 3125)
-                priv.s.mode = BGX_MODE_XAUI;
+                priv->mode = BGX_MODE_XAUI;
             else
-                priv.s.mode = BGX_MODE_DXAUI;
+                priv->mode = BGX_MODE_DXAUI;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
-            priv.s.num_port = 2;
-            priv.s.mode = BGX_MODE_RXAUI;
+            priv->num_port = 2;
+            priv->mode = BGX_MODE_RXAUI;
             break;
         case BDK_QLM_MODE_XFI_4X1:
-            priv.s.num_port = 4;
-            priv.s.mode = BGX_MODE_XFI;
+            priv->num_port = 4;
+            priv->mode = BGX_MODE_XFI;
             /* XFI doesn't support tx training */
             break;
         case BDK_QLM_MODE_XLAUI_1X4:
-            priv.s.num_port = 1;
-            priv.s.mode = BGX_MODE_XLAUI;
+            priv->num_port = 1;
+            priv->mode = BGX_MODE_XLAUI;
             /* XLAUI doesn't support tx training */
             break;
         case BDK_QLM_MODE_10G_KR_4X1:
-            priv.s.num_port = 4;
-            priv.s.mode = BGX_MODE_10G_KR;
-            priv.s.use_training = 1; /* 10GBASE-KR supports tx training */
+            priv->num_port = 4;
+            priv->mode = BGX_MODE_10G_KR;
+            priv->use_training = 1; /* 10GBASE-KR supports tx training */
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
-            priv.s.num_port = 1;
-            priv.s.mode = BGX_MODE_40G_KR;
-            priv.s.use_training = 1; /* 40GBASE-KR4 supports tx training */
+            priv->num_port = 1;
+            priv->mode = BGX_MODE_40G_KR;
+            priv->use_training = 1; /* 40GBASE-KR4 supports tx training */
             break;
         default:
-            priv.s.num_port = 0;
+            priv->num_port = 0;
             break;
     }
-    priv.s.port = (priv.s.higig) ? (index>>4) : index;
-    priv.s.num_channels = (priv.s.higig) ? 16 : 1;
-    priv.s.channel = (priv.s.higig) ? (index&0xf) : 0;
-    return priv;
+    priv->port = (priv->higig) ? (index>>4) : index;
+    priv->num_channels = (priv->higig) ? 16 : 1;
+    priv->channel = (priv->higig) ? (index&0xf) : 0;
 }
 
 static int if_num_interfaces(bdk_node_t node)
@@ -142,8 +134,9 @@ static int if_num_interfaces(bdk_node_t node)
 
 static int if_num_ports(bdk_node_t node, int interface)
 {
-    bgx_priv_t priv = create_priv(node, interface, 0);
-    return priv.s.num_port * priv.s.num_channels;
+    bgx_priv_t priv;
+    create_priv(node, interface, 0, &priv);
+    return priv.num_port * priv.num_channels;
 }
 
 /**
@@ -157,7 +150,7 @@ static int if_num_ports(bdk_node_t node, int interface)
  */
 static int bgx_setup_one_time(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Strip FCS */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_GLOBAL_CONFIG(handle->interface),
@@ -170,7 +163,7 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
 
     int lmac_type;
     int lane_to_sds;
-    switch (priv.s.mode)
+    switch (priv->mode)
     {
         case BGX_MODE_SGMII:
             lmac_type = 0;
@@ -214,16 +207,16 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
 
     /* Set the number of LMACs we will use */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
-        c.s.lmacs = priv.s.num_port);
+        c.s.lmacs = priv->num_port);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_RX_LMACS(handle->interface),
-        c.s.lmacs = priv.s.num_port);
+        c.s.lmacs = priv->num_port);
 
     /* Set the backpressure AND mask. Each interface gets 16 channels in this
        mask. When there is only 1 port, all 64 channels are available but
        the upper channels are used for anything. That's why this code only uses
        16 channels per interface */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_CHAN_MSK_AND(handle->interface),
-        c.s.msk_and |= ((1ull <<priv.s.num_channels) - 1ull) << (handle->index * 16));
+        c.s.msk_and |= ((1ull <<priv->num_channels) - 1ull) << (handle->index * 16));
 
     /* Disable all MAC filtering */
     for (int i = 0; i < 32; i++)
@@ -247,13 +240,13 @@ static int if_probe(bdk_if_handle_t handle)
         memset(global_handle_table, 0, sizeof(global_handle_table));
     }
 
-    bgx_priv_t priv = create_priv(handle->node, handle->interface, handle->index);
-    priv.s.vnic = next_free_vnic++;
-    handle->priv = priv.ptr;
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    create_priv(handle->node, handle->interface, handle->index, priv);
+    priv->vnic = next_free_vnic++;
 
     /* Change name to be something that might be meaningful to the user */
     const char *name_format = "UNKNOWN";
-    switch (priv.s.mode)
+    switch (priv->mode)
     {
         case BGX_MODE_SGMII:
             if (bdk_numa_is_only_one())
@@ -263,21 +256,21 @@ static int if_probe(bdk_if_handle_t handle)
             break;
         case BGX_MODE_XAUI:
             if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "XAUI%d";
+                name_format = (priv->higig) ? "HIGIG%d.%d.%d" : "XAUI%d";
             else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
+                name_format = (priv->higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
             break;
         case BGX_MODE_DXAUI:
             if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "DXAUI%d";
+                name_format = (priv->higig) ? "HIGIG%d.%d.%d" : "DXAUI%d";
             else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.DXAUI%d";
+                name_format = (priv->higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.DXAUI%d";
             break;
         case BGX_MODE_RXAUI:
             if (bdk_numa_is_only_one())
-                name_format = (priv.s.higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
+                name_format = (priv->higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
             else
-                name_format = (priv.s.higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
+                name_format = (priv->higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
             break;
         case BGX_MODE_XFI:
             if (bdk_numa_is_only_one())
@@ -305,9 +298,9 @@ static int if_probe(bdk_if_handle_t handle)
             break;
     }
     if (bdk_numa_is_only_one())
-        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv.s.port, priv.s.channel);
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv->port, priv->channel);
     else
-        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv.s.port, priv.s.channel);
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv->port, priv->channel);
     handle->name[sizeof(handle->name)-1] = 0;
 
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
@@ -529,12 +522,12 @@ static int setup_auto_neg(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* 10GBASE-KR and 40GBASE-KR4 optionally support auto negotiation. Note
        that this referse to auto negotiation for links other than SGMII. SGMII
        takes a different code path */
-    int use_auto_neg = (priv.s.mode == BGX_MODE_10G_KR) || (priv.s.mode == BGX_MODE_40G_KR);
+    int use_auto_neg = (priv->mode == BGX_MODE_10G_KR) || (priv->mode == BGX_MODE_40G_KR);
     // FIXME: Disabled as it currently doesn't work
     use_auto_neg = 0;
 
@@ -555,8 +548,8 @@ static int setup_auto_neg(bdk_if_handle_t handle)
         c.s.fec_able = 1;
         c.s.a100g_cr10 = 0;
         c.s.a40g_cr4 = 0;
-        c.s.a40g_kr4 = (priv.s.mode == BGX_MODE_40G_KR);
-        c.s.a10g_kr = (priv.s.mode == BGX_MODE_10G_KR);
+        c.s.a40g_kr4 = (priv->mode == BGX_MODE_40G_KR);
+        c.s.a10g_kr = (priv->mode == BGX_MODE_10G_KR);
         c.s.a10g_kx4 = 0;
         c.s.a1g_kx = 0;
         c.s.xnp_able = 0;
@@ -590,7 +583,7 @@ static int xaui_init(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* NOTE: This code was moved first, out of order compared to the HRM
        because the RESET causes all SPU registers to loose their value */
@@ -646,7 +639,7 @@ static int xaui_init(bdk_if_handle_t handle)
 
     /* 3d. For 10GBASE-KR or 40GBASE-KR, enable link training by writing
        BGX(0..5)_SPU(0..3)_BR_PMD_CONTROL[TRAIN_EN] = 1. */
-    if (priv.s.use_training)
+    if (priv->use_training)
     {
         /* These registers aren't cleared when training is restarted. Manually
            clear them */
@@ -667,9 +660,9 @@ static int xaui_init(bdk_if_handle_t handle)
         FEC is optional for 10GBASE-KR, 40GBASE-KR4, and XLAUI. We're going
         to disable it by default per recommendation from Scott Meninger */
     int use_fec = 0;
-    use_fec &= ((priv.s.mode == BGX_MODE_10G_KR) ||
-                (priv.s.mode == BGX_MODE_40G_KR) ||
-                (priv.s.mode == BGX_MODE_XLAUI));
+    use_fec &= ((priv->mode == BGX_MODE_10G_KR) ||
+                (priv->mode == BGX_MODE_40G_KR) ||
+                (priv->mode == BGX_MODE_XLAUI));
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_FEC_CONTROL(bgx_block, bgx_index),
         c.s.fec_en = use_fec);
 
@@ -741,7 +734,7 @@ static int xaui_link(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     const int TIMEOUT = 100; /* 100us */
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Disable packet reception */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
@@ -770,7 +763,7 @@ static int xaui_link(bdk_if_handle_t handle)
             }
         }
 
-        if (priv.s.use_training)
+        if (priv->use_training)
         {
             /* Check if training is done */
             BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
@@ -793,8 +786,8 @@ static int xaui_link(bdk_if_handle_t handle)
             return -1;
         }
 
-        if ((priv.s.mode == BGX_MODE_XFI) || (priv.s.mode == BGX_MODE_XLAUI) ||
-            (priv.s.mode == BGX_MODE_10G_KR) || (priv.s.mode == BGX_MODE_40G_KR))
+        if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI) ||
+            (priv->mode == BGX_MODE_10G_KR) || (priv->mode == BGX_MODE_40G_KR))
         {
             /* 10G-R/40G-R - Wait for BASE-R PCS block lock */
             if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_BR_STATUS1(bgx_block, bgx_index), blk_lock, ==, 1, TIMEOUT))
@@ -820,7 +813,7 @@ static int xaui_link(bdk_if_handle_t handle)
         if (spux_status2.s.rcvflt)
         {
             BDK_TRACE("%s: Receive fault, need to retry\n", handle->name);
-            if (priv.s.use_training)
+            if (priv->use_training)
                 restart_training(handle);
             return -1;
         }
@@ -871,13 +864,13 @@ static int xaui_link(bdk_if_handle_t handle)
 static int vnic_setup_cq(bdk_if_handle_t handle)
 {
     static int next_free_cq = 0;
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int cq;
     int cq_idx = 0;
 
     /* Allocate a new CQ for every interface. All ports and channels on
        the same interface use same CQ */
-    if ((handle->index > 0) || (priv.s.channel > 0))
+    if ((handle->index > 0) || (priv->channel > 0))
     {
         /* These are allocated linearly. We know that the first port was
            the last guy to allcoate a CQ */
@@ -908,12 +901,11 @@ static int vnic_setup_cq(bdk_if_handle_t handle)
     }
 
     /* Configure our vnic to send to the CQ */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG(priv.s.vnic, priv.s.qos),
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG(priv->vnic, priv->qos),
         c.s.cq_qs = cq;
         c.s.cq_idx = cq_idx);
 
-    priv.s.cq = cq;
-    handle->priv = priv.ptr;
+    priv->cq = cq;
 
     return 0;
 }
@@ -921,8 +913,8 @@ static int vnic_setup_cq(bdk_if_handle_t handle)
 static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
 {
     const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
-    bgx_priv_t priv = {.ptr = handle->priv};
-    int rbdr = priv.s.rbdr;
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    int rbdr = priv->rbdr;
     int rbdr_idx = 0;
 
     bdk_spinlock_init(&vnic_rbdr_state[rbdr].lock);
@@ -958,14 +950,14 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
 static int vnic_setup_rbdr(bdk_if_handle_t handle)
 {
     static int next_free_rbdr = 0;
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int rbdr;
     int rbdr_idx = 0;
     int do_fill;
 
     /* Allocate a new RBDR for every interface. All ports and channels on
        the same interface use same RBDR */
-    if ((handle->index > 0) || (priv.s.channel > 0))
+    if ((handle->index > 0) || (priv->channel > 0))
     {
         /* These are allocated linearly. We know that the first port was
            the last guy to allcoate a CQ */
@@ -1001,24 +993,24 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
 
     /* Configure our vnic to use the RBDR */
     /* Connect this RQ to the RBDR */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_CFG(priv.s.vnic, priv.s.qos),
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_CFG(priv->vnic, priv->qos),
         c.s.caching = 1;
-        c.s.cq_qs = priv.s.cq;
+        c.s.cq_qs = priv->cq;
         c.s.cq_idx = 0;
         c.s.rbdr_cont_qs = rbdr;
         c.s.rbdr_cont_idx = rbdr_idx;
         c.s.rbdr_strt_qs = rbdr;
         c.s.rbdr_strt_idx = rbdr_idx);
     /* Backpressure when either CQ or RBDR is 250/256 full */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_BP_CFG(priv.s.vnic, priv.s.qos),
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_BP_CFG(priv->vnic, priv->qos),
         c.s.rbdr_bp_ena = 1;
         c.s.cq_bp_ena = 1;
         c.s.rbdr_bp = 250;
         c.s.cq_bp = 250;
-        c.s.bpid = priv.s.vnic);
+        c.s.bpid = priv->vnic);
     /* RED drop when either CQ or RBDR is 253/256 full, drop everything at
        254/256 */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_DROP_CFG(priv.s.vnic, priv.s.qos),
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_DROP_CFG(priv->vnic, priv->qos),
         c.s.rbdr_red = 1;
         c.s.cq_red = 1;
         c.s.rbdr_pass = 253;
@@ -1026,8 +1018,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         c.s.cq_pass = 253;
         c.s.cq_drop = 254);
 
-    priv.s.rbdr = rbdr;
-    handle->priv = priv.ptr;
+    priv->rbdr = rbdr;
 
     if (do_fill)
     {
@@ -1046,7 +1037,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
 {
     /* Setup traffic shaping. The BDK disables traffic-shaping, but we still
        have to assign the various TL* resourses */
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* TL1 feeds the DMA engines. One for each BGX */
     int tl1_index = handle->interface;
@@ -1054,7 +1045,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     /* TL2 feeds TL1 based on the top/bottom half. Use an independent TL1
        entry for each BGX port */
     int tl2_index = tl1_index * 32;
-    tl2_index += priv.s.port;
+    tl2_index += priv->port;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_CFG(tl2_index),
         c.s.rr_quantum = tl2_index * 8);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_PRI(tl2_index),
@@ -1067,8 +1058,8 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
         c.s.rr_quantum = tl3_index * 8);
     int tl_channel = (handle->interface) ? NIC_CHAN_E_BGX1_PORT0_CH0 : NIC_CHAN_E_BGX0_PORT0_CH0;
-    tl_channel += (NIC_CHAN_E_BGX0_PORT1_CH0 - NIC_CHAN_E_BGX0_PORT0_CH0) * priv.s.port;
-    tl_channel += priv.s.channel;
+    tl_channel += (NIC_CHAN_E_BGX0_PORT1_CH0 - NIC_CHAN_E_BGX0_PORT0_CH0) * priv->port;
+    tl_channel += priv->channel;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
         c.s.chan = tl_channel);
 
@@ -1077,12 +1068,12 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4AX_CFG(tl4_index / 4),
         c.s.tl4a = tl3_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4X_CFG(tl4_index),
-        c.s.sq_qs = priv.s.vnic;
-        c.s.sq_idx = priv.s.qos;
+        c.s.sq_qs = priv->vnic;
+        c.s.sq_idx = priv->qos;
         c.s.rr_quantum = tl4_index * 8);
 
     /* SQ feeds TL4 */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv.s.vnic, priv.s.qos),
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv->vnic, priv->qos),
         c.s.tl4 = tl4_index);
 
     return 0;
@@ -1093,7 +1084,7 @@ static int vnic_setup(bdk_if_handle_t handle)
     static int next_free_cpi = 0;
     static int next_free_rssi = 0;
 
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     void *sq_memory = memalign(128, 16 * SQ_ENTRIES);
     if (!sq_memory)
@@ -1107,12 +1098,15 @@ static int vnic_setup(bdk_if_handle_t handle)
     if (vnic_setup_rbdr(handle))
         return -1;
 
-    int sq = priv.s.vnic;
-    int sq_idx = priv.s.qos;
-    int rq = priv.s.vnic;
-    int rq_idx = priv.s.qos;
+    int sq = priv->vnic;
+    int sq_idx = priv->qos;
+    int rq = priv->vnic;
+    int rq_idx = priv->qos;
 
     /* Configure the submit queue (SQ) */
+    priv->sq_base = sq_memory;
+    priv->sq_loc = 0;
+    priv->sq_available = SQ_ENTRIES;
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_BASE(sq, sq_idx),
         bdk_ptr_to_phys(sq_memory));
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_SQX_CFG(sq, sq_idx),
@@ -1139,17 +1133,17 @@ static int vnic_setup(bdk_if_handle_t handle)
         c.s.tcp_ena = 0);
     /* Determine the flow channel for the CPI */
     int flow = (handle->interface) ? 0x80 : 0x00;
-    flow += priv.s.port * 16;
-    flow += priv.s.channel;
+    flow += priv->port * 16;
+    flow += priv->channel;
     int cpi = next_free_cpi++;
     int rssi = next_free_rssi++;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_CFG(flow),
         c.s.cpi_alg = NIC_CPI_ALG_E_NONE;
         c.s.cpi_base = cpi);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
-        c.s.vnic = priv.s.vnic;
+        c.s.vnic = priv->vnic;
         c.s.rss_size = 0;
-        c.s.padd = priv.s.channel;
+        c.s.padd = priv->channel;
         c.s.rssi_base = rssi);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_RSSIX_RQ(rssi),
         c.s.rq_qs = rq;
@@ -1166,23 +1160,23 @@ static int vnic_setup(bdk_if_handle_t handle)
        c.s.block = 0x8 + handle->interface);
 
     /* Do global vnic init */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_CFG(priv.s.vnic),
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_CFG(priv->vnic),
         c.s.ena = 1;
-        c.s.vnic = priv.s.vnic);
+        c.s.vnic = priv->vnic);
 
     if (vnic_setup_tx_shaping(handle))
         return -1;
 
-    global_handle_table[priv.s.vnic] = handle;
+    global_handle_table[priv->vnic] = handle;
 
     if (0)
     {
         /* Update my private state copy after all fields are filled in */
-        priv.ptr = handle->priv;
+        bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
         printf("%s: channel %d of %d, port %d of %d, vnic(%d,%d), cq=%d, rbdr=%d\n",
-            handle->name, priv.s.channel, priv.s.num_channels,
-            priv.s.port, priv.s.num_port, priv.s.vnic, priv.s.qos,
-            priv.s.cq, priv.s.rbdr);
+            handle->name, priv->channel, priv->num_channels,
+            priv->port, priv->num_port, priv->vnic, priv->qos,
+            priv->cq, priv->rbdr);
     }
 
     return 0;
@@ -1192,11 +1186,11 @@ static int if_init(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     if (bgx_setup_one_time(handle))
         return -1;
 
-    if (priv.s.mode != BGX_MODE_SGMII)
+    if (priv->mode != BGX_MODE_SGMII)
     {
         /* Everything other than SGMII */
         xaui_init(handle);
@@ -1205,9 +1199,9 @@ static int if_init(bdk_if_handle_t handle)
     /* Set BGX to buffer half its FIFO before starting transmit. This reduces
        the chances that we have a TX under run due to memory contention */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(bgx_block, bgx_index),
-        c.s.cnt = (0x800 / 2 / priv.s.num_port) - 1);
+        c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(bgx_block, bgx_index),
-        c.s.cnt = (0x800 / 2 / priv.s.num_port) - 1);
+        c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
 
     /* Configure to allow max sized frames */
     const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
@@ -1227,8 +1221,8 @@ static int if_init(bdk_if_handle_t handle)
 
 static int if_enable(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
         c.s.enable = 1;
         c.s.data_pkt_tx_en = 1;
         c.s.data_pkt_rx_en = 1);
@@ -1237,8 +1231,8 @@ static int if_enable(bdk_if_handle_t handle)
 
 static int if_disable(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv.s.port),
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
         c.s.enable = 0;
         c.s.data_pkt_tx_en = 0;
         c.s.data_pkt_rx_en = 0);
@@ -1348,7 +1342,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
  */
 static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     bdk_if_link_t result;
@@ -1368,11 +1362,11 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
     if (link_up)
     {
         int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
-        result.s.lanes = 4 / priv.s.num_port;
+        result.s.lanes = 4 / priv->num_port;
         result.s.up = 1;
         result.s.full_duplex = 1;
         uint64_t speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm);
-        switch (priv.s.mode)
+        switch (priv->mode)
         {
             case BGX_MODE_XFI:
             case BGX_MODE_XLAUI:
@@ -1398,11 +1392,11 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     bdk_if_link_t result;
     result.u64 = 0;
 
-    if (priv.s.mode == BGX_MODE_SGMII)
+    if (priv->mode == BGX_MODE_SGMII)
         result = if_link_get_sgmii(handle);
     else
         result = if_link_get_xaui(handle);
@@ -1411,8 +1405,8 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
 static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
-    if (priv.s.mode == BGX_MODE_SGMII)
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    if (priv->mode == BGX_MODE_SGMII)
     {
         int status = sgmii_link(handle);
         if (status == 0)
@@ -1432,19 +1426,23 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
-    /* Check for space. A max sized packet will take one header and 16 gather
-       entries */
-    BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv.s.vnic, priv.s.qos));
-    if (bdk_unlikely(sq_status.s.qcount >= SQ_ENTRIES - 17))
+    /* Update the SQ available if we're out of space. The NIC should have sent
+       packets, making more available. This allows us to only read the STATUS
+       CSR when really necessary, normally using the L1 cached value */
+    if (priv->sq_available < packet->segments + 1)
+    {
+        BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
+        priv->sq_available = SQ_ENTRIES - sq_status.s.qcount;
+    }
+    /* Check for space. A packets is a header plus its segments */
+    if (priv->sq_available < packet->segments + 1)
         return -1;
 
     /* Build the command */
-    BDK_CSR_INIT(sq_base, handle->node, BDK_NIC_QSX_SQX_BASE(priv.s.vnic, priv.s.qos));
-    BDK_CSR_INIT(sq_tail, handle->node, BDK_NIC_QSX_SQX_TAIL(priv.s.vnic, priv.s.qos));
-    void *sq_ptr = bdk_phys_to_ptr(sq_base.u);
-    int loc = sq_tail.s.tail_ptr;
+    void *sq_ptr = priv->sq_base;
+    int loc = priv->sq_loc;
     union nic_send_hdr_s send_hdr;
     send_hdr.u[0] = 0;
     send_hdr.u[1] = 0;
@@ -1471,8 +1469,13 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     BDK_WMB;
 
     /* Ring the doorbell */
-    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_DOOR(priv.s.vnic, priv.s.qos),
+    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_DOOR(priv->vnic, priv->qos),
         packet->segments + 1);
+
+    /* Update our cached state */
+    priv->sq_available -= packet->segments + 1;
+    priv->sq_loc = loc;
+
     return 0;
 }
 
@@ -1485,8 +1488,8 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 static void if_free_to_rbdr(bdk_if_packet_t *packet)
 {
     bdk_if_handle_t handle = packet->if_handle;
-    bgx_priv_t priv = {.ptr = handle->priv};
-    int rbdr = priv.s.rbdr;
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    int rbdr = priv->rbdr;
     int rbdr_idx = 0;
 
     uint64_t *rbdr_ptr = vnic_rbdr_state[rbdr].base;
@@ -1551,8 +1554,8 @@ static int if_receive(bdk_if_handle_t handle)
         return -1;
 
     /* Figure out which completion queue we're using */
-    bgx_priv_t priv = { .ptr = handle->priv };
-    int cq = priv.s.cq;
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    int cq = priv->cq;
     int cq_idx = 0;
 
     /* Exit immediately if the CQ is empty */
@@ -1561,7 +1564,7 @@ static int if_receive(bdk_if_handle_t handle)
     if (bdk_likely(!pending_count))
         return -1;
 
-    bdk_spinlock_lock(&vnic_rbdr_state[priv.s.rbdr].lock);
+    bdk_spinlock_lock(&vnic_rbdr_state[priv->rbdr].lock);
 
     /* Find the current CQ location */
     BDK_CSR_INIT(cq_base, handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx));
@@ -1588,7 +1591,7 @@ static int if_receive(bdk_if_handle_t handle)
     /* Free all the CQs that we've processed */
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
 
-    bdk_spinlock_unlock(&vnic_rbdr_state[priv.s.rbdr].lock);
+    bdk_spinlock_unlock(&vnic_rbdr_state[priv->rbdr].lock);
 
     return count;
 }
@@ -1603,19 +1606,19 @@ static int if_receive(bdk_if_handle_t handle)
  */
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
-    if (priv.s.mode == BGX_MODE_SGMII)
+    if (priv->mode == BGX_MODE_SGMII)
     {
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv.s.port),
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv->port),
             c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv.s.port),
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(handle->interface, priv->port),
             c.s.loopbck2 = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
         sgmii_link(handle);
     }
     else
     {
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(handle->interface, priv.s.port),
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(handle->interface, priv->port),
             c.s.loopbck = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
         if (loopback & BDK_IF_LOOPBACK_EXTERNAL)
         {
@@ -1636,16 +1639,16 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
  */
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Read the RX statistics. These do not include the ethernet FCS */
-    BDK_CSR_INIT(rx_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_OCTS));
-    BDK_CSR_INIT(rx_bcast, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_BCAST));
-    BDK_CSR_INIT(rx_mcast, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_MCAST));
-    BDK_CSR_INIT(rx_ucast, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_UCAST));
-    BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_RED));
-    BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
-    BDK_CSR_INIT(rx_fcs, handle->node, BDK_NIC_VNICX_RX_STATX(priv.s.vnic, NIC_STAT_VNIC_RX_E_RX_FCS));
+    BDK_CSR_INIT(rx_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_OCTS));
+    BDK_CSR_INIT(rx_bcast, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_BCAST));
+    BDK_CSR_INIT(rx_mcast, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_MCAST));
+    BDK_CSR_INIT(rx_ucast, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_UCAST));
+    BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
+    BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
+    BDK_CSR_INIT(rx_fcs, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_FCS));
 
     /* Update the RX stats */
     // FIXME: Adding the rx packets together will make incorrect results on overflow
@@ -1668,8 +1671,8 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
         rx_fcs.u, handle->stats.rx.errors, 48);
 
     /* Read the TX statistics. These don't include the ethernet FCS */
-    BDK_CSR_INIT(tx_octets, handle->node, BDK_NIC_VNICX_TX_STATX(priv.s.vnic, NIC_STAT_VNIC_TX_E_TX_OCTS));
-    BDK_CSR_INIT(tx_packets, handle->node, BDK_NIC_VNICX_TX_STATX(priv.s.vnic, NIC_STAT_VNIC_TX_E_TX_UCAST));
+    BDK_CSR_INIT(tx_octets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, NIC_STAT_VNIC_TX_E_TX_OCTS));
+    BDK_CSR_INIT(tx_packets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, NIC_STAT_VNIC_TX_E_TX_UCAST));
 
     /* Update the TX stats */
     handle->stats.tx.octets -= handle->stats.tx.packets * 4;
@@ -1682,12 +1685,13 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 
 static int if_get_queue_depth(bdk_if_handle_t handle)
 {
-    bgx_priv_t priv = {.ptr = handle->priv};
-    BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv.s.vnic, priv.s.qos));
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
     return sq_status.s.qcount;
 }
 
 const __bdk_if_ops_t __bdk_if_ops_bgx = {
+    .priv_size = sizeof(bgx_priv_t),
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,
