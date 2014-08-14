@@ -70,12 +70,12 @@ typedef struct __bdk_if_port
     int         pknd        : 8;
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
-    void *      priv;
     bdk_if_stats_t stats;
     bdk_if_link_t link_info;
     char        name[16];
     struct __bdk_if_port *next;
     struct __bdk_if_port *poll_next;
+    char        priv[0];
 } __bdk_if_port_t;
 
 typedef __bdk_if_port_t *bdk_if_handle_t;
@@ -132,6 +132,7 @@ typedef void (*bdk_if_packet_receiver_t)(const bdk_if_packet_t *packet, void *ar
 
 typedef struct
 {
+    int priv_size;
     int (*if_num_interfaces)(bdk_node_t node); /* Returns the number of interfaces possible on this chip */
     int (*if_num_ports)(bdk_node_t node, int interface); /* For given interface, returns the number of ports on it */
     int (*if_probe)(bdk_if_handle_t handle); /* Probe to see if a port exists */

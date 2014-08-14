@@ -46,12 +46,8 @@ static int if_probe(bdk_if_handle_t handle)
 
 static int if_init(bdk_if_handle_t handle)
 {
-    handle->priv = calloc(1, sizeof(priv_t));
-    if (!handle->priv)
-    {
-        bdk_error("%s: Failed to allocate transmit FIFO\n", handle->name);
-        return -1;
-    }
+    priv_t *priv = (priv_t *)handle->priv;
+    memset(priv, 0, sizeof(priv));
     return 0;
 }
 
@@ -86,7 +82,7 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
 static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
-    priv_t *priv = handle->priv;
+    priv_t *priv = (priv_t *)handle->priv;
 
     bdk_spinlock_lock(&priv->lock);
 
@@ -121,7 +117,7 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 
 static int if_receive(bdk_if_handle_t handle)
 {
-    priv_t *priv = handle->priv;
+    priv_t *priv = (priv_t *)handle->priv;
 
     /* Quickly check for empty before taking the lock */
     if (bdk_likely(priv->next_rx == priv->tx_free))
@@ -159,7 +155,7 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 
 static int if_get_queue_depth(bdk_if_handle_t handle)
 {
-    priv_t *priv = handle->priv;
+    priv_t *priv = (priv_t *)handle->priv;
 
     /* Make sure gcc reads the variables once and in the correct order */
     int next_rx = (volatile int)priv->next_rx;
@@ -184,6 +180,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 }
 
 const __bdk_if_ops_t __bdk_if_ops_fake = {
+    .priv_size = sizeof(priv_t),
     .if_num_interfaces = if_num_interfaces,
     .if_num_ports = if_num_ports,
     .if_probe = if_probe,

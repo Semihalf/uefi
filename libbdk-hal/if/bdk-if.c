@@ -34,7 +34,7 @@ extern bdk_spinlock_t __bdk_pko_reg_lock;
  */
 static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int interface, int index)
 {
-    bdk_if_handle_t handle = calloc(1, sizeof(__bdk_if_port_t));
+    bdk_if_handle_t handle = calloc(1, sizeof(__bdk_if_port_t) + __bdk_if_ops[iftype]->priv_size);
     if (!handle)
     {
         bdk_error("bdk_if_init_port() failed to allocate if handle\n");
