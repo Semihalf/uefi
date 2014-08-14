@@ -21,7 +21,8 @@ void bdk_rng_enable(bdk_node_t node)
  */
 uint8_t bdk_rng_get_random8(void)
 {
-    return bdk_read64_uint8(BDK_RNM_RANDOM);
+
+    return bdk_read64_uint8(bdk_numa_get_address(bdk_numa_local(), BDK_RNM_RANDOM));
 }
 
 /**
@@ -31,7 +32,7 @@ uint8_t bdk_rng_get_random8(void)
  */
 uint16_t bdk_rng_get_random16(void)
 {
-    return bdk_read64_uint16(BDK_RNM_RANDOM);
+    return bdk_read64_uint16(bdk_numa_get_address(bdk_numa_local(), BDK_RNM_RANDOM));
 }
 
 /**
@@ -41,7 +42,7 @@ uint16_t bdk_rng_get_random16(void)
  */
 uint32_t bdk_rng_get_random32(void)
 {
-    return bdk_read64_uint32(BDK_RNM_RANDOM);
+    return bdk_read64_uint32(bdk_numa_get_address(bdk_numa_local(), BDK_RNM_RANDOM));
 }
 
 /**
@@ -51,6 +52,6 @@ uint32_t bdk_rng_get_random32(void)
  */
 uint64_t bdk_rng_get_random64(void)
 {
-    return bdk_read64_uint64(BDK_RNM_RANDOM);
+    return bdk_read64_uint64(bdk_numa_get_address(bdk_numa_local(), BDK_RNM_RANDOM));
 }
 
