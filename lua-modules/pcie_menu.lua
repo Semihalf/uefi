@@ -129,11 +129,7 @@ end
 --
 
 local m = menu.new("PCIe Menu")
-local max_ports = 0
-if cavium.is_model(cavium.CN88XX) then
-    max_ports = 4
-end
-
+local max_ports = cavium.c.bdk_pcie_get_num_ports(default_node)
 for pcie_port=0,max_ports-1 do
     m:item("p" .. pcie_port, "PCIe port " .. pcie_port, do_port_menu, pcie_port)
 end

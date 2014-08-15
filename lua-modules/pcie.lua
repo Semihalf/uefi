@@ -316,31 +316,31 @@ local function create_device(root, bus, deviceid, func)
             indent,
             self:read16(PCICONFIG_COMMAND),
             self:read16(PCICONFIG_STATUS))
-        printf("%s    Cache Line Size:%02x Master Latency Timer:%02x Header Type:%02x BIST:%02x\n",
-            indent,
-            self:read8(PCICONFIG_CACHE_LINE_SIZE),
-            self:read8(PCICONFIG_MASTER_LT),
-            self:read8(PCICONFIG_HEADER_TYPE),
-            self:read8(PCICONFIG_BIST))
-        printf("%s    Cardbus CIS Pointer:%08x\n",
-            indent,
-            self:read32(PCICONFIG_CARDBUS_CIS))
+        --printf("%s    Cache Line Size:%02x Master Latency Timer:%02x Header Type:%02x BIST:%02x\n",
+        --    indent,
+        --    self:read8(PCICONFIG_CACHE_LINE_SIZE),
+        --    self:read8(PCICONFIG_MASTER_LT),
+        --    self:read8(PCICONFIG_HEADER_TYPE),
+        --    self:read8(PCICONFIG_BIST))
+        --printf("%s    Cardbus CIS Pointer:%08x\n",
+        --    indent,
+        --    self:read32(PCICONFIG_CARDBUS_CIS))
         printf("%s    Subsystem Vendor:%04x Device:%04x\n",
             indent,
             self:read16(PCICONFIG_SUBVENDOR_ID),
             self:read16(PCICONFIG_SUBDEVICE_ID))
-        printf("%s    Expansion ROM:%08x\n",
-            indent,
-            self:read32(PCICONFIG_ROM))
-        printf("%s    Capabilities Pointer:%02x\n",
-            indent,
-            self:read8(PCICONFIG_CAP_PTR))
-        printf("%s    Interrupt Line:%02x Interrupt Pin:%02x Min Grant:%02x Max Latency:%02x\n",
-            indent,
-            self:read8(PCICONFIG_INT_LINE),
-            self:read8(PCICONFIG_INT_PIN),
-            self:read8(PCICONFIG_MIN_GNT),
-            self:read8(PCICONFIG_MAX_LAT))
+        --printf("%s    Expansion ROM:%08x\n",
+        --    indent,
+        --    self:read32(PCICONFIG_ROM))
+        --printf("%s    Capabilities Pointer:%02x\n",
+        --    indent,
+        --    self:read8(PCICONFIG_CAP_PTR))
+        --printf("%s    Interrupt Line:%02x Interrupt Pin:%02x Min Grant:%02x Max Latency:%02x\n",
+        --    indent,
+        --    self:read8(PCICONFIG_INT_LINE),
+        --    self:read8(PCICONFIG_INT_PIN),
+        --    self:read8(PCICONFIG_MIN_GNT),
+        --    self:read8(PCICONFIG_MAX_LAT))
         if self.isbridge then
             printf("%s    Primary Bus:%02x Secondary Bus:%02x Subordinate Bus:%02x Secondary Latency Timer:%02x\n",
                 indent,
@@ -463,24 +463,24 @@ function pcie.initialize(node, pcie_port)
         self.devices = {}
         -- Get the top level bus number
         self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).PBNUM
-        -- Read device zero, which must exist per PCIe spec
-        local device = create_device(self, self.last_bus, 0, 0)
-        if not device then
-            error("Unable to find first PCIe device")
-        end
-        table.insert(self.devices, device)
-        -- Device is mulifunction so scan the other functions
-        if device.ismultifunction then
-            for func = 1,7 do
-                -- Try and create a device
-                device = create_device(self, self.last_bus, 0, func)
-                -- Device will be nil if nothing was there
-                if device then
-                    -- Add the new device to my children
-                    table.insert(self.devices, device)
-                else
-                    -- Past last function for device. stop function scanning
-                    break
+        for dev=0,31 do
+            local device = create_device(self, self.last_bus, dev, 0)
+            if device then
+                table.insert(self.devices, device)
+                -- Device is mulifunction so scan the other functions
+                if device.ismultifunction then
+                    for func = 1,7 do
+                        -- Try and create a device
+                        device = create_device(self, self.last_bus, dev, func)
+                        -- Device will be nil if nothing was there
+                        if device then
+                            -- Add the new device to my children
+                            table.insert(self.devices, device)
+                        else
+                            -- Past last function for device. stop function scanning
+                            break
+                        end
+                    end
                 end
             end
         end
