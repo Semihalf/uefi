@@ -4,10 +4,6 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
-#define MRRS_CN6XXX 3 /* 1024 byte Max Read Request Size */
-#define MPS_CN6XXX  0 /* 128 byte Max Packet Size (Limit of most PCs) */
-
-
 static void pcie_internal_init(bdk_node_t node, int ecam, int dev, int fn)
 {
     bdk_sys_midr_el1_t midr_el1;
@@ -184,12 +180,14 @@ uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_
 {
     /* Ports 0-2 goto SLI0, ports 3-5 goto SLI1 */
     int sli = (pcie_port >= 3) ? 1 : 0;
+    int sli_group = pcie_port - sli * 3;
+    int region = (sli_group << 6) | (mem_type << 4);
     union sli_s2m_op_s s2m_op;
     s2m_op.u = 0;
     s2m_op.s.io = 1;
     s2m_op.s.node = node;
     s2m_op.s.did_hi = 0x8 + sli;
-    s2m_op.s.region = mem_type; /* We might want to group multiple for more space */
+    s2m_op.s.region = region;
     return s2m_op.u;
 }
 
@@ -205,8 +203,7 @@ uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_
  */
 uint64_t bdk_pcie_get_base_size(bdk_node_t node, int pcie_port, bdk_pcie_mem_t mem_type)
 {
-    /* We might want to group multiple for more space */
-    return 1ull << 32;
+    return 1ull << 36;
 }
 
 /**
@@ -217,59 +214,38 @@ uint64_t bdk_pcie_get_base_size(bdk_node_t node, int pcie_port, bdk_pcie_mem_t m
  */
 static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port)
 {
+    /* Value is recommended in CSR files */
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port),
+        c.s.cfg_rtry = 32);
+
     /* Max Payload Size (PCIE*_CFG030[MPS]) */
     /* Max Read Request Size (PCIE*_CFG030[MRRS]) */
     /* Relaxed-order, no-snoop enables (PCIE*_CFG030[RO_EN,NS_EN] */
     /* Error Message Enables (PCIE*_CFG030[CE_EN,NFE_EN,FE_EN,UR_EN]) */
-    {
-        bdk_pciercx_cfg030_t pciercx_cfg030;
-        pciercx_cfg030.u= BDK_CSR_READ(node, BDK_PCIERCX_CFG030(pcie_port));
-        pciercx_cfg030.s.mps = MPS_CN6XXX;
-        pciercx_cfg030.s.mrrs = MRRS_CN6XXX;
-        pciercx_cfg030.s.ro_en = 1; /* Enable relaxed order processing. This will allow devices to affect read response ordering */
-        pciercx_cfg030.s.ns_en = 1; /* Enable no snoop processing. Not used */
-        pciercx_cfg030.s.ce_en = 1; /* Correctable error reporting enable. */
-        pciercx_cfg030.s.nfe_en = 1; /* Non-fatal error reporting enable. */
-        pciercx_cfg030.s.fe_en = 1; /* Fatal error reporting enable. */
-        pciercx_cfg030.s.ur_en = 1; /* Unsupported request reporting enable. */
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG030(pcie_port), pciercx_cfg030.u);
-    }
-
-#if 0 // FIXME
-    {
-        /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
-        /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
-        bdk_dpi_sli_prtx_cfg_t prt_cfg;
-        prt_cfg.u = BDK_CSR_READ(node, BDK_DPI_SLI_PRTX_CFG(pcie_port));
-        prt_cfg.s.mps = MPS_CN6XXX;
-        prt_cfg.s.mrrs = MRRS_CN6XXX;
-        BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u);
-    }
-#endif
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG030(pcie_port),
+        c.s.mps = 1; /* Support 256 byte MPS */
+        c.s.mrrs = 0x5; /* Support 4KB MRRS */
+        c.s.ro_en = 1; /* Enable relaxed order processing. This will allow devices to affect read response ordering */
+        c.s.ns_en = 1; /* Enable no snoop processing. Not used */
+        c.s.ce_en = 1; /* Correctable error reporting enable. */
+        c.s.nfe_en = 1; /* Non-fatal error reporting enable. */
+        c.s.fe_en = 1; /* Fatal error reporting enable. */
+        c.s.ur_en = 1); /* Unsupported request reporting enable. */
 
     /* ECRC Generation (PCIE*_CFG070[GE,CE]) */
-    {
-        bdk_pciercx_cfg070_t pciercx_cfg070;
-        pciercx_cfg070.u= BDK_CSR_READ(node, BDK_PCIERCX_CFG070(pcie_port));
-        pciercx_cfg070.s.ge = 1; /* ECRC generation enable. */
-        pciercx_cfg070.s.ce = 1; /* ECRC check enable. */
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG070(pcie_port), pciercx_cfg070.u);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG070(pcie_port),
+        c.s.ge = 1; /* ECRC generation enable. */
+        c.s.ce = 1); /* ECRC check enable. */
 
     /* Access Enables (PCIE*_CFG001[MSAE,ME]) */
         /* ME and MSAE should always be set. */
     /* Interrupt Disable (PCIE*_CFG001[I_DIS]) */
     /* System Error Message Enable (PCIE*_CFG001[SEE]) */
-    {
-        bdk_pciercx_cfg001_t pciercx_cfg001;
-        pciercx_cfg001.u= BDK_CSR_READ(node, BDK_PCIERCX_CFG001(pcie_port));
-        pciercx_cfg001.s.msae = 1; /* Memory space enable. */
-        pciercx_cfg001.s.me = 1; /* Bus master enable. */
-        pciercx_cfg001.s.i_dis = 1; /* INTx assertion disable. */
-        pciercx_cfg001.s.see = 1; /* SERR# enable */
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG001(pcie_port), pciercx_cfg001.u);
-    }
-
+        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG001(pcie_port),
+        c.s.msae = 1; /* Memory space enable. */
+        c.s.me = 1; /* Bus master enable. */
+        c.s.i_dis = 1; /* INTx assertion disable. */
+        c.s.see = 1); /* SERR# enable */
 
     /* Advanced Error Recovery Message Enables */
     /* (PCIE*_CFG066,PCIE*_CFG067,PCIE*_CFG069) */
@@ -279,78 +255,56 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
 
 
     /* Active State Power Management (PCIE*_CFG032[ASLPC]) */
-    {
-        bdk_pciercx_cfg032_t pciercx_cfg032;
-        pciercx_cfg032.u= BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
-        pciercx_cfg032.s.aslpc = 0; /* Active state Link PM control. */
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG032(pcie_port), pciercx_cfg032.u);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG032(pcie_port),
+        c.s.aslpc = 0); /* Active state Link PM control. */
 
     /* Link Width Mode (PCIERCn_CFG452[LME]) - Set during bdk_pcie_rc_initialize_link() */
     /* Primary Bus Number (PCIERCn_CFG006[PBNUM]) */
-    {
-        /* We set the primary bus number to 1 so IDT bridges are happy. They don't like zero */
-        bdk_pciercx_cfg006_t pciercx_cfg006;
-        pciercx_cfg006.u= 0;
-        pciercx_cfg006.s.pbnum = 1;
-        pciercx_cfg006.s.sbnum = 1;
-        pciercx_cfg006.s.subbnum = 1;
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG006(pcie_port), pciercx_cfg006.u);
-    }
+    /* Use bus numbers as follows:
+        64-127: Port 0 on SLI
+        128-191: Port 1 on SLI
+        192-255: Port 2 on SLI */
+    int bus = (pcie_port >= 3) ? pcie_port - 3 : pcie_port;
+    bus *= 64;
+    bus += 64;
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG006(pcie_port),
+        c.s.pbnum = 0;
+        c.s.sbnum = bus;
+        c.s.subbnum = bus + 63);
 
     /* Memory-mapped I/O BAR (PCIERCn_CFG008) */
     /* Most applications should disable the memory-mapped I/O BAR by */
     /* setting PCIERCn_CFG008[ML_ADDR] < PCIERCn_CFG008[MB_ADDR] */
-    {
-        bdk_pciercx_cfg008_t pciercx_cfg008;
-        pciercx_cfg008.u = 0;
-        pciercx_cfg008.s.mb_addr = 0x100;
-        pciercx_cfg008.s.ml_addr = 0;
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG008(pcie_port), pciercx_cfg008.u);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG008(pcie_port),
+        c.s.mb_addr = 0x100;
+        c.s.ml_addr = 0);
 
     /* Prefetchable BAR (PCIERCn_CFG009,PCIERCn_CFG010,PCIERCn_CFG011) */
     /* Most applications should disable the prefetchable BAR by setting */
     /* PCIERCn_CFG011[UMEM_LIMIT],PCIERCn_CFG009[LMEM_LIMIT] < */
     /* PCIERCn_CFG010[UMEM_BASE],PCIERCn_CFG009[LMEM_BASE] */
-    {
-        bdk_pciercx_cfg009_t pciercx_cfg009;
-        bdk_pciercx_cfg010_t pciercx_cfg010;
-        bdk_pciercx_cfg011_t pciercx_cfg011;
-        pciercx_cfg009.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG009(pcie_port));
-        pciercx_cfg010.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG010(pcie_port));
-        pciercx_cfg011.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG011(pcie_port));
-        pciercx_cfg009.s.lmem_base = 0x100;
-        pciercx_cfg009.s.lmem_limit = 0;
-        pciercx_cfg010.s.umem_base = 0x100;
-        pciercx_cfg011.s.umem_limit = 0;
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG009(pcie_port), pciercx_cfg009.u);
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG010(pcie_port), pciercx_cfg010.u);
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG011(pcie_port), pciercx_cfg011.u);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG009(pcie_port),
+        c.s.lmem_base = 0x100;
+        c.s.lmem_limit = 0);
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG010(pcie_port),
+        c.s.umem_base = 0x100);
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG011(pcie_port),
+        c.s.umem_limit = 0);
 
     /* System Error Interrupt Enables (PCIERCn_CFG035[SECEE,SEFEE,SENFEE]) */
     /* PME Interrupt Enables (PCIERCn_CFG035[PMEIE]) */
-    {
-        bdk_pciercx_cfg035_t pciercx_cfg035;
-        pciercx_cfg035.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG035(pcie_port));
-        pciercx_cfg035.s.secee = 1; /* System error on correctable error enable. */
-        pciercx_cfg035.s.sefee = 1; /* System error on fatal error enable. */
-        pciercx_cfg035.s.senfee = 1; /* System error on non-fatal error enable. */
-        pciercx_cfg035.s.pmeie = 1; /* PME interrupt enable. */
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG035(pcie_port), pciercx_cfg035.u);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG035(pcie_port),
+        c.s.secee = 1; /* System error on correctable error enable. */
+        c.s.sefee = 1; /* System error on fatal error enable. */
+        c.s.senfee = 1; /* System error on non-fatal error enable. */
+        c.s.pmeie = 1); /* PME interrupt enable. */
 
     /* Advanced Error Recovery Interrupt Enables */
     /* (PCIERCn_CFG075[CERE,NFERE,FERE]) */
-    {
-        bdk_pciercx_cfg075_t pciercx_cfg075;
-        pciercx_cfg075.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG075(pcie_port));
-        pciercx_cfg075.s.cere = 1; /* Correctable error reporting enable. */
-        pciercx_cfg075.s.nfere = 1; /* Non-fatal error reporting enable. */
-        pciercx_cfg075.s.fere = 1; /* Fatal error reporting enable. */
-        BDK_CSR_WRITE(node, BDK_PCIERCX_CFG075(pcie_port), pciercx_cfg075.u);
-    }
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG075(pcie_port),
+        c.s.cere = 1; /* Correctable error reporting enable. */
+        c.s.nfere = 1; /* Non-fatal error reporting enable. */
+        c.s.fere = 1); /* Fatal error reporting enable. */
 
     /* Make sure the PEM agrees with GSERX about the speed its going to try */
     const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port);
@@ -405,16 +359,10 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
  */
 static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
 {
-    uint64_t start_cycle;
-    bdk_pemx_ctl_status_t pem_ctl_status;
-    bdk_pciercx_cfg032_t pciercx_cfg032;
-    bdk_pciercx_cfg448_t pciercx_cfg448;
-
     /* Simulation doesn't support PCIe host */
     if (bdk_is_simulation())
         return -1;
 
-    /* For CN7XXX we must turn the PEM on */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pcie_port), pemoor, ==, 1, 100000))
     {
         bdk_dprintf("PCIe%d: PEM not on, skipping.\n", pcie_port);
@@ -422,44 +370,77 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     }
 
     /* Bring up the link */
-    pem_ctl_status.u = BDK_CSR_READ(node, BDK_PEMX_CTL_STATUS(pcie_port));
-    pem_ctl_status.s.lnk_enb = 1;
-    BDK_CSR_WRITE(node, BDK_PEMX_CTL_STATUS(pcie_port), pem_ctl_status.u);
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port), c.s.lnk_enb = 1);
 
     /* Wait for the link to come up and link training to be complete */
-    start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
-    do
+    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
+    while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1))
     {
         if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE))
             return -1;
         bdk_wait_usec(1000);
         pciercx_cfg032.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
-    } while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1));
-
-    /* Update the Replay Time Limit. Empirically, some PCIe devices take a
-        little longer to respond than expected under load. As a workaround for
-        this we configure the Replay Time Limit to the value expected for a 512
-        byte MPS instead of our actual 256 byte MPS. The numbers below are
-        directly from the PCIe spec table 3-4 */
-    pciercx_cfg448.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG448(pcie_port));
-    switch (pciercx_cfg032.s.nlw)
-    {
-        case 1: /* 1 lane */
-            pciercx_cfg448.s.rtl = 1677;
-            break;
-        case 2: /* 2 lanes */
-            pciercx_cfg448.s.rtl = 867;
-            break;
-        case 4: /* 4 lanes */
-            pciercx_cfg448.s.rtl = 462;
-            break;
-        case 8: /* 8 lanes */
-            pciercx_cfg448.s.rtl = 258;
-            break;
     }
-    BDK_CSR_WRITE(node, BDK_PCIERCX_CFG448(pcie_port), pciercx_cfg448.u);
 
     return 0;
+}
+
+/**
+ * Setup the SLI memory mapped regions to allow access to PCIe by the cores
+ * using addresses returned by bdk_pcie_get_base_address().
+ *
+ * @param node      Node to configure
+ * @param pcie_port PCIe port to configure
+ */
+static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
+{
+    int sli = (pcie_port >= 3) ? 1 : 0;
+
+    /* Setup store merge timer */
+    BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_CTL(sli),
+        c.s.max_word = 0;     /* Allow 16 words to combine */
+        c.s.timer = 50);      /* Wait up to 50 cycles for more data */
+
+    /* There are 256 regions per SLI. We need three regions per PCIe port to
+       sopport IO, normal, and prefetchable memory regions. The 256 regions are
+       shared across PCIe, so we need three groups of these (one group for each
+       PCIe */
+    int sli_group = pcie_port - 3 * sli;
+    for (bdk_pcie_mem_t mem_region = BDK_PCIE_MEM_NORMAL; mem_region <= BDK_PCIE_MEM_IO; mem_region++)
+    {
+        /* Use top two bits for PCIe port, next two bits for memory region */
+        int sli_region = sli_group << 6;
+        /* Use next two bits for mem region type */
+        sli_region |= mem_region << 4;
+        /* Use the lower order bits to work as an address extension, allowing
+           each PCIe port to map a total of 36 bits (32bit each region, 16
+           regions) */
+        for (int r = sli_region; r < 16; r++)
+        {
+            /* Calculate the upper bits to match the core physical address. This
+               was the PCIe bus address matches the core physical address. This
+               only works because we assume all devices support 64bit addressing */
+            uint64_t address = bdk_pcie_get_base_address(node, pcie_port, mem_region);
+            address >>= 32;
+            address += r;
+            BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
+                c.s.ctype = (mem_region == BDK_PCIE_MEM_IO) ? 2 : 0;
+                c.s.zero = 0;
+                c.s.mac = pcie_port;
+                c.s.nmerge = (mem_region == BDK_PCIE_MEM_IO);
+                c.s.wtype = (mem_region == BDK_PCIE_MEM_PREFETCH) ? 3 : 0;
+                c.s.rtype = c.s.wtype;
+                c.s.ba = address);
+        }
+    }
+
+    /* Setup MAC control */
+    BDK_CSR_MODIFY(c, node, BDK_SLIX_M2S_MACX_CTL(sli, sli_group),
+        c.s.ctlp_ro = 1;
+        c.s.ptlp_ro = 1;
+        c.s.wind_d = 1;
+        c.s.bar0_d = 1);
 }
 
 /**
@@ -539,87 +520,20 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         }
     }
 
-#if 0 // FIXME
-    /* Store merge control (SLI_MEM_ACCESS_CTL[TIMER,MAX_WORD]) */
-    sli_mem_access_ctl.u = BDK_CSR_READ(node, BDK_SLI_MEM_ACCESS_CTL);
-    sli_mem_access_ctl.s.max_word = 0;     /* Allow 16 words to combine */
-    sli_mem_access_ctl.s.timer = 127;      /* Wait up to 127 cycles for more data */
-    BDK_CSR_WRITE(node, BDK_SLI_MEM_ACCESS_CTL, sli_mem_access_ctl.u);
+    /* Setup the SLI windows to allow access to this PCIe from the core */
+    __bdk_pcie_sli_initialize(node, pcie_port);
 
-    /* Setup Mem access SubDIDs */
-    mem_access_subid.u = 0;
-    mem_access_subid.s.port = pcie_port; /* Port the request is sent to. */
-    mem_access_subid.s.nmerge = 0;  /* Allow merging as it works on CN6XXX. */
-    mem_access_subid.s.esr = 1;     /* Endian-swap for Reads. */
-    mem_access_subid.s.esw = 1;     /* Endian-swap for Writes. */
-    mem_access_subid.s.wtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-    mem_access_subid.s.rtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-    mem_access_subid.s.ba = 0;      /* PCIe Adddress Bits <63:34>. */
-
-    /* Setup mem access 12-15 for port 0, 16-19 for port 1, supplying 36 bits of address space */
-    for (i=12 + pcie_port*4; i<16 + pcie_port*4; i++)
-    {
-        BDK_CSR_WRITE(node, BDK_SLI_MEM_ACCESS_SUBIDX(i), mem_access_subid.u);
-        mem_access_subid.s.ba += 1; /* Set each SUBID to extend the addressable range */
-    }
-
-    if (1)
-    {
-        /* Disable the peer to peer forwarding register. This must be setup
-            by the OS after it enumerates the bus and assigns addresses to the
-            PCIe busses */
-        for (i=0; i<4; i++)
-        {
-            BDK_CSR_WRITE(node, BDK_PEMX_P2P_BARX_START(pcie_port,i), -1);
-            BDK_CSR_WRITE(node, BDK_PEMX_P2P_BARX_END(pcie_port,i), -1);
-        }
-    }
-
-    /* Set Octeon's BAR0 to decode 0-16KB. It overlaps with Bar2 */
-    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR0_START(pcie_port), 0);
-
-    /* Set Octeon's BAR2 to decode 0-2^41. Bar0 and Bar1 take precedence
-        where they overlap. It also overlaps with the device addresses, so
-        make sure the peer to peer forwarding is set right */
-    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR2_START(pcie_port), 0);
-
-    /* Setup BAR2 attributes */
-    /* Relaxed Ordering (NPEI_CTL_PORTn[PTLP_RO,CTLP_RO, WAIT_COM]) */
-    /* ­ PTLP_RO,CTLP_RO should normally be set (except for debug). */
-    /* ­ WAIT_COM=0 will likely work for all applications. */
-    /* Load completion relaxed ordering (NPEI_CTL_PORTn[WAITL_COM]) */
-    pemx_bar_ctl.u = BDK_CSR_READ(node, BDK_PEMX_BAR_CTL(pcie_port));
-    pemx_bar_ctl.s.bar1_siz = 3;  /* 256MB BAR1*/
-    pemx_bar_ctl.s.bar2_enb = 1;
-    pemx_bar_ctl.s.bar2_esx = 1;
-    pemx_bar_ctl.s.bar2_cax = 0;
-    BDK_CSR_WRITE(node, BDK_PEMX_BAR_CTL(pcie_port), pemx_bar_ctl.u);
-    sli_ctl_portx.u = BDK_CSR_READ(node, BDK_SLI_CTL_PORTX(pcie_port));
-    sli_ctl_portx.s.ptlp_ro = 1;
-    sli_ctl_portx.s.ctlp_ro = 1;
-    sli_ctl_portx.s.wait_com = 0;
-    sli_ctl_portx.s.waitl_com = 0;
-    BDK_CSR_WRITE(node, BDK_SLI_CTL_PORTX(pcie_port), sli_ctl_portx.u);
-
-    /* BAR1 follows BAR2 */
-    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR1_START(pcie_port), BDK_PCIE_BAR1_RC_BASE);
-
-    bar1_index.u = 0;
-    bar1_index.s.addr_idx = (BDK_PCIE_BAR1_PHYS_BASE >> 22);
-    bar1_index.s.ca = 1;       /* Not Cached */
-    bar1_index.s.end_swp = 1;  /* Endian Swap mode */
-    bar1_index.s.addr_v = 1;   /* Valid entry */
-
-    for (i = 0; i < 16; i++) {
-        BDK_CSR_WRITE(node, BDK_PEMX_BAR1_INDEXX(pcie_port,i), bar1_index.u);
-        /* 256MB / 16 >> 22 == 4 */
-        bar1_index.s.addr_idx += (((1ull << 28) / 16ull) >> 22);
-    }
-
-    /* Value is recommended in CSR files */
-    BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port),
-        c.s.cfg_rtry = 32);
-#endif
+    /* Disable BAR0 */
+    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR0_START(pcie_port), -1);
+    /* Disable BAR1 */
+    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR1_START(pcie_port), -1);
+    /* Set BAR2 to cover all memory starting at address 0 */
+    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR2_START(pcie_port), -1);
+    /* Setup BAR attributes */
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_BAR_CTL(pcie_port),
+        c.s.bar1_siz = 1; /* 64MB BAR1 (not used) */
+        c.s.bar2_enb = 1; /* BAR2 is enabled */
+        c.s.bar2_cax = 0); /* Cache in L2 */
 
     /* Display the link status */
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
