@@ -64,6 +64,9 @@ void __bdk_init_main(int arg, void *arg1)
             }
         }
 
+        if (BDK_IS_REQUIRED(PCIE))
+            bdk_pcie_global_initialize(node);
+
         if (BDK_SHOW_BOOT_BANNERS)
         {
             for (int i=0; i<2; i++)

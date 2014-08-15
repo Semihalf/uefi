@@ -17,6 +17,17 @@ typedef enum
 } bdk_pcie_mem_t;
 
 /**
+ * Thunder requires some PCIe initialization that is common between all PCIe
+ * ports. Numerous fields in the internal ECAMs need to be set for proper
+ * enumeration. This function should be called before any other PCIe function.
+ *
+ * @param node   Node to initialize
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_pcie_global_initialize(bdk_node_t node) BDK_WEAK;
+
+/**
  * Return the number of possible PCIe ports on a node. The actual number
  * of configured ports may be less and may also be disjoint.
  *
