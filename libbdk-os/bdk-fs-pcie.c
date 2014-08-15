@@ -21,42 +21,17 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     int pcie_port = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
-    volatile char in_progress = 1;
 
-    bdk_dma_engine_header_t header;
-    header.word0.u64 = 0;
-    header.word1.u64 = 0;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
+    uint64_t max_address = min_address + bdk_pcie_get_base_size(node, pcie_port, BDK_PCIE_MEM_PREFETCH);
+    if ((handle->location < min_address) || (handle->location + length > max_address))
     {
-        header.word0.v3.lport = pcie_port;
-        header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
-        header.word1.v3.addr = bdk_ptr_to_phys((void*)&in_progress);
-    }
-    else
-    {
-        header.word0.v1.lport = pcie_port;
-        header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_INBOUND;
-        header.word0.v1.addr = bdk_ptr_to_phys((void*)&in_progress);
-    }
-#if 0 /* FIXME: PCIe DMA support */
-    if (bdk_dma_engine_transfer(node, 0, header, bdk_ptr_to_phys(buffer), handle->location, length))
-        return -1;
-#else
-    return -1;
-#endif
-
-    /* Wait up to 2 seconds for the DMA to complete */
-    uint64_t timeout = bdk_clock_get_rate(node, BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
-    while (in_progress && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
-        bdk_thread_yield();
-
-    if (in_progress)
-    {
-        bdk_error("Timeout waiting for DMA to complete\n");
+        bdk_error("PCIe address outside of SLI regions\n");
         return -1;
     }
-    else
-        return length;
+    const void *ptr = bdk_phys_to_ptr(handle->location);
+    memcpy(buffer, ptr, length);
+    return length;
 }
 
 
@@ -64,42 +39,17 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     int pcie_port = ((long)handle->fs_state - 1) & 0xff;
     bdk_node_t node = (long)handle->fs_state >> 8;
-    volatile char in_progress = 1;
 
-    bdk_dma_engine_header_t header;
-    header.word0.u64 = 0;
-    header.word1.u64 = 0;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
+    uint64_t max_address = min_address + bdk_pcie_get_base_size(node, pcie_port, BDK_PCIE_MEM_PREFETCH);
+    if ((handle->location < min_address) || (handle->location + length > max_address))
     {
-        header.word0.v3.lport = pcie_port;
-        header.word0.v3.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
-        header.word1.v3.addr = bdk_ptr_to_phys((void*)&in_progress);
-    }
-    else
-    {
-        header.word0.v1.lport = pcie_port;
-        header.word0.v1.type = BDK_DMA_ENGINE_TRANSFER_OUTBOUND;
-        header.word0.v1.addr = bdk_ptr_to_phys((void*)&in_progress);
-    }
-#if 0 /* FIXME: PCIe DMA support */
-    if (bdk_dma_engine_transfer(node, 0, header, bdk_ptr_to_phys((void*)buffer), handle->location, length))
-        return -1;
-#else
-    return -1;
-#endif
-
-    /* Wait up to 2 seconds for the DMA to complete */
-    uint64_t timeout = bdk_clock_get_rate(node, BDK_CLOCK_CORE)*2 + bdk_clock_get_count(BDK_CLOCK_CORE);
-    while (in_progress && (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout))
-        bdk_thread_yield();
-
-    if (in_progress)
-    {
-        bdk_error("Timeout waiting for DMA to complete\n");
+        bdk_error("PCIe address outside of SLI regions\n");
         return -1;
     }
-    else
-        return length;
+    void *ptr = bdk_phys_to_ptr(handle->location);
+    memcpy(ptr, buffer, length);
+    return length;
 }
 
 static const __bdk_fs_ops_t bdk_fs_pcie_ops =

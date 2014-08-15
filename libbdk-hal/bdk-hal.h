@@ -26,7 +26,6 @@
 #include "bdk-clock.h"
 #include "bdk-core.h"
 #include "bdk-crc.h"
-#include "bdk-dma-engine.h"
 #include "bdk-error-report.h"
 #include "bdk-gpio.h"
 #include "if/bdk-if.h"
