@@ -4,84 +4,64 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
-#if 0 /* FIXME: PCIe support */
-
-#define MRRS_CN5XXX 0 /* 128 byte Max Read Request Size */
-#define MPS_CN5XXX  0 /* 128 byte Max Packet Size (Limit of most PCs) */
 #define MRRS_CN6XXX 3 /* 1024 byte Max Read Request Size */
 #define MPS_CN6XXX  0 /* 128 byte Max Packet Size (Limit of most PCs) */
 
 /**
- * Return the Core virtual base address for PCIe IO access. IOs are
- * read/written as an offset from this address.
+ * Return the number of possible PCIe ports on a node. The actual number
+ * of configured ports may be less and may also be disjoint.
  *
- * @param pcie_port PCIe port the IO is for
+ * @author creese (8/7/2014)
+ * @param node   Node to query
  *
- * @return 64bit IO base address for read/write
+ * @return Number of PCIe ports that are possible
  */
-uint64_t bdk_pcie_get_io_base_address(bdk_node_t node, int pcie_port)
+int bdk_pcie_get_num_ports(bdk_node_t node)
 {
-    bdk_pcie_address_t pcie_addr;
-    pcie_addr.u64 = 0;
-    pcie_addr.io.upper = 0;
-    pcie_addr.io.io = 1;
-    pcie_addr.io.did = 3;
-    pcie_addr.io.subdid = 2;
-    pcie_addr.io.node = node;
-    pcie_addr.io.es = 1;
-    pcie_addr.io.port = pcie_port;
-    return pcie_addr.u64;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 6;
+    else
+        return 0;
 }
-
 
 /**
- * Size of the IO address region returned at address
- * bdk_pcie_get_io_base_address()
- *
- * @param pcie_port PCIe port the IO is for
- *
- * @return Size of the IO window
- */
-uint64_t bdk_pcie_get_io_size(bdk_node_t node, int pcie_port)
-{
-    return 1ull<<32;
-}
-
-
-/**
- * Return the Core virtual base address for PCIe MEM access. Memory is
+ * Return the Core physical base address for PCIe MEM access. Memory is
  * read/written as an offset from this address.
  *
- * @param pcie_port PCIe port the IO is for
+ * @param node      Node to use in a Numa setup
+ * @param pcie_port PCIe port the memory is on
+ * @param mem_type  Type of memory
  *
- * @return 64bit IO base address for read/write
+ * @return 64bit physical address for read/write
  */
-uint64_t bdk_pcie_get_mem_base_address(bdk_node_t node, int pcie_port)
+uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_t mem_type)
 {
-    bdk_pcie_address_t pcie_addr;
-    pcie_addr.u64 = 0;
-    pcie_addr.mem.upper = 0;
-    pcie_addr.mem.io = 1;
-    pcie_addr.mem.did = 3;
-    pcie_addr.mem.subdid = 3 + pcie_port;
-    pcie_addr.mem.node = node;
-    return pcie_addr.u64;
+    /* Ports 0-2 goto SLI0, ports 3-5 goto SLI1 */
+    int sli = (pcie_port >= 3) ? 1 : 0;
+    union sli_s2m_op_s s2m_op;
+    s2m_op.u = 0;
+    s2m_op.s.io = 1;
+    s2m_op.s.node = node;
+    s2m_op.s.did_hi = 0x8 + sli;
+    s2m_op.s.region = mem_type; /* We might want to group multiple for more space */
+    return s2m_op.u;
 }
-
 
 /**
  * Size of the Mem address region returned at address
- * bdk_pcie_get_mem_base_address()
+ * bdk_pcie_get_base_address()
  *
+ * @param node      Node to use in a Numa setup
  * @param pcie_port PCIe port the IO is for
+ * @param mem_type  Type of memory
  *
  * @return Size of the Mem window
  */
-uint64_t bdk_pcie_get_mem_size(bdk_node_t node, int pcie_port)
+uint64_t bdk_pcie_get_base_size(bdk_node_t node, int pcie_port, bdk_pcie_mem_t mem_type)
 {
-    return 1ull<<36;
+    /* We might want to group multiple for more space */
+    return 1ull << 32;
 }
-
 
 /**
  * @INTERNAL
@@ -109,6 +89,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         BDK_CSR_WRITE(node, BDK_PCIERCX_CFG030(pcie_port), pciercx_cfg030.u);
     }
 
+#if 0 // FIXME
     {
         /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
         /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
@@ -118,6 +99,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         prt_cfg.s.mrrs = MRRS_CN6XXX;
         BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u);
     }
+#endif
 
     /* ECRC Generation (PCIE*_CFG070[GE,CE]) */
     {
@@ -225,7 +207,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     }
 
     /* Make sure the PEM agrees with GSERX about the speed its going to try */
-    const int qlm = bdk_qlm_get(node, BDK_IF_DPI, pcie_port);
+    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port);
     const int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
     switch (gbaud)
     {
@@ -334,17 +316,6 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     return 0;
 }
 
-static int __bdk_pcie_read_soft_prst(bdk_node_t node, int pcie_port)
-{
-    return BDK_CSR_READ(node, BDK_RST_SOFT_PRSTX(pcie_port));
-}
-
-static void __bdk_pcie_write_soft_prst(bdk_node_t node, int pcie_port, int soft_prst)
-{
-    BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), soft_prst);
-}
-
-
 /**
  * Initialize a PCIe port for use in host(RC) mode. It doesn't
  * enumerate the bus.
@@ -355,27 +326,16 @@ static void __bdk_pcie_write_soft_prst(bdk_node_t node, int pcie_port, int soft_
  */
 int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
 {
-    int i;
-    bdk_pemx_bar_ctl_t pemx_bar_ctl;
-    bdk_pemx_bist_status_t pemx_bist_status;
-    bdk_pemx_bist_status2_t pemx_bist_status2;
-    bdk_sli_ctl_portx_t sli_ctl_portx;
-    bdk_sli_mem_access_ctl_t sli_mem_access_ctl;
-    bdk_sli_mem_access_subidx_t mem_access_subid;
-    bdk_pemx_bar1_indexx_t bar1_index;
-
-    const int qlm = bdk_qlm_get(node, BDK_IF_DPI, pcie_port);
+    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port);
     if (qlm < 0)
     {
         bdk_error("PCIe%d: QLM not in PCIe mode.\n", pcie_port);
         return -1;
     }
-    BDK_CSR_WRITE(node, BDK_DTX_PEMX_SELX(pcie_port,0), 0x17);
-    BDK_CSR_WRITE(node, BDK_DTX_PEMX_SELX(pcie_port,1), 0);
 
     /* Make sure we aren't trying to setup a target mode interface in host mode */
-    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
-    int host_mode = pemx_cfg.s.hostmd;
+    //BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
+    int host_mode = 1; //pemx_cfg.s.hostmd;
     if (!host_mode)
     {
         bdk_dprintf("PCIe%d: Port in endpoint mode.\n", pcie_port);
@@ -386,14 +346,15 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* After a chip reset the PCIe will also be in reset. If it isn't,
         most likely someone is trying to init it again without a proper
         PCIe reset */
-    if (__bdk_pcie_read_soft_prst(node, pcie_port) == 0)
+    BDK_CSR_INIT(soft_prst, node, BDK_RST_SOFT_PRSTX(pcie_port));
+    if (!soft_prst.s.soft_prst)
     {
         /* Reset the port */
-        __bdk_pcie_write_soft_prst(node, pcie_port, 1);
+        BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 1);
         /* Wait until pcie resets the ports. */
         bdk_wait_usec(2000);
     }
-    __bdk_pcie_write_soft_prst(node, pcie_port, 0);
+    BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 0);
 
     /* Wait for PCIe reset to complete */
     bdk_wait_usec(1000);
@@ -408,7 +369,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     }
 
     /* Check BIST status */
-    pemx_bist_status.u = BDK_CSR_READ(node, BDK_PEMX_BIST_STATUS(pcie_port));
+    BDK_CSR_INIT(pemx_bist_status, node, BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u)
         bdk_dprintf("PCIe: BIST FAILED for port %d (0x%016lx)\n", pcie_port, pemx_bist_status.u);
 
@@ -426,6 +387,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         return -1;
     }
 
+#if 0 // FIXME
     /* Store merge control (SLI_MEM_ACCESS_CTL[TIMER,MAX_WORD]) */
     sli_mem_access_ctl.u = BDK_CSR_READ(node, BDK_SLI_MEM_ACCESS_CTL);
     sli_mem_access_ctl.s.max_word = 0;     /* Allow 16 words to combine */
@@ -505,6 +467,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Value is recommended in CSR files */
     BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port),
         c.s.cfg_rtry = 32);
+#endif
 
     /* Display the link status */
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
@@ -528,7 +491,7 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
         bdk_dprintf("PCIe: Port %d shutdown timeout\n", pcie_port);
 
     /* Force reset */
-    __bdk_pcie_write_soft_prst(node, pcie_port, 1);
+    BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 1);
     return 0;
 }
 
@@ -547,27 +510,35 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
  */
 static inline uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
-    bdk_pcie_address_t pcie_addr;
-    bdk_pciercx_cfg006_t pciercx_cfg006;
+    int ecam = 0;
 
-    pciercx_cfg006.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG006(pcie_port));
-    if ((bus <= pciercx_cfg006.s.pbnum) && (dev != 0))
-        return 0;
+    switch (pcie_port)
+    {
+        case 0 ... 2:
+            ecam = 1;   /* PCIe RC 0-2 */
+            break;
+        case 3 ... 5:
+            ecam = 3;   /* PCIe RC 3-5 */
+            break;
+        case 6:
+            ecam = 0;   /* Fake internal on SMMU0 */
+            break;
+        case 7:
+            ecam = 2;   /* Fake internal on SMMU1 */
+            break;
+    }
 
-    pcie_addr.u = 0;
-    pcie_addr.config.upper = 2;
-    pcie_addr.config.io = 1;
-    pcie_addr.config.did = 3;
-    pcie_addr.config.subdid = 1;
-    pcie_addr.config.node = node;
-    pcie_addr.config.es = 1;
-    pcie_addr.config.port = pcie_port;
-    pcie_addr.config.ty = (bus > pciercx_cfg006.s.pbnum);
-    pcie_addr.config.bus = bus;
-    pcie_addr.config.dev = dev;
-    pcie_addr.config.func = fn;
-    pcie_addr.config.reg = reg;
-    return pcie_addr.u;
+    union ecam_cfg_addr_s address;
+    address.u = 0;
+    address.s.io = 1;
+    address.s.node = node;
+    address.s.did = 0x48 + ecam;
+    address.s.setup = 0;
+    address.s.bcst = 0;
+    address.s.bus = bus;
+    address.s.func = dev << 3 | fn;
+    address.s.addr = reg;
+    return address.u;
 }
 
 
@@ -687,66 +658,3 @@ void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, i
         bdk_write64_uint32(address, bdk_cpu_to_le32(val));
 }
 
-
-/**
- * Initialize a PCIe port for use in target(EP) mode.
- *
- * @param pcie_port PCIe port to initialize
- *
- * @return Zero on success
- */
-int bdk_pcie_ep_initialize(bdk_node_t node, int pcie_port)
-{
-    bdk_rst_ctlx_t rst_ctl;
-    rst_ctl.u = BDK_CSR_READ(node, BDK_RST_CTLX(pcie_port));
-    if (rst_ctl.s.host_mode)
-        return -1;
-
-    /* Enable bus master and memory */
-    BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG001(pcie_port), 0x6);
-
-    /* Max Payload Size (PCIE*_CFG030[MPS]) */
-    /* Max Read Request Size (PCIE*_CFG030[MRRS]) */
-    /* Relaxed-order, no-snoop enables (PCIE*_CFG030[RO_EN,NS_EN] */
-    /* Error Message Enables (PCIE*_CFG030[CE_EN,NFE_EN,FE_EN,UR_EN]) */
-    {
-        bdk_pcieepx_cfg030_t pcieepx_cfg030;
-        pcieepx_cfg030.u = BDK_CSR_READ(node, BDK_PCIEEPX_CFG030(pcie_port));
-        pcieepx_cfg030.s.mps = MPS_CN6XXX;
-        pcieepx_cfg030.s.mrrs = MRRS_CN6XXX;
-        pcieepx_cfg030.s.ro_en = 1; /* Enable relaxed ordering. */
-        pcieepx_cfg030.s.ns_en = 1; /* Enable no snoop. */
-        pcieepx_cfg030.s.ce_en = 1; /* Correctable error reporting enable. */
-        pcieepx_cfg030.s.nfe_en = 1; /* Non-fatal error reporting enable. */
-        pcieepx_cfg030.s.fe_en = 1; /* Fatal error reporting enable. */
-        pcieepx_cfg030.s.ur_en = 1; /* Unsupported request reporting enable. */
-        BDK_CSR_WRITE(node, BDK_PCIEEPX_CFG030(pcie_port), pcieepx_cfg030.u);
-    }
-
-    {
-        /* Max Payload Size (DPI_SLI_PRTX_CFG[MPS]) must match PCIE*_CFG030[MPS] */
-        /* Max Read Request Size (DPI_SLI_PRTX_CFG[MRRS]) must not exceed PCIE*_CFG030[MRRS] */
-        bdk_dpi_sli_prtx_cfg_t prt_cfg;
-        prt_cfg.u = BDK_CSR_READ(node, BDK_DPI_SLI_PRTX_CFG(pcie_port));
-        prt_cfg.s.mps = MPS_CN6XXX;
-        prt_cfg.s.mrrs = MRRS_CN6XXX;
-        BDK_CSR_WRITE(node, BDK_DPI_SLI_PRTX_CFG(pcie_port), prt_cfg.u);
-    }
-
-    /* Setup Mem access SubDID 12 to access Host memory */
-    {
-        bdk_sli_mem_access_subidx_t mem_access_subid;
-        mem_access_subid.u = 0;
-        mem_access_subid.s.port = pcie_port; /* Port the request is sent to. */
-        mem_access_subid.s.nmerge = 0;  /* Merging is allowed in this window. */
-        mem_access_subid.s.esr = 0;     /* Endian-swap for Reads. */
-        mem_access_subid.s.esw = 0;     /* Endian-swap for Writes. */
-        mem_access_subid.s.wtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-        mem_access_subid.s.rtype = 0;   /* "No snoop" and "Relaxed ordering" are not set */
-        mem_access_subid.s.ba = 0;      /* PCIe Adddress Bits <63:34>. */
-        BDK_CSR_WRITE(node, BDK_SLI_MEM_ACCESS_SUBIDX(12 + pcie_port*4), mem_access_subid.u);
-    }
-    return 0;
-}
-
-#endif

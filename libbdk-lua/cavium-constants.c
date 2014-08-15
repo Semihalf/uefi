@@ -70,6 +70,10 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_DIRECTION_RX);
     push_bdk_enum(BDK_QLM_DIRECTION_BOTH);
 
+    push_bdk_enum(BDK_PCIE_MEM_NORMAL);
+    push_bdk_enum(BDK_PCIE_MEM_PREFETCH);
+    push_bdk_enum(BDK_PCIE_MEM_IO);
+
     lua_pushnumber(L, bdk_numa_master());
     lua_setfield(L, -2, "MASTER_NODE");
 #endif
