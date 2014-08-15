@@ -220,13 +220,6 @@ typedef struct {
     ddr3_custom_config_t custom_lmc_config;
 } ddr_configuration_t;
 
-
-typedef struct
-{
-    ddr_configuration_t ddr_config[4];  /* One config for each interface */
-} ddr_config_table_t;
-
-
 extern int libdram_config(int node, const ddr_configuration_t *ddr_config, int ddr_clock_hertz);
 
 #endif  /* __LIBDRAM_CONFIG_H__ */

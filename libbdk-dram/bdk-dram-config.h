@@ -8,18 +8,22 @@
  * @defgroup dram DRAM related functions
  * @{
  */
+#include "../libdram/libdram.h"
 
 /**
- * Configure DRAM for a particular board
+ * Given a DRAM configuration, configure the hardware to match.
+ * Note that a copy of the configuration is made, so the caller
+ * may dispose of the structure after the call.
  *
- * @param node       Node ID to configure DRAM on
- * @param board_name Board name to configure
+ * @param node       Node to configure
+ * @param ddr_config DRAM config structure
  * @param ddr_clock_hertz
- *                   DDR clock in hertz
+ *                   DRAM frequency in hertz
  *
  * @return Amount of DRAM in MB, or negative on failure
  */
-extern int bdk_dram_config(int node, const char *board_name, int ddr_clock_hertz);
+
+extern int bdk_dram_config(int node, const ddr_configuration_t *ddr_config, int ddr_clock_hertz);
 
 /**
  * Get the amount of DRAM configured for a node. This is read from the LMC
@@ -30,5 +34,7 @@ extern int bdk_dram_config(int node, const char *board_name, int ddr_clock_hertz
  * @return Size in megabytes
  */
 extern uint64_t bdk_dram_get_size_mbytes(int node);
+
+extern int __bdk_dram_get_num_lmc();
 
 /** @} */

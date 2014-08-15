@@ -44,12 +44,6 @@ LUALIB_API int luaopen_cavium(lua_State* L)
         register_cavium_csr(L);
     }
 
-    if (BDK_IS_REQUIRED(DRAM_CONFIG))
-    {
-        extern void register_cavium_dram(lua_State* L) BDK_WEAK;
-        register_cavium_dram(L);
-    }
-
     return 1;
 }
 
