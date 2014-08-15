@@ -12,8 +12,8 @@ SHELL=/bin/bash
 #
 # Setup the compiler for the BDK libraries
 #
-CROSS=aarch64-thunder-elf-
-LIBC_DIR=aarch64-thunder-elf
+LIBC_DIR=aarch64-thunderx-elf
+CROSS=$(LIBC_DIR)-
 CC=$(CROSS)gcc
 AR=$(CROSS)ar
 AS=$(CROSS)as

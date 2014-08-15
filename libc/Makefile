@@ -1,4 +1,4 @@
-CROSS=aarch64-thunder-elf
+CROSS=aarch64-thunderx-elf
 
 NEWLIB_CONFIG := --host=$(CROSS)
 NEWLIB_CONFIG += --target=$(CROSS)

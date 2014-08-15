@@ -31,13 +31,13 @@ LDFLAGS_ppc = -static
 CC_ppc = sshany -m bdk-build-ppc1 -m bdk-build-ppc2 -- "cd `pwd` && gcc"
 STRIP_ppc = sshany -m bdk-build-ppc1 -m bdk-build-ppc2 -- "cd `pwd` && strip"
 
-# Building for Octeon
-CPPFLAGS_octeon =
-CFLAGS_octeon = -march=octeon
-ASFLAGS_octeon = -march=octeon
-LDFLAGS_octeon =
-CC_octeon = aarch64-thunder-linux-gnu-gcc
-STRIP_octeon = aarch64-thunder-linux-gnu-strip
+# Building for Thunder
+CPPFLAGS_thunder =
+CFLAGS_thunder = -march=thunderx
+ASFLAGS_thunder = -march=thunderx
+LDFLAGS_thunder =
+CC_thunder = aarch64-thunderx-linux-gnu-gcc
+STRIP_thunder = aarch64-thunderx-linux-gnu-strip
 
 #
 # These are the directories where source files are found
@@ -55,15 +55,15 @@ src += $(BDK_ROOT)/libbdk-arch/bdk-csr.c
 src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 src += $(BDK_ROOT)/libbdk-os/bdk-readline.c
 src += $(BDK_ROOT)/libbdk-lua/bdk-lua.c
-src += $(BDK_ROOT)/libbdk-lua/octeon-mmc.c
-src += $(BDK_ROOT)/libbdk-lua/octeon-model.c
-src += $(BDK_ROOT)/libbdk-lua/octeon-constants.c
+src += $(BDK_ROOT)/libbdk-lua/cavium-mmc.c
+src += $(BDK_ROOT)/libbdk-lua/cavium-model.c
+src += $(BDK_ROOT)/libbdk-lua/cavium-constants.c
 src += $(BDK_ROOT)/libbdk-lua/lbitlib64.c
 src += $(BDK_ROOT)/libbdk-lua/readline.c
 src += $(BDK_ROOT)/libbdk-lua/rpc-support.c
 
 .DEFAULT: all
-all: bdk-lua-x86 bdk-lua-octeon
+all: bdk-lua-x86 bdk-lua-thunder
 
 .PHONY: ppc
 ppc: bdk-lua-ppc
@@ -86,7 +86,7 @@ bdk-lua-$(1): $$(obj_$(1))
 	$$(STRIP_$(arch)) $$@
 endef
 
-$(foreach arch,x86 ppc octeon,\
+$(foreach arch,x86 ppc thunder,\
 	$(eval $(call build_arch,$(arch))) \
 	$(foreach s,$(src), \
 		$(eval $(call build_rule,$(s),$(arch))) \
@@ -94,9 +94,9 @@ $(foreach arch,x86 ppc octeon,\
 )
 
 mips-%.o: mips-%.S
-	aarch64-thunder-linux-gnu-gcc -W -Wall -o $@ -c $<
+	aarch64-thunderx-linux-gnu-gcc -W -Wall -o $@ -c $<
 mips-%.bin: mips-%.o
-	aarch64-thunder-linux-gnu-objcopy -j .text -O binary $< $@
+	aarch64-thunderx-linux-gnu-objcopy -j .text -O binary $< $@
 
 .PHONY: clean
 clean:

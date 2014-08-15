@@ -24,8 +24,8 @@ CPPFLAGS_thunder =
 CFLAGS_thunder =
 ASFLAGS_thunder =
 LDFLAGS_thunder = -static
-CC_thunder = aarch64-thunder-linux-gnu-gcc
-STRIP_thunder = aarch64-thunder-linux-gnu-strip
+CC_thunder = aarch64-thunderx-linux-gnu-gcc
+STRIP_thunder = aarch64-thunderx-linux-gnu-strip
 
 #
 # These are the directories where source files are found
