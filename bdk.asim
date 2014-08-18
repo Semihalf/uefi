@@ -6,8 +6,11 @@
 
 # Add io memory regions to conver IO block that aren't simulated
 device io_memory n0.gser config 0xe000000 0x87e090000000
+device io_memory n1.gser config 0xe000000 0x97e090000000
 device io_memory n0.pem config 0x6000000 0x87e0c0000000
+device io_memory n1.pem config 0x6000000 0x97e0c0000000
 device io_memory n0.sli config 0x2000000000 0x874000000000
+device io_memory n1.sli config 0x2000000000 0x974000000000
 
 # Make 2nd node remote boot
 control n1.gpio0 set strap 0x8
