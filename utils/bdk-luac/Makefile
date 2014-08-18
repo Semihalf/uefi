@@ -13,9 +13,9 @@ CPPFLAGS += -DLUA_USE_MKSTEMP
 #    1) Build for 32bit
 #    2) Link static
 CPPFLAGS_x86 =
-CFLAGS_x86 = -march=i686 -m32
-ASFLAGS_x86 = -march=i686 -m32
-LDFLAGS_x86 = -static
+CFLAGS_x86 =
+ASFLAGS_x86 =
+LDFLAGS_x86 =
 CC_x86 = gcc
 STRIP_x86 = strip
 
