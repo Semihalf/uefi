@@ -255,6 +255,13 @@ typedef union
 #define BDK_MMD_DEVICE_VENDOR_2     31
 
 /**
+ * Initialize all MDIO busses on a node
+ *
+ * @param node   Node to initialize
+ */
+extern void bdk_mdio_initialize(bdk_node_t node);
+
+/**
  * Perform an MII read. This function is used to read PHY
  * registers controlling auto negotiation.
  *

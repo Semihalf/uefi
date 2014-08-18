@@ -12,6 +12,24 @@
 #define MDIO_CLAUSE_45_READ     3
 
 /**
+ * Initialize all MDIO busses on a node
+ *
+ * @param node   Node to initialize
+ */
+void bdk_mdio_initialize(bdk_node_t node)
+{
+    if (bdk_is_simulation())
+        return;
+
+    int num_mdio = 4;
+
+    for (int i=0; i<num_mdio; i++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SMI_X_EN(i), c.s.en = 1);
+    }
+}
+
+/**
  * Helper function to put MDIO interface into clause 45 mode
  *
  * @param bus_id
