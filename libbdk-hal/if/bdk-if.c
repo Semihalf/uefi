@@ -16,7 +16,7 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
 
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
-static __bdk_if_port_t *__bdk_if_poll_head;
+static __bdk_if_port_t *__bdk_if_poll_head[BDK_NUMA_MAX_NODES];
 static __bdk_if_global_ops_t __bdk_if_global_ops;
 
 /**
@@ -64,8 +64,8 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     /* Put interfaces requiring polling in the poll list */
     if (__bdk_if_ops[handle->iftype]->if_receive)
     {
-        handle->poll_next = __bdk_if_poll_head;
-        __bdk_if_poll_head = handle;
+        handle->poll_next = __bdk_if_poll_head[handle->node];
+        __bdk_if_poll_head[handle->node] = handle;
     }
 
     if (__bdk_if_tail)
@@ -439,7 +439,7 @@ int bdk_if_dispatch(void)
         __bdk_if_link_poll();
 
     int count = 0;
-    for (bdk_if_handle_t handle = __bdk_if_poll_head; handle != NULL; handle = handle->poll_next)
+    for (bdk_if_handle_t handle = __bdk_if_poll_head[bdk_numa_local()]; handle != NULL; handle = handle->poll_next)
         count += __bdk_if_ops[handle->iftype]->if_receive(handle);
     return count;
 }
