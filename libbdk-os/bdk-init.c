@@ -727,7 +727,6 @@ static void setup_node(bdk_node_t node)
 {
     if (bdk_is_simulation())
         return; // FIXME: This stuff not modelled in Asim
-    bdk_rng_enable(node);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
@@ -752,17 +751,22 @@ int bdk_init_nodes(void)
     int result = 0;
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        result |= init_oci();
+    {
+        if (bdk_is_simulation())
+        {
+            bdk_numa_set_exists(0);
+            bdk_numa_set_exists(1);
+        }
+        else
+            result |= init_oci();
+    }
 
     for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
         {
             setup_node(node);
-            if ((node != bdk_numa_master()) && !__bdk_is_dram_enabled(bdk_numa_master()))
-                bdk_warn("Skipping core start on node %d since DRAM isn't setup\n", node);
-            else
-                result |= bdk_init_cores(node, 0);
+            result |= bdk_init_cores(node, 0);
         }
     }
     return result;
