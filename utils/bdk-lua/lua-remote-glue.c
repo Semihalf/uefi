@@ -564,9 +564,9 @@ LUALIB_API int luaopen_oremote(lua_State* L)
         extern void register_##name(lua_State* L); \
         register_##name(L)
 
-    REGISTER(L, octeon_model);
-    REGISTER(L, octeon_constants);
-    REGISTER(L, octeon_mmc);
+    REGISTER(L, cavium_model);
+    REGISTER(L, cavium_constants);
+    REGISTER(L, cavium_mmc);
 
     return 1;
 }

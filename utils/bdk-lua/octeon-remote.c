@@ -207,10 +207,36 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
 {
     switch (type)
     {
-        case BDK_CSR_TYPE_PEXP_NCB:
-        case BDK_CSR_TYPE_PEXPV_NCB:
-        case BDK_CSR_TYPE_RSL:
-        case BDK_CSR_TYPE_NCB:
+        case BDK_CSR_TYPE_DAB:  /* External debug 64bit CSR */
+        case BDK_CSR_TYPE_DAB32b: /* External debug 32bit CSR */
+            octeon_remote_debug(0, "%s: DAB registers not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_PCCBR:
+        case BDK_CSR_TYPE_PCCPF:
+        case BDK_CSR_TYPE_PCCVF:
+            octeon_remote_debug(0, "%s: PCC registers not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_PCICONFIGRC: /* PCIe config address (RC mode) */
+        {
+            bdk_pemx_cfg_rd_t pemx_cfg_rd;
+            pemx_cfg_rd.u = 0;
+            pemx_cfg_rd.s.addr = address;
+            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
+            pemx_cfg_rd.u = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_RD(busnum));
+            return pemx_cfg_rd.s.data;
+        }
+
+        case BDK_CSR_TYPE_PEXP: /* PCIe BAR 0 address only */
+            octeon_remote_debug(0, "%s: PEXP registers not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_NCB: /* Fast 64bit CSR */
+        case BDK_CSR_TYPE_NCB32b: /* Fast 32bit CSR */
+        case BDK_CSR_TYPE_PEXP_NCB: /* NCB-direct and PCIe BAR0 address */
+        case BDK_CSR_TYPE_RSL: /* Slow 64bit CSR */
+        case BDK_CSR_TYPE_RSL32b: /* Slow 32bit CSR */
             switch (size)
             {
                 case 1:
@@ -220,28 +246,13 @@ uint64_t __octeon_remote_default_read_csr(bdk_csr_type_t type, int busnum, int s
                     return c;
                 }
                 case 2:
-                    return bdk_be16_to_cpu(octeon_remote_read_mem16(address));
+                    return octeon_remote_read_mem16(address);
                 case 4:
-                    return bdk_be32_to_cpu(octeon_remote_read_mem32(address));
+                    return octeon_remote_read_mem32(address);
                 default:
                     return octeon_remote_read_mem64(address);
             }
-
-        case BDK_CSR_TYPE_PEXP:
-            /* We don't handle BAR0 CSRs */
-            octeon_remote_debug(0, "%s: PEXP registers not supported\n", __FUNCTION__);
             break;
-
-        case BDK_CSR_TYPE_PCICONFIGEP:
-        case BDK_CSR_TYPE_PCICONFIGRC:
-        {
-            bdk_pemx_cfg_rd_t pemx_cfg_rd;
-            pemx_cfg_rd.u = 0;
-            pemx_cfg_rd.s.addr = address;
-            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
-            pemx_cfg_rd.u = OCTEON_REMOTE_READ_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_RD(busnum));
-            return pemx_cfg_rd.s.data;
-        }
     }
     return -1;
 }
@@ -250,10 +261,36 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
 {
     switch (type)
     {
-        case BDK_CSR_TYPE_PEXP_NCB:
-        case BDK_CSR_TYPE_PEXPV_NCB:
-        case BDK_CSR_TYPE_RSL:
-        case BDK_CSR_TYPE_NCB:
+        case BDK_CSR_TYPE_DAB:  /* External debug 64bit CSR */
+        case BDK_CSR_TYPE_DAB32b: /* External debug 32bit CSR */
+            octeon_remote_debug(0, "%s: DAB registers not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_PCCBR:
+        case BDK_CSR_TYPE_PCCPF:
+        case BDK_CSR_TYPE_PCCVF:
+            octeon_remote_debug(0, "%s: PCC registers not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_PCICONFIGRC: /* PCIe config address (RC mode) */
+        {
+            bdk_pemx_cfg_wr_t pemx_cfg_wr;
+            pemx_cfg_wr.u = 0;
+            pemx_cfg_wr.s.addr = address;
+            pemx_cfg_wr.s.data = value;
+            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
+            break;
+        }
+
+        case BDK_CSR_TYPE_PEXP: /* PCIe BAR 0 address only */
+            octeon_remote_debug(0, "%s: PEXP registers not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_NCB: /* Fast 64bit CSR */
+        case BDK_CSR_TYPE_NCB32b: /* Fast 32bit CSR */
+        case BDK_CSR_TYPE_PEXP_NCB: /* NCB-direct and PCIe BAR0 address */
+        case BDK_CSR_TYPE_RSL: /* Slow 64bit CSR */
+        case BDK_CSR_TYPE_RSL32b: /* Slow 32bit CSR */
             switch (size)
             {
                 case 1:
@@ -263,32 +300,16 @@ void __octeon_remote_default_write_csr(bdk_csr_type_t type, int busnum, int size
                     break;
                 }
                 case 2:
-                    octeon_remote_write_mem16(address, bdk_cpu_to_be16(value));
+                    octeon_remote_write_mem16(address, value);
                     break;
                 case 4:
-                    octeon_remote_write_mem32(address, bdk_cpu_to_be32(value));
+                    octeon_remote_write_mem32(address, value);
                     break;
                 default:
                     octeon_remote_write_mem64(address, value);
                     break;
             }
             break;
-
-        case BDK_CSR_TYPE_PEXP:
-            /* We don't handle BAR0 CSRs */
-            octeon_remote_debug(0, "%s: PEXP registers not supported\n", __FUNCTION__);
-            break;
-
-        case BDK_CSR_TYPE_PCICONFIGEP:
-        case BDK_CSR_TYPE_PCICONFIGRC:
-        {
-            bdk_pemx_cfg_wr_t pemx_cfg_wr;
-            pemx_cfg_wr.u = 0;
-            pemx_cfg_wr.s.addr = address;
-            pemx_cfg_wr.s.data = value;
-            OCTEON_REMOTE_WRITE_CSR(OCTEON_REMOTE_NODE, BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
-            break;
-        }
     }
 }
 
@@ -528,20 +549,10 @@ int octeon_remote_open(const char *remote_spec, int debug)
         ptr++;
     }
 
-    if (strncasecmp(remote_spec, "PCI", 3) == 0)
-    {
-        extern int octeon_remote_pci(octeon_remote_funcs_t *remote_funcs);
-        result = octeon_remote_pci(&remote_funcs);
-    }
-    else if (strncasecmp(remote_spec, "GDB:", 4) == 0)
+    if (strncasecmp(remote_spec, "GDB:", 4) == 0)
     {
         extern int octeon_remote_gdbremote(octeon_remote_funcs_t *remote_funcs);
         result = octeon_remote_gdbremote(&remote_funcs);
-    }
-    else if (strncasecmp(remote_spec, "MACRAIGOR:", 10) == 0)
-    {
-        extern int octeon_remote_macraigor(octeon_remote_funcs_t *remote_funcs);
-        result = octeon_remote_macraigor(&remote_funcs);
     }
     else
     {
@@ -634,10 +645,7 @@ int octeon_remote_open(const char *remote_spec, int debug)
     if (result)
     {
         octeon_remote_debug(0, "    Valid protocols for OCTEON_REMOTE_PROTOCOL are:\n");
-        octeon_remote_debug(0, "        PCI:<device> - Use PCI/PCIe for <device> (0 is the first Octeon)\n");
         octeon_remote_debug(0, "        GDB:<name>,<tcp_port> - Use GDB remote protocol to communicate with Octeon.\n");
-        octeon_remote_debug(0, "        MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>] - Use Macraigor mpDemon EJTAG.\n");
-        octeon_remote_debug(0, "            Note the <tcp_port> is normally 1000. <jtag_speed> is optional and defaults to 1.\n");
     }
     else
     {
