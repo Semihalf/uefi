@@ -994,34 +994,6 @@ enum nic_cpi_alg_e {
 };
 
 /**
- * Enumeration NIC_CQE_RX_TCP_END_E
- *
- * NIC CQE Receive TCP End Enumeration
- * Enumerates CQE receive TCP ending reason, see NIC_RBE_TCP_CNXT_S[TCP_END_TYPE].
- */
-enum nic_cqe_rx_tcp_end_e {
-	NIC_CQE_RX_TCP_END_E_FIN_FLAG_DET = 0x0,
-	NIC_CQE_RX_TCP_END_E_INVALID_FLAG = 0x1,
-	NIC_CQE_RX_TCP_END_E_OUT_OF_SEQ = 0x3,
-	NIC_CQE_RX_TCP_END_E_PKT_ERR = 0x4,
-	NIC_CQE_RX_TCP_END_E_SW_DIS = 0xf,
-	NIC_CQE_RX_TCP_END_E_TIMEOUT = 0x2,
-	NIC_CQE_RX_TCP_END_E_ENUM_LAST = 0x10,
-};
-
-/**
- * Enumeration NIC_CQE_RX_TCP_STATUS_E
- *
- * NIC CQE Receive TCP Status Enumeration
- * Enumerates CQE receive TCP status for NIC_RBE_TCP_CNXT_S[TCP_STATUS].
- */
-enum nic_cqe_rx_tcp_status_e {
-	NIC_CQE_RX_TCP_STATUS_E_INVALID_TCP_CNXT = 0xf,
-	NIC_CQE_RX_TCP_STATUS_E_VALID_TCP_CNXT = 0x0,
-	NIC_CQE_RX_TCP_STATUS_E_ENUM_LAST = 0x10,
-};
-
-/**
  * Enumeration NIC_CQE_SEND_STATUS_E
  *
  * NIC CQE Send Status Enumeration
@@ -1055,7 +1027,6 @@ enum nic_cqe_type_e {
 	NIC_CQE_TYPE_E_INVALID = 0x0,
 	NIC_CQE_TYPE_E_RX = 0x2,
 	NIC_CQE_TYPE_E_RX_SPLT = 0x3,
-	NIC_CQE_TYPE_E_RX_TCP = 0x4,
 	NIC_CQE_TYPE_E_SEND = 0x8,
 	NIC_CQE_TYPE_E_SEND_PTP = 0x9,
 	NIC_CQE_TYPE_E_ENUM_LAST = 0xa,
@@ -1476,9 +1447,8 @@ enum nic_vf_int_vec_e {
 /**
  * Structure NIC_CQE_RX_S
  *
- * NIC CQE Generic Receive Structure
- * This 128-bit header is used to parse receive data of a generic (non-TCP reassembled) form. See
- * CQE RX Entry (TBD).
+ * NIC CQE Receive Structure
+ * Format of receive completion queue entry.
  */
 union nic_cqe_rx_s {
 	uint64_t u[6];
@@ -1602,68 +1572,10 @@ union nic_cqe_rx_s {
 };
 
 /**
- * Structure NIC_CQE_RX_TCP_ERR_S
- *
- * NIC CQE RX TCP Error Structure
- * This 128-bit header is used to parse the remainder of the completion queue entry.
- */
-union nic_cqe_rx_tcp_err_s {
-	uint64_t u[2];
-	struct {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_124_127            : 4;  /**< [127:124] Reserved */
-		uint64_t partial_first               : 1;  /**< [123:123] Set when the first buffer in the array has valid data from a previous packet. */
-		uint64_t reserved_96_122             : 27; /**< [122: 96] Reserved */
-		uint64_t rbdr_bytes                  : 8;  /**< [ 95: 88] Number of bytes that make up the RBDR_ARRAY. */
-		uint64_t reserved_64_87              : 24; /**< [ 87: 64] Reserved */
-		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::RX_TCP?). */
-		uint64_t reserved_0_59               : 60; /**< [ 59:  0] Reserved. INTERNAL: Fill in/redescribe other CQE fields. */
-#else
-		uint64_t reserved_0_59               : 60;
-		uint64_t cqe_type                    : 4;
-		uint64_t reserved_64_87              : 24;
-		uint64_t rbdr_bytes                  : 8;
-		uint64_t reserved_96_122             : 27;
-		uint64_t partial_first               : 1;
-		uint64_t reserved_124_127            : 4;
-#endif
-	} s;
-};
-
-/**
- * Structure NIC_CQE_RX_TCP_S
- *
- * NIC CQE TCP Structure
- * This 128-bit header is used to parse the remainder of the completion queue entry.
- */
-union nic_cqe_rx_tcp_s {
-	uint64_t u[2];
-	struct {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t tcp_cnxt_bytes              : 8;  /**< [ 95: 88] This is always 0x0a. */
-		uint64_t reserved_80_87              : 8;  /**< [ 87: 80] Reserved */
-		uint64_t tcp_err_bytes               : 16; /**< [ 79: 64] Number of bytes in the TCP errors array. */
-		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::RX or NIC_CQE_TYPE_E::RX_SPLT). */
-		uint64_t reserved_8_59               : 52; /**< [ 59:  8] Reserved. INTERNAL: Fill in/redescribe other CQE fields. */
-		uint64_t cq_tcp_status               : 8;  /**< [  7:  0] Status for the packet. Enumerated in NIC_CQE_RX_TCP_STATUS_E. */
-#else
-		uint64_t cq_tcp_status               : 8;
-		uint64_t reserved_8_59               : 52;
-		uint64_t cqe_type                    : 4;
-		uint64_t tcp_err_bytes               : 16;
-		uint64_t reserved_80_87              : 8;
-		uint64_t tcp_cnxt_bytes              : 8;
-		uint64_t reserved_96_127             : 32;
-#endif
-	} s;
-};
-
-/**
  * Structure NIC_CQE_SEND_S
  *
  * NIC CQE Send Structure
- * Format of send completion CQE.
+ * Format of send completion queue entry.
  */
 union nic_cqe_send_s {
 	uint64_t u[2];
@@ -1716,41 +1628,6 @@ union nic_rbdr_entry_s {
 };
 
 /**
- * Structure NIC_RBE_TCP_CNXT_S
- *
- * NIC Receive-Buffer Entry TCP Context Structure
- * Structure of the front of a receive buffer used for TCP reassembly status.
- */
-union nic_rbe_tcp_cnxt_s {
-	uint64_t u[2];
-	struct {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t tcp_pkt_cnt                 : 12; /**< [127:116] Number of individual packets that were reassembled. */
-		uint64_t reserved_112_115            : 4;  /**< [115:112] Reserved. */
-		uint64_t align_hdr_bytes             : 4;  /**< [111:108] Number of alignment bytes used for the TCP headers. */
-		uint64_t align_ptr_bytes             : 4;  /**< [107:104] Number of alignment bytes used for the TCP_PTR_ARRAY. */
-		uint64_t ptr_bytes                   : 16; /**< [103: 88] Number of bytes that make up the TCP_PTR_ARRAY (each element in the array is 16 bytes)). */
-		uint64_t reserved_64_87              : 24; /**< [ 87: 64] Reserved. */
-		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::RX_TCP?). */
-		uint64_t reserved_6_59               : 54; /**< [ 59:  6] Reserved. */
-		uint64_t tcp_end_type                : 2;  /**< [  5:  4] Reason the TCP flow was closed. Enumerated in NIC_CQE_RX_TCP_END_E. */
-		uint64_t tcp_status                  : 4;  /**< [  3:  0] Status for the reassembled packet. Enumerated in NIC_CQE_RX_TCP_STATUS_E. */
-#else
-		uint64_t tcp_status                  : 4;
-		uint64_t tcp_end_type                : 2;
-		uint64_t reserved_6_59               : 54;
-		uint64_t cqe_type                    : 4;
-		uint64_t reserved_64_87              : 24;
-		uint64_t ptr_bytes                   : 16;
-		uint64_t align_ptr_bytes             : 4;
-		uint64_t align_hdr_bytes             : 4;
-		uint64_t reserved_112_115            : 4;
-		uint64_t tcp_pkt_cnt                 : 12;
-#endif
-	} s;
-};
-
-/**
  * Structure NIC_RX_HDR_S
  *
  * NIC Receive Header Structure
@@ -1768,9 +1645,7 @@ union nic_rx_hdr_s {
 		uint64_t sl                          : 6;  /**< [ 23: 18] Skip length. Number of 2-byte words parser should skip between the end of the header and
                                                                  before beginning L2 parsing. */
 		uint64_t rss_dis                     : 1;  /**< [ 17: 17] Disables NIC RSS algorithms, and forces [RSS_FLOW] into NIC_CQE_RX_S[RSS_TAG]. */
-		uint64_t tcp_dis                     : 1;  /**< [ 16: 16] Disables use the TCP reassembly hardware:
-                                                                 0 = TCP reassembly permitted.
-                                                                 1 = Disabled TCP reassembly, must still search TRM for previous match. */
+		uint64_t tcp_dis                     : 1;  /**< [ 16: 16] Reserved. INTERNAL: Reserved for future use - Disable TCP reassembly. */
 		uint64_t nodrop                      : 1;  /**< [ 15: 15] Disable RED. */
 		uint64_t dest_alg                    : 2;  /**< [ 14: 13] Specifies algorithm for use of DEST:
                                                                  0x0 = [DEST] is ignored.
@@ -1866,8 +1741,8 @@ union nic_send_gather_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
-		uint64_t addr                        : 49; /**< [112: 64] Physical Address. ADDR is the physical L2/DRAM address of the first byte of packet data in
-                                                                 the buffer. */
+		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) of the first byte of packet data
+                                                                 in the buffer. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Gather. Enumerated in NIC_SEND_SUBDC_E::GATHER. */
 		uint64_t ld_type                     : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated with
                                                                  NIC_SEND_LD_TYPE_E. */
@@ -2069,7 +1944,7 @@ union nic_send_mem_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
-		uint64_t addr                        : 49; /**< [112: 64] Physical Address. ADDR is the physical L2/DRAM address to be modified. ADDR must be
+		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) to be modified. ADDR must be
                                                                  naturally aligned to the size specified in DSZ. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated in NIC_SEND_SUBDC_E::MEM. */
 		uint64_t alg                         : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
@@ -2884,22 +2759,14 @@ typedef union bdk_nic_pf_ecc0_cdis {
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
                                                                    <15:9> = Reserved.
-                                                                   <8>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
-                                                                   <7>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
-                                                                   <6>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <5>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <4>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_ncx_fifo.n
-                                                                 ic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
-                                                                   <3>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_ncx_fifo.n
-                                                                 ic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
-                                                                   <2>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_datapath_f
-                                                                 ifo.nic_reb_fifo_128x132.nic_reb_fifomem.
-                                                                   <1>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_datapath_f
-                                                                 ifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   <6:5>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   <4:3>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   <2:1>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
                                                                    <0>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem. */
 		uint64_t blk1                        : 8;  /**< R/W - Group 0 Block 1 memories. INTERNAL: CSI memories:
                                                                  <7:0> = Reserved.
@@ -3092,22 +2959,14 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
                                                                    <15:9> = Reserved.
-                                                                   <8>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
-                                                                   <7>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
-                                                                   <6>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <5>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <4>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_ncx_fifo.n
-                                                                 ic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
-                                                                   <3>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_ncx_fifo.n
-                                                                 ic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
-                                                                   <2>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_datapath_f
-                                                                 ifo.nic_reb_fifo_128x132.nic_reb_fifomem.
-                                                                   <1>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_datapath_f
-                                                                 ifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   <6:5>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   <4:3>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   <2:1>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
                                                                    <0>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem. */
 		uint64_t blk1                        : 8;  /**< R/W - Group 0 Block 1 memories. INTERNAL: CSI memories:
                                                                  <7:0> = Reserved.
@@ -3157,22 +3016,14 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
                                                                    <15:9> = Reserved.
-                                                                   <8>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
-                                                                   <7>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
-                                                                   <6>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <5>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_cq_pipelin
-                                                                 e.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <4>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_ncx_fifo.n
-                                                                 ic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
-                                                                   <3>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_ncx_fifo.n
-                                                                 ic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
-                                                                   <2>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1].nic_reb_data_proc.nic_reb_datapath_f
-                                                                 ifo.nic_reb_fifo_128x132.nic_reb_fifomem.
-                                                                   <1>  = nic_l.core.reb.nic_reb_core.reb_pipeline[0].nic_reb_data_proc.nic_reb_datapath_f
-                                                                 ifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   <8:7>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   <6:5>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   <4:3>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   <2:1>  = nic_l.core.reb.nic_reb_core.reb_pipeline[1..0].nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
                                                                    <0>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem. */
 		uint64_t blk1                        : 8;  /**< R/W - Group 0 Block 1 memories. INTERNAL: CSI memories:
                                                                  <7:0> = Reserved.
@@ -3365,14 +3216,8 @@ typedef union bdk_nic_pf_ecc1_cdis {
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
                                                                    <15:10> = Reserved.
-                                                                   <9> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rrm_ptrmem.
-                                                                   <8> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rrm_ptrmem.
-                                                                   <7> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rrm_ptrmem.
-                                                                   <6> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rrm_ptrmem.
+                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3..0].ni
+                                                                 c_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -3384,17 +3229,11 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                  <16> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
                                                                  <15> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                  <14> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
-                                                                 <13> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_2.
-                                                                 <12> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_1.
-                                                                 <11> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_0.
+                                                                 <13:11> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_[2..0].
                                                                  <10> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
                                                                  <9>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
                                                                  <8>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
-                                                                 <7>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key4_regs.
-                                                                 <6>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key3_regs.
-                                                                 <5>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key2_regs.
-                                                                 <4>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key1_regs.
-                                                                 <3>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key0_regs.
+                                                                 <7:3>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key[4..0]_regs.
                                                                  <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                  <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                  <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
@@ -3569,14 +3408,8 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
                                                                    <15:10> = Reserved.
-                                                                   <9> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rrm_ptrmem.
-                                                                   <8> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rrm_ptrmem.
-                                                                   <7> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rrm_ptrmem.
-                                                                   <6> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rrm_ptrmem.
+                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3..0].ni
+                                                                 c_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -3588,17 +3421,11 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                  <16> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
                                                                  <15> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                  <14> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
-                                                                 <13> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_2.
-                                                                 <12> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_1.
-                                                                 <11> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_0.
+                                                                 <13:11> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_[2..0].
                                                                  <10> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
                                                                  <9>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
                                                                  <8>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
-                                                                 <7>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key4_regs.
-                                                                 <6>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key3_regs.
-                                                                 <5>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key2_regs.
-                                                                 <4>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key1_regs.
-                                                                 <3>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key0_regs.
+                                                                 <7:3>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key[4..0]_regs.
                                                                  <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                  <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                  <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
@@ -3638,14 +3465,8 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
                                                                    <15:10> = Reserved.
-                                                                   <9> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rrm_ptrmem.
-                                                                   <8> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rrm_ptrmem.
-                                                                   <7> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rrm_ptrmem.
-                                                                   <6> =
-                                                                 nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rrm_ptrmem.
+                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3..0].ni
+                                                                 c_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -3657,17 +3478,11 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                  <16> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
                                                                  <15> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                  <14> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
-                                                                 <13> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_2.
-                                                                 <12> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_1.
-                                                                 <11> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_0.
+                                                                 <13:11> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_[2..0].
                                                                  <10> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
                                                                  <9>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
                                                                  <8>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
-                                                                 <7>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key4_regs.
-                                                                 <6>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key3_regs.
-                                                                 <5>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key2_regs.
-                                                                 <4>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key1_regs.
-                                                                 <3>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key0_regs.
+                                                                 <7:3>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key[4..0]_regs.
                                                                  <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                  <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                  <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
@@ -3840,32 +3655,31 @@ typedef union bdk_nic_pf_ecc2_cdis {
 	struct bdk_nic_pf_ecc2_cdis_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
-		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories , where [0..n] mappingof memories to
-                                                                 <MSB:LSB> of CSR; is defined as 0->LSB ... and n->MSB:
+		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories.
                                                                  <49:42> = Reserved.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
-                                                                 <40:39> = nic_u1.seb.mem.dmem.simm_iptr_fifos[[0..1]].simm_iptr.
-                                                                 <38:37> = nic_u1.seb.mem.dmem.simm_fpa_mem[[0..1]].simm_dmem.
+                                                                 <40:39> = nic_u1.seb.mem.dmem.simm_iptr_fifos[1..0].simm_iptr.
+                                                                 <38:37> = nic_u1.seb.mem.dmem.simm_fpa_mem[1..0].simm_dmem.
                                                                  <36>    = nic_u1.seb.mem.dmem.sgth_fptr.
-                                                                 <35:34> = nic_u1.seb.mem.dmem.sgth_iptr_fifos[[0..1]].sgth_iptr.
-                                                                 <33:30> = nic_u1.seb.mem.dmem.sgth_data_mem[[0..3]].sgth_fpa_mem.
+                                                                 <35:34> = nic_u1.seb.mem.dmem.sgth_iptr_fifos[1..0].sgth_iptr.
+                                                                 <33:30> = nic_u1.seb.mem.dmem.sgth_data_mem[3..0].sgth_fpa_mem.
                                                                  <29>    = nic_u1.seb.mem.dmem.dsze_fptr.
-                                                                 <28:27> = nic_u1.seb.mem.dmem.dsze_iptr_fifos[[0..1]].dsze_iptr.
-                                                                 <26:25> = nic_u1.seb.mem.dmem.dsze_fpa_mem[[0..1]].dsze_dmem.
-                                                                 <24:23> = nic_u1.seb.mem.dmem.lock_dmem[[0..1]].lock_drf.
-                                                                 <22:21> = nic_u1.seb.mem.imem.crc_dmem[[0..1]].crc_drf.
-                                                                 <20:19> = nic_u1.seb.mem.imem.smem_dmem[[0..1]].smem_drf.
+                                                                 <28:27> = nic_u1.seb.mem.dmem.dsze_iptr_fifos[1..0].dsze_iptr.
+                                                                 <26:25> = nic_u1.seb.mem.dmem.dsze_fpa_mem[1..0].dsze_dmem.
+                                                                 <24:23> = nic_u1.seb.mem.dmem.lock_dmem[1..0].lock_drf.
+                                                                 <22:21> = nic_u1.seb.mem.imem.crc_dmem[1..0].crc_drf.
+                                                                 <20:19> = nic_u1.seb.mem.imem.smem_dmem[1..0].smem_drf.
                                                                  <18>    = nic_u1.seb.ctx.fptr.
-                                                                 <17:16> = nic_u1.seb.ctx.intf_dpdnt_logic[[0..1]].iptr.
-                                                                 <15:14> = nic_u1.seb.ctx.seb_lctx_dmem_spr[[0..1]].dmem.
-                                                                 <13:12> = nic_u1.seb.ctx.eod_dmem[[0..1]].eod_drf.
-                                                                 <11:10> = nic_u1.seb.ctx.gctx_dmem[[0..1]].gctx_drf.
-                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context[[0..1]].smem_cq_ctx.
+                                                                 <17:16> = nic_u1.seb.ctx.intf_dpdnt_logic[1..0].iptr.
+                                                                 <15:14> = nic_u1.seb.ctx.seb_lctx_dmem_spr[1..0].dmem.
+                                                                 <13:12> = nic_u1.seb.ctx.eod_dmem[1..0].eod_drf.
+                                                                 <11:10> = nic_u1.seb.ctx.gctx_dmem[1..0].gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context[1..0].smem_cq_ctx.
                                                                  <7>     = nic_u1.seb.smc.smem_cq_stdn.
                                                                  <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
-                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].tx_fifo.
-                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].p2x_sop_hdr.
-                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].p2x_eop_hdr. */
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].p2x_eop_hdr. */
 #else
 		uint64_t blk0                        : 50;
 		uint64_t reserved_50_63              : 14;
@@ -4026,32 +3840,31 @@ typedef union bdk_nic_pf_ecc2_flip0 {
 	struct bdk_nic_pf_ecc2_flip0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
-		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories , where [0..n] mappingof memories to
-                                                                 <MSB:LSB> of CSR; is defined as 0->LSB ... and n->MSB:
+		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories.
                                                                  <49:42> = Reserved.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
-                                                                 <40:39> = nic_u1.seb.mem.dmem.simm_iptr_fifos[[0..1]].simm_iptr.
-                                                                 <38:37> = nic_u1.seb.mem.dmem.simm_fpa_mem[[0..1]].simm_dmem.
+                                                                 <40:39> = nic_u1.seb.mem.dmem.simm_iptr_fifos[1..0].simm_iptr.
+                                                                 <38:37> = nic_u1.seb.mem.dmem.simm_fpa_mem[1..0].simm_dmem.
                                                                  <36>    = nic_u1.seb.mem.dmem.sgth_fptr.
-                                                                 <35:34> = nic_u1.seb.mem.dmem.sgth_iptr_fifos[[0..1]].sgth_iptr.
-                                                                 <33:30> = nic_u1.seb.mem.dmem.sgth_data_mem[[0..3]].sgth_fpa_mem.
+                                                                 <35:34> = nic_u1.seb.mem.dmem.sgth_iptr_fifos[1..0].sgth_iptr.
+                                                                 <33:30> = nic_u1.seb.mem.dmem.sgth_data_mem[3..0].sgth_fpa_mem.
                                                                  <29>    = nic_u1.seb.mem.dmem.dsze_fptr.
-                                                                 <28:27> = nic_u1.seb.mem.dmem.dsze_iptr_fifos[[0..1]].dsze_iptr.
-                                                                 <26:25> = nic_u1.seb.mem.dmem.dsze_fpa_mem[[0..1]].dsze_dmem.
-                                                                 <24:23> = nic_u1.seb.mem.dmem.lock_dmem[[0..1]].lock_drf.
-                                                                 <22:21> = nic_u1.seb.mem.imem.crc_dmem[[0..1]].crc_drf.
-                                                                 <20:19> = nic_u1.seb.mem.imem.smem_dmem[[0..1]].smem_drf.
+                                                                 <28:27> = nic_u1.seb.mem.dmem.dsze_iptr_fifos[1..0].dsze_iptr.
+                                                                 <26:25> = nic_u1.seb.mem.dmem.dsze_fpa_mem[1..0].dsze_dmem.
+                                                                 <24:23> = nic_u1.seb.mem.dmem.lock_dmem[1..0].lock_drf.
+                                                                 <22:21> = nic_u1.seb.mem.imem.crc_dmem[1..0].crc_drf.
+                                                                 <20:19> = nic_u1.seb.mem.imem.smem_dmem[1..0].smem_drf.
                                                                  <18>    = nic_u1.seb.ctx.fptr.
-                                                                 <17:16> = nic_u1.seb.ctx.intf_dpdnt_logic[[0..1]].iptr.
-                                                                 <15:14> = nic_u1.seb.ctx.seb_lctx_dmem_spr[[0..1]].dmem.
-                                                                 <13:12> = nic_u1.seb.ctx.eod_dmem[[0..1]].eod_drf.
-                                                                 <11:10> = nic_u1.seb.ctx.gctx_dmem[[0..1]].gctx_drf.
-                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context[[0..1]].smem_cq_ctx.
+                                                                 <17:16> = nic_u1.seb.ctx.intf_dpdnt_logic[1..0].iptr.
+                                                                 <15:14> = nic_u1.seb.ctx.seb_lctx_dmem_spr[1..0].dmem.
+                                                                 <13:12> = nic_u1.seb.ctx.eod_dmem[1..0].eod_drf.
+                                                                 <11:10> = nic_u1.seb.ctx.gctx_dmem[1..0].gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context[1..0].smem_cq_ctx.
                                                                  <7>     = nic_u1.seb.smc.smem_cq_stdn.
                                                                  <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
-                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].tx_fifo.
-                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].p2x_sop_hdr.
-                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].p2x_eop_hdr. */
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].p2x_eop_hdr. */
 #else
 		uint64_t blk0                        : 50;
 		uint64_t reserved_50_63              : 14;
@@ -4085,32 +3898,31 @@ typedef union bdk_nic_pf_ecc2_flip1 {
 	struct bdk_nic_pf_ecc2_flip1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
-		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories , where [0..n] mappingof memories to
-                                                                 <MSB:LSB> of CSR; is defined as 0->LSB ... and n->MSB:
+		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories.
                                                                  <49:42> = Reserved.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
-                                                                 <40:39> = nic_u1.seb.mem.dmem.simm_iptr_fifos[[0..1]].simm_iptr.
-                                                                 <38:37> = nic_u1.seb.mem.dmem.simm_fpa_mem[[0..1]].simm_dmem.
+                                                                 <40:39> = nic_u1.seb.mem.dmem.simm_iptr_fifos[1..0].simm_iptr.
+                                                                 <38:37> = nic_u1.seb.mem.dmem.simm_fpa_mem[1..0].simm_dmem.
                                                                  <36>    = nic_u1.seb.mem.dmem.sgth_fptr.
-                                                                 <35:34> = nic_u1.seb.mem.dmem.sgth_iptr_fifos[[0..1]].sgth_iptr.
-                                                                 <33:30> = nic_u1.seb.mem.dmem.sgth_data_mem[[0..3]].sgth_fpa_mem.
+                                                                 <35:34> = nic_u1.seb.mem.dmem.sgth_iptr_fifos[1..0].sgth_iptr.
+                                                                 <33:30> = nic_u1.seb.mem.dmem.sgth_data_mem[3..0].sgth_fpa_mem.
                                                                  <29>    = nic_u1.seb.mem.dmem.dsze_fptr.
-                                                                 <28:27> = nic_u1.seb.mem.dmem.dsze_iptr_fifos[[0..1]].dsze_iptr.
-                                                                 <26:25> = nic_u1.seb.mem.dmem.dsze_fpa_mem[[0..1]].dsze_dmem.
-                                                                 <24:23> = nic_u1.seb.mem.dmem.lock_dmem[[0..1]].lock_drf.
-                                                                 <22:21> = nic_u1.seb.mem.imem.crc_dmem[[0..1]].crc_drf.
-                                                                 <20:19> = nic_u1.seb.mem.imem.smem_dmem[[0..1]].smem_drf.
+                                                                 <28:27> = nic_u1.seb.mem.dmem.dsze_iptr_fifos[1..0].dsze_iptr.
+                                                                 <26:25> = nic_u1.seb.mem.dmem.dsze_fpa_mem[1..0].dsze_dmem.
+                                                                 <24:23> = nic_u1.seb.mem.dmem.lock_dmem[1..0].lock_drf.
+                                                                 <22:21> = nic_u1.seb.mem.imem.crc_dmem[1..0].crc_drf.
+                                                                 <20:19> = nic_u1.seb.mem.imem.smem_dmem[1..0].smem_drf.
                                                                  <18>    = nic_u1.seb.ctx.fptr.
-                                                                 <17:16> = nic_u1.seb.ctx.intf_dpdnt_logic[[0..1]].iptr.
-                                                                 <15:14> = nic_u1.seb.ctx.seb_lctx_dmem_spr[[0..1]].dmem.
-                                                                 <13:12> = nic_u1.seb.ctx.eod_dmem[[0..1]].eod_drf.
-                                                                 <11:10> = nic_u1.seb.ctx.gctx_dmem[[0..1]].gctx_drf.
-                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context[[0..1]].smem_cq_ctx.
+                                                                 <17:16> = nic_u1.seb.ctx.intf_dpdnt_logic[1..0].iptr.
+                                                                 <15:14> = nic_u1.seb.ctx.seb_lctx_dmem_spr[1..0].dmem.
+                                                                 <13:12> = nic_u1.seb.ctx.eod_dmem[1..0].eod_drf.
+                                                                 <11:10> = nic_u1.seb.ctx.gctx_dmem[1..0].gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context[1..0].smem_cq_ctx.
                                                                  <7>     = nic_u1.seb.smc.smem_cq_stdn.
                                                                  <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
-                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].tx_fifo.
-                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].p2x_sop_hdr.
-                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem[[0..1]].p2x_eop_hdr. */
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem[1..0].p2x_eop_hdr. */
 #else
 		uint64_t blk0                        : 50;
 		uint64_t reserved_50_63              : 14;
@@ -5319,8 +5131,8 @@ typedef union bdk_nic_pf_pkindx_cfg {
 		uint64_t rx_hdr                      : 3;  /**< R/W - Receive header present.
                                                                  0x0 = No NIC_RX_HDR_S is present.
                                                                  0x1 = Reserved.
-                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW, HDR_SL,
-                                                                 RSS_DIS, and TCP_DIS] are not read from the packet and treated as if zero.
+                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW, HDR_SL and
+                                                                 RSS_DIS] are not read from the packet and treated as if zero.
                                                                  0x3 = NIC_RX_HDR_S is present, three bytes are valid; NIC_RX_HDR_S[RSS_FLOW] are not read
                                                                  from the packet and treated as if zero.
                                                                  0x4 = NIC_RX_HDR_S is present, four bytes are valid.
@@ -5379,7 +5191,7 @@ typedef union bdk_nic_pf_qsx_cfg {
                                                                  with byte 0 the first byte onto the wire. */
 		uint64_t lock_ena                    : 1;  /**< R/W - Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
                                                                  down one of more bytes in packets transmitted by the QS. */
-		uint64_t lock_viol_cqe_ena           : 1;  /**< R/W - Enable generation of NIC_CQE_SEND_S with SEND_STATUS=NIC_CQE_RX_TCP_STATUS_E::LOCK_VIOL. */
+		uint64_t lock_viol_cqe_ena           : 1;  /**< R/W - Enable generation of NIC_CQE_SEND_S with SEND_STATUS=NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
 		uint64_t send_tstmp_ena              : 1;  /**< R/W - Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
 		uint64_t be                          : 1;  /**< R/W - Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
                                                                  the QS.
@@ -5395,10 +5207,8 @@ typedef union bdk_nic_pf_qsx_cfg {
                                                                  The affected data structures are:
                                                                  * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
                                                                  * All send subdescriptors: NIC_SEND_*_S.
-                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S, NIC_CQE_RX_TCP_S,
-                                                                 NIC_CQE_RX_TCP_ERR_S and NIC_CQE_SEND_S, excluding any packet data embedded in these
-                                                                 structures.
-                                                                 * All TCP reassembly descriptors starting with  NIC_RBE_TCP_CNXT_S.
+                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
+                                                                 excluding any packet data embedded in these structures.
                                                                  Note that this bit does not affect the byte ordering of packet data, which is treated as a
                                                                  byte stream transmitted by incrementing byte address. The same byte ordering is also used
                                                                  for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
@@ -5532,7 +5342,7 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 	uint64_t u;
 	struct bdk_nic_pf_qsx_rqx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t tcp_off                     : 1;  /**< R/W - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+		uint64_t tcp_off                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
 		uint64_t reserved_29_62              : 34;
 		uint64_t strip_pre_l2                : 1;  /**< R/W - Strip all bytes that come before the SA/DA of the L2 Layer. */
 		uint64_t caching                     : 2;  /**< R/W - Select the style of write to the L2C.
@@ -6741,10 +6551,10 @@ typedef union bdk_nic_pf_tl3ax_cfg {
 	struct bdk_nic_pf_tl3ax_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
-		uint64_t tl3a                        : 5;  /**< R/W - TL3 aggregation group. The lowest numbered TL3 group (TL3G) in this aggregation group, or
-                                                                 if this TL3G is not part of an aggregation group, TL3A must match the TL3G number (the
-                                                                 index of this register). Resets to equal the index of this register. TL3A<5> is the same
-                                                                 as TL3G<5>, and so is not stored here. */
+		uint64_t tl3a                        : 5;  /**< R/W - TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
+                                                                 numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
+                                                                 TL3A must match the TL3G number (the index of this register). Resets to equal the index of
+                                                                 this register. TL3A<5> is the same as TL3G<5>, and so is not stored here. */
 #else
 		uint64_t tl3a                        : 5;
 		uint64_t reserved_5_63               : 59;
@@ -6877,10 +6687,10 @@ typedef union bdk_nic_pf_tl4ax_cfg {
 	struct bdk_nic_pf_tl4ax_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_7_63               : 57;
-		uint64_t tl4a                        : 7;  /**< R/W - TL4 aggregation group. The lowest numbered TL4 group (TL4G) in this aggregation group, or
-                                                                 if this TL4G is not part of an aggregation group, TL4A must match the TL4G number (the
-                                                                 index of this register). Resets to equal the index of this register. TL4A<7> is the same
-                                                                 as TL4G<7>, and so is not stored here. */
+		uint64_t tl4a                        : 7;  /**< R/W - TL4 aggregation group. Index of TL3 that pulls from this TL4 group (TL4G), i.e. lowest
+                                                                 numbered TL4G in this aggregation group. If this TL4G is not part of an aggregation group,
+                                                                 TL4A must match the TL4G number (the index of this register). Resets to equal the index of
+                                                                 this register. TL4A<7> is the same as TL4G<7>, and so is not stored here. */
 #else
 		uint64_t tl4a                        : 7;
 		uint64_t reserved_7_63               : 57;
@@ -7921,7 +7731,7 @@ typedef union bdk_nic_qsx_rqx_cfg {
 		uint64_t ena                         : 1;  /**< R/W - Enable RQ. Writing a 1 to this bit enables the RQ. Writing a 0 gracefully disables the RQ.
                                                                  Software can poll this bit for a 0 to determine if all hardware processing for this RQ has
                                                                  stopped. */
-		uint64_t tcp_ena                     : 1;  /**< R/W - TCP reassembly enable. */
+		uint64_t tcp_ena                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - TCP reassembly enable. */
 #else
 		uint64_t tcp_ena                     : 1;
 		uint64_t ena                         : 1;
@@ -8006,7 +7816,7 @@ typedef union bdk_nic_qsx_rq_gen_cfg {
                                                                  header split into a separate RBDR buffer. */
 		uint64_t cq_hdr_copy                 : 1;  /**< R/W - If set, the header is copied into the CQE as well as existing in the packet buffer. The
                                                                  hardware will copy all defined headers. */
-		uint64_t max_tcp_reass               : 2;  /**< R/W - Maximum TCP reassembled packet:
+		uint64_t max_tcp_reass               : 2;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */

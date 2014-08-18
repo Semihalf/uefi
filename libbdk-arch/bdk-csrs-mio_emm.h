@@ -1478,7 +1478,7 @@ typedef union bdk_mio_emm_wdog {
                                                                  Issues this timeout doesn't cover are stalls induced by the card which are not limited by
                                                                  the specifications.
                                                                  For example, when a write multi command is issued to the card and a block (not the last)
-                                                                 is transferred the card can "stall" the Octeon by forcing emmc_data<0> low for as long as
+                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data<0> low for as long as
                                                                  it wants to free up buffer space.
 
                                                                  The second case is when the last block of a write or multi write is being transferred and

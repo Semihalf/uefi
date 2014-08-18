@@ -24057,8 +24057,8 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "ADDR", start = 48, stop = 63},
-                {name = "RESERVED_0_47", start = 0, stop = 47},
+                {name = "ADDR", start = 50, stop = 63},
+                {name = "RESERVED_0_49", start = 0, stop = 49},
             }
         },
         PEMX_TLP_CREDITS = {

@@ -1879,7 +1879,8 @@ typedef union bdk_pccpf_xxx_vsec_sctl {
                                                                  devices. */
 		uint32_t rid                         : 8;  /**< SR/W - Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
 		uint32_t reserved_3_15               : 13;
-		uint32_t bcst_rsp                    : 1;  /**< SR/W - Enable this PCC instance as the responder to PCC broadcast reads/writes. */
+		uint32_t bcst_rsp                    : 1;  /**< SR/W - Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
+                                                                 instance as the responder to PCC broadcast reads/writes. */
 		uint32_t msix_sec                    : 1;  /**< SR/W - All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
                                                                  (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
 		uint32_t msix_phys                   : 1;  /**< SR/W - MSI-X interrupts are physical.

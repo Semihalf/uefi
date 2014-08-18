@@ -198,8 +198,9 @@ typedef union bdk_rst_boot {
                                                                  is disabled This field resets to 1 in trusted-mode, else 0. */
 		uint64_t ejtagdis                    : 1;  /**< R/W - EJTAG CSR disable. When set, external EJTAG access is disabled. This field resets to 1 in
                                                                  trusted-mode, else 0. */
-		uint64_t trusted_mode                : 1;  /**< RO - When set, chip is operating as a trusted device. This bit is set when FUSF_CTL[TZ_FORCE2]
-                                                                 is set, or if GPIO_STRAP[10] is set when DCOK asserted. */
+		uint64_t trusted_mode                : 1;  /**< RO - When set, chip is operating as a trusted device. This bit is asserted when
+                                                                 either MIO_FUS_DAT2[TRUSTZONE_EN], FUSF_CTL[TZ_FORCE2], or the trusted-mode
+                                                                 strap GPIO_STRAP<10> are set. */
 		uint64_t ckill_ppdis                 : 1;  /**< R/W - Chipkill core disable. When set to 1, cores other than 0 are disabled during a CHIPKILL.
                                                                  Write operations have no effect when RST_BOOT[CHIPKILL] = 1. */
 		uint64_t jt_tstmode                  : 1;  /**< RO - JTAG test mode. */

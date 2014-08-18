@@ -1000,7 +1000,8 @@ typedef union bdk_gicd_icactiverx {
 	uint32_t u;
 	struct bdk_gicd_icactiverx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If read as 0, then the SPI
+		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
                                                                  is not active. If read as 1, the SPI is in active state.
                                                                  Clear-active bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
@@ -1038,7 +1039,7 @@ typedef union bdk_gicd_icenablerx {
 	uint32_t u;
 	struct bdk_gicd_icenablerx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 95..32. Upon reading, if a bit is
+		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 159..32. Upon reading, if a bit is
                                                                  0, then the SPI is not enabled to be forwarded to the CPU interface. Upon reading, if a
                                                                  bit is 1, the SPI is enabled to be forwarded to the CPU interface. Clear-enable bits
                                                                  corresponding to secure interrupts (either group0 or group1) may only be set by secure
@@ -1116,7 +1117,8 @@ typedef union bdk_gicd_icpendrx {
 	uint32_t u;
 	struct bdk_gicd_icpendrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If read as 0, then the SPI
+		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
                                                                  Clear-pending bits corresponding to secure interrupts (either group0 or group1) may only
                                                                  be set by secure accesses.
@@ -1154,7 +1156,7 @@ typedef union bdk_gicd_igrouprx {
 	uint32_t u;
 	struct bdk_gicd_igrouprx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< SR/W - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If 0, then the SPI is
+		uint32_t vec                         : 32; /**< SR/W - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If 0, then the SPI is
                                                                  secure. If 1, the SPI is non-secure. */
 #else
 		uint32_t vec                         : 32;
@@ -1189,7 +1191,7 @@ typedef union bdk_gicd_igrpmodrx {
 	uint32_t u;
 	struct bdk_gicd_igrpmodrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< SR/W - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If 0, then the SPI group
+		uint32_t vec                         : 32; /**< SR/W - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If 0, then the SPI group
                                                                  is not modified. If 1, then the SPI group is modified from group0 to secure group1. */
 #else
 		uint32_t vec                         : 32;
@@ -1267,7 +1269,7 @@ typedef union bdk_gicd_ipriorityrx {
 	uint32_t u;
 	struct bdk_gicd_ipriorityrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W - Each byte corresponds to an SPI for SPI IDs in the range 95..32.
+		uint32_t vec                         : 32; /**< R/W - Each byte corresponds to an SPI for SPI IDs in the range 159..32.
                                                                  Priority fields corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses, or when GICD_CTLR[DS] is one.
                                                                  Byte accesses are permitted to these registers.
@@ -1351,7 +1353,8 @@ typedef union bdk_gicd_isactiverx {
 	uint32_t u;
 	struct bdk_gicd_isactiverx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If read as 0, then the SPI
+		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
                                                                  is not active. If read as 1, the SPI is in active state.
                                                                  Set-active bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
@@ -1389,7 +1392,7 @@ typedef union bdk_gicd_isenablerx {
 	uint32_t u;
 	struct bdk_gicd_isenablerx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If 0, then the SPI is not
+		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If 0, then the SPI is not
                                                                  enabled to be forwarded to the CPU interface. If 1, the SPI is enabled to be forwarded to
                                                                  the CPU interface. Set-enable bits corresponding to secure interrupts (either group0 or
                                                                  Group1) may only be set by secure accesses. */
@@ -1425,7 +1428,8 @@ typedef union bdk_gicd_ispendrx {
 	uint32_t u;
 	struct bdk_gicd_ispendrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 95..32. If read as 0, then the SPI
+		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
                                                                  Set-pending bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.

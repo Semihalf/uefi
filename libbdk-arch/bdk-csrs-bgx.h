@@ -9768,7 +9768,7 @@ typedef union bdk_bgxx_spux_misc_control {
                                                                  _ 0 = Common running disparity. Common running disparity is computed for even and odd
                                                                  code-
                                                                  groups of an RXAUI lane, i.e. interleave lanes before PCS layer as described in the Dune
-                                                                 Networks/Broadcom RXAUI v2.1 specification. This obeys 6.25GHz serdes disparity.
+                                                                 Networks/Broadcom RXAUI v2.1 specification. This obeys 6.25GHz SerDes disparity.
 
                                                                  _ 1 = Interleaved running disparity: Running disparity is computed separately for even and
                                                                  odd code-groups of an RXAUI lane, i.e. interleave lanes after PCS layer as described in

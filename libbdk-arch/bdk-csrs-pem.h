@@ -218,7 +218,7 @@ typedef union bdk_pemx_bar_ctl {
                                                                  0x7 = Reserved. */
 		uint64_t bar2_enb                    : 1;  /**< R/W - When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
 		uint64_t reserved_1_2                : 2;
-		uint64_t bar2_cax                    : 1;  /**< R/W - Value is XORed with PCIe address [44] to determine the L2 cache attribute. Not cached in
+		uint64_t bar2_cax                    : 1;  /**< R/W - Value is XORed with PCIe address <49> to determine the L2 cache attribute. Not cached in
                                                                  L2 if XOR result is 1. */
 #else
 		uint64_t bar2_cax                    : 1;
@@ -1950,6 +1950,13 @@ typedef union bdk_pemx_p2n_bar2_start {
 	uint64_t u;
 	struct bdk_pemx_p2n_bar2_start_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_0_63               : 64;
+#else
+		uint64_t reserved_0_63               : 64;
+#endif
+	} s;
+	struct bdk_pemx_p2n_bar2_start_cn85xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t addr                        : 16; /**< R/W - The starting address of the 2^48 address space
                                                                  that is the BAR2 address space. */
 		uint64_t reserved_0_47               : 48;
@@ -1957,9 +1964,17 @@ typedef union bdk_pemx_p2n_bar2_start {
 		uint64_t reserved_0_47               : 48;
 		uint64_t addr                        : 16;
 #endif
-	} s;
-	/* struct bdk_pemx_p2n_bar2_start_s   cn85xx; */
-	/* struct bdk_pemx_p2n_bar2_start_s   cn88xx; */
+	} cn85xx;
+	struct bdk_pemx_p2n_bar2_start_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t addr                        : 14; /**< R/W - The starting address of the 2^50 address space
+                                                                 that is the BAR2 address space. */
+		uint64_t reserved_0_49               : 50;
+#else
+		uint64_t reserved_0_49               : 50;
+		uint64_t addr                        : 14;
+#endif
+	} cn88xx;
 } bdk_pemx_p2n_bar2_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long param1) __attribute__ ((pure, always_inline));

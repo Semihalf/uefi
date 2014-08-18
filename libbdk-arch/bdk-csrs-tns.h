@@ -916,8 +916,15 @@ typedef union bdk_tns_rdma_config {
 	struct bdk_tns_rdma_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
-		uint64_t lmac_bp_enable              : 2;  /**< R/W - Bits correspond to [LMACs7..4, LMACs3..0]. */
-		uint64_t nici_bp_enable              : 2;  /**< R/W - Bits correspond to [NICI1, NICI0]. */
+		uint64_t lmac_bp_enable              : 2;  /**< R/W - Enable sending of back pressure information to the LMACs.
+                                                                 Bits correspond to [LMACs7..4, LMACs3..0].
+                                                                 INTERNAL:
+                                                                 Enables sending of Xon/Xoff back pressure calendar. */
+		uint64_t nici_bp_enable              : 2;  /**< R/W - Enable sending of back pressure information to the NIC Interfaces.
+                                                                 Bits correspond to [NICI1, NICI0].
+                                                                 INTERNAL:
+                                                                 Enables sending of Xon/Xoff EBP back pressure calendar.
+                                                                 Also enables sending of channel credit return messages to NIC Interface. */
 #else
 		uint64_t nici_bp_enable              : 2;
 		uint64_t lmac_bp_enable              : 2;
@@ -1416,9 +1423,18 @@ typedef union bdk_tns_rdma_hdr_ts_cfg {
 	struct bdk_tns_rdma_hdr_ts_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56;
-		uint64_t lmac                        : 8;  /**< R/W - Each bit corresponds to 1 LMAC.
-                                                                 For each bit, when set to 0x1, the first 8 bytes of every packet received from the LMAC
-                                                                 will be interpreted as timestamp information. */
+		uint64_t lmac                        : 8;  /**< R/W - This field is used to indicate that all packets arriving on a LMAC port
+                                                                 are prepended with an 8-byte timestamp that must be extracted.
+                                                                 If enabled, timestamp bytes received from the LMAC are not counted as part of the packet
+                                                                 header.
+                                                                 Each bit corresponds to 1 LMAC.
+                                                                 For each bit, when set the first 8 bytes of every packet received from the LMAC
+                                                                 will be interpreted as timestamp information.
+                                                                 The extraction occurs blindly, assuming all packets have a timestamp.
+                                                                 Unpredictable behavior may occur if software changes the timestamp configuration
+                                                                 for a port while packets are being received.
+                                                                 Unpredictable behavior may occur if timestamp extraction is enabled and a packet
+                                                                 is received on the port without a prepended timestamp. */
 #else
 		uint64_t lmac                        : 8;
 		uint64_t reserved_8_63               : 56;
@@ -1815,7 +1831,13 @@ typedef union bdk_tns_rdma_lmacx_drop_cnt {
 	struct bdk_tns_rdma_lmacx_drop_cnt_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56;
-		uint64_t packets                     : 8;  /**< R/W/H - Dropped packets arriving from LMAC. */
+		uint64_t packets                     : 8;  /**< R/W/H - Packets arriving from LMAC dropped due to insufficient size.
+                                                                 A packet received from a LMAC is immediately dropped if timestamp extraction
+                                                                 is enabled for the LMAC and the arrivng packet is not large enough
+                                                                 to contain a full 8-byte timestamp and at least 1-byte of packet data.
+                                                                 This field counts all packets dropped due to insufficient packet size when
+                                                                 timestamp extraction is enabled.
+                                                                 This counter rolls over. */
 #else
 		uint64_t packets                     : 8;
 		uint64_t reserved_8_63               : 56;
@@ -1886,8 +1908,8 @@ typedef union bdk_tns_rdma_nb_config {
 	struct bdk_tns_rdma_nb_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t master_en                   : 1;  /**< R/W/H - Master RDMA enable.
-                                                                 When set to 0x1, allows functional use of the network switch.
-                                                                 Usage of hardware auto-initialization will clear this field. */
+                                                                 When set, allows functional use of the network switch.
+                                                                 Usage of TNS_TDMA_NB_CONFIG1[AUTO_INIT] will clear this field. */
 		uint64_t reserved_0_62               : 63;
 #else
 		uint64_t reserved_0_62               : 63;
@@ -2250,9 +2272,11 @@ typedef union bdk_tns_rdma_nb_force_lmacx_bp {
 	struct bdk_tns_rdma_nb_force_lmacx_bp_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t priorities                  : 16; /**< R/W - For each bit:
-                                                                 When 0x1, forces XOFF for LMAC priorities 15..0.
-                                                                 When 0x0, passes XON/XOFF information arriving from the LMAC. */
+		uint64_t priorities                  : 16; /**< R/W - Force XOFF back pressure for specific LMAC priorities as though the
+                                                                 LMAC was indicating back pressure.
+                                                                 For each bit:
+                                                                 When 1, forces XOFF for LMAC priority [15..0].
+                                                                 When 0, passes XON/XOFF information arriving from the LMAC. */
 #else
 		uint64_t priorities                  : 16;
 		uint64_t reserved_16_63              : 48;
@@ -2286,8 +2310,11 @@ typedef union bdk_tns_rdma_nb_force_nicx_bp {
 	uint64_t u;
 	struct bdk_tns_rdma_nb_force_nicx_bp_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t chan                        : 64; /**< R/W - When 0x1, forces XOFF for channels.
-                                                                 When 0x0, passes XON/XOFF information arriving from the NIC. */
+		uint64_t chan                        : 64; /**< R/W - Force XOFF back pressure for specific NIC channels as though the
+                                                                 NIC was indicating back pressure.
+                                                                 For each bit:
+                                                                 When 1, forces XOFF for channels.
+                                                                 When 0, passes XON/XOFF information arriving from the NIC. */
 #else
 		uint64_t chan                        : 64;
 #endif
@@ -2860,9 +2887,14 @@ typedef union bdk_tns_rdma_nb_lmacx_rpkt_sz {
 	struct bdk_tns_rdma_nb_lmacx_rpkt_sz_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56;
-		uint64_t bytes                       : 8;  /**< R/W - Packets received from the LMAC with size greater than this will be passed to the
+		uint64_t bytes                       : 8;  /**< R/W - Hardware will drop packets arriving from the LMAC if the size is
+                                                                 less than or equal to the programmed value.
+                                                                 Packets received from the LMAC with size greater than this will be passed to the
                                                                  network switch for processing.
-                                                                 Packets with a size that is equal or less will be marked as runt, dropped, and counted. */
+                                                                 Packets with a size that is equal or less will be marked as runt, dropped, and counted.
+                                                                 The prepended timestamp (if present) is not counted when determining the
+                                                                 size of an arriving packet.
+                                                                 Dropped runt packets are counted. */
 #else
 		uint64_t bytes                       : 8;
 		uint64_t reserved_8_63               : 56;
@@ -3094,7 +3126,9 @@ typedef union bdk_tns_rdma_nb_nicix_rpkt_sz {
 		uint64_t reserved_8_63               : 56;
 		uint64_t bytes                       : 8;  /**< R/W - Packets received from NICI with size greater than this will be passed to the
                                                                  network switch for processing.
-                                                                 Packets with a size that is equal or less will be marked as runt and counted. */
+                                                                 Hardware will flag packets arriving from the NICI if the size is
+                                                                 less than or equal to the programmed value.
+                                                                 Flagged runt packets are counted. */
 #else
 		uint64_t bytes                       : 8;
 		uint64_t reserved_8_63               : 56;
@@ -3129,24 +3163,24 @@ typedef union bdk_tns_rdma_nb_path_enable {
 	struct bdk_tns_rdma_nb_path_enable_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
-		uint64_t nici1_bp                    : 1;  /**< R/W - When 0x1, allows back pressure information to be sent to NICI1.
-                                                                 When 0x0, resets state and does not send back pressure information to NICI1. */
-		uint64_t nici0_bp                    : 1;  /**< R/W - When 0x1, allows back pressure information to be sent to NICI0.
-                                                                 When 0x0, resets state and does not send back pressure information to NICI0. */
-		uint64_t bgx1_bp                     : 1;  /**< R/W - When 0x1, allows back pressure information to be sent to BGX1.
-                                                                 When 0x0, resets state and does not send back pressure information to BGX1. */
-		uint64_t bgx0_bp                     : 1;  /**< R/W - When 0x1, allows back pressure information to be sent to BGX0.
-                                                                 When 0x0, resets state and does not send back pressure information to BGX0. */
+		uint64_t nici1_bp                    : 1;  /**< R/W - When 1, allows back pressure information to be sent to NICI1.
+                                                                 When 0, resets state and does not send back pressure information to NICI1. */
+		uint64_t nici0_bp                    : 1;  /**< R/W - When 1, allows back pressure information to be sent to NICI0.
+                                                                 When 0, resets state and does not send back pressure information to NICI0. */
+		uint64_t bgx1_bp                     : 1;  /**< R/W - When 1, allows back pressure information to be sent to BGX1.
+                                                                 When 0, resets state and does not send back pressure information to BGX1. */
+		uint64_t bgx0_bp                     : 1;  /**< R/W - When 1, allows back pressure information to be sent to BGX0.
+                                                                 When 0, resets state and does not send back pressure information to BGX0. */
 		uint64_t reserved_11_15              : 5;
-		uint64_t loopback                    : 1;  /**< R/W - When 0x1, allows packets to be received from loopback and credits to be returned.
-                                                                 When 0x0, resets state and does not allow receiving of packets from the port. */
-		uint64_t nici1                       : 1;  /**< R/W - When 0x1, allows packets to be received from NICI1 and credits to be returned.
-                                                                 When 0x0, resets state and does not allow receiving of packets from the port. */
-		uint64_t nici0                       : 1;  /**< R/W - When 0x1, allows packets to be received from NICI0 and credits to be returned.
-                                                                 When 0x0, resets state and does not allow receiving of packets from the port. */
+		uint64_t loopback                    : 1;  /**< R/W - When 1, allows packets to be received from loopback and credits to be returned.
+                                                                 When 0, resets state and does not allow receiving of packets from the port. */
+		uint64_t nici1                       : 1;  /**< R/W - When 1, allows packets to be received from NICI1 and credits to be returned.
+                                                                 When 0, resets state and does not allow receiving of packets from the port. */
+		uint64_t nici0                       : 1;  /**< R/W - When 1, allows packets to be received from NICI0 and credits to be returned.
+                                                                 When 0, resets state and does not allow receiving of packets from the port. */
 		uint64_t lmac                        : 8;  /**< R/W - For each bit:
-                                                                 When 0x1, allows packets to be received from the LMAC.
-                                                                 When 0x0, resets state and does not allow receiving of packets from the port. */
+                                                                 When 1, allows packets to be received from the LMAC.
+                                                                 When 0, resets state and does not allow receiving of packets from the port. */
 #else
 		uint64_t lmac                        : 8;
 		uint64_t nici0                       : 1;
@@ -3570,7 +3604,8 @@ typedef union bdk_tns_tdma_config {
 		uint64_t clk_ena                     : 1;  /**< R/W - Enable slow clock.
                                                                  INTERNAL:
                                                                  Enable conditional clock to non-bypass logic.
-                                                                 This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
+                                                                 This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set.
+                                                                 This field has no effect unless CLK_2X_ENA is set. */
 #else
 		uint64_t clk_ena                     : 1;
 		uint64_t clk_2x_ena                  : 1;
@@ -4279,9 +4314,13 @@ typedef union bdk_tns_tdma_nb_config1 {
 	uint64_t u;
 	struct bdk_tns_tdma_nb_config1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t master_en                   : 1;  /**< R/W/H - Allows FPM entries to be utilized for storing data to the packet memory.
-                                                                 Usage of hardware AUTO_INIT will clear this field. */
-		uint64_t drain_pkts                  : 11; /**< R/W - Discard all packets scheduled by the TxQ towards a physical port.
+		uint64_t master_en                   : 1;  /**< R/W/H - Allows packet data to be stored in the packet memory.
+                                                                 To reset the data path, TNS_RDMA_NB_PATH_ENABLE, TNS_RDMA_NB_CONFIG[MASTER_EN],
+                                                                 and this field must all be cleared before performing hardware auto-initialization.
+                                                                 Usage of hardware AUTO_INIT will clear this field.
+                                                                 INTERNAL:
+                                                                 Enables page pointers from the FPM to be allocated to RDMA for use. */
+		uint64_t drain_pkts                  : 11; /**< R/W - Discard packets destined towards a physical port.
                                                                  Rather than transmit a packet on its physical port the TDMA will drop the packet.
                                                                  The bit positions correspond to the enumeration as defined in TNS_PHYS_PORT_E. */
 		uint64_t auto_init                   : 1;  /**< R/W/H - Initiate hardware auto-initialization of TNS.
@@ -4299,7 +4338,7 @@ typedef union bdk_tns_tdma_nb_config1 {
                                                                  0x3 = Use 1/8 packet memory.
                                                                  AUTO_INIT must be performed after changing this field.
                                                                  INTERNAL:
-                                                                 TNS has a 3MB packet memory.
+                                                                 TNS has a 3MB packet memory. So...
                                                                  0x0 = 3MB.
                                                                  0x1 = 1.5MB.
                                                                  0x2 = 768kB.
@@ -4363,7 +4402,7 @@ typedef union bdk_tns_tdma_nb_config2 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t sst_req_inc                 : 1;  /**< R/W - Designated value of the INC field within a SST read or write request. */
 		uint64_t reserved_62_62              : 1;
-		uint64_t sst_endian                  : 2;  /**< R/W - Select swapping of CSR data when accessing the SST blocks.
+		uint64_t sst_endian                  : 2;  /**< R/W - Byte swapping of CSR data when accessing the SST blocks.
                                                                  0x0 = ABCDEFGH (no swap)
                                                                  0x1 = EFGHABCD (swap 32-bit chunk within 64-bit word)
                                                                  0x2 = DCBAHGFE (swap bytes within 32-bit chunk)
@@ -4490,8 +4529,9 @@ typedef union bdk_tns_tdma_nb_dbg_config2 {
 		uint64_t reserved_20_63              : 44;
 		uint64_t sst_retry_count             : 20; /**< R/W - Read and write requests to the SDE, SE, and TxQ sub-blocks may sometimes timeout due
                                                                  to hardware having priority over software access.
-                                                                 The datapath will attempt to retry a timed out request the number of times specified in
-                                                                 this field before eventually timing out and setting an error status bit. */
+                                                                 The design will attempt to retry a timed out request the number of times specified in
+                                                                 this field before eventually timing out and setting
+                                                                 TNS_TDMA_NB_INT_STAT_W1C[SST_REQ_TIMEOUT]. */
 #else
 		uint64_t sst_retry_count             : 20;
 		uint64_t reserved_20_63              : 44;
@@ -4608,7 +4648,13 @@ typedef union bdk_tns_tdma_nb_dbg_lmacx_config1 {
 	struct bdk_tns_tdma_nb_dbg_lmacx_config1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
-		uint64_t tkn_sch_thresh              : 5;  /**< R/W - Token threshold for LMAC.
+		uint64_t tkn_sch_thresh              : 5;  /**< R/W - Each LMAC path has 16 FIFOs for receiving tokens from the TxQ block
+                                                                 on a per-priority basis.
+                                                                 Each LMAC priority FIFO can store 8 tokens.
+                                                                 This value indicates the number of tokens at which point EBP XOFF for the priority
+                                                                 will be asserted to the TxQ.
+                                                                 The value includes tokens in the FIFO as well as the in-flight tokens
+                                                                 (schedule received but token not yet received).
                                                                  A value larger than 8 will be interpreted as 8.
                                                                  A value of 0 will assert XOFF for all priorities of the LMAC. */
 #else
@@ -5601,7 +5647,17 @@ typedef union bdk_tns_tdma_nb_page_rd_cntx {
 	struct bdk_tns_tdma_nb_page_rd_cntx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t pages                       : 32; /**< R/W/H - Memory Pages. */
+		uint64_t pages                       : 32; /**< R/W/H - Packet memory pages accessed by the physical port.
+                                                                 This field is a roll over counter.
+                                                                 Register number enumerated by TNS_PHYS_PORT_E.
+                                                                 Register number 11 corresponds to pages accessed due to drops and multiple copy (e.g.
+                                                                 multicast) clearing.
+                                                                 Multiple copy clearing is performed for all multiple copy packets to return pages to the
+                                                                 free
+                                                                 list.
+                                                                 Multiple copy packets will be counted by each physical port that transmits the packet, as
+                                                                 well
+                                                                 as register 11 when the multiple copy is cleared. */
 #else
 		uint64_t pages                       : 32;
 		uint64_t reserved_32_63              : 32;
@@ -5672,7 +5728,9 @@ typedef union bdk_tns_tdma_nb_pages_used {
 	struct bdk_tns_tdma_nb_pages_used_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
-		uint64_t cnt                         : 14; /**< RO/H - Pages in use. */
+		uint64_t cnt                         : 14; /**< RO/H - Number of pages currently used to store packet data.
+                                                                 Values range from 0 through 12288 (0x3000) when the entire packet memory is used.
+                                                                 The number of avilable pages can be constrained by TNS_TDMA_NB_CONFIG1[PM_DEPTH]. */
 #else
 		uint64_t cnt                         : 14;
 		uint64_t reserved_14_63              : 50;
@@ -5782,8 +5840,8 @@ typedef union bdk_tns_tdma_nb_status {
 	struct bdk_tns_tdma_nb_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_52_63              : 12;
-		uint64_t init_done                   : 1;  /**< RO/H - Set to 0x1 by hardware upon completion of auto-initialization.
-                                                                 Cleared to 0x0 when software initiates hardware auto-initialization
+		uint64_t init_done                   : 1;  /**< RO/H - Set to 1 by hardware upon completion of auto-initialization.
+                                                                 Cleared to 0 when software initiates hardware auto-initialization
                                                                  by writing to TNS_TDMA_NB_CONFIG[AUTO_INIT]. */
 		uint64_t reserved_0_50               : 51;
 #else
@@ -5855,7 +5913,8 @@ typedef union bdk_tns_tdma_nb_strip_nic_xphx {
 	uint64_t u;
 	struct bdk_tns_tdma_nb_strip_nic_xphx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t chan                        : 64; /**< R/W - Strip XPH packet header (if present) before sending packets to NIC. */
+		uint64_t chan                        : 64; /**< R/W - Strip and discard the 24-byte internal XPH packet header (if present) from packets during
+                                                                 transmission to the NIC. */
 #else
 		uint64_t chan                        : 64;
 #endif
@@ -5886,9 +5945,12 @@ typedef union bdk_tns_tdma_nb_truncatex_len {
 	struct bdk_tns_tdma_nb_truncatex_len_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
-		uint64_t length                      : 9;  /**< R/W - For designated packets, truncate packet after the specified length.
+		uint64_t length                      : 9;  /**< R/W - For designated packets, truncate packet to the specified length.
                                                                  Valid values are 0 through 256 (decimal).
-                                                                 No truncate will occur if set to 0x0. */
+                                                                 A value in this field larger than 256 will be interpreted as 256.
+                                                                 No truncate will occur if set to 0x0.
+                                                                 The truncate length applies to the bytes which are after the packet's
+                                                                 24-byte XPH header, if present. */
 #else
 		uint64_t length                      : 9;
 		uint64_t reserved_9_63               : 55;
@@ -6065,12 +6127,12 @@ typedef union bdk_tns_tdma_sst_acc_cmd {
 		uint64_t go                          : 1;  /**< R/W/H - Perform read or write command. This bit is self-clearing upon request completion. */
 		uint64_t op                          : 1;  /**< R/W - Operation type. 0 = Write. 1 = Read. */
 		uint64_t size                        : 4;  /**< R/W - Transaction size, quantities of 32-bit words.
-                                                                 0x0 = 16 bytes.
+                                                                 0x0 = 16 words.
                                                                  0x1 = 1 word.
                                                                  0x2 = 2 words.
                                                                  0x3 = 3 words.
                                                                  0xf = 15 words. */
-		uint64_t addr                        : 30; /**< R/W - Address. */
+		uint64_t addr                        : 30; /**< R/W - 4-byte aligned address. */
 		uint64_t reserved_0_1                : 2;
 #else
 		uint64_t reserved_0_1                : 2;
@@ -6165,6 +6227,9 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_STAT_FUNC(void)
 
 /**
  * NCB - tns_tdma_sst_acc_wdat#
+ *
+ * Write data used during a write requests issued using TNS_TDMA_SST_ACC_CMD.
+ * The first data word is located at [31:0] of TNS_TDMA_SST_ACC_WDAT[0].
  */
 typedef union bdk_tns_tdma_sst_acc_wdatx {
 	uint64_t u;

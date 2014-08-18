@@ -524,7 +524,7 @@ typedef union bdk_gpio_clk_syncex {
 		uint64_t reserved_12_63              : 52;
 		uint64_t qlm_sel                     : 4;  /**< R/W - Selects which QLM(0..7) to select from. */
 		uint64_t reserved_4_7                : 4;
-		uint64_t div                         : 2;  /**< R/W - GPIO internal clock divider setting relative to QLM SERDES CLOCK_SYNCE. The maximum
+		uint64_t div                         : 2;  /**< R/W - GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
                                                                  supported GPIO output frequency is 125 MHz.
                                                                  0x0 = Divide by 20.
                                                                  0x1 = Divide by 40.
@@ -917,7 +917,7 @@ typedef union bdk_gpio_multi_cast {
 		uint64_t reserved_1_63               : 63;
 		uint64_t en                          : 1;  /**< R/W - Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
                                                                  mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
-                                                                 the GPIO to exist as per-cnMIPS interrupts as opposed to a global interrupt. */
+                                                                 the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
 #else
 		uint64_t en                          : 1;
 		uint64_t reserved_1_63               : 63;
