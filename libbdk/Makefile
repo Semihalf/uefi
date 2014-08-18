@@ -12,6 +12,7 @@ dirs += libbdk-dram
 dirs += liblua
 dirs += libbdk-lua
 dirs += libdram
+dirs += libdram/configs
 
 #
 # Create a list of all source files

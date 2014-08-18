@@ -11,19 +11,18 @@
 #include "../libdram/libdram.h"
 
 /**
- * Given a DRAM configuration, configure the hardware to match.
- * Note that a copy of the configuration is made, so the caller
- * may dispose of the structure after the call.
+ * Lookup a DRAM configuration by name and intialize dram with it
  *
- * @param node       Node to configure
- * @param ddr_config DRAM config structure
- * @param ddr_clock_hertz
- *                   DRAM frequency in hertz
+ * @param node   Node to configure
+ * @param config_name
+ *               Name of the configuration to use
+ * @param ddr_clock_override
+ *               If non zero, override the DRAM frequency specified in the config with
+ *               this value
  *
  * @return Amount of DRAM in MB, or negative on failure
  */
-
-extern int bdk_dram_config(int node, const ddr_configuration_t *ddr_config, int ddr_clock_hertz);
+extern int bdk_dram_config(int node, const char *config_name, int ddr_clock_override);
 
 /**
  * Get the amount of DRAM configured for a node. This is read from the LMC

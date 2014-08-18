@@ -67,9 +67,9 @@ for _,board in ipairs(BOARD_CHOICES) do
         if cavium.is_model(cavium.CN88XX) then
             node = menu.prompt_number("Node to initialize", node, 0, 3)
         end
-        local ddr_clock_hz = 533000000
-        ddr_clock_hz = menu.prompt_number("DRAM clock Hertz", ddr_clock_hz)
-        local dram_mbytes = cavium.c.bdk_dram_config_by_name(node, board, ddr_clock_hertz)
+        local ddr_clock_hertz = 0
+        ddr_clock_hertz = menu.prompt_number("DRAM clock Hertz, zero for default", ddr_clock_hertz)
+        local dram_mbytes = cavium.c.bdk_dram_config(node, board, ddr_clock_hertz)
     end)
 end
 

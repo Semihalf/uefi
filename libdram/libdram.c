@@ -1,9 +1,12 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-int libdram_config(int node, const ddr_configuration_t *ddr_config, int ddr_clock_hertz)
+int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override)
 {
-    BDK_TRACE("N%d: DRAM init thread started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, ddr_config_table);
+    const ddr_configuration_t *ddr_config = dram_config->config;
+    int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
+
+    BDK_TRACE("N%d: DRAM init thread started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, dram_config);
 
     /* We need to calculate the interface mask based on the provided SPD
        addresses/contents */

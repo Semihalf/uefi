@@ -220,6 +220,12 @@ typedef struct {
     ddr3_custom_config_t custom_lmc_config;
 } ddr_configuration_t;
 
-extern int libdram_config(int node, const ddr_configuration_t *ddr_config, int ddr_clock_hertz);
+typedef struct {
+    const char *name;
+    ddr_configuration_t config[4];
+    int ddr_clock_hertz;
+} dram_config_t;
+
+extern int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override);
 
 #endif  /* __LIBDRAM_CONFIG_H__ */
