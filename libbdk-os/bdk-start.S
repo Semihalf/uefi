@@ -77,7 +77,9 @@ after_relocate:
     /* Lock the stack in case other cores boot */
     adr     x0, __bdk_initial_stack
     mov     x2, 1
+    sevl
 1:  ldxr    x1, [x0]
+    wfe
     cbnz    x1, 1b
     stxr    w1, x2, [x0]
     cbnz    w1, 1b
