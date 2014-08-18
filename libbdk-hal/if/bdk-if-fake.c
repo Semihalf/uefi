@@ -121,9 +121,10 @@ static int if_receive(bdk_if_handle_t handle)
 
     /* Quickly check for empty before taking the lock */
     if (bdk_likely(priv->next_rx == priv->tx_free))
-        return -1;
+        return 0;
 
-    bdk_spinlock_lock(&priv->lock);
+    if (bdk_spinlock_trylock(&priv->lock))
+        return 0;
 
     int count = 0;
     while (priv->next_rx != priv->tx_free)
