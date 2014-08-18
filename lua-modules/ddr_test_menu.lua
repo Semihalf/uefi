@@ -3,8 +3,6 @@
 require("strict")
 require("utils")
 require("menu")
-require("ddr")
-require("fileio")
 
 local range_repeat = 1
 local range_start = 0

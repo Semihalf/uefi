@@ -14,3 +14,18 @@ void bdk_setenv(const char *name, const char *value)
        unsetenv(name);
 }
 
+void bdk_showenv(void)
+{
+    if (!environ)
+    {
+        bdk_error("Environment not allocated\n");
+        return;
+    }
+
+    char **ptr = environ;
+    while (*ptr)
+    {
+        printf("    %s\n", *ptr);
+        ptr++;
+    }
+}
