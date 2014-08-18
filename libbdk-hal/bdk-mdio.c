@@ -21,7 +21,7 @@ void bdk_mdio_initialize(bdk_node_t node)
     if (bdk_is_simulation())
         return;
 
-    int num_mdio = 4;
+    int num_mdio = 2;
 
     for (int i=0; i<num_mdio; i++)
     {
