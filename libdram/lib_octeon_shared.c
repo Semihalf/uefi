@@ -1166,7 +1166,7 @@ int octeon_ddr_initialize(bdk_node_t node,
 	char *eptr;
 	int retval;
 	int interface_index;
-	uint32_t ddr_max_speed = 667000000;
+	uint32_t ddr_max_speed = 1066000000;
 	uint32_t calc_ddr_hertz = -1;
 
 #ifndef OCTEON_SDK_VERSION_STRING
