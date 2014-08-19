@@ -89,8 +89,12 @@ retry:
     }
 
     BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u);
-    while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
-        bdk_wait_usec(1);
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), v, ==, 0, 10000))
+    {
+        bdk_error("TWSI%d: Timeout waiting for operation to complete\n", twsi_id);
+        return -1;
+    }
+    sw_twsi_val.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id));
     if (!sw_twsi_val.s.r)
     {
         /* Check the reason for the failure.  We may need to retry to handle multi-master
@@ -171,8 +175,11 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
 
     BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI_EXT(twsi_id), twsi_ext.u);
     BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u);
-    while (((bdk_mio_twsx_sw_twsi_t)(sw_twsi_val.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id)))).s.v)
-        ;
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), v, ==, 0, 10000))
+    {
+        bdk_error("TWSI%d: Timeout waiting for operation to complete\n", twsi_id);
+        return -1;
+    }
 
     /* Poll until reads succeed, or polling times out */
     to = 100;

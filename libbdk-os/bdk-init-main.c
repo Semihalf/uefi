@@ -43,7 +43,7 @@ static void __bdk_init_local_node(void)
         bdk_pcie_global_initialize(node);
     if (BDK_IS_REQUIRED(QLM))
         bdk_qlm_init(node);
-    if (BDK_IS_REQUIRED(TWSI) && !bdk_is_simulation())
+    if (BDK_IS_REQUIRED(TWSI))
         bdk_twsix_initialize(node);
     bdk_mdio_initialize(node);
 

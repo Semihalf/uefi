@@ -58,7 +58,7 @@ end
 local m = menu.new("TWSI Menu")
 
 -- Build a list of TWSI busses
-local twsi_busses = 2
+local twsi_busses = 6
 for bus = 0, twsi_busses-1 do
     m:item("bus" .. bus, "TWSI bus " .. bus, twsi_submenu, bus)
 end
