@@ -1207,7 +1207,7 @@ int octeon_ddr_initialize(bdk_node_t node,
             if ((s = lookup_env_parameter("early_fill_count")) != NULL)
                 l2c_ctl.s.rdf_cnt = strtoul(s, NULL, 0);
 
-            ddr_print("%-45s : %d, cpu_hertz:%d, ddr_hertz:%d\n", "EARLY FILL COUNT  ",
+            ddr_print("%-45s : %d, cpu_hertz:%u, ddr_hertz:%u\n", "EARLY FILL COUNT  ",
                       l2c_ctl.s.rdf_cnt, cpu_hertz, ddr_hertz);
 	    DRAM_CSR_WRITE(node, BDK_L2C_CTL, l2c_ctl.u);
 	}
