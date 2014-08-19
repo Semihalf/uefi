@@ -212,7 +212,7 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 	*mstartp = mstart;
 	*widthp = width;
 
-	debug_bitmask_print("bm:%05llx mask:%2x, width:%2d, mstart:%2d, fb:%2d, lb:%2d"
+	debug_bitmask_print("bm:%05lx mask:%2x, width:%2d, mstart:%2d, fb:%2d, lb:%2d"
 			    " (bu:%d, tb:%d, bl:%d, n:%d, t:%d) errors:%3d ",
 			    (unsigned long long) bitmask, mask, width, mstart,
 			    firstbit, lastbit, bubble, tbubble, blank, narrow,
@@ -518,7 +518,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
     char sbuffer[50];
 
     rank_addr = (ddr_interface_num<<7); /* Map address into proper interface */
-    ddr_print("Rank Address: 0x%llx\n", rank_addr);
+    ddr_print("Rank Address: 0x%lx\n", rank_addr);
 
     for (byte_offset=-31; byte_offset<32; ++byte_offset) {
         int i;
@@ -1091,7 +1091,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (CL < min_cas_latency) {
         ulong adjusted_tclk = tAAmin / min_cas_latency;
         CL = min_cas_latency;
-        ddr_print("Slow clock speed. Adjusting timing: tClk = %d, Adjusted tClk = %d\n",
+        ddr_print("Slow clock speed. Adjusting timing: tClk = %lu, Adjusted tClk = %lu\n",
                   tclk_psecs, adjusted_tclk);
         tclk_psecs = adjusted_tclk;
     }
@@ -1142,8 +1142,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     tfaw            = spd_tfaw * mtb_psec;
 
 
-    ddr_print("DDR Clock Rate (tCLK)                         : %6d ps\n", tclk_psecs);
-    ddr_print("Core Clock Rate (eCLK)                        : %6d ps\n", eclk_psecs);
+    ddr_print("DDR Clock Rate (tCLK)                         : %6lu ps\n", tclk_psecs);
+    ddr_print("Core Clock Rate (eCLK)                        : %6lu ps\n", eclk_psecs);
     ddr_print("Medium Timebase (MTB)                         : %6d ps\n", mtb_psec);
     ddr_print("Minimum Cycle Time (tCKmin)                   : %6d ps\n", tCKmin);
     ddr_print("Minimum CAS Latency Time (tAAmin)             : %6d ps\n", tAAmin);
@@ -1202,7 +1202,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_scramble_cfg0.u    = strtoull(s, NULL, 0);
             lmc_control.s.scramble_ena = 1;
         }
-        ddr_print("%-45s : 0x%016llx\n", "LMC_SCRAMBLE_CFG0", lmc_scramble_cfg0.u);
+        ddr_print("%-45s : 0x%016lx\n", "LMC_SCRAMBLE_CFG0", lmc_scramble_cfg0.u);
 
         DRAM_CSR_WRITE(node, BDK_LMCX_SCRAMBLE_CFG0(0), lmc_scramble_cfg0.u);
 
@@ -1210,7 +1210,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_scramble_cfg1.u    = strtoull(s, NULL, 0);
             lmc_control.s.scramble_ena = 1;
         }
-        ddr_print("%-45s : 0x%016llx\n", "LMC_SCRAMBLE_CFG1", lmc_scramble_cfg1.u);
+        ddr_print("%-45s : 0x%016lx\n", "LMC_SCRAMBLE_CFG1", lmc_scramble_cfg1.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_SCRAMBLE_CFG1(0), lmc_scramble_cfg1.u);
 
         DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(0), lmc_control.u);
@@ -1329,7 +1329,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if ((s = lookup_env_parameter_ull("ddr_config")) != NULL) {
             lmcx_config.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("LMC_CONFIG                                    : 0x%016llx\n", lmcx_config.u);
+        ddr_print("LMC_CONFIG                                    : 0x%016lx\n", lmcx_config.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmcx_config.u);
     }
 
@@ -1398,7 +1398,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if ((s = lookup_env_parameter_ull("ddr_control")) != NULL) {
             lmc_control.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("LMC_CONTROL                                   : 0x%016llx\n", lmc_control.u);
+        ddr_print("LMC_CONTROL                                   : 0x%016lx\n", lmc_control.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
     }
 
@@ -1424,7 +1424,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if ((s = lookup_env_parameter_ull("ddr_timing_params0")) != NULL) {
             lmc_timing_params0.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("TIMING_PARAMS0                                : 0x%016llx\n", lmc_timing_params0.u);
+        ddr_print("TIMING_PARAMS0                                : 0x%016lx\n", lmc_timing_params0.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS0(ddr_interface_num), lmc_timing_params0.u);
     }
 
@@ -1462,7 +1462,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if ((s = lookup_env_parameter_ull("ddr_timing_params1")) != NULL) {
             lmc_timing_params1.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("TIMING_PARAMS1                                : 0x%016llx\n", lmc_timing_params1.u);
+        ddr_print("TIMING_PARAMS1                                : 0x%016lx\n", lmc_timing_params1.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS1(ddr_interface_num), lmc_timing_params1.u);
     }
 
@@ -1578,7 +1578,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if ((s = lookup_env_parameter_ull("ddr_modereg_params0")) != NULL) {
             lmc_modereg_params0.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("MODEREG_PARAMS0                               : 0x%016llx\n", lmc_modereg_params0.u);
+        ddr_print("MODEREG_PARAMS0                               : 0x%016lx\n", lmc_modereg_params0.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
     }
 
@@ -1724,7 +1724,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   lmc_modereg_params1.s.dic_01,
                   lmc_modereg_params1.s.dic_00);
 
-        ddr_print("MODEREG_PARAMS1                               : 0x%016llx\n", lmc_modereg_params1.u);
+        ddr_print("MODEREG_PARAMS1                               : 0x%016lx\n", lmc_modereg_params1.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
     }
 
@@ -1748,7 +1748,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
        if ((s = lookup_env_parameter_ull("ddr_nxm")) != NULL) {
             lmc_nxm.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("LMC_NXM                                       : 0x%016llx\n", lmc_nxm.u);
+        ddr_print("LMC_NXM                                       : 0x%016lx\n", lmc_nxm.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_NXM(ddr_interface_num), lmc_nxm.u);
     }
 
@@ -1761,7 +1761,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_wodt_mask.u    = strtoull(s, NULL, 0);
         }
 
-        ddr_print("WODT_MASK                                     : 0x%016llx\n", lmc_wodt_mask.u);
+        ddr_print("WODT_MASK                                     : 0x%016lx\n", lmc_wodt_mask.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_WODT_MASK(ddr_interface_num), lmc_wodt_mask.u);
     }
 
@@ -1775,7 +1775,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_rodt_mask.u    = strtoull(s, NULL, 0);
         }
 
-        ddr_print("%-45s : 0x%016llx\n", "RODT_MASK", lmc_rodt_mask.u);
+        ddr_print("%-45s : 0x%016lx\n", "RODT_MASK", lmc_rodt_mask.u);
        DRAM_CSR_WRITE(node, BDK_LMCX_RODT_MASK(ddr_interface_num), lmc_rodt_mask.u);
 
         dyn_rtt_nom_mask = 0;
@@ -1849,7 +1849,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_phy_ctl.u    = strtoull(s, NULL, 0);
         }
 
-        ddr_print("PHY_CTL                                       : 0x%016llx\n", lmc_phy_ctl.u);
+        ddr_print("PHY_CTL                                       : 0x%016lx\n", lmc_phy_ctl.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(ddr_interface_num), lmc_phy_ctl.u);
     }
 
@@ -2005,7 +2005,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_dimm_ctl.s.tcws = strtoul(s, NULL, 0);
         }
 
-        ddr_print("DIMM%d DIMM_CTL                                : 0x%016llx\n", dimm, lmc_dimm_ctl.u);
+        ddr_print("DIMM%d DIMM_CTL                                : 0x%016lx\n", dimm, lmc_dimm_ctl.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_DIMM_CTL(ddr_interface_num), lmc_dimm_ctl.u);
     }
     } else {
@@ -2035,7 +2035,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_phy_ctl_t lmc_phy_ctl;
         lmc_phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
         lmc_phy_ctl.s.dac_on = 1;
-        ddr_print("PHY_CTL                                       : 0x%016llx\n", lmc_phy_ctl.u);
+        ddr_print("PHY_CTL                                       : 0x%016lx\n", lmc_phy_ctl.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(ddr_interface_num), lmc_phy_ctl.u);
     }
 
@@ -2105,7 +2105,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ext_config.s.read_ena_bprch = 1;
         ext_config.s.read_ena_fprch = 1;
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
-        ddr_print("%-45s : 0x%016llx\n", "EXT_CONFIG", ext_config.u);
+        ddr_print("%-45s : 0x%016lx\n", "EXT_CONFIG", ext_config.u);
     }
 
     /*
@@ -2328,7 +2328,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       wlevel_bitmask[0]
                       );
 
-            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                       rankx,
                       lmc_wlevel_rank.s.status,
                       lmc_wlevel_rank.u,
@@ -2352,7 +2352,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                            roundup_ddr3_wlevel_bitmask(wlevel_bitmask[byte_idx]));
                 }
                 DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
-                ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+                ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                           rankx,
                           lmc_wlevel_rank.s.status,
                           lmc_wlevel_rank.u,
@@ -2542,7 +2542,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 * tclk_psecs * 100 * 512 * 128) / (10000*10000)
                 + 10 * ((uint64_t)32 * tclk_psecs * 100 * 512 * 128) / (10000*10000);
 
-            ddr_print ("Waiting %d usecs for ZQCS calibrations to start\n",
+            ddr_print ("Waiting %lu usecs for ZQCS calibrations to start\n",
                          temp_delay_usecs);
             bdk_wait_usec(temp_delay_usecs);
 
@@ -2633,7 +2633,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             ddr_rlevel_compute = strtoul(s, NULL, 0);
         }
 
-        ddr_print("RLEVEL_CTL                                    : 0x%016llx\n", rlevel_ctl.u);
+        ddr_print("RLEVEL_CTL                                    : 0x%016lx\n", rlevel_ctl.u);
         ddr_print("RLEVEL_OFFSET                                 : %6d\n", rlevel_ctl.s.offset);
         ddr_print("RLEVEL_OFFSET_EN                              : %6d\n", rlevel_ctl.s.offset_en);
 
@@ -2849,7 +2849,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             }
                         }
 
-                        ddr_print("Rank(%d) Rlevel Debug Test Results  8:0        : %05llx %05llx %05llx %05llx %05llx %05llx %05llx %05llx %05llx\n",
+                        ddr_print("Rank(%d) Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
                                   rankx,
                                   rlevel_bitmask[8].bm,
                                   rlevel_bitmask[7].bm,
@@ -2862,7 +2862,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                   rlevel_bitmask[0].bm
                                   );
 
-                        ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
+                        ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
                                   rankx,
                                   lmc_rlevel_rank.s.status,
                                   lmc_rlevel_rank.u,
@@ -2987,7 +2987,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_rlevel_rank.s.byte0 = rlevel_byte[0].delay;
 
                 if (rlevel_avg_loops > 1) {
-                    ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d) Average\n\n",
+                    ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d) Average\n\n",
                               rankx,
                               lmc_rlevel_rank.s.status,
                               lmc_rlevel_rank.u,
@@ -3188,7 +3188,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 }
                 DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num), lmc_rlevel_rank.u);
                 lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
-                ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
+                ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
                           rankx,
                           lmc_rlevel_rank.s.status,
                           lmc_rlevel_rank.u,
@@ -3277,7 +3277,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num), lmc_rlevel_rank.u);
                 lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
 
-                ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+                ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                           rankx,
                           lmc_rlevel_rank.s.status,
                           lmc_rlevel_rank.u,
@@ -3375,7 +3375,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
 
                 rank_addr = bdk_numa_get_address(node, rank_addr);
-                debug_print("Rank Address: 0x%llx\n", rank_addr);
+                debug_print("Rank Address: 0x%lx\n", rank_addr);
 
                 for (byte=0; byte<8; ++byte) {
                     uint64_t byte_bitmask = 0xff;
@@ -3396,7 +3396,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
 
                         if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
-                            debug_print("        byte %d(0x%llx) delay %2d Passed\n", byte, rank_addr, delay);
+                            debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
                             byte_test_status[byte] = WL_HARDWARE;
                             break;
                         } else {
@@ -3469,7 +3469,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
 
                     rank_addr = bdk_numa_get_address(node, rank_addr);
-                    debug_print("Rank Address: 0x%llx\n", rank_addr);
+                    debug_print("Rank Address: 0x%lx\n", rank_addr);
 
                     for (wl_offset = sw_wlevel_offset; wl_offset >= 0; --wl_offset) {
                     //for (delay=30; delay>=0; delay-=2) { /* Top-Down */
@@ -3482,7 +3482,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
                             ++passed;
                             if (passed == (1+wl_offset)) { /* Look for consecutive working settings */
-                                debug_print("        byte %d(0x%llx) delay %2d Passed\n", byte, rank_addr, delay);
+                                debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
                                 if (wl_offset == 1) {
                                     byte_test_status[byte] = WL_SOFTWARE;
                                 } else if (wl_offset == 0) {
@@ -3531,7 +3531,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
 
-            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016llX : %5d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
+            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
                       rankx,
                       lmc_wlevel_rank.s.status,
                       lmc_wlevel_rank.u,
@@ -3578,7 +3578,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
                 lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
 
-                ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016llX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+                ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                           rankx,
                           lmc_wlevel_rank.s.status,
                           lmc_wlevel_rank.u,
@@ -3632,7 +3632,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
             ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 	    setting[i] = GET_DDR_DLL_CTL3(dll90_setting);
-            debug_print("%d. LMC%d_DLL_CTL3[%d] = %016llx %d\n", i, ddr_interface_num,
+            debug_print("%d. LMC%d_DLL_CTL3[%d] = %016lx %d\n", i, ddr_interface_num,
                       GET_DDR_DLL_CTL3(dll90_byte_sel), ddr_dll_ctl3.u, setting[i]);
         }
 

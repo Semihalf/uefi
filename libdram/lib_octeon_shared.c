@@ -580,7 +580,7 @@ int initialize_ddr_clock(bdk_node_t node,
                             if (clkf > max_clkf) continue; /* PLL requires clkf to be limited */
                             if (_abs(error) > _abs(best_error)) continue;
 
-                            ddr_print("clkr: %2llu, en[%d]: %2d, clkf: %4llu, pll_MHz: %4llu, ddr_hertz: %8llu, error: %8lld\n",
+                            ddr_print("clkr: %2lu, en[%d]: %2d, clkf: %4lu, pll_MHz: %4lu, ddr_hertz: %8lu, error: %8ld\n",
                                       clkr, save_en_idx, _en[save_en_idx], clkf, pll_MHz, calculated_ddr_hertz, error);
 
                             /* Favor the highest PLL frequency. */
@@ -616,7 +616,7 @@ int initialize_ddr_clock(bdk_node_t node,
                         best_error = ddr_hertz - calculated_ddr_hertz;
                     }
 
-                    ddr_print("clkr: %2llu, en[%d]: %2d, clkf: %4llu, pll_MHz: %4llu, ddr_hertz: %8llu, error: %8lld <==\n",
+                    ddr_print("clkr: %2lu, en[%d]: %2d, clkf: %4lu, pll_MHz: %4lu, ddr_hertz: %8lu, error: %8ld <==\n",
                               best_clkr, best_en_idx, _en[best_en_idx], best_clkf, best_pll_MHz,
                               best_calculated_ddr_hertz, best_error);
 
@@ -1139,7 +1139,7 @@ uint32_t measure_octeon_ddr_clock(bdk_node_t node,
         /* Asim doesn't have a DDR clock, force the measurement to be correct  */
         if (bdk_is_simulation())
             calc_ddr_hertz = ddr_hertz;
-	ddr_print("LMC%d: Measured DDR clock: %d, cpu clock: %u, ddr clocks: %llu\n",
+	ddr_print("LMC%d: Measured DDR clock: %lu, cpu clock: %u, ddr clocks: %lu\n",
 		  ddr_interface_num, calc_ddr_hertz, cpu_hertz, ddr_clocks);
 
 	/* Check for unreasonable settings. */
