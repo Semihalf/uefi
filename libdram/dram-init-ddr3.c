@@ -3374,9 +3374,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
                 rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
 
-                /* Adjust address for boot bus hole in memory map. */
-                if (rank_addr > 0x10000000)
-                    rank_addr += 0x10000000;
                 rank_addr = bdk_numa_get_address(node, rank_addr);
                 debug_print("Rank Address: 0x%llx\n", rank_addr);
 
@@ -3471,9 +3468,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
                     rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
 
-                    /* Adjust address for boot bus hole in memory map. */
-                    if (rank_addr > 0x10000000)
-                        rank_addr += 0x10000000;
                     rank_addr = bdk_numa_get_address(node, rank_addr);
                     debug_print("Rank Address: 0x%llx\n", rank_addr);
 
