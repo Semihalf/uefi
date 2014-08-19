@@ -101,7 +101,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
     spd_addr = dimm_config->spd_addrs[dimm_index];
 
     if (dram_is_verbose())
-        printf("Validating dimm %d, spd ptr: 0x%p\n", dimm_index,
+        printf("Validating dimm %d, spd ptr: %p\n", dimm_index,
             dimm_config->spd_ptrs[dimm_index]);
     /* Only validate 'real' dimms, assume compiled in values are OK */
     if (!dimm_config->spd_ptrs[dimm_index])
