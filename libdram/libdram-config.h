@@ -42,7 +42,7 @@
 ** or a pointer to an array that contains SPD data.  One of the two fields must be valid. */
 typedef struct {
     uint16_t spd_addrs[2];  /* TWSI address of SPD, 0 if not used */
-    uint8_t *spd_ptrs[2];   /* pointer to SPD data array, NULL if not used */
+    const uint8_t *spd_ptrs[2];   /* pointer to SPD data array, NULL if not used */
 } dimm_config_t;
 
 typedef struct {
