@@ -10,11 +10,15 @@ if cavium.global then
     getenv = cavium.global.os.getenv
 end
 
--- List of board strings that can be passed to ddr.set_config()
-local BOARD_CHOICES = {
-    "ebb8800",
-    "ebb8800_cfg1",
-}
+-- List of config strings that can be passed to bdk_dram_config()
+local CONFIG_CHOICES = {}
+for i=1,10 do
+    local name = cavium.c.bdk_dram_get_config_name(i-1)
+    if not name then
+        break
+    end
+    CONFIG_CHOICES[i] = name
+end
 
 local m = menu.new("DRAM Menu")
 
@@ -59,17 +63,17 @@ m:item("showenv", "Show environment variables", function()
     cavium.c.bdk_showenv()
 end)
 
--- Build a list of choice for each board
-for _,board in ipairs(BOARD_CHOICES) do
-    local text = "Initialize DRAM using config \"%s\"" % board
-    m:item(board, text, function()
+-- Build a list of choice for each CONFIG
+for _,name in ipairs(CONFIG_CHOICES) do
+    local text = "Initialize DRAM using config \"%s\"" % name
+    m:item(name, text, function()
         local node = cavium.MASTER_NODE
         if cavium.is_model(cavium.CN88XX) then
             node = menu.prompt_number("Node to initialize", node, 0, 3)
         end
         local ddr_clock_hertz = 0
         ddr_clock_hertz = menu.prompt_number("DRAM clock Hertz, zero for default", ddr_clock_hertz)
-        local dram_mbytes = cavium.c.bdk_dram_config(node, board, ddr_clock_hertz)
+        local dram_mbytes = cavium.c.bdk_dram_config(node, name, ddr_clock_hertz)
     end)
 end
 

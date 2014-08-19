@@ -106,3 +106,20 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
     return mbytes;
 }
 
+/**
+ * Return the name of the DRAM configuration at the specified index. If index
+ * is larger than the number of DRAM configs, NULL is returned.
+ *
+ * @param index  Index to retrieve
+ *
+ * @return Name or NULL
+ */
+const char* bdk_dram_get_config_name(int index)
+{
+    /* The -1 is to account for the NULL at the end */
+    const int table_size = sizeof(dram_table) / sizeof(dram_table[0]) - 1;
+    if ((index < 0) || (index >= table_size))
+        return NULL;
+    else
+        return dram_table[index]()->name;
+}

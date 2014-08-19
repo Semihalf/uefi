@@ -34,6 +34,16 @@ extern int bdk_dram_config(int node, const char *config_name, int ddr_clock_over
  */
 extern uint64_t bdk_dram_get_size_mbytes(int node);
 
+/**
+ * Return the name of the DRAM configuration at the specified index. If index
+ * is larger than the number of DRAM configs, NULL is returned.
+ *
+ * @param index  Index to retrieve
+ *
+ * @return Name or NULL
+ */
+extern const char* bdk_dram_get_config_name(int index);
+
 extern int __bdk_dram_get_num_lmc();
 
 /** @} */
