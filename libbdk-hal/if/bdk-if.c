@@ -419,7 +419,7 @@ static void __bdk_if_link_poll()
         return;
 
     if (bdk_unlikely(poll_rate == 0))
-        poll_rate = bdk_is_simulation() ? 1000000 : bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 16;
+        poll_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 8;
 
     /* Poll the link state */
     next_poll = current_time + poll_rate;
