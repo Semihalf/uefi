@@ -577,7 +577,7 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
  *
  * @return 64bit IO address
  */
-static inline uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
+static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
     int ecam = 0;
 
