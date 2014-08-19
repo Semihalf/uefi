@@ -2,7 +2,7 @@
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
     if (dram_is_verbose())
-        dram_printf("DDR Config %s[%016lx] => %016lx\n", csr_name, address, value);
+        printf("DDR Config %s[%016lx] => %016lx\n", csr_name, address, value);
     bdk_csr_write(node, type, busnum, size, address, value);
 }
 
