@@ -13,7 +13,7 @@ int read_spd(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index, 
         return dimm_config->spd_ptrs[dimm_index][spd_field];
     else if (dimm_config->spd_addrs[dimm_index])
     {
-        int bus = dimm_config->spd_addrs[dimm_index] >> 8;
+        int bus = dimm_config->spd_addrs[dimm_index] >> 12;
         int address = dimm_config->spd_addrs[dimm_index] & 0x7f;
         return bdk_twsix_read_ia(node, bus, address, spd_field, 1, 1);
     }
@@ -47,7 +47,7 @@ static int validate_spd_checksum_ddr3(bdk_node_t node, int twsi_addr, int silent
     int rv;
     for (i = 0; i < 128; i++)
     {
-        rv = bdk_twsix_read_ia(node, twsi_addr >> 8, twsi_addr & 0x7f, i, 1, 1);
+        rv = bdk_twsix_read_ia(node, twsi_addr >> 12, twsi_addr & 0x7f, i, 1, 1);
         if (rv < 0)
             return 0;   /* TWSI read error */
         spd_data[i] = (uint8_t)rv;
@@ -80,7 +80,7 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
         printf("Validating DIMM at address 0x%x\n", twsi_addr);
 
     /* Look up module type to determine if DDR2 or DDR3 */
-    rv = bdk_twsix_read_ia(node, twsi_addr >> 8, twsi_addr & 0x7f, 2, 1, 1);
+    rv = bdk_twsix_read_ia(node, twsi_addr >> 12, twsi_addr & 0x7f, 2, 1, 1);
     if (rv < 0)
         return 0;   /* TWSI read error */
     if (rv >= 0x8 && rv <= 0xA)
