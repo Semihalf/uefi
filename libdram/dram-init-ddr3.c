@@ -670,7 +670,7 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
         do {
             bdk_wait_usec(10); /* Wait a while */
             seq_ctl.u = BDK_CSR_READ(node, BDK_LMCX_SEQ_CTL(ddr_interface_num));
-        } while (seq_ctl.s.seq_complete != 1);
+        } while ((seq_ctl.s.seq_complete != 1) && !bdk_is_simulation());
 }
 
 int init_octeon3_ddr3_interface(bdk_node_t node,
@@ -2308,7 +2308,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                 do {
                     lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
-                } while (lmc_wlevel_rank.s.status != 3);
+                } while ((lmc_wlevel_rank.s.status != 3) && !bdk_is_simulation());
 
                 wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
                 if (wlevel_bitmask[passx] == 0)
@@ -2776,7 +2776,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                     do {
                         lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
-                    } while (lmc_rlevel_rank.s.status != 3);
+                    } while ((lmc_rlevel_rank.s.status != 3) && !bdk_is_simulation());
 
                     {
                         struct {
