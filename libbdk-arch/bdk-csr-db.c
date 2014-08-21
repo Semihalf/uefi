@@ -357,6 +357,14 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
             /* Make sure the current param is valid */
             if (__bdk_csr_check_range(db->range[p], params[p], &next))
                 return -1;
+            /* Special check alert. CN88XX TNS block has two registers that
+               read/write the packet memory. These have huge address ranges, so
+               only return index 0 for these */
+            {
+                const char *name = __bdk_csr_db_string + db->name_index * 2;
+                if (strncmp(name, "TNS_PM_", 7) == 0)
+                    next = -1;
+            }
             /* If there isn't a next, we may need to increment the next param */
             if (next == -1)
             {
