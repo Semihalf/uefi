@@ -4,17 +4,22 @@ import os
 import sys
 import binascii
 import struct
+import time
 
-BOOTLOADER_HEADER_MAGIC = "BOOT"
-BOOTLOADER_HEADER_COMMENT_LEN = 64
-BOOTLOADER_HEADER_VERSION_LEN = 64
-BOOTLOADER_HEADER_SIZE = 0xc0
-BOOTLOADER_HEADER_MAX_SIZE = 0x200
+# BDK image heade for Thunder is
+#   Offset  Size    Description
+#   0x00    4       Raw instruction for skipping header
+#   0x04    4       Length of the image, includes header
+#   0x08    8       Magic string "THUNDERX"
+#   0x10    4       CRC32 of image + header. These bytes are zero when calculating the CRC
+#   0x14    4       Zero, reserved for future use
+#   0x18    64      ASCII Image name. Must always end in zero
+#   0x58    32      ASCII Version. Must always end in zero
+#   0x78    136     Zero, reserved for future use
+#   0x100   -       Beginning of image. Header is always 256 bytes.
 
-BOOTLOADER_HEADER_CURRENT_MAJOR_REV = 1
-BOOTLOADER_HEADER_CURRENT_MINOR_REV = 2
-BOOTLOADER_HEADER_BOARD_GENERIC = 28
-BOOTLOADER_HEADER_IMAGE_TYPE = 3
+HEADER_MAGIC = "THUNDERX"
+HEADER_SIZE = 0x100
 
 def pack(width, data):
     if width == 1:
@@ -35,57 +40,42 @@ def load_file(filename):
     inf.close()
     return file
 
-def update_header(filename, data):
-    raw_instructions = data[0:8]
-    data = data[BOOTLOADER_HEADER_SIZE:]
-    # Header begins with two raw instructions for 8 bytes
-    header = raw_instructions
-    # Four bytes of magic number
-    header += BOOTLOADER_HEADER_MAGIC
-    # Header CRC - filled later
+def update_header(filename, image_name, image_version, data):
+    # Save the 4 bytes at the front for the new header
+    raw_instruction = data[0:4]
+    # Remove the existing header
+    data = data[HEADER_SIZE:]
+    # Header begins with one raw instruction for 4 bytes
+    header = raw_instruction
+    # Total length
+    header += pack(4, HEADER_SIZE + len(data))
+    # Eight bytes of magic number
+    header += HEADER_MAGIC
+    # CRC - filled later
     header += pack(4, 0)
-    # Header length
-    header += pack(2, 0)
-    # Major revision
-    header += pack(2, BOOTLOADER_HEADER_CURRENT_MAJOR_REV)
-    # Minor revision
-    header += pack(2, BOOTLOADER_HEADER_CURRENT_MINOR_REV)
-    # Board Type
-    header += pack(2, BOOTLOADER_HEADER_BOARD_GENERIC)
-    # Data length
-    header += pack(4, len(data))
-    # Data CRC
-    header += pack(4, 0xffffffffL & binascii.crc32(data))
-    # Load virtual address
-    header += pack(8, 0xffffffffe0000000L)
-    # Flags
+    # Reserved 4 bytes
     header += pack(4, 0)
-    # Image type
-    header += pack(2, BOOTLOADER_HEADER_IMAGE_TYPE)
-    # Reserved0
-    header += pack(2, 0)
-    # Reserved1
-    header += pack(4, 0)
-    # Reserved2
-    header += pack(4, 0)
-    # Reserved3
-    header += pack(4, 0)
-    # Reserved4
-    header += pack(4, 0)
-    # Comment string
-    header += "".ljust(BOOTLOADER_HEADER_COMMENT_LEN).replace(" ", "\0")
-    # Version string
-    header += "".ljust(BOOTLOADER_HEADER_VERSION_LEN).replace(" ", "\0")
-    # Fix Header length
-    header = header[0:16] + pack(2, len(header)) + header[18:]
-    # Fix the Header CRC
-    header = header[0:12] + pack(4, 0xffffffffL & binascii.crc32(header[0:12]+header[16:])) + header[16:]
+    # 32 bytes of Name
+    name = image_name[0:63] # Truncate to 63 bytes, room for \0
+    header += name
+    header += "\0" * (64 - len(name))
+    # 16 bytes of Version
+    v = image_version[0:31] # Truncate to 31 bytes, room for \0
+    header += v
+    header += "\0" * (32 - len(v))
+    # Pad to header length
+    header += "\0" * (HEADER_SIZE - len(header))
+    # Make sure we're the right length
+    assert(len(header) == HEADER_SIZE)
+
+    # Combine the header and the data
+    data = header + data
+    # Fix the CRC
+    crc32 = 0xffffffffL & binascii.crc32(data)
+    data = data[0:16] + pack(4,crc32) + data[20:]
     # Write the new file
     fhandle = open(filename, "wb")
     # Write the header
-    fhandle.write(header)
-    # Rewrite the data
-    fhandle.seek(BOOTLOADER_HEADER_SIZE)
     fhandle.write(data)
     # Close, we're done
     fhandle.close()
@@ -132,5 +122,8 @@ for rom in rom_filenames:
     tmp += rom_file
     image_file += tmp
 
-update_header(out_filename, image_file)
+image_name = os.path.basename(out_filename)
+image_version = time.strftime("%Y-%m-%d %H:%M:%S")
+
+update_header(out_filename, image_name, image_version, image_file)
 

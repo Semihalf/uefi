@@ -6,17 +6,18 @@
 
     .section .init
 _start:
-    b   __bdk_start /* This is replaced with the header, so jump to __bdk_start */
-    .word 0     /* Header Magic     (4 bytes) */
-    .word 0     /* Header CRC       (4 bytes) */
-#define OFFSET_HEADER_LENGTH 16
-    .hword 0    /* Header length    (2 bytes) */
-    .hword 0    /* Header major rev (2 bytes) */
-    .hword 0    /* Header minor rev (2 bytes) */
-    .hword 0    /* Board type       (2 bytes) */
-#define OFFSET_DATA_LENGTH 24
-    .word 0     /* Data length      (4 bytes) */
-    .word 0     /* Data CRC         (4 bytes) */
+    b   __bdk_start
+    # BDK image heade for Thunder is
+    #   Offset  Size    Description
+    #   0x00    4       Raw instruction for skipping header (above)
+    #   0x04    4       Length of the image, includes header
+    #   0x08    8       Magic string "THUNDERX"
+    #   0x10    4       CRC32 of image + header. These bytes are zero when calculating the CRC
+    #   0x14    4       Zero, reserved for future use
+    #   0x18    64      ASCII Image name. Must always end in zero
+    #   0x58    32      ASCII Version. Must always end in zero
+    #   0x78    136     Zero, reserved for future use
+    #   0x100   -       Beginning of image. Header is always 256 bytes.
 
     #
     # This is our entry point. The processor starts fetching instructions here,
