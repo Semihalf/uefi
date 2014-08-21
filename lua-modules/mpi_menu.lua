@@ -11,7 +11,7 @@ local init_complete = false
 
 -- Use globals so menu remembers last choice
 local chip_select   = 0
-local addr_width    = 2     -- Default for EEPROM. Should be 3 for flash
+local addr_width    = 3     -- Assume 24bit address device
 local read_cmd      = 0x03  -- Matches EEPROM, not flash
 local write_cmd     = 0x02  -- Matches EEPROM, not flash
 local write_enable  = 0x06  -- Matches EEPROM, not flash
@@ -109,7 +109,7 @@ local function mpi_device()
     local wire = 2
     local idle = "h"
     local msb = true
-    local address_width = 16
+    local address_width = 24
     local freq = 10
     repeat
         m:item("cs", "Select chip select (CS%d)" % chip_sel,

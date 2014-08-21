@@ -73,8 +73,21 @@ static int mpi_read(__bdk_fs_file_t *handle, void *buffer, int length)
     const int chip_sel = (long)handle->fs_state & 0xff;
     const int address_width = (long)handle->fs_state >> 8;
 
-    bdk_mpi_transfer(node, chip_sel, 1, 1, CMD_READ, 0);
-    bdk_mpi_transfer(node, chip_sel, 1, address_width/8, handle->location, 0);
+    uint64_t tx_data;
+
+    BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
+    if (mpi_cfg.s.lsbfirst)
+    {
+        tx_data = handle->location << 8;
+        tx_data |= CMD_READ;
+    }
+    else
+    {
+        tx_data = handle->location & bdk_build_mask(address_width);
+        tx_data |= CMD_READ << address_width;
+    }
+
+    bdk_mpi_transfer(node, chip_sel, 1, 1 + address_width/8, tx_data, 0);
     int data_left = length;
     while (data_left)
     {
