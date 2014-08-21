@@ -396,7 +396,7 @@ typedef union bdk_iobnx_dis_ncbi_io {
 		uint64_t reserved_4_63               : 60;
 		uint64_t tlb_sync_dis                : 1;  /**< R/W - When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. */
-		uint64_t oci_key_only                : 1;  /**< R/W - Restrict CCPI-sourced I/O write requests.
+		uint64_t oci_key_only                : 1;  /**< RO - Restrict CCPI-sourced I/O write requests.
 
                                                                  0 = CCPI-sourced I/O read and write requests are allowed to any device through
                                                                  IOB, including allowing read/writes to all of KEY_MEM().
@@ -406,7 +406,9 @@ typedef union bdk_iobnx_dis_ncbi_io {
                                                                  (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
                                                                  ECAM0_NOP_ZF.
 
-                                                                 This setting does not affect local-node originated traffic. */
+                                                                 This setting does not affect local-node originated traffic.
+
+                                                                 In pass 1, read-only. */
 		uint64_t all_gic                     : 1;  /**< R/W - All-to-GIC. For diagnostic use only. INTERNAL:
                                                                    0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
                                                                  with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-

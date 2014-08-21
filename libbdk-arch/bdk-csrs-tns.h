@@ -341,7 +341,6 @@ static inline uint64_t BDK_TNS_BIST_STATUS11_FUNC(void)
  * BIST status.
  * INTERNAL:
  * All RDMA memories listed below are used only for non-bypass operation.
- * Bypass will still operate correctly if any of the memories below has a BIST failure.
  */
 typedef union bdk_tns_bist_status2 {
 	uint64_t u;
@@ -803,7 +802,7 @@ static inline uint64_t BDK_TNS_MSIX_VECX_CTL(unsigned long param1)
  *
  * Provides the ability for software to read the network switch packet memory.
  * The packet memory consists of 49,152 512-bit words.
- * Write access of the packet memory is provided elsewhere.
+ * Write access of the packet memory is provided by TNS_PM_WR_ACC.
  */
 typedef union bdk_tns_pm_rd_accx {
 	uint64_t u;
@@ -1407,16 +1406,6 @@ static inline uint64_t BDK_TNS_RDMA_ECO_FUNC(void)
 
 /**
  * NCB - tns_rdma_hdr_ts_cfg
- *
- * This register is used to indicate that all packets arriving on a LMAC port
- * are prepended with an 8-byte timestamp that must be extracted.
- * Timestamp bytes received from the BGX (if enabled) are not counted as part of the
- * header.
- * The extraction occurs blindly, assuming all packets have a timestamp.
- * Unpredictable behavior may occur if software changes the timestamp configuration
- * for a port while packets are being received.
- * Unpredictable behavior may occur if timestamp extraction is enabled and a packet
- * is received on the port without a prepended timestamp.
  */
 typedef union bdk_tns_rdma_hdr_ts_cfg {
 	uint64_t u;
@@ -1818,13 +1807,6 @@ static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1S_FUNC(void)
 
 /**
  * NCB - tns_rdma_lmac#_drop_cnt
- *
- * A packet received from BGX is immediately dropped if timestamp extraction
- * is enabled for the LMAC and the packet arriving at the TNS is not large enough
- * to contain a full 8-byte timestamp and at least 1-byte of packet data.
- * This register counts all packets dropped due to insufficient packet size when
- * timestamp extraction is enabled.
- * This counter rolls over.
  */
 typedef union bdk_tns_rdma_lmacx_drop_cnt {
 	uint64_t u;
@@ -2263,9 +2245,6 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECO_FUNC(void)
 
 /**
  * NCB - tns_rdma_nb_force_lmac#_bp
- *
- * Force XOFF back pressure for specific LMAC priorities as though the
- * LMAC was indicating back pressure.
  */
 typedef union bdk_tns_rdma_nb_force_lmacx_bp {
 	uint64_t u;
@@ -2302,9 +2281,6 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_LMACX_BP(unsigned long param1)
 
 /**
  * NCB - tns_rdma_nb_force_nic#_bp
- *
- * Force XOFF back pressure for specific NIC channels as though the
- * NIC was indicating back pressure.
  */
 typedef union bdk_tns_rdma_nb_force_nicx_bp {
 	uint64_t u;
@@ -2343,7 +2319,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long param1)
  * This register is used to designate the number of bytes which are considered part
  * of the packet header and will be extracted for processing.
  * Bytes received after the header are considered part of the body.
- * Timestamp bytes received from the BGX (if enabled) are not counted against the
+ * Timestamp bytes received from the LMAC (if enabled) are not counted against the
  * header size.
  * Unpredictable behavior will occur if software changes the header size configuration
  * for a port while packets are being received.
@@ -2875,12 +2851,6 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1S_FUNC(void)
 
 /**
  * NCB - tns_rdma_nb_lmac#_rpkt_sz
- *
- * Hardware will drop packets arriving from the LMAC if the size is
- * less than or equal to the programmed value.
- * The prepended timestamp (if present) is not counted when determining the
- * size of an arriving packet.
- * Dropped runt packets are counted.
  */
 typedef union bdk_tns_rdma_nb_lmacx_rpkt_sz {
 	uint64_t u;
@@ -2922,13 +2892,12 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long param1)
  * NCB - tns_rdma_nb_lmac_plut#
  *
  * Translates the arriving LMAC physical port number to an 8-bit logical port number.
- * Hardware will initialize this table upon direction by software to perform
- * auto-initialization.
  * Some physical to logical aliasing will occur as there are more physical
  * ports than the 8-bit logical port width allows:
  *   * 256 NIC channels
  *   * 8 LMAC ports
  *   * 1 Loopback port
+ * Use of logical port numbers 137 through 255 may result in unintended behavior.
  */
 typedef union bdk_tns_rdma_nb_lmac_plutx {
 	uint64_t u;
@@ -2963,13 +2932,12 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMAC_PLUTX(unsigned long param1)
  * NCB - tns_rdma_nb_loopback_plut
  *
  * Translates the arriving loopback physical port number to an 8-bit logical port number.
- * Hardware will initialize this table upon direction by software to perform
- * auto-initialization.
  * Some physical to logical aliasing will occur as there are more physical
  * ports than the 8-bit logical port width allows:
  *   * 256 NIC channels
  *   * 8 LMAC ports
  *   * 1 Loopback port
+ * Use of logical port numbers 137 through 255 may result in unintended behavior.
  */
 typedef union bdk_tns_rdma_nb_loopback_plut {
 	uint64_t u;
@@ -3009,8 +2977,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LOOPBACK_PLUT_FUNC(void)
  *   * TNS_LMAC_PLUT(0..7)
  *   * TNS_LOOPBACK_PLUT
  * Values have the meaning as defined in TNS_PHYS_PORT_E.
- * Hardware will initialize this table upon direction by software to perform
- * auto-initialization.
+ * Rows 137 through 255 are unused.
  */
 typedef union bdk_tns_rdma_nb_lp_plutx {
 	uint64_t u;
@@ -3075,13 +3042,12 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long param1)
  * NCB - tns_rdma_nb_nic_plut#
  *
  * Translates the arriving NIC channel to an 8-bit logical port number.
- * Hardware will initialize this table upon direction by software to perform
- * auto-initialization.
  * Some physical to logical aliasing will occur as there are more physical
  * ports than the 8-bit logical port width allows:
  *   * 256 NIC channels
  *   * 8 LMAC ports
  *   * 1 Loopback port
+ * Use of logical port numbers 137 through 255 may result in unintended behavior.
  */
 typedef union bdk_tns_rdma_nb_nic_plutx {
 	uint64_t u;
@@ -3114,10 +3080,6 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_PLUTX(unsigned long param1)
 
 /**
  * NCB - tns_rdma_nb_nici#_rpkt_sz
- *
- * Hardware will flag packets arriving from the NICI if the size is
- * less than or equal to the programmed value.
- * Marked runt packets are counted.
  */
 typedef union bdk_tns_rdma_nb_nicix_rpkt_sz {
 	uint64_t u;
@@ -3155,8 +3117,8 @@ static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long param1)
 /**
  * NCB - tns_rdma_nb_path_enable
  *
- * When 0x1, allows the RDMA to accept packets and return credits;
- * when 0x0, resets state and does not allow receiving of packets from the indicated port.
+ * When 1, allows the RDMA to accept packets and return credits;
+ * when 0, resets state and does not allow receiving of packets from the indicated port.
  */
 typedef union bdk_tns_rdma_nb_path_enable {
 	uint64_t u;
@@ -4633,15 +4595,6 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_OCC_FUNC(void)
 
 /**
  * NCB - tns_tdma_nb_dbg_lmac#_config1
- *
- * This register provides debug control of TDMA functionality.
- * Each LMAC path has 16 FIFOs for receiving tokens from the TxQ block
- * on a per-priority basis.
- * Each LMAC priority FIFO can store 8 tokens.
- * This value indicates the number of tokens at which point EBP XOFF for the priority
- * will be asserted to the TxQ.
- * The value includes tokens in the FIFO as well as the in-flight tokens
- * (schedule received but token not yet received).
  */
 typedef union bdk_tns_tdma_nb_dbg_lmacx_config1 {
 	uint64_t u;
@@ -5632,15 +5585,6 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_EBP_STAT(unsigned long param1)
 
 /**
  * NCB - tns_tdma_nb_page_rd_cnt#
- *
- * Packet memory pages accessed by the physical port.
- * All fields have roll over counters.
- * Register number enumerated by TNS_PHYS_PORT_E.
- * Register number 11 corresponds to pages accessed due to drops and multiple copy clearing.
- * Multiple copy clearing is performed for all multiple copy packets to return pages to the free
- * list.
- * Multiple copy packets will be counted by each physical port that transmits the packet, as well
- * as register 11 when the multiple copy is cleared.
  */
 typedef union bdk_tns_tdma_nb_page_rd_cntx {
 	uint64_t u;
@@ -5719,9 +5663,6 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(unsigned long param1)
 
 /**
  * NCB - tns_tdma_nb_pages_used
- *
- * This register shows the number of pages currently used to store packet data.
- * Values range from 0 to 0x3000 (12288 decimal).
  */
 typedef union bdk_tns_tdma_nb_pages_used {
 	uint64_t u;
@@ -5869,9 +5810,6 @@ static inline uint64_t BDK_TNS_TDMA_NB_STATUS_FUNC(void)
 
 /**
  * NCB - tns_tdma_nb_strip_lmac#_xph
- *
- * Strip and discard the 24-byte internal XPH packet header (if present) from packets during
- * transmission to the LMAC.
  */
 typedef union bdk_tns_tdma_nb_strip_lmacx_xph {
 	uint64_t u;
@@ -5905,9 +5843,6 @@ static inline uint64_t BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(unsigned long param1)
 
 /**
  * NCB - tns_tdma_nb_strip_nic_xph#
- *
- * Strip and discard the 24-byte internal XPH packet header (if present) from packets during
- * transmission to the NIC.
  */
 typedef union bdk_tns_tdma_nb_strip_nic_xphx {
 	uint64_t u;
