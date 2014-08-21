@@ -16,7 +16,7 @@
  */
 uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
 {
-    uint32_t crc32 = iv;
+    uint32_t crc32 = ~iv;
     while (len>=128)
     {
         BDK_PREFETCH(ptr, 128);
@@ -60,6 +60,6 @@ uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
     }
     if (len)
         CRC32B(crc32, crc32, *(uint8_t*)ptr);
-    return crc32;
+    return ~crc32;
 }
 

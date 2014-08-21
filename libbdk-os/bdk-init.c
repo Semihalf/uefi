@@ -102,8 +102,8 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
         c.s.uarten = 1); /* Enable uart */
 }
 
-void __bdk_init(long base_address) __attribute((noreturn));
-void __bdk_init(long base_address)
+void __bdk_init(uint32_t image_crc) __attribute((noreturn));
+void __bdk_init(uint32_t image_crc)
 {
     extern void __bdk_exception_current_el_sync_sp0();
     BDK_MSR(VBAR_EL3, __bdk_exception_current_el_sync_sp0);
@@ -135,6 +135,8 @@ void __bdk_init(long base_address)
 
     static const char BANNER_1[] = "Bringup and Diagnostic Kit (BDK)\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
+    static const char BANNER_CRC_RIGHT[] = "PASS: CRC32 verification\n";
+    static const char BANNER_CRC_WRONG[] = "FAIL: CRC32 verification\n";
     static const char BANNER_3[] = "Transferring to thread scheduler\n";
 
     BDK_MSR(TPIDR_EL3, 0);
@@ -198,6 +200,15 @@ void __bdk_init(long base_address)
                 ptr += 128;
             }
         }
+
+        /* Validate the image CRC */
+        extern void _start();
+        uint32_t *ptr_crc32 = (uint32_t *)(_start + 16);
+        uint32_t correct_crc = *ptr_crc32;
+        if (correct_crc == image_crc)
+            write(1, BANNER_CRC_RIGHT, sizeof(BANNER_CRC_RIGHT) - 1);
+        else
+            write(1, BANNER_CRC_WRONG, sizeof(BANNER_CRC_WRONG) - 1);
 
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_3, sizeof(BANNER_3)-1);

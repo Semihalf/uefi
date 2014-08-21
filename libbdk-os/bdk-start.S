@@ -71,19 +71,66 @@ copy_code:
     br      x0
 
 after_relocate:
+    /* Calculate a CRC32 over the image before C corrupts global variables */
+    adr     x10, _start         /* x10 = Address we're CRCing */
+    ldr     w1, [x10, 4]        /* w1 = CRC left to do (Image length) */
+    ldp     x3, x4, [x10]       /* Load first 16 bytes, CRC them */
+    mov     w0, -1              /* Init with -1 */
+    crc32x  w0, w0, x3          /* w0 is the CRC */
+    crc32x  w0, w0, x4
+    crc32w  w0, w0, wzr         /* Skip the CRC in the image */
+    ldr     w3, [x10, 0x14]     /* Reserved 4 bytes */
+    crc32w  w0, w0, w3
+    ldr     x3, [x10, 0x18]     /* Next 8 bytes to get us aligned again */
+    crc32x  w0, w0, x3
+    add     x10, x10, 32        /* We've processed 32 bytes */
+    sub     w1, w1, 32
+crc_loop:
+    ldp     x3, x4, [x10], 16   /* Load and CRC next 16 bytes */
+    crc32x  w0, w0, x3
+    crc32x  w0, w0, x4
+    sub     w1, w1, 16          /* Update amount left */
+    cmp     w1, 16
+    bge     crc_loop
+    cmp     w1, 8
+    b.lt    crc_skip8
+    ldr     x3, [x10], 8
+    crc32x  w0, w0, x3
+    sub     w1, w1, 8
+crc_skip8:
+    cmp     w1, 4
+    b.lt    crc_skip4
+    ldr     w3, [x10], 4
+    crc32w  w0, w0, w3
+    sub     w1, w1, 3
+crc_skip4:
+    cmp     w1, 2
+    b.lt    crc_skip2
+    ldrh    w3, [x10], 2
+    crc32h  w0, w0, w3
+    sub     w1, w1, 2
+crc_skip2:
+    cbz     w1, crc_done
+    ldrb    w3, [x10]
+    crc32b  w0, w0, w3
+crc_done:
+    mvn     w0, w0              /* Result must be inverted */
+
+    /* w0 contains the image CRC */
+
     /* Initialise the stack */
-    adr     x0, __bdk_start
-    msr     SP_EL0, x0
+    adr     x10, __bdk_start
+    msr     SP_EL0, x10
     msr     SPSel, 0
     /* Lock the stack in case other cores boot */
-    adr     x0, __bdk_initial_stack
-    mov     x2, 1
+    adr     x10, __bdk_initial_stack
+    mov     x12, 1
     sevl
-1:  ldxr    x1, [x0]
+1:  ldxr    x11, [x10]
     wfe
-    cbnz    x1, 1b
-    stxr    w1, x2, [x0]
-    cbnz    w1, 1b
+    cbnz    x11, 1b
+    stxr    w11, x12, [x10]
+    cbnz    w11, 1b
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
