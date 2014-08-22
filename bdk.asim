@@ -39,12 +39,8 @@ control n0.mpi0 connect 0 target-bin/bdk-boot-spi-cn88xx.bin
 # Load eMMC image
 control n0.emm0 connect target-bin/bdk-boot-emmc-cn88xx.bin
 
-# Load the BDK image
-load target-bin/bdk-cn88xx.bin 0
+# Load the BDK symbols
 symbols target-bin/original/bdk-full-no-romfs
-
-# Set PC to zero, bypassing boot rom as the BDK doesn't support it yet
-rm0 pc = 0
 
 # Control tracing
 #trace cpu0 step
