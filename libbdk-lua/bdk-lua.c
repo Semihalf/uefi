@@ -110,8 +110,6 @@ int bdk_lua_start(void)
         NULL,
     };
 
-    extern int bdk_fs_remote_init(void);
-    bdk_fs_remote_init();
     extern int bdk_fs_rom_init(void);
     bdk_fs_rom_init();
     extern int bdk_fs_mem_init(void);
