@@ -7,11 +7,11 @@ then
 fi
 
 DIR=${BDK_ROOT}/target-bin
-STAGE1=${DIR}/bdk-xmodem-load.bin
+STAGE1=${DIR}/original/bdk-stage1.bin
 
 if [ `stat -c %s ${STAGE1}` -gt 196608 ]
 then
-    echo "ERROR: Stage1 image must be 192KB or less"
+    echo "ERROR: Stage1 image must be 192KB or less (${STAGE1})"
     exit 1
 fi
 
@@ -19,11 +19,11 @@ fi
 # Create the first stage boot image
 # 1) 64KB unused by Thunder
 # 2) 64KB of CVM_CLIB header
-# 3) 192KB of image
+# 3) 192KB of STAGE1 image
 #
 cat /dev/zero | head -q -c 64K > ${DIR}/bdk-stage1.bin
 echo -n CVM_CLIB | cat - /dev/zero | head -q -c 64K >> ${DIR}/bdk-stage1.bin
-cat ${DIR}/bdk-xmodem-load.bin /dev/zero | head -q -c 192K >> ${DIR}/bdk-stage1.bin
+cat ${STAGE1} /dev/zero | head -q -c 192K >> ${DIR}/bdk-stage1.bin
 
 #
 # Update the Lua filesystems in the images
