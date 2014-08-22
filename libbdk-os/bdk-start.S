@@ -24,7 +24,8 @@ _start:
     # 256 bytes into the image. Everything before this is header data
     #
 .org 0x100
-    b   __bdk_start
+    ic      ialluis
+    b       __bdk_start
 __bdk_remote_console:
     # 0x100 - 0x300 is used for the remote console, see bdk-fs-remote.c
 .org 0x300
@@ -50,33 +51,31 @@ __bdk_start:
     #define L2C_WPAR_PP0_OFFSET 0x40000
     mov     x1, L2C_WPAR_PP0_OFFSET
     str     xzr, [x0, x1]
-    /* Figure out the location of code as an offset from our link address */
-1:
-    adr     x0, 1b          /* Jump to label, saving our PC in RA */
-    mov     x1, 1b          /* VA of label 1 */
-    cmp     x0, x1
-    b.eq    after_relocate /* Skip relocate if we're already there */
 
-    mov     x0, _start
-    adr     x1, _start
-    adr     x2, _end
+    /* Relocate ourself if we aren't running at our link address */
+    mov     x0, _start          /* x0 = _start location based on PC */
+    adr     x1, _start          /* x1 = _start location as an absolute */
+    cmp     x0, x1              /* See if we're running at the right location */
+    b.eq    after_relocate      /* Skip relocate if we're already there */
+    ldr     w2, [x1, 4]         /* w2 = Image length we need to copy */
 copy_code:
-    ldp     q0, q1, [x1], 32
-    stp     q0, q1, [x0], 32
-    cmp     x1, x2
-    b.lt    copy_code
-    dmb     sy
-    mov     x0, after_relocate
-    ic      ialluis
-    br      x0
+    ldp     q0, q1, [x1], 32    /* Load 32 bytes */
+    subs    w2, w2, 32          /* Subtract 32 from length, setting flags */
+    stp     q0, q1, [x0], 32    /* Store 32 bytes */
+    b.gt    copy_code           /* Repeat if length is still positive */
+    dmb     sy                  /* Force writes to L2 */
+    mov     x0, after_relocate  /* Load the actual location we're suppose to be at */
+    br      x0                  /* Branch to relocated code */
 
 after_relocate:
+    ic      ialluis             /* Clear the icache now that all code is correct */
+
     /* Calculate a CRC32 over the image before C corrupts global variables */
     adr     x10, _start         /* x10 = Address we're CRCing */
     ldr     w1, [x10, 4]        /* w1 = CRC left to do (Image length) */
+    mov     w0, -1              /* w0 is the CRC, init with -1 */
     ldp     x3, x4, [x10]       /* Load first 16 bytes, CRC them */
-    mov     w0, -1              /* Init with -1 */
-    crc32x  w0, w0, x3          /* w0 is the CRC */
+    crc32x  w0, w0, x3
     crc32x  w0, w0, x4
     crc32w  w0, w0, wzr         /* Skip the CRC in the image */
     ldr     w3, [x10, 0x14]     /* Reserved 4 bytes */
@@ -87,28 +86,28 @@ after_relocate:
     sub     w1, w1, 32
 crc_loop:
     ldp     x3, x4, [x10], 16   /* Load and CRC next 16 bytes */
-    crc32x  w0, w0, x3
-    crc32x  w0, w0, x4
     sub     w1, w1, 16          /* Update amount left */
+    crc32x  w0, w0, x3
     cmp     w1, 16
+    crc32x  w0, w0, x4
     bge     crc_loop
     cmp     w1, 8
     b.lt    crc_skip8
     ldr     x3, [x10], 8
-    crc32x  w0, w0, x3
     sub     w1, w1, 8
+    crc32x  w0, w0, x3
 crc_skip8:
     cmp     w1, 4
     b.lt    crc_skip4
     ldr     w3, [x10], 4
+    sub     w1, w1, 4
     crc32w  w0, w0, w3
-    sub     w1, w1, 3
 crc_skip4:
     cmp     w1, 2
     b.lt    crc_skip2
     ldrh    w3, [x10], 2
-    crc32h  w0, w0, w3
     sub     w1, w1, 2
+    crc32h  w0, w0, w3
 crc_skip2:
     cbz     w1, crc_done
     ldrb    w3, [x10]
@@ -120,8 +119,9 @@ crc_done:
 
     /* Initialise the stack */
     adr     x10, __bdk_start
-    msr     SP_EL0, x10
-    msr     SPSel, 0
+    msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
+    msr     SP_EL0, x10         /* Update the stack */
+    msr     SPSel, 0            /* Use the new stack */
     /* Lock the stack in case other cores boot */
     adr     x10, __bdk_initial_stack
     mov     x12, 1
