@@ -91,11 +91,11 @@ static int mpi_read(__bdk_fs_file_t *handle, void *buffer, int length)
 
     bdk_mpi_transfer(node, chip_sel, 1, 1 + address_width/8, tx_data, 0);
     int data_left = length;
-    while (data_left)
+    while (data_left > 0)
     {
-        *(uint8_t*)buffer = bdk_mpi_transfer(node, chip_sel, data_left>1, 0, 0, 1);
-        buffer++;
-        data_left--;
+        *(uint64_t*)buffer = bdk_be64_to_cpu(bdk_mpi_transfer(node, chip_sel, data_left>8, 0, 0, 8));
+        buffer+=8;
+        data_left-=8;
     }
     return length;
 }
