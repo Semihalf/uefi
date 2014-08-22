@@ -614,11 +614,11 @@ typedef union bdk_zip_constants {
 		uint64_t nexec                       : 8;  /**< RO - Number of available ZIP executive units. If zip is disabled, this field is 0. */
 		uint64_t reserved_49_55              : 7;
 		uint64_t syncflush_capable           : 1;  /**< RO - Sync flush supported: 1 = supported, 0 = not supported. */
-		uint64_t depth                       : 16; /**< RO - Maximum search depth for compression */
-		uint64_t onfsize                     : 12; /**< RO - Output near full threshold, in bytes */
+		uint64_t depth                       : 16; /**< RO - Maximum search depth for compression. */
+		uint64_t onfsize                     : 12; /**< RO - Output near full threshold, in bytes. */
 		uint64_t ctxsize                     : 12; /**< RO - Decompression context size in bytes. */
 		uint64_t reserved_1_7                : 7;
-		uint64_t disabled                    : 1;  /**< RO - Disable. 1 = ZIP is disabled, 0 = ZIP is enabled */
+		uint64_t disabled                    : 1;  /**< RO - Disable. 1 = ZIP is disabled, 0 = ZIP is enabled. */
 #else
 		uint64_t disabled                    : 1;
 		uint64_t reserved_1_7                : 7;
@@ -658,7 +658,7 @@ typedef union bdk_zip_corex_bist_status {
 	struct bdk_zip_corex_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
-		uint64_t bstatus                     : 53; /**< RO/H - BIST result of the ZIP_CORE memories */
+		uint64_t bstatus                     : 53; /**< RO/H - BIST result of the ZIP_CORE memories. */
 #else
 		uint64_t bstatus                     : 53;
 		uint64_t reserved_53_63              : 11;
@@ -731,7 +731,7 @@ typedef union bdk_zip_ctl_cfg {
 		uint64_t reserved_52_63              : 12;
 		uint64_t ildf                        : 4;  /**< R/W - Instruction Load Command FIFO credits <= 8. */
 		uint64_t reserved_36_47              : 12;
-		uint64_t drtf                        : 4;  /**< R/W - Data Read Tag FIFOs (per core) credits <= 8 */
+		uint64_t drtf                        : 4;  /**< R/W - Data Read Tag FIFOs (per core) credits <= 8. */
 		uint64_t reserved_27_31              : 5;
 		uint64_t stcf                        : 3;  /**< R/W - Store Command FIFO credits <= 4. */
 		uint64_t reserved_19_23              : 5;

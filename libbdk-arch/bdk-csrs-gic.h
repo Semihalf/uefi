@@ -3238,6 +3238,39 @@ static inline uint64_t BDK_GICRX_SEIR(unsigned long param1)
 
 
 /**
+ * NCB32b - gicr#_setdel3tr_el1s
+ */
+typedef union bdk_gicrx_setdel3tr_el1s {
+	uint32_t u;
+	struct bdk_gicrx_setdel3tr_el1s_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t vec                         : 32; /**< SWO - These write-only secure registers are used to generate non-maskable interrupts to the APs.
+                                                                 The value written into these registers is not used. There is no interrupt ID for DEL3Ts.
+                                                                 Whenever a register in this set is written, the DEL3T signal of the AP being
+                                                                 managed by that register is asserted.
+                                                                 Each register in this set is RAZ/WI for non-secure accesses. */
+#else
+		uint32_t vec                         : 32;
+#endif
+	} s;
+	/* struct bdk_gicrx_setdel3tr_el1s_s  cn88xx; */
+} bdk_gicrx_setdel3tr_el1s_t;
+
+static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 47)))
+		return 0x000080108000C000ull + (param1 & 63) * 0x20000ull;
+	else 		csr_fatal("BDK_GICRX_SETDEL3TR_EL1S", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GICRX_SETDEL3TR_EL1S(...) bdk_gicrx_setdel3tr_el1s_t
+#define bustype_BDK_GICRX_SETDEL3TR_EL1S(...) BDK_CSR_TYPE_NCB32b
+#define busnum_BDK_GICRX_SETDEL3TR_EL1S(p1) (p1)
+#define arguments_BDK_GICRX_SETDEL3TR_EL1S(p1) (p1),-1,-1,-1
+#define basename_BDK_GICRX_SETDEL3TR_EL1S(...) "GICRX_SETDEL3TR_EL1S"
+
+
+/**
  * NCB - gicr#_setlpir
  */
 typedef union bdk_gicrx_setlpir {
@@ -3289,15 +3322,14 @@ typedef union bdk_gicrx_setnmir_el1s {
 #endif
 	} s;
 	/* struct bdk_gicrx_setnmir_el1s_s    cn85xx; */
-	/* struct bdk_gicrx_setnmir_el1s_s    cn88xx; */
 } bdk_gicrx_setnmir_el1s_t;
 
 static inline uint64_t BDK_GICRX_SETNMIR_EL1S(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SETNMIR_EL1S(unsigned long param1)
 {
-	if (((param1 <= 47)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX) && ((param1 <= 47)))
 		return 0x000080108000C000ull + (param1 & 63) * 0x20000ull;
-	csr_fatal("BDK_GICRX_SETNMIR_EL1S", 1, param1, 0, 0, 0); /* No return */
+	else 		csr_fatal("BDK_GICRX_SETNMIR_EL1S", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GICRX_SETNMIR_EL1S(...) bdk_gicrx_setnmir_el1s_t
 #define bustype_BDK_GICRX_SETNMIR_EL1S(...) BDK_CSR_TYPE_NCB32b

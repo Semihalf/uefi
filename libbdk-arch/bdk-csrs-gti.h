@@ -79,102 +79,102 @@ namespace GTI_BAR_E {
  * Enumerates the MSI-X interrupt vectors.
  */
 enum gti_int_vec_e {
+	GTI_INT_VEC_E_CORE_WDOG0_DEL3T = 0xa,
 	GTI_INT_VEC_E_CORE_WDOG0_INT = 0x3a,
-	GTI_INT_VEC_E_CORE_WDOG0_NMI = 0xa,
+	GTI_INT_VEC_E_CORE_WDOG10_DEL3T = 0x14,
 	GTI_INT_VEC_E_CORE_WDOG10_INT = 0x44,
-	GTI_INT_VEC_E_CORE_WDOG10_NMI = 0x14,
+	GTI_INT_VEC_E_CORE_WDOG11_DEL3T = 0x15,
 	GTI_INT_VEC_E_CORE_WDOG11_INT = 0x45,
-	GTI_INT_VEC_E_CORE_WDOG11_NMI = 0x15,
+	GTI_INT_VEC_E_CORE_WDOG12_DEL3T = 0x16,
 	GTI_INT_VEC_E_CORE_WDOG12_INT = 0x46,
-	GTI_INT_VEC_E_CORE_WDOG12_NMI = 0x16,
+	GTI_INT_VEC_E_CORE_WDOG13_DEL3T = 0x17,
 	GTI_INT_VEC_E_CORE_WDOG13_INT = 0x47,
-	GTI_INT_VEC_E_CORE_WDOG13_NMI = 0x17,
+	GTI_INT_VEC_E_CORE_WDOG14_DEL3T = 0x18,
 	GTI_INT_VEC_E_CORE_WDOG14_INT = 0x48,
-	GTI_INT_VEC_E_CORE_WDOG14_NMI = 0x18,
+	GTI_INT_VEC_E_CORE_WDOG15_DEL3T = 0x19,
 	GTI_INT_VEC_E_CORE_WDOG15_INT = 0x49,
-	GTI_INT_VEC_E_CORE_WDOG15_NMI = 0x19,
+	GTI_INT_VEC_E_CORE_WDOG16_DEL3T = 0x1a,
 	GTI_INT_VEC_E_CORE_WDOG16_INT = 0x4a,
-	GTI_INT_VEC_E_CORE_WDOG16_NMI = 0x1a,
+	GTI_INT_VEC_E_CORE_WDOG17_DEL3T = 0x1b,
 	GTI_INT_VEC_E_CORE_WDOG17_INT = 0x4b,
-	GTI_INT_VEC_E_CORE_WDOG17_NMI = 0x1b,
+	GTI_INT_VEC_E_CORE_WDOG18_DEL3T = 0x1c,
 	GTI_INT_VEC_E_CORE_WDOG18_INT = 0x4c,
-	GTI_INT_VEC_E_CORE_WDOG18_NMI = 0x1c,
+	GTI_INT_VEC_E_CORE_WDOG19_DEL3T = 0x1d,
 	GTI_INT_VEC_E_CORE_WDOG19_INT = 0x4d,
-	GTI_INT_VEC_E_CORE_WDOG19_NMI = 0x1d,
+	GTI_INT_VEC_E_CORE_WDOG1_DEL3T = 0xb,
 	GTI_INT_VEC_E_CORE_WDOG1_INT = 0x3b,
-	GTI_INT_VEC_E_CORE_WDOG1_NMI = 0xb,
+	GTI_INT_VEC_E_CORE_WDOG20_DEL3T = 0x1e,
 	GTI_INT_VEC_E_CORE_WDOG20_INT = 0x4e,
-	GTI_INT_VEC_E_CORE_WDOG20_NMI = 0x1e,
+	GTI_INT_VEC_E_CORE_WDOG21_DEL3T = 0x1f,
 	GTI_INT_VEC_E_CORE_WDOG21_INT = 0x4f,
-	GTI_INT_VEC_E_CORE_WDOG21_NMI = 0x1f,
+	GTI_INT_VEC_E_CORE_WDOG22_DEL3T = 0x20,
 	GTI_INT_VEC_E_CORE_WDOG22_INT = 0x50,
-	GTI_INT_VEC_E_CORE_WDOG22_NMI = 0x20,
+	GTI_INT_VEC_E_CORE_WDOG23_DEL3T = 0x21,
 	GTI_INT_VEC_E_CORE_WDOG23_INT = 0x51,
-	GTI_INT_VEC_E_CORE_WDOG23_NMI = 0x21,
+	GTI_INT_VEC_E_CORE_WDOG24_DEL3T = 0x22,
 	GTI_INT_VEC_E_CORE_WDOG24_INT = 0x52,
-	GTI_INT_VEC_E_CORE_WDOG24_NMI = 0x22,
+	GTI_INT_VEC_E_CORE_WDOG25_DEL3T = 0x23,
 	GTI_INT_VEC_E_CORE_WDOG25_INT = 0x53,
-	GTI_INT_VEC_E_CORE_WDOG25_NMI = 0x23,
+	GTI_INT_VEC_E_CORE_WDOG26_DEL3T = 0x24,
 	GTI_INT_VEC_E_CORE_WDOG26_INT = 0x54,
-	GTI_INT_VEC_E_CORE_WDOG26_NMI = 0x24,
+	GTI_INT_VEC_E_CORE_WDOG27_DEL3T = 0x25,
 	GTI_INT_VEC_E_CORE_WDOG27_INT = 0x55,
-	GTI_INT_VEC_E_CORE_WDOG27_NMI = 0x25,
+	GTI_INT_VEC_E_CORE_WDOG28_DEL3T = 0x26,
 	GTI_INT_VEC_E_CORE_WDOG28_INT = 0x56,
-	GTI_INT_VEC_E_CORE_WDOG28_NMI = 0x26,
+	GTI_INT_VEC_E_CORE_WDOG29_DEL3T = 0x27,
 	GTI_INT_VEC_E_CORE_WDOG29_INT = 0x57,
-	GTI_INT_VEC_E_CORE_WDOG29_NMI = 0x27,
+	GTI_INT_VEC_E_CORE_WDOG2_DEL3T = 0xc,
 	GTI_INT_VEC_E_CORE_WDOG2_INT = 0x3c,
-	GTI_INT_VEC_E_CORE_WDOG2_NMI = 0xc,
+	GTI_INT_VEC_E_CORE_WDOG30_DEL3T = 0x28,
 	GTI_INT_VEC_E_CORE_WDOG30_INT = 0x58,
-	GTI_INT_VEC_E_CORE_WDOG30_NMI = 0x28,
+	GTI_INT_VEC_E_CORE_WDOG31_DEL3T = 0x29,
 	GTI_INT_VEC_E_CORE_WDOG31_INT = 0x59,
-	GTI_INT_VEC_E_CORE_WDOG31_NMI = 0x29,
+	GTI_INT_VEC_E_CORE_WDOG32_DEL3T = 0x2a,
 	GTI_INT_VEC_E_CORE_WDOG32_INT = 0x5a,
-	GTI_INT_VEC_E_CORE_WDOG32_NMI = 0x2a,
+	GTI_INT_VEC_E_CORE_WDOG33_DEL3T = 0x2b,
 	GTI_INT_VEC_E_CORE_WDOG33_INT = 0x5b,
-	GTI_INT_VEC_E_CORE_WDOG33_NMI = 0x2b,
+	GTI_INT_VEC_E_CORE_WDOG34_DEL3T = 0x2c,
 	GTI_INT_VEC_E_CORE_WDOG34_INT = 0x5c,
-	GTI_INT_VEC_E_CORE_WDOG34_NMI = 0x2c,
+	GTI_INT_VEC_E_CORE_WDOG35_DEL3T = 0x2d,
 	GTI_INT_VEC_E_CORE_WDOG35_INT = 0x5d,
-	GTI_INT_VEC_E_CORE_WDOG35_NMI = 0x2d,
+	GTI_INT_VEC_E_CORE_WDOG36_DEL3T = 0x2e,
 	GTI_INT_VEC_E_CORE_WDOG36_INT = 0x5e,
-	GTI_INT_VEC_E_CORE_WDOG36_NMI = 0x2e,
+	GTI_INT_VEC_E_CORE_WDOG37_DEL3T = 0x2f,
 	GTI_INT_VEC_E_CORE_WDOG37_INT = 0x5f,
-	GTI_INT_VEC_E_CORE_WDOG37_NMI = 0x2f,
+	GTI_INT_VEC_E_CORE_WDOG38_DEL3T = 0x30,
 	GTI_INT_VEC_E_CORE_WDOG38_INT = 0x60,
-	GTI_INT_VEC_E_CORE_WDOG38_NMI = 0x30,
+	GTI_INT_VEC_E_CORE_WDOG39_DEL3T = 0x31,
 	GTI_INT_VEC_E_CORE_WDOG39_INT = 0x61,
-	GTI_INT_VEC_E_CORE_WDOG39_NMI = 0x31,
+	GTI_INT_VEC_E_CORE_WDOG3_DEL3T = 0xd,
 	GTI_INT_VEC_E_CORE_WDOG3_INT = 0x3d,
-	GTI_INT_VEC_E_CORE_WDOG3_NMI = 0xd,
+	GTI_INT_VEC_E_CORE_WDOG40_DEL3T = 0x32,
 	GTI_INT_VEC_E_CORE_WDOG40_INT = 0x62,
-	GTI_INT_VEC_E_CORE_WDOG40_NMI = 0x32,
+	GTI_INT_VEC_E_CORE_WDOG41_DEL3T = 0x33,
 	GTI_INT_VEC_E_CORE_WDOG41_INT = 0x63,
-	GTI_INT_VEC_E_CORE_WDOG41_NMI = 0x33,
+	GTI_INT_VEC_E_CORE_WDOG42_DEL3T = 0x34,
 	GTI_INT_VEC_E_CORE_WDOG42_INT = 0x64,
-	GTI_INT_VEC_E_CORE_WDOG42_NMI = 0x34,
+	GTI_INT_VEC_E_CORE_WDOG43_DEL3T = 0x35,
 	GTI_INT_VEC_E_CORE_WDOG43_INT = 0x65,
-	GTI_INT_VEC_E_CORE_WDOG43_NMI = 0x35,
+	GTI_INT_VEC_E_CORE_WDOG44_DEL3T = 0x36,
 	GTI_INT_VEC_E_CORE_WDOG44_INT = 0x66,
-	GTI_INT_VEC_E_CORE_WDOG44_NMI = 0x36,
+	GTI_INT_VEC_E_CORE_WDOG45_DEL3T = 0x37,
 	GTI_INT_VEC_E_CORE_WDOG45_INT = 0x67,
-	GTI_INT_VEC_E_CORE_WDOG45_NMI = 0x37,
+	GTI_INT_VEC_E_CORE_WDOG46_DEL3T = 0x38,
 	GTI_INT_VEC_E_CORE_WDOG46_INT = 0x68,
-	GTI_INT_VEC_E_CORE_WDOG46_NMI = 0x38,
+	GTI_INT_VEC_E_CORE_WDOG47_DEL3T = 0x39,
 	GTI_INT_VEC_E_CORE_WDOG47_INT = 0x69,
-	GTI_INT_VEC_E_CORE_WDOG47_NMI = 0x39,
+	GTI_INT_VEC_E_CORE_WDOG4_DEL3T = 0xe,
 	GTI_INT_VEC_E_CORE_WDOG4_INT = 0x3e,
-	GTI_INT_VEC_E_CORE_WDOG4_NMI = 0xe,
+	GTI_INT_VEC_E_CORE_WDOG5_DEL3T = 0xf,
 	GTI_INT_VEC_E_CORE_WDOG5_INT = 0x3f,
-	GTI_INT_VEC_E_CORE_WDOG5_NMI = 0xf,
+	GTI_INT_VEC_E_CORE_WDOG6_DEL3T = 0x10,
 	GTI_INT_VEC_E_CORE_WDOG6_INT = 0x40,
-	GTI_INT_VEC_E_CORE_WDOG6_NMI = 0x10,
+	GTI_INT_VEC_E_CORE_WDOG7_DEL3T = 0x11,
 	GTI_INT_VEC_E_CORE_WDOG7_INT = 0x41,
-	GTI_INT_VEC_E_CORE_WDOG7_NMI = 0x11,
+	GTI_INT_VEC_E_CORE_WDOG8_DEL3T = 0x12,
 	GTI_INT_VEC_E_CORE_WDOG8_INT = 0x42,
-	GTI_INT_VEC_E_CORE_WDOG8_NMI = 0x12,
+	GTI_INT_VEC_E_CORE_WDOG9_DEL3T = 0x13,
 	GTI_INT_VEC_E_CORE_WDOG9_INT = 0x43,
-	GTI_INT_VEC_E_CORE_WDOG9_NMI = 0x13,
 	GTI_INT_VEC_E_ERROR = 0x8,
 	GTI_INT_VEC_E_MAILBOX_RX = 0x7,
 	GTI_INT_VEC_E_SECURE_WATCHDOG = 0x4,
@@ -2046,6 +2046,137 @@ static inline uint64_t BDK_GTI_CTL_PIDR7_FUNC(void)
 
 
 /**
+ * NCB - gti_cwd_del3t
+ *
+ * Generic Timer Per-core Watchdog Non-Maskable Interrupts
+ *
+ */
+typedef union bdk_gti_cwd_del3t {
+	uint64_t u;
+	struct bdk_gti_cwd_del3t_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
+#else
+		uint64_t core                        : 48;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_gti_cwd_del3t_s         cn88xx; */
+} bdk_gti_cwd_del3t_t;
+
+#define BDK_GTI_CWD_DEL3T BDK_GTI_CWD_DEL3T_FUNC()
+static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+		return 0x0000844000040220ull;
+	else 		csr_fatal("BDK_GTI_CWD_DEL3T", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GTI_CWD_DEL3T bdk_gti_cwd_del3t_t
+#define bustype_BDK_GTI_CWD_DEL3T BDK_CSR_TYPE_NCB
+#define busnum_BDK_GTI_CWD_DEL3T 0
+#define arguments_BDK_GTI_CWD_DEL3T -1,-1,-1,-1
+#define basename_BDK_GTI_CWD_DEL3T "GTI_CWD_DEL3T"
+
+
+/**
+ * NCB - gti_cwd_del3t_ena_clr
+ */
+typedef union bdk_gti_cwd_del3t_ena_clr {
+	uint64_t u;
+	struct bdk_gti_cwd_del3t_ena_clr_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
+#else
+		uint64_t core                        : 48;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_gti_cwd_del3t_ena_clr_s cn88xx; */
+} bdk_gti_cwd_del3t_ena_clr_t;
+
+#define BDK_GTI_CWD_DEL3T_ENA_CLR BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC()
+static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+		return 0x0000844000040230ull;
+	else 		csr_fatal("BDK_GTI_CWD_DEL3T_ENA_CLR", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GTI_CWD_DEL3T_ENA_CLR bdk_gti_cwd_del3t_ena_clr_t
+#define bustype_BDK_GTI_CWD_DEL3T_ENA_CLR BDK_CSR_TYPE_NCB
+#define busnum_BDK_GTI_CWD_DEL3T_ENA_CLR 0
+#define arguments_BDK_GTI_CWD_DEL3T_ENA_CLR -1,-1,-1,-1
+#define basename_BDK_GTI_CWD_DEL3T_ENA_CLR "GTI_CWD_DEL3T_ENA_CLR"
+
+
+/**
+ * NCB - gti_cwd_del3t_ena_set
+ */
+typedef union bdk_gti_cwd_del3t_ena_set {
+	uint64_t u;
+	struct bdk_gti_cwd_del3t_ena_set_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
+#else
+		uint64_t core                        : 48;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_gti_cwd_del3t_ena_set_s cn88xx; */
+} bdk_gti_cwd_del3t_ena_set_t;
+
+#define BDK_GTI_CWD_DEL3T_ENA_SET BDK_GTI_CWD_DEL3T_ENA_SET_FUNC()
+static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+		return 0x0000844000040238ull;
+	else 		csr_fatal("BDK_GTI_CWD_DEL3T_ENA_SET", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GTI_CWD_DEL3T_ENA_SET bdk_gti_cwd_del3t_ena_set_t
+#define bustype_BDK_GTI_CWD_DEL3T_ENA_SET BDK_CSR_TYPE_NCB
+#define busnum_BDK_GTI_CWD_DEL3T_ENA_SET 0
+#define arguments_BDK_GTI_CWD_DEL3T_ENA_SET -1,-1,-1,-1
+#define basename_BDK_GTI_CWD_DEL3T_ENA_SET "GTI_CWD_DEL3T_ENA_SET"
+
+
+/**
+ * NCB - gti_cwd_del3t_set
+ */
+typedef union bdk_gti_cwd_del3t_set {
+	uint64_t u;
+	struct bdk_gti_cwd_del3t_set_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
+#else
+		uint64_t core                        : 48;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_gti_cwd_del3t_set_s     cn88xx; */
+} bdk_gti_cwd_del3t_set_t;
+
+#define BDK_GTI_CWD_DEL3T_SET BDK_GTI_CWD_DEL3T_SET_FUNC()
+static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+		return 0x0000844000040228ull;
+	else 		csr_fatal("BDK_GTI_CWD_DEL3T_SET", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GTI_CWD_DEL3T_SET bdk_gti_cwd_del3t_set_t
+#define bustype_BDK_GTI_CWD_DEL3T_SET BDK_CSR_TYPE_NCB
+#define busnum_BDK_GTI_CWD_DEL3T_SET 0
+#define arguments_BDK_GTI_CWD_DEL3T_SET -1,-1,-1,-1
+#define basename_BDK_GTI_CWD_DEL3T_SET "GTI_CWD_DEL3T_SET"
+
+
+/**
  * NCB - gti_cwd_int
  *
  * Generic Timer Per-core Watchdog Interrupts
@@ -2190,14 +2321,15 @@ typedef union bdk_gti_cwd_nmi {
 #endif
 	} s;
 	/* struct bdk_gti_cwd_nmi_s           cn85xx; */
-	/* struct bdk_gti_cwd_nmi_s           cn88xx; */
 } bdk_gti_cwd_nmi_t;
 
 #define BDK_GTI_CWD_NMI BDK_GTI_CWD_NMI_FUNC()
 static inline uint64_t BDK_GTI_CWD_NMI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_NMI_FUNC(void)
 {
-	return 0x0000844000040220ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
+		return 0x0000844000040220ull;
+	else 		csr_fatal("BDK_GTI_CWD_NMI", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GTI_CWD_NMI bdk_gti_cwd_nmi_t
 #define bustype_BDK_GTI_CWD_NMI BDK_CSR_TYPE_NCB
@@ -2221,14 +2353,15 @@ typedef union bdk_gti_cwd_nmi_ena_clr {
 #endif
 	} s;
 	/* struct bdk_gti_cwd_nmi_ena_clr_s   cn85xx; */
-	/* struct bdk_gti_cwd_nmi_ena_clr_s   cn88xx; */
 } bdk_gti_cwd_nmi_ena_clr_t;
 
 #define BDK_GTI_CWD_NMI_ENA_CLR BDK_GTI_CWD_NMI_ENA_CLR_FUNC()
 static inline uint64_t BDK_GTI_CWD_NMI_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_NMI_ENA_CLR_FUNC(void)
 {
-	return 0x0000844000040230ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
+		return 0x0000844000040230ull;
+	else 		csr_fatal("BDK_GTI_CWD_NMI_ENA_CLR", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GTI_CWD_NMI_ENA_CLR bdk_gti_cwd_nmi_ena_clr_t
 #define bustype_BDK_GTI_CWD_NMI_ENA_CLR BDK_CSR_TYPE_NCB
@@ -2252,14 +2385,15 @@ typedef union bdk_gti_cwd_nmi_ena_set {
 #endif
 	} s;
 	/* struct bdk_gti_cwd_nmi_ena_set_s   cn85xx; */
-	/* struct bdk_gti_cwd_nmi_ena_set_s   cn88xx; */
 } bdk_gti_cwd_nmi_ena_set_t;
 
 #define BDK_GTI_CWD_NMI_ENA_SET BDK_GTI_CWD_NMI_ENA_SET_FUNC()
 static inline uint64_t BDK_GTI_CWD_NMI_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_NMI_ENA_SET_FUNC(void)
 {
-	return 0x0000844000040238ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
+		return 0x0000844000040238ull;
+	else 		csr_fatal("BDK_GTI_CWD_NMI_ENA_SET", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GTI_CWD_NMI_ENA_SET bdk_gti_cwd_nmi_ena_set_t
 #define bustype_BDK_GTI_CWD_NMI_ENA_SET BDK_CSR_TYPE_NCB
@@ -2283,14 +2417,15 @@ typedef union bdk_gti_cwd_nmi_set {
 #endif
 	} s;
 	/* struct bdk_gti_cwd_nmi_set_s       cn85xx; */
-	/* struct bdk_gti_cwd_nmi_set_s       cn88xx; */
 } bdk_gti_cwd_nmi_set_t;
 
 #define BDK_GTI_CWD_NMI_SET BDK_GTI_CWD_NMI_SET_FUNC()
 static inline uint64_t BDK_GTI_CWD_NMI_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_NMI_SET_FUNC(void)
 {
-	return 0x0000844000040228ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
+		return 0x0000844000040228ull;
+	else 		csr_fatal("BDK_GTI_CWD_NMI_SET", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GTI_CWD_NMI_SET bdk_gti_cwd_nmi_set_t
 #define bustype_BDK_GTI_CWD_NMI_SET BDK_CSR_TYPE_NCB
@@ -2325,8 +2460,8 @@ typedef union bdk_gti_cwd_pokex {
 		uint64_t mode                        : 2;  /**< RO/H - Watchdog mode:
                                                                  0x0 = Off.
                                                                  0x1 = Interrupt only.
-                                                                 0x2 = Interrupt + NMI.
-                                                                 0x3 = Interrupt + NMI + soft reset. */
+                                                                 0x2 = Interrupt + DEL3T.
+                                                                 0x3 = Interrupt + DEL3T + soft reset. */
 #else
 		uint64_t mode                        : 2;
 		uint64_t state                       : 2;
@@ -2374,8 +2509,8 @@ typedef union bdk_gti_cwd_wdogx {
 		uint64_t mode                        : 2;  /**< R/W - Watchdog mode:
                                                                  0x0 = Off.
                                                                  0x1 = Interrupt only.
-                                                                 0x2 = Interrupt + NMI.
-                                                                 0x3 = Interrupt + NMI + soft reset. */
+                                                                 0x2 = Interrupt + DEL3T.
+                                                                 0x3 = Interrupt + DEL3T + soft reset. */
 #else
 		uint64_t mode                        : 2;
 		uint64_t state                       : 2;
