@@ -1,3 +1,6 @@
+/**
+ * Functions for diplaying output in libdram. Internal use only.
+ */
 
 static inline int dram_is_verbose()
 {

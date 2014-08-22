@@ -1,3 +1,7 @@
+/**
+ * Function for DDR3 init. Internal use only.
+ */
+
 extern void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask,
     int ddr_interface_num, int sequence);
 extern void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,

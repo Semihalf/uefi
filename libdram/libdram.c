@@ -1,8 +1,25 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+/* This global variable is accessed through dram_is_verbose() to determine
+   ther verbosity level. Use that function instead of it directly */
 int dram_verbose_on;
 
+/**
+ * This the main DRAM init function. Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to initialize. This may not be the same node as the one running the code
+ * @param dram_config
+ *               DRAM configuration to use
+ * @param ddr_clock_override
+ *               If non-zeo, this overrides the DRAM clock speed in the config structure. This
+ *               allows quickly testing of different DRAM speeds without modifying the basic
+ *               config. If zero, the DRAM speed in the config is used.
+ *
+ * @return Amount of memory in MB. Zero or negative is a failure.
+ */
 int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override)
 {
     const ddr_configuration_t *ddr_config = dram_config->config;

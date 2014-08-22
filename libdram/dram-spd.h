@@ -1,3 +1,7 @@
+/**
+ * Functions, enumarations, and structures related to DIMM SPDs.
+ * Everything in this file is internal to libdram.
+ */
 
 /* data field addresses in the DDR2 SPD eeprom */
 typedef enum ddr2_spd_addrs {

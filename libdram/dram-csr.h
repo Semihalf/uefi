@@ -1,4 +1,22 @@
+/**
+ * Functions and macros for libdram access to CSR. These build
+ * on the normal BDK functions to allow logging of CSRs based on
+ * the libdram verbosity level. Internal use only.
+ */
 
+/**
+ * Write a CSR, possibly logging it based on the verbosity
+ * level. You should use DRAM_CSR_WRITE() as a convientent
+ * wrapper.
+ *
+ * @param node
+ * @param csr_name
+ * @param type
+ * @param busnum
+ * @param size
+ * @param address
+ * @param value
+ */
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value) __attribute__((always_inline));
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {

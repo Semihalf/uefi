@@ -36,13 +36,6 @@
  *
  ***********************license end**************************************/
 
-
-#ifndef __LIB_OCTEON_SHARED_H__
-#define __LIB_OCTEON_SHARED_H__
-
-/* dimm_config_t value that terminates list */
-#define DIMM_CONFIG_TERMINATOR  {{0,0}, {NULL, NULL}}
-
 extern const dimm_odt_config_t disable_odt_config[];
 
 #define rttnom_none   0         /* Rtt_Nom disabled */
@@ -62,4 +55,3 @@ extern const dimm_odt_config_t disable_odt_config[];
 #define dic_40ohm     0         /* RZQ/6  = 240/6  =  40 ohms */
 #define dic_34ohm     1         /* RZQ/7  = 240/7  =  34 ohms */
 
-#endif  /*  __LIB_OCTEON_SHARED_H__  */
