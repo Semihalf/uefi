@@ -75,8 +75,9 @@ void __bdk_init_main(int arg, void *arg1)
         a single core with threads being spawned for each core */
 
     /* Unlock the global stack now that we aren't using it anymore */
-    extern volatile uint64_t __bdk_initial_stack;
-    __bdk_initial_stack = 0;
+    extern volatile uint64_t __bdk_initial_stack_start;
+    BDK_WMB;
+    __bdk_initial_stack_start = 0;
     BDK_WMB;
 
     /* Init any system registers that need to be done on every core */

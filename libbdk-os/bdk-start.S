@@ -2,11 +2,13 @@
     .global _start
     .global __bdk_start
     .global __bdk_remote_console
-    .global __bdk_initial_stack
+    .global __bdk_initial_stack_start
+    .global __bdk_initial_stack_end
 
     .section .init
 _start:
     b   __bdk_start
+    .word   0
     # BDK image heade for Thunder is
     #   Offset  Size    Description
     #   0x00    4       Raw instruction for skipping header (above)
@@ -24,15 +26,8 @@ _start:
     # 256 bytes into the image. Everything before this is header data
     #
 .org 0x100
-    ic      ialluis
-    b       __bdk_start
-__bdk_remote_console:
-    # 0x100 - 0x300 is used for the remote console, see bdk-fs-remote.c
-.org 0x300
-__bdk_initial_stack:
-    # 0x280 - 0x1000 is initial stack
-.org 0x1000
 __bdk_start:
+    ic      ialluis
     # Setup L2 to allow secure access to all of the address space
     #define L2C_ASC_REGIONX 0x87E080800000
     #define REGIONX_START   0x1000
@@ -118,12 +113,12 @@ crc_done:
     /* w0 contains the image CRC */
 
     /* Initialise the stack */
-    adr     x10, __bdk_start
+    adr     x10, __bdk_initial_stack_end
     msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
     msr     SP_EL0, x10         /* Update the stack */
     msr     SPSel, 0            /* Use the new stack */
     /* Lock the stack in case other cores boot */
-    adr     x10, __bdk_initial_stack
+    adr     x10, __bdk_initial_stack_start
     mov     x12, 1
     sevl
 1:  ldxr    x11, [x10]
@@ -134,6 +129,12 @@ crc_done:
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
+
+.align 12
+__bdk_initial_stack_start:
+    .dword   0
+.align 12
+__bdk_initial_stack_end:
 
     .macro exception_stub label
     .global __bdk_exception_\label
