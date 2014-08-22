@@ -23,6 +23,16 @@ int bdk_l2c_initialize(bdk_node_t node)
         c.s.rsp_arb_mode = 1;
         c.s.xmc_arb_mode = 0);
 
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && !bdk_is_simulation())
+    {
+        /* Errata: (L2C-22279) RCAS/RSTC which hits S/S can use wrong compare data */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
+            c.s.dissblkdty = 1);
+        /* Errata: (L2C-22249) Broadcast invals can cause starvation on the INV bus */
+        for (int i = 0; i < 4; i++)
+            BDK_CSR_MODIFY(c, node, BDK_L2C_CBCX_SCRATCH(i),
+                c.cn88xx.invdly = 1);
+    }
     return 0;
 }
 

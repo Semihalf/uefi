@@ -739,6 +739,27 @@ static void setup_node(bdk_node_t node)
     if (bdk_is_simulation())
         return; // FIXME: This stuff not modelled in Asim
 
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Errata: (OCX-22153) OCX data rate issues with slower rclks */
+        uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_CORE);
+        for (int link = 0; link < 3; link++)
+        {
+            uint64_t gbaud = bdk_qlm_get_gbaud_mhz(node, 8 + link * 2);
+            if (gbaud)
+            {
+                /* TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32) */
+                gbaud *= 1000000;
+                uint64_t data_rate = 67 * rclk;
+                data_rate *= 32;
+                data_rate += gbaud - 1;
+                data_rate /= gbaud;
+                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+                    c.s.data_rate = data_rate);
+            }
+        }
+    }
+
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
         /* Clear all OCI lane error status bits */
