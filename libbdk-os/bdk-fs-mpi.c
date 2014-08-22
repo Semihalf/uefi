@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <fcntl.h>
 
 /* MPI/SPI filenames are of the format:
    /dev/mpi/cs0-[hl],[12]wire,idle-[rhl],[ml]sb,##bit,<freq>
@@ -57,7 +58,8 @@ static void *mpi_open(const char *name, int flags)
         return NULL;
 
     /* Write zero to status register to disable write protection */
-    bdk_mpi_transfer(node, chip_sel, 0, 2, CMD_WRITE_STATUS, 0);
+    if ((flags&3) != O_RDONLY)
+        bdk_mpi_transfer(node, chip_sel, 0, 2, CMD_WRITE_STATUS, 0);
 
     return (void*)((long)chip_sel | (address_width << 8));
 
