@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdio.h>
 #include "../libbdk-arch/bdk-arch.h"
 #include "../libbdk-os/bdk-os.h"
 #ifndef BDK_BUILD_HOST

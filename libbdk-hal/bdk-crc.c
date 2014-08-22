@@ -14,13 +14,13 @@
  *
  * @return Result, can be used in IV to continue later.
  */
-uint32_t bdk_crc32(void *ptr, int len, uint32_t iv)
+uint32_t bdk_crc32(const void *ptr, int len, uint32_t iv)
 {
     uint32_t crc32 = ~iv;
     while (len>=128)
     {
         BDK_PREFETCH(ptr, 128);
-        uint64_t *p = ptr;
+        const uint64_t *p = ptr;
         CRC32X(crc32, crc32, p[0]);
         CRC32X(crc32, crc32, p[1]);
         CRC32X(crc32, crc32, p[2]);
