@@ -6,7 +6,6 @@ TARGETS := bdk-full-no-romfs
 TARGETS += ${DIR}/bdk-full-no-romfs.bin
 TARGETS += bdk-xmodem-load
 TARGETS += $(BDK_ROOT)/target-bin/bdk-xmodem-load.bin
-#TARGETS += bdk-reset-rtl
 
 .PHONY: all
 all: ${TARGETS}
@@ -22,9 +21,6 @@ $(BDK_ROOT)/target-bin/bdk-xmodem-load.bin: bdk-xmodem-load.bin
 
 bdk-full-no-romfs: bdk-full-no-romfs.o $(BDK_ROOT)/libbdk/libbdk.a
 bdk-xmodem-load: bdk-xmodem-load.o $(BDK_ROOT)/libbdk/libbdk.a
-
-bdk-reset-rtl: bdk-reset-rtl.S
-	$(CC) -nostdlib -nostartfiles -Ttext=0 -o $@ $^
 
 clean:
 	rm -f *.o *.map *.bin ${TARGETS} ${DIR}/bdk-*
