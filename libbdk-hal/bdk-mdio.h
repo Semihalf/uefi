@@ -259,7 +259,7 @@ typedef union
  *
  * @param node   Node to initialize
  */
-extern void bdk_mdio_initialize(bdk_node_t node);
+extern void bdk_mdio_initialize(bdk_node_t node) BDK_WEAK;
 
 /**
  * Perform an MII read. This function is used to read PHY

@@ -45,7 +45,8 @@ static void __bdk_init_local_node(void)
         bdk_qlm_init(node);
     if (BDK_IS_REQUIRED(TWSI))
         bdk_twsix_initialize(node);
-    bdk_mdio_initialize(node);
+    if (bdk_mdio_initialize)
+        bdk_mdio_initialize(node);
 
     if (BDK_IS_REQUIRED(ERROR_DECODE) && !bdk_is_simulation())
     {
