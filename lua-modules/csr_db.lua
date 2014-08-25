@@ -44417,6 +44417,17 @@ local csr_db = {
                 {name = "SYNDROME", start = 0, stop = 15},
             }
         },
+        GICRX_SETDEL3TR_EL1S = {
+            name = "GICR#_SETDEL3TR_EL1S",
+            type = "NCB32B",
+            width = 4,
+            address = 0x80108000c000,
+            range1 = {0,47},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "VEC", start = 0, stop = 31},
+            }
+        },
         GICRX_SETLPIR = {
             name = "GICR#_SETLPIR",
             type = "NCB",
@@ -44427,17 +44438,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "PID", start = 0, stop = 31},
-            }
-        },
-        GICRX_SETNMIR_EL1S = {
-            name = "GICR#_SETNMIR_EL1S",
-            type = "NCB32B",
-            width = 4,
-            address = 0x80108000c000,
-            range1 = {0,47},
-            range1_inc = 0x20000,
-            fields = {
-                {name = "VEC", start = 0, stop = 31},
             }
         },
         GICRX_SSTATUSR = {
@@ -47026,6 +47026,46 @@ local csr_db = {
                 {name = "RESERVED_0_31", start = 0, stop = 31},
             }
         },
+        GTI_CWD_DEL3T = {
+            name = "GTI_CWD_DEL3T",
+            type = "NCB",
+            width = 8,
+            address = 0x844000040220,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "CORE", start = 0, stop = 47},
+            }
+        },
+        GTI_CWD_DEL3T_ENA_CLR = {
+            name = "GTI_CWD_DEL3T_ENA_CLR",
+            type = "NCB",
+            width = 8,
+            address = 0x844000040230,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "CORE", start = 0, stop = 47},
+            }
+        },
+        GTI_CWD_DEL3T_ENA_SET = {
+            name = "GTI_CWD_DEL3T_ENA_SET",
+            type = "NCB",
+            width = 8,
+            address = 0x844000040238,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "CORE", start = 0, stop = 47},
+            }
+        },
+        GTI_CWD_DEL3T_SET = {
+            name = "GTI_CWD_DEL3T_SET",
+            type = "NCB",
+            width = 8,
+            address = 0x844000040228,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "CORE", start = 0, stop = 47},
+            }
+        },
         GTI_CWD_INT = {
             name = "GTI_CWD_INT",
             type = "NCB",
@@ -47061,46 +47101,6 @@ local csr_db = {
             type = "NCB",
             width = 8,
             address = 0x844000040208,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "CORE", start = 0, stop = 47},
-            }
-        },
-        GTI_CWD_NMI = {
-            name = "GTI_CWD_NMI",
-            type = "NCB",
-            width = 8,
-            address = 0x844000040220,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "CORE", start = 0, stop = 47},
-            }
-        },
-        GTI_CWD_NMI_ENA_CLR = {
-            name = "GTI_CWD_NMI_ENA_CLR",
-            type = "NCB",
-            width = 8,
-            address = 0x844000040230,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "CORE", start = 0, stop = 47},
-            }
-        },
-        GTI_CWD_NMI_ENA_SET = {
-            name = "GTI_CWD_NMI_ENA_SET",
-            type = "NCB",
-            width = 8,
-            address = 0x844000040238,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "CORE", start = 0, stop = 47},
-            }
-        },
-        GTI_CWD_NMI_SET = {
-            name = "GTI_CWD_NMI_SET",
-            type = "NCB",
-            width = 8,
-            address = 0x844000040228,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "CORE", start = 0, stop = 47},
@@ -48561,7 +48561,8 @@ local csr_db = {
             range1_inc = 0x1000000,
             fields = {
                 {name = "RESERVED_8_63", start = 8, stop = 63},
-                {name = "SCRATCH", start = 0, stop = 7},
+                {name = "SCRATCH", start = 1, stop = 7},
+                {name = "INVDLY", start = 0, stop = 0},
             }
         },
         L2C_CBCX_XMCX_PFC = {
@@ -60697,7 +60698,9 @@ local csr_db = {
             width = 8,
             address = 0x870000000080,
             fields = {
-                {name = "RESERVED_6_63", start = 6, stop = 63},
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "CSR_MSIX", start = 7, stop = 7},
+                {name = "CSR_FIFO", start = 6, stop = 6},
                 {name = "STA", start = 5, stop = 5},
                 {name = "NCB_OUB", start = 4, stop = 4},
                 {name = "NCB_INB", start = 2, stop = 3},

@@ -841,21 +841,7 @@ typedef union bdk_rad_reg_bist_result {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
-	struct bdk_rad_reg_bist_result_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_6_63               : 58;
-		uint64_t sta                         : 1;  /**< RO - BIST result of the STA memories */
-		uint64_t ncb_oub                     : 1;  /**< RO - BIST result of the NCB_OUB memories */
-		uint64_t ncb_inb                     : 2;  /**< RO - BIST result of the NCB_INB memories */
-		uint64_t dat                         : 2;  /**< RO - BIST result of the DAT memories */
-#else
-		uint64_t dat                         : 2;
-		uint64_t ncb_inb                     : 2;
-		uint64_t ncb_oub                     : 1;
-		uint64_t sta                         : 1;
-		uint64_t reserved_6_63               : 58;
-#endif
-	} cn85xx;
+	/* struct bdk_rad_reg_bist_result_s   cn85xx; */
 	/* struct bdk_rad_reg_bist_result_s   cn88xx; */
 } bdk_rad_reg_bist_result_t;
 

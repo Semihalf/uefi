@@ -795,8 +795,14 @@ typedef union bdk_oclax_matx_maskx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_36_63              : 28;
 		uint64_t mask                        : 36; /**< R/W - Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
-                                                                 0 = Do not compare bit.
-                                                                 1 = Compare bit. */
+
+                                                                 Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
+                                                                 follows:
+
+                                                                 _ If MASK = 1 and VALUE = 0, matches when data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when data = "1".
+                                                                 _ If MASK = 0 and VALUE = 0, matches any data.
+                                                                 _ If MASK = 0 and VALUE = 1, reserved in pass 1, matches any data pass 2 and later. */
 #else
 		uint64_t mask                        : 36;
 		uint64_t reserved_36_63              : 28;

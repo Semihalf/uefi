@@ -851,22 +851,6 @@ typedef union bdk_l2c_cbcx_scratch {
 	uint64_t u;
 	struct bdk_l2c_cbcx_scratch_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_0_63               : 64;
-#else
-		uint64_t reserved_0_63               : 64;
-#endif
-	} s;
-	struct bdk_l2c_cbcx_scratch_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_8_63               : 56;
-		uint64_t scratch                     : 8;  /**< R/W - General purpose scratch register. */
-#else
-		uint64_t scratch                     : 8;
-		uint64_t reserved_8_63               : 56;
-#endif
-	} cn85xx;
-	struct bdk_l2c_cbcx_scratch_cn88xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56;
 		uint64_t scratch                     : 7;  /**< R/W - General purpose scratch register. */
 		uint64_t invdly                      : 1;  /**< R/W - Delays all invalidates for 9 cycles after a broadcast invalidate. */
@@ -875,7 +859,9 @@ typedef union bdk_l2c_cbcx_scratch {
 		uint64_t scratch                     : 7;
 		uint64_t reserved_8_63               : 56;
 #endif
-	} cn88xx;
+	} s;
+	/* struct bdk_l2c_cbcx_scratch_s      cn85xx; */
+	/* struct bdk_l2c_cbcx_scratch_s      cn88xx; */
 } bdk_l2c_cbcx_scratch_t;
 
 static inline uint64_t BDK_L2C_CBCX_SCRATCH(unsigned long param1) __attribute__ ((pure, always_inline));

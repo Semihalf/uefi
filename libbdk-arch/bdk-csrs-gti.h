@@ -2062,6 +2062,7 @@ typedef union bdk_gti_cwd_del3t {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
+	/* struct bdk_gti_cwd_del3t_s         cn85xx; */
 	/* struct bdk_gti_cwd_del3t_s         cn88xx; */
 } bdk_gti_cwd_del3t_t;
 
@@ -2069,9 +2070,7 @@ typedef union bdk_gti_cwd_del3t {
 static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x0000844000040220ull;
-	else 		csr_fatal("BDK_GTI_CWD_DEL3T", 0, 0, 0, 0, 0); /* No return */
+	return 0x0000844000040220ull;
 }
 #define typedef_BDK_GTI_CWD_DEL3T bdk_gti_cwd_del3t_t
 #define bustype_BDK_GTI_CWD_DEL3T BDK_CSR_TYPE_NCB
@@ -2094,6 +2093,7 @@ typedef union bdk_gti_cwd_del3t_ena_clr {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
+	/* struct bdk_gti_cwd_del3t_ena_clr_s cn85xx; */
 	/* struct bdk_gti_cwd_del3t_ena_clr_s cn88xx; */
 } bdk_gti_cwd_del3t_ena_clr_t;
 
@@ -2101,9 +2101,7 @@ typedef union bdk_gti_cwd_del3t_ena_clr {
 static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x0000844000040230ull;
-	else 		csr_fatal("BDK_GTI_CWD_DEL3T_ENA_CLR", 0, 0, 0, 0, 0); /* No return */
+	return 0x0000844000040230ull;
 }
 #define typedef_BDK_GTI_CWD_DEL3T_ENA_CLR bdk_gti_cwd_del3t_ena_clr_t
 #define bustype_BDK_GTI_CWD_DEL3T_ENA_CLR BDK_CSR_TYPE_NCB
@@ -2126,6 +2124,7 @@ typedef union bdk_gti_cwd_del3t_ena_set {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
+	/* struct bdk_gti_cwd_del3t_ena_set_s cn85xx; */
 	/* struct bdk_gti_cwd_del3t_ena_set_s cn88xx; */
 } bdk_gti_cwd_del3t_ena_set_t;
 
@@ -2133,9 +2132,7 @@ typedef union bdk_gti_cwd_del3t_ena_set {
 static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x0000844000040238ull;
-	else 		csr_fatal("BDK_GTI_CWD_DEL3T_ENA_SET", 0, 0, 0, 0, 0); /* No return */
+	return 0x0000844000040238ull;
 }
 #define typedef_BDK_GTI_CWD_DEL3T_ENA_SET bdk_gti_cwd_del3t_ena_set_t
 #define bustype_BDK_GTI_CWD_DEL3T_ENA_SET BDK_CSR_TYPE_NCB
@@ -2158,6 +2155,7 @@ typedef union bdk_gti_cwd_del3t_set {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
+	/* struct bdk_gti_cwd_del3t_set_s     cn85xx; */
 	/* struct bdk_gti_cwd_del3t_set_s     cn88xx; */
 } bdk_gti_cwd_del3t_set_t;
 
@@ -2165,9 +2163,7 @@ typedef union bdk_gti_cwd_del3t_set {
 static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-		return 0x0000844000040228ull;
-	else 		csr_fatal("BDK_GTI_CWD_DEL3T_SET", 0, 0, 0, 0, 0); /* No return */
+	return 0x0000844000040228ull;
 }
 #define typedef_BDK_GTI_CWD_DEL3T_SET bdk_gti_cwd_del3t_set_t
 #define bustype_BDK_GTI_CWD_DEL3T_SET BDK_CSR_TYPE_NCB
@@ -2301,137 +2297,6 @@ static inline uint64_t BDK_GTI_CWD_INT_SET_FUNC(void)
 #define busnum_BDK_GTI_CWD_INT_SET 0
 #define arguments_BDK_GTI_CWD_INT_SET -1,-1,-1,-1
 #define basename_BDK_GTI_CWD_INT_SET "GTI_CWD_INT_SET"
-
-
-/**
- * NCB - gti_cwd_nmi
- *
- * Generic Timer Per-core Watchdog Non-Maskable Interrupts
- *
- */
-typedef union bdk_gti_cwd_nmi {
-	uint64_t u;
-	struct bdk_gti_cwd_nmi_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
-		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
-#else
-		uint64_t core                        : 48;
-		uint64_t reserved_48_63              : 16;
-#endif
-	} s;
-	/* struct bdk_gti_cwd_nmi_s           cn85xx; */
-} bdk_gti_cwd_nmi_t;
-
-#define BDK_GTI_CWD_NMI BDK_GTI_CWD_NMI_FUNC()
-static inline uint64_t BDK_GTI_CWD_NMI_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_CWD_NMI_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
-		return 0x0000844000040220ull;
-	else 		csr_fatal("BDK_GTI_CWD_NMI", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_GTI_CWD_NMI bdk_gti_cwd_nmi_t
-#define bustype_BDK_GTI_CWD_NMI BDK_CSR_TYPE_NCB
-#define busnum_BDK_GTI_CWD_NMI 0
-#define arguments_BDK_GTI_CWD_NMI -1,-1,-1,-1
-#define basename_BDK_GTI_CWD_NMI "GTI_CWD_NMI"
-
-
-/**
- * NCB - gti_cwd_nmi_ena_clr
- */
-typedef union bdk_gti_cwd_nmi_ena_clr {
-	uint64_t u;
-	struct bdk_gti_cwd_nmi_ena_clr_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
-		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
-#else
-		uint64_t core                        : 48;
-		uint64_t reserved_48_63              : 16;
-#endif
-	} s;
-	/* struct bdk_gti_cwd_nmi_ena_clr_s   cn85xx; */
-} bdk_gti_cwd_nmi_ena_clr_t;
-
-#define BDK_GTI_CWD_NMI_ENA_CLR BDK_GTI_CWD_NMI_ENA_CLR_FUNC()
-static inline uint64_t BDK_GTI_CWD_NMI_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_CWD_NMI_ENA_CLR_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
-		return 0x0000844000040230ull;
-	else 		csr_fatal("BDK_GTI_CWD_NMI_ENA_CLR", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_GTI_CWD_NMI_ENA_CLR bdk_gti_cwd_nmi_ena_clr_t
-#define bustype_BDK_GTI_CWD_NMI_ENA_CLR BDK_CSR_TYPE_NCB
-#define busnum_BDK_GTI_CWD_NMI_ENA_CLR 0
-#define arguments_BDK_GTI_CWD_NMI_ENA_CLR -1,-1,-1,-1
-#define basename_BDK_GTI_CWD_NMI_ENA_CLR "GTI_CWD_NMI_ENA_CLR"
-
-
-/**
- * NCB - gti_cwd_nmi_ena_set
- */
-typedef union bdk_gti_cwd_nmi_ena_set {
-	uint64_t u;
-	struct bdk_gti_cwd_nmi_ena_set_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
-		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
-#else
-		uint64_t core                        : 48;
-		uint64_t reserved_48_63              : 16;
-#endif
-	} s;
-	/* struct bdk_gti_cwd_nmi_ena_set_s   cn85xx; */
-} bdk_gti_cwd_nmi_ena_set_t;
-
-#define BDK_GTI_CWD_NMI_ENA_SET BDK_GTI_CWD_NMI_ENA_SET_FUNC()
-static inline uint64_t BDK_GTI_CWD_NMI_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_CWD_NMI_ENA_SET_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
-		return 0x0000844000040238ull;
-	else 		csr_fatal("BDK_GTI_CWD_NMI_ENA_SET", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_GTI_CWD_NMI_ENA_SET bdk_gti_cwd_nmi_ena_set_t
-#define bustype_BDK_GTI_CWD_NMI_ENA_SET BDK_CSR_TYPE_NCB
-#define busnum_BDK_GTI_CWD_NMI_ENA_SET 0
-#define arguments_BDK_GTI_CWD_NMI_ENA_SET -1,-1,-1,-1
-#define basename_BDK_GTI_CWD_NMI_ENA_SET "GTI_CWD_NMI_ENA_SET"
-
-
-/**
- * NCB - gti_cwd_nmi_set
- */
-typedef union bdk_gti_cwd_nmi_set {
-	uint64_t u;
-	struct bdk_gti_cwd_nmi_set_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
-		uint64_t core                        : 48; /**< R/W1C/H - Per-core watchdog non-maskable interrupt. */
-#else
-		uint64_t core                        : 48;
-		uint64_t reserved_48_63              : 16;
-#endif
-	} s;
-	/* struct bdk_gti_cwd_nmi_set_s       cn85xx; */
-} bdk_gti_cwd_nmi_set_t;
-
-#define BDK_GTI_CWD_NMI_SET BDK_GTI_CWD_NMI_SET_FUNC()
-static inline uint64_t BDK_GTI_CWD_NMI_SET_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_CWD_NMI_SET_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN85XX))
-		return 0x0000844000040228ull;
-	else 		csr_fatal("BDK_GTI_CWD_NMI_SET", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_GTI_CWD_NMI_SET bdk_gti_cwd_nmi_set_t
-#define bustype_BDK_GTI_CWD_NMI_SET BDK_CSR_TYPE_NCB
-#define busnum_BDK_GTI_CWD_NMI_SET 0
-#define arguments_BDK_GTI_CWD_NMI_SET -1,-1,-1,-1
-#define basename_BDK_GTI_CWD_NMI_SET "GTI_CWD_NMI_SET"
 
 
 /**
