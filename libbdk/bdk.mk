@@ -27,11 +27,13 @@ STRIP=$(CROSS)strip
 CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
 CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/${LIBC_DIR}/include
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -Winline -mcpu=thunderx -Os -g -std=gnu99 -fno-asynchronous-unwind-tables
+CFLAGS += -ffunction-sections
+
 ASFLAGS = $(CFLAGS)
 
 LDFLAGS  = -nostdlib -nostartfiles
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
-LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map
+LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map -Wl,--gc-sections
 LDLIBS = -lbdk -lgcc
 
 IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^0\([0-9a-f]*\).*/print 0x\1/g" | python`
