@@ -9,6 +9,116 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(FS_XMODEM);
+}
+
+static int volatile write_needed = 0;
+static char write_buffer[1024];
+static int volatile write_count = 0;
+static bdk_spinlock_t write_lock;
+
+/**
+ * The actual writing to flash is done in a separate thread so Xmodem doesn't
+ * stall during slow erase cycles.
+ *
+ * @author creese (10/10/2013)
+ * @param unused Unused param
+ * @param handle File handle for writing
+ */
+static void write_thread(int unused, void *handle)
+{
+    FILE *outf = (FILE*)handle;
+    while (write_needed)
+    {
+        /* Wait for data */
+        if (!write_count)
+        {
+            bdk_thread_yield();
+            continue;
+        }
+        bdk_spinlock_lock(&write_lock);
+        /* Write the data */
+        int w_count = fwrite(write_buffer, 1, write_count, outf);
+        fflush(outf);
+        if (w_count != write_count)
+        {
+            bdk_error("Write error\n");
+            bdk_spinlock_unlock(&write_lock);
+            break;
+        }
+        /* Tell the reader the buffer is empty */
+        write_count = 0;
+        bdk_spinlock_unlock(&write_lock);
+    }
+    fclose(outf);
+}
+
+/**
+ * Receive a file through Xmodem and write it to an internal file representing
+ * a flash device.
+ *
+ * @author creese (10/10/2013)
+ * @param dest_file File to write to
+ * @param offset    Offset into the file to start at
+ */
+static void do_upload(const char *dest_file, int offset)
+{
+    /* Open the output file */
+    FILE *outf = fopen(dest_file, "w");
+    if (!outf)
+    {
+        bdk_error("Failed to open %s\n", dest_file);
+        return;
+    }
+    fseek(outf, offset, SEEK_SET);
+
+    /* Create a thread that does the write so Xmodem doesn't stall
+       during slow flash accesses */
+    write_count = 0;
+    write_needed = 1;
+    BDK_WMB;
+    bdk_thread_create(bdk_numa_local(), 0, write_thread, 0, (void*)outf, 0);
+    /* Let the thread start */
+    bdk_thread_yield();
+
+    /* Open xmodem for reading the file */
+    FILE *inf = fopen("/xmodem", "r");
+    if (!inf)
+    {
+        bdk_error("Failed to open /xmodem\n");
+        BDK_WMB;
+        write_needed = 0;
+        BDK_WMB;
+        return;
+    }
+
+    /* Loop until the file is done */
+    while (!feof(inf))
+    {
+        char buffer[sizeof(write_buffer)];
+        /* Read a block */
+        int count = fread(buffer, 1, sizeof(buffer), inf);
+        if (count > 0)
+        {
+            /* Wait for the write buffer to be empty */
+            while (write_count)
+                bdk_thread_yield();
+            /* Put the data in the write buffer */
+            bdk_spinlock_lock(&write_lock);
+            memcpy(write_buffer, buffer, count);
+            BDK_WMB;
+            write_count = count;
+            bdk_spinlock_unlock(&write_lock);
+        }
+    }
+    fclose(inf);
+    printf("\nXmodem complete\n");
+    /* Wait for the write thread to finish */
+    BDK_WMB;
+    write_needed = 0;
+    BDK_WMB;
+    while (write_count)
+        bdk_thread_yield();
 }
 
 /**
@@ -36,7 +146,7 @@ static int list_images(const char *dev_filename, int max_images, uint64_t image_
     }
     uint64_t loc = BDK_IMAGE_FIRST_OFFSET;
     uint64_t end = 1 << 24; /* Only look through the first 16MB, limit of 24bit SPI */
-    while ((loc < end) && (num_images < max_iamges))
+    while ((loc < end) && (num_images < max_images))
     {
         bdk_image_header_t header;
 
@@ -248,6 +358,33 @@ static void dram_menu()
     }
 }
 
+static void create_spi_device_name(char *buffer, int buffer_size, int boot_method)
+{
+    bdk_node_t node = bdk_numa_local();
+    BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
+    int chip_select = 0;
+    int address_width;
+    int active_high = mpi_cfg.s.cshi;
+    int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
+    int is_msb = !mpi_cfg.s.lsbfirst;
+    int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
+
+    if (boot_method == RST_BOOT_METHOD_E_SPI16)
+        address_width = 16;
+    else if (boot_method == RST_BOOT_METHOD_E_SPI24)
+        address_width = 24;
+    else
+        address_width = 32;
+
+    snprintf(buffer, buffer_size, "/dev/mpi/cs%d-%c,2wire,idle-%c,%csb,%dbit,%d",
+        chip_select,
+        (active_high) ? 'h' : 'l',
+        idle_mode,
+        (is_msb) ? 'm' : 'l',
+        address_width,
+        freq_mhz);
+}
+
 /**
  * Main entry point
  *
@@ -325,8 +462,10 @@ int main(void)
 
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);
+    extern int bdk_fs_xmodem_init(void);
     bdk_fs_mmc_init();
     bdk_fs_mpi_init();
+    bdk_fs_xmodem_init();
 
     while (1)
     {
@@ -337,10 +476,13 @@ int main(void)
             " 1) Change baud rate and flow control\n"
             " 2) Load image from MMC, eMMC, or SD\n"
             " 3) Load image from SPI\n"
-            " 4) DRAM options\n"
-            " 5) Soft reset chip\n");
+            " 4) Write image to MMC, eMMC, or SD using Xmodem\n"
+            " 5) Write image to SPI EEPROM or NOR using Xmodem\n"
+            " 6) DRAM options\n"
+            " 7) Soft reset chip\n");
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
-        switch (atoi(input))
+        int option = atoi(input);
+        switch (option)
         {
             case 1: /* Change baud rate */
             {
@@ -367,36 +509,35 @@ int main(void)
             }
             case 3: /* SPI */
             {
-                BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
                 char name[48];
-                int chip_select = 0;
-                int address_width;
-                int active_high = mpi_cfg.s.cshi;
-                int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
-                int is_msb = !mpi_cfg.s.lsbfirst;
-                int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
-
-                if (boot_method == RST_BOOT_METHOD_E_SPI16)
-                    address_width = 16;
-                else if (boot_method == RST_BOOT_METHOD_E_SPI24)
-                    address_width = 24;
-                else
-                    address_width = 32;
-
-                snprintf(name, sizeof(name), "/dev/mpi/cs%d-%c,2wire,idle-%c,%csb,%dbit,%d",
-                    chip_select,
-                    (active_high) ? 'h' : 'l',
-                    idle_mode,
-                    (is_msb) ? 'm' : 'l',
-                    address_width,
-                    freq_mhz);
+                create_spi_device_name(name, sizeof(name), boot_method);
                 choose_image(name);
                 break;
             }
-            case 4: /* DRAM options */
+            case 4: /* eMMC / SD upload */
+            case 5: /* SPI upload */
+            {
+                const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
+                int offset = atoi(offset_str);
+                if ((offset < 0) || (offset > (1 << 30)))
+                {
+                    bdk_error("Illegal offset\n");
+                    break;
+                }
+                printf("\n");
+
+                char name[48];
+                if (option == 5)
+                    create_spi_device_name(name, sizeof(name), boot_method);
+                else
+                    strcpy(name, "/dev/mmc/0");
+                do_upload(name, offset);
+                break;
+            }
+            case 6: /* DRAM options */
                 dram_menu();
                 break;
-            case 5: /* Soft reset */
+            case 7: /* Soft reset */
                 printf("Performing a soft reset\n");
                 bdk_reset_chip(node);
                 break;
