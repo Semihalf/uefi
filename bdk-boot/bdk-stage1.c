@@ -11,6 +11,18 @@ void __bdk_require_depends(void)
 {
 }
 
+/**
+ * Search the given device file (SPI or eMMC) and return a list of BDK images
+ * available. The iamges will also be displayed on the console.
+ *
+ * @param dev_filename
+ *                   Device file to search
+ * @param max_images Max number of images to return
+ * @param image_address
+ *                   List of image addresses
+ *
+ * @return Number of images found
+ */
 static int list_images(const char *dev_filename, int max_images, uint64_t image_address[])
 {
     int num_images = 0;
@@ -24,7 +36,7 @@ static int list_images(const char *dev_filename, int max_images, uint64_t image_
     }
     uint64_t loc = BDK_IMAGE_FIRST_OFFSET;
     uint64_t end = 1 << 24; /* Only look through the first 16MB, limit of 24bit SPI */
-    while (loc < end)
+    while ((loc < end) && (num_images < max_iamges))
     {
         bdk_image_header_t header;
 
@@ -45,6 +57,13 @@ static int list_images(const char *dev_filename, int max_images, uint64_t image_
     return num_images;
 }
 
+/**
+ * Boot an image from a device file at the specified location
+ *
+ * @param dev_filename
+ *               Device file to read image from
+ * @param loc    Location offset in the device file
+ */
 static void boot_image(const char *dev_filename, uint64_t loc)
 {
     void *image = NULL;
@@ -103,6 +122,13 @@ out:
     fclose(inf);
 }
 
+/**
+ * Display a list of images the user can boot from a device file and let
+ * them choose oen to boot.
+ *
+ * @param dev_filename
+ *               Device file to search
+ */
 static void choose_image(const char *dev_filename)
 {
     const int MAX_IMAGES = 4;
@@ -129,6 +155,97 @@ static void choose_image(const char *dev_filename)
     else
         printf("One image found, automatically loading\n");
     boot_image(dev_filename, image_address[use_image]);
+}
+
+/**
+ * Run DRAM tests over a range of memory using multiple cores
+ *
+ * @param start_address
+ *               Start address of range
+ * @param length Length of the range in bytes
+ */
+static void dram_test(uint64_t start_address, uint64_t length)
+{
+    /* Start all cores for multi-core memory test */
+    bdk_init_cores(bdk_numa_local(), 0);
+    int test = 0;
+    while (1)
+    {
+        const char *test_name = bdk_dram_get_test_name(test);
+        if (test_name == NULL)
+            break;
+        int errors = bdk_dram_test(test, start_address, length);
+        if (errors)
+        {
+            bdk_error("DRAM tests errors, stopping\n");
+            return;
+        }
+        test++;
+    }
+    printf("All tests passed\n");
+}
+
+/**
+ * Display a menu of DRAM options
+ */
+static void dram_menu()
+{
+    const int MAX_DRAM_CONFIGS = 4;
+    int num_dram_configs = 0;
+    const char *dram_config[MAX_DRAM_CONFIGS];
+
+    /* Create a list of all DRAM configs */
+    for (int c = 0; c < MAX_DRAM_CONFIGS; c++)
+    {
+        dram_config[c] = bdk_dram_get_config_name(c);
+        if (dram_config[c] == NULL)
+            break;
+        num_dram_configs++;
+    }
+
+    while (1)
+    {
+        printf("\n"
+            "DRAM Menu\n"
+            "=========\n");
+        for (int c = 0; c < num_dram_configs; c++)
+        {
+            printf(" %d) Initialize DRAM using config \"%s\"\n", c + 1, dram_config[c]);
+        }
+        printf(" %d) Run a short DRAM test over the range 64MB-128MB\n", num_dram_configs + 1);
+        printf(" %d) Run a full DRAM test over all memory\n", num_dram_configs + 2);
+        printf(" %d) Main menu\n", num_dram_configs + 3);
+
+        const char *input = bdk_readline("Menu choice: ", NULL, 0);
+        int option = atoi(input);
+
+        if ((option >= 1) && (option <= num_dram_configs))
+        {
+            /* Configure DRAM */
+            int mbytes = bdk_dram_config(bdk_numa_local(), dram_config[option - 1], 0);
+            if (mbytes <= 0)
+                bdk_error("DRAM initialization failed\n");
+        }
+        else if (option == num_dram_configs + 1)
+        {
+            /* Short DRAM test */
+            dram_test(64 << 20, 64 << 20);
+        }
+        else if (option == num_dram_configs + 2)
+        {
+            /* Full DRAM test */
+            dram_test(0, 1ull << 40);
+        }
+        else if (option == num_dram_configs + 3)
+        {
+            /* Exit menu */
+            return;
+        }
+        else
+        {
+            bdk_error("Illegal selection\n");
+        }
+    }
 }
 
 /**
@@ -220,7 +337,8 @@ int main(void)
             " 1) Change baud rate and flow control\n"
             " 2) Load image from MMC, eMMC, or SD\n"
             " 3) Load image from SPI\n"
-            " 4) Soft reset chip\n");
+            " 4) DRAM options\n"
+            " 5) Soft reset chip\n");
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         switch (atoi(input))
         {
@@ -238,7 +356,7 @@ int main(void)
                 printf("Changing baudrate to %d\n", baudrate);
                 fflush(NULL);
                 bdk_wait_usec(500000);
-                bdk_set_baudrate(bdk_numa_local(), 0, baudrate, use_flow);
+                bdk_set_baudrate(node, 0, baudrate, use_flow);
                 printf("Baudrate is now %d\n", baudrate);
                 break;
             }
@@ -275,9 +393,12 @@ int main(void)
                 choose_image(name);
                 break;
             }
-            case 4: /* Soft reset */
+            case 4: /* DRAM options */
+                dram_menu();
+                break;
+            case 5: /* Soft reset */
                 printf("Performing a soft reset\n");
-                bdk_reset_chip(bdk_numa_local());
+                bdk_reset_chip(node);
                 break;
             default:
                 bdk_error("Illegal input\n");
