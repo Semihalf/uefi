@@ -46,17 +46,17 @@ static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
 
     if (arg_model & __OM_IGNORE_REVISION)
     {
-        return (arg_midr_el1.s.variant == midr_el1.s.variant);
+        return (arg_midr_el1.s.partnum == midr_el1.s.partnum);
     }
     else if (arg_model & __OM_IGNORE_MINOR_REVISION)
     {
-        return ((arg_midr_el1.s.variant == midr_el1.s.variant) &&
-                (arg_midr_el1.s.partnum == midr_el1.s.partnum));
+        return ((arg_midr_el1.s.partnum == midr_el1.s.partnum) &&
+                (arg_midr_el1.s.variant == midr_el1.s.variant));
     }
     else
     {
-        return ((arg_midr_el1.s.variant == midr_el1.s.variant) &&
-                (arg_midr_el1.s.partnum == midr_el1.s.partnum) &&
+        return ((arg_midr_el1.s.partnum == midr_el1.s.partnum) &&
+                (arg_midr_el1.s.variant == midr_el1.s.variant) &&
                 (arg_midr_el1.s.revision == midr_el1.s.revision));
     }
 }
