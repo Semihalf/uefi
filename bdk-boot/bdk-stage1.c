@@ -394,6 +394,8 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
+    bdk_sys_midr_el1_t midr_el1;
+    midr_el1.u = cavium_get_model();
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     int boot_method;
     int vrm_disable;
@@ -447,6 +449,7 @@ int main(void)
         "BDK Stage1 Boot\n"
         "===============\n"
         "Node:  %d\n"
+        "Chip:  0x%x Pass %d.%d\n"
         "RCLK:  %lu Mhz\n"
         "SCLK:  %lu Mhz\n"
         "Boot:  %s(%d)\n"
@@ -454,6 +457,7 @@ int main(void)
         "Trust: %s\n",
         bdk_version_string(),
         node,
+        midr_el1.s.partnum, midr_el1.s.variant + 1, midr_el1.s.revision,
         bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000,
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
         boot_method_str, boot_method,
