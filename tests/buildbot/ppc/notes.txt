@@ -1,9 +1,0 @@
-
-1) Install qemu and qemu-user-static
-2) Extract debian_ppc_lenny.tgz in /home/creese/work
-3) ln -s /home/creese/work/debian_ppc_lenny/lib/ld.so.1 /lib/ld.so.1
-4) PPC binaries should run just like native
-5) Lenny only: Add binfmt entry for PPC. This doesn't work for all ELFs, so don't use.
-update-binfmts --package qemu-ppc --install qemu-ppc /usr/bin/qemu-ppc --magic "\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14" --mask "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff" --offset 0
-update-binfmts --display
-
