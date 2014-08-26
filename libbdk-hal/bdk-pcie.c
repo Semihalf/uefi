@@ -365,7 +365,7 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pcie_port), pemoor, ==, 1, 100000))
     {
-        bdk_dprintf("PCIe%d: PEM not on, skipping.\n", pcie_port);
+        printf("PCIe%d: PEM not on, skipping.\n", pcie_port);
         return -1;
     }
 
@@ -465,7 +465,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     int host_mode = 1; //pemx_cfg.s.hostmd;
     if (!host_mode)
     {
-        bdk_dprintf("PCIe%d: Port in endpoint mode.\n", pcie_port);
+        printf("PCIe%d: Port in endpoint mode.\n", pcie_port);
         return -1;
     }
 
@@ -493,7 +493,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     {
         if (!bdk_is_simulation())
         {
-            bdk_dprintf("PCIe%d: Stuck in reset, skipping.\n", pcie_port);
+            printf("PCIe%d: Stuck in reset, skipping.\n", pcie_port);
             return -1;
         }
     }
@@ -501,7 +501,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Check BIST status */
     BDK_CSR_INIT(pemx_bist_status, node, BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u)
-        bdk_dprintf("PCIe%d: BIST FAILED (0x%016lx)\n", pcie_port, pemx_bist_status.u);
+        bdk_warn("PCIe%d: BIST FAILED (0x%016lx)\n", pcie_port, pemx_bist_status.u);
 
     /* Initialize the config space CSRs */
     __bdk_pcie_rc_initialize_config_space(node, pcie_port);
@@ -515,7 +515,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     {
         if (!bdk_is_simulation())
         {
-            bdk_dprintf("PCIe%d: Link timeout, probably the slot is empty\n", pcie_port);
+            printf("PCIe%d: Link timeout, probably the slot is empty\n", pcie_port);
             return -1;
         }
     }
@@ -538,9 +538,9 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Display the link status */
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
     if (bdk_is_simulation())
-        bdk_dprintf("PCIe%d: Simulation, can't report link speed\n", pcie_port);
+        printf("PCIe%d: Simulation, can't report link speed\n", pcie_port);
     else
-        bdk_dprintf("PCIe%d: Link active, %d lanes, speed gen%d\n", pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls);
+        printf("PCIe%d: Link active, %d lanes, speed gen%d\n", pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls);
 
     return 0;
 }
@@ -557,7 +557,7 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
 {
     /* Wait for all pending operations to complete */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_CPL_LUT_VALID(pcie_port), tag, ==, 0, 2000))
-        bdk_dprintf("PCIe%d: Shutdown timeout\n", pcie_port);
+        printf("PCIe%d: Shutdown timeout\n", pcie_port);
 
     /* Force reset */
     BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 1);

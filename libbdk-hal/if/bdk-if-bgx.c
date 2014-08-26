@@ -332,7 +332,7 @@ static int sgmii_link(bdk_if_handle_t handle)
             c.s.reset = 1);
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index), reset, ==, 0, 10000))
         {
-            bdk_dprintf("%s: Timeout waiting for reset finish\n", handle->name);
+            bdk_error("%s: Timeout waiting for reset finish\n", handle->name);
             return -1;
         }
     }
@@ -402,7 +402,7 @@ static int sgmii_link(bdk_if_handle_t handle)
         if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == -1) &&
             !pcs_miscx_ctl.s.mac_phy)
         {
-            bdk_dprintf("%s: Forcing PHY mode as PHY address is not set\n", handle->name);
+            bdk_warn("%s: Forcing PHY mode as PHY address is not set\n", handle->name);
             pcs_miscx_ctl.s.mac_phy = 1;
             BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index), pcs_miscx_ctl.u);
         }
@@ -448,7 +448,7 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
     if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000) ||
         BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), tx_idle, ==, 1, 10000))
     {
-        bdk_dprintf("%s: Timeout waiting for idle\n", handle->name);
+        bdk_error("%s: Timeout waiting for idle\n", handle->name);
         return -1;
     }
 

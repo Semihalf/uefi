@@ -41,14 +41,6 @@ void bdk_warn(const char *format, ...)
     va_end(args);
 }
 
-void bdk_dprintf(const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    __bdk_output(NULL, format, args);
-    va_end(args);
-}
-
 void __bdk_die(void)
 {
 #ifndef BDK_BUILD_HOST
