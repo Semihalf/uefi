@@ -31,23 +31,23 @@ directly from flash without any other software.  DRAM is optional.
 	All documentation for the BDK.
 
 .libbdk-arch/
-	Library and C files related to OCTEON II architecture. This
-	contains the minimal code needed to write any code for OCTEON II
+	Library and C files related to THUNDERX architecture. This
+	contains the minimal code needed to write any code for THUNDERX
 	with the minimal amount of abstractions as possible. This contains
 	CSR and assembly defines and access functions . Higher level APIs
 	are not part of this library.
 
 .libbdk-dram/
-	Library and C files related to OCTEON II DRAM initialization. These
+	Library and C files related to THUNDERX DRAM initialization. These
 	files are meant to be shared by all loaders and early diagnostics
 	that need to setup DRAM.
 
 .libbdk-hal/
-	Library and C files providing a API for interfacing with OCTEON II
-	hardware. This is similar to the "executive" in the OCTEON SDK.
+	Library and C files providing a API for interfacing with THUNDERX
+	hardware.
 
 .libbdk-lua/
-	Libraries for accessing OCTEON hardware from the Lua scripting language.
+	Libraries for accessing THUNDERX hardware from the Lua scripting language.
 
 .libbdk-os/
 	System call support and initialization code required for the C library
@@ -113,24 +113,22 @@ large block of memory.  The most useful library functions are:
 * void *malloc(size_t size);
 * void free(void *ptr);
 
-The function "memalign" should be used for most DMA buffer
-allocations.  The convenient FPA functions use it internally.
-Conversion between pointers an OCTEON physical address are done using
+The function "memalign" should be used for most DMA buffer allocations.
+Conversion between pointers and physical address are done using
 *bdk_ptr_to_phys()* and *bdk_phys_to_ptr()*.
 
 uint64_t bdk_ptr_to_phys(void *ptr)::
 
-Convert a C pointer into an OCTEON physical address.  This works on
+Convert a C pointer into a physical address.  This works on
 stack data, global variables, heap data, and even code.  Note that
 there is a performance impact for using the function on global
 variables and code.  It is fastest when used with stack and heap data.
 
 void *bdk_phys_to_ptr(uint64_t physical_address)::
 
-Convert an OCTEON physical address into a C pointer.  This function is
-quite fast as all it does is translate the address into XKPHYS.  Note
-that "*bdk_phys_to_ptr(bdk_ptr_to_phys(foo))*" may not be equal to the
-original address of "foo".  The result of
+Convert a physical address into a C pointer.  Note that
+"*bdk_phys_to_ptr(bdk_ptr_to_phys(foo))*" may not be equal to the original
+address of "foo".  The result of
 "*bdk_ptr_to_phys(bdk_phys_to_ptr(paddr))*" is guaranteed to be "*paddr*".
 
 
@@ -179,7 +177,7 @@ Abstract Network Packet API
 ---------------------------
 
 The BDK provides a high level interface to all packet based interfaces
-that are similar to ethernet.  OCTEON's SGMII, XAUI, RGMII, ILK, Loop
+that are similar to ethernet.  THUNDERX's SGMII, XAUI, RGMII, ILK, Loop
 devices, and PCIe engines are all available through this common
 interface.
 
@@ -260,10 +258,8 @@ for (bdk_if_handle_t handle = bdk_if_next_port(NULL); handle != NULL; handle = b
 Creating a standalone application
 ---------------------------------
 
-Building BDK applications also requires the SDK tools (OCTEON specific
-compiler, linker, libraries, and other tools) which need another set of
-environment variables. To set these up, run the SDK's env-setup script
-with the appropriate arguments (see the SDK documentation for  details).
+Building BDK applications also requires the THUNDERX toolchain (THUNDERX specific
+compiler, linker, libraries, and other tools).
 
 Code
 ~~~~
@@ -333,7 +329,7 @@ TIP: Uboot's 'go' command doesn't work for addresses above 256MB.
 The BDK API
 -----------
 
-The BDK contains many functions to support OCTEON code development.
+The BDK contains many functions to support THUNDERX code development.
 Here is a short list of the major areas:
 
 TIP: The doxygen generated link:api-docs/html/modules.html[BDK API Reference] can be useful.
@@ -388,26 +384,26 @@ Lua Scripting
 -------------
 
 The BDK contains the scripting environment Lua.  Lua allows you to
-write simple scripts to easily control OCTEON tests and perform remote
+write simple scripts to easily control THUNDERX tests and perform remote
 operations.  Take a look at the link:lua/readme.html[documentation for
 Lua] for more information about the Lua language.  Many BDK functions
-can be called from Lua.  Under the Lua environment, a module _octeon_
+can be called from Lua.  Under the Lua environment, a module _cavium_
 is supplied.
 
 TIP: The link:lua/contents.html[Lua Reference] can be useful.
 
-Checking OCTEON Models
-~~~~~~~~~~~~~~~~~~~~~~
-octeon.is_model()::
+Checking THUNDERX Models
+~~~~~~~~~~~~~~~~~~~~~~~~
+cavium.is_model()::
 
-Check which OCTEON model you are using. Pass it one of the following:
+Check which chip model you are using. Pass it one of the following:
 
-* octeon.CN70XX
-* octeon.CN78XX
+* cavium.CN88XX
+* cavium.CN85XX
 
 Calling BDK Functions
 ~~~~~~~~~~~~~~~~~~~~~
-octeon.c.bdk_*::
+cavium.c.bdk_*::
 
 Many BDK functions are exported to Lua.  The functions are exported by
 searching the symbol table at compile time, so not all functions are
@@ -417,12 +413,12 @@ do any checking.
 .Find the current core clock rate
 [source,lua]
 ----
-print (octeon.c.bdk_clock_get_rate(0))
+print (cavium.c.bdk_clock_get_rate(0,0))
 ----
 
 CSR Access
 ~~~~~~~~~~
-octeon.csr()::
+cavium.csr()::
 
 Returns an iterator suitable for use with a _for_ loop. The following code
 will print out the possible CSR names:
@@ -430,24 +426,24 @@ will print out the possible CSR names:
 .List all CSRs from Lua
 [source,lua]
 ----
-for name in octeon.csr()
+for name in cavium.csr()
 do
     print (name)
 end
 ----
 
-octeon.csr.NAME.read()::
+cavium.csr.NAME.read()::
 
 Read a CSR and return its raw value.  _NAME_ is any valid CSR name.
 The code above will display the valid CSR names.
 
-.Read the CIU_FUSE register
+.Read the RST_PP_AVAILABLE register
 [source,lua]
 ----
-print (octeon.csr.CIU_FUSE.read())
+print (cavium.csr.RST_PP_AVAILABLE.read())
 ----
 
-octeon.csr.NAME.write(value)::
+cavium.csr.NAME.write(value)::
 
 Write a raw CSR value.  _NAME_ is any valid CSR name.
 The code above will display the valid CSR names.
@@ -455,7 +451,7 @@ The code above will display the valid CSR names.
 .Force a soft reset
 [source,lua]
 ----
-octeon.csr.CIU_SOFT_RST.write(1))
+cavium.csr.RST_SOFT_RST.write(1))
 ----
 
 

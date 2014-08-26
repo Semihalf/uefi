@@ -1,5 +1,5 @@
 //
-// This is a asciidoc document. Edit here, but view the HTML
+// This is a asciidoc document. Edit here, but view the PDF
 //
 
 Bringup and Diagnostic Kit (BDK) Release Notes
@@ -10,125 +10,7 @@ Overview
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-octeon3-bdk-2014.06-r99397
---------------------------
-* BDK documantation has been reorganized into PDF manual with most all
-        content in a single document.
-* First release tested on CN78XX hardware.
-* Traffic-gen round to the nearest Mbps instead of truncation
-* Fix bug where link status polling would never happen if there was enough
-    traffic that core 0 always gets at least one packet every dispatch
-    packet poll.
-* Fix Lua bug with handling CSRs with more than 2 parameters
-* Make scan_sizes take optional arguments for various parameters
-* EBB7800:
-    * Update SGMII addresses for PHYs to match the values after the EBB7800
-        MDIO workaround.  All PHYs are on MDIO bus 0 with address as qlm*4+port.
-        This file assumes BGX0 and BGX1 are usign QLM0 and QLM1.
-    * Add code to the EBB7800 board startup file to put any RXAUI ports in
-        Interleaved running disparity required by Marvell PHYs
-* CN78XX:
-    * Software is unable to measure the current QLM reference clock. It is very
-        important that users select the proper one in the QLM initialization
-        menu.
-    * PCIe gen3 is known to be broken in this release.
-    * PCIe gen2 may not always work in this release.
-    * Auto negotiation for 10G-KR and 40G-KR4 are not supported.
-    * The following QLM modes are supported: SGMII, XAUI, DXAUI, RXAUI, XFI,
-        XLAUI, 10G-KR, 40G-KE4, ILK, PCIe x4, PCIE x8
-    * Per port backpressure and RED are not configured
-    * OCI has poor performance on CN78XX pass 1.0
-    * In a multi-node setup, you must configure DRAM before cores on the
-        secondary nodes are allowed to boot. The secondary nodes must be
-        configured for remote boot.
-    * Forward Error Correction (FEC) is not supported
-    * PRBS with error injection now supported
-    * A maximum of 64 network channels can be configured across all interfaces.
-        This mostly limits ILK as channelization is currently not supported
-        on BGX.
-
-octeon3-bdk-2014.05-r95818
---------------------------
-* CN78XX:
-    ** Initial support for CN78XX and CN77XX
-    ** Preliminary multi-node support (NUMA)
-    ** Suppress ethernet name node numbers when there is only one node
-    ** Update QLM PRBS code to support more than 10 QLMs
-    ** Require FPA buffers to be a power of 2 so memalign() works. Newlib
-        memalign() isn't smart enough to handle alignment that isn't a power
-        of 2.
-* CN70XX:
-    ** Support for CN71XX and CN70XX is very minimal, possibly not useful. The
-        BDK requires DRAM to be setup to function, so it uses a hardcoded DRAM
-        config from the EVB7000. This is unlikely to work on any other board.
-    ** Enable CN70XX error checking
-    ** Update CSR functions to properly byte swap SATA and USB assuming the
-        blocks are setup for Linux
-    ** New BDK image bdk-chip-screen.bin supplied as an example
-    ** Fix setting of RST_PP_POWER when booting cores.
-    ** Change bdk-quick-boot into bdk-boot-nor-stage1-cn70xx, specialized for
-        use on CN70XX
-    ** Create new doc page about CN70XX and CN71XX
-* Import the functionality of hw-ddr2 into the BDK DRAM test code
-* Menu to access the PCIe EEPROM
-* Move MDIO bus initialization to run early so we can configure PHYs before
-    networking is up
-* Add Kendin PHY support
-* Add Vitesse PHY support
-* Add 10G Marvell PHY support
-* Fix a non-obvious bug with L2 setup in the BDK. When we initially
-    lock L2 before DRAM, the lines involved are not considered dirty
-    by L2. Later when we unlock this region (DRAM initialized) these
-    lines are discarded instead of writing to DDR. The lines that aren't
-    written then get ECC errors on load since DDR was never initialized.
-    Simply fix is to always write to all cache lines.
-* Change BDK L2 flush to not invalidate
-* Rename the flash menu to show it contains eMMC as well
-* Don't put luadoc files in release. People should use the html docs
-* Rename bdk-full to bdk-full-no-romfs to eliminate confusion
-* Improve uart flow control messages
-* Cleanup the main menu, putting SERDES options on top
-* Create new program for downloading and flashing over xmodem
-* Much more robust XMODEM support
-* Don't disable indexed aliasing during BDK boot. It's not required on
-    CN70XX and hopefully not needed on CN78XX.
-* Disable the boot rom when remote booting. It interferes with the bootbus
-    moveable regions.
-* Only clear large multiply registers if CvmCtl[nomul] is 0. This fixes boot
-    on parts without large multiply.
-* Remove the HIGIG option from the config menu. The BDK is meant for initial
-    board bringup and not software testing. Any board will be brought up in
-    without HIGIG as its software configuration is complex. HIGIG will then
-    be enabled once are the electricals are stable, when you're done with
-    the BDK.
-
-
-octeon3-bdk-2013.09-88113
--------------------------
-* New "OCTEON3-BDK", support for Octeon III chips. This BDK release
-        doesn't support Octeon II as those chips are supported by the
-        "OCTEON-BDK" releases.
-* Fusion, CNF7XXX, is not supported by this release. Use the Octeon II BDK.
-* TCP/IP stack removed to save space and bypass issues cause by the LwIP
-        stack.
-* The bdk-minimal.bin image has been removed. This image was too large
-        for use with CN70XX chips.
-* For CN70XX, DRAM must already be configured for the BDK to run. The image
-        is too large to run from L2.
-* CSR accesses that take two parameters now specify the block before the
-        index into the block. All two parameter CSR accesses are swapped
-        compared to previous BDKs.
-* CIU registers are referred to by "CIU_*" regardless of chip. This is
-        different than the hardware manual what might use "CIU_*", "CIU2_*",
-        or "CIU3_*".
-* Network ports are now named using a new syntax
-        "<node>.<type><interface>.<port>". The <node> is not used if the
-        system is only using a single Octeon chip. Some examples are
-        ILK0.0, ILK0.1, ILK1.7, HIGIG0.0 - HIGIG0.15, SGMII0.0.
-* QLM auto tuning has been removed. Manual tuning has proven more reliable.
-* Lua RPC connection handling is more robust with better timeout handling.
-* The Macraigor WifiDemon is now officially supported.
-* Code uses hardware floating point.
-* Support for PowerPC hosts has been dropped.
-* Remote booting using Lauterbach EJTAG is known to not work.
+thunderx-bdk-FIXME
+------------------
+* Initial BDK release for THUNDERX
 

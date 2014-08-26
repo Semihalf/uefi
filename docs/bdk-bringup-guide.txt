@@ -3,13 +3,13 @@
 == Overview
 
 This document is a step by step procedure for verifying proper
-hardware functionality of boards based on OCTEON processors.  The
+hardware functionality of boards based on THUNDERX processors.  The
 target audience is either board designers or validation engineers
 charged with the task of verifying hardware. By following this guide,
 the following goals should be met.
 
 .Final Goals
-* The OCTEON processor booted and running software.
+* The THUNDERX processor booted and running software.
 * All packet interfaces verified as operational.
 * Miscellaneous I/O busses verified as operational, such as TWSI and SMI/MDIO.
 * If applicable, PCIe as a root complex verified as operational.
@@ -26,14 +26,14 @@ image::images/board_block_diagram.png[Board block diagram]
 == Minimum Prerequisites
 
 Certain minimum requirements must be met before progress can continue.
-OCTEON must progress through the reset sequence documented in the
-hardware manual. OCTEON's UART0 must be connected to a serial terminal
+THUNDERX must progress through the reset sequence documented in the
+hardware manual. THUNDERX's UART0 must be connected to a serial terminal
 in order to monitor the boot progress.
 
-* OCTEON reference clock must be at 50 Mhz.
-* OCTEON reset sequence must follow the hardware reference manual.
+* THUNDERX reference clock must be at 50 Mhz.
+* THUNDERX reset sequence must follow the hardware reference manual.
 * UART0 connected to a serial terminal. Baud rate of 115200, no parity, one stop bit.
-* If booting from flash, a NOR flash must be connected to OCTEON's bootbus.
+* If booting from SPI, a NOR flash must be connected.
 
 == Boot the BDK
 
