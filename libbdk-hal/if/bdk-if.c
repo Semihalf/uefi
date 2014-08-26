@@ -579,29 +579,6 @@ void bdk_if_free(bdk_if_packet_t *packet)
     packet->length = 0;
 }
 
-int bdk_if_copy(bdk_if_packet_t *packet, const bdk_if_packet_t *old_packet)
-{
-    packet->if_handle = NULL;
-    packet->rx_error = 0;
-    packet->length = old_packet->length;
-
-    packet->segments = 0;
-    for (int s = 0; s < old_packet->segments; s++)
-    {
-        uint64_t buf = __bdk_if_global_ops.alloc(old_packet->packet[s].s.size);
-        if (bdk_unlikely(!buf))
-        {
-            bdk_if_free(packet);
-            return -1;
-        }
-        packet->packet[s].s.address = buf;
-        packet->packet[s].s.size = old_packet->packet[s].s.size;
-        memcpy(bdk_phys_to_ptr(buf), bdk_phys_to_ptr(old_packet->packet[s].s.address), old_packet->packet[s].s.size);
-        packet->segments++;
-    }
-    return 0;
-}
-
 const bdk_if_stats_t* bdk_if_get_stats(bdk_if_handle_t handle)
 {
     return __bdk_if_ops[handle->iftype]->if_get_stats(handle);

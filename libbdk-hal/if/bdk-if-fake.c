@@ -96,14 +96,17 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         return -1;
     }
 
-    /* We must make a copy of this packet */
-    if (bdk_if_copy(&priv->queue[priv->tx_free], packet))
-    {
-        bdk_error("%s: Failed to allocate packet space\n", handle->name);
-        bdk_spinlock_unlock(&priv->lock);
-        return -1;
-    }
+    /* It is the callers responsibility to make sure the packet
+       isn't freed until the TX queue is empty. For us the TX
+       queue isn't empty until all packets have been received
+       and processed. This means we can use the packet data without
+       copying */
     priv->queue[priv->tx_free].if_handle = handle;
+    priv->queue[priv->tx_free].rx_error = 0;
+    priv->queue[priv->tx_free].length = packet->length;
+    priv->queue[priv->tx_free].segments = packet->segments;
+    for (int s = 0; s < packet->segments; s++)
+        priv->queue[priv->tx_free].packet[s] = packet->packet[s];
 
     handle->stats.tx.packets++;
     handle->stats.tx.octets += priv->queue[priv->tx_free].length;
@@ -135,7 +138,7 @@ static int if_receive(bdk_if_handle_t handle)
         handle->stats.rx.octets += packet->length;
 
         bdk_if_dispatch_packet(packet);
-        bdk_if_free(packet);
+        /* No free needed as TX caller will do it when the queue is empty */
         count++;
 
         /* Move to the next packet */

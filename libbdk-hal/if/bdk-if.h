@@ -178,7 +178,6 @@ extern int bdk_if_alloc(bdk_if_packet_t *packet, int length);
 extern void bdk_if_free(bdk_if_packet_t *packet);
 extern void bdk_if_packet_read(const bdk_if_packet_t *packet, int location, int length, void *data);
 extern void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data);
-extern int bdk_if_copy(bdk_if_packet_t *packet, const bdk_if_packet_t *old_packet);
 
 extern uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size);
 
