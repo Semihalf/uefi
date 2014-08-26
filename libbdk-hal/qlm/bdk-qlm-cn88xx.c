@@ -390,6 +390,134 @@ static void setup_pem_reset(bdk_node_t node, int pem, int is_endpoint)
         c.s.rst_chip = 0);          /* PERST doesn't pull CHIP_RESET */
 }
 
+static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
+{
+    const int MAX_A_CLK = 400000000; /* Max of 400Mhz */
+
+    /* SATA hasa fixed mapping for ports on CN88XX */
+    int sata_port;
+    switch (qlm)
+    {
+        case 2: /* SATA 0-3 = QLM2 lanes 0-3 */
+            sata_port = 0;
+            break;
+        case 3: /* SATA 4-7 = QLM3 lanes 0-3 */
+            sata_port = 4;
+            break;
+        case 6: /* SATA 8-11 = QLM6 lanes 0-3 */
+            sata_port = 8;
+            break;
+        case 7: /* SATA 12-15 = QLM7 lanes 0-3 */
+            sata_port = 12;
+            break;
+        default:
+            bdk_error("Attempted to configure SATA on QLM that doesn't support it\n");
+            return -1;
+    }
+    int sata_port_end = sata_port + 4;
+
+    /* 26.4.1 Cold Reset */
+    /* 1.  Ensure that the SerDes reference clock is up and stable. */
+    /* Already done */
+
+    /* 2.  Optionally program the GPIO CSRs for SATA features.
+        a.  For cold-presence detect, select a GPIO for the input and program GPI-
+            O_BIT_CFG(0..50)[PIN_SEL] = GPIO_PIN_SEL_E::SATA(0..15)_CP_DET.
+        b. For mechanical-presence detect, select a GPIO for the input and program
+            GPIO_BIT_CFG(0..50)[PIN_SEL] = GPI-
+            O_PIN_SEL_E::SATA(0..15)_MP_SWITCH.
+        c. For BIST board-test loopback, select a GPIO for the input and program GPI-
+            O_BIT_CFG(0..50)[PIN_SEL] = GPIO_PIN_SEL_E:::SATA_LAB_LB.
+        d. For LED activity, select a GPIO for the output and program GPI-
+            O_BIT_CFG(0..50)[PIN_SEL] = GPIO_PIN_SEL_E:::SATA(0..15)_ACT_LED.
+        e. For cold-presence power-on-device, select a GPIO for the output and program
+            GPIO_BIT_CFG(0..50)[PIN_SEL] = GPIO_PIN_SEL_E:::SATA(0..15)_CP_-
+            POD. */
+    /* Skipping */
+
+    /* 3.  Optionally program the SGPIO unit. */
+    /* Skipping */
+
+    /* 4.  Assert all resets:
+        a.  UAHC reset: SATA(0..15)_UCTL_CTL[SATA_UAHC_RST] = 1
+        b. UCTL reset: SATA(0..15)_UCTL_CTL[SATA_UCTL_RST] = 1 */
+    for (int p = sata_port; p < sata_port_end; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.sata_uahc_rst = 1;
+            c.s.sata_uctl_rst = 1);
+    }
+
+    /* 5.  Configure the ACLK:
+        a.  Reset the clock dividers: SATA(0..15)_UCTL_CTL[A_CLKDIV_RST] = 1.
+        b. Select the ACLK frequency (refer to maximum values in Table 26 1).
+            i. SATA(0..15)_UCTL_CTL[A_CLKDIV_SEL] = desired value,
+            ii. SATA(0..15)_UCTL_CTL[A_CLK_EN] = 1 to enable the ACLK.
+        c.  Deassert the ACLK clock divider reset:
+            SATA(0..15)_UCTL_CTL[A_CLKDIV_RST] = 0. */
+    int divisor = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / MAX_A_CLK;
+    int a_clkdiv;
+    /* This screwy if logic is from the description of
+       SATAX_UCTL_CTL[a_clkdiv_sel] in the CSR */
+    if (divisor <= 4)
+        a_clkdiv = divisor - 1;
+    else if (divisor <= 6)
+        a_clkdiv = 4;
+    else if (divisor <= 8)
+        a_clkdiv = 5;
+    else if (divisor <= 16)
+        a_clkdiv = 6;
+    else if (divisor <= 24)
+        a_clkdiv = 7;
+    else
+    {
+        bdk_error("Unable to determine SATA clock divisor\n");
+        return -1;
+    }
+
+    for (int p = sata_port; p < sata_port_end; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.a_clkdiv_rst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.a_clkdiv_sel = a_clkdiv;
+            c.s.a_clk_en = 1);
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.a_clkdiv_rst = 0);
+    }
+
+    /* 6.  Deassert UCTL and UAHC resets:
+        a.  SATA(0..15)_UCTL_CTL[SATA_UAHC_RST] = 0
+        b. SATA(0..15)_UCTL_CTL[SATA_UCTL_RST] = 0
+        c. Wait 10 ACLK cycles before accessing any ACLK-only registers. */
+    for (int p = sata_port; p < sata_port_end; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.sata_uahc_rst = 0;
+            c.s.sata_uctl_rst = 0);
+    }
+    bdk_wait_usec(1);
+
+    /* 7.  Enable conditional SCLK of UCTL by writing
+        SATA(0..15)_UCTL_CTL[CSCLK_EN] = 1. */
+    for (int p = sata_port; p < sata_port_end; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.csclk_en = 1);
+    }
+
+    /* 8.  Configure PHY for SATA. Refer to Section 21.1.2. */
+    /* Done after this function returns */
+
+    /* 9.  TBD: Poll QLM2_MPLL_STATUS for MPLL lock */
+    /* Done after this function returns */
+
+    /* 10. Initialize UAHC as described in the AHCI specification
+        (UAHC_* registers). */
+    /* Done when a SATA driver is initialized */
+    return 0;
+}
+
 /**
  * For chips that don't use pin strapping, this function programs
  * the QLM to the specified mode
@@ -578,6 +706,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             is_sata = 1;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("SATA", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
+                return -1;
+            if (qlm_set_sata(node, qlm, mode, baud_mhz, flags))
                 return -1;
             break;
         case BDK_QLM_MODE_SGMII:
