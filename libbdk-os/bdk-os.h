@@ -9,7 +9,6 @@
 
 #ifndef BDK_BUILD_HOST
 #include "bdk-rlock.h"
-#include "bdk-exception.h"
 #include "bdk-thread.h"
 #include "bdk-fs.h"
 #include "bdk-init.h"
