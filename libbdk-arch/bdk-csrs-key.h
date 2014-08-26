@@ -58,23 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar KEY_BAR_E
- *
- * KEY Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace KEY_BAR_E {
-	const uint64_t KEY_PF_BAR0 = 0x87e041000000;
-	const uint64_t KEY_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t KEY_PF_BAR2 = 0x841000400000;
-	const uint64_t KEY_PF_BAR2_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t KEY_PF_BAR4 = 0x87e041f00000;
-	const uint64_t KEY_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration KEY_INT_VEC_E
  *
  * KEY MSI-X Vector Enumeration

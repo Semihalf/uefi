@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar MIO_PTP_BAR_E
- *
- * PTP Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace MIO_PTP_BAR_E {
-	const uint64_t MIO_PTP_PF_BAR0 = 0x807000000000;
-	const uint64_t MIO_PTP_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t MIO_PTP_PF_BAR4 = 0x807000f00000;
-	const uint64_t MIO_PTP_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration MIO_PTP_INT_VEC_E
  *
  * PTP MSI-X Vector Enumeration

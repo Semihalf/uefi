@@ -57,19 +57,6 @@
 extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
 
 
-/**
- * Bar MIO_FUS_BAR_E
- *
- * MIO FUS Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace MIO_FUS_BAR_E {
-	const uint64_t MIO_FUS_PF_BAR0 = 0x87e003000000;
-	const uint64_t MIO_FUS_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-};
-#endif
-
 
 
 /**

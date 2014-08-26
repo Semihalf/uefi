@@ -58,19 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar SGP_BAR_E
- *
- * SGPIO Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace SGP_BAR_E {
-	const uint64_t SGP_PF_BAR0 = 0x87e027000000;
-	const uint64_t SGP_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-};
-#endif
-
-/**
  * Enumeration SGP_TX_ACT_E
  *
  * SGPIO Transmit Activity Enumeration

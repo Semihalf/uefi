@@ -58,45 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar GSER_BAR_E
- *
- * SMMU Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace GSER_BAR_E {
-	const uint64_t GSER0_PF_BAR0 = 0x87e090000000;
-	const uint64_t GSER0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER10_PF_BAR0 = 0x87e09a000000;
-	const uint64_t GSER10_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER11_PF_BAR0 = 0x87e09b000000;
-	const uint64_t GSER11_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER12_PF_BAR0 = 0x87e09c000000;
-	const uint64_t GSER12_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER13_PF_BAR0 = 0x87e09d000000;
-	const uint64_t GSER13_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER1_PF_BAR0 = 0x87e091000000;
-	const uint64_t GSER1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER2_PF_BAR0 = 0x87e092000000;
-	const uint64_t GSER2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER3_PF_BAR0 = 0x87e093000000;
-	const uint64_t GSER3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER4_PF_BAR0 = 0x87e094000000;
-	const uint64_t GSER4_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER5_PF_BAR0 = 0x87e095000000;
-	const uint64_t GSER5_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER6_PF_BAR0 = 0x87e096000000;
-	const uint64_t GSER6_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER7_PF_BAR0 = 0x87e097000000;
-	const uint64_t GSER7_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER8_PF_BAR0 = 0x87e098000000;
-	const uint64_t GSER8_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GSER9_PF_BAR0 = 0x87e099000000;
-	const uint64_t GSER9_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-};
-#endif
-
-/**
  * Enumeration GSER_LMODE_E
  *
  * GSER Lane Mode Enumeration

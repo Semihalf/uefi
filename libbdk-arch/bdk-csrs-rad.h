@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar RAD_BAR_E
- *
- * RAD Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace RAD_BAR_E {
-	const uint64_t RAD_PF_BAR0 = 0x870000000000;
-	const uint64_t RAD_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t RAD_PF_BAR4 = 0x870000f00000;
-	const uint64_t RAD_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration RAD_INT_VEC_E
  *
  * RAD PF MSI-X Vector Enumeration

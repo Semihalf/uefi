@@ -57,21 +57,6 @@
 extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
 
 
-/**
- * Bar RNM_BAR_E
- *
- * RNM Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace RNM_BAR_E {
-	const uint64_t RNM_PF_BAR0 = 0x87e040000000;
-	const uint64_t RNM_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t RNM_VF_BAR0 = 0x840000800000;
-	const uint64_t RNM_VF_BAR0_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
 
 
 /**

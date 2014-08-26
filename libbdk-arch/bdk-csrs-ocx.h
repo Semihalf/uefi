@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar OCX_BAR_E
- *
- * OCX Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace OCX_BAR_E {
-	const uint64_t OCX_PF_BAR0 = 0x87e011000000;
-	const uint64_t OCX_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t OCX_PF_BAR4 = 0x87e011f00000;
-	const uint64_t OCX_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration OCX_INT_VEC_E
  *
  * OCX MSI-X Vector Enumeration

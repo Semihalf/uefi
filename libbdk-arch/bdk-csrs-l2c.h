@@ -58,19 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar L2C_BAR_E
- *
- * L2C Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace L2C_BAR_E {
-	const uint64_t L2C_PF_BAR0 = 0x87e080800000;
-	const uint64_t L2C_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-};
-#endif
-
-/**
  * Enumeration INV_CMD_E
  *
  * INTERNAL: INV Command Enumeration

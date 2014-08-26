@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar RST_BAR_E
- *
- * RST Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace RST_BAR_E {
-	const uint64_t RST_PF_BAR0 = 0x87e006000000;
-	const uint64_t RST_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t RST_PF_BAR4 = 0x87e006f00000;
-	const uint64_t RST_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration RST_BOOT_FAIL_E
  *
  * RST Boot Failure Code Enumeration

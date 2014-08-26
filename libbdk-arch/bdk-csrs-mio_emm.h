@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar MIO_EMM_BAR_E
- *
- * eMMC Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace MIO_EMM_BAR_E {
-	const uint64_t MIO_EMM_PF_BAR0 = 0x87e009000000;
-	const uint64_t MIO_EMM_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_EMM_PF_BAR4 = 0x87e009f00000;
-	const uint64_t MIO_EMM_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration MIO_EMM_INT_VEC_E
  *
  * eMMC MSI-X Vector Enumeration

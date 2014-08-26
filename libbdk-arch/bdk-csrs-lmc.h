@@ -58,33 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar LMC_BAR_E
- *
- * LMC Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace LMC_BAR_E {
-	const uint64_t LMC0_PF_BAR0 = 0x87e088000000;
-	const uint64_t LMC0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t LMC0_PF_BAR4 = 0x87e088f00000;
-	const uint64_t LMC0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t LMC1_PF_BAR0 = 0x87e089000000;
-	const uint64_t LMC1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t LMC1_PF_BAR4 = 0x87e089f00000;
-	const uint64_t LMC1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t LMC2_PF_BAR0 = 0x87e08a000000;
-	const uint64_t LMC2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t LMC2_PF_BAR4 = 0x87e08af00000;
-	const uint64_t LMC2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t LMC3_PF_BAR0 = 0x87e08b000000;
-	const uint64_t LMC3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t LMC3_PF_BAR4 = 0x87e08bf00000;
-	const uint64_t LMC3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration LMC_INT_VEC_E
  *
  * LMC MSI-X Vector Enumeration

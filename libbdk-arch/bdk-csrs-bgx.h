@@ -58,25 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar BGX_BAR_E
- *
- * BGX Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace BGX_BAR_E {
-	const uint64_t BGX0_PF_BAR0 = 0x87e0e0000000;
-	const uint64_t BGX0_PF_BAR0_PCC_BAR_SIZE_BITS = 22;
-	const uint64_t BGX0_PF_BAR4 = 0x87e0e0400000;
-	const uint64_t BGX0_PF_BAR4_PCC_BAR_SIZE_BITS = 22;
-	const uint64_t BGX1_PF_BAR0 = 0x87e0e1000000;
-	const uint64_t BGX1_PF_BAR0_PCC_BAR_SIZE_BITS = 22;
-	const uint64_t BGX1_PF_BAR4 = 0x87e0e1400000;
-	const uint64_t BGX1_PF_BAR4_PCC_BAR_SIZE_BITS = 22;
-};
-#endif
-
-/**
  * Enumeration BGX_INT_VEC_E
  *
  * BGX MSI-X Vector Enumeration

@@ -58,23 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar GIC_BAR_E
- *
- * GIC Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace GIC_BAR_E {
-	const uint64_t GIC_PF_BAR0 = 0x801000000000;
-	const uint64_t GIC_PF_BAR0_PCC_BAR_SIZE_BITS = 17;
-	const uint64_t GIC_PF_BAR2 = 0x801000020000;
-	const uint64_t GIC_PF_BAR2_PCC_BAR_SIZE_BITS = 17;
-	const uint64_t GIC_PF_BAR4 = 0x801080000000;
-	const uint64_t GIC_PF_BAR4_PCC_BAR_SIZE_BITS = 24;
-};
-#endif
-
-/**
  * Enumeration GITS_CMD_ERR_E
  *
  * ITS Command Error Enumeration

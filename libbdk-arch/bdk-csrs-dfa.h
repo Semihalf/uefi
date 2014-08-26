@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar DFA_BAR_E
- *
- * HFA Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace DFA_BAR_E {
-	const uint64_t DFA_PF_BAR0 = 0x846000000000;
-	const uint64_t DFA_PF_BAR0_PCC_BAR_SIZE_BITS = 35;
-	const uint64_t DFA_PF_BAR4 = 0x846a00000000;
-	const uint64_t DFA_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration DFA_INT_VEC_E
  *
  * HFA MSI-X Vector Enumeration

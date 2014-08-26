@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar NCSI_BAR_E
- *
- * NCSI Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace NCSI_BAR_E {
-	const uint64_t NCSI_PF_BAR0 = 0x87e00b000000;
-	const uint64_t NCSI_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t NCSI_PF_BAR4 = 0x87e00bf00000;
-	const uint64_t NCSI_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration NCSI_CTL_PKT_TYPE_E
  *
  * NCSI Control Packet Type Enumeration

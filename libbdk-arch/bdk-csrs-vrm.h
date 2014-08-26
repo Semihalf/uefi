@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar VRM_BAR_E
- *
- * VRM Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace VRM_BAR_E {
-	const uint64_t VRM0_PF_BAR0 = 0x87e021000000;
-	const uint64_t VRM0_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t VRM1_PF_BAR0 = 0x87e022000000;
-	const uint64_t VRM1_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration VRM_TYPE_E
  *
  * VRM Types Register Enumeration

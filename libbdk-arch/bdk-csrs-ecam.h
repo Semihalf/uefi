@@ -57,33 +57,6 @@
 extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
 
 
-/**
- * Bar ECAM_BAR_E
- *
- * ECAM Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace ECAM_BAR_E {
-	const uint64_t ECAM0_PF_BAR0 = 0x87e048000000;
-	const uint64_t ECAM0_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t ECAM0_PF_BAR2 = 0x848000000000;
-	const uint64_t ECAM0_PF_BAR2_PCC_BAR_SIZE_BITS = 36;
-	const uint64_t ECAM1_PF_BAR0 = 0x87e049000000;
-	const uint64_t ECAM1_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t ECAM1_PF_BAR2 = 0x849000000000;
-	const uint64_t ECAM1_PF_BAR2_PCC_BAR_SIZE_BITS = 36;
-	const uint64_t ECAM2_PF_BAR0 = 0x87e04a000000;
-	const uint64_t ECAM2_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t ECAM2_PF_BAR2 = 0x84a000000000;
-	const uint64_t ECAM2_PF_BAR2_PCC_BAR_SIZE_BITS = 36;
-	const uint64_t ECAM3_PF_BAR0 = 0x87e04b000000;
-	const uint64_t ECAM3_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t ECAM3_PF_BAR2 = 0x84b000000000;
-	const uint64_t ECAM3_PF_BAR2_PCC_BAR_SIZE_BITS = 36;
-};
-#endif
-
 
 /**
  * Structure ECAM_CFG_ADDR_S

@@ -58,41 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar PEM_BAR_E
- *
- * PEM Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace PEM_BAR_E {
-	const uint64_t PEM0_PF_BAR0 = 0x87e0c0000000;
-	const uint64_t PEM0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t PEM0_PF_BAR4 = 0x87e0c0f00000;
-	const uint64_t PEM0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t PEM1_PF_BAR0 = 0x87e0c1000000;
-	const uint64_t PEM1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t PEM1_PF_BAR4 = 0x87e0c1f00000;
-	const uint64_t PEM1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t PEM2_PF_BAR0 = 0x87e0c2000000;
-	const uint64_t PEM2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t PEM2_PF_BAR4 = 0x87e0c2f00000;
-	const uint64_t PEM2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t PEM3_PF_BAR0 = 0x87e0c3000000;
-	const uint64_t PEM3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t PEM3_PF_BAR4 = 0x87e0c3f00000;
-	const uint64_t PEM3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t PEM4_PF_BAR0 = 0x87e0c4000000;
-	const uint64_t PEM4_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t PEM4_PF_BAR4 = 0x87e0c4f00000;
-	const uint64_t PEM4_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t PEM5_PF_BAR0 = 0x87e0c5000000;
-	const uint64_t PEM5_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t PEM5_PF_BAR4 = 0x87e0c5f00000;
-	const uint64_t PEM5_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration PEM_INT_VEC_E
  *
  * PEM MSI-X Vector Enumeration

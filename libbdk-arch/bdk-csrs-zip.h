@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar ZIP_BAR_E
- *
- * ZIP Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace ZIP_BAR_E {
-	const uint64_t ZIP_PF_BAR0 = 0x838000000000;
-	const uint64_t ZIP_PF_BAR0_PCC_BAR_SIZE_BITS = 22;
-	const uint64_t ZIP_PF_BAR4 = 0x838000f00000;
-	const uint64_t ZIP_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration ZIP_COMP_E
  *
  * ZIP Completion Enumeration

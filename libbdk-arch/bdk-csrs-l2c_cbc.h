@@ -58,33 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar L2C_CBC_BAR_E
- *
- * L2C_CBC Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace L2C_CBC_BAR_E {
-	const uint64_t L2C_CBC0_PF_BAR0 = 0x87e058000000;
-	const uint64_t L2C_CBC0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_CBC0_PF_BAR4 = 0x87e058f00000;
-	const uint64_t L2C_CBC0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_CBC1_PF_BAR0 = 0x87e059000000;
-	const uint64_t L2C_CBC1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_CBC1_PF_BAR4 = 0x87e059f00000;
-	const uint64_t L2C_CBC1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_CBC2_PF_BAR0 = 0x87e05a000000;
-	const uint64_t L2C_CBC2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_CBC2_PF_BAR4 = 0x87e05af00000;
-	const uint64_t L2C_CBC2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_CBC3_PF_BAR0 = 0x87e05b000000;
-	const uint64_t L2C_CBC3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_CBC3_PF_BAR4 = 0x87e05bf00000;
-	const uint64_t L2C_CBC3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration L2C_CBC_INT_VEC_E
  *
  * L2C_CBC MSI-X Vector Enumeration

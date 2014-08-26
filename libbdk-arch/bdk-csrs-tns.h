@@ -58,23 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar TNS_BAR_E
- *
- * TNS Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace TNS_BAR_E {
-	const uint64_t TNS_PF_BAR0 = 0x842000000000;
-	const uint64_t TNS_PF_BAR0_PCC_BAR_SIZE_BITS = 16;
-	const uint64_t TNS_PF_BAR2 = 0x842040000000;
-	const uint64_t TNS_PF_BAR2_PCC_BAR_SIZE_BITS = 30;
-	const uint64_t TNS_PF_BAR4 = 0x842000f00000;
-	const uint64_t TNS_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration TNS_INT_VEC_E
  *
  * TNS MSI-X Vector Enumeration

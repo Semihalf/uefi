@@ -58,25 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar USBH_BAR_E
- *
- * USBH Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace USBH_BAR_E {
-	const uint64_t USBH0_PF_BAR0 = 0x868000000000;
-	const uint64_t USBH0_PF_BAR0_PCC_BAR_SIZE_BITS = 21;
-	const uint64_t USBH0_PF_BAR4 = 0x868000200000;
-	const uint64_t USBH0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t USBH1_PF_BAR0 = 0x869000000000;
-	const uint64_t USBH1_PF_BAR0_PCC_BAR_SIZE_BITS = 21;
-	const uint64_t USBH1_PF_BAR4 = 0x869000200000;
-	const uint64_t USBH1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration UCTL_DMA_READ_CMD_E
  *
  * UCTL DMA Read Command Enumeration

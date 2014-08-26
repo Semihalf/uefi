@@ -57,19 +57,6 @@
 extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
 
 
-/**
- * Bar FUSF_BAR_E
- *
- * Field Fuse Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace FUSF_BAR_E {
-	const uint64_t FUSF_PF_BAR0 = 0x87e004000000;
-	const uint64_t FUSF_PF_BAR0_PCC_BAR_SIZE_BITS = 16;
-};
-#endif
-
 
 
 /**

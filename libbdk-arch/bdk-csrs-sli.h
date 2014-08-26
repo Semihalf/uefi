@@ -58,25 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar SLI_BAR_E
- *
- * SLI Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace SLI_BAR_E {
-	const uint64_t SLI0_PF_BAR0 = 0x874000000000;
-	const uint64_t SLI0_PF_BAR0_PCC_BAR_SIZE_BITS = 25;
-	const uint64_t SLI0_PF_BAR4 = 0x874010000000;
-	const uint64_t SLI0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t SLI1_PF_BAR0 = 0x875000000000;
-	const uint64_t SLI1_PF_BAR0_PCC_BAR_SIZE_BITS = 25;
-	const uint64_t SLI1_PF_BAR4 = 0x875010000000;
-	const uint64_t SLI1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration SLI_INT_VEC_E
  *
  * SLI MSI-X Vector Enumeration

@@ -58,33 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar SMMU_BAR_E
- *
- * SMMU Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace SMMU_BAR_E {
-	const uint64_t SMMU0_PF_BAR0 = 0x830000000000;
-	const uint64_t SMMU0_PF_BAR0_PCC_BAR_SIZE_BITS = 27;
-	const uint64_t SMMU0_PF_BAR4 = 0x83000f000000;
-	const uint64_t SMMU0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t SMMU1_PF_BAR0 = 0x831000000000;
-	const uint64_t SMMU1_PF_BAR0_PCC_BAR_SIZE_BITS = 27;
-	const uint64_t SMMU1_PF_BAR4 = 0x83100f000000;
-	const uint64_t SMMU1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t SMMU2_PF_BAR0 = 0x832000000000;
-	const uint64_t SMMU2_PF_BAR0_PCC_BAR_SIZE_BITS = 27;
-	const uint64_t SMMU2_PF_BAR4 = 0x83200f000000;
-	const uint64_t SMMU2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t SMMU3_PF_BAR0 = 0x833000000000;
-	const uint64_t SMMU3_PF_BAR0_PCC_BAR_SIZE_BITS = 27;
-	const uint64_t SMMU3_PF_BAR4 = 0x83300f000000;
-	const uint64_t SMMU3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration SMMU_CTYPE_E
  *
  * SMMU Context Bank Type Enumeration

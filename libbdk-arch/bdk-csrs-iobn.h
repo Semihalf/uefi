@@ -58,25 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar IOBN_BAR_E
- *
- * IOBN Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace IOBN_BAR_E {
-	const uint64_t IOBN0_PF_BAR0 = 0x87e0f0000000;
-	const uint64_t IOBN0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t IOBN0_PF_BAR4 = 0x87e0f0f00000;
-	const uint64_t IOBN0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t IOBN1_PF_BAR0 = 0x87e0f1000000;
-	const uint64_t IOBN1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t IOBN1_PF_BAR4 = 0x87e0f1f00000;
-	const uint64_t IOBN1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration IOBN_INT_VEC_E
  *
  * IOBN MSI-X Vector Enumeration

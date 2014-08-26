@@ -57,21 +57,6 @@
 extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
 
 
-/**
- * Bar DAP_BAR_E
- *
- * DAP Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace DAP_BAR_E {
-	const uint64_t DAP_PF_BAR0 = 0x87e002000000;
-	const uint64_t DAP_PF_BAR0_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t DAP_PF_BAR2 = 0x87a080000000;
-	const uint64_t DAP_PF_BAR2_PCC_BAR_SIZE_BITS = 25;
-};
-#endif
-
 
 
 /**

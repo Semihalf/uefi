@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar GPIO_BAR_E
- *
- * GPIO Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace GPIO_BAR_E {
-	const uint64_t GPIO_PF_BAR0 = 0x803000000000;
-	const uint64_t GPIO_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GPIO_PF_BAR4 = 0x803000f00000;
-	const uint64_t GPIO_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration GPIO_INT_VEC_E
  *
  * GPIO MSI-X Vector Enumeration

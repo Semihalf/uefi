@@ -58,41 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar MIO_TWS_BAR_E
- *
- * TWSI Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace MIO_TWS_BAR_E {
-	const uint64_t MIO_TWS0_PF_BAR0 = 0x87e0d0000000;
-	const uint64_t MIO_TWS0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_TWS0_PF_BAR4 = 0x87e0d0f00000;
-	const uint64_t MIO_TWS0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t MIO_TWS1_PF_BAR0 = 0x87e0d1000000;
-	const uint64_t MIO_TWS1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_TWS1_PF_BAR4 = 0x87e0d1f00000;
-	const uint64_t MIO_TWS1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t MIO_TWS2_PF_BAR0 = 0x87e0d2000000;
-	const uint64_t MIO_TWS2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_TWS2_PF_BAR4 = 0x87e0d2f00000;
-	const uint64_t MIO_TWS2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t MIO_TWS3_PF_BAR0 = 0x87e0d3000000;
-	const uint64_t MIO_TWS3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_TWS3_PF_BAR4 = 0x87e0d3f00000;
-	const uint64_t MIO_TWS3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t MIO_TWS4_PF_BAR0 = 0x87e0d4000000;
-	const uint64_t MIO_TWS4_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_TWS4_PF_BAR4 = 0x87e0d4f00000;
-	const uint64_t MIO_TWS4_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t MIO_TWS5_PF_BAR0 = 0x87e0d5000000;
-	const uint64_t MIO_TWS5_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t MIO_TWS5_PF_BAR4 = 0x87e0d5f00000;
-	const uint64_t MIO_TWS5_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration MIO_TWS_INT_VEC_E
  *
  * TWSI MSI-X Vector Enumeration

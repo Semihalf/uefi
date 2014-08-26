@@ -233,32 +233,6 @@ def write_file(group, file, csr_list, chip_info):
     out.write("\n")
     out.write("extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));\n")
     out.write("\n")
-    header = False
-    for bar in chip_info.iterBar():
-        if bar.group != group:
-            continue
-	if header == False:
-	    out.write("\n")
-	    out.write("/**\n")
-	    out.write(" * Bar %s\n" % bar.enum_name)
-	    if bar.description:
-		out.write(" *\n")
-		for l in bar.description:
-		    l = l.rstrip();
-		    if l:
-			out.write(" * %s\n" % l)
-		    else:
-			out.write(" *\n")
-	    out.write(" */\n")
-	    out.write("#ifdef __cplusplus\n")
-	    out.write("namespace %s {\n" % bar.enum_name)
-	    header = True
-        out.write("\tconst uint64_t %s = 0x%x;\n" % (bar.name, bar.start))
-        out.write("\tconst uint64_t %s_PCC_BAR_SIZE_BITS = %u;\n" % (bar.name, bar.size))
-    if header:
-        out.write("};\n")
-        out.write("#endif\n")
-	
     for enum in chip_info.iterEnum():
         if enum.group != group:
             continue

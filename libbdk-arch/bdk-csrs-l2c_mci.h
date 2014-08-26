@@ -58,33 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar L2C_MCI_BAR_E
- *
- * L2C_MCI Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace L2C_MCI_BAR_E {
-	const uint64_t L2C_MCI0_PF_BAR0 = 0x87e05c000000;
-	const uint64_t L2C_MCI0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_MCI0_PF_BAR4 = 0x87e05cf00000;
-	const uint64_t L2C_MCI0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_MCI1_PF_BAR0 = 0x87e05d000000;
-	const uint64_t L2C_MCI1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_MCI1_PF_BAR4 = 0x87e05df00000;
-	const uint64_t L2C_MCI1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_MCI2_PF_BAR0 = 0x87e05e000000;
-	const uint64_t L2C_MCI2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_MCI2_PF_BAR4 = 0x87e05ef00000;
-	const uint64_t L2C_MCI2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_MCI3_PF_BAR0 = 0x87e05f000000;
-	const uint64_t L2C_MCI3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_MCI3_PF_BAR4 = 0x87e05ff00000;
-	const uint64_t L2C_MCI3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration L2C_MCI_INT_VEC_E
  *
  * L2C_MCI MSI-X Vector Enumeration

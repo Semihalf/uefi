@@ -58,37 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar OCLA_BAR_E
- *
- * OCLA Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace OCLA_BAR_E {
-	const uint64_t OCLA0_PF_BAR0 = 0x87e0a8000000;
-	const uint64_t OCLA0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t OCLA0_PF_BAR4 = 0x87e0a8f00000;
-	const uint64_t OCLA0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t OCLA1_PF_BAR0 = 0x87e0a9000000;
-	const uint64_t OCLA1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t OCLA1_PF_BAR4 = 0x87e0a9f00000;
-	const uint64_t OCLA1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t OCLA2_PF_BAR0 = 0x87e0aa000000;
-	const uint64_t OCLA2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t OCLA2_PF_BAR4 = 0x87e0aaf00000;
-	const uint64_t OCLA2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t OCLA3_PF_BAR0 = 0x87e0ab000000;
-	const uint64_t OCLA3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t OCLA3_PF_BAR4 = 0x87e0abf00000;
-	const uint64_t OCLA3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t OCLA4_PF_BAR0 = 0x87e0ac000000;
-	const uint64_t OCLA4_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t OCLA4_PF_BAR4 = 0x87e0acf00000;
-	const uint64_t OCLA4_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration OCLA_INT_VEC_E
  *
  * OCLA MSI-X Vector Enumeration

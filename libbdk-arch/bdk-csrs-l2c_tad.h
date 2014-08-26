@@ -58,49 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar L2C_TAD_BAR_E
- *
- * L2C_TAD Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace L2C_TAD_BAR_E {
-	const uint64_t L2C_TAD0_PF_BAR0 = 0x87e050000000;
-	const uint64_t L2C_TAD0_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD0_PF_BAR4 = 0x87e050f00000;
-	const uint64_t L2C_TAD0_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD1_PF_BAR0 = 0x87e051000000;
-	const uint64_t L2C_TAD1_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD1_PF_BAR4 = 0x87e051f00000;
-	const uint64_t L2C_TAD1_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD2_PF_BAR0 = 0x87e052000000;
-	const uint64_t L2C_TAD2_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD2_PF_BAR4 = 0x87e052f00000;
-	const uint64_t L2C_TAD2_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD3_PF_BAR0 = 0x87e053000000;
-	const uint64_t L2C_TAD3_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD3_PF_BAR4 = 0x87e053f00000;
-	const uint64_t L2C_TAD3_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD4_PF_BAR0 = 0x87e054000000;
-	const uint64_t L2C_TAD4_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD4_PF_BAR4 = 0x87e054f00000;
-	const uint64_t L2C_TAD4_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD5_PF_BAR0 = 0x87e055000000;
-	const uint64_t L2C_TAD5_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD5_PF_BAR4 = 0x87e055f00000;
-	const uint64_t L2C_TAD5_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD6_PF_BAR0 = 0x87e056000000;
-	const uint64_t L2C_TAD6_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD6_PF_BAR4 = 0x87e056f00000;
-	const uint64_t L2C_TAD6_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-	const uint64_t L2C_TAD7_PF_BAR0 = 0x87e057000000;
-	const uint64_t L2C_TAD7_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t L2C_TAD7_PF_BAR4 = 0x87e057f00000;
-	const uint64_t L2C_TAD7_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration L2C_TAD_INT_VEC_E
  *
  * L2C_TAD MSI-X Vector Enumeration

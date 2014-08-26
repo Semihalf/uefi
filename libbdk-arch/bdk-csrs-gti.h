@@ -58,21 +58,6 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * Bar GTI_BAR_E
- *
- * GTI Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#ifdef __cplusplus
-namespace GTI_BAR_E {
-	const uint64_t GTI_PF_BAR0 = 0x844000000000;
-	const uint64_t GTI_PF_BAR0_PCC_BAR_SIZE_BITS = 23;
-	const uint64_t GTI_PF_BAR4 = 0x84400f000000;
-	const uint64_t GTI_PF_BAR4_PCC_BAR_SIZE_BITS = 20;
-};
-#endif
-
-/**
  * Enumeration GTI_INT_VEC_E
  *
  * GTI MSI-X Vector Enumeration
