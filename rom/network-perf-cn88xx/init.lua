@@ -10,27 +10,14 @@ print("Copyright (C) 2014 Cavium Networks")
 printf("Version %s\n", require("bdk-version"))
 print("")
 
-menu.dofile("board-ebb7800")
+menu.dofile("board-ebb8800")
 
 print("Setup the QLMs")
--- Use external ref clock
-for qlm=2,7 do
-    cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
-    cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
-end
--- Two XAUI
-cavium.c.bdk_qlm_set_mode(cavium.MASTER, 2, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
-cavium.c.bdk_qlm_set_mode(cavium.MASTER, 3, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
--- Two 10G-KR
-cavium.c.bdk_qlm_set_mode(cavium.MASTER, 4, cavium.QLM_MODE_10G_KR_4X1, 10321, 0)
-cavium.c.bdk_qlm_set_mode(cavium.MASTER, 5, cavium.QLM_MODE_10G_KR_4X1, 10321, 0)
--- Two 40G-KR
-cavium.c.bdk_qlm_set_mode(cavium.MASTER, 6, cavium.QLM_MODE_40G_KR4_1X4, 10321, 0)
-cavium.c.bdk_qlm_set_mode(cavium.MASTER, 7, cavium.QLM_MODE_40G_KR4_1X4, 10321, 0)
-
-print("Setting up for 2048 2KB packet buffers")
-cavium.c.bdk_config_set(cavium.CONFIG_NUM_PACKET_BUFFERS, 2048)
-cavium.c.bdk_config_set(cavium.CONFIG_FPA_POOL_SIZE0, 2048)
+local node = cavium.MASTER_NODE
+-- 4 10G-KR ports
+cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_10G_KR_4X1, 10321, 0)
+-- 1 40G-KR port
+cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_40G_KR4_1X4, 10321, 0)
 
 print("Creating traffic-gen")
 local trafficgen = require("trafficgen")
@@ -38,6 +25,7 @@ local tg = trafficgen.new()
 local USEC = 1000000
 tg:command("default all")
 tg:command("count all 0")
+tg:command("loopback all internal")
 
 print("Wait for the links to come up")
 cavium.c.bdk_wait_usec(5 * USEC)
@@ -54,14 +42,9 @@ local function tg_perf(tg, tx_ports, size, rate_mbps)
     tg:command("stop all")
     local tx_mbps = 0
     local rx_mbps = 0
-    -- LOOP ports use PKI counters that given bogus values randomly. Ignore
-    -- these ports unless we really need to count them
-    local use_loop_stats = tx_ports:find("LOOP")
     for port,stat in pairs(stats) do
-        if (not port:find("LOOP")) or use_loop_stats then
-            tx_mbps = tx_mbps + stat.tx_bits
-            rx_mbps = rx_mbps + stat.rx_bits
-        end
+        tx_mbps = tx_mbps + stat.tx_bits
+        rx_mbps = rx_mbps + stat.rx_bits
     end
     tx_mbps = (tx_mbps + 500000) / 1000000
     rx_mbps = (rx_mbps + 500000) / 1000000
@@ -72,15 +55,13 @@ end
 --
 -- Network Traffic Tests
 --
-local PACKET_SIZES = {60, 128, 500, 1500, 8000}
+local PACKET_SIZES = {60, 128, 256, 500, 1500, 8000, 9212}
 local PORT_LISTS = {
-    {"LOOP0-LOOP3",         10000},
-    {"XAUI0",               10000},
-    {"XAUI0-XAUI1",         10000},
-    {"10GKR2.0",            10000},
-    {"40GKR4",              40000},
-    {"10GKR2.0-10GKR3.3",   10000},
-    {"40GKR4-40GKR5",       40000},
+    {"10GKR0.0",            10000},
+    {"10GKR0.0-10GKR0.3",   10000},
+    {"40GKR1",              40000},
+    {"FAKE0",               40000},
+    {"FAKE0-FAKE3",         40000},
 }
 
 print("Starting tests")
