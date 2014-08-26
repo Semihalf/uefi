@@ -1,5 +1,6 @@
 import time
 import os
+from csr_output_addresses import toHex
 
 BG_RESERVED = "gray"
 BG_TITLE = "lightgray"
@@ -75,6 +76,7 @@ def writeCsrHeader(out, csr, hide_address=0):
     out.write("<tr>" + TD("Range", bgcolor=BG_TITLE) + TD(rangeAsString(csr.range)) + "</tr>\n")
     if not hide_address:
         out.write("<tr>" + TD("Address", bgcolor=BG_TITLE) + TD(csr.getAddressEquation(no_ull=1)) + "</tr>\n")
+    out.write("<tr>" + TD("Reset", bgcolor=BG_TITLE) + TD(toHex(csr.reset_value)) + "</tr>\n")
     out.write("<tr>" + TD("Description", bgcolor=BG_TITLE, colspan=2) + "</tr>\n")
     out.write("<tr>" + TD(PRE("\n".join(csr.description)), colspan=2) + "</tr>\n")
     out.write("<tr>" + TD("Notes", bgcolor=BG_TITLE, colspan=2) + "</tr>\n")
