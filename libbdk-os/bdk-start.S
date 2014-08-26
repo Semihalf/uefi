@@ -130,12 +130,6 @@ crc_done:
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
 
-.align 12
-__bdk_initial_stack_start:
-    .dword   0
-.align 12
-__bdk_initial_stack_end:
-
     .macro exception_stub label
     .global __bdk_exception_\label
     .align 7
@@ -160,4 +154,10 @@ __bdk_exception_\label:
     exception_stub lower_el_irq_spx
     exception_stub lower_el_fiq_spx
     exception_stub lower_el_serror_spx
+
+.align 12
+__bdk_initial_stack_start:
+    .dword   0
+.align 12
+__bdk_initial_stack_end:
 
