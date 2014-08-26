@@ -11,6 +11,8 @@ import csr_output_header
 import chip_database
 import csr_output_db
 import csr_output_lua
+import enum_combiner
+from chip_info import ChipInfo
 
 #
 # Top level script for working with CSRs
@@ -117,6 +119,11 @@ for chip_info in separate_chip_infos:
                     per_type_used_addresses[csr.type][address] = (name, csr)
 
 # Combine all chips into a master CSR list
+combinedInfo = ChipInfo("s")
+print "Combining Enums"
+enum_combiner.combine(combinedInfo, separate_chip_infos)
+combinedInfo._structs = separate_chip_infos[0]._structs # FIXME
+combinedInfo._bars = separate_chip_infos[0]._bars # FIXME
 print "Combining CSRs"
 combined_list = csr_list_combiner.combine(separate_chip_infos)
 
@@ -126,7 +133,7 @@ if generate_html:
     csr_output_html.writeAll(combined_list, diff=(("cn88xx", "cn85xx"),))
 
 print "Writing C headers"
-csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, separate_chip_infos[0])
+csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, combinedInfo)
 
 print "Writing " + OUTPUT_FILENAME_DB
 csr_output_db.write(OUTPUT_FILENAME_DB, separate_chip_infos)
