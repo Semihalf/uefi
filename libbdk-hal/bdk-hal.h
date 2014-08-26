@@ -24,7 +24,6 @@
 #include "bdk-atomic.h"
 #include "bdk-spinlock.h"
 #include "bdk-clock.h"
-#include "bdk-core.h"
 #include "bdk-crc.h"
 #include "bdk-error-report.h"
 #include "bdk-gpio.h"
