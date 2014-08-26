@@ -35,7 +35,6 @@
 #include "bdk-mpi.h"
 #include "bdk-mmc.h"
 #include "bdk-pcie.h"
-#include "bdk-pcie-eeprom.h"
 #include "bdk-qlm.h"
 #include "bdk-rng.h"
 #include "bdk-twsi.h"
