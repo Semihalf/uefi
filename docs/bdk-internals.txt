@@ -524,27 +524,23 @@ main(int argc, const char*argv[])::
 Control transfers to the normal C main.
 
 
-Bootbus Memory Map
-~~~~~~~~~~~~~~~~~~
+SPI or eMMC Layout for Boot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following table details the layout of a BDK application in NOR
-flash.  The table assumes the application is installed at the reset
-vector.  Since the BDK dynamically maps itself, applications can be
-located anywhere in flash.
+The following table details the layout of a BDK applications stored
+in SPI or eMMC storage for booting.
 
-.Flash Physical Layout
+.SPI or eMMC Physical Layout
 [options="header"]
 |==========================================================================
-|Address	|Description
-|1FC0 0000	|Reset code and image header
-|1FC0 0200	|TLB
-|1FC0 0280	|XTLB
-|1FC0 0300	|Cache Error
-|1FC0 0380	|General Exception
-|1FC0 0400	|Interrupt
-|1FC0 0480	|EJTAG Debug
-|1FC0 0500	|Unused
-|1FC0 2000	|BDK boot code, followed by data, followed by code
+|Offset    |Size  |Description
+|0000 0000 |64KB  |Unused data. Can be replaced with a partition table. Zero by default
+|0001 0000 |64KB  |Cavium CVM_CLIB header. Only the bytes "CVM_CLIB" are required
+|0002 0000 |192KB |BDK stage 1 boot image. This is 192KB loaded by the Thunder boot rom
+|0002 0100 |4     |First instruction executed by the Thunder boot rom
+|0005 0000 |Varies|BDK full image. Can be chain loaded by the 192KB stage 1 image
+|00xx 0000 |Varies|Additional images are looked for on 64KB boundaries
+|0100 0000 | -    |End of image search area. This address and everything above it are unused by the BDK
 |==========================================================================
 
 
@@ -552,55 +548,45 @@ L2/DRAM Memory Map
 ~~~~~~~~~~~~~~~~~~
 
 After a BDK application relocates into DRAM, the following table describes
-the physical and virtual layout.
-
-* Exception vectors use KSEG0, Kernel unmapped
-* Data uses KSSEG, Supervisor mapped
-* Code uses KSEG3, Kernel mapped
-* Heap uses XKSEG, 64bit kernel unmapped
+the physical address layout. Currently the BDK runs with page tables disabled
+such that the virtual address is the same as physical address. This may change
+in the future, so applications should not depend on this behavior.
 
 [options="header"]
 |==========================================================================
-|Physical	|Virtual	|Description
-|0000 0000	|8000 0000 	|(kseg0) TLB (EPC)
-|0000 0080	|8000 0080	|(kseg0) XTLB (EPC)
-|0000 0100	|A000 0100	|(kseg1) Cache Error (ErrorEPC)
-|0000 0180	|8000 0180	|(kseg0) General Exception (EPC)
-|0000 0200	|8000 0200	|(kseg0) Interrupt (EPC)
-|0000 0280	|8000 0280	|Zero padding to the beginning of data
-|0000 0500	|8000 0500	|Remote console
-|0000 0700	|8000 0700	|Unused
-|0000 1000	|8000 1000	|4KB for Uboot environment (Address hard coded in Uboot)
-|0000 2000	|8000 2000	|(kseg0) Init code
-|0000 2xxx	|C000 2xxx	|(ksseg) Data starting after init code
-|...            |               |
-|0xxx x000	|Exxx x000	|(kseg3) Code cache line aligned
-|...            |               |
-|0xxx xxxx	|XKPHYS		|(xkphys) Start of heap, after code
-|1000 0000	|B000 0000	|(kseg1) Bootbus
-|2000 0000	|XKPHYS		|(xkphys) Rest of memory
-|==========================================================================
-
-
-TLB
-~~~
-
-BDK uses two wired TLB entries, currently 4MB each.  The two entries
-point to the same 4MB region starting at zero.  The first TLB entry
-maps the code starting at virtual address 0xE0000000.  The second TLB
-entry maps the data starting at virtual address 0xC0000000.  All other
-TLB entries are invalid.
-
-[options="header"]
-|==========================================================================
-|Virtual	|Physical	|Size	|Description
-|E000 0000	|0000 0000	|4MB	|Code in L2/DRAM
-|C000 0000	|0000 0000	|4MB	|Data in L2/DRAM
+|Physical	|Symbol         |Description
+|0000 0000	|_start 	|256 byte BDK image header
+|0000 0100	|__bdk_start	|Beginning of code. Execution starts here
+|0000 0800	|__bdk_exception_current_el_sync_sp0 |Exception vector
+|0000 0880      |__bdk_exception_current_el_irq_sp0 | Exception vector
+|0000 0900      |__bdk_exception_current_el_fiq_sp0 | Exception vector
+|0000 0980      |__bdk_exception_current_el_serror_sp0 | Exception vector
+|0000 0a00      |__bdk_exception_current_el_sync_spx | Exception vector
+|0000 0a80      |__bdk_exception_current_el_irq_spx | Exception vector
+|0000 0b00      |__bdk_exception_current_el_fiq_spx | Exception vector
+|0000 0b80      |__bdk_exception_current_el_serror_spx | Exception vector
+|0000 0c00      |__bdk_exception_lower_el_sync_sp0 | Exception vector
+|0000 0c80      |__bdk_exception_lower_el_irq_sp0 | Exception vector
+|0000 0d00      |__bdk_exception_lower_el_fiq_sp0 | Exception vector
+|0000 0d80      |__bdk_exception_lower_el_serror_sp0 | Exception vector
+|0000 0e00      |__bdk_exception_lower_el_sync_spx | Exception vector
+|0000 0e80      |__bdk_exception_lower_el_irq_spx | Exception vector
+|0000 0f00      |__bdk_exception_lower_el_fiq_spx | Exception vector
+|0000 0f80      |__bdk_exception_lower_el_serror_spx | Exception vector
+|0000 1000      |__bdk_initial_stack_start | Top of the stack used during early boot
+|0000 2000      |.text | Bottom of the stack used during early boot and the beginning of the text segment
+|*              |.rodata | Read only data
+|*              |.data | Static data
+|*              |.bss | Zeroed static data
+|*              |_end | Symbol for end of BDK code and data
+|*              |     | ROMFS files start immediately after the _end symbol
+|header length  |     | Everythign up to the header length field is included in the header CRC32
 |==========================================================================
 
 Notes
 ~~~~~
-* Init code copies the entire image very early, before the TLB is setup.
 * BDK images can start at any alignment. They immediately relocate to zero.
-* Install bootbus region on reset vector to report reset/NMI. A real chip
-	reset will move it out of the way automatically.
+* After relocation, a CRC32 is calculated over the entire iamge and passed
+        to the C code. This is verified as part of BDK init for every
+        application.
+* Secondary cores start executing at the __bdk_start symbol.
