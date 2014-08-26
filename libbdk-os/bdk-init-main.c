@@ -36,8 +36,7 @@ static void __bdk_init_local_node(void)
         printf("N%d: Performing node initialization\n", node);
 
     bdk_l2c_initialize(node);
-    if (!bdk_is_simulation())
-        bdk_rng_enable(node);
+    bdk_rng_enable(node);
 
     if (BDK_IS_REQUIRED(PCIE))
         bdk_pcie_global_initialize(node);
