@@ -117,7 +117,7 @@ local function create_device(root, bus, deviceid, func)
                 if device.ismultifunction then
                     for func = 1,7 do
                         -- Try and create a device
-                        device = create_device(self.root, self.busnum, deviceid, 0)
+                        device = create_device(self.root, self.busnum, deviceid, func)
                         -- Device will be nil if nothing was there
                         if device then
                             -- Add the new device to my children
