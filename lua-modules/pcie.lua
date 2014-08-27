@@ -518,15 +518,16 @@ function pcie.initialize(node, pcie_port)
         self.devices = {}
         -- Get the top level bus number
         self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).PBNUM
+        local bus = self.last_bus
         for dev=0,31 do
-            local device = create_device(self, self.last_bus, dev, 0)
+            local device = create_device(self, bus, dev, 0)
             if device then
                 table.insert(self.devices, device)
                 -- Device is mulifunction so scan the other functions
                 if device.ismultifunction then
                     for func = 1,7 do
                         -- Try and create a device
-                        device = create_device(self, self.last_bus, dev, func)
+                        device = create_device(self, bus, dev, func)
                         -- Device will be nil if nothing was there
                         if device then
                             -- Add the new device to my children
