@@ -50,6 +50,53 @@ local PCICONFIG_PREF_LIMIT_UPPER    = 0x2c
 local PCICONFIG_IO_BASE_UPPER       = 0x30
 local PCICONFIG_IO_LIMIT_UPPER      = 0x32
 
+-- Table to show nice names for devices that are Cavium internal
+local DEVICE_NAME = {
+    [0xa001] = "MRML",
+    [0xa002] = "PCC Bridge",
+    [0xa008] = "SMMU",
+    [0xa009] = "GIC",
+    [0xa00a] = "GPIO",
+    [0xa00b] = "MPI",
+    [0xa00c] = "MIO_PTP",
+    [0xa00d] = "MIX",
+    [0xa00e] = "RST",
+    [0xa00f] = "UAA",
+    [0xa010] = "MIO_EMM",
+    [0xa011] = "MIO_BOOT",
+    [0xa012] = "MIO_TWS",
+    [0xa013] = "OCX",
+    [0xa014] = "VRM",
+    [0xa015] = "SLI",
+    [0xa016] = "KEY",
+    [0xa017] = "GTI",
+    [0xa018] = "RNM",
+    [0xa019] = "DFA",
+    [0xa01a] = "ZIP",
+    [0xa01b] = "USBH",
+    [0xa01c] = "SATA",
+    [0xa01d] = "RAD",
+    [0xa01e] = "NIC",
+    [0xa01f] = "TNS",
+    [0xa020] = "PEM",
+    [0xa021] = "L2C",
+    [0xa022] = "LMC",
+    [0xa023] = "OCLA",
+    [0xa024] = "OSM",
+    [0xa025] = "GSER",
+    [0xa026] = "BGX",
+    [0xa027] = "IOBN",
+    [0xa029] = "NCSI",
+    [0xa02a] = "SGP",
+    [0xa02b] = "SMI",
+    [0xa02c] = "DAP",
+    [0xa02d] = "PCIERC",
+    [0xa02e] = "L2C_TAD",
+    [0xa02f] = "L2C_CBC",
+    [0xa030] = "L2C_MCI",
+    [0xa031] = "MIO_FUS",
+    [0xa032] = "FUSF",
+}
 
 local configr8 = cavium.c.bdk_pcie_config_read8
 local configr16 = cavium.c.bdk_pcie_config_read16
@@ -303,14 +350,22 @@ local function create_device(root, bus, deviceid, func)
             indent = ""
         end
         local t = self:read32(PCICONFIG_CLASS_CODE_REV_ID)
-        printf("%s%d:%d.%d Class:%06x Vendor:%04x Device:%04x (Rev %02x)\n",
+        local vendor = self:read16(PCICONFIG_VENDOR_ID)
+        local deviceid = self:read16(PCICONFIG_DEVICE_ID)
+        local deviceid_str = ""
+        if (vendor == 0x177d) and (DEVICE_NAME[deviceid]) then
+            deviceid_str = DEVICE_NAME[deviceid]
+        end
+
+        printf("%s%d:%d.%d Class:%06x Vendor:%04x Device:%04x %s(Rev %02x)\n",
             indent,
             self.bus,
             self.deviceid,
             self.func,
             bit64.rshift(t, 8),
-            self:read16(PCICONFIG_VENDOR_ID),
-            self:read16(PCICONFIG_DEVICE_ID),
+            vendor,
+            deviceid,
+            deviceid_str,
             bit64.band(t, 0xff))
         printf("%s    Command:%04x Status:%04x\n",
             indent,
