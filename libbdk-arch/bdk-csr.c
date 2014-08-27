@@ -37,12 +37,32 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
 
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
-            bdk_pemx_cfg_rd_t pemx_cfg_rd;
-            pemx_cfg_rd.u = 0;
-            pemx_cfg_rd.s.addr = address;
-            BDK_CSR_WRITE(node, BDK_PEMX_CFG_RD(busnum), pemx_cfg_rd.u);
-            pemx_cfg_rd.u = BDK_CSR_READ(node, BDK_PEMX_CFG_RD(busnum));
-            return pemx_cfg_rd.s.data;
+            union pcc_dev_con_s dev_con;
+            switch (busnum)
+            {
+                case 0:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC0;
+                    break;
+                case 1:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC1;
+                    break;
+                case 2:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC2;
+                    break;
+                case 3:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC3;
+                    break;
+                case 4:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC4;
+                    break;
+                case 5:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC5;
+                    break;
+                default:
+                    bdk_error("%s: Illegal PCIe bus number\n", __FUNCTION__);
+                    return -1;
+            }
+            return bdk_pcie_config_read32(node, 100 + dev_con.s.ecam, dev_con.s.bus, dev_con.s.func >> 3, dev_con.s.func & 7, address);
         }
     }
     return -1; /* Return -1 as this looks invalid in register dumps. Zero is too common as a good value */
@@ -82,11 +102,32 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
 
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
-            bdk_pemx_cfg_wr_t pemx_cfg_wr;
-            pemx_cfg_wr.u = 0;
-            pemx_cfg_wr.s.addr = address;
-            pemx_cfg_wr.s.data = value;
-            BDK_CSR_WRITE(node, BDK_PEMX_CFG_WR(busnum), pemx_cfg_wr.u);
+            union pcc_dev_con_s dev_con;
+            switch (busnum)
+            {
+                case 0:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC0;
+                    break;
+                case 1:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC1;
+                    break;
+                case 2:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC2;
+                    break;
+                case 3:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC3;
+                    break;
+                case 4:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC4;
+                    break;
+                case 5:
+                    dev_con.u = PCC_DEV_CON_E_PCIERC5;
+                    break;
+                default:
+                    bdk_error("%s: Illegal PCIe bus number\n", __FUNCTION__);
+                    return;
+            }
+            bdk_pcie_config_write32(node, 100 + dev_con.s.ecam, dev_con.s.bus, dev_con.s.func >> 3, dev_con.s.func & 7, address, value);
             break;
         }
     }
