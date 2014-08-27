@@ -179,6 +179,15 @@ local function create_device(root, bus, deviceid, func)
         end
     end
 
+    --
+    -- BARs are stored as an array of 4 elements
+    -- 1) Pointer to the device (self)
+    -- 2) The PCIe config address of the BAR
+    -- 3) The size of the bar in bytes
+    -- 4) The address of the BAR in PCIe space
+    -- This function compares the BAR sizes so they
+    -- can be sorted largest to smallest
+    --
     local function  bar_size_compare(a, b)
         return a[3] > b[3]
     end
@@ -516,8 +525,12 @@ function pcie.initialize(node, pcie_port)
     --
     function pcie_root:scan()
         self.devices = {}
-        -- Get the top level bus number
-        self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).PBNUM
+        -- Get the top level bus number. The PCIe ports in Thunder
+        -- are behind a "bridge" on the ECAM. In an effort not to confuse
+        -- people, this enumeration code starts at the bus behind the
+        -- "bridge". This means it will only show the device connected
+        -- to the PCIe port and not the Thunder internal devices.
+        self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).SBNUM
         local bus = self.last_bus
         for dev=0,31 do
             local device = create_device(self, bus, dev, 0)
