@@ -4,8 +4,21 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
+/**
+ * This function is called for every Cavium device on the internal ECAMs. Hardware
+ * doesn't fully setup the ECAM values for the internal devices, so this code
+ * updates various ECAM values to get them ready for enumeration by generic PCIe
+ * enumeration code.
+ *
+ * @param node   Which node to setup
+ * @param ecam   Which ecam to setup
+ * @param dev    Device number on the ecam
+ * @param fn     Sub-function on the ECAM
+ */
 static void pcie_internal_init(bdk_node_t node, int ecam, int dev, int fn)
 {
+    /* Get the current chip ID and pass. We'll need this to fill in version
+       information for the device */
     bdk_sys_midr_el1_t midr_el1;
     BDK_MRS(MIDR_EL1, midr_el1.u);
 
@@ -84,7 +97,6 @@ static void pcie_internal_init(bdk_node_t node, int ecam, int dev, int fn)
                 BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_SDIS(ecam, bus), 0);
                 BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_NSDIS(ecam, bus), 0);
             }
-
         }
     }
 
