@@ -27,5 +27,5 @@ lua-modules: $(LUA_FILES)
 
 .PHONY: copy
 copy:
-	rm -rf /var/www/bdk3/*
-	cp -r $(pdfs) api-docs lua* /var/www/bdk3/
+	rm -rf /var/www/thunder/bdk/*
+	cp -r $(pdfs) api-docs lua* /var/www/thunder/bdk/
