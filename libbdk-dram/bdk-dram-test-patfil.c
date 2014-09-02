@@ -268,7 +268,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     int failures = 0;
 
     /* Pass 1 ascending addresses, fill memory with pattern. */
-    BDK_TRACE("    [0x%016lx:0x%016lx] Phase1, address incrementing, pattern 0x%016lx\n", area, max_address-1, pattern);
+    BDK_TRACE(DRAM_TEST, "    [0x%016lx:0x%016lx] Phase1, address incrementing, pattern 0x%016lx\n", area, max_address-1, pattern);
     for (uint64_t address = area; address < max_address; address += 8)
         WRITE64(address, pattern);
 
@@ -276,7 +276,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     BDK_DCACHE_INVALIDATE;
 
     /* Pass 2: ascending addresses, read pattern and write ~pattern */
-    BDK_TRACE("    [0x%016lx:0x%016lx] Phase2, address incrementing, pattern 0x%016lx\n", area, max_address-1, ~pattern);
+    BDK_TRACE(DRAM_TEST, "    [0x%016lx:0x%016lx] Phase2, address incrementing, pattern 0x%016lx\n", area, max_address-1, ~pattern);
     for (uint64_t address = area; address < max_address; address += 8)
     {
         uint64_t data = READ64(address);
@@ -289,7 +289,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     BDK_DCACHE_INVALIDATE;
 
     /* Pass 3: ascending addresses, read ~pattern and write pattern. */
-    BDK_TRACE("    [0x%016lx:0x%016lx] Phase3, address incrementing, pattern 0x%016lx\n", area, max_address-1, pattern);
+    BDK_TRACE(DRAM_TEST, "    [0x%016lx:0x%016lx] Phase3, address incrementing, pattern 0x%016lx\n", area, max_address-1, pattern);
     for (uint64_t address = area; address < max_address; address += 8)
     {
         uint64_t data = READ64(address);
@@ -302,7 +302,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     BDK_DCACHE_INVALIDATE;
 
     /* Pass 4: descending addresses, read pattern and write ~pattern. */
-    BDK_TRACE("    [0x%016lx:0x%016lx] Phase4, address decrementing, pattern 0x%016lx\n", area, max_address-1, ~pattern);
+    BDK_TRACE(DRAM_TEST, "    [0x%016lx:0x%016lx] Phase4, address decrementing, pattern 0x%016lx\n", area, max_address-1, ~pattern);
     uint64_t end = max_address - sizeof(uint64_t);
     for (uint64_t address = end; address >= area; address -= 8)
     {
@@ -316,7 +316,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     BDK_DCACHE_INVALIDATE;
 
     /* Pass 5: descending addresses, read ~pattern and write pattern. */
-    BDK_TRACE("    [0x%016lx:0x%016lx] Phase5, address decrementing, pattern 0x%016lx\n", area, max_address-1, pattern);
+    BDK_TRACE(DRAM_TEST, "    [0x%016lx:0x%016lx] Phase5, address decrementing, pattern 0x%016lx\n", area, max_address-1, pattern);
     for (uint64_t address = end; address >= area; address -= 8)
     {
         uint64_t data = READ64(address);
@@ -329,7 +329,7 @@ static int test_mem_march_c(uint64_t area, uint64_t max_address, uint64_t patter
     BDK_DCACHE_INVALIDATE;
 
     /* Pass 6: ascending addresses, read pattern. */
-    BDK_TRACE("    [0x%016lx:0x%016lx] Phase6, address incrementing\n", area, max_address-1);
+    BDK_TRACE(DRAM_TEST, "    [0x%016lx:0x%016lx] Phase6, address incrementing\n", area, max_address-1);
     for (uint64_t address = area; address < max_address; address += 8)
     {
         uint64_t data = READ64(address);

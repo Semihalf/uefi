@@ -25,7 +25,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
 
-    BDK_TRACE("N%d: DRAM init thread started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, dram_config);
+    BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, dram_config);
 
     dram_verbose_on = (getenv("ddr_verbose")) ? 1 : 0;
 
@@ -42,7 +42,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     /* We need to clear this global if we want this to work more than once.... */
     extern int global_ddr_clock_initialized;
     global_ddr_clock_initialized = 0;
-    BDK_TRACE("N%d: Calling DRAM init\n", node);
+    BDK_TRACE(DRAM, "N%d: Calling DRAM init\n", node);
     uint32_t measured_ddr_hertz = 0;
     int mbytes = octeon_ddr_initialize(node,
         bdk_clock_get_rate(node, BDK_CLOCK_CORE),
@@ -54,7 +54,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
         0,
         0,
         0);
-    BDK_TRACE("N%d: DRAM init returned %d, measured %u Hz\n", node, mbytes, measured_ddr_hertz);
+    BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n", node, mbytes, measured_ddr_hertz);
     return mbytes;
 }
 

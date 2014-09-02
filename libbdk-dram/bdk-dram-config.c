@@ -84,9 +84,9 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
         return -1;
     }
 
-    BDK_TRACE("N%d: Starting DRAM init (config=%p, ddr_clock_override=%d)\n", node, config, ddr_clock_override);
+    BDK_TRACE(DRAM, "N%d: Starting DRAM init (config=%p, ddr_clock_override=%d)\n", node, config, ddr_clock_override);
     int mbytes = libdram_config(node, config, ddr_clock_override);
-    BDK_TRACE("N%d: DRAM init returned %d\n", node, mbytes);
+    BDK_TRACE(DRAM, "N%d: DRAM init returned %d\n", node, mbytes);
     if (mbytes <= 0)
     {
         printf("ERROR: DDR initialization failed\n");
@@ -94,7 +94,7 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
     }
 
     /* Clear any DRAM errors set during init */
-    BDK_TRACE("N%d: Clearing L2 errors\n", node);
+    BDK_TRACE(DRAM, "N%d: Clearing L2 errors\n", node);
     int num_lmc = __bdk_dram_get_num_lmc(node);
     for (int lmc = 0; lmc < num_lmc; lmc++)
     {

@@ -123,12 +123,12 @@ static void dram_test_thread(int arg, void *arg1)
     start_address = bdk_numa_get_address(node, start_address);
     end_address = bdk_numa_get_address(node, end_address);
     /* Test the region */
-    BDK_TRACE("  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+    BDK_TRACE(DRAM_TEST, "  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
         node, bdk_get_core_num() & 127, start_address, end_address - 1);
     test_info->test_func(start_address, end_address, bursts);
 
     /* Report that we're done */
-    BDK_TRACE("Thread %d on node %d done with memory test\n", range_number, node);
+    BDK_TRACE(DRAM_TEST, "Thread %d on node %d done with memory test\n", range_number, node);
     bdk_atomic_add64_nosync(&dram_test_thread_done, 1);
 }
 
@@ -147,7 +147,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
 {
     /* Figure out the addess of the byte one off the top of memory */
     uint64_t max_address = bdk_dram_get_size_mbytes(bdk_numa_local());
-    BDK_TRACE("DRAM available per node: %lu MB\n", max_address);
+    BDK_TRACE(DRAM_TEST, "DRAM available per node: %lu MB\n", max_address);
     max_address <<= 20;
 
     /* Make sure we have enough */
@@ -160,7 +160,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Make sure the amount is sane */
     if (max_address > (1ull << 40))
         max_address = 1ull << 40;
-    BDK_TRACE("DRAM max address: 0x%016lx\n", max_address-1);
+    BDK_TRACE(DRAM_TEST, "DRAM max address: 0x%016lx\n", max_address-1);
 
     /* Make sure the start address is lower than the top of memory */
     if (start_address >= max_address)
@@ -188,7 +188,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Figure out the number of cores available in the system */
     if (max_cores == 0)
         max_cores += bdk_get_num_running_cores(bdk_numa_local());
-    BDK_TRACE("Using %d cores for memory tests\n", max_cores);
+    BDK_TRACE(DRAM_TEST, "Using %d cores for memory tests\n", max_cores);
 
     printf("Starting Test \"%s\" for [0x%016lx:0x%016lx]\n",
         test_info->name, start_address, end_address - 1);
@@ -241,7 +241,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
             {
                 if (per_node >= max_cores)
                     break;
-                BDK_TRACE("Starting thread %d on node %d for memory test\n", per_node, node);
+                BDK_TRACE(DRAM_TEST, "Starting thread %d on node %d for memory test\n", per_node, node);
                 if (bdk_thread_create(node, 0, dram_test_thread, per_node, (void *)test_info, 0))
                 {
                     bdk_error("Failed to create thread %d for memory test on node %d\n", per_node, node);
@@ -348,7 +348,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     if (errors)
         printf("Test \"%s\": FAIL\n", name);
     else
-        BDK_TRACE("Test \"%s\": PASS\n", name);
+        BDK_TRACE(DRAM_TEST, "Test \"%s\": PASS\n", name);
     return errors;
 }
 

@@ -16,12 +16,27 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define bdk_warn_if(expression, format, ...) if (bdk_unlikely(expression)) bdk_warn(format, ##__VA_ARGS__)
 #define static_assert(a) _Static_assert(a, #a)
 
-#ifndef BDK_DEBUG_TRACE
-#define BDK_DEBUG_TRACE 0
-#endif
-#if BDK_DEBUG_TRACE
-#define BDK_TRACE(format, ...) printf("[%s:%d] " format, __FILE__, __LINE__, ##__VA_ARGS__)
-#else
-#define BDK_TRACE(format, ...) do {} while (0)
-#endif
+/* The following defines control detailed tracing of various parts of the
+   BDK. Each one can be enabled(1) or disabled(0) independently. These
+   should be disabled unless you are trying to debug something specific */
+
+#define BDK_TRACE_ENABLE_BGX        0   /* BGX networking block */
+#define BDK_TRACE_ENABLE_DRAM       0   /* DRAM initialzation */
+#define BDK_TRACE_ENABLE_DRAM_TEST  0   /* DRAM test code */
+#define BDK_TRACE_ENABLE_INIT       0   /* Early initalization, before main() */
+#define BDK_TRACE_ENABLE_QLM        0   /* QLM related debug */
+
+/**
+ * Macro for low level tracing of BDK functions. When enabled,
+ * these translate to printf() calls. If disabled, they are
+ * removed by the compiler. The "area" is a string that is
+ * appended to "BDK_TRACE_ENABLE_" to figure out which enable
+ * macro to use. The macro expects a ';' after it.
+ */
+#define BDK_TRACE(area, format, ...) do {       \
+    if (BDK_TRACE_ENABLE_##area)                \
+        printf("[%s:%d]" #area ": " format,     \
+            __FILE__, __LINE__, ##__VA_ARGS__); \
+} while (0)
+
 /** @} */
