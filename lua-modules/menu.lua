@@ -131,6 +131,33 @@ function menu.new(title)
     return m
 end
 
+local function csr_command(cmd_line)
+    local args = {}
+    for word in cmd_line:gmatch("[^ ]+") do
+        table.insert(args, word)
+    end
+    assert(args[2], "CSR name[.field] expected with optional value for write")
+    local value = args[3]
+    local dot = args[2]:find(".", 2, true)
+    if dot then
+        local name = args[2]:sub(1,dot-1):upper()
+        local field = args[2]:sub(dot+1):upper()
+        if value then
+            cavium.csr[name][field] = value
+        else
+            local v = cavium.csr[name][field]
+            printf("%s.%s = %d (0x%x)\n", name, field, v, v)
+        end
+    else
+        local name = args[2]:upper()
+        if value then
+            cavium.csr.lookup(name).write(value)
+        else
+            cavium.csr.lookup(name).display()
+        end
+    end
+end
+
 --
 -- Function for reading all menu prompts. This reads a word at a time
 -- from the input. Lines with multiple words are returned across multiple
@@ -143,12 +170,22 @@ local function read_input(prompt)
     local need_echo = true
     local word
     repeat
+::retry::
         if not pending_input then
             need_echo = false
             pending_input = readline.readline(prompt, nil, 0)
             if (pending_input == nil) or (pending_input == "") then
                 pending_input = nil
                 return ""
+            end
+            -- As a special case, we allow acces to CSRs on any prompt
+            if cavium.csr and (pending_input:sub(1,3) == "csr") then
+                local status, message = pcall(csr_command, pending_input)
+                if not status then
+                    print("ERROR: " .. message)
+                end
+                pending_input = nil
+                goto retry
             end
         end
         word = pending_input:match("%s*%g+")
