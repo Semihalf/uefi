@@ -123,6 +123,7 @@ static int __bdk_if_init_node(bdk_node_t node)
  */
 static int __bdk_if_init(void)
 {
+    static_assert(sizeof(bdk_if_packet_t) == BDK_CACHE_LINE_SIZE);
     int result = 0;
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
