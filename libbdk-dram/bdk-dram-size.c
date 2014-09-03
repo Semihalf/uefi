@@ -34,10 +34,18 @@ uint64_t bdk_dram_get_size_mbytes(int node)
     const int num_dram_controllers = __bdk_dram_get_num_lmc(node);
     for (int lmc = 0; lmc < num_dram_controllers; lmc++)
     {
-        BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
-        int num_ranks = bdk_pop(lmcx_config.s.init_status);
-        uint64_t rank_size = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena);
-        memsize += rank_size * num_ranks;
+        if (bdk_is_simulation())
+        {
+            /* Asim doesn't simulate the rank detection, fake 4GB per controller */
+            memsize += 4ull << 30;
+        }
+        else
+        {
+            BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
+            int num_ranks = bdk_pop(lmcx_config.s.init_status);
+            uint64_t rank_size = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena);
+            memsize += rank_size * num_ranks;
+        }
     }
     return memsize >> 20;
 }
