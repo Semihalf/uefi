@@ -6,27 +6,6 @@ def fixDescription(descr):
         return []
     description = []
     description.extend(descr)
-    # Remove some strings that we don't want in our descriptions
-    for i in range(0,len(description)):
-        description[i] = description[i].replace("*DON'T PUT IN HRM*", "")
-        description[i] = description[i].replace("*UNUSED IN 63xx*", "")
-        description[i] = description[i].replace("*** NOTE: O9N PASS1 Addition", "")
-        description[i] = description[i].replace("*** NOTE: PASS2 Addition", "")
-        description[i] = description[i].replace("*** NOTE: O56 PASS1 Addition", "")
-        description[i] = description[i].replace("*** NOTE: O9N PASS2 Addition", "")
-        description[i] = description[i].replace("NOTE: O9N Addition", "")
-        description[i] = description[i].replace("(PASS2 only)", "")
-        description[i] = description[i].replace("PASS2 Field.", "")
-        description[i] = description[i].replace("** NEW O9N **", "")
-        description[i] = description[i].replace("O1P", "CN30XX")
-        description[i] = description[i].replace("O9N", "CN58XX")
-        description[i] = description[i].replace("O56", "CN56XX")
-    # Strip off ending "|", "$R", "NS"
-    for i in range(0,len(description)):
-        description[i] = description[i].rstrip()
-        for s in ["NS", "$R", "$PR", "|"]:
-            if description[i].endswith(s):
-                description[i] = description[i][0:-len(s)].rstrip()
     # Remove leading blank lines
     while len(description) and description[0].strip() == "":
         del description[0]
@@ -46,24 +25,22 @@ def fixDescription(descr):
                 pass
             else:
                 description[i] = description[i].replace("@", "X")   # Probably a ref to another CSR
-        # Don't put {} in comments
-        description[i] = description[i].replace("{", "[")
-        description[i] = description[i].replace("}", "]")
         description[i] = description[i].replace("/*", "/ *")
         description[i] = description[i].replace("*/", "* /")
-        description[i] = description[i].replace("<version>", "\\<version\\>") # Doxygen mistakenly thinks it is html
-
+        description[i] = re.sub("([^\\\\])<", "\\1\\<", description[i]) # Replace < not already escaped with escaped <
+        description[i] = re.sub("^<", "\\<", description[i]) # Replace < not already escaped with escaped <
+        description[i] = re.sub("([^\\\\])>", "\\1\\>", description[i]) # Replace > not already escaped with escaped >
+        description[i] = re.sub("([^\\\\])#", "\\1\\#", description[i]) # Replace # not already escaped with escaped #
         description[i] = re.sub("^([ ]+)[ ]([0-9](-[0-9]+)?):", "\\1- \\2:", description[i]) # Create lists from lines that start with number ranges
         description[i] = re.sub("^([ ]+)([0-9]+(-[0-9]+)?):", "\\1- \\2:", description[i]) # Create lists from lines that start with number ranges
         description[i] = re.sub("^([ ]+)\\.\\.$", "\\1- ...", description[i]) # Create lists from .. lines
         description[i] = re.sub("^([ ]+)(\\.[\\.]+)$", "\\1- \\2", description[i]) # Create lists from ... lines
-        description[i] = re.sub("([^a-zA-Z\\\\])\\#", "\\1\\#", description[i]) # Need to escape '#' or doxygen complains
         # Doxygen doesn't like lines that end with "..". It thinks they are some
         # sort of list. Three dots is ok.
         if not description[i].endswith("...") and description[i].endswith(".."):
             description[i] = description[i][0:-2]
         # Check for invalid characters
-        if not re.match("^[a-zA-Z0-9_@()\- \.=\]\[:,`#/+<>!^*|'\"&$?;~%\\\\]*$", description[i]):
+        if not re.match("^[a-zA-Z0-9_@(){}\- \.=\]\[:,`#/+<>!^*|'\"&$?;~%\\\\]*$", description[i]):
             raise Exception("Illegal character in description: " + description[i])
 
     description[1:] = textwrap.dedent("\n".join(description[1:])).split("\n")
