@@ -217,6 +217,9 @@ static void boot_image(const char *dev_filename, uint64_t loc)
         goto out;
     }
 
+    printf("    Putting all cores except this one in reset\n");
+    bdk_reset_cores(bdk_numa_local(), ~bdk_core_to_mask());
+
     printf("    Jumping to image at %p\n---\n", image);
     fflush(NULL);
     BDK_MB;

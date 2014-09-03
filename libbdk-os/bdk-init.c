@@ -251,7 +251,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     if (power & coremask)
     {
         power &= ~coremask;
-        BDK_TRACE(INIT, "N%d: Enabling RST_PP_POWER\n", node);
+        BDK_TRACE(INIT, "N%d: Changing pwoer state of cores\n", node);
         BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
         if (!bdk_is_simulation())
             bdk_wait_usec(1000); /* A delay seems to be needed here */
@@ -270,7 +270,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) + bdk_clock_get_count(BDK_CLOCK_CORE);
     while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
-        /* Tight spin */
+        /* Tight spin, no thread schedules */
     }
 
     if ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask)
@@ -281,6 +281,56 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     }
     BDK_TRACE(INIT, "N%d: All cores booted\n", node);
     return 0;
+}
+
+/**
+ * Put cores back in reset and power them down
+ *
+ * @param node     Node to update
+ * @param coremask Each bit will be a core put in reset. Cores already in reset are unaffected
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
+{
+    /* Limit to the cores that exist */
+    coremask &= (1ull<<bdk_get_num_cores(node)) - 1;
+
+    /* Update which cores are in reset */
+    uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
+    BDK_TRACE(INIT, "N%d: Cores currently in reset: 0x%lx\n", node, reset);
+    BDK_TRACE(INIT, "N%d: Cores to put into reset: 0x%lx\n", node, coremask & ~reset);
+
+    if (coremask & ~reset)
+    {
+        coremask |= reset;
+        BDK_CSR_WRITE(node, BDK_RST_PP_RESET, coremask);
+        /* Clear the cores in the alive mask */
+        __atomic_fetch_and(&__bdk_alive_coremask[node], ~coremask, __ATOMIC_ACQ_REL);
+
+        /* Loop waiting for the cores to enter reset */
+        uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) + bdk_clock_get_count(BDK_CLOCK_CORE);
+        while (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout)
+        {
+            reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
+            if (reset == coremask)
+                break;
+            /* Tight spin, no thread schedules */
+        }
+
+        BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
+    }
+
+    /* Check that all cores in reset are also powered off */
+    uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
+    if (~power & reset)
+    {
+        power |= reset;
+        BDK_TRACE(INIT, "N%d: Updating power state for cores in reset\n", node);
+        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
+        BDK_TRACE(INIT, "N%d: Cores in low power state: 0x%lx\n", node, power);
+    }
+    return (coremask & ~reset) ? -1 : 0;
 }
 
 /**

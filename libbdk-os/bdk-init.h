@@ -22,6 +22,16 @@
 extern int bdk_init_cores(bdk_node_t node, uint64_t coremask);
 
 /**
+ * Put cores back in reset and power them down
+ *
+ * @param node     Node to update
+ * @param coremask Each bit will be a core put in reset. Cores already in reset are unaffected
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
+
+/**
  * Call this function to take secondary nodes and cores out of
  * reset and have them start running threads
  *
