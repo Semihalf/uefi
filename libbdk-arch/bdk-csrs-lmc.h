@@ -1691,13 +1691,13 @@ typedef union bdk_lmcx_ecc_synd {
 	struct bdk_lmcx_ecc_synd_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t mrdsyn3                     : 8;  /**< RO/H - MRD ECC Syndrome Quad3. MRDSYN3 corresponds to DQ[63:0]_c1_p1, or in 32-bit mode
+		uint64_t mrdsyn3                     : 8;  /**< RO/H - MRD ECC syndrome quad 3. MRDSYN3 corresponds to DQ[63:0]_c1_p1, or in 32-bit mode
                                                                  DQ[31:0]_c3_p1/0, where _cC_pP denotes cycle C and phase P. */
-		uint64_t mrdsyn2                     : 8;  /**< RO/H - MRD ECC Syndrome Quad2. MRDSYN2 corresponds to DQ[63:0]_c1_p0, or in 32-bit mode
+		uint64_t mrdsyn2                     : 8;  /**< RO/H - MRD ECC syndrome quad 2. MRDSYN2 corresponds to DQ[63:0]_c1_p0, or in 32-bit mode
                                                                  DQ[31:0]_c2_p1/0, where _cC_pP denotes cycle C and phase P. */
-		uint64_t mrdsyn1                     : 8;  /**< RO/H - MRD ECC Syndrome Quad1. MRDSYN1 corresponds to DQ[63:0]_c0_p1, or in 32-bit mode
+		uint64_t mrdsyn1                     : 8;  /**< RO/H - MRD ECC syndrome quad 1. MRDSYN1 corresponds to DQ[63:0]_c0_p1, or in 32-bit mode
                                                                  DQ[31:0]_c1_p1/0, where _cC_pP denotes cycle C and phase P. */
-		uint64_t mrdsyn0                     : 8;  /**< RO/H - MRD ECC Syndrome Quad0. MRDSYN0 corresponds to DQ[63:0]_c0_p0, or in 32-bit mode
+		uint64_t mrdsyn0                     : 8;  /**< RO/H - MRD ECC syndrome quad 0. MRDSYN0 corresponds to DQ[63:0]_c0_p0, or in 32-bit mode
                                                                  DQ[31:0]_c0_p1/0, where _cC_pP denotes cycle C and phase P. */
 #else
 		uint64_t mrdsyn0                     : 8;

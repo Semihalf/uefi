@@ -221,7 +221,7 @@ enum gpio_int_vec_e {
  * Enumeration GPIO_PIN_SEL_E
  *
  * GPIO Output Select Enumeration
- * Enumerates the GPIO pin function selections for GPIO_BIT_CFG(0..50)[PIN_SEL].
+ * Enumerates the GPIO pin function selections for GPIO_BIT_CFG()[PIN_SEL].
  * The GPIO pins can be configured as either input or output depending on selected function's
  * definition.
  * When GPIO pin is used as input pin, GPIO input is reported to selected function as well as
@@ -426,8 +426,8 @@ typedef union bdk_gpio_bit_cfgx {
                                                                  For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
                                                                  GPIO interrupts. */
 		uint64_t tx_oe                       : 1;  /**< R/W - Transmit output enable. When set to 1, the GPIO pin can be driven as an output pin
-                                                                 if GPIO_BIT_CFG(0..50)[PIN_SEL] selects GPIO_SW. TX_OE is only used along with GPIO_TX_SET
-                                                                 or GPIO_TX_CLR, and TX_OE function is before GPIO_BIT_CFG(0..50)[PIN_SEL] mux. */
+                                                                 if GPIO_BIT_CFG()[PIN_SEL] selects GPIO_SW. TX_OE is only used along with GPIO_TX_SET
+                                                                 or GPIO_TX_CLR, and TX_OE function is before GPIO_BIT_CFG()[PIN_SEL] mux. */
 #else
 		uint64_t tx_oe                       : 1;
 		uint64_t pin_xor                     : 1;
@@ -498,9 +498,10 @@ static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long param1)
 /**
  * NCB - gpio_clk_synce#
  *
- * A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
- * to send out any GPIO pin as configured by GPIO_BIT_CFG(0..50)[SYNCE_SEL]. The clock can be
- * divided by 20, 40, 80 or 160 of the selected QLM SerDes clock.
+ * A QLM can be configured as a clock source. The GPIO block can support up to two
+ * unique clocks to send out any GPIO pin as configured when GPIO_BIT_CFG()[PIN_SEL] =
+ * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). The clock can be divided by 20, 40, 80 or 160
+ * of the selected QLM SerDes clock.
  */
 typedef union bdk_gpio_clk_syncex {
 	uint64_t u;
@@ -933,8 +934,8 @@ typedef union bdk_gpio_ocla_exten_trig {
 	struct bdk_gpio_ocla_exten_trig_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_1_63               : 63;
-		uint64_t m_trig                      : 1;  /**< R/W - Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, see
-                                                                 GPIO_BIT_CFG(0..50)[PIN_SEL].
+		uint64_t m_trig                      : 1;  /**< R/W - Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
+                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
                                                                  This signal report to the OCLA coprocessor for GPIO-based triggering. When external
                                                                  trigger and manual trigger
                                                                  active at the same time, an ORed version of trigger is used. */

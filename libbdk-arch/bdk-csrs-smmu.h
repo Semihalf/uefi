@@ -61,7 +61,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * Enumeration SMMU_CTYPE_E
  *
  * SMMU Context Bank Type Enumeration
- * Enumerates the values of SMMU(0..3)_CBAR(0..127)[CTYPE].
+ * Enumerates the values of SMMU()_CBAR()[CTYPE].
  */
 enum smmu_ctype_e {
 	SMMU_CTYPE_E_STAGE1_BYP2 = 0x1,
@@ -522,8 +522,8 @@ static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long param1, unsigned l
  * and the index of the stage 1 context is recorded in SMMU_FSYNR0.
  * 3. An ATOS operation at stage 1 in a nested context that faults at stage 2. The VA supplied by
  * to the global or stage 1 address translation operation is recorded. The IPA is recorded in
- * SMMU(0..3)_CB(0..127)_IPAFAR below and the fault is tagged as nested. The index of the stage 1
- * context is recorded in SMMU(0..3)_CB(0..127)_FSYNR0.
+ * SMMU()_CB()_IPAFAR below and the fault is tagged as nested. The index of the stage 1
+ * context is recorded in SMMU()_CB()_FSYNR0.
  */
 typedef union bdk_smmux_cbx_far {
 	uint64_t u;
@@ -636,14 +636,14 @@ static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long param1, unsigned long par
 /**
  * NCB32b - smmu#_cb#_fsrrestore
  *
- * Restores the SMMU(0..3)_CB(0..127)_FSR register after reset. This register is used by both
+ * Restores the SMMU()_CB()_FSR register after reset. This register is used by both
  * stage 1 and stage 2 context banks.
  */
 typedef union bdk_smmux_cbx_fsrrestore {
 	uint32_t u;
 	struct bdk_smmux_cbx_fsrrestore_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t restore                     : 32; /**< WO - Writes bits in corresponding SMMU(0..3)_CB(0..127)_FSR. */
+		uint32_t restore                     : 32; /**< WO - Writes bits in corresponding SMMU()_CB()_FSR. */
 #else
 		uint32_t restore                     : 32;
 #endif
@@ -688,8 +688,8 @@ typedef union bdk_smmux_cbx_fsynr0 {
                                                                  1 = A walk fault occurred during processing of a translation table walk. */
 		uint32_t atof                        : 1;  /**< RO - Stage 2 address translation operation fault. ATOs not supported. */
 		uint32_t nsattr                      : 1;  /**< R/W/H - Non-secure attribute.
-                                                                 0 = The input transaction after SMMU(0..3)_S2CR(0..127)[NSCFG] had secure attribute.
-                                                                 1 = The input transaction after SMMU(0..3)_S2CR(0..127)[NSCFG] had non-secure attribute. */
+                                                                 0 = The input transaction after SMMU()_S2CR()[NSCFG] had secure attribute.
+                                                                 1 = The input transaction after SMMU()_S2CR()[NSCFG] had non-secure attribute. */
 		uint32_t nsstate                     : 1;  /**< RO - Stage 2 non-secure state:
                                                                  0 = The transaction is associated with a secure client.
                                                                  1 = The transaction is associated with a non-secure client. */
@@ -706,16 +706,16 @@ typedef union bdk_smmux_cbx_fsynr0 {
                                                                  1 = The fault is related to a nested stage1 and stage 2 translation.
 
                                                                  When NESTED is set to zero:
-                                                                 * SMMU(0..3)_CB(0..127)_FAR records the IPA that faulted at stage 2
-                                                                 * SMMU(0..3)_CB(0..127)_FSYNR0[S1CBNDX] is UNKNOWN.
-                                                                 * SMMU(0..3)_CB(0..127)_IPAFAR also records the IPA that faulted at stage 2
+                                                                 * SMMU()_CB()_FAR records the IPA that faulted at stage 2
+                                                                 * SMMU()_CB()_FSYNR0[S1CBNDX] is UNKNOWN.
+                                                                 * SMMU()_CB()_IPAFAR also records the IPA that faulted at stage 2
 
                                                                  When NESTED is set to one:
-                                                                 * SMMU(0..3)_CB(0..127)_FAR records the virtual address of the requested translation.
-                                                                 * SMMU(0..3)_CB(0..127)_FSYNR0[S1CBNDX] indicates the stage 1 context bank that caused the
+                                                                 * SMMU()_CB()_FAR records the virtual address of the requested translation.
+                                                                 * SMMU()_CB()_FSYNR0[S1CBNDX] indicates the stage 1 context bank that caused the
                                                                  translation.
-                                                                 * SMMU(0..3)_CB(0..127)_IPAFAR records the IPA that faulted at stage 2.
-                                                                 This bit is RAZ/WI if SMMU(0..3)_IDR0[NTS] == 0. */
+                                                                 * SMMU()_CB()_IPAFAR records the IPA that faulted at stage 2.
+                                                                 This bit is RAZ/WI if SMMU()_IDR0[NTS] == 0. */
 		uint32_t plvl                        : 2;  /**< R/W/H - Translation table level for fault.
                                                                  0 = Reserved.
                                                                  1 = level 1.
@@ -802,7 +802,7 @@ typedef union bdk_smmux_cbx_ipafar {
 		uint64_t reserved_49_63              : 15;
 		uint64_t faddr                       : 37; /**< RO/H - Fault address, the input address of the faulting access. This register might be updated as
                                                                  the result of a translation fault for an upstream client device. The least significant 12
-                                                                 bits of this register are shared with SMMU(0..3)_CB(0..127)_FAR. */
+                                                                 bits of this register are shared with SMMU()_CB()_FAR. */
 		uint64_t reserved_0_11               : 12;
 #else
 		uint64_t reserved_0_11               : 12;
@@ -956,13 +956,13 @@ typedef union bdk_smmux_cbx_sctlr {
                                                                  0 = User level cache maintenance operations are disabled.
                                                                  1 = User level cache maintenance operations are enabled.
 
-                                                                 This field is ignored when SMMU(0..3)_CBA2R(0..127)[VA64] is zero.
+                                                                 This field is ignored when SMMU()_CBA2R()[VA64] is zero.
                                                                  In CNXXXX TBD if needed.
 
                                                                  For stage 2, reserved. */
 		uint32_t nscfg                       : 2;  /**< R/W - For stage 1, non-secure configuration. Controls the non-secure attribute for any
                                                                  transaction where the translation context bank translation is disabled. That is, where
-                                                                 SMMU(0..3)_CB(0..127)_SCTLR[M]==0. [NSCFG] only exists in a translation context bank
+                                                                 SMMU()_CB()_SCTLR[M]==0. [NSCFG] only exists in a translation context bank
                                                                  reserved by secure software. In a non-secure translation context bank, this field is
                                                                  UNK/SBZP.
                                                                  00 = Use default NS attribute.
@@ -973,7 +973,7 @@ typedef union bdk_smmux_cbx_sctlr {
                                                                  For stage 2, reserved. */
 		uint32_t wacfg                       : 2;  /**< RO - Write-allocate configuration. Controls the allocation hint for write accesses where the
                                                                  translation context bank translation is disabled. That is, where
-                                                                 SMMU(0..3)_CB(0..127)_SCTLR[M]==0.
+                                                                 SMMU()_CB()_SCTLR[M]==0.
                                                                  00 = Default attributes.
                                                                  01 = Reserved.
                                                                  10 = Write-allocate.
@@ -982,7 +982,7 @@ typedef union bdk_smmux_cbx_sctlr {
                                                                  Ignored in CNXXXX. */
 		uint32_t racfg                       : 2;  /**< RO - Read-allocate configuration. Controls the allocation hint for read accesses where the
                                                                  translation context bank translation is disabled. That is, where
-                                                                 SMMU(0..3)_CB(0..127)_SCTLR[M]==0.
+                                                                 SMMU()_CB()_SCTLR[M]==0.
                                                                  00 = Default attributes.
                                                                  01 = Reserved.
                                                                  10 = Read-allocate.
@@ -1152,7 +1152,7 @@ typedef union bdk_smmux_cbx_tcr {
 
                                                                  For stage 2, reserved. */
 		uint32_t epd1                        : 1;  /**< R/W - For stage 1, Translation walk disable for TTBR1 region. This bit controls whether a
-                                                                 translation table walk is performed on a TLB miss when SMMU(0..3)_CB(0..127)_TTBR1 is
+                                                                 translation table walk is performed on a TLB miss when SMMU()_CB()_TTBR1 is
                                                                  used:
                                                                  0 = If a TLB miss occurs when TTBR1 is used a translation table walk is performed.
                                                                  1 = If a TLB miss occurs when TTBR1 is used no translation table walk is performed and a
@@ -1160,11 +1160,11 @@ typedef union bdk_smmux_cbx_tcr {
 
                                                                  For stage 2, reserved. */
 		uint32_t a1                          : 1;  /**< R/W - For stage 1, select ASID from TTBRn register.
-                                                                 0 = Select ASID from SMMU(0..3)_CB(0..127)_TTBR0.
-                                                                 1 = Select ASID from SMMU(0..3)_CB(0..127)_TTBR1.
+                                                                 0 = Select ASID from SMMU()_CB()_TTBR0.
+                                                                 1 = Select ASID from SMMU()_CB()_TTBR1.
 
                                                                  For stage 2, reserved. */
-		uint32_t t1sz_pasize                 : 6;  /**< R/W - For stage 1, <21:16> is size offset of the SMMU(0..3)_CB(0..127)_TCR addressed region,
+		uint32_t t1sz_pasize                 : 6;  /**< R/W - For stage 1, <21:16> is size offset of the SMMU()_CB()_TCR addressed region,
                                                                  encoded as a six-bit unsigned number, giving the size of the region as 2^(64-T1SZ).
 
                                                                  For stage 2, <21:19> is reserved, <18:16> is PASize, the size of the physical address
@@ -1252,7 +1252,7 @@ typedef union bdk_smmux_cbx_tcr2 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_31_31              : 1;
 		uint32_t nscfg1                      : 1;  /**< R/W - Non-secure attribute for the memory associated with translation table walks using
-                                                                 SMMU(0..3)_CB(0..127)_TTBR1. This field only applies for secure owned context banks,
+                                                                 SMMU()_CB()_TTBR1. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
 		uint32_t reserved_18_29              : 12;
 		uint32_t sep                         : 3;  /**< R/W - Sign extension position. The bit position from which to sign-extend the stage 1 input
@@ -1273,13 +1273,13 @@ typedef union bdk_smmux_cbx_tcr2 {
 
                                                                  If the value of SEP is changed, then software must invalidate any affected TLB entries. */
 		uint32_t nscfg0                      : 1;  /**< R/W - Non-secure attribute for the memory associated with translation table walks using
-                                                                 SMMU(0..3)_CB(0..127)_TTBR0. This field only applies for secure owned context banks,
+                                                                 SMMU()_CB()_TTBR0. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
 		uint32_t reserved_10_13              : 4;
 		uint32_t had1                        : 1;  /**< R/W - Hierarchical attribute disable 1 for the TTBR1 region. Similar to [HAD0]. */
 		uint32_t had0                        : 1;  /**< R/W - For stage 1, hierarchical attribute disable 0 for the TTBR0 region.
-                                                                 This field is ignored as not supported when SMMU(0..3)_IDR2[HADS] is zero.
-                                                                 This field is ignored when SMMU(0..3)_CBA2R(0..127)[VA64] is zero.
+                                                                 This field is ignored as not supported when SMMU()_IDR2[HADS] is zero.
+                                                                 This field is ignored when SMMU()_CBA2R()[VA64] is zero.
                                                                  0 = Hierarchical attributes are enabled.
                                                                  1 = Hierarchical attributes are disabled.
 
@@ -1340,13 +1340,13 @@ static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long param1, unsigned long pa
  * NCB32b - smmu#_cb#_tlbiall
  *
  * Invalidates all of the TLB entries, and only has to apply to TLB entries associated with the
- * VMID used for the stage 1 translation context bank. If SMMU(0..3)_CBAR(0..127)[HYPC] has the
+ * VMID used for the stage 1 translation context bank. If SMMU()_CBAR()[HYPC] has the
  * value 1, this operation only has to apply to TLB entries associated with hypervisor contexts.
- * if SMMU(0..3)_CBAR(0..127)[MONC] has the value 1, this operation only has to apply to TLB
+ * if SMMU()_CBAR()[MONC] has the value 1, this operation only has to apply to TLB
  * entries associated with monitor contexts. The VMID is therefore irrelevant to the operation.
  * This operation only has to apply to TLB entries associated with the security domain that the
  * Stage 1 translation context bank is a member of.
- * Register fields are identical to those in SMMU(0..3)_TLBIALLH.
+ * Register fields are identical to those in SMMU()_TLBIALLH.
  */
 typedef union bdk_smmux_cbx_tlbiall {
 	uint32_t u;
@@ -1427,7 +1427,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long param1, unsigned lon
  * However, an incoming transaction directed to a S1 + S2 nested context might result in S1+S2
  * TLB entries. Such entries might not be affected by this operation. Thus in order to change a
  * Stage 2 page table entry then software must invalidate all stage 1 contexts (using an
- * SMMU(0..3)_TLBIVMIDS1 operation).
+ * SMMU()_TLBIVMIDS1 operation).
  */
 typedef union bdk_smmux_cbx_tlbiipas2 {
 	uint64_t u;
@@ -1463,7 +1463,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long param1, unsigned lo
 /**
  * NCB - smmu#_cb#_tlbiipas2l
  *
- * Operates exactly as SMMU(0..3)_CB(0..127)_TLBIIPAS2, but only invalidating those that
+ * Operates exactly as SMMU()_CB()_TLBIIPAS2, but only invalidating those that
  * correspond to the last level of the translation table walk.
  */
 typedef union bdk_smmux_cbx_tlbiipas2l {
@@ -1503,7 +1503,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long param1, unsigned l
  * Invalidates all of the TLB entries that match the VA and ASID provided as arguments. This
  * operation only applies to TLB entries associated with the VMID used for a stage 1 translation
  * context bank. The ASID is not checked for global entries in the TLB. If
- * SMMU(0..3)_CBAR(0..127)[HYPC] is set, this operation only applies to TLB entries associated
+ * SMMU()_CBAR()[HYPC] is set, this operation only applies to TLB entries associated
  * with hypervisor contexts. The VMID and ASID are therefore irrelevant to the operation. This
  * operation only applies to TLB entries associated with the security domain that the stage 1
  * translation context bank is a member of.
@@ -1547,10 +1547,10 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long param1, unsigned long 
  *
  * Invalidates all of the TLB entries that match the VA provided as an argument, regardless of
  * the ASID. This operation only has to apply to TLB entries associated with the VMID used for a
- * Stage 1 translation context bank. If SMMU(0..3)_CBAR(0..127)[HYPC] is set, this operation is
+ * Stage 1 translation context bank. If SMMU()_CBAR()[HYPC] is set, this operation is
  * unpredictable. This operation only has to apply to TLB entries associated with the security
  * domain that the stage 1 translation context bank is a member of.
- * Register fields are identical to those in SMMU(0..3)_TLBIVAH64.
+ * Register fields are identical to those in SMMU()_TLBIVAH64.
  */
 typedef union bdk_smmux_cbx_tlbivaa {
 	uint64_t u;
@@ -1587,7 +1587,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long param1, unsigned long
 /**
  * NCB - smmu#_cb#_tlbivaal
  *
- * Operates exactly as SMMU(0..3)_CB(0..127)_TLBIVAA, but only invalidating those that correspond
+ * Operates exactly as SMMU()_CB()_TLBIVAA, but only invalidating those that correspond
  * to the last level of the translation table walk.
  */
 typedef union bdk_smmux_cbx_tlbivaal {
@@ -1625,7 +1625,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long param1, unsigned lon
 /**
  * NCB - smmu#_cb#_tlbival
  *
- * Operates exactly as SMMU(0..3)_CB(0..127)_TLBIVA, but only invalidating those that correspond
+ * Operates exactly as SMMU()_CB()_TLBIVA, but only invalidating those that correspond
  * to the last level of the translation table walk.
  */
 typedef union bdk_smmux_cbx_tlbival {
@@ -1744,9 +1744,9 @@ typedef union bdk_smmux_cbx_ttbr0 {
 	struct bdk_smmux_cbx_ttbr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t asid                        : 16; /**< R/W - Address space ID associated with this base address. The selection between
-                                                                 SMMU(0..3)_CB(0..127)_TTBR0[ASID] and SMMU(0..3)_CB(0..127)_TTBR1[ASID] is determined by
-                                                                 SMMU(0..3)_CB(0..127)_TCR[A1]. Bits [15:8] are only valid if
-                                                                 SMMU(0..3)_CB(0..127)_TCR2[AS] ==1 and RES0 otherwise. */
+                                                                 SMMU()_CB()_TTBR0[ASID] and SMMU()_CB()_TTBR1[ASID] is determined by
+                                                                 SMMU()_CB()_TCR[A1]. Bits [15:8] are only valid if
+                                                                 SMMU()_CB()_TCR2[AS] ==1 and RES0 otherwise. */
 		uint64_t addr                        : 44; /**< R/W - Translation table base address. */
 		uint64_t reserved_0_3                : 4;
 #else
@@ -1777,16 +1777,16 @@ static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long param1, unsigned long p
  * NCB - smmu#_cb#_ttbr1
  *
  * Holds the base address of translation tables. This register is used by stage 1 context banks.
- * Register fields are identical to those in SMMU(0..3)_CB(0..127)_TTBR0.
+ * Register fields are identical to those in SMMU()_CB()_TTBR0.
  */
 typedef union bdk_smmux_cbx_ttbr1 {
 	uint64_t u;
 	struct bdk_smmux_cbx_ttbr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t asid                        : 16; /**< R/W - Address space ID associated with this base address. The selection between
-                                                                 SMMU(0..3)_CB(0..127)_TTBR0[ASID] and SMMU(0..3)_CB(0..127)_TTBR1[ASID] is determined by
-                                                                 SMMU(0..3)_CB(0..127)_TCR[A1]. Bits [15:8] are only valid if
-                                                                 SMMU(0..3)_CB(0..127)_TCR2[AS] ==1 and RES0 otherwise. */
+                                                                 SMMU()_CB()_TTBR0[ASID] and SMMU()_CB()_TTBR1[ASID] is determined by
+                                                                 SMMU()_CB()_TCR[A1]. Bits [15:8] are only valid if
+                                                                 SMMU()_CB()_TCR2[AS] ==1 and RES0 otherwise. */
 		uint64_t addr                        : 44; /**< R/W - Translation table base address. */
 		uint64_t reserved_0_3                : 4;
 #else
@@ -1823,15 +1823,15 @@ typedef union bdk_smmux_cba2rx {
 	uint32_t u;
 	struct bdk_smmux_cba2rx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vmid                        : 16; /**< R/W/H - Virtual machine identifier. Writes to SMMU(0..3)_CBAR(0..127)[VMID] also update this field
+		uint32_t vmid                        : 16; /**< R/W/H - Virtual machine identifier. Writes to SMMU()_CBAR()[VMID] also update this field
                                                                  by zeroing the upper 8 bits. */
 		uint32_t reserved_3_15               : 13;
 		uint32_t e2hc                        : 1;  /**< R/W - Virtualization host support enable.
-                                                                 Must be clear if SMMU(0..3)_IDR2[E2HCS] is clear.
+                                                                 Must be clear if SMMU()_IDR2[E2HCS] is clear.
                                                                  The value of this bit is ignored unless the context bank is configured as AArch64,
                                                                  non-HYPC, non-MONC and stage 1 + stage 2 bypass.
 
-                                                                 If set, then SMMU(0..3)_S2CR(0..127)[VMID] is ignored for all purposes except reading back
+                                                                 If set, then SMMU()_S2CR()[VMID] is ignored for all purposes except reading back
                                                                  of the value written.  The context bank must be tagged by ASID + E2H rather than ASID +
                                                                  VMID.
 
@@ -1928,8 +1928,8 @@ typedef union bdk_smmux_cbarx {
                                                                  1 = Hypervisor context. Do not use VMID and ASID for TLB tagging.
 
                                                                  In an interaction with the security extensions, the following restrictions apply to secure
-                                                                 software: If SMMU(0..3)_SCR1[GASRAE]=0, Secure software must not set HYPC to 1 for any
-                                                                 secure translation context bank. If SMMU(0..3)_SCR1[GASRAE]=1, Secure software must not
+                                                                 software: If SMMU()_SCR1[GASRAE]=0, Secure software must not set HYPC to 1 for any
+                                                                 secure translation context bank. If SMMU()_SCR1[GASRAE]=1, Secure software must not
                                                                  set HYPC to 1 for any non-secure translation context bank. Otherwise, UNPREDICTABLE
                                                                  behavior might occur.
 
@@ -1944,12 +1944,12 @@ typedef union bdk_smmux_cbarx {
                                                                  If CTYPE=3, context bank index <1:0>. The translation context bank index used for the
                                                                  stage 2 translation context bank in a nested translation. The full 8-bit context bank
                                                                  index is shared between the [MEMATTR_CBNDX4], [FB_CBNDX3], [HYPC_CBNDX2] and
-                                                                 [BPSHCFG_CBNDX0] fields. Behavior is UNPREDICTABLE if the SMMU(0..3)_CBAR(0..127) register
-                                                                 associated with the translation context specified by SMMU(0..3)_CBAR(0..127)[CBNDX] has
+                                                                 [BPSHCFG_CBNDX0] fields. Behavior is UNPREDICTABLE if the SMMU()_CBAR() register
+                                                                 associated with the translation context specified by SMMU()_CBAR()[CBNDX] has
                                                                  any value other than 0x0 to specify a stage 2 translation context bank.) */
 		uint32_t vmid                        : 8;  /**< R/W/H - Virtual machine identifier associated with context bank. Contains the low 8 bits of
-                                                                 SMMU(0..3)_CBA2R(0..127)[VMID]. Writes to this field are zero extended into
-                                                                 SMMU(0..3)_CBA2R(0..127)[VMID]. */
+                                                                 SMMU()_CBA2R()[VMID]. Writes to this field are zero extended into
+                                                                 SMMU()_CBA2R()[VMID]. */
 #else
 		uint32_t vmid                        : 8;
 		uint32_t bpshcfg_cbndx0              : 2;
@@ -2021,7 +2021,7 @@ static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long param1, unsigned long 
 /**
  * NCB32b - smmu#_cidr0
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_cidr0 {
@@ -2056,7 +2056,7 @@ static inline uint64_t BDK_SMMUX_CIDR0(unsigned long param1)
 /**
  * NCB32b - smmu#_cidr1
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_cidr1 {
@@ -2091,7 +2091,7 @@ static inline uint64_t BDK_SMMUX_CIDR1(unsigned long param1)
 /**
  * NCB32b - smmu#_cidr2
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_cidr2 {
@@ -2126,7 +2126,7 @@ static inline uint64_t BDK_SMMUX_CIDR2(unsigned long param1)
 /**
  * NCB32b - smmu#_cidr3
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_cidr3 {
@@ -2228,7 +2228,7 @@ typedef union bdk_smmux_ecc_ctl_0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_21_63              : 43;
 		uint64_t ram_cdis                    : 21; /**< SR/W - RAM ECC correction disable. Each bit corresponds to a different RAM. INTERNAL: Bits
-                                                                 enumerated in SMMU(0..3)_ERR_INT[RAM_SBE]. */
+                                                                 enumerated in SMMU()_ERR_INT[RAM_SBE]. */
 #else
 		uint64_t ram_cdis                    : 21;
 		uint64_t reserved_21_63              : 43;
@@ -2262,11 +2262,11 @@ typedef union bdk_smmux_ecc_ctl_1 {
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_flip1                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit <1> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. INTERNAL: Bits enumerated in
-                                                                 SMMU(0..3)_ERR_INT[RAM_SBE]. */
+                                                                 SMMU()_ERR_INT[RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_flip0                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. INTERNAL: Bits enumerated in
-                                                                 SMMU(0..3)_ERR_INT[RAM_SBE]. */
+                                                                 SMMU()_ERR_INT[RAM_SBE]. */
 #else
 		uint64_t ram_flip0                   : 21;
 		uint64_t reserved_21_31              : 11;
@@ -2480,7 +2480,7 @@ typedef union bdk_smmux_idr0 {
 		uint32_t numsidb                     : 4;  /**< RO - Number of supported stream ID bits. */
 		uint32_t exids                       : 1;  /**< RO - Extended stream IDs are supported. */
 		uint32_t numsmrg                     : 8;  /**< RO/H - Number of supported stream mapping registers groups. Access to this field by non-secure
-                                                                 software gives the value configured in SMMU(0..3)_SCR1[NSNUMSMRGO]. */
+                                                                 software gives the value configured in SMMU()_SCR1[NSNUMSMRGO]. */
 #else
 		uint32_t numsmrg                     : 8;
 		uint32_t exids                       : 1;
@@ -2595,7 +2595,7 @@ typedef union bdk_smmux_idr2 {
 		uint32_t reserved_31_31              : 1;
 		uint32_t dipans                      : 1;  /**< RO - Privileged access never support.
                                                                  When set, indicates supports ARM v8.1 privileged access never.
-                                                                 See SMMU(0..3)_CB(0..127)_S2CR[PRIVCFG].
+                                                                 See SMMU()_S2CR()[PRIVCFG].
 
                                                                  Note unlike the processor architecture, DIPAN applies to both instruction and data
                                                                  transactions; thus to distinguish the two features then the SMMU feature is called DIPAN
@@ -2603,10 +2603,10 @@ typedef union bdk_smmux_idr2 {
 		uint32_t reserved_29_29              : 1;
 		uint32_t hads                        : 1;  /**< RO - Hierarchical attribute disable support.
                                                                  When set, indicates supports ARM v8.1 hierarchical attribute disables.
-                                                                 See SMMU(0..3)_CB(0..127)_TCR2[HAD0]. */
+                                                                 See SMMU()_CB()_TCR2[HAD0]. */
 		uint32_t e2hs                        : 1;  /**< RO - Virtual host extension contexts.
                                                                  When set, indicates supports ARM v8.1 virtual host extension contexts.
-                                                                 See SMMU(0..3)_CBA2R(0..127)[E2HC]. */
+                                                                 See SMMU()_CBA2R()[E2HC]. */
 		uint32_t reserved_16_26              : 11;
 		uint32_t vmid16s                     : 1;  /**< RO - When set, indicates that 16-bit VMIDs are supported (ARMv8 large system extensions). */
 		uint32_t ptfsv8_64kb                 : 1;  /**< RO - When set, indicates that ARMv8 page tables using 64kb page granule are supported. */
@@ -2794,9 +2794,9 @@ typedef union bdk_smmux_idr7 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
 		uint32_t major                       : 4;  /**< RO - The major part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU(0..3)_REV[RID]<7:4>. */
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
 		uint32_t minor                       : 4;  /**< RO - The minor part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU(0..3)_REV[RID]<3:0>. */
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
 #else
 		uint32_t minor                       : 4;
 		uint32_t major                       : 4;
@@ -2824,7 +2824,7 @@ static inline uint64_t BDK_SMMUX_IDR7(unsigned long param1)
 /**
  * NCB - smmu#_look_par
  *
- * Receives the physical address from a SMMU(0..3)_LOOK_REQ operation. For diagnostic use only.
+ * Receives the physical address from a SMMU()_LOOK_REQ operation. For diagnostic use only.
  *
  */
 typedef union bdk_smmux_look_par {
@@ -2836,7 +2836,7 @@ typedef union bdk_smmux_look_par {
 		uint64_t reserved_3_11               : 9;
 		uint64_t nsec                        : 1;  /**< SRO/H - If [FAULT]=0, non-secure. The final resolved secure state for the translation, matching
                                                                  the non-secure bit passed to the L2 cache. */
-		uint64_t active                      : 1;  /**< SRO/H - Translation in progress. Set on write to SMMU(0..3)_LOOK_REQ[GO], cleared when translation
+		uint64_t active                      : 1;  /**< SRO/H - Translation in progress. Set on write to SMMU()_LOOK_REQ[GO], cleared when translation
                                                                  has completed. */
 		uint64_t fault                       : 1;  /**< SRO/H - Fault. If 0 indicates completed successfully. If 1, the fault will not be recorded in the
                                                                  error registers. */
@@ -2882,7 +2882,7 @@ typedef union bdk_smmux_look_req {
 		uint64_t reserved_3_11               : 9;
 		uint64_t rd                          : 1;  /**< SR/W - Read operation lookup; page must allow reads. Either a read or write operation must be asserted. */
 		uint64_t wr                          : 1;  /**< SR/W - Write operation lookup; page must allow writes. Either a read or write operation must be asserted. */
-		uint64_t go                          : 1;  /**< SWO - Write a one to request translation begin. Read SMMU(0..3)_LOOK_REQ[ACTIVE] to determine
+		uint64_t go                          : 1;  /**< SWO - Write a one to request translation begin. Read SMMU()_LOOK_PAR[ACTIVE] to determine
                                                                  when the translation completes. */
 #else
 		uint64_t go                          : 1;
@@ -2914,7 +2914,7 @@ static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long param1)
 /**
  * NCB - smmu#_look_strm
  *
- * Specifies additional lookup values for the next SMMU(0..3)_LOOK_REQSMMU(0..3)_LOOK_REQ
+ * Specifies additional lookup values for the next SMMU()_LOOK_REQ
  * operation. For diagnostic use only.
  */
 typedef union bdk_smmux_look_strm {
@@ -3107,7 +3107,7 @@ typedef union bdk_smmux_nsacr {
 	struct bdk_smmux_nsacr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t qos                         : 4;  /**< R/W - L2C quality-of-service value to use for standard transactions that are not by a specific
-                                                                 context, and so SMMU(0..3)_CB(0..127)_ACTLR[QOS] is not applicable. */
+                                                                 context, and so SMMU()_CB()_ACTLR[QOS] is not applicable. */
 		uint32_t qos_walk                    : 4;  /**< R/W - L2C quality-of-service value to use for page table walks. For optimal performance, this
                                                                  typically would be set to the most preferential QoS value of zero. */
 		uint32_t reserved_0_23               : 24;
@@ -3251,15 +3251,15 @@ typedef union bdk_smmux_nscr0 {
 
                                                                  In CNXXXX always zero, as does not support configuration faults. */
 		uint32_t exidenable                  : 1;  /**< R/W - Extended stream ID enable.
-                                                                 0 = For this SSD, SMMU(0..3)_SMR(0..127) has the format with the VALID bit in the
-                                                                 SMMU(0..3)_SMR(0..127). The SMMU(0..3)_S2CR(0..127)[EXIDVALID] is ignored.
-                                                                 1 = For this SSD, SMMU(0..3)_SMR(0..127) has the extended id format and the valid bit is
-                                                                 held in the corresponding SMMU(0..3)_S2CR(0..127)[EXIDVALID].
+                                                                 0 = For this SSD, SMMU()_SMR() has the format with the VALID bit in the
+                                                                 SMMU()_SMR(). The SMMU()_S2CR()[EXIDVALID] is ignored.
+                                                                 1 = For this SSD, SMMU()_SMR() has the extended id format and the valid bit is
+                                                                 held in the corresponding SMMU()_S2CR()[EXIDVALID].
 
-                                                                 Software should only change [EXIDENABLE] when all SMMU(0..3)_S2CR(0..127).[EXIDVALID] == 0
-                                                                 and SMMU(0..3)_SMR(0..127).[EXMASK[15]/VALID] == 0 for the appropriate security world,
+                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR().[EXIDVALID] == 0
+                                                                 and SMMU()_SMR().[EXMASK[15]/VALID] == 0 for the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU(0..3)_S2CR(0..127) and SMMU(0..3)_SMR(0..127) are unknown and so need to be
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use. */
 		uint32_t gfie                        : 1;  /**< R/W - Global fault interrupt enable.
                                                                  0 = Do not raise an interrupt on a global fault.
@@ -3412,9 +3412,9 @@ typedef union bdk_smmux_nsgfsr {
                                                                  1 = Unsupported upstream transaction fault caused by receipt of an unsupported client
                                                                  transaction from an upstream device. */
 		uint32_t pf                          : 1;  /**< R/W1C/H - Permission fault. In SMMU_GFSR, this field is reserved. In SMMU_SGFSR, this field records
-                                                                 global SMMU(0..3)_SCR1[SIF] faults.
+                                                                 global SMMU()_SCR1[SIF] faults.
                                                                  Note if a transaction is associated with a particular translation context bank, faults are
-                                                                 recorded in SMMU(0..3)_CB(0..127)_FSR instead of SMMU_SGFSR. */
+                                                                 recorded in SMMU()_CB()_FSR instead of SMMU_SGFSR. */
 		uint32_t ef                          : 1;  /**< R/W1C/H - External fault. */
 		uint32_t caf                         : 1;  /**< RO - Configuration access fault.
                                                                  For CNXXXX always zero, no configuration faults. */
@@ -3465,7 +3465,7 @@ typedef union bdk_smmux_nsgfsrrestore {
 	uint32_t u;
 	struct bdk_smmux_nsgfsrrestore_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t restore                     : 32; /**< WO - Writes bits in corresponding SMMU(0..3)_(S)GFSR. */
+		uint32_t restore                     : 32; /**< WO - Writes bits in corresponding SMMU()_(S)GFSR. */
 #else
 		uint32_t restore                     : 32;
 #endif
@@ -3501,7 +3501,7 @@ typedef union bdk_smmux_nsgfsynr0 {
 		uint32_t reserved_16_31              : 16;
 		uint32_t imp                         : 8;  /**< RO - Reserved for implementation. */
 		uint32_t reserved_7_7                : 1;
-		uint32_t ats                         : 1;  /**< RO - Address translation operation fault. For CNXXXX zero, SMMU(0..3)_IDR0[ATOSNS] not supported. */
+		uint32_t ats                         : 1;  /**< RO - Address translation operation fault. For CNXXXX zero, SMMU()_IDR0[ATOSNS] not supported. */
 		uint32_t nsattr                      : 1;  /**< R/W/H - Non-secure attribute.
                                                                  0 = The faulty transaction has the secure attribute.
                                                                  1 = The faulty transaction has the non-secure attribute. */
@@ -3512,7 +3512,7 @@ typedef union bdk_smmux_nsgfsynr0 {
                                                                  This field is only valid for the secure state.
 
                                                                  This field may read '1' in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU(0..3)_SCR1[GEFRO]='1'. */
+                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]='1'. */
 		uint32_t ind                         : 1;  /**< R/W/H - Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
@@ -3763,7 +3763,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr0
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr0 {
@@ -3798,7 +3798,7 @@ static inline uint64_t BDK_SMMUX_PIDR0(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr1
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr1 {
@@ -3835,7 +3835,7 @@ static inline uint64_t BDK_SMMUX_PIDR1(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr2
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr2 {
@@ -3876,7 +3876,7 @@ static inline uint64_t BDK_SMMUX_PIDR2(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr3
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr3 {
@@ -3914,7 +3914,7 @@ static inline uint64_t BDK_SMMUX_PIDR3(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr4
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr4 {
@@ -3951,7 +3951,7 @@ static inline uint64_t BDK_SMMUX_PIDR4(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr5
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr5 {
@@ -3984,7 +3984,7 @@ static inline uint64_t BDK_SMMUX_PIDR5(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr6
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr6 {
@@ -4017,7 +4017,7 @@ static inline uint64_t BDK_SMMUX_PIDR6(unsigned long param1)
 /**
  * NCB32b - smmu#_pidr7
  *
- * This register is visible regardless of the setting of SMMU(0..3)_SCR1[GASRAE].
+ * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  *
  */
 typedef union bdk_smmux_pidr7 {
@@ -4052,9 +4052,9 @@ static inline uint64_t BDK_SMMUX_PIDR7(unsigned long param1)
  *
  * Specifies the translation context for processing a transaction where the transaction matches
  * the stream mapping group to which this register belongs.
- * An SMMU(0..3)_S2CR(0..127) register reserved by secure software using
- * SMMU(0..3)_SCR1[NSNUMSMRGO] must only specify a translation context bank that is reserved by
- * secure software. An SMMU(0..3)_S2CR(0..127) register that is accessible from the non-secure
+ * An SMMU()_S2CR() register reserved by secure software using
+ * SMMU()_SCR1[NSNUMSMRGO] must only specify a translation context bank that is reserved by
+ * secure software. An SMMU()_S2CR() register that is accessible from the non-secure
  * state must only specify a translation context bank that is not reserved by secure software
  */
 typedef union bdk_smmux_s2crx {
@@ -4084,14 +4084,14 @@ typedef union bdk_smmux_s2crx {
 
                                                                  0 = Default privilege attribute.
 
-                                                                 1 = Privledged access never.  This encoding is reserved if SMMU(0..3)_IDR2[DIPANS] is
+                                                                 1 = Privledged access never.  This encoding is reserved if SMMU()_IDR2[DIPANS] is
                                                                      clear.
                                                                      When a context bank is configured to use this encoding, then any transaction from
                                                                      the upstream device is considered to be marked as privileged and any attempt to access
                                                                      a user-accessible page will result in a permission fault.  Thus a device that is
                                                                      expected to operate only on privileged data will fault if it is misprogrammed and
                                                                      tries to access user data accessible through the corresponding context bank.
-                                                                     For SMMU(0..3)_S2CR(0..127) that are configured as bypass, then there is no associated
+                                                                     For SMMU()_S2CR() that are configured as bypass, then there is no associated
                                                                      context bank and no permission checks.
                                                                      Thus the only effect of this bit is to mark the downstream transaction as privileged;
                                                                      it behaves identically to encoding 0x3, "Privileged".
@@ -4150,9 +4150,9 @@ typedef union bdk_smmux_s2crx {
 
                                                                  For CTYPE=2, reserved. */
 		uint32_t exidvalid                   : 1;  /**< R/W - Extended ID valid.
-                                                                 0 = The stream match register group is valid if SMMU(0..3)_SMR(0..127)[VALID] is set and
+                                                                 0 = The stream match register group is valid if SMMU()_SMR()[VALID] is set and
                                                                  SMMU(0..3)_(S)CR0[EXIDENABLE] is clear, for backward compatibility.
-                                                                 1 = The stream match register group is valid and SMMU(0..3)_SMR(0..127)[VALID] is used as
+                                                                 1 = The stream match register group is valid and SMMU()_SMR()[VALID] is used as
                                                                  an extra mask bit. CNXXXX recommends this setting. */
 		uint32_t shcfg                       : 2;  /**< RO - For CTYPE=0 or 1, Sharability configuration.
                                                                  0 = Default sharability attribute.
@@ -4169,7 +4169,7 @@ typedef union bdk_smmux_s2crx {
 
                                                                  For CTYPE=2, reserved.
 
-                                                                 A secure SMMU(0..3)_S2CR(0..127) register configured to specify a translation context bank
+                                                                 A secure SMMU()_S2CR() register configured to specify a translation context bank
                                                                  is only permitted to specify a CBNDX corresponding to a translation context bank that is
                                                                  also reserved by secure software, or specify a translation context bank configured for the
                                                                  Stage 1 context with stage 2 bypass format. */
@@ -4248,7 +4248,7 @@ typedef union bdk_smmux_sacr {
 	struct bdk_smmux_sacr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t qos                         : 4;  /**< R/W - L2C quality-of-service value to use for standard transactions that are not by a specific
-                                                                 context, and so SMMU(0..3)_CB(0..127)_ACTLR[QOS] is not applicable. */
+                                                                 context, and so SMMU()_CB()_ACTLR[QOS] is not applicable. */
 		uint32_t qos_walk                    : 4;  /**< R/W - L2C quality-of-service value to use for page table walks. For optimal performance, this
                                                                  typically would be set to the most preferential QoS value of zero. */
 		uint32_t reserved_0_23               : 24;
@@ -4392,15 +4392,15 @@ typedef union bdk_smmux_scr0 {
 
                                                                  In CNXXXX always zero, as does not support configuration faults. */
 		uint32_t exidenable                  : 1;  /**< R/W - Extended stream ID enable.
-                                                                 0 = For this SSD, SMMU(0..3)_SMR(0..127) has the format with the VALID bit in the
-                                                                 SMMU(0..3)_SMR(0..127). The SMMU(0..3)_S2CR(0..127)[EXIDVALID] is ignored.
-                                                                 1 = For this SSD, SMMU(0..3)_SMR(0..127) has the extended id format and the valid bit is
-                                                                 held in the corresponding SMMU(0..3)_S2CR(0..127)[EXIDVALID].
+                                                                 0 = For this SSD, SMMU()_SMR() has the format with the VALID bit in the
+                                                                 SMMU()_SMR(). The SMMU()_S2CR()[EXIDVALID] is ignored.
+                                                                 1 = For this SSD, SMMU()_SMR() has the extended id format and the valid bit is
+                                                                 held in the corresponding SMMU()_S2CR()[EXIDVALID].
 
-                                                                 Software should only change [EXIDENABLE] when all SMMU(0..3)_S2CR(0..127).[EXIDVALID] == 0
-                                                                 and SMMU(0..3)_SMR(0..127).[EXMASK[15]/VALID] == 0 for the appropriate security world,
+                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR().[EXIDVALID] == 0
+                                                                 and SMMU()_SMR().[EXMASK[15]/VALID] == 0 for the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU(0..3)_S2CR(0..127) and SMMU(0..3)_SMR(0..127) are unknown and so need to be
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use. */
 		uint32_t gfie                        : 1;  /**< R/W - Global fault interrupt enable.
                                                                  0 = Do not raise an interrupt on a global fault.
@@ -4494,27 +4494,27 @@ typedef union bdk_smmux_scr1 {
                                                                  0 = Permit SMMU_GFSR to report external faults.
                                                                  1 = SMMU_SGFSR reports all external faults.
 
-                                                                 If SMMU(0..3)_SCR1[GEFRO]==1, all external aborts that would have been recorded in
+                                                                 If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
                                                                  SMMU_GFSR are instead recorded in SMMU_SGFSR. */
 		uint32_t gasrae                      : 1;  /**< SR/W - Global address space restricted access enable.
                                                                  0 = Global address space is accessible using either secure or non-secure configuration
                                                                  memory accesses.
                                                                  1 = Global address space is only accessible by secure configuration memory accesses. Stage
-                                                                 2 format context banks (as determined by SMMU(0..3)_CBAR(0..127)[CTYPE]) are only
+                                                                 2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
                                                                  accessible by secure configuration accesses.
 
                                                                  The following additional constraints apply:
 
-                                                                 If 0, secure software must avoid setting SMMU(0..3)_CBAR(0..127)[HYPC] to 1 when
+                                                                 If 0, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
                                                                  configuring a secure stage 1 translation context bank.
 
-                                                                 If 1, secure software must avoid setting SMMU(0..3)_CBAR(0..127)[HYPC] to 1 when
+                                                                 If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
                                                                  configuring a non-secure stage 1 translation context bank.
 
                                                                  In CNXXXX, implementation defined register accesses are also controlled by this bit. */
 		uint32_t nsnumirpto                  : 8;  /**< SRO - Non-secure number of interrupts override. Always 1 in ARMv8. */
 		uint32_t nsnumsmrgo                  : 8;  /**< SR/W - Adjusts the number of stream mapping register groups visible to non-secure accesses. The
-                                                                 number of stream mapping register groups reported in SMMU(0..3)_IDR0 is reduced to the
+                                                                 number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
                                                                  number indicated by NSNUMSMRGO.
 
                                                                  In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
@@ -4522,22 +4522,22 @@ typedef union bdk_smmux_scr1 {
                                                                  match register group and such access are ignored.
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
-                                                                 SMMU(0..3)_S2CR(0..127)[EXIDVALID] == 0 and SMMU(0..3)_SMR(0..127)[EXMASK[15]/VALID] == 0
+                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
                                                                  for at minimum any contexts being moved into/out of the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU(0..3)_S2CR(0..127) and SMMU(0..3)_SMR(0..127) are unknown and so need to be
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use.
 
                                                                  These bits reset to the implemented number of stream mapping register groups. */
 		uint32_t nsnumcbo                    : 8;  /**< SR/W - Non-secure number of context banks override. adjusts the number of translation context
                                                                  banks visible to non-secure accesses. The number of translation context banks reported in
-                                                                 SMMU(0..3)_IDR1[NUMCB] is reduced to the number indicated by SMMU(0..3)_SCR1[NSNUMCBO].
+                                                                 SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
 
                                                                  In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
-                                                                 SMMU(0..3)_S2CR(0..127)[EXIDVALID] == 0 and SMMU(0..3)_SMR(0..127)[EXMASK[15]/VALID] == 0
+                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
                                                                  for at minimum any contexts being moved into/out of the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU(0..3)_S2CR(0..127) and SMMU(0..3)_SMR(0..127) are unknown and so need to be
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized first. */
 #else
 		uint32_t nsnumcbo                    : 8;
@@ -4611,7 +4611,7 @@ static inline uint64_t BDK_SMMUX_SCR2(unsigned long param1)
 /**
  * NCB - smmu#_sgfar
  *
- * Contains the input address of an erroneous request reported by SMMU(0..3)_(S)GFSR.
+ * Contains the input address of an erroneous request reported by SMMU()_(S)GFSR.
  *
  */
 typedef union bdk_smmux_sgfar {
@@ -4665,9 +4665,9 @@ typedef union bdk_smmux_sgfsr {
                                                                  1 = Unsupported upstream transaction fault caused by receipt of an unsupported client
                                                                  transaction from an upstream device. */
 		uint32_t pf                          : 1;  /**< R/W1C/H - Permission fault. In SMMU_GFSR, this field is reserved. In SMMU_SGFSR, this field records
-                                                                 global SMMU(0..3)_SCR1[SIF] faults.
+                                                                 global SMMU()_SCR1[SIF] faults.
                                                                  Note if a transaction is associated with a particular translation context bank, faults are
-                                                                 recorded in SMMU(0..3)_CB(0..127)_FSR instead of SMMU_SGFSR. */
+                                                                 recorded in SMMU()_CB()_FSR instead of SMMU_SGFSR. */
 		uint32_t ef                          : 1;  /**< R/W1C/H - External fault. */
 		uint32_t caf                         : 1;  /**< RO - Configuration access fault.
                                                                  For CNXXXX always zero, no configuration faults. */
@@ -4711,14 +4711,14 @@ static inline uint64_t BDK_SMMUX_SGFSR(unsigned long param1)
 /**
  * NCB32b - smmu#_sgfsrrestore
  *
- * Restores the SMMU(0..3)_(S)GFSR register after reset.
+ * Restores the SMMU()_(S)GFSR register after reset.
  *
  */
 typedef union bdk_smmux_sgfsrrestore {
 	uint32_t u;
 	struct bdk_smmux_sgfsrrestore_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t restore                     : 32; /**< WO - Writes bits in corresponding SMMU(0..3)_(S)GFSR. */
+		uint32_t restore                     : 32; /**< WO - Writes bits in corresponding SMMU()_(S)GFSR. */
 #else
 		uint32_t restore                     : 32;
 #endif
@@ -4744,7 +4744,7 @@ static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long param1)
 /**
  * NCB32b - smmu#_sgfsynr0
  *
- * Contains fault syndrome information relating to SMMU(0..3)_(S)GFSR.
+ * Contains fault syndrome information relating to SMMU()_(S)GFSR.
  *
  */
 typedef union bdk_smmux_sgfsynr0 {
@@ -4754,7 +4754,7 @@ typedef union bdk_smmux_sgfsynr0 {
 		uint32_t reserved_16_31              : 16;
 		uint32_t imp                         : 8;  /**< RO - Reserved for implementation. */
 		uint32_t reserved_7_7                : 1;
-		uint32_t ats                         : 1;  /**< RO - Address translation operation fault. For CNXXXX zero, SMMU(0..3)_IDR0[ATOSNS] not supported. */
+		uint32_t ats                         : 1;  /**< RO - Address translation operation fault. For CNXXXX zero, SMMU()_IDR0[ATOSNS] not supported. */
 		uint32_t nsattr                      : 1;  /**< R/W/H - Non-secure attribute.
                                                                  0 = The faulty transaction has the secure attribute.
                                                                  1 = The faulty transaction has the non-secure attribute. */
@@ -4765,7 +4765,7 @@ typedef union bdk_smmux_sgfsynr0 {
                                                                  This field is only valid for the secure state.
 
                                                                  This field may read '1' in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU(0..3)_SCR1[GEFRO]='1'. */
+                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]='1'. */
 		uint32_t ind                         : 1;  /**< R/W/H - Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
@@ -4814,7 +4814,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long param1)
 /**
  * NCB32b - smmu#_sgfsynr1
  *
- * Contains fault syndrome information relating to SMMU(0..3)_(S)GFSR.
+ * Contains fault syndrome information relating to SMMU()_(S)GFSR.
  *
  */
 typedef union bdk_smmux_sgfsynr1 {
@@ -4920,9 +4920,9 @@ static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long param1)
  * table can have multiple entries matching the same stream id value during configuration,
  * providing software has the necessary precautions before configuration takes effect. For
  * example: 1. disable the stream source and ensure that no outstanding transactions from that
- * source are in progress disable one or more of the SMMU(0..3)_SMR(0..127) table entries using
- * the corresponding SMMU(0..3)_SMR(0..127)[VALID] bit, 2. disable the SMMU completely with
- * SMMU(0..3)_CB(0..127)_SCTLR[M].
+ * source are in progress disable one or more of the SMMU()_SMR() table entries using
+ * the corresponding SMMU()_SMR()[VALID] bit, 2. disable the SMMU completely with
+ * SMMU()_CB()_SCTLR[M].
  */
 typedef union bdk_smmux_smrx {
 	uint32_t u;
@@ -5101,7 +5101,7 @@ static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long param1)
  * NCB32b - smmu#_stlbiall
  *
  * Invalidates all unlocked secure entries in the TLB. Register fields are identical to those in
- * SMMU(0..3)_TLBIALLH.
+ * SMMU()_TLBIALLH.
  */
 typedef union bdk_smmux_stlbiall {
 	uint32_t u;
@@ -5134,7 +5134,7 @@ static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long param1)
  * NCB32b - smmu#_stlbiallm
  *
  * Invalidate all unlocked secure monitor entries in the TLB. Register fields are identical to
- * those in SMMU(0..3)_TLBIALLH.
+ * those in SMMU()_TLBIALLH.
  */
 typedef union bdk_smmux_stlbiallm {
 	uint32_t u;
@@ -5166,7 +5166,7 @@ static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long param1)
 /**
  * NCB - smmu#_stlbivalm
  *
- * This secure 64-bit register operates exactly as SMMU(0..3)_STLBIVAM, except the invalidation
+ * This secure 64-bit register operates exactly as SMMU()_STLBIVAM, except the invalidation
  * need only apply to the caching of entries returned from the last level of translation table
  * walk. This 64-bit register supports the ARMv8 TLB invalidation operation address format.
  */
@@ -5208,7 +5208,7 @@ static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long param1)
  * This secure 64-bit register invalidates all monitor TLB entries that associated with the
  * specified virtual address and applies to all unlocked entries within the TLB. This 64-bit
  * register supports the ARMv8 TLB invalidation operation address format. Register fields are
- * identical to those in SMMU(0..3)_TLBIVAH64.
+ * identical to those in SMMU()_TLBIVAH64.
  */
 typedef union bdk_smmux_stlbivam {
 	uint64_t u;
@@ -5309,7 +5309,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long param1)
  * NCB32b - smmu#_tlbiallnsnh
  *
  * Invalidate all non-secure, non-hypervisor tagged entries in the TLB. Register fields are
- * identical to those in SMMU(0..3)_TLBIALLH. It can optionally apply to all unlocked entries.
+ * identical to those in SMMU()_TLBIALLH. It can optionally apply to all unlocked entries.
  */
 typedef union bdk_smmux_tlbiallnsnh {
 	uint32_t u;
@@ -5341,7 +5341,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long param1)
 /**
  * NCB32b - smmu#_tlbivah
  *
- * Backward compatible version of SMMU(0..3)_TLBIVAH64.
+ * Backward compatible version of SMMU()_TLBIVAH64.
  *
  */
 typedef union bdk_smmux_tlbivah {
@@ -5412,7 +5412,7 @@ static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long param1)
 /**
  * NCB - smmu#_tlbivalh64
  *
- * This 64-bit register operates exactly as SMMU(0..3)_TLBIVAH64SMMU(0..3)_TLBIVAH64, except the
+ * This 64-bit register operates exactly as SMMU()_TLBIVAH64, except the
  * invalidation need only apply to the caching of entries returned from the last level of
  * translation table walk. This 64-bit register supports the ARMv8 TLB invalidation operation
  * address format.
@@ -5490,7 +5490,7 @@ static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long param1)
  *
  * Invalidate all non-secure, non-hypervisor TLB entries having the specified VMID. In an
  * implementation using combined S1 + S2 TLB entries, this operation must invalidate any entries
- * tagged with a valid matching VMID. It operates exactly as SMMU(0..3)_TLBIVMID, except it only
+ * tagged with a valid matching VMID. It operates exactly as SMMU()_TLBIVMID, except it only
  * applies to caching of entries containing information from the first stage of translation.
  */
 typedef union bdk_smmux_tlbivmids1 {

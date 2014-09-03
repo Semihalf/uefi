@@ -7858,7 +7858,7 @@ typedef union bdk_nic_vfx_ena_w1c {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
                                                                  * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
                                                                  NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
@@ -7937,7 +7937,7 @@ typedef union bdk_nic_vfx_ena_w1s {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
                                                                  * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
                                                                  NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
@@ -8016,7 +8016,7 @@ typedef union bdk_nic_vfx_int {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
                                                                  * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
                                                                  NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
@@ -8095,7 +8095,7 @@ typedef union bdk_nic_vfx_int_w1s {
 		uint64_t cq                          : 8;  /**< R/W1C/H - Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * In NIC_QS(0..127)_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
                                                                  * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] crosses
                                                                  NIC_QS()_CQ()_THRESH when hardware advances NIC_QS()_CQ()_HEAD or NIC_QS()_CQ()_TAIL.
 
