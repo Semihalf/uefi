@@ -183,13 +183,13 @@ typedef union bdk_oclax_cdhx_ctl {
                                                                  mux selected by PLA1 and 0. The output is thus calculated from the equation:
                                                                    fsmcap0 = OCLA(0..4)_FSM(0)_STATE[state0][CAP].
                                                                    fsmcap1 = OCLA(0..4)_FSM(1)_STATE[state1][CAP].
-                                                                   out = (   (<3> & fsmcap0 & fsmcap0)
+                                                                   out = (   (\<3\> & fsmcap0 & fsmcap0)
 
-                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
+                                                                 _        || (\<2\> & fsmcap1 & !fsmcap0)
 
-                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
+                                                                 _        || (\<1\> & !fsmcap1 & fsmcap0)
 
-                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
+                                                                 _        || (\<0\> & !fsmcap1 & !fsmcap0)).
 
                                                                  Common examples:
                                                                  0x0 = No capture.
@@ -371,16 +371,16 @@ typedef union bdk_oclax_fifo_limit {
 	uint64_t u;
 	struct bdk_oclax_fifo_limit_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t overfull                    : 16; /**< R/W - Stop level. When OCLA()_FIFO_DEPTH > [OVERFULL], stop capturing and set
+		uint64_t overfull                    : 16; /**< R/W - Stop level. When OCLA()_FIFO_DEPTH \> [OVERFULL], stop capturing and set
                                                                  OCLA()_STATE_INT[OVERFULL]. This should be set to no more than
                                                                  OCLA()_CONST[DAT_SIZE] minus 26 when using DDR capture to insure that overflow can be
                                                                  detected. */
-		uint64_t ddr                         : 16; /**< R/W - DDR level. When OCLA()_FIFO_DEPTH > [DDR], FIFO entries will be removed, packed into a
+		uint64_t ddr                         : 16; /**< R/W - DDR level. When OCLA()_FIFO_DEPTH \> [DDR], FIFO entries will be removed, packed into a
                                                                  cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
                                                                  must be at least 28. */
-		uint64_t bp                          : 16; /**< R/W - Backpressure level. When OCLA()_FIFO_DEPTH > [BP], OCLA will signal backpressure to
+		uint64_t bp                          : 16; /**< R/W - Backpressure level. When OCLA()_FIFO_DEPTH \> [BP], OCLA will signal backpressure to
                                                                  coprocessors. All-ones disables indicating backpressure. */
-		uint64_t wmark                       : 16; /**< R/W - Interrupt watermark level. When OCLA()_FIFO_DEPTH > [WMARK], OCLA will set
+		uint64_t wmark                       : 16; /**< R/W - Interrupt watermark level. When OCLA()_FIFO_DEPTH \> [WMARK], OCLA will set
                                                                  OCLA()_STATE_INT[WMARK] interrupt. All-ones disables setting the interrupt. */
 #else
 		uint64_t wmark                       : 16;
@@ -448,7 +448,7 @@ typedef union bdk_oclax_fifo_trig {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t limit                       : 16; /**< R/W - Post-trigger number of entries to collect before stopping collection. If zero, collection
-                                                                 will never stop, which may be desirable when overflowing to DDR/L2. Must be <
+                                                                 will never stop, which may be desirable when overflowing to DDR/L2. Must be \<
                                                                  OCLA()_CONST[DAT_SIZE] - 5. */
 		uint64_t cnt                         : 16; /**< R/W/H - Number of entries collected since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear. */
 #else
@@ -726,7 +726,7 @@ typedef union bdk_oclax_matx_ctl {
 		uint64_t reserved_8_63               : 56;
 		uint64_t fsm_ctr                     : 1;  /**< R/W - What output matcher provides to FSM:
                                                                  0 = FSM receives raw match signal, asserting only in those cycles with matches.
-                                                                 1 = FSM receives OCLA()_MAT()_COUNT >= OCLA()_MAT()_THRESH. */
+                                                                 1 = FSM receives OCLA()_MAT()_COUNT \>= OCLA()_MAT()_THRESH. */
 		uint64_t inc_match                   : 1;  /**< R/W - Increment OCLA()_MAT()_COUNT counter automatically on each match. */
 		uint64_t shift                       : 6;  /**< R/W - Right rotation amount to apply to data loaded into OCLA()_MAT()_VALUE()
                                                                  register when FSM requests a value load. */
@@ -1389,11 +1389,11 @@ typedef union bdk_oclax_state_int {
 		uint64_t reserved_19_31              : 13;
 		uint64_t ddrfull                     : 1;  /**< R/W1C/H - DDR buffer wrapped. Asserted when OCLA()_STACK_CUR has wrapped and been re-initialized
                                                                  to OCLA()_STACK_BASE. */
-		uint64_t wmark                       : 1;  /**< R/W1C/H - Internal buffer watermark reached. Asserted when OCLA()_FIFO_DEPTH >
+		uint64_t wmark                       : 1;  /**< R/W1C/H - Internal buffer watermark reached. Asserted when OCLA()_FIFO_DEPTH \>
                                                                  OCLA()_FIFO_LIMIT[WMARK]. */
-		uint64_t overfull                    : 1;  /**< R/W1C/H - Capture ended due to FIFO overflow. Asserted when OCLA()_FIFO_DEPTH >
+		uint64_t overfull                    : 1;  /**< R/W1C/H - Capture ended due to FIFO overflow. Asserted when OCLA()_FIFO_DEPTH \>
                                                                  OCLA()_FIFO_LIMIT[OVERFULL]. */
-		uint64_t trigfull                    : 1;  /**< R/W1C/H - Capture ended due to buffer full. Asserted when OCLA()_FIFO_TRIG[LIMIT] >=
+		uint64_t trigfull                    : 1;  /**< R/W1C/H - Capture ended due to buffer full. Asserted when OCLA()_FIFO_TRIG[LIMIT] \>=
                                                                  OCLA()_FIFO_TRIG[CNT]. */
 		uint64_t captured                    : 1;  /**< R/W1C/H - Capture started. Asserted when the first capture is made. Informational only; often masked. */
 		uint64_t fsm1_int                    : 1;  /**< R/W1C/H - FSM1 interrupt requested. */
@@ -1402,7 +1402,7 @@ typedef union bdk_oclax_state_int {
                                                                  or FSM MCD request or W1S to OCLA()_STATE_SET[MCD]. */
 		uint64_t trig                        : 1;  /**< R/W1C/H - Internal trigger set. Asserted on FSM internal trigger request or W1S to OCLA()_STATE_SET[TRIG]. */
 		uint64_t reserved_4_7                : 4;
-		uint64_t ovfl                        : 4;  /**< R/W1C/H - Match counter has overflowed. Asserted when OCLA()_MAT()_COUNT >=
+		uint64_t ovfl                        : 4;  /**< R/W1C/H - Match counter has overflowed. Asserted when OCLA()_MAT()_COUNT \>=
                                                                  OCLA()_MAT()_THRESH. Informational only; often masked. Writing 1 clears the
                                                                  counter, not just the interrupt. */
 #else

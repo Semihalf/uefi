@@ -342,9 +342,9 @@ typedef union bdk_satax_uahc_gbl_bistcr {
 		uint32_t sdfe                        : 1;  /**< R/W - Signal detect feature enable. */
 		uint32_t rsvd_1rsvd_11               : 1;  /**< R/W - Reserved. */
 		uint32_t llc                         : 3;  /**< R/W - Link layer control.
-                                                                 <10> = RPD - repeat primitive drop enable.
-                                                                 <9> = DESCRAM - descrambler enable.
-                                                                 <8> = SCRAM - scrambler enable. */
+                                                                 \<10\> = RPD - repeat primitive drop enable.
+                                                                 \<9\> = DESCRAM - descrambler enable.
+                                                                 \<8\> = SCRAM - scrambler enable. */
 		uint32_t reserved_7_7                : 1;
 		uint32_t erren                       : 1;  /**< R/W - Error enable. */
 		uint32_t flip                        : 1;  /**< R/W - Flip disparity. */
@@ -2510,10 +2510,10 @@ typedef union bdk_satax_uctl_shim_cfg {
 		uint64_t reserved_60_62              : 3;
 		uint64_t xs_ncb_oob_osrc             : 12; /**< RO/H - SRCID error log for out-of-bound UAHC register access. The NCB outbound SRCID for the OOB
                                                                  error.
-                                                                 <59:58> = chipID.
-                                                                 <57> = Request source: 0 = core, 1 = NCB-device.
-                                                                 <56:51> = core/NCB-device number. Note that for NCB devices, <56> is always 0.
-                                                                 <50:48> = SubID. */
+                                                                 \<59:58\> = chipID.
+                                                                 \<57\> = Request source: 0 = core, 1 = NCB-device.
+                                                                 \<56:51\> = core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
+                                                                 \<50:48\> = SubID. */
 		uint64_t xm_bad_dma_wrn              : 1;  /**< RO/H - Read/write error log for bad DMA access from UAHC.
                                                                  0 = read error log, 1 = write error log. */
 		uint64_t reserved_44_46              : 3;

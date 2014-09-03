@@ -402,7 +402,7 @@ typedef union bdk_gti_bz_pidr0 {
 	struct bdk_gti_bz_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_BZ. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_BZ. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -433,8 +433,8 @@ typedef union bdk_gti_bz_pidr1 {
 	struct bdk_gti_bz_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -468,7 +468,7 @@ typedef union bdk_gti_bz_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;
@@ -1289,7 +1289,7 @@ typedef union bdk_gti_cc_pidr0 {
 	struct bdk_gti_cc_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< SRO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_CC. */
+		uint32_t partnum0                    : 8;  /**< SRO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_CC. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -1320,8 +1320,8 @@ typedef union bdk_gti_cc_pidr1 {
 	struct bdk_gti_cc_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< SRO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< SRO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< SRO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< SRO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -1355,7 +1355,7 @@ typedef union bdk_gti_cc_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< SRO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< SRO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< SRO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< SRO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;
@@ -1785,7 +1785,7 @@ typedef union bdk_gti_ctl_pidr0 {
 	struct bdk_gti_ctl_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_CTL. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_CTL. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -1816,8 +1816,8 @@ typedef union bdk_gti_ctl_pidr1 {
 	struct bdk_gti_ctl_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -1851,7 +1851,7 @@ typedef union bdk_gti_ctl_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;
@@ -2290,7 +2290,7 @@ static inline uint64_t BDK_GTI_CWD_INT_SET_FUNC(void)
  * Per-core Watchdog poke. Writing any value to this register does the following:
  * * Clears any pending interrupt generated by the associated watchdog.
  * * Resets GTI_CWD_WDOG()[STATE] to 0x0.
- * * Sets GTI_CWD_WDOG()[CNT] to (GTI_CWD_WDOG()[LEN] << 8)
+ * * Sets GTI_CWD_WDOG()[CNT] to (GTI_CWD_WDOG()[LEN] \<\< 8)
  *
  * Reading this register returns the associated GTI_CWD_WDOG() register.
  */
@@ -2908,7 +2908,7 @@ typedef union bdk_gti_rd_pidr0 {
 	struct bdk_gti_rd_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_RD. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_RD. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -2939,8 +2939,8 @@ typedef union bdk_gti_rd_pidr1 {
 	struct bdk_gti_rd_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -2974,7 +2974,7 @@ typedef union bdk_gti_rd_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;
@@ -3294,7 +3294,7 @@ typedef union bdk_gti_wcx_pidr0 {
 	struct bdk_gti_wcx_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_WC. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_WC. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -3329,8 +3329,8 @@ typedef union bdk_gti_wcx_pidr1 {
 	struct bdk_gti_wcx_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -3368,7 +3368,7 @@ typedef union bdk_gti_wcx_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;
@@ -3847,7 +3847,7 @@ typedef union bdk_gti_wrx_pidr0 {
 	struct bdk_gti_wrx_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_WR. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GTI_WR. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -3879,8 +3879,8 @@ typedef union bdk_gti_wrx_pidr1 {
 	struct bdk_gti_wrx_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -3915,7 +3915,7 @@ typedef union bdk_gti_wrx_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;

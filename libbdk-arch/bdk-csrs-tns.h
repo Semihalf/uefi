@@ -394,10 +394,10 @@ static inline uint64_t BDK_TNS_BIST_STATUS2_FUNC(void)
  * INTERNAL:
  * All Packet Memory memories listed below are used only for non-bypass operation.
  * Bypass will still operate correctly if any of the memories below has a BIST failure.
- * Each field is organized as: [8k[3],8k[2],8k[1],8k[0],16k[3],16k[2],16k[1],16k[0]].
+ * Each field is organized as: {8k[3],8k[2],8k[1],8k[0],16k[3],16k[2],16k[1],16k[0]}.
  * Each of the PM regions stores one quarter of the word width, with each word being written to
  * and read from all four PM regions simultaneously.
- * Within a PM region, word width is organized as [[1], [0]] and [[3], [2]].
+ * Within a PM region, word width is organized as {[1], [0]} and {[3], [2]}.
  * Within a PM region, memory depth is organized as:
  *   * rows 0      - 16,383: 16k[1,0]
  *   * rows 16,384 - 32,767: 16k[3,2]
@@ -899,11 +899,11 @@ typedef union bdk_tns_rdma_config {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
 		uint64_t lmac_bp_enable              : 2;  /**< R/W - Enable sending of back pressure information to the LMACs.
-                                                                 Bits correspond to [LMACs7..4, LMACs3..0].
+                                                                 Bits correspond to {LMACs7..4, LMACs3..0}.
                                                                  INTERNAL:
                                                                  Enables sending of Xon/Xoff back pressure calendar. */
 		uint64_t nici_bp_enable              : 2;  /**< R/W - Enable sending of back pressure information to the NIC Interfaces.
-                                                                 Bits correspond to [NICI1, NICI0].
+                                                                 Bits correspond to {NICI1, NICI0}.
                                                                  INTERNAL:
                                                                  Enables sending of Xon/Xoff EBP back pressure calendar.
                                                                  Also enables sending of channel credit return messages to NIC Interface. */
@@ -1204,7 +1204,7 @@ typedef union bdk_tns_rdma_dbg_pkt_ctl {
 	struct bdk_tns_rdma_dbg_pkt_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t rtn_nici_cdt                : 2;  /**< WO/H - Each write to this field returns 1 packet skid credit to [NICI1, NICI0]. */
+		uint64_t rtn_nici_cdt                : 2;  /**< WO/H - Each write to this field returns 1 packet skid credit to {NICI1, NICI0}. */
 #else
 		uint64_t rtn_nici_cdt                : 2;
 		uint64_t reserved_2_63               : 62;
@@ -1269,11 +1269,11 @@ static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
  * This register can be used to disable ECC checks, insert ECC errors.
  * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
  * errors are detected.
- * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
+ * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x1 = SBE on bit\<0\>
+ * * 0x2 = SBE on bit\<1\>
+ * * 0x3 = DBE on bits\<1:0\>
  */
 typedef union bdk_tns_rdma_ecc_ctl {
 	uint64_t u;
@@ -2090,11 +2090,11 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
  * This register can be used to disable ECC checks, insert ECC errors.
  * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
  * errors are detected.
- * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
+ * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x1 = SBE on bit\<0\>
+ * * 0x2 = SBE on bit\<1\>
+ * * 0x3 = DBE on bits\<1:0\>
  */
 typedef union bdk_tns_rdma_nb_ecc_ctl {
 	uint64_t u;
@@ -3525,13 +3525,13 @@ typedef union bdk_tns_tdma_config {
 	struct bdk_tns_tdma_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_10_63              : 54;
-		uint64_t bypass1_ena                 : 1;  /**< R/W - BGX1 <-> NICI1 Bypass Enable.
+		uint64_t bypass1_ena                 : 1;  /**< R/W - BGX1 \<-\> NICI1 Bypass Enable.
                                                                  Packet and back pressure information are passed directly between NIC Interface 1 and BGX1.
                                                                  Software must guarantee that no packets are in flight from/to BGX1/NICI1 when this bit is
                                                                  flipped.
                                                                  INTERNAL:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
-		uint64_t bypass0_ena                 : 1;  /**< R/W - BGX0 <-> NICI0 Bypass Enable.
+		uint64_t bypass0_ena                 : 1;  /**< R/W - BGX0 \<-\> NICI0 Bypass Enable.
                                                                  Packet and back pressure information are passed directly between NIC Interface 0 and BGX0.
                                                                  Software must guarantee that no packets are in flight from/to BGX0/NICI0 when this bit is
                                                                  flipped.
@@ -3752,11 +3752,11 @@ static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long param1)
  * This register can be used to disable ECC checks, insert ECC errors.
  * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
  * errors are detected.
- * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
+ * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x1 = SBE on bit\<0\>
+ * * 0x2 = SBE on bit\<1\>
+ * * 0x3 = DBE on bits\<1:0\>
  */
 typedef union bdk_tns_tdma_ecc_ctl {
 	uint64_t u;
@@ -4622,11 +4622,11 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long param1)
  * This register can be used to disable ECC checks, insert ECC errors.
  * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
  * errors are detected.
- * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
+ * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x1 = SBE on bit\<0\>
+ * * 0x2 = SBE on bit\<1\>
+ * * 0x3 = DBE on bits\<1:0\>
  */
 typedef union bdk_tns_tdma_nb_ecc_ctl {
 	uint64_t u;
@@ -5685,7 +5685,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGES_USED_FUNC(void)
  * The contents of each word is:
  * _ [28:25] = Source Port. Enumerated by TNS_PHYS_PORT_E.
  * _ [24:18] = Source Channel/Traffic Class.
- * _           Source Ports 0-7: [3'h0, Traffic Class(4)]
+ * _           Source Ports 0-7: {3'h0, Traffic Class(4)}
  * _           Source Ports 8-9: Source Channel(7)
  * _           Source Port   10: Unused
  * _ [17]    = Global Multicast Pool used.

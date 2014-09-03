@@ -146,8 +146,8 @@ typedef union bdk_l2c_tadx_err {
                                                                  decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
                                                                  use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
                                                                  CMD[4:0]. */
-		uint64_t source                      : 7;  /**< RO/H - XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
-                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
+		uint64_t source                      : 7;  /**< RO/H - XMC source of request causing error. If SOURCE\<6\>==0, then SOURCE\<5:0\> is PPID, else
+                                                                 SOURCE\<3:0\> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
                                                                  unpredictable. */
 		uint64_t reserved_42_43              : 2;
 		uint64_t node                        : 2;  /**< RO/H - CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
@@ -841,9 +841,9 @@ typedef union bdk_l2c_tadx_tag {
 		uint64_t nonsec                      : 1;  /**< R/W/H - Nonsecure bit. */
 		uint64_t businfo                     : 9;  /**< R/W/H - The bus information bits. Ignored/loaded with 0 for RTG accesses. */
 		uint64_t ecc                         : 7;  /**< R/W/H - The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-		uint64_t tag                         : 22; /**< R/W/H - The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. TAG<41:40> is the CCPI node of the address. The RTG must always have the
-                                                                 TAG<41:40> equal to the current node or operation is undefined. */
+		uint64_t tag                         : 22; /**< R/W/H - The tag. TAG\<39:20\> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. TAG\<41:40\> is the CCPI node of the address. The RTG must always have the
+                                                                 TAG\<41:40\> equal to the current node or operation is undefined. */
 		uint64_t reserved_6_19               : 14;
 		uint64_t node                        : 2;  /**< R/W/H - The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
 		uint64_t ts                          : 2;  /**< R/W/H - The tag state.
@@ -896,10 +896,10 @@ typedef union bdk_l2c_tadx_tbf_bist_status {
 	uint64_t u;
 	struct bdk_l2c_tadx_tbf_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t vbffl                       : 16; /**< RO/H - BIST failure status for VBF ([QD7H1,QD7H0, ... , QD0H1, QD0H0]) */
-		uint64_t sbffl                       : 16; /**< RO/H - BIST failure status for SBF ([QD7H1,QD7H0, ... , QD0H1, QD0H0]) */
-		uint64_t fbfrspfl                    : 16; /**< RO/H - BIST failure status for FBF RSP port ([QD7H1,QD7H0, ... , QD0H1, QD0H0]) */
-		uint64_t fbfwrpfl                    : 16; /**< RO/H - BIST failure status for FBF WRP port ([QD7H1,QD7H0, ... , QD0H1, QD0H0]) */
+		uint64_t vbffl                       : 16; /**< RO/H - BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+		uint64_t sbffl                       : 16; /**< RO/H - BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+		uint64_t fbfrspfl                    : 16; /**< RO/H - BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+		uint64_t fbfwrpfl                    : 16; /**< RO/H - BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
 #else
 		uint64_t fbfwrpfl                    : 16;
 		uint64_t fbfrspfl                    : 16;
@@ -933,7 +933,7 @@ typedef union bdk_l2c_tadx_tdt_bist_status {
 	struct bdk_l2c_tadx_tdt_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t l2dfl                       : 16; /**< RO/H - BIST failure status for L2D ([QD7H1,QD7H0, ... , QD0H1, QD0H0]) */
+		uint64_t l2dfl                       : 16; /**< RO/H - BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
 #else
 		uint64_t l2dfl                       : 16;
 		uint64_t reserved_16_63              : 48;

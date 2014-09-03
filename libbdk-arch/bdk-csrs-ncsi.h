@@ -264,7 +264,7 @@ typedef union bdk_ncsi_int {
 		uint64_t ncp_fcserr                  : 1;  /**< R/W1C/H - NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
 		uint64_t pmac_fcserr                 : 1;  /**< R/W1C/H - Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
                                                                  FCSERR indication takes precedence over JABBER error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length > sys_length. A jabber error
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length \> sys_length. A jabber error
                                                                  indicates that a packet was received from RMII interface which is longer than the maximum
                                                                  allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
                                                                  bytes. */
@@ -327,7 +327,7 @@ typedef union bdk_ncsi_int_ena_w1c {
 		uint64_t ncp_fcserr                  : 1;  /**< R/W1C/H - NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
 		uint64_t pmac_fcserr                 : 1;  /**< R/W1C/H - Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
                                                                  FCSERR indication takes precedence over JABBER error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length > sys_length. A jabber error
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length \> sys_length. A jabber error
                                                                  indicates that a packet was received from RMII interface which is longer than the maximum
                                                                  allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
                                                                  bytes. */
@@ -390,7 +390,7 @@ typedef union bdk_ncsi_int_ena_w1s {
 		uint64_t ncp_fcserr                  : 1;  /**< R/W1C/H - NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
 		uint64_t pmac_fcserr                 : 1;  /**< R/W1C/H - Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
                                                                  FCSERR indication takes precedence over JABBER error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length > sys_length. A jabber error
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length \> sys_length. A jabber error
                                                                  indicates that a packet was received from RMII interface which is longer than the maximum
                                                                  allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
                                                                  bytes. */
@@ -453,7 +453,7 @@ typedef union bdk_ncsi_int_w1s {
 		uint64_t ncp_fcserr                  : 1;  /**< R/W1C/H - NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
 		uint64_t pmac_fcserr                 : 1;  /**< R/W1C/H - Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
                                                                  FCSERR indication takes precedence over JABBER error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length > sys_length. A jabber error
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error. Frame was received with length \> sys_length. A jabber error
                                                                  indicates that a packet was received from RMII interface which is longer than the maximum
                                                                  allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
                                                                  bytes. */
@@ -977,7 +977,7 @@ typedef union bdk_ncsi_tx_frm_ctl {
                                                                  skipped when locating the start of the L2 header for DMAC recognition. */
 		uint64_t pre_chk_len                 : 3;  /**< R/W - Check that a correct preamble of a given length is present.
 
-                                                                 With a setting of > 0, NCSI checks that a valid PREAMBLE is received and of the
+                                                                 With a setting of \> 0, NCSI checks that a valid PREAMBLE is received and of the
                                                                  corresponding length in bytes.
                                                                  If a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
                                                                  sent into the core. The NCSI_INT[PCTERR] interrupt is also raised.
@@ -1205,7 +1205,7 @@ typedef union bdk_ncsi_tx_ncp_permx_table_hi {
                                                                  physical addresses, contained in the OEM command, that have permissions to execute
                                                                  read or writes to CNXXXX general registers through MRML.
 
-                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
+                                                                 Values per entry should be set such that LOW[n]\<=HI[n]. To specify a single address the hi
                                                                  and low are programmed with the same value.
                                                                  If a range in one set of HI/LOW entries overlaps with another, the
                                                                  overlap is harmlessly redundant.

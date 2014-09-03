@@ -342,7 +342,7 @@ union bgx_spu_sds_sr_s {
  * enabled, they must be configured with the same [LMAC_TYPE] value.
  *
  * INTERNAL:
- * <pre>
+ * \<pre\>
  * Typical configurations:
  *   ---------------------------------------------------------------------------
  *   Configuration           LMACS  Register             [ENABLE]    [LMAC_TYPE]
@@ -372,7 +372,7 @@ union bgx_spu_sds_sr_s {
  *                                  BGXn_CMR2_CONFIG     1           0
  *                                  BGXn_CMR3_CONFIG     1           0
  *   ---------------------------------------------------------------------------
- * </pre>
+ * \</pre\>
  */
 typedef union bdk_bgxx_cmrx_config {
 	uint64_t u;
@@ -403,7 +403,7 @@ typedef union bdk_bgxx_cmrx_config {
 		uint64_t mix_en                      : 1;  /**< R/W - Must be 0. */
 		uint64_t lmac_type                   : 3;  /**< R/W - Logical MAC/PCS/prt type:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                    LMAC_TYPE  Name       Description            NUM_PCS_LANES
                                                                    ----------------------------------------------------------
                                                                    0x0        SGMII      SGMII/1000BASE-X             1
@@ -411,7 +411,7 @@ typedef union bdk_bgxx_cmrx_config {
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    Other      --         Reserved                     -
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  NUM_PCS_LANES specifies the number of PCS lanes that are valid for
                                                                  each type. Each valid PCS lane is mapped to a physical SerDes lane
@@ -423,19 +423,19 @@ typedef union bdk_bgxx_cmrx_config {
                                                                  This is an array of 2-bit values that map each logical PCS Lane to a
                                                                  physical SerDes lane, as follows:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                    Bits    Description            Reset value
                                                                    ------------------------------------------
-                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
-                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
-                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
-                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
-                                                                 </pre>
+                                                                   \<7:6\>   PCS Lane 3 SerDes ID       0x3
+                                                                   \<5:4\>   PCS Lane 2 SerDes ID       0x2
+                                                                   \<3:2\>   PCS Lane 1 SerDes ID       0x1
+                                                                   \<1:0\>   PCS Lane 0 SerDes ID       0x0
+                                                                 \</pre\>
 
                                                                  PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
                                                                  logical MAC/PCS type. (See definition of LMAC_TYPE.) For example, when LMAC_TYPE = SGMII,
                                                                  then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
-                                                                 are selected by bits <1:0>.
+                                                                 are selected by bits \<1:0\>.
 
                                                                  For 40GBASE-R (LMAC_TYPE = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
                                                                  determine the block distribution order and associated alignment markers on the transmit
@@ -745,7 +745,7 @@ typedef union bdk_bgxx_cmrx_rx_bp_on {
 		uint64_t mark                        : 12; /**< R/W - High watermark. Buffer depth in multiple of 16-bytes, at which BGX will
                                                                  assert backpressure for each individual LMAC.  MARK must satisfy:
 
-                                                                   BGX()_CMR()_RX_BP_OFF[MARK] <= MARK <
+                                                                   BGX()_CMR()_RX_BP_OFF[MARK] \<= MARK \<
                                                                    (FIFO_SIZE - BGX()_CMR()_RX_BP_DROP[MARK]).
 
                                                                  A value of 0x0 immediately asserts backpressure.
@@ -1348,17 +1348,17 @@ static inline uint64_t BDK_BGXX_CMRX_RX_STAT7(unsigned long param1, unsigned lon
  *
  * Which statistics are updated on control packet errors and drops are shown below:
  *
- * <pre>
- * if dropped [
+ * \<pre\>
+ * if dropped {
  *   if !errored STAT8
  *   if overflow STAT6
  *   else if dmac drop STAT4
  *   else if filter drop STAT2
- * ] else [
+ * } else {
  *   if errored STAT2
  *   else STAT8
- * ]
- * </pre>
+ * }
+ * \</pre\>
  */
 typedef union bdk_bgxx_cmrx_rx_stat8 {
 	uint64_t u;
@@ -1433,10 +1433,10 @@ typedef union bdk_bgxx_cmrx_tx_channel {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t msk                         : 16; /**< R/W - Backpressure channel mask. BGX can completely ignore the channel backpressure for channel
-                                                                 specified by this field. Any channel in which MSK<n> is set never sends backpressure
+                                                                 specified by this field. Any channel in which MSK\<n\> is set never sends backpressure
                                                                  information to PKO. */
 		uint64_t dis                         : 16; /**< R/W - Credit return backpressure disable. BGX stops returning channel credits for any channel
-                                                                 that is backpressured. These bits can be used to override that. If DIS<n> is set, channel
+                                                                 that is backpressured. These bits can be used to override that. If DIS\<n\> is set, channel
                                                                  credits may flow back regardless of the backpressure for that channel. */
 #else
 		uint64_t dis                         : 16;
@@ -1763,7 +1763,7 @@ typedef union bdk_bgxx_cmrx_tx_stat13 {
 	struct bdk_bgxx_cmrx_tx_stat13_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t hist7                       : 48; /**< R/W/H - Number of packets sent with an octet count > 1518. Packet length is the sum of all data
+		uint64_t hist7                       : 48; /**< R/W/H - Number of packets sent with an octet count \> 1518. Packet length is the sum of all data
                                                                  transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
                                                                  PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
                                                                  cycles.
@@ -2100,7 +2100,7 @@ typedef union bdk_bgxx_cmrx_tx_stat6 {
 	struct bdk_bgxx_cmrx_tx_stat6_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t hist0                       : 48; /**< R/W/H - Number of packets sent with an octet count < 64. Packet length is the sum of all data
+		uint64_t hist0                       : 48; /**< R/W/H - Number of packets sent with an octet count \< 64. Packet length is the sum of all data
                                                                  transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
                                                                  PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
                                                                  cycles.
@@ -2252,7 +2252,7 @@ typedef union bdk_bgxx_cmr_bad {
 	struct bdk_bgxx_cmr_bad_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_1_63               : 63;
-		uint64_t rxb_nxl                     : 1;  /**< R/W1C/H - Receive side LMAC ID > BGX()_CMR_RX_LMACS. */
+		uint64_t rxb_nxl                     : 1;  /**< R/W1C/H - Receive side LMAC ID \> BGX()_CMR_RX_LMACS. */
 #else
 		uint64_t rxb_nxl                     : 1;
 		uint64_t reserved_1_63               : 63;
@@ -2286,26 +2286,26 @@ typedef union bdk_bgxx_cmr_bist_status {
 		uint64_t reserved_25_63              : 39;
 		uint64_t status                      : 25; /**< RO/H - "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
                                                                  run. INTERNAL:
-                                                                 <0> = bgx#.rxb.infif_gmp
-                                                                 <1> = bgx#.rxb.infif_smu
-                                                                 <2> = bgx#.rxb.fif_bnk00
-                                                                 <3> = bgx#.rxb.fif_bnk01
-                                                                 <4> = bgx#.rxb.fif_bnk10
-                                                                 <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.skd_fif
-                                                                 <7> = bgx#.rxb_mix0_fif
-                                                                 <8> = bgx#.rxb_mix1_fif
-                                                                 <9> = RAZ
-                                                                 <10> = bgx#.txb_fif_bnk0
-                                                                 <11> = bgx#.txb_fif_bnk1
-                                                                 <12> = bgx#.txb_skd_m0_fif
-                                                                 <13> = bgx#.txb_skd_m1_fif
-                                                                 <14> = bgx#.txb_skd_m2_fif
-                                                                 <15> = bgx#.txb_skd_m3_fif
-                                                                 <16> = bgx#.txb_mix0_fif
-                                                                 <17> = bgx#.txb_mix1_fif
-                                                                 <18> = bgx#.txb_ncsi_fif
-                                                                 <24:19> = RAZ" */
+                                                                 \<0\> = bgx\#.rxb.infif_gmp
+                                                                 \<1\> = bgx\#.rxb.infif_smu
+                                                                 \<2\> = bgx\#.rxb.fif_bnk00
+                                                                 \<3\> = bgx\#.rxb.fif_bnk01
+                                                                 \<4\> = bgx\#.rxb.fif_bnk10
+                                                                 \<5\> = bgx\#.rxb.fif_bnk11
+                                                                 \<6\> = bgx\#.rxb.skd_fif
+                                                                 \<7\> = bgx\#.rxb_mix0_fif
+                                                                 \<8\> = bgx\#.rxb_mix1_fif
+                                                                 \<9\> = RAZ
+                                                                 \<10\> = bgx\#.txb_fif_bnk0
+                                                                 \<11\> = bgx\#.txb_fif_bnk1
+                                                                 \<12\> = bgx\#.txb_skd_m0_fif
+                                                                 \<13\> = bgx\#.txb_skd_m1_fif
+                                                                 \<14\> = bgx\#.txb_skd_m2_fif
+                                                                 \<15\> = bgx\#.txb_skd_m3_fif
+                                                                 \<16\> = bgx\#.txb_mix0_fif
+                                                                 \<17\> = bgx\#.txb_mix1_fif
+                                                                 \<18\> = bgx\#.txb_ncsi_fif
+                                                                 \<24:19\> = RAZ" */
 #else
 		uint64_t status                      : 25;
 		uint64_t reserved_25_63              : 39;
@@ -2338,7 +2338,7 @@ typedef union bdk_bgxx_cmr_chan_msk_and {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t msk_and                     : 64; /**< R/W - Assert physical backpressure when the backpressure channel vector combined with MSK_AND
                                                                  indicates backpressure as follows:
-                                                                 _ phys_bp_msk_and = (CHAN_VECTOR<x:y> & MSK_AND<x:y>) == MSK_AND<x:y>
+                                                                 _ phys_bp_msk_and = (CHAN_VECTOR\<x:y\> & MSK_AND\<x:y\>) == MSK_AND\<x:y\>
                                                                  _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
 
                                                                  In single LMAC configurations, x = 63, y = 0.
@@ -2380,7 +2380,7 @@ typedef union bdk_bgxx_cmr_chan_msk_or {
 		uint64_t msk_or                      : 64; /**< R/W - Assert physical backpressure when the backpressure channel vector combined with MSK_OR
                                                                  indicates backpressure as follows:
 
-                                                                 _ phys_bp_msk_or = (CHAN_VECTOR<x:y> & MSK_AND<x:y>) & MSK_OR<x:y>
+                                                                 _ phys_bp_msk_or = (CHAN_VECTOR\<x:y\> & MSK_AND\<x:y\>) & MSK_OR\<x:y\>
                                                                  _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
 
                                                                  In single LMAC configurations, x = 63, y = 0.
@@ -2471,7 +2471,7 @@ typedef union bdk_bgxx_cmr_global_config {
 		uint64_t pmux_sds_sel                : 1;  /**< R/W - SerDes/QLM output select. Specifies which QLM output is selected as the BGX input, as
                                                                  follows:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                    Block   PMUX_SDS_SEL=0  PMUX_SDS_SEL=1
                                                                    --------------------------------------
                                                                    BGX0:   QLM0            QLM2
@@ -2480,7 +2480,7 @@ typedef union bdk_bgxx_cmr_global_config {
                                                                    BGX3:   QLM5            N/A
                                                                    BGX4:   QLM6            N/A
                                                                    BGX5:   QLM7            N/A
-                                                                 </pre> */
+                                                                 \</pre\> */
 #else
 		uint64_t pmux_sds_sel                : 1;
 		uint64_t bgx_clk_enable              : 1;
@@ -3054,7 +3054,7 @@ static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long param1)
 /**
  * RSL - bgx#_cmr_rx_ovr_bp
  *
- * BGX()_CMR_RX_OVR_BP[EN<0>] must be set to one and BGX()_CMR_RX_OVR_BP[BP<0>] must be
+ * BGX()_CMR_RX_OVR_BP[EN\<0\>] must be set to one and BGX()_CMR_RX_OVR_BP[BP\<0\>] must be
  * cleared to zero (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with
  * the HiGig2 Protocol when BGX()_SMU()_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol is
  * indicated by BGX()_SMU()_TX_CTL[HG_EN]=1 and BGX()_SMU()_RX_UDD_SKP[LEN]=16).
@@ -3070,12 +3070,12 @@ typedef union bdk_bgxx_cmr_rx_ovr_bp {
                                                                  0 = Don't enable.
                                                                  1 = Enable override.
 
-                                                                 Bit<8> represents LMAC 0, ..., bit<11> represents LMAC 3. */
+                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3. */
 		uint64_t bp                          : 4;  /**< R/W - Per-LMAC backpressure status to use:
                                                                  0 = LMAC is available.
                                                                  1 = LMAC should be backpressured.
 
-                                                                 Bit<4> represents LMAC 0, ..., bit<7> represents LMAC 3. */
+                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3. */
 		uint64_t ign_fifo_bp                 : 4;  /**< R/W - Ignore the RX FIFO BP_ON signal when computing backpressure. CMR does not backpressure the
                                                                  MAC due to the FIFO length passing BP_ON mark. */
 #else
@@ -3473,11 +3473,11 @@ static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long param1, unsigned 
  * packet and would require UDD skip length to account for them.
  * Port Mode
  * - Full Duplex
- *     L2 Size <  BGX_RX_DECISION - Accept packet. No filtering is applied
- *     L2 Size >= BGX_RX_DECISION - Apply filter. Accept packet based on PAUSE packet filter
+ *     L2 Size \<  BGX_RX_DECISION - Accept packet. No filtering is applied
+ *     L2 Size \>= BGX_RX_DECISION - Apply filter. Accept packet based on PAUSE packet filter
  * - Half Duplex
- *     L2 Size <  BGX_RX_DECISION - Drop packet. Packet is unconditionally dropped.
- *     L2 Size >= BGX_RX_DECISION - Accept packet.
+ *     L2 Size \<  BGX_RX_DECISION - Drop packet. Packet is unconditionally dropped.
+ *     L2 Size \>= BGX_RX_DECISION - Accept packet.
  *
  * where L2_size = MAX(0, total_packet_size - BGX()_GMP_GMI_RX()_UDD_SKP[LEN] -
  *                        ((BGX()_GMP_GMI_RX()_FRM_CTL[PRE_CHK]==1)*8))
@@ -3525,10 +3525,10 @@ typedef union bdk_bgxx_gmp_gmi_rxx_frm_chk {
 		uint64_t rcverr                      : 1;  /**< R/W - Frame was received with data-reception error. */
 		uint64_t reserved_5_6                : 2;
 		uint64_t fcserr                      : 1;  /**< R/W - Frame was received with FCS/CRC error. */
-		uint64_t jabber                      : 1;  /**< R/W - Frame was received with length > sys_length. */
+		uint64_t jabber                      : 1;  /**< R/W - Frame was received with length \> sys_length. */
 		uint64_t reserved_2_2                : 1;
 		uint64_t carext                      : 1;  /**< R/W - Carrier extend error. SGMII/1000Base-X only. */
-		uint64_t minerr                      : 1;  /**< R/W - PAUSE frame was received with length < minFrameSize. */
+		uint64_t minerr                      : 1;  /**< R/W - PAUSE frame was received with length \< minFrameSize. */
 #else
 		uint64_t minerr                      : 1;
 		uint64_t carext                      : 1;
@@ -3708,7 +3708,7 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long param1, unsigned l
  * RSL - bgx#_gmp_gmi_rx#_int
  *
  * "These registers allow interrupts to be sent to the control processor.
- * * Exception conditions <10:0> can also set the rcv/opcode in the received packet's work-queue
+ * * Exception conditions \<10:0\> can also set the rcv/opcode in the received packet's work-queue
  * entry. BGX()_GMP_GMI_RX()_FRM_CHK provides a bit mask for configuring which conditions
  * set the error.
  * In half duplex operation, the expectation is that collisions will appear as either MINERR or
@@ -3730,11 +3730,11 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long param1, unsigned l
  * (5) NIBERR This error is illegal at 1000Mbs speeds
  * (BGX()_GMP_GMI_RX()_PRT_CFG[SPEED]==0) and will never assert.
  *
- * (6) MAXERR for untagged frames, the total frame DA+SA+TL+DATA+PAD+FCS >
+ * (6) MAXERR for untagged frames, the total frame DA+SA+TL+DATA+PAD+FCS \>
  * BGX()_GMP_GMI_RX()_FRM_MAX.  For tagged frames, DA+SA+VLAN+TL+DATA+PAD+FCS
  * > BGX()_GMP_GMI_RX()_FRM_MAX + 4*VLAN_VAL + 4*VLAN_STACKED.
  *
- * (7) MINERR total frame DA+SA+TL+DATA+PAD+FCS < 64
+ * (7) MINERR total frame DA+SA+TL+DATA+PAD+FCS \< 64
  *
  * (8) ALNERR Indicates that the packet received was not an integer number of
  * bytes.  If FCS checking is enabled, ALNERR will only assert if
@@ -3744,8 +3744,8 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long param1, unsigned l
  * (9) Collisions Collisions can only occur in half-duplex mode.  A collision
  * is assumed by the receiver when the slottime
  * (BGX()_GMP_GMI_PRT_CFG[SLOTTIME]) is not satisfied.  In 10/100 mode,
- * this will result in a frame < SLOTTIME.  In 1000 mode, it
- * could result either in frame < SLOTTIME or a carrier extend
+ * this will result in a frame \< SLOTTIME.  In 1000 mode, it
+ * could result either in frame \< SLOTTIME or a carrier extend
  * error with the SLOTTIME.  These conditions are visible by...
  * . transfer ended before slottime COLDET
  * . carrier extend error           CAREXT
@@ -3758,7 +3758,7 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long param1, unsigned l
  * (B) PCTERR checks that the frame begins with a valid PREAMBLE sequence.
  * Does not check the number of PREAMBLE cycles.
  *
- * (C) OVRERR
+ * (C) OVRERR *DON'T PUT IN HRM*
  * OVRERR is an architectural assertion check internal to GMI to
  * make sure no assumption was violated.  In a correctly operating
  * system, this interrupt can never fire.
@@ -3779,8 +3779,8 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int {
 		uint64_t ifgerr                      : 1;  /**< R/W1C/H - Interframe gap violation. Does not necessarily indicate a failure. SGMII/1000Base-X only. */
 		uint64_t coldet                      : 1;  /**< R/W1C/H - Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed
                                                                  by the receiver when the slottime (BGX()_GMP_GMI_PRT()_CFG[SLOTTIME]) is not
-                                                                 satisfied. In 10/100 mode, this will result in a frame < SLOTTIME. In 1000 mode, it could
-                                                                 result either in frame < SLOTTIME or a carrier extend error with the SLOTTIME. These
+                                                                 satisfied. In 10/100 mode, this will result in a frame \< SLOTTIME. In 1000 mode, it could
+                                                                 result either in frame \< SLOTTIME or a carrier extend error with the SLOTTIME. These
                                                                  conditions are visible by 1) transfer ended before slottime - COLDET or 2) carrier extend
                                                                  error - CAREXT. */
 		uint64_t falerr                      : 1;  /**< R/W1C/H - False-carrier error, or carrier-extend error after slottime is satisfied. SGMII/1000Base-X only. */
@@ -3791,14 +3791,14 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Data-reception error. Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - FCS/CRC error. Frame was received with FCS/CRC error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length > sys_length.
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length \> sys_length.
                                                                  An RX Jabber error indicates that a packet was received which is longer than the maximum
                                                                  allowed packet as defined by the system. GMI truncates the packet at the JABBER count.
                                                                  Failure to do so could lead to system instability. */
 		uint64_t carext                      : 1;  /**< R/W1C/H - Carrier-extend error. (SGMII/1000Base-X only) */
-		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length < minFrameSize. Frame length checks are typically
+		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length \< minFrameSize. Frame length checks are typically
                                                                  handled in NIC, but PAUSE frames are normally discarded before being inspected by NIC.
-                                                                 Total frame DA+SA+TL+DATA+PAD+FCS < 64. */
+                                                                 Total frame DA+SA+TL+DATA+PAD+FCS \< 64. */
 #else
 		uint64_t minerr                      : 1;
 		uint64_t carext                      : 1;
@@ -3844,8 +3844,8 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int_ena_w1c {
 		uint64_t ifgerr                      : 1;  /**< R/W1C/H - Interframe gap violation. Does not necessarily indicate a failure. SGMII/1000Base-X only. */
 		uint64_t coldet                      : 1;  /**< R/W1C/H - Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed
                                                                  by the receiver when the slottime (BGX()_GMP_GMI_PRT()_CFG[SLOTTIME]) is not
-                                                                 satisfied. In 10/100 mode, this will result in a frame < SLOTTIME. In 1000 mode, it could
-                                                                 result either in frame < SLOTTIME or a carrier extend error with the SLOTTIME. These
+                                                                 satisfied. In 10/100 mode, this will result in a frame \< SLOTTIME. In 1000 mode, it could
+                                                                 result either in frame \< SLOTTIME or a carrier extend error with the SLOTTIME. These
                                                                  conditions are visible by 1) transfer ended before slottime - COLDET or 2) carrier extend
                                                                  error - CAREXT. */
 		uint64_t falerr                      : 1;  /**< R/W1C/H - False-carrier error, or carrier-extend error after slottime is satisfied. SGMII/1000Base-X only. */
@@ -3856,14 +3856,14 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int_ena_w1c {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Data-reception error. Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - FCS/CRC error. Frame was received with FCS/CRC error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length > sys_length.
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length \> sys_length.
                                                                  An RX Jabber error indicates that a packet was received which is longer than the maximum
                                                                  allowed packet as defined by the system. GMI truncates the packet at the JABBER count.
                                                                  Failure to do so could lead to system instability. */
 		uint64_t carext                      : 1;  /**< R/W1C/H - Carrier-extend error. (SGMII/1000Base-X only) */
-		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length < minFrameSize. Frame length checks are typically
+		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length \< minFrameSize. Frame length checks are typically
                                                                  handled in NIC, but PAUSE frames are normally discarded before being inspected by NIC.
-                                                                 Total frame DA+SA+TL+DATA+PAD+FCS < 64. */
+                                                                 Total frame DA+SA+TL+DATA+PAD+FCS \< 64. */
 #else
 		uint64_t minerr                      : 1;
 		uint64_t carext                      : 1;
@@ -3909,8 +3909,8 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int_ena_w1s {
 		uint64_t ifgerr                      : 1;  /**< R/W1C/H - Interframe gap violation. Does not necessarily indicate a failure. SGMII/1000Base-X only. */
 		uint64_t coldet                      : 1;  /**< R/W1C/H - Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed
                                                                  by the receiver when the slottime (BGX()_GMP_GMI_PRT()_CFG[SLOTTIME]) is not
-                                                                 satisfied. In 10/100 mode, this will result in a frame < SLOTTIME. In 1000 mode, it could
-                                                                 result either in frame < SLOTTIME or a carrier extend error with the SLOTTIME. These
+                                                                 satisfied. In 10/100 mode, this will result in a frame \< SLOTTIME. In 1000 mode, it could
+                                                                 result either in frame \< SLOTTIME or a carrier extend error with the SLOTTIME. These
                                                                  conditions are visible by 1) transfer ended before slottime - COLDET or 2) carrier extend
                                                                  error - CAREXT. */
 		uint64_t falerr                      : 1;  /**< R/W1C/H - False-carrier error, or carrier-extend error after slottime is satisfied. SGMII/1000Base-X only. */
@@ -3921,14 +3921,14 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int_ena_w1s {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Data-reception error. Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - FCS/CRC error. Frame was received with FCS/CRC error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length > sys_length.
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length \> sys_length.
                                                                  An RX Jabber error indicates that a packet was received which is longer than the maximum
                                                                  allowed packet as defined by the system. GMI truncates the packet at the JABBER count.
                                                                  Failure to do so could lead to system instability. */
 		uint64_t carext                      : 1;  /**< R/W1C/H - Carrier-extend error. (SGMII/1000Base-X only) */
-		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length < minFrameSize. Frame length checks are typically
+		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length \< minFrameSize. Frame length checks are typically
                                                                  handled in NIC, but PAUSE frames are normally discarded before being inspected by NIC.
-                                                                 Total frame DA+SA+TL+DATA+PAD+FCS < 64. */
+                                                                 Total frame DA+SA+TL+DATA+PAD+FCS \< 64. */
 #else
 		uint64_t minerr                      : 1;
 		uint64_t carext                      : 1;
@@ -3974,8 +3974,8 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int_w1s {
 		uint64_t ifgerr                      : 1;  /**< R/W1C/H - Interframe gap violation. Does not necessarily indicate a failure. SGMII/1000Base-X only. */
 		uint64_t coldet                      : 1;  /**< R/W1C/H - Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed
                                                                  by the receiver when the slottime (BGX()_GMP_GMI_PRT()_CFG[SLOTTIME]) is not
-                                                                 satisfied. In 10/100 mode, this will result in a frame < SLOTTIME. In 1000 mode, it could
-                                                                 result either in frame < SLOTTIME or a carrier extend error with the SLOTTIME. These
+                                                                 satisfied. In 10/100 mode, this will result in a frame \< SLOTTIME. In 1000 mode, it could
+                                                                 result either in frame \< SLOTTIME or a carrier extend error with the SLOTTIME. These
                                                                  conditions are visible by 1) transfer ended before slottime - COLDET or 2) carrier extend
                                                                  error - CAREXT. */
 		uint64_t falerr                      : 1;  /**< R/W1C/H - False-carrier error, or carrier-extend error after slottime is satisfied. SGMII/1000Base-X only. */
@@ -3986,14 +3986,14 @@ typedef union bdk_bgxx_gmp_gmi_rxx_int_w1s {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Data-reception error. Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - FCS/CRC error. Frame was received with FCS/CRC error. */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length > sys_length.
+		uint64_t jabber                      : 1;  /**< R/W1C/H - System-length error: frame was received with length \> sys_length.
                                                                  An RX Jabber error indicates that a packet was received which is longer than the maximum
                                                                  allowed packet as defined by the system. GMI truncates the packet at the JABBER count.
                                                                  Failure to do so could lead to system instability. */
 		uint64_t carext                      : 1;  /**< R/W1C/H - Carrier-extend error. (SGMII/1000Base-X only) */
-		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length < minFrameSize. Frame length checks are typically
+		uint64_t minerr                      : 1;  /**< R/W1C/H - PAUSE frame was received with length \< minFrameSize. Frame length checks are typically
                                                                  handled in NIC, but PAUSE frames are normally discarded before being inspected by NIC.
-                                                                 Total frame DA+SA+TL+DATA+PAD+FCS < 64. */
+                                                                 Total frame DA+SA+TL+DATA+PAD+FCS \< 64. */
 #else
 		uint64_t minerr                      : 1;
 		uint64_t carext                      : 1;
@@ -4041,7 +4041,7 @@ typedef union bdk_bgxx_gmp_gmi_rxx_jabber {
 		uint64_t reserved_16_63              : 48;
 		uint64_t cnt                         : 16; /**< R/W - Byte count for jabber check. Failing packets set the JABBER interrupt and are optionally
                                                                  sent with opcode = JABBER. GMI truncates the packet to CNT bytes.
-                                                                 CNT must be 8-byte aligned such that CNT<2:0> = 000. */
+                                                                 CNT must be 8-byte aligned such that CNT\<2:0\> = 000. */
 #else
 		uint64_t cnt                         : 16;
 		uint64_t reserved_16_63              : 48;
@@ -4496,7 +4496,7 @@ static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long param1, unsign
  * suggested that TIME and INTERVAL are programmed such that they satisify the
  * following rule:
  *
- * _ INTERVAL <= TIME - (largest_pkt_size + IFG + pause_pkt_size)
+ * _ INTERVAL \<= TIME - (largest_pkt_size + IFG + pause_pkt_size)
  *
  * where largest_pkt_size is that largest packet that the system can send
  * (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
@@ -4508,7 +4508,7 @@ typedef union bdk_bgxx_gmp_gmi_txx_pause_pkt_interval {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t interval                    : 16; /**< R/W - Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every (INTERVAL * 512) bit-times.
-                                                                 Normally, 0 < INTERVAL < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
+                                                                 Normally, 0 \< INTERVAL \< BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  INTERVAL = 0 only sends a single PAUSE packet for each backpressure event. */
 #else
@@ -4543,7 +4543,7 @@ typedef union bdk_bgxx_gmp_gmi_txx_pause_pkt_time {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t ptime                       : 16; /**< R/W - Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
-                                                                 in 512 bit-times. Normally, P_TIME >
+                                                                 in 512 bit-times. Normally, P_TIME \>
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */
 #else
@@ -5547,7 +5547,7 @@ typedef union bdk_bgxx_gmp_pcs_miscx_ctl {
                                                                  _ 0 = SGMII mode is selected and the following note applies.
                                                                  The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
                                                                  autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
-                                                                 = 0 (MAC mode), the TX_CONFIG_REG<14> becomes ACK bit and <0> is always 1. All other bits
+                                                                 = 0 (MAC mode), the TX_CONFIG_REG\<14\> becomes ACK bit and \<0\> is always 1. All other bits
                                                                  in TX_CONFIG_REG sent are 0. The PHY dictates the autonegotiation results.
 
                                                                  _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
@@ -5616,7 +5616,7 @@ typedef union bdk_bgxx_gmp_pcs_mrx_control {
                                                                  The loopback mode returns loopback TX data from GMII TX back to GMII RX interface. The
                                                                  loopback happens in the PCS module. Autonegotiation is disabled even if AN_EN is set
                                                                  during loopback. */
-		uint64_t spdlsb                      : 1;  /**< R/W - Least-significant bit of the link-speed field, i.e. SPD<0>. Refer to SPDMSB. */
+		uint64_t spdlsb                      : 1;  /**< R/W - Least-significant bit of the link-speed field, i.e. SPD\<0\>. Refer to SPDMSB. */
 		uint64_t an_en                       : 1;  /**< R/W - Autonegotiation enable. */
 		uint64_t pwr_dn                      : 1;  /**< R/W - Power down:
                                                                  0 = Normal operation.
@@ -5630,21 +5630,21 @@ typedef union bdk_bgxx_gmp_pcs_mrx_control {
                                                                    0 = half duplex; effective only if autonegotiation is disabled.
                                                                    1 = full duplex.
 
-                                                                 If BGX()_GMP_PCS_MR()_STATUS <15:9> and
-                                                                 BGX()_GMP_PCS_AN()_ADV<15:12> allow only one duplex mode, this bit corresponds to
+                                                                 If BGX()_GMP_PCS_MR()_STATUS \<15:9\> and
+                                                                 BGX()_GMP_PCS_AN()_ADV\<15:12\> allow only one duplex mode, this bit corresponds to
                                                                  that value and any attempts to write are ignored. */
 		uint64_t coltst                      : 1;  /**< R/W - Enable COL signal test.
                                                                  During COL test, the COL signal reflects the GMII TX_EN signal with less than 16BT delay. */
-		uint64_t spdmsb                      : 1;  /**< R/W - Link speed most-significant bit, i.e SPD<1>; effective only if autonegotiation is
+		uint64_t spdmsb                      : 1;  /**< R/W - Link speed most-significant bit, i.e SPD\<1\>; effective only if autonegotiation is
                                                                  disabled.
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                  [SPDMSB]   [SPDLSB]   Link Speed
                                                                   0          0         10 Mb/s
                                                                   0          1         100 Mb/s
                                                                   1          0         1000 Mb/s
                                                                   1          1         reserved
-                                                                 </pre> */
+                                                                 \</pre\> */
 		uint64_t uni                         : 1;  /**< R/W - Unidirectional (Std 802.3-2005, Clause 66.2). When set to 1, this bit overrides AN_EN and
                                                                  disables the autonegotiation variable mr_an_enable. Used in both 1000BASE-X and SGMII
                                                                  modes. */
@@ -5686,8 +5686,8 @@ static inline uint64_t BDK_BGXX_GMP_PCS_MRX_CONTROL(unsigned long param1, unsign
 /**
  * RSL - bgx#_gmp_pcs_mr#_status
  *
- * Bits <15:9> in this register indicate the ability to operate when
- * BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] is set to MAC mode. Bits <15:9> are always read as
+ * Bits \<15:9\> in this register indicate the ability to operate when
+ * BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] is set to MAC mode. Bits \<15:9\> are always read as
  * 0, indicating that the chip cannot operate in the corresponding modes. The field [RM_FLT] is a
  * 'don't care' when the selected mode is SGMII.
  */
@@ -5844,7 +5844,7 @@ static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long param1, unsigned 
  * This is the SGMII autonegotiation advertisement register (sent out as TX_CONFIG_REG). This
  * register is sent during autonegotiation if
  * BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] is set (1 = PHY mode). If the bit is not set (0 =
- * MAC mode), the TX_CONFIG_REG<14> becomes ACK bit and <0> is always 1. All other bits in
+ * MAC mode), the TX_CONFIG_REG\<14\> becomes ACK bit and \<0\> is always 1. All other bits in
  * TX_CONFIG_REG sent will be 0. The PHY dictates the autonegotiation results.
  */
 typedef union bdk_bgxx_gmp_pcs_sgmx_an_adv {
@@ -5862,7 +5862,7 @@ typedef union bdk_bgxx_gmp_pcs_sgmx_an_adv {
                                                                  0x2 = 1000 Mb/s.
                                                                  0x3 = Reserved. */
 		uint64_t reserved_1_9                : 9;
-		uint64_t one                         : 1;  /**< RO/H - Always set to match TX_CONFIG_REG<0>. */
+		uint64_t one                         : 1;  /**< RO/H - Always set to match TX_CONFIG_REG\<0\>. */
 #else
 		uint64_t one                         : 1;
 		uint64_t reserved_1_9                : 9;
@@ -5912,7 +5912,7 @@ typedef union bdk_bgxx_gmp_pcs_sgmx_lp_adv {
                                                                  0x2 = 1000 Mb/s.
                                                                  0x3 = Reserved. */
 		uint64_t reserved_1_9                : 9;
-		uint64_t one                         : 1;  /**< RO/H - Always set to match TX_CONFIG_REG<0> */
+		uint64_t one                         : 1;  /**< RO/H - Always set to match TX_CONFIG_REG\<0\> */
 #else
 		uint64_t one                         : 1;
 		uint64_t reserved_1_9                : 9;
@@ -6286,7 +6286,7 @@ static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long param1, unsigned
  * [HG2RX_EN] are set. BGX()_SMU()_RX_UDD_SKP[LEN] must be set to 16 (to select HiGig2)
  * whenever either [HG2TX_EN] or [HG2RX_EN] are set.
  *
- * BGX()_CMR_RX_OVR_BP[EN<0>] must be set and BGX()_CMR_RX_OVR_BP[BP<0>] must be cleared
+ * BGX()_CMR_RX_OVR_BP[EN\<0\>] must be set and BGX()_CMR_RX_OVR_BP[BP\<0\>] must be cleared
  * to 0 (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with the HiGig2
  * Protocol when BGX()_SMU()_HG2_CONTROL[HG2TX_EN] = 0. (The HiGig2 protocol is indicated
  * by BGX()_SMU()_TX_CTL[HG_EN] = 1 and BGX()_SMU()_RX_UDD_SKP[LEN]=16.) Hardware
@@ -6496,7 +6496,7 @@ typedef union bdk_bgxx_smux_rx_frm_chk {
 		uint64_t reserved_6_6                : 1;
 		uint64_t fcserr_c                    : 1;  /**< R/W - Control frame was received with FCS/CRC error. */
 		uint64_t fcserr_d                    : 1;  /**< R/W - Data frame was received with FCS/CRC error. */
-		uint64_t jabber                      : 1;  /**< R/W - Frame was received with length > sys_length. */
+		uint64_t jabber                      : 1;  /**< R/W - Frame was received with length \> sys_length. */
 		uint64_t reserved_0_2                : 3;
 #else
 		uint64_t reserved_0_2                : 3;
@@ -6650,7 +6650,7 @@ typedef union bdk_bgxx_smux_rx_int {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - Frame was received with FCS/CRC error */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length > sys_length. An RX Jabber error indicates that a packet
+		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length \> sys_length. An RX Jabber error indicates that a packet
                                                                  was received which is longer than the maximum allowed packet as defined by the system. BGX
                                                                  terminates the packet with an EOP on the beat on which JABBER was exceeded. The beat on
                                                                  which JABBER was exceeded is left unchanged and all subsequent data beats are dropped.
@@ -6725,7 +6725,7 @@ typedef union bdk_bgxx_smux_rx_int_ena_w1c {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - Frame was received with FCS/CRC error */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length > sys_length. An RX Jabber error indicates that a packet
+		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length \> sys_length. An RX Jabber error indicates that a packet
                                                                  was received which is longer than the maximum allowed packet as defined by the system. BGX
                                                                  terminates the packet with an EOP on the beat on which JABBER was exceeded. The beat on
                                                                  which JABBER was exceeded is left unchanged and all subsequent data beats are dropped.
@@ -6800,7 +6800,7 @@ typedef union bdk_bgxx_smux_rx_int_ena_w1s {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - Frame was received with FCS/CRC error */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length > sys_length. An RX Jabber error indicates that a packet
+		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length \> sys_length. An RX Jabber error indicates that a packet
                                                                  was received which is longer than the maximum allowed packet as defined by the system. BGX
                                                                  terminates the packet with an EOP on the beat on which JABBER was exceeded. The beat on
                                                                  which JABBER was exceeded is left unchanged and all subsequent data beats are dropped.
@@ -6875,7 +6875,7 @@ typedef union bdk_bgxx_smux_rx_int_w1s {
 		uint64_t skperr                      : 1;  /**< R/W1C/H - Skipper error. */
 		uint64_t rcverr                      : 1;  /**< R/W1C/H - Frame was received with data-reception error. */
 		uint64_t fcserr                      : 1;  /**< R/W1C/H - Frame was received with FCS/CRC error */
-		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length > sys_length. An RX Jabber error indicates that a packet
+		uint64_t jabber                      : 1;  /**< R/W1C/H - Frame was received with length \> sys_length. An RX Jabber error indicates that a packet
                                                                  was received which is longer than the maximum allowed packet as defined by the system. BGX
                                                                  terminates the packet with an EOP on the beat on which JABBER was exceeded. The beat on
                                                                  which JABBER was exceeded is left unchanged and all subsequent data beats are dropped.
@@ -7448,12 +7448,12 @@ typedef union bdk_bgxx_smux_tx_pause_pkt_interval {
 		uint64_t hg2_intra_en                : 1;  /**< R/W - Allow intrapacket HiGig2 message generation. Relevant only if HiGig2 message generation is enabled. */
 		uint64_t hg2_intra_interval          : 16; /**< R/W - Arbitrate for a HiGig2 message, every (INTERVAL*512) bit-times whilst sending regular
                                                                  packet data. Relevant only if HiGig2 message generation and HG2_INTRA_EN are both set.
-                                                                 Normally, 0 < INTERVAL < BGX()_SMU()_TX_PAUSE_PKT_TIME.
+                                                                 Normally, 0 \< INTERVAL \< BGX()_SMU()_TX_PAUSE_PKT_TIME.
 
                                                                  INTERVAL = 0 only sends a single PAUSE packet for each backpressure event. */
 		uint64_t interval                    : 16; /**< R/W - Arbitrate for a 802.3 PAUSE packet, HiGig2 message, or PFC/CBFC PAUSE packet every
                                                                  (INTERVAL * 512) bit-times.
-                                                                 Normally, 0 < INTERVAL < BGX()_SMU()_TX_PAUSE_PKT_TIME[PTIME].
+                                                                 Normally, 0 \< INTERVAL \< BGX()_SMU()_TX_PAUSE_PKT_TIME[PTIME].
 
                                                                  INTERVAL = 0 only sends a single PAUSE packet for each backpressure event. */
 #else
@@ -7490,7 +7490,7 @@ typedef union bdk_bgxx_smux_tx_pause_pkt_time {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t p_time                      : 16; /**< R/W - Provides the pause_time field placed in outbound 802.3 PAUSE packets, HiGig2 messages, or
-                                                                 PFC/CBFC PAUSE packets in 512 bit-times. Normally, P_TIME >
+                                                                 PFC/CBFC PAUSE packets in 512 bit-times. Normally, P_TIME \>
                                                                  BGX()_SMU()_TX_PAUSE_PKT_INTERVAL[INTERVAL]. See programming notes in
                                                                  BGX()_SMU()_TX_PAUSE_PKT_INTERVAL. */
 #else
@@ -8593,8 +8593,8 @@ typedef union bdk_bgxx_spux_br_status1 {
 		uint64_t prbs9                       : 1;  /**< RO - 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
 		uint64_t prbs31                      : 1;  /**< RO - 10GBASE-R PRBS31 pattern testing ability. Always 0; PRBS31 pattern testing is not supported. */
 		uint64_t hi_ber                      : 1;  /**< RO/H - BASE-R PCS high bit-error rate.
-                                                                 0 = 64B/66B receiver is detecting a bit-error rate of < 10.4.
-                                                                 1 = 64B/66B receiver is detecting a bit-error rate of >= 10.4.
+                                                                 0 = 64B/66B receiver is detecting a bit-error rate of \< 10.4.
+                                                                 1 = 64B/66B receiver is detecting a bit-error rate of \>= 10.4.
 
                                                                  This bit is a direct reflection of the state of the HI_BER variable in the 64B/66B state
                                                                  diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
@@ -8896,7 +8896,7 @@ typedef union bdk_bgxx_spux_control1 {
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. The read values returned by this field are as
                                                                  follows:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                    LMAC_TYPE   Speed       SPD Read Value    Comment
                                                                    ------------------------------------------------------
                                                                    XAUI        10G/20G     0x0               20G if DXAUI
@@ -8904,7 +8904,7 @@ typedef union bdk_bgxx_spux_control1 {
                                                                    10G_R       10G         0x0
                                                                    40G_R       40G         0x3
                                                                    Other       -           X
-                                                                 </pre>' */
+                                                                 \</pre\>' */
 		uint64_t reserved_0_1                : 2;
 #else
 		uint64_t reserved_0_1                : 2;
@@ -8952,7 +8952,7 @@ typedef union bdk_bgxx_spux_control2 {
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. The read values returned by this field are as
                                                                  follows:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                                PCS_TYPE
                                                                    LMAC_TYPE   Read Value      Comment
                                                                    -------------------------------------------------
@@ -8961,7 +8961,7 @@ typedef union bdk_bgxx_spux_control2 {
                                                                    10G_R       0x0             10GBASE-R PCS type
                                                                    40G_R       0x4             40GBASE-R PCS type
                                                                    Other       Undefined       Reserved
-                                                                 </pre> */
+                                                                 \</pre\> */
 #else
 		uint64_t pcs_type                    : 3;
 		uint64_t reserved_3_63               : 61;
@@ -9702,8 +9702,8 @@ static inline uint64_t BDK_BGXX_SPUX_LPCS_STATES(unsigned long param1, unsigned 
 /**
  * RSL - bgx#_spu#_misc_control
  *
- * "* RX logical PCS lane polarity vector [3:0] = XOR_RXPLRT[3:0] ^ [4[RXPLRT]].
- * * TX logical PCS lane polarity vector [3:0] = XOR_TXPLRT[3:0] ^ [4[TXPLRT]].
+ * "* RX logical PCS lane polarity vector [3:0] = XOR_RXPLRT[3:0] ^ {4{RXPLRT}}.
+ * * TX logical PCS lane polarity vector [3:0] = XOR_TXPLRT[3:0] ^ {4{TXPLRT}}.
  *
  * In short, keep RXPLRT and TXPLRT cleared, and use XOR_RXPLRT and XOR_TXPLRT fields to define
  * the polarity per logical PCS lane. Only bit 0 of vector is used for 10GBASE-R, and only bits
@@ -9728,7 +9728,7 @@ typedef union bdk_bgxx_spux_misc_control {
                                                                  effect otherwise. When set, the LMAC/LPCS transmits more Idle Skip columns for clock
                                                                  compensation. Typically set in HiGig/HiGig2 modes; clear otherwise. This field can be set
                                                                  to ensure sufficient density of XAUI Idle Skip (||R||) columns with a small transmit
-                                                                 inter-frame gap (IFG) in order to allow the link partner's receiver to delete ||R
+                                                                 inter-frame gap (IFG) in order to allow the link partner's receiver to delete ||R||
                                                                  columns as needed for clock rate compensation. It is usually set when the LMAC's transmit
                                                                  IFG is set to 8 bytes in HiGig/HiGig2 modes (i.e. BGX()_SMU()_TX_IFG[IFG1] +
                                                                  BGX()_SMU()_TX_IFG[IFG2] = 8), and should be cleared when the transmit IFG is
@@ -9736,7 +9736,7 @@ typedef union bdk_bgxx_spux_misc_control {
                                                                  ||T0|| column (terminate in lane 0) if no ||R|| was sent in the previous IFG. This is a
                                                                  minor deviation from the functionality specified in 802.3-2008 Figure 48-6 (PCS transmit
                                                                  source state diagram), whereby the state will transition directly from SEND_DATA to
-                                                                 SEND_RANDOM_R after ||T0|| if no ||R|| was transmitted in the previous IFG. Sending ||R
+                                                                 SEND_RANDOM_R after ||T0|| if no ||R|| was transmitted in the previous IFG. Sending ||R||
                                                                  after ||T0|| only (and not ||T1||, |T2|| or ||T3||) ensures that the check_end function at
                                                                  the receiving end, as defined in 802.3-2008 sub-clause 48.2.6.1.4, does not detect an
                                                                  error due to this functional change. When this bit is clear, the LMAC will fully conform

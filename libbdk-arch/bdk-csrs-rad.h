@@ -135,7 +135,7 @@ union rad_cword_s {
                                                                  (i.e. an XOR with zero.) For copy operations, [Q_XOR] = 0, [P_XOR] = 0, [QOUT] = 1,
                                                                  [POUT] = 0, [QMULT] = 1, [QEN] = 1, [PEN] = 0, and [Q_CMP] = 0. */
 		uint64_t size                        : 24; /**< [ 23:  0] Indicates the size in bytes of all input buffers. When [Q_CMP,P_CMP]=0, also indicates the
-                                                                 size of the Q/P output buffers. Must be a multiple of 8B (i.e. <2:0> must be zero). */
+                                                                 size of the Q/P output buffers. Must be a multiple of 8B (i.e. \<2:0\> must be zero). */
 #else
 		uint64_t size                        : 24;
 		uint64_t iword                       : 6;
@@ -186,7 +186,7 @@ union rad_iword_s {
                                                                  If RAD_CWORD_S[POUT] is set, [PEN] must be set for at least one RAD_IWORD_S. */
 		uint64_t reserved_49_52              : 4;  /**< [ 52: 49] Reserved. */
 		uint64_t ptr                         : 49; /**< [ 48:  0] The starting address of the input buffer in L2/DRAM. Must be naturally aligned on an
-                                                                 eight-byte boundary (i.e. <2:0> must be zero). The SMMU stream used may be overridden with
+                                                                 eight-byte boundary (i.e. \<2:0\> must be zero). The SMMU stream used may be overridden with
                                                                  RAD_CWORD_S[ISTR]. */
 #else
 		uint64_t ptr                         : 49;
@@ -253,7 +253,7 @@ union rad_oword_s {
                                                                  only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
                                                                  8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
 
-                                                                 [PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
+                                                                 [PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
 #else
 		uint64_t p_ptr                       : 49;
 		uint64_t reserved_49_55              : 7;
@@ -277,7 +277,7 @@ union rad_resp_s {
 		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. */
 		uint64_t ptr                         : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte indicated by
                                                                  [PTR] to zero after completing the instruction. RAD_REG_CTL[STORE_LE] indicates the
-                                                                 endianness of [PTR]. [PTR] must be naturally-aligned on an 8B boundary (i.e. <2:0> must be
+                                                                 endianness of [PTR]. [PTR] must be naturally-aligned on an 8B boundary (i.e. \<2:0\> must be
                                                                  zero) when RAD_CWORD_S[WQE] is set. The SMMU stream used may be overridden with
                                                                  [STR]. */
 		uint64_t istr                        : 8;  /**< [ 63: 56] When RAD_CWORD_S[STREN] is set, the SMMU stream for [PTR]. */
@@ -343,12 +343,12 @@ typedef union bdk_rad_done_cnt {
 
                                                                  * When RAD_DONE_CNT[DONE] != 0, then the interrupt coalescing timer counts. If the
                                                                  counter is less than RAD_DONE_WAIT[TIME_WAIT]*1024, and RAD_DONE_CNT[DONE]
-                                                                 < RAD_DONE_WAIT[NUM_WAIT] , i.e. not enough time has passed or not enough
+                                                                 \< RAD_DONE_WAIT[NUM_WAIT] , i.e. not enough time has passed or not enough
                                                                  results have arrived, then interrupts are not sent due to coalescing.
 
                                                                  * When RAD_DONE_ACK is written, the interrupt coalescing timer restarts. Note after
                                                                  decrementing this interrupt equation is recomputed, for example if
-                                                                 RAD_DONE_CNT[DONE] >= RAD_DONE_WAIT[NUM_WAIT] and the timer is zero, the
+                                                                 RAD_DONE_CNT[DONE] \>= RAD_DONE_WAIT[NUM_WAIT] and the timer is zero, the
                                                                  interrupt will be resent immediately.  (This covers the race case between software
                                                                  acknowledging an interrupt and a result returning.)
 
@@ -391,7 +391,7 @@ typedef union bdk_rad_done_wait {
                                                                  cleared. When the timer reaches [TIME_WAIT]*1024 then interrupt coalescing ends; see
                                                                  RAD_DONE_CNT[DONE]. If zero, time coalescing is disabled. */
 		uint64_t reserved_20_31              : 12;
-		uint64_t num_wait                    : 20; /**< R/W - Number of messages hold-off. When RAD_DONE_CNT[DONE] >= [NUM_WAIT] then interrupt
+		uint64_t num_wait                    : 20; /**< R/W - Number of messages hold-off. When RAD_DONE_CNT[DONE] \>= [NUM_WAIT] then interrupt
                                                                  coalescing ends; see RAD_DONE_CNT[DONE]. If zero, message number coalescing is disabled. */
 #else
 		uint64_t num_wait                    : 20;

@@ -88,13 +88,13 @@ typedef union bdk_smi_x_clk {
 		uint64_t sample                      : 4;  /**< R/W - Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
                                                                  of SMIn_MDC to wait before sampling read data.
 
-                                                                 _ (SAMPLE_HI,SAMPLE) > 1
+                                                                 _ (SAMPLE_HI,SAMPLE) \> 1
 
-                                                                 _ (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE */
+                                                                 _ (SAMPLE_HI,SAMPLE) + 3 \<= 2 * PHASE */
 		uint64_t phase                       : 8;  /**< R/W - MDC clock phase. Specifies the number of coprocessor clock cycles that make up an SMIn_MDC
                                                                  phase.
 
-                                                                 _ PHASE > 2 */
+                                                                 _ PHASE \> 2 */
 #else
 		uint64_t phase                       : 8;
 		uint64_t sample                      : 4;
@@ -139,11 +139,11 @@ typedef union bdk_smi_x_cmd {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_18_63              : 46;
 		uint64_t phy_op                      : 2;  /**< R/W - PHY opcode, depending on SMI_()_CLK[MODE] setting.
-                                                                 * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
+                                                                 * If SMI_()_CLK[MODE] = 0 (\<=1Gbs / Clause 22):
                                                                  0 = write operation, encoded in the frame as 01
                                                                  1 = read operation, encoded in the frame as 10.
 
-                                                                 * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):
+                                                                 * If SMI_()_CLK[MODE] = 1 (\>1Gbs / Clause 45):
                                                                  0x0 = Address.
                                                                  0x1 = Write.
                                                                  0x2 = Post-read-increment-address.

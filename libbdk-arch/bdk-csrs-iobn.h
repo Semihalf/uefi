@@ -82,25 +82,25 @@ typedef union bdk_iobnx_bistr_reg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_19_63              : 45;
 		uint64_t status                      : 19; /**< RO/H - Memory BIST status. INTERNAL:
-                                                                 <18> = gmr_ixofifo_bstatus_rclk.
-                                                                 <17> = sli_preq_2_ffifo_bstatus_rclk.
-                                                                 <16> = sli_req_2_ffifo_bstatus_rclk.
-                                                                 <15> = sli_preq_1_ffifo_bstatus_rclk.
-                                                                 <14> = sli_req_1_ffifo_bstatus_rclk.
-                                                                 <13> = sli_preq_0_ffifo_bstatus_rclk.
-                                                                 <12> = sli_req_0_ffifo_bstatus_rclk.
-                                                                 <11> = iop_ffifo_bstatus_rclk.
-                                                                 <10> = ixo_icc_fifo0_bstatus_rclk.
-                                                                 <9> = ixo_icc_fifo1_bstatus_rclk.
-                                                                 <8>  = ixo_ics_mem_bstatus_rclk.
-                                                                 <7>  = iob_mem_data_xmd0_bstatus_rclk.
-                                                                 <6>  = iob_mem_data_xmd1_bstatus_rclk.
-                                                                 <5>  = ics_cmd_fifo_bstatus_rclk.
-                                                                 <4>  = ixo_xmd_mem0_bstatus_rclk.
-                                                                 <3>  = ixo_xmd_mem1_bstatus_rclk.
-                                                                 <2>  = iobn_iorn_ffifo0_bstatus_rclk.
-                                                                 <1>  = iobn_iorn_ffifo1_bstatus_rclk.
-                                                                 <0>  = ixo_smmu_mem0_bstatus_rclk. */
+                                                                 \<18\> = gmr_ixofifo_bstatus_rclk.
+                                                                 \<17\> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                 \<16\> = sli_req_2_ffifo_bstatus_rclk.
+                                                                 \<15\> = sli_preq_1_ffifo_bstatus_rclk.
+                                                                 \<14\> = sli_req_1_ffifo_bstatus_rclk.
+                                                                 \<13\> = sli_preq_0_ffifo_bstatus_rclk.
+                                                                 \<12\> = sli_req_0_ffifo_bstatus_rclk.
+                                                                 \<11\> = iop_ffifo_bstatus_rclk.
+                                                                 \<10\> = ixo_icc_fifo0_bstatus_rclk.
+                                                                 \<9\> = ixo_icc_fifo1_bstatus_rclk.
+                                                                 \<8\>  = ixo_ics_mem_bstatus_rclk.
+                                                                 \<7\>  = iob_mem_data_xmd0_bstatus_rclk.
+                                                                 \<6\>  = iob_mem_data_xmd1_bstatus_rclk.
+                                                                 \<5\>  = ics_cmd_fifo_bstatus_rclk.
+                                                                 \<4\>  = ixo_xmd_mem0_bstatus_rclk.
+                                                                 \<3\>  = ixo_xmd_mem1_bstatus_rclk.
+                                                                 \<2\>  = iobn_iorn_ffifo0_bstatus_rclk.
+                                                                 \<1\>  = iobn_iorn_ffifo1_bstatus_rclk.
+                                                                 \<0\>  = ixo_smmu_mem0_bstatus_rclk. */
 #else
 		uint64_t status                      : 19;
 		uint64_t reserved_19_63              : 45;
@@ -136,17 +136,17 @@ typedef union bdk_iobnx_bists_reg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_11_63              : 53;
 		uint64_t status                      : 11; /**< RO/H - Memory BIST status: INTERNAL:
-                                                                 <10> = irp0_flid_mem_status.
-                                                                 <9>  = irp1_flid_mem_status.
-                                                                 <8>  = icc0_xmc_fifo_ecc_bstatus.
-                                                                 <7>  = icc1_xmc_fifo_ecc_bstatus.
-                                                                 <6>  = icc_xmc_fifo_ecc_bstatus.
-                                                                 <5>  = rsd_mem0_bstatus.
-                                                                 <4>  = rsd_mem1_bstatus.
-                                                                 <3>  = iop_breq_fifo0_bstatus.
-                                                                 <2>  = iop_breq_fifo1_bstatus.
-                                                                 <1>  = iop_breq_fifo2_bstatus.
-                                                                 <0>  = iop_breq_fifo3_bstatus. */
+                                                                 \<10\> = irp0_flid_mem_status.
+                                                                 \<9\>  = irp1_flid_mem_status.
+                                                                 \<8\>  = icc0_xmc_fifo_ecc_bstatus.
+                                                                 \<7\>  = icc1_xmc_fifo_ecc_bstatus.
+                                                                 \<6\>  = icc_xmc_fifo_ecc_bstatus.
+                                                                 \<5\>  = rsd_mem0_bstatus.
+                                                                 \<4\>  = rsd_mem1_bstatus.
+                                                                 \<3\>  = iop_breq_fifo0_bstatus.
+                                                                 \<2\>  = iop_breq_fifo1_bstatus.
+                                                                 \<1\>  = iop_breq_fifo2_bstatus.
+                                                                 \<0\>  = iop_breq_fifo3_bstatus. */
 #else
 		uint64_t status                      : 11;
 		uint64_t reserved_11_63              : 53;
@@ -188,7 +188,7 @@ typedef union bdk_iobnx_chip_cur_pwr {
                                                                  reduce power. The hardware generally uses a CURRENT_POWER_SETTING value that is as large
                                                                  as possible (in order to maximize performance) subject to the following constraints (in
                                                                  priority order):
-                                                                 * PWR_MIN <= CURRENT_POWER_SETTING <= PWR_MAX.
+                                                                 * PWR_MIN \<= CURRENT_POWER_SETTING \<= PWR_MAX.
                                                                  * Power limits from the PWR_SETTING feedback control system.
 
                                                                  In the case of the CPU cores, CURRENT_POWER_SETTING effectively limits the CP0
@@ -231,8 +231,8 @@ typedef union bdk_iobnx_chip_glb_pwr_throttle {
 		uint64_t pwr_bw                      : 2;  /**< R/W - Configures the reaction time of the closed-loop feedback control system for the
                                                                  AVG_CHIP_POWER power approximation. Higher numbers decrease bandwidth, reducing response
                                                                  time, which could lead to greater tracking error, but reduce ringing. */
-		uint64_t pwr_max                     : 8;  /**< R/W - Maximum allowed CURRENT_POWER_SETTING value. PWR_MAX must be >= PWR_MIN. */
-		uint64_t pwr_min                     : 8;  /**< R/W - Minimum allowed CURRENT_POWER_SETTING value. PWR_MIN must be <= PWR_MAX. We recommend a
+		uint64_t pwr_max                     : 8;  /**< R/W - Maximum allowed CURRENT_POWER_SETTING value. PWR_MAX must be \>= PWR_MIN. */
+		uint64_t pwr_min                     : 8;  /**< R/W - Minimum allowed CURRENT_POWER_SETTING value. PWR_MIN must be \<= PWR_MAX. We recommend a
                                                                  PWR_MIN value larger than zero to set a minimum performance level in case PWR_SETTING is
                                                                  set to an unreachable goal. See the CPU CP0 PowThrottle description. PWR_MIN = 50% of
                                                                  PowThrottle[MAXPOW] could be a good choice, for example. */
@@ -334,13 +334,13 @@ typedef union bdk_iobnx_core_bist_status {
 		uint64_t core_bstat                  : 24; /**< RO/H - BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
                                                                  IOBN1 contains the BIST status for the odd numbered cores.
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                     BIT    IOBN0     IOBN1
                                                                     [0]    Core 0    Core 1
                                                                     [1]    Core 2    Core 3
                                                                     - ...
                                                                     [23]   Core 46   Core 47
-                                                                 </pre> */
+                                                                 \</pre\> */
 #else
 		uint64_t core_bstat                  : 24;
 		uint64_t reserved_24_63              : 40;
@@ -869,7 +869,7 @@ typedef union bdk_iobnx_mctlr_reg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
 		uint64_t dis                         : 16; /**< R/W - Memory ECC disable. INTERNAL:
-                                                                 <47:32>  = iobn_gmr_ixofifo_csr_cor_dis,
+                                                                 \<47:32\>  = iobn_gmr_ixofifo_csr_cor_dis,
                                                                             sli_req_2_cor_dis and sli_preq_2_cor_dis,
                                                                             sli_req_1_cor_dis and sli_preq_1_cor_dis,
                                                                             sli_req_0_cor_dis and sli_preq_0_cor_dis,
@@ -887,7 +887,7 @@ typedef union bdk_iobnx_mctlr_reg {
                                                                             ics_cmd_fifo_csr_cor_dis */
 		uint64_t reserved_28_31              : 4;
 		uint64_t flip                        : 28; /**< R/W - Memory ECC flip. INTERNAL:
-                                                                 <27:0>  = iobn_gmr_ixofifo_csr_flip_synd,
+                                                                 \<27:0\>  = iobn_gmr_ixofifo_csr_flip_synd,
                                                                            sli_req_2_flip_synd and sli_preq_2_flip_synd,
                                                                            sli_req_1_flip_synd and sli_preq_1_flip_synd,
                                                                            sli_req_0_flip_synd and sli_preq_0_flip_synd,
@@ -938,7 +938,7 @@ typedef union bdk_iobnx_mctls_reg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
 		uint64_t dis                         : 11; /**< R/W - Memory ECC disable. INTERNAL:
-                                                                 <42:32>  = iobn_rsd_mem0_csr_cor_dis,
+                                                                 \<42:32\>  = iobn_rsd_mem0_csr_cor_dis,
                                                                             iobn_rsd_mem1_csr_cor_dis,
                                                                             irp0_flid_mem_csr_cor_dis,
                                                                             irp1_flid_mem_csr_cor_dis,
@@ -951,7 +951,7 @@ typedef union bdk_iobnx_mctls_reg {
                                                                             icc1_xmc_fifo_csr_cor_dis */
 		uint64_t reserved_26_31              : 6;
 		uint64_t flip                        : 26; /**< R/W - Memory ECC flip. INTERNAL:
-                                                                 <25:0>  = iob__iob_xmd_csr_flip_synd_sclk,
+                                                                 \<25:0\>  = iob__iob_xmd_csr_flip_synd_sclk,
                                                                            ixo_icc_fifo0_csr_flip_synd,
                                                                            ixo_icc_fifo1_csr_flip_synd,
                                                                            ixo_xmd_mem0_csr_flip_synd,

@@ -183,7 +183,7 @@ typedef union bdk_pemx_bar_ctl {
                                                                  0x7 = Reserved. */
 		uint64_t bar2_enb                    : 1;  /**< R/W - When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
 		uint64_t reserved_1_2                : 2;
-		uint64_t bar2_cax                    : 1;  /**< R/W - Value is XORed with PCIe address <49> to determine the L2 cache attribute. Not cached in
+		uint64_t bar2_cax                    : 1;  /**< R/W - Value is XORed with PCIe address \<49\> to determine the L2 cache attribute. Not cached in
                                                                  L2 if XOR result is 1. */
 #else
 		uint64_t bar2_cax                    : 1;
@@ -361,7 +361,7 @@ typedef union bdk_pemx_cfg_rd {
 		uint64_t addr                        : 32; /**< R/W/H - Address to read. A write to this register starts a read operation.
                                                                  Following are the sub-fields of the ADDR field.
 
-                                                                 <11:0> The offset of the PCIe core CFG register being accessed. */
+                                                                 \<11:0\> The offset of the PCIe core CFG register being accessed. */
 #else
 		uint64_t addr                        : 32;
 		uint64_t data                        : 32;
@@ -399,8 +399,8 @@ typedef union bdk_pemx_cfg_wr {
 		uint64_t addr                        : 32; /**< R/W/H - Address to write. A write to this register starts a write operation.
                                                                  Following are the sub-fields of the ADDR field.
 
-                                                                 <31>   When set, asserts dbi_cs2 at PCIe core.
-                                                                 <11:0> The offset of the PCIe core CFG register being accessed. */
+                                                                 \<31\>   When set, asserts dbi_cs2 at PCIe core.
+                                                                 \<11:0\> The offset of the PCIe core CFG register being accessed. */
 #else
 		uint64_t addr                        : 32;
 		uint64_t data                        : 32;

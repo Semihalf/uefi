@@ -1501,7 +1501,7 @@ typedef union bdk_trcx_trcidr0 {
                                                                             without instruction count.
                                                                  0x3 = Q Elements support is implemented and support Q Elements
                                                                             with and without instruction count. */
-		uint32_t qfilt                       : 1;  /**< R/W - When QSUPP > 0x0, this is Q element filtering support field.
+		uint32_t qfilt                       : 1;  /**< R/W - When QSUPP \> 0x0, this is Q element filtering support field.
                                                                  0 = Q element filtering is not implemented.
                                                                  1 = Q element filtering is implemented. */
 		uint32_t condtype                    : 2;  /**< R/W - Conditional tracing field.  The permitted values are:
@@ -1985,14 +1985,14 @@ typedef union bdk_trcx_trcoslsr {
 	struct bdk_trcx_trcoslsr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
-		uint32_t apppulse                    : 3;  /**< RO - Generate event pulse on ECT channel <x>.
+		uint32_t apppulse                    : 3;  /**< RO - Generate event pulse on ECT channel \<x\>.
                                                                  N is the number of ECT channels implemented as defined by the
                                                                      TRCDEVID.NUMCHAN field.
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  Writing to this bit has the following effect:
                                                                  0 = No effect.
-                                                                 1 = Channel <x> event pulse generated for one clock period. */
+                                                                 1 = Channel \<x\> event pulse generated for one clock period. */
 #else
 		uint32_t apppulse                    : 3;
 		uint32_t reserved_3_31               : 29;
@@ -2027,15 +2027,15 @@ typedef union bdk_trcx_trcpdcr {
 	struct bdk_trcx_trcpdcr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
-		uint32_t inen                        : 3;  /**< R/W - Input trigger <n> to output channel <x> enable.
+		uint32_t inen                        : 3;  /**< R/W - Input trigger \<n\> to output channel \<x\> enable.
                                                                  N is the number of ECT channels implemented as defined by the
                                                                      TRCDEVID.NUMCHAN field.
                                                                  Bits [31:N] are RAZ/WI.
 
-                                                                 0 = Input trigger <n> will not generate an event on output channel
-                                                                     <x>.
-                                                                 1 = Input trigger <n> will generate an event on output channel
-                                                                     <x>.
+                                                                 0 = Input trigger \<n\> will not generate an event on output channel
+                                                                     \<x\>.
+                                                                 1 = Input trigger \<n\> will generate an event on output channel
+                                                                     \<x\>.
 
                                                                  In CNXXXX TRCINEN(3..31) are ignored as there are only 3 channels. */
 #else
@@ -2072,14 +2072,14 @@ typedef union bdk_trcx_trcpdsr {
 	struct bdk_trcx_trcpdsr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
-		uint32_t outen                       : 3;  /**< R/W - Input channel <x> to output trigger <n> enable.
+		uint32_t outen                       : 3;  /**< R/W - Input channel \<x\> to output trigger \<n\> enable.
                                                                  N is the number of ECT channels implemented as defined by the
                                                                      TRCDEVID.NUMCHAN field.
                                                                  Bits [31:N] are RAZ/WI.
 
-                                                                 0 = An event on input channel <x> will not cause output trigger
-                                                                     <n> to be asserted.
-                                                                 1 = An event on input channel <x> will cause output trigger <n> to
+                                                                 0 = An event on input channel \<x\> will not cause output trigger
+                                                                     \<n\> to be asserted.
+                                                                 1 = An event on input channel \<x\> will cause output trigger \<n\> to
                                                                      be asserted.
 
                                                                  In CNXXXX TRCOUTEN(3..31) are ignored as there are only 3 channels. */
@@ -2117,7 +2117,7 @@ typedef union bdk_trcx_trcpidr0 {
 	struct bdk_trcx_trcpidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t part_0                      : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::TRC. */
+		uint32_t part_0                      : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::TRC. */
 #else
 		uint32_t part_0                      : 8;
 		uint32_t reserved_8_31               : 24;
@@ -2152,8 +2152,8 @@ typedef union bdk_trcx_trcpidr1 {
 	struct bdk_trcx_trcpidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t part_1                      : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t part_1                      : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t part_1                      : 4;
 		uint32_t des_0                       : 4;
@@ -2191,7 +2191,7 @@ typedef union bdk_trcx_trcpidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t des_1                       : 3;
 		uint32_t jedec                       : 1;
@@ -2266,7 +2266,7 @@ typedef union bdk_trcx_trcpidr4 {
 	struct bdk_trcx_trcpidr4_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t size                        : 4;  /**< RO - Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+		uint32_t size                        : 4;  /**< RO - Size of the component. RAZ. Log\<sub\>2\</sub\> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
 		uint32_t des_2                       : 4;  /**< RO - JEP106 continuation code, least significant nibble. Indicates Cavium. */
 #else
@@ -3478,18 +3478,18 @@ typedef union bdk_trcx_trcvictlr {
                                                                    the corresponding exception level.
                                                                  0 = the trace unit generates the instruction trace for exception level n.
                                                                  1 = the trace unit dos not generate the instruction trace for exception level n.
-                                                                    <20>  exception level 0.
-                                                                    <21>  exception level 1.
-                                                                    <22>  exception level 2.
-                                                                    <23>  RAZ/WI. */
+                                                                    \<20\>  exception level 0.
+                                                                    \<21\>  exception level 1.
+                                                                    \<22\>  exception level 2.
+                                                                    \<23\>  RAZ/WI. */
 		uint32_t level_s                     : 4;  /**< R/W - In secure state, each bit control whether instruction tracing is enabled for
                                                                    the corresponding exception level.
                                                                  0 = the trace unit generates the instruction trace for exception level n.
                                                                  1 = the trace unit dos not generate the instruction trace for exception level n.
-                                                                    <16> = exception level 0.
-                                                                    <17> = exception level 1.
-                                                                    <18> = RAZ/WI.
-                                                                    <19> = exception level 3. */
+                                                                    \<16\> = exception level 0.
+                                                                    \<17\> = exception level 1.
+                                                                    \<18\> = RAZ/WI.
+                                                                    \<19\> = exception level 3. */
 		uint32_t reserved_12_15              : 4;
 		uint32_t trcerr                      : 1;  /**< R/W - Control whether a trace unit must trace a system error exception.
                                                                  0 = The trace unit does not trace a system error exception.

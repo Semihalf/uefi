@@ -63,7 +63,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * Performance Counter Event Enumeration
  * Enumerates the events that may be counted.  See PMU()_PMEVTYPER()_EL0[EVTCOUNT].
  * INTERNAL:
- * <pre>
+ * \<pre\>
  *    0x0000 to 0x003F    Common architectural and microarchitectural events
  *       0x0020 to 0x03F      ARM house style events
  *       0x0040 to 0x04F      ARM Recommended, implementation defined events (Aka ARM House
@@ -82,7 +82,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  *    0x80C0 to 0xBFFF    IMPLEMENTATION DEFINED
  *    0xC000 to 0xC0BF    Reserved
  *    0xC0C0 to 0xFFFF    IMPLEMENTATION DEFINED
- * </pre>
+ * \</pre\>
  */
 enum pmu_perf_e {
 	PMU_PERF_E_ASE_SPEC = 0x74,
@@ -1730,7 +1730,7 @@ static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long param1)
  * DAB32b - pmu#_pmcntenclr_el0
  *
  * Disables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
- * implemented event counters PMEVCNTR<x>. Reading this register
+ * implemented event counters PMEVCNTR\<x\>. Reading this register
  * shows which counters are enabled.
  */
 typedef union bdk_pmux_pmcntenclr_el0 {
@@ -1743,13 +1743,13 @@ typedef union bdk_pmux_pmcntenclr_el0 {
                                                                      has no effect.
                                                                  1 = When read, means the cycle counter is enabled. When written,
                                                                      disables the cycle counter. */
-		uint32_t p                           : 31; /**< R/W - Event counter disable bit for PMEVCNTR<x>.
+		uint32_t p                           : 31; /**< R/W - Event counter disable bit for PMEVCNTR\<x\>.
                                                                  N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
                                                                  Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
+                                                                 0 = When read, means that PMEVCNTR\<x\> is disabled. When written,
                                                                      has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> is enabled. When written,
-                                                                     disables PMEVCNTR<x>. */
+                                                                 1 = When read, means that PMEVCNTR\<x\> is enabled. When written,
+                                                                     disables PMEVCNTR\<x\>. */
 #else
 		uint32_t p                           : 31;
 		uint32_t c_set                       : 1;
@@ -1777,7 +1777,7 @@ static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long param1)
  * DAB32b - pmu#_pmcntenset_el0
  *
  * Enables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
- * implemented event counters PMEVCNTR<x>. Reading this register
+ * implemented event counters PMEVCNTR\<x\>. Reading this register
  * shows which counters are enabled.
  */
 typedef union bdk_pmux_pmcntenset_el0 {
@@ -1790,13 +1790,13 @@ typedef union bdk_pmux_pmcntenset_el0 {
                                                                      has no effect.
                                                                  1 = When read, means the cycle counter is enabled. When written,
                                                                      enables the cycle counter. */
-		uint32_t p                           : 31; /**< R/W - Event counter enable bit for PMEVCNTR<x>.
+		uint32_t p                           : 31; /**< R/W - Event counter enable bit for PMEVCNTR\<x\>.
                                                                  N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
                                                                  Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
+                                                                 0 = When read, means that PMEVCNTR\<x\> is disabled. When written,
                                                                      has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> event counter is enabled.
-                                                                     When written, enables PMEVCNTR<x>. */
+                                                                 1 = When read, means that PMEVCNTR\<x\> event counter is enabled.
+                                                                     When written, enables PMEVCNTR\<x\>. */
 #else
 		uint32_t p                           : 31;
 		uint32_t c_set                       : 1;
@@ -2163,7 +2163,7 @@ typedef union bdk_pmux_pmevtyperx_el0 {
                                                                  Otherwise, events in Secure EL3 are not counted. */
 		uint32_t reserved_10_25              : 16;
 		uint32_t evtcount                    : 10; /**< R/W - Event to count. The event number of the event that is counted
-                                                                     by event counter PMEVCNTR<n>_EL0.
+                                                                     by event counter PMEVCNTR\<n\>_EL0.
                                                                  Enumerated in PMU_PERF_E.
 
                                                                  Software must program this field with an event defined by the
@@ -2218,7 +2218,7 @@ static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long param1, unsigned lo
  *
  * Disables the generation of interrupt requests on overflows
  * from the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event
- * counters PMEVCNTR<n>_EL0. Reading the register shows which
+ * counters PMEVCNTR\<n\>_EL0. Reading the register shows which
  * overflow interrupt requests are enabled.
  */
 typedef union bdk_pmux_pmintenclr_el1 {
@@ -2233,14 +2233,14 @@ typedef union bdk_pmux_pmintenclr_el1 {
                                                                      is enabled. When written, disables the cycle count overflow
                                                                      interrupt request. */
 		uint32_t p                           : 31; /**< R/W - Event counter overflow interrupt request disable bit for
-                                                                     PMEVCNTR<x>_EL0.
+                                                                     PMEVCNTR\<x\>_EL0.
                                                                  N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
                                                                  Possible values are:
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                 0 = When read, means that the PMEVCNTR\<x\>_EL0 event counter
                                                                      interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                 1 = When read, means that the PMEVCNTR\<x\>_EL0 event counter
                                                                      interrupt request is enabled. When written, disables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
+                                                                     PMEVCNTR\<x\>_EL0 interrupt request. */
 #else
 		uint32_t p                           : 31;
 		uint32_t c_set                       : 1;
@@ -2269,7 +2269,7 @@ static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long param1)
  *
  * Enables the generation of interrupt requests on overflows from
  * the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event counters
- * PMEVCNTR<n>_EL0. Reading the register shows which overflow
+ * PMEVCNTR\<n\>_EL0. Reading the register shows which overflow
  * interrupt requests are enabled.
  */
 typedef union bdk_pmux_pmintenset_el1 {
@@ -2284,14 +2284,14 @@ typedef union bdk_pmux_pmintenset_el1 {
                                                                      is enabled. When written, enables the cycle count overflow
                                                                      interrupt request. */
 		uint32_t p                           : 31; /**< R/W - Event counter overflow interrupt request enable bit for
-                                                                     PMEVCNTR<x>_EL0.
+                                                                     PMEVCNTR\<x\>_EL0.
                                                                  N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
                                                                  Possible values are:
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                 0 = When read, means that the PMEVCNTR\<x\>_EL0 event counter
                                                                      interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                 1 = When read, means that the PMEVCNTR\<x\>_EL0 event counter
                                                                      interrupt request is enabled. When written, enables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
+                                                                     PMEVCNTR\<x\>_EL0 interrupt request. */
 #else
 		uint32_t p                           : 31;
 		uint32_t c_set                       : 1;
@@ -2450,7 +2450,7 @@ static inline uint64_t BDK_PMUX_PMLSR(unsigned long param1)
  *
  * Contains the state of the overflow bit for the Cycle Count
  * Register, PMU()_PMCCNTR_EL0, and each of the implemented event
- * counters PMEVCNTR<x>. Writing to this register clears these
+ * counters PMEVCNTR\<x\>. Writing to this register clears these
  * bits.
  */
 typedef union bdk_pmux_pmovsclr_el0 {
@@ -2464,13 +2464,13 @@ typedef union bdk_pmux_pmovsclr_el0 {
                                                                      written, has no effect.
                                                                  1 = When read, means the cycle counter has overflowed. When
                                                                      written, clears the overflow bit to 0. */
-		uint32_t p                           : 31; /**< R/W - Event counter overflow clear bit for PMEVCNTR<x>.
+		uint32_t p                           : 31; /**< R/W - Event counter overflow clear bit for PMEVCNTR\<x\>.
                                                                  N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
                                                                  Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
+                                                                 0 = When read, means that PMEVCNTR\<x\> has not overflowed. When
                                                                      written, has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
-                                                                     written, clears the PMEVCNTR<x> overflow bit to 0. */
+                                                                 1 = When read, means that PMEVCNTR\<x\> has overflowed. When
+                                                                     written, clears the PMEVCNTR\<x\> overflow bit to 0. */
 #else
 		uint32_t p                           : 31;
 		uint32_t c_set                       : 1;
@@ -2499,7 +2499,7 @@ static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long param1)
  *
  * Sets the state of the overflow bit for the Cycle Count
  * Register, PMU()_PMCCNTR_EL0, and each of the implemented event
- * counters PMEVCNTR<x>.
+ * counters PMEVCNTR\<x\>.
  */
 typedef union bdk_pmux_pmovsset_el0 {
 	uint32_t u;
@@ -2510,13 +2510,13 @@ typedef union bdk_pmux_pmovsset_el0 {
                                                                      written, has no effect.
                                                                  1 = When read, means the cycle counter has overflowed. When
                                                                      written, sets the overflow bit to 1. */
-		uint32_t p                           : 31; /**< R/W - Event counter overflow set bit for PMEVCNTR<x>.
+		uint32_t p                           : 31; /**< R/W - Event counter overflow set bit for PMEVCNTR\<x\>.
                                                                  N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
                                                                  Possible values are:
-                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
+                                                                 0 = When read, means that PMEVCNTR\<x\> has not overflowed. When
                                                                      written, has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
-                                                                     written, sets the PMEVCNTR<x> overflow bit to 1. */
+                                                                 1 = When read, means that PMEVCNTR\<x\> has overflowed. When
+                                                                     written, sets the PMEVCNTR\<x\> overflow bit to 1. */
 #else
 		uint32_t p                           : 31;
 		uint32_t c_set                       : 1;
@@ -2551,7 +2551,7 @@ typedef union bdk_pmux_pmpidr0 {
 	struct bdk_pmux_pmpidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t part_0                      : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::PMU. */
+		uint32_t part_0                      : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::PMU. */
 #else
 		uint32_t part_0                      : 8;
 		uint32_t reserved_8_31               : 24;
@@ -2586,8 +2586,8 @@ typedef union bdk_pmux_pmpidr1 {
 	struct bdk_pmux_pmpidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t part_1                      : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t part_1                      : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t part_1                      : 4;
 		uint32_t des_0                       : 4;
@@ -2625,7 +2625,7 @@ typedef union bdk_pmux_pmpidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t des_1                       : 3;
 		uint32_t jedec                       : 1;
@@ -2829,8 +2829,8 @@ typedef union bdk_pmux_pmswinc_el0 {
 	struct bdk_pmux_pmswinc_el0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_31_31              : 1;
-		uint32_t p                           : 31; /**< RO - Event counter software increment bit for PMEVCNTR<x>.
-                                                                 P<x> is WI if x >= PMU()_PMCR_EL0[N], the number of implemented
+		uint32_t p                           : 31; /**< RO - Event counter software increment bit for PMEVCNTR\<x\>.
+                                                                 P\<x\> is WI if x \>= PMU()_PMCR_EL0[N], the number of implemented
                                                                      counters.
                                                                  Otherwise, the effects of writing to this bit are:
                                                                  0 = No action. The write to this bit is ignored.

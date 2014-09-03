@@ -62,7 +62,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  *
  * RST Boot Failure Code Enumeration
  * Enumerates the reasons for boot failure, returned to post-boot code
- * in argument register 0 and blinked on GPIO<11>.
+ * in argument register 0 and blinked on GPIO\<11\>.
  */
 enum rst_boot_fail_e {
 	RST_BOOT_FAIL_E_AUTH = 0x6,
@@ -78,7 +78,7 @@ enum rst_boot_fail_e {
  * Enumeration RST_BOOT_METHOD_E
  *
  * RST Boot-strap Method Enumeration
- * Enumerates GPIO_STRAP<3:0>, which determines the method used to boot the cores.
+ * Enumerates GPIO_STRAP\<3:0\>, which determines the method used to boot the cores.
  */
 enum rst_boot_method_e {
 	RST_BOOT_METHOD_E_CCPI0 = 0x9,
@@ -185,7 +185,7 @@ typedef union bdk_rst_boot {
                                                                  trusted-mode, else 0. */
 		uint64_t trusted_mode                : 1;  /**< RO - When set, chip is operating as a trusted device. This bit is asserted when
                                                                  either MIO_FUS_DAT2[TRUSTZONE_EN], FUSF_CTL[TZ_FORCE2], or the trusted-mode
-                                                                 strap GPIO_STRAP<10> are set. */
+                                                                 strap GPIO_STRAP\<10\> are set. */
 		uint64_t ckill_ppdis                 : 1;  /**< R/W - Chipkill core disable. When set to 1, cores other than 0 are disabled during a CHIPKILL.
                                                                  Write operations have no effect when RST_BOOT[CHIPKILL] = 1. */
 		uint64_t jt_tstmode                  : 1;  /**< RO - JTAG test mode. */
@@ -202,48 +202,48 @@ typedef union bdk_rst_boot {
 		uint64_t c_mul                       : 7;  /**< RO/H - Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). The value
                                                                  ref-clock speed should always be 50 MHz.
                                                                  INTERNAL:  C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
-                                                                 fuses[127:123].  If the fuse value is > 0, it is compared with the pi_pll_mul[5:1]
+                                                                 fuses[127:123].  If the fuse value is \> 0, it is compared with the pi_pll_mul[5:1]
                                                                  pins and the smaller value is used. */
 		uint64_t reserved_39_39              : 1;
 		uint64_t pnr_mul                     : 6;  /**< RO/H - Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
                                                                  The value ref-clock speed should always be 50 MHz.
                                                                  INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
-                                                                 fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
+                                                                 fuses[122:119].  If the fuse value is \> 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
 		uint64_t lboot_oci                   : 3;  /**< R/W1C - Last boot cause mask for CCPI; resets only with PLL_DC_OK.
-                                                                 <32> = Warm reset due to CCPI link 2 going down.
-                                                                 <31> = Warm reset due to CCPI link 1 going down.
-                                                                 <30> = Warm reset due to CCPI link 0 going down. */
+                                                                 \<32\> = Warm reset due to CCPI link 2 going down.
+                                                                 \<31\> = Warm reset due to CCPI link 1 going down.
+                                                                 \<30\> = Warm reset due to CCPI link 0 going down. */
 		uint64_t reserved_24_29              : 6;
 		uint64_t lboot_ext45                 : 6;  /**< R/W1C - Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
-                                                                 <23> = Warm reset due to Cntl5 link-down or hot-reset.
-                                                                 <22> = Warm reset due to Cntl4 link-down or hot-reset.
-                                                                 <21> = Cntl5 reset due to PERST5_L pin.
-                                                                 <20> = Cntl4 reset due to PERST4_L pin.
-                                                                 <19> = Warm reset due to PERST5_L pin.
-                                                                 <18> = Warm reset due to PERST4_L pin. */
+                                                                 \<23\> = Warm reset due to Cntl5 link-down or hot-reset.
+                                                                 \<22\> = Warm reset due to Cntl4 link-down or hot-reset.
+                                                                 \<21\> = Cntl5 reset due to PERST5_L pin.
+                                                                 \<20\> = Cntl4 reset due to PERST4_L pin.
+                                                                 \<19\> = Warm reset due to PERST5_L pin.
+                                                                 \<18\> = Warm reset due to PERST4_L pin. */
 		uint64_t lboot_ext23                 : 6;  /**< R/W1C - Last boot cause mask for PEM3 and PEM2; resets only with PLL_DC_OK.
-                                                                 <17> = Warm reset due to Cntl3 link-down or hot-reset.
-                                                                 <16> = Warm reset due to Cntl2 link-down or hot-reset.
-                                                                 <15> = Cntl3 reset due to PERST3_L pin.
-                                                                 <14> = Cntl2 reset due to PERST2_L pin.
-                                                                 <13> = Warm reset due to PERST3_L pin.
-                                                                 <12> = Warm reset due to PERST2_L pin. */
+                                                                 \<17\> = Warm reset due to Cntl3 link-down or hot-reset.
+                                                                 \<16\> = Warm reset due to Cntl2 link-down or hot-reset.
+                                                                 \<15\> = Cntl3 reset due to PERST3_L pin.
+                                                                 \<14\> = Cntl2 reset due to PERST2_L pin.
+                                                                 \<13\> = Warm reset due to PERST3_L pin.
+                                                                 \<12\> = Warm reset due to PERST2_L pin. */
 		uint64_t lboot                       : 10; /**< R/W1C/H - Last boot cause mask for PEM1 and PEM0; resets only with PLL_DC_OK.
-                                                                 <11> = Soft reset due to watchdog.
-                                                                 <10> = Soft reset due to RST_SOFT_RST write.
-                                                                 <9> = Warm reset due to Cntl1 link-down or hot-reset.
-                                                                 <8> = Warm reset due to Cntl0 link-down or hot-reset.
-                                                                 <7> = Cntl1 reset due to PERST1_L pin.
-                                                                 <6> = Cntl0 reset due to PERST0_L pin.
-                                                                 <5> = Warm reset due to PERST1_L pin.
-                                                                 <4> = Warm reset due to PERST0_L pin.
-                                                                 <3> = Warm reset due to CHIP_RESET_L pin.
-                                                                 <2> = Cold reset due to PLL_DC_OK pin. */
+                                                                 \<11\> = Soft reset due to watchdog.
+                                                                 \<10\> = Soft reset due to RST_SOFT_RST write.
+                                                                 \<9\> = Warm reset due to Cntl1 link-down or hot-reset.
+                                                                 \<8\> = Warm reset due to Cntl0 link-down or hot-reset.
+                                                                 \<7\> = Cntl1 reset due to PERST1_L pin.
+                                                                 \<6\> = Cntl0 reset due to PERST0_L pin.
+                                                                 \<5\> = Warm reset due to PERST1_L pin.
+                                                                 \<4\> = Warm reset due to PERST0_L pin.
+                                                                 \<3\> = Warm reset due to CHIP_RESET_L pin.
+                                                                 \<2\> = Cold reset due to PLL_DC_OK pin. */
 		uint64_t rboot                       : 1;  /**< R/W - Remote Boot. If set, indicates that core 0 will remain in reset after a
                                                                  chip warm/soft reset.  The initial value mimics the setting of the RBOOT_PIN. */
 		uint64_t rboot_pin                   : 1;  /**< RO/H - Remote Boot Strap. Indicates the state of remote boot as initially determined by
-                                                                 GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE. If set core 0 will remain in reset
+                                                                 GPIO_STRAP\<2:0\> = RST_BOOT_METHOD_E::REMOTE. If set core 0 will remain in reset
                                                                  for the cold reset. */
 #else
 		uint64_t rboot_pin                   : 1;
@@ -1071,7 +1071,7 @@ static inline uint64_t BDK_RST_PP_POWER_STAT_FUNC(void)
  *
  * This register contains the reset control for each core: 1 = hold core in reset, 0 = release
  * core
- * from reset. It resets to all 1s when GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE
+ * from reset. It resets to all 1s when GPIO_STRAP\<2:0\> = RST_BOOT_METHOD_E::REMOTE
  * or all 1s excluding bit 0 otherwise.
  * Write operations to this register should occur only if RST_PP_PENDING is cleared.
  */
@@ -1083,7 +1083,7 @@ typedef union bdk_rst_pp_reset {
 		uint64_t rst                         : 47; /**< R/W/H - Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
                                                                  writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
                                                                  activity. */
-		uint64_t rst0                        : 1;  /**< R/W/H - Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
+		uint64_t rst0                        : 1;  /**< R/W/H - Core reset for core 0, depends on if GPIO_STRAP\<2:0\> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
 #else
 		uint64_t rst0                        : 1;

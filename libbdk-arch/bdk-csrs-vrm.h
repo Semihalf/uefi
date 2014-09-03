@@ -229,10 +229,10 @@ typedef union bdk_vrmx_misc_info {
 	struct bdk_vrmx_misc_info_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
-		uint64_t vrm_type2                   : 3;  /**< RO/H - Bits <4..2> of VRM type, enumerated with VRM_TYPE_E. */
+		uint64_t vrm_type2                   : 3;  /**< RO/H - Bits \<4..2\> of VRM type, enumerated with VRM_TYPE_E. */
 		uint64_t vrm_ctl_rcv_status_error    : 24; /**< RO/H - Holds the received status read from the external controller only for failing status. */
 		uint64_t vrm_ctl_cur_state           : 3;  /**< RO/H - Current state of the VRM_CTL. */
-		uint64_t vrm_type                    : 2;  /**< RO/H - Bits <1:0> of VRM type indicating the type of device connected to this controller.
+		uint64_t vrm_type                    : 2;  /**< RO/H - Bits \<1:0\> of VRM type indicating the type of device connected to this controller.
                                                                  Enumerated with VRM_TYPE_E. */
 		uint64_t boot_seq                    : 1;  /**< RO/H - Boot sequence was completed. */
 		uint64_t ts_fuse_sts                 : 1;  /**< RO/H - Set if VRM fuses were loaded. */
@@ -384,13 +384,13 @@ typedef union bdk_vrmx_ts_temp_conv_coeff_fsm {
 		uint64_t t_fsm                       : 10; /**< R/W - Sets time interval for FSM update. */
 		uint64_t reserved_38_47              : 10;
 		uint64_t coeff_a                     : 6;  /**< R/W - Coefficient A value for polynomial fit.
-                                                                 _ <37> is a sign bit to flip the shifted results.
-                                                                 _ <36:32> dictates the amount of right shift. */
+                                                                 _ \<37\> is a sign bit to flip the shifted results.
+                                                                 _ \<36:32\> dictates the amount of right shift. */
 		uint64_t reserved_25_31              : 7;
 		uint64_t coeff_b                     : 9;  /**< R/W - Coefficient B value for polynomial fit. It should be a positive number and between 1 and
                                                                  2.
-                                                                 _ <24> is the integer part should always be 1.
-                                                                 _ <23:16> form the fractional part. */
+                                                                 _ \<24\> is the integer part should always be 1.
+                                                                 _ \<23:16\> form the fractional part. */
 		uint64_t reserved_12_15              : 4;
 		uint64_t coeff_c                     : 12; /**< R/W - Coefficient C value for polynomial fit.
                                                                  A 2's complement number. */
@@ -571,7 +571,7 @@ typedef union bdk_vrmx_tws_twsi_sw {
 		uint64_t scr                         : 2;  /**< RO - Reserved. */
 		uint64_t un_addr                     : 3;  /**< RO - Reserved. */
 		uint64_t addr                        : 7;  /**< R/W/H - Address field. The address of the remote device for a master-mode operation.
-                                                                 Note that when mastering a 7-bit OP, ADDR<6:0> should not take any of the values 0x78,
+                                                                 Note that when mastering a 7-bit OP, ADDR\<6:0\> should not take any of the values 0x78,
                                                                  0x79, 0x7A nor 0x7B, as these 7-bit addresses are reserved to extend to 10-bit addressing. */
 		uint64_t ia                          : 8;  /**< R/W/H - Internal address. Used when launching a combined master-mode operation. */
 		uint64_t data                        : 32; /**< R/W/H - Data field.

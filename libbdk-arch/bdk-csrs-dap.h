@@ -210,15 +210,15 @@ typedef union bdk_dap_sraaddr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_29_31              : 3;
 		uint32_t cabdabsel                   : 1;  /**< R/W - CAB or DAB bus access selection for polling/broadcast write.
-                                                                 1 = polling/broadcast write is for CAB bus, bits <19:5> is the register number.
-                                                                 0 = polling/broadcast write is for DAB bus, bits <20:5> is the address offset. */
+                                                                 1 = polling/broadcast write is for CAB bus, bits \<19:5\> is the register number.
+                                                                 0 = polling/broadcast write is for DAB bus, bits \<20:5\> is the address offset. */
 		uint32_t reserved_21_27              : 7;
-		uint32_t regnum                      : 16; /**< R/W - If [CABDABSEL]=1, then <19:5> is the register number with these bit definitions:
-                                                                 <19>: Op0[0].
-                                                                 <18:16>: Op1
-                                                                 <15:12>: CRn.
-                                                                 <11:8>: CRm.
-                                                                 <7:5>: Op.
+		uint32_t regnum                      : 16; /**< R/W - If [CABDABSEL]=1, then \<19:5\> is the register number with these bit definitions:
+                                                                 \<19\>: Op0[0].
+                                                                 \<18:16\>: Op1
+                                                                 \<15:12\>: CRn.
+                                                                 \<11:8\>: CRm.
+                                                                 \<7:5\>: Op.
 
                                                                  If [CABDABSEL]=0, then [REGNUM] is the register offset. */
 		uint32_t reserved_2_4                : 3;

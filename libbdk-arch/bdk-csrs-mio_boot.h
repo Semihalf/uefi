@@ -126,7 +126,7 @@ static inline uint64_t BDK_MIO_BOOT_BIST_STAT_FUNC(void)
 /**
  * RSL - mio_boot_pin_defs
  *
- * This register reflects the value of the BOOT_AD<31:0> pins, sampled when the internal reset
+ * This register reflects the value of the BOOT_AD\<31:0\> pins, sampled when the internal reset
  * signal first deasserts following a cold reset.
  */
 typedef union bdk_mio_boot_pin_defs {

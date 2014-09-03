@@ -252,15 +252,15 @@ typedef union bdk_gserx_br_rxx_eer {
 		uint64_t rxt_esm                     : 14; /**< RO - When performing an equalization request (RXT_EER), this is the equalization status message
                                                                  from the RAW PCS. It is valid when RXT_ESV is set.
 
-                                                                 _ <13:6>: Figure of merit. An 8-bit output from the PHY indicating the quality of the
+                                                                 _ \<13:6\>: Figure of merit. An 8-bit output from the PHY indicating the quality of the
                                                                  received data eye. A higher value indicates better link equalization, with 8'd0 indicating
                                                                  worst equalization setting and 8'd255 indicating the best equalization setting.
 
-                                                                 _ <5:4>: RX recommended TXPOST direction change.
+                                                                 _ \<5:4\>: RX recommended TXPOST direction change.
 
-                                                                 _ <3:2>: RX recommended TXMAIN direction change.
+                                                                 _ \<3:2\>: RX recommended TXMAIN direction change.
 
-                                                                 _ <1:0>: RX recommended TXPRE direction change.
+                                                                 _ \<1:0\>: RX recommended TXPRE direction change.
 
                                                                  Recommended direction change outputs from the PHY for the link partner transmitter
                                                                  coefficients.
@@ -338,9 +338,9 @@ typedef union bdk_gserx_br_txx_cur {
                                                                  (GSER()_BR_TX()_CTL.TXT_SWM is set), this is the Coefficient Update to be written to the
                                                                  PHY.
                                                                  For diagnostic use only.
-                                                                 <13:9> = TX_POST<4:0>.
-                                                                 <8:4> = TX_SWING<4:0>.
-                                                                 <3:0> = TX_PRE<4:0>. */
+                                                                 \<13:9\> = TX_POST\<4:0\>.
+                                                                 \<8:4\> = TX_SWING\<4:0\>.
+                                                                 \<3:0\> = TX_PRE\<4:0\>. */
 #else
 		uint64_t txt_cur                     : 14;
 		uint64_t reserved_14_63              : 50;
@@ -1305,8 +1305,8 @@ typedef union bdk_gserx_lanex_rx_aeq_out_0 {
 	struct bdk_gserx_lanex_rx_aeq_out_0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_10_63              : 54;
-		uint64_t sds_pcs_rx_aeq_out          : 10; /**< RO/H - <9:5>: DFE TAP5
-                                                                 <4:0>: DFE TAP4 */
+		uint64_t sds_pcs_rx_aeq_out          : 10; /**< RO/H - \<9:5\>: DFE TAP5
+                                                                 \<4:0\>: DFE TAP4 */
 #else
 		uint64_t sds_pcs_rx_aeq_out          : 10;
 		uint64_t reserved_10_63              : 54;
@@ -1342,9 +1342,9 @@ typedef union bdk_gserx_lanex_rx_aeq_out_1 {
 	struct bdk_gserx_lanex_rx_aeq_out_1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_15_63              : 49;
-		uint64_t sds_pcs_rx_aeq_out          : 15; /**< RO/H - <14:10> = DFE TAP3.
-                                                                 <9:5> = DFE TAP2.
-                                                                 <4:0> = DFE TAP1. */
+		uint64_t sds_pcs_rx_aeq_out          : 15; /**< RO/H - \<14:10\> = DFE TAP3.
+                                                                 \<9:5\> = DFE TAP2.
+                                                                 \<4:0\> = DFE TAP1. */
 #else
 		uint64_t sds_pcs_rx_aeq_out          : 15;
 		uint64_t reserved_15_63              : 49;
@@ -1380,9 +1380,9 @@ typedef union bdk_gserx_lanex_rx_aeq_out_2 {
 	struct bdk_gserx_lanex_rx_aeq_out_2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_15_63              : 49;
-		uint64_t sds_pcs_rx_aeq_out          : 15; /**< RO/H - <9:8> = Reserved.
-                                                                 <7:4> = Pre-CTLE gain.
-                                                                 <3:0> = Post-CTLE gain. */
+		uint64_t sds_pcs_rx_aeq_out          : 15; /**< RO/H - \<9:8\> = Reserved.
+                                                                 \<7:4\> = Pre-CTLE gain.
+                                                                 \<3:0\> = Post-CTLE gain. */
 #else
 		uint64_t sds_pcs_rx_aeq_out          : 15;
 		uint64_t reserved_15_63              : 49;
@@ -1423,8 +1423,8 @@ typedef union bdk_gserx_lanex_rx_cfg_0 {
 		uint64_t rx_resetn_ovvrd_val         : 1;  /**< R/W - This value overrides the RX Power State machine rx_resetn control
                                                                  signal when GSER()_LANE()_PWR_CTRL[RX_RESETN_OVRRD_EN] is set. */
 		uint64_t pcs_sds_rx_eyemon_en        : 1;  /**< R/W - RX eyemon test enable. */
-		uint64_t pcs_sds_rx_pcm_ctrl         : 4;  /**< R/W - <11>: Reserved
-                                                                 <10-8>:
+		uint64_t pcs_sds_rx_pcm_ctrl         : 4;  /**< R/W - \<11\>: Reserved
+                                                                 \<10-8\>:
                                                                    0x0 = 540mV.
                                                                    0x1 = 540mV + 20mV.
                                                                    0x2-0x3 = Reserved.
@@ -1492,11 +1492,11 @@ typedef union bdk_gserx_lanex_rx_cfg_1 {
                                                                  0x1 = VDDA. */
 		uint64_t cfg_rx_dll_locken           : 1;  /**< R/W - Enable DLL lock when GSER()_LANE()_RX_MISC_OVRRD[CFG_RX_DLL_LOCKEN_OVRRD_EN] is asserted. */
 		uint64_t pcs_sds_rx_cdr_ssc_mode     : 8;  /**< R/W - Per lane RX CDR SSC control:
-                                                                 <7:4> = Resrted.
-                                                                 <3> = Clean SSC error flag.
-                                                                 <2> = Diable SSC filter.
-                                                                 <1> = Enable SSC value usage.
-                                                                 <0> = Reserved. */
+                                                                 \<7:4\> = Resrted.
+                                                                 \<3\> = Clean SSC error flag.
+                                                                 \<2\> = Diable SSC filter.
+                                                                 \<1\> = Enable SSC value usage.
+                                                                 \<0\> = Reserved. */
 #else
 		uint64_t pcs_sds_rx_cdr_ssc_mode     : 8;
 		uint64_t cfg_rx_dll_locken           : 1;
@@ -1550,14 +1550,14 @@ typedef union bdk_gserx_lanex_rx_cfg_2 {
 		uint64_t reserved_10_10              : 1;
 		uint64_t rx_sds_rx_agc_mval          : 10; /**< R/W - AGC manual value only used when GSERX_LANE()_RX_CFG_5[RX_AGC_MEN_OVVRD_VAL] is set.
 
-                                                                 <9:8>: Reserved.
+                                                                 \<9:8\>: Reserved.
 
-                                                                 <7:4>: Pre-CTL gain
+                                                                 \<7:4\>: Pre-CTL gain
                                                                  - 0 = -6dB
                                                                  - 1 = -5dB
                                                                  - 3 = +5dB.
 
-                                                                 <3:0>: Post-CTL gain (steps of 0.0875)
+                                                                 \<3:0\>: Post-CTL gain (steps of 0.0875)
                                                                  - 0x0 = lowest
                                                                  - 0xf = lowest * 2.3125. */
 #else
@@ -1601,24 +1601,24 @@ typedef union bdk_gserx_lanex_rx_cfg_3 {
 		uint64_t reserved_16_63              : 48;
 		uint64_t cfg_rx_errdet_ctrl          : 16; /**< R/W - RX Adaptive Equalizer Control.
                                                                  Value of pcs_sds_rx_err_det_ctrl when
-                                                                 GSER()_LANE()_RX_MISC_OVRRD[CFG_RS_ERRDET_CTRL_OVRRD_EN]
+                                                                 GSER()_LANE()_RX_MISC_OVRRD[CFG_RS_ERRDET_CTRL_OVRRD_EN}
                                                                  is set.
 
-                                                                 <15:13>: Starting delta (6.7mV/step, 13.4mV + 6.7mV*N).
+                                                                 \<15:13\>: Starting delta (6.7mV/step, 13.4mV + 6.7mV*N).
 
-                                                                 <12:10>: Minimum delta to adapt to (6.7mV/step, 13.4mV + 6.7mV*N).
+                                                                 \<12:10\>: Minimum delta to adapt to (6.7mV/step, 13.4mV + 6.7mV*N).
 
-                                                                 <9:7>: Window mode (PM) delta (6.7mV/step, 13.4mV + 6.7mV*N).
+                                                                 \<9:7\>: Window mode (PM) delta (6.7mV/step, 13.4mV + 6.7mV*N).
 
-                                                                 <6>: Enable DFE for edge samplers.
+                                                                 \<6\>: Enable DFE for edge samplers.
 
-                                                                 <5:4>: Edge sampler DEF alpha:
+                                                                 \<5:4\>: Edge sampler DEF alpha:
                                                                  0x0 = 1/4.
                                                                  0x1 = 1/2.
                                                                  0x2 = 3/4.
                                                                  0x3 = 1.
 
-                                                                 <3:0>: Q/QB error sampler 1 threshold, 6.7mV/step. */
+                                                                 \<3:0\>: Q/QB error sampler 1 threshold, 6.7mV/step. */
 #else
 		uint64_t cfg_rx_errdet_ctrl          : 16;
 		uint64_t reserved_16_63              : 48;
@@ -1658,22 +1658,22 @@ typedef union bdk_gserx_lanex_rx_cfg_4 {
                                                                  Value of pcs_sds_rx_err_det_ctrl when
                                                                  GSER()_LANE()_RX_MISC_OVRRD[CFG_RS_ERRDET_CTRL_OVRRD_EN] is set.
 
-                                                                 <15:14>: Reserved
+                                                                 \<15:14\>: Reserved
 
-                                                                 <13:8>: Q/QB error sampler 0 threshold, 6.7mV/step, used for training/LMS.
+                                                                 \<13:8\>: Q/QB error sampler 0 threshold, 6.7mV/step, used for training/LMS.
 
-                                                                 <7>: Enable Window mode, after training has finished.
+                                                                 \<7\>: Enable Window mode, after training has finished.
 
-                                                                 <6:5>: Control sds_pcs_rx_vma_status[15:8].
+                                                                 \<6:5\>: Control sds_pcs_rx_vma_status[15:8].
 
                                                                  0x0 = window counter[19:12] (FOM).
                                                                  0x1 = window ouunter[11:4].
                                                                  0x2 = CTLE pole, SDLL_IQ.
                                                                  0x3 = pre-CTLE gain, CTLE peak.
 
-                                                                 <4>: Offset cancellation enable.
+                                                                 \<4\>: Offset cancellation enable.
 
-                                                                 <3:0>: Max CTLE peak setting during training when pcs_sds_rx_vma_ctl[7] is set in
+                                                                 \<3:0\>: Max CTLE peak setting during training when pcs_sds_rx_vma_ctl[7] is set in
                                                                  GSER()_LANE()_RX_VMA_CTRL. */
 #else
 		uint64_t cfg_rx_errdet_ctrl          : 16;
@@ -2157,13 +2157,13 @@ typedef union bdk_gserx_lanex_rx_vma_ctrl {
 		uint64_t rx_fom_div_delta            : 1;  /**< R/W - TX figure of merit delta division-mode enable. */
 		uint64_t rx_vna_ctrl_18_16           : 3;  /**< R/W - RX VMA loop control. */
 		uint64_t rx_vna_ctrl_9_0             : 10; /**< R/W - RX VMA loop control.
-                                                                 <9:8> = Parameter settling wait time.
-                                                                 <7> = Limit CTLE peak to max value.
-                                                                 <6> = Long reach enabled.
-                                                                 <5> = Short reach enabled.
-                                                                 <4> = Training done override enable.
-                                                                 <3> = Training done override value.
-                                                                 <2:0> = VMA clock modulation. */
+                                                                 \<9:8\> = Parameter settling wait time.
+                                                                 \<7\> = Limit CTLE peak to max value.
+                                                                 \<6\> = Long reach enabled.
+                                                                 \<5\> = Short reach enabled.
+                                                                 \<4\> = Training done override enable.
+                                                                 \<3\> = Training done override value.
+                                                                 \<2:0\> = VMA clock modulation. */
 #else
 		uint64_t rx_vna_ctrl_9_0             : 10;
 		uint64_t rx_vna_ctrl_18_16           : 3;
@@ -2203,10 +2203,10 @@ typedef union bdk_gserx_lanex_rx_vma_status_0 {
 	struct bdk_gserx_lanex_rx_vma_status_0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56;
-		uint64_t sds_pcs_rx_vma_status       : 8;  /**< RO/H - <8> = DFE Powerdown.
-                                                                 <7> = Reserved.
-                                                                 <6:2> = CTLE Peak.
-                                                                 <1:0> = CTLE Pole. */
+		uint64_t sds_pcs_rx_vma_status       : 8;  /**< RO/H - \<8\> = DFE Powerdown.
+                                                                 \<7\> = Reserved.
+                                                                 \<6:2\> = CTLE Peak.
+                                                                 \<1:0\> = CTLE Pole. */
 #else
 		uint64_t sds_pcs_rx_vma_status       : 8;
 		uint64_t reserved_8_63               : 56;
@@ -2242,19 +2242,19 @@ typedef union bdk_gserx_lanex_rx_vma_status_1 {
 	struct bdk_gserx_lanex_rx_vma_status_1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t sds_pcs_rx_vma_status       : 16; /**< RO/H - <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]
+		uint64_t sds_pcs_rx_vma_status       : 16; /**< RO/H - \<15:8\>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]
                                                                  0x0 = Pre-CTL gain, CTLE Peak.
                                                                  0x1 = CTL pole, SDLL_IQ.
                                                                  0x2 = Window counter[11:3].
                                                                  0x3 = Window counter[19:12] (VMA RAW FOM).
 
-                                                                 <7>: Training done
+                                                                 \<7\>: Training done
 
-                                                                 <6>: Internal state machine training done
+                                                                 \<6\>: Internal state machine training done
 
-                                                                 <5:3>: Internal state machine Delta
+                                                                 \<5:3\>: Internal state machine Delta
 
-                                                                 <2:0>: CDR Phase Offset, DLL IQ Training value. */
+                                                                 \<2:0\>: CDR Phase Offset, DLL IQ Training value. */
 #else
 		uint64_t sds_pcs_rx_vma_status       : 16;
 		uint64_t reserved_16_63              : 48;
@@ -2414,8 +2414,8 @@ typedef union bdk_gserx_lanex_sds_pin_mon_2 {
 		uint64_t pcs_sds_tx_turbos_en        : 1;  /**< RO/H - TX turbo mode enable signal, increases swing of TX
                                                                  through current mode. */
 		uint64_t pcs_sds_premptap            : 9;  /**< RO/H - Pre-emphasis control.
-                                                                 <8:4> = Post-cursor.
-                                                                 <3:0> = Pre-cursor. */
+                                                                 \<8:4\> = Post-cursor.
+                                                                 \<3:0\> = Pre-cursor. */
 #else
 		uint64_t pcs_sds_premptap            : 9;
 		uint64_t pcs_sds_tx_turbos_en        : 1;
@@ -2674,8 +2674,8 @@ typedef union bdk_gserx_lanex_tx_pre_emphasis {
 		uint64_t reserved_9_63               : 55;
 		uint64_t cfg_tx_premptap             : 9;  /**< R/W - Override preemphasis control. Applies when
                                                                  GSER()_LANE()_TX_CFG_3[TX_PREMPTAP_OVRD_EN] is asserted.
-                                                                 <8:4> = Post-cursor.
-                                                                 <3:0> = Pre-cursor. */
+                                                                 \<8:4\> = Post-cursor.
+                                                                 \<3:0\> = Pre-cursor. */
 #else
 		uint64_t cfg_tx_premptap             : 9;
 		uint64_t reserved_9_63               : 55;
@@ -2714,10 +2714,10 @@ typedef union bdk_gserx_lane_lpbken {
                                                                  P0
                                                                  state,
                                                                  allows per lane TX-to-RX serial loopback activation.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t lpbken                      : 4;
 		uint64_t reserved_4_63               : 60;
@@ -3048,10 +3048,10 @@ typedef union bdk_gserx_lane_poff {
 		uint64_t reserved_4_63               : 60;
 		uint64_t lpoff                       : 4;  /**< R/W - For links that are not in PCIE mode (including all CCPI links), allows for per lane power
                                                                  down.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t lpoff                       : 4;
 		uint64_t reserved_4_63               : 60;
@@ -3474,16 +3474,16 @@ typedef union bdk_gserx_pll_px_mode_0 {
 		uint64_t pll_icp                     : 4;  /**< R/W/H - PLL charge pump enable.
                                                                  Recommended settings, which are based on the reference clock speed:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                           100MHz 125MHz 156.25MHz
                                                                  1.25G:    0x1    0x1    0x1
                                                                  2.5G:     0x4    0x3    0x3
                                                                  3.125G:   NS     0x1    0x1
                                                                  5.0G:     0x4    0x3    0x3
                                                                  6.25G:    NS     0x1    0x1
-                                                                 8.0G:     0x3    0x2
+                                                                 8.0G:     0x3    0x2    NS
                                                                  10.3125G: NS     NS     0x1
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_rloop                   : 3;  /**< R/W/H - Loop resistor tuning.
@@ -3548,31 +3548,31 @@ typedef union bdk_gserx_pll_px_mode_1 {
 		uint64_t pll_16p5en                  : 1;  /**< R/W/H - Enable for the DIV 16.5 divided down clock.
                                                                  Recommended settings, based on the reference clock speed:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                           100MHz 125MHz 156.25MHz
                                                                  1.25G:    0x1    0x1     0x1
                                                                  2.5G:     0x0    0x0     0x0
                                                                  3.125G:   NS     0x1     0x1
                                                                  5.0G:     0x0    0x0     0x0
                                                                  6.25G:    NS     0x0     0x0
-                                                                 8.0G:     0x0    0x0
+                                                                 8.0G:     0x0    0x0     NS
                                                                  10.3125G: NS     NS      0x1
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_cpadj                   : 2;  /**< R/W/H - PLL charge adjust.
                                                                  Recommended settings, based on the reference clock speed:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                            100MHz 125MHz 156.25MHz
                                                                  1.25G:     0x2     0x2    0x3
                                                                  2.5G:      0x2     0x1    0x2
                                                                  3.125G:    NS      0x2    0x2
                                                                  5.0G:      0x2     0x1    0x2
                                                                  6.25G:     NS      0x2    0x2
-                                                                 8.0G:      0x2     0x1
+                                                                 8.0G:      0x2     0x1    NS
                                                                  10.3125G:  NS      NS     0x2
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_pcie3en                 : 1;  /**< R/W/H - Enable PCIE3 mode. Recommended settings:
@@ -3584,16 +3584,16 @@ typedef union bdk_gserx_pll_px_mode_1 {
 		uint64_t pll_div                     : 9;  /**< R/W/H - PLL divider in feedback path which sets the PLL frequency.
                                                                  Recommended settings:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                           100MHz 125MHz 156.25MHz
                                                                  1.25G:    0x19   0x14    0x10
                                                                  2.5G:     0x19   0x14    0x10
                                                                  3.125G:   NS     0x19    0x14
                                                                  5.0G:     0x19   0x14    0x10
                                                                  6.25G:    NS     0x19    0x14
-                                                                 8.0G:     0x28   0x20
+                                                                 8.0G:     0x28   0x20    NS
                                                                  10.3125G: NS     NS      0x21
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 #else
@@ -3872,10 +3872,10 @@ typedef union bdk_gserx_rx_coast {
                                                                  exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
                                                                  allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
                                                                  allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t coast                       : 4;
 		uint64_t reserved_4_63               : 60;
@@ -3916,10 +3916,10 @@ typedef union bdk_gserx_rx_eie_deten {
                                                                  GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
                                                                  EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
                                                                  EIE detection.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t eiede                       : 4;
 		uint64_t reserved_4_63               : 60;
@@ -3955,30 +3955,30 @@ typedef union bdk_gserx_rx_eie_detsts {
                                                                  lock. During this time, there may be RX bit errors. These bits will set when the CDR is
                                                                  guaranteed to be locked. Note that link training can't start until the lane CDRLOCK is
                                                                  set. Software can use CDRLOCK to determine when to expect error free RX data.
-                                                                 <11>: Lane 3.
-                                                                 <10>: Lane 2.
-                                                                 <9>: Lane 1.
-                                                                 <8>: Lane 0. */
+                                                                 \<11\>: Lane 3.
+                                                                 \<10\>: Lane 2.
+                                                                 \<9\>: Lane 1.
+                                                                 \<8\>: Lane 0. */
 		uint64_t eiests                      : 4;  /**< RO/H - When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
                                                                  data rates, the received data needs to have sufficient low frequency content (for example,
                                                                  idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
                                                                  Under most conditions, EIESTS
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
-                                                                 <7>: Lane 3.
-                                                                 <6>: Lane 2.
-                                                                 <5>: Lane 1.
-                                                                 <4>: Lane 0. */
+                                                                 \<7\>: Lane 3.
+                                                                 \<6\>: Lane 2.
+                                                                 \<5\>: Lane 1.
+                                                                 \<4\>: Lane 0. */
 		uint64_t eieltch                     : 4;  /**< RO/H - When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
                                                                  asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
                                                                  EIE condition has been detected, the per-lane EIELTCH will stay set until
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t eieltch                     : 4;
 		uint64_t eiests                      : 4;
@@ -4018,12 +4018,12 @@ typedef union bdk_gserx_rx_eie_filter {
                                                                  the serial lines are still driven. For rates faster than 2.5G, it takes 16K * 8 UI of
                                                                  consecutive deasserted GSER()_RX_EIE_DETSTS[EIESTS] for the GSER to infer EI. In the
                                                                  event of electrical idle inference, the following happens:
-                                                                 * GSER()_RX_EIE_DETSTS[CDRLOCK]<lane> is zeroed.
-                                                                 * GSER()_RX_EIE_DETSTS[EIELTCH]<lane> is zeroed.
-                                                                 * GSER()_RX_EIE_DETSTS[EIESTS]<lane> is zeroed.
-                                                                 * GSER()_RX_COAST[COAST]<lane> is asserted to prevent the CDR from trying to lock on
+                                                                 * GSER()_RX_EIE_DETSTS[CDRLOCK]\<lane\> is zeroed.
+                                                                 * GSER()_RX_EIE_DETSTS[EIELTCH]\<lane\> is zeroed.
+                                                                 * GSER()_RX_EIE_DETSTS[EIESTS]\<lane\> is zeroed.
+                                                                 * GSER()_RX_COAST[COAST]\<lane\> is asserted to prevent the CDR from trying to lock on
                                                                  the incoming data stream.
-                                                                 * GSER()_RX_EIE_DETEN[EIEDE]<lane> deasserts for a short period of time, and then is
+                                                                 * GSER()_RX_EIE_DETEN[EIEDE]\<lane\> deasserts for a short period of time, and then is
                                                                  asserted to begin looking for the Electrical idle Exit condition.
 
                                                                  Writing this register to a non-zero value causes the electrical idle inference to use the
@@ -4068,10 +4068,10 @@ typedef union bdk_gserx_rx_polarity {
 		uint64_t rx_inv                      : 4;  /**< R/W - For links that are not in PCIE mode (including all CCPI links), control signal to invert
                                                                  the polarity of received data. When asserted, the polarity of the received data is
                                                                  inverted.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t rx_inv                      : 4;
 		uint64_t reserved_4_63               : 60;
@@ -4118,11 +4118,11 @@ typedef union bdk_gserx_rx_pwr_ctrl_p1 {
 		uint64_t p1_rx_cdr_coast             : 1;  /**< R/W - CDR coast; freezes the frequency of the CDR. */
 		uint64_t p1_rx_cdr_clr               : 1;  /**< R/W - CDR clear; clears the frequency of the CDR. */
 		uint64_t p1_rx_subblk_pd             : 5;  /**< R/W - RX sub-block powerdown controls to RX:
-                                                                 <4> = CTLE.
-                                                                 <3> = Reserved.
-                                                                 <2> = Lane DLL.
-                                                                 <1> = DFE/samplers.
-                                                                 <0> = Termination. */
+                                                                 \<4\> = CTLE.
+                                                                 \<3\> = Reserved.
+                                                                 \<2\> = Lane DLL.
+                                                                 \<1\> = DFE/samplers.
+                                                                 \<0\> = Termination. */
 		uint64_t p1_rx_chpd                  : 1;  /**< R/W - RX lane powerdown. */
 #else
 		uint64_t p1_rx_chpd                  : 1;
@@ -4512,12 +4512,12 @@ typedef union bdk_gserx_spd {
 	struct bdk_gserx_spd_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
-		uint64_t spd                         : 4;  /**< R/W/H - For CCPI links (i.e. GSER8..13), the hardware loads this CSR field from the OCI_SPD<3:0>
+		uint64_t spd                         : 4;  /**< R/W/H - For CCPI links (i.e. GSER8..13), the hardware loads this CSR field from the OCI_SPD\<3:0\>
                                                                  pins during chip cold reset. For non-CCPI links, this field is not used.
                                                                  For SPD settings that configure a non-default reference clock, hardware updates the PLL
                                                                  settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                  SPD   REFCLK      Link rate   LMODE
                                                                  0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
@@ -4535,7 +4535,7 @@ typedef union bdk_gserx_spd {
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
                                                                  0xF:                          SW_MODE
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
                                                                  SW_MODE.
@@ -4625,10 +4625,10 @@ typedef union bdk_gserx_tx_vboost {
 		uint64_t reserved_4_63               : 60;
 		uint64_t vboost                      : 4;  /**< R/W - For links that are not in PCIE mode (including all CCPI links), boosts the TX Vswing from
                                                                  VDD to 1.0 VPPD.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+                                                                 \<3\>: Lane 3.
+                                                                 \<2\>: Lane 2.
+                                                                 \<1\>: Lane 1.
+                                                                 \<0\>: Lane 0. */
 #else
 		uint64_t vboost                      : 4;
 		uint64_t reserved_4_63               : 60;

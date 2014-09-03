@@ -318,7 +318,7 @@ typedef union bdk_mio_emm_dma {
 		uint64_t multi                       : 1;  /**< R/W - Perform operation using a multiple block command instead of a series of single block commands. */
 		uint64_t block_cnt                   : 16; /**< R/W/H - Number of blocks to read/write. Hardware decrements the block count after each successful
                                                                  block transfer. */
-		uint64_t card_addr                   : 32; /**< R/W/H - Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
+		uint64_t card_addr                   : 32; /**< R/W/H - Data address for media \<= 2GB is a 32-bit byte address, and data address for media \> 2GB
                                                                  is a 32-bit sector (512B) address. Hardware advances the card address after each
                                                                  successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
 #else
@@ -1136,7 +1136,7 @@ typedef union bdk_mio_emm_rsp_lo {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dat                         : 64; /**< RO/H - Command response (as per JEDEC eMMC spec and SD Specifications).
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                  RSP_TYPE = 1:
                                                                  DAT[63:46] = 0x0
                                                                  DAT[45:40] = Command index
@@ -1174,7 +1174,7 @@ typedef union bdk_mio_emm_rsp_lo {
                                                                  DAT[15: 8] = Not defined. May be used for IRQ data
                                                                  DAT[ 7: 1] = CRC7
                                                                  DAT[    0] = End bit
-                                                                 </pre> */
+                                                                 \</pre\> */
 #else
 		uint64_t dat                         : 64;
 #endif
@@ -1463,12 +1463,12 @@ typedef union bdk_mio_emm_wdog {
                                                                  Issues this timeout doesn't cover are stalls induced by the card which are not limited by
                                                                  the specifications.
                                                                  For example, when a write multi command is issued to the card and a block (not the last)
-                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data<0> low for as long as
+                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data\<0\> low for as long as
                                                                  it wants to free up buffer space.
 
                                                                  The second case is when the last block of a write or multi write is being transferred and
                                                                  the card elects to perform some background tasks. The same stall mechanism with
-                                                                 emmc_data<0> is used but this can last for an extend time period. */
+                                                                 emmc_data\<0\> is used but this can last for an extend time period. */
 #else
 		uint64_t clk_cnt                     : 26;
 		uint64_t reserved_26_63              : 38;

@@ -901,7 +901,7 @@ typedef union bdk_gpio_multi_cast {
 	struct bdk_gpio_multi_cast_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_1_63               : 63;
-		uint64_t en                          : 1;  /**< R/W - Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
+		uint64_t en                          : 1;  /**< R/W - Enable GPIO interrupt multicast mode. When EN is set, GPIO\<7:4\> functions in multicast
                                                                  mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
                                                                  the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
 #else

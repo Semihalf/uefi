@@ -186,9 +186,9 @@ typedef union bdk_mio_fus_dat2 {
 		uint64_t reserved_24_24              : 1;
 		uint64_t chip_id                     : 8;  /**< RO - Fuse information - chip ID. */
 		uint64_t ocx_dis                     : 1;  /**< RO - Fuse information - OCX disable. */
-		uint64_t bgx_dis                     : 2;  /**< RO - Fuse information - BGX(1..0) disable, BGX0 is bit<13> and BGX1 is bit<14>. */
-		uint64_t sata_dis                    : 4;  /**< RO - Fuse information - SATA(3..0) disable, SATA0 is bit<9> ... SATA3 is bit<12>. */
-		uint64_t pem_dis                     : 3;  /**< RO - Fuse information - PEM(2..0) disable, PEM0 is bit<6> ... PEM2 is bit<8>. */
+		uint64_t bgx_dis                     : 2;  /**< RO - Fuse information - BGX(1..0) disable, BGX0 is bit\<13\> and BGX1 is bit\<14\>. */
+		uint64_t sata_dis                    : 4;  /**< RO - Fuse information - SATA(3..0) disable, SATA0 is bit\<9\> ... SATA3 is bit\<12\>. */
+		uint64_t pem_dis                     : 3;  /**< RO - Fuse information - PEM(2..0) disable, PEM0 is bit\<6\> ... PEM2 is bit\<8\>. */
 		uint64_t lmc_half                    : 1;  /**< RO - Fuse information - LMC uses two channels rather than four. */
 		uint64_t reserved_0_4                : 5;
 #else
@@ -325,7 +325,7 @@ typedef union bdk_mio_fus_dat4 {
 	struct bdk_mio_fus_dat4_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t global_rclk_byp_select      : 1;  /**< RO - Reserved. */
-		uint64_t global_rclk_byp_setting     : 11; /**< RO - Bits<11:1>. Reserved. */
+		uint64_t global_rclk_byp_setting     : 11; /**< RO - Bits\<11:1\>. Reserved. */
 		uint64_t east_rclk_byp_select        : 1;  /**< RO - Reserved. */
 		uint64_t east_rclk_byp_setting       : 12; /**< RO - Reserved. */
 		uint64_t cmb_rclk_byp_select         : 1;  /**< RO - Reserved. */
@@ -569,7 +569,7 @@ static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
  * To read an efuse, software writes MIO_FUS_RCMD[ADDR,PEND] with the byte address of the fuse in
  * question, then software can poll MIO_FUS_RCMD[PEND]. When [PEND] = 0, then
  * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks (e.g.
- * (ADDR/16) not [0,1,7]) || EFUSE), software can read MIO_FUS_BNK_DATx which contains all 128
+ * (ADDR/16) not {0,1,7}) || EFUSE), software can read MIO_FUS_BNK_DATx which contains all 128
  * fuses in the bank associated in ADDR.
  */
 typedef union bdk_mio_fus_rcmd {
@@ -761,9 +761,9 @@ typedef union bdk_mio_fus_tgg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t val                         : 1;  /**< R/W/H - Software can write VAL to 0, but cannot write VAL to a 1. When VAL = 1, DAT reads
                                                                  the corresponding TGG fuses. When VAL = 0, DAT reads as 0s. The reset value of
-                                                                 this VAL bit is normally its fuse setting (i.e. TGG<63>). */
-		uint64_t dat                         : 63; /**< RO/H - When VAL = 0, DAT always reads as 0x0, regardless of the value of the TGG<62:0>
-                                                                 fuses. When VAL = 1, DAT returns the value of the TGG<62:0> fuses. */
+                                                                 this VAL bit is normally its fuse setting (i.e. TGG\<63\>). */
+		uint64_t dat                         : 63; /**< RO/H - When VAL = 0, DAT always reads as 0x0, regardless of the value of the TGG\<62:0\>
+                                                                 fuses. When VAL = 1, DAT returns the value of the TGG\<62:0\> fuses. */
 #else
 		uint64_t dat                         : 63;
 		uint64_t val                         : 1;

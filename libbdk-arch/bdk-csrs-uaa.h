@@ -207,17 +207,17 @@ typedef union bdk_uaax_cr {
 	struct bdk_uaax_cr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_16_31              : 16;
-		uint32_t ctsen                       : 1;  /**< R/W - "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
+		uint32_t ctsen                       : 1;  /**< R/W - "CTS hardware flow control enable. If set, data is only transmitted when UART\#_CTS_L is
                                                                  asserted (low)." */
 		uint32_t rtsen                       : 1;  /**< R/W - RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
 		uint32_t out2                        : 1;  /**< R/W - Unused. */
-		uint32_t out1                        : 1;  /**< R/W - Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
-		uint32_t rts                         : 1;  /**< R/W - Request to send. If set, assert UART#_RTS_L. */
-		uint32_t dtr                         : 1;  /**< R/W - Data terminal ready. If set, assert UART#_DTR_N. */
+		uint32_t out1                        : 1;  /**< R/W - Data carrier detect. If set, drive UART\#_DCD_L asserted (low). */
+		uint32_t rts                         : 1;  /**< R/W - Request to send. If set, assert UART\#_RTS_L. */
+		uint32_t dtr                         : 1;  /**< R/W - Data terminal ready. If set, assert UART\#_DTR_N. */
 		uint32_t rxe                         : 1;  /**< R/W - Receive enable. If set, receive section is enabled. */
 		uint32_t txe                         : 1;  /**< R/W - Transmit enable. */
-		uint32_t lbe                         : 1;  /**< R/W - "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
-                                                                 was physically attached to UART#_SOUT." */
+		uint32_t lbe                         : 1;  /**< R/W - "Loopback enable. If set the serial output is looped into the serial input as if UART\#_SIN
+                                                                 was physically attached to UART\#_SOUT." */
 		uint32_t reserved_1_6                : 6;
 		uint32_t uarten                      : 1;  /**< R/W - UART enable.
                                                                  0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
@@ -352,7 +352,7 @@ typedef union bdk_uaax_fr {
 		uint32_t busy                        : 1;  /**< RO/H - UART busy transmitting data. */
 		uint32_t dcd                         : 1;  /**< RO/H - Data carrier detect. */
 		uint32_t dsr                         : 1;  /**< RO/H - Data set ready. */
-		uint32_t cts                         : 1;  /**< RO/H - Clear to send. Complement of the UART#_CTS_L modem status input pin. */
+		uint32_t cts                         : 1;  /**< RO/H - Clear to send. Complement of the UART\#_CTS_L modem status input pin. */
 #else
 		uint32_t cts                         : 1;
 		uint32_t dsr                         : 1;
@@ -480,18 +480,18 @@ typedef union bdk_uaax_ifls {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_6_31               : 26;
 		uint32_t rxiflsel                    : 3;  /**< R/W - Receive interrupt FIFO level select.
-                                                                 0x0 = Receive FIFO becomes >= 1/8 full.
-                                                                 0x1 = Receive FIFO becomes >= 1/4 full.
-                                                                 0x2 = Receive FIFO becomes >= 1/2 full.
-                                                                 0x3 = Receive FIFO becomes >= 3/4 full.
-                                                                 0x4 = Receive FIFO becomes >= 7/8 full.
+                                                                 0x0 = Receive FIFO becomes \>= 1/8 full.
+                                                                 0x1 = Receive FIFO becomes \>= 1/4 full.
+                                                                 0x2 = Receive FIFO becomes \>= 1/2 full.
+                                                                 0x3 = Receive FIFO becomes \>= 3/4 full.
+                                                                 0x4 = Receive FIFO becomes \>= 7/8 full.
                                                                  0x5-0x7 = Reserved. */
 		uint32_t txiflsel                    : 3;  /**< R/W - Transmit interrupt FIFO level select.
-                                                                 0x0 = Transmit FIFO becomes <= 1/8 full.
-                                                                 0x1 = Transmit FIFO becomes <= 1/4 full.
-                                                                 0x2 = Transmit FIFO becomes <= 1/2 full.
-                                                                 0x3 = Transmit FIFO becomes <= 3/4 full.
-                                                                 0x4 = Transmit FIFO becomes <= 7/8 full.
+                                                                 0x0 = Transmit FIFO becomes \<= 1/8 full.
+                                                                 0x1 = Transmit FIFO becomes \<= 1/4 full.
+                                                                 0x2 = Transmit FIFO becomes \<= 1/2 full.
+                                                                 0x3 = Transmit FIFO becomes \<= 3/4 full.
+                                                                 0x4 = Transmit FIFO becomes \<= 7/8 full.
                                                                  0x5-0x7 = Reserved. */
 #else
 		uint32_t txiflsel                    : 3;
@@ -803,7 +803,7 @@ typedef union bdk_uaax_pidr0 {
 	struct bdk_uaax_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  ARM-assigned PL011 compatible. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  ARM-assigned PL011 compatible. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -836,7 +836,7 @@ typedef union bdk_uaax_pidr1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
 		uint32_t idcode                      : 4;  /**< RO - ARM idenitification. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  ARM-assigned PL011 compatible. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  ARM-assigned PL011 compatible. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -1184,8 +1184,8 @@ typedef union bdk_uaax_uctl_ctl {
                                                                  0x7 = Divide by 32.
 
                                                                  The max and min frequency of the UARTCLK is determined by the following:
-                                                                 _ F_UARTCLK(min) >= 16 * baud_rate(max)
-                                                                 _ F_UARTCLK(max) <= 16 * 65535 * baud_rate(min) */
+                                                                 _ F_UARTCLK(min) \>= 16 * baud_rate(max)
+                                                                 _ F_UARTCLK(max) \<= 16 * 65535 * baud_rate(min) */
 		uint64_t reserved_5_23               : 19;
 		uint64_t csclk_en                    : 1;  /**< R/W - Turns on the UCTL interface clock (coprocessor clock).
                                                                  This enables the UCTL registers starting from 0x30 via the RSL bus. */

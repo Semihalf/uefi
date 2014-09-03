@@ -563,7 +563,7 @@ typedef union bdk_usbhx_uahc_erdpx {
 	uint64_t u;
 	struct bdk_usbhx_uahc_erdpx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t erdp                        : 60; /**< R/W - Event ring dequeue pointer bits <63:4>. */
+		uint64_t erdp                        : 60; /**< R/W - Event ring dequeue pointer bits \<63:4\>. */
 		uint64_t ehb                         : 1;  /**< R/W1C/H - Event handler busy */
 		uint64_t desi                        : 3;  /**< R/W - Dequeue ERST segment index. */
 #else
@@ -604,7 +604,7 @@ typedef union bdk_usbhx_uahc_erstbax {
 	uint64_t u;
 	struct bdk_usbhx_uahc_erstbax_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t erstba                      : 58; /**< R/W - Event-ring segment-table base-address bits<63:6>. */
+		uint64_t erstba                      : 58; /**< R/W - Event-ring segment-table base-address bits\<63:6\>. */
 		uint64_t reserved_0_5                : 6;
 #else
 		uint64_t reserved_0_5                : 6;
@@ -831,7 +831,7 @@ typedef union bdk_usbhx_uahc_gctl {
                                                                  * Suspend and resume
 
                                                                  0x2 = N/A
-                                                                 0x3 = Enables bits <0> and <1> scale-down timing values.
+                                                                 0x3 = Enables bits \<0\> and \<1\> scale-down timing values.
 
                                                                  SuperSpeed mode:
                                                                  0x0 = Disables all scale-downs. Actual timing values are used.
@@ -840,10 +840,10 @@ typedef union bdk_usbhx_uahc_gctl {
                                                                  * LFPS polling burst time reduce to 100 ns
                                                                  * LFPS warm reset receive reduce to 30 us.
 
-                                                                 INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
+                                                                 INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under \<workspace\>/sim/SoC_sim
                                                                  directory for the complete list.
-                                                                 0x2 = No TxEq training sequences are sent. Overrides bit<4>.
-                                                                 0x3 = Enables bits<0> and <1> scale-down timing values. */
+                                                                 0x2 = No TxEq training sequences are sent. Overrides bit\<4\>.
+                                                                 0x3 = Enables bits\<0\> and \<1\> scale-down timing values. */
 		uint32_t disscramble                 : 1;  /**< R/W - Disable scrambling. Transmit request to link partner on next transition to recovery or polling. */
 		uint32_t u2exit_lfps                 : 1;  /**< R/W - LFPS U2 exit.
                                                                  0 = The link treats 248ns LFPS as a valid U2 exit.
@@ -989,7 +989,7 @@ typedef union bdk_usbhx_uahc_gdbgfifospace {
 		uint32_t spaceavailable              : 16; /**< RO/H - Space available in the selected FIFO. */
 		uint32_t reserved_9_15               : 7;
 		uint32_t select                      : 9;  /**< R/W - FIFO/queue select/port-select.
-                                                                 FIFO/queue select: <7:5> indicates the FIFO/queue type; <4:0> indicates the FIFO/queue
+                                                                 FIFO/queue select: \<7:5\> indicates the FIFO/queue type; \<4:0\> indicates the FIFO/queue
                                                                  number.
                                                                  For example, 0x21 refers to RxFIFO_1, and 0x5E refers to TxReqQ_30.
                                                                  0x1F-0x0: TxFIFO_31 to TxFIFO_0.
@@ -1001,7 +1001,7 @@ typedef union bdk_usbhx_uahc_gdbgfifospace {
                                                                  0xA1: EventQ.
                                                                  0xA2: ProtocolStatusQ.
 
-                                                                 Port-select: <3:0> selects the port-number when accessing USBH()_UAHC_GDBGLTSSM. */
+                                                                 Port-select: \<3:0\> selects the port-number when accessing USBH()_UAHC_GDBGLTSSM. */
 #else
 		uint32_t select                      : 9;
 		uint32_t reserved_9_15               : 7;
@@ -1115,7 +1115,7 @@ typedef union bdk_usbhx_uahc_gdbglspmux {
 	struct bdk_usbhx_uahc_gdbglspmux_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_24_31              : 8;
-		uint32_t latraceportmuxselect        : 8;  /**< R/W - logic_analyzer_trace port multiplexer select. Only bits<21:16> are used. For details on
+		uint32_t latraceportmuxselect        : 8;  /**< R/W - logic_analyzer_trace port multiplexer select. Only bits\<21:16\> are used. For details on
                                                                  how the mux controls the debug traces, refer to the Verilog file.
                                                                  A value of 0x3F drives 0s on the logic_analyzer_trace signal. If you plan to OR (instead
                                                                  using a mux) this signal with other trace signals in your system to generate a common
@@ -1155,7 +1155,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long param1)
  * NCB32b - usbh#_uahc_gdbgltssm
  *
  * In multiport host configuration, the port number is defined by
- * USBH()_UAHC_GDBGFIFOSPACE[SELECT]<3:0>. Value of this register may change immediately after
+ * USBH()_UAHC_GDBGFIFOSPACE[SELECT]\<3:0\>. Value of this register may change immediately after
  * reset.
  * See description in USBH()_UAHC_GDBGFIFOSPACE.
  *
@@ -1172,22 +1172,22 @@ typedef union bdk_usbhx_uahc_gdbgltssm {
 		uint32_t ltdblinkstate               : 4;  /**< RO/H - LTDB link state. */
 		uint32_t ltdbsubstate                : 4;  /**< RO/H - LTDB substate. */
 		uint32_t debugpipestatus             : 18; /**< RO/H - Debug PIPE status.
-                                                                 _ <17> Elastic buffer mode.
-                                                                 _ <16> TX elec idle.
-                                                                 _ <15> RX polarity.
-                                                                 _ <14> TX Detect RX/loopback.
-                                                                 _ <13:11> LTSSM PHY command state.
+                                                                 _ \<17\> Elastic buffer mode.
+                                                                 _ \<16\> TX elec idle.
+                                                                 _ \<15\> RX polarity.
+                                                                 _ \<14\> TX Detect RX/loopback.
+                                                                 _ \<13:11\> LTSSM PHY command state.
                                                                  _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending.)
                                                                  _ 0x1 = PHY_DET (Request to start receiver detection).
                                                                  _ 0x2 = PHY_DET_3 (Wait for Phy_Status (receiver detection)).
-                                                                 _ 0x3 = PHY_PWR_DLY (delay Pipe3_PowerDown P0 -> P1/P2/P3 request).
+                                                                 _ 0x3 = PHY_PWR_DLY (delay Pipe3_PowerDown P0 -\> P1/P2/P3 request).
                                                                  _ 0x4 = PHY_PWR_A (delay for internal logic).
                                                                  _ 0x5 = PHY_PWR_B (wait for Phy_Status(Power-state change request)).
 
-                                                                 _ <10:9> Power down.
-                                                                 _ <8> RxEq train.
-                                                                 _ <7:6> TX de-emphasis.
-                                                                 _ <5:3> LTSSM clock state.
+                                                                 _ \<10:9\> Power down.
+                                                                 _ \<8\> RxEq train.
+                                                                 _ \<7:6\> TX de-emphasis.
+                                                                 _ \<5:3\> LTSSM clock state.
                                                                  _ 0x0 = CLK_NORM (PHY is in non-P3 state and PCLK is running).
                                                                  _ 0x1 = CLK_TO_P3 (P3 entry request to PHY).
                                                                  _ 0x2 = CLK_WAIT1 (wait for Phy_Status (P3 request)).
@@ -1195,9 +1195,9 @@ typedef union bdk_usbhx_uahc_gdbgltssm {
                                                                  _ 0x4 = CLK_TO_P0 (P3 exit request to PHY).
                                                                  _ 0x5 = CLK_WAIT2 (Wait for Phy_Status (P3 exit request)).
 
-                                                                 _ <2> TX swing.
-                                                                 _ <1> RX termination.
-                                                                 _ <0> TX 1s/0s. */
+                                                                 _ \<2\> TX swing.
+                                                                 _ \<1\> RX termination.
+                                                                 _ \<0\> TX 1s/0s. */
 #else
 		uint32_t debugpipestatus             : 18;
 		uint32_t ltdbsubstate                : 4;
@@ -1517,8 +1517,8 @@ typedef union bdk_usbhx_uahc_ghwparams1 {
 		uint32_t mac_ram_clks_sync           : 1;  /**< RO - MAC3_CLK and RAM_CLK are synchronous. */
 		uint32_t mac_phy_clks_sync           : 1;  /**< RO - MAC3_CLK and PHY_CLK are synchronous. */
 		uint32_t en_pwropt                   : 2;  /**< RO - Power optimization mode:
-                                                                 bit<0> = Clock-gating feature available.
-                                                                 bit<1> = Hibernation feature available. */
+                                                                 bit\<0\> = Clock-gating feature available.
+                                                                 bit\<1\> = Hibernation feature available. */
 		uint32_t spram_typ                   : 1;  /**< RO - SRAM type: one-port RAMs. */
 		uint32_t num_rams                    : 2;  /**< RO - Number of RAMs. */
 		uint32_t device_num_int              : 6;  /**< RO - Number of event buffers (and interrupts) in device-mode (unsupported). */
@@ -1890,23 +1890,23 @@ typedef union bdk_usbhx_uahc_gpmsts {
 		uint32_t portsel                     : 4;  /**< WO - This field selects the port number. Always 0x0. */
 		uint32_t reserved_17_27              : 11;
 		uint32_t u3wakeup                    : 5;  /**< RO/H - This field gives the USB 3.0 port wakeup conditions.
-                                                                 bit<12> = Overcurrent detected.
-                                                                 bit<13> = Resume detected.
-                                                                 bit<14> = Connect detected.
-                                                                 bit<15> = Disconnect detected.
-                                                                 bit<16> = Last connection state. */
+                                                                 bit\<12\> = Overcurrent detected.
+                                                                 bit\<13\> = Resume detected.
+                                                                 bit\<14\> = Connect detected.
+                                                                 bit\<15\> = Disconnect detected.
+                                                                 bit\<16\> = Last connection state. */
 		uint32_t reserved_10_11              : 2;
 		uint32_t u2wakeup                    : 10; /**< RO/H - This field indicates the USB 2.0 port wakeup conditions.
-                                                                 bit<0> = Overcurrent detected.
-                                                                 bit<1> = Resume detected.
-                                                                 bit<2> = Connect detected.
-                                                                 bit<3> = Disconnect detected.
-                                                                 bit<4> = Last connection state.
-                                                                 bit<5> = ID change detected.
-                                                                 bit<6> = SRP request detected.
-                                                                 bit<7> = ULPI interrupt detected.
-                                                                 bit<8> = USB reset detected.
-                                                                 bit<9> = Resume detected changed. */
+                                                                 bit\<0\> = Overcurrent detected.
+                                                                 bit\<1\> = Resume detected.
+                                                                 bit\<2\> = Connect detected.
+                                                                 bit\<3\> = Disconnect detected.
+                                                                 bit\<4\> = Last connection state.
+                                                                 bit\<5\> = ID change detected.
+                                                                 bit\<6\> = SRP request detected.
+                                                                 bit\<7\> = ULPI interrupt detected.
+                                                                 bit\<8\> = USB reset detected.
+                                                                 bit\<9\> = Resume detected changed. */
 #else
 		uint32_t u2wakeup                    : 10;
 		uint32_t reserved_10_11              : 2;
@@ -2161,7 +2161,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long param1)
  * below. It is recommended that software use the default value. In Host mode, per-port registers
  * are implemented. One register per FIFO.
  *
- * Reset values = 0:[0x0000_0084] 1:[0x0084_0104] 2:[0x0188_0180].
+ * Reset values = 0:{0x0000_0084} 1:{0x0084_0104} 2:{0x0188_0180}.
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
  *
@@ -2246,7 +2246,7 @@ typedef union bdk_usbhx_uahc_grxthrcfg {
                                                                  (burst).
 
                                                                  This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0xF.
-                                                                 This field must be <= USBMAXRXBURSTSIZE. */
+                                                                 This field must be \<= USBMAXRXBURSTSIZE. */
 		uint32_t usbmaxrxburstsize           : 5;  /**< R/W - USB maximum receive-burst size. In host-mode, specifies the maximum bulk IN burst the core
                                                                  should do. When the system bus is slower than the USB, RX FIFO can overrun during a long
                                                                  burst.
@@ -2510,7 +2510,7 @@ typedef union bdk_usbhx_uahc_gtxfifoprihst {
 	struct bdk_usbhx_uahc_gtxfifoprihst_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
-		uint32_t tx_priority                 : 3;  /**< R/W - Each register bit n controls the priority (1: high, 0: low) of TX FIFO<n> within a speed
+		uint32_t tx_priority                 : 3;  /**< R/W - Each register bit n controls the priority (1: high, 0: low) of TX FIFO\<n\> within a speed
                                                                  group. */
 #else
 		uint32_t tx_priority                 : 3;
@@ -2543,7 +2543,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long param1)
  * recommended that the software use the default value. One register per FIFO. One register per
  * FIFO.
  *
- * Reset values = 0:[0x0000_0082] 1:[0x0082_0103] 2:[0x0185_0205].
+ * Reset values = 0:{0x0000_0082} 1:{0x0082_0103} 2:{0x0185_0205}.
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
  *
@@ -2625,7 +2625,7 @@ typedef union bdk_usbhx_uahc_gtxthrcfg {
 		uint32_t usbtxpktcnt                 : 4;  /**< R/W - USB transmit-packet count. Specifies the number of packets that must be in the TXFIFO
                                                                  before the core can start transmission for the corresponding USB transaction (burst). This
                                                                  field is only valid when USBTXPKTCNTSEL = 1. Valid values are from 0x1 to 0xF.
-                                                                 This field must be <= USBMAXTXBURSTSIZE. */
+                                                                 This field must be \<= USBMAXTXBURSTSIZE. */
 		uint32_t usbmaxtxburstsize           : 8;  /**< R/W - USB maximum TX burst size. When USBTXPKTCNTSEL = 1, this field specifies the maximum bulk
                                                                  OUT burst the core should do. When the system bus is slower than the USB, TX FIFO can
                                                                  underrun during a long burst. Program a smaller value to this field to limit the TX burst
@@ -2711,7 +2711,7 @@ typedef union bdk_usbhx_uahc_guctl {
                                                                  possible to connect two webcams of 1024 bytes * 3 payload per microframe each. Otherwise,
                                                                  you may have to reduce the resolution of the webcams. */
 		uint32_t cmdevaddr                   : 1;  /**< R/W - Compliance mode for device address. When set to 1, slot ID can have different value than
-                                                                 device address if max_slot_enabled < 128.
+                                                                 device address if max_slot_enabled \< 128.
                                                                  0 = Device address is equal to slot ID.
                                                                  1 = Increment device address on each address device command.
 
@@ -2763,13 +2763,13 @@ typedef union bdk_usbhx_uahc_guctl {
                                                                  considering a device timeout. For the 125 MHz clock cycles (8 ns period), this is
                                                                  calculated as follows:
                                                                  _ [DTFT value] * 256 * 8 (ns)
-                                                                 0x2 = 2 * 256 * 8 -> 4 us.
-                                                                 0x5 = 5 * 256 * 8 -> 10 us.
-                                                                 0xA = 10 * 256 * 8 -> 20 us.
-                                                                 0x10 = 16 * 256 * 8 -> 32 us.
-                                                                 0x19 = 25 * 256 * 8 -> 51 us.
-                                                                 0x31 = 49 * 256 * 8 -> 100 us.
-                                                                 0x62 = 98 * 256 * 8 -> 200 us. */
+                                                                 0x2 = 2 * 256 * 8 -\> 4 us.
+                                                                 0x5 = 5 * 256 * 8 -\> 10 us.
+                                                                 0xA = 10 * 256 * 8 -\> 20 us.
+                                                                 0x10 = 16 * 256 * 8 -\> 32 us.
+                                                                 0x19 = 25 * 256 * 8 -\> 51 us.
+                                                                 0x31 = 49 * 256 * 8 -\> 100 us.
+                                                                 0x62 = 98 * 256 * 8 -\> 200 us. */
 #else
 		uint32_t dtft                        : 9;
 		uint32_t dtct                        : 2;
@@ -4659,7 +4659,7 @@ typedef union bdk_usbhx_uctl_ctl {
                                                                  This value may only be changed during UPHY_RST. */
 		uint64_t mpll_multiplier             : 7;  /**< R/W - Multiplies the reference clock to a frequency suitable for intended operating speed. Must
                                                                  leave at reset value of 0x0. This value may only be changed during UPHY_RST.
-                                                                 This value is superseded by the REF_CLK_FSEL<5:3> selection. */
+                                                                 This value is superseded by the REF_CLK_FSEL\<5:3\> selection. */
 		uint64_t ref_ssp_en                  : 1;  /**< R/W - Enables reference clock to the prescaler for SuperSpeed function. This should always be
                                                                  enabled since this output clock is used to drive the UAHC suspend-mode clock during
                                                                  low-power states.
@@ -4723,8 +4723,8 @@ typedef union bdk_usbhx_uctl_ctl {
                                                                  This field can be changed only when H_CLKDIV_RST = 1.
                                                                  INTERNAL: 150MHz is from the maximum of Synopsys DWC_usb3 Databook v2.50a, table A-16, row
                                                                  1, col 12. Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9. Synopsys DWC_usb3
-                                                                 Databook v2.50a, table A-16, row 7, col 9. HOST2>62.5MHz in HOST mode is from Synopsys
-                                                                 DWC_usb3 Databook v2.50a, section A.12.5, 3rd bullet in Note on page 894. HOST2>90MHz was
+                                                                 Databook v2.50a, table A-16, row 7, col 9. HOST2\>62.5MHz in HOST mode is from Synopsys
+                                                                 DWC_usb3 Databook v2.50a, section A.12.5, 3rd bullet in Note on page 894. HOST2\>90MHz was
                                                                  arrived at from some math: 62.5MHz + (diff between row 1 and 2, col 12 of table A-16). */
 		uint64_t reserved_22_23              : 2;
 		uint64_t usb3_port_perm_attach       : 1;  /**< R/W - Indicates this port is permanently attached. This is a strap signal; it should be modified
@@ -4835,7 +4835,7 @@ static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long param1)
  * priority.
  * * The *ECC_*_DIS fields disable ECC correction; SBE and DBE errors are still reported. If
  * *ECC_*_DIS = 0x1, then no data-correction occurs.
- * * The *ECC_FLIP_SYND fields flip the syndrome<1:0> bits to generate single-bit/double-bit
+ * * The *ECC_FLIP_SYND fields flip the syndrome\<1:0\> bits to generate single-bit/double-bit
  * error for testing.
  *
  * 0x0 = normal operation.
@@ -5489,7 +5489,7 @@ typedef union bdk_usbhx_uctl_portx_cfg_ss {
 		uint64_t reserved_42_55              : 14;
 		uint64_t pcs_rx_los_mask_val         : 10; /**< R/W - Configurable loss-of-signal mask width. Sets the number of reference clock cycles to mask
                                                                  the incoming LFPS in U3 and U2 states. Masks the incoming LFPS for the number of reference
-                                                                 clock cycles equal to the value of pcs_rx_los_mask_val<9:0>. This control filters out
+                                                                 clock cycles equal to the value of pcs_rx_los_mask_val\<9:0\>. This control filters out
                                                                  short, non-compliant LFPS glitches sent by a noncompliant host.
 
                                                                  For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
@@ -5497,7 +5497,7 @@ typedef union bdk_usbhx_uctl_portx_cfg_ss {
                                                                  (value = 10us / (2 * Tref_clk)). These equations are based on the SuperSpeed reference
                                                                  clock frequency. The value of PCS_RX_LOS_MASK_VAL should be as follows:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                       Frequency   DIV2  LOS_MASK
                                                                       ---------    ---  --------
                                                                       200   MHz      1     0x3E8
@@ -5516,7 +5516,7 @@ typedef union bdk_usbhx_uctl_portx_cfg_ss {
                                                                        24   MHz      0     0x0F0
                                                                        20   MHz      0     0x0C8
                                                                        19.2 MHz      0     0x0C0
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  Setting this bus to 0x0 disables masking. The value should be defined when the PHY is in
                                                                  reset. Changing this value during operation might disrupt normal operation of the link. */
@@ -5615,10 +5615,10 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long param1, unsigne
  *
  * To read a PHY register via indirect CR interface:
  *   1. Write UCTL_PORTn_CR_DBG_CFG with:
- *     * [DATA_IN] with the <<address>> of the register,
+ *     * [DATA_IN] with the \<\<address\>\> of the register,
  *     * [CAP_ADDR], [CAP_DATA], [READ], and [WRITE] fields 0x0.
  *   2. Write UCTL_PORTn_CR_DBG_CFG with:
- *     * [DATA_IN] with the <<address>> of the register,
+ *     * [DATA_IN] with the \<\<address\>\> of the register,
  *     * [CAP_ADDR] field 0x1,
  *     * [CAP_DATA], [READ], and [WRITE] fields 0x0.
  *   3. Poll for UCTL_PORTn_CR_DBG_STATUS[ACK] 0x1.
@@ -5628,23 +5628,23 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long param1, unsigne
  *     * [READ] field 0x1,
  *     * [DATA_IN], [CAP_ADDR], [CAP_DATA], and [WRITE] fields 0x0.
  *   7. Poll for UCTL_PORTn_CR_DBG_STATUS[ACK] 0x1.
- *   8. Read UCTL_PORTn_CR_DBG_STATUS[DATA_OUT]. This is the <<read data>>.
+ *   8. Read UCTL_PORTn_CR_DBG_STATUS[DATA_OUT]. This is the \<\<read data\>\>.
  *   9. Write UCTL_PORTn_CR_DBG_CFG with all 0x0's.
  *   10. Poll for UCTL_PORTn_CR_DBG_STATUS[ACK] 0x0.
  *
  * To write a PHY register via indirect CR interface:
  *   1. Write UCTL_PORTn_CR_DBG_CFG with:
- *     * [DATA_IN] with the <<address>> of the register,
+ *     * [DATA_IN] with the \<\<address\>\> of the register,
  *     * [CAP_ADDR], [CAP_DATA], [READ], and [WRITE] fields 0x0.
  *   2. Write UCTL_PORTn_CR_DBG_CFG with:
- *     * [DATA_IN] with the <<address>> of the register,
+ *     * [DATA_IN] with the \<\<address\>\> of the register,
  *     * [CAP_ADDR] field 0x1,
  *     * [CAP_DATA], [READ], and [WRITE] fields 0x0.
  *   3. Poll for UCTL_PORTn_CR_DBG_STATUS[ACK] 0x1.
  *   4. Write UCTL_PORTn_CR_DBG_CFG with all 0x0's.
  *   5. Poll for UCTL_PORTn_CR_DBG_STATUS[ACK] 0x0.
  *   6. Write UCTL_PORTn_CR_DBG_CFG with:
- *     * [DATA_IN] with the <<write data>>,
+ *     * [DATA_IN] with the \<\<write data\>\>,
  *     * [CAP_ADDR], [CAP_DATA], [READ], and [WRITE] fields 0x0.
  *   7. Write UCTL_PORTn_CR_DBG_CFG with:
  *     * [DATA_IN] with the write data,
@@ -5766,10 +5766,10 @@ typedef union bdk_usbhx_uctl_shim_cfg {
 		uint64_t reserved_60_62              : 3;
 		uint64_t xs_ncb_oob_osrc             : 12; /**< RO/H - SRCID error log for out-of-bound UAHC register access. The NCB outbound SRCID for the OOB
                                                                  error.
-                                                                 <59:58> = chipID.
-                                                                 <57> = Request source: 0 = core, 1 = NCB-device.
-                                                                 <56:51> = Core/NCB-device number. Note that for NCB devices, <56> is always 0.
-                                                                 <50:48> = SubID. */
+                                                                 \<59:58\> = chipID.
+                                                                 \<57\> = Request source: 0 = core, 1 = NCB-device.
+                                                                 \<56:51\> = Core/NCB-device number. Note that for NCB devices, \<56\> is always 0.
+                                                                 \<50:48\> = SubID. */
 		uint64_t xm_bad_dma_wrn              : 1;  /**< RO/H - Read/write error log for bad DMA access from UAHC.
                                                                  0 = read error log, 1 = write error log */
 		uint64_t reserved_44_46              : 3;

@@ -301,7 +301,7 @@ typedef union bdk_sgp_imp_drivex {
 	struct bdk_sgp_imp_drivex_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t pres_det                    : 1;  /**< R/W - "Presence detect. If set, logically OR GPIO_SDATAIN's ID#.0 bit with any GPIO related
+		uint32_t pres_det                    : 1;  /**< R/W - "Presence detect. If set, logically OR GPIO_SDATAIN's ID\#.0 bit with any GPIO related
                                                                  present detect and send to the relevant SATA controller's mechanical presence detect." */
 		uint32_t reserved_4_7                : 4;
 		uint32_t ctrlr                       : 4;  /**< R/W - SATA controller attached to this index's SGPIO drive. Indicates which SATA(0..15) connects
@@ -428,13 +428,13 @@ typedef union bdk_sgp_rx_gpx {
 		uint32_t sdatain1                    : 8;  /**< RO/H - See [SDATAIN0]. */
 		uint32_t sdatain0                    : 8;  /**< RO/H - Raw data shifted from SGP_SDATAIN. The bits are not in natural 32-bit form; they are
                                                                  assigned to registers as follows:
-                                                                 Bit 0 (ID0.0): SGP_RX_GP(1)[SDATAIN3]<0>.
-                                                                 Bit 8 (ID2.2): SGP_RX_GP(1)[SDATAIN2]<0>.
-                                                                 Bit 16 (ID5.1): SGP_RX_GP(1)[SDATAIN1]<0>.
-                                                                 Bit 24 (ID8.0): SGP_RX_GP(1)[SDATAIN0]<0>.
-                                                                 Bit 32 (ID10.2): SGP_RX_GP(2)[SDATAIN3]<0>.
-                                                                 Bit 40 (ID13.1): SGP_RX_GP(2)[SDATAIN2]<0>.
-                                                                 Bit 47 (ID15.2): SGP_RX_GP(2)[SDATAIN2]<7>.
+                                                                 Bit 0 (ID0.0): SGP_RX_GP(1)[SDATAIN3]\<0\>.
+                                                                 Bit 8 (ID2.2): SGP_RX_GP(1)[SDATAIN2]\<0\>.
+                                                                 Bit 16 (ID5.1): SGP_RX_GP(1)[SDATAIN1]\<0\>.
+                                                                 Bit 24 (ID8.0): SGP_RX_GP(1)[SDATAIN0]\<0\>.
+                                                                 Bit 32 (ID10.2): SGP_RX_GP(2)[SDATAIN3]\<0\>.
+                                                                 Bit 40 (ID13.1): SGP_RX_GP(2)[SDATAIN2]\<0\>.
+                                                                 Bit 47 (ID15.2): SGP_RX_GP(2)[SDATAIN2]\<7\>.
                                                                  SGP_RX_GP(2)[SDATAIN1/SDATAIN0] are always zero. */
 #else
 		uint32_t sdatain0                    : 8;
@@ -558,13 +558,13 @@ typedef union bdk_sgp_tx_gpx {
 		uint32_t sdataout1                   : 8;  /**< R/W - See [SDATAOUT0]. */
 		uint32_t sdataout0                   : 8;  /**< R/W - Raw data to shift onto SGP_SDATAOUT. The bits are not in natural 32-bit form; they are
                                                                  assigned to registers as follows:
-                                                                 Bit 0 (ID0.0): SGP_TX_GP(1)[SDATAOUT3]<0>.
-                                                                 Bit 8 (ID2.2): SGP_TX_GP(1)[SDATAOUT2]<0>.
-                                                                 Bit 16 (ID5.1): SGP_TX_GP(1)[SDATAOUT1]<0>.
-                                                                 Bit 24 (ID8.0): SGP_TX_GP(1)[SDATAOUT0]<0>.
-                                                                 Bit 32 (ID10.2): SGP_TX_GP(2)[SDATAOUT3]<0>.
-                                                                 Bit 40 (ID13.1): SGP_TX_GP(2)[SDATAOUT2]<0>.
-                                                                 Bit 47 (ID15.2): SGP_TX_GP(2)[SDATAOUT2]<7>.
+                                                                 Bit 0 (ID0.0): SGP_TX_GP(1)[SDATAOUT3]\<0\>.
+                                                                 Bit 8 (ID2.2): SGP_TX_GP(1)[SDATAOUT2]\<0\>.
+                                                                 Bit 16 (ID5.1): SGP_TX_GP(1)[SDATAOUT1]\<0\>.
+                                                                 Bit 24 (ID8.0): SGP_TX_GP(1)[SDATAOUT0]\<0\>.
+                                                                 Bit 32 (ID10.2): SGP_TX_GP(2)[SDATAOUT3]\<0\>.
+                                                                 Bit 40 (ID13.1): SGP_TX_GP(2)[SDATAOUT2]\<0\>.
+                                                                 Bit 47 (ID15.2): SGP_TX_GP(2)[SDATAOUT2]\<7\>.
                                                                  SGP_TX_GP(2)[SDATAOUT1/SDATAOUT0] are ignored. */
 #else
 		uint32_t sdataout0                   : 8;
@@ -600,7 +600,7 @@ typedef union bdk_sgp_tx_gp_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_28_31              : 4;
 		uint32_t sload                       : 4;  /**< R/W - Pattern to transmit on SGP_SLOAD at the start of each general purpose bit stream.
-                                                                 [SLOAD]<0> is the first bit (L0), <3> is the last bit (L3). */
+                                                                 [SLOAD]\<0\> is the first bit (L0), \<3\> is the last bit (L3). */
 		uint32_t count                       : 8;  /**< R/W - Number of times to transmit the SGP_TX_GP(1..2) pattern and receive
                                                                  into SGP_RX_GP(1..2). A [COUNT] of 0xFF transmits continuously until [COUNT] is set to
                                                                  non-0xFF. */

@@ -763,7 +763,7 @@ static inline uint64_t BDK_PHYS_QUEUE_CFGX(unsigned long param1)
  * These registers are aliased to the 32 command queues. If the corresponding PHYS_QUEUE_CMD_LOn
  * register holds the low order bits of a Job command or a continued Job command, then a write
  * to this register results in adding the command to the tail of the
- * specified queue, with bits <127:64> taken from this register and bits <63:0> taken from the
+ * specified queue, with bits \<127:64\> taken from this register and bits \<63:0\> taken from the
  * corresponding PHYS_QUEUE_CMD_LOn register.  The tail and
  * notempty registers are updated accordingly. If the queue is full, a Queue Overflow
  * interrupt is triggered.
@@ -801,7 +801,7 @@ static inline uint64_t BDK_PHYS_QUEUE_CMD_HIX(unsigned long param1)
  *
  * These registers are aliased to the 32 command queues. Writing a Wait, Int, or DJCNT
  * command to one of these registers results in adding the command to the tail of the
- * specified queue, with bits <127:64> of the command set to zero. The tail and
+ * specified queue, with bits \<127:64\> of the command set to zero. The tail and
  * notempty registers are updated accordingly. If the queue is full, a Queue Overflow
  * interrupt is triggered. Writing the least significant 64 bits of a Job command or a
  * Continued Job command results in holding the bits in this register.

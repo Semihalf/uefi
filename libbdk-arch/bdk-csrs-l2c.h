@@ -486,7 +486,7 @@ typedef union bdk_l2c_asc_regionx_end {
 	struct bdk_l2c_asc_regionx_end_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
-		uint64_t addr                        : 20; /**< R/W - Node-local physical address <39:20> marking the inclusive end of the corresponding ASC
+		uint64_t addr                        : 20; /**< R/W - Node-local physical address \<39:20\> marking the inclusive end of the corresponding ASC
                                                                  region.
                                                                  Note that the region includes this address.
                                                                  Software must ensure that regions do not overlap.
@@ -525,7 +525,7 @@ typedef union bdk_l2c_asc_regionx_start {
 	struct bdk_l2c_asc_regionx_start_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
-		uint64_t addr                        : 20; /**< R/W - Node-local physical address <39:20> marking the start of the corresponding ASC region.
+		uint64_t addr                        : 20; /**< R/W - Node-local physical address \<39:20\> marking the start of the corresponding ASC region.
                                                                  Software must ensure that regions do not overlap. */
 		uint64_t reserved_0_19               : 20;
 #else
@@ -632,7 +632,7 @@ static inline uint64_t BDK_L2C_CTL_FUNC(void)
  * L2DFLIP allows software to generate L2DSBE, L2DDBE, VBFSBE, and VBFDBE errors for the purposes
  * of testing error handling code. When one (or both) of these bits are set, a PL2 that misses in
  * the L2 will fill with the appropriate error in the first two OWs of the fill. Software can
- * determine which OW pair gets the error by choosing the desired fill order (address<6:5>). A
+ * determine which OW pair gets the error by choosing the desired fill order (address\<6:5\>). A
  * PL2 that hits in the L2 will not inject any errors. Therefore sending a WBIL2 prior to the PL2
  * is recommended to make a miss likely. (If multiple processors are involved, software must be
  * sure that no other processor or I/O device can bring the block into the L2).
@@ -745,8 +745,8 @@ typedef union bdk_l2c_oci_ctl {
                                                                  return unpredictable data. When clear,
                                                                  CCPI I/O requests and MOC references are processed and sent to OCX where they are
                                                                  ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
-                                                                 if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
-                                                                 via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no CCPI processing is
+                                                                 if the corresponding ENAOCI\<node\> bit is clear. References to the local node (configured
+                                                                 via OCX_COM_NODE[ID]) ignore the value of ENAOCI\<node\> because no CCPI processing is
                                                                  required. Similarly, all I/O references ignore the value of ENAOCI when
                                                                  L2C_OCI_CTL[IOFRCL] is set. */
 #else

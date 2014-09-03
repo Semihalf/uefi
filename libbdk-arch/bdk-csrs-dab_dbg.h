@@ -106,39 +106,39 @@ typedef union bdk_dbgx_dbgauthstatus_el1 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t snid                        : 2;  /**< RO/H - Secure non-invasive debug. Possible values of this field are:
                                                                  Other values are reserved.
-                                                                 <00>        Not implemented. EL3 is not implemented and the processor is
+                                                                 \<00\>        Not implemented. EL3 is not implemented and the processor is
                                                                      Non-secure.
-                                                                 <10>        Implemented and disabled.
+                                                                 \<10\>        Implemented and disabled.
                                                                      ExternalSecureNoninvasiveDebugEnabled() == FALSE.
-                                                                 <11>        Implemented and enabled.
+                                                                 \<11\>        Implemented and enabled.
                                                                      ExternalSecureNoninvasiveDebugEnabled() == TRUE.
                                                                  RTL: SNID[1]=1, SNID[0]=(SPIDEN || SPNIDEN) && (NIDEN || DBGEN). */
 		uint32_t sid                         : 2;  /**< RO/H - Secure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.
-                                                                 <00>        Not implemented. EL3 is not implemented and the processor is
+                                                                 \<00\>        Not implemented. EL3 is not implemented and the processor is
                                                                      Non-secure.
-                                                                 <10>        Implemented and disabled. ExternalSecureInvasiveDebugEnabled()
+                                                                 \<10\>        Implemented and disabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == FALSE.
-                                                                 <11>        Implemented and enabled. ExternalSecureInvasiveDebugEnabled()
+                                                                 \<11\>        Implemented and enabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == TRUE.
                                                                  RTL: SID[1]=1, SID[0]=(SPIDEN || DBGEN). */
 		uint32_t nsnid                       : 2;  /**< RO/H - Non-secure non-invasive debug. Possible values of this field
                                                                      are:
                                                                  Other values are reserved.
-                                                                 <00>        Not implemented. EL3 is not implemented and the processor is
+                                                                 \<00\>        Not implemented. EL3 is not implemented and the processor is
                                                                      Secure.
-                                                                 <10>        Implemented and disabled. ExternalNoninvasiveDebugEnabled() ==
+                                                                 \<10\>        Implemented and disabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      FALSE.
-                                                                 <11>        Implemented and enabled. ExternalNoninvasiveDebugEnabled() ==
+                                                                 \<11\>        Implemented and enabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      TRUE.
                                                                  RTL: NSNID[1]=1, NSNID[0]=(NIDEN || DBGEN). */
 		uint32_t nsid                        : 2;  /**< RO/H - Non-secure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.
-                                                                 <00>        Not implemented. EL3 is not implemented and the processor is
+                                                                 \<00\>        Not implemented. EL3 is not implemented and the processor is
                                                                      Secure.
-                                                                 <10>        Implemented and disabled. ExternalInvasiveDebugEnabled() ==
+                                                                 \<10\>        Implemented and disabled. ExternalInvasiveDebugEnabled() ==
                                                                      FALSE.
-                                                                 <11>        Implemented and enabled. ExternalInvasiveDebugEnabled() ==
+                                                                 \<11\>        Implemented and enabled. ExternalInvasiveDebugEnabled() ==
                                                                      TRUE.
                                                                  RTL: NSID[1]=1, NSID[0]= DBGEN. */
 #else
@@ -171,7 +171,7 @@ static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long param1)
  * DAB32b - dbg#_dbgbcr#_el1
  *
  * Holds control information for a breakpoint. Forms breakpoint n
- * together with value register DBGBVR<n>_EL1, where n is 0 to
+ * together with value register DBGBVR\<n\>_EL1, where n is 0 to
  * 15.
  */
 typedef union bdk_dbgx_dbgbcrx_el1 {
@@ -181,29 +181,29 @@ typedef union bdk_dbgx_dbgbcrx_el1 {
 		uint32_t reserved_24_31              : 8;
 		uint32_t bt                          : 4;  /**< R/W - Breakpoint Type. Possible values are:
                                                                  The field breaks down as follows:
-                                                                  BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
+                                                                  BT[3:1]: Base type.- 000: Match address. DBGBVR\<n\>_EL1 is the
                                                                      address of an     instruction. - 010: Mismatch address.
-                                                                     Behaves as type0b000 DBGBVR<n>_EL1 is     the address of an
+                                                                     Behaves as type0b000 DBGBVR\<n\>_EL1 is     the address of an
                                                                      instruction to be stepped. - 001: Match context ID.
-                                                                     DBGBVR<n>_EL1[31:0] is a context ID. - 100: Match VMID.
-                                                                     DBGBVR<n>_EL1[39:32] is a VMID. - 101: Match VMID and context
-                                                                     ID. DBGBVR<n>_EL1[31:0] is a     context ID, and
-                                                                     DBGBVR<n>_EL1[39:32] is a VMID.
+                                                                     DBGBVR\<n\>_EL1[31:0] is a context ID. - 100: Match VMID.
+                                                                     DBGBVR\<n\>_EL1[39:32] is a VMID. - 101: Match VMID and context
+                                                                     ID. DBGBVR\<n\>_EL1[31:0] is a     context ID, and
+                                                                     DBGBVR\<n\>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
                                                                      RAZ. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
                                                                      AArch32 is not implemented, BT[2] is RAZ.
                                                                  The values0b011x0b11xx
-                                                                 <0000>      Unlinked instruction address match.
-                                                                 <0001>      Linked instruction address match.
-                                                                 <0010>      Unlinked context ID match.
-                                                                 <0011>      Linked context ID match
-                                                                 <0100>      Unlinked instruction address mismatch.
-                                                                 <0101>      Linked instruction address mismatch.
-                                                                 <1000>      Unlinked VMID match.
-                                                                 <1001>      Linked VMID match.
-                                                                 <1010>      Unlinked VMID and context ID match.
-                                                                 <1011>      Linked VMID and context ID match. */
+                                                                 \<0000\>      Unlinked instruction address match.
+                                                                 \<0001\>      Linked instruction address match.
+                                                                 \<0010\>      Unlinked context ID match.
+                                                                 \<0011\>      Linked context ID match
+                                                                 \<0100\>      Unlinked instruction address mismatch.
+                                                                 \<0101\>      Linked instruction address mismatch.
+                                                                 \<1000\>      Unlinked VMID match.
+                                                                 \<1001\>      Linked VMID match.
+                                                                 \<1010\>      Unlinked VMID and context ID match.
+                                                                 \<1011\>      Linked VMID and context ID match. */
 		uint32_t lbn                         : 4;  /**< R/W - Linked breakpoint number. For Linked address matching
                                                                  breakpoints, this specifies the index of the Context-matching
                                                                  breakpoint linked to. */
@@ -236,17 +236,17 @@ typedef union bdk_dbgx_dbgbcrx_el1 {
                                                                  For Address match breakpoints in either AArch32 or AArch64
                                                                      state:
                                                                  BAS Match instruction at    Constraint for debuggers
-                                                                 0b0011       DBGBVR<n>_EL1  Use for T32 and T32EE instructions.
-                                                                 0b1100       DBGBVR<n>_EL1+2        Use for T32 and T32EE instructions.
-                                                                 0b1111       DBGBVR<n>_EL1  Use for A64 and A32 instructions.
+                                                                 0b0011       DBGBVR\<n\>_EL1  Use for T32 and T32EE instructions.
+                                                                 0b1100       DBGBVR\<n\>_EL1+2        Use for T32 and T32EE instructions.
+                                                                 0b1111       DBGBVR\<n\>_EL1  Use for A64 and A32 instructions.
                                                                  0b0000
                                                                  For Address mismatch breakpoints in an AArch32 stage 1
                                                                      translation regime:
                                                                  BAS Step instruction at     Constraint for debuggers
                                                                  0b0000      -       Use for a match anywhere breakpoint.
-                                                                 0b0011       DBGBVR<n>_EL1  Use for stepping T32 and T32EE instructions.
-                                                                 0b1100       DBGBVR<n>_EL1+2        Use for stepping T32 and T32EE instructions.
-                                                                 0b1111       DBGBVR<n>_EL1  Use for stepping A64 and A32 instructions.
+                                                                 0b0011       DBGBVR\<n\>_EL1  Use for stepping T32 and T32EE instructions.
+                                                                 0b1100       DBGBVR\<n\>_EL1+2        Use for stepping T32 and T32EE instructions.
+                                                                 0b1111       DBGBVR\<n\>_EL1  Use for stepping A64 and A32 instructions.
                                                                  For Context matching breakpoints, this field is RES1 and
                                                                      ignored. */
 		uint32_t reserved_3_4                : 2;
@@ -256,9 +256,9 @@ typedef union bdk_dbgx_dbgbcrx_el1 {
                                                                  and HMC fields. Possible values are summarised in the
                                                                  "Processor state matching" section of the Debug specification
                                                                  (PRD03-PRDC-010486). */
-		uint32_t en                          : 1;  /**< R/W - Enable breakpoint DBGBVR<n>_EL1. Possible values are:
-                                                                 <0> Breakpoint disabled.
-                                                                 <1> Breakpoint enabled. */
+		uint32_t en                          : 1;  /**< R/W - Enable breakpoint DBGBVR\<n\>_EL1. Possible values are:
+                                                                 \<0\> Breakpoint disabled.
+                                                                 \<1\> Breakpoint enabled. */
 #else
 		uint32_t en                          : 1;
 		uint32_t pmc                         : 2;
@@ -964,19 +964,19 @@ typedef union bdk_dbgx_eddevid {
 		uint32_t auxregs                     : 4;  /**< RO - Indicates support for Auxiliary registers. Permitted values
                                                                      for this field are:
                                                                  All other values are reserved.
-                                                                 <0000>      None supported.
-                                                                 <0001>      Support for External Debug Auxiliary Control Register, EDACR. */
+                                                                 \<0000\>      None supported.
+                                                                 \<0001\>      Support for External Debug Auxiliary Control Register, EDACR. */
 		uint32_t reserved_4_23               : 20;
 		uint32_t pcsample                    : 4;  /**< RO - PCsample field.
                                                                  Indicates the level of Sample-based profiling support using
                                                                      external debug registers 40 through 43. Permitted values of
                                                                      this field in v8-A are:
                                                                  All other values are reserved.
-                                                                 <0000>      Architecture-defined form of Sample-based profiling not
+                                                                 \<0000\>      Architecture-defined form of Sample-based profiling not
                                                                      implemented.
-                                                                 <0010>       EDPCSR and EDCIDSR are implemented (only permitted if EL3 and
+                                                                 \<0010\>       EDPCSR and EDCIDSR are implemented (only permitted if EL3 and
                                                                      EL2 are not implemented).
-                                                                 <0011>       EDPCSR, EDCIDSR, and EDVIDSR are implemented. */
+                                                                 \<0011\>       EDPCSR, EDCIDSR, and EDVIDSR are implemented. */
 #else
 		uint32_t pcsample                    : 4;
 		uint32_t reserved_4_23               : 20;
@@ -1018,8 +1018,8 @@ typedef union bdk_dbgx_eddevid1 {
                                                                  This field indicates the offset applied to PC samples returned
                                                                      by reads of EDPCSR. Permitted values of this field in v8-A
                                                                      are:
-                                                                 <0000>       EDPCSR not implemented.
-                                                                 <0010>       EDPCSR implemented, and samples have no offset applied and do
+                                                                 \<0000\>       EDPCSR not implemented.
+                                                                 \<0010\>       EDPCSR implemented, and samples have no offset applied and do
                                                                      not sample the instruction set state in AArch32 state. */
 #else
 		uint32_t pcsroffset                  : 4;
@@ -1191,21 +1191,21 @@ typedef union bdk_dbgx_edeccr {
 		uint32_t nse                         : 4;  /**< R/W - Coarse-grained Non-secure exception catch. Possible values of
                                                                      this field are:
                                                                  All other values are reserved. Bits [7,4] are reserved, RAZ.
-                                                                 <0000>      Exception catch debug event disabled for Non-secure exception
+                                                                 \<0000\>      Exception catch debug event disabled for Non-secure exception
                                                                      levels.
-                                                                 <0010>      Exception catch debug event enabled for Non-secure EL1.
-                                                                 <0100>      Exception catch debug event enabled for Non-secure EL2.
-                                                                 <0110>      Exception catch debug event enabled for Non-secure EL1 and
+                                                                 \<0010\>      Exception catch debug event enabled for Non-secure EL1.
+                                                                 \<0100\>      Exception catch debug event enabled for Non-secure EL2.
+                                                                 \<0110\>      Exception catch debug event enabled for Non-secure EL1 and
                                                                      EL2. */
 		uint32_t se                          : 4;  /**< R/W - Coarse-grained Secure exception catch. Possible values of this
                                                                      field are:
                                                                  All other values are reserved. Bits [2,0] are reserved. RAZ.
                                                                      Ignored if ExternalSecureInvasiveDebugEnabled() == FALSE.
-                                                                 <0000>      Exception catch debug event disabled for Secure exception
+                                                                 \<0000\>      Exception catch debug event disabled for Secure exception
                                                                      levels.
-                                                                 <0010>      Exception catch debug event enabled for Secure EL1.
-                                                                 <1000>      Exception catch debug event enabled for Secure EL3.
-                                                                 <1010>      Exception catch debug event enabled for Secure EL1 and EL3. */
+                                                                 \<0010\>      Exception catch debug event enabled for Secure EL1.
+                                                                 \<1000\>      Exception catch debug event enabled for Secure EL3.
+                                                                 \<1010\>      Exception catch debug event enabled for Secure EL1 and EL3. */
 #else
 		uint32_t se                          : 4;
 		uint32_t nse                         : 4;
@@ -1244,14 +1244,14 @@ typedef union bdk_dbgx_edecr {
 		uint32_t ss                          : 1;  /**< R/W - Halting step enable. Possible values of this field are:
                                                                  If the value of EDECR.SS is changed when the processor is in
                                                                      Non-debug state, the resulting value of EDECR.SS is UNKNOWN.
-                                                                 <0> Halting step debug event disabled.
-                                                                 <1> Halting step debug event enabled. */
+                                                                 \<0\> Halting step debug event disabled.
+                                                                 \<1\> Halting step debug event enabled. */
 		uint32_t rce                         : 1;  /**< R/W - Reset catch enable. Possible values of this field are:
-                                                                 <0> Reset catch debug event disabled.
-                                                                 <1> Reset catch debug event enabled. */
+                                                                 \<0\> Reset catch debug event disabled.
+                                                                 \<1\> Reset catch debug event enabled. */
 		uint32_t osuce                       : 1;  /**< R/W - OS unlock catch enabled. Possible values of this field are:
-                                                                 <0> OS unlock catch debug event disabled.
-                                                                 <1> OS unlock catch debug event enabled. */
+                                                                 \<0\> OS unlock catch debug event disabled.
+                                                                 \<1\> OS unlock catch debug event enabled. */
 #else
 		uint32_t osuce                       : 1;
 		uint32_t rce                         : 1;
@@ -1290,21 +1290,21 @@ typedef union bdk_dbgx_edesr {
 		uint32_t reserved_3_31               : 29;
 		uint32_t ss                          : 1;  /**< R/W - Halting step debug event pending. Possible values of this
                                                                      field are:
-                                                                 <0> Reading this means that a Halting step debug event is not
+                                                                 \<0\> Reading this means that a Halting step debug event is not
                                                                      pending. Writing this means no action.
-                                                                 <1> Reading this means that a Halting step debug event is pending.
+                                                                 \<1\> Reading this means that a Halting step debug event is pending.
                                                                      Writing this clears the pending Halting step debug event. */
 		uint32_t rc                          : 1;  /**< R/W - Reset catch debug event pending. Possible values of this field
                                                                      are:
-                                                                 <0> Reading this means that a Reset catch debug event is not
+                                                                 \<0\> Reading this means that a Reset catch debug event is not
                                                                      pending. Writing this means no action.
-                                                                 <1> Reading this means that a Reset catch debug event is pending.
+                                                                 \<1\> Reading this means that a Reset catch debug event is pending.
                                                                      Writing this clears the pending Reset catch debug event. */
 		uint32_t osuc                        : 1;  /**< R/W - OS unlock debug event pending. Possible values of this field
                                                                      are:
-                                                                 <0> Reading this means that an OS unlock catch debug event is not
+                                                                 \<0\> Reading this means that an OS unlock catch debug event is not
                                                                      pending. Writing this means no action.
-                                                                 <1> Reading this means that an OS unlock catch debug event is
+                                                                 \<1\> Reading this means that an OS unlock catch debug event is
                                                                      pending. Writing this clears the pending OS unlock catch debug
                                                                      event. */
 #else
@@ -1463,16 +1463,16 @@ typedef union bdk_dbgx_edlsr {
                                                                      is not implemented, this field is RAZ.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
-                                                                 <0> Lock clear. Writes are permitted to this component's
+                                                                 \<0\> Lock clear. Writes are permitted to this component's
                                                                      registers.
-                                                                 <1> Lock set. Writes to this component's registers are ignored,
+                                                                 \<1\> Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
 		uint32_t sli                         : 1;  /**< RO - Software lock implemented for CNXXXX. For an access to LSR that is not a
                                                                      memory-mapped access, this field is RAZ. For memory-mapped
                                                                      accesses, the value of this field is IMPLEMENTATION DEFINED.
                                                                      Permitted values are:
-                                                                 <0> Software lock not implemented or not memory-mapped access.
-                                                                 <1> Software lock implemented and memory-mapped access. */
+                                                                 \<0\> Software lock not implemented or not memory-mapped access.
+                                                                 \<1\> Software lock implemented and memory-mapped access. */
 #else
 		uint32_t sli                         : 1;
 		uint32_t slk                         : 1;
@@ -1647,7 +1647,7 @@ typedef union bdk_dbgx_edpidr0 {
 	struct bdk_dbgx_edpidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t part_0                      : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::DBG. */
+		uint32_t part_0                      : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::DBG. */
 #else
 		uint32_t part_0                      : 8;
 		uint32_t reserved_8_31               : 24;
@@ -1682,8 +1682,8 @@ typedef union bdk_dbgx_edpidr1 {
 	struct bdk_dbgx_edpidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t part_1                      : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t part_1                      : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t part_1                      : 4;
 		uint32_t des_0                       : 4;
@@ -1721,7 +1721,7 @@ typedef union bdk_dbgx_edpidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t revision                    : 4;  /**< RO - Architectural revision. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t des_1                       : 3;
 		uint32_t jedec                       : 1;
@@ -1796,7 +1796,7 @@ typedef union bdk_dbgx_edpidr4 {
 	struct bdk_dbgx_edpidr4_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t size                        : 4;  /**< RO - Size of the component. RAZ. Log<sub>2</sub> of the number of
+		uint32_t size                        : 4;  /**< RO - Size of the component. RAZ. Log\<sub\>2\</sub\> of the number of
                                                                  4KB pages from the start of the component to the end of the
                                                                  component ID registers. */
 		uint32_t des_2                       : 4;  /**< RO - JEP106 continuation code, least significant nibble. Indicates Cavium. */
@@ -1947,8 +1947,8 @@ typedef union bdk_dbgx_edprcr {
                                                                      powered off.
                                                                  The power controller must not allow the Core power domain to
                                                                      switch off while this bit is one.
-                                                                 <0> No effect.
-                                                                 <1> Request the power controller to powerup the core. */
+                                                                 \<0\> No effect.
+                                                                 \<1\> Request the power controller to powerup the core. */
 		uint32_t reserved_2_2                : 1;
 		uint32_t cwrr                        : 1;  /**< RO - Warm reset request. Write only bit that reads as zero. The
                                                                     actions on writing to this bit are:
@@ -1966,16 +1966,16 @@ typedef union bdk_dbgx_edprcr {
                                                                  OSLSR.OSLK == 1 (OS lock is locked).
                                                                  In an implementation that includes the recommended external
                                                                     debug interface, this bit drives the DBGRSTREQ signal.
-                                                                 <0> No action.
-                                                                 <1> Request Warm reset. */
+                                                                 \<0\> No action.
+                                                                 \<1\> Request Warm reset. */
 		uint32_t corenpdrq                   : 1;  /**< RO - Core no powerdown request. Requests emulation of powerdown.
                                                                      Possible values of this bit are:
                                                                  For more information about emulation of powerdown, see section
                                                                      10.2 ("Emulating low-power states") of the ARMv8 Debug
                                                                      Specification, PRD03-PRDC-010486.
-                                                                 <0> On a powerdown request, the system powers down the Core power
+                                                                 \<0\> On a powerdown request, the system powers down the Core power
                                                                      domain.
-                                                                 <1> On a powerdown request, the system emulates powerdown of the
+                                                                 \<1\> On a powerdown request, the system emulates powerdown of the
                                                                      Core power domain. In this emulation mode the Core power
                                                                      domain is not actually powered down. */
 #else
@@ -2020,48 +2020,48 @@ typedef union bdk_dbgx_edprsr {
 		uint32_t reserved_12_31              : 20;
 		uint32_t sdr                         : 1;  /**< RO - Sticky debug restart. Set to 1 when the processor exits Debug
                                                                      state and cleared to 0 following reads of EDPRSR.
-                                                                 This bit is UNKNOWN on reads if either of EDPRSR.[DLK, R] is
+                                                                 This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> The processor has not restarted since EDPRSR was last read.
-                                                                 <1> The processor has restarted since EDPRSR was last read. */
+                                                                 \<0\> The processor has not restarted since EDPRSR was last read.
+                                                                 \<1\> The processor has restarted since EDPRSR was last read. */
 		uint32_t spmad                       : 1;  /**< RO - Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
-                                                                 This bit is UNKNOWN on reads if either of EDPRSR.[DLK, R] is
+                                                                 This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> No accesses to the external performance monitors registers
+                                                                 \<0\> No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 <1> At least one access to the external performance monitors
+                                                                 \<1\> At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
 		uint32_t epmad                       : 1;  /**< RO - External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
-                                                                     EDPRSR.[DLK, R] is 1, or EDPRSR.PU is zero.
-                                                                 <0> External performance monitors access enabled.
-                                                                 <1> External performance monitors access disabled. */
+                                                                     EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
+                                                                 \<0\> External performance monitors access enabled.
+                                                                 \<1\> External performance monitors access disabled. */
 		uint32_t sdad                        : 1;  /**< RO - Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
-                                                                 This bit is UNKNOWN on reads if either of EDPRSR.[DLK, R] is
+                                                                 This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 <0> No accesses to the external debug registers have failed since
+                                                                 \<0\> No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 <1> At least one access to the external debug registers has failed
+                                                                 \<1\> At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
 		uint32_t edad                        : 1;  /**< RO - External debug access disable status.
-                                                                 This bit is UNKNOWN on reads if either of EDPRSR.[DLK, R] is
+                                                                 This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 <0> External debug access enabled.
-                                                                 <1> External debug access disabled. */
+                                                                 \<0\> External debug access enabled.
+                                                                 \<1\> External debug access disabled. */
 		uint32_t dlk                         : 1;  /**< RO - OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
+                                                                 \<0\> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
                                                                      is in Debug state.
-                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
+                                                                 \<1\> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
                                                                      is in Non-debug state. */
 		uint32_t oslk                        : 1;  /**< RO - OS lock status bit. This bit is UNKNOWN on reads if either of
-                                                                 EDPRSR.[DLK, R] is 1 or EDPRSR.PU is zero. Otherwise, a read
+                                                                 EDPRSR.{DLK, R} is 1 or EDPRSR.PU is zero. Otherwise, a read
                                                                  returns the value of OSLSR_EL1.OSLK. */
 		uint32_t halted                      : 1;  /**< RO - Halted status bit. This bit is UNKNOWN on reads if EDPRSR.PU
                                                                  is zero, 1 if EDSCR.STATUS != 0x2. */
@@ -2070,15 +2070,15 @@ typedef union bdk_dbgx_edprsr {
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 <0> The non-debug logic of the processor is not in reset state and
+                                                                 \<0\> The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 <1> The non-debug logic of the processor is in reset state or has
+                                                                 \<1\> The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
 		uint32_t r                           : 1;  /**< RO - Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 <0> The non-debug logic of the processor is not in reset state.
-                                                                 <1> The non-debug logic of the processor is in reset state. */
+                                                                 \<0\> The non-debug logic of the processor is not in reset state.
+                                                                 \<1\> The non-debug logic of the processor is in reset state. */
 		uint32_t spd                         : 1;  /**< RO - Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
                                                                  This bit is set to 1 on Cold reset to indicate the state of
@@ -2119,18 +2119,18 @@ typedef union bdk_dbgx_edprsr {
                                                                   ARM recommends that an implementation make EDPRSR.SPD fixed
                                                                      RAO when in the power-down state, particularly if it does not
                                                                      support a low-power retention state.
-                                                                  <0> If the Core power domain is off (EDPRSR.PU is zero), it is not
+                                                                  \<0\> If the Core power domain is off (EDPRSR.PU is zero), it is not
                                                                      known whether the state of the debug registers in the Core
                                                                      power domain is lost. Otherwise, the Core power domain is on,
                                                                      and the state of the debug registers in the Core power domain
                                                                      has not been lost.
-                                                                  <1> The state of the debug registers in the Core power domain is
+                                                                  \<1\> The state of the debug registers in the Core power domain is
                                                                      lost. */
 		uint32_t pu                          : 1;  /**< RO - Core power-up status bit. Indicates whether the Core power
                                                                      domain debug registers can be accessed:
-                                                                 <0> Core is in a low-power or power-down state where the debug
+                                                                 \<0\> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 <1> Core is in a power-up state where the debug registers can be
+                                                                 \<1\> Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else
 		uint32_t pu                          : 1;
@@ -2184,18 +2184,18 @@ typedef union bdk_dbgx_edrcr {
                                                                      must be pending before the debugger sets this bit to 1.
                                                                  This feature is optional. If this feature is not implemented,
                                                                      writes to this bit are ignored.
-                                                                 <0> No action.
-                                                                 <1> Allow imprecise entry to Debug state, for example by canceling
+                                                                 \<0\> No action.
+                                                                 \<1\> Allow imprecise entry to Debug state, for example by canceling
                                                                      pending bus accesses. */
 		uint32_t cspa                        : 1;  /**< RO - Clear Sticky Pipeline Advance. This bit is used to clear the
                                                                      EDSCR.PipeAdv bit to 0. The actions on writing to this bit
                                                                      are:
-                                                                 <0> No action.
-                                                                 <1> Clear the EDSCR.PipeAdv bit to 0. */
+                                                                 \<0\> No action.
+                                                                 \<1\> Clear the EDSCR.PipeAdv bit to 0. */
 		uint32_t cse                         : 1;  /**< RO - Clear Sticky Error. Used to clear the EDSCR cumulative error
                                                                      bits to 0. The actions on writing to this bit are:
-                                                                 <0> No action.
-                                                                 <1> Clear the EDSCR.[TXU, RXO, ERR] bits, and, if the processor is
+                                                                 \<0\> No action.
+                                                                 \<1\> Clear the EDSCR.{TXU, RXO, ERR} bits, and, if the processor is
                                                                      in Debug state, the EDSCR.ITO bit, to 0. */
 		uint32_t reserved_0_1                : 2;
 #else
@@ -2264,12 +2264,12 @@ typedef union bdk_dbgx_edscr {
                                                                      event.
                                                                  If EL3 and EL2 are not implemented, INTdis[0] is RO and reads
                                                                      the same value as INTdis[1], meaning only the values0b000b11
-                                                                 <00>        Do not disable interrupts
-                                                                 <01>        Disable interrupts targeting Non-secure EL1.
-                                                                 <10>        Disable interrupts targeting only Non-secure EL1 and Non-
+                                                                 \<00\>        Do not disable interrupts
+                                                                 \<01\>        Disable interrupts targeting Non-secure EL1.
+                                                                 \<10\>        Disable interrupts targeting only Non-secure EL1 and Non-
                                                                      secure EL2. If external secure invasive debug is enabled, also
                                                                      disable interrupts targeting Secure EL1.
-                                                                 <11>        Disable interrupts targeting only Non-secure EL1 and Non-
+                                                                 \<11\>        Disable interrupts targeting only Non-secure EL1 and Non-
                                                                      secure EL2. If external secure invasive debug is enabled, also
                                                                      disable all other interrupts. */
 		uint32_t tda                         : 1;  /**< R/W - Trap debug registers accesses. */
@@ -2277,14 +2277,14 @@ typedef union bdk_dbgx_edscr {
                                                                      accessing EDITR and the DCC. This bit is ignored if in Non-
                                                                      debug state and set to zero on entry to Debug state.
                                                                  Possible values of this field are:
-                                                                 <0> Normal access mode
-                                                                 <1> Memory access mode. */
+                                                                 \<0\> Normal access mode
+                                                                 \<1\> Memory access mode. */
 		uint32_t reserved_19_19              : 1;
 		uint32_t non_secure                  : 1;  /**< R/W - Non-secure status. Read-only. When in Debug state, gives the
                                                                      current security state:
                                                                  In Non-debug state, this bit is UNKNOWN.
-                                                                 <0> Secure state, IsSecure() == TRUE
-                                                                 <1> Non-secure state, IsSecure() == FALSE. */
+                                                                 \<0\> Secure state, IsSecure() == TRUE
+                                                                 \<1\> Non-secure state, IsSecure() == FALSE. */
 		uint32_t reserved_17_17              : 1;
 		uint32_t sdd                         : 1;  /**< R/W - Secure debug disabled. This bit is RO.
                                                                  On entry to Debug state:
@@ -2305,8 +2305,8 @@ typedef union bdk_dbgx_edscr {
                                                                      secure, this bit is RES1. */
 		uint32_t reserved_15_15              : 1;
 		uint32_t hde                         : 1;  /**< R/W - Halting debug mode enable. Possible values of this bit are:
-                                                                 <0> Halting debug mode disabled.
-                                                                 <1> Halting debug mode enabled. */
+                                                                 \<0\> Halting debug mode disabled.
+                                                                 \<1\> Halting debug mode enabled. */
 		uint32_t rw                          : 4;  /**< R/W - Exception level register-width status. Read-only. In Debug
                                                                      state, each bit gives the current register width status of
                                                                      each EL:
@@ -2316,16 +2316,16 @@ typedef union bdk_dbgx_edscr {
                                                                      RW[2] == RW[1].
                                                                   If EL3 is not implemented: RW[3] == RW[2].
                                                                  In Non-debug state, this field is RAO.
-                                                                 <1111>      All exception levels are AArch64 state.
-                                                                 <1110>      EL0 is AArch32 state. All other exception levels are AArch64
+                                                                 \<1111\>      All exception levels are AArch64 state.
+                                                                 \<1110\>      EL0 is AArch32 state. All other exception levels are AArch64
                                                                      state.
-                                                                 <1100>      EL0 and EL1 are AArch32 state. All other exception levels are
+                                                                 \<1100\>      EL0 and EL1 are AArch32 state. All other exception levels are
                                                                      AArch64 state. Never seen if EL2 is not implemented in the
                                                                      current security state.
-                                                                 <1000>      EL0, EL1, and, if implemented in the current security state,
+                                                                 \<1000\>      EL0, EL1, and, if implemented in the current security state,
                                                                      EL2 are AArch32 state. All other exception levels are AArch64
                                                                      state.
-                                                                 <0000>      All exception levels are set to AArch32 state (32-bit
+                                                                 \<0000\>      All exception levels are set to AArch32 state (32-bit
                                                                      configuration). */
 		uint32_t el                          : 2;  /**< R/W - Exception level. Read-only. In Debug state, this gives the
                                                                      current EL of the processor.
@@ -2333,7 +2333,7 @@ typedef union bdk_dbgx_edscr {
 		uint32_t aa                          : 1;  /**< R/W - System Error interrupt (asynchronous abort) pending. Read-
                                                                      only. In Debug state, indicates whether a SError interrupt is
                                                                      pending:
-                                                                  If HCR_EL2.[AMO, TGE] = [1, 0] and in Non-secure EL0 or EL1,
+                                                                  If HCR_EL2.{AMO, TGE} = {1, 0} and in Non-secure EL0 or EL1,
                                                                      a virtual SError interrupt.
                                                                   Otherwise, a physical SError interrupt.
                                                                  A debugger can read EDSCR to check whether a SError interrupt
@@ -2341,27 +2341,27 @@ typedef union bdk_dbgx_edscr {
                                                                      pending SError might indicate data from target memory is
                                                                      corrupted.
                                                                   UNKNOWN in Non-debug state.
-                                                                 <0> No SError interrupt pending.
-                                                                 <1> SError interrupt pending. */
+                                                                 \<0\> No SError interrupt pending.
+                                                                 \<1\> SError interrupt pending. */
 		uint32_t errflg                      : 1;  /**< R/W - Cumulative error flag. This field is RO. It is set to 1
                                                                  following exceptions in Debug state and on any signaled
                                                                  overrun or underrun on the DTR or EDITR. */
 		uint32_t status                      : 6;  /**< R/W - Debug status flags. This field is RO.
                                                                  The possible values of this field are:
                                                                  All other values of STATUS are reserved.
-                                                                 <000010>    Processor is in Non-debug state.
-                                                                 <000001>    Processor is restarting (exiting Debug state).
-                                                                 <000111>    Breakpoint.
-                                                                 <010011>    External debug request.
-                                                                 <011011>    Halting step, normal.
-                                                                 <011111>    Halting step, exclusive.
-                                                                 <100011>    OS unlock catch.
-                                                                 <100111>    Reset catch.
-                                                                 <101011>    Watchpoint.
-                                                                 <101111>    HLT instruction.
-                                                                 <110011>    Software access to debug register.
-                                                                 <110111>    Exception catch.
-                                                                 <111011>    Halting step, no syndrome. */
+                                                                 \<000010\>    Processor is in Non-debug state.
+                                                                 \<000001\>    Processor is restarting (exiting Debug state).
+                                                                 \<000111\>    Breakpoint.
+                                                                 \<010011\>    External debug request.
+                                                                 \<011011\>    Halting step, normal.
+                                                                 \<011111\>    Halting step, exclusive.
+                                                                 \<100011\>    OS unlock catch.
+                                                                 \<100111\>    Reset catch.
+                                                                 \<101011\>    Watchpoint.
+                                                                 \<101111\>    HLT instruction.
+                                                                 \<110011\>    Software access to debug register.
+                                                                 \<110111\>    Exception catch.
+                                                                 \<111011\>    Halting step, no syndrome. */
 #else
 		uint32_t status                      : 6;
 		uint32_t errflg                      : 1;
@@ -2540,7 +2540,7 @@ typedef union bdk_dbgx_midr_el1 {
                                                                      that has been assigned by ARM. Assigned codes include the
                                                                      following:
 
-                                                                 <pre>
+                                                                 \<pre\>
                                                                  Hex    ASCII  Implementer
                                                                  0x41    A     ARM Limited
                                                                  0x42    B     Broadcom Corporation
@@ -2553,7 +2553,7 @@ typedef union bdk_dbgx_midr_el1 {
                                                                  0x51    Q     Qualcomm Inc.
                                                                  0x56    V     Marvell International Ltd.
                                                                  0x69    i     Intel Corporation
-                                                                 </pre>
+                                                                 \</pre\>
 
                                                                  ARM can assign codes that are not published in this manual.
                                                                      All values not assigned by ARM are reserved and must not be
@@ -2566,14 +2566,14 @@ typedef union bdk_dbgx_midr_el1 {
 		uint32_t architecture                : 4;  /**< RO - Architecure field.
                                                                  The permitted values of this field are:
                                                                  All other values are reserved.
-                                                                 <0001>      ARMv4
-                                                                 <0010>      ARMv4T
-                                                                 <0011>      ARMv5 (obsolete)
-                                                                 <0100>      ARMv5T
-                                                                 <0101>      ARMv5TE
-                                                                 <0110>      ARMv5TEJ
-                                                                 <0111>      ARMv6
-                                                                 <1111>      Defined by CPUID scheme */
+                                                                 \<0001\>      ARMv4
+                                                                 \<0010\>      ARMv4T
+                                                                 \<0011\>      ARMv5 (obsolete)
+                                                                 \<0100\>      ARMv5T
+                                                                 \<0101\>      ARMv5TE
+                                                                 \<0110\>      ARMv5TEJ
+                                                                 \<0111\>      ARMv6
+                                                                 \<1111\>      Defined by CPUID scheme */
 		uint32_t partnum                     : 12; /**< RO - Part number field.
                                                                  An implementation defined primary part number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */

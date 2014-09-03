@@ -235,22 +235,22 @@ typedef union bdk_mio_ptp_clock_cfg {
                                                                  1 = Invert. */
 		uint64_t ckout_en                    : 1;  /**< R/W - Enable PTP clock out. (For output pin selection see GPIO_BIT_CFG.) */
 		uint64_t evcnt_in                    : 6;  /**< R/W - Source for event counter input:
-                                                                 0x00-0x32 = GPIOn, where n is EVCNT_IN<4:0>.
+                                                                 0x00-0x32 = GPIOn, where n is EVCNT_IN\<4:0\>.
                                                                  0x33-0x37 = Reserved.
-                                                                 0x38-0x3F = QLMn_REF_CLK, where n is EVCNT_IN<3:0>.
+                                                                 0x38-0x3F = QLMn_REF_CLK, where n is EVCNT_IN\<3:0\>.
                                                                              Note that CCPI reference clocks cannot be selected. */
 		uint64_t evcnt_edge                  : 1;  /**< R/W - Event counter input edge: 0 = falling edge, 1 = rising edge */
 		uint64_t evcnt_en                    : 1;  /**< R/W - Enable event counter. */
 		uint64_t tstmp_in                    : 6;  /**< R/W - Source for timestamp input:
-                                                                 0x00-0x32 = GPIOn, where n is TSTMP_IN<4:0>.
+                                                                 0x00-0x32 = GPIOn, where n is TSTMP_IN\<4:0\>.
                                                                  0x33-0x37 = Reserved.
-                                                                 0x38-0x3F = QLMn_REF_CLK, where n is TSTMP_IN<3:0>. */
+                                                                 0x38-0x3F = QLMn_REF_CLK, where n is TSTMP_IN\<3:0\>. */
 		uint64_t tstmp_edge                  : 1;  /**< R/W - External timestamp input edge: 0 = falling edge, 1 = rising edge */
 		uint64_t tstmp_en                    : 1;  /**< R/W - Enable external timestamp. */
 		uint64_t ext_clk_in                  : 6;  /**< R/W - Source for external clock when EXT_CLK_EN is set:
-                                                                 0x00-0x32 = GPIOn, where n is EXT_CLK_IN<4:0>.
+                                                                 0x00-0x32 = GPIOn, where n is EXT_CLK_IN\<4:0\>.
                                                                  0x33-0x37 = Reserved.
-                                                                 0x38-0x3F = QLMn_REF_CLK, where n is EXT_CLK_IN<3:0>. */
+                                                                 0x38-0x3F = QLMn_REF_CLK, where n is EXT_CLK_IN\<3:0\>. */
 		uint64_t ext_clk_en                  : 1;  /**< R/W - Use external clock for PTP clock. */
 		uint64_t ptp_en                      : 1;  /**< R/W - Enable PTP module. */
 #else
@@ -329,7 +329,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_COMP_FUNC(void)
 /**
  * NCB - mio_ptp_clock_hi
  *
- * This register provides bits<95:32> of the PTP clock. Writes to MIO_PTP_CLOCK_HI also clear
+ * This register provides bits\<95:32\> of the PTP clock. Writes to MIO_PTP_CLOCK_HI also clear
  * MIO_PTP_CLOCK_LO. To update all 96 bits, write MIO_PTP_CLOCK_HI followed by MIO_PTP_CLOCK_LO.
  * MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before writing this register.
  */
@@ -337,7 +337,7 @@ typedef union bdk_mio_ptp_clock_hi {
 	uint64_t u;
 	struct bdk_mio_ptp_clock_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t nanosec                     : 64; /**< R/W/H - Clock value in nanoseconds. Bits<95:32> of the PTP clock. */
+		uint64_t nanosec                     : 64; /**< R/W/H - Clock value in nanoseconds. Bits\<95:32\> of the PTP clock. */
 #else
 		uint64_t nanosec                     : 64;
 #endif
@@ -362,7 +362,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_HI_FUNC(void)
 /**
  * NCB - mio_ptp_clock_lo
  *
- * This register provides bits<31:0> of the PTP clock.  MIO_PTP_CLOCK_CFG[PTP_EN] needs to be
+ * This register provides bits\<31:0\> of the PTP clock.  MIO_PTP_CLOCK_CFG[PTP_EN] needs to be
  * enabled before writing this register.
  */
 typedef union bdk_mio_ptp_clock_lo {
@@ -370,7 +370,7 @@ typedef union bdk_mio_ptp_clock_lo {
 	struct bdk_mio_ptp_clock_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t frnanosec                   : 32; /**< R/W/H - Fractions of nanoseconds. Bits<31:0> of the PTP clock. */
+		uint64_t frnanosec                   : 32; /**< R/W/H - Fractions of nanoseconds. Bits\<31:0\> of the PTP clock. */
 #else
 		uint64_t frnanosec                   : 32;
 		uint64_t reserved_32_63              : 32;

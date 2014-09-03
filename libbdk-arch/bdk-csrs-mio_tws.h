@@ -450,14 +450,14 @@ typedef union bdk_mio_twsx_sw_twsi {
 		uint64_t size                        : 3;  /**< R/W - Size minus one. Specifies the size in bytes of the master-mode operation if SOVR = 1. (0 =
                                                                  1 byte, 1 = 2 bytes, ... 7 = 8 bytes). */
 		uint64_t scr                         : 2;  /**< R/W - Scratch. Unused, but retain state. */
-		uint64_t addr                        : 10; /**< R/W - Address field. The address of the remote device for a master-mode operation. ADDR<9:7> are
+		uint64_t addr                        : 10; /**< R/W - Address field. The address of the remote device for a master-mode operation. ADDR\<9:7\> are
                                                                  only used for 10-bit addressing.
 
-                                                                 Note that when mastering a 7-bit OP, ADDR<6:0> should not take any of the values 0x78,
+                                                                 Note that when mastering a 7-bit OP, ADDR\<6:0\> should not take any of the values 0x78,
                                                                  0x79, 0x7A nor 0x7B. (These 7-bit addresses are reserved to extend to 10-bit addressing). */
 		uint64_t ia                          : 5;  /**< R/W - Internal Address. Used when launching a combined master-mode operation. The lower 3
                                                                  address bits are contained in EOP_IA. */
-		uint64_t eop_ia                      : 3;  /**< R/W - Extra opcode, used when OP<3:0> = 0x6 and SLONLY = 0.
+		uint64_t eop_ia                      : 3;  /**< R/W - Extra opcode, used when OP\<3:0\> = 0x6 and SLONLY = 0.
                                                                  0x0 = TWSI slave address register (TWSI_SLAVE_ADD).
                                                                  0x1 = TWSI data register (TWSI_DATA).
                                                                  0x2 = TWSI control register (TWSI_CTL).

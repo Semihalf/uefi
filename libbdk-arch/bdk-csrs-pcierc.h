@@ -119,7 +119,7 @@ typedef union bdk_pciercx_cfg001 {
 		uint32_t reserved_11_18              : 8;
 		uint32_t i_dis                       : 1;  /**< R/W - INTx assertion disable. */
 		uint32_t fbbe                        : 1;  /**< RO - Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
-		uint32_t see                         : 1;  /**< R/W - SERR# enable. */
+		uint32_t see                         : 1;  /**< R/W - SERR\# enable. */
 		uint32_t ids_wcc                     : 1;  /**< RO - IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
 		uint32_t per                         : 1;  /**< R/W - Parity error response. */
 		uint32_t vps                         : 1;  /**< RO - VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
@@ -1806,13 +1806,13 @@ typedef union bdk_pciercx_cfg039 {
 		uint32_t slsv                        : 7;  /**< RO/WRSL - Supported link speeds vector. Indicates the supported link speeds of the associated port.
                                                                  For each bit, a value of 1b indicates that the corresponding link speed is supported;
                                                                  otherwise, the link speed is not supported. Bit definitions are:
-                                                                 _ Bit <1> = 2.5 GT/s.
+                                                                 _ Bit \<1\> = 2.5 GT/s.
 
-                                                                 _ Bit <2> = 5.0 GT/s.
+                                                                 _ Bit \<2\> = 5.0 GT/s.
 
-                                                                 _ Bit <3> = 8.0 GT/s (not supported).
+                                                                 _ Bit \<3\> = 8.0 GT/s (not supported).
 
-                                                                 _ Bits <7:4> are reserved.
+                                                                 _ Bits \<7:4\> are reserved.
 
                                                                  The reset value of this field is controlled by the value read from PEM()_CFG[MD].
 
@@ -2046,7 +2046,7 @@ typedef union bdk_pciercx_cfg044 {
                                                                  per-vector mask bits. */
 		uint32_t reserved_27_29              : 3;
 		uint32_t msixts                      : 11; /**< RO/WRSL/H - MSI-X table size encoded as (table size - 1). */
-		uint32_t ncp                         : 8;  /**< RO/WRSL - "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
+		uint32_t ncp                         : 8;  /**< RO/WRSL - "Next capability pointer. Writable through PEM\#_CFG_WR. However, the application must not
                                                                  change this field." */
 		uint32_t msixcid                     : 8;  /**< RO/H - MSI-X capability ID. */
 #else
@@ -3441,7 +3441,7 @@ typedef union bdk_pciercx_cfg452 {
 		uint32_t reserved_4_4                : 1;
 		uint32_t ra                          : 1;  /**< R/W - Reset assert. Triggers a recovery and forces the LTSSM to the hot reset state (downstream
                                                                  port only). */
-		uint32_t le                          : 1;  /**< R/W - Loopback enable. Initiate loopback mode as a master. On a 0->1 transition, the PCIe core
+		uint32_t le                          : 1;  /**< R/W - Loopback enable. Initiate loopback mode as a master. On a 0-\>1 transition, the PCIe core
                                                                  sends TS ordered sets with the loopback bit set to cause the link partner to enter into
                                                                  loopback mode as a slave. Normal transmission is not possible when LE=1. To exit loopback
                                                                  mode, take the link through a reset sequence. */

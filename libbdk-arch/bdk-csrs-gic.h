@@ -61,8 +61,8 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * Enumeration GITS_CMD_ERR_E
  *
  * ITS Command Error Enumeration
- * The actual 24-bit ITS command SEI is defined as [8'h01,
- * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)]
+ * The actual 24-bit ITS command SEI is defined as {8'h01,
+ * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}
  */
 enum gits_cmd_err_e {
 	GITS_CMD_ERR_E_CSEI_COLLECTION_OOR = 0x3,
@@ -295,8 +295,8 @@ union gits_cmd_mapd_s {
                                                                  this command un-maps the specified device and translation request from that
                                                                  device will be discarded. */
 		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
-		uint64_t itta                        : 40; /**< [175:136] ITT address specifies bits <47:8> of the physical address of the interrupt
-                                                                 translation table. Bits <7:0> of the physical address are zero. */
+		uint64_t itta                        : 40; /**< [175:136] ITT address specifies bits \<47:8\> of the physical address of the interrupt
+                                                                 translation table. Bits \<7:0\> of the physical address are zero. */
 		uint64_t reserved_128_135            : 8;  /**< [135:128] Reserved. */
 		uint64_t reserved_69_127             : 59; /**< [127: 69] Reserved. */
 		uint64_t size                        : 5;  /**< [ 68: 64] the number of bits of interrupt ID supported for this device, minus one. */
@@ -586,10 +586,10 @@ typedef union bdk_gic_ecc_ctlr {
 	struct bdk_gic_ecc_ctlr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
-		uint64_t ram_flip1                   : 9;  /**< SR/W - Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
+		uint64_t ram_flip1                   : 9;  /**< SR/W - Flip syndrome bits on write. Flip syndrome bits \<1\> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. See COR_DIS bit definitions. */
 		uint64_t reserved_29_39              : 11;
-		uint64_t ram_flip0                   : 9;  /**< SR/W - Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
+		uint64_t ram_flip0                   : 9;  /**< SR/W - Flip syndrome bits on write. Flip syndrome bits \<0\> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. See COR_DIS bit definitions. */
 		uint64_t reserved_9_19               : 11;
 		uint64_t cor_dis                     : 9;  /**< SR/W - RAM ECC correction disable. INTERNAL: for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
@@ -1491,7 +1491,7 @@ typedef union bdk_gicd_pidr0 {
 	struct bdk_gicd_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GICD. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GICD. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -1522,8 +1522,8 @@ typedef union bdk_gicd_pidr1 {
 	struct bdk_gicd_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -1557,7 +1557,7 @@ typedef union bdk_gicd_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t archrev                     : 4;  /**< RO - Architectural revision. 0x1 = GICv1; 0x2 = GICV2; 0x3 = GICv3; 0x4 = GICv4; 0x5-0xF = Reserved. */
 		uint32_t usesjepcode                 : 1;  /**< RO - JEDEC assigned. */
-		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t jepid                       : 3;
 		uint32_t usesjepcode                 : 1;
@@ -2690,7 +2690,7 @@ typedef union bdk_gicrx_movallr {
 	uint64_t u;
 	struct bdk_gicrx_movallr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t pa                          : 32; /**< WO - Target address <47:16>. Base address of the redistributor to which pending LPIs are to be
+		uint64_t pa                          : 32; /**< WO - Target address \<47:16\>. Base address of the redistributor to which pending LPIs are to be
                                                                  moved.
                                                                  If GICR_CTLR[ENABLE_LPIS] is zero, the write has no effect. */
 		uint64_t reserved_0_31               : 32;
@@ -2724,7 +2724,7 @@ typedef union bdk_gicrx_movlpir {
 	uint64_t u;
 	struct bdk_gicrx_movlpir_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t pa                          : 32; /**< WO - Target address <47:16>. Base address of the redistributor to which the physical LPI is to
+		uint64_t pa                          : 32; /**< WO - Target address \<47:16\>. Base address of the redistributor to which the physical LPI is to
                                                                  be moved. */
 		uint64_t pid                         : 32; /**< WO - Physical LPI ID to be moved to the redistributor at [PA]. If the LPI with this
                                                                  PID is unimplemented, the write has no effect.
@@ -2802,7 +2802,7 @@ typedef union bdk_gicrx_pendbaser {
 		uint64_t pending_table_zero          : 1;  /**< WO - 0 = The coarse-grained map for the LPI pending table is valid.
                                                                  1 = The pending table has been zeroed out. */
 		uint64_t reserved_48_61              : 14;
-		uint64_t pa                          : 32; /**< R/W - Physical address bits <46:16> for the LPI pending table. */
+		uint64_t pa                          : 32; /**< R/W - Physical address bits \<46:16\> for the LPI pending table. */
 		uint64_t reserved_0_15               : 16;
 #else
 		uint64_t reserved_0_15               : 16;
@@ -2838,7 +2838,7 @@ typedef union bdk_gicrx_pidr0 {
 	struct bdk_gicrx_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GICR. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GICR. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -2870,8 +2870,8 @@ typedef union bdk_gicrx_pidr1 {
 	struct bdk_gicrx_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -2906,7 +2906,7 @@ typedef union bdk_gicrx_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t archrev                     : 4;  /**< RO - Architectural revision. 0x1 = GICv1; 0x2 = GICV2; 0x3 = GICv3; 0x4 = GICv4; 0x5-0xF = Reserved. */
 		uint32_t usesjepcode                 : 1;  /**< RO - JEDEC assigned. */
-		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t jepid                       : 3;
 		uint32_t usesjepcode                 : 1;
@@ -3099,7 +3099,7 @@ typedef union bdk_gicrx_propbaser {
 	struct bdk_gicrx_propbaser_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t pa                          : 36; /**< R/W - Physical address bits <46:12> for the LPI configuration table. */
+		uint64_t pa                          : 36; /**< R/W - Physical address bits \<46:12\> for the LPI configuration table. */
 		uint64_t reserved_5_11               : 7;
 		uint64_t num_bits                    : 5;  /**< R/W - The number of bits of LPI ID supported, minus one. If this value exceeds the value of
                                                                  GICD_TYPER[IDBITS], then the number of bits must be treated as the value defined by
@@ -3498,10 +3498,10 @@ typedef union bdk_gits_baserx {
                                                                  pointers to pages that are used to
                                                                      store the data associated with each table entry.  Each 64-bit pointer has the
                                                                  following format:
-                                                                       * Bits<63>    = Valid.
-                                                                       * Bits<62:48> = Reserved.
-                                                                       * Bits<47:N>  = Physical address.
-                                                                       * Bits<N-1:0> = Reserved.
+                                                                       * Bits\<63\>    = Valid.
+                                                                       * Bits\<62:48\> = Reserved.
+                                                                       * Bits\<47:N\>  = Physical address.
+                                                                       * Bits\<N-1:0\> = Reserved.
 
                                                                  Note: The value of N and the size of all these pages is determined from the
                                                                  page size field. */
@@ -3528,8 +3528,8 @@ typedef union bdk_gits_baserx {
 		uint64_t entry_size                  : 8;  /**< RO - This field is read-only and specifies the number of bytes per entry, minus one. */
 		uint64_t arsvd                       : 6;  /**< R/W - Reserved and must be zero. This field will be ignored if not zero. */
 		uint64_t physical_address            : 30; /**< R/W - Physical address of the table. If the type field is zero this field is RAZ/WI. This field
-                                                                 provided bits <47:12> of the base physical address of the table.
-                                                                 Bits <11:0> of the base physical address are zero when page size is 4KB. Bits <15:12> of
+                                                                 provided bits \<47:12\> of the base physical address of the table.
+                                                                 Bits \<11:0\> of the base physical address are zero when page size is 4KB. Bits \<15:12\> of
                                                                  the base physical address are also zero when page size is 64KB. */
 		uint64_t shareability                : 2;  /**< RO - Shareability attribute:
                                                                  0x0 = Accesses are non-shareable.
@@ -3636,8 +3636,8 @@ typedef union bdk_gits_cbaser {
                                                                  In CNXXXX not implemented, ignored. */
 		uint64_t reserved_48_58              : 11;
 		uint64_t arsvd                       : 6;  /**< R/W - Reserved and must be zero. This field will be ignored if not zero. */
-		uint64_t physical_address            : 30; /**< R/W - Physical address. Provides bits <47:12> of the physical address of the memory
-                                                                 containing the command queue. Bits <11:0> of the base address of the queue are
+		uint64_t physical_address            : 30; /**< R/W - Physical address. Provides bits \<47:12\> of the physical address of the memory
+                                                                 containing the command queue. Bits \<11:0\> of the base address of the queue are
                                                                  zero. */
 		uint64_t shareability                : 2;  /**< RO - Shareability attribute:
                                                                  0x0 = Accesses are non-shareable.
@@ -3648,7 +3648,7 @@ typedef union bdk_gits_cbaser {
                                                                  In CNXXXX not implemented, ignored. */
 		uint64_t reserved_8_9                : 2;
 		uint64_t size                        : 8;  /**< R/W - The number of 4kB pages of physical memory provided for the command queue, minus one.
-                                                                 The command queue is a circular buffer and wraps at physical address <47:0> + (4096 *
+                                                                 The command queue is a circular buffer and wraps at physical address \<47:0\> + (4096 *
                                                                  (SIZE+1)).
                                                                  Note: when GITS_CBASER is written, the value of GITS_CREADR is set to zero. See GIC
                                                                  spec for details on the ITS initialization sequence. */
@@ -3820,8 +3820,8 @@ typedef union bdk_gits_creadr {
 	struct bdk_gits_creadr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
-		uint64_t offset                      : 15; /**< RO/H - Offset. Provides bits <19:5> of the offset from GITS_CBASER where the ITS will
-                                                                 read the next command. Bits <4:0> of the offset are zero. */
+		uint64_t offset                      : 15; /**< RO/H - Offset. Provides bits \<19:5\> of the offset from GITS_CBASER where the ITS will
+                                                                 read the next command. Bits \<4:0\> of the offset are zero. */
 		uint64_t reserved_0_4                : 5;
 #else
 		uint64_t reserved_0_4                : 5;
@@ -3912,8 +3912,8 @@ typedef union bdk_gits_cwriter {
 	struct bdk_gits_cwriter_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
-		uint64_t offset                      : 15; /**< R/W - Offset. Provides bits <19:5> of the offset from GITS_CBASER where software will
-                                                                 write the next command. Bits <4:0> of the offset are zero. */
+		uint64_t offset                      : 15; /**< R/W - Offset. Provides bits \<19:5\> of the offset from GITS_CBASER where software will
+                                                                 write the next command. Bits \<4:0\> of the offset are zero. */
 		uint64_t reserved_0_4                : 5;
 #else
 		uint64_t reserved_0_4                : 5;
@@ -3998,8 +3998,8 @@ typedef union bdk_gits_imp_cseir {
 		uint64_t cwriter_oor                 : 1;  /**< RO/H - When set, it means command write pointer is out of range. */
 		uint64_t m                           : 1;  /**< RO/H - When set, it means multiple command errors have happened. */
 		uint64_t reserved_17_23              : 7;
-		uint64_t v                           : 1;  /**< R/W1C/H - When set, the command error is valid. For meaning/encoding of [7'b0, V, CMD,
-                                                                 ERROR], please see ITS Command error encodings in the GIC specfication. Writing
+		uint64_t v                           : 1;  /**< R/W1C/H - When set, the command error is valid. For meaning/encoding of {7'b0, V, CMD,
+                                                                 ERROR}, please see ITS Command error encodings in the GIC specfication. Writing
                                                                  1 to this field, will clear the whole register. */
 		uint64_t cmd                         : 8;  /**< RO/H - Type field of first ITS command that has the error. */
 		uint64_t error                       : 8;  /**< RO/H - Error code for the first error. */
@@ -4087,7 +4087,7 @@ typedef union bdk_gits_pidr0 {
 	struct bdk_gits_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::GITS. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::GITS. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -4118,8 +4118,8 @@ typedef union bdk_gits_pidr1 {
 	struct bdk_gits_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -4153,7 +4153,7 @@ typedef union bdk_gits_pidr2 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t archrev                     : 4;  /**< RO - Architectural revision. 0x1 = GICv1; 0x2 = GICV2; 0x3 = GICv3; 0x4 = GICv4; 0x5-0xF = Reserved. */
 		uint32_t usesjepcode                 : 1;  /**< RO - JEDEC assigned. */
-		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t jepid                       : 3;
 		uint32_t usesjepcode                 : 1;
@@ -4363,8 +4363,8 @@ typedef union bdk_gits_translater {
 		uint32_t int_id                      : 32; /**< WO/H - Interrupt ID. The ID of interrupt to be translated for the requesting device. Note: the
                                                                  number of interrupt identifier bits is defined by GITS_TYPER[IDBITS]. Non-zero identifier
                                                                  bits outside this range are ignored.
-                                                                 Note: 16 bit access to bits <15:0> of this register must be supported. When written by a
-                                                                 16 bit transaction, bits <31:16> are written as zero. This register can not be accessed by
+                                                                 Note: 16 bit access to bits \<15:0\> of this register must be supported. When written by a
+                                                                 16 bit transaction, bits \<31:16\> are written as zero. This register can not be accessed by
                                                                  CPU. */
 #else
 		uint32_t int_id                      : 32;
@@ -4410,7 +4410,7 @@ typedef union bdk_gits_typer {
                                                                  1 = Target addresses correspond to the base physical address of re-distributors. */
 		uint32_t seis                        : 1;  /**< RO - Locally generated system error interrupts supported. */
 		uint32_t devbits                     : 5;  /**< RO - The number of device identifier bits supported, minus one. The 21-its device ID is defined
-                                                                 as [node_id[1:0], iob_id[2:0], stream_id[15:0]]. */
+                                                                 as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
 		uint32_t idbits                      : 5;  /**< RO - The number of interrupt identifier bits supported, minus one. */
 		uint32_t itte_size                   : 4;  /**< RO - ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
                                                                  bytes (32-bit). */

@@ -688,29 +688,29 @@ typedef union bdk_slix_mem_ctl {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_30_63              : 34;
 		uint64_t ctl                         : 30; /**< R/W - Control memory ECC functionality.
-                                                                 <29>    = Correction Disable for csr_region_mem_csr_cor_dis.
-                                                                 <28:29> = Flip Syndrome for csr_region_mem_csr_flip_synd.
+                                                                 \<29\>    = Correction Disable for csr_region_mem_csr_cor_dis.
+                                                                 \<28:29\> = Flip Syndrome for csr_region_mem_csr_flip_synd.
 
-                                                                 <26>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
-                                                                 <25:24> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
-                                                                 <23>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
-                                                                 <22:21> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
-                                                                 <20>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
-                                                                 <19:18> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 \<26\>    = Correction Disable for sndf\<h,l\>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 \<25:24\> = Flip Syndrome for sndf\<h,l\>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 \<23\>    = Correction Disable for sndf\<h,l\>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 \<22:21\> = Flip Syndrome for sndf\<h,l\>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 \<20\>    = Correction Disable for sndf\<h,l\>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 \<19:18\> = Flip Syndrome for sndf\<h,l\>2_ffifo, sncf2_ffifo_csr_flip_synd.
 
-                                                                 <17>    = Correction Disable for cpl0_fifo_csr_cor_dis.
-                                                                 <16:15> = Flip Syndrome for cpl0_fifo_csr_flip_synd.
-                                                                 <14>    = Correction Disable for cpl1_fifo_csr_cor_dis.
-                                                                 <13:12> = Flip Syndrome for cpl1_fifo_csr_flip_synd.
-                                                                 <11>    = Correction Disable for cpl2_fifo_csr_cor_dis.
-                                                                 <10:9>  = Flip Syndrome for cpl2_fifo_csr_flip_synd.
+                                                                 \<17\>    = Correction Disable for cpl0_fifo_csr_cor_dis.
+                                                                 \<16:15\> = Flip Syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 \<14\>    = Correction Disable for cpl1_fifo_csr_cor_dis.
+                                                                 \<13:12\> = Flip Syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 \<11\>    = Correction Disable for cpl2_fifo_csr_cor_dis.
+                                                                 \<10:9\>  = Flip Syndrome for cpl2_fifo_csr_flip_synd.
 
-                                                                 <8>   = Correction Disable for p2n0_tlp_<p, n, cpl>_fifo.
-                                                                 <7:6> = Flip Syndrome for p2n0_tlp_<p,n,cpl>_fifo.
-                                                                 <5>   = Correction Disable for p2n1_tlp_<p, n, cpl>_fifo.
-                                                                 <4:3> = Flip Syndrome for p2n1_tlp_<p,n,cpl>_fifo.
-                                                                 <2>   = Correction Disable for p2n2_tlp_<p, n, cpl>_fifo.
-                                                                 <1:0> = Flip Syndrome for p2n2_tlp_<p,n,cpl>_fifo. */
+                                                                 \<8\>   = Correction Disable for p2n0_tlp_\<p, n, cpl\>_fifo.
+                                                                 \<7:6\> = Flip Syndrome for p2n0_tlp_\<p,n,cpl\>_fifo.
+                                                                 \<5\>   = Correction Disable for p2n1_tlp_\<p, n, cpl\>_fifo.
+                                                                 \<4:3\> = Flip Syndrome for p2n1_tlp_\<p,n,cpl\>_fifo.
+                                                                 \<2\>   = Correction Disable for p2n2_tlp_\<p, n, cpl\>_fifo.
+                                                                 \<1:0\> = Flip Syndrome for p2n2_tlp_\<p,n,cpl\>_fifo. */
 #else
 		uint64_t ctl                         : 30;
 		uint64_t reserved_30_63              : 34;
@@ -943,7 +943,7 @@ static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long param1, unsigned long
  * NCB - sli#_s2m_reg#_acc
  *
  * These CSRs contains address index and control bits for access to memory from cores.
- * Indexed using [NCBO DST[3:0], NCBO Address[35:32]].
+ * Indexed using {NCBO DST[3:0], NCBO Address[35:32]}.
  */
 typedef union bdk_slix_s2m_regx_acc {
 	uint64_t u;
@@ -962,14 +962,14 @@ typedef union bdk_slix_s2m_regx_acc {
 		uint64_t nmerge                      : 1;  /**< R/W - When set, no write merging is allowed in this window. */
 		uint64_t esr                         : 2;  /**< RO - Reserved. */
 		uint64_t esw                         : 2;  /**< RO - Reserved. */
-		uint64_t wtype                       : 2;  /**< R/W - Write type. ADDRTYPE<1:0> for write operations to this region.
-                                                                 ADDRTYPE<0> is the relaxed-order attribute.
-                                                                 ADDRTYPE<1> is the no-snoop attribute. */
-		uint64_t rtype                       : 2;  /**< R/W - Read type. ADDRTYPE<1:0> for read operations to this region.
-                                                                 ADDRTYPE<0> is the relaxed-order attribute.
-                                                                 ADDRTYPE<1> is the no-snoop attribute. */
+		uint64_t wtype                       : 2;  /**< R/W - Write type. ADDRTYPE\<1:0\> for write operations to this region.
+                                                                 ADDRTYPE\<0\> is the relaxed-order attribute.
+                                                                 ADDRTYPE\<1\> is the no-snoop attribute. */
+		uint64_t rtype                       : 2;  /**< R/W - Read type. ADDRTYPE\<1:0\> for read operations to this region.
+                                                                 ADDRTYPE\<0\> is the relaxed-order attribute.
+                                                                 ADDRTYPE\<1\> is the no-snoop attribute. */
 		uint64_t reserved_32_39              : 8;
-		uint64_t ba                          : 32; /**< R/W - Bus address. Address bits<63:32> for read/write operations that use this region. */
+		uint64_t ba                          : 32; /**< R/W - Bus address. Address bits\<63:32\> for read/write operations that use this region. */
 #else
 		uint64_t ba                          : 32;
 		uint64_t reserved_32_39              : 8;

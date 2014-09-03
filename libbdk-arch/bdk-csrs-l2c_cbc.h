@@ -78,7 +78,7 @@ typedef union bdk_l2c_cbcx_bist_status {
 	struct bdk_l2c_cbcx_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_37_63              : 27;
-		uint64_t mibfl                       : 5;  /**< RO/H - BIST failure status for various MIB memories. ([XMD, IPM, IRM, MXD, MXN]) */
+		uint64_t mibfl                       : 5;  /**< RO/H - BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN}) */
 		uint64_t rsdfl                       : 32; /**< RO/H - BIST failure status for RSDQW0-31. */
 #else
 		uint64_t rsdfl                       : 32;

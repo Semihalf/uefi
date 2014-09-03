@@ -74,8 +74,8 @@ enum rom_crypt_e {
  * Enumeration ROM_XFER_MSG_E
  *
  * ROM Boot Transfer Message Enumeration
- * Enumerates the messages written to OCX_TLK()_LNK_DATA<15:0> and read from
- * OCX_RLK()_LNK_DATA<15:0> during ROM boot.
+ * Enumerates the messages written to OCX_TLK()_LNK_DATA\<15:0\> and read from
+ * OCX_RLK()_LNK_DATA\<15:0\> during ROM boot.
  * In these descriptions:
  *   * "Client" refers to the ROM code on the CNXXXX which is booting.
  *   * "Server" refers to the code running on another node which is serving an image
@@ -397,7 +397,7 @@ union rom_clib_s {
 
                                                                  INTERNAL: Future ROM code may allow this to be mode flexible.
                                                                  If so, must be in increments of 1 KB.
-                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO<5>] is
+                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO\<5\>] is
                                                                  set, there is only 4 KB of NBL1FW and TBL1FW code, at
                                                                  addresses 0x20000 - 0x20FFFF and 0x21000 - 0x21FFFF. */
 		uint64_t offset                      : 64; /**< [191:128] Offset address. The flash address for first byte of image.
@@ -410,7 +410,7 @@ union rom_clib_s {
                                                                  executed will be at [OFFSET] + 0x100.
 
                                                                  INTERNAL: Future ROM code may allow this to be more flexible.
-                                                                 If so, must be aligned to 1 KB. Must be >= 1 KB (past the
+                                                                 If so, must be aligned to 1 KB. Must be \>= 1 KB (past the
                                                                  ROM_CLIB_S and ROM_CSIB_S headers). */
 		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
                                                                  INTERNAL: Opaque to ROM, until we have a second version. */
@@ -506,7 +506,7 @@ union rom_csib_s {
 		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
                                                                  INTERNAL: Opaque to ROM, until we have a second version. */
 		uint64_t nvcnt                       : 8;  /**< [119:112] Trusted firmware NV counter to avoid replay attacks.
-                                                                 Compared to population_count(FUSF_CTL[ROM_T_CNT]).  Values > 63 are reserved.
+                                                                 Compared to population_count(FUSF_CTL[ROM_T_CNT]).  Values \> 63 are reserved.
                                                                  INTERNAL: In TBSA this is the TrustedFirmwareNVCounter. */
 		uint64_t reserved_72_111             : 40; /**< [111: 72] Reserved. */
 		uint64_t expose                      : 1;  /**< [ 71: 71] Enable HUK/EK exposure to TBL1FW and later.  This would

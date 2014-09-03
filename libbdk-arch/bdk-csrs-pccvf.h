@@ -379,7 +379,7 @@ typedef union bdk_pccvf_xxx_subid {
 	uint32_t u;
 	struct bdk_pccvf_xxx_subid_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t ssid                        : 16; /**< RO - Device ID. <15:8> enumerated with PCC_PROD_E. <7:0> enumerated with PCC_DEV_IDL_E.
+		uint32_t ssid                        : 16; /**< RO - Device ID. \<15:8\> enumerated with PCC_PROD_E. \<7:0\> enumerated with PCC_DEV_IDL_E.
                                                                  INTERNAL: Unit from PCC's tie__devidl. */
 		uint32_t ssvid                       : 16; /**< RO - Subsystem vendor ID. Cavium = 0x177D. */
 #else

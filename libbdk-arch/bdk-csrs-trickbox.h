@@ -1499,13 +1499,13 @@ static inline uint64_t BDK_TB_PPU0ADDR_FUNC(void)
  * protected by PPU.  For each register pair, an address match is deemed to
  * have occurred when:
  *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
+ * AddressMatch\<n\> = Enable\<n\> & ( ! ( (AddressOnBus[31:10] ^ PPU\<n\>Addr[31:10] ) &
+ * PPU\<n\>Mask[31:10] ) );
  *
  * In addition, a region abort occurs when:
  *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
+ * RegionAbort\<n\> = AddressMatch\<n\> & ( (AccessNS & !RegionNS\<n\>) + ( !AccessNS & RegionNS\<n\> &!
+ * PPUMode\<n\>) );
  */
 typedef union bdk_tb_ppu0mask {
 	uint32_t u;
@@ -1596,13 +1596,13 @@ static inline uint64_t BDK_TB_PPU1ADDR_FUNC(void)
  * protected by PPU.  For each register pair, an address match is deemed to
  * have occurred when:
  *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
+ * AddressMatch\<n\> = Enable\<n\> & ( ! ( (AddressOnBus[31:10] ^ PPU\<n\>Addr[31:10] ) &
+ * PPU\<n\>Mask[31:10] ) );
  *
  * In addition, a region abort occurs when:
  *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
+ * RegionAbort\<n\> = AddressMatch\<n\> & ( (AccessNS & !RegionNS\<n\>) + ( !AccessNS & RegionNS\<n\> &!
+ * PPUMode\<n\>) );
  */
 typedef union bdk_tb_ppu1mask {
 	uint32_t u;
@@ -1693,13 +1693,13 @@ static inline uint64_t BDK_TB_PPU2ADDR_FUNC(void)
  * protected by PPU.  For each register pair, an address match is deemed to
  * have occurred when:
  *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
+ * AddressMatch\<n\> = Enable\<n\> & ( ! ( (AddressOnBus[31:10] ^ PPU\<n\>Addr[31:10] ) &
+ * PPU\<n\>Mask[31:10] ) );
  *
  * In addition, a region abort occurs when:
  *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
+ * RegionAbort\<n\> = AddressMatch\<n\> & ( (AccessNS & !RegionNS\<n\>) + ( !AccessNS & RegionNS\<n\> &!
+ * PPUMode\<n\>) );
  */
 typedef union bdk_tb_ppu2mask {
 	uint32_t u;
@@ -1790,13 +1790,13 @@ static inline uint64_t BDK_TB_PPU3ADDR_FUNC(void)
  * protected by PPU.  For each register pair, an address match is deemed to
  * have occurred when:
  *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
+ * AddressMatch\<n\> = Enable\<n\> & ( ! ( (AddressOnBus[31:10] ^ PPU\<n\>Addr[31:10] ) &
+ * PPU\<n\>Mask[31:10] ) );
  *
  * In addition, a region abort occurs when:
  *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
+ * RegionAbort\<n\> = AddressMatch\<n\> & ( (AccessNS & !RegionNS\<n\>) + ( !AccessNS & RegionNS\<n\> &!
+ * PPUMode\<n\>) );
  */
 typedef union bdk_tb_ppu3mask {
 	uint32_t u;
@@ -1887,13 +1887,13 @@ static inline uint64_t BDK_TB_PPU4ADDR_FUNC(void)
  * protected by PPU.  For each register pair, an address match is deemed to
  * have occurred when:
  *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
+ * AddressMatch\<n\> = Enable\<n\> & ( ! ( (AddressOnBus[31:10] ^ PPU\<n\>Addr[31:10] ) &
+ * PPU\<n\>Mask[31:10] ) );
  *
  * In addition, a region abort occurs when:
  *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
+ * RegionAbort\<n\> = AddressMatch\<n\> & ( (AccessNS & !RegionNS\<n\>) + ( !AccessNS & RegionNS\<n\> &!
+ * PPUMode\<n\>) );
  */
 typedef union bdk_tb_ppu4mask {
 	uint32_t u;
@@ -1984,13 +1984,13 @@ static inline uint64_t BDK_TB_PPU5ADDR_FUNC(void)
  * protected by PPU.  For each register pair, an address match is deemed to
  * have occurred when:
  *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
+ * AddressMatch\<n\> = Enable\<n\> & ( ! ( (AddressOnBus[31:10] ^ PPU\<n\>Addr[31:10] ) &
+ * PPU\<n\>Mask[31:10] ) );
  *
  * In addition, a region abort occurs when:
  *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
+ * RegionAbort\<n\> = AddressMatch\<n\> & ( (AccessNS & !RegionNS\<n\>) + ( !AccessNS & RegionNS\<n\> &!
+ * PPUMode\<n\>) );
  */
 typedef union bdk_tb_ppu5mask {
 	uint32_t u;

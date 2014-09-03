@@ -391,30 +391,30 @@ typedef union bdk_smmux_bist_status {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t bist                        : 64; /**< RO - Memory BIST status. 0 = pass, 1 = fail. INTERNAL: Values are duplicated across each SMMU
                                                                  that shares an IOB.
-                                                                 <23> = CSR_VMID_CAM.
-                                                                 <22> = CSR_ASID_CAM.
-                                                                 <21> = SIL_CAM.
-                                                                 <20> = MSIX.
-                                                                 <19> = WCTL.
-                                                                 <18> = XL_MFIFO.
-                                                                 <17> = TCTL.
-                                                                 <16> = CONTEXT_IDR.
-                                                                 <15> = CB_FRSYNRA.
-                                                                 <14> = CB_IPAFAR.
-                                                                 <13> = CB_FSYNR0.
-                                                                 <12> = CB_FAR.
-                                                                 <11> = S2CR.
-                                                                 <10> = CB_ACTLR.
-                                                                 <9> = CB_TCR2.
-                                                                 <8> = SSDR.
-                                                                 <7> = SCTLR.
-                                                                 <6> = CB_TTBR0.
-                                                                 <5> = CB_TTBR1.
-                                                                 <4> = CB_TCR.
-                                                                 <3> = CBA2R.
-                                                                 <2> = CBAR.
-                                                                 <1> = CB_MAIR0.
-                                                                 <0> = CB_MAIR1. */
+                                                                 \<23\> = CSR_VMID_CAM.
+                                                                 \<22\> = CSR_ASID_CAM.
+                                                                 \<21\> = SIL_CAM.
+                                                                 \<20\> = MSIX.
+                                                                 \<19\> = WCTL.
+                                                                 \<18\> = XL_MFIFO.
+                                                                 \<17\> = TCTL.
+                                                                 \<16\> = CONTEXT_IDR.
+                                                                 \<15\> = CB_FRSYNRA.
+                                                                 \<14\> = CB_IPAFAR.
+                                                                 \<13\> = CB_FSYNR0.
+                                                                 \<12\> = CB_FAR.
+                                                                 \<11\> = S2CR.
+                                                                 \<10\> = CB_ACTLR.
+                                                                 \<9\> = CB_TCR2.
+                                                                 \<8\> = SSDR.
+                                                                 \<7\> = SCTLR.
+                                                                 \<6\> = CB_TTBR0.
+                                                                 \<5\> = CB_TTBR1.
+                                                                 \<4\> = CB_TCR.
+                                                                 \<3\> = CBA2R.
+                                                                 \<2\> = CBAR.
+                                                                 \<1\> = CB_MAIR0.
+                                                                 \<0\> = CB_MAIR1. */
 #else
 		uint64_t bist                        : 64;
 #endif
@@ -531,7 +531,7 @@ typedef union bdk_smmux_cbx_far {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t faddr                       : 37; /**< R/W/H - Fault address, the input address of the faulting access. This register might be updated as
-                                                                 the result of a translation fault for an upstream client device. For CNXXXX <11:0> are
+                                                                 the result of a translation fault for an upstream client device. For CNXXXX \<11:0\> are
                                                                  always zero. */
 		uint64_t reserved_0_11               : 12;
 #else
@@ -1164,10 +1164,10 @@ typedef union bdk_smmux_cbx_tcr {
                                                                  1 = Select ASID from SMMU()_CB()_TTBR1.
 
                                                                  For stage 2, reserved. */
-		uint32_t t1sz_pasize                 : 6;  /**< R/W - For stage 1, <21:16> is size offset of the SMMU()_CB()_TCR addressed region,
+		uint32_t t1sz_pasize                 : 6;  /**< R/W - For stage 1, \<21:16\> is size offset of the SMMU()_CB()_TCR addressed region,
                                                                  encoded as a six-bit unsigned number, giving the size of the region as 2^(64-T1SZ).
 
-                                                                 For stage 2, <21:19> is reserved, <18:16> is PASize, the size of the physical address
+                                                                 For stage 2, \<21:19\> is reserved, \<18:16\> is PASize, the size of the physical address
                                                                  (i.e. the output address):
                                                                  0x0 = 32 bits (4 GBytes).
                                                                  0x1 = 36 bits (64 GBytes).
@@ -1188,14 +1188,14 @@ typedef union bdk_smmux_cbx_tcr {
                                                                  Ignored in CNXXXX. */
 		uint32_t irgn0                       : 2;  /**< RO - Inner cachability attributes for TTBR0 table walks.
                                                                  Ignored in CNXXXX. */
-		uint32_t epd0_sl0                    : 2;  /**< R/W - For stage 1, <6> is reserved. <7> is EPD0, translation walk disable for TTBR0 region. This
+		uint32_t epd0_sl0                    : 2;  /**< R/W - For stage 1, \<6\> is reserved. \<7\> is EPD0, translation walk disable for TTBR0 region. This
                                                                  bit is RES0 for hypervisor and monitor contexts. This bit controls whether a translation
                                                                  table walk is performed on a TLB miss when TTBR0 is used:
                                                                  0 = If aTLB miss occurs when TTBR0 is used a translation table walk is performed.
                                                                  1 = If a TLB miss occurs when TTBR0 is used no translation table walk is performed and a
                                                                  L1 Translation fault is returned.
 
-                                                                 For stage 2, <7:6> is SL0, starting level of the addressed regions. For 4kB page granule
+                                                                 For stage 2, \<7:6\> is SL0, starting level of the addressed regions. For 4kB page granule
                                                                  size (TG0 == 0):
                                                                  0 = Level 2.
                                                                  1 = Level 1.
@@ -1434,9 +1434,9 @@ typedef union bdk_smmux_cbx_tlbiipas2 {
 	struct bdk_smmux_cbx_tlbiipas2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_36_63              : 28;
-		uint64_t address                     : 36; /**< WO - IPA<47:12> to be invalidated. Note this matches the format of the address supplied to
+		uint64_t address                     : 36; /**< WO - IPA\<47:12\> to be invalidated. Note this matches the format of the address supplied to
                                                                  ARMv8 processor TLB invalidation instructions. If the page size for stage 2 is 64kB then
-                                                                 bits corresponding to address<15:12> are ignored. */
+                                                                 bits corresponding to address\<15:12\> are ignored. */
 #else
 		uint64_t address                     : 36;
 		uint64_t reserved_36_63              : 28;
@@ -1471,9 +1471,9 @@ typedef union bdk_smmux_cbx_tlbiipas2l {
 	struct bdk_smmux_cbx_tlbiipas2l_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_36_63              : 28;
-		uint64_t address                     : 36; /**< WO - IPA<47:12> to be invalidated. Note this matches the format of the address supplied to
+		uint64_t address                     : 36; /**< WO - IPA\<47:12\> to be invalidated. Note this matches the format of the address supplied to
                                                                  ARMv8 processor TLB invalidation instructions. If the page size for stage 2 is 64kB then
-                                                                 bits corresponding to address<15:12> are ignored. */
+                                                                 bits corresponding to address\<15:12\> are ignored. */
 #else
 		uint64_t address                     : 36;
 		uint64_t reserved_36_63              : 28;
@@ -1514,10 +1514,10 @@ typedef union bdk_smmux_cbx_tlbiva {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t asid                        : 16; /**< WO - ASID for which the TLB invalidation should be performed. */
 		uint64_t reserved_44_47              : 4;
-		uint64_t address                     : 44; /**< WO - Address<55:12> to be invalidated. Note this matches the format of the address supplied to
+		uint64_t address                     : 44; /**< WO - Address\<55:12\> to be invalidated. Note this matches the format of the address supplied to
                                                                  the ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then the bits
-                                                                 corresponding to address<15:12> are ignored. The address will be extended to bit <63> by
-                                                                 copying bit <55>. */
+                                                                 corresponding to address\<15:12\> are ignored. The address will be extended to bit \<63\> by
+                                                                 copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_47              : 4;
@@ -1557,10 +1557,10 @@ typedef union bdk_smmux_cbx_tlbivaa {
 	struct bdk_smmux_cbx_tlbivaa_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t address                     : 44; /**< WO - Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
                                                                  supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_63              : 20;
@@ -1595,10 +1595,10 @@ typedef union bdk_smmux_cbx_tlbivaal {
 	struct bdk_smmux_cbx_tlbivaal_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t address                     : 44; /**< WO - Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
                                                                  supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_63              : 20;
@@ -1634,10 +1634,10 @@ typedef union bdk_smmux_cbx_tlbival {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t asid                        : 16; /**< WO - ASID for which the TLB invalidation should be performed. */
 		uint64_t reserved_44_47              : 4;
-		uint64_t address                     : 44; /**< WO - Address<55:12> to be invalidated. Note this matches the format of the address supplied to
+		uint64_t address                     : 44; /**< WO - Address\<55:12\> to be invalidated. Note this matches the format of the address supplied to
                                                                  the ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then the bits
-                                                                 corresponding to address<15:12> are ignored. The address will be extended to bit <63> by
-                                                                 copying bit <55>. */
+                                                                 corresponding to address\<15:12\> are ignored. The address will be extended to bit \<63\> by
+                                                                 copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_47              : 4;
@@ -1904,22 +1904,22 @@ typedef union bdk_smmux_cbarx {
                                                                  CNXXXX ignores the hint. INTERNAL: Requested filed with ARM to make RO. */
 		uint32_t bsu                         : 2;  /**< RO - Barrier sharability upgrade. Not implemented in CNXXXX. */
 		uint32_t ctype                       : 2;  /**< R/W - Register type.   Indicates the context format. Enumerated in SMMU_CTYPE_E. */
-		uint32_t memattr_cbndx4              : 4;  /**< R/W - Memory attributes, or context bank index <7:4>.
+		uint32_t memattr_cbndx4              : 4;  /**< R/W - Memory attributes, or context bank index \<7:4\>.
 
                                                                  If CTYPE=0 or 2, reserved.
 
                                                                  If CTYPE=1, combined with the shared attributes of the previous translation stage.
 
-                                                                 If CTYPE=3, context bank index <7:4>, see [BPSHCFG_CNBDX0]. */
-		uint32_t fb_cbndx3                   : 1;  /**< R/W - Force broadcast of TLB and cache maintenance operations or context bank index<3>.
+                                                                 If CTYPE=3, context bank index \<7:4\>, see [BPSHCFG_CNBDX0]. */
+		uint32_t fb_cbndx3                   : 1;  /**< R/W - Force broadcast of TLB and cache maintenance operations or context bank index\<3\>.
 
                                                                  If CTYPE=0 or 2, reserved.
 
                                                                  If CTYPE=1, force broadcast mode. Ignored in CNXXXX, as NCB clients do not initiate
                                                                  invalidates.
 
-                                                                 If CTYPE=3, context bank index <3>, see [BPSHCFG_CNBDX0]. */
-		uint32_t hypc_cbndx2                 : 1;  /**< R/W - Hypervisor context or context bank index <2>.
+                                                                 If CTYPE=3, context bank index \<3\>, see [BPSHCFG_CNBDX0]. */
+		uint32_t hypc_cbndx2                 : 1;  /**< R/W - Hypervisor context or context bank index \<2\>.
 
                                                                  If CTYPE=0 or 2, reserved.
 
@@ -1933,15 +1933,15 @@ typedef union bdk_smmux_cbarx {
                                                                  set HYPC to 1 for any non-secure translation context bank. Otherwise, UNPREDICTABLE
                                                                  behavior might occur.
 
-                                                                 If CTYPE=3, context bank index <2>, see [BPSHCFG_CNBDX0]. */
-		uint32_t bpshcfg_cbndx0              : 2;  /**< R/W - Bypass shared configuration or context bank index <1:0>.
+                                                                 If CTYPE=3, context bank index \<2\>, see [BPSHCFG_CNBDX0]. */
+		uint32_t bpshcfg_cbndx0              : 2;  /**< R/W - Bypass shared configuration or context bank index \<1:0\>.
 
                                                                  If CTYPE=0 or 2, reserved.
 
                                                                  If CTYPE=1, bypass shared configuration mode. CNXXXX ignores the value, R/W for software
                                                                  only.
 
-                                                                 If CTYPE=3, context bank index <1:0>. The translation context bank index used for the
+                                                                 If CTYPE=3, context bank index \<1:0\>. The translation context bank index used for the
                                                                  stage 2 translation context bank in a nested translation. The full 8-bit context bank
                                                                  index is shared between the [MEMATTR_CBNDX4], [FB_CBNDX3], [HYPC_CBNDX2] and
                                                                  [BPSHCFG_CBNDX0] fields. Behavior is UNPREDICTABLE if the SMMU()_CBAR() register
@@ -1993,7 +1993,7 @@ typedef union bdk_smmux_cbfrsynrax {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t ssd_index                   : 16; /**< SRO/H - SSD index of the transaction that caused the fault. Only accessible to configuration
                                                                  accesses by secure software, else RAZ/WI. For CNXXXX, set on a fault to always match
-                                                                 STREAMID. INTERNAL: Requested ARM extend this into <31>. */
+                                                                 STREAMID. INTERNAL: Requested ARM extend this into \<31\>. */
 		uint32_t streamid                    : 16; /**< R/W/H - Stream ID of the transaction that caused the fault. */
 #else
 		uint32_t streamid                    : 16;
@@ -2260,11 +2260,11 @@ typedef union bdk_smmux_ecc_ctl_1 {
 	struct bdk_smmux_ecc_ctl_1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
-		uint64_t ram_flip1                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit <1> on writes to the corresponding ram to
+		uint64_t ram_flip1                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit \<1\> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. INTERNAL: Bits enumerated in
                                                                  SMMU()_ERR_INT[RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
-		uint64_t ram_flip0                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit <0> on writes to the corresponding ram to
+		uint64_t ram_flip0                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit \<0\> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. INTERNAL: Bits enumerated in
                                                                  SMMU()_ERR_INT[RAM_SBE]. */
 #else
@@ -2794,9 +2794,9 @@ typedef union bdk_smmux_idr7 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
 		uint32_t major                       : 4;  /**< RO - The major part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]\<7:4\>. */
 		uint32_t minor                       : 4;  /**< RO - The minor part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]\<3:0\>. */
 #else
 		uint32_t minor                       : 4;
 		uint32_t major                       : 4;
@@ -3369,7 +3369,7 @@ typedef union bdk_smmux_nsgfar {
                                                                  This register is updated before a valid context has been determined. Hence, no sign
                                                                  extension can have been performed.
 
-                                                                 For CNXXXX <11:0> are always zero. */
+                                                                 For CNXXXX \<11:0\> are always zero. */
 #else
 		uint64_t faddr                       : 49;
 		uint64_t reserved_49_63              : 15;
@@ -3771,7 +3771,7 @@ typedef union bdk_smmux_pidr0 {
 	struct bdk_smmux_pidr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t partnum0                    : 8;  /**< RO - Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::SMMU. */
+		uint32_t partnum0                    : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::SMMU. */
 #else
 		uint32_t partnum0                    : 8;
 		uint32_t reserved_8_31               : 24;
@@ -3806,8 +3806,8 @@ typedef union bdk_smmux_pidr1 {
 	struct bdk_smmux_pidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code <3:0>. Cavium code is 0x4C. */
-		uint32_t partnum1                    : 4;  /**< RO - Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+		uint32_t idcode                      : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
+		uint32_t partnum1                    : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
 #else
 		uint32_t partnum1                    : 4;
 		uint32_t idcode                      : 4;
@@ -3847,7 +3847,7 @@ typedef union bdk_smmux_pidr2 {
                                                                  0x0 = SMMUv1.
                                                                  0x1 = SMMUv2. */
 		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code <6:4>. Cavium code is 0x4C. */
+		uint32_t idcode                      : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
 		uint32_t idcode                      : 3;
 		uint32_t jedec                       : 1;
@@ -4072,10 +4072,10 @@ typedef union bdk_smmux_s2crx {
                                                                  For CTYPE=2, reserved.
 
                                                                  In CNXXXX this field is not implemented. */
-		uint32_t instcfg_fb                  : 2;  /**< R/W - For CTYPE=0, <27:26> is INSTCFG, instruction fetch attribute configuration. Ignored in
+		uint32_t instcfg_fb                  : 2;  /**< R/W - For CTYPE=0, \<27:26\> is INSTCFG, instruction fetch attribute configuration. Ignored in
                                                                  CNXXXX.
 
-                                                                 For CTYPE=1, <27> reserved, <26> is FB, force broadcast. Force broadcast of TLB and
+                                                                 For CTYPE=1, \<27\> reserved, \<26\> is FB, force broadcast. Force broadcast of TLB and
                                                                  instruction cache maintenance operations. Ignored in CNXXXX, as NCB clients do not
                                                                  initiate invalidates.
 
@@ -4625,7 +4625,7 @@ typedef union bdk_smmux_sgfar {
                                                                  This register is updated before a valid context has been determined. Hence, no sign
                                                                  extension can have been performed.
 
-                                                                 For CNXXXX <11:0> are always zero. */
+                                                                 For CNXXXX \<11:0\> are always zero. */
 #else
 		uint64_t faddr                       : 49;
 		uint64_t reserved_49_63              : 15;
@@ -4930,13 +4930,13 @@ typedef union bdk_smmux_smrx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t exmask_valid                : 16; /**< R/W - Masking of stream id bits irrelevent to the matching process.
 
-                                                                 If MASK<i>==1, ID<i> is ignored.
+                                                                 If MASK\<i\>==1, ID\<i\> is ignored.
 
-                                                                 If MASK<i>==0, ID<i> is relevant for matching.
+                                                                 If MASK\<i\>==0, ID\<i\> is relevant for matching.
 
-                                                                 Note <31> indicates VALID if SMMU(0..3)_(S)CR0[EXIDENABLE] is zero. */
-		uint32_t exid                        : 16; /**< R/W/H - Stream identifier to match after masking. In CNXXXX, if a bit is ignored (MASK<i>==1), the
-                                                                 respective EXID<i> bit will be cleared by hardware. */
+                                                                 Note \<31\> indicates VALID if SMMU(0..3)_(S)CR0[EXIDENABLE] is zero. */
+		uint32_t exid                        : 16; /**< R/W/H - Stream identifier to match after masking. In CNXXXX, if a bit is ignored (MASK\<i\>==1), the
+                                                                 respective EXID\<i\> bit will be cleared by hardware. */
 #else
 		uint32_t exid                        : 16;
 		uint32_t exmask_valid                : 16;
@@ -5175,10 +5175,10 @@ typedef union bdk_smmux_stlbivalm {
 	struct bdk_smmux_stlbivalm_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t address                     : 44; /**< SWO - Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
+		uint64_t address                     : 44; /**< SWO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
                                                                  supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_63              : 20;
@@ -5215,10 +5215,10 @@ typedef union bdk_smmux_stlbivam {
 	struct bdk_smmux_stlbivam_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t address                     : 44; /**< SWO - Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
+		uint64_t address                     : 44; /**< SWO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
                                                                  supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_63              : 20;
@@ -5382,10 +5382,10 @@ typedef union bdk_smmux_tlbivah64 {
 	struct bdk_smmux_tlbivah64_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t address                     : 44; /**< WO - Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
                                                                  supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_63              : 20;
@@ -5422,10 +5422,10 @@ typedef union bdk_smmux_tlbivalh64 {
 	struct bdk_smmux_tlbivalh64_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t address                     : 44; /**< WO - Virtual address <55:12> to be invalidated. Note: this matches the format of the addresses
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
                                                                  supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
-                                                                 bits corresponding to ADDRESS<15:12> are ignored. The address will be extended to bit <63>
-                                                                 by copying bit <55>. */
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
 #else
 		uint64_t address                     : 44;
 		uint64_t reserved_44_63              : 20;

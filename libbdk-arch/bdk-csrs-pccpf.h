@@ -194,7 +194,7 @@ enum pcc_dev_con_e {
  *
  * PCC Device ID Low Enumeration
  * Enumerates the values of the PCI configuration header Device ID and Subsystem Device ID bits
- * <7:0>. The value of the enumeration is formatted as defined by PCC_DEV_IDL_S.
+ * \<7:0\>. The value of the enumeration is formatted as defined by PCC_DEV_IDL_S.
  */
 enum pcc_dev_idl_e {
 	PCC_DEV_IDL_E_BGX = 0x26,
@@ -336,7 +336,7 @@ enum pcc_pidr_partnum1_e {
  *
  * PCC Device ID Product Enumeration
  * Enumerates the values of the PCI configuration header Device ID and Subsystem Device ID bits
- * <15:8>.
+ * \<15:8\>.
  */
 enum pcc_prod_e {
 	PCC_PROD_E_CN83XX = 0xa3,
@@ -374,7 +374,7 @@ union pcc_dev_con_s {
 		uint64_t bus                         : 8;  /**< [ 15:  8] ECAM bus number. */
 		uint64_t func                        : 8;  /**< [  7:  0] For ARI devices (when bus is non-zero), an eight-bit RSL function number.
 
-                                                                 For non-ARI devices (when bus is zero), <7:3> is the device number, <2:0> the function
+                                                                 For non-ARI devices (when bus is zero), \<7:3\> is the device number, \<2:0\> the function
                                                                  number. */
 #else
 		uint64_t func                        : 8;
@@ -497,7 +497,7 @@ typedef union bdk_pccpf_xxx_bar0u {
                                                                  BAR for address decoding. After sizing, for proper software behavior, software must
                                                                  restore the register value, where the proper value may be read from PCCPF_XXX_VSEC_BAR0U,
                                                                  with software writing the node number into the field bits corresponding to address bits
-                                                                 <45:44>. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
+                                                                 \<45:44\>. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
 #else
 		uint32_t ubab                        : 32;
 #endif
@@ -824,7 +824,7 @@ typedef union bdk_pccpf_xxx_id {
 	uint32_t u;
 	struct bdk_pccpf_xxx_id_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t devid                       : 16; /**< RO - Device ID. <15:8> is PCC_PROD_E:GEN. <7:0> enumerated with PCC_DEV_IDL_E. INTERNAL: Unit
+		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E:GEN. \<7:0\> enumerated with PCC_DEV_IDL_E. INTERNAL: Unit
                                                                  from PCC's tie__unitid. */
 		uint32_t vendid                      : 16; /**< RO - Cavium's vendor ID. Enumerated in PCC_VENDOR_E::CAVIUM. */
 #else
@@ -1553,7 +1553,7 @@ typedef union bdk_pccpf_xxx_subid {
 	uint32_t u;
 	struct bdk_pccpf_xxx_subid_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t ssid                        : 16; /**< RO - Device ID. <15:8> enumerated with PCC_PROD_E. <7:0> enumerated with PCC_DEV_IDL_E.
+		uint32_t ssid                        : 16; /**< RO - Device ID. \<15:8\> enumerated with PCC_PROD_E. \<7:0\> enumerated with PCC_DEV_IDL_E.
                                                                  INTERNAL: Unit from PCC's tie__prod and tie__unitid. */
 		uint32_t ssvid                       : 16; /**< RO - Subsystem vendor ID. Cavium = 0x177D. */
 #else

@@ -332,7 +332,7 @@ typedef union bdk_pccbr_xxx_id {
 	uint32_t u;
 	struct bdk_pccbr_xxx_id_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t devid                       : 16; /**< RO - Device ID. <15:8> is PCC_PROD_E::GEN. <7:0> is PCC_DEV_IDL_E::PCCBR. */
+		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> is PCC_DEV_IDL_E::PCCBR. */
 		uint32_t vendid                      : 16; /**< RO - Cavium's vendor ID. Enumerated in PCC_VENDOR_E::CAVIUM. */
 #else
 		uint32_t vendid                      : 16;

@@ -75,7 +75,7 @@ typedef union bdk_cimx_icc_ap0r0_el1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t ap                          : 32; /**< R/W - "Operates in conjunction with all other AP0Rn and with CIM()_ICC_BPR0_EL1.
-                                                                 Each bit in [AP0R3, ..., AP0R0] corresponds to a priority group as defined by
+                                                                 Each bit in {AP0R3, ..., AP0R0} corresponds to a priority group as defined by
                                                                  CIM()_ICC_BPR0_EL1.
                                                                  A set bit indicates an active priority group.
 
@@ -93,9 +93,9 @@ typedef union bdk_cimx_icc_ap0r0_el1 {
                                                                  =================   ====================   ====================  =====================
                                                                  3                   4                      16                    ICC_AP0R0[15:0]
                                                                  2                   5                      32                    ICC_AP0R0[31:0]
-                                                                 1                   6                      64                    [ICC_AP0R1, ICC_AP0R0]
-                                                                 0                   7                      128                   [ICC_AP0R3, ICC_AP0R2,
-                                                                                                                                   ICC_AP0R1, ICC_AP0R0]
+                                                                 1                   6                      64                    {ICC_AP0R1, ICC_AP0R0}
+                                                                 0                   7                      128                   {ICC_AP0R3, ICC_AP0R2,
+                                                                                                                                   ICC_AP0R1, ICC_AP0R0}
                                                                  " */
 #else
 		uint64_t ap                          : 32;
@@ -137,7 +137,7 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
 		uint64_t reserved_32_63              : 32;
 		uint64_t ap                          : 32; /**< R/W/H - "Operates in conjunction with all other non-secure AND possibly secure AP1Rn
                                                                  and with CIM()_ICC_BPR1_EL1_NS.
-                                                                 Each bit in NS [AP1R3, ..., AP1R0] corresponds to a priority group as defined by
+                                                                 Each bit in NS {AP1R3, ..., AP1R0} corresponds to a priority group as defined by
                                                                  CIM()_ICC_BPR1_EL1_NS.
                                                                  A set bit indicates an active priority group.
 
@@ -152,18 +152,18 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
 
                                                                  Usage cases ("EL1" omitted for simplicity):
                                                                                                                                   Non-secure view of
-                                                                 Min(ICC_BPR1_NS)    Max \# group pri bits   Max \# preempt levels  ICC_AP1Rn_
+                                                                 Min(ICC_BPR1_NS)    Max \# group pri bits   Max \# preempt levels  ICC_AP1Rn_NS
                                                                  =================   ====================   ====================  =====================
-                                                                 4                   4                      16                    [8'h00,
-                                                                                                                                   ICC_AP1R0_NS[15:8]]
-                                                                 3                   5                      32                    [16'h0000,
-                                                                                                                                   ICC_AP1R0_NS[31:16]]
-                                                                 2                   6                      64                    [32'h0000_0000,
-                                                                                                                                   ICC_AP1R1_NS]
-                                                                 1                   7                      128                   [32'h0000_0000,
+                                                                 4                   4                      16                    {8'h00,
+                                                                                                                                   ICC_AP1R0_NS[15:8]}
+                                                                 3                   5                      32                    {16'h0000,
+                                                                                                                                   ICC_AP1R0_NS[31:16]}
+                                                                 2                   6                      64                    {32'h0000_0000,
+                                                                                                                                   ICC_AP1R1_NS}
+                                                                 1                   7                      128                   {32'h0000_0000,
                                                                                                                                    32'h0000_0000,
                                                                                                                                    ICC_AP1R3_NS,
-                                                                                                                                   ICC_AP1R2_NS]
+                                                                                                                                   ICC_AP1R2_NS}
 
                                                                  In CNXXXX, a system supporting two security states, where GICD_CTLR.DS is zero, non-secure
                                                                  accesses see a shifted view of priorities." */
@@ -207,7 +207,7 @@ typedef union bdk_cimx_icc_ap1r0_el1_s {
 		uint64_t reserved_32_63              : 32;
 		uint64_t ap                          : 32; /**< R/W/H - "Operates in conjunction with all other secure AP1Rn and with
                                                                  CIM()_ICC_BPR1_EL1_S.
-                                                                 Each bit in S [AP1R3, ..., AP1R0] corresponds to a priority group as defined by
+                                                                 Each bit in S {AP1R3, ..., AP1R0} corresponds to a priority group as defined by
                                                                  CIM()_ICC_BPR1_EL1_S.
 
                                                                  A set bit indicates an active priority group.
@@ -226,12 +226,12 @@ typedef union bdk_cimx_icc_ap1r0_el1_s {
                                                                  =================   ====================   ====================  =====================
                                                                  3                   4                      16                    ICC_AP1R0_S[15:0]
                                                                  2                   5                      32                    ICC_AP1R0_S[31:0]
-                                                                 1                   6                      64                    [ICC_AP1R1_S,
-                                                                                                                                   ICC_AP1R0_S]
-                                                                 0                   7                      128                   [ICC_AP1R3_S,
+                                                                 1                   6                      64                    {ICC_AP1R1_S,
+                                                                                                                                   ICC_AP1R0_S}
+                                                                 0                   7                      128                   {ICC_AP1R3_S,
                                                                                                                                    ICC_AP1R2_S,
                                                                                                                                    ICC_AP1R1_S,
-                                                                                                                                   ICC_AP1R0_S]
+                                                                                                                                   ICC_AP1R0_S}
 
                                                                  In CNXXXX, a systems supporting two security states, where GICD_CTLR.DS is zero, non-
                                                                  secure accesses see a shifted view of priorities." */
@@ -264,7 +264,7 @@ static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_S(unsigned long param1)
  * When CIM()_ICC_ASGI1R_EL1 is written, this results in the generation of interrupts to a
  * set of
  * processors
- * a.b.c.[target list], where target list is a set of up to sixteen processors within the
+ * a.b.c.{target list}, where target list is a set of up to sixteen processors within the
  * affinity cluster defines by a.b.c.*.
  *
  * If SRE is set only for secure EL3, software executing at EL3 might use the system
@@ -483,7 +483,7 @@ typedef union bdk_cimx_icc_bpr1_el1_ns {
 
                                                                  3. When operating at EL3, this (CIM()_ICC_BPR1_EL1_NS) is returned if
                                                                  SCR_EL3[NS] == 1 and
-                                                                 CIM()_ICC_CTLR_EL3[CBPR_EL1_[S,NS]] are ignored.
+                                                                 CIM()_ICC_CTLR_EL3[CBPR_EL1_{S,NS}] are ignored.
 
                                                                  The lowest exception level at which this register may be accessed is governed by the
                                                                  exception level to which IRQ is routed.
@@ -562,7 +562,7 @@ typedef union bdk_cimx_icc_bpr1_el1_s {
                                                                                                 Non-secure EL1 / EL2 writes are ignored.
 
                                                                  3. When operating at EL3, this (CIM()_ICC_BPR1_EL1_S) is returned if
-                                                                 SCR_EL3[NS] == 0 and CIM()_ICC_CTLR_EL3[CBPR_EL1[S,NS]] are ignored.
+                                                                 SCR_EL3[NS] == 0 and CIM()_ICC_CTLR_EL3[CBPR_EL1{S,NS}] are ignored.
 
                                                                  The lowest exception level at which this register may be accessed is governed by the
                                                                  exception level to which IRQ is routed.
@@ -1566,7 +1566,7 @@ static inline uint64_t BDK_CIMX_ICC_RPR_EL1(unsigned long param1)
  * When CIM()_ICC_SGI0R_EL1 is written, this results in the generation of interrupts to a
  * set of
  * processors
- * a.b.c.[target list], where target list is a set of up to sixteen processors within the
+ * a.b.c.{target list}, where target list is a set of up to sixteen processors within the
  * affinity cluster defines by a.b.c.*.
  *
  * If SRE is set only for secure EL3, software executing at EL3 might use the system
@@ -1646,7 +1646,7 @@ static inline uint64_t BDK_CIMX_ICC_SGI0R_EL1(unsigned long param1)
  * When CIM()_ICC_SGI1R_EL1 is written, this results in the generation of interrupts to a
  * set of
  * processors
- * a.b.c.[target list], where target list is a set of up to sixteen processors within the
+ * a.b.c.{target list}, where target list is a set of up to sixteen processors within the
  * affinity cluster defines by a.b.c.*.
  *
  * If SRE is set only for secure EL3, software executing at EL3 might use the system
@@ -1923,7 +1923,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long param1)
  *     in CIM()_ICH_AP0Rn_EL2 and will not affect CIM()_ICH_AP1Rn_EL2.
  *
  * A maximum of 7 bits of priority (rather than 8) are supported by the
- * CIM()_ICC_AP0R[0..3]_EL1 and CIM()_ICC_AP1R[0..3]_EL1 registers because when
+ * CIM()_ICC_AP0R{0..3}_EL1 and CIM()_ICC_AP1R{0..3}_EL1 registers because when
  * the binary point value is zero, the group priority field is bits [7:1] of the priority
  * and bit [0] is never used for pre-emption. The description of this register and fields
  * also applies to CIM()_ICH_AP0R1_EL2 .. CIM()_ICH_AP0R3_EL3.
@@ -2075,7 +2075,7 @@ typedef union bdk_cimx_ich_elsr_el2 {
                                                                  For any CIM()_ICH_LRn, the corresponding status bit is set to 1 if
 
                                                                  _ (CIM()_ICH_LRn[State] ==00 &&
-                                                                 _  (CIM()_ICH_LRn[HW]   ==1
+                                                                 _  (CIM()_ICH_LRn[HW]   ==1       ||
                                                                  _   CIM()_ICH_LRn[EOI]  ==0)). */
 #else
 		uint64_t lrsb                        : 16;
@@ -2115,11 +2115,11 @@ typedef union bdk_cimx_ich_hcr_el2 {
                                                                  would have resulted in a virtual interrupt deactivation. That is:
 
                                                                  * A virtual write to EOIR with a valid interrupt identifier that is not in the LPI range
-                                                                 (i.e. < 8192) when EOI mode is zero and no list register was found.
+                                                                 (i.e. \< 8192) when EOI mode is zero and no list register was found.
 
                                                                  * Or, a virtual write to DIR with a valid interrupt identifier that is not in the LPI
                                                                  range
-                                                                 (i.e. < 8192) when EOI mode is one and no list register was found.
+                                                                 (i.e. \< 8192) when EOI mode is one and no list register was found.
 
                                                                  This allows software to manage more active interrupts than there are implemented list
                                                                  registers. */
@@ -2343,7 +2343,7 @@ typedef union bdk_cimx_ich_lrx_el2 {
                                                                  Distributor. */
 		uint64_t virtid                      : 32; /**< R/W - Virtual ID.
                                                                  This ID is returned to the guest OS when the interrupt is acknowledged through the VM
-                                                                 interrupt acknowledge register, ReadICV_IAR[0,1]_EL1.
+                                                                 interrupt acknowledge register, ReadICV_IAR{0,1}_EL1.
                                                                  Each valid interrupt stored in the List registers must have a unique VirtualID for that
                                                                  virtual CPU interface.
 

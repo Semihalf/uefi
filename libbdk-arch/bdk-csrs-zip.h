@@ -202,7 +202,7 @@ union zip_inst_s {
                                                                  coprocessor invocations, [EXN], [EXBITS] will instead be the
                                                                  result after the last software insertion.)
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 EXBITS contains the extra bits. Bit \<0\> contains the first extra bit, \<1\> the
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
                                                                  For decompression, EXN, EXBITS must be 0x0 */
@@ -353,7 +353,7 @@ union zip_nptr_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15; /**< [ 63: 49] Reserved. MBZ. */
-		uint64_t addr                        : 49; /**< [ 48:  0] ZIP_ZPTR_S[ADDR]<6:0> must be zero. All the ZIP instruction buffers must be aligned on an
+		uint64_t addr                        : 49; /**< [ 48:  0] ZIP_ZPTR_S[ADDR]\<6:0\> must be zero. All the ZIP instruction buffers must be aligned on an
                                                                  128 byte boundary. */
 #else
 		uint64_t addr                        : 49;
@@ -403,7 +403,7 @@ union zip_zptr_s {
                                                                  A pointer to a gather/scatter list in memory.
                                                                  When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
                                                                  A direct byte pointer into the attached memory.
-                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be zero. (All
+                                                                 In case (b) above, and for context and result pointers, [ADDR]\<3:0\> must be zero. (All
                                                                  these cases must be aligned on an 16 byte boundary.)
                                                                  In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context and result
                                                                  pointers). */
@@ -464,7 +464,7 @@ union zip_zres_s {
                                                                  ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
                                                                  cases.
 
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 EXBITS contains the extra bits. Bit \<0\> contains the first extra bit, \<1\> the
                                                                  second extra bit, etc.
 
                                                                  For decompression, [EXN] and [EXBITS] are not used and are undefined. */
@@ -487,7 +487,7 @@ union zip_zres_s {
                                                                  coprocessor will have also completed L2/DRAM write operations for all context,
                                                                  output stream, and result data. */
 		uint64_t totalbyteswritten           : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
+                                                                 invocation. TOTALBYTESWRITTEN \<= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
 
                                                                  For an error-free compression, TOTALBYTESWRITTEN is the number of
                                                                  compressed output bytes that were written during the compression. This includes
@@ -679,8 +679,8 @@ typedef union bdk_zip_ctl_bist_status {
 	struct bdk_zip_ctl_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
-		uint64_t bstatus                     : 9;  /**< RO/H - BIST result of CTL memories. INTERNAL:BSTATUS = [VMEM, STDF[1:0], OFIF[1:0],
-                                                                 IDF[1:0],GSPF, IQF]. */
+		uint64_t bstatus                     : 9;  /**< RO/H - BIST result of CTL memories. INTERNAL:BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
 #else
 		uint64_t bstatus                     : 9;
 		uint64_t reserved_9_63               : 55;
@@ -714,13 +714,13 @@ typedef union bdk_zip_ctl_cfg {
 	struct bdk_zip_ctl_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_52_63              : 12;
-		uint64_t ildf                        : 4;  /**< R/W - Instruction Load Command FIFO credits <= 8. */
+		uint64_t ildf                        : 4;  /**< R/W - Instruction Load Command FIFO credits \<= 8. */
 		uint64_t reserved_36_47              : 12;
-		uint64_t drtf                        : 4;  /**< R/W - Data Read Tag FIFOs (per core) credits <= 8. */
+		uint64_t drtf                        : 4;  /**< R/W - Data Read Tag FIFOs (per core) credits \<= 8. */
 		uint64_t reserved_27_31              : 5;
-		uint64_t stcf                        : 3;  /**< R/W - Store Command FIFO credits <= 4. */
+		uint64_t stcf                        : 3;  /**< R/W - Store Command FIFO credits \<= 4. */
 		uint64_t reserved_19_23              : 5;
-		uint64_t ldf                         : 3;  /**< R/W - Load Command FIFO credits <= 4. */
+		uint64_t ldf                         : 3;  /**< R/W - Load Command FIFO credits \<= 4. */
 		uint64_t reserved_2_15               : 14;
 		uint64_t busy                        : 1;  /**< RO/H - 1: ZIP system is busy; 0: ZIP system is idle. */
 		uint64_t reserved_0_0                : 1;
@@ -1354,12 +1354,12 @@ typedef union bdk_zip_quex_done {
 
                                                                  * When ZIP_QUE(0..7)_DONE[DONE] != 0, then the interrupt coalescing timer counts. If the
                                                                  counter is less than ZIP_QUE(0..7)_DONE_WAIT[TIME_WAIT]*1024, and ZIP_QUE(0..7)_DONE[DONE]
-                                                                 < ZIP_QUE(0..7)_DONE_WAIT[NUM_WAIT] , i.e. not enough time has passed or not enough
+                                                                 \< ZIP_QUE(0..7)_DONE_WAIT[NUM_WAIT] , i.e. not enough time has passed or not enough
                                                                  results have arrived, then interrupts are not sent due to coalescing.
 
                                                                  * When ZIP_QUE(0..7)_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 ZIP_QUE(0..7)_DONE[DONE] >= ZIP_QUE(0..7)_DONE_WAIT[NUM_WAIT] and the timer is zero, the
+                                                                 ZIP_QUE(0..7)_DONE[DONE] \>= ZIP_QUE(0..7)_DONE_WAIT[NUM_WAIT] and the timer is zero, the
                                                                  interrupt will be resent immediately.  (This covers the race case between software
                                                                  acknowledging an interrupt and a result returning.)
 
@@ -1520,7 +1520,7 @@ typedef union bdk_zip_quex_done_wait {
                                                                  is cleared.  When the timer reaches [TIME_WAIT]*1024 then interrupt coalescing ends;
                                                                  see ZIP_QUE(0..7)_DONE[DONE]. If zero, time coalescing is disabled. */
 		uint64_t reserved_20_31              : 12;
-		uint64_t num_wait                    : 20; /**< R/W - Number of messages hold-off.  When ZIP_QUE(0..7)_DONE[DONE] >= [NUM_WAIT] then interrupt
+		uint64_t num_wait                    : 20; /**< R/W - Number of messages hold-off.  When ZIP_QUE(0..7)_DONE[DONE] \>= [NUM_WAIT] then interrupt
                                                                  coalescing
                                                                  ends; see ZIP_QUE(0..7)_DONE[DONE]. If zero, message number coalescing is
                                                                  disabled. */
@@ -1809,8 +1809,8 @@ typedef union bdk_zip_quex_map {
 		uint64_t zce                         : 2;  /**< R/W - Zip core enable. Controls the logical instruction queue can be serviced by which zip core.
                                                                  Setting ZCE to 0 effectively disables the queue from being served (however the instruction
                                                                  can still be fetched).
-                                                                 ZCE<1> = 1: Zip core 1 can serve the queue.
-                                                                 ZCE<0> = 1: Zip core 0 can serve the queue. */
+                                                                 ZCE\<1\> = 1: Zip core 1 can serve the queue.
+                                                                 ZCE\<0\> = 1: Zip core 0 can serve the queue. */
 #else
 		uint64_t zce                         : 2;
 		uint64_t reserved_2_63               : 62;
@@ -1847,7 +1847,7 @@ typedef union bdk_zip_quex_sbuf_addr {
 	struct bdk_zip_quex_sbuf_addr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
-		uint64_t ptr                         : 42; /**< R/W/H - Instruction buffer pointer bits <41:7> (128-byte aligned). When written, it is the initial
+		uint64_t ptr                         : 42; /**< R/W/H - Instruction buffer pointer bits \<41:7\> (128-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
@@ -2012,7 +2012,7 @@ typedef union bdk_zip_throttle {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_6_63               : 58;
 		uint64_t ld_infl                     : 6;  /**< R/W - Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
+                                                                 ZIP performance but may starve other devices on the same NCB. Values \> 32 are illegal. */
 #else
 		uint64_t ld_infl                     : 6;
 		uint64_t reserved_6_63               : 58;

@@ -140,7 +140,7 @@ typedef union bdk_dfa_asc_regionx_end {
 	struct bdk_dfa_asc_regionx_end_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
-		uint64_t addr                        : 29; /**< SR/W - Virtual address <48:20> marking the inclusive end of the corresponding ASC region.
+		uint64_t addr                        : 29; /**< SR/W - Virtual address \<48:20\> marking the inclusive end of the corresponding ASC region.
                                                                  Note that the region includes this address.
                                                                  Software must ensure that regions do not overlap.
                                                                  To specify an empty region, clear [NS_EN] fields of
@@ -178,7 +178,7 @@ typedef union bdk_dfa_asc_regionx_offset {
 	struct bdk_dfa_asc_regionx_offset_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
-		uint64_t offset                      : 29; /**< SR/W - Offset <48:20> added to the HFA virtual address which matches the corresponding
+		uint64_t offset                      : 29; /**< SR/W - Offset \<48:20\> added to the HFA virtual address which matches the corresponding
                                                                  DFA_ASC_REGION()_START[ADDR] and DFA_ASC_REGION()_END[ADDR] to convert it into into an LMC
                                                                  address.
 
@@ -218,7 +218,7 @@ typedef union bdk_dfa_asc_regionx_start {
 	struct bdk_dfa_asc_regionx_start_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
-		uint64_t addr                        : 29; /**< SR/W - Virtual address <48:20> marking the start of the corresponding ASC region.
+		uint64_t addr                        : 29; /**< SR/W - Virtual address \<48:20\> marking the start of the corresponding ASC region.
                                                                  Software must ensure that regions do not overlap. */
 		uint64_t reserved_0_19               : 20;
 #else
@@ -383,13 +383,13 @@ typedef union bdk_dfa_config {
 	struct bdk_dfa_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_11_63              : 53;
-		uint64_t dlcclear_bist               : 1;  /**< R/W - When DLCSTART_BIST is written 0->1, if DLCCLEAR_BIST=1, all previous DLC BIST state is
+		uint64_t dlcclear_bist               : 1;  /**< R/W - When DLCSTART_BIST is written 0-\>1, if DLCCLEAR_BIST=1, all previous DLC BIST state is
                                                                  cleared. Note the following:
                                                                  DLCCLEAR_BIST must be written to 1 before DLCSTART_BIST is written to 1 using a separate
                                                                  CSR write operation.
-                                                                 DLCCLEAR_BIST must not be changed after writing DLCSTART_BIST 0->1 until the BIST
+                                                                 DLCCLEAR_BIST must not be changed after writing DLCSTART_BIST 0-\>1 until the BIST
                                                                  operation completes. */
-		uint64_t dlcstart_bist               : 1;  /**< R/W - When software writes DLCSTART_BIST=0->1, a BIST is executed for the DLC sub-block RAMs
+		uint64_t dlcstart_bist               : 1;  /**< R/W - When software writes DLCSTART_BIST=0-\>1, a BIST is executed for the DLC sub-block RAMs
                                                                  which contains DCLK domain asynchronous RAMs. Note the following:
                                                                  This bit should only be written after DCLK has been enabled by software and is stable.
                                                                  (See LMC initialization routine for details on how to enable the DDR3/4 memory
@@ -406,7 +406,7 @@ typedef union bdk_dfa_config {
                                                                  address replication information. */
 		uint64_t reserved_6_7                : 2;
 		uint64_t clmskcrip                   : 2;  /**< R/W/H - Cluster cripple mask. A 1 in each bit of the mask represents which HTE cluster to cripple.
-                                                                 CN88XX has two clusters (therefore CLMSKCRIP<1:0> are used.)
+                                                                 CN88XX has two clusters (therefore CLMSKCRIP\<1:0\> are used.)
                                                                  The MIO_FUS_DFA_CLMASK_CRIPPLE[1:0] fuse bits are forced into this register at reset. Any
                                                                  fuse bits that contain 1 are disallowed during a write and are always read as 1. */
 		uint64_t cldtecrip                   : 3;  /**< R/W/H - Encoding that represents the number of HTEs to cripple for each cluster. Typically
@@ -482,15 +482,15 @@ typedef union bdk_dfa_control {
                                                                  time. */
 		uint64_t reserved_3_4                : 2;
 		uint64_t pmode                       : 1;  /**< R/W - Reserved. INTERNAL: NCB-NRP Arbiter Mode.
-                                                                 (0=Fixed Priority [LP=WQF,DFF,HP=RGF]/1=RR.
+                                                                 (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR.
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
 		uint64_t qmode                       : 1;  /**< R/W - Reserved. INTERNAL: NCB-NRQ Arbiter Mode.
-                                                                 (0=Fixed Priority [LP=IRF,RWF,PRF,HP=GRF]/1=RR.
+                                                                 (0=Fixed Priority {LP=IRF,RWF,PRF,HP=GRF}/1=RR.
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
 		uint64_t imode                       : 1;  /**< R/W - Reserved. INTERNAL: NCB-Inbound Arbiter.
-                                                                 (0=FP [LP=NRQ,HP=NRP], 1=RR).
+                                                                 (0=FP {LP=NRQ,HP=NRP}, 1=RR).
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
 #else
@@ -657,7 +657,7 @@ typedef union bdk_dfa_debug0 {
                                                                  [7]        (1) Waiting for PRdReq Issue (to NRQ).
                                                                  [6]        (1) Packet Data Valid.
                                                                  [5]        (1) WQVLD.
-                                                                 [4]        (1) WQ Done Point (either WQWrReq issued (for WQPTR<>0) OR HDR RWrCmtRsp).
+                                                                 [4]        (1) WQ Done Point (either WQWrReq issued (for WQPTR\<\>0) OR HDR RWrCmtRsp).
                                                                  [3]        (1) Resultant write STF/P Mode.
                                                                  [2]        (1) Packet Data LDT mode.
                                                                  [1]        (1) Gather Mode.
@@ -802,7 +802,7 @@ typedef union bdk_dfa_difrdptr {
 		uint64_t rdptr                       : 43; /**< R/W/H - Represents the 64-byte-aligned address of the current instruction in the HFA Instruction
                                                                  FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
                                                                  maintained thereafter by HFA hardware. During the seed write operation (by software),
-                                                                 RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
+                                                                 RDPTR\<6:5\> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
                                                                  operation (by software), the most-recent contents of the RDPTR register are returned at
                                                                  the time the NCB-inbound bus is driven.
 
@@ -847,7 +847,7 @@ typedef union bdk_dfa_done_ack {
 		uint64_t done_ack                    : 20; /**< R/W/H - Number of decrements to DFA_INT_STATUS[DONE_CNT].
                                                                  A write to DONE_ACK acknowledges the number of completions that were serviced.
                                                                  Reads DFA_INT_STATUS[DONE_CNT].
-                                                                 If DFA_DONE_ACK[DONE_ACK] < ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] )
+                                                                 If DFA_DONE_ACK[DONE_ACK] \< ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] )
                                                                  interrupt
                                                                  DFA_INT_DONE[INST_DONE] will still be genereated. */
 #else
@@ -887,7 +887,7 @@ typedef union bdk_dfa_done_wait {
                                                                  When the HW timer reaches [TIME_WAIT]*1024 then interrupt coalescing ends.
                                                                  Coalescing is disabled when DFA_INT_STATUS[DONE_CNT] is zero. */
 		uint64_t reserved_20_31              : 12;
-		uint64_t num_wait                    : 20; /**< R/W - Number of completion messages hold-off.  When DFA_INT_STATUS[DONE_CNT] >
+		uint64_t num_wait                    : 20; /**< R/W - Number of completion messages hold-off.  When DFA_INT_STATUS[DONE_CNT] \>
                                                                  DFA_DONE_WAIT[NUM_WAIT]
                                                                  then interrupt coalescing ends. */
 #else
@@ -925,19 +925,19 @@ typedef union bdk_dfa_dtcfadr {
 	struct bdk_dfa_dtcfadr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t ram3fadr                    : 12; /**< RO/H - HFA RAM3 failing address. If DFA_ERR[DC0PERR<2>] = 1, this field indicates the failing
-                                                                 RAM3 address. The failing address is locked down until the DC0PERR<2> W1C occurs.
-                                                                 If multiple DC0PERR<0>=1 errors are detected, the LSB cluster error information is
+		uint64_t ram3fadr                    : 12; /**< RO/H - HFA RAM3 failing address. If DFA_ERR[DC0PERR\<2\>] = 1, this field indicates the failing
+                                                                 RAM3 address. The failing address is locked down until the DC0PERR\<2\> W1C occurs.
+                                                                 If multiple DC0PERR\<0\>=1 errors are detected, the LSB cluster error information is
                                                                  captured. */
 		uint64_t reserved_25_31              : 7;
-		uint64_t ram2fadr                    : 9;  /**< RO/H - HFA RAM2 failing address. If DFA_ERR[DC0PERR<1>] = 1, this field indicates the failing
-                                                                 RAM2 address. The failing address is locked down until the DC0PERR<1> W1C occurs.
-                                                                 If multiple DC0PERR<0>=1 errors are detected, the LSB cluster error information is
+		uint64_t ram2fadr                    : 9;  /**< RO/H - HFA RAM2 failing address. If DFA_ERR[DC0PERR\<1\>] = 1, this field indicates the failing
+                                                                 RAM2 address. The failing address is locked down until the DC0PERR\<1\> W1C occurs.
+                                                                 If multiple DC0PERR\<0\>=1 errors are detected, the LSB cluster error information is
                                                                  captured. */
 		uint64_t reserved_14_15              : 2;
-		uint64_t ram1fadr                    : 14; /**< RO/H - HFA RAM1 failing address. If DFA_ERR[DC0PERR<0>] = 1, this field indicates the failing
-                                                                 RAM1 address. The failing address is locked down until the DC0PERR<0> W1C occurs.
-                                                                 If multiple DC0PERR<0>=1 errors are detected, the LSB cluster error information is
+		uint64_t ram1fadr                    : 14; /**< RO/H - HFA RAM1 failing address. If DFA_ERR[DC0PERR\<0\>] = 1, this field indicates the failing
+                                                                 RAM1 address. The failing address is locked down until the DC0PERR\<0\> W1C occurs.
+                                                                 If multiple DC0PERR\<0\>=1 errors are detected, the LSB cluster error information is
                                                                  captured. */
 #else
 		uint64_t ram1fadr                    : 14;
@@ -1055,10 +1055,10 @@ typedef union bdk_dfa_int_done {
                                                                  Set when:
                                                                  1. DFA_INT_STATUS[DONE_CNT] becomes greater than DFA_DONE_WAIT[NUM_WAIT].
                                                                  2. SW writes DFA_DONE_ACK[DONE_ACK] with value that meets the next equation:
-                                                                    DFA_DONE_ACK[DONE_ACK] < ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] )
+                                                                    DFA_DONE_ACK[DONE_ACK] \< ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] )
 
                                                                  Clears when SW writes DFA_DONE_ACK[DONE_ACK] with value that meets the next equation:
-                                                                    DFA_DONE_ACK[DONE_ACK] > ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] ) */
+                                                                    DFA_DONE_ACK[DONE_ACK] \> ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] ) */
 #else
 		uint64_t inst_done                   : 1;
 		uint64_t reserved_1_63               : 63;
@@ -1633,8 +1633,8 @@ typedef union bdk_dfa_pfc0_ctl {
                                                                  11: \#CACHE visits (DNODE,CNODE) exc: CNDRD,MPHIDX.
                                                                  12: \#CACHE visits (DNODE,CNODE)+(CNDRD,MPHIDX).
                                                                  13: \#MEMORY visits (MNODE+MONODE).
-                                                                 14: \#CNDRDs detected (occur for SCNODE->*MNODE transitions).
-                                                                 15: \#MPHIDX detected (occur for ->LMNODE transitions).
+                                                                 14: \#CNDRDs detected (occur for SCNODE-\>*MNODE transitions).
+                                                                 15: \#MPHIDX detected (occur for -\>LMNODE transitions).
                                                                  16: \#RESCANs detected (occur when HASH collision is detected).
                                                                  17: \#GWALK iterations -  stalled--packet data/result buffer.
                                                                  18: \#GWALK iterations - nonstalled.
@@ -1929,9 +1929,9 @@ typedef union bdk_dfa_pfc_gctl {
                                                                  When ENODE=0/1(*DNODE), this field is used to further specify the Ending DNODE transition
                                                                  sub-type:
                                                                  0x0 = ALL DNODE sub-types.
-                                                                 0x1 = ->D2e (explicit DNODE transition node-arc alone transitions to DNODE).
-                                                                 0x2 = ->D2i (implicit DNODE transition:arc-present triggers transition).
-                                                                 0x3 = ->D1r (rescan DNODE transition). */
+                                                                 0x1 = -\>D2e (explicit DNODE transition node-arc alone transitions to DNODE).
+                                                                 0x2 = -\>D2i (implicit DNODE transition:arc-present triggers transition).
+                                                                 0x3 = -\>D1r (rescan DNODE transition). */
 		uint64_t enode                       : 4;  /**< R/W - Ending node selector.
                                                                  When DFA_PFCx_CTL[EVSEL]=Node Transition(31), the ENODE field is used to select Ending
                                                                  Node, and the SNODE field is used to select the Starting Node.

@@ -85,24 +85,24 @@ typedef union bdk_ocx_com_bist_status {
 	struct bdk_ocx_com_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_36_63              : 28;
-		uint64_t status                      : 36; /**< RO/H - <35:34> = Link 2 VC12            RX FIFOs.
-                                                                 <33:32> = Link 2 VC4/VC2         RX FIFOs.
-                                                                 <31:30> = Link 2 VC10/VC8/VC6    RX FIFOs.
-                                                                 <29:28> = Link 1 VC12            RX FIFOs.
-                                                                 <27:26> = Link 1 VC4/VC2         RX FIFOs.
-                                                                 <25:24> = Link 1 VC10/VC8/VC6    RX FIFOs.
-                                                                 <23:22> = Link 0 VC12            RX FIFOs.
-                                                                 <21:20> = Link 0 VC4/VC2         RX FIFOs.
-                                                                 <19:18> = Link 0 VC10/VC8/VC6    RX FIFOs.
-                                                                 <17:16> = Link 2 VC1/VC0         RX FIFOs.
-                                                                 <15:14> = Link 2 VC5/VC3         RX FIFOs.
-                                                                 <13:12> = Link 2 VC11/VC9/VC7    RX FIFOs.
-                                                                 <11:10> = Link 1 VC1/VC0         RX FIFOs.
-                                                                 <9:8>   = Link 1 VC5/VC3         RX FIFOs.
-                                                                 <7:6>   = Link 1 VC11/VC9/VC7    RX FIFOs.
-                                                                 <5:4>   = Link 0 VC1/VC0         RX FIFOs.
-                                                                 <3:2>   = Link 0 VC5/VC3         RX FIFOs.
-                                                                 <1:0>   = Link 0 VC11/VC9/VC7    RX FIFOs. */
+		uint64_t status                      : 36; /**< RO/H - \<35:34\> = Link 2 VC12            RX FIFOs.
+                                                                 \<33:32\> = Link 2 VC4/VC2         RX FIFOs.
+                                                                 \<31:30\> = Link 2 VC10/VC8/VC6    RX FIFOs.
+                                                                 \<29:28\> = Link 1 VC12            RX FIFOs.
+                                                                 \<27:26\> = Link 1 VC4/VC2         RX FIFOs.
+                                                                 \<25:24\> = Link 1 VC10/VC8/VC6    RX FIFOs.
+                                                                 \<23:22\> = Link 0 VC12            RX FIFOs.
+                                                                 \<21:20\> = Link 0 VC4/VC2         RX FIFOs.
+                                                                 \<19:18\> = Link 0 VC10/VC8/VC6    RX FIFOs.
+                                                                 \<17:16\> = Link 2 VC1/VC0         RX FIFOs.
+                                                                 \<15:14\> = Link 2 VC5/VC3         RX FIFOs.
+                                                                 \<13:12\> = Link 2 VC11/VC9/VC7    RX FIFOs.
+                                                                 \<11:10\> = Link 1 VC1/VC0         RX FIFOs.
+                                                                 \<9:8\>   = Link 1 VC5/VC3         RX FIFOs.
+                                                                 \<7:6\>   = Link 1 VC11/VC9/VC7    RX FIFOs.
+                                                                 \<5:4\>   = Link 0 VC1/VC0         RX FIFOs.
+                                                                 \<3:2\>   = Link 0 VC5/VC3         RX FIFOs.
+                                                                 \<1:0\>   = Link 0 VC11/VC9/VC7    RX FIFOs. */
 #else
 		uint64_t status                      : 36;
 		uint64_t reserved_36_63              : 28;
@@ -776,15 +776,15 @@ typedef union bdk_ocx_com_node {
                                                                  software to help assign IDs and is transmitted over CCPI. The FIXED field set during a
                                                                  cold
                                                                  reset to the value of the OCI_FIXED_NODE pin. The value is also readable in the
-                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT<2>] for each lane. The FIXED field of the link partner
-                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<2>] on each
+                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT\<2\>] for each lane. The FIXED field of the link partner
+                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT\<2\>] on each
                                                                  valid lane or remotely reading the OCX_COM_NODE[FIXED] on the link partner. */
 		uint64_t id                          : 2;  /**< R/W - Node ID associated with the chip. This register is used by the rest of the chip to
                                                                  determine what traffic is transmitted over CCPI. The value should not match the
                                                                  OCX_COM_LINK(0..2)_CTL[ID] of any active link. The ID field is set during a cold reset to
                                                                  the value of the OCI_NODE_ID pins. The value is also readable in the
-                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT<1:0>] for each lane. The ID field of the link partner
-                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT<1:0>] on each
+                                                                 OCX_LNE(0..23)_STS_MSG[TX_META_DAT\<1:0\>] for each lane. The ID field of the link partner
+                                                                 can be examined by locally reading the OCX_LNE(0..23)_STS_MSG[RX_META_DAT\<1:0\>] on each
                                                                  valid lane or remotely reading the OCX_COM_NODE[ID] on the link partner. */
 #else
 		uint64_t id                          : 2;
@@ -1955,19 +1955,19 @@ typedef union bdk_ocx_lnkx_cfg {
 		uint64_t qlm_manual                  : 6;  /**< R/W/H - QLM manual mask, where each bit corresponds to a QLM. A link automatically selects a QLM
                                                                  unless either QLM_MANUAL[QLM] is set or a QLM is not eligible for the link.
 
-                                                                 _ QLM_MANUAL<0> = LNE(0..3) = QLM0.
-                                                                 _ QLM_MANUAL<1> = LNE(7..4) = QLM1.
-                                                                 _ QLM_MANUAL<2> = LNE(11..8) = QLM2.
-                                                                 _ QLM_MANUAL<3> = LNE(15..12) = QLM3.
-                                                                 _ QLM_MANUAL<4> = LNE(19..16) = QLM4.
-                                                                 _ QLM_MANUAL<5> = LNE(23..23) = QLM5.
+                                                                 _ QLM_MANUAL\<0\> = LNE(0..3) = QLM0.
+                                                                 _ QLM_MANUAL\<1\> = LNE(7..4) = QLM1.
+                                                                 _ QLM_MANUAL\<2\> = LNE(11..8) = QLM2.
+                                                                 _ QLM_MANUAL\<3\> = LNE(15..12) = QLM3.
+                                                                 _ QLM_MANUAL\<4\> = LNE(19..16) = QLM4.
+                                                                 _ QLM_MANUAL\<5\> = LNE(23..23) = QLM5.
                                                                  _ LINK 0 may not select QLM4, QLM5.
                                                                  _ LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
                                                                  _ LINK 2 may not select QLM0, QLM1.
 
-                                                                 During a cold reset, this field is initialized to 0x3F when OCI_SPD<3:0> == 0xF.
+                                                                 During a cold reset, this field is initialized to 0x3F when OCI_SPD\<3:0\> == 0xF.
 
-                                                                 During a cold reset, this field is initialized to 0x0 when OCI_SPD<3:0> != 0xF.
+                                                                 During a cold reset, this field is initialized to 0x0 when OCI_SPD\<3:0\> != 0xF.
 
                                                                  This field is not modified by hardware at any other time.
 
@@ -1978,25 +1978,25 @@ typedef union bdk_ocx_lnkx_cfg {
                                                                  should not be selected for multiple links.
                                                                  LANE_REV has no effect on this mapping.
 
-                                                                 _ QLM_SELECT<0> = LNE(0..3) = QLM0.
-                                                                 _ QLM_SELECT<1> = LNE(7..4) = QLM1.
-                                                                 _ QLM_SELECT<2> = LNE(11..8) = QLM2.
-                                                                 _ QLM_SELECT<3> = LNE(15..12) = QLM3.
-                                                                 _ QLM_SELECT<4> = LNE(19..16) = QLM4.
-                                                                 _ QLM_SELECT<5> = LNE(23..23) = QLM5.
+                                                                 _ QLM_SELECT\<0\> = LNE(0..3) = QLM0.
+                                                                 _ QLM_SELECT\<1\> = LNE(7..4) = QLM1.
+                                                                 _ QLM_SELECT\<2\> = LNE(11..8) = QLM2.
+                                                                 _ QLM_SELECT\<3\> = LNE(15..12) = QLM3.
+                                                                 _ QLM_SELECT\<4\> = LNE(19..16) = QLM4.
+                                                                 _ QLM_SELECT\<5\> = LNE(23..23) = QLM5.
                                                                  _ LINK 0 may not select QLM4, QLM5.
                                                                  _ LINK 1 may not select QLM0, QLM1, QLM4, QLM5.
                                                                  _ LINK 2 may not select QLM0, QLM1.
                                                                  _ LINK 2 may not select QLM2 or QLM3 when LINK1 selects any QLM.
                                                                  _ LINK 0 may not select QLM2 or QLM3 when LINK1 selects any QLM.
-                                                                 _ LINK 0 automatically selects QLM0 when QLM_MANUAL<0>=0.
-                                                                 _ LINK 0 automatically selects QLM1 when QLM_MANUAL<1>=0.
-                                                                 _ LINK 0 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
-                                                                 _ LINK 1 automatically selects QLM2 when QLM_MANUAL<2>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
-                                                                 _ LINK 1 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
-                                                                 _ LINK 2 automatically selects QLM3 when QLM_MANUAL<3>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
-                                                                 _ LINK 3 automatically selects QLM4 when QLM_MANUAL<4>=0.
-                                                                 _ LINK 3 automatically selects QLM5 when QLM_MANUAL<5>=0.
+                                                                 _ LINK 0 automatically selects QLM0 when QLM_MANUAL\<0\>=0.
+                                                                 _ LINK 0 automatically selects QLM1 when QLM_MANUAL\<1\>=0.
+                                                                 _ LINK 0 automatically selects QLM2 when QLM_MANUAL\<2\>=0 and OCX_QLM2_CFG.SER_LOCAL=0.
+                                                                 _ LINK 1 automatically selects QLM2 when QLM_MANUAL\<2\>=0 and OCX_QLM2_CFG.SER_LOCAL=1.
+                                                                 _ LINK 1 automatically selects QLM3 when QLM_MANUAL\<3\>=0 and OCX_QLM3_CFG.SER_LOCAL=1.
+                                                                 _ LINK 2 automatically selects QLM3 when QLM_MANUAL\<3\>=0 and OCX_QLM3_CFG.SER_LOCAL=0.
+                                                                 _ LINK 3 automatically selects QLM4 when QLM_MANUAL\<4\>=0.
+                                                                 _ LINK 3 automatically selects QLM5 when QLM_MANUAL\<5\>=0.
 
                                                                  A link with QLM_SELECT = 000000 is invalid and will never exchange traffic with the
                                                                  link partner. */
@@ -2193,20 +2193,20 @@ typedef union bdk_ocx_pp_cmd {
                                                                  0x3 = Load 8-bytes. */
 		uint64_t ld_op                       : 1;  /**< R/W - Operation Type 0=Store 1=Load operation. */
 		uint64_t addr                        : 48; /**< R/W - The address used in both the load and store operations:
-                                                                 <47:46> = Reserved.
-                                                                 <45:44> = CCPI_ID.
-                                                                 <43:36> = NCB_ID.
-                                                                 <35:0>  = Address.
+                                                                 \<47:46\> = Reserved.
+                                                                 \<45:44\> = CCPI_ID.
+                                                                 \<43:36\> = NCB_ID.
+                                                                 \<35:0\>  = Address.
 
-                                                                 When <43:36> NCB_ID is RSL (0x7E) address field is defined as:
-                                                                 <47:46> = Reserved.
-                                                                 <45:44> = CCPI_ID.
-                                                                 <43:36> = 0x7E
-                                                                 <35:32> = Reserved.
-                                                                 <31:24> = RSL_ID.
-                                                                 <23:0>  = RSL register offset.
+                                                                 When \<43:36\> NCB_ID is RSL (0x7E) address field is defined as:
+                                                                 \<47:46\> = Reserved.
+                                                                 \<45:44\> = CCPI_ID.
+                                                                 \<43:36\> = 0x7E
+                                                                 \<35:32\> = Reserved.
+                                                                 \<31:24\> = RSL_ID.
+                                                                 \<23:0\>  = RSL register offset.
 
-                                                                 <2:0> are ignored in a store operation. */
+                                                                 \<2:0\> are ignored in a store operation. */
 #else
 		uint64_t addr                        : 48;
 		uint64_t ld_op                       : 1;
@@ -2314,8 +2314,8 @@ typedef union bdk_ocx_qlmx_cfg {
 		uint64_t ser_limit                   : 10; /**< RAZ - Reserved. */
 		uint64_t crd_dis                     : 1;  /**< R/W - For diagnostic use only. */
 		uint64_t reserved_27_30              : 4;
-		uint64_t trn_rxeq_only               : 1;  /**< R/W/H - Shortened training sequence.  Initialized to 1 during cold reset when OCI_SPD<3:0> pins
-                                                                 indicate 5 GBAUD <=speed < 8 GBAUD. Otherwise, initialized to 0 during a cold reset. This
+		uint64_t trn_rxeq_only               : 1;  /**< R/W/H - Shortened training sequence.  Initialized to 1 during cold reset when OCI_SPD\<3:0\> pins
+                                                                 indicate 5 GBAUD \<=speed \< 8 GBAUD. Otherwise, initialized to 0 during a cold reset. This
                                                                  field is
                                                                  not affected by soft or warm reset.  For diagnostic use only. */
 		uint64_t timer_dis                   : 1;  /**< R/W/H - Disable bad lane timer. A timer counts core clocks (RCLKs) when any enabled lane is not
@@ -2323,7 +2323,7 @@ typedef union bdk_ocx_qlmx_cfg {
                                                                  lanes can be made ready, then any lane which is not ready is disabled via
                                                                  OCX_QLM(0..5)_CFG[SER_LANE_BAD]. This field is not affected by soft or warm reset. */
 		uint64_t trn_ena                     : 1;  /**< R/W/H - Link training enable. Link training is performed during auto link bring up. Initialized to
-                                                                 1 during cold reset when OCI_SPD<3:0> pins indicate speed >= 5 GBAUD. Otherwise,
+                                                                 1 during cold reset when OCI_SPD\<3:0\> pins indicate speed \>= 5 GBAUD. Otherwise,
                                                                  initialized to 0 during a cold reset. This field is not affected by soft or warm reset. */
 		uint64_t ser_lane_ready              : 4;  /**< R/W/H - SerDes lanes that are ready for bundling into the link. */
 		uint64_t ser_lane_bad                : 4;  /**< R/W/H - SerDes lanes excluded from use. */
@@ -2337,13 +2337,13 @@ typedef union bdk_ocx_qlmx_cfg {
                                                                  0 = TX without inversion.
                                                                  1 = TX with inversion. */
 		uint64_t reserved_1_2                : 2;
-		uint64_t ser_local                   : 1;  /**< R/W/H - _ Auto initialization may set OCX_LNK0_CFG[QLM_SELECT<2>] = 1 only if
+		uint64_t ser_local                   : 1;  /**< R/W/H - _ Auto initialization may set OCX_LNK0_CFG[QLM_SELECT\<2\>] = 1 only if
                                                                  OCX_QLM2_CFG[SER_LOCAL] = 0.
-                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<2>] = 1 only if
+                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT\<2\>] = 1 only if
                                                                  OCX_QLM2_CFG[SER_LOCAL] = 1.
-                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT<3>] = 1 only if
+                                                                 _ Auto initialization may set OCX_LNK1_CFG[QLM_SELECT\<3\>] = 1 only if
                                                                  OCX_QLM3_CFG[SER_LOCAL] = 1.
-                                                                 _ Auto initialization may set OCX_LNK2_CFG[QLM_SELECT<3>] = 1 only if
+                                                                 _ Auto initialization may set OCX_LNK2_CFG[QLM_SELECT\<3\>] = 1 only if
                                                                  OCX_QLM3_CFG[SER_LOCAL] = 0.
 
                                                                  _ QLM0/1 can only participate in LNK0; therefore
@@ -2592,7 +2592,7 @@ typedef union bdk_ocx_rlkx_key_highx {
 	uint64_t u;
 	struct bdk_ocx_rlkx_key_highx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Transmit key data <127:64>.
+		uint64_t data                        : 64; /**< WO - Transmit key data \<127:64\>.
                                                                  Reads as zero if OCX_RLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -2623,7 +2623,7 @@ typedef union bdk_ocx_rlkx_key_lowx {
 	uint64_t u;
 	struct bdk_ocx_rlkx_key_lowx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Receive key data <63:0>.
+		uint64_t data                        : 64; /**< WO - Receive key data \<63:0\>.
                                                                  Reads as zero if OCX_RLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -2765,7 +2765,7 @@ typedef union bdk_ocx_rlkx_salt_high {
 	uint64_t u;
 	struct bdk_ocx_rlkx_salt_high_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Receive salt data <127:64>.
+		uint64_t data                        : 64; /**< WO - Receive salt data \<127:64\>.
                                                                  Reads as zero if OCX_RLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -2796,7 +2796,7 @@ typedef union bdk_ocx_rlkx_salt_low {
 	uint64_t u;
 	struct bdk_ocx_rlkx_salt_low_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Receive salt data <63:0>.
+		uint64_t data                        : 64; /**< WO - Receive salt data \<63:0\>.
                                                                  Reads as zero if OCX_RLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -2831,9 +2831,9 @@ typedef union bdk_ocx_tlkx_bist_status {
 	struct bdk_ocx_tlkx_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t status                      : 16; /**< RO/H - <15:14> = REPLAY Memories BIST Status <1:0>.
-                                                                 <13:12> = MOC TX_FIFO BIST Status <1:0>.
-                                                                 <11:0>  = TX_FIFO[11:0] by Link VC number. */
+		uint64_t status                      : 16; /**< RO/H - \<15:14\> = REPLAY Memories BIST Status \<1:0\>.
+                                                                 \<13:12\> = MOC TX_FIFO BIST Status \<1:0\>.
+                                                                 \<11:0\>  = TX_FIFO[11:0] by Link VC number. */
 #else
 		uint64_t status                      : 16;
 		uint64_t reserved_16_63              : 48;
@@ -2940,7 +2940,7 @@ typedef union bdk_ocx_tlkx_key_highx {
 	uint64_t u;
 	struct bdk_ocx_tlkx_key_highx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Transmit encryption key <127:64>.
+		uint64_t data                        : 64; /**< WO - Transmit encryption key \<127:64\>.
                                                                  Reads as zero if OCX_TLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -2971,7 +2971,7 @@ typedef union bdk_ocx_tlkx_key_lowx {
 	uint64_t u;
 	struct bdk_ocx_tlkx_key_lowx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Transmit encryption key <63:0>.
+		uint64_t data                        : 64; /**< WO - Transmit encryption key \<63:0\>.
                                                                  Reads as zero if OCX_TLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -3076,7 +3076,7 @@ typedef union bdk_ocx_tlkx_mcd_ctl {
 	struct bdk_ocx_tlkx_mcd_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_3_63               : 61;
-		uint64_t tx_enb                      : 3;  /**< R/W - Transmission enables for MCD bits <2:0>. */
+		uint64_t tx_enb                      : 3;  /**< R/W - Transmission enables for MCD bits \<2:0\>. */
 #else
 		uint64_t tx_enb                      : 3;
 		uint64_t reserved_3_63               : 61;
@@ -3187,7 +3187,7 @@ typedef union bdk_ocx_tlkx_salt_high {
 	uint64_t u;
 	struct bdk_ocx_tlkx_salt_high_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Transmit salt data <127:64>.
+		uint64_t data                        : 64; /**< WO - Transmit salt data \<127:64\>.
                                                                  Reads as zero if OCX_TLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -3218,7 +3218,7 @@ typedef union bdk_ocx_tlkx_salt_low {
 	uint64_t u;
 	struct bdk_ocx_tlkx_salt_low_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< WO - Transmit salt data <63:0>.
+		uint64_t data                        : 64; /**< WO - Transmit salt data \<63:0\>.
                                                                  Reads as zero if OCX_TLK(0..2)_PROTECT[WO_KEY] is set. */
 #else
 		uint64_t data                        : 64;
@@ -3618,12 +3618,12 @@ typedef union bdk_ocx_tlkx_status {
 		uint64_t reserved_9_15               : 7;
 		uint64_t drop                        : 1;  /**< RO/H - Link is dropping all requests. */
 		uint64_t sm                          : 6;  /**< RO/H - Block state machine:
-                                                                 Bit<2>: Req / Ack (Init or retry only).
-                                                                 Bit<3>: Init.
-                                                                 Bit<4>: Run.
-                                                                 Bit<5>: Retry.
-                                                                 Bit<6>: Replay.
-                                                                 Bit<7>: Replay Pending. */
+                                                                 Bit\<2\>: Req / Ack (Init or retry only).
+                                                                 Bit\<3\>: Init.
+                                                                 Bit\<4\>: Run.
+                                                                 Bit\<5\>: Retry.
+                                                                 Bit\<6\>: Replay.
+                                                                 Bit\<7\>: Replay Pending. */
 		uint64_t cnt                         : 2;  /**< RO/H - Block subcount. Should always increment 0,1,2,3,0.. except during TX PHY stall. */
 #else
 		uint64_t cnt                         : 2;
@@ -3685,20 +3685,20 @@ typedef union bdk_ocx_win_cmd {
                                                                  0x3 = Load 8-bytes. */
 		uint64_t ld_op                       : 1;  /**< R/W - Operation Type 0=Store 1=Load operation. */
 		uint64_t addr                        : 48; /**< R/W - The address used in both the load and store operations:
-                                                                 <47:46> = Reserved.
-                                                                 <45:44> = CCPI_ID.
-                                                                 <43:36> = NCB_ID.
-                                                                 <35:0>  = Address.
+                                                                 \<47:46\> = Reserved.
+                                                                 \<45:44\> = CCPI_ID.
+                                                                 \<43:36\> = NCB_ID.
+                                                                 \<35:0\>  = Address.
 
-                                                                 When <43:36> NCB_ID is RSL (0x7E) address field is defined as:
-                                                                 <47:46> = Reserved.
-                                                                 <45:44> = CCPI_ID.
-                                                                 <43:36> = 0x7E
-                                                                 <35:32> = Reserved.
-                                                                 <31:24> = RSL_ID.
-                                                                 <23:0>  = RSL register offset.
+                                                                 When \<43:36\> NCB_ID is RSL (0x7E) address field is defined as:
+                                                                 \<47:46\> = Reserved.
+                                                                 \<45:44\> = CCPI_ID.
+                                                                 \<43:36\> = 0x7E
+                                                                 \<35:32\> = Reserved.
+                                                                 \<31:24\> = RSL_ID.
+                                                                 \<23:0\>  = RSL register offset.
 
-                                                                 <2:0> are ignored in a store operation. */
+                                                                 \<2:0\> are ignored in a store operation. */
 #else
 		uint64_t addr                        : 48;
 		uint64_t ld_op                       : 1;

@@ -138,7 +138,7 @@ typedef union bdk_fusf_ctl {
                                                                  This also might not allow for the device to be completely tested
                                                                  by Cavium, so returns might not be allowed with this fuse set. */
 		uint64_t tz_force2                   : 1;  /**< SRO - Trusted-mode force override 2.
-                                                                 When set, overrides the trusted-mode strap (GPIO_STRAP<10>) and always requires
+                                                                 When set, overrides the trusted-mode strap (GPIO_STRAP\<10\>) and always requires
                                                                  trusted boot.  If set, and TBL1FW does not authenticate,
                                                                  the boot still falls back to NBL1FW, therefore FUSF_CTL[FJ_DIS]
                                                                  might also want to be set. */
@@ -461,9 +461,9 @@ typedef union bdk_fusf_swx {
                                                                  FUSF_SW() reads as 0x0 when RST_BOOT[DIS_HUK] is set.
 
                                                                  Some uses for this space include:
-                                                                   * One-hot encoding of TrustedFirmwareNvCounter <31:0>,
+                                                                   * One-hot encoding of TrustedFirmwareNvCounter \<31:0\>,
                                                                    number of firmware updates.
-                                                                   * One-hot encoding of NonTrustedFirmwareNvCounter <234:0>,
+                                                                   * One-hot encoding of NonTrustedFirmwareNvCounter \<234:0\>,
                                                                    number of firmware updates.
                                                                    * Along with FUSF_EK as a private endorsement key (EK). */
 #else
