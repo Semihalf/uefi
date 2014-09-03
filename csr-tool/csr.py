@@ -1,5 +1,4 @@
 import re
-from csr_fixes import fixCsrName
 from csr_fixes import fixCsr
 from types import *
 
@@ -37,7 +36,6 @@ class Csr:
         assert isinstance(notes, ListType), type(notes)
         assert isinstance(is_banked, BooleanType), type(is_banked)
         self.group = group;
-        name = fixCsrName(name)
         self.name = ""
         self.is_banked = is_banked
 	self.inherits_algorithm = inherits_algorithm
