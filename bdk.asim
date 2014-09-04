@@ -14,8 +14,8 @@ device io_memory n1.sli config 0x2000000000 0x974000000000
 control n1.gpio0 set strap 0x8
 
 # Listen for uart connections on port 2000, 2001
-control n0.uaa0 connect 2000
-control n0.uaa1 connect 2001
+control n0.uaa0 connect ${UART0PORT}
+control n0.uaa1 connect ${UART1PORT}
 
 #trace n0.nic0 debug step
 #trace n0.nic_bridge on

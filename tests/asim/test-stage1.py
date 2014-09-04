@@ -20,7 +20,9 @@ os.environ["ASIM_LIBRARY_PATH"] = ASIM + "/lib"
 
 pipe_r, pipe_w = os.pipe()
 UART0PORT = str(pipe_w)
-
+UART1PORT = "1"
+os.environ["UART0PORT"] = UART0PORT
+os.environ["UART1PORT"] = UART1PORT
 #
 # Load the simulator
 #
@@ -51,7 +53,6 @@ def wait_for(wait_str):
 # Load the common config
 #
 assert sim.command("@%s/bdk.asim" % BDK_ROOT)
-assert sim.command("control n0.uaa0 connect %s" % UART0PORT)
 assert sim.command("start 0")
 
 wait_for("Bringup and Diagnostic Kit (BDK)")

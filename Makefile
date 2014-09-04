@@ -46,7 +46,7 @@ suid: all
 
 .PHONY: run
 run:
-	$(ASIM)/asim -e bdk.asim
+	UART0PORT=2000 UART1PORT=2001 $(ASIM)/asim -e bdk.asim
 
 ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
