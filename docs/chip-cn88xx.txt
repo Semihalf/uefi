@@ -1,20 +1,19 @@
 
-CN78XX and CN77XX
-=================
+CN88XX
+======
 
 Overview
 --------
 
-The CN78XX and CN77XX chips contain a large amount of L2 cache. This allows
+The CN88XX chips contain a large amount of L2 cache. This allows
 the BDK to run on these chips without DRAM setup. In addition, the BDK
 supports a multi-node setup (NUMA).
 
-Supported boot options for CN78XX and CN77XX
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Supported boot options for CN88XX
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Parallel NOR flash
-* MMC, eMMC, or an SD card
 * SPI NOR flash
+* MMC, eMMC, or an SD card
 
 Getting flash programmed the first time
 ---------------------------------------
@@ -25,15 +24,10 @@ programming flash using a combination of EJTAG/PCIe and serial over UART0.
 For the various boot options, the BDK supplies binary images that must be
 programmed into the beginning of flash.  Here is a list of images:
 
-* Booting from parallel NOR flash
-** bdk-boot-nor-cn78xx.bin
-* Booting from MMC, eMMC, or an SD card
-** bdk-boot-emmc-cn78xx.bin
 * Booting from SPI NOR flash
-** bdk-boot-spi-cn78xx.bin
-
-NOTE: These steps refer to programming BDK images.  They work equally well
-for Uboot images built from the Cavium SDK.
+** bdk-boot-spi-cn88xx.bin
+* Booting from MMC, eMMC, or an SD card
+** bdk-boot-emmc-cn88xx.bin
 
 Using Xmodem to program flash
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,17 +80,10 @@ use *bdk-remote* instead of the menu option here.
 Using PCIe to program flash
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.Programming parallel NOR flash over PCIe
-----
-export OCTEON_REMOTE_PROTOCOL=PCI
-bdk-remote flash write bdk-boot-nor-cn78xx.bin 0
-bdk-remote reset
-----
-
 .Programming MMC, eMMC, or an SD card over PCIe
 ----
 export OCTEON_REMOTE_PROTOCOL=PCI
-bdk-remote mmc write bdk-boot-emmc-cn78xx.bin 0
+bdk-remote mmc write bdk-boot-emmc-cn88xx.bin 0
 bdk-remote reset
 ----
 
@@ -121,8 +108,8 @@ bootloader takes 1-2 days to load into parallel NOR.  MMC, eMMC, and SD
 are faster, but still quite slow.
 
 
-Using the BDK on CN78XX and CN77XX
-----------------------------------
+Using the BDK on CN88XX
+-----------------------
 
 After programming the BDK into flash and performing a reset, the BDK
 application should boot and show the following output.
@@ -137,7 +124,7 @@ Menu choice: (0INS)>
 Configure the SERDES
 ~~~~~~~~~~~~~~~~~~~~
 
-The eight QLM interfaces on CN78XX/CN77XX must be configured before they
+The eight QLM interfaces on CN88XX must be configured before they
 can be used.  Under the *SERDES configuration* menu option, choose *Change
 QLM/DLM configuration* to interactively configure the interfaces.  Note
 that these interfaces must be manually configured after every chip reset
@@ -164,6 +151,6 @@ Next steps
 ~~~~~~~~~~
 
 After completeing the steps in this document, the BDK is properly
-configured for the CN78XX or CN77XX board.  Now the other menu options are
+configured for the CN88XX board.  Now the other menu options are
 available for testing out various IO connections.
 
