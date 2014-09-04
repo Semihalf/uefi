@@ -59,15 +59,9 @@ $ export OCTEON_REMOTE_PROTOCOL=pci
 $ bdk-remote boot target-bin/bdk-full.bin
 ----
 
-=== Boot over EJTAG
+=== Boot over JTAG
 
-The BDK has been tested with multiple EJTAG probes.  The best
-supported probe is the Macraigor mpDemon, followed by the Mentor
-Graphics Majic.  The following sections details the process of booting
-the BDK using either probe.  Other EJTAG probes should be similar.
-
-include::sections/ejtag-macraigor-mpdemon.txt[]
-include::sections/ejtag-mentor-majic.txt[]
+TBD
 
 == Successful Booting
 
