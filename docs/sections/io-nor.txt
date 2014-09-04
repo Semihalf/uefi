@@ -1,4 +1,0 @@
-[[NOR]]
-= NOR Flash
-
-See Booting. TBD.

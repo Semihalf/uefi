@@ -1,4 +1,0 @@
-[[NAND]]
-= NAND Flash
-
-See Booting. TBD.

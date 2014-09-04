@@ -1,7 +1,0 @@
-[[TDM]]
-= TDM / PCM
-
-TDM / PCM is currently not supported by the BDK.  Use the OCTEON SDK for
-this interface.
-
-
