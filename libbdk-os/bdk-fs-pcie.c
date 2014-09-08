@@ -7,12 +7,15 @@ BDK_REQUIRE_DEFINE(FS_PCIE);
 
 static void *pcie_open(const char *name, int flags)
 {
+    bdk_node_t node = bdk_numa_local();
     long pcie_port = atoi(name);
-    if ((pcie_port < 0) || (pcie_port >= 4))
+    int num_pcie = bdk_pcie_get_num_ports(node);
+
+    if ((pcie_port < 0) || (pcie_port >= num_pcie))
         return NULL;
 
     long state = pcie_port + 1;
-    state += bdk_numa_local() << 8;
+    state += node << 8;
     return (void*)state;
 }
 
