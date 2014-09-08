@@ -257,12 +257,12 @@ union bgx_spu_sds_cu_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55; /**< [ 63:  9] Reserved */
-		uint64_t rcvr_ready                  : 1;  /**< [  8:  8] See RX_READY field in BGX_SPU_BR_TRAIN_REP_S. */
-		uint64_t preset                      : 1;  /**< [  7:  7] See PRESET field in BGX_SPU_BR_TRAIN_CUP_S. */
-		uint64_t initialize                  : 1;  /**< [  6:  6] See INIT field in BGX_SPU_BR_TRAIN_CUP_S. */
-		uint64_t post_cu                     : 2;  /**< [  5:  4] See POST_CUP field in BGX_SPU_BR_TRAIN_CUP_S. */
-		uint64_t main_cu                     : 2;  /**< [  3:  2] See MAIN_CUP field in BGX_SPU_BR_TRAIN_CUP_S. */
-		uint64_t pre_cu                      : 2;  /**< [  1:  0] See PRE_CUP field in BGX_SPU_BR_TRAIN_CUP_S. */
+		uint64_t rcvr_ready                  : 1;  /**< [  8:  8] See BGX_SPU_BR_TRAIN_REP_S[RX_READY]. */
+		uint64_t preset                      : 1;  /**< [  7:  7] See BGX_SPU_BR_TRAIN_CUP_S[PRESET]. */
+		uint64_t initialize                  : 1;  /**< [  6:  6] See BGX_SPU_BR_TRAIN_CUP_S[INIT]. */
+		uint64_t post_cu                     : 2;  /**< [  5:  4] See BGX_SPU_BR_TRAIN_CUP_S[POST_CUP]. */
+		uint64_t main_cu                     : 2;  /**< [  3:  2] See BGX_SPU_BR_TRAIN_CUP_S[MAIN_CUP]. */
+		uint64_t pre_cu                      : 2;  /**< [  1:  0] See BGX_SPU_BR_TRAIN_CUP_S[PRE_CUP]. */
 #else
 		uint64_t pre_cu                      : 2;
 		uint64_t main_cu                     : 2;
@@ -320,9 +320,9 @@ union bgx_spu_sds_sr_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_6_63               : 58; /**< [ 63:  6] Reserved */
-		uint64_t post_status                 : 2;  /**< [  5:  4] See POST_CST field in BGX_SPU_BR_TRAIN_REP_S. */
-		uint64_t main_status                 : 2;  /**< [  3:  2] See MAIN_CST field in BGX_SPU_BR_TRAIN_REP_S. */
-		uint64_t pre_status                  : 2;  /**< [  1:  0] See PRE_CST field in BGX_SPU_BR_TRAIN_REP_S. */
+		uint64_t post_status                 : 2;  /**< [  5:  4] See BGX_SPU_BR_TRAIN_REP_S[POST_CST]. */
+		uint64_t main_status                 : 2;  /**< [  3:  2] See BGX_SPU_BR_TRAIN_REP_S[MAIN_CST]. */
+		uint64_t pre_status                  : 2;  /**< [  1:  0] See BGX_SPU_BR_TRAIN_REP_S[PRE_CST]. */
 #else
 		uint64_t pre_status                  : 2;
 		uint64_t main_status                 : 2;

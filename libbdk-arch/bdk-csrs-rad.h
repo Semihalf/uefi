@@ -204,6 +204,7 @@ union rad_iword_s {
  *
  * RAD Non-Zero Result Structure
  * Data written to RAD_OWORD_S[PTR] with non-zero result.
+ * RAD_REG_CTL[STORE_BE] indicates the endianness of this structure.
  */
 union rad_nzdist_s {
 	uint64_t u;
@@ -211,8 +212,7 @@ union rad_nzdist_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_24_63              : 40; /**< [ 63: 24] Zero. */
 		uint64_t nzdist                      : 24; /**< [ 23:  0] Location of first pipe result byte that is non-zero. If all pipe result bytes are zero for
-                                                                 this instruction, NZDIST = RAD_CWORD_S[SIZE]. NZDIST uses the endianness requested in
-                                                                 RAD_CWORD_S[FIXME_NEW]. */
+                                                                 this instruction, NZDIST = RAD_CWORD_S[SIZE]. */
 #else
 		uint64_t nzdist                      : 24;
 		uint64_t reserved_24_63              : 40;
@@ -276,7 +276,7 @@ union rad_resp_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. */
 		uint64_t ptr                         : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte indicated by
-                                                                 [PTR] to zero after completing the instruction. RAD_REG_CTL[STORE_LE] indicates the
+                                                                 [PTR] to zero after completing the instruction. RAD_REG_CTL[STORE_BE] indicates the
                                                                  endianness of [PTR]. [PTR] must be naturally-aligned on an 8B boundary (i.e. \<2:0\> must be
                                                                  zero) when RAD_CWORD_S[WQE] is set. The SMMU stream used may be overridden with
                                                                  [STR]. */
@@ -457,7 +457,8 @@ typedef union bdk_rad_int {
 	struct bdk_rad_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t done                        : 1;  /**< RO/H - Done interrupt. See RAD_DONE_CNT[DONE]. */
+		uint64_t done                        : 1;  /**< RO/H - Done interrupt. See RAD_DONE_CNT[DONE].  Note this bit is read-only, to acknowledge
+                                                                 interrupts use RAD_DONE_ACK. To test interrupts, write non-zero to RAD_DONE_CNT[DONE]. */
 		uint64_t doorbell                    : 1;  /**< R/W1C/H - Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
 #else
 		uint64_t doorbell                    : 1;
@@ -484,14 +485,17 @@ static inline uint64_t BDK_RAD_INT_FUNC(void)
 
 /**
  * NCB - rad_int_ena_w1c
+ *
+ * This register clears interrupt enable bits.
+ *
  */
 typedef union bdk_rad_int_ena_w1c {
 	uint64_t u;
 	struct bdk_rad_int_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t done                        : 1;  /**< RO/H - Done interrupt. See RAD_DONE_CNT[DONE]. */
-		uint64_t doorbell                    : 1;  /**< R/W1C/H - Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
+		uint64_t done                        : 1;  /**< R/W1C/H - Reads or clears enable for RAD_INT[DONE]. */
+		uint64_t doorbell                    : 1;  /**< R/W1C/H - Reads or clears enable for RAD_INT[DOORBELL]. */
 #else
 		uint64_t doorbell                    : 1;
 		uint64_t done                        : 1;
@@ -517,14 +521,17 @@ static inline uint64_t BDK_RAD_INT_ENA_W1C_FUNC(void)
 
 /**
  * NCB - rad_int_ena_w1s
+ *
+ * This register sets interrupt enable bits.
+ *
  */
 typedef union bdk_rad_int_ena_w1s {
 	uint64_t u;
 	struct bdk_rad_int_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t done                        : 1;  /**< RO/H - Done interrupt. See RAD_DONE_CNT[DONE]. */
-		uint64_t doorbell                    : 1;  /**< R/W1C/H - Doorbell interrupt.  Set to indicate error that doorbell count has overflowed. */
+		uint64_t done                        : 1;  /**< R/W1S/H - Reads or sets enable for RAD_INT[DONE]. */
+		uint64_t doorbell                    : 1;  /**< R/W1S/H - Reads or sets enable for RAD_INT[DOORBELL]. */
 #else
 		uint64_t doorbell                    : 1;
 		uint64_t done                        : 1;

@@ -53,7 +53,7 @@ SYSTEM_REGISTER(CPTR_EL3, 3,6,1,1,2, 0x80000400, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CSSELR_EL1, 3,2,0,0,0, 0xf, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CTR_EL0, 3,3,0,0,1, 0x80000000, 0x80000000, 0xfffc00f, 0x85558005, 0x85558005, true)
 SYSTEM_REGISTER(CurrentEL, 3,0,4,2,2, 0x0, 0x0, 0xc, 0xc, 0xc, true)
-SYSTEM_REGISTER(CVMCTL_EL1, 3,0,11,0,0, 0x7ffff03ff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(CVMCTL_EL1, 3,0,11,0,0, 0x37ffff03ff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVMMEMCTL0_EL1, 3,0,11,0,4, 0x7fffffffffff, 0x0, 0x7c00000000000000, 0x43e0d67c, 0x43e0d67c, true)
 SYSTEM_REGISTER(CVMMEMCTL1_EL1, 3,0,11,0,5, 0x0, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_POWER_EL1, 3,0,11,0,2, 0xffffffff1fffffff, 0x0, 0x0, 0x2ffff00, 0x2ffff00, true)
@@ -1631,7 +1631,10 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t reserved_35_63 : 29;
+        uint64_t reserved_38_63 : 26;
+        uint64_t disable_casp : 1;
+        uint64_t disable_cas : 1;
+        uint64_t reserved_35 : 1;
         uint64_t disable_wfe : 1;
         uint64_t enable_v81 : 1;
         uint64_t make_isb_unnecessarily_slow : 1;
@@ -1673,7 +1676,10 @@ typedef union
         uint64_t make_isb_unnecessarily_slow : 1;
         uint64_t enable_v81 : 1;
         uint64_t disable_wfe : 1;
-        uint64_t reserved_35_63 : 29;
+        uint64_t reserved_35 : 1;
+        uint64_t disable_cas : 1;
+        uint64_t disable_casp : 1;
+        uint64_t reserved_38_63 : 26;
 #endif
     } s;
 #ifdef __cplusplus

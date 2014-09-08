@@ -2302,8 +2302,28 @@ typedef union bdk_smmux_err_ena_w1c {
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
-		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM. INTERNAL:
-                                                                 Same bit ordering as SMMU()_BIST_STATUS. */
+		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
+                                                                 \<20\> = TCTL.
+                                                                 \<19\> = WCTL.
+                                                                 \<18\> = XL_MFIFO.
+                                                                 \<17\> = MSIX.
+                                                                 \<16\> = CONTEXT_IDR.
+                                                                 \<15\> = CB_FRSYNRA.
+                                                                 \<14\> = CB_IPAFAR.
+                                                                 \<13\> = CB_FSYNR0.
+                                                                 \<12\> = CB_FAR.
+                                                                 \<11\> = S2CR.
+                                                                 \<10\> = CB_ACTLR.
+                                                                 \<9\>  = CB_TCR2.
+                                                                 \<8\>  = SSDR.
+                                                                 \<7\>  = SCTLR.
+                                                                 \<6\>  = CB_MAIR0.
+                                                                 \<5\>  = CB_MAIR1.
+                                                                 \<4\>  = CBAR.
+                                                                 \<3\>  = CBA2R.
+                                                                 \<2\>  = CB_TTBR0.
+                                                                 \<1\>  = CB_TTBR1.
+                                                                 \<0\>  = CB_TCR. */
 #else
 		uint64_t ram_sbe                     : 21;
 		uint64_t reserved_21_31              : 11;
@@ -2339,8 +2359,28 @@ typedef union bdk_smmux_err_ena_w1s {
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
-		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM. INTERNAL:
-                                                                 Same bit ordering as SMMU()_BIST_STATUS. */
+		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
+                                                                 \<20\> = TCTL.
+                                                                 \<19\> = WCTL.
+                                                                 \<18\> = XL_MFIFO.
+                                                                 \<17\> = MSIX.
+                                                                 \<16\> = CONTEXT_IDR.
+                                                                 \<15\> = CB_FRSYNRA.
+                                                                 \<14\> = CB_IPAFAR.
+                                                                 \<13\> = CB_FSYNR0.
+                                                                 \<12\> = CB_FAR.
+                                                                 \<11\> = S2CR.
+                                                                 \<10\> = CB_ACTLR.
+                                                                 \<9\>  = CB_TCR2.
+                                                                 \<8\>  = SSDR.
+                                                                 \<7\>  = SCTLR.
+                                                                 \<6\>  = CB_MAIR0.
+                                                                 \<5\>  = CB_MAIR1.
+                                                                 \<4\>  = CBAR.
+                                                                 \<3\>  = CBA2R.
+                                                                 \<2\>  = CB_TTBR0.
+                                                                 \<1\>  = CB_TTBR1.
+                                                                 \<0\>  = CB_TCR. */
 #else
 		uint64_t ram_sbe                     : 21;
 		uint64_t reserved_21_31              : 11;
@@ -2376,8 +2416,28 @@ typedef union bdk_smmux_err_int {
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
-		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM. INTERNAL:
-                                                                 Same bit ordering as SMMU()_BIST_STATUS. */
+		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
+                                                                 \<20\> = TCTL.
+                                                                 \<19\> = WCTL.
+                                                                 \<18\> = XL_MFIFO.
+                                                                 \<17\> = MSIX.
+                                                                 \<16\> = CONTEXT_IDR.
+                                                                 \<15\> = CB_FRSYNRA.
+                                                                 \<14\> = CB_IPAFAR.
+                                                                 \<13\> = CB_FSYNR0.
+                                                                 \<12\> = CB_FAR.
+                                                                 \<11\> = S2CR.
+                                                                 \<10\> = CB_ACTLR.
+                                                                 \<9\>  = CB_TCR2.
+                                                                 \<8\>  = SSDR.
+                                                                 \<7\>  = SCTLR.
+                                                                 \<6\>  = CB_MAIR0.
+                                                                 \<5\>  = CB_MAIR1.
+                                                                 \<4\>  = CBAR.
+                                                                 \<3\>  = CBA2R.
+                                                                 \<2\>  = CB_TTBR0.
+                                                                 \<1\>  = CB_TTBR1.
+                                                                 \<0\>  = CB_TCR. */
 #else
 		uint64_t ram_sbe                     : 21;
 		uint64_t reserved_21_31              : 11;
@@ -2413,8 +2473,28 @@ typedef union bdk_smmux_err_int_w1s {
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
-		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM. INTERNAL:
-                                                                 Same bit ordering as SMMU()_BIST_STATUS. */
+		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
+                                                                 \<20\> = TCTL.
+                                                                 \<19\> = WCTL.
+                                                                 \<18\> = XL_MFIFO.
+                                                                 \<17\> = MSIX.
+                                                                 \<16\> = CONTEXT_IDR.
+                                                                 \<15\> = CB_FRSYNRA.
+                                                                 \<14\> = CB_IPAFAR.
+                                                                 \<13\> = CB_FSYNR0.
+                                                                 \<12\> = CB_FAR.
+                                                                 \<11\> = S2CR.
+                                                                 \<10\> = CB_ACTLR.
+                                                                 \<9\>  = CB_TCR2.
+                                                                 \<8\>  = SSDR.
+                                                                 \<7\>  = SCTLR.
+                                                                 \<6\>  = CB_MAIR0.
+                                                                 \<5\>  = CB_MAIR1.
+                                                                 \<4\>  = CBAR.
+                                                                 \<3\>  = CBA2R.
+                                                                 \<2\>  = CB_TTBR0.
+                                                                 \<1\>  = CB_TTBR1.
+                                                                 \<0\>  = CB_TCR. */
 #else
 		uint64_t ram_sbe                     : 21;
 		uint64_t reserved_21_31              : 11;

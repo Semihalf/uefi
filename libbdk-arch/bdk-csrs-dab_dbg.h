@@ -1384,9 +1384,9 @@ typedef union bdk_dbgx_editr {
 	uint32_t u;
 	struct bdk_dbgx_editr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t t32second                   : 16; /**< RO - Second halfword of the T32 instruction to be executed on the
+		uint32_t t32second                   : 16; /**< WO - Second halfword of the T32 instruction to be executed on the
                                                                  processor. */
-		uint32_t t32first                    : 16; /**< RO - First halfword of the T32 instruction to be executed on the
+		uint32_t t32first                    : 16; /**< WO - First halfword of the T32 instruction to be executed on the
                                                                  processor. */
 #else
 		uint32_t t32first                    : 16;
