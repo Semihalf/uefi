@@ -36,6 +36,7 @@
 #include "bdk-pcie.h"
 #include "bdk-qlm.h"
 #include "bdk-rng.h"
+#include "bdk-sata.h"
 #include "bdk-twsi.h"
 #include "bdk-access-native.h"
 

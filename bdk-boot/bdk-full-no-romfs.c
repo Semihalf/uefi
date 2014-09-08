@@ -25,6 +25,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(TRAFFIC_GEN);
     BDK_REQUIRE(ERROR_DECODE);
     BDK_REQUIRE(TWSI);
+    BDK_REQUIRE(SATA);
 }
 
 /**
