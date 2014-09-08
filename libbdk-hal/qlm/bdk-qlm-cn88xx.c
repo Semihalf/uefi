@@ -515,6 +515,14 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* 10. Initialize UAHC as described in the AHCI specification
         (UAHC_* registers). */
     /* Done when a SATA driver is initialized */
+
+    /* Report 1 port per controller */
+    for (int p = sata_port; p < sata_port_end; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_PI(p),
+            c.s.pi = 1);
+    }
+
     return 0;
 }
 
