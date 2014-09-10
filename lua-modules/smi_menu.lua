@@ -72,7 +72,7 @@ end
 local m = menu.new("SMI/MDIO Menu")
 
 -- Build a list of smi busses
-local smi_busses = 4
+local smi_busses = 2
 for bus = 0, smi_busses-1 do
     m:item("bus" .. bus, "SMI/MDIO bus " .. bus, smi_submenu, bus)
 end
