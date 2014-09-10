@@ -20,7 +20,7 @@ Getting flash programmed the first time
 
 It is generally easiest if the boot flash is programmed before it is
 installed it on the board.  If this wasn't done, the BDK supports
-programming flash using a combination of EJTAG/PCIe and serial over UART0.
+programming flash using a combination of JTAG and serial over UART0.
 For the various boot options, the BDK supplies binary images that must be
 programmed into the beginning of flash.  Here is a list of images:
 
@@ -76,23 +76,6 @@ bdk-remote reset
 NOTE: Performing a soft reset from the menu item might appear to hang. The
 EJTAG probe can stop the core on reset for debugging. This is why you should
 use *bdk-remote* instead of the menu option here.
-
-Using PCIe to program flash
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.Programming MMC, eMMC, or an SD card over PCIe
-----
-export OCTEON_REMOTE_PROTOCOL=PCI
-bdk-remote mmc write bdk-boot-emmc-cn88xx.bin 0
-bdk-remote reset
-----
-
-.Programming SPI NOR flash over PCIe
-----
-export OCTEON_REMOTE_PROTOCOL=PCI
-TBD
-bdk-remote reset
-----
 
 If all else fails, the very slow method
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
