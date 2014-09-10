@@ -457,63 +457,66 @@ cavium.csr.RST_SOFT_RST.write(1))
 
 Boot Sequence
 -------------
-__start(bdk-start.S)::
+On chip bootrom(at 0x87d000000000)::
 
-Main entry point for the code.  Can be installed at the reset vector,
-chain loaded from an 64KB aligned address in flash, or jump to in
-memory.  This is just a branch it *__init* so the first part of the
-image can use a standard bootloader image header.
+After reset, THUNDERX chips start executing instructions from an internal
+secure ROM located at 0x87d000000000, the address defined by system
+register RVBAR_EL3.  This ROM loads 192KB from either SPI NOR or eMMC/SD
+based on GPIO strapping.  If the chip is performing non-trusted boot, the
+code is located at offset 0x20000 in SPI NOR or eMMC.  If trusted boot is
+chosen, then code is located at offset 0x50000.  Code is loaded to
+physical address 0x1000000 in L2.  The ROM then transfers control to the
+image 256 bytes in, at location 0x1000100.
 
-__init(bdk-start.S)::
+__bdk_start(bdk-start.S at 0x1000100)::
 
-First real code.  Setup CVMSEG to act as a stack and jump into the C
-function *bdk_init()*.  Note that the first argument for bdk_init is the
-actual run address if the function.  This will be different from the
-functions link address as the TLB has not been setup.
+Main entry point for the code.  This code is running at address 0x1000100,
+which doesn't match its link address of 0x100.  Assembly in bdk-start.S
+sets L2C_ASC_REGION* to allow the cores to access L2C and enables core
+access to L2 ways by programming L2C_WPAR_PP0.  The image then copies
+itself from the L2 scratch region (0x1000000), to its link address of
+zero.  After the copy, it jumps to label "after_relocate" finalizing the
+transition to the proper load address defined by the linker.
 
-bdk_init(bdk-init.c)::
+after_relocate(bdk-start.S)::
 
-First C code run.  This function can only use a limited subset of the
-C language since it is running from a different address than it was
-linked at.  At a low level, the 'code must not contain jump
-instructions'. The codes finishes the low level initialization enough
-that normal C code is capable of running. It does the following:
-* Sets up early COP0 requirements.
-* Flushes the TLB.
-* Sets up the TLB for running C code.
-* Flushes the Icache.
-* If running from flash, relocates chip select 0 such that the image
-is aligned properly in memory to match the TLB.
-* Jumps through *bdk_init_trampoline* to transfer out of the bootbus.
+The icache is invalidated after the code change due to the copy above.  A
+CRC32 is calculated over the entire image and stored in register W0.  The
+stack pointer is directed at "__bdk_initial_stack_end" and the first C code
+is executed by calling "__bdk_init()".  Note that the CRC32 is the only
+argument to "__bdk_init()", allowing the image to verify itself.  This is
+done before the C code starts in case global data is modified early in the
+C code.
 
-bdk_init_trampoline(bdk-start.S)::
+__bdk_init(bdk-init.c)::
 
-Low level assembly function used to program the bootbus chip select
-zero and jump to the real C code *bdk_init_stage2*.  The trampoline is
-needed as you can't change the bootbus configuration while you are
-running from it.
+This is the first C code run.  Full initialization has not been completed
+yet, so some normal C functions don't work yet.  This stage executes more
+initialization and then starts the first normal thread of execution.
++
+* Setup the location of exception handlers (Symbols __bdk_exception_*)
+* Setup memory accesses to be cached normal memory, no mmu
+* Disable the core 0 timer
+* Setup both uarts
+* Show the first BDK boot banner
+* Lock all of L2 so no misses can happen
+* Compare the CRC32 with the one from the image header, displaying status to the uart.
+* Create an exception level stack for the core
+* Mark the first core as alive
+* Create the first thread, __bdk_init_main()
 
-bdk_init_stage2(bdk-init.c)::
+__bdk_init_main(bdk-init-main.c)::
 
-This is the first C code running where the text segment is fully
-setup.  Function calls now work as expected.  These steps are performed:
-* Uart0 is initialized.
-* The BDK banner is displayed.
-* Exception handlers are installed.
-* Global data banner is displayed.
-* The data segment is relocated to L2/DRAM.
-* Clearing BSS banner is displayed.
-* BSS segment is zeroed.
-* Display a message about the main thread.
-* Initialize threading and create a thread for *main()*.
-* Display the scheduler banner.
-* Do any final COP0 setup by calling *__bdk_init_cop0()*.
-* Transfer control to the main thread.
-
-__bdk_thread_body(bdk-thread.c)::
-
-This function takes control right before *main()* is run. It does the
-common initialization needed by all threads.
+First full thread of execution where the full C environment is functional.
+Here we complete secondary hardware initialization and then transfer to
+main().
++
+* Free the initial boot stack
+* Initialize and system registers
+* Setup the environment
+* Enable uart hardware flow control
+* Perform local node initialization in __bdk_init_local_node()
+* Create a thread for executing main(), the standard C entry point.
 
 main(int argc, const char*argv[])::
 
@@ -532,9 +535,9 @@ in SPI or eMMC storage for booting.
 |Offset    |Size  |Description
 |0000 0000 |64KB  |Unused data. Can be replaced with a partition table. Zero by default
 |0001 0000 |64KB  |Cavium CVM_CLIB header. Only the bytes "CVM_CLIB" are required
-|0002 0000 |192KB |BDK stage 1 boot image. This is 192KB loaded by the Thunder boot rom
-|0002 0100 |4     |First instruction executed by the Thunder boot rom
-|0005 0000 |Varies|BDK full image. Can be chain loaded by the 192KB stage 1 image
+|0002 0000 |192KB |BDK stage 1 boot image. This is 192KB loaded by the Thunder boot rom in non-trusted boot
+|0005 0000 |192KB |BDK stage 1 boot image. This is 192KB loaded by the Thunder boot rom in trusted boot
+|0008 0000 |Varies|BDK full image. Can be chain loaded by the 192KB stage 1 image
 |00xx 0000 |Varies|Additional images are looked for on 64KB boundaries
 |0100 0000 | -    |End of image search area. This address and everything above it are unused by the BDK
 |==========================================================================
@@ -548,35 +551,35 @@ the physical address layout. Currently the BDK runs with page tables disabled
 such that the virtual address is the same as physical address. This may change
 in the future, so applications should not depend on this behavior.
 
-[options="header"]
+[options="header", cols="25,50,25"]
 |==========================================================================
-|Physical	|Symbol         |Description
-|0000 0000	|_start 	|256 byte BDK image header
-|0000 0100	|__bdk_start	|Beginning of code. Execution starts here
-|0000 0800	|__bdk_exception_current_el_sync_sp0 |Exception vector
-|0000 0880      |__bdk_exception_current_el_irq_sp0 | Exception vector
-|0000 0900      |__bdk_exception_current_el_fiq_sp0 | Exception vector
-|0000 0980      |__bdk_exception_current_el_serror_sp0 | Exception vector
-|0000 0a00      |__bdk_exception_current_el_sync_spx | Exception vector
-|0000 0a80      |__bdk_exception_current_el_irq_spx | Exception vector
-|0000 0b00      |__bdk_exception_current_el_fiq_spx | Exception vector
-|0000 0b80      |__bdk_exception_current_el_serror_spx | Exception vector
-|0000 0c00      |__bdk_exception_lower_el_sync_sp0 | Exception vector
-|0000 0c80      |__bdk_exception_lower_el_irq_sp0 | Exception vector
-|0000 0d00      |__bdk_exception_lower_el_fiq_sp0 | Exception vector
-|0000 0d80      |__bdk_exception_lower_el_serror_sp0 | Exception vector
-|0000 0e00      |__bdk_exception_lower_el_sync_spx | Exception vector
-|0000 0e80      |__bdk_exception_lower_el_irq_spx | Exception vector
-|0000 0f00      |__bdk_exception_lower_el_fiq_spx | Exception vector
-|0000 0f80      |__bdk_exception_lower_el_serror_spx | Exception vector
-|0000 1000      |__bdk_initial_stack_start | Top of the stack used during early boot
-|0000 2000      |.text | Bottom of the stack used during early boot and the beginning of the text segment
-|*              |.rodata | Read only data
-|*              |.data | Static data
-|*              |.bss | Zeroed static data
-|*              |_end | Symbol for end of BDK code and data
-|*              |     | ROMFS files start immediately after the _end symbol
-|header length  |     | Everythign up to the header length field is included in the header CRC32
+|Physical	|Symbol                                 |Description
+|0000 0000	|_start 	                        |256 byte BDK image header
+|0000 0100	|__bdk_start	                        |Beginning of code. Execution starts here
+|0000 0800	|__bdk_exception_current_el_sync_sp0    |Exception vector
+|0000 0880      |__bdk_exception_current_el_irq_sp0     | Exception vector
+|0000 0900      |__bdk_exception_current_el_fiq_sp0     | Exception vector
+|0000 0980      |__bdk_exception_current_el_serror_sp0  | Exception vector
+|0000 0a00      |__bdk_exception_current_el_sync_spx    | Exception vector
+|0000 0a80      |__bdk_exception_current_el_irq_spx     | Exception vector
+|0000 0b00      |__bdk_exception_current_el_fiq_spx     | Exception vector
+|0000 0b80      |__bdk_exception_current_el_serror_spx  | Exception vector
+|0000 0c00      |__bdk_exception_lower_el_sync_sp0      | Exception vector
+|0000 0c80      |__bdk_exception_lower_el_irq_sp0       | Exception vector
+|0000 0d00      |__bdk_exception_lower_el_fiq_sp0       | Exception vector
+|0000 0d80      |__bdk_exception_lower_el_serror_sp0    | Exception vector
+|0000 0e00      |__bdk_exception_lower_el_sync_spx      | Exception vector
+|0000 0e80      |__bdk_exception_lower_el_irq_spx       | Exception vector
+|0000 0f00      |__bdk_exception_lower_el_fiq_spx       | Exception vector
+|0000 0f80      |__bdk_exception_lower_el_serror_spx    | Exception vector
+|0000 1000      |__bdk_initial_stack_start              | Top of the stack used during early boot
+|0000 2000      |.text                                  | Bottom of the stack used during early boot and the beginning of the text segment
+|*              |.rodata                                | Read only data
+|*              |.data                                  | Static data
+|*              |.bss                                   | Zeroed static data
+|*              |_end                                   | Symbol for end of BDK code and data
+|*              |                                       | ROMFS files start immediately after the _end symbol
+|header length  |                                       | Everything up to the header length field is included in the header CRC32
 |==========================================================================
 
 Notes
