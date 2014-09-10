@@ -27,6 +27,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(ERROR_DECODE);
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(SATA);
+    BDK_REQUIRE(USB);
 }
 
 /**

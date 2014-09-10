@@ -38,6 +38,7 @@
 #include "bdk-rng.h"
 #include "bdk-sata.h"
 #include "bdk-twsi.h"
+#include "bdk-usb.h"
 #include "bdk-access-native.h"
 
 #endif

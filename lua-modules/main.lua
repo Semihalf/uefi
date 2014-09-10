@@ -52,6 +52,7 @@ m:item("mpi",   "SPI/MPI options",          menu.dofile, "mpi_menu")
 m:item("emmc",  "eMMC/SD options",          menu.dofile, "emmc")
 m:item("sata",  "SATA options",             menu.dofile, "sata")
 m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
+m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 if cavium.trafficgen then
     m:item("tg",    "Traffic Generator",    do_trafficgen)
