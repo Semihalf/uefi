@@ -9,6 +9,10 @@ device io_memory n0.pem config 0x6000000 0x87e0c0000000
 device io_memory n1.pem config 0x6000000 0x97e0c0000000
 device io_memory n0.sli config 0x2000000000 0x874000000000
 device io_memory n1.sli config 0x2000000000 0x974000000000
+device io_memory n0.usb0 config 0x300000 0x868000000000
+device io_memory n0.usb1 config 0x300000 0x869000000000
+device io_memory n1.usb0 config 0x300000 0x968000000000
+device io_memory n1.usb1 config 0x300000 0x969000000000
 
 # Make 2nd node remote boot
 control n1.gpio0 set strap 0x8
