@@ -77,7 +77,7 @@ int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 
     while (len)
     {
-        BDK_CACHE_LCKL2(ptr);
+        BDK_CACHE_LCK_L2(ptr);
         ptr += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }
@@ -101,7 +101,7 @@ int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 
     while (len > 0)
     {
-        BDK_CACHE_WBIL2(ptr);
+        BDK_CACHE_WB_L2(ptr);
         ptr += BDK_CACHE_LINE_SIZE;
         len -= BDK_CACHE_LINE_SIZE;
     }
