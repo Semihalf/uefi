@@ -34,7 +34,7 @@ ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-chip-screen-cn88xx.bin ${DIR}/origin
 ${BDK_ROOT}/bin/bdk-update-romfs ${DIR}/bdk-network-perf-cn88xx.bin ${DIR}/original/bdk-full-no-romfs.bin ${BDK_ROOT}/rom/network-perf-cn88xx/*
 
 #
-# Create combined boot images for CN78XX
+# Create combined boot images for CN88XX
 #
 # CN88XX - BDK boot from eMMC
 cat ${DIR}/bdk-stage1.bin ${DIR}/bdk-cn88xx.bin > ${DIR}/bdk-boot-emmc-cn88xx.bin
