@@ -4,7 +4,7 @@
 extern const __bdk_csr_db_map_t __bdk_csr_db[];
 extern const __bdk_csr_db_type_t __bdk_csr_db_csr[];
 extern const uint16_t __bdk_csr_db_fieldList[];
-extern const uint16_t __bdk_csr_db_field[];
+extern const __bdk_csr_db_field_t __bdk_csr_db_field[];
 extern const int __bdk_csr_db_range[];
 extern const char __bdk_csr_db_string[];
 extern const uint64_t __bdk_csr_db_number[];
@@ -212,9 +212,9 @@ int bdk_csr_decode(const char *name, uint64_t value)
     while (num_fields--)
     {
         int field = __bdk_csr_db_fieldList[db->field_index + 1 + num_fields];
-        const char *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field]*2;
-        int start_bit = __bdk_csr_db_field[field+1];
-        int stop_bit = __bdk_csr_db_field[field+2];
+        const char *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field].name_index*2;
+        int start_bit = __bdk_csr_db_field[field].start_bit;
+        int stop_bit = __bdk_csr_db_field[field].stop_bit;
         int size_bits = stop_bit - start_bit + 1;
         uint64_t v = (value >> start_bit);
         if(size_bits < 64)
@@ -257,11 +257,11 @@ int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_
     while (num_fields--)
     {
         int field = __bdk_csr_db_fieldList[i++];
-        int start_bit = __bdk_csr_db_field[field+1];
+        int start_bit = __bdk_csr_db_field[field].start_bit;
         if (start_bit == field_start_bit)
         {
-            int stop_bit = __bdk_csr_db_field[field+2];
-            *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field]*2;
+            int stop_bit = __bdk_csr_db_field[field].stop_bit;
+            *field_name = __bdk_csr_db_string + __bdk_csr_db_field[field].name_index*2;
             return stop_bit - start_bit + 1;
         }
     }

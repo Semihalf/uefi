@@ -68,10 +68,10 @@ def getFieldTable(field):
     global globalFieldTable
     global globalFieldTableLen
     name_index = getStringTable(field.name)
-    key = "%d,%d,%d" % (name_index, field.start_bit, field.stop_bit)
+    key = "{%d,%d,%d}" % (name_index, field.start_bit, field.stop_bit)
     if not key in globalFieldTable:
         globalFieldTable[key] = globalFieldTableLen
-        globalFieldTableLen += 3
+        globalFieldTableLen += 1
     return globalFieldTable[key]
 
 #
@@ -178,7 +178,7 @@ def write(file, separate_chip_infos):
     #
     # Write the CSR field table
     #
-    out.write("const uint16_t __bdk_csr_db_field[] = {\n")
+    out.write("const __bdk_csr_db_field_t __bdk_csr_db_field[] = {\n")
     keys = getKeysSorted(globalFieldTable)
     for key in keys:
         out.write("    %s, /* %d */\n" % (key, globalFieldTable[key]))

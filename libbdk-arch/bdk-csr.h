@@ -38,6 +38,12 @@ typedef struct __attribute__ ((packed)) {
     uint16_t        param_inc[BDK_CSR_DB_MAX_PARAM]; /**< Index into __bdk_csr_db_number where the param multiplier is */
 } __bdk_csr_db_type_t;
 
+typedef struct __attribute__ ((packed)) {
+    uint16_t        name_index;     /**< Index into __bdk_csr_db_string where the name is */
+    uint8_t         start_bit;      /**< LSB of the field */
+    uint8_t         stop_bit;       /**< MSB of the field */
+} __bdk_csr_db_field_t;
+
 typedef struct {
     uint32_t model;
     const int16_t *data;            /**< Array of integers indexing __bdk_csr_db_csr */
