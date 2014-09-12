@@ -407,6 +407,7 @@ int main(void)
     BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
     BDK_EXTRACT(vrm_disable, gpio_strap.u, 9, 1);
     BDK_EXTRACT(trust_mode, gpio_strap.u, 10, 1);
+    BDK_CSR_INIT(ocx_com_node, node, BDK_OCX_COM_NODE);
 
     switch (boot_method)
     {
@@ -451,7 +452,7 @@ int main(void)
         "===============\n"
         "BDK Stage1 Boot\n"
         "===============\n"
-        "Node:  %d\n"
+        "Node:  %d%s\n"
         "Chip:  0x%x Pass %d.%d\n"
         "RCLK:  %lu Mhz\n"
         "SCLK:  %lu Mhz\n"
@@ -459,7 +460,7 @@ int main(void)
         "VRM:   %s\n"
         "Trust: %s\n",
         bdk_version_string(),
-        node,
+        node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "",
         midr_el1.s.partnum, midr_el1.s.variant + 1, midr_el1.s.revision,
         bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000,
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
