@@ -59,6 +59,24 @@ local function read_pattern(pattern)
     assert(correct == data, "SATA data doesn't match pattern")
 end
 
+local function run_auto()
+    local filename = "/dev/sata/" .. tostring(sata)
+    local handle = assert(cavium.devopen(filename, "r+"))
+    local sector = 0
+    for length=1,128 do
+        printf("Testing %d sector accesses\n", length)
+        for i,p in ipairs(PATTERNS) do
+            local correct = get_pattern(p, length)
+            assert(handle:seek("set", sector * 512), "Write seek failed")
+            handle:write(correct)
+            assert(handle:seek("set", sector * 512), "Read seek failed")
+            local data = handle:read(length * 512)
+            assert(correct == data, "SATA data doesn't match pattern")
+        end
+    end
+    handle:close()
+end
+
 --
 -- Put the menu on the screen
 --
@@ -85,6 +103,8 @@ while (option ~= "quit") do
         m:item("w" .. tostring(p), "Write pattern 0x%02x" % p, write_pattern, p)
         m:item("r" .. tostring(p), "Read  pattern 0x%02x" % p, read_pattern, p)
     end
+
+    m:item("auto", "Run automated pattern test", run_auto)
 
     m:item("quit", "Main menu")
     option = m:show()
