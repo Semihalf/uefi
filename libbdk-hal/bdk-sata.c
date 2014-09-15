@@ -440,11 +440,18 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     /* Issue command */
     BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_CI(controller), 1 << slot);
 
-    /* Wait for completion */
+    /* Wait for command accept */
     const int TIMEOUT = 5000000; /* 5 seconds */
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_CI(controller), ci & (1<<slot), ==, 0, TIMEOUT))
     {
         bdk_error("SATA%d: Command timeout\n", controller);
+        return -1;
+    }
+
+    /* Wait for completion */
+    if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_IS(controller), dhrs | c.s.pss | c.s.dss, !=, 0, TIMEOUT))
+    {
+        bdk_error("SATA%d: Response timeout\n", controller);
         return -1;
     }
 
