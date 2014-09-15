@@ -21,9 +21,9 @@ fi
 # 2) 64KB of CVM_CLIB header
 # 3) 192KB of STAGE1 image
 #
-cat /dev/zero | head -q -c 64K > ${DIR}/bdk-stage1.bin
-echo -n CVM_CLIB | cat - /dev/zero | head -q -c 64K >> ${DIR}/bdk-stage1.bin
-cat ${STAGE1} /dev/zero | head -q -c 192K >> ${DIR}/bdk-stage1.bin
+cat /dev/zero | head -q -c 65536 > ${DIR}/bdk-stage1.bin
+echo -n CVM_CLIB | cat - /dev/zero | head -q -c 65536 >> ${DIR}/bdk-stage1.bin
+cat ${STAGE1} /dev/zero | head -q -c 196608 >> ${DIR}/bdk-stage1.bin
 
 #
 # Update the Lua filesystems in the images
