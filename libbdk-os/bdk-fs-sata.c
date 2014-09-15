@@ -56,7 +56,7 @@ static void *sata_open(const char *name, int flags)
     /* The opaque pointer is a combination of the SATA controller and node. It
        must be non-zero, hence the +1 */
     long state = sata + 1;
-    state += sata << 8;
+    state += node << 8;
     return (void*)state;
 }
 
