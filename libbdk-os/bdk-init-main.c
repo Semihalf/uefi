@@ -7,7 +7,18 @@
  */
 static void __bdk_init_sysreg(void)
 {
-    // FIXME: Setup THUNDERX sysreg
+    /* Errata (AP-22500) GlobalSync request during a multi-cycle ATOMIC
+       stalls forever */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Disable compare and swap on CN88XX pass 1.x */
+        bdk_sys_cvmctl_el1_t cvmctl_el1;
+        /* Sadly, our own silly compiler doesn't unstand our registers */
+        BDK_MRS(s3_0_c11_c0_0, cvmctl_el1.u);
+        cvmctl_el1.s.disable_casp = 1;
+        cvmctl_el1.s.disable_cas = 1;
+        BDK_MSR(s3_0_c11_c0_0, cvmctl_el1.u);
+    }
 }
 
 /**
