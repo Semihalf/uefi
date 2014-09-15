@@ -6,6 +6,9 @@
 #
 import sys
 import os
+import signal
+
+signal.alarm(10 * 60)
 
 BDK_ROOT = os.environ["BDK_ROOT"]
 ASIM = os.environ["ASIM"]
