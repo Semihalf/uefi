@@ -349,7 +349,8 @@ typedef union bdk_vrmx_trip {
 	struct bdk_vrmx_trip_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56;
-		uint64_t trip_level                  : 8;  /**< R/W - If temperature sensed is greater than this value the THERMAL_TRIP_L pin will assert. */
+		uint64_t trip_level                  : 8;  /**< R/W - If temperature sensed is greater than this value RST_THERMAL_ALERT[TRIP] is set,
+                                                                 and the THERMAL_TRIP_L pin asserts. */
 #else
 		uint64_t trip_level                  : 8;
 		uint64_t reserved_8_63               : 56;

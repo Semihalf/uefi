@@ -174,7 +174,7 @@ static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long param1)
  * RSL - iobn#_chip_cur_pwr
  *
  * This register contains the current power setting.
- *
+ * Only index zero (IOB(0)) is used.
  */
 typedef union bdk_iobnx_chip_cur_pwr {
 	uint64_t u;
@@ -221,7 +221,7 @@ static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long param1)
  * RSL - iobn#_chip_glb_pwr_throttle
  *
  * This register controls the min/max power settings.
- *
+ * Only index zero (IOB(0)) is used.
  */
 typedef union bdk_iobnx_chip_glb_pwr_throttle {
 	uint64_t u;
@@ -278,7 +278,7 @@ static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long param1)
  * RSL - iobn#_chip_pwr_out
  *
  * This register contains power numbers from the various partitions on the chip.
- *
+ * Only index zero (IOB(0)) is used.
  */
 typedef union bdk_iobnx_chip_pwr_out {
 	uint64_t u;

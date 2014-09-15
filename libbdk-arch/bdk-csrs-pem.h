@@ -561,52 +561,7 @@ typedef union bdk_pemx_ctl_status {
 		uint64_t reserved_52_63              : 12;
 #endif
 	} s;
-	struct bdk_pemx_ctl_status_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_51_63              : 13;
-		uint64_t inv_dpar                    : 1;  /**< R/W - Invert the generated parity to be written into the most significant data queue buffer RAM
-                                                                 block to force a parity error when it is later read. */
-		uint64_t reserved_48_49              : 2;
-		uint64_t auto_sd                     : 1;  /**< RO/H - Link hardware autonomous speed disable. */
-		uint64_t dnum                        : 5;  /**< RO/H - Primary bus device number. */
-		uint64_t pbus                        : 8;  /**< RO/H - Primary bus number. */
-		uint64_t reserved_32_33              : 2;
-		uint64_t cfg_rtry                    : 16; /**< R/W - The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
-		uint64_t reserved_12_15              : 4;
-		uint64_t pm_xtoff                    : 1;  /**< R/W/H - When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-		uint64_t reserved_6_10               : 5;
-		uint64_t dly_one                     : 1;  /**< R/W/H - When set the output client state machines will wait one cycle before starting a new TLP out. */
-		uint64_t lnk_enb                     : 1;  /**< R/W - When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-		uint64_t ro_ctlp                     : 1;  /**< R/W - When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-		uint64_t fast_lm                     : 1;  /**< R/W - When set, forces fast link mode. */
-		uint64_t inv_ecrc                    : 1;  /**< R/W - When set, causes the LSB of the ECRC to be inverted. */
-		uint64_t inv_lcrc                    : 1;  /**< R/W - When set, causes the LSB of the LCRC to be inverted. */
-#else
-		uint64_t inv_lcrc                    : 1;
-		uint64_t inv_ecrc                    : 1;
-		uint64_t fast_lm                     : 1;
-		uint64_t ro_ctlp                     : 1;
-		uint64_t lnk_enb                     : 1;
-		uint64_t dly_one                     : 1;
-		uint64_t reserved_6_10               : 5;
-		uint64_t pm_xtoff                    : 1;
-		uint64_t reserved_12_15              : 4;
-		uint64_t cfg_rtry                    : 16;
-		uint64_t reserved_32_33              : 2;
-		uint64_t pbus                        : 8;
-		uint64_t dnum                        : 5;
-		uint64_t auto_sd                     : 1;
-		uint64_t reserved_48_49              : 2;
-		uint64_t inv_dpar                    : 1;
-		uint64_t reserved_51_63              : 13;
-#endif
-	} cn85xx;
+	/* struct bdk_pemx_ctl_status_s       cn85xx; */
 	/* struct bdk_pemx_ctl_status_s       cn88xx; */
 } bdk_pemx_ctl_status_t;
 

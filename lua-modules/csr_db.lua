@@ -59082,7 +59082,8 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "RD_FLT", start = 51, stop = 51},
                 {name = "INV_DPAR", start = 50, stop = 50},
                 {name = "RESERVED_48_49", start = 48, stop = 49},
                 {name = "AUTO_SD", start = 47, stop = 47},
