@@ -325,6 +325,7 @@ def build_csr(chip_info, group, register, raw):
         if "attributes" in field:
            check_keys("register.field[attributes]", field["attributes"], [
                       "no_soft_reset",
+                      "chip_pass",
                       "dv_uvm_force_compare",
                       "dv_uvm_cov_val_disable",
                       "exempt_keyword",
@@ -334,6 +335,12 @@ def build_csr(chip_info, group, register, raw):
                       "pcc_exempt_access",
                       "tns_fused",
                       "uvm_default_constraint"])
+           if "chip_pass" in field["attributes"]:
+               pass_equation = field["attributes"]["chip_pass"]
+               is_this_pass = eval(pass_equation, {}, chip_info.pass_dict)
+               #print pass_equation, is_this_pass
+               if not is_this_pass:
+                   continue
         name = field["name"]
         # Bits is either a single number or a range separated by ".."
         start_bit, stop_bit = parseBitRange(field["bits"])
@@ -403,8 +410,8 @@ def read_yaml(chip_info, filename):
 # Read all the YAML files in a directory and create a complete CSR list
 # for the chip
 #
-def read(chip_name, input_dir):
-    chip_info = ChipInfo(chip_name)
+def read(chip_name, input_dir, pass_dict):
+    chip_info = ChipInfo(chip_name, pass_dict)
     input_files = os.listdir(input_dir)
     for file in input_files:
         if file in [".svn", ".gitignore", "csr.txt"]:

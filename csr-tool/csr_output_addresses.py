@@ -1,6 +1,7 @@
 
 CHIP_TO_MODEL = {
-    "cn88xx":   "CAVIUM_CN88XX_PASS1_X",
+    "cn88xxp1": "CAVIUM_CN88XX_PASS1_X",
+    "cn88xx":   "CAVIUM_CN88XX_PASS2_X",
     "cn85xx":   "CAVIUM_CN85XX_PASS1_X",
 }
 
@@ -75,7 +76,7 @@ def writeAddress(out, csr, chip_list):
         for p in xrange(len(csr[chip].range)):
             range_check += " && (%s)" % createRangeCheck("param%d" % (p+1), csr[chip].range[p])
         address_list.append((CHIP_TO_MODEL[chip], range_check, csr[chip].getAddressEquation()))
-    all_same = (len(chip_list) == len(address_list))
+    all_same = (len(CHIP_TO_MODEL) == len(address_list))
     for line in address_list[1:]:
         if (line[1] != address_list[0][1]) or (line[2] != address_list[0][2]):
             all_same = 0

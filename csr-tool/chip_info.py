@@ -11,8 +11,9 @@ from chip_bar import ChipBar
 # - CSRs
 #
 class ChipInfo:
-    def __init__(self, name):
+    def __init__(self, name, pass_dict):
         self.name = name
+        self.pass_dict = pass_dict # Stores the name=number pass info for this chip
         self._csrs = {}
         self._enums = {}
         self._structs = {}

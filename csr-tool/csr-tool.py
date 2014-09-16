@@ -36,8 +36,8 @@ try:
         if option =="--help":
             raise Exception("show usage")
         elif option == "--csr":
-            name, file = value.split(",")
-            csr_files.append((name, file))
+            name, loc, pass_info = value.split(",")
+            csr_files.append((name, loc, pass_info))
         elif option == "--html":
             generate_html = 1
 except:
@@ -46,7 +46,7 @@ except:
     print
     print "Options:"
     print "    --help                       Display this message"
-    print "    --csr=chip,file              Load a file of CSRs for the named chip"
+    print "    --csr=chip_name,dir,pass     Load CSRs for the named chip from dir, using pass for chip_pass equations"
     print "    --html                       Generate HTML documentation of the CSRs"
     print
     print "Notes:"
@@ -70,16 +70,19 @@ if not csr_files:
 # Loop through the CSR files and read them in. There will be a list per chip
 print "Reading CSRs:"
 separate_chip_infos = []
-for name,file in csr_files:
-    pickle_file = file + ".pickle"
+for name,file,pass_info in csr_files:
+    pickle_file = name + ".pickle"
     try:
         inf = open(pickle_file, "r")
         print "    %8s from %s" % (name, pickle_file)
         chip_info = cPickle.load(inf)
         inf.close()
     except:
-        print "    %8s from %s" % (name, file)
-        chip_info = csr_read_yaml.read(name, file)
+        print "    %8s from %s for %s" % (name, file, pass_info)
+        pass_dict = {}
+        pass_name, pass_value = pass_info.split("=")
+        pass_dict[pass_name] = float(pass_value)
+        chip_info = csr_read_yaml.read(name, file, pass_dict)
         for enum in chip_info.iterEnum():
             enum.validate()
         for struct in chip_info.iterStruct():
@@ -120,7 +123,7 @@ for chip_info in separate_chip_infos:
                     per_type_used_addresses[csr.type][address] = (name, csr)
 
 # Combine all chips into a master CSR list
-combinedInfo = ChipInfo("s")
+combinedInfo = ChipInfo("s", {})
 print "Combining Enums"
 enum_combiner.combine(combinedInfo, separate_chip_infos)
 print "Combining Structs"
@@ -132,7 +135,10 @@ combined_list = csr_list_combiner.combine(separate_chip_infos)
 # Generate the html docs if needed
 if generate_html:
     print "Writing HTML"
-    csr_output_html.writeAll(combined_list, diff=(("cn88xx", "cn85xx"),))
+    csr_output_html.writeAll(combined_list, diff=(
+        ("cn88xx", "cn85xx"),
+        ("cn88xxp1", "cn88xx"),
+        ))
 
 print "Writing C headers"
 csr_output_header.write(OUTPUT_FILENAME_TYPEDEFS, combined_list, combinedInfo)
