@@ -768,6 +768,15 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             /* Enable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
             BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
             break;
+        case BDK_QLM_MODE_DISABLED:
+            /* Power down phy, and keep it in reset */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
+                c.s.phy_pd = 1;
+                c.s.phy_reset = 1);
+            /* Set gser for the interface mode */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
+                c.u = 0);
+            return 0;
         default:
             bdk_error("Unsupported QLM mode %d\n", mode);
             return -1;
