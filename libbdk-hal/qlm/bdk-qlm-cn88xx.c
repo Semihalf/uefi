@@ -548,6 +548,29 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int is_bgx = 0;
     int bgx_block = (qlm < 2) ? qlm : -1;
 
+    /* Disable QLMs that are affected by the QLM we're working on */
+    switch (qlm)
+    {
+        case 2:
+        case 4:
+        case 6:
+            /* When reconfiguring QLM that are the first of 8 pcie lanes, disable the
+               second set as their config will change too */
+            if ((mode != BDK_QLM_MODE_PCIE_1X8) &&
+                (qlm_get_mode(node, qlm + 1) == BDK_QLM_MODE_PCIE_1X8))
+                BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm + 1), 0);
+            break;
+        case 3:
+        case 5:
+        case 7:
+            /* When reconfiguring QLM that are the second of 8 pcie lanes, disable the
+               first set as their config will change too */
+            if ((mode != BDK_QLM_MODE_PCIE_1X8) &&
+                (qlm_get_mode(node, qlm - 1) == BDK_QLM_MODE_PCIE_1X8))
+                BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm - 1), 0);
+            break;
+    }
+
     /* Almost all supported QLM speeds require a 156.25Mhz clock */
     int ref_clk = REF_156MHZ;
     /* Only three speeds support a reference clock other than 156.25Mhz,
@@ -634,6 +657,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(1),
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
+                            c.s.lanes8 = 0);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
                             c.s.lanes8 = 0;
                             //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -657,8 +682,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     break;
                 case 5: /* Either PEM2 x8, or PEM3 x4 */
                 {
-                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
-                    if (pemx_cfg.s.lanes8)
+                    if (mode == BDK_QLM_MODE_PCIE_1X8)
                     {
                         /* Last 4 lanes of PEM2 */
                         /* PEMX_CFG already setup */
@@ -671,8 +695,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
+                            c.s.lanes8 = 0);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
-                            c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
+                            c.s.lanes8 = 0;
                             //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
@@ -694,10 +720,28 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.pemon = 1);
                     break;
                 case 7: /* PEM4 x8 */
-                    /* Last 4 lanes of PEM4 */
-                    /* PEMX_CFG already setup */
-                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
-                        c.s.pemon = 1);
+                    if (mode == BDK_QLM_MODE_PCIE_1X8)
+                    {
+                        /* Last 4 lanes of PEM4 */
+                        /* PEMX_CFG already setup */
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
+                            c.s.pemon = 1);
+                    }
+                    else
+                    {
+                        /* Four lanes of PEM5 */
+                        BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(5),
+                            c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                        setup_pem_reset(node, 5, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(4),
+                            c.s.lanes8 = 0);
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(5),
+                            c.s.lanes8 = 0;
+                            //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                            c.s.md = cfg_md);
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(5),
+                            c.s.pemon = 1);
+                    }
                     break;
                 default:
                     return -1;
