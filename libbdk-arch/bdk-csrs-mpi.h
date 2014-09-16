@@ -134,6 +134,7 @@ typedef union bdk_mpi_cfg {
 	} s;
 	/* struct bdk_mpi_cfg_s               cn85xx; */
 	/* struct bdk_mpi_cfg_s               cn88xx; */
+	/* struct bdk_mpi_cfg_s               cn88xxp1; */
 } bdk_mpi_cfg_t;
 
 #define BDK_MPI_CFG BDK_MPI_CFG_FUNC()
@@ -165,6 +166,7 @@ typedef union bdk_mpi_datx {
 	} s;
 	/* struct bdk_mpi_datx_s              cn85xx; */
 	/* struct bdk_mpi_datx_s              cn88xx; */
+	/* struct bdk_mpi_datx_s              cn88xxp1; */
 } bdk_mpi_datx_t;
 
 static inline uint64_t BDK_MPI_DATX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -202,6 +204,7 @@ typedef union bdk_mpi_int_ena_w1c {
 	} s;
 	/* struct bdk_mpi_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_mpi_int_ena_w1c_s       cn88xx; */
+	/* struct bdk_mpi_int_ena_w1c_s       cn88xxp1; */
 } bdk_mpi_int_ena_w1c_t;
 
 #define BDK_MPI_INT_ENA_W1C BDK_MPI_INT_ENA_W1C_FUNC()
@@ -238,6 +241,7 @@ typedef union bdk_mpi_int_ena_w1s {
 	} s;
 	/* struct bdk_mpi_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_mpi_int_ena_w1s_s       cn88xx; */
+	/* struct bdk_mpi_int_ena_w1s_s       cn88xxp1; */
 } bdk_mpi_int_ena_w1s_t;
 
 #define BDK_MPI_INT_ENA_W1S BDK_MPI_INT_ENA_W1S_FUNC()
@@ -271,6 +275,7 @@ typedef union bdk_mpi_msix_pbax {
 	} s;
 	/* struct bdk_mpi_msix_pbax_s         cn85xx; */
 	/* struct bdk_mpi_msix_pbax_s         cn88xx; */
+	/* struct bdk_mpi_msix_pbax_s         cn88xxp1; */
 } bdk_mpi_msix_pbax_t;
 
 static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -317,6 +322,7 @@ typedef union bdk_mpi_msix_vecx_addr {
 	} s;
 	/* struct bdk_mpi_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_mpi_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_mpi_msix_vecx_addr_s    cn88xxp1; */
 } bdk_mpi_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -356,6 +362,7 @@ typedef union bdk_mpi_msix_vecx_ctl {
 	} s;
 	/* struct bdk_mpi_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_mpi_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_mpi_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_mpi_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -396,6 +403,7 @@ typedef union bdk_mpi_sts {
 	} s;
 	/* struct bdk_mpi_sts_s               cn85xx; */
 	/* struct bdk_mpi_sts_s               cn88xx; */
+	/* struct bdk_mpi_sts_s               cn88xxp1; */
 } bdk_mpi_sts_t;
 
 #define BDK_MPI_STS BDK_MPI_STS_FUNC()
@@ -432,6 +440,7 @@ typedef union bdk_mpi_sts_w1s {
 	} s;
 	/* struct bdk_mpi_sts_w1s_s           cn85xx; */
 	/* struct bdk_mpi_sts_w1s_s           cn88xx; */
+	/* struct bdk_mpi_sts_w1s_s           cn88xxp1; */
 } bdk_mpi_sts_w1s_t;
 
 #define BDK_MPI_STS_W1S BDK_MPI_STS_W1S_FUNC()
@@ -477,6 +486,7 @@ typedef union bdk_mpi_tx {
 	} s;
 	/* struct bdk_mpi_tx_s                cn85xx; */
 	/* struct bdk_mpi_tx_s                cn88xx; */
+	/* struct bdk_mpi_tx_s                cn88xxp1; */
 } bdk_mpi_tx_t;
 
 #define BDK_MPI_TX BDK_MPI_TX_FUNC()
@@ -506,6 +516,7 @@ typedef union bdk_mpi_wide_dat {
 	} s;
 	/* struct bdk_mpi_wide_dat_s          cn85xx; */
 	/* struct bdk_mpi_wide_dat_s          cn88xx; */
+	/* struct bdk_mpi_wide_dat_s          cn88xxp1; */
 } bdk_mpi_wide_dat_t;
 
 #define BDK_MPI_WIDE_DAT BDK_MPI_WIDE_DAT_FUNC()

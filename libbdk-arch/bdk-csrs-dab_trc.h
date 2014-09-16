@@ -76,6 +76,7 @@ typedef union bdk_trcx_trcacatr0 {
 	} s;
 	/* struct bdk_trcx_trcacatr0_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr0_s        cn88xx; */
+	/* struct bdk_trcx_trcacatr0_s        cn88xxp1; */
 } bdk_trcx_trcacatr0_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -109,6 +110,7 @@ typedef union bdk_trcx_trcacatr1 {
 	} s;
 	/* struct bdk_trcx_trcacatr1_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr1_s        cn88xx; */
+	/* struct bdk_trcx_trcacatr1_s        cn88xxp1; */
 } bdk_trcx_trcacatr1_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -142,6 +144,7 @@ typedef union bdk_trcx_trcacatr2 {
 	} s;
 	/* struct bdk_trcx_trcacatr2_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr2_s        cn88xx; */
+	/* struct bdk_trcx_trcacatr2_s        cn88xxp1; */
 } bdk_trcx_trcacatr2_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -175,6 +178,7 @@ typedef union bdk_trcx_trcacatr3 {
 	} s;
 	/* struct bdk_trcx_trcacatr3_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr3_s        cn88xx; */
+	/* struct bdk_trcx_trcacatr3_s        cn88xxp1; */
 } bdk_trcx_trcacatr3_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -208,6 +212,7 @@ typedef union bdk_trcx_trcacvr0 {
 	} s;
 	/* struct bdk_trcx_trcacvr0_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr0_s         cn88xx; */
+	/* struct bdk_trcx_trcacvr0_s         cn88xxp1; */
 } bdk_trcx_trcacvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -241,6 +246,7 @@ typedef union bdk_trcx_trcacvr1 {
 	} s;
 	/* struct bdk_trcx_trcacvr1_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr1_s         cn88xx; */
+	/* struct bdk_trcx_trcacvr1_s         cn88xxp1; */
 } bdk_trcx_trcacvr1_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -274,6 +280,7 @@ typedef union bdk_trcx_trcacvr2 {
 	} s;
 	/* struct bdk_trcx_trcacvr2_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr2_s         cn88xx; */
+	/* struct bdk_trcx_trcacvr2_s         cn88xxp1; */
 } bdk_trcx_trcacvr2_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -307,6 +314,7 @@ typedef union bdk_trcx_trcacvr3 {
 	} s;
 	/* struct bdk_trcx_trcacvr3_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr3_s         cn88xx; */
+	/* struct bdk_trcx_trcacvr3_s         cn88xxp1; */
 } bdk_trcx_trcacvr3_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -348,6 +356,7 @@ typedef union bdk_trcx_trcauthstatus {
 	} s;
 	/* struct bdk_trcx_trcauthstatus_s    cn85xx; */
 	/* struct bdk_trcx_trcauthstatus_s    cn88xx; */
+	/* struct bdk_trcx_trcauthstatus_s    cn88xxp1; */
 } bdk_trcx_trcauthstatus_t;
 
 static inline uint64_t BDK_TRCX_TRCAUTHSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -381,6 +390,7 @@ typedef union bdk_trcx_trcauxctlr {
 	} s;
 	/* struct bdk_trcx_trcauxctlr_s       cn85xx; */
 	/* struct bdk_trcx_trcauxctlr_s       cn88xx; */
+	/* struct bdk_trcx_trcauxctlr_s       cn88xxp1; */
 } bdk_trcx_trcauxctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCAUXCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -425,6 +435,7 @@ typedef union bdk_trcx_trcbbctlr {
 	} s;
 	/* struct bdk_trcx_trcbbctlr_s        cn85xx; */
 	/* struct bdk_trcx_trcbbctlr_s        cn88xx; */
+	/* struct bdk_trcx_trcbbctlr_s        cn88xxp1; */
 } bdk_trcx_trcbbctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCBBCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -460,6 +471,7 @@ typedef union bdk_trcx_trcccctlr {
 	} s;
 	/* struct bdk_trcx_trcccctlr_s        cn85xx; */
 	/* struct bdk_trcx_trcccctlr_s        cn88xx; */
+	/* struct bdk_trcx_trcccctlr_s        cn88xxp1; */
 } bdk_trcx_trcccctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCCCCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -493,6 +505,7 @@ typedef union bdk_trcx_trccidcctlr0 {
 	} s;
 	/* struct bdk_trcx_trccidcctlr0_s     cn85xx; */
 	/* struct bdk_trcx_trccidcctlr0_s     cn88xx; */
+	/* struct bdk_trcx_trccidcctlr0_s     cn88xxp1; */
 } bdk_trcx_trccidcctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -526,6 +539,7 @@ typedef union bdk_trcx_trccidcctlr1 {
 	} s;
 	/* struct bdk_trcx_trccidcctlr1_s     cn85xx; */
 	/* struct bdk_trcx_trccidcctlr1_s     cn88xx; */
+	/* struct bdk_trcx_trccidcctlr1_s     cn88xxp1; */
 } bdk_trcx_trccidcctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -559,6 +573,7 @@ typedef union bdk_trcx_trccidcvr0 {
 	} s;
 	/* struct bdk_trcx_trccidcvr0_s       cn85xx; */
 	/* struct bdk_trcx_trccidcvr0_s       cn88xx; */
+	/* struct bdk_trcx_trccidcvr0_s       cn88xxp1; */
 } bdk_trcx_trccidcvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDCVR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -594,6 +609,7 @@ typedef union bdk_trcx_trccidr0 {
 	} s;
 	/* struct bdk_trcx_trccidr0_s         cn85xx; */
 	/* struct bdk_trcx_trccidr0_s         cn88xx; */
+	/* struct bdk_trcx_trccidr0_s         cn88xxp1; */
 } bdk_trcx_trccidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -631,6 +647,7 @@ typedef union bdk_trcx_trccidr1 {
 	} s;
 	/* struct bdk_trcx_trccidr1_s         cn85xx; */
 	/* struct bdk_trcx_trccidr1_s         cn88xx; */
+	/* struct bdk_trcx_trccidr1_s         cn88xxp1; */
 } bdk_trcx_trccidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -666,6 +683,7 @@ typedef union bdk_trcx_trccidr2 {
 	} s;
 	/* struct bdk_trcx_trccidr2_s         cn85xx; */
 	/* struct bdk_trcx_trccidr2_s         cn88xx; */
+	/* struct bdk_trcx_trccidr2_s         cn88xxp1; */
 } bdk_trcx_trccidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -701,6 +719,7 @@ typedef union bdk_trcx_trccidr3 {
 	} s;
 	/* struct bdk_trcx_trccidr3_s         cn85xx; */
 	/* struct bdk_trcx_trccidr3_s         cn88xx; */
+	/* struct bdk_trcx_trccidr3_s         cn88xxp1; */
 } bdk_trcx_trccidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -746,6 +765,7 @@ typedef union bdk_trcx_trccntctlr0 {
 	} s;
 	/* struct bdk_trcx_trccntctlr0_s      cn85xx; */
 	/* struct bdk_trcx_trccntctlr0_s      cn88xx; */
+	/* struct bdk_trcx_trccntctlr0_s      cn88xxp1; */
 } bdk_trcx_trccntctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTCTLR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -791,6 +811,7 @@ typedef union bdk_trcx_trccntctlr1 {
 	} s;
 	/* struct bdk_trcx_trccntctlr1_s      cn85xx; */
 	/* struct bdk_trcx_trccntctlr1_s      cn88xx; */
+	/* struct bdk_trcx_trccntctlr1_s      cn88xxp1; */
 } bdk_trcx_trccntctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTCTLR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -826,6 +847,7 @@ typedef union bdk_trcx_trccntrldvr0 {
 	} s;
 	/* struct bdk_trcx_trccntrldvr0_s     cn85xx; */
 	/* struct bdk_trcx_trccntrldvr0_s     cn88xx; */
+	/* struct bdk_trcx_trccntrldvr0_s     cn88xxp1; */
 } bdk_trcx_trccntrldvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -861,6 +883,7 @@ typedef union bdk_trcx_trccntrldvr1 {
 	} s;
 	/* struct bdk_trcx_trccntrldvr1_s     cn85xx; */
 	/* struct bdk_trcx_trccntrldvr1_s     cn88xx; */
+	/* struct bdk_trcx_trccntrldvr1_s     cn88xxp1; */
 } bdk_trcx_trccntrldvr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -896,6 +919,7 @@ typedef union bdk_trcx_trccntvr0 {
 	} s;
 	/* struct bdk_trcx_trccntvr0_s        cn85xx; */
 	/* struct bdk_trcx_trccntvr0_s        cn88xx; */
+	/* struct bdk_trcx_trccntvr0_s        cn88xxp1; */
 } bdk_trcx_trccntvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -931,6 +955,7 @@ typedef union bdk_trcx_trccntvr1 {
 	} s;
 	/* struct bdk_trcx_trccntvr1_s        cn85xx; */
 	/* struct bdk_trcx_trccntvr1_s        cn88xx; */
+	/* struct bdk_trcx_trccntvr1_s        cn88xxp1; */
 } bdk_trcx_trccntvr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTVR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1029,6 +1054,7 @@ typedef union bdk_trcx_trcconfigr {
 	} s;
 	/* struct bdk_trcx_trcconfigr_s       cn85xx; */
 	/* struct bdk_trcx_trcconfigr_s       cn88xx; */
+	/* struct bdk_trcx_trcconfigr_s       cn88xxp1; */
 } bdk_trcx_trcconfigr_t;
 
 static inline uint64_t BDK_TRCX_TRCCONFIGR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1062,6 +1088,7 @@ typedef union bdk_trcx_trcdevaff0 {
 	} s;
 	/* struct bdk_trcx_trcdevaff0_s       cn85xx; */
 	/* struct bdk_trcx_trcdevaff0_s       cn88xx; */
+	/* struct bdk_trcx_trcdevaff0_s       cn88xxp1; */
 } bdk_trcx_trcdevaff0_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1095,6 +1122,7 @@ typedef union bdk_trcx_trcdevaff1 {
 	} s;
 	/* struct bdk_trcx_trcdevaff1_s       cn85xx; */
 	/* struct bdk_trcx_trcdevaff1_s       cn88xx; */
+	/* struct bdk_trcx_trcdevaff1_s       cn88xxp1; */
 } bdk_trcx_trcdevaff1_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1147,6 +1175,7 @@ typedef union bdk_trcx_trcdevarch {
 	} s;
 	/* struct bdk_trcx_trcdevarch_s       cn85xx; */
 	/* struct bdk_trcx_trcdevarch_s       cn88xx; */
+	/* struct bdk_trcx_trcdevarch_s       cn88xxp1; */
 } bdk_trcx_trcdevarch_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1221,6 +1250,7 @@ typedef union bdk_trcx_trcdevid {
 	} s;
 	/* struct bdk_trcx_trcdevid_s         cn85xx; */
 	/* struct bdk_trcx_trcdevid_s         cn88xx; */
+	/* struct bdk_trcx_trcdevid_s         cn88xxp1; */
 } bdk_trcx_trcdevid_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1258,6 +1288,7 @@ typedef union bdk_trcx_trcdevtype {
 	} s;
 	/* struct bdk_trcx_trcdevtype_s       cn85xx; */
 	/* struct bdk_trcx_trcdevtype_s       cn88xx; */
+	/* struct bdk_trcx_trcdevtype_s       cn88xxp1; */
 } bdk_trcx_trcdevtype_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVTYPE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1291,6 +1322,7 @@ typedef union bdk_trcx_trcdvcmr0 {
 	} s;
 	/* struct bdk_trcx_trcdvcmr0_s        cn85xx; */
 	/* struct bdk_trcx_trcdvcmr0_s        cn88xx; */
+	/* struct bdk_trcx_trcdvcmr0_s        cn88xxp1; */
 } bdk_trcx_trcdvcmr0_t;
 
 static inline uint64_t BDK_TRCX_TRCDVCMR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1324,6 +1356,7 @@ typedef union bdk_trcx_trcdvcvr0 {
 	} s;
 	/* struct bdk_trcx_trcdvcvr0_s        cn85xx; */
 	/* struct bdk_trcx_trcdvcvr0_s        cn88xx; */
+	/* struct bdk_trcx_trcdvcvr0_s        cn88xxp1; */
 } bdk_trcx_trcdvcvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1363,6 +1396,7 @@ typedef union bdk_trcx_trceventctl0r {
 	} s;
 	/* struct bdk_trcx_trceventctl0r_s    cn85xx; */
 	/* struct bdk_trcx_trceventctl0r_s    cn88xx; */
+	/* struct bdk_trcx_trceventctl0r_s    cn88xxp1; */
 } bdk_trcx_trceventctl0r_t;
 
 static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1415,6 +1449,7 @@ typedef union bdk_trcx_trceventctl1r {
 	} s;
 	/* struct bdk_trcx_trceventctl1r_s    cn85xx; */
 	/* struct bdk_trcx_trceventctl1r_s    cn88xx; */
+	/* struct bdk_trcx_trceventctl1r_s    cn88xxp1; */
 } bdk_trcx_trceventctl1r_t;
 
 static inline uint64_t BDK_TRCX_TRCEVENTCTL1R(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1454,6 +1489,7 @@ typedef union bdk_trcx_trcextinselr {
 	} s;
 	/* struct bdk_trcx_trcextinselr_s     cn85xx; */
 	/* struct bdk_trcx_trcextinselr_s     cn88xx; */
+	/* struct bdk_trcx_trcextinselr_s     cn88xxp1; */
 } bdk_trcx_trcextinselr_t;
 
 static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1557,6 +1593,7 @@ typedef union bdk_trcx_trcidr0 {
 	} s;
 	/* struct bdk_trcx_trcidr0_s          cn85xx; */
 	/* struct bdk_trcx_trcidr0_s          cn88xx; */
+	/* struct bdk_trcx_trcidr0_s          cn88xxp1; */
 } bdk_trcx_trcidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1600,6 +1637,7 @@ typedef union bdk_trcx_trcidr1 {
 	} s;
 	/* struct bdk_trcx_trcidr1_s          cn85xx; */
 	/* struct bdk_trcx_trcidr1_s          cn88xx; */
+	/* struct bdk_trcx_trcidr1_s          cn88xxp1; */
 } bdk_trcx_trcidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1645,6 +1683,7 @@ typedef union bdk_trcx_trcidr2 {
 	} s;
 	/* struct bdk_trcx_trcidr2_s          cn85xx; */
 	/* struct bdk_trcx_trcidr2_s          cn88xx; */
+	/* struct bdk_trcx_trcidr2_s          cn88xxp1; */
 } bdk_trcx_trcidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1696,6 +1735,7 @@ typedef union bdk_trcx_trcidr3 {
 	} s;
 	/* struct bdk_trcx_trcidr3_s          cn85xx; */
 	/* struct bdk_trcx_trcidr3_s          cn88xx; */
+	/* struct bdk_trcx_trcidr3_s          cn88xxp1; */
 } bdk_trcx_trcidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1745,6 +1785,7 @@ typedef union bdk_trcx_trcidr4 {
 	} s;
 	/* struct bdk_trcx_trcidr4_s          cn85xx; */
 	/* struct bdk_trcx_trcidr4_s          cn88xx; */
+	/* struct bdk_trcx_trcidr4_s          cn88xxp1; */
 } bdk_trcx_trcidr4_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1796,6 +1837,7 @@ typedef union bdk_trcx_trcidr5 {
 	} s;
 	/* struct bdk_trcx_trcidr5_s          cn85xx; */
 	/* struct bdk_trcx_trcidr5_s          cn88xx; */
+	/* struct bdk_trcx_trcidr5_s          cn88xxp1; */
 } bdk_trcx_trcidr5_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1838,6 +1880,7 @@ typedef union bdk_trcx_trcitctrl {
 	} s;
 	/* struct bdk_trcx_trcitctrl_s        cn85xx; */
 	/* struct bdk_trcx_trcitctrl_s        cn88xx; */
+	/* struct bdk_trcx_trcitctrl_s        cn88xxp1; */
 } bdk_trcx_trcitctrl_t;
 
 static inline uint64_t BDK_TRCX_TRCITCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1873,6 +1916,7 @@ typedef union bdk_trcx_trclar {
 	} s;
 	/* struct bdk_trcx_trclar_s           cn85xx; */
 	/* struct bdk_trcx_trclar_s           cn88xx; */
+	/* struct bdk_trcx_trclar_s           cn88xxp1; */
 } bdk_trcx_trclar_t;
 
 static inline uint64_t BDK_TRCX_TRCLAR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1925,6 +1969,7 @@ typedef union bdk_trcx_trclsr {
 	} s;
 	/* struct bdk_trcx_trclsr_s           cn85xx; */
 	/* struct bdk_trcx_trclsr_s           cn88xx; */
+	/* struct bdk_trcx_trclsr_s           cn88xxp1; */
 } bdk_trcx_trclsr_t;
 
 static inline uint64_t BDK_TRCX_TRCLSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1958,6 +2003,7 @@ typedef union bdk_trcx_trcoslar {
 	} s;
 	/* struct bdk_trcx_trcoslar_s         cn85xx; */
 	/* struct bdk_trcx_trcoslar_s         cn88xx; */
+	/* struct bdk_trcx_trcoslar_s         cn88xxp1; */
 } bdk_trcx_trcoslar_t;
 
 static inline uint64_t BDK_TRCX_TRCOSLAR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2000,6 +2046,7 @@ typedef union bdk_trcx_trcoslsr {
 	} s;
 	/* struct bdk_trcx_trcoslsr_s         cn85xx; */
 	/* struct bdk_trcx_trcoslsr_s         cn88xx; */
+	/* struct bdk_trcx_trcoslsr_s         cn88xxp1; */
 } bdk_trcx_trcoslsr_t;
 
 static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2045,6 +2092,7 @@ typedef union bdk_trcx_trcpdcr {
 	} s;
 	/* struct bdk_trcx_trcpdcr_s          cn85xx; */
 	/* struct bdk_trcx_trcpdcr_s          cn88xx; */
+	/* struct bdk_trcx_trcpdcr_s          cn88xxp1; */
 } bdk_trcx_trcpdcr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2090,6 +2138,7 @@ typedef union bdk_trcx_trcpdsr {
 	} s;
 	/* struct bdk_trcx_trcpdsr_s          cn85xx; */
 	/* struct bdk_trcx_trcpdsr_s          cn88xx; */
+	/* struct bdk_trcx_trcpdsr_s          cn88xxp1; */
 } bdk_trcx_trcpdsr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2125,6 +2174,7 @@ typedef union bdk_trcx_trcpidr0 {
 	} s;
 	/* struct bdk_trcx_trcpidr0_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr0_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr0_s         cn88xxp1; */
 } bdk_trcx_trcpidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2162,6 +2212,7 @@ typedef union bdk_trcx_trcpidr1 {
 	} s;
 	/* struct bdk_trcx_trcpidr1_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr1_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr1_s         cn88xxp1; */
 } bdk_trcx_trcpidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2201,6 +2252,7 @@ typedef union bdk_trcx_trcpidr2 {
 	} s;
 	/* struct bdk_trcx_trcpidr2_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr2_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr2_s         cn88xxp1; */
 } bdk_trcx_trcpidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2239,6 +2291,7 @@ typedef union bdk_trcx_trcpidr3 {
 	} s;
 	/* struct bdk_trcx_trcpidr3_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr3_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr3_s         cn88xxp1; */
 } bdk_trcx_trcpidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2277,6 +2330,7 @@ typedef union bdk_trcx_trcpidr4 {
 	} s;
 	/* struct bdk_trcx_trcpidr4_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr4_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr4_s         cn88xxp1; */
 } bdk_trcx_trcpidr4_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2310,6 +2364,7 @@ typedef union bdk_trcx_trcpidr5 {
 	} s;
 	/* struct bdk_trcx_trcpidr5_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr5_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr5_s         cn88xxp1; */
 } bdk_trcx_trcpidr5_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2343,6 +2398,7 @@ typedef union bdk_trcx_trcpidr6 {
 	} s;
 	/* struct bdk_trcx_trcpidr6_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr6_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr6_s         cn88xxp1; */
 } bdk_trcx_trcpidr6_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2376,6 +2432,7 @@ typedef union bdk_trcx_trcpidr7 {
 	} s;
 	/* struct bdk_trcx_trcpidr7_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr7_s         cn88xx; */
+	/* struct bdk_trcx_trcpidr7_s         cn88xxp1; */
 } bdk_trcx_trcpidr7_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2414,6 +2471,7 @@ typedef union bdk_trcx_trcprgctlr {
 	} s;
 	/* struct bdk_trcx_trcprgctlr_s       cn85xx; */
 	/* struct bdk_trcx_trcprgctlr_s       cn88xx; */
+	/* struct bdk_trcx_trcprgctlr_s       cn88xxp1; */
 } bdk_trcx_trcprgctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2451,6 +2509,7 @@ typedef union bdk_trcx_trcprocselr {
 	} s;
 	/* struct bdk_trcx_trcprocselr_s      cn85xx; */
 	/* struct bdk_trcx_trcprocselr_s      cn88xx; */
+	/* struct bdk_trcx_trcprocselr_s      cn88xxp1; */
 } bdk_trcx_trcprocselr_t;
 
 static inline uint64_t BDK_TRCX_TRCPROCSELR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2494,6 +2553,7 @@ typedef union bdk_trcx_trcqctlr {
 	} s;
 	/* struct bdk_trcx_trcqctlr_s         cn85xx; */
 	/* struct bdk_trcx_trcqctlr_s         cn88xx; */
+	/* struct bdk_trcx_trcqctlr_s         cn88xxp1; */
 } bdk_trcx_trcqctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCQCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2527,6 +2587,7 @@ typedef union bdk_trcx_trcrsctlr0 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr0_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr0_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr0_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2560,6 +2621,7 @@ typedef union bdk_trcx_trcrsctlr1 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr1_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr1_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr1_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2593,6 +2655,7 @@ typedef union bdk_trcx_trcrsctlr2 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr2_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr2_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr2_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr2_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2626,6 +2689,7 @@ typedef union bdk_trcx_trcrsctlr3 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr3_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr3_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr3_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr3_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2659,6 +2723,7 @@ typedef union bdk_trcx_trcrsctlr4 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr4_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr4_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr4_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr4_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2692,6 +2757,7 @@ typedef union bdk_trcx_trcrsctlr5 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr5_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr5_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr5_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr5_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2725,6 +2791,7 @@ typedef union bdk_trcx_trcrsctlr6 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr6_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr6_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr6_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr6_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2758,6 +2825,7 @@ typedef union bdk_trcx_trcrsctlr7 {
 	} s;
 	/* struct bdk_trcx_trcrsctlr7_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr7_s       cn88xx; */
+	/* struct bdk_trcx_trcrsctlr7_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr7_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2795,6 +2863,7 @@ typedef union bdk_trcx_trcseqevr0 {
 	} s;
 	/* struct bdk_trcx_trcseqevr0_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr0_s       cn88xx; */
+	/* struct bdk_trcx_trcseqevr0_s       cn88xxp1; */
 } bdk_trcx_trcseqevr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2832,6 +2901,7 @@ typedef union bdk_trcx_trcseqevr1 {
 	} s;
 	/* struct bdk_trcx_trcseqevr1_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr1_s       cn88xx; */
+	/* struct bdk_trcx_trcseqevr1_s       cn88xxp1; */
 } bdk_trcx_trcseqevr1_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2869,6 +2939,7 @@ typedef union bdk_trcx_trcseqevr2 {
 	} s;
 	/* struct bdk_trcx_trcseqevr2_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr2_s       cn88xx; */
+	/* struct bdk_trcx_trcseqevr2_s       cn88xxp1; */
 } bdk_trcx_trcseqevr2_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2906,6 +2977,7 @@ typedef union bdk_trcx_trcseqevr3 {
 	} s;
 	/* struct bdk_trcx_trcseqevr3_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr3_s       cn88xx; */
+	/* struct bdk_trcx_trcseqevr3_s       cn88xxp1; */
 } bdk_trcx_trcseqevr3_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2941,6 +3013,7 @@ typedef union bdk_trcx_trcseqrstevr {
 	} s;
 	/* struct bdk_trcx_trcseqrstevr_s     cn85xx; */
 	/* struct bdk_trcx_trcseqrstevr_s     cn88xx; */
+	/* struct bdk_trcx_trcseqrstevr_s     cn88xxp1; */
 } bdk_trcx_trcseqrstevr_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQRSTEVR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2980,6 +3053,7 @@ typedef union bdk_trcx_trcseqstr {
 	} s;
 	/* struct bdk_trcx_trcseqstr_s        cn85xx; */
 	/* struct bdk_trcx_trcseqstr_s        cn88xx; */
+	/* struct bdk_trcx_trcseqstr_s        cn88xxp1; */
 } bdk_trcx_trcseqstr_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQSTR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3013,6 +3087,7 @@ typedef union bdk_trcx_trcssccr0 {
 	} s;
 	/* struct bdk_trcx_trcssccr0_s        cn85xx; */
 	/* struct bdk_trcx_trcssccr0_s        cn88xx; */
+	/* struct bdk_trcx_trcssccr0_s        cn88xxp1; */
 } bdk_trcx_trcssccr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSSCCR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3046,6 +3121,7 @@ typedef union bdk_trcx_trcsscsr0 {
 	} s;
 	/* struct bdk_trcx_trcsscsr0_s        cn85xx; */
 	/* struct bdk_trcx_trcsscsr0_s        cn88xx; */
+	/* struct bdk_trcx_trcsscsr0_s        cn88xxp1; */
 } bdk_trcx_trcsscsr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSSCSR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3079,6 +3155,7 @@ typedef union bdk_trcx_trcsspcicr0 {
 	} s;
 	/* struct bdk_trcx_trcsspcicr0_s      cn85xx; */
 	/* struct bdk_trcx_trcsspcicr0_s      cn88xx; */
+	/* struct bdk_trcx_trcsspcicr0_s      cn88xxp1; */
 } bdk_trcx_trcsspcicr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3147,6 +3224,7 @@ typedef union bdk_trcx_trcstallctlr {
 	} s;
 	/* struct bdk_trcx_trcstallctlr_s     cn85xx; */
 	/* struct bdk_trcx_trcstallctlr_s     cn88xx; */
+	/* struct bdk_trcx_trcstallctlr_s     cn88xxp1; */
 } bdk_trcx_trcstallctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTALLCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3188,6 +3266,7 @@ typedef union bdk_trcx_trcstatr {
 	} s;
 	/* struct bdk_trcx_trcstatr_s         cn85xx; */
 	/* struct bdk_trcx_trcstatr_s         cn88xx; */
+	/* struct bdk_trcx_trcstatr_s         cn88xxp1; */
 } bdk_trcx_trcstatr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3228,6 +3307,7 @@ typedef union bdk_trcx_trcsyncpr {
 	} s;
 	/* struct bdk_trcx_trcsyncpr_s        cn85xx; */
 	/* struct bdk_trcx_trcsyncpr_s        cn88xx; */
+	/* struct bdk_trcx_trcsyncpr_s        cn88xxp1; */
 } bdk_trcx_trcsyncpr_t;
 
 static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3263,6 +3343,7 @@ typedef union bdk_trcx_trctraceidr {
 	} s;
 	/* struct bdk_trcx_trctraceidr_s      cn85xx; */
 	/* struct bdk_trcx_trctraceidr_s      cn88xx; */
+	/* struct bdk_trcx_trctraceidr_s      cn88xxp1; */
 } bdk_trcx_trctraceidr_t;
 
 static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3296,6 +3377,7 @@ typedef union bdk_trcx_trctsctlr {
 	} s;
 	/* struct bdk_trcx_trctsctlr_s        cn85xx; */
 	/* struct bdk_trcx_trctsctlr_s        cn88xx; */
+	/* struct bdk_trcx_trctsctlr_s        cn88xxp1; */
 } bdk_trcx_trctsctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCTSCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3343,6 +3425,7 @@ typedef union bdk_trcx_trcvdarcctlr {
 	} s;
 	/* struct bdk_trcx_trcvdarcctlr_s     cn85xx; */
 	/* struct bdk_trcx_trcvdarcctlr_s     cn88xx; */
+	/* struct bdk_trcx_trcvdarcctlr_s     cn88xxp1; */
 } bdk_trcx_trcvdarcctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVDARCCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3400,6 +3483,7 @@ typedef union bdk_trcx_trcvdctlr {
 	} s;
 	/* struct bdk_trcx_trcvdctlr_s        cn85xx; */
 	/* struct bdk_trcx_trcvdctlr_s        cn88xx; */
+	/* struct bdk_trcx_trcvdctlr_s        cn88xxp1; */
 } bdk_trcx_trcvdctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVDCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3447,6 +3531,7 @@ typedef union bdk_trcx_trcvdsacctlr {
 	} s;
 	/* struct bdk_trcx_trcvdsacctlr_s     cn85xx; */
 	/* struct bdk_trcx_trcvdsacctlr_s     cn88xx; */
+	/* struct bdk_trcx_trcvdsacctlr_s     cn88xxp1; */
 } bdk_trcx_trcvdsacctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVDSACCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3516,6 +3601,7 @@ typedef union bdk_trcx_trcvictlr {
 	} s;
 	/* struct bdk_trcx_trcvictlr_s        cn85xx; */
 	/* struct bdk_trcx_trcvictlr_s        cn88xx; */
+	/* struct bdk_trcx_trcvictlr_s        cn88xxp1; */
 } bdk_trcx_trcvictlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVICTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3563,6 +3649,7 @@ typedef union bdk_trcx_trcviiectlr {
 	} s;
 	/* struct bdk_trcx_trcviiectlr_s      cn85xx; */
 	/* struct bdk_trcx_trcviiectlr_s      cn88xx; */
+	/* struct bdk_trcx_trcviiectlr_s      cn88xxp1; */
 } bdk_trcx_trcviiectlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVIIECTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3612,6 +3699,7 @@ typedef union bdk_trcx_trcvipcssctlr {
 	} s;
 	/* struct bdk_trcx_trcvipcssctlr_s    cn85xx; */
 	/* struct bdk_trcx_trcvipcssctlr_s    cn88xx; */
+	/* struct bdk_trcx_trcvipcssctlr_s    cn88xxp1; */
 } bdk_trcx_trcvipcssctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVIPCSSCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3661,6 +3749,7 @@ typedef union bdk_trcx_trcvissctlr {
 	} s;
 	/* struct bdk_trcx_trcvissctlr_s      cn85xx; */
 	/* struct bdk_trcx_trcvissctlr_s      cn88xx; */
+	/* struct bdk_trcx_trcvissctlr_s      cn88xxp1; */
 } bdk_trcx_trcvissctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3694,6 +3783,7 @@ typedef union bdk_trcx_trcvmidcctlr0 {
 	} s;
 	/* struct bdk_trcx_trcvmidcctlr0_s    cn85xx; */
 	/* struct bdk_trcx_trcvmidcctlr0_s    cn88xx; */
+	/* struct bdk_trcx_trcvmidcctlr0_s    cn88xxp1; */
 } bdk_trcx_trcvmidcctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3727,6 +3817,7 @@ typedef union bdk_trcx_trcvmidcctlr1 {
 	} s;
 	/* struct bdk_trcx_trcvmidcctlr1_s    cn85xx; */
 	/* struct bdk_trcx_trcvmidcctlr1_s    cn88xx; */
+	/* struct bdk_trcx_trcvmidcctlr1_s    cn88xxp1; */
 } bdk_trcx_trcvmidcctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3760,6 +3851,7 @@ typedef union bdk_trcx_trcvmidcvr0 {
 	} s;
 	/* struct bdk_trcx_trcvmidcvr0_s      cn85xx; */
 	/* struct bdk_trcx_trcvmidcvr0_s      cn88xx; */
+	/* struct bdk_trcx_trcvmidcvr0_s      cn88xxp1; */
 } bdk_trcx_trcvmidcvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long param1) __attribute__ ((pure, always_inline));

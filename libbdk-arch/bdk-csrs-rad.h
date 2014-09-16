@@ -309,6 +309,7 @@ typedef union bdk_rad_done_ack {
 	} s;
 	/* struct bdk_rad_done_ack_s          cn85xx; */
 	/* struct bdk_rad_done_ack_s          cn88xx; */
+	/* struct bdk_rad_done_ack_s          cn88xxp1; */
 } bdk_rad_done_ack_t;
 
 #define BDK_RAD_DONE_ACK BDK_RAD_DONE_ACK_FUNC()
@@ -361,6 +362,7 @@ typedef union bdk_rad_done_cnt {
 	} s;
 	/* struct bdk_rad_done_cnt_s          cn85xx; */
 	/* struct bdk_rad_done_cnt_s          cn88xx; */
+	/* struct bdk_rad_done_cnt_s          cn88xxp1; */
 } bdk_rad_done_cnt_t;
 
 #define BDK_RAD_DONE_CNT BDK_RAD_DONE_CNT_FUNC()
@@ -402,6 +404,7 @@ typedef union bdk_rad_done_wait {
 	} s;
 	/* struct bdk_rad_done_wait_s         cn85xx; */
 	/* struct bdk_rad_done_wait_s         cn88xx; */
+	/* struct bdk_rad_done_wait_s         cn88xxp1; */
 } bdk_rad_done_wait_t;
 
 #define BDK_RAD_DONE_WAIT BDK_RAD_DONE_WAIT_FUNC()
@@ -434,6 +437,7 @@ typedef union bdk_rad_doorbell {
 	} s;
 	/* struct bdk_rad_doorbell_s          cn85xx; */
 	/* struct bdk_rad_doorbell_s          cn88xx; */
+	/* struct bdk_rad_doorbell_s          cn88xxp1; */
 } bdk_rad_doorbell_t;
 
 #define BDK_RAD_DOORBELL BDK_RAD_DOORBELL_FUNC()
@@ -468,6 +472,7 @@ typedef union bdk_rad_int {
 	} s;
 	/* struct bdk_rad_int_s               cn85xx; */
 	/* struct bdk_rad_int_s               cn88xx; */
+	/* struct bdk_rad_int_s               cn88xxp1; */
 } bdk_rad_int_t;
 
 #define BDK_RAD_INT BDK_RAD_INT_FUNC()
@@ -504,6 +509,7 @@ typedef union bdk_rad_int_ena_w1c {
 	} s;
 	/* struct bdk_rad_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_rad_int_ena_w1c_s       cn88xx; */
+	/* struct bdk_rad_int_ena_w1c_s       cn88xxp1; */
 } bdk_rad_int_ena_w1c_t;
 
 #define BDK_RAD_INT_ENA_W1C BDK_RAD_INT_ENA_W1C_FUNC()
@@ -540,6 +546,7 @@ typedef union bdk_rad_int_ena_w1s {
 	} s;
 	/* struct bdk_rad_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_rad_int_ena_w1s_s       cn88xx; */
+	/* struct bdk_rad_int_ena_w1s_s       cn88xxp1; */
 } bdk_rad_int_ena_w1s_t;
 
 #define BDK_RAD_INT_ENA_W1S BDK_RAD_INT_ENA_W1S_FUNC()
@@ -573,6 +580,7 @@ typedef union bdk_rad_int_w1s {
 	} s;
 	/* struct bdk_rad_int_w1s_s           cn85xx; */
 	/* struct bdk_rad_int_w1s_s           cn88xx; */
+	/* struct bdk_rad_int_w1s_s           cn88xxp1; */
 } bdk_rad_int_w1s_t;
 
 #define BDK_RAD_INT_W1S BDK_RAD_INT_W1S_FUNC()
@@ -606,6 +614,7 @@ typedef union bdk_rad_mem_debug0 {
 	} s;
 	/* struct bdk_rad_mem_debug0_s        cn85xx; */
 	/* struct bdk_rad_mem_debug0_s        cn88xx; */
+	/* struct bdk_rad_mem_debug0_s        cn88xxp1; */
 } bdk_rad_mem_debug0_t;
 
 #define BDK_RAD_MEM_DEBUG0 BDK_RAD_MEM_DEBUG0_FUNC()
@@ -639,6 +648,7 @@ typedef union bdk_rad_mem_debug1 {
 	} s;
 	/* struct bdk_rad_mem_debug1_s        cn85xx; */
 	/* struct bdk_rad_mem_debug1_s        cn88xx; */
+	/* struct bdk_rad_mem_debug1_s        cn88xxp1; */
 } bdk_rad_mem_debug1_t;
 
 #define BDK_RAD_MEM_DEBUG1 BDK_RAD_MEM_DEBUG1_FUNC()
@@ -672,6 +682,7 @@ typedef union bdk_rad_mem_debug2 {
 	} s;
 	/* struct bdk_rad_mem_debug2_s        cn85xx; */
 	/* struct bdk_rad_mem_debug2_s        cn88xx; */
+	/* struct bdk_rad_mem_debug2_s        cn88xxp1; */
 } bdk_rad_mem_debug2_t;
 
 #define BDK_RAD_MEM_DEBUG2 BDK_RAD_MEM_DEBUG2_FUNC()
@@ -705,6 +716,7 @@ typedef union bdk_rad_msix_pbax {
 	} s;
 	/* struct bdk_rad_msix_pbax_s         cn85xx; */
 	/* struct bdk_rad_msix_pbax_s         cn88xx; */
+	/* struct bdk_rad_msix_pbax_s         cn88xxp1; */
 } bdk_rad_msix_pbax_t;
 
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -751,6 +763,7 @@ typedef union bdk_rad_msix_vecx_addr {
 	} s;
 	/* struct bdk_rad_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_rad_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_rad_msix_vecx_addr_s    cn88xxp1; */
 } bdk_rad_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -790,6 +803,7 @@ typedef union bdk_rad_msix_vecx_ctl {
 	} s;
 	/* struct bdk_rad_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_rad_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_rad_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_rad_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -835,6 +849,7 @@ typedef union bdk_rad_reg_bist_result {
 	} s;
 	/* struct bdk_rad_reg_bist_result_s   cn85xx; */
 	/* struct bdk_rad_reg_bist_result_s   cn88xx; */
+	/* struct bdk_rad_reg_bist_result_s   cn88xxp1; */
 } bdk_rad_reg_bist_result_t;
 
 #define BDK_RAD_REG_BIST_RESULT BDK_RAD_REG_BIST_RESULT_FUNC()
@@ -878,6 +893,7 @@ typedef union bdk_rad_reg_cmd_buf {
 	} s;
 	/* struct bdk_rad_reg_cmd_buf_s       cn85xx; */
 	/* struct bdk_rad_reg_cmd_buf_s       cn88xx; */
+	/* struct bdk_rad_reg_cmd_buf_s       cn88xxp1; */
 } bdk_rad_reg_cmd_buf_t;
 
 #define BDK_RAD_REG_CMD_BUF BDK_RAD_REG_CMD_BUF_FUNC()
@@ -915,6 +931,7 @@ typedef union bdk_rad_reg_cmd_ptr {
 	} s;
 	/* struct bdk_rad_reg_cmd_ptr_s       cn85xx; */
 	/* struct bdk_rad_reg_cmd_ptr_s       cn88xx; */
+	/* struct bdk_rad_reg_cmd_ptr_s       cn88xxp1; */
 } bdk_rad_reg_cmd_ptr_t;
 
 #define BDK_RAD_REG_CMD_PTR BDK_RAD_REG_CMD_PTR_FUNC()
@@ -957,6 +974,7 @@ typedef union bdk_rad_reg_ctl {
 	} s;
 	/* struct bdk_rad_reg_ctl_s           cn85xx; */
 	/* struct bdk_rad_reg_ctl_s           cn88xx; */
+	/* struct bdk_rad_reg_ctl_s           cn88xxp1; */
 } bdk_rad_reg_ctl_t;
 
 #define BDK_RAD_REG_CTL BDK_RAD_REG_CTL_FUNC()
@@ -1004,6 +1022,7 @@ typedef union bdk_rad_reg_debug0 {
 	} s;
 	/* struct bdk_rad_reg_debug0_s        cn85xx; */
 	/* struct bdk_rad_reg_debug0_s        cn88xx; */
+	/* struct bdk_rad_reg_debug0_s        cn88xxp1; */
 } bdk_rad_reg_debug0_t;
 
 #define BDK_RAD_REG_DEBUG0 BDK_RAD_REG_DEBUG0_FUNC()
@@ -1033,6 +1052,7 @@ typedef union bdk_rad_reg_debug1 {
 	} s;
 	/* struct bdk_rad_reg_debug1_s        cn85xx; */
 	/* struct bdk_rad_reg_debug1_s        cn88xx; */
+	/* struct bdk_rad_reg_debug1_s        cn88xxp1; */
 } bdk_rad_reg_debug1_t;
 
 #define BDK_RAD_REG_DEBUG1 BDK_RAD_REG_DEBUG1_FUNC()
@@ -1066,6 +1086,7 @@ typedef union bdk_rad_reg_debug10 {
 	} s;
 	/* struct bdk_rad_reg_debug10_s       cn85xx; */
 	/* struct bdk_rad_reg_debug10_s       cn88xx; */
+	/* struct bdk_rad_reg_debug10_s       cn88xxp1; */
 } bdk_rad_reg_debug10_t;
 
 #define BDK_RAD_REG_DEBUG10 BDK_RAD_REG_DEBUG10_FUNC()
@@ -1107,6 +1128,7 @@ typedef union bdk_rad_reg_debug11 {
 	} s;
 	/* struct bdk_rad_reg_debug11_s       cn85xx; */
 	/* struct bdk_rad_reg_debug11_s       cn88xx; */
+	/* struct bdk_rad_reg_debug11_s       cn88xxp1; */
 } bdk_rad_reg_debug11_t;
 
 #define BDK_RAD_REG_DEBUG11 BDK_RAD_REG_DEBUG11_FUNC()
@@ -1138,6 +1160,7 @@ typedef union bdk_rad_reg_debug12 {
 	} s;
 	/* struct bdk_rad_reg_debug12_s       cn85xx; */
 	/* struct bdk_rad_reg_debug12_s       cn88xx; */
+	/* struct bdk_rad_reg_debug12_s       cn88xxp1; */
 } bdk_rad_reg_debug12_t;
 
 #define BDK_RAD_REG_DEBUG12 BDK_RAD_REG_DEBUG12_FUNC()
@@ -1167,6 +1190,7 @@ typedef union bdk_rad_reg_debug2 {
 	} s;
 	/* struct bdk_rad_reg_debug2_s        cn85xx; */
 	/* struct bdk_rad_reg_debug2_s        cn88xx; */
+	/* struct bdk_rad_reg_debug2_s        cn88xxp1; */
 } bdk_rad_reg_debug2_t;
 
 #define BDK_RAD_REG_DEBUG2 BDK_RAD_REG_DEBUG2_FUNC()
@@ -1196,6 +1220,7 @@ typedef union bdk_rad_reg_debug3 {
 	} s;
 	/* struct bdk_rad_reg_debug3_s        cn85xx; */
 	/* struct bdk_rad_reg_debug3_s        cn88xx; */
+	/* struct bdk_rad_reg_debug3_s        cn88xxp1; */
 } bdk_rad_reg_debug3_t;
 
 #define BDK_RAD_REG_DEBUG3 BDK_RAD_REG_DEBUG3_FUNC()
@@ -1225,6 +1250,7 @@ typedef union bdk_rad_reg_debug4 {
 	} s;
 	/* struct bdk_rad_reg_debug4_s        cn85xx; */
 	/* struct bdk_rad_reg_debug4_s        cn88xx; */
+	/* struct bdk_rad_reg_debug4_s        cn88xxp1; */
 } bdk_rad_reg_debug4_t;
 
 #define BDK_RAD_REG_DEBUG4 BDK_RAD_REG_DEBUG4_FUNC()
@@ -1288,6 +1314,7 @@ typedef union bdk_rad_reg_debug5 {
 	} s;
 	/* struct bdk_rad_reg_debug5_s        cn85xx; */
 	/* struct bdk_rad_reg_debug5_s        cn88xx; */
+	/* struct bdk_rad_reg_debug5_s        cn88xxp1; */
 } bdk_rad_reg_debug5_t;
 
 #define BDK_RAD_REG_DEBUG5 BDK_RAD_REG_DEBUG5_FUNC()
@@ -1321,6 +1348,7 @@ typedef union bdk_rad_reg_debug6 {
 	} s;
 	/* struct bdk_rad_reg_debug6_s        cn85xx; */
 	/* struct bdk_rad_reg_debug6_s        cn88xx; */
+	/* struct bdk_rad_reg_debug6_s        cn88xxp1; */
 } bdk_rad_reg_debug6_t;
 
 #define BDK_RAD_REG_DEBUG6 BDK_RAD_REG_DEBUG6_FUNC()
@@ -1352,6 +1380,7 @@ typedef union bdk_rad_reg_debug7 {
 	} s;
 	/* struct bdk_rad_reg_debug7_s        cn85xx; */
 	/* struct bdk_rad_reg_debug7_s        cn88xx; */
+	/* struct bdk_rad_reg_debug7_s        cn88xxp1; */
 } bdk_rad_reg_debug7_t;
 
 #define BDK_RAD_REG_DEBUG7 BDK_RAD_REG_DEBUG7_FUNC()
@@ -1385,6 +1414,7 @@ typedef union bdk_rad_reg_debug8 {
 	} s;
 	/* struct bdk_rad_reg_debug8_s        cn85xx; */
 	/* struct bdk_rad_reg_debug8_s        cn88xx; */
+	/* struct bdk_rad_reg_debug8_s        cn88xxp1; */
 } bdk_rad_reg_debug8_t;
 
 #define BDK_RAD_REG_DEBUG8 BDK_RAD_REG_DEBUG8_FUNC()
@@ -1426,6 +1456,7 @@ typedef union bdk_rad_reg_debug9 {
 	} s;
 	/* struct bdk_rad_reg_debug9_s        cn85xx; */
 	/* struct bdk_rad_reg_debug9_s        cn88xx; */
+	/* struct bdk_rad_reg_debug9_s        cn88xxp1; */
 } bdk_rad_reg_debug9_t;
 
 #define BDK_RAD_REG_DEBUG9 BDK_RAD_REG_DEBUG9_FUNC()
@@ -1460,6 +1491,7 @@ typedef union bdk_rad_reg_polynomial {
 	} s;
 	/* struct bdk_rad_reg_polynomial_s    cn85xx; */
 	/* struct bdk_rad_reg_polynomial_s    cn88xx; */
+	/* struct bdk_rad_reg_polynomial_s    cn88xxp1; */
 } bdk_rad_reg_polynomial_t;
 
 #define BDK_RAD_REG_POLYNOMIAL BDK_RAD_REG_POLYNOMIAL_FUNC()
@@ -1500,6 +1532,7 @@ typedef union bdk_rad_reg_read_idx {
 	} s;
 	/* struct bdk_rad_reg_read_idx_s      cn85xx; */
 	/* struct bdk_rad_reg_read_idx_s      cn88xx; */
+	/* struct bdk_rad_reg_read_idx_s      cn88xxp1; */
 } bdk_rad_reg_read_idx_t;
 
 #define BDK_RAD_REG_READ_IDX BDK_RAD_REG_READ_IDX_FUNC()

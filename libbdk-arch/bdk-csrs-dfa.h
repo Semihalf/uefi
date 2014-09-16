@@ -116,6 +116,7 @@ typedef union bdk_dfa_asc_regionx_attr {
 	} s;
 	/* struct bdk_dfa_asc_regionx_attr_s  cn85xx; */
 	/* struct bdk_dfa_asc_regionx_attr_s  cn88xx; */
+	/* struct bdk_dfa_asc_regionx_attr_s  cn88xxp1; */
 } bdk_dfa_asc_regionx_attr_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_ATTR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -154,6 +155,7 @@ typedef union bdk_dfa_asc_regionx_end {
 	} s;
 	/* struct bdk_dfa_asc_regionx_end_s   cn85xx; */
 	/* struct bdk_dfa_asc_regionx_end_s   cn88xx; */
+	/* struct bdk_dfa_asc_regionx_end_s   cn88xxp1; */
 } bdk_dfa_asc_regionx_end_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_END(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -194,6 +196,7 @@ typedef union bdk_dfa_asc_regionx_offset {
 	} s;
 	/* struct bdk_dfa_asc_regionx_offset_s cn85xx; */
 	/* struct bdk_dfa_asc_regionx_offset_s cn88xx; */
+	/* struct bdk_dfa_asc_regionx_offset_s cn88xxp1; */
 } bdk_dfa_asc_regionx_offset_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_OFFSET(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -229,6 +232,7 @@ typedef union bdk_dfa_asc_regionx_start {
 	} s;
 	/* struct bdk_dfa_asc_regionx_start_s cn85xx; */
 	/* struct bdk_dfa_asc_regionx_start_s cn88xx; */
+	/* struct bdk_dfa_asc_regionx_start_s cn88xxp1; */
 } bdk_dfa_asc_regionx_start_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_START(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -286,6 +290,7 @@ typedef union bdk_dfa_bist0 {
 	} s;
 	/* struct bdk_dfa_bist0_s             cn85xx; */
 	/* struct bdk_dfa_bist0_s             cn88xx; */
+	/* struct bdk_dfa_bist0_s             cn88xxp1; */
 } bdk_dfa_bist0_t;
 
 #define BDK_DFA_BIST0 BDK_DFA_BIST0_FUNC()
@@ -360,6 +365,7 @@ typedef union bdk_dfa_bist1 {
 	} s;
 	/* struct bdk_dfa_bist1_s             cn85xx; */
 	/* struct bdk_dfa_bist1_s             cn88xx; */
+	/* struct bdk_dfa_bist1_s             cn88xxp1; */
 } bdk_dfa_bist1_t;
 
 #define BDK_DFA_BIST1 BDK_DFA_BIST1_FUNC()
@@ -450,6 +456,7 @@ typedef union bdk_dfa_config {
 	} s;
 	/* struct bdk_dfa_config_s            cn85xx; */
 	/* struct bdk_dfa_config_s            cn88xx; */
+	/* struct bdk_dfa_config_s            cn88xxp1; */
 } bdk_dfa_config_t;
 
 #define BDK_DFA_CONFIG BDK_DFA_CONFIG_FUNC()
@@ -505,6 +512,7 @@ typedef union bdk_dfa_control {
 	} s;
 	/* struct bdk_dfa_control_s           cn85xx; */
 	/* struct bdk_dfa_control_s           cn88xx; */
+	/* struct bdk_dfa_control_s           cn88xxp1; */
 } bdk_dfa_control_t;
 
 #define BDK_DFA_CONTROL BDK_DFA_CONTROL_FUNC()
@@ -568,6 +576,7 @@ typedef union bdk_dfa_cq_cfg {
 	} s;
 	/* struct bdk_dfa_cq_cfg_s            cn85xx; */
 	/* struct bdk_dfa_cq_cfg_s            cn88xx; */
+	/* struct bdk_dfa_cq_cfg_s            cn88xxp1; */
 } bdk_dfa_cq_cfg_t;
 
 #define BDK_DFA_CQ_CFG BDK_DFA_CQ_CFG_FUNC()
@@ -609,6 +618,7 @@ typedef union bdk_dfa_dbell {
 	} s;
 	/* struct bdk_dfa_dbell_s             cn85xx; */
 	/* struct bdk_dfa_dbell_s             cn88xx; */
+	/* struct bdk_dfa_dbell_s             cn88xxp1; */
 } bdk_dfa_dbell_t;
 
 #define BDK_DFA_DBELL BDK_DFA_DBELL_FUNC()
@@ -668,6 +678,7 @@ typedef union bdk_dfa_debug0 {
 	} s;
 	/* struct bdk_dfa_debug0_s            cn85xx; */
 	/* struct bdk_dfa_debug0_s            cn88xx; */
+	/* struct bdk_dfa_debug0_s            cn88xxp1; */
 } bdk_dfa_debug0_t;
 
 #define BDK_DFA_DEBUG0 BDK_DFA_DEBUG0_FUNC()
@@ -707,6 +718,7 @@ typedef union bdk_dfa_debug1 {
 	} s;
 	/* struct bdk_dfa_debug1_s            cn85xx; */
 	/* struct bdk_dfa_debug1_s            cn88xx; */
+	/* struct bdk_dfa_debug1_s            cn88xxp1; */
 } bdk_dfa_debug1_t;
 
 #define BDK_DFA_DEBUG1 BDK_DFA_DEBUG1_FUNC()
@@ -769,6 +781,7 @@ typedef union bdk_dfa_difctl {
 	} s;
 	/* struct bdk_dfa_difctl_s            cn85xx; */
 	/* struct bdk_dfa_difctl_s            cn88xx; */
+	/* struct bdk_dfa_difctl_s            cn88xxp1; */
 } bdk_dfa_difctl_t;
 
 #define BDK_DFA_DIFCTL BDK_DFA_DIFCTL_FUNC()
@@ -818,6 +831,7 @@ typedef union bdk_dfa_difrdptr {
 	} s;
 	/* struct bdk_dfa_difrdptr_s          cn85xx; */
 	/* struct bdk_dfa_difrdptr_s          cn88xx; */
+	/* struct bdk_dfa_difrdptr_s          cn88xxp1; */
 } bdk_dfa_difrdptr_t;
 
 #define BDK_DFA_DIFRDPTR BDK_DFA_DIFRDPTR_FUNC()
@@ -857,6 +871,7 @@ typedef union bdk_dfa_done_ack {
 	} s;
 	/* struct bdk_dfa_done_ack_s          cn85xx; */
 	/* struct bdk_dfa_done_ack_s          cn88xx; */
+	/* struct bdk_dfa_done_ack_s          cn88xxp1; */
 } bdk_dfa_done_ack_t;
 
 #define BDK_DFA_DONE_ACK BDK_DFA_DONE_ACK_FUNC()
@@ -899,6 +914,7 @@ typedef union bdk_dfa_done_wait {
 	} s;
 	/* struct bdk_dfa_done_wait_s         cn85xx; */
 	/* struct bdk_dfa_done_wait_s         cn88xx; */
+	/* struct bdk_dfa_done_wait_s         cn88xxp1; */
 } bdk_dfa_done_wait_t;
 
 #define BDK_DFA_DONE_WAIT BDK_DFA_DONE_WAIT_FUNC()
@@ -950,6 +966,7 @@ typedef union bdk_dfa_dtcfadr {
 	} s;
 	/* struct bdk_dfa_dtcfadr_s           cn85xx; */
 	/* struct bdk_dfa_dtcfadr_s           cn88xx; */
+	/* struct bdk_dfa_dtcfadr_s           cn88xxp1; */
 } bdk_dfa_dtcfadr_t;
 
 #define BDK_DFA_DTCFADR BDK_DFA_DTCFADR_FUNC()
@@ -1028,6 +1045,7 @@ typedef union bdk_dfa_int {
 	} s;
 	/* struct bdk_dfa_int_s               cn85xx; */
 	/* struct bdk_dfa_int_s               cn88xx; */
+	/* struct bdk_dfa_int_s               cn88xxp1; */
 } bdk_dfa_int_t;
 
 #define BDK_DFA_INT BDK_DFA_INT_FUNC()
@@ -1066,6 +1084,7 @@ typedef union bdk_dfa_int_done {
 	} s;
 	/* struct bdk_dfa_int_done_s          cn85xx; */
 	/* struct bdk_dfa_int_done_s          cn88xx; */
+	/* struct bdk_dfa_int_done_s          cn88xxp1; */
 } bdk_dfa_int_done_t;
 
 #define BDK_DFA_INT_DONE BDK_DFA_INT_DONE_FUNC()
@@ -1097,6 +1116,7 @@ typedef union bdk_dfa_int_done_ena_w1c {
 	} s;
 	/* struct bdk_dfa_int_done_ena_w1c_s  cn85xx; */
 	/* struct bdk_dfa_int_done_ena_w1c_s  cn88xx; */
+	/* struct bdk_dfa_int_done_ena_w1c_s  cn88xxp1; */
 } bdk_dfa_int_done_ena_w1c_t;
 
 #define BDK_DFA_INT_DONE_ENA_W1C BDK_DFA_INT_DONE_ENA_W1C_FUNC()
@@ -1128,6 +1148,7 @@ typedef union bdk_dfa_int_done_ena_w1s {
 	} s;
 	/* struct bdk_dfa_int_done_ena_w1s_s  cn85xx; */
 	/* struct bdk_dfa_int_done_ena_w1s_s  cn88xx; */
+	/* struct bdk_dfa_int_done_ena_w1s_s  cn88xxp1; */
 } bdk_dfa_int_done_ena_w1s_t;
 
 #define BDK_DFA_INT_DONE_ENA_W1S BDK_DFA_INT_DONE_ENA_W1S_FUNC()
@@ -1206,6 +1227,7 @@ typedef union bdk_dfa_int_ena_w1c {
 	} s;
 	/* struct bdk_dfa_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_dfa_int_ena_w1c_s       cn88xx; */
+	/* struct bdk_dfa_int_ena_w1c_s       cn88xxp1; */
 } bdk_dfa_int_ena_w1c_t;
 
 #define BDK_DFA_INT_ENA_W1C BDK_DFA_INT_ENA_W1C_FUNC()
@@ -1284,6 +1306,7 @@ typedef union bdk_dfa_int_ena_w1s {
 	} s;
 	/* struct bdk_dfa_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_dfa_int_ena_w1s_s       cn88xx; */
+	/* struct bdk_dfa_int_ena_w1s_s       cn88xxp1; */
 } bdk_dfa_int_ena_w1s_t;
 
 #define BDK_DFA_INT_ENA_W1S BDK_DFA_INT_ENA_W1S_FUNC()
@@ -1337,6 +1360,7 @@ typedef union bdk_dfa_int_status {
 	} s;
 	/* struct bdk_dfa_int_status_s        cn85xx; */
 	/* struct bdk_dfa_int_status_s        cn88xx; */
+	/* struct bdk_dfa_int_status_s        cn88xxp1; */
 } bdk_dfa_int_status_t;
 
 #define BDK_DFA_INT_STATUS BDK_DFA_INT_STATUS_FUNC()
@@ -1415,6 +1439,7 @@ typedef union bdk_dfa_int_w1s {
 	} s;
 	/* struct bdk_dfa_int_w1s_s           cn85xx; */
 	/* struct bdk_dfa_int_w1s_s           cn88xx; */
+	/* struct bdk_dfa_int_w1s_s           cn88xxp1; */
 } bdk_dfa_int_w1s_t;
 
 #define BDK_DFA_INT_W1S BDK_DFA_INT_W1S_FUNC()
@@ -1444,6 +1469,7 @@ typedef union bdk_dfa_memhidat {
 	} s;
 	/* struct bdk_dfa_memhidat_s          cn85xx; */
 	/* struct bdk_dfa_memhidat_s          cn88xx; */
+	/* struct bdk_dfa_memhidat_s          cn88xxp1; */
 } bdk_dfa_memhidat_t;
 
 #define BDK_DFA_MEMHIDAT BDK_DFA_MEMHIDAT_FUNC()
@@ -1477,6 +1503,7 @@ typedef union bdk_dfa_msix_pbax {
 	} s;
 	/* struct bdk_dfa_msix_pbax_s         cn85xx; */
 	/* struct bdk_dfa_msix_pbax_s         cn88xx; */
+	/* struct bdk_dfa_msix_pbax_s         cn88xxp1; */
 } bdk_dfa_msix_pbax_t;
 
 static inline uint64_t BDK_DFA_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1523,6 +1550,7 @@ typedef union bdk_dfa_msix_vecx_addr {
 	} s;
 	/* struct bdk_dfa_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_dfa_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_dfa_msix_vecx_addr_s    cn88xxp1; */
 } bdk_dfa_msix_vecx_addr_t;
 
 static inline uint64_t BDK_DFA_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1562,6 +1590,7 @@ typedef union bdk_dfa_msix_vecx_ctl {
 	} s;
 	/* struct bdk_dfa_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_dfa_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_dfa_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_dfa_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_DFA_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1594,6 +1623,7 @@ typedef union bdk_dfa_pfc0_cnt {
 	} s;
 	/* struct bdk_dfa_pfc0_cnt_s          cn85xx; */
 	/* struct bdk_dfa_pfc0_cnt_s          cn88xx; */
+	/* struct bdk_dfa_pfc0_cnt_s          cn88xxp1; */
 } bdk_dfa_pfc0_cnt_t;
 
 #define BDK_DFA_PFC0_CNT BDK_DFA_PFC0_CNT_FUNC()
@@ -1674,6 +1704,7 @@ typedef union bdk_dfa_pfc0_ctl {
 	} s;
 	/* struct bdk_dfa_pfc0_ctl_s          cn85xx; */
 	/* struct bdk_dfa_pfc0_ctl_s          cn88xx; */
+	/* struct bdk_dfa_pfc0_ctl_s          cn88xxp1; */
 } bdk_dfa_pfc0_ctl_t;
 
 #define BDK_DFA_PFC0_CTL BDK_DFA_PFC0_CTL_FUNC()
@@ -1705,6 +1736,7 @@ typedef union bdk_dfa_pfc1_cnt {
 	} s;
 	/* struct bdk_dfa_pfc1_cnt_s          cn85xx; */
 	/* struct bdk_dfa_pfc1_cnt_s          cn88xx; */
+	/* struct bdk_dfa_pfc1_cnt_s          cn88xxp1; */
 } bdk_dfa_pfc1_cnt_t;
 
 #define BDK_DFA_PFC1_CNT BDK_DFA_PFC1_CNT_FUNC()
@@ -1746,6 +1778,7 @@ typedef union bdk_dfa_pfc1_ctl {
 	} s;
 	/* struct bdk_dfa_pfc1_ctl_s          cn85xx; */
 	/* struct bdk_dfa_pfc1_ctl_s          cn88xx; */
+	/* struct bdk_dfa_pfc1_ctl_s          cn88xxp1; */
 } bdk_dfa_pfc1_ctl_t;
 
 #define BDK_DFA_PFC1_CTL BDK_DFA_PFC1_CTL_FUNC()
@@ -1777,6 +1810,7 @@ typedef union bdk_dfa_pfc2_cnt {
 	} s;
 	/* struct bdk_dfa_pfc2_cnt_s          cn85xx; */
 	/* struct bdk_dfa_pfc2_cnt_s          cn88xx; */
+	/* struct bdk_dfa_pfc2_cnt_s          cn88xxp1; */
 } bdk_dfa_pfc2_cnt_t;
 
 #define BDK_DFA_PFC2_CNT BDK_DFA_PFC2_CNT_FUNC()
@@ -1818,6 +1852,7 @@ typedef union bdk_dfa_pfc2_ctl {
 	} s;
 	/* struct bdk_dfa_pfc2_ctl_s          cn85xx; */
 	/* struct bdk_dfa_pfc2_ctl_s          cn88xx; */
+	/* struct bdk_dfa_pfc2_ctl_s          cn88xxp1; */
 } bdk_dfa_pfc2_ctl_t;
 
 #define BDK_DFA_PFC2_CTL BDK_DFA_PFC2_CTL_FUNC()
@@ -1849,6 +1884,7 @@ typedef union bdk_dfa_pfc3_cnt {
 	} s;
 	/* struct bdk_dfa_pfc3_cnt_s          cn85xx; */
 	/* struct bdk_dfa_pfc3_cnt_s          cn88xx; */
+	/* struct bdk_dfa_pfc3_cnt_s          cn88xxp1; */
 } bdk_dfa_pfc3_cnt_t;
 
 #define BDK_DFA_PFC3_CNT BDK_DFA_PFC3_CNT_FUNC()
@@ -1890,6 +1926,7 @@ typedef union bdk_dfa_pfc3_ctl {
 	} s;
 	/* struct bdk_dfa_pfc3_ctl_s          cn85xx; */
 	/* struct bdk_dfa_pfc3_ctl_s          cn88xx; */
+	/* struct bdk_dfa_pfc3_ctl_s          cn88xxp1; */
 } bdk_dfa_pfc3_ctl_t;
 
 #define BDK_DFA_PFC3_CTL BDK_DFA_PFC3_CTL_FUNC()
@@ -2009,6 +2046,7 @@ typedef union bdk_dfa_pfc_gctl {
 	} s;
 	/* struct bdk_dfa_pfc_gctl_s          cn85xx; */
 	/* struct bdk_dfa_pfc_gctl_s          cn88xx; */
+	/* struct bdk_dfa_pfc_gctl_s          cn88xxp1; */
 } bdk_dfa_pfc_gctl_t;
 
 #define BDK_DFA_PFC_GCTL BDK_DFA_PFC_GCTL_FUNC()

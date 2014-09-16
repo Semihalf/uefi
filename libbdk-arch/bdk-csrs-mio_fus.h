@@ -77,6 +77,7 @@ typedef union bdk_mio_fus_bnk_datx {
 	} s;
 	/* struct bdk_mio_fus_bnk_datx_s      cn85xx; */
 	/* struct bdk_mio_fus_bnk_datx_s      cn88xx; */
+	/* struct bdk_mio_fus_bnk_datx_s      cn88xxp1; */
 } bdk_mio_fus_bnk_datx_t;
 
 static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -109,6 +110,7 @@ typedef union bdk_mio_fus_dat0 {
 	} s;
 	/* struct bdk_mio_fus_dat0_s          cn85xx; */
 	/* struct bdk_mio_fus_dat0_s          cn88xx; */
+	/* struct bdk_mio_fus_dat0_s          cn88xxp1; */
 } bdk_mio_fus_dat0_t;
 
 #define BDK_MIO_FUS_DAT0 BDK_MIO_FUS_DAT0_FUNC()
@@ -140,6 +142,7 @@ typedef union bdk_mio_fus_dat1 {
 	} s;
 	/* struct bdk_mio_fus_dat1_s          cn85xx; */
 	/* struct bdk_mio_fus_dat1_s          cn88xx; */
+	/* struct bdk_mio_fus_dat1_s          cn88xxp1; */
 } bdk_mio_fus_dat1_t;
 
 #define BDK_MIO_FUS_DAT1 BDK_MIO_FUS_DAT1_FUNC()
@@ -216,6 +219,7 @@ typedef union bdk_mio_fus_dat2 {
 	} s;
 	/* struct bdk_mio_fus_dat2_s          cn85xx; */
 	/* struct bdk_mio_fus_dat2_s          cn88xx; */
+	/* struct bdk_mio_fus_dat2_s          cn88xxp1; */
 } bdk_mio_fus_dat2_t;
 
 #define BDK_MIO_FUS_DAT2 BDK_MIO_FUS_DAT2_FUNC()
@@ -302,6 +306,7 @@ typedef union bdk_mio_fus_dat3 {
 	} s;
 	/* struct bdk_mio_fus_dat3_s          cn85xx; */
 	/* struct bdk_mio_fus_dat3_s          cn88xx; */
+	/* struct bdk_mio_fus_dat3_s          cn88xxp1; */
 } bdk_mio_fus_dat3_t;
 
 #define BDK_MIO_FUS_DAT3 BDK_MIO_FUS_DAT3_FUNC()
@@ -349,6 +354,7 @@ typedef union bdk_mio_fus_dat4 {
 	} s;
 	/* struct bdk_mio_fus_dat4_s          cn85xx; */
 	/* struct bdk_mio_fus_dat4_s          cn88xx; */
+	/* struct bdk_mio_fus_dat4_s          cn88xxp1; */
 } bdk_mio_fus_dat4_t;
 
 #define BDK_MIO_FUS_DAT4 BDK_MIO_FUS_DAT4_FUNC()
@@ -382,6 +388,7 @@ typedef union bdk_mio_fus_int {
 	} s;
 	/* struct bdk_mio_fus_int_s           cn85xx; */
 	/* struct bdk_mio_fus_int_s           cn88xx; */
+	/* struct bdk_mio_fus_int_s           cn88xxp1; */
 } bdk_mio_fus_int_t;
 
 #define BDK_MIO_FUS_INT BDK_MIO_FUS_INT_FUNC()
@@ -411,6 +418,7 @@ typedef union bdk_mio_fus_pdf {
 	} s;
 	/* struct bdk_mio_fus_pdf_s           cn85xx; */
 	/* struct bdk_mio_fus_pdf_s           cn88xx; */
+	/* struct bdk_mio_fus_pdf_s           cn88xxp1; */
 } bdk_mio_fus_pdf_t;
 
 #define BDK_MIO_FUS_PDF BDK_MIO_FUS_PDF_FUNC()
@@ -470,6 +478,7 @@ typedef union bdk_mio_fus_pll {
 	} s;
 	/* struct bdk_mio_fus_pll_s           cn85xx; */
 	/* struct bdk_mio_fus_pll_s           cn88xx; */
+	/* struct bdk_mio_fus_pll_s           cn88xxp1; */
 } bdk_mio_fus_pll_t;
 
 #define BDK_MIO_FUS_PLL BDK_MIO_FUS_PLL_FUNC()
@@ -511,6 +520,7 @@ typedef union bdk_mio_fus_prog {
 	} s;
 	/* struct bdk_mio_fus_prog_s          cn85xx; */
 	/* struct bdk_mio_fus_prog_s          cn88xx; */
+	/* struct bdk_mio_fus_prog_s          cn88xxp1; */
 } bdk_mio_fus_prog_t;
 
 #define BDK_MIO_FUS_PROG BDK_MIO_FUS_PROG_FUNC()
@@ -548,6 +558,7 @@ typedef union bdk_mio_fus_prog_times {
 	} s;
 	/* struct bdk_mio_fus_prog_times_s    cn85xx; */
 	/* struct bdk_mio_fus_prog_times_s    cn88xx; */
+	/* struct bdk_mio_fus_prog_times_s    cn88xxp1; */
 } bdk_mio_fus_prog_times_t;
 
 #define BDK_MIO_FUS_PROG_TIMES BDK_MIO_FUS_PROG_TIMES_FUNC()
@@ -600,6 +611,7 @@ typedef union bdk_mio_fus_rcmd {
 	} s;
 	/* struct bdk_mio_fus_rcmd_s          cn85xx; */
 	/* struct bdk_mio_fus_rcmd_s          cn88xx; */
+	/* struct bdk_mio_fus_rcmd_s          cn88xxp1; */
 } bdk_mio_fus_rcmd_t;
 
 #define BDK_MIO_FUS_RCMD BDK_MIO_FUS_RCMD_FUNC()
@@ -659,6 +671,7 @@ typedef union bdk_mio_fus_read_times {
 	} s;
 	/* struct bdk_mio_fus_read_times_s    cn85xx; */
 	/* struct bdk_mio_fus_read_times_s    cn88xx; */
+	/* struct bdk_mio_fus_read_times_s    cn88xxp1; */
 } bdk_mio_fus_read_times_t;
 
 #define BDK_MIO_FUS_READ_TIMES BDK_MIO_FUS_READ_TIMES_FUNC()
@@ -689,6 +702,7 @@ typedef union bdk_mio_fus_rpr_datx {
 	} s;
 	/* struct bdk_mio_fus_rpr_datx_s      cn85xx; */
 	/* struct bdk_mio_fus_rpr_datx_s      cn88xx; */
+	/* struct bdk_mio_fus_rpr_datx_s      cn88xxp1; */
 } bdk_mio_fus_rpr_datx_t;
 
 static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -734,6 +748,7 @@ typedef union bdk_mio_fus_soft_repair {
 	} s;
 	/* struct bdk_mio_fus_soft_repair_s   cn85xx; */
 	/* struct bdk_mio_fus_soft_repair_s   cn88xx; */
+	/* struct bdk_mio_fus_soft_repair_s   cn88xxp1; */
 } bdk_mio_fus_soft_repair_t;
 
 #define BDK_MIO_FUS_SOFT_REPAIR BDK_MIO_FUS_SOFT_REPAIR_FUNC()
@@ -771,6 +786,7 @@ typedef union bdk_mio_fus_tgg {
 	} s;
 	/* struct bdk_mio_fus_tgg_s           cn85xx; */
 	/* struct bdk_mio_fus_tgg_s           cn88xx; */
+	/* struct bdk_mio_fus_tgg_s           cn88xxp1; */
 } bdk_mio_fus_tgg_t;
 
 #define BDK_MIO_FUS_TGG BDK_MIO_FUS_TGG_FUNC()
@@ -802,6 +818,7 @@ typedef union bdk_mio_fus_wadr {
 	} s;
 	/* struct bdk_mio_fus_wadr_s          cn85xx; */
 	/* struct bdk_mio_fus_wadr_s          cn88xx; */
+	/* struct bdk_mio_fus_wadr_s          cn88xxp1; */
 } bdk_mio_fus_wadr_t;
 
 #define BDK_MIO_FUS_WADR BDK_MIO_FUS_WADR_FUNC()

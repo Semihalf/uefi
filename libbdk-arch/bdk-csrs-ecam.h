@@ -122,6 +122,7 @@ typedef union bdk_ecamx_busx_nsdis {
 	} s;
 	/* struct bdk_ecamx_busx_nsdis_s      cn85xx; */
 	/* struct bdk_ecamx_busx_nsdis_s      cn88xx; */
+	/* struct bdk_ecamx_busx_nsdis_s      cn88xxp1; */
 } bdk_ecamx_busx_nsdis_t;
 
 static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -160,6 +161,7 @@ typedef union bdk_ecamx_busx_sdis {
 	} s;
 	/* struct bdk_ecamx_busx_sdis_s       cn85xx; */
 	/* struct bdk_ecamx_busx_sdis_s       cn88xx; */
+	/* struct bdk_ecamx_busx_sdis_s       cn88xxp1; */
 } bdk_ecamx_busx_sdis_t;
 
 static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -195,6 +197,7 @@ typedef union bdk_ecamx_devx_nsdis {
 	} s;
 	/* struct bdk_ecamx_devx_nsdis_s      cn85xx; */
 	/* struct bdk_ecamx_devx_nsdis_s      cn88xx; */
+	/* struct bdk_ecamx_devx_nsdis_s      cn88xxp1; */
 } bdk_ecamx_devx_nsdis_t;
 
 static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -234,6 +237,7 @@ typedef union bdk_ecamx_devx_sdis {
 	} s;
 	/* struct bdk_ecamx_devx_sdis_s       cn85xx; */
 	/* struct bdk_ecamx_devx_sdis_s       cn88xx; */
+	/* struct bdk_ecamx_devx_sdis_s       cn88xxp1; */
 } bdk_ecamx_devx_sdis_t;
 
 static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -264,6 +268,7 @@ typedef union bdk_ecamx_nop_of {
 	} s;
 	/* struct bdk_ecamx_nop_of_s          cn85xx; */
 	/* struct bdk_ecamx_nop_of_s          cn88xx; */
+	/* struct bdk_ecamx_nop_of_s          cn88xxp1; */
 } bdk_ecamx_nop_of_t;
 
 static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -294,6 +299,7 @@ typedef union bdk_ecamx_nop_onf {
 	} s;
 	/* struct bdk_ecamx_nop_onf_s         cn85xx; */
 	/* struct bdk_ecamx_nop_onf_s         cn88xx; */
+	/* struct bdk_ecamx_nop_onf_s         cn88xxp1; */
 } bdk_ecamx_nop_onf_t;
 
 static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -324,6 +330,7 @@ typedef union bdk_ecamx_nop_zf {
 	} s;
 	/* struct bdk_ecamx_nop_zf_s          cn85xx; */
 	/* struct bdk_ecamx_nop_zf_s          cn88xx; */
+	/* struct bdk_ecamx_nop_zf_s          cn88xxp1; */
 } bdk_ecamx_nop_zf_t;
 
 static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -354,6 +361,7 @@ typedef union bdk_ecamx_nop_znf {
 	} s;
 	/* struct bdk_ecamx_nop_znf_s         cn85xx; */
 	/* struct bdk_ecamx_nop_znf_s         cn88xx; */
+	/* struct bdk_ecamx_nop_znf_s         cn88xxp1; */
 } bdk_ecamx_nop_znf_t;
 
 static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -392,6 +400,7 @@ typedef union bdk_ecamx_rslx_nsdis {
 	} s;
 	/* struct bdk_ecamx_rslx_nsdis_s      cn85xx; */
 	/* struct bdk_ecamx_rslx_nsdis_s      cn88xx; */
+	/* struct bdk_ecamx_rslx_nsdis_s      cn88xxp1; */
 } bdk_ecamx_rslx_nsdis_t;
 
 static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -434,6 +443,7 @@ typedef union bdk_ecamx_rslx_sdis {
 	} s;
 	/* struct bdk_ecamx_rslx_sdis_s       cn85xx; */
 	/* struct bdk_ecamx_rslx_sdis_s       cn88xx; */
+	/* struct bdk_ecamx_rslx_sdis_s       cn88xxp1; */
 } bdk_ecamx_rslx_sdis_t;
 
 static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));

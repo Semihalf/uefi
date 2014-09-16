@@ -108,6 +108,7 @@ typedef union bdk_iobnx_bistr_reg {
 	} s;
 	/* struct bdk_iobnx_bistr_reg_s       cn85xx; */
 	/* struct bdk_iobnx_bistr_reg_s       cn88xx; */
+	/* struct bdk_iobnx_bistr_reg_s       cn88xxp1; */
 } bdk_iobnx_bistr_reg_t;
 
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -154,6 +155,7 @@ typedef union bdk_iobnx_bists_reg {
 	} s;
 	/* struct bdk_iobnx_bists_reg_s       cn85xx; */
 	/* struct bdk_iobnx_bists_reg_s       cn88xx; */
+	/* struct bdk_iobnx_bists_reg_s       cn88xxp1; */
 } bdk_iobnx_bists_reg_t;
 
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -201,6 +203,7 @@ typedef union bdk_iobnx_chip_cur_pwr {
 	} s;
 	/* struct bdk_iobnx_chip_cur_pwr_s    cn85xx; */
 	/* struct bdk_iobnx_chip_cur_pwr_s    cn88xx; */
+	/* struct bdk_iobnx_chip_cur_pwr_s    cn88xxp1; */
 } bdk_iobnx_chip_cur_pwr_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -258,6 +261,7 @@ typedef union bdk_iobnx_chip_glb_pwr_throttle {
 	} s;
 	/* struct bdk_iobnx_chip_glb_pwr_throttle_s cn85xx; */
 	/* struct bdk_iobnx_chip_glb_pwr_throttle_s cn88xx; */
+	/* struct bdk_iobnx_chip_glb_pwr_throttle_s cn88xxp1; */
 } bdk_iobnx_chip_glb_pwr_throttle_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -304,6 +308,7 @@ typedef union bdk_iobnx_chip_pwr_out {
 	} s;
 	/* struct bdk_iobnx_chip_pwr_out_s    cn85xx; */
 	/* struct bdk_iobnx_chip_pwr_out_s    cn88xx; */
+	/* struct bdk_iobnx_chip_pwr_out_s    cn88xxp1; */
 } bdk_iobnx_chip_pwr_out_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -348,6 +353,7 @@ typedef union bdk_iobnx_core_bist_status {
 	} s;
 	/* struct bdk_iobnx_core_bist_status_s cn85xx; */
 	/* struct bdk_iobnx_core_bist_status_s cn88xx; */
+	/* struct bdk_iobnx_core_bist_status_s cn88xxp1; */
 } bdk_iobnx_core_bist_status_t;
 
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -409,6 +415,7 @@ typedef union bdk_iobnx_dis_ncbi_io {
 	} s;
 	/* struct bdk_iobnx_dis_ncbi_io_s     cn85xx; */
 	/* struct bdk_iobnx_dis_ncbi_io_s     cn88xx; */
+	/* struct bdk_iobnx_dis_ncbi_io_s     cn88xxp1; */
 } bdk_iobnx_dis_ncbi_io_t;
 
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -462,6 +469,7 @@ typedef union bdk_iobnx_gbl_dll {
 	} s;
 	/* struct bdk_iobnx_gbl_dll_s         cn85xx; */
 	/* struct bdk_iobnx_gbl_dll_s         cn88xx; */
+	/* struct bdk_iobnx_gbl_dll_s         cn88xxp1; */
 } bdk_iobnx_gbl_dll_t;
 
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -556,6 +564,7 @@ typedef union bdk_iobnx_int_ena_w1c {
 	} s;
 	/* struct bdk_iobnx_int_ena_w1c_s     cn85xx; */
 	/* struct bdk_iobnx_int_ena_w1c_s     cn88xx; */
+	/* struct bdk_iobnx_int_ena_w1c_s     cn88xxp1; */
 } bdk_iobnx_int_ena_w1c_t;
 
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -650,6 +659,7 @@ typedef union bdk_iobnx_int_ena_w1s {
 	} s;
 	/* struct bdk_iobnx_int_ena_w1s_s     cn85xx; */
 	/* struct bdk_iobnx_int_ena_w1s_s     cn88xx; */
+	/* struct bdk_iobnx_int_ena_w1s_s     cn88xxp1; */
 } bdk_iobnx_int_ena_w1s_t;
 
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -747,6 +757,7 @@ typedef union bdk_iobnx_int_sum {
 	} s;
 	/* struct bdk_iobnx_int_sum_s         cn85xx; */
 	/* struct bdk_iobnx_int_sum_s         cn88xx; */
+	/* struct bdk_iobnx_int_sum_s         cn88xxp1; */
 } bdk_iobnx_int_sum_t;
 
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -841,6 +852,7 @@ typedef union bdk_iobnx_int_sum_w1s {
 	} s;
 	/* struct bdk_iobnx_int_sum_w1s_s     cn85xx; */
 	/* struct bdk_iobnx_int_sum_w1s_s     cn88xx; */
+	/* struct bdk_iobnx_int_sum_w1s_s     cn88xxp1; */
 } bdk_iobnx_int_sum_w1s_t;
 
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -910,6 +922,7 @@ typedef union bdk_iobnx_mctlr_reg {
 	} s;
 	/* struct bdk_iobnx_mctlr_reg_s       cn85xx; */
 	/* struct bdk_iobnx_mctlr_reg_s       cn88xx; */
+	/* struct bdk_iobnx_mctlr_reg_s       cn88xxp1; */
 } bdk_iobnx_mctlr_reg_t;
 
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -973,6 +986,7 @@ typedef union bdk_iobnx_mctls_reg {
 	} s;
 	/* struct bdk_iobnx_mctls_reg_s       cn85xx; */
 	/* struct bdk_iobnx_mctls_reg_s       cn88xx; */
+	/* struct bdk_iobnx_mctls_reg_s       cn88xxp1; */
 } bdk_iobnx_mctls_reg_t;
 
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1007,6 +1021,7 @@ typedef union bdk_iobnx_msix_pbax {
 	} s;
 	/* struct bdk_iobnx_msix_pbax_s       cn85xx; */
 	/* struct bdk_iobnx_msix_pbax_s       cn88xx; */
+	/* struct bdk_iobnx_msix_pbax_s       cn88xxp1; */
 } bdk_iobnx_msix_pbax_t;
 
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1053,6 +1068,7 @@ typedef union bdk_iobnx_msix_vecx_addr {
 	} s;
 	/* struct bdk_iobnx_msix_vecx_addr_s  cn85xx; */
 	/* struct bdk_iobnx_msix_vecx_addr_s  cn88xx; */
+	/* struct bdk_iobnx_msix_vecx_addr_s  cn88xxp1; */
 } bdk_iobnx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1092,6 +1108,7 @@ typedef union bdk_iobnx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_iobnx_msix_vecx_ctl_s   cn85xx; */
 	/* struct bdk_iobnx_msix_vecx_ctl_s   cn88xx; */
+	/* struct bdk_iobnx_msix_vecx_ctl_s   cn88xxp1; */
 } bdk_iobnx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1138,6 +1155,7 @@ typedef union bdk_iobnx_ncbx_credits {
 	} s;
 	/* struct bdk_iobnx_ncbx_credits_s    cn85xx; */
 	/* struct bdk_iobnx_ncbx_credits_s    cn88xx; */
+	/* struct bdk_iobnx_ncbx_credits_s    cn88xxp1; */
 } bdk_iobnx_ncbx_credits_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1185,6 +1203,7 @@ typedef union bdk_iobnx_ncbx_ctl {
 	} s;
 	/* struct bdk_iobnx_ncbx_ctl_s        cn85xx; */
 	/* struct bdk_iobnx_ncbx_ctl_s        cn88xx; */
+	/* struct bdk_iobnx_ncbx_ctl_s        cn88xxp1; */
 } bdk_iobnx_ncbx_ctl_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1217,6 +1236,7 @@ typedef union bdk_iobnx_ncb0_hp {
 	} s;
 	/* struct bdk_iobnx_ncb0_hp_s         cn85xx; */
 	/* struct bdk_iobnx_ncb0_hp_s         cn88xx; */
+	/* struct bdk_iobnx_ncb0_hp_s         cn88xxp1; */
 } bdk_iobnx_ncb0_hp_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1251,6 +1271,7 @@ typedef union bdk_iobnx_ncb0_sdisx {
 	} s;
 	/* struct bdk_iobnx_ncb0_sdisx_s      cn85xx; */
 	/* struct bdk_iobnx_ncb0_sdisx_s      cn88xx; */
+	/* struct bdk_iobnx_ncb0_sdisx_s      cn88xxp1; */
 } bdk_iobnx_ncb0_sdisx_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1296,6 +1317,7 @@ typedef union bdk_iobnx_roc_dll {
 	} s;
 	/* struct bdk_iobnx_roc_dll_s         cn85xx; */
 	/* struct bdk_iobnx_roc_dll_s         cn88xx; */
+	/* struct bdk_iobnx_roc_dll_s         cn88xxp1; */
 } bdk_iobnx_roc_dll_t;
 
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1326,6 +1348,7 @@ typedef union bdk_iobnx_scratch {
 	} s;
 	/* struct bdk_iobnx_scratch_s         cn85xx; */
 	/* struct bdk_iobnx_scratch_s         cn88xx; */
+	/* struct bdk_iobnx_scratch_s         cn88xxp1; */
 } bdk_iobnx_scratch_t;
 
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1371,6 +1394,7 @@ typedef union bdk_iobnx_slitagx_control {
 	} s;
 	/* struct bdk_iobnx_slitagx_control_s cn85xx; */
 	/* struct bdk_iobnx_slitagx_control_s cn88xx; */
+	/* struct bdk_iobnx_slitagx_control_s cn88xxp1; */
 } bdk_iobnx_slitagx_control_t;
 
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1403,6 +1427,7 @@ typedef union bdk_iobnx_test {
 	} s;
 	/* struct bdk_iobnx_test_s            cn85xx; */
 	/* struct bdk_iobnx_test_s            cn88xx; */
+	/* struct bdk_iobnx_test_s            cn88xxp1; */
 } bdk_iobnx_test_t;
 
 static inline uint64_t BDK_IOBNX_TEST(unsigned long param1) __attribute__ ((pure, always_inline));

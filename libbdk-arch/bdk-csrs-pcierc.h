@@ -78,6 +78,7 @@ typedef union bdk_pciercx_cfg000 {
 	} s;
 	/* struct bdk_pciercx_cfg000_s        cn85xx; */
 	/* struct bdk_pciercx_cfg000_s        cn88xx; */
+	/* struct bdk_pciercx_cfg000_s        cn88xxp1; */
 } bdk_pciercx_cfg000_t;
 
 static inline uint64_t BDK_PCIERCX_CFG000(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -157,6 +158,7 @@ typedef union bdk_pciercx_cfg001 {
 	} s;
 	/* struct bdk_pciercx_cfg001_s        cn85xx; */
 	/* struct bdk_pciercx_cfg001_s        cn88xx; */
+	/* struct bdk_pciercx_cfg001_s        cn88xxp1; */
 } bdk_pciercx_cfg001_t;
 
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -201,6 +203,7 @@ typedef union bdk_pciercx_cfg002 {
 	} s;
 	/* struct bdk_pciercx_cfg002_s        cn85xx; */
 	/* struct bdk_pciercx_cfg002_s        cn88xx; */
+	/* struct bdk_pciercx_cfg002_s        cn88xxp1; */
 } bdk_pciercx_cfg002_t;
 
 static inline uint64_t BDK_PCIERCX_CFG002(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -245,6 +248,7 @@ typedef union bdk_pciercx_cfg003 {
 	} s;
 	/* struct bdk_pciercx_cfg003_s        cn85xx; */
 	/* struct bdk_pciercx_cfg003_s        cn88xx; */
+	/* struct bdk_pciercx_cfg003_s        cn88xxp1; */
 } bdk_pciercx_cfg003_t;
 
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -278,6 +282,7 @@ typedef union bdk_pciercx_cfg004 {
 	} s;
 	/* struct bdk_pciercx_cfg004_s        cn85xx; */
 	/* struct bdk_pciercx_cfg004_s        cn88xx; */
+	/* struct bdk_pciercx_cfg004_s        cn88xxp1; */
 } bdk_pciercx_cfg004_t;
 
 static inline uint64_t BDK_PCIERCX_CFG004(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -311,6 +316,7 @@ typedef union bdk_pciercx_cfg005 {
 	} s;
 	/* struct bdk_pciercx_cfg005_s        cn85xx; */
 	/* struct bdk_pciercx_cfg005_s        cn88xx; */
+	/* struct bdk_pciercx_cfg005_s        cn88xxp1; */
 } bdk_pciercx_cfg005_t;
 
 static inline uint64_t BDK_PCIERCX_CFG005(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -354,6 +360,7 @@ typedef union bdk_pciercx_cfg006 {
 	} s;
 	/* struct bdk_pciercx_cfg006_s        cn85xx; */
 	/* struct bdk_pciercx_cfg006_s        cn88xx; */
+	/* struct bdk_pciercx_cfg006_s        cn88xxp1; */
 } bdk_pciercx_cfg006_t;
 
 static inline uint64_t BDK_PCIERCX_CFG006(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -423,6 +430,7 @@ typedef union bdk_pciercx_cfg007 {
 	} s;
 	/* struct bdk_pciercx_cfg007_s        cn85xx; */
 	/* struct bdk_pciercx_cfg007_s        cn88xx; */
+	/* struct bdk_pciercx_cfg007_s        cn88xxp1; */
 } bdk_pciercx_cfg007_t;
 
 static inline uint64_t BDK_PCIERCX_CFG007(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -462,6 +470,7 @@ typedef union bdk_pciercx_cfg008 {
 	} s;
 	/* struct bdk_pciercx_cfg008_s        cn85xx; */
 	/* struct bdk_pciercx_cfg008_s        cn88xx; */
+	/* struct bdk_pciercx_cfg008_s        cn88xxp1; */
 } bdk_pciercx_cfg008_t;
 
 static inline uint64_t BDK_PCIERCX_CFG008(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -512,6 +521,7 @@ typedef union bdk_pciercx_cfg009 {
 	} s;
 	/* struct bdk_pciercx_cfg009_s        cn85xx; */
 	/* struct bdk_pciercx_cfg009_s        cn88xx; */
+	/* struct bdk_pciercx_cfg009_s        cn88xxp1; */
 } bdk_pciercx_cfg009_t;
 
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -546,6 +556,7 @@ typedef union bdk_pciercx_cfg010 {
 	} s;
 	/* struct bdk_pciercx_cfg010_s        cn85xx; */
 	/* struct bdk_pciercx_cfg010_s        cn88xx; */
+	/* struct bdk_pciercx_cfg010_s        cn88xxp1; */
 } bdk_pciercx_cfg010_t;
 
 static inline uint64_t BDK_PCIERCX_CFG010(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -580,6 +591,7 @@ typedef union bdk_pciercx_cfg011 {
 	} s;
 	/* struct bdk_pciercx_cfg011_s        cn85xx; */
 	/* struct bdk_pciercx_cfg011_s        cn88xx; */
+	/* struct bdk_pciercx_cfg011_s        cn88xxp1; */
 } bdk_pciercx_cfg011_t;
 
 static inline uint64_t BDK_PCIERCX_CFG011(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -615,6 +627,7 @@ typedef union bdk_pciercx_cfg012 {
 	} s;
 	/* struct bdk_pciercx_cfg012_s        cn85xx; */
 	/* struct bdk_pciercx_cfg012_s        cn88xx; */
+	/* struct bdk_pciercx_cfg012_s        cn88xxp1; */
 } bdk_pciercx_cfg012_t;
 
 static inline uint64_t BDK_PCIERCX_CFG012(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -651,6 +664,7 @@ typedef union bdk_pciercx_cfg013 {
 	} s;
 	/* struct bdk_pciercx_cfg013_s        cn85xx; */
 	/* struct bdk_pciercx_cfg013_s        cn88xx; */
+	/* struct bdk_pciercx_cfg013_s        cn88xxp1; */
 } bdk_pciercx_cfg013_t;
 
 static inline uint64_t BDK_PCIERCX_CFG013(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -684,6 +698,7 @@ typedef union bdk_pciercx_cfg014 {
 	} s;
 	/* struct bdk_pciercx_cfg014_s        cn85xx; */
 	/* struct bdk_pciercx_cfg014_s        cn88xx; */
+	/* struct bdk_pciercx_cfg014_s        cn88xxp1; */
 } bdk_pciercx_cfg014_t;
 
 static inline uint64_t BDK_PCIERCX_CFG014(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -751,6 +766,7 @@ typedef union bdk_pciercx_cfg015 {
 	} s;
 	/* struct bdk_pciercx_cfg015_s        cn85xx; */
 	/* struct bdk_pciercx_cfg015_s        cn88xx; */
+	/* struct bdk_pciercx_cfg015_s        cn88xxp1; */
 } bdk_pciercx_cfg015_t;
 
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -820,6 +836,7 @@ typedef union bdk_pciercx_cfg016 {
 	} s;
 	/* struct bdk_pciercx_cfg016_s        cn85xx; */
 	/* struct bdk_pciercx_cfg016_s        cn88xx; */
+	/* struct bdk_pciercx_cfg016_s        cn88xxp1; */
 } bdk_pciercx_cfg016_t;
 
 static inline uint64_t BDK_PCIERCX_CFG016(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -882,6 +899,7 @@ typedef union bdk_pciercx_cfg017 {
 	} s;
 	/* struct bdk_pciercx_cfg017_s        cn85xx; */
 	/* struct bdk_pciercx_cfg017_s        cn88xx; */
+	/* struct bdk_pciercx_cfg017_s        cn88xxp1; */
 } bdk_pciercx_cfg017_t;
 
 static inline uint64_t BDK_PCIERCX_CFG017(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -936,6 +954,7 @@ typedef union bdk_pciercx_cfg020 {
 	} s;
 	/* struct bdk_pciercx_cfg020_s        cn85xx; */
 	/* struct bdk_pciercx_cfg020_s        cn88xx; */
+	/* struct bdk_pciercx_cfg020_s        cn88xxp1; */
 } bdk_pciercx_cfg020_t;
 
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -971,6 +990,7 @@ typedef union bdk_pciercx_cfg021 {
 	} s;
 	/* struct bdk_pciercx_cfg021_s        cn85xx; */
 	/* struct bdk_pciercx_cfg021_s        cn88xx; */
+	/* struct bdk_pciercx_cfg021_s        cn88xxp1; */
 } bdk_pciercx_cfg021_t;
 
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1004,6 +1024,7 @@ typedef union bdk_pciercx_cfg022 {
 	} s;
 	/* struct bdk_pciercx_cfg022_s        cn85xx; */
 	/* struct bdk_pciercx_cfg022_s        cn88xx; */
+	/* struct bdk_pciercx_cfg022_s        cn88xxp1; */
 } bdk_pciercx_cfg022_t;
 
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1040,6 +1061,7 @@ typedef union bdk_pciercx_cfg023 {
 	} s;
 	/* struct bdk_pciercx_cfg023_s        cn85xx; */
 	/* struct bdk_pciercx_cfg023_s        cn88xx; */
+	/* struct bdk_pciercx_cfg023_s        cn88xxp1; */
 } bdk_pciercx_cfg023_t;
 
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1088,6 +1110,7 @@ typedef union bdk_pciercx_cfg028 {
 	} s;
 	/* struct bdk_pciercx_cfg028_s        cn85xx; */
 	/* struct bdk_pciercx_cfg028_s        cn88xx; */
+	/* struct bdk_pciercx_cfg028_s        cn88xxp1; */
 } bdk_pciercx_cfg028_t;
 
 static inline uint64_t BDK_PCIERCX_CFG028(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1148,6 +1171,7 @@ typedef union bdk_pciercx_cfg029 {
 	} s;
 	/* struct bdk_pciercx_cfg029_s        cn85xx; */
 	/* struct bdk_pciercx_cfg029_s        cn88xx; */
+	/* struct bdk_pciercx_cfg029_s        cn88xxp1; */
 } bdk_pciercx_cfg029_t;
 
 static inline uint64_t BDK_PCIERCX_CFG029(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1239,6 +1263,7 @@ typedef union bdk_pciercx_cfg030 {
 	} s;
 	/* struct bdk_pciercx_cfg030_s        cn85xx; */
 	/* struct bdk_pciercx_cfg030_s        cn88xx; */
+	/* struct bdk_pciercx_cfg030_s        cn88xxp1; */
 } bdk_pciercx_cfg030_t;
 
 static inline uint64_t BDK_PCIERCX_CFG030(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1320,6 +1345,7 @@ typedef union bdk_pciercx_cfg031 {
 	} s;
 	/* struct bdk_pciercx_cfg031_s        cn85xx; */
 	/* struct bdk_pciercx_cfg031_s        cn88xx; */
+	/* struct bdk_pciercx_cfg031_s        cn88xxp1; */
 } bdk_pciercx_cfg031_t;
 
 static inline uint64_t BDK_PCIERCX_CFG031(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1415,6 +1441,7 @@ typedef union bdk_pciercx_cfg032 {
 	} s;
 	/* struct bdk_pciercx_cfg032_s        cn85xx; */
 	/* struct bdk_pciercx_cfg032_s        cn88xx; */
+	/* struct bdk_pciercx_cfg032_s        cn88xxp1; */
 } bdk_pciercx_cfg032_t;
 
 static inline uint64_t BDK_PCIERCX_CFG032(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1480,6 +1507,7 @@ typedef union bdk_pciercx_cfg033 {
 	} s;
 	/* struct bdk_pciercx_cfg033_s        cn85xx; */
 	/* struct bdk_pciercx_cfg033_s        cn88xx; */
+	/* struct bdk_pciercx_cfg033_s        cn88xxp1; */
 } bdk_pciercx_cfg033_t;
 
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1555,6 +1583,7 @@ typedef union bdk_pciercx_cfg034 {
 	} s;
 	/* struct bdk_pciercx_cfg034_s        cn85xx; */
 	/* struct bdk_pciercx_cfg034_s        cn88xx; */
+	/* struct bdk_pciercx_cfg034_s        cn88xxp1; */
 } bdk_pciercx_cfg034_t;
 
 static inline uint64_t BDK_PCIERCX_CFG034(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1602,6 +1631,7 @@ typedef union bdk_pciercx_cfg035 {
 	} s;
 	/* struct bdk_pciercx_cfg035_s        cn85xx; */
 	/* struct bdk_pciercx_cfg035_s        cn88xx; */
+	/* struct bdk_pciercx_cfg035_s        cn88xxp1; */
 } bdk_pciercx_cfg035_t;
 
 static inline uint64_t BDK_PCIERCX_CFG035(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1641,6 +1671,7 @@ typedef union bdk_pciercx_cfg036 {
 	} s;
 	/* struct bdk_pciercx_cfg036_s        cn85xx; */
 	/* struct bdk_pciercx_cfg036_s        cn88xx; */
+	/* struct bdk_pciercx_cfg036_s        cn88xxp1; */
 } bdk_pciercx_cfg036_t;
 
 static inline uint64_t BDK_PCIERCX_CFG036(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1709,6 +1740,7 @@ typedef union bdk_pciercx_cfg037 {
 	} s;
 	/* struct bdk_pciercx_cfg037_s        cn85xx; */
 	/* struct bdk_pciercx_cfg037_s        cn88xx; */
+	/* struct bdk_pciercx_cfg037_s        cn88xxp1; */
 } bdk_pciercx_cfg037_t;
 
 static inline uint64_t BDK_PCIERCX_CFG037(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1775,6 +1807,7 @@ typedef union bdk_pciercx_cfg038 {
 	} s;
 	/* struct bdk_pciercx_cfg038_s        cn85xx; */
 	/* struct bdk_pciercx_cfg038_s        cn88xx; */
+	/* struct bdk_pciercx_cfg038_s        cn88xxp1; */
 } bdk_pciercx_cfg038_t;
 
 static inline uint64_t BDK_PCIERCX_CFG038(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1833,6 +1866,7 @@ typedef union bdk_pciercx_cfg039 {
 	} s;
 	/* struct bdk_pciercx_cfg039_s        cn85xx; */
 	/* struct bdk_pciercx_cfg039_s        cn88xx; */
+	/* struct bdk_pciercx_cfg039_s        cn88xxp1; */
 } bdk_pciercx_cfg039_t;
 
 static inline uint64_t BDK_PCIERCX_CFG039(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1947,6 +1981,7 @@ typedef union bdk_pciercx_cfg040 {
 	} s;
 	/* struct bdk_pciercx_cfg040_s        cn85xx; */
 	/* struct bdk_pciercx_cfg040_s        cn88xx; */
+	/* struct bdk_pciercx_cfg040_s        cn88xxp1; */
 } bdk_pciercx_cfg040_t;
 
 static inline uint64_t BDK_PCIERCX_CFG040(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1980,6 +2015,7 @@ typedef union bdk_pciercx_cfg041 {
 	} s;
 	/* struct bdk_pciercx_cfg041_s        cn85xx; */
 	/* struct bdk_pciercx_cfg041_s        cn88xx; */
+	/* struct bdk_pciercx_cfg041_s        cn88xxp1; */
 } bdk_pciercx_cfg041_t;
 
 static inline uint64_t BDK_PCIERCX_CFG041(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2013,6 +2049,7 @@ typedef union bdk_pciercx_cfg042 {
 	} s;
 	/* struct bdk_pciercx_cfg042_s        cn85xx; */
 	/* struct bdk_pciercx_cfg042_s        cn88xx; */
+	/* struct bdk_pciercx_cfg042_s        cn88xxp1; */
 } bdk_pciercx_cfg042_t;
 
 static inline uint64_t BDK_PCIERCX_CFG042(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2060,6 +2097,7 @@ typedef union bdk_pciercx_cfg044 {
 	} s;
 	/* struct bdk_pciercx_cfg044_s        cn85xx; */
 	/* struct bdk_pciercx_cfg044_s        cn88xx; */
+	/* struct bdk_pciercx_cfg044_s        cn88xxp1; */
 } bdk_pciercx_cfg044_t;
 
 static inline uint64_t BDK_PCIERCX_CFG044(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2099,6 +2137,7 @@ typedef union bdk_pciercx_cfg045 {
 	} s;
 	/* struct bdk_pciercx_cfg045_s        cn85xx; */
 	/* struct bdk_pciercx_cfg045_s        cn88xx; */
+	/* struct bdk_pciercx_cfg045_s        cn88xxp1; */
 } bdk_pciercx_cfg045_t;
 
 static inline uint64_t BDK_PCIERCX_CFG045(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2138,6 +2177,7 @@ typedef union bdk_pciercx_cfg046 {
 	} s;
 	/* struct bdk_pciercx_cfg046_s        cn85xx; */
 	/* struct bdk_pciercx_cfg046_s        cn88xx; */
+	/* struct bdk_pciercx_cfg046_s        cn88xxp1; */
 } bdk_pciercx_cfg046_t;
 
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2178,6 +2218,7 @@ typedef union bdk_pciercx_cfg064 {
 	} s;
 	/* struct bdk_pciercx_cfg064_s        cn85xx; */
 	/* struct bdk_pciercx_cfg064_s        cn88xx; */
+	/* struct bdk_pciercx_cfg064_s        cn88xxp1; */
 } bdk_pciercx_cfg064_t;
 
 static inline uint64_t BDK_PCIERCX_CFG064(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2247,6 +2288,7 @@ typedef union bdk_pciercx_cfg065 {
 	} s;
 	/* struct bdk_pciercx_cfg065_s        cn85xx; */
 	/* struct bdk_pciercx_cfg065_s        cn88xx; */
+	/* struct bdk_pciercx_cfg065_s        cn88xxp1; */
 } bdk_pciercx_cfg065_t;
 
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2316,6 +2358,7 @@ typedef union bdk_pciercx_cfg066 {
 	} s;
 	/* struct bdk_pciercx_cfg066_s        cn85xx; */
 	/* struct bdk_pciercx_cfg066_s        cn88xx; */
+	/* struct bdk_pciercx_cfg066_s        cn88xxp1; */
 } bdk_pciercx_cfg066_t;
 
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2381,6 +2424,7 @@ typedef union bdk_pciercx_cfg067 {
 	} s;
 	/* struct bdk_pciercx_cfg067_s        cn85xx; */
 	/* struct bdk_pciercx_cfg067_s        cn88xx; */
+	/* struct bdk_pciercx_cfg067_s        cn88xxp1; */
 } bdk_pciercx_cfg067_t;
 
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2432,6 +2476,7 @@ typedef union bdk_pciercx_cfg068 {
 	} s;
 	/* struct bdk_pciercx_cfg068_s        cn85xx; */
 	/* struct bdk_pciercx_cfg068_s        cn88xx; */
+	/* struct bdk_pciercx_cfg068_s        cn88xxp1; */
 } bdk_pciercx_cfg068_t;
 
 static inline uint64_t BDK_PCIERCX_CFG068(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2483,6 +2528,7 @@ typedef union bdk_pciercx_cfg069 {
 	} s;
 	/* struct bdk_pciercx_cfg069_s        cn85xx; */
 	/* struct bdk_pciercx_cfg069_s        cn88xx; */
+	/* struct bdk_pciercx_cfg069_s        cn88xxp1; */
 } bdk_pciercx_cfg069_t;
 
 static inline uint64_t BDK_PCIERCX_CFG069(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2530,6 +2576,7 @@ typedef union bdk_pciercx_cfg070 {
 	} s;
 	/* struct bdk_pciercx_cfg070_s        cn85xx; */
 	/* struct bdk_pciercx_cfg070_s        cn88xx; */
+	/* struct bdk_pciercx_cfg070_s        cn88xxp1; */
 } bdk_pciercx_cfg070_t;
 
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2563,6 +2610,7 @@ typedef union bdk_pciercx_cfg071 {
 	} s;
 	/* struct bdk_pciercx_cfg071_s        cn85xx; */
 	/* struct bdk_pciercx_cfg071_s        cn88xx; */
+	/* struct bdk_pciercx_cfg071_s        cn88xxp1; */
 } bdk_pciercx_cfg071_t;
 
 static inline uint64_t BDK_PCIERCX_CFG071(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2596,6 +2644,7 @@ typedef union bdk_pciercx_cfg072 {
 	} s;
 	/* struct bdk_pciercx_cfg072_s        cn85xx; */
 	/* struct bdk_pciercx_cfg072_s        cn88xx; */
+	/* struct bdk_pciercx_cfg072_s        cn88xxp1; */
 } bdk_pciercx_cfg072_t;
 
 static inline uint64_t BDK_PCIERCX_CFG072(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2629,6 +2678,7 @@ typedef union bdk_pciercx_cfg073 {
 	} s;
 	/* struct bdk_pciercx_cfg073_s        cn85xx; */
 	/* struct bdk_pciercx_cfg073_s        cn88xx; */
+	/* struct bdk_pciercx_cfg073_s        cn88xxp1; */
 } bdk_pciercx_cfg073_t;
 
 static inline uint64_t BDK_PCIERCX_CFG073(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2662,6 +2712,7 @@ typedef union bdk_pciercx_cfg074 {
 	} s;
 	/* struct bdk_pciercx_cfg074_s        cn85xx; */
 	/* struct bdk_pciercx_cfg074_s        cn88xx; */
+	/* struct bdk_pciercx_cfg074_s        cn88xxp1; */
 } bdk_pciercx_cfg074_t;
 
 static inline uint64_t BDK_PCIERCX_CFG074(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2701,6 +2752,7 @@ typedef union bdk_pciercx_cfg075 {
 	} s;
 	/* struct bdk_pciercx_cfg075_s        cn85xx; */
 	/* struct bdk_pciercx_cfg075_s        cn88xx; */
+	/* struct bdk_pciercx_cfg075_s        cn88xxp1; */
 } bdk_pciercx_cfg075_t;
 
 static inline uint64_t BDK_PCIERCX_CFG075(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2751,6 +2803,7 @@ typedef union bdk_pciercx_cfg076 {
 	} s;
 	/* struct bdk_pciercx_cfg076_s        cn85xx; */
 	/* struct bdk_pciercx_cfg076_s        cn88xx; */
+	/* struct bdk_pciercx_cfg076_s        cn88xxp1; */
 } bdk_pciercx_cfg076_t;
 
 static inline uint64_t BDK_PCIERCX_CFG076(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2786,6 +2839,7 @@ typedef union bdk_pciercx_cfg077 {
 	} s;
 	/* struct bdk_pciercx_cfg077_s        cn85xx; */
 	/* struct bdk_pciercx_cfg077_s        cn88xx; */
+	/* struct bdk_pciercx_cfg077_s        cn88xxp1; */
 } bdk_pciercx_cfg077_t;
 
 static inline uint64_t BDK_PCIERCX_CFG077(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2826,6 +2880,7 @@ typedef union bdk_pciercx_cfg086 {
 	} s;
 	/* struct bdk_pciercx_cfg086_s        cn85xx; */
 	/* struct bdk_pciercx_cfg086_s        cn88xx; */
+	/* struct bdk_pciercx_cfg086_s        cn88xxp1; */
 } bdk_pciercx_cfg086_t;
 
 static inline uint64_t BDK_PCIERCX_CFG086(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2863,6 +2918,7 @@ typedef union bdk_pciercx_cfg087 {
 	} s;
 	/* struct bdk_pciercx_cfg087_s        cn85xx; */
 	/* struct bdk_pciercx_cfg087_s        cn88xx; */
+	/* struct bdk_pciercx_cfg087_s        cn88xxp1; */
 } bdk_pciercx_cfg087_t;
 
 static inline uint64_t BDK_PCIERCX_CFG087(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2898,6 +2954,7 @@ typedef union bdk_pciercx_cfg088 {
 	} s;
 	/* struct bdk_pciercx_cfg088_s        cn85xx; */
 	/* struct bdk_pciercx_cfg088_s        cn88xx; */
+	/* struct bdk_pciercx_cfg088_s        cn88xxp1; */
 } bdk_pciercx_cfg088_t;
 
 static inline uint64_t BDK_PCIERCX_CFG088(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2961,6 +3018,7 @@ typedef union bdk_pciercx_cfg089 {
 	} s;
 	/* struct bdk_pciercx_cfg089_s        cn85xx; */
 	/* struct bdk_pciercx_cfg089_s        cn88xx; */
+	/* struct bdk_pciercx_cfg089_s        cn88xxp1; */
 } bdk_pciercx_cfg089_t;
 
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3024,6 +3082,7 @@ typedef union bdk_pciercx_cfg090 {
 	} s;
 	/* struct bdk_pciercx_cfg090_s        cn85xx; */
 	/* struct bdk_pciercx_cfg090_s        cn88xx; */
+	/* struct bdk_pciercx_cfg090_s        cn88xxp1; */
 } bdk_pciercx_cfg090_t;
 
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3087,6 +3146,7 @@ typedef union bdk_pciercx_cfg091 {
 	} s;
 	/* struct bdk_pciercx_cfg091_s        cn85xx; */
 	/* struct bdk_pciercx_cfg091_s        cn88xx; */
+	/* struct bdk_pciercx_cfg091_s        cn88xxp1; */
 } bdk_pciercx_cfg091_t;
 
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3150,6 +3210,7 @@ typedef union bdk_pciercx_cfg092 {
 	} s;
 	/* struct bdk_pciercx_cfg092_s        cn85xx; */
 	/* struct bdk_pciercx_cfg092_s        cn88xx; */
+	/* struct bdk_pciercx_cfg092_s        cn88xxp1; */
 } bdk_pciercx_cfg092_t;
 
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3192,6 +3253,7 @@ typedef union bdk_pciercx_cfg448 {
 	} s;
 	/* struct bdk_pciercx_cfg448_s        cn85xx; */
 	/* struct bdk_pciercx_cfg448_s        cn88xx; */
+	/* struct bdk_pciercx_cfg448_s        cn88xxp1; */
 } bdk_pciercx_cfg448_t;
 
 static inline uint64_t BDK_PCIERCX_CFG448(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3232,6 +3294,7 @@ typedef union bdk_pciercx_cfg449 {
 	} s;
 	/* struct bdk_pciercx_cfg449_s        cn85xx; */
 	/* struct bdk_pciercx_cfg449_s        cn88xx; */
+	/* struct bdk_pciercx_cfg449_s        cn88xxp1; */
 } bdk_pciercx_cfg449_t;
 
 static inline uint64_t BDK_PCIERCX_CFG449(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3318,6 +3381,7 @@ typedef union bdk_pciercx_cfg450 {
 	} s;
 	/* struct bdk_pciercx_cfg450_s        cn85xx; */
 	/* struct bdk_pciercx_cfg450_s        cn88xx; */
+	/* struct bdk_pciercx_cfg450_s        cn88xxp1; */
 } bdk_pciercx_cfg450_t;
 
 static inline uint64_t BDK_PCIERCX_CFG450(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3388,6 +3452,7 @@ typedef union bdk_pciercx_cfg451 {
 	} s;
 	/* struct bdk_pciercx_cfg451_s        cn85xx; */
 	/* struct bdk_pciercx_cfg451_s        cn88xx; */
+	/* struct bdk_pciercx_cfg451_s        cn88xxp1; */
 } bdk_pciercx_cfg451_t;
 
 static inline uint64_t BDK_PCIERCX_CFG451(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3465,6 +3530,7 @@ typedef union bdk_pciercx_cfg452 {
 	} s;
 	/* struct bdk_pciercx_cfg452_s        cn85xx; */
 	/* struct bdk_pciercx_cfg452_s        cn88xx; */
+	/* struct bdk_pciercx_cfg452_s        cn88xxp1; */
 } bdk_pciercx_cfg452_t;
 
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3509,6 +3575,7 @@ typedef union bdk_pciercx_cfg453 {
 	} s;
 	/* struct bdk_pciercx_cfg453_s        cn85xx; */
 	/* struct bdk_pciercx_cfg453_s        cn88xx; */
+	/* struct bdk_pciercx_cfg453_s        cn88xxp1; */
 } bdk_pciercx_cfg453_t;
 
 static inline uint64_t BDK_PCIERCX_CFG453(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3556,6 +3623,7 @@ typedef union bdk_pciercx_cfg454 {
 	} s;
 	/* struct bdk_pciercx_cfg454_s        cn85xx; */
 	/* struct bdk_pciercx_cfg454_s        cn88xx; */
+	/* struct bdk_pciercx_cfg454_s        cn88xxp1; */
 } bdk_pciercx_cfg454_t;
 
 static inline uint64_t BDK_PCIERCX_CFG454(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3667,6 +3735,7 @@ typedef union bdk_pciercx_cfg455 {
 #endif
 	} cn85xx;
 	struct bdk_pciercx_cfg455_cn85xx      cn88xx;
+	struct bdk_pciercx_cfg455_cn85xx      cn88xxp1;
 } bdk_pciercx_cfg455_t;
 
 static inline uint64_t BDK_PCIERCX_CFG455(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3722,6 +3791,7 @@ typedef union bdk_pciercx_cfg456 {
 #endif
 	} cn85xx;
 	struct bdk_pciercx_cfg456_cn85xx      cn88xx;
+	struct bdk_pciercx_cfg456_cn85xx      cn88xxp1;
 } bdk_pciercx_cfg456_t;
 
 static inline uint64_t BDK_PCIERCX_CFG456(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3755,6 +3825,7 @@ typedef union bdk_pciercx_cfg458 {
 	} s;
 	/* struct bdk_pciercx_cfg458_s        cn85xx; */
 	/* struct bdk_pciercx_cfg458_s        cn88xx; */
+	/* struct bdk_pciercx_cfg458_s        cn88xxp1; */
 } bdk_pciercx_cfg458_t;
 
 static inline uint64_t BDK_PCIERCX_CFG458(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3788,6 +3859,7 @@ typedef union bdk_pciercx_cfg459 {
 	} s;
 	/* struct bdk_pciercx_cfg459_s        cn85xx; */
 	/* struct bdk_pciercx_cfg459_s        cn88xx; */
+	/* struct bdk_pciercx_cfg459_s        cn88xxp1; */
 } bdk_pciercx_cfg459_t;
 
 static inline uint64_t BDK_PCIERCX_CFG459(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3827,6 +3899,7 @@ typedef union bdk_pciercx_cfg460 {
 	} s;
 	/* struct bdk_pciercx_cfg460_s        cn85xx; */
 	/* struct bdk_pciercx_cfg460_s        cn88xx; */
+	/* struct bdk_pciercx_cfg460_s        cn88xxp1; */
 } bdk_pciercx_cfg460_t;
 
 static inline uint64_t BDK_PCIERCX_CFG460(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3866,6 +3939,7 @@ typedef union bdk_pciercx_cfg461 {
 	} s;
 	/* struct bdk_pciercx_cfg461_s        cn85xx; */
 	/* struct bdk_pciercx_cfg461_s        cn88xx; */
+	/* struct bdk_pciercx_cfg461_s        cn88xxp1; */
 } bdk_pciercx_cfg461_t;
 
 static inline uint64_t BDK_PCIERCX_CFG461(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3905,6 +3979,7 @@ typedef union bdk_pciercx_cfg462 {
 	} s;
 	/* struct bdk_pciercx_cfg462_s        cn85xx; */
 	/* struct bdk_pciercx_cfg462_s        cn88xx; */
+	/* struct bdk_pciercx_cfg462_s        cn88xxp1; */
 } bdk_pciercx_cfg462_t;
 
 static inline uint64_t BDK_PCIERCX_CFG462(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3980,6 +4055,7 @@ typedef union bdk_pciercx_cfg463 {
 #endif
 	} cn85xx;
 	struct bdk_pciercx_cfg463_cn85xx      cn88xx;
+	struct bdk_pciercx_cfg463_cn85xx      cn88xxp1;
 } bdk_pciercx_cfg463_t;
 
 static inline uint64_t BDK_PCIERCX_CFG463(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4019,6 +4095,7 @@ typedef union bdk_pciercx_cfg464 {
 	} s;
 	/* struct bdk_pciercx_cfg464_s        cn85xx; */
 	/* struct bdk_pciercx_cfg464_s        cn88xx; */
+	/* struct bdk_pciercx_cfg464_s        cn88xxp1; */
 } bdk_pciercx_cfg464_t;
 
 static inline uint64_t BDK_PCIERCX_CFG464(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4058,6 +4135,7 @@ typedef union bdk_pciercx_cfg465 {
 	} s;
 	/* struct bdk_pciercx_cfg465_s        cn85xx; */
 	/* struct bdk_pciercx_cfg465_s        cn88xx; */
+	/* struct bdk_pciercx_cfg465_s        cn88xxp1; */
 } bdk_pciercx_cfg465_t;
 
 static inline uint64_t BDK_PCIERCX_CFG465(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4169,6 +4247,7 @@ typedef union bdk_pciercx_cfg466 {
 #endif
 	} cn85xx;
 	struct bdk_pciercx_cfg466_cn85xx      cn88xx;
+	struct bdk_pciercx_cfg466_cn85xx      cn88xxp1;
 } bdk_pciercx_cfg466_t;
 
 static inline uint64_t BDK_PCIERCX_CFG466(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4252,6 +4331,7 @@ typedef union bdk_pciercx_cfg467 {
 #endif
 	} cn85xx;
 	struct bdk_pciercx_cfg467_cn85xx      cn88xx;
+	struct bdk_pciercx_cfg467_cn85xx      cn88xxp1;
 } bdk_pciercx_cfg467_t;
 
 static inline uint64_t BDK_PCIERCX_CFG467(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4337,6 +4417,7 @@ typedef union bdk_pciercx_cfg468 {
 #endif
 	} cn85xx;
 	struct bdk_pciercx_cfg468_cn85xx      cn88xx;
+	struct bdk_pciercx_cfg468_cn85xx      cn88xxp1;
 } bdk_pciercx_cfg468_t;
 
 static inline uint64_t BDK_PCIERCX_CFG468(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4392,6 +4473,7 @@ typedef union bdk_pciercx_cfg515 {
 	} s;
 	/* struct bdk_pciercx_cfg515_s        cn85xx; */
 	/* struct bdk_pciercx_cfg515_s        cn88xx; */
+	/* struct bdk_pciercx_cfg515_s        cn88xxp1; */
 } bdk_pciercx_cfg515_t;
 
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4425,6 +4507,7 @@ typedef union bdk_pciercx_cfg516 {
 	} s;
 	/* struct bdk_pciercx_cfg516_s        cn85xx; */
 	/* struct bdk_pciercx_cfg516_s        cn88xx; */
+	/* struct bdk_pciercx_cfg516_s        cn88xxp1; */
 } bdk_pciercx_cfg516_t;
 
 static inline uint64_t BDK_PCIERCX_CFG516(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4458,6 +4541,7 @@ typedef union bdk_pciercx_cfg517 {
 	} s;
 	/* struct bdk_pciercx_cfg517_s        cn85xx; */
 	/* struct bdk_pciercx_cfg517_s        cn88xx; */
+	/* struct bdk_pciercx_cfg517_s        cn88xxp1; */
 } bdk_pciercx_cfg517_t;
 
 static inline uint64_t BDK_PCIERCX_CFG517(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4514,6 +4598,7 @@ typedef union bdk_pciercx_cfg548 {
 	} s;
 	/* struct bdk_pciercx_cfg548_s        cn85xx; */
 	/* struct bdk_pciercx_cfg548_s        cn88xx; */
+	/* struct bdk_pciercx_cfg548_s        cn88xxp1; */
 } bdk_pciercx_cfg548_t;
 
 static inline uint64_t BDK_PCIERCX_CFG548(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4611,6 +4696,7 @@ typedef union bdk_pciercx_cfg554 {
 	} s;
 	/* struct bdk_pciercx_cfg554_s        cn85xx; */
 	/* struct bdk_pciercx_cfg554_s        cn88xx; */
+	/* struct bdk_pciercx_cfg554_s        cn88xxp1; */
 } bdk_pciercx_cfg554_t;
 
 static inline uint64_t BDK_PCIERCX_CFG554(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4646,6 +4732,7 @@ typedef union bdk_pciercx_cfg558 {
 	} s;
 	/* struct bdk_pciercx_cfg558_s        cn85xx; */
 	/* struct bdk_pciercx_cfg558_s        cn88xx; */
+	/* struct bdk_pciercx_cfg558_s        cn88xxp1; */
 } bdk_pciercx_cfg558_t;
 
 static inline uint64_t BDK_PCIERCX_CFG558(unsigned long param1) __attribute__ ((pure, always_inline));

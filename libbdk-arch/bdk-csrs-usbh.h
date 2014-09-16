@@ -167,6 +167,7 @@ typedef union bdk_usbhx_msix_pbax {
 	} s;
 	/* struct bdk_usbhx_msix_pbax_s       cn85xx; */
 	/* struct bdk_usbhx_msix_pbax_s       cn88xx; */
+	/* struct bdk_usbhx_msix_pbax_s       cn88xxp1; */
 } bdk_usbhx_msix_pbax_t;
 
 static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -215,6 +216,7 @@ typedef union bdk_usbhx_msix_vecx_addr {
 	} s;
 	/* struct bdk_usbhx_msix_vecx_addr_s  cn85xx; */
 	/* struct bdk_usbhx_msix_vecx_addr_s  cn88xx; */
+	/* struct bdk_usbhx_msix_vecx_addr_s  cn88xxp1; */
 } bdk_usbhx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -254,6 +256,7 @@ typedef union bdk_usbhx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_usbhx_msix_vecx_ctl_s   cn85xx; */
 	/* struct bdk_usbhx_msix_vecx_ctl_s   cn88xx; */
+	/* struct bdk_usbhx_msix_vecx_ctl_s   cn88xxp1; */
 } bdk_usbhx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -291,6 +294,7 @@ typedef union bdk_usbhx_uahc_caplength {
 	} s;
 	/* struct bdk_usbhx_uahc_caplength_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_caplength_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_caplength_s  cn88xxp1; */
 } bdk_usbhx_uahc_caplength_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -330,6 +334,7 @@ typedef union bdk_usbhx_uahc_config {
 	} s;
 	/* struct bdk_usbhx_uahc_config_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_config_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_config_s     cn88xxp1; */
 } bdk_usbhx_uahc_config_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -377,6 +382,7 @@ typedef union bdk_usbhx_uahc_crcr {
 	} s;
 	/* struct bdk_usbhx_uahc_crcr_s       cn85xx; */
 	/* struct bdk_usbhx_uahc_crcr_s       cn88xx; */
+	/* struct bdk_usbhx_uahc_crcr_s       cn88xxp1; */
 } bdk_usbhx_uahc_crcr_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -420,6 +426,7 @@ typedef union bdk_usbhx_uahc_dbx {
 	} s;
 	/* struct bdk_usbhx_uahc_dbx_s        cn85xx; */
 	/* struct bdk_usbhx_uahc_dbx_s        cn88xx; */
+	/* struct bdk_usbhx_uahc_dbx_s        cn88xxp1; */
 } bdk_usbhx_uahc_dbx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -455,6 +462,7 @@ typedef union bdk_usbhx_uahc_dboff {
 	} s;
 	/* struct bdk_usbhx_uahc_dboff_s      cn85xx; */
 	/* struct bdk_usbhx_uahc_dboff_s      cn88xx; */
+	/* struct bdk_usbhx_uahc_dboff_s      cn88xxp1; */
 } bdk_usbhx_uahc_dboff_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -494,6 +502,7 @@ typedef union bdk_usbhx_uahc_dcbaap {
 	} s;
 	/* struct bdk_usbhx_uahc_dcbaap_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_dcbaap_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_dcbaap_s     cn88xxp1; */
 } bdk_usbhx_uahc_dcbaap_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -533,6 +542,7 @@ typedef union bdk_usbhx_uahc_dnctrl {
 	} s;
 	/* struct bdk_usbhx_uahc_dnctrl_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_dnctrl_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_dnctrl_s     cn88xxp1; */
 } bdk_usbhx_uahc_dnctrl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -574,6 +584,7 @@ typedef union bdk_usbhx_uahc_erdpx {
 	} s;
 	/* struct bdk_usbhx_uahc_erdpx_s      cn85xx; */
 	/* struct bdk_usbhx_uahc_erdpx_s      cn88xx; */
+	/* struct bdk_usbhx_uahc_erdpx_s      cn88xxp1; */
 } bdk_usbhx_uahc_erdpx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -613,6 +624,7 @@ typedef union bdk_usbhx_uahc_erstbax {
 	} s;
 	/* struct bdk_usbhx_uahc_erstbax_s    cn85xx; */
 	/* struct bdk_usbhx_uahc_erstbax_s    cn88xx; */
+	/* struct bdk_usbhx_uahc_erstbax_s    cn88xxp1; */
 } bdk_usbhx_uahc_erstbax_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -652,6 +664,7 @@ typedef union bdk_usbhx_uahc_erstszx {
 	} s;
 	/* struct bdk_usbhx_uahc_erstszx_s    cn85xx; */
 	/* struct bdk_usbhx_uahc_erstszx_s    cn88xx; */
+	/* struct bdk_usbhx_uahc_erstszx_s    cn88xxp1; */
 } bdk_usbhx_uahc_erstszx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -702,6 +715,7 @@ typedef union bdk_usbhx_uahc_gbuserraddr {
 	} s;
 	/* struct bdk_usbhx_uahc_gbuserraddr_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gbuserraddr_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gbuserraddr_s cn88xxp1; */
 } bdk_usbhx_uahc_gbuserraddr_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -878,6 +892,7 @@ typedef union bdk_usbhx_uahc_gctl {
 	} s;
 	/* struct bdk_usbhx_uahc_gctl_s       cn85xx; */
 	/* struct bdk_usbhx_uahc_gctl_s       cn88xx; */
+	/* struct bdk_usbhx_uahc_gctl_s       cn88xxp1; */
 } bdk_usbhx_uahc_gctl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -918,6 +933,7 @@ typedef union bdk_usbhx_uahc_gdbgbmu {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbgbmu_s    cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbgbmu_s    cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbgbmu_s    cn88xxp1; */
 } bdk_usbhx_uahc_gdbgbmu_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -952,6 +968,7 @@ typedef union bdk_usbhx_uahc_gdbgepinfo {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbgepinfo_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbgepinfo_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbgepinfo_s cn88xxp1; */
 } bdk_usbhx_uahc_gdbgepinfo_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1010,6 +1027,7 @@ typedef union bdk_usbhx_uahc_gdbgfifospace {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbgfifospace_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbgfifospace_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbgfifospace_s cn88xxp1; */
 } bdk_usbhx_uahc_gdbgfifospace_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1050,6 +1068,7 @@ typedef union bdk_usbhx_uahc_gdbglnmcc {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbglnmcc_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbglnmcc_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbglnmcc_s  cn88xxp1; */
 } bdk_usbhx_uahc_gdbglnmcc_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1084,6 +1103,7 @@ typedef union bdk_usbhx_uahc_gdbglsp {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbglsp_s    cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbglsp_s    cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbglsp_s    cn88xxp1; */
 } bdk_usbhx_uahc_gdbglsp_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1135,6 +1155,7 @@ typedef union bdk_usbhx_uahc_gdbglspmux {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbglspmux_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbglspmux_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbglspmux_s cn88xxp1; */
 } bdk_usbhx_uahc_gdbglspmux_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1208,6 +1229,7 @@ typedef union bdk_usbhx_uahc_gdbgltssm {
 	} s;
 	/* struct bdk_usbhx_uahc_gdbgltssm_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_gdbgltssm_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_gdbgltssm_s  cn88xxp1; */
 } bdk_usbhx_uahc_gdbgltssm_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1267,6 +1289,7 @@ typedef union bdk_usbhx_uahc_gdmahlratio {
 	} s;
 	/* struct bdk_usbhx_uahc_gdmahlratio_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gdmahlratio_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gdmahlratio_s cn88xxp1; */
 } bdk_usbhx_uahc_gdmahlratio_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1399,6 +1422,7 @@ typedef union bdk_usbhx_uahc_gfladj {
 	} s;
 	/* struct bdk_usbhx_uahc_gfladj_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_gfladj_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_gfladj_s     cn88xxp1; */
 } bdk_usbhx_uahc_gfladj_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1438,6 +1462,7 @@ typedef union bdk_usbhx_uahc_ggpio {
 	} s;
 	/* struct bdk_usbhx_uahc_ggpio_s      cn85xx; */
 	/* struct bdk_usbhx_uahc_ggpio_s      cn88xx; */
+	/* struct bdk_usbhx_uahc_ggpio_s      cn88xxp1; */
 } bdk_usbhx_uahc_ggpio_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1482,6 +1507,7 @@ typedef union bdk_usbhx_uahc_ghwparams0 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams0_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams0_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams0_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1547,6 +1573,7 @@ typedef union bdk_usbhx_uahc_ghwparams1 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams1_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams1_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams1_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1581,6 +1608,7 @@ typedef union bdk_usbhx_uahc_ghwparams2 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams2_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams2_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams2_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1635,6 +1663,7 @@ typedef union bdk_usbhx_uahc_ghwparams3 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams3_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams3_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams3_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1685,6 +1714,7 @@ typedef union bdk_usbhx_uahc_ghwparams4 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams4_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams4_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams4_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams4_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1729,6 +1759,7 @@ typedef union bdk_usbhx_uahc_ghwparams5 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams5_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams5_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams5_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams5_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1783,6 +1814,7 @@ typedef union bdk_usbhx_uahc_ghwparams6 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams6_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams6_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams6_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams6_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1819,6 +1851,7 @@ typedef union bdk_usbhx_uahc_ghwparams7 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams7_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams7_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams7_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams7_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1853,6 +1886,7 @@ typedef union bdk_usbhx_uahc_ghwparams8 {
 	} s;
 	/* struct bdk_usbhx_uahc_ghwparams8_s cn85xx; */
 	/* struct bdk_usbhx_uahc_ghwparams8_s cn88xx; */
+	/* struct bdk_usbhx_uahc_ghwparams8_s cn88xxp1; */
 } bdk_usbhx_uahc_ghwparams8_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1917,6 +1951,7 @@ typedef union bdk_usbhx_uahc_gpmsts {
 	} s;
 	/* struct bdk_usbhx_uahc_gpmsts_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_gpmsts_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_gpmsts_s     cn88xxp1; */
 } bdk_usbhx_uahc_gpmsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1959,6 +1994,7 @@ typedef union bdk_usbhx_uahc_gprtbimap {
 	} s;
 	/* struct bdk_usbhx_uahc_gprtbimap_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_gprtbimap_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_gprtbimap_s  cn88xxp1; */
 } bdk_usbhx_uahc_gprtbimap_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2001,6 +2037,7 @@ typedef union bdk_usbhx_uahc_gprtbimap_fs {
 	} s;
 	/* struct bdk_usbhx_uahc_gprtbimap_fs_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gprtbimap_fs_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gprtbimap_fs_s cn88xxp1; */
 } bdk_usbhx_uahc_gprtbimap_fs_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2043,6 +2080,7 @@ typedef union bdk_usbhx_uahc_gprtbimap_hs {
 	} s;
 	/* struct bdk_usbhx_uahc_gprtbimap_hs_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gprtbimap_hs_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gprtbimap_hs_s cn88xxp1; */
 } bdk_usbhx_uahc_gprtbimap_hs_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2081,6 +2119,7 @@ typedef union bdk_usbhx_uahc_grlsid {
 	} s;
 	/* struct bdk_usbhx_uahc_grlsid_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_grlsid_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_grlsid_s     cn88xxp1; */
 } bdk_usbhx_uahc_grlsid_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2138,6 +2177,7 @@ typedef union bdk_usbhx_uahc_grxfifoprihst {
 	} s;
 	/* struct bdk_usbhx_uahc_grxfifoprihst_s cn85xx; */
 	/* struct bdk_usbhx_uahc_grxfifoprihst_s cn88xx; */
+	/* struct bdk_usbhx_uahc_grxfifoprihst_s cn88xxp1; */
 } bdk_usbhx_uahc_grxfifoprihst_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2187,6 +2227,7 @@ typedef union bdk_usbhx_uahc_grxfifosizx {
 	} s;
 	/* struct bdk_usbhx_uahc_grxfifosizx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_grxfifosizx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_grxfifosizx_s cn88xxp1; */
 } bdk_usbhx_uahc_grxfifosizx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2267,6 +2308,7 @@ typedef union bdk_usbhx_uahc_grxthrcfg {
 	} s;
 	/* struct bdk_usbhx_uahc_grxthrcfg_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_grxthrcfg_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_grxthrcfg_s  cn88xxp1; */
 } bdk_usbhx_uahc_grxthrcfg_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2349,6 +2391,7 @@ typedef union bdk_usbhx_uahc_gsbuscfg0 {
 	} s;
 	/* struct bdk_usbhx_uahc_gsbuscfg0_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_gsbuscfg0_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_gsbuscfg0_s  cn88xxp1; */
 } bdk_usbhx_uahc_gsbuscfg0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2407,6 +2450,7 @@ typedef union bdk_usbhx_uahc_gsbuscfg1 {
 	} s;
 	/* struct bdk_usbhx_uahc_gsbuscfg1_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_gsbuscfg1_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_gsbuscfg1_s  cn88xxp1; */
 } bdk_usbhx_uahc_gsbuscfg1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2460,6 +2504,7 @@ typedef union bdk_usbhx_uahc_gsts {
 	} s;
 	/* struct bdk_usbhx_uahc_gsts_s       cn85xx; */
 	/* struct bdk_usbhx_uahc_gsts_s       cn88xx; */
+	/* struct bdk_usbhx_uahc_gsts_s       cn88xxp1; */
 } bdk_usbhx_uahc_gsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2519,6 +2564,7 @@ typedef union bdk_usbhx_uahc_gtxfifoprihst {
 	} s;
 	/* struct bdk_usbhx_uahc_gtxfifoprihst_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gtxfifoprihst_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gtxfifoprihst_s cn88xxp1; */
 } bdk_usbhx_uahc_gtxfifoprihst_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2569,6 +2615,7 @@ typedef union bdk_usbhx_uahc_gtxfifosizx {
 	} s;
 	/* struct bdk_usbhx_uahc_gtxfifosizx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gtxfifosizx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gtxfifosizx_s cn88xxp1; */
 } bdk_usbhx_uahc_gtxfifosizx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2643,6 +2690,7 @@ typedef union bdk_usbhx_uahc_gtxthrcfg {
 	} s;
 	/* struct bdk_usbhx_uahc_gtxthrcfg_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_gtxthrcfg_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_gtxthrcfg_s  cn88xxp1; */
 } bdk_usbhx_uahc_gtxthrcfg_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2787,6 +2835,7 @@ typedef union bdk_usbhx_uahc_guctl {
 	} s;
 	/* struct bdk_usbhx_uahc_guctl_s      cn85xx; */
 	/* struct bdk_usbhx_uahc_guctl_s      cn88xx; */
+	/* struct bdk_usbhx_uahc_guctl_s      cn88xxp1; */
 } bdk_usbhx_uahc_guctl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2865,6 +2914,7 @@ typedef union bdk_usbhx_uahc_guctl1 {
 	} s;
 	/* struct bdk_usbhx_uahc_guctl1_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_guctl1_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_guctl1_s     cn88xxp1; */
 } bdk_usbhx_uahc_guctl1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2906,6 +2956,7 @@ typedef union bdk_usbhx_uahc_guid {
 	} s;
 	/* struct bdk_usbhx_uahc_guid_s       cn85xx; */
 	/* struct bdk_usbhx_uahc_guid_s       cn88xx; */
+	/* struct bdk_usbhx_uahc_guid_s       cn88xxp1; */
 } bdk_usbhx_uahc_guid_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2942,6 +2993,7 @@ typedef union bdk_usbhx_uahc_gusb2i2cctlx {
 	} s;
 	/* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn88xxp1; */
 } bdk_usbhx_uahc_gusb2i2cctlx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3067,6 +3119,7 @@ typedef union bdk_usbhx_uahc_gusb2phycfgx {
 	} s;
 	/* struct bdk_usbhx_uahc_gusb2phycfgx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gusb2phycfgx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gusb2phycfgx_s cn88xxp1; */
 } bdk_usbhx_uahc_gusb2phycfgx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3265,6 +3318,7 @@ typedef union bdk_usbhx_uahc_gusb3pipectlx {
 	} s;
 	/* struct bdk_usbhx_uahc_gusb3pipectlx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_gusb3pipectlx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_gusb3pipectlx_s cn88xxp1; */
 } bdk_usbhx_uahc_gusb3pipectlx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3324,6 +3378,7 @@ typedef union bdk_usbhx_uahc_hccparams {
 	} s;
 	/* struct bdk_usbhx_uahc_hccparams_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_hccparams_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_hccparams_s  cn88xxp1; */
 } bdk_usbhx_uahc_hccparams_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3363,6 +3418,7 @@ typedef union bdk_usbhx_uahc_hcsparams1 {
 	} s;
 	/* struct bdk_usbhx_uahc_hcsparams1_s cn85xx; */
 	/* struct bdk_usbhx_uahc_hcsparams1_s cn88xx; */
+	/* struct bdk_usbhx_uahc_hcsparams1_s cn88xxp1; */
 } bdk_usbhx_uahc_hcsparams1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3406,6 +3462,7 @@ typedef union bdk_usbhx_uahc_hcsparams2 {
 	} s;
 	/* struct bdk_usbhx_uahc_hcsparams2_s cn85xx; */
 	/* struct bdk_usbhx_uahc_hcsparams2_s cn88xx; */
+	/* struct bdk_usbhx_uahc_hcsparams2_s cn88xxp1; */
 } bdk_usbhx_uahc_hcsparams2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3443,6 +3500,7 @@ typedef union bdk_usbhx_uahc_hcsparams3 {
 	} s;
 	/* struct bdk_usbhx_uahc_hcsparams3_s cn85xx; */
 	/* struct bdk_usbhx_uahc_hcsparams3_s cn88xx; */
+	/* struct bdk_usbhx_uahc_hcsparams3_s cn88xxp1; */
 } bdk_usbhx_uahc_hcsparams3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3484,6 +3542,7 @@ typedef union bdk_usbhx_uahc_imanx {
 	} s;
 	/* struct bdk_usbhx_uahc_imanx_s      cn85xx; */
 	/* struct bdk_usbhx_uahc_imanx_s      cn88xx; */
+	/* struct bdk_usbhx_uahc_imanx_s      cn88xxp1; */
 } bdk_usbhx_uahc_imanx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3523,6 +3582,7 @@ typedef union bdk_usbhx_uahc_imodx {
 	} s;
 	/* struct bdk_usbhx_uahc_imodx_s      cn85xx; */
 	/* struct bdk_usbhx_uahc_imodx_s      cn88xx; */
+	/* struct bdk_usbhx_uahc_imodx_s      cn88xxp1; */
 } bdk_usbhx_uahc_imodx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3562,6 +3622,7 @@ typedef union bdk_usbhx_uahc_mfindex {
 	} s;
 	/* struct bdk_usbhx_uahc_mfindex_s    cn85xx; */
 	/* struct bdk_usbhx_uahc_mfindex_s    cn88xx; */
+	/* struct bdk_usbhx_uahc_mfindex_s    cn88xxp1; */
 } bdk_usbhx_uahc_mfindex_t;
 
 static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3597,6 +3658,7 @@ typedef union bdk_usbhx_uahc_pagesize {
 	} s;
 	/* struct bdk_usbhx_uahc_pagesize_s   cn85xx; */
 	/* struct bdk_usbhx_uahc_pagesize_s   cn88xx; */
+	/* struct bdk_usbhx_uahc_pagesize_s   cn88xxp1; */
 } bdk_usbhx_uahc_pagesize_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3651,6 +3713,7 @@ typedef union bdk_usbhx_uahc_porthlpmc_20x {
 	} s;
 	/* struct bdk_usbhx_uahc_porthlpmc_20x_s cn85xx; */
 	/* struct bdk_usbhx_uahc_porthlpmc_20x_s cn88xx; */
+	/* struct bdk_usbhx_uahc_porthlpmc_20x_s cn88xxp1; */
 } bdk_usbhx_uahc_porthlpmc_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3689,6 +3752,7 @@ typedef union bdk_usbhx_uahc_porthlpmc_ssx {
 	} s;
 	/* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn88xxp1; */
 } bdk_usbhx_uahc_porthlpmc_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3722,6 +3786,7 @@ typedef union bdk_usbhx_uahc_portli_20x {
 	} s;
 	/* struct bdk_usbhx_uahc_portli_20x_s cn85xx; */
 	/* struct bdk_usbhx_uahc_portli_20x_s cn88xx; */
+	/* struct bdk_usbhx_uahc_portli_20x_s cn88xxp1; */
 } bdk_usbhx_uahc_portli_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3757,6 +3822,7 @@ typedef union bdk_usbhx_uahc_portli_ssx {
 	} s;
 	/* struct bdk_usbhx_uahc_portli_ssx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_portli_ssx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_portli_ssx_s cn88xxp1; */
 } bdk_usbhx_uahc_portli_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3806,6 +3872,7 @@ typedef union bdk_usbhx_uahc_portpmsc_20x {
 	} s;
 	/* struct bdk_usbhx_uahc_portpmsc_20x_s cn85xx; */
 	/* struct bdk_usbhx_uahc_portpmsc_20x_s cn88xx; */
+	/* struct bdk_usbhx_uahc_portpmsc_20x_s cn88xxp1; */
 } bdk_usbhx_uahc_portpmsc_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3849,6 +3916,7 @@ typedef union bdk_usbhx_uahc_portpmsc_ssx {
 	} s;
 	/* struct bdk_usbhx_uahc_portpmsc_ssx_s cn85xx; */
 	/* struct bdk_usbhx_uahc_portpmsc_ssx_s cn88xx; */
+	/* struct bdk_usbhx_uahc_portpmsc_ssx_s cn88xxp1; */
 } bdk_usbhx_uahc_portpmsc_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3933,6 +4001,7 @@ typedef union bdk_usbhx_uahc_portscx {
 	} s;
 	/* struct bdk_usbhx_uahc_portscx_s    cn85xx; */
 	/* struct bdk_usbhx_uahc_portscx_s    cn88xx; */
+	/* struct bdk_usbhx_uahc_portscx_s    cn88xxp1; */
 } bdk_usbhx_uahc_portscx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3968,6 +4037,7 @@ typedef union bdk_usbhx_uahc_rtsoff {
 	} s;
 	/* struct bdk_usbhx_uahc_rtsoff_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_rtsoff_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_rtsoff_s     cn88xxp1; */
 } bdk_usbhx_uahc_rtsoff_t;
 
 static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4007,6 +4077,7 @@ typedef union bdk_usbhx_uahc_suptprt2_dw0 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt2_dw0_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt2_dw0_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt2_dw0_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt2_dw0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4040,6 +4111,7 @@ typedef union bdk_usbhx_uahc_suptprt2_dw1 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt2_dw1_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt2_dw1_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt2_dw1_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt2_dw1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4089,6 +4161,7 @@ typedef union bdk_usbhx_uahc_suptprt2_dw2 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt2_dw2_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt2_dw2_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt2_dw2_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt2_dw2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4124,6 +4197,7 @@ typedef union bdk_usbhx_uahc_suptprt2_dw3 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt2_dw3_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt2_dw3_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt2_dw3_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt2_dw3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4165,6 +4239,7 @@ typedef union bdk_usbhx_uahc_suptprt3_dw0 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt3_dw0_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt3_dw0_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt3_dw0_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt3_dw0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4198,6 +4273,7 @@ typedef union bdk_usbhx_uahc_suptprt3_dw1 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt3_dw1_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt3_dw1_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt3_dw1_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt3_dw1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4237,6 +4313,7 @@ typedef union bdk_usbhx_uahc_suptprt3_dw2 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt3_dw2_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt3_dw2_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt3_dw2_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt3_dw2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4272,6 +4349,7 @@ typedef union bdk_usbhx_uahc_suptprt3_dw3 {
 	} s;
 	/* struct bdk_usbhx_uahc_suptprt3_dw3_s cn85xx; */
 	/* struct bdk_usbhx_uahc_suptprt3_dw3_s cn88xx; */
+	/* struct bdk_usbhx_uahc_suptprt3_dw3_s cn88xxp1; */
 } bdk_usbhx_uahc_suptprt3_dw3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4329,6 +4407,7 @@ typedef union bdk_usbhx_uahc_usbcmd {
 	} s;
 	/* struct bdk_usbhx_uahc_usbcmd_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_usbcmd_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_usbcmd_s     cn88xxp1; */
 } bdk_usbhx_uahc_usbcmd_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4402,6 +4481,7 @@ typedef union bdk_usbhx_uahc_usblegctlsts {
 	} s;
 	/* struct bdk_usbhx_uahc_usblegctlsts_s cn85xx; */
 	/* struct bdk_usbhx_uahc_usblegctlsts_s cn88xx; */
+	/* struct bdk_usbhx_uahc_usblegctlsts_s cn88xxp1; */
 } bdk_usbhx_uahc_usblegctlsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4449,6 +4529,7 @@ typedef union bdk_usbhx_uahc_usblegsup {
 	} s;
 	/* struct bdk_usbhx_uahc_usblegsup_s  cn85xx; */
 	/* struct bdk_usbhx_uahc_usblegsup_s  cn88xx; */
+	/* struct bdk_usbhx_uahc_usblegsup_s  cn88xxp1; */
 } bdk_usbhx_uahc_usblegsup_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4508,6 +4589,7 @@ typedef union bdk_usbhx_uahc_usbsts {
 	} s;
 	/* struct bdk_usbhx_uahc_usbsts_s     cn85xx; */
 	/* struct bdk_usbhx_uahc_usbsts_s     cn88xx; */
+	/* struct bdk_usbhx_uahc_usbsts_s     cn88xxp1; */
 } bdk_usbhx_uahc_usbsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4567,6 +4649,7 @@ typedef union bdk_usbhx_uctl_bist_status {
 	} s;
 	/* struct bdk_usbhx_uctl_bist_status_s cn85xx; */
 	/* struct bdk_usbhx_uctl_bist_status_s cn88xx; */
+	/* struct bdk_usbhx_uctl_bist_status_s cn88xxp1; */
 } bdk_usbhx_uctl_bist_status_t;
 
 static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4808,6 +4891,7 @@ typedef union bdk_usbhx_uctl_ctl {
 	} s;
 	/* struct bdk_usbhx_uctl_ctl_s        cn85xx; */
 	/* struct bdk_usbhx_uctl_ctl_s        cn88xx; */
+	/* struct bdk_usbhx_uctl_ctl_s        cn88xxp1; */
 } bdk_usbhx_uctl_ctl_t;
 
 static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4888,6 +4972,7 @@ typedef union bdk_usbhx_uctl_ecc {
 	} s;
 	/* struct bdk_usbhx_uctl_ecc_s        cn85xx; */
 	/* struct bdk_usbhx_uctl_ecc_s        cn88xx; */
+	/* struct bdk_usbhx_uctl_ecc_s        cn88xxp1; */
 } bdk_usbhx_uctl_ecc_t;
 
 static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4986,6 +5071,7 @@ typedef union bdk_usbhx_uctl_host_cfg {
 	} s;
 	/* struct bdk_usbhx_uctl_host_cfg_s   cn85xx; */
 	/* struct bdk_usbhx_uctl_host_cfg_s   cn88xx; */
+	/* struct bdk_usbhx_uctl_host_cfg_s   cn88xxp1; */
 } bdk_usbhx_uctl_host_cfg_t;
 
 static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5062,6 +5148,7 @@ typedef union bdk_usbhx_uctl_intena_w1c {
 	} s;
 	/* struct bdk_usbhx_uctl_intena_w1c_s cn85xx; */
 	/* struct bdk_usbhx_uctl_intena_w1c_s cn88xx; */
+	/* struct bdk_usbhx_uctl_intena_w1c_s cn88xxp1; */
 } bdk_usbhx_uctl_intena_w1c_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5138,6 +5225,7 @@ typedef union bdk_usbhx_uctl_intena_w1s {
 	} s;
 	/* struct bdk_usbhx_uctl_intena_w1s_s cn85xx; */
 	/* struct bdk_usbhx_uctl_intena_w1s_s cn88xx; */
+	/* struct bdk_usbhx_uctl_intena_w1s_s cn88xxp1; */
 } bdk_usbhx_uctl_intena_w1s_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5219,6 +5307,7 @@ typedef union bdk_usbhx_uctl_intstat {
 	} s;
 	/* struct bdk_usbhx_uctl_intstat_s    cn85xx; */
 	/* struct bdk_usbhx_uctl_intstat_s    cn88xx; */
+	/* struct bdk_usbhx_uctl_intstat_s    cn88xxp1; */
 } bdk_usbhx_uctl_intstat_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5295,6 +5384,7 @@ typedef union bdk_usbhx_uctl_intstat_w1s {
 	} s;
 	/* struct bdk_usbhx_uctl_intstat_w1s_s cn85xx; */
 	/* struct bdk_usbhx_uctl_intstat_w1s_s cn88xx; */
+	/* struct bdk_usbhx_uctl_intstat_w1s_s cn88xxp1; */
 } bdk_usbhx_uctl_intstat_w1s_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5427,6 +5517,7 @@ typedef union bdk_usbhx_uctl_portx_cfg_hs {
 	} s;
 	/* struct bdk_usbhx_uctl_portx_cfg_hs_s cn85xx; */
 	/* struct bdk_usbhx_uctl_portx_cfg_hs_s cn88xx; */
+	/* struct bdk_usbhx_uctl_portx_cfg_hs_s cn88xxp1; */
 } bdk_usbhx_uctl_portx_cfg_hs_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5582,6 +5673,7 @@ typedef union bdk_usbhx_uctl_portx_cfg_ss {
 	} s;
 	/* struct bdk_usbhx_uctl_portx_cfg_ss_s cn85xx; */
 	/* struct bdk_usbhx_uctl_portx_cfg_ss_s cn88xx; */
+	/* struct bdk_usbhx_uctl_portx_cfg_ss_s cn88xxp1; */
 } bdk_usbhx_uctl_portx_cfg_ss_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5686,6 +5778,7 @@ typedef union bdk_usbhx_uctl_portx_cr_dbg_cfg {
 	} s;
 	/* struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s cn85xx; */
 	/* struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s cn88xx; */
+	/* struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s cn88xxp1; */
 } bdk_usbhx_uctl_portx_cr_dbg_cfg_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5729,6 +5822,7 @@ typedef union bdk_usbhx_uctl_portx_cr_dbg_status {
 	} s;
 	/* struct bdk_usbhx_uctl_portx_cr_dbg_status_s cn85xx; */
 	/* struct bdk_usbhx_uctl_portx_cr_dbg_status_s cn88xx; */
+	/* struct bdk_usbhx_uctl_portx_cr_dbg_status_s cn88xxp1; */
 } bdk_usbhx_uctl_portx_cr_dbg_status_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5796,6 +5890,7 @@ typedef union bdk_usbhx_uctl_shim_cfg {
 	} s;
 	/* struct bdk_usbhx_uctl_shim_cfg_s   cn85xx; */
 	/* struct bdk_usbhx_uctl_shim_cfg_s   cn88xx; */
+	/* struct bdk_usbhx_uctl_shim_cfg_s   cn88xxp1; */
 } bdk_usbhx_uctl_shim_cfg_t;
 
 static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5829,6 +5924,7 @@ typedef union bdk_usbhx_uctl_spare0 {
 	} s;
 	/* struct bdk_usbhx_uctl_spare0_s     cn85xx; */
 	/* struct bdk_usbhx_uctl_spare0_s     cn88xx; */
+	/* struct bdk_usbhx_uctl_spare0_s     cn88xxp1; */
 } bdk_usbhx_uctl_spare0_t;
 
 static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5863,6 +5959,7 @@ typedef union bdk_usbhx_uctl_spare1 {
 	} s;
 	/* struct bdk_usbhx_uctl_spare1_s     cn85xx; */
 	/* struct bdk_usbhx_uctl_spare1_s     cn88xx; */
+	/* struct bdk_usbhx_uctl_spare1_s     cn88xxp1; */
 } bdk_usbhx_uctl_spare1_t;
 
 static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long param1) __attribute__ ((pure, always_inline));

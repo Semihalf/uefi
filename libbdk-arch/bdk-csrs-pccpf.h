@@ -427,6 +427,7 @@ typedef union bdk_pccpf_xxx_ari_cap_hdr {
 	} s;
 	/* struct bdk_pccpf_xxx_ari_cap_hdr_s cn85xx; */
 	/* struct bdk_pccpf_xxx_ari_cap_hdr_s cn88xx; */
+	/* struct bdk_pccpf_xxx_ari_cap_hdr_s cn88xxp1; */
 } bdk_pccpf_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_ARI_CAP_HDR BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC()
@@ -469,6 +470,7 @@ typedef union bdk_pccpf_xxx_bar0l {
 	} s;
 	/* struct bdk_pccpf_xxx_bar0l_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_bar0l_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_bar0l_s       cn88xxp1; */
 } bdk_pccpf_xxx_bar0l_t;
 
 #define BDK_PCCPF_XXX_BAR0L BDK_PCCPF_XXX_BAR0L_FUNC()
@@ -504,6 +506,7 @@ typedef union bdk_pccpf_xxx_bar0u {
 	} s;
 	/* struct bdk_pccpf_xxx_bar0u_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_bar0u_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_bar0u_s       cn88xxp1; */
 } bdk_pccpf_xxx_bar0u_t;
 
 #define BDK_PCCPF_XXX_BAR0U BDK_PCCPF_XXX_BAR0U_FUNC()
@@ -549,6 +552,7 @@ typedef union bdk_pccpf_xxx_bar2l {
 	} s;
 	/* struct bdk_pccpf_xxx_bar2l_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_bar2l_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_bar2l_s       cn88xxp1; */
 } bdk_pccpf_xxx_bar2l_t;
 
 #define BDK_PCCPF_XXX_BAR2L BDK_PCCPF_XXX_BAR2L_FUNC()
@@ -582,6 +586,7 @@ typedef union bdk_pccpf_xxx_bar2u {
 	} s;
 	/* struct bdk_pccpf_xxx_bar2u_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_bar2u_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_bar2u_s       cn88xxp1; */
 } bdk_pccpf_xxx_bar2u_t;
 
 #define BDK_PCCPF_XXX_BAR2U BDK_PCCPF_XXX_BAR2U_FUNC()
@@ -627,6 +632,7 @@ typedef union bdk_pccpf_xxx_bar4l {
 	} s;
 	/* struct bdk_pccpf_xxx_bar4l_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_bar4l_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_bar4l_s       cn88xxp1; */
 } bdk_pccpf_xxx_bar4l_t;
 
 #define BDK_PCCPF_XXX_BAR4L BDK_PCCPF_XXX_BAR4L_FUNC()
@@ -660,6 +666,7 @@ typedef union bdk_pccpf_xxx_bar4u {
 	} s;
 	/* struct bdk_pccpf_xxx_bar4u_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_bar4u_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_bar4u_s       cn88xxp1; */
 } bdk_pccpf_xxx_bar4u_t;
 
 #define BDK_PCCPF_XXX_BAR4U BDK_PCCPF_XXX_BAR4U_FUNC()
@@ -691,6 +698,7 @@ typedef union bdk_pccpf_xxx_cap_ptr {
 	} s;
 	/* struct bdk_pccpf_xxx_cap_ptr_s     cn85xx; */
 	/* struct bdk_pccpf_xxx_cap_ptr_s     cn88xx; */
+	/* struct bdk_pccpf_xxx_cap_ptr_s     cn88xxp1; */
 } bdk_pccpf_xxx_cap_ptr_t;
 
 #define BDK_PCCPF_XXX_CAP_PTR BDK_PCCPF_XXX_CAP_PTR_FUNC()
@@ -727,6 +735,7 @@ typedef union bdk_pccpf_xxx_clsize {
 	} s;
 	/* struct bdk_pccpf_xxx_clsize_s      cn85xx; */
 	/* struct bdk_pccpf_xxx_clsize_s      cn88xx; */
+	/* struct bdk_pccpf_xxx_clsize_s      cn88xxp1; */
 } bdk_pccpf_xxx_clsize_t;
 
 #define BDK_PCCPF_XXX_CLSIZE BDK_PCCPF_XXX_CLSIZE_FUNC()
@@ -766,6 +775,7 @@ typedef union bdk_pccpf_xxx_cmd {
 	} s;
 	/* struct bdk_pccpf_xxx_cmd_s         cn85xx; */
 	/* struct bdk_pccpf_xxx_cmd_s         cn88xx; */
+	/* struct bdk_pccpf_xxx_cmd_s         cn88xxp1; */
 } bdk_pccpf_xxx_cmd_t;
 
 #define BDK_PCCPF_XXX_CMD BDK_PCCPF_XXX_CMD_FUNC()
@@ -802,6 +812,7 @@ typedef union bdk_pccpf_xxx_e_cap_hdr {
 	} s;
 	/* struct bdk_pccpf_xxx_e_cap_hdr_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_e_cap_hdr_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_e_cap_hdr_s   cn88xxp1; */
 } bdk_pccpf_xxx_e_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_E_CAP_HDR BDK_PCCPF_XXX_E_CAP_HDR_FUNC()
@@ -834,6 +845,7 @@ typedef union bdk_pccpf_xxx_id {
 	} s;
 	/* struct bdk_pccpf_xxx_id_s          cn85xx; */
 	/* struct bdk_pccpf_xxx_id_s          cn88xx; */
+	/* struct bdk_pccpf_xxx_id_s          cn88xxp1; */
 } bdk_pccpf_xxx_id_t;
 
 #define BDK_PCCPF_XXX_ID BDK_PCCPF_XXX_ID_FUNC()
@@ -881,6 +893,7 @@ typedef union bdk_pccpf_xxx_msix_cap_hdr {
 	} s;
 	/* struct bdk_pccpf_xxx_msix_cap_hdr_s cn85xx; */
 	/* struct bdk_pccpf_xxx_msix_cap_hdr_s cn88xx; */
+	/* struct bdk_pccpf_xxx_msix_cap_hdr_s cn88xxp1; */
 } bdk_pccpf_xxx_msix_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_MSIX_CAP_HDR BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC()
@@ -914,6 +927,7 @@ typedef union bdk_pccpf_xxx_msix_pba {
 	} s;
 	/* struct bdk_pccpf_xxx_msix_pba_s    cn85xx; */
 	/* struct bdk_pccpf_xxx_msix_pba_s    cn88xx; */
+	/* struct bdk_pccpf_xxx_msix_pba_s    cn88xxp1; */
 } bdk_pccpf_xxx_msix_pba_t;
 
 #define BDK_PCCPF_XXX_MSIX_PBA BDK_PCCPF_XXX_MSIX_PBA_FUNC()
@@ -947,6 +961,7 @@ typedef union bdk_pccpf_xxx_msix_table {
 	} s;
 	/* struct bdk_pccpf_xxx_msix_table_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_msix_table_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_msix_table_s  cn88xxp1; */
 } bdk_pccpf_xxx_msix_table_t;
 
 #define BDK_PCCPF_XXX_MSIX_TABLE BDK_PCCPF_XXX_MSIX_TABLE_FUNC()
@@ -982,6 +997,7 @@ typedef union bdk_pccpf_xxx_rev {
 	} s;
 	/* struct bdk_pccpf_xxx_rev_s         cn85xx; */
 	/* struct bdk_pccpf_xxx_rev_s         cn88xx; */
+	/* struct bdk_pccpf_xxx_rev_s         cn88xxp1; */
 } bdk_pccpf_xxx_rev_t;
 
 #define BDK_PCCPF_XXX_REV BDK_PCCPF_XXX_REV_FUNC()
@@ -1018,6 +1034,7 @@ typedef union bdk_pccpf_xxx_sari_nxt {
 	} s;
 	/* struct bdk_pccpf_xxx_sari_nxt_s    cn85xx; */
 	/* struct bdk_pccpf_xxx_sari_nxt_s    cn88xx; */
+	/* struct bdk_pccpf_xxx_sari_nxt_s    cn88xxp1; */
 } bdk_pccpf_xxx_sari_nxt_t;
 
 #define BDK_PCCPF_XXX_SARI_NXT BDK_PCCPF_XXX_SARI_NXT_FUNC()
@@ -1061,6 +1078,7 @@ typedef union bdk_pccpf_xxx_sriov_bar0l {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_bar0l_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_bar0l_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_bar0l_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_bar0l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR0L BDK_PCCPF_XXX_SRIOV_BAR0L_FUNC()
@@ -1091,6 +1109,7 @@ typedef union bdk_pccpf_xxx_sriov_bar0u {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_bar0u_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_bar0u_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_bar0u_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_bar0u_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR0U BDK_PCCPF_XXX_SRIOV_BAR0U_FUNC()
@@ -1133,6 +1152,7 @@ typedef union bdk_pccpf_xxx_sriov_bar2l {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_bar2l_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_bar2l_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_bar2l_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_bar2l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR2L BDK_PCCPF_XXX_SRIOV_BAR2L_FUNC()
@@ -1163,6 +1183,7 @@ typedef union bdk_pccpf_xxx_sriov_bar2u {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_bar2u_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_bar2u_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_bar2u_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_bar2u_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR2U BDK_PCCPF_XXX_SRIOV_BAR2U_FUNC()
@@ -1205,6 +1226,7 @@ typedef union bdk_pccpf_xxx_sriov_bar4l {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_bar4l_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_bar4l_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_bar4l_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_bar4l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR4L BDK_PCCPF_XXX_SRIOV_BAR4L_FUNC()
@@ -1235,6 +1257,7 @@ typedef union bdk_pccpf_xxx_sriov_bar4u {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_bar4u_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_bar4u_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_bar4u_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_bar4u_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR4U BDK_PCCPF_XXX_SRIOV_BAR4U_FUNC()
@@ -1270,6 +1293,7 @@ typedef union bdk_pccpf_xxx_sriov_cap {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_cap_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_cap_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_cap_s   cn88xxp1; */
 } bdk_pccpf_xxx_sriov_cap_t;
 
 #define BDK_PCCPF_XXX_SRIOV_CAP BDK_PCCPF_XXX_SRIOV_CAP_FUNC()
@@ -1303,6 +1327,7 @@ typedef union bdk_pccpf_xxx_sriov_cap_hdr {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_cap_hdr_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_cap_hdr_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_cap_hdr_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_SRIOV_CAP_HDR BDK_PCCPF_XXX_SRIOV_CAP_HDR_FUNC()
@@ -1346,6 +1371,7 @@ typedef union bdk_pccpf_xxx_sriov_ctl {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_ctl_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_ctl_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_ctl_s   cn88xxp1; */
 } bdk_pccpf_xxx_sriov_ctl_t;
 
 #define BDK_PCCPF_XXX_SRIOV_CTL BDK_PCCPF_XXX_SRIOV_CTL_FUNC()
@@ -1377,6 +1403,7 @@ typedef union bdk_pccpf_xxx_sriov_dev {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_dev_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_dev_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_dev_s   cn88xxp1; */
 } bdk_pccpf_xxx_sriov_dev_t;
 
 #define BDK_PCCPF_XXX_SRIOV_DEV BDK_PCCPF_XXX_SRIOV_DEV_FUNC()
@@ -1408,6 +1435,7 @@ typedef union bdk_pccpf_xxx_sriov_fo {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_fo_s    cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_fo_s    cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_fo_s    cn88xxp1; */
 } bdk_pccpf_xxx_sriov_fo_t;
 
 #define BDK_PCCPF_XXX_SRIOV_FO BDK_PCCPF_XXX_SRIOV_FO_FUNC()
@@ -1441,6 +1469,7 @@ typedef union bdk_pccpf_xxx_sriov_nvf {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_nvf_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_nvf_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_nvf_s   cn88xxp1; */
 } bdk_pccpf_xxx_sriov_nvf_t;
 
 #define BDK_PCCPF_XXX_SRIOV_NVF BDK_PCCPF_XXX_SRIOV_NVF_FUNC()
@@ -1470,6 +1499,7 @@ typedef union bdk_pccpf_xxx_sriov_ps {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_ps_s    cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_ps_s    cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_ps_s    cn88xxp1; */
 } bdk_pccpf_xxx_sriov_ps_t;
 
 #define BDK_PCCPF_XXX_SRIOV_PS BDK_PCCPF_XXX_SRIOV_PS_FUNC()
@@ -1500,6 +1530,7 @@ typedef union bdk_pccpf_xxx_sriov_supps {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_supps_s cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_supps_s cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_supps_s cn88xxp1; */
 } bdk_pccpf_xxx_sriov_supps_t;
 
 #define BDK_PCCPF_XXX_SRIOV_SUPPS BDK_PCCPF_XXX_SRIOV_SUPPS_FUNC()
@@ -1531,6 +1562,7 @@ typedef union bdk_pccpf_xxx_sriov_vfs {
 	} s;
 	/* struct bdk_pccpf_xxx_sriov_vfs_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_sriov_vfs_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_sriov_vfs_s   cn88xxp1; */
 } bdk_pccpf_xxx_sriov_vfs_t;
 
 #define BDK_PCCPF_XXX_SRIOV_VFS BDK_PCCPF_XXX_SRIOV_VFS_FUNC()
@@ -1563,6 +1595,7 @@ typedef union bdk_pccpf_xxx_subid {
 	} s;
 	/* struct bdk_pccpf_xxx_subid_s       cn85xx; */
 	/* struct bdk_pccpf_xxx_subid_s       cn88xx; */
+	/* struct bdk_pccpf_xxx_subid_s       cn88xxp1; */
 } bdk_pccpf_xxx_subid_t;
 
 #define BDK_PCCPF_XXX_SUBID BDK_PCCPF_XXX_SUBID_FUNC()
@@ -1595,6 +1628,7 @@ typedef union bdk_pccpf_xxx_vsec_bar0l {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_bar0l_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_bar0l_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_bar0l_s  cn88xxp1; */
 } bdk_pccpf_xxx_vsec_bar0l_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR0L BDK_PCCPF_XXX_VSEC_BAR0L_FUNC()
@@ -1625,6 +1659,7 @@ typedef union bdk_pccpf_xxx_vsec_bar0u {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_bar0u_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_bar0u_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_bar0u_s  cn88xxp1; */
 } bdk_pccpf_xxx_vsec_bar0u_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR0U BDK_PCCPF_XXX_VSEC_BAR0U_FUNC()
@@ -1657,6 +1692,7 @@ typedef union bdk_pccpf_xxx_vsec_bar2l {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_bar2l_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_bar2l_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_bar2l_s  cn88xxp1; */
 } bdk_pccpf_xxx_vsec_bar2l_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR2L BDK_PCCPF_XXX_VSEC_BAR2L_FUNC()
@@ -1687,6 +1723,7 @@ typedef union bdk_pccpf_xxx_vsec_bar2u {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_bar2u_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_bar2u_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_bar2u_s  cn88xxp1; */
 } bdk_pccpf_xxx_vsec_bar2u_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR2U BDK_PCCPF_XXX_VSEC_BAR2U_FUNC()
@@ -1719,6 +1756,7 @@ typedef union bdk_pccpf_xxx_vsec_bar4l {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_bar4l_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_bar4l_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_bar4l_s  cn88xxp1; */
 } bdk_pccpf_xxx_vsec_bar4l_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR4L BDK_PCCPF_XXX_VSEC_BAR4L_FUNC()
@@ -1749,6 +1787,7 @@ typedef union bdk_pccpf_xxx_vsec_bar4u {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_bar4u_s  cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_bar4u_s  cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_bar4u_s  cn88xxp1; */
 } bdk_pccpf_xxx_vsec_bar4u_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR4U BDK_PCCPF_XXX_VSEC_BAR4U_FUNC()
@@ -1783,6 +1822,7 @@ typedef union bdk_pccpf_xxx_vsec_cap_hdr {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_cap_hdr_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_cap_hdr_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_cap_hdr_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_VSEC_CAP_HDR BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC()
@@ -1819,6 +1859,7 @@ typedef union bdk_pccpf_xxx_vsec_ctl {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_ctl_s    cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_ctl_s    cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_ctl_s    cn88xxp1; */
 } bdk_pccpf_xxx_vsec_ctl_t;
 
 #define BDK_PCCPF_XXX_VSEC_CTL BDK_PCCPF_XXX_VSEC_CTL_FUNC()
@@ -1852,6 +1893,7 @@ typedef union bdk_pccpf_xxx_vsec_id {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_id_s     cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_id_s     cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_id_s     cn88xxp1; */
 } bdk_pccpf_xxx_vsec_id_t;
 
 #define BDK_PCCPF_XXX_VSEC_ID BDK_PCCPF_XXX_VSEC_ID_FUNC()
@@ -1899,6 +1941,7 @@ typedef union bdk_pccpf_xxx_vsec_sctl {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sctl_s   cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sctl_s   cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sctl_s   cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sctl_t;
 
 #define BDK_PCCPF_XXX_VSEC_SCTL BDK_PCCPF_XXX_VSEC_SCTL_FUNC()
@@ -1931,6 +1974,7 @@ typedef union bdk_pccpf_xxx_vsec_sriov_bar0l {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar0l_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar0l_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sriov_bar0l_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sriov_bar0l_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L_FUNC()
@@ -1961,6 +2005,7 @@ typedef union bdk_pccpf_xxx_vsec_sriov_bar0u {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar0u_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar0u_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sriov_bar0u_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sriov_bar0u_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U_FUNC()
@@ -1993,6 +2038,7 @@ typedef union bdk_pccpf_xxx_vsec_sriov_bar2l {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar2l_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar2l_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sriov_bar2l_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sriov_bar2l_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L_FUNC()
@@ -2023,6 +2069,7 @@ typedef union bdk_pccpf_xxx_vsec_sriov_bar2u {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar2u_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar2u_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sriov_bar2u_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sriov_bar2u_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC()
@@ -2055,6 +2102,7 @@ typedef union bdk_pccpf_xxx_vsec_sriov_bar4l {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar4l_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar4l_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sriov_bar4l_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sriov_bar4l_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L_FUNC()
@@ -2085,6 +2133,7 @@ typedef union bdk_pccpf_xxx_vsec_sriov_bar4u {
 	} s;
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar4u_s cn85xx; */
 	/* struct bdk_pccpf_xxx_vsec_sriov_bar4u_s cn88xx; */
+	/* struct bdk_pccpf_xxx_vsec_sriov_bar4u_s cn88xxp1; */
 } bdk_pccpf_xxx_vsec_sriov_bar4u_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U_FUNC()

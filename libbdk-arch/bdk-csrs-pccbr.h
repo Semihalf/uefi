@@ -77,6 +77,7 @@ typedef union bdk_pccbr_xxx_ari_cap_hdr {
 	} s;
 	/* struct bdk_pccbr_xxx_ari_cap_hdr_s cn85xx; */
 	/* struct bdk_pccbr_xxx_ari_cap_hdr_s cn88xx; */
+	/* struct bdk_pccbr_xxx_ari_cap_hdr_s cn88xxp1; */
 } bdk_pccbr_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_ARI_CAP_HDR BDK_PCCBR_XXX_ARI_CAP_HDR_FUNC()
@@ -133,6 +134,7 @@ typedef union bdk_pccbr_xxx_bus {
 	} s;
 	/* struct bdk_pccbr_xxx_bus_s         cn85xx; */
 	/* struct bdk_pccbr_xxx_bus_s         cn88xx; */
+	/* struct bdk_pccbr_xxx_bus_s         cn88xxp1; */
 } bdk_pccbr_xxx_bus_t;
 
 #define BDK_PCCBR_XXX_BUS BDK_PCCBR_XXX_BUS_FUNC()
@@ -164,6 +166,7 @@ typedef union bdk_pccbr_xxx_cap_ptr {
 	} s;
 	/* struct bdk_pccbr_xxx_cap_ptr_s     cn85xx; */
 	/* struct bdk_pccbr_xxx_cap_ptr_s     cn88xx; */
+	/* struct bdk_pccbr_xxx_cap_ptr_s     cn88xxp1; */
 } bdk_pccbr_xxx_cap_ptr_t;
 
 #define BDK_PCCBR_XXX_CAP_PTR BDK_PCCBR_XXX_CAP_PTR_FUNC()
@@ -201,6 +204,7 @@ typedef union bdk_pccbr_xxx_clsize {
 	} s;
 	/* struct bdk_pccbr_xxx_clsize_s      cn85xx; */
 	/* struct bdk_pccbr_xxx_clsize_s      cn88xx; */
+	/* struct bdk_pccbr_xxx_clsize_s      cn88xxp1; */
 } bdk_pccbr_xxx_clsize_t;
 
 #define BDK_PCCBR_XXX_CLSIZE BDK_PCCBR_XXX_CLSIZE_FUNC()
@@ -240,6 +244,7 @@ typedef union bdk_pccbr_xxx_cmd {
 	} s;
 	/* struct bdk_pccbr_xxx_cmd_s         cn85xx; */
 	/* struct bdk_pccbr_xxx_cmd_s         cn88xx; */
+	/* struct bdk_pccbr_xxx_cmd_s         cn88xxp1; */
 } bdk_pccbr_xxx_cmd_t;
 
 #define BDK_PCCBR_XXX_CMD BDK_PCCBR_XXX_CMD_FUNC()
@@ -273,6 +278,7 @@ typedef union bdk_pccbr_xxx_e_cap2 {
 	} s;
 	/* struct bdk_pccbr_xxx_e_cap2_s      cn85xx; */
 	/* struct bdk_pccbr_xxx_e_cap2_s      cn88xx; */
+	/* struct bdk_pccbr_xxx_e_cap2_s      cn88xxp1; */
 } bdk_pccbr_xxx_e_cap2_t;
 
 #define BDK_PCCBR_XXX_E_CAP2 BDK_PCCBR_XXX_E_CAP2_FUNC()
@@ -310,6 +316,7 @@ typedef union bdk_pccbr_xxx_e_cap_hdr {
 	} s;
 	/* struct bdk_pccbr_xxx_e_cap_hdr_s   cn85xx; */
 	/* struct bdk_pccbr_xxx_e_cap_hdr_s   cn88xx; */
+	/* struct bdk_pccbr_xxx_e_cap_hdr_s   cn88xxp1; */
 } bdk_pccbr_xxx_e_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_E_CAP_HDR BDK_PCCBR_XXX_E_CAP_HDR_FUNC()
@@ -341,6 +348,7 @@ typedef union bdk_pccbr_xxx_id {
 	} s;
 	/* struct bdk_pccbr_xxx_id_s          cn85xx; */
 	/* struct bdk_pccbr_xxx_id_s          cn88xx; */
+	/* struct bdk_pccbr_xxx_id_s          cn88xxp1; */
 } bdk_pccbr_xxx_id_t;
 
 #define BDK_PCCBR_XXX_ID BDK_PCCBR_XXX_ID_FUNC()
@@ -376,6 +384,7 @@ typedef union bdk_pccbr_xxx_rev {
 	} s;
 	/* struct bdk_pccbr_xxx_rev_s         cn85xx; */
 	/* struct bdk_pccbr_xxx_rev_s         cn88xx; */
+	/* struct bdk_pccbr_xxx_rev_s         cn88xxp1; */
 } bdk_pccbr_xxx_rev_t;
 
 #define BDK_PCCBR_XXX_REV BDK_PCCBR_XXX_REV_FUNC()
@@ -409,6 +418,7 @@ typedef union bdk_pccbr_xxx_vsec_cap_hdr {
 	} s;
 	/* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn88xx; */
+	/* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn88xxp1; */
 } bdk_pccbr_xxx_vsec_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_VSEC_CAP_HDR BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC()
@@ -444,6 +454,7 @@ typedef union bdk_pccbr_xxx_vsec_ctl {
 	} s;
 	/* struct bdk_pccbr_xxx_vsec_ctl_s    cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_ctl_s    cn88xx; */
+	/* struct bdk_pccbr_xxx_vsec_ctl_s    cn88xxp1; */
 } bdk_pccbr_xxx_vsec_ctl_t;
 
 #define BDK_PCCBR_XXX_VSEC_CTL BDK_PCCBR_XXX_VSEC_CTL_FUNC()
@@ -477,6 +488,7 @@ typedef union bdk_pccbr_xxx_vsec_id {
 	} s;
 	/* struct bdk_pccbr_xxx_vsec_id_s     cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_id_s     cn88xx; */
+	/* struct bdk_pccbr_xxx_vsec_id_s     cn88xxp1; */
 } bdk_pccbr_xxx_vsec_id_t;
 
 #define BDK_PCCBR_XXX_VSEC_ID BDK_PCCBR_XXX_VSEC_ID_FUNC()
@@ -510,6 +522,7 @@ typedef union bdk_pccbr_xxx_vsec_sctl {
 	} s;
 	/* struct bdk_pccbr_xxx_vsec_sctl_s   cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_sctl_s   cn88xx; */
+	/* struct bdk_pccbr_xxx_vsec_sctl_s   cn88xxp1; */
 } bdk_pccbr_xxx_vsec_sctl_t;
 
 #define BDK_PCCBR_XXX_VSEC_SCTL BDK_PCCBR_XXX_VSEC_SCTL_FUNC()

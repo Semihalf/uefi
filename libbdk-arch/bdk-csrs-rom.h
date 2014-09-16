@@ -584,6 +584,7 @@ typedef union bdk_rom_memx {
 	} s;
 	/* struct bdk_rom_memx_s              cn85xx; */
 	/* struct bdk_rom_memx_s              cn88xx; */
+	/* struct bdk_rom_memx_s              cn88xxp1; */
 } bdk_rom_memx_t;
 
 static inline uint64_t BDK_ROM_MEMX(unsigned long param1) __attribute__ ((pure, always_inline));

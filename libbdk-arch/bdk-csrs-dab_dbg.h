@@ -76,6 +76,7 @@ typedef union bdk_dab_rom_tablex {
 	} s;
 	/* struct bdk_dab_rom_tablex_s        cn85xx; */
 	/* struct bdk_dab_rom_tablex_s        cn88xx; */
+	/* struct bdk_dab_rom_tablex_s        cn88xxp1; */
 } bdk_dab_rom_tablex_t;
 
 static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -151,6 +152,7 @@ typedef union bdk_dbgx_dbgauthstatus_el1 {
 	} s;
 	/* struct bdk_dbgx_dbgauthstatus_el1_s cn85xx; */
 	/* struct bdk_dbgx_dbgauthstatus_el1_s cn88xx; */
+	/* struct bdk_dbgx_dbgauthstatus_el1_s cn88xxp1; */
 } bdk_dbgx_dbgauthstatus_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -274,6 +276,7 @@ typedef union bdk_dbgx_dbgbcrx_el1 {
 	} s;
 	/* struct bdk_dbgx_dbgbcrx_el1_s      cn85xx; */
 	/* struct bdk_dbgx_dbgbcrx_el1_s      cn88xx; */
+	/* struct bdk_dbgx_dbgbcrx_el1_s      cn88xxp1; */
 } bdk_dbgx_dbgbcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -307,6 +310,7 @@ typedef union bdk_dbgx_dbgbvrx_el1_hi {
 	} s;
 	/* struct bdk_dbgx_dbgbvrx_el1_hi_s   cn85xx; */
 	/* struct bdk_dbgx_dbgbvrx_el1_hi_s   cn88xx; */
+	/* struct bdk_dbgx_dbgbvrx_el1_hi_s   cn88xxp1; */
 } bdk_dbgx_dbgbvrx_el1_hi_t;
 
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -340,6 +344,7 @@ typedef union bdk_dbgx_dbgbvrx_el1_lo {
 	} s;
 	/* struct bdk_dbgx_dbgbvrx_el1_lo_s   cn85xx; */
 	/* struct bdk_dbgx_dbgbvrx_el1_lo_s   cn88xx; */
+	/* struct bdk_dbgx_dbgbvrx_el1_lo_s   cn88xxp1; */
 } bdk_dbgx_dbgbvrx_el1_lo_t;
 
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -380,6 +385,7 @@ typedef union bdk_dbgx_dbgclaimclr_el1 {
 	} s;
 	/* struct bdk_dbgx_dbgclaimclr_el1_s  cn85xx; */
 	/* struct bdk_dbgx_dbgclaimclr_el1_s  cn88xx; */
+	/* struct bdk_dbgx_dbgclaimclr_el1_s  cn88xxp1; */
 } bdk_dbgx_dbgclaimclr_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -419,6 +425,7 @@ typedef union bdk_dbgx_dbgclaimset_el1 {
 	} s;
 	/* struct bdk_dbgx_dbgclaimset_el1_s  cn85xx; */
 	/* struct bdk_dbgx_dbgclaimset_el1_s  cn88xx; */
+	/* struct bdk_dbgx_dbgclaimset_el1_s  cn88xxp1; */
 } bdk_dbgx_dbgclaimset_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -456,6 +463,7 @@ typedef union bdk_dbgx_dbgdtrrx_el0 {
 	} s;
 	/* struct bdk_dbgx_dbgdtrrx_el0_s     cn85xx; */
 	/* struct bdk_dbgx_dbgdtrrx_el0_s     cn88xx; */
+	/* struct bdk_dbgx_dbgdtrrx_el0_s     cn88xxp1; */
 } bdk_dbgx_dbgdtrrx_el0_t;
 
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -493,6 +501,7 @@ typedef union bdk_dbgx_dbgdtrtx_el0 {
 	} s;
 	/* struct bdk_dbgx_dbgdtrtx_el0_s     cn85xx; */
 	/* struct bdk_dbgx_dbgdtrtx_el0_s     cn88xx; */
+	/* struct bdk_dbgx_dbgdtrtx_el0_s     cn88xxp1; */
 } bdk_dbgx_dbgdtrtx_el0_t;
 
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -526,6 +535,7 @@ typedef union bdk_dbgx_dbgwcrx_el1 {
 	} s;
 	/* struct bdk_dbgx_dbgwcrx_el1_s      cn85xx; */
 	/* struct bdk_dbgx_dbgwcrx_el1_s      cn88xx; */
+	/* struct bdk_dbgx_dbgwcrx_el1_s      cn88xxp1; */
 } bdk_dbgx_dbgwcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -559,6 +569,7 @@ typedef union bdk_dbgx_dbgwvrx_el1_hi {
 	} s;
 	/* struct bdk_dbgx_dbgwvrx_el1_hi_s   cn85xx; */
 	/* struct bdk_dbgx_dbgwvrx_el1_hi_s   cn88xx; */
+	/* struct bdk_dbgx_dbgwvrx_el1_hi_s   cn88xxp1; */
 } bdk_dbgx_dbgwvrx_el1_hi_t;
 
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -592,6 +603,7 @@ typedef union bdk_dbgx_dbgwvrx_el1_lo {
 	} s;
 	/* struct bdk_dbgx_dbgwvrx_el1_lo_s   cn85xx; */
 	/* struct bdk_dbgx_dbgwvrx_el1_lo_s   cn88xx; */
+	/* struct bdk_dbgx_dbgwvrx_el1_lo_s   cn88xxp1; */
 } bdk_dbgx_dbgwvrx_el1_lo_t;
 
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -625,6 +637,7 @@ typedef union bdk_dbgx_edacr {
 	} s;
 	/* struct bdk_dbgx_edacr_s            cn85xx; */
 	/* struct bdk_dbgx_edacr_s            cn88xx; */
+	/* struct bdk_dbgx_edacr_s            cn88xxp1; */
 } bdk_dbgx_edacr_t;
 
 static inline uint64_t BDK_DBGX_EDACR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -660,6 +673,7 @@ typedef union bdk_dbgx_edcidr0 {
 	} s;
 	/* struct bdk_dbgx_edcidr0_s          cn85xx; */
 	/* struct bdk_dbgx_edcidr0_s          cn88xx; */
+	/* struct bdk_dbgx_edcidr0_s          cn88xxp1; */
 } bdk_dbgx_edcidr0_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -697,6 +711,7 @@ typedef union bdk_dbgx_edcidr1 {
 	} s;
 	/* struct bdk_dbgx_edcidr1_s          cn85xx; */
 	/* struct bdk_dbgx_edcidr1_s          cn88xx; */
+	/* struct bdk_dbgx_edcidr1_s          cn88xxp1; */
 } bdk_dbgx_edcidr1_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -732,6 +747,7 @@ typedef union bdk_dbgx_edcidr2 {
 	} s;
 	/* struct bdk_dbgx_edcidr2_s          cn85xx; */
 	/* struct bdk_dbgx_edcidr2_s          cn88xx; */
+	/* struct bdk_dbgx_edcidr2_s          cn88xxp1; */
 } bdk_dbgx_edcidr2_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -767,6 +783,7 @@ typedef union bdk_dbgx_edcidr3 {
 	} s;
 	/* struct bdk_dbgx_edcidr3_s          cn85xx; */
 	/* struct bdk_dbgx_edcidr3_s          cn88xx; */
+	/* struct bdk_dbgx_edcidr3_s          cn88xxp1; */
 } bdk_dbgx_edcidr3_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -804,6 +821,7 @@ typedef union bdk_dbgx_edcidsr {
 	} s;
 	/* struct bdk_dbgx_edcidsr_s          cn85xx; */
 	/* struct bdk_dbgx_edcidsr_s          cn88xx; */
+	/* struct bdk_dbgx_edcidsr_s          cn88xxp1; */
 } bdk_dbgx_edcidsr_t;
 
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -848,6 +866,7 @@ typedef union bdk_dbgx_eddevaff0 {
 	} s;
 	/* struct bdk_dbgx_eddevaff0_s        cn85xx; */
 	/* struct bdk_dbgx_eddevaff0_s        cn88xx; */
+	/* struct bdk_dbgx_eddevaff0_s        cn88xxp1; */
 } bdk_dbgx_eddevaff0_t;
 
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -882,6 +901,7 @@ typedef union bdk_dbgx_eddevaff1 {
 	} s;
 	/* struct bdk_dbgx_eddevaff1_s        cn85xx; */
 	/* struct bdk_dbgx_eddevaff1_s        cn88xx; */
+	/* struct bdk_dbgx_eddevaff1_s        cn88xxp1; */
 } bdk_dbgx_eddevaff1_t;
 
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -933,6 +953,7 @@ typedef union bdk_dbgx_eddevarch {
 	} s;
 	/* struct bdk_dbgx_eddevarch_s        cn85xx; */
 	/* struct bdk_dbgx_eddevarch_s        cn88xx; */
+	/* struct bdk_dbgx_eddevarch_s        cn88xxp1; */
 } bdk_dbgx_eddevarch_t;
 
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -986,6 +1007,7 @@ typedef union bdk_dbgx_eddevid {
 	} s;
 	/* struct bdk_dbgx_eddevid_s          cn85xx; */
 	/* struct bdk_dbgx_eddevid_s          cn88xx; */
+	/* struct bdk_dbgx_eddevid_s          cn88xxp1; */
 } bdk_dbgx_eddevid_t;
 
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1028,6 +1050,7 @@ typedef union bdk_dbgx_eddevid1 {
 	} s;
 	/* struct bdk_dbgx_eddevid1_s         cn85xx; */
 	/* struct bdk_dbgx_eddevid1_s         cn88xx; */
+	/* struct bdk_dbgx_eddevid1_s         cn88xxp1; */
 } bdk_dbgx_eddevid1_t;
 
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1062,6 +1085,7 @@ typedef union bdk_dbgx_eddevid2 {
 	} s;
 	/* struct bdk_dbgx_eddevid2_s         cn85xx; */
 	/* struct bdk_dbgx_eddevid2_s         cn88xx; */
+	/* struct bdk_dbgx_eddevid2_s         cn88xxp1; */
 } bdk_dbgx_eddevid2_t;
 
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1099,6 +1123,7 @@ typedef union bdk_dbgx_eddevtype {
 	} s;
 	/* struct bdk_dbgx_eddevtype_s        cn85xx; */
 	/* struct bdk_dbgx_eddevtype_s        cn88xx; */
+	/* struct bdk_dbgx_eddevtype_s        cn88xxp1; */
 } bdk_dbgx_eddevtype_t;
 
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1161,6 +1186,7 @@ typedef union bdk_dbgx_eddfr {
 	} s;
 	/* struct bdk_dbgx_eddfr_s            cn85xx; */
 	/* struct bdk_dbgx_eddfr_s            cn88xx; */
+	/* struct bdk_dbgx_eddfr_s            cn88xxp1; */
 } bdk_dbgx_eddfr_t;
 
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1214,6 +1240,7 @@ typedef union bdk_dbgx_edeccr {
 	} s;
 	/* struct bdk_dbgx_edeccr_s           cn85xx; */
 	/* struct bdk_dbgx_edeccr_s           cn88xx; */
+	/* struct bdk_dbgx_edeccr_s           cn88xxp1; */
 } bdk_dbgx_edeccr_t;
 
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1261,6 +1288,7 @@ typedef union bdk_dbgx_edecr {
 	} s;
 	/* struct bdk_dbgx_edecr_s            cn85xx; */
 	/* struct bdk_dbgx_edecr_s            cn88xx; */
+	/* struct bdk_dbgx_edecr_s            cn88xxp1; */
 } bdk_dbgx_edecr_t;
 
 static inline uint64_t BDK_DBGX_EDECR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1316,6 +1344,7 @@ typedef union bdk_dbgx_edesr {
 	} s;
 	/* struct bdk_dbgx_edesr_s            cn85xx; */
 	/* struct bdk_dbgx_edesr_s            cn88xx; */
+	/* struct bdk_dbgx_edesr_s            cn88xxp1; */
 } bdk_dbgx_edesr_t;
 
 static inline uint64_t BDK_DBGX_EDESR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1358,6 +1387,7 @@ typedef union bdk_dbgx_editctrl {
 	} s;
 	/* struct bdk_dbgx_editctrl_s         cn85xx; */
 	/* struct bdk_dbgx_editctrl_s         cn88xx; */
+	/* struct bdk_dbgx_editctrl_s         cn88xxp1; */
 } bdk_dbgx_editctrl_t;
 
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1395,6 +1425,7 @@ typedef union bdk_dbgx_editr {
 	} s;
 	/* struct bdk_dbgx_editr_s            cn85xx; */
 	/* struct bdk_dbgx_editr_s            cn88xx; */
+	/* struct bdk_dbgx_editr_s            cn88xxp1; */
 } bdk_dbgx_editr_t;
 
 static inline uint64_t BDK_DBGX_EDITR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1430,6 +1461,7 @@ typedef union bdk_dbgx_edlar {
 	} s;
 	/* struct bdk_dbgx_edlar_s            cn85xx; */
 	/* struct bdk_dbgx_edlar_s            cn88xx; */
+	/* struct bdk_dbgx_edlar_s            cn88xxp1; */
 } bdk_dbgx_edlar_t;
 
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1482,6 +1514,7 @@ typedef union bdk_dbgx_edlsr {
 	} s;
 	/* struct bdk_dbgx_edlsr_s            cn85xx; */
 	/* struct bdk_dbgx_edlsr_s            cn88xx; */
+	/* struct bdk_dbgx_edlsr_s            cn88xxp1; */
 } bdk_dbgx_edlsr_t;
 
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1515,6 +1548,7 @@ typedef union bdk_dbgx_edpcsr_hi {
 	} s;
 	/* struct bdk_dbgx_edpcsr_hi_s        cn85xx; */
 	/* struct bdk_dbgx_edpcsr_hi_s        cn88xx; */
+	/* struct bdk_dbgx_edpcsr_hi_s        cn88xxp1; */
 } bdk_dbgx_edpcsr_hi_t;
 
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1548,6 +1582,7 @@ typedef union bdk_dbgx_edpcsr_lo {
 	} s;
 	/* struct bdk_dbgx_edpcsr_lo_s        cn85xx; */
 	/* struct bdk_dbgx_edpcsr_lo_s        cn88xx; */
+	/* struct bdk_dbgx_edpcsr_lo_s        cn88xxp1; */
 } bdk_dbgx_edpcsr_lo_t;
 
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1620,6 +1655,7 @@ typedef union bdk_dbgx_edpfr {
 	} s;
 	/* struct bdk_dbgx_edpfr_s            cn85xx; */
 	/* struct bdk_dbgx_edpfr_s            cn88xx; */
+	/* struct bdk_dbgx_edpfr_s            cn88xxp1; */
 } bdk_dbgx_edpfr_t;
 
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1655,6 +1691,7 @@ typedef union bdk_dbgx_edpidr0 {
 	} s;
 	/* struct bdk_dbgx_edpidr0_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr0_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr0_s          cn88xxp1; */
 } bdk_dbgx_edpidr0_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1692,6 +1729,7 @@ typedef union bdk_dbgx_edpidr1 {
 	} s;
 	/* struct bdk_dbgx_edpidr1_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr1_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr1_s          cn88xxp1; */
 } bdk_dbgx_edpidr1_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1731,6 +1769,7 @@ typedef union bdk_dbgx_edpidr2 {
 	} s;
 	/* struct bdk_dbgx_edpidr2_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr2_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr2_s          cn88xxp1; */
 } bdk_dbgx_edpidr2_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1769,6 +1808,7 @@ typedef union bdk_dbgx_edpidr3 {
 	} s;
 	/* struct bdk_dbgx_edpidr3_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr3_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr3_s          cn88xxp1; */
 } bdk_dbgx_edpidr3_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1808,6 +1848,7 @@ typedef union bdk_dbgx_edpidr4 {
 	} s;
 	/* struct bdk_dbgx_edpidr4_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr4_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr4_s          cn88xxp1; */
 } bdk_dbgx_edpidr4_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1841,6 +1882,7 @@ typedef union bdk_dbgx_edpidr5 {
 	} s;
 	/* struct bdk_dbgx_edpidr5_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr5_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr5_s          cn88xxp1; */
 } bdk_dbgx_edpidr5_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1874,6 +1916,7 @@ typedef union bdk_dbgx_edpidr6 {
 	} s;
 	/* struct bdk_dbgx_edpidr6_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr6_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr6_s          cn88xxp1; */
 } bdk_dbgx_edpidr6_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1907,6 +1950,7 @@ typedef union bdk_dbgx_edpidr7 {
 	} s;
 	/* struct bdk_dbgx_edpidr7_s          cn85xx; */
 	/* struct bdk_dbgx_edpidr7_s          cn88xx; */
+	/* struct bdk_dbgx_edpidr7_s          cn88xxp1; */
 } bdk_dbgx_edpidr7_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1988,6 +2032,7 @@ typedef union bdk_dbgx_edprcr {
 	} s;
 	/* struct bdk_dbgx_edprcr_s           cn85xx; */
 	/* struct bdk_dbgx_edprcr_s           cn88xx; */
+	/* struct bdk_dbgx_edprcr_s           cn88xxp1; */
 } bdk_dbgx_edprcr_t;
 
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2150,6 +2195,7 @@ typedef union bdk_dbgx_edprsr {
 	} s;
 	/* struct bdk_dbgx_edprsr_s           cn85xx; */
 	/* struct bdk_dbgx_edprsr_s           cn88xx; */
+	/* struct bdk_dbgx_edprsr_s           cn88xxp1; */
 } bdk_dbgx_edprsr_t;
 
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2208,6 +2254,7 @@ typedef union bdk_dbgx_edrcr {
 	} s;
 	/* struct bdk_dbgx_edrcr_s            cn85xx; */
 	/* struct bdk_dbgx_edrcr_s            cn88xx; */
+	/* struct bdk_dbgx_edrcr_s            cn88xxp1; */
 } bdk_dbgx_edrcr_t;
 
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2389,6 +2436,7 @@ typedef union bdk_dbgx_edscr {
 	} s;
 	/* struct bdk_dbgx_edscr_s            cn85xx; */
 	/* struct bdk_dbgx_edscr_s            cn88xx; */
+	/* struct bdk_dbgx_edscr_s            cn88xxp1; */
 } bdk_dbgx_edscr_t;
 
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2442,6 +2490,7 @@ typedef union bdk_dbgx_edvidsr {
 	} s;
 	/* struct bdk_dbgx_edvidsr_s          cn85xx; */
 	/* struct bdk_dbgx_edvidsr_s          cn88xx; */
+	/* struct bdk_dbgx_edvidsr_s          cn88xxp1; */
 } bdk_dbgx_edvidsr_t;
 
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2475,6 +2524,7 @@ typedef union bdk_dbgx_edwar_hi {
 	} s;
 	/* struct bdk_dbgx_edwar_hi_s         cn85xx; */
 	/* struct bdk_dbgx_edwar_hi_s         cn88xx; */
+	/* struct bdk_dbgx_edwar_hi_s         cn88xxp1; */
 } bdk_dbgx_edwar_hi_t;
 
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2508,6 +2558,7 @@ typedef union bdk_dbgx_edwar_lo {
 	} s;
 	/* struct bdk_dbgx_edwar_lo_s         cn85xx; */
 	/* struct bdk_dbgx_edwar_lo_s         cn88xx; */
+	/* struct bdk_dbgx_edwar_lo_s         cn88xxp1; */
 } bdk_dbgx_edwar_lo_t;
 
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2590,6 +2641,7 @@ typedef union bdk_dbgx_midr_el1 {
 	} s;
 	/* struct bdk_dbgx_midr_el1_s         cn85xx; */
 	/* struct bdk_dbgx_midr_el1_s         cn88xx; */
+	/* struct bdk_dbgx_midr_el1_s         cn88xxp1; */
 } bdk_dbgx_midr_el1_t;
 
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2626,6 +2678,7 @@ typedef union bdk_dbgx_oslar_el1 {
 	} s;
 	/* struct bdk_dbgx_oslar_el1_s        cn85xx; */
 	/* struct bdk_dbgx_oslar_el1_s        cn88xx; */
+	/* struct bdk_dbgx_oslar_el1_s        cn88xxp1; */
 } bdk_dbgx_oslar_el1_t;
 
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long param1) __attribute__ ((pure, always_inline));

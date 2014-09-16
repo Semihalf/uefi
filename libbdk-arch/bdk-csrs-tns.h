@@ -176,6 +176,7 @@ typedef union bdk_tns_bist_status {
 	} s;
 	/* struct bdk_tns_bist_status_s       cn85xx; */
 	/* struct bdk_tns_bist_status_s       cn88xx; */
+	/* struct bdk_tns_bist_status_s       cn88xxp1; */
 } bdk_tns_bist_status_t;
 
 #define BDK_TNS_BIST_STATUS BDK_TNS_BIST_STATUS_FUNC()
@@ -223,6 +224,7 @@ typedef union bdk_tns_bist_status1 {
 	} s;
 	/* struct bdk_tns_bist_status1_s      cn85xx; */
 	/* struct bdk_tns_bist_status1_s      cn88xx; */
+	/* struct bdk_tns_bist_status1_s      cn88xxp1; */
 } bdk_tns_bist_status1_t;
 
 #define BDK_TNS_BIST_STATUS1 BDK_TNS_BIST_STATUS1_FUNC()
@@ -262,6 +264,7 @@ typedef union bdk_tns_bist_status10 {
 	} s;
 	/* struct bdk_tns_bist_status10_s     cn85xx; */
 	/* struct bdk_tns_bist_status10_s     cn88xx; */
+	/* struct bdk_tns_bist_status10_s     cn88xxp1; */
 } bdk_tns_bist_status10_t;
 
 #define BDK_TNS_BIST_STATUS10 BDK_TNS_BIST_STATUS10_FUNC()
@@ -303,6 +306,7 @@ typedef union bdk_tns_bist_status11 {
 	} s;
 	/* struct bdk_tns_bist_status11_s     cn85xx; */
 	/* struct bdk_tns_bist_status11_s     cn88xx; */
+	/* struct bdk_tns_bist_status11_s     cn88xxp1; */
 } bdk_tns_bist_status11_t;
 
 #define BDK_TNS_BIST_STATUS11 BDK_TNS_BIST_STATUS11_FUNC()
@@ -372,6 +376,7 @@ typedef union bdk_tns_bist_status2 {
 	} s;
 	/* struct bdk_tns_bist_status2_s      cn85xx; */
 	/* struct bdk_tns_bist_status2_s      cn88xx; */
+	/* struct bdk_tns_bist_status2_s      cn88xxp1; */
 } bdk_tns_bist_status2_t;
 
 #define BDK_TNS_BIST_STATUS2 BDK_TNS_BIST_STATUS2_FUNC()
@@ -423,6 +428,7 @@ typedef union bdk_tns_bist_status3 {
 	} s;
 	/* struct bdk_tns_bist_status3_s      cn85xx; */
 	/* struct bdk_tns_bist_status3_s      cn88xx; */
+	/* struct bdk_tns_bist_status3_s      cn88xxp1; */
 } bdk_tns_bist_status3_t;
 
 #define BDK_TNS_BIST_STATUS3 BDK_TNS_BIST_STATUS3_FUNC()
@@ -464,6 +470,7 @@ typedef union bdk_tns_bist_status4 {
 	} s;
 	/* struct bdk_tns_bist_status4_s      cn85xx; */
 	/* struct bdk_tns_bist_status4_s      cn88xx; */
+	/* struct bdk_tns_bist_status4_s      cn88xxp1; */
 } bdk_tns_bist_status4_t;
 
 #define BDK_TNS_BIST_STATUS4 BDK_TNS_BIST_STATUS4_FUNC()
@@ -503,6 +510,7 @@ typedef union bdk_tns_bist_status5 {
 	} s;
 	/* struct bdk_tns_bist_status5_s      cn85xx; */
 	/* struct bdk_tns_bist_status5_s      cn88xx; */
+	/* struct bdk_tns_bist_status5_s      cn88xxp1; */
 } bdk_tns_bist_status5_t;
 
 #define BDK_TNS_BIST_STATUS5 BDK_TNS_BIST_STATUS5_FUNC()
@@ -538,6 +546,7 @@ typedef union bdk_tns_bist_status6 {
 	} s;
 	/* struct bdk_tns_bist_status6_s      cn85xx; */
 	/* struct bdk_tns_bist_status6_s      cn88xx; */
+	/* struct bdk_tns_bist_status6_s      cn88xxp1; */
 } bdk_tns_bist_status6_t;
 
 #define BDK_TNS_BIST_STATUS6 BDK_TNS_BIST_STATUS6_FUNC()
@@ -573,6 +582,7 @@ typedef union bdk_tns_bist_status7 {
 	} s;
 	/* struct bdk_tns_bist_status7_s      cn85xx; */
 	/* struct bdk_tns_bist_status7_s      cn88xx; */
+	/* struct bdk_tns_bist_status7_s      cn88xxp1; */
 } bdk_tns_bist_status7_t;
 
 #define BDK_TNS_BIST_STATUS7 BDK_TNS_BIST_STATUS7_FUNC()
@@ -611,6 +621,7 @@ typedef union bdk_tns_bist_status8 {
 	} s;
 	/* struct bdk_tns_bist_status8_s      cn85xx; */
 	/* struct bdk_tns_bist_status8_s      cn88xx; */
+	/* struct bdk_tns_bist_status8_s      cn88xxp1; */
 } bdk_tns_bist_status8_t;
 
 #define BDK_TNS_BIST_STATUS8 BDK_TNS_BIST_STATUS8_FUNC()
@@ -646,6 +657,7 @@ typedef union bdk_tns_bist_status9 {
 	} s;
 	/* struct bdk_tns_bist_status9_s      cn85xx; */
 	/* struct bdk_tns_bist_status9_s      cn88xx; */
+	/* struct bdk_tns_bist_status9_s      cn88xxp1; */
 } bdk_tns_bist_status9_t;
 
 #define BDK_TNS_BIST_STATUS9 BDK_TNS_BIST_STATUS9_FUNC()
@@ -679,6 +691,7 @@ typedef union bdk_tns_msix_pbax {
 	} s;
 	/* struct bdk_tns_msix_pbax_s         cn85xx; */
 	/* struct bdk_tns_msix_pbax_s         cn88xx; */
+	/* struct bdk_tns_msix_pbax_s         cn88xxp1; */
 } bdk_tns_msix_pbax_t;
 
 static inline uint64_t BDK_TNS_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -725,6 +738,7 @@ typedef union bdk_tns_msix_vecx_addr {
 	} s;
 	/* struct bdk_tns_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_tns_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_tns_msix_vecx_addr_s    cn88xxp1; */
 } bdk_tns_msix_vecx_addr_t;
 
 static inline uint64_t BDK_TNS_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -764,6 +778,7 @@ typedef union bdk_tns_msix_vecx_ctl {
 	} s;
 	/* struct bdk_tns_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_tns_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_tns_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_tns_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_TNS_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -798,6 +813,7 @@ typedef union bdk_tns_pm_rd_accx {
 	} s;
 	/* struct bdk_tns_pm_rd_accx_s        cn85xx; */
 	/* struct bdk_tns_pm_rd_accx_s        cn88xx; */
+	/* struct bdk_tns_pm_rd_accx_s        cn88xxp1; */
 } bdk_tns_pm_rd_accx_t;
 
 static inline uint64_t BDK_TNS_PM_RD_ACCX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -836,6 +852,7 @@ typedef union bdk_tns_pm_wr_accx {
 	} s;
 	/* struct bdk_tns_pm_wr_accx_s        cn85xx; */
 	/* struct bdk_tns_pm_wr_accx_s        cn88xx; */
+	/* struct bdk_tns_pm_wr_accx_s        cn88xxp1; */
 } bdk_tns_pm_wr_accx_t;
 
 static inline uint64_t BDK_TNS_PM_WR_ACCX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -874,6 +891,7 @@ typedef union bdk_tns_rdma_cntx {
 	} s;
 	/* struct bdk_tns_rdma_cntx_s         cn85xx; */
 	/* struct bdk_tns_rdma_cntx_s         cn88xx; */
+	/* struct bdk_tns_rdma_cntx_s         cn88xxp1; */
 } bdk_tns_rdma_cntx_t;
 
 static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -915,6 +933,7 @@ typedef union bdk_tns_rdma_config {
 	} s;
 	/* struct bdk_tns_rdma_config_s       cn85xx; */
 	/* struct bdk_tns_rdma_config_s       cn88xx; */
+	/* struct bdk_tns_rdma_config_s       cn88xxp1; */
 } bdk_tns_rdma_config_t;
 
 #define BDK_TNS_RDMA_CONFIG BDK_TNS_RDMA_CONFIG_FUNC()
@@ -959,6 +978,7 @@ typedef union bdk_tns_rdma_dbg_cdt_ctl {
 	} s;
 	/* struct bdk_tns_rdma_dbg_cdt_ctl_s  cn85xx; */
 	/* struct bdk_tns_rdma_dbg_cdt_ctl_s  cn88xx; */
+	/* struct bdk_tns_rdma_dbg_cdt_ctl_s  cn88xxp1; */
 } bdk_tns_rdma_dbg_cdt_ctl_t;
 
 #define BDK_TNS_RDMA_DBG_CDT_CTL BDK_TNS_RDMA_DBG_CDT_CTL_FUNC()
@@ -1010,6 +1030,7 @@ typedef union bdk_tns_rdma_dbg_cx_full {
 	} s;
 	/* struct bdk_tns_rdma_dbg_cx_full_s  cn85xx; */
 	/* struct bdk_tns_rdma_dbg_cx_full_s  cn88xx; */
+	/* struct bdk_tns_rdma_dbg_cx_full_s  cn88xxp1; */
 } bdk_tns_rdma_dbg_cx_full_t;
 
 #define BDK_TNS_RDMA_DBG_CX_FULL BDK_TNS_RDMA_DBG_CX_FULL_FUNC()
@@ -1072,6 +1093,7 @@ typedef union bdk_tns_rdma_dbg_cx_occ {
 	} s;
 	/* struct bdk_tns_rdma_dbg_cx_occ_s   cn85xx; */
 	/* struct bdk_tns_rdma_dbg_cx_occ_s   cn88xx; */
+	/* struct bdk_tns_rdma_dbg_cx_occ_s   cn88xxp1; */
 } bdk_tns_rdma_dbg_cx_occ_t;
 
 #define BDK_TNS_RDMA_DBG_CX_OCC BDK_TNS_RDMA_DBG_CX_OCC_FUNC()
@@ -1144,6 +1166,7 @@ typedef union bdk_tns_rdma_dbg_pkt1_status {
 	} s;
 	/* struct bdk_tns_rdma_dbg_pkt1_status_s cn85xx; */
 	/* struct bdk_tns_rdma_dbg_pkt1_status_s cn88xx; */
+	/* struct bdk_tns_rdma_dbg_pkt1_status_s cn88xxp1; */
 } bdk_tns_rdma_dbg_pkt1_status_t;
 
 #define BDK_TNS_RDMA_DBG_PKT1_STATUS BDK_TNS_RDMA_DBG_PKT1_STATUS_FUNC()
@@ -1178,6 +1201,7 @@ typedef union bdk_tns_rdma_dbg_pkt2_status {
 	} s;
 	/* struct bdk_tns_rdma_dbg_pkt2_status_s cn85xx; */
 	/* struct bdk_tns_rdma_dbg_pkt2_status_s cn88xx; */
+	/* struct bdk_tns_rdma_dbg_pkt2_status_s cn88xxp1; */
 } bdk_tns_rdma_dbg_pkt2_status_t;
 
 #define BDK_TNS_RDMA_DBG_PKT2_STATUS BDK_TNS_RDMA_DBG_PKT2_STATUS_FUNC()
@@ -1212,6 +1236,7 @@ typedef union bdk_tns_rdma_dbg_pkt_ctl {
 	} s;
 	/* struct bdk_tns_rdma_dbg_pkt_ctl_s  cn85xx; */
 	/* struct bdk_tns_rdma_dbg_pkt_ctl_s  cn88xx; */
+	/* struct bdk_tns_rdma_dbg_pkt_ctl_s  cn88xxp1; */
 } bdk_tns_rdma_dbg_pkt_ctl_t;
 
 #define BDK_TNS_RDMA_DBG_PKT_CTL BDK_TNS_RDMA_DBG_PKT_CTL_FUNC()
@@ -1248,6 +1273,7 @@ typedef union bdk_tns_rdma_dbgb_sel {
 	} s;
 	/* struct bdk_tns_rdma_dbgb_sel_s     cn85xx; */
 	/* struct bdk_tns_rdma_dbgb_sel_s     cn88xx; */
+	/* struct bdk_tns_rdma_dbgb_sel_s     cn88xxp1; */
 } bdk_tns_rdma_dbgb_sel_t;
 
 #define BDK_TNS_RDMA_DBGB_SEL BDK_TNS_RDMA_DBGB_SEL_FUNC()
@@ -1298,6 +1324,7 @@ typedef union bdk_tns_rdma_ecc_ctl {
 	} s;
 	/* struct bdk_tns_rdma_ecc_ctl_s      cn85xx; */
 	/* struct bdk_tns_rdma_ecc_ctl_s      cn88xx; */
+	/* struct bdk_tns_rdma_ecc_ctl_s      cn88xxp1; */
 } bdk_tns_rdma_ecc_ctl_t;
 
 #define BDK_TNS_RDMA_ECC_CTL BDK_TNS_RDMA_ECC_CTL_FUNC()
@@ -1336,6 +1363,7 @@ typedef union bdk_tns_rdma_ecc_err_stat {
 	} s;
 	/* struct bdk_tns_rdma_ecc_err_stat_s cn85xx; */
 	/* struct bdk_tns_rdma_ecc_err_stat_s cn88xx; */
+	/* struct bdk_tns_rdma_ecc_err_stat_s cn88xxp1; */
 } bdk_tns_rdma_ecc_err_stat_t;
 
 #define BDK_TNS_RDMA_ECC_ERR_STAT BDK_TNS_RDMA_ECC_ERR_STAT_FUNC()
@@ -1372,6 +1400,7 @@ typedef union bdk_tns_rdma_eco {
 	} s;
 	/* struct bdk_tns_rdma_eco_s          cn85xx; */
 	/* struct bdk_tns_rdma_eco_s          cn88xx; */
+	/* struct bdk_tns_rdma_eco_s          cn88xxp1; */
 } bdk_tns_rdma_eco_t;
 
 #define BDK_TNS_RDMA_ECO BDK_TNS_RDMA_ECO_FUNC()
@@ -1414,6 +1443,7 @@ typedef union bdk_tns_rdma_hdr_ts_cfg {
 	} s;
 	/* struct bdk_tns_rdma_hdr_ts_cfg_s   cn85xx; */
 	/* struct bdk_tns_rdma_hdr_ts_cfg_s   cn88xx; */
+	/* struct bdk_tns_rdma_hdr_ts_cfg_s   cn88xxp1; */
 } bdk_tns_rdma_hdr_ts_cfg_t;
 
 #define BDK_TNS_RDMA_HDR_TS_CFG BDK_TNS_RDMA_HDR_TS_CFG_FUNC()
@@ -1465,6 +1495,7 @@ typedef union bdk_tns_rdma_int_en_w1c {
 	} s;
 	/* struct bdk_tns_rdma_int_en_w1c_s   cn85xx; */
 	/* struct bdk_tns_rdma_int_en_w1c_s   cn88xx; */
+	/* struct bdk_tns_rdma_int_en_w1c_s   cn88xxp1; */
 } bdk_tns_rdma_int_en_w1c_t;
 
 #define BDK_TNS_RDMA_INT_EN_W1C BDK_TNS_RDMA_INT_EN_W1C_FUNC()
@@ -1516,6 +1547,7 @@ typedef union bdk_tns_rdma_int_en_w1s {
 	} s;
 	/* struct bdk_tns_rdma_int_en_w1s_s   cn85xx; */
 	/* struct bdk_tns_rdma_int_en_w1s_s   cn88xx; */
+	/* struct bdk_tns_rdma_int_en_w1s_s   cn88xxp1; */
 } bdk_tns_rdma_int_en_w1s_t;
 
 #define BDK_TNS_RDMA_INT_EN_W1S BDK_TNS_RDMA_INT_EN_W1S_FUNC()
@@ -1567,6 +1599,7 @@ typedef union bdk_tns_rdma_int_fen_w1c {
 	} s;
 	/* struct bdk_tns_rdma_int_fen_w1c_s  cn85xx; */
 	/* struct bdk_tns_rdma_int_fen_w1c_s  cn88xx; */
+	/* struct bdk_tns_rdma_int_fen_w1c_s  cn88xxp1; */
 } bdk_tns_rdma_int_fen_w1c_t;
 
 #define BDK_TNS_RDMA_INT_FEN_W1C BDK_TNS_RDMA_INT_FEN_W1C_FUNC()
@@ -1618,6 +1651,7 @@ typedef union bdk_tns_rdma_int_fen_w1s {
 	} s;
 	/* struct bdk_tns_rdma_int_fen_w1s_s  cn85xx; */
 	/* struct bdk_tns_rdma_int_fen_w1s_s  cn88xx; */
+	/* struct bdk_tns_rdma_int_fen_w1s_s  cn88xxp1; */
 } bdk_tns_rdma_int_fen_w1s_t;
 
 #define BDK_TNS_RDMA_INT_FEN_W1S BDK_TNS_RDMA_INT_FEN_W1S_FUNC()
@@ -1671,6 +1705,7 @@ typedef union bdk_tns_rdma_int_fstat {
 	} s;
 	/* struct bdk_tns_rdma_int_fstat_s    cn85xx; */
 	/* struct bdk_tns_rdma_int_fstat_s    cn88xx; */
+	/* struct bdk_tns_rdma_int_fstat_s    cn88xxp1; */
 } bdk_tns_rdma_int_fstat_t;
 
 #define BDK_TNS_RDMA_INT_FSTAT BDK_TNS_RDMA_INT_FSTAT_FUNC()
@@ -1722,6 +1757,7 @@ typedef union bdk_tns_rdma_int_stat_w1c {
 	} s;
 	/* struct bdk_tns_rdma_int_stat_w1c_s cn85xx; */
 	/* struct bdk_tns_rdma_int_stat_w1c_s cn88xx; */
+	/* struct bdk_tns_rdma_int_stat_w1c_s cn88xxp1; */
 } bdk_tns_rdma_int_stat_w1c_t;
 
 #define BDK_TNS_RDMA_INT_STAT_W1C BDK_TNS_RDMA_INT_STAT_W1C_FUNC()
@@ -1773,6 +1809,7 @@ typedef union bdk_tns_rdma_int_stat_w1s {
 	} s;
 	/* struct bdk_tns_rdma_int_stat_w1s_s cn85xx; */
 	/* struct bdk_tns_rdma_int_stat_w1s_s cn88xx; */
+	/* struct bdk_tns_rdma_int_stat_w1s_s cn88xxp1; */
 } bdk_tns_rdma_int_stat_w1s_t;
 
 #define BDK_TNS_RDMA_INT_STAT_W1S BDK_TNS_RDMA_INT_STAT_W1S_FUNC()
@@ -1810,6 +1847,7 @@ typedef union bdk_tns_rdma_lmacx_drop_cnt {
 	} s;
 	/* struct bdk_tns_rdma_lmacx_drop_cnt_s cn85xx; */
 	/* struct bdk_tns_rdma_lmacx_drop_cnt_s cn88xx; */
+	/* struct bdk_tns_rdma_lmacx_drop_cnt_s cn88xxp1; */
 } bdk_tns_rdma_lmacx_drop_cnt_t;
 
 static inline uint64_t BDK_TNS_RDMA_LMACX_DROP_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1847,6 +1885,7 @@ typedef union bdk_tns_rdma_nb_cnt_lb {
 	} s;
 	/* struct bdk_tns_rdma_nb_cnt_lb_s    cn85xx; */
 	/* struct bdk_tns_rdma_nb_cnt_lb_s    cn88xx; */
+	/* struct bdk_tns_rdma_nb_cnt_lb_s    cn88xxp1; */
 } bdk_tns_rdma_nb_cnt_lb_t;
 
 #define BDK_TNS_RDMA_NB_CNT_LB BDK_TNS_RDMA_NB_CNT_LB_FUNC()
@@ -1883,6 +1922,7 @@ typedef union bdk_tns_rdma_nb_config {
 	} s;
 	/* struct bdk_tns_rdma_nb_config_s    cn85xx; */
 	/* struct bdk_tns_rdma_nb_config_s    cn88xx; */
+	/* struct bdk_tns_rdma_nb_config_s    cn88xxp1; */
 } bdk_tns_rdma_nb_config_t;
 
 #define BDK_TNS_RDMA_NB_CONFIG BDK_TNS_RDMA_NB_CONFIG_FUNC()
@@ -1936,6 +1976,7 @@ typedef union bdk_tns_rdma_nb_dbg_config {
 	} s;
 	/* struct bdk_tns_rdma_nb_dbg_config_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_dbg_config_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_dbg_config_s cn88xxp1; */
 } bdk_tns_rdma_nb_dbg_config_t;
 
 #define BDK_TNS_RDMA_NB_DBG_CONFIG BDK_TNS_RDMA_NB_DBG_CONFIG_FUNC()
@@ -1979,6 +2020,7 @@ typedef union bdk_tns_rdma_nb_dbg_cx_full {
 	} s;
 	/* struct bdk_tns_rdma_nb_dbg_cx_full_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_dbg_cx_full_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_dbg_cx_full_s cn88xxp1; */
 } bdk_tns_rdma_nb_dbg_cx_full_t;
 
 #define BDK_TNS_RDMA_NB_DBG_CX_FULL BDK_TNS_RDMA_NB_DBG_CX_FULL_FUNC()
@@ -2033,6 +2075,7 @@ typedef union bdk_tns_rdma_nb_dbg_cx_occ {
 	} s;
 	/* struct bdk_tns_rdma_nb_dbg_cx_occ_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_dbg_cx_occ_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_dbg_cx_occ_s cn88xxp1; */
 } bdk_tns_rdma_nb_dbg_cx_occ_t;
 
 #define BDK_TNS_RDMA_NB_DBG_CX_OCC BDK_TNS_RDMA_NB_DBG_CX_OCC_FUNC()
@@ -2069,6 +2112,7 @@ typedef union bdk_tns_rdma_nb_dbgb_sel {
 	} s;
 	/* struct bdk_tns_rdma_nb_dbgb_sel_s  cn85xx; */
 	/* struct bdk_tns_rdma_nb_dbgb_sel_s  cn88xx; */
+	/* struct bdk_tns_rdma_nb_dbgb_sel_s  cn88xxp1; */
 } bdk_tns_rdma_nb_dbgb_sel_t;
 
 #define BDK_TNS_RDMA_NB_DBGB_SEL BDK_TNS_RDMA_NB_DBGB_SEL_FUNC()
@@ -2139,6 +2183,7 @@ typedef union bdk_tns_rdma_nb_ecc_ctl {
 	} s;
 	/* struct bdk_tns_rdma_nb_ecc_ctl_s   cn85xx; */
 	/* struct bdk_tns_rdma_nb_ecc_ctl_s   cn88xx; */
+	/* struct bdk_tns_rdma_nb_ecc_ctl_s   cn88xxp1; */
 } bdk_tns_rdma_nb_ecc_ctl_t;
 
 #define BDK_TNS_RDMA_NB_ECC_CTL BDK_TNS_RDMA_NB_ECC_CTL_FUNC()
@@ -2175,6 +2220,7 @@ typedef union bdk_tns_rdma_nb_ecc_err_stat {
 	} s;
 	/* struct bdk_tns_rdma_nb_ecc_err_stat_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_ecc_err_stat_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_ecc_err_stat_s cn88xxp1; */
 } bdk_tns_rdma_nb_ecc_err_stat_t;
 
 #define BDK_TNS_RDMA_NB_ECC_ERR_STAT BDK_TNS_RDMA_NB_ECC_ERR_STAT_FUNC()
@@ -2211,6 +2257,7 @@ typedef union bdk_tns_rdma_nb_eco {
 	} s;
 	/* struct bdk_tns_rdma_nb_eco_s       cn85xx; */
 	/* struct bdk_tns_rdma_nb_eco_s       cn88xx; */
+	/* struct bdk_tns_rdma_nb_eco_s       cn88xxp1; */
 } bdk_tns_rdma_nb_eco_t;
 
 #define BDK_TNS_RDMA_NB_ECO BDK_TNS_RDMA_NB_ECO_FUNC()
@@ -2246,6 +2293,7 @@ typedef union bdk_tns_rdma_nb_force_lmacx_bp {
 	} s;
 	/* struct bdk_tns_rdma_nb_force_lmacx_bp_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_force_lmacx_bp_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_force_lmacx_bp_s cn88xxp1; */
 } bdk_tns_rdma_nb_force_lmacx_bp_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_FORCE_LMACX_BP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2280,6 +2328,7 @@ typedef union bdk_tns_rdma_nb_force_nicx_bp {
 	} s;
 	/* struct bdk_tns_rdma_nb_force_nicx_bp_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_force_nicx_bp_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_force_nicx_bp_s cn88xxp1; */
 } bdk_tns_rdma_nb_force_nicx_bp_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2341,6 +2390,7 @@ typedef union bdk_tns_rdma_nb_hdr_sz_cfg {
 	} s;
 	/* struct bdk_tns_rdma_nb_hdr_sz_cfg_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_hdr_sz_cfg_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_hdr_sz_cfg_s cn88xxp1; */
 } bdk_tns_rdma_nb_hdr_sz_cfg_t;
 
 #define BDK_TNS_RDMA_NB_HDR_SZ_CFG BDK_TNS_RDMA_NB_HDR_SZ_CFG_FUNC()
@@ -2409,6 +2459,7 @@ typedef union bdk_tns_rdma_nb_int_en_w1c {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_en_w1c_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_en_w1c_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_en_w1c_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_en_w1c_t;
 
 #define BDK_TNS_RDMA_NB_INT_EN_W1C BDK_TNS_RDMA_NB_INT_EN_W1C_FUNC()
@@ -2477,6 +2528,7 @@ typedef union bdk_tns_rdma_nb_int_en_w1s {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_en_w1s_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_en_w1s_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_en_w1s_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_en_w1s_t;
 
 #define BDK_TNS_RDMA_NB_INT_EN_W1S BDK_TNS_RDMA_NB_INT_EN_W1S_FUNC()
@@ -2545,6 +2597,7 @@ typedef union bdk_tns_rdma_nb_int_fen_w1c {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_fen_w1c_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_fen_w1c_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_fen_w1c_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_fen_w1c_t;
 
 #define BDK_TNS_RDMA_NB_INT_FEN_W1C BDK_TNS_RDMA_NB_INT_FEN_W1C_FUNC()
@@ -2613,6 +2666,7 @@ typedef union bdk_tns_rdma_nb_int_fen_w1s {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_fen_w1s_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_fen_w1s_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_fen_w1s_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_fen_w1s_t;
 
 #define BDK_TNS_RDMA_NB_INT_FEN_W1S BDK_TNS_RDMA_NB_INT_FEN_W1S_FUNC()
@@ -2681,6 +2735,7 @@ typedef union bdk_tns_rdma_nb_int_fstat {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_fstat_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_fstat_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_fstat_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_fstat_t;
 
 #define BDK_TNS_RDMA_NB_INT_FSTAT BDK_TNS_RDMA_NB_INT_FSTAT_FUNC()
@@ -2749,6 +2804,7 @@ typedef union bdk_tns_rdma_nb_int_stat_w1c {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_stat_w1c_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_stat_w1c_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_stat_w1c_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_stat_w1c_t;
 
 #define BDK_TNS_RDMA_NB_INT_STAT_W1C BDK_TNS_RDMA_NB_INT_STAT_W1C_FUNC()
@@ -2817,6 +2873,7 @@ typedef union bdk_tns_rdma_nb_int_stat_w1s {
 	} s;
 	/* struct bdk_tns_rdma_nb_int_stat_w1s_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_int_stat_w1s_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_int_stat_w1s_s cn88xxp1; */
 } bdk_tns_rdma_nb_int_stat_w1s_t;
 
 #define BDK_TNS_RDMA_NB_INT_STAT_W1S BDK_TNS_RDMA_NB_INT_STAT_W1S_FUNC()
@@ -2855,6 +2912,7 @@ typedef union bdk_tns_rdma_nb_lmacx_rpkt_sz {
 	} s;
 	/* struct bdk_tns_rdma_nb_lmacx_rpkt_sz_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_lmacx_rpkt_sz_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_lmacx_rpkt_sz_s cn88xxp1; */
 } bdk_tns_rdma_nb_lmacx_rpkt_sz_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2895,6 +2953,7 @@ typedef union bdk_tns_rdma_nb_lmac_plutx {
 	} s;
 	/* struct bdk_tns_rdma_nb_lmac_plutx_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_lmac_plutx_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_lmac_plutx_s cn88xxp1; */
 } bdk_tns_rdma_nb_lmac_plutx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_LMAC_PLUTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2935,6 +2994,7 @@ typedef union bdk_tns_rdma_nb_loopback_plut {
 	} s;
 	/* struct bdk_tns_rdma_nb_loopback_plut_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_loopback_plut_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_loopback_plut_s cn88xxp1; */
 } bdk_tns_rdma_nb_loopback_plut_t;
 
 #define BDK_TNS_RDMA_NB_LOOPBACK_PLUT BDK_TNS_RDMA_NB_LOOPBACK_PLUT_FUNC()
@@ -2975,6 +3035,7 @@ typedef union bdk_tns_rdma_nb_lp_plutx {
 	} s;
 	/* struct bdk_tns_rdma_nb_lp_plutx_s  cn85xx; */
 	/* struct bdk_tns_rdma_nb_lp_plutx_s  cn88xx; */
+	/* struct bdk_tns_rdma_nb_lp_plutx_s  cn88xxp1; */
 } bdk_tns_rdma_nb_lp_plutx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_LP_PLUTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3005,6 +3066,7 @@ typedef union bdk_tns_rdma_nb_nic_c_cdt_pndx {
 	} s;
 	/* struct bdk_tns_rdma_nb_nic_c_cdt_pndx_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_nic_c_cdt_pndx_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_nic_c_cdt_pndx_s cn88xxp1; */
 } bdk_tns_rdma_nb_nic_c_cdt_pndx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3045,6 +3107,7 @@ typedef union bdk_tns_rdma_nb_nic_plutx {
 	} s;
 	/* struct bdk_tns_rdma_nb_nic_plutx_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_nic_plutx_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_nic_plutx_s cn88xxp1; */
 } bdk_tns_rdma_nb_nic_plutx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_NIC_PLUTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3081,6 +3144,7 @@ typedef union bdk_tns_rdma_nb_nicix_rpkt_sz {
 	} s;
 	/* struct bdk_tns_rdma_nb_nicix_rpkt_sz_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_nicix_rpkt_sz_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_nicix_rpkt_sz_s cn88xxp1; */
 } bdk_tns_rdma_nb_nicix_rpkt_sz_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3141,6 +3205,7 @@ typedef union bdk_tns_rdma_nb_path_enable {
 	} s;
 	/* struct bdk_tns_rdma_nb_path_enable_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_path_enable_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_path_enable_s cn88xxp1; */
 } bdk_tns_rdma_nb_path_enable_t;
 
 #define BDK_TNS_RDMA_NB_PATH_ENABLE BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC()
@@ -3177,6 +3242,7 @@ typedef union bdk_tns_rdma_nb_rpkt_datax {
 	} s;
 	/* struct bdk_tns_rdma_nb_rpkt_datax_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_rpkt_datax_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_rpkt_datax_s cn88xxp1; */
 } bdk_tns_rdma_nb_rpkt_datax_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_RPKT_DATAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3217,6 +3283,7 @@ typedef union bdk_tns_rdma_nb_rpkt_info {
 	} s;
 	/* struct bdk_tns_rdma_nb_rpkt_info_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_rpkt_info_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_rpkt_info_s cn88xxp1; */
 } bdk_tns_rdma_nb_rpkt_info_t;
 
 #define BDK_TNS_RDMA_NB_RPKT_INFO BDK_TNS_RDMA_NB_RPKT_INFO_FUNC()
@@ -3253,6 +3320,7 @@ typedef union bdk_tns_rdma_nb_runt_cntx {
 	} s;
 	/* struct bdk_tns_rdma_nb_runt_cntx_s cn85xx; */
 	/* struct bdk_tns_rdma_nb_runt_cntx_s cn88xx; */
+	/* struct bdk_tns_rdma_nb_runt_cntx_s cn88xxp1; */
 } bdk_tns_rdma_nb_runt_cntx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_RUNT_CNTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3303,6 +3371,7 @@ typedef union bdk_tns_rdma_nic_cdt_rtn {
 	} s;
 	/* struct bdk_tns_rdma_nic_cdt_rtn_s  cn85xx; */
 	/* struct bdk_tns_rdma_nic_cdt_rtn_s  cn88xx; */
+	/* struct bdk_tns_rdma_nic_cdt_rtn_s  cn88xxp1; */
 } bdk_tns_rdma_nic_cdt_rtn_t;
 
 #define BDK_TNS_RDMA_NIC_CDT_RTN BDK_TNS_RDMA_NIC_CDT_RTN_FUNC()
@@ -3335,6 +3404,7 @@ typedef union bdk_tns_sde_parser_cfg_sde_spare_w0 {
 	} s;
 	/* struct bdk_tns_sde_parser_cfg_sde_spare_w0_s cn85xx; */
 	/* struct bdk_tns_sde_parser_cfg_sde_spare_w0_s cn88xx; */
+	/* struct bdk_tns_sde_parser_cfg_sde_spare_w0_s cn88xxp1; */
 } bdk_tns_sde_parser_cfg_sde_spare_w0_t;
 
 #define BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0_FUNC()
@@ -3367,6 +3437,7 @@ typedef union bdk_tns_sde_parser_cfg_sde_spare_w1 {
 	} s;
 	/* struct bdk_tns_sde_parser_cfg_sde_spare_w1_s cn85xx; */
 	/* struct bdk_tns_sde_parser_cfg_sde_spare_w1_s cn88xx; */
+	/* struct bdk_tns_sde_parser_cfg_sde_spare_w1_s cn88xxp1; */
 } bdk_tns_sde_parser_cfg_sde_spare_w1_t;
 
 #define BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1_FUNC()
@@ -3399,6 +3470,7 @@ typedef union bdk_tns_se_tcam_table_spare_w0 {
 	} s;
 	/* struct bdk_tns_se_tcam_table_spare_w0_s cn85xx; */
 	/* struct bdk_tns_se_tcam_table_spare_w0_s cn88xx; */
+	/* struct bdk_tns_se_tcam_table_spare_w0_s cn88xxp1; */
 } bdk_tns_se_tcam_table_spare_w0_t;
 
 #define BDK_TNS_SE_TCAM_TABLE_SPARE_W0 BDK_TNS_SE_TCAM_TABLE_SPARE_W0_FUNC()
@@ -3431,6 +3503,7 @@ typedef union bdk_tns_se_tcam_table_spare_w1 {
 	} s;
 	/* struct bdk_tns_se_tcam_table_spare_w1_s cn85xx; */
 	/* struct bdk_tns_se_tcam_table_spare_w1_s cn88xx; */
+	/* struct bdk_tns_se_tcam_table_spare_w1_s cn88xxp1; */
 } bdk_tns_se_tcam_table_spare_w1_t;
 
 #define BDK_TNS_SE_TCAM_TABLE_SPARE_W1 BDK_TNS_SE_TCAM_TABLE_SPARE_W1_FUNC()
@@ -3464,6 +3537,7 @@ typedef union bdk_tns_tdma_cap {
 	} s;
 	/* struct bdk_tns_tdma_cap_s          cn85xx; */
 	/* struct bdk_tns_tdma_cap_s          cn88xx; */
+	/* struct bdk_tns_tdma_cap_s          cn88xxp1; */
 } bdk_tns_tdma_cap_t;
 
 #define BDK_TNS_TDMA_CAP BDK_TNS_TDMA_CAP_FUNC()
@@ -3501,6 +3575,7 @@ typedef union bdk_tns_tdma_cntx {
 	} s;
 	/* struct bdk_tns_tdma_cntx_s         cn85xx; */
 	/* struct bdk_tns_tdma_cntx_s         cn88xx; */
+	/* struct bdk_tns_tdma_cntx_s         cn88xxp1; */
 } bdk_tns_tdma_cntx_t;
 
 static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3564,6 +3639,7 @@ typedef union bdk_tns_tdma_config {
 	} s;
 	/* struct bdk_tns_tdma_config_s       cn85xx; */
 	/* struct bdk_tns_tdma_config_s       cn88xx; */
+	/* struct bdk_tns_tdma_config_s       cn88xxp1; */
 } bdk_tns_tdma_config_t;
 
 #define BDK_TNS_TDMA_CONFIG BDK_TNS_TDMA_CONFIG_FUNC()
@@ -3604,6 +3680,7 @@ typedef union bdk_tns_tdma_dbg_cdt_ctl {
 	} s;
 	/* struct bdk_tns_tdma_dbg_cdt_ctl_s  cn85xx; */
 	/* struct bdk_tns_tdma_dbg_cdt_ctl_s  cn88xx; */
+	/* struct bdk_tns_tdma_dbg_cdt_ctl_s  cn88xxp1; */
 } bdk_tns_tdma_dbg_cdt_ctl_t;
 
 #define BDK_TNS_TDMA_DBG_CDT_CTL BDK_TNS_TDMA_DBG_CDT_CTL_FUNC()
@@ -3647,6 +3724,7 @@ typedef union bdk_tns_tdma_dbg_lmacx_config {
 	} s;
 	/* struct bdk_tns_tdma_dbg_lmacx_config_s cn85xx; */
 	/* struct bdk_tns_tdma_dbg_lmacx_config_s cn88xx; */
+	/* struct bdk_tns_tdma_dbg_lmacx_config_s cn88xxp1; */
 } bdk_tns_tdma_dbg_lmacx_config_t;
 
 static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3693,6 +3771,7 @@ typedef union bdk_tns_tdma_dbg_lmacx_status1 {
 	} s;
 	/* struct bdk_tns_tdma_dbg_lmacx_status1_s cn85xx; */
 	/* struct bdk_tns_tdma_dbg_lmacx_status1_s cn88xx; */
+	/* struct bdk_tns_tdma_dbg_lmacx_status1_s cn88xxp1; */
 } bdk_tns_tdma_dbg_lmacx_status1_t;
 
 static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_STATUS1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3730,6 +3809,7 @@ typedef union bdk_tns_tdma_dbg_nicix_config {
 	} s;
 	/* struct bdk_tns_tdma_dbg_nicix_config_s cn85xx; */
 	/* struct bdk_tns_tdma_dbg_nicix_config_s cn88xx; */
+	/* struct bdk_tns_tdma_dbg_nicix_config_s cn88xxp1; */
 } bdk_tns_tdma_dbg_nicix_config_t;
 
 static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3799,6 +3879,7 @@ typedef union bdk_tns_tdma_ecc_ctl {
 	} s;
 	/* struct bdk_tns_tdma_ecc_ctl_s      cn85xx; */
 	/* struct bdk_tns_tdma_ecc_ctl_s      cn88xx; */
+	/* struct bdk_tns_tdma_ecc_ctl_s      cn88xxp1; */
 } bdk_tns_tdma_ecc_ctl_t;
 
 #define BDK_TNS_TDMA_ECC_CTL BDK_TNS_TDMA_ECC_CTL_FUNC()
@@ -3837,6 +3918,7 @@ typedef union bdk_tns_tdma_ecc_err_stat {
 	} s;
 	/* struct bdk_tns_tdma_ecc_err_stat_s cn85xx; */
 	/* struct bdk_tns_tdma_ecc_err_stat_s cn88xx; */
+	/* struct bdk_tns_tdma_ecc_err_stat_s cn88xxp1; */
 } bdk_tns_tdma_ecc_err_stat_t;
 
 #define BDK_TNS_TDMA_ECC_ERR_STAT BDK_TNS_TDMA_ECC_ERR_STAT_FUNC()
@@ -3873,6 +3955,7 @@ typedef union bdk_tns_tdma_eco {
 	} s;
 	/* struct bdk_tns_tdma_eco_s          cn85xx; */
 	/* struct bdk_tns_tdma_eco_s          cn88xx; */
+	/* struct bdk_tns_tdma_eco_s          cn88xxp1; */
 } bdk_tns_tdma_eco_t;
 
 #define BDK_TNS_TDMA_ECO BDK_TNS_TDMA_ECO_FUNC()
@@ -3919,6 +4002,7 @@ typedef union bdk_tns_tdma_int_en_w1c {
 	} s;
 	/* struct bdk_tns_tdma_int_en_w1c_s   cn85xx; */
 	/* struct bdk_tns_tdma_int_en_w1c_s   cn88xx; */
+	/* struct bdk_tns_tdma_int_en_w1c_s   cn88xxp1; */
 } bdk_tns_tdma_int_en_w1c_t;
 
 #define BDK_TNS_TDMA_INT_EN_W1C BDK_TNS_TDMA_INT_EN_W1C_FUNC()
@@ -3965,6 +4049,7 @@ typedef union bdk_tns_tdma_int_en_w1s {
 	} s;
 	/* struct bdk_tns_tdma_int_en_w1s_s   cn85xx; */
 	/* struct bdk_tns_tdma_int_en_w1s_s   cn88xx; */
+	/* struct bdk_tns_tdma_int_en_w1s_s   cn88xxp1; */
 } bdk_tns_tdma_int_en_w1s_t;
 
 #define BDK_TNS_TDMA_INT_EN_W1S BDK_TNS_TDMA_INT_EN_W1S_FUNC()
@@ -4011,6 +4096,7 @@ typedef union bdk_tns_tdma_int_fen_w1c {
 	} s;
 	/* struct bdk_tns_tdma_int_fen_w1c_s  cn85xx; */
 	/* struct bdk_tns_tdma_int_fen_w1c_s  cn88xx; */
+	/* struct bdk_tns_tdma_int_fen_w1c_s  cn88xxp1; */
 } bdk_tns_tdma_int_fen_w1c_t;
 
 #define BDK_TNS_TDMA_INT_FEN_W1C BDK_TNS_TDMA_INT_FEN_W1C_FUNC()
@@ -4057,6 +4143,7 @@ typedef union bdk_tns_tdma_int_fen_w1s {
 	} s;
 	/* struct bdk_tns_tdma_int_fen_w1s_s  cn85xx; */
 	/* struct bdk_tns_tdma_int_fen_w1s_s  cn88xx; */
+	/* struct bdk_tns_tdma_int_fen_w1s_s  cn88xxp1; */
 } bdk_tns_tdma_int_fen_w1s_t;
 
 #define BDK_TNS_TDMA_INT_FEN_W1S BDK_TNS_TDMA_INT_FEN_W1S_FUNC()
@@ -4103,6 +4190,7 @@ typedef union bdk_tns_tdma_int_fstat {
 	} s;
 	/* struct bdk_tns_tdma_int_fstat_s    cn85xx; */
 	/* struct bdk_tns_tdma_int_fstat_s    cn88xx; */
+	/* struct bdk_tns_tdma_int_fstat_s    cn88xxp1; */
 } bdk_tns_tdma_int_fstat_t;
 
 #define BDK_TNS_TDMA_INT_FSTAT BDK_TNS_TDMA_INT_FSTAT_FUNC()
@@ -4149,6 +4237,7 @@ typedef union bdk_tns_tdma_int_stat_w1c {
 	} s;
 	/* struct bdk_tns_tdma_int_stat_w1c_s cn85xx; */
 	/* struct bdk_tns_tdma_int_stat_w1c_s cn88xx; */
+	/* struct bdk_tns_tdma_int_stat_w1c_s cn88xxp1; */
 } bdk_tns_tdma_int_stat_w1c_t;
 
 #define BDK_TNS_TDMA_INT_STAT_W1C BDK_TNS_TDMA_INT_STAT_W1C_FUNC()
@@ -4195,6 +4284,7 @@ typedef union bdk_tns_tdma_int_stat_w1s {
 	} s;
 	/* struct bdk_tns_tdma_int_stat_w1s_s cn85xx; */
 	/* struct bdk_tns_tdma_int_stat_w1s_s cn88xx; */
+	/* struct bdk_tns_tdma_int_stat_w1s_s cn88xxp1; */
 } bdk_tns_tdma_int_stat_w1s_t;
 
 #define BDK_TNS_TDMA_INT_STAT_W1S BDK_TNS_TDMA_INT_STAT_W1S_FUNC()
@@ -4233,6 +4323,7 @@ typedef union bdk_tns_tdma_lmacx_config {
 	} s;
 	/* struct bdk_tns_tdma_lmacx_config_s cn85xx; */
 	/* struct bdk_tns_tdma_lmacx_config_s cn88xx; */
+	/* struct bdk_tns_tdma_lmacx_config_s cn88xxp1; */
 } bdk_tns_tdma_lmacx_config_t;
 
 static inline uint64_t BDK_TNS_TDMA_LMACX_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4320,6 +4411,7 @@ typedef union bdk_tns_tdma_nb_config1 {
 	} s;
 	/* struct bdk_tns_tdma_nb_config1_s   cn85xx; */
 	/* struct bdk_tns_tdma_nb_config1_s   cn88xx; */
+	/* struct bdk_tns_tdma_nb_config1_s   cn88xxp1; */
 } bdk_tns_tdma_nb_config1_t;
 
 #define BDK_TNS_TDMA_NB_CONFIG1 BDK_TNS_TDMA_NB_CONFIG1_FUNC()
@@ -4362,6 +4454,7 @@ typedef union bdk_tns_tdma_nb_config2 {
 	} s;
 	/* struct bdk_tns_tdma_nb_config2_s   cn85xx; */
 	/* struct bdk_tns_tdma_nb_config2_s   cn88xx; */
+	/* struct bdk_tns_tdma_nb_config2_s   cn88xxp1; */
 } bdk_tns_tdma_nb_config2_t;
 
 #define BDK_TNS_TDMA_NB_CONFIG2 BDK_TNS_TDMA_NB_CONFIG2_FUNC()
@@ -4446,6 +4539,7 @@ typedef union bdk_tns_tdma_nb_dbg_config1 {
 	} s;
 	/* struct bdk_tns_tdma_nb_dbg_config1_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_dbg_config1_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_dbg_config1_s cn88xxp1; */
 } bdk_tns_tdma_nb_dbg_config1_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CONFIG1 BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC()
@@ -4484,6 +4578,7 @@ typedef union bdk_tns_tdma_nb_dbg_config2 {
 	} s;
 	/* struct bdk_tns_tdma_nb_dbg_config2_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_dbg_config2_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_dbg_config2_s cn88xxp1; */
 } bdk_tns_tdma_nb_dbg_config2_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CONFIG2 BDK_TNS_TDMA_NB_DBG_CONFIG2_FUNC()
@@ -4523,6 +4618,7 @@ typedef union bdk_tns_tdma_nb_dbg_cx_full {
 	} s;
 	/* struct bdk_tns_tdma_nb_dbg_cx_full_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_dbg_cx_full_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_dbg_cx_full_s cn88xxp1; */
 } bdk_tns_tdma_nb_dbg_cx_full_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CX_FULL BDK_TNS_TDMA_NB_DBG_CX_FULL_FUNC()
@@ -4561,6 +4657,7 @@ typedef union bdk_tns_tdma_nb_dbg_cx_occ {
 	} s;
 	/* struct bdk_tns_tdma_nb_dbg_cx_occ_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_dbg_cx_occ_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_dbg_cx_occ_s cn88xxp1; */
 } bdk_tns_tdma_nb_dbg_cx_occ_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CX_OCC BDK_TNS_TDMA_NB_DBG_CX_OCC_FUNC()
@@ -4600,6 +4697,7 @@ typedef union bdk_tns_tdma_nb_dbg_lmacx_config1 {
 	} s;
 	/* struct bdk_tns_tdma_nb_dbg_lmacx_config1_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_dbg_lmacx_config1_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_dbg_lmacx_config1_s cn88xxp1; */
 } bdk_tns_tdma_nb_dbg_lmacx_config1_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4671,6 +4769,7 @@ typedef union bdk_tns_tdma_nb_ecc_ctl {
 	} s;
 	/* struct bdk_tns_tdma_nb_ecc_ctl_s   cn85xx; */
 	/* struct bdk_tns_tdma_nb_ecc_ctl_s   cn88xx; */
+	/* struct bdk_tns_tdma_nb_ecc_ctl_s   cn88xxp1; */
 } bdk_tns_tdma_nb_ecc_ctl_t;
 
 #define BDK_TNS_TDMA_NB_ECC_CTL BDK_TNS_TDMA_NB_ECC_CTL_FUNC()
@@ -4707,6 +4806,7 @@ typedef union bdk_tns_tdma_nb_ecc_err_stat {
 	} s;
 	/* struct bdk_tns_tdma_nb_ecc_err_stat_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_ecc_err_stat_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_ecc_err_stat_s cn88xxp1; */
 } bdk_tns_tdma_nb_ecc_err_stat_t;
 
 #define BDK_TNS_TDMA_NB_ECC_ERR_STAT BDK_TNS_TDMA_NB_ECC_ERR_STAT_FUNC()
@@ -4743,6 +4843,7 @@ typedef union bdk_tns_tdma_nb_eco {
 	} s;
 	/* struct bdk_tns_tdma_nb_eco_s       cn85xx; */
 	/* struct bdk_tns_tdma_nb_eco_s       cn88xx; */
+	/* struct bdk_tns_tdma_nb_eco_s       cn88xxp1; */
 } bdk_tns_tdma_nb_eco_t;
 
 #define BDK_TNS_TDMA_NB_ECO BDK_TNS_TDMA_NB_ECO_FUNC()
@@ -4781,6 +4882,7 @@ typedef union bdk_tns_tdma_nb_fpm_accx {
 	} s;
 	/* struct bdk_tns_tdma_nb_fpm_accx_s  cn85xx; */
 	/* struct bdk_tns_tdma_nb_fpm_accx_s  cn88xx; */
+	/* struct bdk_tns_tdma_nb_fpm_accx_s  cn88xxp1; */
 } bdk_tns_tdma_nb_fpm_accx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_FPM_ACCX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4829,6 +4931,7 @@ typedef union bdk_tns_tdma_nb_fpm_mod {
 	} s;
 	/* struct bdk_tns_tdma_nb_fpm_mod_s   cn85xx; */
 	/* struct bdk_tns_tdma_nb_fpm_mod_s   cn88xx; */
+	/* struct bdk_tns_tdma_nb_fpm_mod_s   cn88xxp1; */
 } bdk_tns_tdma_nb_fpm_mod_t;
 
 #define BDK_TNS_TDMA_NB_FPM_MOD BDK_TNS_TDMA_NB_FPM_MOD_FUNC()
@@ -4869,6 +4972,7 @@ typedef union bdk_tns_tdma_nb_fpm_status {
 	} s;
 	/* struct bdk_tns_tdma_nb_fpm_status_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_fpm_status_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_fpm_status_s cn88xxp1; */
 } bdk_tns_tdma_nb_fpm_status_t;
 
 #define BDK_TNS_TDMA_NB_FPM_STATUS BDK_TNS_TDMA_NB_FPM_STATUS_FUNC()
@@ -4945,6 +5049,7 @@ typedef union bdk_tns_tdma_nb_int_en_w1c {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_en_w1c_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_en_w1c_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_en_w1c_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_en_w1c_t;
 
 #define BDK_TNS_TDMA_NB_INT_EN_W1C BDK_TNS_TDMA_NB_INT_EN_W1C_FUNC()
@@ -5021,6 +5126,7 @@ typedef union bdk_tns_tdma_nb_int_en_w1s {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_en_w1s_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_en_w1s_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_en_w1s_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_en_w1s_t;
 
 #define BDK_TNS_TDMA_NB_INT_EN_W1S BDK_TNS_TDMA_NB_INT_EN_W1S_FUNC()
@@ -5097,6 +5203,7 @@ typedef union bdk_tns_tdma_nb_int_fen_w1c {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_fen_w1c_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_fen_w1c_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_fen_w1c_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_fen_w1c_t;
 
 #define BDK_TNS_TDMA_NB_INT_FEN_W1C BDK_TNS_TDMA_NB_INT_FEN_W1C_FUNC()
@@ -5173,6 +5280,7 @@ typedef union bdk_tns_tdma_nb_int_fen_w1s {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_fen_w1s_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_fen_w1s_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_fen_w1s_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_fen_w1s_t;
 
 #define BDK_TNS_TDMA_NB_INT_FEN_W1S BDK_TNS_TDMA_NB_INT_FEN_W1S_FUNC()
@@ -5249,6 +5357,7 @@ typedef union bdk_tns_tdma_nb_int_fstat {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_fstat_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_fstat_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_fstat_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_fstat_t;
 
 #define BDK_TNS_TDMA_NB_INT_FSTAT BDK_TNS_TDMA_NB_INT_FSTAT_FUNC()
@@ -5325,6 +5434,7 @@ typedef union bdk_tns_tdma_nb_int_stat_w1c {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_stat_w1c_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_stat_w1c_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_stat_w1c_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_stat_w1c_t;
 
 #define BDK_TNS_TDMA_NB_INT_STAT_W1C BDK_TNS_TDMA_NB_INT_STAT_W1C_FUNC()
@@ -5401,6 +5511,7 @@ typedef union bdk_tns_tdma_nb_int_stat_w1s {
 	} s;
 	/* struct bdk_tns_tdma_nb_int_stat_w1s_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_int_stat_w1s_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_int_stat_w1s_s cn88xxp1; */
 } bdk_tns_tdma_nb_int_stat_w1s_t;
 
 #define BDK_TNS_TDMA_NB_INT_STAT_W1S BDK_TNS_TDMA_NB_INT_STAT_W1S_FUNC()
@@ -5441,6 +5552,7 @@ typedef union bdk_tns_tdma_nb_ll_accx {
 	} s;
 	/* struct bdk_tns_tdma_nb_ll_accx_s   cn85xx; */
 	/* struct bdk_tns_tdma_nb_ll_accx_s   cn88xx; */
+	/* struct bdk_tns_tdma_nb_ll_accx_s   cn88xxp1; */
 } bdk_tns_tdma_nb_ll_accx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LL_ACCX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5486,6 +5598,7 @@ typedef union bdk_tns_tdma_nb_lmacx_c_cdt_cfg {
 	} s;
 	/* struct bdk_tns_tdma_nb_lmacx_c_cdt_cfg_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_lmacx_c_cdt_cfg_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_lmacx_c_cdt_cfg_s cn88xxp1; */
 } bdk_tns_tdma_nb_lmacx_c_cdt_cfg_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5518,6 +5631,7 @@ typedef union bdk_tns_tdma_nb_lmacx_c_cdt_stat {
 	} s;
 	/* struct bdk_tns_tdma_nb_lmacx_c_cdt_stat_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_lmacx_c_cdt_stat_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_lmacx_c_cdt_stat_s cn88xxp1; */
 } bdk_tns_tdma_nb_lmacx_c_cdt_stat_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5550,6 +5664,7 @@ typedef union bdk_tns_tdma_nb_lmacx_ebp_stat {
 	} s;
 	/* struct bdk_tns_tdma_nb_lmacx_ebp_stat_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_lmacx_ebp_stat_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_lmacx_ebp_stat_s cn88xxp1; */
 } bdk_tns_tdma_nb_lmacx_ebp_stat_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_EBP_STAT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5592,6 +5707,7 @@ typedef union bdk_tns_tdma_nb_page_rd_cntx {
 	} s;
 	/* struct bdk_tns_tdma_nb_page_rd_cntx_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_page_rd_cntx_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_page_rd_cntx_s cn88xxp1; */
 } bdk_tns_tdma_nb_page_rd_cntx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PAGE_RD_CNTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5628,6 +5744,7 @@ typedef union bdk_tns_tdma_nb_page_src_cntx {
 	} s;
 	/* struct bdk_tns_tdma_nb_page_src_cntx_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_page_src_cntx_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_page_src_cntx_s cn88xxp1; */
 } bdk_tns_tdma_nb_page_src_cntx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5662,6 +5779,7 @@ typedef union bdk_tns_tdma_nb_pages_used {
 	} s;
 	/* struct bdk_tns_tdma_nb_pages_used_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_pages_used_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_pages_used_s cn88xxp1; */
 } bdk_tns_tdma_nb_pages_used_t;
 
 #define BDK_TNS_TDMA_NB_PAGES_USED BDK_TNS_TDMA_NB_PAGES_USED_FUNC()
@@ -5706,6 +5824,7 @@ typedef union bdk_tns_tdma_nb_prc_accx {
 	} s;
 	/* struct bdk_tns_tdma_nb_prc_accx_s  cn85xx; */
 	/* struct bdk_tns_tdma_nb_prc_accx_s  cn88xx; */
+	/* struct bdk_tns_tdma_nb_prc_accx_s  cn88xxp1; */
 } bdk_tns_tdma_nb_prc_accx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PRC_ACCX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5738,6 +5857,7 @@ typedef union bdk_tns_tdma_nb_prc_err {
 	} s;
 	/* struct bdk_tns_tdma_nb_prc_err_s   cn85xx; */
 	/* struct bdk_tns_tdma_nb_prc_err_s   cn88xx; */
+	/* struct bdk_tns_tdma_nb_prc_err_s   cn88xxp1; */
 } bdk_tns_tdma_nb_prc_err_t;
 
 #define BDK_TNS_TDMA_NB_PRC_ERR BDK_TNS_TDMA_NB_PRC_ERR_FUNC()
@@ -5776,6 +5896,7 @@ typedef union bdk_tns_tdma_nb_status {
 	} s;
 	/* struct bdk_tns_tdma_nb_status_s    cn85xx; */
 	/* struct bdk_tns_tdma_nb_status_s    cn88xx; */
+	/* struct bdk_tns_tdma_nb_status_s    cn88xxp1; */
 } bdk_tns_tdma_nb_status_t;
 
 #define BDK_TNS_TDMA_NB_STATUS BDK_TNS_TDMA_NB_STATUS_FUNC()
@@ -5808,6 +5929,7 @@ typedef union bdk_tns_tdma_nb_strip_lmacx_xph {
 	} s;
 	/* struct bdk_tns_tdma_nb_strip_lmacx_xph_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_strip_lmacx_xph_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_strip_lmacx_xph_s cn88xxp1; */
 } bdk_tns_tdma_nb_strip_lmacx_xph_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5839,6 +5961,7 @@ typedef union bdk_tns_tdma_nb_strip_nic_xphx {
 	} s;
 	/* struct bdk_tns_tdma_nb_strip_nic_xphx_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_strip_nic_xphx_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_strip_nic_xphx_s cn88xxp1; */
 } bdk_tns_tdma_nb_strip_nic_xphx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5876,6 +5999,7 @@ typedef union bdk_tns_tdma_nb_truncatex_len {
 	} s;
 	/* struct bdk_tns_tdma_nb_truncatex_len_s cn85xx; */
 	/* struct bdk_tns_tdma_nb_truncatex_len_s cn88xx; */
+	/* struct bdk_tns_tdma_nb_truncatex_len_s cn88xxp1; */
 } bdk_tns_tdma_nb_truncatex_len_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5987,6 +6111,7 @@ typedef union bdk_tns_tdma_reset_ctl {
 	} s;
 	/* struct bdk_tns_tdma_reset_ctl_s    cn85xx; */
 	/* struct bdk_tns_tdma_reset_ctl_s    cn88xx; */
+	/* struct bdk_tns_tdma_reset_ctl_s    cn88xxp1; */
 } bdk_tns_tdma_reset_ctl_t;
 
 #define BDK_TNS_TDMA_RESET_CTL BDK_TNS_TDMA_RESET_CTL_FUNC()
@@ -6019,6 +6144,7 @@ typedef union bdk_tns_tdma_spare {
 	} s;
 	/* struct bdk_tns_tdma_spare_s        cn85xx; */
 	/* struct bdk_tns_tdma_spare_s        cn88xx; */
+	/* struct bdk_tns_tdma_spare_s        cn88xxp1; */
 } bdk_tns_tdma_spare_t;
 
 #define BDK_TNS_TDMA_SPARE BDK_TNS_TDMA_SPARE_FUNC()
@@ -6063,6 +6189,7 @@ typedef union bdk_tns_tdma_sst_acc_cmd {
 	} s;
 	/* struct bdk_tns_tdma_sst_acc_cmd_s  cn85xx; */
 	/* struct bdk_tns_tdma_sst_acc_cmd_s  cn88xx; */
+	/* struct bdk_tns_tdma_sst_acc_cmd_s  cn88xxp1; */
 } bdk_tns_tdma_sst_acc_cmd_t;
 
 #define BDK_TNS_TDMA_SST_ACC_CMD BDK_TNS_TDMA_SST_ACC_CMD_FUNC()
@@ -6094,6 +6221,7 @@ typedef union bdk_tns_tdma_sst_acc_rdatx {
 	} s;
 	/* struct bdk_tns_tdma_sst_acc_rdatx_s cn85xx; */
 	/* struct bdk_tns_tdma_sst_acc_rdatx_s cn88xx; */
+	/* struct bdk_tns_tdma_sst_acc_rdatx_s cn88xxp1; */
 } bdk_tns_tdma_sst_acc_rdatx_t;
 
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_RDATX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6128,6 +6256,7 @@ typedef union bdk_tns_tdma_sst_acc_stat {
 	} s;
 	/* struct bdk_tns_tdma_sst_acc_stat_s cn85xx; */
 	/* struct bdk_tns_tdma_sst_acc_stat_s cn88xx; */
+	/* struct bdk_tns_tdma_sst_acc_stat_s cn88xxp1; */
 } bdk_tns_tdma_sst_acc_stat_t;
 
 #define BDK_TNS_TDMA_SST_ACC_STAT BDK_TNS_TDMA_SST_ACC_STAT_FUNC()
@@ -6160,6 +6289,7 @@ typedef union bdk_tns_tdma_sst_acc_wdatx {
 	} s;
 	/* struct bdk_tns_tdma_sst_acc_wdatx_s cn85xx; */
 	/* struct bdk_tns_tdma_sst_acc_wdatx_s cn88xx; */
+	/* struct bdk_tns_tdma_sst_acc_wdatx_s cn88xxp1; */
 } bdk_tns_tdma_sst_acc_wdatx_t;
 
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_WDATX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6194,6 +6324,7 @@ typedef union bdk_tns_tdma_status {
 	} s;
 	/* struct bdk_tns_tdma_status_s       cn85xx; */
 	/* struct bdk_tns_tdma_status_s       cn88xx; */
+	/* struct bdk_tns_tdma_status_s       cn88xxp1; */
 } bdk_tns_tdma_status_t;
 
 #define BDK_TNS_TDMA_STATUS BDK_TNS_TDMA_STATUS_FUNC()
@@ -6228,6 +6359,7 @@ typedef union bdk_tns_txq_eq_cfg_spare {
 	} s;
 	/* struct bdk_tns_txq_eq_cfg_spare_s  cn85xx; */
 	/* struct bdk_tns_txq_eq_cfg_spare_s  cn88xx; */
+	/* struct bdk_tns_txq_eq_cfg_spare_s  cn88xxp1; */
 } bdk_tns_txq_eq_cfg_spare_t;
 
 #define BDK_TNS_TXQ_EQ_CFG_SPARE BDK_TNS_TXQ_EQ_CFG_SPARE_FUNC()

@@ -103,6 +103,7 @@ typedef union bdk_mio_twsx_int {
 	} s;
 	/* struct bdk_mio_twsx_int_s          cn85xx; */
 	/* struct bdk_mio_twsx_int_s          cn88xx; */
+	/* struct bdk_mio_twsx_int_s          cn88xxp1; */
 } bdk_mio_twsx_int_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -139,6 +140,7 @@ typedef union bdk_mio_twsx_int_ena_w1c {
 	} s;
 	/* struct bdk_mio_twsx_int_ena_w1c_s  cn85xx; */
 	/* struct bdk_mio_twsx_int_ena_w1c_s  cn88xx; */
+	/* struct bdk_mio_twsx_int_ena_w1c_s  cn88xxp1; */
 } bdk_mio_twsx_int_ena_w1c_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -175,6 +177,7 @@ typedef union bdk_mio_twsx_int_ena_w1s {
 	} s;
 	/* struct bdk_mio_twsx_int_ena_w1s_s  cn85xx; */
 	/* struct bdk_mio_twsx_int_ena_w1s_s  cn88xx; */
+	/* struct bdk_mio_twsx_int_ena_w1s_s  cn88xxp1; */
 } bdk_mio_twsx_int_ena_w1s_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -211,6 +214,7 @@ typedef union bdk_mio_twsx_int_w1s {
 	} s;
 	/* struct bdk_mio_twsx_int_w1s_s      cn85xx; */
 	/* struct bdk_mio_twsx_int_w1s_s      cn88xx; */
+	/* struct bdk_mio_twsx_int_w1s_s      cn88xxp1; */
 } bdk_mio_twsx_int_w1s_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -257,6 +261,7 @@ typedef union bdk_mio_twsx_mode {
 	} s;
 	/* struct bdk_mio_twsx_mode_s         cn85xx; */
 	/* struct bdk_mio_twsx_mode_s         cn88xx; */
+	/* struct bdk_mio_twsx_mode_s         cn88xxp1; */
 } bdk_mio_twsx_mode_t;
 
 static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -291,6 +296,7 @@ typedef union bdk_mio_twsx_msix_pbax {
 	} s;
 	/* struct bdk_mio_twsx_msix_pbax_s    cn85xx; */
 	/* struct bdk_mio_twsx_msix_pbax_s    cn88xx; */
+	/* struct bdk_mio_twsx_msix_pbax_s    cn88xxp1; */
 } bdk_mio_twsx_msix_pbax_t;
 
 static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -338,6 +344,7 @@ typedef union bdk_mio_twsx_msix_vecx_addr {
 	} s;
 	/* struct bdk_mio_twsx_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_mio_twsx_msix_vecx_addr_s cn88xx; */
+	/* struct bdk_mio_twsx_msix_vecx_addr_s cn88xxp1; */
 } bdk_mio_twsx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -377,6 +384,7 @@ typedef union bdk_mio_twsx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_mio_twsx_msix_vecx_ctl_s cn85xx; */
 	/* struct bdk_mio_twsx_msix_vecx_ctl_s cn88xx; */
+	/* struct bdk_mio_twsx_msix_vecx_ctl_s cn88xxp1; */
 } bdk_mio_twsx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -495,6 +503,7 @@ typedef union bdk_mio_twsx_sw_twsi {
 	} s;
 	/* struct bdk_mio_twsx_sw_twsi_s      cn85xx; */
 	/* struct bdk_mio_twsx_sw_twsi_s      cn88xx; */
+	/* struct bdk_mio_twsx_sw_twsi_s      cn88xxp1; */
 } bdk_mio_twsx_sw_twsi_t;
 
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -540,6 +549,7 @@ typedef union bdk_mio_twsx_sw_twsi_ext {
 	} s;
 	/* struct bdk_mio_twsx_sw_twsi_ext_s  cn85xx; */
 	/* struct bdk_mio_twsx_sw_twsi_ext_s  cn88xx; */
+	/* struct bdk_mio_twsx_sw_twsi_ext_s  cn88xxp1; */
 } bdk_mio_twsx_sw_twsi_ext_t;
 
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -582,6 +592,7 @@ typedef union bdk_mio_twsx_twsi_sw {
 	} s;
 	/* struct bdk_mio_twsx_twsi_sw_s      cn85xx; */
 	/* struct bdk_mio_twsx_twsi_sw_s      cn88xx; */
+	/* struct bdk_mio_twsx_twsi_sw_s      cn88xxp1; */
 } bdk_mio_twsx_twsi_sw_t;
 
 static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long param1) __attribute__ ((pure, always_inline));

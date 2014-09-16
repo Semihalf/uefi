@@ -1169,6 +1169,7 @@ typedef union bdk_pmux_pmauthstatus {
 	} s;
 	/* struct bdk_pmux_pmauthstatus_s     cn85xx; */
 	/* struct bdk_pmux_pmauthstatus_s     cn88xx; */
+	/* struct bdk_pmux_pmauthstatus_s     cn88xxp1; */
 } bdk_pmux_pmauthstatus_t;
 
 static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1240,6 +1241,7 @@ typedef union bdk_pmux_pmccfiltr_el0 {
 	} s;
 	/* struct bdk_pmux_pmccfiltr_el0_s    cn85xx; */
 	/* struct bdk_pmux_pmccfiltr_el0_s    cn88xx; */
+	/* struct bdk_pmux_pmccfiltr_el0_s    cn88xxp1; */
 } bdk_pmux_pmccfiltr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1277,6 +1279,7 @@ typedef union bdk_pmux_pmccntr_el0_hi {
 	} s;
 	/* struct bdk_pmux_pmccntr_el0_hi_s   cn85xx; */
 	/* struct bdk_pmux_pmccntr_el0_hi_s   cn88xx; */
+	/* struct bdk_pmux_pmccntr_el0_hi_s   cn88xxp1; */
 } bdk_pmux_pmccntr_el0_hi_t;
 
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1314,6 +1317,7 @@ typedef union bdk_pmux_pmccntr_el0_lo {
 	} s;
 	/* struct bdk_pmux_pmccntr_el0_lo_s   cn85xx; */
 	/* struct bdk_pmux_pmccntr_el0_lo_s   cn88xx; */
+	/* struct bdk_pmux_pmccntr_el0_lo_s   cn88xxp1; */
 } bdk_pmux_pmccntr_el0_lo_t;
 
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1381,6 +1385,7 @@ typedef union bdk_pmux_pmceid0 {
 	} s;
 	/* struct bdk_pmux_pmceid0_s          cn85xx; */
 	/* struct bdk_pmux_pmceid0_s          cn88xx; */
+	/* struct bdk_pmux_pmceid0_s          cn88xxp1; */
 } bdk_pmux_pmceid0_t;
 
 static inline uint64_t BDK_PMUX_PMCEID0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1431,6 +1436,7 @@ typedef union bdk_pmux_pmceid1 {
 	} s;
 	/* struct bdk_pmux_pmceid1_s          cn85xx; */
 	/* struct bdk_pmux_pmceid1_s          cn88xx; */
+	/* struct bdk_pmux_pmceid1_s          cn88xxp1; */
 } bdk_pmux_pmceid1_t;
 
 static inline uint64_t BDK_PMUX_PMCEID1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1466,6 +1472,7 @@ typedef union bdk_pmux_pmceid2 {
 	} s;
 	/* struct bdk_pmux_pmceid2_s          cn85xx; */
 	/* struct bdk_pmux_pmceid2_s          cn88xx; */
+	/* struct bdk_pmux_pmceid2_s          cn88xxp1; */
 } bdk_pmux_pmceid2_t;
 
 static inline uint64_t BDK_PMUX_PMCEID2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1501,6 +1508,7 @@ typedef union bdk_pmux_pmceid3 {
 	} s;
 	/* struct bdk_pmux_pmceid3_s          cn85xx; */
 	/* struct bdk_pmux_pmceid3_s          cn88xx; */
+	/* struct bdk_pmux_pmceid3_s          cn88xxp1; */
 } bdk_pmux_pmceid3_t;
 
 static inline uint64_t BDK_PMUX_PMCEID3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1568,6 +1576,7 @@ typedef union bdk_pmux_pmcfgr {
 	} s;
 	/* struct bdk_pmux_pmcfgr_s           cn85xx; */
 	/* struct bdk_pmux_pmcfgr_s           cn88xx; */
+	/* struct bdk_pmux_pmcfgr_s           cn88xxp1; */
 } bdk_pmux_pmcfgr_t;
 
 static inline uint64_t BDK_PMUX_PMCFGR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1603,6 +1612,7 @@ typedef union bdk_pmux_pmcidr0 {
 	} s;
 	/* struct bdk_pmux_pmcidr0_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr0_s          cn88xx; */
+	/* struct bdk_pmux_pmcidr0_s          cn88xxp1; */
 } bdk_pmux_pmcidr0_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1640,6 +1650,7 @@ typedef union bdk_pmux_pmcidr1 {
 	} s;
 	/* struct bdk_pmux_pmcidr1_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr1_s          cn88xx; */
+	/* struct bdk_pmux_pmcidr1_s          cn88xxp1; */
 } bdk_pmux_pmcidr1_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1675,6 +1686,7 @@ typedef union bdk_pmux_pmcidr2 {
 	} s;
 	/* struct bdk_pmux_pmcidr2_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr2_s          cn88xx; */
+	/* struct bdk_pmux_pmcidr2_s          cn88xxp1; */
 } bdk_pmux_pmcidr2_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1710,6 +1722,7 @@ typedef union bdk_pmux_pmcidr3 {
 	} s;
 	/* struct bdk_pmux_pmcidr3_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr3_s          cn88xx; */
+	/* struct bdk_pmux_pmcidr3_s          cn88xxp1; */
 } bdk_pmux_pmcidr3_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1757,6 +1770,7 @@ typedef union bdk_pmux_pmcntenclr_el0 {
 	} s;
 	/* struct bdk_pmux_pmcntenclr_el0_s   cn85xx; */
 	/* struct bdk_pmux_pmcntenclr_el0_s   cn88xx; */
+	/* struct bdk_pmux_pmcntenclr_el0_s   cn88xxp1; */
 } bdk_pmux_pmcntenclr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1804,6 +1818,7 @@ typedef union bdk_pmux_pmcntenset_el0 {
 	} s;
 	/* struct bdk_pmux_pmcntenset_el0_s   cn85xx; */
 	/* struct bdk_pmux_pmcntenset_el0_s   cn88xx; */
+	/* struct bdk_pmux_pmcntenset_el0_s   cn88xxp1; */
 } bdk_pmux_pmcntenset_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1901,6 +1916,7 @@ typedef union bdk_pmux_pmcr_el0 {
 	} s;
 	/* struct bdk_pmux_pmcr_el0_s         cn85xx; */
 	/* struct bdk_pmux_pmcr_el0_s         cn88xx; */
+	/* struct bdk_pmux_pmcr_el0_s         cn88xxp1; */
 } bdk_pmux_pmcr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1939,6 +1955,7 @@ typedef union bdk_pmux_pmdevaff0 {
 	} s;
 	/* struct bdk_pmux_pmdevaff0_s        cn85xx; */
 	/* struct bdk_pmux_pmdevaff0_s        cn88xx; */
+	/* struct bdk_pmux_pmdevaff0_s        cn88xxp1; */
 } bdk_pmux_pmdevaff0_t;
 
 static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1977,6 +1994,7 @@ typedef union bdk_pmux_pmdevaff1 {
 	} s;
 	/* struct bdk_pmux_pmdevaff1_s        cn85xx; */
 	/* struct bdk_pmux_pmdevaff1_s        cn88xx; */
+	/* struct bdk_pmux_pmdevaff1_s        cn88xxp1; */
 } bdk_pmux_pmdevaff1_t;
 
 static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2029,6 +2047,7 @@ typedef union bdk_pmux_pmdevarch {
 	} s;
 	/* struct bdk_pmux_pmdevarch_s        cn85xx; */
 	/* struct bdk_pmux_pmdevarch_s        cn88xx; */
+	/* struct bdk_pmux_pmdevarch_s        cn88xxp1; */
 } bdk_pmux_pmdevarch_t;
 
 static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2066,6 +2085,7 @@ typedef union bdk_pmux_pmdevtype {
 	} s;
 	/* struct bdk_pmux_pmdevtype_s        cn85xx; */
 	/* struct bdk_pmux_pmdevtype_s        cn88xx; */
+	/* struct bdk_pmux_pmdevtype_s        cn88xxp1; */
 } bdk_pmux_pmdevtype_t;
 
 static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2103,6 +2123,7 @@ typedef union bdk_pmux_pmevcntrx_el0 {
 	} s;
 	/* struct bdk_pmux_pmevcntrx_el0_s    cn85xx; */
 	/* struct bdk_pmux_pmevcntrx_el0_s    cn88xx; */
+	/* struct bdk_pmux_pmevcntrx_el0_s    cn88xxp1; */
 } bdk_pmux_pmevcntrx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2197,6 +2218,7 @@ typedef union bdk_pmux_pmevtyperx_el0 {
 	} s;
 	/* struct bdk_pmux_pmevtyperx_el0_s   cn85xx; */
 	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xx; */
+	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xxp1; */
 } bdk_pmux_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2248,6 +2270,7 @@ typedef union bdk_pmux_pmintenclr_el1 {
 	} s;
 	/* struct bdk_pmux_pmintenclr_el1_s   cn85xx; */
 	/* struct bdk_pmux_pmintenclr_el1_s   cn88xx; */
+	/* struct bdk_pmux_pmintenclr_el1_s   cn88xxp1; */
 } bdk_pmux_pmintenclr_el1_t;
 
 static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2299,6 +2322,7 @@ typedef union bdk_pmux_pmintenset_el1 {
 	} s;
 	/* struct bdk_pmux_pmintenset_el1_s   cn85xx; */
 	/* struct bdk_pmux_pmintenset_el1_s   cn88xx; */
+	/* struct bdk_pmux_pmintenset_el1_s   cn88xxp1; */
 } bdk_pmux_pmintenset_el1_t;
 
 static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2341,6 +2365,7 @@ typedef union bdk_pmux_pmitctrl {
 	} s;
 	/* struct bdk_pmux_pmitctrl_s         cn85xx; */
 	/* struct bdk_pmux_pmitctrl_s         cn88xx; */
+	/* struct bdk_pmux_pmitctrl_s         cn88xxp1; */
 } bdk_pmux_pmitctrl_t;
 
 static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2376,6 +2401,7 @@ typedef union bdk_pmux_pmlar {
 	} s;
 	/* struct bdk_pmux_pmlar_s            cn85xx; */
 	/* struct bdk_pmux_pmlar_s            cn88xx; */
+	/* struct bdk_pmux_pmlar_s            cn88xxp1; */
 } bdk_pmux_pmlar_t;
 
 static inline uint64_t BDK_PMUX_PMLAR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2429,6 +2455,7 @@ typedef union bdk_pmux_pmlsr {
 	} s;
 	/* struct bdk_pmux_pmlsr_s            cn85xx; */
 	/* struct bdk_pmux_pmlsr_s            cn88xx; */
+	/* struct bdk_pmux_pmlsr_s            cn88xxp1; */
 } bdk_pmux_pmlsr_t;
 
 static inline uint64_t BDK_PMUX_PMLSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2478,6 +2505,7 @@ typedef union bdk_pmux_pmovsclr_el0 {
 	} s;
 	/* struct bdk_pmux_pmovsclr_el0_s     cn85xx; */
 	/* struct bdk_pmux_pmovsclr_el0_s     cn88xx; */
+	/* struct bdk_pmux_pmovsclr_el0_s     cn88xxp1; */
 } bdk_pmux_pmovsclr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2524,6 +2552,7 @@ typedef union bdk_pmux_pmovsset_el0 {
 	} s;
 	/* struct bdk_pmux_pmovsset_el0_s     cn85xx; */
 	/* struct bdk_pmux_pmovsset_el0_s     cn88xx; */
+	/* struct bdk_pmux_pmovsset_el0_s     cn88xxp1; */
 } bdk_pmux_pmovsset_el0_t;
 
 static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2559,6 +2588,7 @@ typedef union bdk_pmux_pmpidr0 {
 	} s;
 	/* struct bdk_pmux_pmpidr0_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr0_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr0_s          cn88xxp1; */
 } bdk_pmux_pmpidr0_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2596,6 +2626,7 @@ typedef union bdk_pmux_pmpidr1 {
 	} s;
 	/* struct bdk_pmux_pmpidr1_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr1_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr1_s          cn88xxp1; */
 } bdk_pmux_pmpidr1_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2635,6 +2666,7 @@ typedef union bdk_pmux_pmpidr2 {
 	} s;
 	/* struct bdk_pmux_pmpidr2_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr2_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr2_s          cn88xxp1; */
 } bdk_pmux_pmpidr2_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2673,6 +2705,7 @@ typedef union bdk_pmux_pmpidr3 {
 	} s;
 	/* struct bdk_pmux_pmpidr3_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr3_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr3_s          cn88xxp1; */
 } bdk_pmux_pmpidr3_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2712,6 +2745,7 @@ typedef union bdk_pmux_pmpidr4 {
 	} s;
 	/* struct bdk_pmux_pmpidr4_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr4_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr4_s          cn88xxp1; */
 } bdk_pmux_pmpidr4_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2742,6 +2776,7 @@ typedef union bdk_pmux_pmpidr5 {
 	} s;
 	/* struct bdk_pmux_pmpidr5_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr5_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr5_s          cn88xxp1; */
 } bdk_pmux_pmpidr5_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2772,6 +2807,7 @@ typedef union bdk_pmux_pmpidr6 {
 	} s;
 	/* struct bdk_pmux_pmpidr6_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr6_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr6_s          cn88xxp1; */
 } bdk_pmux_pmpidr6_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2802,6 +2838,7 @@ typedef union bdk_pmux_pmpidr7 {
 	} s;
 	/* struct bdk_pmux_pmpidr7_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr7_s          cn88xx; */
+	/* struct bdk_pmux_pmpidr7_s          cn88xxp1; */
 } bdk_pmux_pmpidr7_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2843,6 +2880,7 @@ typedef union bdk_pmux_pmswinc_el0 {
 	} s;
 	/* struct bdk_pmux_pmswinc_el0_s      cn85xx; */
 	/* struct bdk_pmux_pmswinc_el0_s      cn88xx; */
+	/* struct bdk_pmux_pmswinc_el0_s      cn88xxp1; */
 } bdk_pmux_pmswinc_el0_t;
 
 static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long param1) __attribute__ ((pure, always_inline));

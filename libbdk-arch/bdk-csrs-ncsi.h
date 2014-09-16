@@ -156,6 +156,7 @@ typedef union bdk_ncsi_bmc2cpu_msg {
 	} s;
 	/* struct bdk_ncsi_bmc2cpu_msg_s      cn85xx; */
 	/* struct bdk_ncsi_bmc2cpu_msg_s      cn88xx; */
+	/* struct bdk_ncsi_bmc2cpu_msg_s      cn88xxp1; */
 } bdk_ncsi_bmc2cpu_msg_t;
 
 #define BDK_NCSI_BMC2CPU_MSG BDK_NCSI_BMC2CPU_MSG_FUNC()
@@ -195,6 +196,7 @@ typedef union bdk_ncsi_config {
 	} s;
 	/* struct bdk_ncsi_config_s           cn85xx; */
 	/* struct bdk_ncsi_config_s           cn88xx; */
+	/* struct bdk_ncsi_config_s           cn88xxp1; */
 } bdk_ncsi_config_t;
 
 #define BDK_NCSI_CONFIG BDK_NCSI_CONFIG_FUNC()
@@ -226,6 +228,7 @@ typedef union bdk_ncsi_cpu2bmc_msg {
 	} s;
 	/* struct bdk_ncsi_cpu2bmc_msg_s      cn85xx; */
 	/* struct bdk_ncsi_cpu2bmc_msg_s      cn88xx; */
+	/* struct bdk_ncsi_cpu2bmc_msg_s      cn88xxp1; */
 } bdk_ncsi_cpu2bmc_msg_t;
 
 #define BDK_NCSI_CPU2BMC_MSG BDK_NCSI_CPU2BMC_MSG_FUNC()
@@ -289,6 +292,7 @@ typedef union bdk_ncsi_int {
 	} s;
 	/* struct bdk_ncsi_int_s              cn85xx; */
 	/* struct bdk_ncsi_int_s              cn88xx; */
+	/* struct bdk_ncsi_int_s              cn88xxp1; */
 } bdk_ncsi_int_t;
 
 #define BDK_NCSI_INT BDK_NCSI_INT_FUNC()
@@ -352,6 +356,7 @@ typedef union bdk_ncsi_int_ena_w1c {
 	} s;
 	/* struct bdk_ncsi_int_ena_w1c_s      cn85xx; */
 	/* struct bdk_ncsi_int_ena_w1c_s      cn88xx; */
+	/* struct bdk_ncsi_int_ena_w1c_s      cn88xxp1; */
 } bdk_ncsi_int_ena_w1c_t;
 
 #define BDK_NCSI_INT_ENA_W1C BDK_NCSI_INT_ENA_W1C_FUNC()
@@ -415,6 +420,7 @@ typedef union bdk_ncsi_int_ena_w1s {
 	} s;
 	/* struct bdk_ncsi_int_ena_w1s_s      cn85xx; */
 	/* struct bdk_ncsi_int_ena_w1s_s      cn88xx; */
+	/* struct bdk_ncsi_int_ena_w1s_s      cn88xxp1; */
 } bdk_ncsi_int_ena_w1s_t;
 
 #define BDK_NCSI_INT_ENA_W1S BDK_NCSI_INT_ENA_W1S_FUNC()
@@ -478,6 +484,7 @@ typedef union bdk_ncsi_int_w1s {
 	} s;
 	/* struct bdk_ncsi_int_w1s_s          cn85xx; */
 	/* struct bdk_ncsi_int_w1s_s          cn88xx; */
+	/* struct bdk_ncsi_int_w1s_s          cn88xxp1; */
 } bdk_ncsi_int_w1s_t;
 
 #define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()
@@ -519,6 +526,7 @@ typedef union bdk_ncsi_mem_ctrl {
 	} s;
 	/* struct bdk_ncsi_mem_ctrl_s         cn85xx; */
 	/* struct bdk_ncsi_mem_ctrl_s         cn88xx; */
+	/* struct bdk_ncsi_mem_ctrl_s         cn88xxp1; */
 } bdk_ncsi_mem_ctrl_t;
 
 #define BDK_NCSI_MEM_CTRL BDK_NCSI_MEM_CTRL_FUNC()
@@ -552,6 +560,7 @@ typedef union bdk_ncsi_msix_pbax {
 	} s;
 	/* struct bdk_ncsi_msix_pbax_s        cn85xx; */
 	/* struct bdk_ncsi_msix_pbax_s        cn88xx; */
+	/* struct bdk_ncsi_msix_pbax_s        cn88xxp1; */
 } bdk_ncsi_msix_pbax_t;
 
 static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -598,6 +607,7 @@ typedef union bdk_ncsi_msix_vecx_addr {
 	} s;
 	/* struct bdk_ncsi_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_ncsi_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_ncsi_msix_vecx_addr_s   cn88xxp1; */
 } bdk_ncsi_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -637,6 +647,7 @@ typedef union bdk_ncsi_msix_vecx_ctl {
 	} s;
 	/* struct bdk_ncsi_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_ncsi_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_ncsi_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_ncsi_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -682,6 +693,7 @@ typedef union bdk_ncsi_rx_frm_ctl {
 	} s;
 	/* struct bdk_ncsi_rx_frm_ctl_s       cn85xx; */
 	/* struct bdk_ncsi_rx_frm_ctl_s       cn88xx; */
+	/* struct bdk_ncsi_rx_frm_ctl_s       cn88xxp1; */
 } bdk_ncsi_rx_frm_ctl_t;
 
 #define BDK_NCSI_RX_FRM_CTL BDK_NCSI_RX_FRM_CTL_FUNC()
@@ -723,6 +735,7 @@ typedef union bdk_ncsi_rx_ifg {
 	} s;
 	/* struct bdk_ncsi_rx_ifg_s           cn85xx; */
 	/* struct bdk_ncsi_rx_ifg_s           cn88xx; */
+	/* struct bdk_ncsi_rx_ifg_s           cn88xxp1; */
 } bdk_ncsi_rx_ifg_t;
 
 #define BDK_NCSI_RX_IFG BDK_NCSI_RX_IFG_FUNC()
@@ -761,6 +774,7 @@ typedef union bdk_ncsi_rx_mfg {
 	} s;
 	/* struct bdk_ncsi_rx_mfg_s           cn85xx; */
 	/* struct bdk_ncsi_rx_mfg_s           cn88xx; */
+	/* struct bdk_ncsi_rx_mfg_s           cn88xxp1; */
 } bdk_ncsi_rx_mfg_t;
 
 #define BDK_NCSI_RX_MFG BDK_NCSI_RX_MFG_FUNC()
@@ -795,6 +809,7 @@ typedef union bdk_ncsi_rx_min_pkt {
 	} s;
 	/* struct bdk_ncsi_rx_min_pkt_s       cn85xx; */
 	/* struct bdk_ncsi_rx_min_pkt_s       cn88xx; */
+	/* struct bdk_ncsi_rx_min_pkt_s       cn88xxp1; */
 } bdk_ncsi_rx_min_pkt_t;
 
 #define BDK_NCSI_RX_MIN_PKT BDK_NCSI_RX_MIN_PKT_FUNC()
@@ -832,6 +847,7 @@ typedef union bdk_ncsi_rx_stat0 {
 	} s;
 	/* struct bdk_ncsi_rx_stat0_s         cn85xx; */
 	/* struct bdk_ncsi_rx_stat0_s         cn88xx; */
+	/* struct bdk_ncsi_rx_stat0_s         cn88xxp1; */
 } bdk_ncsi_rx_stat0_t;
 
 #define BDK_NCSI_RX_STAT0 BDK_NCSI_RX_STAT0_FUNC()
@@ -871,6 +887,7 @@ typedef union bdk_ncsi_rx_stat1 {
 	} s;
 	/* struct bdk_ncsi_rx_stat1_s         cn85xx; */
 	/* struct bdk_ncsi_rx_stat1_s         cn88xx; */
+	/* struct bdk_ncsi_rx_stat1_s         cn88xxp1; */
 } bdk_ncsi_rx_stat1_t;
 
 #define BDK_NCSI_RX_STAT1 BDK_NCSI_RX_STAT1_FUNC()
@@ -904,6 +921,7 @@ typedef union bdk_ncsi_rx_thresh {
 	} s;
 	/* struct bdk_ncsi_rx_thresh_s        cn85xx; */
 	/* struct bdk_ncsi_rx_thresh_s        cn88xx; */
+	/* struct bdk_ncsi_rx_thresh_s        cn88xxp1; */
 } bdk_ncsi_rx_thresh_t;
 
 #define BDK_NCSI_RX_THRESH BDK_NCSI_RX_THRESH_FUNC()
@@ -941,6 +959,7 @@ typedef union bdk_ncsi_secure_config {
 	} s;
 	/* struct bdk_ncsi_secure_config_s    cn85xx; */
 	/* struct bdk_ncsi_secure_config_s    cn88xx; */
+	/* struct bdk_ncsi_secure_config_s    cn88xxp1; */
 } bdk_ncsi_secure_config_t;
 
 #define BDK_NCSI_SECURE_CONFIG BDK_NCSI_SECURE_CONFIG_FUNC()
@@ -992,6 +1011,7 @@ typedef union bdk_ncsi_tx_frm_ctl {
 	} s;
 	/* struct bdk_ncsi_tx_frm_ctl_s       cn85xx; */
 	/* struct bdk_ncsi_tx_frm_ctl_s       cn88xx; */
+	/* struct bdk_ncsi_tx_frm_ctl_s       cn88xxp1; */
 } bdk_ncsi_tx_frm_ctl_t;
 
 #define BDK_NCSI_TX_FRM_CTL BDK_NCSI_TX_FRM_CTL_FUNC()
@@ -1030,6 +1050,7 @@ typedef union bdk_ncsi_tx_frm_smacx_cam {
 	} s;
 	/* struct bdk_ncsi_tx_frm_smacx_cam_s cn85xx; */
 	/* struct bdk_ncsi_tx_frm_smacx_cam_s cn88xx; */
+	/* struct bdk_ncsi_tx_frm_smacx_cam_s cn88xxp1; */
 } bdk_ncsi_tx_frm_smacx_cam_t;
 
 static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1066,6 +1087,7 @@ typedef union bdk_ncsi_tx_ifg {
 	} s;
 	/* struct bdk_ncsi_tx_ifg_s           cn85xx; */
 	/* struct bdk_ncsi_tx_ifg_s           cn88xx; */
+	/* struct bdk_ncsi_tx_ifg_s           cn88xxp1; */
 } bdk_ncsi_tx_ifg_t;
 
 #define BDK_NCSI_TX_IFG BDK_NCSI_TX_IFG_FUNC()
@@ -1103,6 +1125,7 @@ typedef union bdk_ncsi_tx_jabber {
 	} s;
 	/* struct bdk_ncsi_tx_jabber_s        cn85xx; */
 	/* struct bdk_ncsi_tx_jabber_s        cn88xx; */
+	/* struct bdk_ncsi_tx_jabber_s        cn88xxp1; */
 } bdk_ncsi_tx_jabber_t;
 
 #define BDK_NCSI_TX_JABBER BDK_NCSI_TX_JABBER_FUNC()
@@ -1137,6 +1160,7 @@ typedef union bdk_ncsi_tx_mix {
 	} s;
 	/* struct bdk_ncsi_tx_mix_s           cn85xx; */
 	/* struct bdk_ncsi_tx_mix_s           cn88xx; */
+	/* struct bdk_ncsi_tx_mix_s           cn88xxp1; */
 } bdk_ncsi_tx_mix_t;
 
 #define BDK_NCSI_TX_MIX BDK_NCSI_TX_MIX_FUNC()
@@ -1173,6 +1197,7 @@ typedef union bdk_ncsi_tx_ncp_ch_st {
 	} s;
 	/* struct bdk_ncsi_tx_ncp_ch_st_s     cn85xx; */
 	/* struct bdk_ncsi_tx_ncp_ch_st_s     cn88xx; */
+	/* struct bdk_ncsi_tx_ncp_ch_st_s     cn88xxp1; */
 } bdk_ncsi_tx_ncp_ch_st_t;
 
 #define BDK_NCSI_TX_NCP_CH_ST BDK_NCSI_TX_NCP_CH_ST_FUNC()
@@ -1223,6 +1248,7 @@ typedef union bdk_ncsi_tx_ncp_permx_table_hi {
 	} s;
 	/* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn85xx; */
 	/* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn88xx; */
+	/* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn88xxp1; */
 } bdk_ncsi_tx_ncp_permx_table_hi_t;
 
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1257,6 +1283,7 @@ typedef union bdk_ncsi_tx_ncp_permx_table_low {
 	} s;
 	/* struct bdk_ncsi_tx_ncp_permx_table_low_s cn85xx; */
 	/* struct bdk_ncsi_tx_ncp_permx_table_low_s cn88xx; */
+	/* struct bdk_ncsi_tx_ncp_permx_table_low_s cn88xxp1; */
 } bdk_ncsi_tx_ncp_permx_table_low_t;
 
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1292,6 +1319,7 @@ typedef union bdk_ncsi_tx_ncp_pkg_st {
 	} s;
 	/* struct bdk_ncsi_tx_ncp_pkg_st_s    cn85xx; */
 	/* struct bdk_ncsi_tx_ncp_pkg_st_s    cn88xx; */
+	/* struct bdk_ncsi_tx_ncp_pkg_st_s    cn88xxp1; */
 } bdk_ncsi_tx_ncp_pkg_st_t;
 
 #define BDK_NCSI_TX_NCP_PKG_ST BDK_NCSI_TX_NCP_PKG_ST_FUNC()
@@ -1328,6 +1356,7 @@ typedef union bdk_ncsi_tx_stat0 {
 	} s;
 	/* struct bdk_ncsi_tx_stat0_s         cn85xx; */
 	/* struct bdk_ncsi_tx_stat0_s         cn88xx; */
+	/* struct bdk_ncsi_tx_stat0_s         cn88xxp1; */
 } bdk_ncsi_tx_stat0_t;
 
 #define BDK_NCSI_TX_STAT0 BDK_NCSI_TX_STAT0_FUNC()
@@ -1364,6 +1393,7 @@ typedef union bdk_ncsi_tx_stat1 {
 	} s;
 	/* struct bdk_ncsi_tx_stat1_s         cn85xx; */
 	/* struct bdk_ncsi_tx_stat1_s         cn88xx; */
+	/* struct bdk_ncsi_tx_stat1_s         cn88xxp1; */
 } bdk_ncsi_tx_stat1_t;
 
 #define BDK_NCSI_TX_STAT1 BDK_NCSI_TX_STAT1_FUNC()

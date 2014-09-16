@@ -99,6 +99,7 @@ typedef union bdk_lmcx_bist_ctl {
 	} s;
 	/* struct bdk_lmcx_bist_ctl_s         cn85xx; */
 	/* struct bdk_lmcx_bist_ctl_s         cn88xx; */
+	/* struct bdk_lmcx_bist_ctl_s         cn88xxp1; */
 } bdk_lmcx_bist_ctl_t;
 
 static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -155,6 +156,7 @@ typedef union bdk_lmcx_char_ctl {
 	} s;
 	/* struct bdk_lmcx_char_ctl_s         cn85xx; */
 	/* struct bdk_lmcx_char_ctl_s         cn88xx; */
+	/* struct bdk_lmcx_char_ctl_s         cn88xxp1; */
 } bdk_lmcx_char_ctl_t;
 
 static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -190,6 +192,7 @@ typedef union bdk_lmcx_char_dq_err_count {
 	} s;
 	/* struct bdk_lmcx_char_dq_err_count_s cn85xx; */
 	/* struct bdk_lmcx_char_dq_err_count_s cn88xx; */
+	/* struct bdk_lmcx_char_dq_err_count_s cn88xxp1; */
 } bdk_lmcx_char_dq_err_count_t;
 
 static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -223,6 +226,7 @@ typedef union bdk_lmcx_char_mask0 {
 	} s;
 	/* struct bdk_lmcx_char_mask0_s       cn85xx; */
 	/* struct bdk_lmcx_char_mask0_s       cn88xx; */
+	/* struct bdk_lmcx_char_mask0_s       cn88xxp1; */
 } bdk_lmcx_char_mask0_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -258,6 +262,7 @@ typedef union bdk_lmcx_char_mask1 {
 	} s;
 	/* struct bdk_lmcx_char_mask1_s       cn85xx; */
 	/* struct bdk_lmcx_char_mask1_s       cn88xx; */
+	/* struct bdk_lmcx_char_mask1_s       cn88xxp1; */
 } bdk_lmcx_char_mask1_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -291,6 +296,7 @@ typedef union bdk_lmcx_char_mask2 {
 	} s;
 	/* struct bdk_lmcx_char_mask2_s       cn85xx; */
 	/* struct bdk_lmcx_char_mask2_s       cn88xx; */
+	/* struct bdk_lmcx_char_mask2_s       cn88xxp1; */
 } bdk_lmcx_char_mask2_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -326,6 +332,7 @@ typedef union bdk_lmcx_char_mask3 {
 	} s;
 	/* struct bdk_lmcx_char_mask3_s       cn85xx; */
 	/* struct bdk_lmcx_char_mask3_s       cn88xx; */
+	/* struct bdk_lmcx_char_mask3_s       cn88xxp1; */
 } bdk_lmcx_char_mask3_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -401,6 +408,7 @@ typedef union bdk_lmcx_char_mask4 {
 	} s;
 	/* struct bdk_lmcx_char_mask4_s       cn85xx; */
 	/* struct bdk_lmcx_char_mask4_s       cn88xx; */
+	/* struct bdk_lmcx_char_mask4_s       cn88xxp1; */
 } bdk_lmcx_char_mask4_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -551,6 +559,7 @@ typedef union bdk_lmcx_comp_ctl2 {
 	} s;
 	/* struct bdk_lmcx_comp_ctl2_s        cn85xx; */
 	/* struct bdk_lmcx_comp_ctl2_s        cn88xx; */
+	/* struct bdk_lmcx_comp_ctl2_s        cn88xxp1; */
 } bdk_lmcx_comp_ctl2_t;
 
 static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -804,6 +813,7 @@ typedef union bdk_lmcx_config {
 	} s;
 	/* struct bdk_lmcx_config_s           cn85xx; */
 	/* struct bdk_lmcx_config_s           cn88xx; */
+	/* struct bdk_lmcx_config_s           cn88xxp1; */
 } bdk_lmcx_config_t;
 
 static inline uint64_t BDK_LMCX_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -920,6 +930,7 @@ typedef union bdk_lmcx_control {
 	} s;
 	/* struct bdk_lmcx_control_s          cn85xx; */
 	/* struct bdk_lmcx_control_s          cn88xx; */
+	/* struct bdk_lmcx_control_s          cn88xxp1; */
 } bdk_lmcx_control_t;
 
 static inline uint64_t BDK_LMCX_CONTROL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1016,6 +1027,7 @@ typedef union bdk_lmcx_dbtrain_ctl {
 	} s;
 	/* struct bdk_lmcx_dbtrain_ctl_s      cn85xx; */
 	/* struct bdk_lmcx_dbtrain_ctl_s      cn88xx; */
+	/* struct bdk_lmcx_dbtrain_ctl_s      cn88xxp1; */
 } bdk_lmcx_dbtrain_ctl_t;
 
 static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1046,6 +1058,7 @@ typedef union bdk_lmcx_dclk_cnt {
 	} s;
 	/* struct bdk_lmcx_dclk_cnt_s         cn85xx; */
 	/* struct bdk_lmcx_dclk_cnt_s         cn88xx; */
+	/* struct bdk_lmcx_dclk_cnt_s         cn88xxp1; */
 } bdk_lmcx_dclk_cnt_t;
 
 static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1109,6 +1122,7 @@ typedef union bdk_lmcx_ddr4_dimm_ctl {
 	} s;
 	/* struct bdk_lmcx_ddr4_dimm_ctl_s    cn85xx; */
 	/* struct bdk_lmcx_ddr4_dimm_ctl_s    cn88xx; */
+	/* struct bdk_lmcx_ddr4_dimm_ctl_s    cn88xxp1; */
 } bdk_lmcx_ddr4_dimm_ctl_t;
 
 static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1217,6 +1231,7 @@ typedef union bdk_lmcx_ddr_pll_ctl {
 	} s;
 	/* struct bdk_lmcx_ddr_pll_ctl_s      cn85xx; */
 	/* struct bdk_lmcx_ddr_pll_ctl_s      cn88xx; */
+	/* struct bdk_lmcx_ddr_pll_ctl_s      cn88xxp1; */
 } bdk_lmcx_ddr_pll_ctl_t;
 
 static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1264,6 +1279,7 @@ typedef union bdk_lmcx_dimmx_ddr4_params0 {
 	} s;
 	/* struct bdk_lmcx_dimmx_ddr4_params0_s cn85xx; */
 	/* struct bdk_lmcx_dimmx_ddr4_params0_s cn88xx; */
+	/* struct bdk_lmcx_dimmx_ddr4_params0_s cn88xxp1; */
 } bdk_lmcx_dimmx_ddr4_params0_t;
 
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1303,6 +1319,7 @@ typedef union bdk_lmcx_dimmx_ddr4_params1 {
 	} s;
 	/* struct bdk_lmcx_dimmx_ddr4_params1_s cn85xx; */
 	/* struct bdk_lmcx_dimmx_ddr4_params1_s cn88xx; */
+	/* struct bdk_lmcx_dimmx_ddr4_params1_s cn88xxp1; */
 } bdk_lmcx_dimmx_ddr4_params1_t;
 
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1370,6 +1387,7 @@ typedef union bdk_lmcx_dimmx_params {
 	} s;
 	/* struct bdk_lmcx_dimmx_params_s     cn85xx; */
 	/* struct bdk_lmcx_dimmx_params_s     cn88xx; */
+	/* struct bdk_lmcx_dimmx_params_s     cn88xxp1; */
 } bdk_lmcx_dimmx_params_t;
 
 static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1422,6 +1440,7 @@ typedef union bdk_lmcx_dimm_ctl {
 	} s;
 	/* struct bdk_lmcx_dimm_ctl_s         cn85xx; */
 	/* struct bdk_lmcx_dimm_ctl_s         cn88xx; */
+	/* struct bdk_lmcx_dimm_ctl_s         cn88xxp1; */
 } bdk_lmcx_dimm_ctl_t;
 
 static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1481,6 +1500,7 @@ typedef union bdk_lmcx_dll_ctl2 {
 	} s;
 	/* struct bdk_lmcx_dll_ctl2_s         cn85xx; */
 	/* struct bdk_lmcx_dll_ctl2_s         cn88xx; */
+	/* struct bdk_lmcx_dll_ctl2_s         cn88xxp1; */
 } bdk_lmcx_dll_ctl2_t;
 
 static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1562,6 +1582,7 @@ typedef union bdk_lmcx_dll_ctl3 {
 	} s;
 	/* struct bdk_lmcx_dll_ctl3_s         cn85xx; */
 	/* struct bdk_lmcx_dll_ctl3_s         cn88xx; */
+	/* struct bdk_lmcx_dll_ctl3_s         cn88xxp1; */
 } bdk_lmcx_dll_ctl3_t;
 
 static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1617,6 +1638,7 @@ typedef union bdk_lmcx_dual_memcfg {
 	} s;
 	/* struct bdk_lmcx_dual_memcfg_s      cn85xx; */
 	/* struct bdk_lmcx_dual_memcfg_s      cn88xx; */
+	/* struct bdk_lmcx_dual_memcfg_s      cn88xxp1; */
 } bdk_lmcx_dual_memcfg_t;
 
 static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1667,6 +1689,7 @@ typedef union bdk_lmcx_ecc_parity_test {
 	} s;
 	/* struct bdk_lmcx_ecc_parity_test_s  cn85xx; */
 	/* struct bdk_lmcx_ecc_parity_test_s  cn88xx; */
+	/* struct bdk_lmcx_ecc_parity_test_s  cn88xxp1; */
 } bdk_lmcx_ecc_parity_test_t;
 
 static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1709,6 +1732,7 @@ typedef union bdk_lmcx_ecc_synd {
 	} s;
 	/* struct bdk_lmcx_ecc_synd_s         cn85xx; */
 	/* struct bdk_lmcx_ecc_synd_s         cn88xx; */
+	/* struct bdk_lmcx_ecc_synd_s         cn88xxp1; */
 } bdk_lmcx_ecc_synd_t;
 
 static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1891,6 +1915,7 @@ typedef union bdk_lmcx_ext_config {
 	} s;
 	/* struct bdk_lmcx_ext_config_s       cn85xx; */
 	/* struct bdk_lmcx_ext_config_s       cn88xx; */
+	/* struct bdk_lmcx_ext_config_s       cn88xxp1; */
 } bdk_lmcx_ext_config_t;
 
 static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1956,6 +1981,7 @@ typedef union bdk_lmcx_ext_config2 {
 	} s;
 	/* struct bdk_lmcx_ext_config2_s      cn85xx; */
 	/* struct bdk_lmcx_ext_config2_s      cn88xx; */
+	/* struct bdk_lmcx_ext_config2_s      cn88xxp1; */
 } bdk_lmcx_ext_config2_t;
 
 static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2015,6 +2041,7 @@ typedef union bdk_lmcx_fadr {
 	} s;
 	/* struct bdk_lmcx_fadr_s             cn85xx; */
 	/* struct bdk_lmcx_fadr_s             cn88xx; */
+	/* struct bdk_lmcx_fadr_s             cn88xxp1; */
 } bdk_lmcx_fadr_t;
 
 static inline uint64_t BDK_LMCX_FADR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2045,6 +2072,7 @@ typedef union bdk_lmcx_general_purpose0 {
 	} s;
 	/* struct bdk_lmcx_general_purpose0_s cn85xx; */
 	/* struct bdk_lmcx_general_purpose0_s cn88xx; */
+	/* struct bdk_lmcx_general_purpose0_s cn88xxp1; */
 } bdk_lmcx_general_purpose0_t;
 
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2075,6 +2103,7 @@ typedef union bdk_lmcx_general_purpose1 {
 	} s;
 	/* struct bdk_lmcx_general_purpose1_s cn85xx; */
 	/* struct bdk_lmcx_general_purpose1_s cn88xx; */
+	/* struct bdk_lmcx_general_purpose1_s cn88xxp1; */
 } bdk_lmcx_general_purpose1_t;
 
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2107,6 +2136,7 @@ typedef union bdk_lmcx_general_purpose2 {
 	} s;
 	/* struct bdk_lmcx_general_purpose2_s cn85xx; */
 	/* struct bdk_lmcx_general_purpose2_s cn88xx; */
+	/* struct bdk_lmcx_general_purpose2_s cn88xxp1; */
 } bdk_lmcx_general_purpose2_t;
 
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2138,6 +2168,7 @@ typedef union bdk_lmcx_ifb_cnt {
 	} s;
 	/* struct bdk_lmcx_ifb_cnt_s          cn85xx; */
 	/* struct bdk_lmcx_ifb_cnt_s          cn88xx; */
+	/* struct bdk_lmcx_ifb_cnt_s          cn88xxp1; */
 } bdk_lmcx_ifb_cnt_t;
 
 static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2211,6 +2242,7 @@ typedef union bdk_lmcx_int {
 	} s;
 	/* struct bdk_lmcx_int_s              cn85xx; */
 	/* struct bdk_lmcx_int_s              cn88xx; */
+	/* struct bdk_lmcx_int_s              cn88xxp1; */
 } bdk_lmcx_int_t;
 
 static inline uint64_t BDK_LMCX_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2256,6 +2288,7 @@ typedef union bdk_lmcx_int_en {
 	} s;
 	/* struct bdk_lmcx_int_en_s           cn85xx; */
 	/* struct bdk_lmcx_int_en_s           cn88xx; */
+	/* struct bdk_lmcx_int_en_s           cn88xxp1; */
 } bdk_lmcx_int_en_t;
 
 static inline uint64_t BDK_LMCX_INT_EN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2326,6 +2359,7 @@ typedef union bdk_lmcx_int_ena_w1c {
 	} s;
 	/* struct bdk_lmcx_int_ena_w1c_s      cn85xx; */
 	/* struct bdk_lmcx_int_ena_w1c_s      cn88xx; */
+	/* struct bdk_lmcx_int_ena_w1c_s      cn88xxp1; */
 } bdk_lmcx_int_ena_w1c_t;
 
 static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2396,6 +2430,7 @@ typedef union bdk_lmcx_int_ena_w1s {
 	} s;
 	/* struct bdk_lmcx_int_ena_w1s_s      cn85xx; */
 	/* struct bdk_lmcx_int_ena_w1s_s      cn88xx; */
+	/* struct bdk_lmcx_int_ena_w1s_s      cn88xxp1; */
 } bdk_lmcx_int_ena_w1s_t;
 
 static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2466,6 +2501,7 @@ typedef union bdk_lmcx_int_w1s {
 	} s;
 	/* struct bdk_lmcx_int_w1s_s          cn85xx; */
 	/* struct bdk_lmcx_int_w1s_s          cn88xx; */
+	/* struct bdk_lmcx_int_w1s_s          cn88xxp1; */
 } bdk_lmcx_int_w1s_t;
 
 static inline uint64_t BDK_LMCX_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2533,6 +2569,7 @@ typedef union bdk_lmcx_lanex_crc_swiz {
 	} s;
 	/* struct bdk_lmcx_lanex_crc_swiz_s   cn85xx; */
 	/* struct bdk_lmcx_lanex_crc_swiz_s   cn88xx; */
+	/* struct bdk_lmcx_lanex_crc_swiz_s   cn88xxp1; */
 } bdk_lmcx_lanex_crc_swiz_t;
 
 static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2764,6 +2801,7 @@ typedef union bdk_lmcx_modereg_params0 {
 	} s;
 	/* struct bdk_lmcx_modereg_params0_s  cn85xx; */
 	/* struct bdk_lmcx_modereg_params0_s  cn88xx; */
+	/* struct bdk_lmcx_modereg_params0_s  cn88xxp1; */
 } bdk_lmcx_modereg_params0_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2961,6 +2999,7 @@ typedef union bdk_lmcx_modereg_params1 {
 	} s;
 	/* struct bdk_lmcx_modereg_params1_s  cn85xx; */
 	/* struct bdk_lmcx_modereg_params1_s  cn88xx; */
+	/* struct bdk_lmcx_modereg_params1_s  cn88xxp1; */
 } bdk_lmcx_modereg_params1_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3020,6 +3059,7 @@ typedef union bdk_lmcx_modereg_params2 {
 	} s;
 	/* struct bdk_lmcx_modereg_params2_s  cn85xx; */
 	/* struct bdk_lmcx_modereg_params2_s  cn88xx; */
+	/* struct bdk_lmcx_modereg_params2_s  cn88xxp1; */
 } bdk_lmcx_modereg_params2_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3109,6 +3149,7 @@ typedef union bdk_lmcx_modereg_params3 {
 	} s;
 	/* struct bdk_lmcx_modereg_params3_s  cn85xx; */
 	/* struct bdk_lmcx_modereg_params3_s  cn88xx; */
+	/* struct bdk_lmcx_modereg_params3_s  cn88xxp1; */
 } bdk_lmcx_modereg_params3_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3143,6 +3184,7 @@ typedef union bdk_lmcx_mpr_data0 {
 	} s;
 	/* struct bdk_lmcx_mpr_data0_s        cn85xx; */
 	/* struct bdk_lmcx_mpr_data0_s        cn88xx; */
+	/* struct bdk_lmcx_mpr_data0_s        cn88xxp1; */
 } bdk_lmcx_mpr_data0_t;
 
 static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3177,6 +3219,7 @@ typedef union bdk_lmcx_mpr_data1 {
 	} s;
 	/* struct bdk_lmcx_mpr_data1_s        cn85xx; */
 	/* struct bdk_lmcx_mpr_data1_s        cn88xx; */
+	/* struct bdk_lmcx_mpr_data1_s        cn88xxp1; */
 } bdk_lmcx_mpr_data1_t;
 
 static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3213,6 +3256,7 @@ typedef union bdk_lmcx_mpr_data2 {
 	} s;
 	/* struct bdk_lmcx_mpr_data2_s        cn85xx; */
 	/* struct bdk_lmcx_mpr_data2_s        cn88xx; */
+	/* struct bdk_lmcx_mpr_data2_s        cn88xxp1; */
 } bdk_lmcx_mpr_data2_t;
 
 static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3305,6 +3349,7 @@ typedef union bdk_lmcx_mr_mpr_ctl {
 	} s;
 	/* struct bdk_lmcx_mr_mpr_ctl_s       cn85xx; */
 	/* struct bdk_lmcx_mr_mpr_ctl_s       cn88xx; */
+	/* struct bdk_lmcx_mr_mpr_ctl_s       cn88xxp1; */
 } bdk_lmcx_mr_mpr_ctl_t;
 
 static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3339,6 +3384,7 @@ typedef union bdk_lmcx_msix_pbax {
 	} s;
 	/* struct bdk_lmcx_msix_pbax_s        cn85xx; */
 	/* struct bdk_lmcx_msix_pbax_s        cn88xx; */
+	/* struct bdk_lmcx_msix_pbax_s        cn88xxp1; */
 } bdk_lmcx_msix_pbax_t;
 
 static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3382,6 +3428,7 @@ typedef union bdk_lmcx_msix_vecx_addr {
 	} s;
 	/* struct bdk_lmcx_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_lmcx_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_lmcx_msix_vecx_addr_s   cn88xxp1; */
 } bdk_lmcx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3421,6 +3468,7 @@ typedef union bdk_lmcx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_lmcx_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_lmcx_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_lmcx_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_lmcx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3464,6 +3512,7 @@ typedef union bdk_lmcx_ns_ctl {
 	} s;
 	/* struct bdk_lmcx_ns_ctl_s           cn85xx; */
 	/* struct bdk_lmcx_ns_ctl_s           cn88xx; */
+	/* struct bdk_lmcx_ns_ctl_s           cn88xxp1; */
 } bdk_lmcx_ns_ctl_t;
 
 static inline uint64_t BDK_LMCX_NS_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3542,6 +3591,7 @@ typedef union bdk_lmcx_nxm {
 	} s;
 	/* struct bdk_lmcx_nxm_s              cn85xx; */
 	/* struct bdk_lmcx_nxm_s              cn88xx; */
+	/* struct bdk_lmcx_nxm_s              cn88xxp1; */
 } bdk_lmcx_nxm_t;
 
 static inline uint64_t BDK_LMCX_NXM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3590,6 +3640,7 @@ typedef union bdk_lmcx_nxm_fadr {
 	} s;
 	/* struct bdk_lmcx_nxm_fadr_s         cn85xx; */
 	/* struct bdk_lmcx_nxm_fadr_s         cn88xx; */
+	/* struct bdk_lmcx_nxm_fadr_s         cn88xxp1; */
 } bdk_lmcx_nxm_fadr_t;
 
 static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3622,6 +3673,7 @@ typedef union bdk_lmcx_ops_cnt {
 	} s;
 	/* struct bdk_lmcx_ops_cnt_s          cn85xx; */
 	/* struct bdk_lmcx_ops_cnt_s          cn88xx; */
+	/* struct bdk_lmcx_ops_cnt_s          cn88xxp1; */
 } bdk_lmcx_ops_cnt_t;
 
 static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3736,6 +3788,7 @@ typedef union bdk_lmcx_phy_ctl {
 	} s;
 	/* struct bdk_lmcx_phy_ctl_s          cn85xx; */
 	/* struct bdk_lmcx_phy_ctl_s          cn88xx; */
+	/* struct bdk_lmcx_phy_ctl_s          cn88xxp1; */
 } bdk_lmcx_phy_ctl_t;
 
 static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3814,6 +3867,7 @@ typedef union bdk_lmcx_ppr_ctl {
 	} s;
 	/* struct bdk_lmcx_ppr_ctl_s          cn85xx; */
 	/* struct bdk_lmcx_ppr_ctl_s          cn88xx; */
+	/* struct bdk_lmcx_ppr_ctl_s          cn88xxp1; */
 } bdk_lmcx_ppr_ctl_t;
 
 static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3852,6 +3906,7 @@ typedef union bdk_lmcx_ref_status {
 	} s;
 	/* struct bdk_lmcx_ref_status_s       cn85xx; */
 	/* struct bdk_lmcx_ref_status_s       cn88xx; */
+	/* struct bdk_lmcx_ref_status_s       cn88xxp1; */
 } bdk_lmcx_ref_status_t;
 
 static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3932,6 +3987,7 @@ typedef union bdk_lmcx_reset_ctl {
 	} s;
 	/* struct bdk_lmcx_reset_ctl_s        cn85xx; */
 	/* struct bdk_lmcx_reset_ctl_s        cn88xx; */
+	/* struct bdk_lmcx_reset_ctl_s        cn88xxp1; */
 } bdk_lmcx_reset_ctl_t;
 
 static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3990,6 +4046,7 @@ typedef union bdk_lmcx_retry_config {
 	} s;
 	/* struct bdk_lmcx_retry_config_s     cn85xx; */
 	/* struct bdk_lmcx_retry_config_s     cn88xx; */
+	/* struct bdk_lmcx_retry_config_s     cn88xxp1; */
 } bdk_lmcx_retry_config_t;
 
 static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4055,6 +4112,7 @@ typedef union bdk_lmcx_retry_status {
 	} s;
 	/* struct bdk_lmcx_retry_status_s     cn85xx; */
 	/* struct bdk_lmcx_retry_status_s     cn88xx; */
+	/* struct bdk_lmcx_retry_status_s     cn88xxp1; */
 } bdk_lmcx_retry_status_t;
 
 static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4120,6 +4178,7 @@ typedef union bdk_lmcx_rlevel_ctl {
 	} s;
 	/* struct bdk_lmcx_rlevel_ctl_s       cn85xx; */
 	/* struct bdk_lmcx_rlevel_ctl_s       cn88xx; */
+	/* struct bdk_lmcx_rlevel_ctl_s       cn88xxp1; */
 } bdk_lmcx_rlevel_ctl_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4159,6 +4218,7 @@ typedef union bdk_lmcx_rlevel_dbg {
 	} s;
 	/* struct bdk_lmcx_rlevel_dbg_s       cn85xx; */
 	/* struct bdk_lmcx_rlevel_dbg_s       cn88xx; */
+	/* struct bdk_lmcx_rlevel_dbg_s       cn88xxp1; */
 } bdk_lmcx_rlevel_dbg_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4238,6 +4298,7 @@ typedef union bdk_lmcx_rlevel_rankx {
 	} s;
 	/* struct bdk_lmcx_rlevel_rankx_s     cn85xx; */
 	/* struct bdk_lmcx_rlevel_rankx_s     cn88xx; */
+	/* struct bdk_lmcx_rlevel_rankx_s     cn88xxp1; */
 } bdk_lmcx_rlevel_rankx_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4304,6 +4365,7 @@ typedef union bdk_lmcx_rodt_mask {
 	} s;
 	/* struct bdk_lmcx_rodt_mask_s        cn85xx; */
 	/* struct bdk_lmcx_rodt_mask_s        cn88xx; */
+	/* struct bdk_lmcx_rodt_mask_s        cn88xxp1; */
 } bdk_lmcx_rodt_mask_t;
 
 static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4335,6 +4397,7 @@ typedef union bdk_lmcx_scramble_cfg0 {
 	} s;
 	/* struct bdk_lmcx_scramble_cfg0_s    cn85xx; */
 	/* struct bdk_lmcx_scramble_cfg0_s    cn88xx; */
+	/* struct bdk_lmcx_scramble_cfg0_s    cn88xxp1; */
 } bdk_lmcx_scramble_cfg0_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4369,6 +4432,7 @@ typedef union bdk_lmcx_scramble_cfg1 {
 	} s;
 	/* struct bdk_lmcx_scramble_cfg1_s    cn85xx; */
 	/* struct bdk_lmcx_scramble_cfg1_s    cn88xx; */
+	/* struct bdk_lmcx_scramble_cfg1_s    cn88xxp1; */
 } bdk_lmcx_scramble_cfg1_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4399,6 +4463,7 @@ typedef union bdk_lmcx_scramble_cfg2 {
 	} s;
 	/* struct bdk_lmcx_scramble_cfg2_s    cn85xx; */
 	/* struct bdk_lmcx_scramble_cfg2_s    cn88xx; */
+	/* struct bdk_lmcx_scramble_cfg2_s    cn88xxp1; */
 } bdk_lmcx_scramble_cfg2_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4461,6 +4526,7 @@ typedef union bdk_lmcx_scrambled_fadr {
 	} s;
 	/* struct bdk_lmcx_scrambled_fadr_s   cn85xx; */
 	/* struct bdk_lmcx_scrambled_fadr_s   cn88xx; */
+	/* struct bdk_lmcx_scrambled_fadr_s   cn88xxp1; */
 } bdk_lmcx_scrambled_fadr_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4541,6 +4607,7 @@ typedef union bdk_lmcx_seq_ctl {
 	} s;
 	/* struct bdk_lmcx_seq_ctl_s          cn85xx; */
 	/* struct bdk_lmcx_seq_ctl_s          cn88xx; */
+	/* struct bdk_lmcx_seq_ctl_s          cn88xxp1; */
 } bdk_lmcx_seq_ctl_t;
 
 static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4614,6 +4681,7 @@ typedef union bdk_lmcx_slot_ctl0 {
 	} s;
 	/* struct bdk_lmcx_slot_ctl0_s        cn85xx; */
 	/* struct bdk_lmcx_slot_ctl0_s        cn88xx; */
+	/* struct bdk_lmcx_slot_ctl0_s        cn88xxp1; */
 } bdk_lmcx_slot_ctl0_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4675,6 +4743,7 @@ typedef union bdk_lmcx_slot_ctl1 {
 	} s;
 	/* struct bdk_lmcx_slot_ctl1_s        cn85xx; */
 	/* struct bdk_lmcx_slot_ctl1_s        cn88xx; */
+	/* struct bdk_lmcx_slot_ctl1_s        cn88xxp1; */
 } bdk_lmcx_slot_ctl1_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4735,6 +4804,7 @@ typedef union bdk_lmcx_slot_ctl2 {
 	} s;
 	/* struct bdk_lmcx_slot_ctl2_s        cn85xx; */
 	/* struct bdk_lmcx_slot_ctl2_s        cn88xx; */
+	/* struct bdk_lmcx_slot_ctl2_s        cn88xxp1; */
 } bdk_lmcx_slot_ctl2_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4807,6 +4877,7 @@ typedef union bdk_lmcx_slot_ctl3 {
 	} s;
 	/* struct bdk_lmcx_slot_ctl3_s        cn85xx; */
 	/* struct bdk_lmcx_slot_ctl3_s        cn88xx; */
+	/* struct bdk_lmcx_slot_ctl3_s        cn88xxp1; */
 } bdk_lmcx_slot_ctl3_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4936,6 +5007,7 @@ typedef union bdk_lmcx_timing_params0 {
 	} s;
 	/* struct bdk_lmcx_timing_params0_s   cn85xx; */
 	/* struct bdk_lmcx_timing_params0_s   cn88xx; */
+	/* struct bdk_lmcx_timing_params0_s   cn88xxp1; */
 } bdk_lmcx_timing_params0_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5136,6 +5208,7 @@ typedef union bdk_lmcx_timing_params1 {
 	} s;
 	/* struct bdk_lmcx_timing_params1_s   cn85xx; */
 	/* struct bdk_lmcx_timing_params1_s   cn88xx; */
+	/* struct bdk_lmcx_timing_params1_s   cn88xxp1; */
 } bdk_lmcx_timing_params1_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5215,6 +5288,7 @@ typedef union bdk_lmcx_timing_params2 {
 	} s;
 	/* struct bdk_lmcx_timing_params2_s   cn85xx; */
 	/* struct bdk_lmcx_timing_params2_s   cn88xx; */
+	/* struct bdk_lmcx_timing_params2_s   cn88xxp1; */
 } bdk_lmcx_timing_params2_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5278,6 +5352,7 @@ typedef union bdk_lmcx_wlevel_ctl {
 	} s;
 	/* struct bdk_lmcx_wlevel_ctl_s       cn85xx; */
 	/* struct bdk_lmcx_wlevel_ctl_s       cn88xx; */
+	/* struct bdk_lmcx_wlevel_ctl_s       cn88xxp1; */
 } bdk_lmcx_wlevel_ctl_t;
 
 static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5327,6 +5402,7 @@ typedef union bdk_lmcx_wlevel_dbg {
 	} s;
 	/* struct bdk_lmcx_wlevel_dbg_s       cn85xx; */
 	/* struct bdk_lmcx_wlevel_dbg_s       cn88xx; */
+	/* struct bdk_lmcx_wlevel_dbg_s       cn88xxp1; */
 } bdk_lmcx_wlevel_dbg_t;
 
 static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5415,6 +5491,7 @@ typedef union bdk_lmcx_wlevel_rankx {
 	} s;
 	/* struct bdk_lmcx_wlevel_rankx_s     cn85xx; */
 	/* struct bdk_lmcx_wlevel_rankx_s     cn88xx; */
+	/* struct bdk_lmcx_wlevel_rankx_s     cn88xxp1; */
 } bdk_lmcx_wlevel_rankx_t;
 
 static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5476,6 +5553,7 @@ typedef union bdk_lmcx_wodt_mask {
 	} s;
 	/* struct bdk_lmcx_wodt_mask_s        cn85xx; */
 	/* struct bdk_lmcx_wodt_mask_s        cn88xx; */
+	/* struct bdk_lmcx_wodt_mask_s        cn88xxp1; */
 } bdk_lmcx_wodt_mask_t;
 
 static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long param1) __attribute__ ((pure, always_inline));

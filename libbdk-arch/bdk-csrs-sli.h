@@ -150,6 +150,7 @@ typedef union bdk_slix_bist_status {
 	} s;
 	/* struct bdk_slix_bist_status_s      cn85xx; */
 	/* struct bdk_slix_bist_status_s      cn88xx; */
+	/* struct bdk_slix_bist_status_s      cn88xxp1; */
 } bdk_slix_bist_status_t;
 
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -190,6 +191,7 @@ typedef union bdk_slix_data_out_cntx {
 	} s;
 	/* struct bdk_slix_data_out_cntx_s    cn85xx; */
 	/* struct bdk_slix_data_out_cntx_s    cn88xx; */
+	/* struct bdk_slix_data_out_cntx_s    cn88xxp1; */
 } bdk_slix_data_out_cntx_t;
 
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -223,6 +225,7 @@ typedef union bdk_slix_end_merge {
 	} s;
 	/* struct bdk_slix_end_merge_s        cn85xx; */
 	/* struct bdk_slix_end_merge_s        cn88xx; */
+	/* struct bdk_slix_end_merge_s        cn88xxp1; */
 } bdk_slix_end_merge_t;
 
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -297,6 +300,7 @@ typedef union bdk_slix_m2s_macx_ctl {
 	} s;
 	/* struct bdk_slix_m2s_macx_ctl_s     cn85xx; */
 	/* struct bdk_slix_m2s_macx_ctl_s     cn88xx; */
+	/* struct bdk_slix_m2s_macx_ctl_s     cn88xxp1; */
 } bdk_slix_m2s_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -339,6 +343,7 @@ typedef union bdk_slix_macx_int_ena_w1c {
 	} s;
 	/* struct bdk_slix_macx_int_ena_w1c_s cn85xx; */
 	/* struct bdk_slix_macx_int_ena_w1c_s cn88xx; */
+	/* struct bdk_slix_macx_int_ena_w1c_s cn88xxp1; */
 } bdk_slix_macx_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -381,6 +386,7 @@ typedef union bdk_slix_macx_int_ena_w1s {
 	} s;
 	/* struct bdk_slix_macx_int_ena_w1s_s cn85xx; */
 	/* struct bdk_slix_macx_int_ena_w1s_s cn88xx; */
+	/* struct bdk_slix_macx_int_ena_w1s_s cn88xxp1; */
 } bdk_slix_macx_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -426,6 +432,7 @@ typedef union bdk_slix_macx_int_sum {
 	} s;
 	/* struct bdk_slix_macx_int_sum_s     cn85xx; */
 	/* struct bdk_slix_macx_int_sum_s     cn88xx; */
+	/* struct bdk_slix_macx_int_sum_s     cn88xxp1; */
 } bdk_slix_macx_int_sum_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -468,6 +475,7 @@ typedef union bdk_slix_macx_int_sum_w1s {
 	} s;
 	/* struct bdk_slix_macx_int_sum_w1s_s cn85xx; */
 	/* struct bdk_slix_macx_int_sum_w1s_s cn88xx; */
+	/* struct bdk_slix_macx_int_sum_w1s_s cn88xxp1; */
 } bdk_slix_macx_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -513,6 +521,7 @@ typedef union bdk_slix_mac_number {
 	} s;
 	/* struct bdk_slix_mac_number_s       cn85xx; */
 	/* struct bdk_slix_mac_number_s       cn88xx; */
+	/* struct bdk_slix_mac_number_s       cn88xxp1; */
 } bdk_slix_mac_number_t;
 
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -549,6 +558,7 @@ typedef union bdk_slix_mbe_int_ena_w1c {
 	} s;
 	/* struct bdk_slix_mbe_int_ena_w1c_s  cn85xx; */
 	/* struct bdk_slix_mbe_int_ena_w1c_s  cn88xx; */
+	/* struct bdk_slix_mbe_int_ena_w1c_s  cn88xxp1; */
 } bdk_slix_mbe_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -585,6 +595,7 @@ typedef union bdk_slix_mbe_int_ena_w1s {
 	} s;
 	/* struct bdk_slix_mbe_int_ena_w1s_s  cn85xx; */
 	/* struct bdk_slix_mbe_int_ena_w1s_s  cn88xx; */
+	/* struct bdk_slix_mbe_int_ena_w1s_s  cn88xxp1; */
 } bdk_slix_mbe_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -624,6 +635,7 @@ typedef union bdk_slix_mbe_int_sum {
 	} s;
 	/* struct bdk_slix_mbe_int_sum_s      cn85xx; */
 	/* struct bdk_slix_mbe_int_sum_s      cn88xx; */
+	/* struct bdk_slix_mbe_int_sum_s      cn88xxp1; */
 } bdk_slix_mbe_int_sum_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -660,6 +672,7 @@ typedef union bdk_slix_mbe_int_sum_w1s {
 	} s;
 	/* struct bdk_slix_mbe_int_sum_w1s_s  cn85xx; */
 	/* struct bdk_slix_mbe_int_sum_w1s_s  cn88xx; */
+	/* struct bdk_slix_mbe_int_sum_w1s_s  cn88xxp1; */
 } bdk_slix_mbe_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -718,6 +731,7 @@ typedef union bdk_slix_mem_ctl {
 	} s;
 	/* struct bdk_slix_mem_ctl_s          cn85xx; */
 	/* struct bdk_slix_mem_ctl_s          cn88xx; */
+	/* struct bdk_slix_mem_ctl_s          cn88xxp1; */
 } bdk_slix_mem_ctl_t;
 
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -752,6 +766,7 @@ typedef union bdk_slix_msix_pbax {
 	} s;
 	/* struct bdk_slix_msix_pbax_s        cn85xx; */
 	/* struct bdk_slix_msix_pbax_s        cn88xx; */
+	/* struct bdk_slix_msix_pbax_s        cn88xxp1; */
 } bdk_slix_msix_pbax_t;
 
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -798,6 +813,7 @@ typedef union bdk_slix_msix_vecx_addr {
 	} s;
 	/* struct bdk_slix_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_slix_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_slix_msix_vecx_addr_s   cn88xxp1; */
 } bdk_slix_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -837,6 +853,7 @@ typedef union bdk_slix_msix_vecx_ctl {
 	} s;
 	/* struct bdk_slix_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_slix_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_slix_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_slix_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -878,6 +895,7 @@ typedef union bdk_slix_s2m_ctl {
 	} s;
 	/* struct bdk_slix_s2m_ctl_s          cn85xx; */
 	/* struct bdk_slix_s2m_ctl_s          cn88xx; */
+	/* struct bdk_slix_s2m_ctl_s          cn88xxp1; */
 } bdk_slix_s2m_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -923,6 +941,7 @@ typedef union bdk_slix_s2m_macx_ctl {
 	} s;
 	/* struct bdk_slix_s2m_macx_ctl_s     cn85xx; */
 	/* struct bdk_slix_s2m_macx_ctl_s     cn88xx; */
+	/* struct bdk_slix_s2m_macx_ctl_s     cn88xxp1; */
 } bdk_slix_s2m_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -986,6 +1005,7 @@ typedef union bdk_slix_s2m_regx_acc {
 	} s;
 	/* struct bdk_slix_s2m_regx_acc_s     cn85xx; */
 	/* struct bdk_slix_s2m_regx_acc_s     cn88xx; */
+	/* struct bdk_slix_s2m_regx_acc_s     cn88xxp1; */
 } bdk_slix_s2m_regx_acc_t;
 
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1019,6 +1039,7 @@ typedef union bdk_slix_scratch_1 {
 	} s;
 	/* struct bdk_slix_scratch_1_s        cn85xx; */
 	/* struct bdk_slix_scratch_1_s        cn88xx; */
+	/* struct bdk_slix_scratch_1_s        cn88xxp1; */
 } bdk_slix_scratch_1_t;
 
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1052,6 +1073,7 @@ typedef union bdk_slix_scratch_2 {
 	} s;
 	/* struct bdk_slix_scratch_2_s        cn85xx; */
 	/* struct bdk_slix_scratch_2_s        cn88xx; */
+	/* struct bdk_slix_scratch_2_s        cn88xxp1; */
 } bdk_slix_scratch_2_t;
 
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1094,6 +1116,7 @@ typedef union bdk_slix_win_rd_addr {
 	} s;
 	/* struct bdk_slix_win_rd_addr_s      cn85xx; */
 	/* struct bdk_slix_win_rd_addr_s      cn88xx; */
+	/* struct bdk_slix_win_rd_addr_s      cn88xxp1; */
 } bdk_slix_win_rd_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1127,6 +1150,7 @@ typedef union bdk_slix_win_rd_data {
 	} s;
 	/* struct bdk_slix_win_rd_data_s      cn85xx; */
 	/* struct bdk_slix_win_rd_data_s      cn88xx; */
+	/* struct bdk_slix_win_rd_data_s      cn88xxp1; */
 } bdk_slix_win_rd_data_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1165,6 +1189,7 @@ typedef union bdk_slix_win_wr_addr {
 	} s;
 	/* struct bdk_slix_win_wr_addr_s      cn85xx; */
 	/* struct bdk_slix_win_wr_addr_s      cn88xx; */
+	/* struct bdk_slix_win_wr_addr_s      cn88xxp1; */
 } bdk_slix_win_wr_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1198,6 +1223,7 @@ typedef union bdk_slix_win_wr_data {
 	} s;
 	/* struct bdk_slix_win_wr_data_s      cn85xx; */
 	/* struct bdk_slix_win_wr_data_s      cn88xx; */
+	/* struct bdk_slix_win_wr_data_s      cn88xxp1; */
 } bdk_slix_win_wr_data_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1233,6 +1259,7 @@ typedef union bdk_slix_win_wr_mask {
 	} s;
 	/* struct bdk_slix_win_wr_mask_s      cn85xx; */
 	/* struct bdk_slix_win_wr_mask_s      cn88xx; */
+	/* struct bdk_slix_win_wr_mask_s      cn88xxp1; */
 } bdk_slix_win_wr_mask_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long param1) __attribute__ ((pure, always_inline));

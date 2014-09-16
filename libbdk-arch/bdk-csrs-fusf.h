@@ -77,6 +77,7 @@ typedef union bdk_fusf_bnk_datx {
 	} s;
 	/* struct bdk_fusf_bnk_datx_s         cn85xx; */
 	/* struct bdk_fusf_bnk_datx_s         cn88xx; */
+	/* struct bdk_fusf_bnk_datx_s         cn88xxp1; */
 } bdk_fusf_bnk_datx_t;
 
 static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -171,6 +172,7 @@ typedef union bdk_fusf_ctl {
 	} s;
 	/* struct bdk_fusf_ctl_s              cn85xx; */
 	/* struct bdk_fusf_ctl_s              cn88xx; */
+	/* struct bdk_fusf_ctl_s              cn88xxp1; */
 } bdk_fusf_ctl_t;
 
 #define BDK_FUSF_CTL BDK_FUSF_CTL_FUNC()
@@ -211,6 +213,7 @@ typedef union bdk_fusf_ekx {
 	} s;
 	/* struct bdk_fusf_ekx_s              cn85xx; */
 	/* struct bdk_fusf_ekx_s              cn88xx; */
+	/* struct bdk_fusf_ekx_s              cn88xxp1; */
 } bdk_fusf_ekx_t;
 
 static inline uint64_t BDK_FUSF_EKX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -255,6 +258,7 @@ typedef union bdk_fusf_hukx {
 	} s;
 	/* struct bdk_fusf_hukx_s             cn85xx; */
 	/* struct bdk_fusf_hukx_s             cn88xx; */
+	/* struct bdk_fusf_hukx_s             cn88xxp1; */
 } bdk_fusf_hukx_t;
 
 static inline uint64_t BDK_FUSF_HUKX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -306,6 +310,7 @@ typedef union bdk_fusf_prog {
 	} s;
 	/* struct bdk_fusf_prog_s             cn85xx; */
 	/* struct bdk_fusf_prog_s             cn88xx; */
+	/* struct bdk_fusf_prog_s             cn88xxp1; */
 } bdk_fusf_prog_t;
 
 #define BDK_FUSF_PROG BDK_FUSF_PROG_FUNC()
@@ -352,6 +357,7 @@ typedef union bdk_fusf_rcmd {
 	} s;
 	/* struct bdk_fusf_rcmd_s             cn85xx; */
 	/* struct bdk_fusf_rcmd_s             cn88xx; */
+	/* struct bdk_fusf_rcmd_s             cn88xxp1; */
 } bdk_fusf_rcmd_t;
 
 #define BDK_FUSF_RCMD BDK_FUSF_RCMD_FUNC()
@@ -394,6 +400,7 @@ typedef union bdk_fusf_rotpkx {
 	} s;
 	/* struct bdk_fusf_rotpkx_s           cn85xx; */
 	/* struct bdk_fusf_rotpkx_s           cn88xx; */
+	/* struct bdk_fusf_rotpkx_s           cn88xxp1; */
 } bdk_fusf_rotpkx_t;
 
 static inline uint64_t BDK_FUSF_ROTPKX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -431,6 +438,7 @@ typedef union bdk_fusf_sskx {
 	} s;
 	/* struct bdk_fusf_sskx_s             cn85xx; */
 	/* struct bdk_fusf_sskx_s             cn88xx; */
+	/* struct bdk_fusf_sskx_s             cn88xxp1; */
 } bdk_fusf_sskx_t;
 
 static inline uint64_t BDK_FUSF_SSKX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -472,6 +480,7 @@ typedef union bdk_fusf_swx {
 	} s;
 	/* struct bdk_fusf_swx_s              cn85xx; */
 	/* struct bdk_fusf_swx_s              cn88xx; */
+	/* struct bdk_fusf_swx_s              cn88xxp1; */
 } bdk_fusf_swx_t;
 
 static inline uint64_t BDK_FUSF_SWX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -504,6 +513,7 @@ typedef union bdk_fusf_wadr {
 	} s;
 	/* struct bdk_fusf_wadr_s             cn85xx; */
 	/* struct bdk_fusf_wadr_s             cn88xx; */
+	/* struct bdk_fusf_wadr_s             cn88xxp1; */
 } bdk_fusf_wadr_t;
 
 #define BDK_FUSF_WADR BDK_FUSF_WADR_FUNC()

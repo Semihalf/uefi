@@ -155,6 +155,7 @@ typedef union bdk_satax_msix_pbax {
 	} s;
 	/* struct bdk_satax_msix_pbax_s       cn85xx; */
 	/* struct bdk_satax_msix_pbax_s       cn88xx; */
+	/* struct bdk_satax_msix_pbax_s       cn88xxp1; */
 } bdk_satax_msix_pbax_t;
 
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -203,6 +204,7 @@ typedef union bdk_satax_msix_vecx_addr {
 	} s;
 	/* struct bdk_satax_msix_vecx_addr_s  cn85xx; */
 	/* struct bdk_satax_msix_vecx_addr_s  cn88xx; */
+	/* struct bdk_satax_msix_vecx_addr_s  cn88xxp1; */
 } bdk_satax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -242,6 +244,7 @@ typedef union bdk_satax_msix_vecx_ctl {
 	} s;
 	/* struct bdk_satax_msix_vecx_ctl_s   cn85xx; */
 	/* struct bdk_satax_msix_vecx_ctl_s   cn88xx; */
+	/* struct bdk_satax_msix_vecx_ctl_s   cn88xxp1; */
 } bdk_satax_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -298,6 +301,7 @@ typedef union bdk_satax_uahc_gbl_bistafr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_bistafr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistafr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_bistafr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistafr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -375,6 +379,7 @@ typedef union bdk_satax_uahc_gbl_bistcr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_bistcr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistcr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_bistcr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistcr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -411,6 +416,7 @@ typedef union bdk_satax_uahc_gbl_bistdecr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_bistdecr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistdecr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_bistdecr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistdecr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -447,6 +453,7 @@ typedef union bdk_satax_uahc_gbl_bistfctr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_bistfctr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistfctr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_bistfctr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistfctr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -484,6 +491,7 @@ typedef union bdk_satax_uahc_gbl_bistsr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_bistsr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistsr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_bistsr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistsr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -557,6 +565,7 @@ typedef union bdk_satax_uahc_gbl_cap {
 	} s;
 	/* struct bdk_satax_uahc_gbl_cap_s    cn85xx; */
 	/* struct bdk_satax_uahc_gbl_cap_s    cn88xx; */
+	/* struct bdk_satax_uahc_gbl_cap_s    cn88xxp1; */
 } bdk_satax_uahc_gbl_cap_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -602,6 +611,7 @@ typedef union bdk_satax_uahc_gbl_cap2 {
 	} s;
 	/* struct bdk_satax_uahc_gbl_cap2_s   cn85xx; */
 	/* struct bdk_satax_uahc_gbl_cap2_s   cn88xx; */
+	/* struct bdk_satax_uahc_gbl_cap2_s   cn88xxp1; */
 } bdk_satax_uahc_gbl_cap2_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -643,6 +653,7 @@ typedef union bdk_satax_uahc_gbl_ccc_ctl {
 	} s;
 	/* struct bdk_satax_uahc_gbl_ccc_ctl_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_ccc_ctl_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_ccc_ctl_s cn88xxp1; */
 } bdk_satax_uahc_gbl_ccc_ctl_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -678,6 +689,7 @@ typedef union bdk_satax_uahc_gbl_ccc_ports {
 	} s;
 	/* struct bdk_satax_uahc_gbl_ccc_ports_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_ccc_ports_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_ccc_ports_s cn88xxp1; */
 } bdk_satax_uahc_gbl_ccc_ports_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -717,6 +729,7 @@ typedef union bdk_satax_uahc_gbl_ghc {
 	} s;
 	/* struct bdk_satax_uahc_gbl_ghc_s    cn85xx; */
 	/* struct bdk_satax_uahc_gbl_ghc_s    cn88xx; */
+	/* struct bdk_satax_uahc_gbl_ghc_s    cn88xxp1; */
 } bdk_satax_uahc_gbl_ghc_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -776,6 +789,7 @@ typedef union bdk_satax_uahc_gbl_gparam1r {
 	} s;
 	/* struct bdk_satax_uahc_gbl_gparam1r_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_gparam1r_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_gparam1r_s cn88xxp1; */
 } bdk_satax_uahc_gbl_gparam1r_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -835,6 +849,7 @@ typedef union bdk_satax_uahc_gbl_gparam2r {
 	} s;
 	/* struct bdk_satax_uahc_gbl_gparam2r_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_gparam2r_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_gparam2r_s cn88xxp1; */
 } bdk_satax_uahc_gbl_gparam2r_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -868,6 +883,7 @@ typedef union bdk_satax_uahc_gbl_idr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_idr_s    cn85xx; */
 	/* struct bdk_satax_uahc_gbl_idr_s    cn88xx; */
+	/* struct bdk_satax_uahc_gbl_idr_s    cn88xxp1; */
 } bdk_satax_uahc_gbl_idr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -903,6 +919,7 @@ typedef union bdk_satax_uahc_gbl_is {
 	} s;
 	/* struct bdk_satax_uahc_gbl_is_s     cn85xx; */
 	/* struct bdk_satax_uahc_gbl_is_s     cn88xx; */
+	/* struct bdk_satax_uahc_gbl_is_s     cn88xxp1; */
 } bdk_satax_uahc_gbl_is_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -947,6 +964,7 @@ typedef union bdk_satax_uahc_gbl_oobr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_oobr_s   cn85xx; */
 	/* struct bdk_satax_uahc_gbl_oobr_s   cn88xx; */
+	/* struct bdk_satax_uahc_gbl_oobr_s   cn88xxp1; */
 } bdk_satax_uahc_gbl_oobr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -982,6 +1000,7 @@ typedef union bdk_satax_uahc_gbl_pi {
 	} s;
 	/* struct bdk_satax_uahc_gbl_pi_s     cn85xx; */
 	/* struct bdk_satax_uahc_gbl_pi_s     cn88xx; */
+	/* struct bdk_satax_uahc_gbl_pi_s     cn88xxp1; */
 } bdk_satax_uahc_gbl_pi_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1028,6 +1047,7 @@ typedef union bdk_satax_uahc_gbl_pparamr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_pparamr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_pparamr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_pparamr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_pparamr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1067,6 +1087,7 @@ typedef union bdk_satax_uahc_gbl_testr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_testr_s  cn85xx; */
 	/* struct bdk_satax_uahc_gbl_testr_s  cn88xx; */
+	/* struct bdk_satax_uahc_gbl_testr_s  cn88xxp1; */
 } bdk_satax_uahc_gbl_testr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1102,6 +1123,7 @@ typedef union bdk_satax_uahc_gbl_timer1ms {
 	} s;
 	/* struct bdk_satax_uahc_gbl_timer1ms_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_timer1ms_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_timer1ms_s cn88xxp1; */
 } bdk_satax_uahc_gbl_timer1ms_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1135,6 +1157,7 @@ typedef union bdk_satax_uahc_gbl_versionr {
 	} s;
 	/* struct bdk_satax_uahc_gbl_versionr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_versionr_s cn88xx; */
+	/* struct bdk_satax_uahc_gbl_versionr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_versionr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1170,6 +1193,7 @@ typedef union bdk_satax_uahc_gbl_vs {
 	} s;
 	/* struct bdk_satax_uahc_gbl_vs_s     cn85xx; */
 	/* struct bdk_satax_uahc_gbl_vs_s     cn88xx; */
+	/* struct bdk_satax_uahc_gbl_vs_s     cn88xxp1; */
 } bdk_satax_uahc_gbl_vs_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1203,6 +1227,7 @@ typedef union bdk_satax_uahc_p0_ci {
 	} s;
 	/* struct bdk_satax_uahc_p0_ci_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_ci_s      cn88xx; */
+	/* struct bdk_satax_uahc_p0_ci_s      cn88xxp1; */
 } bdk_satax_uahc_p0_ci_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1238,6 +1263,7 @@ typedef union bdk_satax_uahc_p0_clb {
 	} s;
 	/* struct bdk_satax_uahc_p0_clb_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_clb_s     cn88xx; */
+	/* struct bdk_satax_uahc_p0_clb_s     cn88xxp1; */
 } bdk_satax_uahc_p0_clb_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1316,6 +1342,7 @@ typedef union bdk_satax_uahc_p0_cmd {
 	} s;
 	/* struct bdk_satax_uahc_p0_cmd_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_cmd_s     cn88xx; */
+	/* struct bdk_satax_uahc_p0_cmd_s     cn88xxp1; */
 } bdk_satax_uahc_p0_cmd_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1355,6 +1382,7 @@ typedef union bdk_satax_uahc_p0_dmacr {
 	} s;
 	/* struct bdk_satax_uahc_p0_dmacr_s   cn85xx; */
 	/* struct bdk_satax_uahc_p0_dmacr_s   cn88xx; */
+	/* struct bdk_satax_uahc_p0_dmacr_s   cn88xxp1; */
 } bdk_satax_uahc_p0_dmacr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1390,6 +1418,7 @@ typedef union bdk_satax_uahc_p0_fb {
 	} s;
 	/* struct bdk_satax_uahc_p0_fb_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_fb_s      cn88xx; */
+	/* struct bdk_satax_uahc_p0_fb_s      cn88xxp1; */
 } bdk_satax_uahc_p0_fb_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1437,6 +1466,7 @@ typedef union bdk_satax_uahc_p0_fbs {
 	} s;
 	/* struct bdk_satax_uahc_p0_fbs_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_fbs_s     cn88xx; */
+	/* struct bdk_satax_uahc_p0_fbs_s     cn88xxp1; */
 } bdk_satax_uahc_p0_fbs_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1506,6 +1536,7 @@ typedef union bdk_satax_uahc_p0_ie {
 	} s;
 	/* struct bdk_satax_uahc_p0_ie_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_ie_s      cn88xx; */
+	/* struct bdk_satax_uahc_p0_ie_s      cn88xxp1; */
 } bdk_satax_uahc_p0_ie_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1575,6 +1606,7 @@ typedef union bdk_satax_uahc_p0_is {
 	} s;
 	/* struct bdk_satax_uahc_p0_is_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_is_s      cn88xx; */
+	/* struct bdk_satax_uahc_p0_is_s      cn88xxp1; */
 } bdk_satax_uahc_p0_is_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1608,6 +1640,7 @@ typedef union bdk_satax_uahc_p0_phycr {
 	} s;
 	/* struct bdk_satax_uahc_p0_phycr_s   cn85xx; */
 	/* struct bdk_satax_uahc_p0_phycr_s   cn88xx; */
+	/* struct bdk_satax_uahc_p0_phycr_s   cn88xxp1; */
 } bdk_satax_uahc_p0_phycr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1641,6 +1674,7 @@ typedef union bdk_satax_uahc_p0_physr {
 	} s;
 	/* struct bdk_satax_uahc_p0_physr_s   cn85xx; */
 	/* struct bdk_satax_uahc_p0_physr_s   cn88xx; */
+	/* struct bdk_satax_uahc_p0_physr_s   cn88xxp1; */
 } bdk_satax_uahc_p0_physr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1674,6 +1708,7 @@ typedef union bdk_satax_uahc_p0_sact {
 	} s;
 	/* struct bdk_satax_uahc_p0_sact_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_sact_s    cn88xx; */
+	/* struct bdk_satax_uahc_p0_sact_s    cn88xxp1; */
 } bdk_satax_uahc_p0_sact_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1717,6 +1752,7 @@ typedef union bdk_satax_uahc_p0_sctl {
 	} s;
 	/* struct bdk_satax_uahc_p0_sctl_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_sctl_s    cn88xx; */
+	/* struct bdk_satax_uahc_p0_sctl_s    cn88xxp1; */
 } bdk_satax_uahc_p0_sctl_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1788,6 +1824,7 @@ typedef union bdk_satax_uahc_p0_serr {
 	} s;
 	/* struct bdk_satax_uahc_p0_serr_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_serr_s    cn88xx; */
+	/* struct bdk_satax_uahc_p0_serr_s    cn88xxp1; */
 } bdk_satax_uahc_p0_serr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1821,6 +1858,7 @@ typedef union bdk_satax_uahc_p0_sig {
 	} s;
 	/* struct bdk_satax_uahc_p0_sig_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_sig_s     cn88xx; */
+	/* struct bdk_satax_uahc_p0_sig_s     cn88xxp1; */
 } bdk_satax_uahc_p0_sig_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1856,6 +1894,7 @@ typedef union bdk_satax_uahc_p0_sntf {
 	} s;
 	/* struct bdk_satax_uahc_p0_sntf_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_sntf_s    cn88xx; */
+	/* struct bdk_satax_uahc_p0_sntf_s    cn88xxp1; */
 } bdk_satax_uahc_p0_sntf_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1895,6 +1934,7 @@ typedef union bdk_satax_uahc_p0_ssts {
 	} s;
 	/* struct bdk_satax_uahc_p0_ssts_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_ssts_s    cn88xx; */
+	/* struct bdk_satax_uahc_p0_ssts_s    cn88xxp1; */
 } bdk_satax_uahc_p0_ssts_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1932,6 +1972,7 @@ typedef union bdk_satax_uahc_p0_tfd {
 	} s;
 	/* struct bdk_satax_uahc_p0_tfd_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_tfd_s     cn88xx; */
+	/* struct bdk_satax_uahc_p0_tfd_s     cn88xxp1; */
 } bdk_satax_uahc_p0_tfd_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1997,6 +2038,7 @@ typedef union bdk_satax_uctl_bist_status {
 	} s;
 	/* struct bdk_satax_uctl_bist_status_s cn85xx; */
 	/* struct bdk_satax_uctl_bist_status_s cn88xx; */
+	/* struct bdk_satax_uctl_bist_status_s cn88xxp1; */
 } bdk_satax_uctl_bist_status_t;
 
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2108,6 +2150,7 @@ typedef union bdk_satax_uctl_ctl {
 	} s;
 	/* struct bdk_satax_uctl_ctl_s        cn85xx; */
 	/* struct bdk_satax_uctl_ctl_s        cn88xx; */
+	/* struct bdk_satax_uctl_ctl_s        cn88xxp1; */
 } bdk_satax_uctl_ctl_t;
 
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2184,6 +2227,7 @@ typedef union bdk_satax_uctl_ecc {
 	} s;
 	/* struct bdk_satax_uctl_ecc_s        cn85xx; */
 	/* struct bdk_satax_uctl_ecc_s        cn88xx; */
+	/* struct bdk_satax_uctl_ecc_s        cn88xxp1; */
 } bdk_satax_uctl_ecc_t;
 
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2254,6 +2298,7 @@ typedef union bdk_satax_uctl_intena_w1c {
 	} s;
 	/* struct bdk_satax_uctl_intena_w1c_s cn85xx; */
 	/* struct bdk_satax_uctl_intena_w1c_s cn88xx; */
+	/* struct bdk_satax_uctl_intena_w1c_s cn88xxp1; */
 } bdk_satax_uctl_intena_w1c_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2324,6 +2369,7 @@ typedef union bdk_satax_uctl_intena_w1s {
 	} s;
 	/* struct bdk_satax_uctl_intena_w1s_s cn85xx; */
 	/* struct bdk_satax_uctl_intena_w1s_s cn88xx; */
+	/* struct bdk_satax_uctl_intena_w1s_s cn88xxp1; */
 } bdk_satax_uctl_intena_w1s_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2400,6 +2446,7 @@ typedef union bdk_satax_uctl_intstat {
 	} s;
 	/* struct bdk_satax_uctl_intstat_s    cn85xx; */
 	/* struct bdk_satax_uctl_intstat_s    cn88xx; */
+	/* struct bdk_satax_uctl_intstat_s    cn88xxp1; */
 } bdk_satax_uctl_intstat_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2470,6 +2517,7 @@ typedef union bdk_satax_uctl_intstat_w1s {
 	} s;
 	/* struct bdk_satax_uctl_intstat_w1s_s cn85xx; */
 	/* struct bdk_satax_uctl_intstat_w1s_s cn88xx; */
+	/* struct bdk_satax_uctl_intstat_w1s_s cn88xxp1; */
 } bdk_satax_uctl_intstat_w1s_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2540,6 +2588,7 @@ typedef union bdk_satax_uctl_shim_cfg {
 	} s;
 	/* struct bdk_satax_uctl_shim_cfg_s   cn85xx; */
 	/* struct bdk_satax_uctl_shim_cfg_s   cn88xx; */
+	/* struct bdk_satax_uctl_shim_cfg_s   cn88xxp1; */
 } bdk_satax_uctl_shim_cfg_t;
 
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2576,6 +2625,7 @@ typedef union bdk_satax_uctl_spare0 {
 	} s;
 	/* struct bdk_satax_uctl_spare0_s     cn85xx; */
 	/* struct bdk_satax_uctl_spare0_s     cn88xx; */
+	/* struct bdk_satax_uctl_spare0_s     cn88xxp1; */
 } bdk_satax_uctl_spare0_t;
 
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2612,6 +2662,7 @@ typedef union bdk_satax_uctl_spare1 {
 	} s;
 	/* struct bdk_satax_uctl_spare1_s     cn85xx; */
 	/* struct bdk_satax_uctl_spare1_s     cn88xx; */
+	/* struct bdk_satax_uctl_spare1_s     cn88xxp1; */
 } bdk_satax_uctl_spare1_t;
 
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long param1) __attribute__ ((pure, always_inline));

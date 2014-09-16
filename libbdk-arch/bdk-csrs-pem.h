@@ -108,6 +108,7 @@ typedef union bdk_pemx_bar1_indexx {
 	} s;
 	/* struct bdk_pemx_bar1_indexx_s      cn85xx; */
 	/* struct bdk_pemx_bar1_indexx_s      cn88xx; */
+	/* struct bdk_pemx_bar1_indexx_s      cn88xxp1; */
 } bdk_pemx_bar1_indexx_t;
 
 static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -145,6 +146,7 @@ typedef union bdk_pemx_bar2_mask {
 	} s;
 	/* struct bdk_pemx_bar2_mask_s        cn85xx; */
 	/* struct bdk_pemx_bar2_mask_s        cn88xx; */
+	/* struct bdk_pemx_bar2_mask_s        cn88xxp1; */
 } bdk_pemx_bar2_mask_t;
 
 static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -195,6 +197,7 @@ typedef union bdk_pemx_bar_ctl {
 	} s;
 	/* struct bdk_pemx_bar_ctl_s          cn85xx; */
 	/* struct bdk_pemx_bar_ctl_s          cn88xx; */
+	/* struct bdk_pemx_bar_ctl_s          cn88xxp1; */
 } bdk_pemx_bar_ctl_t;
 
 static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -280,6 +283,7 @@ typedef union bdk_pemx_bist_status {
 	} s;
 	/* struct bdk_pemx_bist_status_s      cn85xx; */
 	/* struct bdk_pemx_bist_status_s      cn88xx; */
+	/* struct bdk_pemx_bist_status_s      cn88xxp1; */
 } bdk_pemx_bist_status_t;
 
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -331,6 +335,7 @@ typedef union bdk_pemx_cfg {
 	} s;
 	/* struct bdk_pemx_cfg_s              cn85xx; */
 	/* struct bdk_pemx_cfg_s              cn88xx; */
+	/* struct bdk_pemx_cfg_s              cn88xxp1; */
 } bdk_pemx_cfg_t;
 
 static inline uint64_t BDK_PEMX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -369,6 +374,7 @@ typedef union bdk_pemx_cfg_rd {
 	} s;
 	/* struct bdk_pemx_cfg_rd_s           cn85xx; */
 	/* struct bdk_pemx_cfg_rd_s           cn88xx; */
+	/* struct bdk_pemx_cfg_rd_s           cn88xxp1; */
 } bdk_pemx_cfg_rd_t;
 
 static inline uint64_t BDK_PEMX_CFG_RD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -408,6 +414,7 @@ typedef union bdk_pemx_cfg_wr {
 	} s;
 	/* struct bdk_pemx_cfg_wr_s           cn85xx; */
 	/* struct bdk_pemx_cfg_wr_s           cn88xx; */
+	/* struct bdk_pemx_cfg_wr_s           cn88xxp1; */
 } bdk_pemx_cfg_wr_t;
 
 static inline uint64_t BDK_PEMX_CFG_WR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -445,6 +452,7 @@ typedef union bdk_pemx_clk_en {
 	} s;
 	/* struct bdk_pemx_clk_en_s           cn85xx; */
 	/* struct bdk_pemx_clk_en_s           cn88xx; */
+	/* struct bdk_pemx_clk_en_s           cn88xxp1; */
 } bdk_pemx_clk_en_t;
 
 static inline uint64_t BDK_PEMX_CLK_EN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -478,6 +486,7 @@ typedef union bdk_pemx_cpl_lut_valid {
 	} s;
 	/* struct bdk_pemx_cpl_lut_valid_s    cn85xx; */
 	/* struct bdk_pemx_cpl_lut_valid_s    cn88xx; */
+	/* struct bdk_pemx_cpl_lut_valid_s    cn88xxp1; */
 } bdk_pemx_cpl_lut_valid_t;
 
 static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -563,6 +572,7 @@ typedef union bdk_pemx_ctl_status {
 	} s;
 	/* struct bdk_pemx_ctl_status_s       cn85xx; */
 	/* struct bdk_pemx_ctl_status_s       cn88xx; */
+	/* struct bdk_pemx_ctl_status_s       cn88xxp1; */
 } bdk_pemx_ctl_status_t;
 
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -603,6 +613,7 @@ typedef union bdk_pemx_ctl_status2 {
 	} s;
 	/* struct bdk_pemx_ctl_status2_s      cn85xx; */
 	/* struct bdk_pemx_ctl_status2_s      cn88xx; */
+	/* struct bdk_pemx_ctl_status2_s      cn88xxp1; */
 } bdk_pemx_ctl_status2_t;
 
 static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -755,6 +766,7 @@ typedef union bdk_pemx_dbg_ena_w1c {
 	} s;
 	/* struct bdk_pemx_dbg_ena_w1c_s      cn85xx; */
 	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xx; */
+	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xxp1; */
 } bdk_pemx_dbg_ena_w1c_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -907,6 +919,7 @@ typedef union bdk_pemx_dbg_ena_w1s {
 	} s;
 	/* struct bdk_pemx_dbg_ena_w1s_s      cn85xx; */
 	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xx; */
+	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xxp1; */
 } bdk_pemx_dbg_ena_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1062,6 +1075,7 @@ typedef union bdk_pemx_dbg_info {
 	} s;
 	/* struct bdk_pemx_dbg_info_s         cn85xx; */
 	/* struct bdk_pemx_dbg_info_s         cn88xx; */
+	/* struct bdk_pemx_dbg_info_s         cn88xxp1; */
 } bdk_pemx_dbg_info_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1214,6 +1228,7 @@ typedef union bdk_pemx_dbg_info_w1s {
 	} s;
 	/* struct bdk_pemx_dbg_info_w1s_s     cn85xx; */
 	/* struct bdk_pemx_dbg_info_w1s_s     cn88xx; */
+	/* struct bdk_pemx_dbg_info_w1s_s     cn88xxp1; */
 } bdk_pemx_dbg_info_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1249,6 +1264,7 @@ typedef union bdk_pemx_debug {
 	} s;
 	/* struct bdk_pemx_debug_s            cn85xx; */
 	/* struct bdk_pemx_debug_s            cn88xx; */
+	/* struct bdk_pemx_debug_s            cn88xxp1; */
 } bdk_pemx_debug_t;
 
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1292,6 +1308,7 @@ typedef union bdk_pemx_diag_status {
 	} s;
 	/* struct bdk_pemx_diag_status_s      cn85xx; */
 	/* struct bdk_pemx_diag_status_s      cn88xx; */
+	/* struct bdk_pemx_diag_status_s      cn88xxp1; */
 } bdk_pemx_diag_status_t;
 
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1351,6 +1368,7 @@ typedef union bdk_pemx_ecc_ena {
 	} s;
 	/* struct bdk_pemx_ecc_ena_s          cn85xx; */
 	/* struct bdk_pemx_ecc_ena_s          cn88xx; */
+	/* struct bdk_pemx_ecc_ena_s          cn88xxp1; */
 } bdk_pemx_ecc_ena_t;
 
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1410,6 +1428,7 @@ typedef union bdk_pemx_ecc_synd_ctrl {
 	} s;
 	/* struct bdk_pemx_ecc_synd_ctrl_s    cn85xx; */
 	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xx; */
+	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xxp1; */
 } bdk_pemx_ecc_synd_ctrl_t;
 
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1446,6 +1465,7 @@ typedef union bdk_pemx_inb_read_credits {
 	} s;
 	/* struct bdk_pemx_inb_read_credits_s cn85xx; */
 	/* struct bdk_pemx_inb_read_credits_s cn88xx; */
+	/* struct bdk_pemx_inb_read_credits_s cn88xxp1; */
 } bdk_pemx_inb_read_credits_t;
 
 static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1502,6 +1522,7 @@ typedef union bdk_pemx_int_ena_w1c {
 	} s;
 	/* struct bdk_pemx_int_ena_w1c_s      cn85xx; */
 	/* struct bdk_pemx_int_ena_w1c_s      cn88xx; */
+	/* struct bdk_pemx_int_ena_w1c_s      cn88xxp1; */
 } bdk_pemx_int_ena_w1c_t;
 
 static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1558,6 +1579,7 @@ typedef union bdk_pemx_int_ena_w1s {
 	} s;
 	/* struct bdk_pemx_int_ena_w1s_s      cn85xx; */
 	/* struct bdk_pemx_int_ena_w1s_s      cn88xx; */
+	/* struct bdk_pemx_int_ena_w1s_s      cn88xxp1; */
 } bdk_pemx_int_ena_w1s_t;
 
 static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1617,6 +1639,7 @@ typedef union bdk_pemx_int_sum {
 	} s;
 	/* struct bdk_pemx_int_sum_s          cn85xx; */
 	/* struct bdk_pemx_int_sum_s          cn88xx; */
+	/* struct bdk_pemx_int_sum_s          cn88xxp1; */
 } bdk_pemx_int_sum_t;
 
 static inline uint64_t BDK_PEMX_INT_SUM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1673,6 +1696,7 @@ typedef union bdk_pemx_int_sum_w1s {
 	} s;
 	/* struct bdk_pemx_int_sum_w1s_s      cn85xx; */
 	/* struct bdk_pemx_int_sum_w1s_s      cn88xx; */
+	/* struct bdk_pemx_int_sum_w1s_s      cn88xxp1; */
 } bdk_pemx_int_sum_w1s_t;
 
 static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1707,6 +1731,7 @@ typedef union bdk_pemx_msix_pbax {
 	} s;
 	/* struct bdk_pemx_msix_pbax_s        cn85xx; */
 	/* struct bdk_pemx_msix_pbax_s        cn88xx; */
+	/* struct bdk_pemx_msix_pbax_s        cn88xxp1; */
 } bdk_pemx_msix_pbax_t;
 
 static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1754,6 +1779,7 @@ typedef union bdk_pemx_msix_vecx_addr {
 	} s;
 	/* struct bdk_pemx_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_pemx_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_pemx_msix_vecx_addr_s   cn88xxp1; */
 } bdk_pemx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1793,6 +1819,7 @@ typedef union bdk_pemx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_pemx_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_pemx_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_pemx_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_pemx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1832,6 +1859,7 @@ typedef union bdk_pemx_on {
 	} s;
 	/* struct bdk_pemx_on_s               cn85xx; */
 	/* struct bdk_pemx_on_s               cn88xx; */
+	/* struct bdk_pemx_on_s               cn88xxp1; */
 } bdk_pemx_on_t;
 
 static inline uint64_t BDK_PEMX_ON(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1867,6 +1895,7 @@ typedef union bdk_pemx_p2n_bar0_start {
 	} s;
 	/* struct bdk_pemx_p2n_bar0_start_s   cn85xx; */
 	/* struct bdk_pemx_p2n_bar0_start_s   cn88xx; */
+	/* struct bdk_pemx_p2n_bar0_start_s   cn88xxp1; */
 } bdk_pemx_p2n_bar0_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1902,6 +1931,7 @@ typedef union bdk_pemx_p2n_bar1_start {
 	} s;
 	/* struct bdk_pemx_p2n_bar1_start_s   cn85xx; */
 	/* struct bdk_pemx_p2n_bar1_start_s   cn88xx; */
+	/* struct bdk_pemx_p2n_bar1_start_s   cn88xxp1; */
 } bdk_pemx_p2n_bar1_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1938,6 +1968,7 @@ typedef union bdk_pemx_p2n_bar2_start {
 	} s;
 	/* struct bdk_pemx_p2n_bar2_start_s   cn85xx; */
 	/* struct bdk_pemx_p2n_bar2_start_s   cn88xx; */
+	/* struct bdk_pemx_p2n_bar2_start_s   cn88xxp1; */
 } bdk_pemx_p2n_bar2_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1984,6 +2015,7 @@ typedef union bdk_pemx_tlp_credits {
 	} s;
 	/* struct bdk_pemx_tlp_credits_s      cn85xx; */
 	/* struct bdk_pemx_tlp_credits_s      cn88xx; */
+	/* struct bdk_pemx_tlp_credits_s      cn88xxp1; */
 } bdk_pemx_tlp_credits_t;
 
 static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long param1) __attribute__ ((pure, always_inline));

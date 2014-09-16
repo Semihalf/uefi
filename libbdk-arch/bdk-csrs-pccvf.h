@@ -77,6 +77,7 @@ typedef union bdk_pccvf_xxx_ari_cap_hdr {
 	} s;
 	/* struct bdk_pccvf_xxx_ari_cap_hdr_s cn85xx; */
 	/* struct bdk_pccvf_xxx_ari_cap_hdr_s cn88xx; */
+	/* struct bdk_pccvf_xxx_ari_cap_hdr_s cn88xxp1; */
 } bdk_pccvf_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCVF_XXX_ARI_CAP_HDR BDK_PCCVF_XXX_ARI_CAP_HDR_FUNC()
@@ -108,6 +109,7 @@ typedef union bdk_pccvf_xxx_cap_ptr {
 	} s;
 	/* struct bdk_pccvf_xxx_cap_ptr_s     cn85xx; */
 	/* struct bdk_pccvf_xxx_cap_ptr_s     cn88xx; */
+	/* struct bdk_pccvf_xxx_cap_ptr_s     cn88xxp1; */
 } bdk_pccvf_xxx_cap_ptr_t;
 
 #define BDK_PCCVF_XXX_CAP_PTR BDK_PCCVF_XXX_CAP_PTR_FUNC()
@@ -147,6 +149,7 @@ typedef union bdk_pccvf_xxx_cmd {
 	} s;
 	/* struct bdk_pccvf_xxx_cmd_s         cn85xx; */
 	/* struct bdk_pccvf_xxx_cmd_s         cn88xx; */
+	/* struct bdk_pccvf_xxx_cmd_s         cn88xxp1; */
 } bdk_pccvf_xxx_cmd_t;
 
 #define BDK_PCCVF_XXX_CMD BDK_PCCVF_XXX_CMD_FUNC()
@@ -183,6 +186,7 @@ typedef union bdk_pccvf_xxx_e_cap_hdr {
 	} s;
 	/* struct bdk_pccvf_xxx_e_cap_hdr_s   cn85xx; */
 	/* struct bdk_pccvf_xxx_e_cap_hdr_s   cn88xx; */
+	/* struct bdk_pccvf_xxx_e_cap_hdr_s   cn88xxp1; */
 } bdk_pccvf_xxx_e_cap_hdr_t;
 
 #define BDK_PCCVF_XXX_E_CAP_HDR BDK_PCCVF_XXX_E_CAP_HDR_FUNC()
@@ -214,6 +218,7 @@ typedef union bdk_pccvf_xxx_id {
 	} s;
 	/* struct bdk_pccvf_xxx_id_s          cn85xx; */
 	/* struct bdk_pccvf_xxx_id_s          cn88xx; */
+	/* struct bdk_pccvf_xxx_id_s          cn88xxp1; */
 } bdk_pccvf_xxx_id_t;
 
 #define BDK_PCCVF_XXX_ID BDK_PCCVF_XXX_ID_FUNC()
@@ -256,6 +261,7 @@ typedef union bdk_pccvf_xxx_msix_cap_hdr {
 	} s;
 	/* struct bdk_pccvf_xxx_msix_cap_hdr_s cn85xx; */
 	/* struct bdk_pccvf_xxx_msix_cap_hdr_s cn88xx; */
+	/* struct bdk_pccvf_xxx_msix_cap_hdr_s cn88xxp1; */
 } bdk_pccvf_xxx_msix_cap_hdr_t;
 
 #define BDK_PCCVF_XXX_MSIX_CAP_HDR BDK_PCCVF_XXX_MSIX_CAP_HDR_FUNC()
@@ -289,6 +295,7 @@ typedef union bdk_pccvf_xxx_msix_pba {
 	} s;
 	/* struct bdk_pccvf_xxx_msix_pba_s    cn85xx; */
 	/* struct bdk_pccvf_xxx_msix_pba_s    cn88xx; */
+	/* struct bdk_pccvf_xxx_msix_pba_s    cn88xxp1; */
 } bdk_pccvf_xxx_msix_pba_t;
 
 #define BDK_PCCVF_XXX_MSIX_PBA BDK_PCCVF_XXX_MSIX_PBA_FUNC()
@@ -322,6 +329,7 @@ typedef union bdk_pccvf_xxx_msix_table {
 	} s;
 	/* struct bdk_pccvf_xxx_msix_table_s  cn85xx; */
 	/* struct bdk_pccvf_xxx_msix_table_s  cn88xx; */
+	/* struct bdk_pccvf_xxx_msix_table_s  cn88xxp1; */
 } bdk_pccvf_xxx_msix_table_t;
 
 #define BDK_PCCVF_XXX_MSIX_TABLE BDK_PCCVF_XXX_MSIX_TABLE_FUNC()
@@ -357,6 +365,7 @@ typedef union bdk_pccvf_xxx_rev {
 	} s;
 	/* struct bdk_pccvf_xxx_rev_s         cn85xx; */
 	/* struct bdk_pccvf_xxx_rev_s         cn88xx; */
+	/* struct bdk_pccvf_xxx_rev_s         cn88xxp1; */
 } bdk_pccvf_xxx_rev_t;
 
 #define BDK_PCCVF_XXX_REV BDK_PCCVF_XXX_REV_FUNC()
@@ -389,6 +398,7 @@ typedef union bdk_pccvf_xxx_subid {
 	} s;
 	/* struct bdk_pccvf_xxx_subid_s       cn85xx; */
 	/* struct bdk_pccvf_xxx_subid_s       cn88xx; */
+	/* struct bdk_pccvf_xxx_subid_s       cn88xxp1; */
 } bdk_pccvf_xxx_subid_t;
 
 #define BDK_PCCVF_XXX_SUBID BDK_PCCVF_XXX_SUBID_FUNC()

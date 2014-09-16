@@ -76,6 +76,7 @@ typedef union bdk_tb_abort_rgn64_hi1 {
 	} s;
 	/* struct bdk_tb_abort_rgn64_hi1_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi1_s    cn88xx; */
+	/* struct bdk_tb_abort_rgn64_hi1_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_hi1_t;
 
 #define BDK_TB_ABORT_RGN64_HI1 BDK_TB_ABORT_RGN64_HI1_FUNC()
@@ -108,6 +109,7 @@ typedef union bdk_tb_abort_rgn64_hi1_hi {
 	} s;
 	/* struct bdk_tb_abort_rgn64_hi1_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi1_hi_s cn88xx; */
+	/* struct bdk_tb_abort_rgn64_hi1_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_hi1_hi_t;
 
 #define BDK_TB_ABORT_RGN64_HI1_HI BDK_TB_ABORT_RGN64_HI1_HI_FUNC()
@@ -140,6 +142,7 @@ typedef union bdk_tb_abort_rgn64_hi2 {
 	} s;
 	/* struct bdk_tb_abort_rgn64_hi2_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi2_s    cn88xx; */
+	/* struct bdk_tb_abort_rgn64_hi2_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_hi2_t;
 
 #define BDK_TB_ABORT_RGN64_HI2 BDK_TB_ABORT_RGN64_HI2_FUNC()
@@ -172,6 +175,7 @@ typedef union bdk_tb_abort_rgn64_hi2_hi {
 	} s;
 	/* struct bdk_tb_abort_rgn64_hi2_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi2_hi_s cn88xx; */
+	/* struct bdk_tb_abort_rgn64_hi2_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_hi2_hi_t;
 
 #define BDK_TB_ABORT_RGN64_HI2_HI BDK_TB_ABORT_RGN64_HI2_HI_FUNC()
@@ -204,6 +208,7 @@ typedef union bdk_tb_abort_rgn64_lo1 {
 	} s;
 	/* struct bdk_tb_abort_rgn64_lo1_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo1_s    cn88xx; */
+	/* struct bdk_tb_abort_rgn64_lo1_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_lo1_t;
 
 #define BDK_TB_ABORT_RGN64_LO1 BDK_TB_ABORT_RGN64_LO1_FUNC()
@@ -236,6 +241,7 @@ typedef union bdk_tb_abort_rgn64_lo1_hi {
 	} s;
 	/* struct bdk_tb_abort_rgn64_lo1_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo1_hi_s cn88xx; */
+	/* struct bdk_tb_abort_rgn64_lo1_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_lo1_hi_t;
 
 #define BDK_TB_ABORT_RGN64_LO1_HI BDK_TB_ABORT_RGN64_LO1_HI_FUNC()
@@ -268,6 +274,7 @@ typedef union bdk_tb_abort_rgn64_lo2 {
 	} s;
 	/* struct bdk_tb_abort_rgn64_lo2_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo2_s    cn88xx; */
+	/* struct bdk_tb_abort_rgn64_lo2_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_lo2_t;
 
 #define BDK_TB_ABORT_RGN64_LO2 BDK_TB_ABORT_RGN64_LO2_FUNC()
@@ -300,6 +307,7 @@ typedef union bdk_tb_abort_rgn64_lo2_hi {
 	} s;
 	/* struct bdk_tb_abort_rgn64_lo2_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo2_hi_s cn88xx; */
+	/* struct bdk_tb_abort_rgn64_lo2_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_lo2_hi_t;
 
 #define BDK_TB_ABORT_RGN64_LO2_HI BDK_TB_ABORT_RGN64_LO2_HI_FUNC()
@@ -333,6 +341,7 @@ typedef union bdk_tb_abort_rgn_hi1 {
 	} s;
 	/* struct bdk_tb_abort_rgn_hi1_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_hi1_s      cn88xx; */
+	/* struct bdk_tb_abort_rgn_hi1_s      cn88xxp1; */
 } bdk_tb_abort_rgn_hi1_t;
 
 #define BDK_TB_ABORT_RGN_HI1 BDK_TB_ABORT_RGN_HI1_FUNC()
@@ -366,6 +375,7 @@ typedef union bdk_tb_abort_rgn_hi2 {
 	} s;
 	/* struct bdk_tb_abort_rgn_hi2_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_hi2_s      cn88xx; */
+	/* struct bdk_tb_abort_rgn_hi2_s      cn88xxp1; */
 } bdk_tb_abort_rgn_hi2_t;
 
 #define BDK_TB_ABORT_RGN_HI2 BDK_TB_ABORT_RGN_HI2_FUNC()
@@ -399,6 +409,7 @@ typedef union bdk_tb_abort_rgn_lo1 {
 	} s;
 	/* struct bdk_tb_abort_rgn_lo1_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_lo1_s      cn88xx; */
+	/* struct bdk_tb_abort_rgn_lo1_s      cn88xxp1; */
 } bdk_tb_abort_rgn_lo1_t;
 
 #define BDK_TB_ABORT_RGN_LO1 BDK_TB_ABORT_RGN_LO1_FUNC()
@@ -432,6 +443,7 @@ typedef union bdk_tb_abort_rgn_lo2 {
 	} s;
 	/* struct bdk_tb_abort_rgn_lo2_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_lo2_s      cn88xx; */
+	/* struct bdk_tb_abort_rgn_lo2_s      cn88xxp1; */
 } bdk_tb_abort_rgn_lo2_t;
 
 #define BDK_TB_ABORT_RGN_LO2 BDK_TB_ABORT_RGN_LO2_FUNC()
@@ -464,6 +476,7 @@ typedef union bdk_tb_address {
 	} s;
 	/* struct bdk_tb_address_s            cn85xx; */
 	/* struct bdk_tb_address_s            cn88xx; */
+	/* struct bdk_tb_address_s            cn88xxp1; */
 } bdk_tb_address_t;
 
 #define BDK_TB_ADDRESS BDK_TB_ADDRESS_FUNC()
@@ -519,6 +532,7 @@ typedef union bdk_tb_attributes {
 	} s;
 	/* struct bdk_tb_attributes_s         cn85xx; */
 	/* struct bdk_tb_attributes_s         cn88xx; */
+	/* struct bdk_tb_attributes_s         cn88xxp1; */
 } bdk_tb_attributes_t;
 
 #define BDK_TB_ATTRIBUTES BDK_TB_ATTRIBUTES_FUNC()
@@ -578,6 +592,7 @@ typedef union bdk_tb_axi_abort_ctl {
 	} s;
 	/* struct bdk_tb_axi_abort_ctl_s      cn85xx; */
 	/* struct bdk_tb_axi_abort_ctl_s      cn88xx; */
+	/* struct bdk_tb_axi_abort_ctl_s      cn88xxp1; */
 } bdk_tb_axi_abort_ctl_t;
 
 #define BDK_TB_AXI_ABORT_CTL BDK_TB_AXI_ABORT_CTL_FUNC()
@@ -612,6 +627,7 @@ typedef union bdk_tb_clear_fiq {
 	} s;
 	/* struct bdk_tb_clear_fiq_s          cn85xx; */
 	/* struct bdk_tb_clear_fiq_s          cn88xx; */
+	/* struct bdk_tb_clear_fiq_s          cn88xxp1; */
 } bdk_tb_clear_fiq_t;
 
 #define BDK_TB_CLEAR_FIQ BDK_TB_CLEAR_FIQ_FUNC()
@@ -647,6 +663,7 @@ typedef union bdk_tb_clear_irq {
 	} s;
 	/* struct bdk_tb_clear_irq_s          cn85xx; */
 	/* struct bdk_tb_clear_irq_s          cn88xx; */
+	/* struct bdk_tb_clear_irq_s          cn88xxp1; */
 } bdk_tb_clear_irq_t;
 
 #define BDK_TB_CLEAR_IRQ BDK_TB_CLEAR_IRQ_FUNC()
@@ -730,6 +747,7 @@ typedef union bdk_tb_core_generated_irq_pin_value {
 	} s;
 	/* struct bdk_tb_core_generated_irq_pin_value_s cn85xx; */
 	/* struct bdk_tb_core_generated_irq_pin_value_s cn88xx; */
+	/* struct bdk_tb_core_generated_irq_pin_value_s cn88xxp1; */
 } bdk_tb_core_generated_irq_pin_value_t;
 
 #define BDK_TB_CORE_GENERATED_IRQ_PIN_VALUE BDK_TB_CORE_GENERATED_IRQ_PIN_VALUE_FUNC()
@@ -765,6 +783,7 @@ typedef union bdk_tb_data {
 	} s;
 	/* struct bdk_tb_data_s               cn85xx; */
 	/* struct bdk_tb_data_s               cn88xx; */
+	/* struct bdk_tb_data_s               cn88xxp1; */
 } bdk_tb_data_t;
 
 #define BDK_TB_DATA BDK_TB_DATA_FUNC()
@@ -819,6 +838,7 @@ typedef union bdk_tb_dbg_control {
 	} s;
 	/* struct bdk_tb_dbg_control_s        cn85xx; */
 	/* struct bdk_tb_dbg_control_s        cn88xx; */
+	/* struct bdk_tb_dbg_control_s        cn88xxp1; */
 } bdk_tb_dbg_control_t;
 
 #define BDK_TB_DBG_CONTROL BDK_TB_DBG_CONTROL_FUNC()
@@ -851,6 +871,7 @@ typedef union bdk_tb_device_id {
 	} s;
 	/* struct bdk_tb_device_id_s          cn85xx; */
 	/* struct bdk_tb_device_id_s          cn88xx; */
+	/* struct bdk_tb_device_id_s          cn88xxp1; */
 } bdk_tb_device_id_t;
 
 #define BDK_TB_DEVICE_ID BDK_TB_DEVICE_ID_FUNC()
@@ -901,6 +922,7 @@ typedef union bdk_tb_dormant_control {
 	} s;
 	/* struct bdk_tb_dormant_control_s    cn85xx; */
 	/* struct bdk_tb_dormant_control_s    cn88xx; */
+	/* struct bdk_tb_dormant_control_s    cn88xxp1; */
 } bdk_tb_dormant_control_t;
 
 #define BDK_TB_DORMANT_CONTROL BDK_TB_DORMANT_CONTROL_FUNC()
@@ -933,6 +955,7 @@ typedef union bdk_tb_extended_target_cpu {
 	} s;
 	/* struct bdk_tb_extended_target_cpu_s cn85xx; */
 	/* struct bdk_tb_extended_target_cpu_s cn88xx; */
+	/* struct bdk_tb_extended_target_cpu_s cn88xxp1; */
 } bdk_tb_extended_target_cpu_t;
 
 #define BDK_TB_EXTENDED_TARGET_CPU BDK_TB_EXTENDED_TARGET_CPU_FUNC()
@@ -966,6 +989,7 @@ typedef union bdk_tb_gic_rd_event_status_index {
 	} s;
 	/* struct bdk_tb_gic_rd_event_status_index_s cn85xx; */
 	/* struct bdk_tb_gic_rd_event_status_index_s cn88xx; */
+	/* struct bdk_tb_gic_rd_event_status_index_s cn88xxp1; */
 } bdk_tb_gic_rd_event_status_index_t;
 
 #define BDK_TB_GIC_RD_EVENT_STATUS_INDEX BDK_TB_GIC_RD_EVENT_STATUS_INDEX_FUNC()
@@ -1002,6 +1026,7 @@ typedef union bdk_tb_gic_rd_event_status_value {
 	} s;
 	/* struct bdk_tb_gic_rd_event_status_value_s cn85xx; */
 	/* struct bdk_tb_gic_rd_event_status_value_s cn88xx; */
+	/* struct bdk_tb_gic_rd_event_status_value_s cn88xxp1; */
 } bdk_tb_gic_rd_event_status_value_t;
 
 #define BDK_TB_GIC_RD_EVENT_STATUS_VALUE BDK_TB_GIC_RD_EVENT_STATUS_VALUE_FUNC()
@@ -1034,6 +1059,7 @@ typedef union bdk_tb_gte_api {
 	} s;
 	/* struct bdk_tb_gte_api_s            cn85xx; */
 	/* struct bdk_tb_gte_api_s            cn88xx; */
+	/* struct bdk_tb_gte_api_s            cn88xxp1; */
 } bdk_tb_gte_api_t;
 
 #define BDK_TB_GTE_API BDK_TB_GTE_API_FUNC()
@@ -1066,6 +1092,7 @@ typedef union bdk_tb_gte_api_param {
 	} s;
 	/* struct bdk_tb_gte_api_param_s      cn85xx; */
 	/* struct bdk_tb_gte_api_param_s      cn88xx; */
+	/* struct bdk_tb_gte_api_param_s      cn88xxp1; */
 } bdk_tb_gte_api_param_t;
 
 #define BDK_TB_GTE_API_PARAM BDK_TB_GTE_API_PARAM_FUNC()
@@ -1098,6 +1125,7 @@ typedef union bdk_tb_gte_api_param_64 {
 	} s;
 	/* struct bdk_tb_gte_api_param_64_s   cn85xx; */
 	/* struct bdk_tb_gte_api_param_64_s   cn88xx; */
+	/* struct bdk_tb_gte_api_param_64_s   cn88xxp1; */
 } bdk_tb_gte_api_param_64_t;
 
 #define BDK_TB_GTE_API_PARAM_64 BDK_TB_GTE_API_PARAM_64_FUNC()
@@ -1130,6 +1158,7 @@ typedef union bdk_tb_gte_api_param_64_hi {
 	} s;
 	/* struct bdk_tb_gte_api_param_64_hi_s cn85xx; */
 	/* struct bdk_tb_gte_api_param_64_hi_s cn88xx; */
+	/* struct bdk_tb_gte_api_param_64_hi_s cn88xxp1; */
 } bdk_tb_gte_api_param_64_hi_t;
 
 #define BDK_TB_GTE_API_PARAM_64_HI BDK_TB_GTE_API_PARAM_64_HI_FUNC()
@@ -1162,6 +1191,7 @@ typedef union bdk_tb_gte_api_status {
 	} s;
 	/* struct bdk_tb_gte_api_status_s     cn85xx; */
 	/* struct bdk_tb_gte_api_status_s     cn88xx; */
+	/* struct bdk_tb_gte_api_status_s     cn88xxp1; */
 } bdk_tb_gte_api_status_t;
 
 #define BDK_TB_GTE_API_STATUS BDK_TB_GTE_API_STATUS_FUNC()
@@ -1194,6 +1224,7 @@ typedef union bdk_tb_gte_api_status_64 {
 	} s;
 	/* struct bdk_tb_gte_api_status_64_s  cn85xx; */
 	/* struct bdk_tb_gte_api_status_64_s  cn88xx; */
+	/* struct bdk_tb_gte_api_status_64_s  cn88xxp1; */
 } bdk_tb_gte_api_status_64_t;
 
 #define BDK_TB_GTE_API_STATUS_64 BDK_TB_GTE_API_STATUS_64_FUNC()
@@ -1226,6 +1257,7 @@ typedef union bdk_tb_gte_api_status_64_hi {
 	} s;
 	/* struct bdk_tb_gte_api_status_64_hi_s cn85xx; */
 	/* struct bdk_tb_gte_api_status_64_hi_s cn88xx; */
+	/* struct bdk_tb_gte_api_status_64_hi_s cn88xxp1; */
 } bdk_tb_gte_api_status_64_hi_t;
 
 #define BDK_TB_GTE_API_STATUS_64_HI BDK_TB_GTE_API_STATUS_64_HI_FUNC()
@@ -1273,6 +1305,7 @@ typedef union bdk_tb_operate {
 	} s;
 	/* struct bdk_tb_operate_s            cn85xx; */
 	/* struct bdk_tb_operate_s            cn88xx; */
+	/* struct bdk_tb_operate_s            cn88xxp1; */
 } bdk_tb_operate_t;
 
 #define BDK_TB_OPERATE BDK_TB_OPERATE_FUNC()
@@ -1360,6 +1393,7 @@ typedef union bdk_tb_pin_configuration {
 	} s;
 	/* struct bdk_tb_pin_configuration_s  cn85xx; */
 	/* struct bdk_tb_pin_configuration_s  cn88xx; */
+	/* struct bdk_tb_pin_configuration_s  cn88xxp1; */
 } bdk_tb_pin_configuration_t;
 
 #define BDK_TB_PIN_CONFIGURATION BDK_TB_PIN_CONFIGURATION_FUNC()
@@ -1400,6 +1434,7 @@ typedef union bdk_tb_ppi_group_target_core {
 	} s;
 	/* struct bdk_tb_ppi_group_target_core_s cn85xx; */
 	/* struct bdk_tb_ppi_group_target_core_s cn88xx; */
+	/* struct bdk_tb_ppi_group_target_core_s cn88xxp1; */
 } bdk_tb_ppi_group_target_core_t;
 
 #define BDK_TB_PPI_GROUP_TARGET_CORE BDK_TB_PPI_GROUP_TARGET_CORE_FUNC()
@@ -1440,6 +1475,7 @@ typedef union bdk_tb_ppi_group_value {
 	} s;
 	/* struct bdk_tb_ppi_group_value_s    cn85xx; */
 	/* struct bdk_tb_ppi_group_value_s    cn88xx; */
+	/* struct bdk_tb_ppi_group_value_s    cn88xxp1; */
 } bdk_tb_ppi_group_value_t;
 
 #define BDK_TB_PPI_GROUP_VALUE BDK_TB_PPI_GROUP_VALUE_FUNC()
@@ -1475,6 +1511,7 @@ typedef union bdk_tb_ppu0addr {
 	} s;
 	/* struct bdk_tb_ppu0addr_s           cn85xx; */
 	/* struct bdk_tb_ppu0addr_s           cn88xx; */
+	/* struct bdk_tb_ppu0addr_s           cn88xxp1; */
 } bdk_tb_ppu0addr_t;
 
 #define BDK_TB_PPU0ADDR BDK_TB_PPU0ADDR_FUNC()
@@ -1537,6 +1574,7 @@ typedef union bdk_tb_ppu0mask {
 	} s;
 	/* struct bdk_tb_ppu0mask_s           cn85xx; */
 	/* struct bdk_tb_ppu0mask_s           cn88xx; */
+	/* struct bdk_tb_ppu0mask_s           cn88xxp1; */
 } bdk_tb_ppu0mask_t;
 
 #define BDK_TB_PPU0MASK BDK_TB_PPU0MASK_FUNC()
@@ -1572,6 +1610,7 @@ typedef union bdk_tb_ppu1addr {
 	} s;
 	/* struct bdk_tb_ppu1addr_s           cn85xx; */
 	/* struct bdk_tb_ppu1addr_s           cn88xx; */
+	/* struct bdk_tb_ppu1addr_s           cn88xxp1; */
 } bdk_tb_ppu1addr_t;
 
 #define BDK_TB_PPU1ADDR BDK_TB_PPU1ADDR_FUNC()
@@ -1634,6 +1673,7 @@ typedef union bdk_tb_ppu1mask {
 	} s;
 	/* struct bdk_tb_ppu1mask_s           cn85xx; */
 	/* struct bdk_tb_ppu1mask_s           cn88xx; */
+	/* struct bdk_tb_ppu1mask_s           cn88xxp1; */
 } bdk_tb_ppu1mask_t;
 
 #define BDK_TB_PPU1MASK BDK_TB_PPU1MASK_FUNC()
@@ -1669,6 +1709,7 @@ typedef union bdk_tb_ppu2addr {
 	} s;
 	/* struct bdk_tb_ppu2addr_s           cn85xx; */
 	/* struct bdk_tb_ppu2addr_s           cn88xx; */
+	/* struct bdk_tb_ppu2addr_s           cn88xxp1; */
 } bdk_tb_ppu2addr_t;
 
 #define BDK_TB_PPU2ADDR BDK_TB_PPU2ADDR_FUNC()
@@ -1731,6 +1772,7 @@ typedef union bdk_tb_ppu2mask {
 	} s;
 	/* struct bdk_tb_ppu2mask_s           cn85xx; */
 	/* struct bdk_tb_ppu2mask_s           cn88xx; */
+	/* struct bdk_tb_ppu2mask_s           cn88xxp1; */
 } bdk_tb_ppu2mask_t;
 
 #define BDK_TB_PPU2MASK BDK_TB_PPU2MASK_FUNC()
@@ -1766,6 +1808,7 @@ typedef union bdk_tb_ppu3addr {
 	} s;
 	/* struct bdk_tb_ppu3addr_s           cn85xx; */
 	/* struct bdk_tb_ppu3addr_s           cn88xx; */
+	/* struct bdk_tb_ppu3addr_s           cn88xxp1; */
 } bdk_tb_ppu3addr_t;
 
 #define BDK_TB_PPU3ADDR BDK_TB_PPU3ADDR_FUNC()
@@ -1828,6 +1871,7 @@ typedef union bdk_tb_ppu3mask {
 	} s;
 	/* struct bdk_tb_ppu3mask_s           cn85xx; */
 	/* struct bdk_tb_ppu3mask_s           cn88xx; */
+	/* struct bdk_tb_ppu3mask_s           cn88xxp1; */
 } bdk_tb_ppu3mask_t;
 
 #define BDK_TB_PPU3MASK BDK_TB_PPU3MASK_FUNC()
@@ -1863,6 +1907,7 @@ typedef union bdk_tb_ppu4addr {
 	} s;
 	/* struct bdk_tb_ppu4addr_s           cn85xx; */
 	/* struct bdk_tb_ppu4addr_s           cn88xx; */
+	/* struct bdk_tb_ppu4addr_s           cn88xxp1; */
 } bdk_tb_ppu4addr_t;
 
 #define BDK_TB_PPU4ADDR BDK_TB_PPU4ADDR_FUNC()
@@ -1925,6 +1970,7 @@ typedef union bdk_tb_ppu4mask {
 	} s;
 	/* struct bdk_tb_ppu4mask_s           cn85xx; */
 	/* struct bdk_tb_ppu4mask_s           cn88xx; */
+	/* struct bdk_tb_ppu4mask_s           cn88xxp1; */
 } bdk_tb_ppu4mask_t;
 
 #define BDK_TB_PPU4MASK BDK_TB_PPU4MASK_FUNC()
@@ -1960,6 +2006,7 @@ typedef union bdk_tb_ppu5addr {
 	} s;
 	/* struct bdk_tb_ppu5addr_s           cn85xx; */
 	/* struct bdk_tb_ppu5addr_s           cn88xx; */
+	/* struct bdk_tb_ppu5addr_s           cn88xxp1; */
 } bdk_tb_ppu5addr_t;
 
 #define BDK_TB_PPU5ADDR BDK_TB_PPU5ADDR_FUNC()
@@ -2022,6 +2069,7 @@ typedef union bdk_tb_ppu5mask {
 	} s;
 	/* struct bdk_tb_ppu5mask_s           cn85xx; */
 	/* struct bdk_tb_ppu5mask_s           cn88xx; */
+	/* struct bdk_tb_ppu5mask_s           cn88xxp1; */
 } bdk_tb_ppu5mask_t;
 
 #define BDK_TB_PPU5MASK BDK_TB_PPU5MASK_FUNC()
@@ -2056,6 +2104,7 @@ typedef union bdk_tb_rei_target_core {
 	} s;
 	/* struct bdk_tb_rei_target_core_s    cn85xx; */
 	/* struct bdk_tb_rei_target_core_s    cn88xx; */
+	/* struct bdk_tb_rei_target_core_s    cn88xxp1; */
 } bdk_tb_rei_target_core_t;
 
 #define BDK_TB_REI_TARGET_CORE BDK_TB_REI_TARGET_CORE_FUNC()
@@ -2091,6 +2140,7 @@ typedef union bdk_tb_rei_value {
 	} s;
 	/* struct bdk_tb_rei_value_s          cn85xx; */
 	/* struct bdk_tb_rei_value_s          cn88xx; */
+	/* struct bdk_tb_rei_value_s          cn88xxp1; */
 } bdk_tb_rei_value_t;
 
 #define BDK_TB_REI_VALUE BDK_TB_REI_VALUE_FUNC()
@@ -2128,6 +2178,7 @@ typedef union bdk_tb_schedule_fiq {
 	} s;
 	/* struct bdk_tb_schedule_fiq_s       cn85xx; */
 	/* struct bdk_tb_schedule_fiq_s       cn88xx; */
+	/* struct bdk_tb_schedule_fiq_s       cn88xxp1; */
 } bdk_tb_schedule_fiq_t;
 
 #define BDK_TB_SCHEDULE_FIQ BDK_TB_SCHEDULE_FIQ_FUNC()
@@ -2165,6 +2216,7 @@ typedef union bdk_tb_schedule_irq {
 	} s;
 	/* struct bdk_tb_schedule_irq_s       cn85xx; */
 	/* struct bdk_tb_schedule_irq_s       cn88xx; */
+	/* struct bdk_tb_schedule_irq_s       cn88xxp1; */
 } bdk_tb_schedule_irq_t;
 
 #define BDK_TB_SCHEDULE_IRQ BDK_TB_SCHEDULE_IRQ_FUNC()
@@ -2203,6 +2255,7 @@ typedef union bdk_tb_schedule_rst {
 	} s;
 	/* struct bdk_tb_schedule_rst_s       cn85xx; */
 	/* struct bdk_tb_schedule_rst_s       cn88xx; */
+	/* struct bdk_tb_schedule_rst_s       cn88xxp1; */
 } bdk_tb_schedule_rst_t;
 
 #define BDK_TB_SCHEDULE_RST BDK_TB_SCHEDULE_RST_FUNC()
@@ -2249,6 +2302,7 @@ typedef union bdk_tb_sei_ppi_rei_control {
 	} s;
 	/* struct bdk_tb_sei_ppi_rei_control_s cn85xx; */
 	/* struct bdk_tb_sei_ppi_rei_control_s cn88xx; */
+	/* struct bdk_tb_sei_ppi_rei_control_s cn88xxp1; */
 } bdk_tb_sei_ppi_rei_control_t;
 
 #define BDK_TB_SEI_PPI_REI_CONTROL BDK_TB_SEI_PPI_REI_CONTROL_FUNC()
@@ -2283,6 +2337,7 @@ typedef union bdk_tb_sei_target_core {
 	} s;
 	/* struct bdk_tb_sei_target_core_s    cn85xx; */
 	/* struct bdk_tb_sei_target_core_s    cn88xx; */
+	/* struct bdk_tb_sei_target_core_s    cn88xxp1; */
 } bdk_tb_sei_target_core_t;
 
 #define BDK_TB_SEI_TARGET_CORE BDK_TB_SEI_TARGET_CORE_FUNC()
@@ -2318,6 +2373,7 @@ typedef union bdk_tb_sei_value {
 	} s;
 	/* struct bdk_tb_sei_value_s          cn85xx; */
 	/* struct bdk_tb_sei_value_s          cn88xx; */
+	/* struct bdk_tb_sei_value_s          cn88xxp1; */
 } bdk_tb_sei_value_t;
 
 #define BDK_TB_SEI_VALUE BDK_TB_SEI_VALUE_FUNC()
@@ -2351,6 +2407,7 @@ typedef union bdk_tb_spi_group_index {
 	} s;
 	/* struct bdk_tb_spi_group_index_s    cn85xx; */
 	/* struct bdk_tb_spi_group_index_s    cn88xx; */
+	/* struct bdk_tb_spi_group_index_s    cn88xxp1; */
 } bdk_tb_spi_group_index_t;
 
 #define BDK_TB_SPI_GROUP_INDEX BDK_TB_SPI_GROUP_INDEX_FUNC()
@@ -2397,6 +2454,7 @@ typedef union bdk_tb_spi_group_value {
 	} s;
 	/* struct bdk_tb_spi_group_value_s    cn85xx; */
 	/* struct bdk_tb_spi_group_value_s    cn88xx; */
+	/* struct bdk_tb_spi_group_value_s    cn88xxp1; */
 } bdk_tb_spi_group_value_t;
 
 #define BDK_TB_SPI_GROUP_VALUE BDK_TB_SPI_GROUP_VALUE_FUNC()
@@ -2458,6 +2516,7 @@ typedef union bdk_tb_sw_reset_ctl {
 	} s;
 	/* struct bdk_tb_sw_reset_ctl_s       cn85xx; */
 	/* struct bdk_tb_sw_reset_ctl_s       cn88xx; */
+	/* struct bdk_tb_sw_reset_ctl_s       cn88xxp1; */
 } bdk_tb_sw_reset_ctl_t;
 
 #define BDK_TB_SW_RESET_CTL BDK_TB_SW_RESET_CTL_FUNC()
@@ -2492,6 +2551,7 @@ typedef union bdk_tb_target_cpu {
 	} s;
 	/* struct bdk_tb_target_cpu_s         cn85xx; */
 	/* struct bdk_tb_target_cpu_s         cn88xx; */
+	/* struct bdk_tb_target_cpu_s         cn88xxp1; */
 } bdk_tb_target_cpu_t;
 
 #define BDK_TB_TARGET_CPU BDK_TB_TARGET_CPU_FUNC()
@@ -2530,6 +2590,7 @@ typedef union bdk_tb_tube {
 	} s;
 	/* struct bdk_tb_tube_s               cn85xx; */
 	/* struct bdk_tb_tube_s               cn88xx; */
+	/* struct bdk_tb_tube_s               cn88xxp1; */
 } bdk_tb_tube_t;
 
 #define BDK_TB_TUBE BDK_TB_TUBE_FUNC()
@@ -2569,6 +2630,7 @@ typedef union bdk_tb_watchdog {
 	} s;
 	/* struct bdk_tb_watchdog_s           cn85xx; */
 	/* struct bdk_tb_watchdog_s           cn88xx; */
+	/* struct bdk_tb_watchdog_s           cn88xxp1; */
 } bdk_tb_watchdog_t;
 
 #define BDK_TB_WATCHDOG BDK_TB_WATCHDOG_FUNC()

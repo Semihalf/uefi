@@ -571,6 +571,7 @@ typedef union bdk_zip_cmd_ctl {
 	} s;
 	/* struct bdk_zip_cmd_ctl_s           cn85xx; */
 	/* struct bdk_zip_cmd_ctl_s           cn88xx; */
+	/* struct bdk_zip_cmd_ctl_s           cn88xxp1; */
 } bdk_zip_cmd_ctl_t;
 
 #define BDK_ZIP_CMD_CTL BDK_ZIP_CMD_CTL_FUNC()
@@ -617,6 +618,7 @@ typedef union bdk_zip_constants {
 	} s;
 	/* struct bdk_zip_constants_s         cn85xx; */
 	/* struct bdk_zip_constants_s         cn88xx; */
+	/* struct bdk_zip_constants_s         cn88xxp1; */
 } bdk_zip_constants_t;
 
 #define BDK_ZIP_CONSTANTS BDK_ZIP_CONSTANTS_FUNC()
@@ -651,6 +653,7 @@ typedef union bdk_zip_corex_bist_status {
 	} s;
 	/* struct bdk_zip_corex_bist_status_s cn85xx; */
 	/* struct bdk_zip_corex_bist_status_s cn88xx; */
+	/* struct bdk_zip_corex_bist_status_s cn88xxp1; */
 } bdk_zip_corex_bist_status_t;
 
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -688,6 +691,7 @@ typedef union bdk_zip_ctl_bist_status {
 	} s;
 	/* struct bdk_zip_ctl_bist_status_s   cn85xx; */
 	/* struct bdk_zip_ctl_bist_status_s   cn88xx; */
+	/* struct bdk_zip_ctl_bist_status_s   cn88xxp1; */
 } bdk_zip_ctl_bist_status_t;
 
 #define BDK_ZIP_CTL_BIST_STATUS BDK_ZIP_CTL_BIST_STATUS_FUNC()
@@ -740,6 +744,7 @@ typedef union bdk_zip_ctl_cfg {
 	} s;
 	/* struct bdk_zip_ctl_cfg_s           cn85xx; */
 	/* struct bdk_zip_ctl_cfg_s           cn88xx; */
+	/* struct bdk_zip_ctl_cfg_s           cn88xxp1; */
 } bdk_zip_ctl_cfg_t;
 
 #define BDK_ZIP_CTL_CFG BDK_ZIP_CTL_CFG_FUNC()
@@ -778,6 +783,7 @@ typedef union bdk_zip_dbg_corex_inst {
 	} s;
 	/* struct bdk_zip_dbg_corex_inst_s    cn85xx; */
 	/* struct bdk_zip_dbg_corex_inst_s    cn88xx; */
+	/* struct bdk_zip_dbg_corex_inst_s    cn88xxp1; */
 } bdk_zip_dbg_corex_inst_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -817,6 +823,7 @@ typedef union bdk_zip_dbg_corex_sta {
 	} s;
 	/* struct bdk_zip_dbg_corex_sta_s     cn85xx; */
 	/* struct bdk_zip_dbg_corex_sta_s     cn88xx; */
+	/* struct bdk_zip_dbg_corex_sta_s     cn88xxp1; */
 } bdk_zip_dbg_corex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -857,6 +864,7 @@ typedef union bdk_zip_dbg_quex_sta {
 	} s;
 	/* struct bdk_zip_dbg_quex_sta_s      cn85xx; */
 	/* struct bdk_zip_dbg_quex_sta_s      cn88xx; */
+	/* struct bdk_zip_dbg_quex_sta_s      cn88xxp1; */
 } bdk_zip_dbg_quex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -922,6 +930,7 @@ typedef union bdk_zip_ecc_ctl {
 	} s;
 	/* struct bdk_zip_ecc_ctl_s           cn85xx; */
 	/* struct bdk_zip_ecc_ctl_s           cn88xx; */
+	/* struct bdk_zip_ecc_ctl_s           cn88xxp1; */
 } bdk_zip_ecc_ctl_t;
 
 #define BDK_ZIP_ECC_CTL BDK_ZIP_ECC_CTL_FUNC()
@@ -959,6 +968,7 @@ typedef union bdk_zip_ecce_ena_w1c {
 	} s;
 	/* struct bdk_zip_ecce_ena_w1c_s      cn85xx; */
 	/* struct bdk_zip_ecce_ena_w1c_s      cn88xx; */
+	/* struct bdk_zip_ecce_ena_w1c_s      cn88xxp1; */
 } bdk_zip_ecce_ena_w1c_t;
 
 #define BDK_ZIP_ECCE_ENA_W1C BDK_ZIP_ECCE_ENA_W1C_FUNC()
@@ -996,6 +1006,7 @@ typedef union bdk_zip_ecce_ena_w1s {
 	} s;
 	/* struct bdk_zip_ecce_ena_w1s_s      cn85xx; */
 	/* struct bdk_zip_ecce_ena_w1s_s      cn88xx; */
+	/* struct bdk_zip_ecce_ena_w1s_s      cn88xxp1; */
 } bdk_zip_ecce_ena_w1s_t;
 
 #define BDK_ZIP_ECCE_ENA_W1S BDK_ZIP_ECCE_ENA_W1S_FUNC()
@@ -1036,6 +1047,7 @@ typedef union bdk_zip_ecce_int {
 	} s;
 	/* struct bdk_zip_ecce_int_s          cn85xx; */
 	/* struct bdk_zip_ecce_int_s          cn88xx; */
+	/* struct bdk_zip_ecce_int_s          cn88xxp1; */
 } bdk_zip_ecce_int_t;
 
 #define BDK_ZIP_ECCE_INT BDK_ZIP_ECCE_INT_FUNC()
@@ -1073,6 +1085,7 @@ typedef union bdk_zip_ecce_int_w1s {
 	} s;
 	/* struct bdk_zip_ecce_int_w1s_s      cn85xx; */
 	/* struct bdk_zip_ecce_int_w1s_s      cn88xx; */
+	/* struct bdk_zip_ecce_int_w1s_s      cn88xxp1; */
 } bdk_zip_ecce_int_w1s_t;
 
 #define BDK_ZIP_ECCE_INT_W1S BDK_ZIP_ECCE_INT_W1S_FUNC()
@@ -1104,6 +1117,7 @@ typedef union bdk_zip_fife_ena_w1c {
 	} s;
 	/* struct bdk_zip_fife_ena_w1c_s      cn85xx; */
 	/* struct bdk_zip_fife_ena_w1c_s      cn88xx; */
+	/* struct bdk_zip_fife_ena_w1c_s      cn88xxp1; */
 } bdk_zip_fife_ena_w1c_t;
 
 #define BDK_ZIP_FIFE_ENA_W1C BDK_ZIP_FIFE_ENA_W1C_FUNC()
@@ -1135,6 +1149,7 @@ typedef union bdk_zip_fife_ena_w1s {
 	} s;
 	/* struct bdk_zip_fife_ena_w1s_s      cn85xx; */
 	/* struct bdk_zip_fife_ena_w1s_s      cn88xx; */
+	/* struct bdk_zip_fife_ena_w1s_s      cn88xxp1; */
 } bdk_zip_fife_ena_w1s_t;
 
 #define BDK_ZIP_FIFE_ENA_W1S BDK_ZIP_FIFE_ENA_W1S_FUNC()
@@ -1166,6 +1181,7 @@ typedef union bdk_zip_fife_int {
 	} s;
 	/* struct bdk_zip_fife_int_s          cn85xx; */
 	/* struct bdk_zip_fife_int_s          cn88xx; */
+	/* struct bdk_zip_fife_int_s          cn88xxp1; */
 } bdk_zip_fife_int_t;
 
 #define BDK_ZIP_FIFE_INT BDK_ZIP_FIFE_INT_FUNC()
@@ -1197,6 +1213,7 @@ typedef union bdk_zip_fife_int_w1s {
 	} s;
 	/* struct bdk_zip_fife_int_w1s_s      cn85xx; */
 	/* struct bdk_zip_fife_int_w1s_s      cn88xx; */
+	/* struct bdk_zip_fife_int_w1s_s      cn88xxp1; */
 } bdk_zip_fife_int_w1s_t;
 
 #define BDK_ZIP_FIFE_INT_W1S BDK_ZIP_FIFE_INT_W1S_FUNC()
@@ -1230,6 +1247,7 @@ typedef union bdk_zip_msix_pbax {
 	} s;
 	/* struct bdk_zip_msix_pbax_s         cn85xx; */
 	/* struct bdk_zip_msix_pbax_s         cn88xx; */
+	/* struct bdk_zip_msix_pbax_s         cn88xxp1; */
 } bdk_zip_msix_pbax_t;
 
 static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1276,6 +1294,7 @@ typedef union bdk_zip_msix_vecx_addr {
 	} s;
 	/* struct bdk_zip_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_zip_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_zip_msix_vecx_addr_s    cn88xxp1; */
 } bdk_zip_msix_vecx_addr_t;
 
 static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1315,6 +1334,7 @@ typedef union bdk_zip_msix_vecx_ctl {
 	} s;
 	/* struct bdk_zip_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_zip_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_zip_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_zip_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1379,6 +1399,7 @@ typedef union bdk_zip_quex_done {
 	} s;
 	/* struct bdk_zip_quex_done_s         cn85xx; */
 	/* struct bdk_zip_quex_done_s         cn88xx; */
+	/* struct bdk_zip_quex_done_s         cn88xxp1; */
 } bdk_zip_quex_done_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1416,6 +1437,7 @@ typedef union bdk_zip_quex_done_ack {
 	} s;
 	/* struct bdk_zip_quex_done_ack_s     cn85xx; */
 	/* struct bdk_zip_quex_done_ack_s     cn88xx; */
+	/* struct bdk_zip_quex_done_ack_s     cn88xxp1; */
 } bdk_zip_quex_done_ack_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1452,6 +1474,7 @@ typedef union bdk_zip_quex_done_ena_w1c {
 	} s;
 	/* struct bdk_zip_quex_done_ena_w1c_s cn85xx; */
 	/* struct bdk_zip_quex_done_ena_w1c_s cn88xx; */
+	/* struct bdk_zip_quex_done_ena_w1c_s cn88xxp1; */
 } bdk_zip_quex_done_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1488,6 +1511,7 @@ typedef union bdk_zip_quex_done_ena_w1s {
 	} s;
 	/* struct bdk_zip_quex_done_ena_w1s_s cn85xx; */
 	/* struct bdk_zip_quex_done_ena_w1s_s cn88xx; */
+	/* struct bdk_zip_quex_done_ena_w1s_s cn88xxp1; */
 } bdk_zip_quex_done_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1533,6 +1557,7 @@ typedef union bdk_zip_quex_done_wait {
 	} s;
 	/* struct bdk_zip_quex_done_wait_s    cn85xx; */
 	/* struct bdk_zip_quex_done_wait_s    cn88xx; */
+	/* struct bdk_zip_quex_done_wait_s    cn88xxp1; */
 } bdk_zip_quex_done_wait_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1570,6 +1595,7 @@ typedef union bdk_zip_quex_doorbell {
 	} s;
 	/* struct bdk_zip_quex_doorbell_s     cn85xx; */
 	/* struct bdk_zip_quex_doorbell_s     cn88xx; */
+	/* struct bdk_zip_quex_doorbell_s     cn88xxp1; */
 } bdk_zip_quex_doorbell_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1610,6 +1636,7 @@ typedef union bdk_zip_quex_err_ena_w1c {
 	} s;
 	/* struct bdk_zip_quex_err_ena_w1c_s  cn85xx; */
 	/* struct bdk_zip_quex_err_ena_w1c_s  cn88xx; */
+	/* struct bdk_zip_quex_err_ena_w1c_s  cn88xxp1; */
 } bdk_zip_quex_err_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1650,6 +1677,7 @@ typedef union bdk_zip_quex_err_ena_w1s {
 	} s;
 	/* struct bdk_zip_quex_err_ena_w1s_s  cn85xx; */
 	/* struct bdk_zip_quex_err_ena_w1s_s  cn88xx; */
+	/* struct bdk_zip_quex_err_ena_w1s_s  cn88xxp1; */
 } bdk_zip_quex_err_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1693,6 +1721,7 @@ typedef union bdk_zip_quex_err_int {
 	} s;
 	/* struct bdk_zip_quex_err_int_s      cn85xx; */
 	/* struct bdk_zip_quex_err_int_s      cn88xx; */
+	/* struct bdk_zip_quex_err_int_s      cn88xxp1; */
 } bdk_zip_quex_err_int_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1733,6 +1762,7 @@ typedef union bdk_zip_quex_err_int_w1s {
 	} s;
 	/* struct bdk_zip_quex_err_int_w1s_s  cn85xx; */
 	/* struct bdk_zip_quex_err_int_w1s_s  cn88xx; */
+	/* struct bdk_zip_quex_err_int_w1s_s  cn88xxp1; */
 } bdk_zip_quex_err_int_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1779,6 +1809,7 @@ typedef union bdk_zip_quex_gcfg {
 	} s;
 	/* struct bdk_zip_quex_gcfg_s         cn85xx; */
 	/* struct bdk_zip_quex_gcfg_s         cn88xx; */
+	/* struct bdk_zip_quex_gcfg_s         cn88xxp1; */
 } bdk_zip_quex_gcfg_t;
 
 static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1818,6 +1849,7 @@ typedef union bdk_zip_quex_map {
 	} s;
 	/* struct bdk_zip_quex_map_s          cn85xx; */
 	/* struct bdk_zip_quex_map_s          cn88xx; */
+	/* struct bdk_zip_quex_map_s          cn88xxp1; */
 } bdk_zip_quex_map_t;
 
 static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1862,6 +1894,7 @@ typedef union bdk_zip_quex_sbuf_addr {
 	} s;
 	/* struct bdk_zip_quex_sbuf_addr_s    cn85xx; */
 	/* struct bdk_zip_quex_sbuf_addr_s    cn88xx; */
+	/* struct bdk_zip_quex_sbuf_addr_s    cn88xxp1; */
 } bdk_zip_quex_sbuf_addr_t;
 
 static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1911,6 +1944,7 @@ typedef union bdk_zip_quex_sbuf_ctl {
 	} s;
 	/* struct bdk_zip_quex_sbuf_ctl_s     cn85xx; */
 	/* struct bdk_zip_quex_sbuf_ctl_s     cn88xx; */
+	/* struct bdk_zip_quex_sbuf_ctl_s     cn88xxp1; */
 } bdk_zip_quex_sbuf_ctl_t;
 
 static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1948,6 +1982,7 @@ typedef union bdk_zip_que_ena {
 	} s;
 	/* struct bdk_zip_que_ena_s           cn85xx; */
 	/* struct bdk_zip_que_ena_s           cn88xx; */
+	/* struct bdk_zip_que_ena_s           cn88xxp1; */
 } bdk_zip_que_ena_t;
 
 #define BDK_ZIP_QUE_ENA BDK_ZIP_QUE_ENA_FUNC()
@@ -1984,6 +2019,7 @@ typedef union bdk_zip_que_pri {
 	} s;
 	/* struct bdk_zip_que_pri_s           cn85xx; */
 	/* struct bdk_zip_que_pri_s           cn88xx; */
+	/* struct bdk_zip_que_pri_s           cn88xxp1; */
 } bdk_zip_que_pri_t;
 
 #define BDK_ZIP_QUE_PRI BDK_ZIP_QUE_PRI_FUNC()
@@ -2020,6 +2056,7 @@ typedef union bdk_zip_throttle {
 	} s;
 	/* struct bdk_zip_throttle_s          cn85xx; */
 	/* struct bdk_zip_throttle_s          cn88xx; */
+	/* struct bdk_zip_throttle_s          cn88xxp1; */
 } bdk_zip_throttle_t;
 
 #define BDK_ZIP_THROTTLE BDK_ZIP_THROTTLE_FUNC()

@@ -127,6 +127,7 @@ typedef union bdk_vrmx_alt_fuse {
 	} s;
 	/* struct bdk_vrmx_alt_fuse_s         cn85xx; */
 	/* struct bdk_vrmx_alt_fuse_s         cn88xx; */
+	/* struct bdk_vrmx_alt_fuse_s         cn88xxp1; */
 } bdk_vrmx_alt_fuse_t;
 
 static inline uint64_t BDK_VRMX_ALT_FUSE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -168,6 +169,7 @@ typedef union bdk_vrmx_device_status {
 	} s;
 	/* struct bdk_vrmx_device_status_s    cn85xx; */
 	/* struct bdk_vrmx_device_status_s    cn88xx; */
+	/* struct bdk_vrmx_device_status_s    cn88xxp1; */
 } bdk_vrmx_device_status_t;
 
 static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -205,6 +207,7 @@ typedef union bdk_vrmx_fuse_bypass {
 	} s;
 	/* struct bdk_vrmx_fuse_bypass_s      cn85xx; */
 	/* struct bdk_vrmx_fuse_bypass_s      cn88xx; */
+	/* struct bdk_vrmx_fuse_bypass_s      cn88xxp1; */
 } bdk_vrmx_fuse_bypass_t;
 
 static inline uint64_t BDK_VRMX_FUSE_BYPASS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -252,6 +255,7 @@ typedef union bdk_vrmx_misc_info {
 	} s;
 	/* struct bdk_vrmx_misc_info_s        cn85xx; */
 	/* struct bdk_vrmx_misc_info_s        cn88xx; */
+	/* struct bdk_vrmx_misc_info_s        cn88xxp1; */
 } bdk_vrmx_misc_info_t;
 
 static inline uint64_t BDK_VRMX_MISC_INFO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -291,6 +295,7 @@ typedef union bdk_vrmx_telemetry_cmnd {
 	} s;
 	/* struct bdk_vrmx_telemetry_cmnd_s   cn85xx; */
 	/* struct bdk_vrmx_telemetry_cmnd_s   cn88xx; */
+	/* struct bdk_vrmx_telemetry_cmnd_s   cn88xxp1; */
 } bdk_vrmx_telemetry_cmnd_t;
 
 static inline uint64_t BDK_VRMX_TELEMETRY_CMND(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -325,6 +330,7 @@ typedef union bdk_vrmx_telemetry_read {
 	} s;
 	/* struct bdk_vrmx_telemetry_read_s   cn85xx; */
 	/* struct bdk_vrmx_telemetry_read_s   cn88xx; */
+	/* struct bdk_vrmx_telemetry_read_s   cn88xxp1; */
 } bdk_vrmx_telemetry_read_t;
 
 static inline uint64_t BDK_VRMX_TELEMETRY_READ(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -358,6 +364,7 @@ typedef union bdk_vrmx_trip {
 	} s;
 	/* struct bdk_vrmx_trip_s             cn85xx; */
 	/* struct bdk_vrmx_trip_s             cn88xx; */
+	/* struct bdk_vrmx_trip_s             cn88xxp1; */
 } bdk_vrmx_trip_t;
 
 static inline uint64_t BDK_VRMX_TRIP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -408,6 +415,7 @@ typedef union bdk_vrmx_ts_temp_conv_coeff_fsm {
 	} s;
 	/* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn85xx; */
 	/* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn88xx; */
+	/* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn88xxp1; */
 } bdk_vrmx_ts_temp_conv_coeff_fsm_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -449,6 +457,7 @@ typedef union bdk_vrmx_ts_temp_conv_ctl {
 	} s;
 	/* struct bdk_vrmx_ts_temp_conv_ctl_s cn85xx; */
 	/* struct bdk_vrmx_ts_temp_conv_ctl_s cn88xx; */
+	/* struct bdk_vrmx_ts_temp_conv_ctl_s cn88xxp1; */
 } bdk_vrmx_ts_temp_conv_ctl_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -490,6 +499,7 @@ typedef union bdk_vrmx_ts_temp_conv_result {
 	} s;
 	/* struct bdk_vrmx_ts_temp_conv_result_s cn85xx; */
 	/* struct bdk_vrmx_ts_temp_conv_result_s cn88xx; */
+	/* struct bdk_vrmx_ts_temp_conv_result_s cn88xxp1; */
 } bdk_vrmx_ts_temp_conv_result_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_RESULT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -527,6 +537,7 @@ typedef union bdk_vrmx_ts_temp_noff_mc {
 	} s;
 	/* struct bdk_vrmx_ts_temp_noff_mc_s  cn85xx; */
 	/* struct bdk_vrmx_ts_temp_noff_mc_s  cn88xx; */
+	/* struct bdk_vrmx_ts_temp_noff_mc_s  cn88xxp1; */
 } bdk_vrmx_ts_temp_noff_mc_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_NOFF_MC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -603,6 +614,7 @@ typedef union bdk_vrmx_tws_twsi_sw {
 	} s;
 	/* struct bdk_vrmx_tws_twsi_sw_s      cn85xx; */
 	/* struct bdk_vrmx_tws_twsi_sw_s      cn88xx; */
+	/* struct bdk_vrmx_tws_twsi_sw_s      cn88xxp1; */
 } bdk_vrmx_tws_twsi_sw_t;
 
 static inline uint64_t BDK_VRMX_TWS_TWSI_SW(unsigned long param1) __attribute__ ((pure, always_inline));

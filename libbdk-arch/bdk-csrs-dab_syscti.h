@@ -83,6 +83,7 @@ typedef union bdk_sysctix_asicctl {
 	} s;
 	/* struct bdk_sysctix_asicctl_s       cn85xx; */
 	/* struct bdk_sysctix_asicctl_s       cn88xx; */
+	/* struct bdk_sysctix_asicctl_s       cn88xxp1; */
 } bdk_sysctix_asicctl_t;
 
 static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -123,6 +124,7 @@ typedef union bdk_sysctix_claimclr_el1 {
 	} s;
 	/* struct bdk_sysctix_claimclr_el1_s  cn85xx; */
 	/* struct bdk_sysctix_claimclr_el1_s  cn88xx; */
+	/* struct bdk_sysctix_claimclr_el1_s  cn88xxp1; */
 } bdk_sysctix_claimclr_el1_t;
 
 static inline uint64_t BDK_SYSCTIX_CLAIMCLR_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -162,6 +164,7 @@ typedef union bdk_sysctix_claimset_el1 {
 	} s;
 	/* struct bdk_sysctix_claimset_el1_s  cn85xx; */
 	/* struct bdk_sysctix_claimset_el1_s  cn88xx; */
+	/* struct bdk_sysctix_claimset_el1_s  cn88xxp1; */
 } bdk_sysctix_claimset_el1_t;
 
 static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -195,6 +198,7 @@ typedef union bdk_sysctix_ctiappclear {
 	} s;
 	/* struct bdk_sysctix_ctiappclear_s   cn85xx; */
 	/* struct bdk_sysctix_ctiappclear_s   cn88xx; */
+	/* struct bdk_sysctix_ctiappclear_s   cn88xxp1; */
 } bdk_sysctix_ctiappclear_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPCLEAR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -237,6 +241,7 @@ typedef union bdk_sysctix_ctiapppulse {
 	} s;
 	/* struct bdk_sysctix_ctiapppulse_s   cn85xx; */
 	/* struct bdk_sysctix_ctiapppulse_s   cn88xx; */
+	/* struct bdk_sysctix_ctiapppulse_s   cn88xxp1; */
 } bdk_sysctix_ctiapppulse_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -270,6 +275,7 @@ typedef union bdk_sysctix_ctiappset {
 	} s;
 	/* struct bdk_sysctix_ctiappset_s     cn85xx; */
 	/* struct bdk_sysctix_ctiappset_s     cn88xx; */
+	/* struct bdk_sysctix_ctiappset_s     cn88xxp1; */
 } bdk_sysctix_ctiappset_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -315,6 +321,7 @@ typedef union bdk_sysctix_ctiauthstatus_el1 {
 	} s;
 	/* struct bdk_sysctix_ctiauthstatus_el1_s cn85xx; */
 	/* struct bdk_sysctix_ctiauthstatus_el1_s cn88xx; */
+	/* struct bdk_sysctix_ctiauthstatus_el1_s cn88xxp1; */
 } bdk_sysctix_ctiauthstatus_el1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAUTHSTATUS_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -356,6 +363,7 @@ typedef union bdk_sysctix_ctichinstatus {
 	} s;
 	/* struct bdk_sysctix_ctichinstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctichinstatus_s cn88xx; */
+	/* struct bdk_sysctix_ctichinstatus_s cn88xxp1; */
 } bdk_sysctix_ctichinstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICHINSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -397,6 +405,7 @@ typedef union bdk_sysctix_ctichoutstatus {
 	} s;
 	/* struct bdk_sysctix_ctichoutstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctichoutstatus_s cn88xx; */
+	/* struct bdk_sysctix_ctichoutstatus_s cn88xxp1; */
 } bdk_sysctix_ctichoutstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICHOUTSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -432,6 +441,7 @@ typedef union bdk_sysctix_cticidr0 {
 	} s;
 	/* struct bdk_sysctix_cticidr0_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr0_s      cn88xx; */
+	/* struct bdk_sysctix_cticidr0_s      cn88xxp1; */
 } bdk_sysctix_cticidr0_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -469,6 +479,7 @@ typedef union bdk_sysctix_cticidr1 {
 	} s;
 	/* struct bdk_sysctix_cticidr1_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr1_s      cn88xx; */
+	/* struct bdk_sysctix_cticidr1_s      cn88xxp1; */
 } bdk_sysctix_cticidr1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -504,6 +515,7 @@ typedef union bdk_sysctix_cticidr2 {
 	} s;
 	/* struct bdk_sysctix_cticidr2_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr2_s      cn88xx; */
+	/* struct bdk_sysctix_cticidr2_s      cn88xxp1; */
 } bdk_sysctix_cticidr2_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -539,6 +551,7 @@ typedef union bdk_sysctix_cticidr3 {
 	} s;
 	/* struct bdk_sysctix_cticidr3_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr3_s      cn88xx; */
+	/* struct bdk_sysctix_cticidr3_s      cn88xxp1; */
 } bdk_sysctix_cticidr3_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -582,6 +595,7 @@ typedef union bdk_sysctix_cticontrol {
 	} s;
 	/* struct bdk_sysctix_cticontrol_s    cn85xx; */
 	/* struct bdk_sysctix_cticontrol_s    cn88xx; */
+	/* struct bdk_sysctix_cticontrol_s    cn88xxp1; */
 } bdk_sysctix_cticontrol_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -617,6 +631,7 @@ typedef union bdk_sysctix_ctidevaff0 {
 	} s;
 	/* struct bdk_sysctix_ctidevaff0_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevaff0_s    cn88xx; */
+	/* struct bdk_sysctix_ctidevaff0_s    cn88xxp1; */
 } bdk_sysctix_ctidevaff0_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -652,6 +667,7 @@ typedef union bdk_sysctix_ctidevaff1 {
 	} s;
 	/* struct bdk_sysctix_ctidevaff1_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevaff1_s    cn88xx; */
+	/* struct bdk_sysctix_ctidevaff1_s    cn88xxp1; */
 } bdk_sysctix_ctidevaff1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -705,6 +721,7 @@ typedef union bdk_sysctix_ctidevarch {
 	} s;
 	/* struct bdk_sysctix_ctidevarch_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevarch_s    cn88xx; */
+	/* struct bdk_sysctix_ctidevarch_s    cn88xxp1; */
 } bdk_sysctix_ctidevarch_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -779,6 +796,7 @@ typedef union bdk_sysctix_ctidevid {
 	} s;
 	/* struct bdk_sysctix_ctidevid_s      cn85xx; */
 	/* struct bdk_sysctix_ctidevid_s      cn88xx; */
+	/* struct bdk_sysctix_ctidevid_s      cn88xxp1; */
 } bdk_sysctix_ctidevid_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -812,6 +830,7 @@ typedef union bdk_sysctix_ctidevid1 {
 	} s;
 	/* struct bdk_sysctix_ctidevid1_s     cn85xx; */
 	/* struct bdk_sysctix_ctidevid1_s     cn88xx; */
+	/* struct bdk_sysctix_ctidevid1_s     cn88xxp1; */
 } bdk_sysctix_ctidevid1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVID1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -845,6 +864,7 @@ typedef union bdk_sysctix_ctidevid2 {
 	} s;
 	/* struct bdk_sysctix_ctidevid2_s     cn85xx; */
 	/* struct bdk_sysctix_ctidevid2_s     cn88xx; */
+	/* struct bdk_sysctix_ctidevid2_s     cn88xxp1; */
 } bdk_sysctix_ctidevid2_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVID2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -882,6 +902,7 @@ typedef union bdk_sysctix_ctidevtype {
 	} s;
 	/* struct bdk_sysctix_ctidevtype_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevtype_s    cn88xx; */
+	/* struct bdk_sysctix_ctidevtype_s    cn88xxp1; */
 } bdk_sysctix_ctidevtype_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVTYPE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -923,6 +944,7 @@ typedef union bdk_sysctix_ctigate {
 	} s;
 	/* struct bdk_sysctix_ctigate_s       cn85xx; */
 	/* struct bdk_sysctix_ctigate_s       cn88xx; */
+	/* struct bdk_sysctix_ctigate_s       cn88xxp1; */
 } bdk_sysctix_ctigate_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIGATE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -968,6 +990,7 @@ typedef union bdk_sysctix_ctiinenx {
 	} s;
 	/* struct bdk_sysctix_ctiinenx_s      cn85xx; */
 	/* struct bdk_sysctix_ctiinenx_s      cn88xx; */
+	/* struct bdk_sysctix_ctiinenx_s      cn88xxp1; */
 } bdk_sysctix_ctiinenx_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIINENX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1022,6 +1045,7 @@ typedef union bdk_sysctix_ctiintack {
 	} s;
 	/* struct bdk_sysctix_ctiintack_s     cn85xx; */
 	/* struct bdk_sysctix_ctiintack_s     cn88xx; */
+	/* struct bdk_sysctix_ctiintack_s     cn88xxp1; */
 } bdk_sysctix_ctiintack_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIINTACK(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1064,6 +1088,7 @@ typedef union bdk_sysctix_ctiitctrl {
 	} s;
 	/* struct bdk_sysctix_ctiitctrl_s     cn85xx; */
 	/* struct bdk_sysctix_ctiitctrl_s     cn88xx; */
+	/* struct bdk_sysctix_ctiitctrl_s     cn88xxp1; */
 } bdk_sysctix_ctiitctrl_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIITCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1099,6 +1124,7 @@ typedef union bdk_sysctix_ctilar {
 	} s;
 	/* struct bdk_sysctix_ctilar_s        cn85xx; */
 	/* struct bdk_sysctix_ctilar_s        cn88xx; */
+	/* struct bdk_sysctix_ctilar_s        cn88xxp1; */
 } bdk_sysctix_ctilar_t;
 
 static inline uint64_t BDK_SYSCTIX_CTILAR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1151,6 +1177,7 @@ typedef union bdk_sysctix_ctilsr {
 	} s;
 	/* struct bdk_sysctix_ctilsr_s        cn85xx; */
 	/* struct bdk_sysctix_ctilsr_s        cn88xx; */
+	/* struct bdk_sysctix_ctilsr_s        cn88xxp1; */
 } bdk_sysctix_ctilsr_t;
 
 static inline uint64_t BDK_SYSCTIX_CTILSR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1196,6 +1223,7 @@ typedef union bdk_sysctix_ctioutenx {
 	} s;
 	/* struct bdk_sysctix_ctioutenx_s     cn85xx; */
 	/* struct bdk_sysctix_ctioutenx_s     cn88xx; */
+	/* struct bdk_sysctix_ctioutenx_s     cn88xxp1; */
 } bdk_sysctix_ctioutenx_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIOUTENX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1231,6 +1259,7 @@ typedef union bdk_sysctix_ctipidr0 {
 	} s;
 	/* struct bdk_sysctix_ctipidr0_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr0_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr0_s      cn88xxp1; */
 } bdk_sysctix_ctipidr0_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1268,6 +1297,7 @@ typedef union bdk_sysctix_ctipidr1 {
 	} s;
 	/* struct bdk_sysctix_ctipidr1_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr1_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr1_s      cn88xxp1; */
 } bdk_sysctix_ctipidr1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1307,6 +1337,7 @@ typedef union bdk_sysctix_ctipidr2 {
 	} s;
 	/* struct bdk_sysctix_ctipidr2_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr2_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr2_s      cn88xxp1; */
 } bdk_sysctix_ctipidr2_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1345,6 +1376,7 @@ typedef union bdk_sysctix_ctipidr3 {
 	} s;
 	/* struct bdk_sysctix_ctipidr3_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr3_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr3_s      cn88xxp1; */
 } bdk_sysctix_ctipidr3_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1383,6 +1415,7 @@ typedef union bdk_sysctix_ctipidr4 {
 	} s;
 	/* struct bdk_sysctix_ctipidr4_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr4_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr4_s      cn88xxp1; */
 } bdk_sysctix_ctipidr4_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1416,6 +1449,7 @@ typedef union bdk_sysctix_ctipidr5 {
 	} s;
 	/* struct bdk_sysctix_ctipidr5_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr5_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr5_s      cn88xxp1; */
 } bdk_sysctix_ctipidr5_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1449,6 +1483,7 @@ typedef union bdk_sysctix_ctipidr6 {
 	} s;
 	/* struct bdk_sysctix_ctipidr6_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr6_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr6_s      cn88xxp1; */
 } bdk_sysctix_ctipidr6_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1482,6 +1517,7 @@ typedef union bdk_sysctix_ctipidr7 {
 	} s;
 	/* struct bdk_sysctix_ctipidr7_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr7_s      cn88xx; */
+	/* struct bdk_sysctix_ctipidr7_s      cn88xxp1; */
 } bdk_sysctix_ctipidr7_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1524,6 +1560,7 @@ typedef union bdk_sysctix_ctitriginstatus {
 	} s;
 	/* struct bdk_sysctix_ctitriginstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctitriginstatus_s cn88xx; */
+	/* struct bdk_sysctix_ctitriginstatus_s cn88xxp1; */
 } bdk_sysctix_ctitriginstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTITRIGINSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1569,6 +1606,7 @@ typedef union bdk_sysctix_ctitrigoutstatus {
 	} s;
 	/* struct bdk_sysctix_ctitrigoutstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctitrigoutstatus_s cn88xx; */
+	/* struct bdk_sysctix_ctitrigoutstatus_s cn88xxp1; */
 } bdk_sysctix_ctitrigoutstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTITRIGOUTSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));

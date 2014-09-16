@@ -135,6 +135,7 @@ typedef union bdk_sgp_cfg0 {
 	} s;
 	/* struct bdk_sgp_cfg0_s              cn85xx; */
 	/* struct bdk_sgp_cfg0_s              cn88xx; */
+	/* struct bdk_sgp_cfg0_s              cn88xxp1; */
 } bdk_sgp_cfg0_t;
 
 #define BDK_SGP_CFG0 BDK_SGP_CFG0_FUNC()
@@ -202,6 +203,7 @@ typedef union bdk_sgp_cfg1 {
 	} s;
 	/* struct bdk_sgp_cfg1_s              cn85xx; */
 	/* struct bdk_sgp_cfg1_s              cn88xx; */
+	/* struct bdk_sgp_cfg1_s              cn88xxp1; */
 } bdk_sgp_cfg1_t;
 
 #define BDK_SGP_CFG1 BDK_SGP_CFG1_FUNC()
@@ -236,6 +238,7 @@ typedef union bdk_sgp_imp_clk {
 	} s;
 	/* struct bdk_sgp_imp_clk_s           cn85xx; */
 	/* struct bdk_sgp_imp_clk_s           cn88xx; */
+	/* struct bdk_sgp_imp_clk_s           cn88xxp1; */
 } bdk_sgp_imp_clk_t;
 
 #define BDK_SGP_IMP_CLK BDK_SGP_IMP_CLK_FUNC()
@@ -278,6 +281,7 @@ typedef union bdk_sgp_imp_ctl {
 	} s;
 	/* struct bdk_sgp_imp_ctl_s           cn85xx; */
 	/* struct bdk_sgp_imp_ctl_s           cn88xx; */
+	/* struct bdk_sgp_imp_ctl_s           cn88xxp1; */
 } bdk_sgp_imp_ctl_t;
 
 #define BDK_SGP_IMP_CTL BDK_SGP_IMP_CTL_FUNC()
@@ -323,6 +327,7 @@ typedef union bdk_sgp_imp_drivex {
 	} s;
 	/* struct bdk_sgp_imp_drivex_s        cn85xx; */
 	/* struct bdk_sgp_imp_drivex_s        cn88xx; */
+	/* struct bdk_sgp_imp_drivex_s        cn88xxp1; */
 } bdk_sgp_imp_drivex_t;
 
 static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -357,6 +362,7 @@ typedef union bdk_sgp_imp_sec_clk {
 	} s;
 	/* struct bdk_sgp_imp_sec_clk_s       cn85xx; */
 	/* struct bdk_sgp_imp_sec_clk_s       cn88xx; */
+	/* struct bdk_sgp_imp_sec_clk_s       cn88xxp1; */
 } bdk_sgp_imp_sec_clk_t;
 
 #define BDK_SGP_IMP_SEC_CLK BDK_SGP_IMP_SEC_CLK_FUNC()
@@ -400,6 +406,7 @@ typedef union bdk_sgp_rxx {
 	} s;
 	/* struct bdk_sgp_rxx_s               cn85xx; */
 	/* struct bdk_sgp_rxx_s               cn88xx; */
+	/* struct bdk_sgp_rxx_s               cn88xxp1; */
 } bdk_sgp_rxx_t;
 
 static inline uint64_t BDK_SGP_RXX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -445,6 +452,7 @@ typedef union bdk_sgp_rx_gpx {
 	} s;
 	/* struct bdk_sgp_rx_gpx_s            cn85xx; */
 	/* struct bdk_sgp_rx_gpx_s            cn88xx; */
+	/* struct bdk_sgp_rx_gpx_s            cn88xxp1; */
 } bdk_sgp_rx_gpx_t;
 
 static inline uint64_t BDK_SGP_RX_GPX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -479,6 +487,7 @@ typedef union bdk_sgp_rx_gp_cfg {
 	} s;
 	/* struct bdk_sgp_rx_gp_cfg_s         cn85xx; */
 	/* struct bdk_sgp_rx_gp_cfg_s         cn88xx; */
+	/* struct bdk_sgp_rx_gp_cfg_s         cn88xxp1; */
 } bdk_sgp_rx_gp_cfg_t;
 
 #define BDK_SGP_RX_GP_CFG BDK_SGP_RX_GP_CFG_FUNC()
@@ -530,6 +539,7 @@ typedef union bdk_sgp_txx {
 	} s;
 	/* struct bdk_sgp_txx_s               cn85xx; */
 	/* struct bdk_sgp_txx_s               cn88xx; */
+	/* struct bdk_sgp_txx_s               cn88xxp1; */
 } bdk_sgp_txx_t;
 
 static inline uint64_t BDK_SGP_TXX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -575,6 +585,7 @@ typedef union bdk_sgp_tx_gpx {
 	} s;
 	/* struct bdk_sgp_tx_gpx_s            cn85xx; */
 	/* struct bdk_sgp_tx_gpx_s            cn88xx; */
+	/* struct bdk_sgp_tx_gpx_s            cn88xxp1; */
 } bdk_sgp_tx_gpx_t;
 
 static inline uint64_t BDK_SGP_TX_GPX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -614,6 +625,7 @@ typedef union bdk_sgp_tx_gp_cfg {
 	} s;
 	/* struct bdk_sgp_tx_gp_cfg_s         cn85xx; */
 	/* struct bdk_sgp_tx_gp_cfg_s         cn88xx; */
+	/* struct bdk_sgp_tx_gp_cfg_s         cn88xxp1; */
 } bdk_sgp_tx_gp_cfg_t;
 
 #define BDK_SGP_TX_GP_CFG BDK_SGP_TX_GP_CFG_FUNC()

@@ -110,6 +110,7 @@ typedef union bdk_smi_x_clk {
 	} s;
 	/* struct bdk_smi_x_clk_s             cn85xx; */
 	/* struct bdk_smi_x_clk_s             cn88xx; */
+	/* struct bdk_smi_x_clk_s             cn88xxp1; */
 } bdk_smi_x_clk_t;
 
 static inline uint64_t BDK_SMI_X_CLK(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -163,6 +164,7 @@ typedef union bdk_smi_x_cmd {
 	} s;
 	/* struct bdk_smi_x_cmd_s             cn85xx; */
 	/* struct bdk_smi_x_cmd_s             cn88xx; */
+	/* struct bdk_smi_x_cmd_s             cn88xxp1; */
 } bdk_smi_x_cmd_t;
 
 static inline uint64_t BDK_SMI_X_CMD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -200,6 +202,7 @@ typedef union bdk_smi_x_en {
 	} s;
 	/* struct bdk_smi_x_en_s              cn85xx; */
 	/* struct bdk_smi_x_en_s              cn88xx; */
+	/* struct bdk_smi_x_en_s              cn88xxp1; */
 } bdk_smi_x_en_t;
 
 static inline uint64_t BDK_SMI_X_EN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -239,6 +242,7 @@ typedef union bdk_smi_x_rd_dat {
 	} s;
 	/* struct bdk_smi_x_rd_dat_s          cn85xx; */
 	/* struct bdk_smi_x_rd_dat_s          cn88xx; */
+	/* struct bdk_smi_x_rd_dat_s          cn88xxp1; */
 } bdk_smi_x_rd_dat_t;
 
 static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -278,6 +282,7 @@ typedef union bdk_smi_x_wr_dat {
 	} s;
 	/* struct bdk_smi_x_wr_dat_s          cn85xx; */
 	/* struct bdk_smi_x_wr_dat_s          cn88xx; */
+	/* struct bdk_smi_x_wr_dat_s          cn88xxp1; */
 } bdk_smi_x_wr_dat_t;
 
 static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -323,6 +328,7 @@ typedef union bdk_smi_drv_ctl {
 	} s;
 	/* struct bdk_smi_drv_ctl_s           cn85xx; */
 	/* struct bdk_smi_drv_ctl_s           cn88xx; */
+	/* struct bdk_smi_drv_ctl_s           cn88xxp1; */
 } bdk_smi_drv_ctl_t;
 
 #define BDK_SMI_DRV_CTL BDK_SMI_DRV_CTL_FUNC()

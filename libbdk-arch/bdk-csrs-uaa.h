@@ -87,6 +87,7 @@ typedef union bdk_uaax_cidr0 {
 	} s;
 	/* struct bdk_uaax_cidr0_s            cn85xx; */
 	/* struct bdk_uaax_cidr0_s            cn88xx; */
+	/* struct bdk_uaax_cidr0_s            cn88xxp1; */
 } bdk_uaax_cidr0_t;
 
 static inline uint64_t BDK_UAAX_CIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -119,6 +120,7 @@ typedef union bdk_uaax_cidr1 {
 	} s;
 	/* struct bdk_uaax_cidr1_s            cn85xx; */
 	/* struct bdk_uaax_cidr1_s            cn88xx; */
+	/* struct bdk_uaax_cidr1_s            cn88xxp1; */
 } bdk_uaax_cidr1_t;
 
 static inline uint64_t BDK_UAAX_CIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -151,6 +153,7 @@ typedef union bdk_uaax_cidr2 {
 	} s;
 	/* struct bdk_uaax_cidr2_s            cn85xx; */
 	/* struct bdk_uaax_cidr2_s            cn88xx; */
+	/* struct bdk_uaax_cidr2_s            cn88xxp1; */
 } bdk_uaax_cidr2_t;
 
 static inline uint64_t BDK_UAAX_CIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -183,6 +186,7 @@ typedef union bdk_uaax_cidr3 {
 	} s;
 	/* struct bdk_uaax_cidr3_s            cn85xx; */
 	/* struct bdk_uaax_cidr3_s            cn88xx; */
+	/* struct bdk_uaax_cidr3_s            cn88xxp1; */
 } bdk_uaax_cidr3_t;
 
 static inline uint64_t BDK_UAAX_CIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -240,6 +244,7 @@ typedef union bdk_uaax_cr {
 	} s;
 	/* struct bdk_uaax_cr_s               cn85xx; */
 	/* struct bdk_uaax_cr_s               cn88xx; */
+	/* struct bdk_uaax_cr_s               cn88xxp1; */
 } bdk_uaax_cr_t;
 
 static inline uint64_t BDK_UAAX_CR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -284,6 +289,7 @@ typedef union bdk_uaax_dr {
 	} s;
 	/* struct bdk_uaax_dr_s               cn85xx; */
 	/* struct bdk_uaax_dr_s               cn88xx; */
+	/* struct bdk_uaax_dr_s               cn88xxp1; */
 } bdk_uaax_dr_t;
 
 static inline uint64_t BDK_UAAX_DR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -320,6 +326,7 @@ typedef union bdk_uaax_fbrd {
 	} s;
 	/* struct bdk_uaax_fbrd_s             cn85xx; */
 	/* struct bdk_uaax_fbrd_s             cn88xx; */
+	/* struct bdk_uaax_fbrd_s             cn88xxp1; */
 } bdk_uaax_fbrd_t;
 
 static inline uint64_t BDK_UAAX_FBRD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -368,6 +375,7 @@ typedef union bdk_uaax_fr {
 	} s;
 	/* struct bdk_uaax_fr_s               cn85xx; */
 	/* struct bdk_uaax_fr_s               cn88xx; */
+	/* struct bdk_uaax_fr_s               cn88xxp1; */
 } bdk_uaax_fr_t;
 
 static inline uint64_t BDK_UAAX_FR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -400,6 +408,7 @@ typedef union bdk_uaax_ibrd {
 	} s;
 	/* struct bdk_uaax_ibrd_s             cn85xx; */
 	/* struct bdk_uaax_ibrd_s             cn88xx; */
+	/* struct bdk_uaax_ibrd_s             cn88xxp1; */
 } bdk_uaax_ibrd_t;
 
 static inline uint64_t BDK_UAAX_IBRD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -455,6 +464,7 @@ typedef union bdk_uaax_icr {
 	} s;
 	/* struct bdk_uaax_icr_s              cn85xx; */
 	/* struct bdk_uaax_icr_s              cn88xx; */
+	/* struct bdk_uaax_icr_s              cn88xxp1; */
 } bdk_uaax_icr_t;
 
 static inline uint64_t BDK_UAAX_ICR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -501,6 +511,7 @@ typedef union bdk_uaax_ifls {
 	} s;
 	/* struct bdk_uaax_ifls_s             cn85xx; */
 	/* struct bdk_uaax_ifls_s             cn88xx; */
+	/* struct bdk_uaax_ifls_s             cn88xxp1; */
 } bdk_uaax_ifls_t;
 
 static inline uint64_t BDK_UAAX_IFLS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -553,6 +564,7 @@ typedef union bdk_uaax_imsc {
 	} s;
 	/* struct bdk_uaax_imsc_s             cn85xx; */
 	/* struct bdk_uaax_imsc_s             cn88xx; */
+	/* struct bdk_uaax_imsc_s             cn88xxp1; */
 } bdk_uaax_imsc_t;
 
 static inline uint64_t BDK_UAAX_IMSC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -603,6 +615,7 @@ typedef union bdk_uaax_lcr_h {
 	} s;
 	/* struct bdk_uaax_lcr_h_s            cn85xx; */
 	/* struct bdk_uaax_lcr_h_s            cn88xx; */
+	/* struct bdk_uaax_lcr_h_s            cn88xxp1; */
 } bdk_uaax_lcr_h_t;
 
 static inline uint64_t BDK_UAAX_LCR_H(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -659,6 +672,7 @@ typedef union bdk_uaax_mis {
 	} s;
 	/* struct bdk_uaax_mis_s              cn85xx; */
 	/* struct bdk_uaax_mis_s              cn88xx; */
+	/* struct bdk_uaax_mis_s              cn88xxp1; */
 } bdk_uaax_mis_t;
 
 static inline uint64_t BDK_UAAX_MIS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -693,6 +707,7 @@ typedef union bdk_uaax_msix_pbax {
 	} s;
 	/* struct bdk_uaax_msix_pbax_s        cn85xx; */
 	/* struct bdk_uaax_msix_pbax_s        cn88xx; */
+	/* struct bdk_uaax_msix_pbax_s        cn88xxp1; */
 } bdk_uaax_msix_pbax_t;
 
 static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -740,6 +755,7 @@ typedef union bdk_uaax_msix_vecx_addr {
 	} s;
 	/* struct bdk_uaax_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_uaax_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_uaax_msix_vecx_addr_s   cn88xxp1; */
 } bdk_uaax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -779,6 +795,7 @@ typedef union bdk_uaax_msix_vecx_ctl {
 	} s;
 	/* struct bdk_uaax_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_uaax_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_uaax_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_uaax_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -811,6 +828,7 @@ typedef union bdk_uaax_pidr0 {
 	} s;
 	/* struct bdk_uaax_pidr0_s            cn85xx; */
 	/* struct bdk_uaax_pidr0_s            cn88xx; */
+	/* struct bdk_uaax_pidr0_s            cn88xxp1; */
 } bdk_uaax_pidr0_t;
 
 static inline uint64_t BDK_UAAX_PIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -845,6 +863,7 @@ typedef union bdk_uaax_pidr1 {
 	} s;
 	/* struct bdk_uaax_pidr1_s            cn85xx; */
 	/* struct bdk_uaax_pidr1_s            cn88xx; */
+	/* struct bdk_uaax_pidr1_s            cn88xxp1; */
 } bdk_uaax_pidr1_t;
 
 static inline uint64_t BDK_UAAX_PIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -882,6 +901,7 @@ typedef union bdk_uaax_pidr2 {
 	} s;
 	/* struct bdk_uaax_pidr2_s            cn85xx; */
 	/* struct bdk_uaax_pidr2_s            cn88xx; */
+	/* struct bdk_uaax_pidr2_s            cn88xxp1; */
 } bdk_uaax_pidr2_t;
 
 static inline uint64_t BDK_UAAX_PIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -917,6 +937,7 @@ typedef union bdk_uaax_pidr3 {
 	} s;
 	/* struct bdk_uaax_pidr3_s            cn85xx; */
 	/* struct bdk_uaax_pidr3_s            cn88xx; */
+	/* struct bdk_uaax_pidr3_s            cn88xxp1; */
 } bdk_uaax_pidr3_t;
 
 static inline uint64_t BDK_UAAX_PIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -947,6 +968,7 @@ typedef union bdk_uaax_pidr4 {
 	} s;
 	/* struct bdk_uaax_pidr4_s            cn85xx; */
 	/* struct bdk_uaax_pidr4_s            cn88xx; */
+	/* struct bdk_uaax_pidr4_s            cn88xxp1; */
 } bdk_uaax_pidr4_t;
 
 static inline uint64_t BDK_UAAX_PIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -977,6 +999,7 @@ typedef union bdk_uaax_pidr5 {
 	} s;
 	/* struct bdk_uaax_pidr5_s            cn85xx; */
 	/* struct bdk_uaax_pidr5_s            cn88xx; */
+	/* struct bdk_uaax_pidr5_s            cn88xxp1; */
 } bdk_uaax_pidr5_t;
 
 static inline uint64_t BDK_UAAX_PIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1007,6 +1030,7 @@ typedef union bdk_uaax_pidr6 {
 	} s;
 	/* struct bdk_uaax_pidr6_s            cn85xx; */
 	/* struct bdk_uaax_pidr6_s            cn88xx; */
+	/* struct bdk_uaax_pidr6_s            cn88xxp1; */
 } bdk_uaax_pidr6_t;
 
 static inline uint64_t BDK_UAAX_PIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1037,6 +1061,7 @@ typedef union bdk_uaax_pidr7 {
 	} s;
 	/* struct bdk_uaax_pidr7_s            cn85xx; */
 	/* struct bdk_uaax_pidr7_s            cn88xx; */
+	/* struct bdk_uaax_pidr7_s            cn88xxp1; */
 } bdk_uaax_pidr7_t;
 
 static inline uint64_t BDK_UAAX_PIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1092,6 +1117,7 @@ typedef union bdk_uaax_ris {
 	} s;
 	/* struct bdk_uaax_ris_s              cn85xx; */
 	/* struct bdk_uaax_ris_s              cn88xx; */
+	/* struct bdk_uaax_ris_s              cn88xxp1; */
 } bdk_uaax_ris_t;
 
 static inline uint64_t BDK_UAAX_RIS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1132,6 +1158,7 @@ typedef union bdk_uaax_rsr_ecr {
 	} s;
 	/* struct bdk_uaax_rsr_ecr_s          cn85xx; */
 	/* struct bdk_uaax_rsr_ecr_s          cn88xx; */
+	/* struct bdk_uaax_rsr_ecr_s          cn88xxp1; */
 } bdk_uaax_rsr_ecr_t;
 
 static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1216,6 +1243,7 @@ typedef union bdk_uaax_uctl_ctl {
 	} s;
 	/* struct bdk_uaax_uctl_ctl_s         cn85xx; */
 	/* struct bdk_uaax_uctl_ctl_s         cn88xx; */
+	/* struct bdk_uaax_uctl_ctl_s         cn88xxp1; */
 } bdk_uaax_uctl_ctl_t;
 
 static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1249,6 +1277,7 @@ typedef union bdk_uaax_uctl_spare0 {
 	} s;
 	/* struct bdk_uaax_uctl_spare0_s      cn85xx; */
 	/* struct bdk_uaax_uctl_spare0_s      cn88xx; */
+	/* struct bdk_uaax_uctl_spare0_s      cn88xxp1; */
 } bdk_uaax_uctl_spare0_t;
 
 static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1282,6 +1311,7 @@ typedef union bdk_uaax_uctl_spare1 {
 	} s;
 	/* struct bdk_uaax_uctl_spare1_s      cn85xx; */
 	/* struct bdk_uaax_uctl_spare1_s      cn88xx; */
+	/* struct bdk_uaax_uctl_spare1_s      cn88xxp1; */
 } bdk_uaax_uctl_spare1_t;
 
 static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long param1) __attribute__ ((pure, always_inline));

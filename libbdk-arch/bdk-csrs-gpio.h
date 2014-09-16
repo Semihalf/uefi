@@ -443,6 +443,7 @@ typedef union bdk_gpio_bit_cfgx {
 	} s;
 	/* struct bdk_gpio_bit_cfgx_s         cn85xx; */
 	/* struct bdk_gpio_bit_cfgx_s         cn88xx; */
+	/* struct bdk_gpio_bit_cfgx_s         cn88xxp1; */
 } bdk_gpio_bit_cfgx_t;
 
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -479,6 +480,7 @@ typedef union bdk_gpio_clk_genx {
 	} s;
 	/* struct bdk_gpio_clk_genx_s         cn85xx; */
 	/* struct bdk_gpio_clk_genx_s         cn88xx; */
+	/* struct bdk_gpio_clk_genx_s         cn88xxp1; */
 } bdk_gpio_clk_genx_t;
 
 static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -527,6 +529,7 @@ typedef union bdk_gpio_clk_syncex {
 	} s;
 	/* struct bdk_gpio_clk_syncex_s       cn85xx; */
 	/* struct bdk_gpio_clk_syncex_s       cn88xx; */
+	/* struct bdk_gpio_clk_syncex_s       cn88xxp1; */
 } bdk_gpio_clk_syncex_t;
 
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -569,6 +572,7 @@ typedef union bdk_gpio_comp {
 	} s;
 	/* struct bdk_gpio_comp_s             cn85xx; */
 	/* struct bdk_gpio_comp_s             cn88xx; */
+	/* struct bdk_gpio_comp_s             cn88xxp1; */
 } bdk_gpio_comp_t;
 
 #define BDK_GPIO_COMP BDK_GPIO_COMP_FUNC()
@@ -611,6 +615,7 @@ typedef union bdk_gpio_intrx {
 	} s;
 	/* struct bdk_gpio_intrx_s            cn85xx; */
 	/* struct bdk_gpio_intrx_s            cn88xx; */
+	/* struct bdk_gpio_intrx_s            cn88xxp1; */
 } bdk_gpio_intrx_t;
 
 static inline uint64_t BDK_GPIO_INTRX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -649,6 +654,7 @@ typedef union bdk_gpio_mc_intrx {
 	} s;
 	/* struct bdk_gpio_mc_intrx_s         cn85xx; */
 	/* struct bdk_gpio_mc_intrx_s         cn88xx; */
+	/* struct bdk_gpio_mc_intrx_s         cn88xxp1; */
 } bdk_gpio_mc_intrx_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -684,6 +690,7 @@ typedef union bdk_gpio_mc_intrx_ena_w1c {
 	} s;
 	/* struct bdk_gpio_mc_intrx_ena_w1c_s cn85xx; */
 	/* struct bdk_gpio_mc_intrx_ena_w1c_s cn88xx; */
+	/* struct bdk_gpio_mc_intrx_ena_w1c_s cn88xxp1; */
 } bdk_gpio_mc_intrx_ena_w1c_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -719,6 +726,7 @@ typedef union bdk_gpio_mc_intrx_ena_w1s {
 	} s;
 	/* struct bdk_gpio_mc_intrx_ena_w1s_s cn85xx; */
 	/* struct bdk_gpio_mc_intrx_ena_w1s_s cn88xx; */
+	/* struct bdk_gpio_mc_intrx_ena_w1s_s cn88xxp1; */
 } bdk_gpio_mc_intrx_ena_w1s_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -754,6 +762,7 @@ typedef union bdk_gpio_mc_intrx_w1s {
 	} s;
 	/* struct bdk_gpio_mc_intrx_w1s_s     cn85xx; */
 	/* struct bdk_gpio_mc_intrx_w1s_s     cn88xx; */
+	/* struct bdk_gpio_mc_intrx_w1s_s     cn88xxp1; */
 } bdk_gpio_mc_intrx_w1s_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -789,6 +798,7 @@ typedef union bdk_gpio_msix_pbax {
 	} s;
 	/* struct bdk_gpio_msix_pbax_s        cn85xx; */
 	/* struct bdk_gpio_msix_pbax_s        cn88xx; */
+	/* struct bdk_gpio_msix_pbax_s        cn88xxp1; */
 } bdk_gpio_msix_pbax_t;
 
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -835,6 +845,7 @@ typedef union bdk_gpio_msix_vecx_addr {
 	} s;
 	/* struct bdk_gpio_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_gpio_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_gpio_msix_vecx_addr_s   cn88xxp1; */
 } bdk_gpio_msix_vecx_addr_t;
 
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -874,6 +885,7 @@ typedef union bdk_gpio_msix_vecx_ctl {
 	} s;
 	/* struct bdk_gpio_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_gpio_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_gpio_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_gpio_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -911,6 +923,7 @@ typedef union bdk_gpio_multi_cast {
 	} s;
 	/* struct bdk_gpio_multi_cast_s       cn85xx; */
 	/* struct bdk_gpio_multi_cast_s       cn88xx; */
+	/* struct bdk_gpio_multi_cast_s       cn88xxp1; */
 } bdk_gpio_multi_cast_t;
 
 #define BDK_GPIO_MULTI_CAST BDK_GPIO_MULTI_CAST_FUNC()
@@ -946,6 +959,7 @@ typedef union bdk_gpio_ocla_exten_trig {
 	} s;
 	/* struct bdk_gpio_ocla_exten_trig_s  cn85xx; */
 	/* struct bdk_gpio_ocla_exten_trig_s  cn88xx; */
+	/* struct bdk_gpio_ocla_exten_trig_s  cn88xxp1; */
 } bdk_gpio_ocla_exten_trig_t;
 
 #define BDK_GPIO_OCLA_EXTEN_TRIG BDK_GPIO_OCLA_EXTEN_TRIG_FUNC()
@@ -981,6 +995,7 @@ typedef union bdk_gpio_rx_dat {
 	} s;
 	/* struct bdk_gpio_rx_dat_s           cn85xx; */
 	/* struct bdk_gpio_rx_dat_s           cn88xx; */
+	/* struct bdk_gpio_rx_dat_s           cn88xxp1; */
 } bdk_gpio_rx_dat_t;
 
 #define BDK_GPIO_RX_DAT BDK_GPIO_RX_DAT_FUNC()
@@ -1015,6 +1030,7 @@ typedef union bdk_gpio_strap {
 	} s;
 	/* struct bdk_gpio_strap_s            cn85xx; */
 	/* struct bdk_gpio_strap_s            cn88xx; */
+	/* struct bdk_gpio_strap_s            cn88xxp1; */
 } bdk_gpio_strap_t;
 
 #define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
@@ -1047,6 +1063,7 @@ typedef union bdk_gpio_tx_clr {
 	} s;
 	/* struct bdk_gpio_tx_clr_s           cn85xx; */
 	/* struct bdk_gpio_tx_clr_s           cn88xx; */
+	/* struct bdk_gpio_tx_clr_s           cn88xxp1; */
 } bdk_gpio_tx_clr_t;
 
 #define BDK_GPIO_TX_CLR BDK_GPIO_TX_CLR_FUNC()
@@ -1079,6 +1096,7 @@ typedef union bdk_gpio_tx_set {
 	} s;
 	/* struct bdk_gpio_tx_set_s           cn85xx; */
 	/* struct bdk_gpio_tx_set_s           cn88xx; */
+	/* struct bdk_gpio_tx_set_s           cn88xxp1; */
 } bdk_gpio_tx_set_t;
 
 #define BDK_GPIO_TX_SET BDK_GPIO_TX_SET_FUNC()

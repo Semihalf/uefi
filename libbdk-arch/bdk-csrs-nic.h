@@ -1469,6 +1469,7 @@ typedef union bdk_nic_pf_bist0_status {
 	} s;
 	/* struct bdk_nic_pf_bist0_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist0_status_s   cn88xx; */
+	/* struct bdk_nic_pf_bist0_status_s   cn88xxp1; */
 } bdk_nic_pf_bist0_status_t;
 
 #define BDK_NIC_PF_BIST0_STATUS BDK_NIC_PF_BIST0_STATUS_FUNC()
@@ -1505,6 +1506,7 @@ typedef union bdk_nic_pf_bist1_status {
 	} s;
 	/* struct bdk_nic_pf_bist1_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist1_status_s   cn88xx; */
+	/* struct bdk_nic_pf_bist1_status_s   cn88xxp1; */
 } bdk_nic_pf_bist1_status_t;
 
 #define BDK_NIC_PF_BIST1_STATUS BDK_NIC_PF_BIST1_STATUS_FUNC()
@@ -1539,6 +1541,7 @@ typedef union bdk_nic_pf_bist2_status {
 	} s;
 	/* struct bdk_nic_pf_bist2_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist2_status_s   cn88xx; */
+	/* struct bdk_nic_pf_bist2_status_s   cn88xxp1; */
 } bdk_nic_pf_bist2_status_t;
 
 #define BDK_NIC_PF_BIST2_STATUS BDK_NIC_PF_BIST2_STATUS_FUNC()
@@ -1575,6 +1578,7 @@ typedef union bdk_nic_pf_bist3_status {
 	} s;
 	/* struct bdk_nic_pf_bist3_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist3_status_s   cn88xx; */
+	/* struct bdk_nic_pf_bist3_status_s   cn88xxp1; */
 } bdk_nic_pf_bist3_status_t;
 
 #define BDK_NIC_PF_BIST3_STATUS BDK_NIC_PF_BIST3_STATUS_FUNC()
@@ -1610,6 +1614,7 @@ typedef union bdk_nic_pf_bp_cfg {
 	} s;
 	/* struct bdk_nic_pf_bp_cfg_s         cn85xx; */
 	/* struct bdk_nic_pf_bp_cfg_s         cn88xx; */
+	/* struct bdk_nic_pf_bp_cfg_s         cn88xxp1; */
 } bdk_nic_pf_bp_cfg_t;
 
 #define BDK_NIC_PF_BP_CFG BDK_NIC_PF_BP_CFG_FUNC()
@@ -1646,6 +1651,7 @@ typedef union bdk_nic_pf_cfg {
 	} s;
 	/* struct bdk_nic_pf_cfg_s            cn85xx; */
 	/* struct bdk_nic_pf_cfg_s            cn88xx; */
+	/* struct bdk_nic_pf_cfg_s            cn88xxp1; */
 } bdk_nic_pf_cfg_t;
 
 #define BDK_NIC_PF_CFG BDK_NIC_PF_CFG_FUNC()
@@ -1698,6 +1704,7 @@ typedef union bdk_nic_pf_chanx_credit {
 	} s;
 	/* struct bdk_nic_pf_chanx_credit_s   cn85xx; */
 	/* struct bdk_nic_pf_chanx_credit_s   cn88xx; */
+	/* struct bdk_nic_pf_chanx_credit_s   cn88xxp1; */
 } bdk_nic_pf_chanx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1732,6 +1739,7 @@ typedef union bdk_nic_pf_chanx_rx_bp_cfg {
 	} s;
 	/* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn88xx; */
+	/* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn88xxp1; */
 } bdk_nic_pf_chanx_rx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1768,6 +1776,7 @@ typedef union bdk_nic_pf_chanx_rx_cfg {
 	} s;
 	/* struct bdk_nic_pf_chanx_rx_cfg_s   cn85xx; */
 	/* struct bdk_nic_pf_chanx_rx_cfg_s   cn88xx; */
+	/* struct bdk_nic_pf_chanx_rx_cfg_s   cn88xxp1; */
 } bdk_nic_pf_chanx_rx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1802,6 +1811,7 @@ typedef union bdk_nic_pf_chanx_sw_xoff {
 	} s;
 	/* struct bdk_nic_pf_chanx_sw_xoff_s  cn85xx; */
 	/* struct bdk_nic_pf_chanx_sw_xoff_s  cn88xx; */
+	/* struct bdk_nic_pf_chanx_sw_xoff_s  cn88xxp1; */
 } bdk_nic_pf_chanx_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1834,6 +1844,7 @@ typedef union bdk_nic_pf_chanx_tx_cfg {
 	} s;
 	/* struct bdk_nic_pf_chanx_tx_cfg_s   cn85xx; */
 	/* struct bdk_nic_pf_chanx_tx_cfg_s   cn88xx; */
+	/* struct bdk_nic_pf_chanx_tx_cfg_s   cn88xxp1; */
 } bdk_nic_pf_chanx_tx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1930,6 +1941,7 @@ typedef union bdk_nic_pf_cnm_cfg {
 	} s;
 	/* struct bdk_nic_pf_cnm_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_cnm_cfg_s        cn88xx; */
+	/* struct bdk_nic_pf_cnm_cfg_s        cn88xxp1; */
 } bdk_nic_pf_cnm_cfg_t;
 
 #define BDK_NIC_PF_CNM_CFG BDK_NIC_PF_CNM_CFG_FUNC()
@@ -1971,6 +1983,7 @@ typedef union bdk_nic_pf_cnm_status {
 	} s;
 	/* struct bdk_nic_pf_cnm_status_s     cn85xx; */
 	/* struct bdk_nic_pf_cnm_status_s     cn88xx; */
+	/* struct bdk_nic_pf_cnm_status_s     cn88xxp1; */
 } bdk_nic_pf_cnm_status_t;
 
 #define BDK_NIC_PF_CNM_STATUS BDK_NIC_PF_CNM_STATUS_FUNC()
@@ -2021,6 +2034,7 @@ typedef union bdk_nic_pf_cpix_cfg {
 	} s;
 	/* struct bdk_nic_pf_cpix_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_cpix_cfg_s       cn88xx; */
+	/* struct bdk_nic_pf_cpix_cfg_s       cn88xxp1; */
 } bdk_nic_pf_cpix_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2071,6 +2085,7 @@ typedef union bdk_nic_pf_cq_avg_cfg {
 	} s;
 	/* struct bdk_nic_pf_cq_avg_cfg_s     cn85xx; */
 	/* struct bdk_nic_pf_cq_avg_cfg_s     cn88xx; */
+	/* struct bdk_nic_pf_cq_avg_cfg_s     cn88xxp1; */
 } bdk_nic_pf_cq_avg_cfg_t;
 
 #define BDK_NIC_PF_CQ_AVG_CFG BDK_NIC_PF_CQ_AVG_CFG_FUNC()
@@ -2104,6 +2119,7 @@ typedef union bdk_nic_pf_cqm_cfg {
 	} s;
 	/* struct bdk_nic_pf_cqm_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_cqm_cfg_s        cn88xx; */
+	/* struct bdk_nic_pf_cqm_cfg_s        cn88xxp1; */
 } bdk_nic_pf_cqm_cfg_t;
 
 #define BDK_NIC_PF_CQM_CFG BDK_NIC_PF_CQM_CFG_FUNC()
@@ -2154,6 +2170,7 @@ typedef union bdk_nic_pf_cqm_test {
 	} s;
 	/* struct bdk_nic_pf_cqm_test_s       cn85xx; */
 	/* struct bdk_nic_pf_cqm_test_s       cn88xx; */
+	/* struct bdk_nic_pf_cqm_test_s       cn88xxp1; */
 } bdk_nic_pf_cqm_test_t;
 
 #define BDK_NIC_PF_CQM_TEST BDK_NIC_PF_CQM_TEST_FUNC()
@@ -2204,6 +2221,7 @@ typedef union bdk_nic_pf_csi_test {
 	} s;
 	/* struct bdk_nic_pf_csi_test_s       cn85xx; */
 	/* struct bdk_nic_pf_csi_test_s       cn88xx; */
+	/* struct bdk_nic_pf_csi_test_s       cn88xxp1; */
 } bdk_nic_pf_csi_test_t;
 
 #define BDK_NIC_PF_CSI_TEST BDK_NIC_PF_CSI_TEST_FUNC()
@@ -2261,6 +2279,7 @@ typedef union bdk_nic_pf_ecc0_cdis {
 	} s;
 	/* struct bdk_nic_pf_ecc0_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xx; */
+	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc0_cdis_t;
 
 #define BDK_NIC_PF_ECC0_CDIS BDK_NIC_PF_ECC0_CDIS_FUNC()
@@ -2296,6 +2315,7 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1C BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC()
@@ -2331,6 +2351,7 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1S BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC()
@@ -2369,6 +2390,7 @@ typedef union bdk_nic_pf_ecc0_dbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_int_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT BDK_NIC_PF_ECC0_DBE_INT_FUNC()
@@ -2404,6 +2426,7 @@ typedef union bdk_nic_pf_ecc0_dbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT_W1S BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC()
@@ -2461,6 +2484,7 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 	} s;
 	/* struct bdk_nic_pf_ecc0_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc0_flip0_t;
 
 #define BDK_NIC_PF_ECC0_FLIP0 BDK_NIC_PF_ECC0_FLIP0_FUNC()
@@ -2518,6 +2542,7 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 	} s;
 	/* struct bdk_nic_pf_ecc0_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc0_flip1_t;
 
 #define BDK_NIC_PF_ECC0_FLIP1 BDK_NIC_PF_ECC0_FLIP1_FUNC()
@@ -2553,6 +2578,7 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1C BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC()
@@ -2588,6 +2614,7 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1S BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC()
@@ -2626,6 +2653,7 @@ typedef union bdk_nic_pf_ecc0_sbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_int_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT BDK_NIC_PF_ECC0_SBE_INT_FUNC()
@@ -2661,6 +2689,7 @@ typedef union bdk_nic_pf_ecc0_sbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT_W1S BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC()
@@ -2718,6 +2747,7 @@ typedef union bdk_nic_pf_ecc1_cdis {
 	} s;
 	/* struct bdk_nic_pf_ecc1_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc1_cdis_s      cn88xx; */
+	/* struct bdk_nic_pf_ecc1_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc1_cdis_t;
 
 #define BDK_NIC_PF_ECC1_CDIS BDK_NIC_PF_ECC1_CDIS_FUNC()
@@ -2751,6 +2781,7 @@ typedef union bdk_nic_pf_ecc1_dbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC1_DBE_ENA_W1C BDK_NIC_PF_ECC1_DBE_ENA_W1C_FUNC()
@@ -2784,6 +2815,7 @@ typedef union bdk_nic_pf_ecc1_dbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC1_DBE_ENA_W1S BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC()
@@ -2820,6 +2852,7 @@ typedef union bdk_nic_pf_ecc1_dbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc1_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc1_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_int_t;
 
 #define BDK_NIC_PF_ECC1_DBE_INT BDK_NIC_PF_ECC1_DBE_INT_FUNC()
@@ -2853,6 +2886,7 @@ typedef union bdk_nic_pf_ecc1_dbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC1_DBE_INT_W1S BDK_NIC_PF_ECC1_DBE_INT_W1S_FUNC()
@@ -2910,6 +2944,7 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 	} s;
 	/* struct bdk_nic_pf_ecc1_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc1_flip0_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc1_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc1_flip0_t;
 
 #define BDK_NIC_PF_ECC1_FLIP0 BDK_NIC_PF_ECC1_FLIP0_FUNC()
@@ -2967,6 +3002,7 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 	} s;
 	/* struct bdk_nic_pf_ecc1_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc1_flip1_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc1_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc1_flip1_t;
 
 #define BDK_NIC_PF_ECC1_FLIP1 BDK_NIC_PF_ECC1_FLIP1_FUNC()
@@ -3000,6 +3036,7 @@ typedef union bdk_nic_pf_ecc1_sbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC1_SBE_ENA_W1C BDK_NIC_PF_ECC1_SBE_ENA_W1C_FUNC()
@@ -3033,6 +3070,7 @@ typedef union bdk_nic_pf_ecc1_sbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC1_SBE_ENA_W1S BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC()
@@ -3069,6 +3107,7 @@ typedef union bdk_nic_pf_ecc1_sbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc1_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc1_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_int_t;
 
 #define BDK_NIC_PF_ECC1_SBE_INT BDK_NIC_PF_ECC1_SBE_INT_FUNC()
@@ -3102,6 +3141,7 @@ typedef union bdk_nic_pf_ecc1_sbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC1_SBE_INT_W1S BDK_NIC_PF_ECC1_SBE_INT_W1S_FUNC()
@@ -3160,6 +3200,7 @@ typedef union bdk_nic_pf_ecc2_cdis {
 	} s;
 	/* struct bdk_nic_pf_ecc2_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc2_cdis_s      cn88xx; */
+	/* struct bdk_nic_pf_ecc2_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc2_cdis_t;
 
 #define BDK_NIC_PF_ECC2_CDIS BDK_NIC_PF_ECC2_CDIS_FUNC()
@@ -3191,6 +3232,7 @@ typedef union bdk_nic_pf_ecc2_dbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC2_DBE_ENA_W1C BDK_NIC_PF_ECC2_DBE_ENA_W1C_FUNC()
@@ -3222,6 +3264,7 @@ typedef union bdk_nic_pf_ecc2_dbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC2_DBE_ENA_W1S BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC()
@@ -3256,6 +3299,7 @@ typedef union bdk_nic_pf_ecc2_dbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc2_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc2_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_int_t;
 
 #define BDK_NIC_PF_ECC2_DBE_INT BDK_NIC_PF_ECC2_DBE_INT_FUNC()
@@ -3287,6 +3331,7 @@ typedef union bdk_nic_pf_ecc2_dbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC2_DBE_INT_W1S BDK_NIC_PF_ECC2_DBE_INT_W1S_FUNC()
@@ -3345,6 +3390,7 @@ typedef union bdk_nic_pf_ecc2_flip0 {
 	} s;
 	/* struct bdk_nic_pf_ecc2_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc2_flip0_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc2_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc2_flip0_t;
 
 #define BDK_NIC_PF_ECC2_FLIP0 BDK_NIC_PF_ECC2_FLIP0_FUNC()
@@ -3403,6 +3449,7 @@ typedef union bdk_nic_pf_ecc2_flip1 {
 	} s;
 	/* struct bdk_nic_pf_ecc2_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc2_flip1_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc2_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc2_flip1_t;
 
 #define BDK_NIC_PF_ECC2_FLIP1 BDK_NIC_PF_ECC2_FLIP1_FUNC()
@@ -3434,6 +3481,7 @@ typedef union bdk_nic_pf_ecc2_sbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC2_SBE_ENA_W1C BDK_NIC_PF_ECC2_SBE_ENA_W1C_FUNC()
@@ -3465,6 +3513,7 @@ typedef union bdk_nic_pf_ecc2_sbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC2_SBE_ENA_W1S BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC()
@@ -3499,6 +3548,7 @@ typedef union bdk_nic_pf_ecc2_sbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc2_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc2_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_int_t;
 
 #define BDK_NIC_PF_ECC2_SBE_INT BDK_NIC_PF_ECC2_SBE_INT_FUNC()
@@ -3530,6 +3580,7 @@ typedef union bdk_nic_pf_ecc2_sbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC2_SBE_INT_W1S BDK_NIC_PF_ECC2_SBE_INT_W1S_FUNC()
@@ -3597,6 +3648,7 @@ typedef union bdk_nic_pf_ecc3_cdis {
 	} s;
 	/* struct bdk_nic_pf_ecc3_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc3_cdis_s      cn88xx; */
+	/* struct bdk_nic_pf_ecc3_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc3_cdis_t;
 
 #define BDK_NIC_PF_ECC3_CDIS BDK_NIC_PF_ECC3_CDIS_FUNC()
@@ -3630,6 +3682,7 @@ typedef union bdk_nic_pf_ecc3_dbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC3_DBE_ENA_W1C BDK_NIC_PF_ECC3_DBE_ENA_W1C_FUNC()
@@ -3663,6 +3716,7 @@ typedef union bdk_nic_pf_ecc3_dbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC3_DBE_ENA_W1S BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC()
@@ -3699,6 +3753,7 @@ typedef union bdk_nic_pf_ecc3_dbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc3_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc3_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_int_t;
 
 #define BDK_NIC_PF_ECC3_DBE_INT BDK_NIC_PF_ECC3_DBE_INT_FUNC()
@@ -3732,6 +3787,7 @@ typedef union bdk_nic_pf_ecc3_dbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC3_DBE_INT_W1S BDK_NIC_PF_ECC3_DBE_INT_W1S_FUNC()
@@ -3799,6 +3855,7 @@ typedef union bdk_nic_pf_ecc3_flip0 {
 	} s;
 	/* struct bdk_nic_pf_ecc3_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc3_flip0_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc3_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc3_flip0_t;
 
 #define BDK_NIC_PF_ECC3_FLIP0 BDK_NIC_PF_ECC3_FLIP0_FUNC()
@@ -3866,6 +3923,7 @@ typedef union bdk_nic_pf_ecc3_flip1 {
 	} s;
 	/* struct bdk_nic_pf_ecc3_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc3_flip1_s     cn88xx; */
+	/* struct bdk_nic_pf_ecc3_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc3_flip1_t;
 
 #define BDK_NIC_PF_ECC3_FLIP1 BDK_NIC_PF_ECC3_FLIP1_FUNC()
@@ -3899,6 +3957,7 @@ typedef union bdk_nic_pf_ecc3_sbe_ena_w1c {
 	} s;
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn88xx; */
+	/* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC3_SBE_ENA_W1C BDK_NIC_PF_ECC3_SBE_ENA_W1C_FUNC()
@@ -3932,6 +3991,7 @@ typedef union bdk_nic_pf_ecc3_sbe_ena_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC3_SBE_ENA_W1S BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC()
@@ -3968,6 +4028,7 @@ typedef union bdk_nic_pf_ecc3_sbe_int {
 	} s;
 	/* struct bdk_nic_pf_ecc3_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_int_s   cn88xx; */
+	/* struct bdk_nic_pf_ecc3_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_int_t;
 
 #define BDK_NIC_PF_ECC3_SBE_INT BDK_NIC_PF_ECC3_SBE_INT_FUNC()
@@ -4001,6 +4062,7 @@ typedef union bdk_nic_pf_ecc3_sbe_int_w1s {
 	} s;
 	/* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn88xx; */
+	/* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC3_SBE_INT_W1S BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC()
@@ -4033,6 +4095,7 @@ typedef union bdk_nic_pf_int_timer_cfg {
 	} s;
 	/* struct bdk_nic_pf_int_timer_cfg_s  cn85xx; */
 	/* struct bdk_nic_pf_int_timer_cfg_s  cn88xx; */
+	/* struct bdk_nic_pf_int_timer_cfg_s  cn88xxp1; */
 } bdk_nic_pf_int_timer_cfg_t;
 
 #define BDK_NIC_PF_INT_TIMER_CFG BDK_NIC_PF_INT_TIMER_CFG_FUNC()
@@ -4069,6 +4132,7 @@ typedef union bdk_nic_pf_intfx_bp_cfg {
 	} s;
 	/* struct bdk_nic_pf_intfx_bp_cfg_s   cn85xx; */
 	/* struct bdk_nic_pf_intfx_bp_cfg_s   cn88xx; */
+	/* struct bdk_nic_pf_intfx_bp_cfg_s   cn88xxp1; */
 } bdk_nic_pf_intfx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4100,6 +4164,7 @@ typedef union bdk_nic_pf_intfx_bp_disx {
 	} s;
 	/* struct bdk_nic_pf_intfx_bp_disx_s  cn85xx; */
 	/* struct bdk_nic_pf_intfx_bp_disx_s  cn88xx; */
+	/* struct bdk_nic_pf_intfx_bp_disx_s  cn88xxp1; */
 } bdk_nic_pf_intfx_bp_disx_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4131,6 +4196,7 @@ typedef union bdk_nic_pf_intfx_bp_swx {
 	} s;
 	/* struct bdk_nic_pf_intfx_bp_swx_s   cn85xx; */
 	/* struct bdk_nic_pf_intfx_bp_swx_s   cn88xx; */
+	/* struct bdk_nic_pf_intfx_bp_swx_s   cn88xxp1; */
 } bdk_nic_pf_intfx_bp_swx_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4202,6 +4268,7 @@ typedef union bdk_nic_pf_intfx_send_cfg {
 	} s;
 	/* struct bdk_nic_pf_intfx_send_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_intfx_send_cfg_s cn88xx; */
+	/* struct bdk_nic_pf_intfx_send_cfg_s cn88xxp1; */
 } bdk_nic_pf_intfx_send_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4243,6 +4310,7 @@ typedef union bdk_nic_pf_lmacx_cfg {
 	} s;
 	/* struct bdk_nic_pf_lmacx_cfg_s      cn85xx; */
 	/* struct bdk_nic_pf_lmacx_cfg_s      cn88xx; */
+	/* struct bdk_nic_pf_lmacx_cfg_s      cn88xxp1; */
 } bdk_nic_pf_lmacx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4293,6 +4361,7 @@ typedef union bdk_nic_pf_lmacx_credit {
 	} s;
 	/* struct bdk_nic_pf_lmacx_credit_s   cn85xx; */
 	/* struct bdk_nic_pf_lmacx_credit_s   cn88xx; */
+	/* struct bdk_nic_pf_lmacx_credit_s   cn88xxp1; */
 } bdk_nic_pf_lmacx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4325,6 +4394,7 @@ typedef union bdk_nic_pf_lmacx_sw_xoff {
 	} s;
 	/* struct bdk_nic_pf_lmacx_sw_xoff_s  cn85xx; */
 	/* struct bdk_nic_pf_lmacx_sw_xoff_s  cn88xx; */
+	/* struct bdk_nic_pf_lmacx_sw_xoff_s  cn88xxp1; */
 } bdk_nic_pf_lmacx_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4357,6 +4427,7 @@ typedef union bdk_nic_pf_mbox_ena_w1cx {
 	} s;
 	/* struct bdk_nic_pf_mbox_ena_w1cx_s  cn85xx; */
 	/* struct bdk_nic_pf_mbox_ena_w1cx_s  cn88xx; */
+	/* struct bdk_nic_pf_mbox_ena_w1cx_s  cn88xxp1; */
 } bdk_nic_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4389,6 +4460,7 @@ typedef union bdk_nic_pf_mbox_ena_w1sx {
 	} s;
 	/* struct bdk_nic_pf_mbox_ena_w1sx_s  cn85xx; */
 	/* struct bdk_nic_pf_mbox_ena_w1sx_s  cn88xx; */
+	/* struct bdk_nic_pf_mbox_ena_w1sx_s  cn88xxp1; */
 } bdk_nic_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4421,6 +4493,7 @@ typedef union bdk_nic_pf_mbox_intx {
 	} s;
 	/* struct bdk_nic_pf_mbox_intx_s      cn85xx; */
 	/* struct bdk_nic_pf_mbox_intx_s      cn88xx; */
+	/* struct bdk_nic_pf_mbox_intx_s      cn88xxp1; */
 } bdk_nic_pf_mbox_intx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4453,6 +4526,7 @@ typedef union bdk_nic_pf_mbox_int_w1sx {
 	} s;
 	/* struct bdk_nic_pf_mbox_int_w1sx_s  cn85xx; */
 	/* struct bdk_nic_pf_mbox_int_w1sx_s  cn88xx; */
+	/* struct bdk_nic_pf_mbox_int_w1sx_s  cn88xxp1; */
 } bdk_nic_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4488,6 +4562,7 @@ typedef union bdk_nic_pf_msix_pbax {
 	} s;
 	/* struct bdk_nic_pf_msix_pbax_s      cn85xx; */
 	/* struct bdk_nic_pf_msix_pbax_s      cn88xx; */
+	/* struct bdk_nic_pf_msix_pbax_s      cn88xxp1; */
 } bdk_nic_pf_msix_pbax_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4534,6 +4609,7 @@ typedef union bdk_nic_pf_msix_vecx_addr {
 	} s;
 	/* struct bdk_nic_pf_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_nic_pf_msix_vecx_addr_s cn88xx; */
+	/* struct bdk_nic_pf_msix_vecx_addr_s cn88xxp1; */
 } bdk_nic_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4573,6 +4649,7 @@ typedef union bdk_nic_pf_msix_vecx_ctl {
 	} s;
 	/* struct bdk_nic_pf_msix_vecx_ctl_s  cn85xx; */
 	/* struct bdk_nic_pf_msix_vecx_ctl_s  cn88xx; */
+	/* struct bdk_nic_pf_msix_vecx_ctl_s  cn88xxp1; */
 } bdk_nic_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4630,6 +4707,7 @@ typedef union bdk_nic_pf_pkindx_cfg {
 	} s;
 	/* struct bdk_nic_pf_pkindx_cfg_s     cn85xx; */
 	/* struct bdk_nic_pf_pkindx_cfg_s     cn88xx; */
+	/* struct bdk_nic_pf_pkindx_cfg_s     cn88xxp1; */
 } bdk_nic_pf_pkindx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4704,6 +4782,7 @@ typedef union bdk_nic_pf_qsx_cfg {
 	} s;
 	/* struct bdk_nic_pf_qsx_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_qsx_cfg_s        cn88xx; */
+	/* struct bdk_nic_pf_qsx_cfg_s        cn88xxp1; */
 } bdk_nic_pf_qsx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4749,6 +4828,7 @@ typedef union bdk_nic_pf_qsx_lockx {
 	} s;
 	/* struct bdk_nic_pf_qsx_lockx_s      cn85xx; */
 	/* struct bdk_nic_pf_qsx_lockx_s      cn88xx; */
+	/* struct bdk_nic_pf_qsx_lockx_s      cn88xxp1; */
 } bdk_nic_pf_qsx_lockx_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4789,6 +4869,7 @@ typedef union bdk_nic_pf_qsx_rqx_bp_cfg {
 	} s;
 	/* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn88xx; */
+	/* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4846,6 +4927,7 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 	} s;
 	/* struct bdk_nic_pf_qsx_rqx_cfg_s    cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_cfg_s    cn88xx; */
+	/* struct bdk_nic_pf_qsx_rqx_cfg_s    cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4892,6 +4974,7 @@ typedef union bdk_nic_pf_qsx_rqx_drop_cfg {
 	} s;
 	/* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn88xx; */
+	/* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_drop_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4927,6 +5010,7 @@ typedef union bdk_nic_pf_qsx_rqx_statx {
 	} s;
 	/* struct bdk_nic_pf_qsx_rqx_statx_s  cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_statx_s  cn88xx; */
+	/* struct bdk_nic_pf_qsx_rqx_statx_s  cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));
@@ -4968,6 +5052,7 @@ typedef union bdk_nic_pf_qsx_sqx_cfg {
 	} s;
 	/* struct bdk_nic_pf_qsx_sqx_cfg_s    cn85xx; */
 	/* struct bdk_nic_pf_qsx_sqx_cfg_s    cn88xx; */
+	/* struct bdk_nic_pf_qsx_sqx_cfg_s    cn88xxp1; */
 } bdk_nic_pf_qsx_sqx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5002,6 +5087,7 @@ typedef union bdk_nic_pf_qsx_sqx_cfg2 {
 	} s;
 	/* struct bdk_nic_pf_qsx_sqx_cfg2_s   cn85xx; */
 	/* struct bdk_nic_pf_qsx_sqx_cfg2_s   cn88xx; */
+	/* struct bdk_nic_pf_qsx_sqx_cfg2_s   cn88xxp1; */
 } bdk_nic_pf_qsx_sqx_cfg2_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5037,6 +5123,7 @@ typedef union bdk_nic_pf_qsx_sqx_statx {
 	} s;
 	/* struct bdk_nic_pf_qsx_sqx_statx_s  cn85xx; */
 	/* struct bdk_nic_pf_qsx_sqx_statx_s  cn88xx; */
+	/* struct bdk_nic_pf_qsx_sqx_statx_s  cn88xxp1; */
 } bdk_nic_pf_qsx_sqx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));
@@ -5067,6 +5154,7 @@ typedef union bdk_nic_pf_rbdr_bp_statex {
 	} s;
 	/* struct bdk_nic_pf_rbdr_bp_statex_s cn85xx; */
 	/* struct bdk_nic_pf_rbdr_bp_statex_s cn88xx; */
+	/* struct bdk_nic_pf_rbdr_bp_statex_s cn88xxp1; */
 } bdk_nic_pf_rbdr_bp_statex_t;
 
 static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5118,6 +5206,7 @@ typedef union bdk_nic_pf_rqm_test {
 	} s;
 	/* struct bdk_nic_pf_rqm_test_s       cn85xx; */
 	/* struct bdk_nic_pf_rqm_test_s       cn88xx; */
+	/* struct bdk_nic_pf_rqm_test_s       cn88xxp1; */
 } bdk_nic_pf_rqm_test_t;
 
 #define BDK_NIC_PF_RQM_TEST BDK_NIC_PF_RQM_TEST_FUNC()
@@ -5167,6 +5256,7 @@ typedef union bdk_nic_pf_rrm_avg_cfg {
 	} s;
 	/* struct bdk_nic_pf_rrm_avg_cfg_s    cn85xx; */
 	/* struct bdk_nic_pf_rrm_avg_cfg_s    cn88xx; */
+	/* struct bdk_nic_pf_rrm_avg_cfg_s    cn88xxp1; */
 } bdk_nic_pf_rrm_avg_cfg_t;
 
 #define BDK_NIC_PF_RRM_AVG_CFG BDK_NIC_PF_RRM_AVG_CFG_FUNC()
@@ -5200,6 +5290,7 @@ typedef union bdk_nic_pf_rrm_cfg {
 	} s;
 	/* struct bdk_nic_pf_rrm_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_rrm_cfg_s        cn88xx; */
+	/* struct bdk_nic_pf_rrm_cfg_s        cn88xxp1; */
 } bdk_nic_pf_rrm_cfg_t;
 
 #define BDK_NIC_PF_RRM_CFG BDK_NIC_PF_RRM_CFG_FUNC()
@@ -5250,6 +5341,7 @@ typedef union bdk_nic_pf_rrm_test {
 	} s;
 	/* struct bdk_nic_pf_rrm_test_s       cn85xx; */
 	/* struct bdk_nic_pf_rrm_test_s       cn88xx; */
+	/* struct bdk_nic_pf_rrm_test_s       cn88xxp1; */
 } bdk_nic_pf_rrm_test_t;
 
 #define BDK_NIC_PF_RRM_TEST BDK_NIC_PF_RRM_TEST_FUNC()
@@ -5286,6 +5378,7 @@ typedef union bdk_nic_pf_rssix_rq {
 	} s;
 	/* struct bdk_nic_pf_rssix_rq_s       cn85xx; */
 	/* struct bdk_nic_pf_rssix_rq_s       cn88xx; */
+	/* struct bdk_nic_pf_rssix_rq_s       cn88xxp1; */
 } bdk_nic_pf_rssix_rq_t;
 
 static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5327,6 +5420,7 @@ typedef union bdk_nic_pf_rx_etypex {
 	} s;
 	/* struct bdk_nic_pf_rx_etypex_s      cn85xx; */
 	/* struct bdk_nic_pf_rx_etypex_s      cn88xx; */
+	/* struct bdk_nic_pf_rx_etypex_s      cn88xxp1; */
 } bdk_nic_pf_rx_etypex_t;
 
 static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5378,6 +5472,7 @@ typedef union bdk_nic_pf_seb_test {
 	} s;
 	/* struct bdk_nic_pf_seb_test_s       cn85xx; */
 	/* struct bdk_nic_pf_seb_test_s       cn88xx; */
+	/* struct bdk_nic_pf_seb_test_s       cn88xxp1; */
 } bdk_nic_pf_seb_test_t;
 
 #define BDK_NIC_PF_SEB_TEST BDK_NIC_PF_SEB_TEST_FUNC()
@@ -5428,6 +5523,7 @@ typedef union bdk_nic_pf_sqm_test1 {
 	} s;
 	/* struct bdk_nic_pf_sqm_test1_s      cn85xx; */
 	/* struct bdk_nic_pf_sqm_test1_s      cn88xx; */
+	/* struct bdk_nic_pf_sqm_test1_s      cn88xxp1; */
 } bdk_nic_pf_sqm_test1_t;
 
 #define BDK_NIC_PF_SQM_TEST1 BDK_NIC_PF_SQM_TEST1_FUNC()
@@ -5478,6 +5574,7 @@ typedef union bdk_nic_pf_sqm_test2 {
 	} s;
 	/* struct bdk_nic_pf_sqm_test2_s      cn85xx; */
 	/* struct bdk_nic_pf_sqm_test2_s      cn88xx; */
+	/* struct bdk_nic_pf_sqm_test2_s      cn88xxp1; */
 } bdk_nic_pf_sqm_test2_t;
 
 #define BDK_NIC_PF_SQM_TEST2 BDK_NIC_PF_SQM_TEST2_FUNC()
@@ -5520,6 +5617,7 @@ typedef union bdk_nic_pf_status {
 	} s;
 	/* struct bdk_nic_pf_status_s         cn85xx; */
 	/* struct bdk_nic_pf_status_s         cn88xx; */
+	/* struct bdk_nic_pf_status_s         cn88xxp1; */
 } bdk_nic_pf_status_t;
 
 #define BDK_NIC_PF_STATUS BDK_NIC_PF_STATUS_FUNC()
@@ -5553,6 +5651,7 @@ typedef union bdk_nic_pf_sw_sync_rx {
 	} s;
 	/* struct bdk_nic_pf_sw_sync_rx_s     cn85xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_s     cn88xx; */
+	/* struct bdk_nic_pf_sw_sync_rx_s     cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_t;
 
 #define BDK_NIC_PF_SW_SYNC_RX BDK_NIC_PF_SW_SYNC_RX_FUNC()
@@ -5588,6 +5687,7 @@ typedef union bdk_nic_pf_sw_sync_rx_cntsx {
 	} s;
 	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn85xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xx; */
+	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_cntsx_t;
 
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5621,6 +5721,7 @@ typedef union bdk_nic_pf_sw_sync_rx_done {
 	} s;
 	/* struct bdk_nic_pf_sw_sync_rx_done_s cn85xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_done_s cn88xx; */
+	/* struct bdk_nic_pf_sw_sync_rx_done_s cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_done_t;
 
 #define BDK_NIC_PF_SW_SYNC_RX_DONE BDK_NIC_PF_SW_SYNC_RX_DONE_FUNC()
@@ -5663,6 +5764,7 @@ typedef union bdk_nic_pf_tcp_timer {
 	} s;
 	/* struct bdk_nic_pf_tcp_timer_s      cn85xx; */
 	/* struct bdk_nic_pf_tcp_timer_s      cn88xx; */
+	/* struct bdk_nic_pf_tcp_timer_s      cn88xxp1; */
 } bdk_nic_pf_tcp_timer_t;
 
 #define BDK_NIC_PF_TCP_TIMER BDK_NIC_PF_TCP_TIMER_FUNC()
@@ -5695,6 +5797,7 @@ typedef union bdk_nic_pf_tl2x_cfg {
 	} s;
 	/* struct bdk_nic_pf_tl2x_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_tl2x_cfg_s       cn88xx; */
+	/* struct bdk_nic_pf_tl2x_cfg_s       cn88xxp1; */
 } bdk_nic_pf_tl2x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5727,6 +5830,7 @@ typedef union bdk_nic_pf_tl2x_pri {
 	} s;
 	/* struct bdk_nic_pf_tl2x_pri_s       cn85xx; */
 	/* struct bdk_nic_pf_tl2x_pri_s       cn88xx; */
+	/* struct bdk_nic_pf_tl2x_pri_s       cn88xxp1; */
 } bdk_nic_pf_tl2x_pri_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5759,6 +5863,7 @@ typedef union bdk_nic_pf_tl2x_sh_status {
 	} s;
 	/* struct bdk_nic_pf_tl2x_sh_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl2x_sh_status_s cn88xx; */
+	/* struct bdk_nic_pf_tl2x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl2x_sh_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5792,6 +5897,7 @@ typedef union bdk_nic_pf_tl3x_cfg {
 	} s;
 	/* struct bdk_nic_pf_tl3x_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_tl3x_cfg_s       cn88xx; */
+	/* struct bdk_nic_pf_tl3x_cfg_s       cn88xxp1; */
 } bdk_nic_pf_tl3x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5825,6 +5931,7 @@ typedef union bdk_nic_pf_tl3x_chan {
 	} s;
 	/* struct bdk_nic_pf_tl3x_chan_s      cn85xx; */
 	/* struct bdk_nic_pf_tl3x_chan_s      cn88xx; */
+	/* struct bdk_nic_pf_tl3x_chan_s      cn88xxp1; */
 } bdk_nic_pf_tl3x_chan_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5881,6 +5988,7 @@ typedef union bdk_nic_pf_tl3x_cnm_rate {
 	} s;
 	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn85xx; */
 	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn88xx; */
+	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn88xxp1; */
 } bdk_nic_pf_tl3x_cnm_rate_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_CNM_RATE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5928,6 +6036,7 @@ typedef union bdk_nic_pf_tl3x_pir {
 	} s;
 	/* struct bdk_nic_pf_tl3x_pir_s       cn85xx; */
 	/* struct bdk_nic_pf_tl3x_pir_s       cn88xx; */
+	/* struct bdk_nic_pf_tl3x_pir_s       cn88xxp1; */
 } bdk_nic_pf_tl3x_pir_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5965,6 +6074,7 @@ typedef union bdk_nic_pf_tl3x_sh_status {
 	} s;
 	/* struct bdk_nic_pf_tl3x_sh_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xx; */
+	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl3x_sh_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6000,6 +6110,7 @@ typedef union bdk_nic_pf_tl3x_sw_xoff {
 	} s;
 	/* struct bdk_nic_pf_tl3x_sw_xoff_s   cn85xx; */
 	/* struct bdk_nic_pf_tl3x_sw_xoff_s   cn88xx; */
+	/* struct bdk_nic_pf_tl3x_sw_xoff_s   cn88xxp1; */
 } bdk_nic_pf_tl3x_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6035,6 +6146,7 @@ typedef union bdk_nic_pf_tl3ax_cfg {
 	} s;
 	/* struct bdk_nic_pf_tl3ax_cfg_s      cn85xx; */
 	/* struct bdk_nic_pf_tl3ax_cfg_s      cn88xx; */
+	/* struct bdk_nic_pf_tl3ax_cfg_s      cn88xxp1; */
 } bdk_nic_pf_tl3ax_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6072,6 +6184,7 @@ typedef union bdk_nic_pf_tl4x_cfg {
 	} s;
 	/* struct bdk_nic_pf_tl4x_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_tl4x_cfg_s       cn88xx; */
+	/* struct bdk_nic_pf_tl4x_cfg_s       cn88xxp1; */
 } bdk_nic_pf_tl4x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6104,6 +6217,7 @@ typedef union bdk_nic_pf_tl4x_sh_status {
 	} s;
 	/* struct bdk_nic_pf_tl4x_sh_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl4x_sh_status_s cn88xx; */
+	/* struct bdk_nic_pf_tl4x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl4x_sh_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6136,6 +6250,7 @@ typedef union bdk_nic_pf_tl4x_sw_xoff {
 	} s;
 	/* struct bdk_nic_pf_tl4x_sw_xoff_s   cn85xx; */
 	/* struct bdk_nic_pf_tl4x_sw_xoff_s   cn88xx; */
+	/* struct bdk_nic_pf_tl4x_sw_xoff_s   cn88xxp1; */
 } bdk_nic_pf_tl4x_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6171,6 +6286,7 @@ typedef union bdk_nic_pf_tl4ax_cfg {
 	} s;
 	/* struct bdk_nic_pf_tl4ax_cfg_s      cn85xx; */
 	/* struct bdk_nic_pf_tl4ax_cfg_s      cn88xx; */
+	/* struct bdk_nic_pf_tl4ax_cfg_s      cn88xxp1; */
 } bdk_nic_pf_tl4ax_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6206,6 +6322,7 @@ typedef union bdk_nic_pf_tl4ax_cnm_rate {
 	} s;
 	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn85xx; */
 	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn88xx; */
+	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn88xxp1; */
 } bdk_nic_pf_tl4ax_cnm_rate_t;
 
 static inline uint64_t BDK_NIC_PF_TL4AX_CNM_RATE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6270,6 +6387,7 @@ typedef union bdk_nic_pf_tl4ax_cnm_status {
 	} s;
 	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn88xx; */
+	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn88xxp1; */
 } bdk_nic_pf_tl4ax_cnm_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL4AX_CNM_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -6304,6 +6422,7 @@ typedef union bdk_nic_pf_vfx_mailboxx {
 	} s;
 	/* struct bdk_nic_pf_vfx_mailboxx_s   cn85xx; */
 	/* struct bdk_nic_pf_vfx_mailboxx_s   cn88xx; */
+	/* struct bdk_nic_pf_vfx_mailboxx_s   cn88xxp1; */
 } bdk_nic_pf_vfx_mailboxx_t;
 
 static inline uint64_t BDK_NIC_PF_VFX_MAILBOXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6339,6 +6458,7 @@ typedef union bdk_nic_pf_vnicx_rx_statx {
 	} s;
 	/* struct bdk_nic_pf_vnicx_rx_statx_s cn85xx; */
 	/* struct bdk_nic_pf_vnicx_rx_statx_s cn88xx; */
+	/* struct bdk_nic_pf_vnicx_rx_statx_s cn88xxp1; */
 } bdk_nic_pf_vnicx_rx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6374,6 +6494,7 @@ typedef union bdk_nic_pf_vnicx_tx_statx {
 	} s;
 	/* struct bdk_nic_pf_vnicx_tx_statx_s cn85xx; */
 	/* struct bdk_nic_pf_vnicx_tx_statx_s cn88xx; */
+	/* struct bdk_nic_pf_vnicx_tx_statx_s cn88xxp1; */
 } bdk_nic_pf_vnicx_tx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6410,6 +6531,7 @@ typedef union bdk_nic_qsx_cqx_base {
 	} s;
 	/* struct bdk_nic_qsx_cqx_base_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_base_s      cn88xx; */
+	/* struct bdk_nic_qsx_cqx_base_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6484,6 +6606,7 @@ typedef union bdk_nic_qsx_cqx_cfg {
 	} s;
 	/* struct bdk_nic_qsx_cqx_cfg_s       cn85xx; */
 	/* struct bdk_nic_qsx_cqx_cfg_s       cn88xx; */
+	/* struct bdk_nic_qsx_cqx_cfg_s       cn88xxp1; */
 } bdk_nic_qsx_cqx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6519,6 +6642,7 @@ typedef union bdk_nic_qsx_cqx_cfg2 {
 	} s;
 	/* struct bdk_nic_qsx_cqx_cfg2_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_cfg2_s      cn88xx; */
+	/* struct bdk_nic_qsx_cqx_cfg2_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_cfg2_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6553,6 +6677,7 @@ typedef union bdk_nic_qsx_cqx_debug {
 	} s;
 	/* struct bdk_nic_qsx_cqx_debug_s     cn85xx; */
 	/* struct bdk_nic_qsx_cqx_debug_s     cn88xx; */
+	/* struct bdk_nic_qsx_cqx_debug_s     cn88xxp1; */
 } bdk_nic_qsx_cqx_debug_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6591,6 +6716,7 @@ typedef union bdk_nic_qsx_cqx_door {
 	} s;
 	/* struct bdk_nic_qsx_cqx_door_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_door_s      cn88xx; */
+	/* struct bdk_nic_qsx_cqx_door_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6627,6 +6753,7 @@ typedef union bdk_nic_qsx_cqx_head {
 	} s;
 	/* struct bdk_nic_qsx_cqx_head_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_head_s      cn88xx; */
+	/* struct bdk_nic_qsx_cqx_head_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_head_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6683,6 +6810,7 @@ typedef union bdk_nic_qsx_cqx_status {
 	} s;
 	/* struct bdk_nic_qsx_cqx_status_s    cn85xx; */
 	/* struct bdk_nic_qsx_cqx_status_s    cn88xx; */
+	/* struct bdk_nic_qsx_cqx_status_s    cn88xxp1; */
 } bdk_nic_qsx_cqx_status_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6733,6 +6861,7 @@ typedef union bdk_nic_qsx_cqx_status2 {
 	} s;
 	/* struct bdk_nic_qsx_cqx_status2_s   cn85xx; */
 	/* struct bdk_nic_qsx_cqx_status2_s   cn88xx; */
+	/* struct bdk_nic_qsx_cqx_status2_s   cn88xxp1; */
 } bdk_nic_qsx_cqx_status2_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6770,6 +6899,7 @@ typedef union bdk_nic_qsx_cqx_tail {
 	} s;
 	/* struct bdk_nic_qsx_cqx_tail_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_tail_s      cn88xx; */
+	/* struct bdk_nic_qsx_cqx_tail_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_tail_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6804,6 +6934,7 @@ typedef union bdk_nic_qsx_cqx_thresh {
 	} s;
 	/* struct bdk_nic_qsx_cqx_thresh_s    cn85xx; */
 	/* struct bdk_nic_qsx_cqx_thresh_s    cn88xx; */
+	/* struct bdk_nic_qsx_cqx_thresh_s    cn88xxp1; */
 } bdk_nic_qsx_cqx_thresh_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6842,6 +6973,7 @@ typedef union bdk_nic_qsx_rbdrx_base {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_base_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_base_s    cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_base_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6915,6 +7047,7 @@ typedef union bdk_nic_qsx_rbdrx_cfg {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn88xxp1; */
 } bdk_nic_qsx_rbdrx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6955,6 +7088,7 @@ typedef union bdk_nic_qsx_rbdrx_door {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_door_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_door_s    cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_door_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -6992,6 +7126,7 @@ typedef union bdk_nic_qsx_rbdrx_head {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_head_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_head_s    cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_head_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_head_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7026,6 +7161,7 @@ typedef union bdk_nic_qsx_rbdrx_prefetch_status {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn88xxp1; */
 } bdk_nic_qsx_rbdrx_prefetch_status_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7074,6 +7210,7 @@ typedef union bdk_nic_qsx_rbdrx_status0 {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_status0_s cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_status0_s cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_status0_s cn88xxp1; */
 } bdk_nic_qsx_rbdrx_status0_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7106,6 +7243,7 @@ typedef union bdk_nic_qsx_rbdrx_status1 {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_status1_s cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_status1_s cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_status1_s cn88xxp1; */
 } bdk_nic_qsx_rbdrx_status1_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7143,6 +7281,7 @@ typedef union bdk_nic_qsx_rbdrx_tail {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_tail_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_tail_s    cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_tail_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_tail_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7177,6 +7316,7 @@ typedef union bdk_nic_qsx_rbdrx_thresh {
 	} s;
 	/* struct bdk_nic_qsx_rbdrx_thresh_s  cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_thresh_s  cn88xx; */
+	/* struct bdk_nic_qsx_rbdrx_thresh_s  cn88xxp1; */
 } bdk_nic_qsx_rbdrx_thresh_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7213,6 +7353,7 @@ typedef union bdk_nic_qsx_rqx_cfg {
 	} s;
 	/* struct bdk_nic_qsx_rqx_cfg_s       cn85xx; */
 	/* struct bdk_nic_qsx_rqx_cfg_s       cn88xx; */
+	/* struct bdk_nic_qsx_rqx_cfg_s       cn88xxp1; */
 } bdk_nic_qsx_rqx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7248,6 +7389,7 @@ typedef union bdk_nic_qsx_rqx_statx {
 	} s;
 	/* struct bdk_nic_qsx_rqx_statx_s     cn85xx; */
 	/* struct bdk_nic_qsx_rqx_statx_s     cn88xx; */
+	/* struct bdk_nic_qsx_rqx_statx_s     cn88xxp1; */
 } bdk_nic_qsx_rqx_statx_t;
 
 static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));
@@ -7317,6 +7459,7 @@ typedef union bdk_nic_qsx_rq_gen_cfg {
 	} s;
 	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn85xx; */
 	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xx; */
+	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xxp1; */
 } bdk_nic_qsx_rq_gen_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -7355,6 +7498,7 @@ typedef union bdk_nic_qsx_sqx_base {
 	} s;
 	/* struct bdk_nic_qsx_sqx_base_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_base_s      cn88xx; */
+	/* struct bdk_nic_qsx_sqx_base_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7432,6 +7576,7 @@ typedef union bdk_nic_qsx_sqx_cfg {
 	} s;
 	/* struct bdk_nic_qsx_sqx_cfg_s       cn85xx; */
 	/* struct bdk_nic_qsx_sqx_cfg_s       cn88xx; */
+	/* struct bdk_nic_qsx_sqx_cfg_s       cn88xxp1; */
 } bdk_nic_qsx_sqx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7487,6 +7632,7 @@ typedef union bdk_nic_qsx_sqx_cnm_chg {
 	} s;
 	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn85xx; */
 	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn88xx; */
+	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn88xxp1; */
 } bdk_nic_qsx_sqx_cnm_chg_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_CNM_CHG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7525,6 +7671,7 @@ typedef union bdk_nic_qsx_sqx_debug {
 	} s;
 	/* struct bdk_nic_qsx_sqx_debug_s     cn85xx; */
 	/* struct bdk_nic_qsx_sqx_debug_s     cn88xx; */
+	/* struct bdk_nic_qsx_sqx_debug_s     cn88xxp1; */
 } bdk_nic_qsx_sqx_debug_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7564,6 +7711,7 @@ typedef union bdk_nic_qsx_sqx_door {
 	} s;
 	/* struct bdk_nic_qsx_sqx_door_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_door_s      cn88xx; */
+	/* struct bdk_nic_qsx_sqx_door_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7601,6 +7749,7 @@ typedef union bdk_nic_qsx_sqx_head {
 	} s;
 	/* struct bdk_nic_qsx_sqx_head_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_head_s      cn88xx; */
+	/* struct bdk_nic_qsx_sqx_head_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_head_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7636,6 +7785,7 @@ typedef union bdk_nic_qsx_sqx_statx {
 	} s;
 	/* struct bdk_nic_qsx_sqx_statx_s     cn85xx; */
 	/* struct bdk_nic_qsx_sqx_statx_s     cn88xx; */
+	/* struct bdk_nic_qsx_sqx_statx_s     cn88xxp1; */
 } bdk_nic_qsx_sqx_statx_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long param1, unsigned long param2, unsigned long param3) __attribute__ ((pure, always_inline));
@@ -7694,6 +7844,7 @@ typedef union bdk_nic_qsx_sqx_status {
 	} s;
 	/* struct bdk_nic_qsx_sqx_status_s    cn85xx; */
 	/* struct bdk_nic_qsx_sqx_status_s    cn88xx; */
+	/* struct bdk_nic_qsx_sqx_status_s    cn88xxp1; */
 } bdk_nic_qsx_sqx_status_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7730,6 +7881,7 @@ typedef union bdk_nic_qsx_sqx_tail {
 	} s;
 	/* struct bdk_nic_qsx_sqx_tail_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_tail_s      cn88xx; */
+	/* struct bdk_nic_qsx_sqx_tail_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_tail_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7764,6 +7916,7 @@ typedef union bdk_nic_qsx_sqx_thresh {
 	} s;
 	/* struct bdk_nic_qsx_sqx_thresh_s    cn85xx; */
 	/* struct bdk_nic_qsx_sqx_thresh_s    cn88xx; */
+	/* struct bdk_nic_qsx_sqx_thresh_s    cn88xxp1; */
 } bdk_nic_qsx_sqx_thresh_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -7799,6 +7952,7 @@ typedef union bdk_nic_vfx_cfg {
 	} s;
 	/* struct bdk_nic_vfx_cfg_s           cn85xx; */
 	/* struct bdk_nic_vfx_cfg_s           cn88xx; */
+	/* struct bdk_nic_vfx_cfg_s           cn88xxp1; */
 } bdk_nic_vfx_cfg_t;
 
 static inline uint64_t BDK_NIC_VFX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -7878,6 +8032,7 @@ typedef union bdk_nic_vfx_ena_w1c {
 	} s;
 	/* struct bdk_nic_vfx_ena_w1c_s       cn85xx; */
 	/* struct bdk_nic_vfx_ena_w1c_s       cn88xx; */
+	/* struct bdk_nic_vfx_ena_w1c_s       cn88xxp1; */
 } bdk_nic_vfx_ena_w1c_t;
 
 static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -7957,6 +8112,7 @@ typedef union bdk_nic_vfx_ena_w1s {
 	} s;
 	/* struct bdk_nic_vfx_ena_w1s_s       cn85xx; */
 	/* struct bdk_nic_vfx_ena_w1s_s       cn88xx; */
+	/* struct bdk_nic_vfx_ena_w1s_s       cn88xxp1; */
 } bdk_nic_vfx_ena_w1s_t;
 
 static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -8036,6 +8192,7 @@ typedef union bdk_nic_vfx_int {
 	} s;
 	/* struct bdk_nic_vfx_int_s           cn85xx; */
 	/* struct bdk_nic_vfx_int_s           cn88xx; */
+	/* struct bdk_nic_vfx_int_s           cn88xxp1; */
 } bdk_nic_vfx_int_t;
 
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -8115,6 +8272,7 @@ typedef union bdk_nic_vfx_int_w1s {
 	} s;
 	/* struct bdk_nic_vfx_int_w1s_s       cn85xx; */
 	/* struct bdk_nic_vfx_int_w1s_s       cn88xx; */
+	/* struct bdk_nic_vfx_int_w1s_s       cn88xxp1; */
 } bdk_nic_vfx_int_w1s_t;
 
 static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -8149,6 +8307,7 @@ typedef union bdk_nic_vfx_msix_pbax {
 	} s;
 	/* struct bdk_nic_vfx_msix_pbax_s     cn85xx; */
 	/* struct bdk_nic_vfx_msix_pbax_s     cn88xx; */
+	/* struct bdk_nic_vfx_msix_pbax_s     cn88xxp1; */
 } bdk_nic_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -8190,6 +8349,7 @@ typedef union bdk_nic_vfx_msix_vecx_addr {
 	} s;
 	/* struct bdk_nic_vfx_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_nic_vfx_msix_vecx_addr_s cn88xx; */
+	/* struct bdk_nic_vfx_msix_vecx_addr_s cn88xxp1; */
 } bdk_nic_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -8229,6 +8389,7 @@ typedef union bdk_nic_vfx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_nic_vfx_msix_vecx_ctl_s cn85xx; */
 	/* struct bdk_nic_vfx_msix_vecx_ctl_s cn88xx; */
+	/* struct bdk_nic_vfx_msix_vecx_ctl_s cn88xxp1; */
 } bdk_nic_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -8263,6 +8424,7 @@ typedef union bdk_nic_vfx_pf_mailboxx {
 	} s;
 	/* struct bdk_nic_vfx_pf_mailboxx_s   cn85xx; */
 	/* struct bdk_nic_vfx_pf_mailboxx_s   cn88xx; */
+	/* struct bdk_nic_vfx_pf_mailboxx_s   cn88xxp1; */
 } bdk_nic_vfx_pf_mailboxx_t;
 
 static inline uint64_t BDK_NIC_VFX_PF_MAILBOXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -8317,6 +8479,7 @@ typedef union bdk_nic_vnicx_rss_cfg {
 	} s;
 	/* struct bdk_nic_vnicx_rss_cfg_s     cn85xx; */
 	/* struct bdk_nic_vnicx_rss_cfg_s     cn88xx; */
+	/* struct bdk_nic_vnicx_rss_cfg_s     cn88xxp1; */
 } bdk_nic_vnicx_rss_cfg_t;
 
 static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -8351,6 +8514,7 @@ typedef union bdk_nic_vnicx_rss_keyx {
 	} s;
 	/* struct bdk_nic_vnicx_rss_keyx_s    cn85xx; */
 	/* struct bdk_nic_vnicx_rss_keyx_s    cn88xx; */
+	/* struct bdk_nic_vnicx_rss_keyx_s    cn88xxp1; */
 } bdk_nic_vnicx_rss_keyx_t;
 
 static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -8386,6 +8550,7 @@ typedef union bdk_nic_vnicx_rx_statx {
 	} s;
 	/* struct bdk_nic_vnicx_rx_statx_s    cn85xx; */
 	/* struct bdk_nic_vnicx_rx_statx_s    cn88xx; */
+	/* struct bdk_nic_vnicx_rx_statx_s    cn88xxp1; */
 } bdk_nic_vnicx_rx_statx_t;
 
 static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -8421,6 +8586,7 @@ typedef union bdk_nic_vnicx_tx_statx {
 	} s;
 	/* struct bdk_nic_vnicx_tx_statx_s    cn85xx; */
 	/* struct bdk_nic_vnicx_tx_statx_s    cn88xx; */
+	/* struct bdk_nic_vnicx_tx_statx_s    cn88xxp1; */
 } bdk_nic_vnicx_tx_statx_t;
 
 static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));

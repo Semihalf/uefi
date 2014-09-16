@@ -91,6 +91,7 @@ typedef union bdk_key_bist_reg {
 	} s;
 	/* struct bdk_key_bist_reg_s          cn85xx; */
 	/* struct bdk_key_bist_reg_s          cn88xx; */
+	/* struct bdk_key_bist_reg_s          cn88xxp1; */
 } bdk_key_bist_reg_t;
 
 #define BDK_KEY_BIST_REG BDK_KEY_BIST_REG_FUNC()
@@ -127,6 +128,7 @@ typedef union bdk_key_ctl_status {
 	} s;
 	/* struct bdk_key_ctl_status_s        cn85xx; */
 	/* struct bdk_key_ctl_status_s        cn88xx; */
+	/* struct bdk_key_ctl_status_s        cn88xxp1; */
 } bdk_key_ctl_status_t;
 
 #define BDK_KEY_CTL_STATUS BDK_KEY_CTL_STATUS_FUNC()
@@ -160,6 +162,7 @@ typedef union bdk_key_int_ena_w1c {
 	} s;
 	/* struct bdk_key_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_key_int_ena_w1c_s       cn88xx; */
+	/* struct bdk_key_int_ena_w1c_s       cn88xxp1; */
 } bdk_key_int_ena_w1c_t;
 
 #define BDK_KEY_INT_ENA_W1C BDK_KEY_INT_ENA_W1C_FUNC()
@@ -193,6 +196,7 @@ typedef union bdk_key_int_ena_w1s {
 	} s;
 	/* struct bdk_key_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_key_int_ena_w1s_s       cn88xx; */
+	/* struct bdk_key_int_ena_w1s_s       cn88xxp1; */
 } bdk_key_int_ena_w1s_t;
 
 #define BDK_KEY_INT_ENA_W1S BDK_KEY_INT_ENA_W1S_FUNC()
@@ -229,6 +233,7 @@ typedef union bdk_key_int_sum {
 	} s;
 	/* struct bdk_key_int_sum_s           cn85xx; */
 	/* struct bdk_key_int_sum_s           cn88xx; */
+	/* struct bdk_key_int_sum_s           cn88xxp1; */
 } bdk_key_int_sum_t;
 
 #define BDK_KEY_INT_SUM BDK_KEY_INT_SUM_FUNC()
@@ -262,6 +267,7 @@ typedef union bdk_key_int_sum_w1s {
 	} s;
 	/* struct bdk_key_int_sum_w1s_s       cn85xx; */
 	/* struct bdk_key_int_sum_w1s_s       cn88xx; */
+	/* struct bdk_key_int_sum_w1s_s       cn88xxp1; */
 } bdk_key_int_sum_w1s_t;
 
 #define BDK_KEY_INT_SUM_W1S BDK_KEY_INT_SUM_W1S_FUNC()
@@ -293,6 +299,7 @@ typedef union bdk_key_memx {
 	} s;
 	/* struct bdk_key_memx_s              cn85xx; */
 	/* struct bdk_key_memx_s              cn88xx; */
+	/* struct bdk_key_memx_s              cn88xxp1; */
 } bdk_key_memx_t;
 
 static inline uint64_t BDK_KEY_MEMX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -327,6 +334,7 @@ typedef union bdk_key_msix_pbax {
 	} s;
 	/* struct bdk_key_msix_pbax_s         cn85xx; */
 	/* struct bdk_key_msix_pbax_s         cn88xx; */
+	/* struct bdk_key_msix_pbax_s         cn88xxp1; */
 } bdk_key_msix_pbax_t;
 
 static inline uint64_t BDK_KEY_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -373,6 +381,7 @@ typedef union bdk_key_msix_vecx_addr {
 	} s;
 	/* struct bdk_key_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_key_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_key_msix_vecx_addr_s    cn88xxp1; */
 } bdk_key_msix_vecx_addr_t;
 
 static inline uint64_t BDK_KEY_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -412,6 +421,7 @@ typedef union bdk_key_msix_vecx_ctl {
 	} s;
 	/* struct bdk_key_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_key_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_key_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_key_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_KEY_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));

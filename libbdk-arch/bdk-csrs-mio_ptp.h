@@ -90,6 +90,7 @@ typedef union bdk_mio_ptp_ckout_hi_incr {
 	} s;
 	/* struct bdk_mio_ptp_ckout_hi_incr_s cn85xx; */
 	/* struct bdk_mio_ptp_ckout_hi_incr_s cn88xx; */
+	/* struct bdk_mio_ptp_ckout_hi_incr_s cn88xxp1; */
 } bdk_mio_ptp_ckout_hi_incr_t;
 
 #define BDK_MIO_PTP_CKOUT_HI_INCR BDK_MIO_PTP_CKOUT_HI_INCR_FUNC()
@@ -124,6 +125,7 @@ typedef union bdk_mio_ptp_ckout_lo_incr {
 	} s;
 	/* struct bdk_mio_ptp_ckout_lo_incr_s cn85xx; */
 	/* struct bdk_mio_ptp_ckout_lo_incr_s cn88xx; */
+	/* struct bdk_mio_ptp_ckout_lo_incr_s cn88xxp1; */
 } bdk_mio_ptp_ckout_lo_incr_t;
 
 #define BDK_MIO_PTP_CKOUT_LO_INCR BDK_MIO_PTP_CKOUT_LO_INCR_FUNC()
@@ -157,6 +159,7 @@ typedef union bdk_mio_ptp_ckout_thresh_hi {
 	} s;
 	/* struct bdk_mio_ptp_ckout_thresh_hi_s cn85xx; */
 	/* struct bdk_mio_ptp_ckout_thresh_hi_s cn88xx; */
+	/* struct bdk_mio_ptp_ckout_thresh_hi_s cn88xxp1; */
 } bdk_mio_ptp_ckout_thresh_hi_t;
 
 #define BDK_MIO_PTP_CKOUT_THRESH_HI BDK_MIO_PTP_CKOUT_THRESH_HI_FUNC()
@@ -191,6 +194,7 @@ typedef union bdk_mio_ptp_ckout_thresh_lo {
 	} s;
 	/* struct bdk_mio_ptp_ckout_thresh_lo_s cn85xx; */
 	/* struct bdk_mio_ptp_ckout_thresh_lo_s cn88xx; */
+	/* struct bdk_mio_ptp_ckout_thresh_lo_s cn88xxp1; */
 } bdk_mio_ptp_ckout_thresh_lo_t;
 
 #define BDK_MIO_PTP_CKOUT_THRESH_LO BDK_MIO_PTP_CKOUT_THRESH_LO_FUNC()
@@ -277,6 +281,7 @@ typedef union bdk_mio_ptp_clock_cfg {
 	} s;
 	/* struct bdk_mio_ptp_clock_cfg_s     cn85xx; */
 	/* struct bdk_mio_ptp_clock_cfg_s     cn88xx; */
+	/* struct bdk_mio_ptp_clock_cfg_s     cn88xxp1; */
 } bdk_mio_ptp_clock_cfg_t;
 
 #define BDK_MIO_PTP_CLOCK_CFG BDK_MIO_PTP_CLOCK_CFG_FUNC()
@@ -311,6 +316,7 @@ typedef union bdk_mio_ptp_clock_comp {
 	} s;
 	/* struct bdk_mio_ptp_clock_comp_s    cn85xx; */
 	/* struct bdk_mio_ptp_clock_comp_s    cn88xx; */
+	/* struct bdk_mio_ptp_clock_comp_s    cn88xxp1; */
 } bdk_mio_ptp_clock_comp_t;
 
 #define BDK_MIO_PTP_CLOCK_COMP BDK_MIO_PTP_CLOCK_COMP_FUNC()
@@ -344,6 +350,7 @@ typedef union bdk_mio_ptp_clock_hi {
 	} s;
 	/* struct bdk_mio_ptp_clock_hi_s      cn85xx; */
 	/* struct bdk_mio_ptp_clock_hi_s      cn88xx; */
+	/* struct bdk_mio_ptp_clock_hi_s      cn88xxp1; */
 } bdk_mio_ptp_clock_hi_t;
 
 #define BDK_MIO_PTP_CLOCK_HI BDK_MIO_PTP_CLOCK_HI_FUNC()
@@ -378,6 +385,7 @@ typedef union bdk_mio_ptp_clock_lo {
 	} s;
 	/* struct bdk_mio_ptp_clock_lo_s      cn85xx; */
 	/* struct bdk_mio_ptp_clock_lo_s      cn88xx; */
+	/* struct bdk_mio_ptp_clock_lo_s      cn88xxp1; */
 } bdk_mio_ptp_clock_lo_t;
 
 #define BDK_MIO_PTP_CLOCK_LO BDK_MIO_PTP_CLOCK_LO_FUNC()
@@ -412,6 +420,7 @@ typedef union bdk_mio_ptp_dpll_err_int {
 	} s;
 	/* struct bdk_mio_ptp_dpll_err_int_s  cn85xx; */
 	/* struct bdk_mio_ptp_dpll_err_int_s  cn88xx; */
+	/* struct bdk_mio_ptp_dpll_err_int_s  cn88xxp1; */
 } bdk_mio_ptp_dpll_err_int_t;
 
 #define BDK_MIO_PTP_DPLL_ERR_INT BDK_MIO_PTP_DPLL_ERR_INT_FUNC()
@@ -446,6 +455,7 @@ typedef union bdk_mio_ptp_dpll_err_thresh {
 	} s;
 	/* struct bdk_mio_ptp_dpll_err_thresh_s cn85xx; */
 	/* struct bdk_mio_ptp_dpll_err_thresh_s cn88xx; */
+	/* struct bdk_mio_ptp_dpll_err_thresh_s cn88xxp1; */
 } bdk_mio_ptp_dpll_err_thresh_t;
 
 #define BDK_MIO_PTP_DPLL_ERR_THRESH BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC()
@@ -480,6 +490,7 @@ typedef union bdk_mio_ptp_dpll_incr {
 	} s;
 	/* struct bdk_mio_ptp_dpll_incr_s     cn85xx; */
 	/* struct bdk_mio_ptp_dpll_incr_s     cn88xx; */
+	/* struct bdk_mio_ptp_dpll_incr_s     cn88xxp1; */
 } bdk_mio_ptp_dpll_incr_t;
 
 #define BDK_MIO_PTP_DPLL_INCR BDK_MIO_PTP_DPLL_INCR_FUNC()
@@ -514,6 +525,7 @@ typedef union bdk_mio_ptp_evt_cnt {
 	} s;
 	/* struct bdk_mio_ptp_evt_cnt_s       cn85xx; */
 	/* struct bdk_mio_ptp_evt_cnt_s       cn88xx; */
+	/* struct bdk_mio_ptp_evt_cnt_s       cn88xxp1; */
 } bdk_mio_ptp_evt_cnt_t;
 
 #define BDK_MIO_PTP_EVT_CNT BDK_MIO_PTP_EVT_CNT_FUNC()
@@ -550,6 +562,7 @@ typedef union bdk_mio_ptp_int {
 	} s;
 	/* struct bdk_mio_ptp_int_s           cn85xx; */
 	/* struct bdk_mio_ptp_int_s           cn88xx; */
+	/* struct bdk_mio_ptp_int_s           cn88xxp1; */
 } bdk_mio_ptp_int_t;
 
 #define BDK_MIO_PTP_INT BDK_MIO_PTP_INT_FUNC()
@@ -583,6 +596,7 @@ typedef union bdk_mio_ptp_int_ena_w1c {
 	} s;
 	/* struct bdk_mio_ptp_int_ena_w1c_s   cn85xx; */
 	/* struct bdk_mio_ptp_int_ena_w1c_s   cn88xx; */
+	/* struct bdk_mio_ptp_int_ena_w1c_s   cn88xxp1; */
 } bdk_mio_ptp_int_ena_w1c_t;
 
 #define BDK_MIO_PTP_INT_ENA_W1C BDK_MIO_PTP_INT_ENA_W1C_FUNC()
@@ -616,6 +630,7 @@ typedef union bdk_mio_ptp_int_ena_w1s {
 	} s;
 	/* struct bdk_mio_ptp_int_ena_w1s_s   cn85xx; */
 	/* struct bdk_mio_ptp_int_ena_w1s_s   cn88xx; */
+	/* struct bdk_mio_ptp_int_ena_w1s_s   cn88xxp1; */
 } bdk_mio_ptp_int_ena_w1s_t;
 
 #define BDK_MIO_PTP_INT_ENA_W1S BDK_MIO_PTP_INT_ENA_W1S_FUNC()
@@ -649,6 +664,7 @@ typedef union bdk_mio_ptp_int_w1s {
 	} s;
 	/* struct bdk_mio_ptp_int_w1s_s       cn85xx; */
 	/* struct bdk_mio_ptp_int_w1s_s       cn88xx; */
+	/* struct bdk_mio_ptp_int_w1s_s       cn88xxp1; */
 } bdk_mio_ptp_int_w1s_t;
 
 #define BDK_MIO_PTP_INT_W1S BDK_MIO_PTP_INT_W1S_FUNC()
@@ -683,6 +699,7 @@ typedef union bdk_mio_ptp_msix_pbax {
 	} s;
 	/* struct bdk_mio_ptp_msix_pbax_s     cn85xx; */
 	/* struct bdk_mio_ptp_msix_pbax_s     cn88xx; */
+	/* struct bdk_mio_ptp_msix_pbax_s     cn88xxp1; */
 } bdk_mio_ptp_msix_pbax_t;
 
 static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -731,6 +748,7 @@ typedef union bdk_mio_ptp_msix_vecx_addr {
 	} s;
 	/* struct bdk_mio_ptp_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_mio_ptp_msix_vecx_addr_s cn88xx; */
+	/* struct bdk_mio_ptp_msix_vecx_addr_s cn88xxp1; */
 } bdk_mio_ptp_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -770,6 +788,7 @@ typedef union bdk_mio_ptp_msix_vecx_ctl {
 	} s;
 	/* struct bdk_mio_ptp_msix_vecx_ctl_s cn85xx; */
 	/* struct bdk_mio_ptp_msix_vecx_ctl_s cn88xx; */
+	/* struct bdk_mio_ptp_msix_vecx_ctl_s cn88xxp1; */
 } bdk_mio_ptp_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -805,6 +824,7 @@ typedef union bdk_mio_ptp_pps_hi_incr {
 	} s;
 	/* struct bdk_mio_ptp_pps_hi_incr_s   cn85xx; */
 	/* struct bdk_mio_ptp_pps_hi_incr_s   cn88xx; */
+	/* struct bdk_mio_ptp_pps_hi_incr_s   cn88xxp1; */
 } bdk_mio_ptp_pps_hi_incr_t;
 
 #define BDK_MIO_PTP_PPS_HI_INCR BDK_MIO_PTP_PPS_HI_INCR_FUNC()
@@ -839,6 +859,7 @@ typedef union bdk_mio_ptp_pps_lo_incr {
 	} s;
 	/* struct bdk_mio_ptp_pps_lo_incr_s   cn85xx; */
 	/* struct bdk_mio_ptp_pps_lo_incr_s   cn88xx; */
+	/* struct bdk_mio_ptp_pps_lo_incr_s   cn88xxp1; */
 } bdk_mio_ptp_pps_lo_incr_t;
 
 #define BDK_MIO_PTP_PPS_LO_INCR BDK_MIO_PTP_PPS_LO_INCR_FUNC()
@@ -872,6 +893,7 @@ typedef union bdk_mio_ptp_pps_thresh_hi {
 	} s;
 	/* struct bdk_mio_ptp_pps_thresh_hi_s cn85xx; */
 	/* struct bdk_mio_ptp_pps_thresh_hi_s cn88xx; */
+	/* struct bdk_mio_ptp_pps_thresh_hi_s cn88xxp1; */
 } bdk_mio_ptp_pps_thresh_hi_t;
 
 #define BDK_MIO_PTP_PPS_THRESH_HI BDK_MIO_PTP_PPS_THRESH_HI_FUNC()
@@ -906,6 +928,7 @@ typedef union bdk_mio_ptp_pps_thresh_lo {
 	} s;
 	/* struct bdk_mio_ptp_pps_thresh_lo_s cn85xx; */
 	/* struct bdk_mio_ptp_pps_thresh_lo_s cn88xx; */
+	/* struct bdk_mio_ptp_pps_thresh_lo_s cn88xxp1; */
 } bdk_mio_ptp_pps_thresh_lo_t;
 
 #define BDK_MIO_PTP_PPS_THRESH_LO BDK_MIO_PTP_PPS_THRESH_LO_FUNC()
@@ -938,6 +961,7 @@ typedef union bdk_mio_ptp_timestamp {
 	} s;
 	/* struct bdk_mio_ptp_timestamp_s     cn85xx; */
 	/* struct bdk_mio_ptp_timestamp_s     cn88xx; */
+	/* struct bdk_mio_ptp_timestamp_s     cn88xxp1; */
 } bdk_mio_ptp_timestamp_t;
 
 #define BDK_MIO_PTP_TIMESTAMP BDK_MIO_PTP_TIMESTAMP_FUNC()

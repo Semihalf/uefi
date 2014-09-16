@@ -88,6 +88,7 @@ typedef union bdk_mrml_int_ena_w1c {
 	} s;
 	/* struct bdk_mrml_int_ena_w1c_s      cn85xx; */
 	/* struct bdk_mrml_int_ena_w1c_s      cn88xx; */
+	/* struct bdk_mrml_int_ena_w1c_s      cn88xxp1; */
 } bdk_mrml_int_ena_w1c_t;
 
 #define BDK_MRML_INT_ENA_W1C BDK_MRML_INT_ENA_W1C_FUNC()
@@ -121,6 +122,7 @@ typedef union bdk_mrml_int_ena_w1s {
 	} s;
 	/* struct bdk_mrml_int_ena_w1s_s      cn85xx; */
 	/* struct bdk_mrml_int_ena_w1s_s      cn88xx; */
+	/* struct bdk_mrml_int_ena_w1s_s      cn88xxp1; */
 } bdk_mrml_int_ena_w1s_t;
 
 #define BDK_MRML_INT_ENA_W1S BDK_MRML_INT_ENA_W1S_FUNC()
@@ -153,6 +155,7 @@ typedef union bdk_mrml_int_local_to {
 	} s;
 	/* struct bdk_mrml_int_local_to_s     cn85xx; */
 	/* struct bdk_mrml_int_local_to_s     cn88xx; */
+	/* struct bdk_mrml_int_local_to_s     cn88xxp1; */
 } bdk_mrml_int_local_to_t;
 
 #define BDK_MRML_INT_LOCAL_TO BDK_MRML_INT_LOCAL_TO_FUNC()
@@ -185,6 +188,7 @@ typedef union bdk_mrml_int_ocx_to {
 	} s;
 	/* struct bdk_mrml_int_ocx_to_s       cn85xx; */
 	/* struct bdk_mrml_int_ocx_to_s       cn88xx; */
+	/* struct bdk_mrml_int_ocx_to_s       cn88xxp1; */
 } bdk_mrml_int_ocx_to_t;
 
 #define BDK_MRML_INT_OCX_TO BDK_MRML_INT_OCX_TO_FUNC()
@@ -221,6 +225,7 @@ typedef union bdk_mrml_int_sum {
 	} s;
 	/* struct bdk_mrml_int_sum_s          cn85xx; */
 	/* struct bdk_mrml_int_sum_s          cn88xx; */
+	/* struct bdk_mrml_int_sum_s          cn88xxp1; */
 } bdk_mrml_int_sum_t;
 
 #define BDK_MRML_INT_SUM BDK_MRML_INT_SUM_FUNC()
@@ -254,6 +259,7 @@ typedef union bdk_mrml_int_sum_w1s {
 	} s;
 	/* struct bdk_mrml_int_sum_w1s_s      cn85xx; */
 	/* struct bdk_mrml_int_sum_w1s_s      cn88xx; */
+	/* struct bdk_mrml_int_sum_w1s_s      cn88xxp1; */
 } bdk_mrml_int_sum_w1s_t;
 
 #define BDK_MRML_INT_SUM_W1S BDK_MRML_INT_SUM_W1S_FUNC()
@@ -287,6 +293,7 @@ typedef union bdk_mrml_msix_pbax {
 	} s;
 	/* struct bdk_mrml_msix_pbax_s        cn85xx; */
 	/* struct bdk_mrml_msix_pbax_s        cn88xx; */
+	/* struct bdk_mrml_msix_pbax_s        cn88xxp1; */
 } bdk_mrml_msix_pbax_t;
 
 static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -333,6 +340,7 @@ typedef union bdk_mrml_msix_vecx_addr {
 	} s;
 	/* struct bdk_mrml_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_mrml_msix_vecx_addr_s   cn88xx; */
+	/* struct bdk_mrml_msix_vecx_addr_s   cn88xxp1; */
 } bdk_mrml_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -372,6 +380,7 @@ typedef union bdk_mrml_msix_vecx_ctl {
 	} s;
 	/* struct bdk_mrml_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_mrml_msix_vecx_ctl_s    cn88xx; */
+	/* struct bdk_mrml_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_mrml_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -402,6 +411,7 @@ typedef union bdk_mrml_ncbx_sdev {
 	} s;
 	/* struct bdk_mrml_ncbx_sdev_s        cn85xx; */
 	/* struct bdk_mrml_ncbx_sdev_s        cn88xx; */
+	/* struct bdk_mrml_ncbx_sdev_s        cn88xxp1; */
 } bdk_mrml_ncbx_sdev_t;
 
 static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -437,6 +447,7 @@ typedef union bdk_mrml_rslx_sdev {
 	} s;
 	/* struct bdk_mrml_rslx_sdev_s        cn85xx; */
 	/* struct bdk_mrml_rslx_sdev_s        cn88xx; */
+	/* struct bdk_mrml_rslx_sdev_s        cn88xxp1; */
 } bdk_mrml_rslx_sdev_t;
 
 static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -467,6 +478,7 @@ typedef union bdk_mrml_scfg {
 	} s;
 	/* struct bdk_mrml_scfg_s             cn85xx; */
 	/* struct bdk_mrml_scfg_s             cn88xx; */
+	/* struct bdk_mrml_scfg_s             cn88xxp1; */
 } bdk_mrml_scfg_t;
 
 #define BDK_MRML_SCFG BDK_MRML_SCFG_FUNC()

@@ -110,6 +110,7 @@ typedef union bdk_ocx_com_bist_status {
 	} s;
 	/* struct bdk_ocx_com_bist_status_s   cn85xx; */
 	/* struct bdk_ocx_com_bist_status_s   cn88xx; */
+	/* struct bdk_ocx_com_bist_status_s   cn88xxp1; */
 } bdk_ocx_com_bist_status_t;
 
 #define BDK_OCX_COM_BIST_STATUS BDK_OCX_COM_BIST_STATUS_FUNC()
@@ -145,6 +146,7 @@ typedef union bdk_ocx_com_dual_sort {
 	} s;
 	/* struct bdk_ocx_com_dual_sort_s     cn85xx; */
 	/* struct bdk_ocx_com_dual_sort_s     cn88xx; */
+	/* struct bdk_ocx_com_dual_sort_s     cn88xxp1; */
 } bdk_ocx_com_dual_sort_t;
 
 #define BDK_OCX_COM_DUAL_SORT BDK_OCX_COM_DUAL_SORT_FUNC()
@@ -206,6 +208,7 @@ typedef union bdk_ocx_com_int {
 	} s;
 	/* struct bdk_ocx_com_int_s           cn85xx; */
 	/* struct bdk_ocx_com_int_s           cn88xx; */
+	/* struct bdk_ocx_com_int_s           cn88xxp1; */
 } bdk_ocx_com_int_t;
 
 #define BDK_OCX_COM_INT BDK_OCX_COM_INT_FUNC()
@@ -267,6 +270,7 @@ typedef union bdk_ocx_com_int_ena_w1c {
 	} s;
 	/* struct bdk_ocx_com_int_ena_w1c_s   cn85xx; */
 	/* struct bdk_ocx_com_int_ena_w1c_s   cn88xx; */
+	/* struct bdk_ocx_com_int_ena_w1c_s   cn88xxp1; */
 } bdk_ocx_com_int_ena_w1c_t;
 
 #define BDK_OCX_COM_INT_ENA_W1C BDK_OCX_COM_INT_ENA_W1C_FUNC()
@@ -328,6 +332,7 @@ typedef union bdk_ocx_com_int_ena_w1s {
 	} s;
 	/* struct bdk_ocx_com_int_ena_w1s_s   cn85xx; */
 	/* struct bdk_ocx_com_int_ena_w1s_s   cn88xx; */
+	/* struct bdk_ocx_com_int_ena_w1s_s   cn88xxp1; */
 } bdk_ocx_com_int_ena_w1s_t;
 
 #define BDK_OCX_COM_INT_ENA_W1S BDK_OCX_COM_INT_ENA_W1S_FUNC()
@@ -389,6 +394,7 @@ typedef union bdk_ocx_com_int_w1s {
 	} s;
 	/* struct bdk_ocx_com_int_w1s_s       cn85xx; */
 	/* struct bdk_ocx_com_int_w1s_s       cn88xx; */
+	/* struct bdk_ocx_com_int_w1s_s       cn88xxp1; */
 } bdk_ocx_com_int_w1s_t;
 
 #define BDK_OCX_COM_INT_W1S BDK_OCX_COM_INT_W1S_FUNC()
@@ -463,6 +469,7 @@ typedef union bdk_ocx_com_linkx_ctl {
 	} s;
 	/* struct bdk_ocx_com_linkx_ctl_s     cn85xx; */
 	/* struct bdk_ocx_com_linkx_ctl_s     cn88xx; */
+	/* struct bdk_ocx_com_linkx_ctl_s     cn88xxp1; */
 } bdk_ocx_com_linkx_ctl_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -526,6 +533,7 @@ typedef union bdk_ocx_com_linkx_int {
 	} s;
 	/* struct bdk_ocx_com_linkx_int_s     cn85xx; */
 	/* struct bdk_ocx_com_linkx_int_s     cn88xx; */
+	/* struct bdk_ocx_com_linkx_int_s     cn88xxp1; */
 } bdk_ocx_com_linkx_int_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -589,6 +597,7 @@ typedef union bdk_ocx_com_linkx_int_ena_w1c {
 	} s;
 	/* struct bdk_ocx_com_linkx_int_ena_w1c_s cn85xx; */
 	/* struct bdk_ocx_com_linkx_int_ena_w1c_s cn88xx; */
+	/* struct bdk_ocx_com_linkx_int_ena_w1c_s cn88xxp1; */
 } bdk_ocx_com_linkx_int_ena_w1c_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -652,6 +661,7 @@ typedef union bdk_ocx_com_linkx_int_ena_w1s {
 	} s;
 	/* struct bdk_ocx_com_linkx_int_ena_w1s_s cn85xx; */
 	/* struct bdk_ocx_com_linkx_int_ena_w1s_s cn88xx; */
+	/* struct bdk_ocx_com_linkx_int_ena_w1s_s cn88xxp1; */
 } bdk_ocx_com_linkx_int_ena_w1s_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -715,6 +725,7 @@ typedef union bdk_ocx_com_linkx_int_w1s {
 	} s;
 	/* struct bdk_ocx_com_linkx_int_w1s_s cn85xx; */
 	/* struct bdk_ocx_com_linkx_int_w1s_s cn88xx; */
+	/* struct bdk_ocx_com_linkx_int_w1s_s cn88xxp1; */
 } bdk_ocx_com_linkx_int_w1s_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -748,6 +759,7 @@ typedef union bdk_ocx_com_link_timer {
 	} s;
 	/* struct bdk_ocx_com_link_timer_s    cn85xx; */
 	/* struct bdk_ocx_com_link_timer_s    cn88xx; */
+	/* struct bdk_ocx_com_link_timer_s    cn88xxp1; */
 } bdk_ocx_com_link_timer_t;
 
 #define BDK_OCX_COM_LINK_TIMER BDK_OCX_COM_LINK_TIMER_FUNC()
@@ -795,6 +807,7 @@ typedef union bdk_ocx_com_node {
 	} s;
 	/* struct bdk_ocx_com_node_s          cn85xx; */
 	/* struct bdk_ocx_com_node_s          cn88xx; */
+	/* struct bdk_ocx_com_node_s          cn88xxp1; */
 } bdk_ocx_com_node_t;
 
 #define BDK_OCX_COM_NODE BDK_OCX_COM_NODE_FUNC()
@@ -847,6 +860,7 @@ typedef union bdk_ocx_dllx_status {
 	} s;
 	/* struct bdk_ocx_dllx_status_s       cn85xx; */
 	/* struct bdk_ocx_dllx_status_s       cn88xx; */
+	/* struct bdk_ocx_dllx_status_s       cn88xxp1; */
 } bdk_ocx_dllx_status_t;
 
 static inline uint64_t BDK_OCX_DLLX_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -880,6 +894,7 @@ typedef union bdk_ocx_frcx_stat0 {
 	} s;
 	/* struct bdk_ocx_frcx_stat0_s        cn85xx; */
 	/* struct bdk_ocx_frcx_stat0_s        cn88xx; */
+	/* struct bdk_ocx_frcx_stat0_s        cn88xxp1; */
 } bdk_ocx_frcx_stat0_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -913,6 +928,7 @@ typedef union bdk_ocx_frcx_stat1 {
 	} s;
 	/* struct bdk_ocx_frcx_stat1_s        cn85xx; */
 	/* struct bdk_ocx_frcx_stat1_s        cn88xx; */
+	/* struct bdk_ocx_frcx_stat1_s        cn88xxp1; */
 } bdk_ocx_frcx_stat1_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -945,6 +961,7 @@ typedef union bdk_ocx_frcx_stat2 {
 	} s;
 	/* struct bdk_ocx_frcx_stat2_s        cn85xx; */
 	/* struct bdk_ocx_frcx_stat2_s        cn88xx; */
+	/* struct bdk_ocx_frcx_stat2_s        cn88xxp1; */
 } bdk_ocx_frcx_stat2_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -977,6 +994,7 @@ typedef union bdk_ocx_frcx_stat3 {
 	} s;
 	/* struct bdk_ocx_frcx_stat3_s        cn85xx; */
 	/* struct bdk_ocx_frcx_stat3_s        cn88xx; */
+	/* struct bdk_ocx_frcx_stat3_s        cn88xxp1; */
 } bdk_ocx_frcx_stat3_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1016,6 +1034,7 @@ typedef union bdk_ocx_lnex_bad_cnt {
 	} s;
 	/* struct bdk_ocx_lnex_bad_cnt_s      cn85xx; */
 	/* struct bdk_ocx_lnex_bad_cnt_s      cn88xx; */
+	/* struct bdk_ocx_lnex_bad_cnt_s      cn88xxp1; */
 } bdk_ocx_lnex_bad_cnt_t;
 
 static inline uint64_t BDK_OCX_LNEX_BAD_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1057,6 +1076,7 @@ typedef union bdk_ocx_lnex_cfg {
 	} s;
 	/* struct bdk_ocx_lnex_cfg_s          cn85xx; */
 	/* struct bdk_ocx_lnex_cfg_s          cn88xx; */
+	/* struct bdk_ocx_lnex_cfg_s          cn88xxp1; */
 } bdk_ocx_lnex_cfg_t;
 
 static inline uint64_t BDK_OCX_LNEX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1109,6 +1129,7 @@ typedef union bdk_ocx_lnex_int {
 	} s;
 	/* struct bdk_ocx_lnex_int_s          cn85xx; */
 	/* struct bdk_ocx_lnex_int_s          cn88xx; */
+	/* struct bdk_ocx_lnex_int_s          cn88xxp1; */
 } bdk_ocx_lnex_int_t;
 
 static inline uint64_t BDK_OCX_LNEX_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1158,6 +1179,7 @@ typedef union bdk_ocx_lnex_int_en {
 	} s;
 	/* struct bdk_ocx_lnex_int_en_s       cn85xx; */
 	/* struct bdk_ocx_lnex_int_en_s       cn88xx; */
+	/* struct bdk_ocx_lnex_int_en_s       cn88xxp1; */
 } bdk_ocx_lnex_int_en_t;
 
 static inline uint64_t BDK_OCX_LNEX_INT_EN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1191,6 +1213,7 @@ typedef union bdk_ocx_lnex_stat00 {
 	} s;
 	/* struct bdk_ocx_lnex_stat00_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat00_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat00_s       cn88xxp1; */
 } bdk_ocx_lnex_stat00_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT00(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1224,6 +1247,7 @@ typedef union bdk_ocx_lnex_stat01 {
 	} s;
 	/* struct bdk_ocx_lnex_stat01_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat01_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat01_s       cn88xxp1; */
 } bdk_ocx_lnex_stat01_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT01(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1257,6 +1281,7 @@ typedef union bdk_ocx_lnex_stat02 {
 	} s;
 	/* struct bdk_ocx_lnex_stat02_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat02_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat02_s       cn88xxp1; */
 } bdk_ocx_lnex_stat02_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT02(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1290,6 +1315,7 @@ typedef union bdk_ocx_lnex_stat03 {
 	} s;
 	/* struct bdk_ocx_lnex_stat03_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat03_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat03_s       cn88xxp1; */
 } bdk_ocx_lnex_stat03_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT03(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1323,6 +1349,7 @@ typedef union bdk_ocx_lnex_stat04 {
 	} s;
 	/* struct bdk_ocx_lnex_stat04_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat04_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat04_s       cn88xxp1; */
 } bdk_ocx_lnex_stat04_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT04(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1356,6 +1383,7 @@ typedef union bdk_ocx_lnex_stat05 {
 	} s;
 	/* struct bdk_ocx_lnex_stat05_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat05_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat05_s       cn88xxp1; */
 } bdk_ocx_lnex_stat05_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT05(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1389,6 +1417,7 @@ typedef union bdk_ocx_lnex_stat06 {
 	} s;
 	/* struct bdk_ocx_lnex_stat06_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat06_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat06_s       cn88xxp1; */
 } bdk_ocx_lnex_stat06_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT06(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1422,6 +1451,7 @@ typedef union bdk_ocx_lnex_stat07 {
 	} s;
 	/* struct bdk_ocx_lnex_stat07_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat07_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat07_s       cn88xxp1; */
 } bdk_ocx_lnex_stat07_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT07(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1456,6 +1486,7 @@ typedef union bdk_ocx_lnex_stat08 {
 	} s;
 	/* struct bdk_ocx_lnex_stat08_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat08_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat08_s       cn88xxp1; */
 } bdk_ocx_lnex_stat08_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT08(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1489,6 +1520,7 @@ typedef union bdk_ocx_lnex_stat09 {
 	} s;
 	/* struct bdk_ocx_lnex_stat09_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat09_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat09_s       cn88xxp1; */
 } bdk_ocx_lnex_stat09_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT09(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1522,6 +1554,7 @@ typedef union bdk_ocx_lnex_stat10 {
 	} s;
 	/* struct bdk_ocx_lnex_stat10_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat10_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat10_s       cn88xxp1; */
 } bdk_ocx_lnex_stat10_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT10(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1555,6 +1588,7 @@ typedef union bdk_ocx_lnex_stat11 {
 	} s;
 	/* struct bdk_ocx_lnex_stat11_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat11_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat11_s       cn88xxp1; */
 } bdk_ocx_lnex_stat11_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT11(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1588,6 +1622,7 @@ typedef union bdk_ocx_lnex_stat12 {
 	} s;
 	/* struct bdk_ocx_lnex_stat12_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat12_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat12_s       cn88xxp1; */
 } bdk_ocx_lnex_stat12_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT12(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1621,6 +1656,7 @@ typedef union bdk_ocx_lnex_stat13 {
 	} s;
 	/* struct bdk_ocx_lnex_stat13_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat13_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat13_s       cn88xxp1; */
 } bdk_ocx_lnex_stat13_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT13(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1654,6 +1690,7 @@ typedef union bdk_ocx_lnex_stat14 {
 	} s;
 	/* struct bdk_ocx_lnex_stat14_s       cn85xx; */
 	/* struct bdk_ocx_lnex_stat14_s       cn88xx; */
+	/* struct bdk_ocx_lnex_stat14_s       cn88xxp1; */
 } bdk_ocx_lnex_stat14_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT14(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1690,6 +1727,7 @@ typedef union bdk_ocx_lnex_status {
 	} s;
 	/* struct bdk_ocx_lnex_status_s       cn85xx; */
 	/* struct bdk_ocx_lnex_status_s       cn88xx; */
+	/* struct bdk_ocx_lnex_status_s       cn88xxp1; */
 } bdk_ocx_lnex_status_t;
 
 static inline uint64_t BDK_OCX_LNEX_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1740,6 +1778,7 @@ typedef union bdk_ocx_lnex_sts_msg {
 	} s;
 	/* struct bdk_ocx_lnex_sts_msg_s      cn85xx; */
 	/* struct bdk_ocx_lnex_sts_msg_s      cn88xx; */
+	/* struct bdk_ocx_lnex_sts_msg_s      cn88xxp1; */
 } bdk_ocx_lnex_sts_msg_t;
 
 static inline uint64_t BDK_OCX_LNEX_STS_MSG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1778,6 +1817,7 @@ typedef union bdk_ocx_lnex_trn_ctl {
 	} s;
 	/* struct bdk_ocx_lnex_trn_ctl_s      cn85xx; */
 	/* struct bdk_ocx_lnex_trn_ctl_s      cn88xx; */
+	/* struct bdk_ocx_lnex_trn_ctl_s      cn88xxp1; */
 } bdk_ocx_lnex_trn_ctl_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1820,6 +1860,7 @@ typedef union bdk_ocx_lnex_trn_ld {
 	} s;
 	/* struct bdk_ocx_lnex_trn_ld_s       cn85xx; */
 	/* struct bdk_ocx_lnex_trn_ld_s       cn88xx; */
+	/* struct bdk_ocx_lnex_trn_ld_s       cn88xxp1; */
 } bdk_ocx_lnex_trn_ld_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_LD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1860,6 +1901,7 @@ typedef union bdk_ocx_lnex_trn_lp {
 	} s;
 	/* struct bdk_ocx_lnex_trn_lp_s       cn85xx; */
 	/* struct bdk_ocx_lnex_trn_lp_s       cn88xx; */
+	/* struct bdk_ocx_lnex_trn_lp_s       cn88xxp1; */
 } bdk_ocx_lnex_trn_lp_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1929,6 +1971,7 @@ typedef union bdk_ocx_lne_dbg {
 	} s;
 	/* struct bdk_ocx_lne_dbg_s           cn85xx; */
 	/* struct bdk_ocx_lne_dbg_s           cn88xx; */
+	/* struct bdk_ocx_lne_dbg_s           cn88xxp1; */
 } bdk_ocx_lne_dbg_t;
 
 #define BDK_OCX_LNE_DBG BDK_OCX_LNE_DBG_FUNC()
@@ -2028,6 +2071,7 @@ typedef union bdk_ocx_lnkx_cfg {
 	} s;
 	/* struct bdk_ocx_lnkx_cfg_s          cn85xx; */
 	/* struct bdk_ocx_lnkx_cfg_s          cn88xx; */
+	/* struct bdk_ocx_lnkx_cfg_s          cn88xxp1; */
 } bdk_ocx_lnkx_cfg_t;
 
 static inline uint64_t BDK_OCX_LNKX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2062,6 +2106,7 @@ typedef union bdk_ocx_msix_pbax {
 	} s;
 	/* struct bdk_ocx_msix_pbax_s         cn85xx; */
 	/* struct bdk_ocx_msix_pbax_s         cn88xx; */
+	/* struct bdk_ocx_msix_pbax_s         cn88xxp1; */
 } bdk_ocx_msix_pbax_t;
 
 static inline uint64_t BDK_OCX_MSIX_PBAX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2109,6 +2154,7 @@ typedef union bdk_ocx_msix_vecx_addr {
 	} s;
 	/* struct bdk_ocx_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_ocx_msix_vecx_addr_s    cn88xx; */
+	/* struct bdk_ocx_msix_vecx_addr_s    cn88xxp1; */
 } bdk_ocx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_OCX_MSIX_VECX_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2148,6 +2194,7 @@ typedef union bdk_ocx_msix_vecx_ctl {
 	} s;
 	/* struct bdk_ocx_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_ocx_msix_vecx_ctl_s     cn88xx; */
+	/* struct bdk_ocx_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_ocx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_OCX_MSIX_VECX_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2219,6 +2266,7 @@ typedef union bdk_ocx_pp_cmd {
 	} s;
 	/* struct bdk_ocx_pp_cmd_s            cn85xx; */
 	/* struct bdk_ocx_pp_cmd_s            cn88xx; */
+	/* struct bdk_ocx_pp_cmd_s            cn88xxp1; */
 } bdk_ocx_pp_cmd_t;
 
 #define BDK_OCX_PP_CMD BDK_OCX_PP_CMD_FUNC()
@@ -2252,6 +2300,7 @@ typedef union bdk_ocx_pp_rd_data {
 	} s;
 	/* struct bdk_ocx_pp_rd_data_s        cn85xx; */
 	/* struct bdk_ocx_pp_rd_data_s        cn88xx; */
+	/* struct bdk_ocx_pp_rd_data_s        cn88xxp1; */
 } bdk_ocx_pp_rd_data_t;
 
 #define BDK_OCX_PP_RD_DATA BDK_OCX_PP_RD_DATA_FUNC()
@@ -2285,6 +2334,7 @@ typedef union bdk_ocx_pp_wr_data {
 	} s;
 	/* struct bdk_ocx_pp_wr_data_s        cn85xx; */
 	/* struct bdk_ocx_pp_wr_data_s        cn88xx; */
+	/* struct bdk_ocx_pp_wr_data_s        cn88xxp1; */
 } bdk_ocx_pp_wr_data_t;
 
 #define BDK_OCX_PP_WR_DATA BDK_OCX_PP_WR_DATA_FUNC()
@@ -2380,6 +2430,7 @@ typedef union bdk_ocx_qlmx_cfg {
 	} s;
 	/* struct bdk_ocx_qlmx_cfg_s          cn85xx; */
 	/* struct bdk_ocx_qlmx_cfg_s          cn88xx; */
+	/* struct bdk_ocx_qlmx_cfg_s          cn88xxp1; */
 } bdk_ocx_qlmx_cfg_t;
 
 static inline uint64_t BDK_OCX_QLMX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2414,6 +2465,7 @@ typedef union bdk_ocx_rlkx_align {
 	} s;
 	/* struct bdk_ocx_rlkx_align_s        cn85xx; */
 	/* struct bdk_ocx_rlkx_align_s        cn88xx; */
+	/* struct bdk_ocx_rlkx_align_s        cn88xxp1; */
 } bdk_ocx_rlkx_align_t;
 
 static inline uint64_t BDK_OCX_RLKX_ALIGN(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2450,6 +2502,7 @@ typedef union bdk_ocx_rlkx_blk_err {
 	} s;
 	/* struct bdk_ocx_rlkx_blk_err_s      cn85xx; */
 	/* struct bdk_ocx_rlkx_blk_err_s      cn88xx; */
+	/* struct bdk_ocx_rlkx_blk_err_s      cn88xxp1; */
 } bdk_ocx_rlkx_blk_err_t;
 
 static inline uint64_t BDK_OCX_RLKX_BLK_ERR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2490,6 +2543,7 @@ typedef union bdk_ocx_rlkx_ecc_ctl {
 	} s;
 	/* struct bdk_ocx_rlkx_ecc_ctl_s      cn85xx; */
 	/* struct bdk_ocx_rlkx_ecc_ctl_s      cn88xx; */
+	/* struct bdk_ocx_rlkx_ecc_ctl_s      cn88xxp1; */
 } bdk_ocx_rlkx_ecc_ctl_t;
 
 static inline uint64_t BDK_OCX_RLKX_ECC_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2536,6 +2590,7 @@ typedef union bdk_ocx_rlkx_enables {
 	} s;
 	/* struct bdk_ocx_rlkx_enables_s      cn85xx; */
 	/* struct bdk_ocx_rlkx_enables_s      cn88xx; */
+	/* struct bdk_ocx_rlkx_enables_s      cn88xxp1; */
 } bdk_ocx_rlkx_enables_t;
 
 static inline uint64_t BDK_OCX_RLKX_ENABLES(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2569,6 +2624,7 @@ typedef union bdk_ocx_rlkx_fifox_cnt {
 	} s;
 	/* struct bdk_ocx_rlkx_fifox_cnt_s    cn85xx; */
 	/* struct bdk_ocx_rlkx_fifox_cnt_s    cn88xx; */
+	/* struct bdk_ocx_rlkx_fifox_cnt_s    cn88xxp1; */
 } bdk_ocx_rlkx_fifox_cnt_t;
 
 static inline uint64_t BDK_OCX_RLKX_FIFOX_CNT(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2600,6 +2656,7 @@ typedef union bdk_ocx_rlkx_key_highx {
 	} s;
 	/* struct bdk_ocx_rlkx_key_highx_s    cn85xx; */
 	/* struct bdk_ocx_rlkx_key_highx_s    cn88xx; */
+	/* struct bdk_ocx_rlkx_key_highx_s    cn88xxp1; */
 } bdk_ocx_rlkx_key_highx_t;
 
 static inline uint64_t BDK_OCX_RLKX_KEY_HIGHX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2631,6 +2688,7 @@ typedef union bdk_ocx_rlkx_key_lowx {
 	} s;
 	/* struct bdk_ocx_rlkx_key_lowx_s     cn85xx; */
 	/* struct bdk_ocx_rlkx_key_lowx_s     cn88xx; */
+	/* struct bdk_ocx_rlkx_key_lowx_s     cn88xxp1; */
 } bdk_ocx_rlkx_key_lowx_t;
 
 static inline uint64_t BDK_OCX_RLKX_KEY_LOWX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2667,6 +2725,7 @@ typedef union bdk_ocx_rlkx_lnk_data {
 	} s;
 	/* struct bdk_ocx_rlkx_lnk_data_s     cn85xx; */
 	/* struct bdk_ocx_rlkx_lnk_data_s     cn88xx; */
+	/* struct bdk_ocx_rlkx_lnk_data_s     cn88xxp1; */
 } bdk_ocx_rlkx_lnk_data_t;
 
 static inline uint64_t BDK_OCX_RLKX_LNK_DATA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2704,6 +2763,7 @@ typedef union bdk_ocx_rlkx_mcd_ctl {
 	} s;
 	/* struct bdk_ocx_rlkx_mcd_ctl_s      cn85xx; */
 	/* struct bdk_ocx_rlkx_mcd_ctl_s      cn88xx; */
+	/* struct bdk_ocx_rlkx_mcd_ctl_s      cn88xxp1; */
 } bdk_ocx_rlkx_mcd_ctl_t;
 
 static inline uint64_t BDK_OCX_RLKX_MCD_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2742,6 +2802,7 @@ typedef union bdk_ocx_rlkx_protect {
 	} s;
 	/* struct bdk_ocx_rlkx_protect_s      cn85xx; */
 	/* struct bdk_ocx_rlkx_protect_s      cn88xx; */
+	/* struct bdk_ocx_rlkx_protect_s      cn88xxp1; */
 } bdk_ocx_rlkx_protect_t;
 
 static inline uint64_t BDK_OCX_RLKX_PROTECT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2773,6 +2834,7 @@ typedef union bdk_ocx_rlkx_salt_high {
 	} s;
 	/* struct bdk_ocx_rlkx_salt_high_s    cn85xx; */
 	/* struct bdk_ocx_rlkx_salt_high_s    cn88xx; */
+	/* struct bdk_ocx_rlkx_salt_high_s    cn88xxp1; */
 } bdk_ocx_rlkx_salt_high_t;
 
 static inline uint64_t BDK_OCX_RLKX_SALT_HIGH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2804,6 +2866,7 @@ typedef union bdk_ocx_rlkx_salt_low {
 	} s;
 	/* struct bdk_ocx_rlkx_salt_low_s     cn85xx; */
 	/* struct bdk_ocx_rlkx_salt_low_s     cn88xx; */
+	/* struct bdk_ocx_rlkx_salt_low_s     cn88xxp1; */
 } bdk_ocx_rlkx_salt_low_t;
 
 static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2841,6 +2904,7 @@ typedef union bdk_ocx_tlkx_bist_status {
 	} s;
 	/* struct bdk_ocx_tlkx_bist_status_s  cn85xx; */
 	/* struct bdk_ocx_tlkx_bist_status_s  cn88xx; */
+	/* struct bdk_ocx_tlkx_bist_status_s  cn88xxp1; */
 } bdk_ocx_tlkx_bist_status_t;
 
 static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2885,6 +2949,7 @@ typedef union bdk_ocx_tlkx_ecc_ctl {
 	} s;
 	/* struct bdk_ocx_tlkx_ecc_ctl_s      cn85xx; */
 	/* struct bdk_ocx_tlkx_ecc_ctl_s      cn88xx; */
+	/* struct bdk_ocx_tlkx_ecc_ctl_s      cn88xxp1; */
 } bdk_ocx_tlkx_ecc_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_ECC_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2917,6 +2982,7 @@ typedef union bdk_ocx_tlkx_fifox_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_fifox_cnt_s    cn85xx; */
 	/* struct bdk_ocx_tlkx_fifox_cnt_s    cn88xx; */
+	/* struct bdk_ocx_tlkx_fifox_cnt_s    cn88xxp1; */
 } bdk_ocx_tlkx_fifox_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_FIFOX_CNT(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2948,6 +3014,7 @@ typedef union bdk_ocx_tlkx_key_highx {
 	} s;
 	/* struct bdk_ocx_tlkx_key_highx_s    cn85xx; */
 	/* struct bdk_ocx_tlkx_key_highx_s    cn88xx; */
+	/* struct bdk_ocx_tlkx_key_highx_s    cn88xxp1; */
 } bdk_ocx_tlkx_key_highx_t;
 
 static inline uint64_t BDK_OCX_TLKX_KEY_HIGHX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2979,6 +3046,7 @@ typedef union bdk_ocx_tlkx_key_lowx {
 	} s;
 	/* struct bdk_ocx_tlkx_key_lowx_s     cn85xx; */
 	/* struct bdk_ocx_tlkx_key_lowx_s     cn88xx; */
+	/* struct bdk_ocx_tlkx_key_lowx_s     cn88xxp1; */
 } bdk_ocx_tlkx_key_lowx_t;
 
 static inline uint64_t BDK_OCX_TLKX_KEY_LOWX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3012,6 +3080,7 @@ typedef union bdk_ocx_tlkx_lnk_data {
 	} s;
 	/* struct bdk_ocx_tlkx_lnk_data_s     cn85xx; */
 	/* struct bdk_ocx_tlkx_lnk_data_s     cn88xx; */
+	/* struct bdk_ocx_tlkx_lnk_data_s     cn88xxp1; */
 } bdk_ocx_tlkx_lnk_data_t;
 
 static inline uint64_t BDK_OCX_TLKX_LNK_DATA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3044,6 +3113,7 @@ typedef union bdk_ocx_tlkx_lnk_vcx_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_lnk_vcx_cnt_s  cn85xx; */
 	/* struct bdk_ocx_tlkx_lnk_vcx_cnt_s  cn88xx; */
+	/* struct bdk_ocx_tlkx_lnk_vcx_cnt_s  cn88xxp1; */
 } bdk_ocx_tlkx_lnk_vcx_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3084,6 +3154,7 @@ typedef union bdk_ocx_tlkx_mcd_ctl {
 	} s;
 	/* struct bdk_ocx_tlkx_mcd_ctl_s      cn85xx; */
 	/* struct bdk_ocx_tlkx_mcd_ctl_s      cn88xx; */
+	/* struct bdk_ocx_tlkx_mcd_ctl_s      cn88xxp1; */
 } bdk_ocx_tlkx_mcd_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_MCD_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3132,6 +3203,7 @@ typedef union bdk_ocx_tlkx_protect {
 	} s;
 	/* struct bdk_ocx_tlkx_protect_s      cn85xx; */
 	/* struct bdk_ocx_tlkx_protect_s      cn88xx; */
+	/* struct bdk_ocx_tlkx_protect_s      cn88xxp1; */
 } bdk_ocx_tlkx_protect_t;
 
 static inline uint64_t BDK_OCX_TLKX_PROTECT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3164,6 +3236,7 @@ typedef union bdk_ocx_tlkx_rtn_vcx_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_rtn_vcx_cnt_s  cn85xx; */
 	/* struct bdk_ocx_tlkx_rtn_vcx_cnt_s  cn88xx; */
+	/* struct bdk_ocx_tlkx_rtn_vcx_cnt_s  cn88xxp1; */
 } bdk_ocx_tlkx_rtn_vcx_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_RTN_VCX_CNT(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3195,6 +3268,7 @@ typedef union bdk_ocx_tlkx_salt_high {
 	} s;
 	/* struct bdk_ocx_tlkx_salt_high_s    cn85xx; */
 	/* struct bdk_ocx_tlkx_salt_high_s    cn88xx; */
+	/* struct bdk_ocx_tlkx_salt_high_s    cn88xxp1; */
 } bdk_ocx_tlkx_salt_high_t;
 
 static inline uint64_t BDK_OCX_TLKX_SALT_HIGH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3226,6 +3300,7 @@ typedef union bdk_ocx_tlkx_salt_low {
 	} s;
 	/* struct bdk_ocx_tlkx_salt_low_s     cn85xx; */
 	/* struct bdk_ocx_tlkx_salt_low_s     cn88xx; */
+	/* struct bdk_ocx_tlkx_salt_low_s     cn88xxp1; */
 } bdk_ocx_tlkx_salt_low_t;
 
 static inline uint64_t BDK_OCX_TLKX_SALT_LOW(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3263,6 +3338,7 @@ typedef union bdk_ocx_tlkx_stat_ctl {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_ctl_s     cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_ctl_s     cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_ctl_s     cn88xxp1; */
 } bdk_ocx_tlkx_stat_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3294,6 +3370,7 @@ typedef union bdk_ocx_tlkx_stat_data_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_data_cnt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_data_cnt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_data_cnt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_data_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_DATA_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3325,6 +3402,7 @@ typedef union bdk_ocx_tlkx_stat_err_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_err_cnt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_err_cnt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_err_cnt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_err_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_ERR_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3356,6 +3434,7 @@ typedef union bdk_ocx_tlkx_stat_idle_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_idle_cnt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_idle_cnt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_idle_cnt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_idle_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_IDLE_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3387,6 +3466,7 @@ typedef union bdk_ocx_tlkx_stat_matx_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_matx_cnt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_matx_cnt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_matx_cnt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_matx_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_MATX_CNT(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3428,6 +3508,7 @@ typedef union bdk_ocx_tlkx_stat_matchx {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_matchx_s  cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_matchx_s  cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_matchx_s  cn88xxp1; */
 } bdk_ocx_tlkx_stat_matchx_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_MATCHX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3459,6 +3540,7 @@ typedef union bdk_ocx_tlkx_stat_retry_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_retry_cnt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_retry_cnt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_retry_cnt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_retry_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_RETRY_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3490,6 +3572,7 @@ typedef union bdk_ocx_tlkx_stat_sync_cnt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_sync_cnt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_sync_cnt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_sync_cnt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_sync_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_SYNC_CNT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3522,6 +3605,7 @@ typedef union bdk_ocx_tlkx_stat_vcx_cmd {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_vcx_cmd_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_vcx_cmd_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_vcx_cmd_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_vcx_cmd_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CMD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3555,6 +3639,7 @@ typedef union bdk_ocx_tlkx_stat_vcx_con {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_vcx_con_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_vcx_con_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_vcx_con_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_vcx_con_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CON(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3586,6 +3671,7 @@ typedef union bdk_ocx_tlkx_stat_vcx_pkt {
 	} s;
 	/* struct bdk_ocx_tlkx_stat_vcx_pkt_s cn85xx; */
 	/* struct bdk_ocx_tlkx_stat_vcx_pkt_s cn88xx; */
+	/* struct bdk_ocx_tlkx_stat_vcx_pkt_s cn88xxp1; */
 } bdk_ocx_tlkx_stat_vcx_pkt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_PKT(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3640,6 +3726,7 @@ typedef union bdk_ocx_tlkx_status {
 	} s;
 	/* struct bdk_ocx_tlkx_status_s       cn85xx; */
 	/* struct bdk_ocx_tlkx_status_s       cn88xx; */
+	/* struct bdk_ocx_tlkx_status_s       cn88xxp1; */
 } bdk_ocx_tlkx_status_t;
 
 static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3711,6 +3798,7 @@ typedef union bdk_ocx_win_cmd {
 	} s;
 	/* struct bdk_ocx_win_cmd_s           cn85xx; */
 	/* struct bdk_ocx_win_cmd_s           cn88xx; */
+	/* struct bdk_ocx_win_cmd_s           cn88xxp1; */
 } bdk_ocx_win_cmd_t;
 
 #define BDK_OCX_WIN_CMD BDK_OCX_WIN_CMD_FUNC()
@@ -3743,6 +3831,7 @@ typedef union bdk_ocx_win_rd_data {
 	} s;
 	/* struct bdk_ocx_win_rd_data_s       cn85xx; */
 	/* struct bdk_ocx_win_rd_data_s       cn88xx; */
+	/* struct bdk_ocx_win_rd_data_s       cn88xxp1; */
 } bdk_ocx_win_rd_data_t;
 
 #define BDK_OCX_WIN_RD_DATA BDK_OCX_WIN_RD_DATA_FUNC()
@@ -3779,6 +3868,7 @@ typedef union bdk_ocx_win_timer {
 	} s;
 	/* struct bdk_ocx_win_timer_s         cn85xx; */
 	/* struct bdk_ocx_win_timer_s         cn88xx; */
+	/* struct bdk_ocx_win_timer_s         cn88xxp1; */
 } bdk_ocx_win_timer_t;
 
 #define BDK_OCX_WIN_TIMER BDK_OCX_WIN_TIMER_FUNC()
@@ -3812,6 +3902,7 @@ typedef union bdk_ocx_win_wr_data {
 	} s;
 	/* struct bdk_ocx_win_wr_data_s       cn85xx; */
 	/* struct bdk_ocx_win_wr_data_s       cn88xx; */
+	/* struct bdk_ocx_win_wr_data_s       cn88xxp1; */
 } bdk_ocx_win_wr_data_t;
 
 #define BDK_OCX_WIN_WR_DATA BDK_OCX_WIN_WR_DATA_FUNC()
