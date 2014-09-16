@@ -414,7 +414,7 @@ def read(chip_name, input_dir, pass_dict):
     chip_info = ChipInfo(chip_name, pass_dict)
     input_files = os.listdir(input_dir)
     for file in input_files:
-        if file in [".svn", ".gitignore", "csr.txt"]:
+        if file in [".svn", ".gitignore", "csr.txt", "csr_pass1.txt"]:
             continue
         try:
             print "\t\t%s" % file
