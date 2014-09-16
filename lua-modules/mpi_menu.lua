@@ -6,7 +6,6 @@ require("menu")
 local fileio = require("fileio")
 local bit64 = require("bit64")
 
-local node = cavium.MASTER_NODE
 local init_complete = false
 
 -- Use globals so menu remembers last choice
@@ -43,7 +42,7 @@ local function mpi_init()
     flags = flags + (idle_low and cavium.MPI_FLAGS_IDLE_LOW or 0)
     flags = flags + (lsb and cavium.MPI_FLAGS_LSB_FIRST or 0)
 
-    local result = cavium.c.bdk_mpi_initialize(node, clock_rate_hz, flags)
+    local result = cavium.c.bdk_mpi_initialize(menu.node, clock_rate_hz, flags)
     assert(result == 0, "SPI/MPI initialization failed")
     init_complete = true
 end
@@ -54,7 +53,7 @@ local function mpi_transfer()
     local tx_data = menu.prompt_number("Transmit data")
     local rx_count = menu.prompt_number("Receive bytes", 1, 0, 9 - tx_count)
 
-    local result = cavium.c.bdk_mpi_transfer(node, chip_select, 0, tx_count, tx_data, rx_count)
+    local result = cavium.c.bdk_mpi_transfer(menu.node, chip_select, 0, tx_count, tx_data, rx_count)
     if rx_count > 0 then
         print("Receive: 0x%x" % result)
     else
@@ -70,11 +69,11 @@ local function mpi_display()
     local count = menu.prompt_number("Bytes to read", 128, 1)
 
     local cmd = bit64.lshift(read_cmd, addr_width*8) + addr
-    local result = cavium.c.bdk_mpi_transfer(node, chip_select, true, addr_width+1, cmd, 0)
+    local result = cavium.c.bdk_mpi_transfer(menu.node, chip_select, true, addr_width+1, cmd, 0)
     assert(result == 0, "SPI/MPI transfer failed")
     while count > 0 do
         local rx_size = (count > 8) and 8 or count
-        result = cavium.c.bdk_mpi_transfer(node, chip_select, rx_size < count, 0, 0, rx_size)
+        result = cavium.c.bdk_mpi_transfer(menu.node, chip_select, rx_size < count, 0, 0, rx_size)
         printf("%08x: %016x\n", addr, result)
         addr = addr + rx_size
         count = count - rx_size
@@ -165,6 +164,7 @@ end
 
 repeat
     local m = menu.new("SPI/MPI Menu")
+    m:item_node() -- Adds option to choose the node number
     m:item("dev", "Access an EEPROM or NOR flash", mpi_device)
     m:item("init", "Initialize", mpi_init)
     if init_complete then

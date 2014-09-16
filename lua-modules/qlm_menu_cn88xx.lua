@@ -3,8 +3,6 @@ require("strict")
 require("utils")
 require("menu")
 
-local node = cavium.MASTER_NODE
-
 -- This is an array indexed by QLM number. Each entry is a list of
 -- QLM mode settings that the user can choose. Not all possibilites
 -- are here, but this should cover most cases. Note that QLMs that
@@ -83,7 +81,7 @@ local function do_setup(qlm)
         cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
     end
     -- Reset the QLM after changing the reference clock
-    cavium.c.bdk_qlm_reset(node, qlm)
+    cavium.c.bdk_qlm_reset(menu.node, qlm)
 
     -- Select the mode to use
     local m = menu.new("Select a mode for QLM%d" % qlm)
@@ -95,7 +93,7 @@ local function do_setup(qlm)
     local mode = choice[2]
     local baud_mhz = choice[3]
     local flags = choice[4]
-    cavium.c.bdk_qlm_set_mode(node, qlm, mode, baud_mhz, flags)
+    cavium.c.bdk_qlm_set_mode(menu.node, qlm, mode, baud_mhz, flags)
 end
 
 --
@@ -105,12 +103,12 @@ function qlm_setup_cn88xx()
     local m = menu.new("Select a QLM to Configure")
     repeat
         for qlm_num = 0, 7 do
-            local mode = cavium.c.bdk_qlm_get_mode(node, qlm_num)
+            local mode = cavium.c.bdk_qlm_get_mode(menu.node, qlm_num)
             local config_mode = cavium.c.bdk_qlm_mode_tostring(mode)
-            local config_speed = cavium.c.bdk_qlm_get_gbaud_mhz(node, qlm_num)
-            local num_lanes = cavium.c.bdk_qlm_get_lanes(node, qlm_num)
+            local config_speed = cavium.c.bdk_qlm_get_gbaud_mhz(menu.node, qlm_num)
+            local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
             local label = (num_lanes == 2) and "DLM" or "QLM"
-            local ref_clock = cavium.c.bdk_qlm_measure_clock(node, qlm_num)
+            local ref_clock = cavium.c.bdk_qlm_measure_clock(menu.node, qlm_num)
             local option
             if config_speed == 0 then
                 option = "%s %d - Disabled" % {label, qlm_num}

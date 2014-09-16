@@ -4,21 +4,21 @@ require("strict")
 require("utils")
 require("menu")
 
-local node = cavium.MASTER_NODE
 local usb_port = 0
 
 local function usb_init(usb_port)
     local clock_type = 0
-    local status = cavium.c.bdk_usb_intialize(node, usb_port, clock_type)
+    local status = cavium.c.bdk_usb_intialize(menu.node, usb_port, clock_type)
     assert(status == 0, "Failed to initialize the USB port")
 end
 
 local function usb_test(usb_port, test)
-    assert(cavium.c.bdk_usb_test_mode(node, usb_port, test) == 0, "Failed to set USB test mode")
+    assert(cavium.c.bdk_usb_test_mode(menu.node, usb_port, test) == 0, "Failed to set USB test mode")
 end
 
 repeat
     local m = menu.new("USB Menu")
+    m:item_node() -- Adds option to choose the node number
 
     m:item("port", "Select USB port (Currently %d)" % usb_port,
         function()

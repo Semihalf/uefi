@@ -8,14 +8,13 @@ local pcie = require("pcie")
 local bit64 = require("bit64")
 
 local pcie_root = {}
-local default_node = cavium.MASTER_NODE
 
 --
 -- PCIe host mode functions
 --
 
 local function do_initialize(pcie_port)
-    pcie_root[pcie_port] = pcie.initialize(default_node, pcie_port)
+    pcie_root[pcie_port] = pcie.initialize(menu.node, pcie_port)
 end
 
 local function do_scan(pcie_port)
@@ -91,7 +90,8 @@ end
 --
 
 local m = menu.new("PCIe Menu")
-local max_ports = cavium.c.bdk_pcie_get_num_ports(default_node)
+m:item_node() -- Adds option to choose the node number
+local max_ports = cavium.c.bdk_pcie_get_num_ports(menu.node)
 for pcie_port=0,max_ports-1 do
     m:item("p" .. pcie_port, "PCIe port " .. pcie_port, do_port_menu, pcie_port)
 end

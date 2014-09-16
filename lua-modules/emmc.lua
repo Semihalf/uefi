@@ -6,7 +6,6 @@ require("fileio")
 require("menu")
 
 local option = ""
-local node = cavium.MASTER_NODE
 
 while (option ~= "quit") do
     local m = menu.new("eMMC, MMC, or SD Menu")

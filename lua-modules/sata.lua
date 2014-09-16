@@ -6,7 +6,6 @@ require("fileio")
 require("menu")
 
 local option = ""
-local node = cavium.MASTER_NODE
 local sata = 0
 local PATTERNS = {0x00, 0xff, 0x55, 0xaa}
 
@@ -82,14 +81,15 @@ end
 --
 while (option ~= "quit") do
     local m = menu.new("SATA Menu")
+    m:item_node() -- Adds option to choose the node number
 
     m:item("port", "Select SATA port (Currently %d)" % sata, function()
-        local num_sata = cavium.c.bdk_sata_get_controllers(node)
+        local num_sata = cavium.c.bdk_sata_get_controllers(menu.node)
         sata = menu.prompt_number("SATA port to use", sata, 0, num_sata - 1)
     end)
 
     m:item("id", "Perform an identify disk", function()
-        local size = cavium.c.bdk_sata_identify(node, sata, 0)
+        local size = cavium.c.bdk_sata_identify(menu.node, sata, 0)
     end)
 
     m:item("hex", "Hex display", function()
