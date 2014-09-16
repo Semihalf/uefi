@@ -10,10 +10,12 @@
 --
 require("strict")
 require("utils")
+require("cavium")
 local readline = require("readline")
 
 menu = {}
 menu.show_keys = false
+menu.node = cavium.MASTER_NODE
 
 -- Shown before and after menu titles
 local BANNER = "================================="
@@ -37,6 +39,26 @@ local function set_item(m, key, description, func, ...)
         end
     end
     table.insert(m.items, item)
+end
+
+----
+-- Called when the user calls m:item_node().
+-- Adds a menu option to change menu.node if multiple nodes are available.
+-- If multiple nodes aren't available, sets menu.node to cavium.MASTER. The
+-- menu 'key' is "node", so a quick way to change nodes is to type "node X"
+-- at the menu prompt.
+-- @function menu:item_node
+--
+local function node_item(m)
+    local function change_node()
+        menu.node = menu.prompt_number("Node to use", menu.node, 0, 3)
+        m:item("node", "Select active node (Currently %d)" % menu.node, change_node)
+    end
+    if cavium.c.bdk_numa_is_only_one() == 0 then
+        m:item("node", "Select active node (Currently %d)" % menu.node, change_node)
+    else
+        menu.node = cavium.MASTER_NODE
+    end
 end
 
 ----
@@ -128,6 +150,7 @@ function menu.new(title)
     m.items = {}
     m.item = set_item
     m.show = show
+    m.item_node = node_item
     return m
 end
 
