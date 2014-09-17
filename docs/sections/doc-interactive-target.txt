@@ -1,4 +1,4 @@
-= Interactive Lua on the OCTEON Target
+= Interactive Lua on the THUNDERX
 
 The target side binary *bdk-full.bin* supplies a text menu based
 interface to board diagnostic functions.  Each menu expects a numeric

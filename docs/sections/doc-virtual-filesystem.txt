@@ -24,18 +24,18 @@ could store temporary data in '/ram/data.tmp'.
 
 This is a special file that translates file accesses to reads or
 writes to file transferred using XMODEM.  When opened for write the
-file to be downloaded from OCTEON.  When opened for read the file will
-be uploaded to OCTEON.  XMODEM, XMODEM-CRC, XMODEM-1K, and
+file to be downloaded from THUNDERX.  When opened for read the file will
+be uploaded to THUNDERX.  XMODEM, XMODEM-CRC, XMODEM-1K, and
 XMODEM-1K-CRC are all supported.
 
 /dev/uart/0::
 
-This is a special device representing OCTEON's first uart.  This is
+This is a special device representing THUNDERX's first uart.  This is
 the file that stdin, stdout, and stderr are connected to by default.
 
 /dev/uart/1::
 
-This is a special device representing OCTEON's second uart.
+This is a special device representing THUNDERX's second uart.
 
 /dev/nor/0::
 

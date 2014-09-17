@@ -43,10 +43,10 @@ a number of functions to make your life easier.  The *printf()* and
 require("utils")
 ----
 
-Use the *csr* module on *oremote* and *octeon* interchangeably::
+Use the *csr* module on *oremote* and *cavium* interchangeably::
 
 Note that the syntax of the oremote.csr.* operations and the
-octeon.csr.* operations are exactly the same.  Use this to your
+cavium.csr.* operations are exactly the same.  Use this to your
 advantage to make scripts portable between the host and target.
 +
 [source,lua]
@@ -56,7 +56,7 @@ local csr
 if isglobal("oremote") then
     csr = oremote.csr
 else
-    csr = octeon.csr
+    csr = cavium.csr
 end
 pprint(csr.ciu_fuse.decode())
 ----

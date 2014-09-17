@@ -1,10 +1,10 @@
 = Lua Scripting
 
 The BDK contains the scripting environment Lua.  Lua allows you to
-write simple scripts to easily control OCTEON tests and perform remote
+write simple scripts to easily control THUNDERX tests and perform remote
 operations.  Take a look at the link:lua/readme.html[documentation for
 Lua] for more information about the Lua language.  Many BDK functions
-can be called from Lua.  Under the Lua environment, a module *octeon*
+can be called from Lua.  Under the Lua environment, a module *cavium*
 is supplied.
 
 TIP: The link:lua/contents.html[Lua Reference] can be useful.
@@ -14,7 +14,7 @@ TIP: The link:lua/contents.html[Lua Reference] can be useful.
 
 The BDK supplies the executable *bdk-lua* for scripting on a host PC.
 This should be used for the shell to execute Lua scripts for remote
-controlling OCTEON either on the command line, or through scripts.
+controlling THUNDERX either on the command line, or through scripts.
 
 .Command line
 [source,sh]
@@ -82,14 +82,4 @@ connected to the bootbus chip select 0.
 $ export OCTEON_REMOTE_PROTOCOL=pci
 $ bdk-remote boot target-bin/bdk-full.bin
 ----
-
-.Booting using a pre-existing Uboot
-----
-Octeon ebb6300# dhcp
-Octeon ebb6300# setenv serverip 192.168.162.148
-Octeon ebb6300# tftpboot 0x400000 bdk-full.bin
-Octeon ebb6300# go 0x400000
-----
-
-
 

@@ -1,9 +1,9 @@
 = Lua Modules
 
 Lua functions are organized in terms of packages. Each package implements
-many functions related to a specific task. OCTEON's Lua contains the default
+many functions related to a specific task. THUNDERX's Lua contains the default
 Lua packages along with some new packages specifically designed for remote
-control and testing of OCTEON based hardware.
+control and testing of THUNDERX based hardware.
 
 .Lua Base Modules
 [options="header"]
@@ -22,7 +22,7 @@ control and testing of OCTEON based hardware.
 |socket			|link:luasocket/introduction.html[]
 |==========================================================================
 
-== Host Modules Specific to OCTEON
+== Host Modules Specific to THUNDERX
 
 Cavium Networks provides some Lua modules specific for running Lua on a
 host PC.
@@ -30,8 +30,8 @@ host PC.
 === oremote
 
 The *oremote* module provides functions for remotely controlling an
-OCTEON over PCI or EJTAG. This allows Lua scripts to remotely probe and
-boot OCTEON. Below is a list of the functions supported.
+THUNDERX over PCI or EJTAG. This allows Lua scripts to remotely probe and
+boot THUNDERX. Below is a list of the functions supported.
 
 oremote.open(protocol, debug)::
  * protocol = Remote protocol or nil
@@ -42,9 +42,9 @@ oremote.open(protocol, debug)::
 [options="header"]
 |==========================================================================
 |Format			|Description
-|PCI:<device>		|Use PCI/PCIe for <device>. Zero is the first OCTEON.
+|PCI:<device>		|Use PCI/PCIe for <device>. Zero is the first THUNDERX.
 |LINUX			|Assume Linux userspace native with direct access.
-|GDB:<name>,<tcp_port>	|Use GDB remote protocol to communicate with OCTEON.
+|GDB:<name>,<tcp_port>	|Use GDB remote protocol to communicate with THUNDERX.
 |MACRAIGOR:<name>,<tcp_port>[,<jtag_speed>]	|Use Macraigor mpDemon EJTAG. Note the <tcp_port> is normally 1000. <jtag_speed> is optional and defaults to 1.
 |==========================================================================
 
@@ -234,53 +234,53 @@ Performs a read, modify, and write of a CSR changing the specified field.
 == Modules Available on both Host and Target
 
 Cavium Networks provides some Lua modules specific for running Lua on
-a target OCTEON.  When run on a host system, these modules
+a target THUNDERX.  When run on a host system, these modules
 automatically translate operations into remote procedure calls.  Any
 modules written in pure Lua can be used on both the host and target.
 These modules are loaded using the standard *require()* function call
 in Lua.
 
-=== octeon
+=== cavium
 
-octeon.is_model(model)::
+cavium.is_model(model)::
 
 Returns true if the current chip matches the supplied model.
-* model = One of the `octeon.CN*` constants.
-** octeon.CN70XX
-** octeon.CN78XX
+* model = One of the `cavium.CN*` constants.
+** cavium.CN88XX
+** cavium.CN85XX
 
-octeon.BDK_CONFIG_*::
+cavium.BDK_CONFIG_*::
 
-Constants for use with octeon.c.bdk_config_get() and
-octeon.c.bdk_config_set().
+Constants for use with cavium.c.bdk_config_get() and
+cavium.c.bdk_config_set().
 
-octeon.csr()::
+cavium.csr()::
 
 Returns an iterator that iterates through the possible CSR names.
 +
 .List all CSRs from Lua
 [source,lua]
 ----
-for name in octeon.csr()
+for name in cavium.csr()
 do
     print (name)
 end
 ----
 
-octeon.csr.NAME.read()::
+cavium.csr.NAME.read()::
 
 Read the value of the CSR `NAME`.  `NAME` is name such as "CIU_FUSE"
 or "CIU_INTX_SUM0(0)".
 * Returns the CSR value
 
-octeon.csr.NAME.write(value)::
+cavium.csr.NAME.write(value)::
 
 Write the value of the CSR `NAME`.  `NAME` is name such as "CIU_FUSE"
 or "CIU_INTX_SUM0(0)".
 * value = Value to write
 * No return value.
 
-octeon.csr.NAME.display(optional_value)::
+cavium.csr.NAME.display(optional_value)::
 
 Uses *optional_value* as a numeric value for the CSR.  It then decodes
 each field and dispaly it.  If *optional_value* is not supplied the actual
@@ -288,7 +288,7 @@ value is read from the hardware.
 * optional_value = If supplied, value of CSR to decode.
 * No return value.
 
-octeon.csr.NAME.decode(optional_value)::
+cavium.csr.NAME.decode(optional_value)::
 
 Uses *optional_value* as a numeric value for the CSR.  It then decodes
 each field and returns a Lua table containing the fields.  If
@@ -300,7 +300,7 @@ hardware.
 .Decode example
 [source, lua]
 ----
-pprint(octeon.csr.ciu_fuse.decode())
+pprint(cavium.csr.RST_PP_AVAILABLE.decode())
 ----
 +
 .Decode output
@@ -312,7 +312,7 @@ pprint(octeon.csr.ciu_fuse.decode())
 }
 ----
 
-octeon.csr.NAME.encode(table)::
+cavium.csr.NAME.encode(table)::
 
 Converts a table of CSR fields into a CSR value and writes it to the
 hardware.  The format of the table is identical to the *decode()*
@@ -320,22 +320,22 @@ format.  Missing fields are filled with zeros.
 * table = Table of fields to encode.
 * No return value.
 
-octeon.csr.NAME.FIELD::
+cavium.csr.NAME.FIELD::
 
 Reads the CSR and returns the value of a specific field.
 
-octeon.csr.NAME.FIELD = value::
+cavium.csr.NAME.FIELD = value::
 
 Performs a read, modify, and write of a CSR changing the specified field.
 
-octeon.c.*::
+cavium.c.*::
 
 Many low level C functions are directly exported through this
 interface.  No argument checking is performed on these functions, so
 it is very important to get the arguments correct.  Errors may crash
 the system.
 
-octeon.readline(prompt, completion, timeout_us)::
+cavium.readline(prompt, completion, timeout_us)::
 Prompt the user for input with full line editing and history. Useful for
 creating interactive command lines and menus.
 * prompt = Prompt to show the user
@@ -343,49 +343,49 @@ creating interactive command lines and menus.
 * timeout_us = Microseconds to wait for input, of zero for no timeout.
 
 
-=== octeon.trafficgen
+=== cavium.trafficgen
 
-The module *octeon.trafficgen* allows Lua to generate and receive ethernet
+The module *cavium.trafficgen* allows Lua to generate and receive ethernet
 traffic on all chip interfaces. A user friendly interactive interface is
 available through *trafficgen.lua*.
 
-octeon.trafficgen.get_port_names()::
+cavium.trafficgen.get_port_names()::
 * Return all port names as an array of strings
 
-octeon.trafficgen.get_config(port_name)::
+cavium.trafficgen.get_config(port_name)::
 * port_name = String port name to get the configuration for.
 * Returns a table containing the port configuration.
 
-octeon.trafficgen.set_config(port_name, config_table)::
+cavium.trafficgen.set_config(port_name, config_table)::
 * port_name = String port name to set the configuration for.
 * config_table = Table containing the configuration items to change.
 * No return value.
 
-octeon.trafficgen.start(port_array)::
+cavium.trafficgen.start(port_array)::
 * port_array = Array of port names to start transmitting on.
 * No return value.
 
-octeon.trafficgen.stop(port_array)::
+cavium.trafficgen.stop(port_array)::
 * port_array = Array of port names to stop transmitting on.
 * No return value.
 
-octeon.trafficgen.is_transmitting(port_array)::
+cavium.trafficgen.is_transmitting(port_array)::
 * port_array = Array of port names to check if they are transmitting.
 * Returns a boolean true or false depending on if any ports are transmitting.
 
-octeon.trafficgen.clear(port_array)::
+cavium.trafficgen.clear(port_array)::
 * port_array = Array of port names to clear statistics for.
 * No return value.
 
-octeon.trafficgen.reset(port_array)::
+cavium.trafficgen.reset(port_array)::
 * port_array = Array of port names to clear statistics and reset config for.
 * No return value.
 
-octeon.trafficgen.update(do_clear)::
+cavium.trafficgen.update(do_clear)::
 * do_clear = True if the current statistics counters should be cleared for deltas.
 * Table index by port name where each entry is a table of statistics.
 
-.octeon.trafficgen configuration fields
+.cavium.trafficgen configuration fields
 ----
     number	dest_ip
     number	dest_mac
@@ -404,7 +404,7 @@ octeon.trafficgen.update(do_clear)::
     boolean	validate
 ----
 
-.octeon.trafficgen statistics fields
+.cavium.trafficgen statistics fields
 ----
     number	rx_backpressure
     number	rx_bits
@@ -486,7 +486,7 @@ http://thomaslauer.com/start/Contact.
 === utils
 
 The *utils* module is a set of Lua functions written by Cavium
-Networks to ease writing scripts that deal with OCTEON's registers.
+Networks to ease writing scripts that deal with THUNDERX's registers.
 Below is a list of the functions provided.
 
 printf::
@@ -530,8 +530,8 @@ if isglobal("oremote") then
     -- We're running remotely
     csr = oremote.csr
 else
-    -- We're running natively on OCTEON
-    csr = octeon.csr
+    -- We're running natively on THUNDERX
+    csr = cavium.csr
 end
 print(csr.CIU_FUSE.FUSE)
 ----
@@ -569,7 +569,7 @@ pcie_root:get_devices()::
 
 Get an array containing all devices on the PCIe root complex.  Each
 *pcie_device* in the array is a PCIe function directly connected to
-OCTEON.  If the device is a bridge/switch then *pcie_device.isbridge*
+THUNDERX.  If the device is a bridge/switch then *pcie_device.isbridge*
 will be *true* and *pcie_device.devices* will be an array containing
 all children of the device.
 
@@ -626,7 +626,7 @@ Set to *true* if the device is a switch or bridge, otherwise set to *false*.
 
 === bit64
 
-The module *bit64* is specific to the OCTEON BDK.  It supports
+The module *bit64* is specific to the THUNDERX BDK.  It supports
 standard bit operations on 64 bit numbers.  In general this should be
 used instead of *bit32*.
 

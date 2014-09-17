@@ -1,8 +1,8 @@
 = Overview
 
 The "Bringup and Diagnostic Kit" (BDK) is a set of executables and
-scripts designed to ease the bringup of new hardware based on Cavium
-Networks line of OCTEON processors.  To ease development and increase
+scripts designed to ease the bringup of new hardware based on Cavium's
+line of THUNDERX processors.  To ease development and increase
 maintainability, diagnostics are written in a high level scripting
 language, Lua.  Lua was chosen due to its simple syntax, ease of
 integration with C, and small resource requirements.  The BDK is
@@ -42,7 +42,7 @@ standard filesystem calls.
 
 target-bin/::
 
-All binaries, ELF files, and memory maps for use on OCTEON targets.
+All binaries, ELF files, and memory maps for use on THUNDERX targets.
 
 version.txt::
 

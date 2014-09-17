@@ -1,6 +1,6 @@
-= Lua Startup Sequence on OCTEON
+= Lua Startup Sequence on THUNDERX
 
-The following details which Lua scripts are executed on OCTEON during
+The following details which Lua scripts are executed on THUNDERX during
 boot of the BDK.
 
 . bdk-full.bin binary boots.
@@ -23,6 +23,6 @@ include::../../rom/full/main.lua[]
 +
 [source,lua]
 ----
-include::../../rom/full/board-evb7000.lua[]
+include::../../rom/full/board-ebb8800.lua[]
 ----
 

@@ -2,7 +2,7 @@
 
 == Requirements
 
-* PC compatible, or Octeon system running a Linux distribution
+* PC compatible, or THUNDERX system running a Linux distribution
 supporting 32bit userspace binaries.  Most 64bit Linux distributions are
 also capable of running 32bit binaries.
 ** Recommended: Debian 7.0 (Wheezy) 32bit or 64bit.
@@ -26,7 +26,7 @@ completely standalone and requires only minimal connections to the
 development PC.  The board's power supply and other necessities are all
 independent from the development PC.
 
-* PC serial COM1 is connected to the OCTEON board's UART0 with a null modem
+* PC serial COM1 is connected to the THUNDERX board's UART0 with a null modem
 	cable. You can also conenct the board to a terminal server.
 +
 CAUTION: Cabling with hardware flow control signals is highly recommended. The BDK
@@ -35,36 +35,13 @@ degraded.
 
 * PC with two ethernet cards.
 ** Ethernet eth0 is connected to your local LAN
-** Ethernet eth1 is connected directly to OCTEON's first management port.
+** Ethernet eth1 is connected directly to THUNDERX's first network port.
 +
 TIP: Development can be performed using a single ethernet card. IP address
 management will be more complex.
 
 * The binary *bdk-full.bin* is burned into the beginning of NOR flash
-connected to OCTEON's bootbus.
-
-=== Connections for PCIe Target Boards
-
-Another common setup is for the development board to be a PCIe card that runs
-inside the development PC. In this case the board appears to be a component
-of the development machine.
-
-* PC COM1 is connected to the OCTEON board's UART0 with a null modem cable.
-+
-CAUTION: Cabling with hardware flow control signals is highly recommended. The BDK
-will work without hardware flow control, but serial performance will be
-degraded.
-
-* Target board is connected to a PCIe slot in the PC.
-+
-TIP: Best performance will be available if the slot supports PCIe gen2 with at
-least four lanes.
-
-* OCTEON is configured for PCI boot.
-
-TIP: The PCI to name database on most Linux distributions can easily
-be updated using the command *update-pciids*.  This can be useful to
-allow *lspci* to show text descriptions of OCTEON based PCIe devices.
+connected to THUNDERX's SPI bus.
 
 == Installing the BDK
 
@@ -77,9 +54,9 @@ into an existing directory.
 [source, sh]
 ----
 $ cd ~
-# This example used BDK version 2013.10, build r89325
-$ tar -zxf octeon3-bdk-2013.10-r89325.tgz
-$ ls octeon3-bdk-2013.10
+# This example used BDK version 2014.10, build r89325
+$ tar -zxf thunderx-bdk-2014.10-r89325.tgz
+$ ls thunderx-bdk-2014.10
 bin  docs  lua-modules  readme.txt  rom  target-bin  version.txt
 ----
 
@@ -92,7 +69,7 @@ derivatives.
 .Setup the environment for the BDK
 [source, sh]
 ----
-export BDK_ROOT=~/octeon-bdk-VERSION
+export BDK_ROOT=~/thunderx-bdk-VERSION
 export PATH=${PATH}:${BDK_ROOT}/bin
 ----
 
@@ -113,7 +90,7 @@ system is configured properly and ready to develop and run diagnostics.
 [source, sh]
 ----
 $ echo ${BDK_ROOT}
-~/octeon-bdk-VERSION
+~/thunderx-bdk-VERSION
 ----
 
 . Make sure the BDK *bin* directory is in your path.
@@ -121,7 +98,7 @@ $ echo ${BDK_ROOT}
 [source, sh]
 ----
 $ echo ${PATH}
-...:~/octeon-bdk-VERSION/bin
+...:~/thunderx-bdk-VERSION/bin
 ----
 
 . Execute bdl-lua and make sure it runs properly.
@@ -139,15 +116,5 @@ strongly recommended.
 [source, sh]
 ----
 $ minicom --setup
-----
-
-. For PCIe based development, make sure the board shows up in *lspci*.
-+
-[source, sh]
-----
-$ lspci
-...
-05:00.0 MIPS: Cavium Networks Octeon II CN63XX Network Processor (rev 09)
-...
 ----
 
