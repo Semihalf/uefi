@@ -425,3 +425,44 @@ int bdk_csr_get_name(const char *last_name, char *buffer)
     return 0;
 }
 
+/**
+ * Returns a list of CSRs in the format required by bdk_readline tab completion.
+ * This allows bdk_readline to automatically support tab completion for lines
+ * starting with "csr".
+ *
+ * @return CSR table or NULL if CSRs aren't available
+ */
+struct bdk_readline_tab* __bdk_csr_get_tab_complete()
+{
+    static bdk_readline_tab_t *tab = NULL;
+    if (tab)
+        return tab;
+
+    /* Make sure csr_list is initialized and get our first index */
+    int index = __bdk_csr_lookup_index(NULL, NULL);
+    const __bdk_csr_db_type_t *db = &__bdk_csr_db_csr[csr_list[index]];
+    /* Count the number of CSRs */
+    int csr_count = 0;
+    while (db->width)
+    {
+        csr_count++;
+        index++;
+        db = &__bdk_csr_db_csr[csr_list[index]];
+    }
+    /* Allocate a tab complete table */
+    tab = malloc((csr_count + 1) * sizeof(bdk_readline_tab_t));
+    if (!tab)
+        return NULL;
+    /* Fill the table with base names */
+    for (index = 0; index < csr_count; index++)
+    {
+        db = &__bdk_csr_db_csr[csr_list[index]];
+        tab[index].str = __bdk_csr_db_string + db->name_index * 2;
+        tab[index].next = NULL;
+    }
+    /* Mark the end of the table */
+    tab[csr_count].str = NULL;
+    tab[csr_count].next = NULL;
+
+    return tab;
+}

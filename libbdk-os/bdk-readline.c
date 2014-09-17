@@ -693,6 +693,14 @@ parse_input:
                 if (tab_complete_data)
                     tab_complete(token_start, tab_complete_data);
             }
+#ifndef BDK_BUILD_HOST
+            else if (__bdk_csr_get_tab_complete && strncasecmp(cmd, "csr", strlen("csr")) == 0) {
+                /* Treat CSR as a special case that uses predefined tables */
+                bdk_readline_tab_t *tab = __bdk_csr_get_tab_complete();
+                if (tab)
+                    tab_complete(token_start, tab);
+            }
+#endif
             else if (tab_complete_data) {
                 const bdk_readline_tab_t *loc = tab_complete_data;
                 while (loc->str)
