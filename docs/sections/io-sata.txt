@@ -1,6 +1,11 @@
 [[SATA]]
 = SATA
 
-SATA is currently not supported by the BDK.  Use the OCTEON SDK for this
-interface.
+SATA supports identifying a device and read/write of disk devices.  ATAPI
+is not supported.
+
+.Sample SATA Main Menu
+----
+include::../captures/sata_main_menu.capture[]
+----
 
