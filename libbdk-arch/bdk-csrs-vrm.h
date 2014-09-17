@@ -232,11 +232,11 @@ typedef union bdk_vrmx_misc_info {
 	struct bdk_vrmx_misc_info_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
-		uint64_t vrm_type2                   : 3;  /**< RO/H - Bits \<4..2\> of VRM type, enumerated with VRM_TYPE_E. */
+		uint64_t vrm_type2                   : 3;  /**< RO/H - Bits \<4..2\> of VRM type, enumerated by VRM_TYPE_E. */
 		uint64_t vrm_ctl_rcv_status_error    : 24; /**< RO/H - Holds the received status read from the external controller only for failing status. */
 		uint64_t vrm_ctl_cur_state           : 3;  /**< RO/H - Current state of the VRM_CTL. */
 		uint64_t vrm_type                    : 2;  /**< RO/H - Bits \<1:0\> of VRM type indicating the type of device connected to this controller.
-                                                                 Enumerated with VRM_TYPE_E. */
+                                                                 Enumerated by VRM_TYPE_E. */
 		uint64_t boot_seq                    : 1;  /**< RO/H - Boot sequence was completed. */
 		uint64_t ts_fuse_sts                 : 1;  /**< RO/H - Set if VRM fuses were loaded. */
 		uint64_t vrm_fuse_sts                : 1;  /**< RO/H - Set if VRM fuses were loaded. */

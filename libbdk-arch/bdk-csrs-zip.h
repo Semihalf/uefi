@@ -478,7 +478,7 @@ union zip_zres_s {
 
                                                                  For compression, EF is not used and is undefined. */
 		uint64_t compcode                    : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
-                                                                 as enumerated in ZIP_COMP_E. Core
+                                                                 as enumerated by ZIP_COMP_E. Core
                                                                  software may write the memory location containing [COMPCODE] to 0x0
                                                                  before ringing the doorbell, and then poll for completion by checking for a non-zero
                                                                  value.

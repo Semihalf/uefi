@@ -2185,7 +2185,7 @@ typedef union bdk_pmux_pmevtyperx_el0 {
 		uint32_t reserved_10_25              : 16;
 		uint32_t evtcount                    : 10; /**< R/W - Event to count. The event number of the event that is counted
                                                                      by event counter PMEVCNTR\<n\>_EL0.
-                                                                 Enumerated in PMU_PERF_E.
+                                                                 Enumerated by PMU_PERF_E.
 
                                                                  Software must program this field with an event defined by the
                                                                      processor or a common event defined by the architecture.

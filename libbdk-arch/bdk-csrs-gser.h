@@ -1433,6 +1433,44 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_2(unsigned long param1, unsign
 
 
 /**
+ * RSL - gser#_lane#_rx_cdr_status_2
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_rx_cdr_status_2 {
+	uint64_t u;
+	struct bdk_gserx_lanex_rx_cdr_status_2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t sds_pcs_rx_cdr_status       : 14; /**< RO/H - CDR status.
+                                                                 \<13:7\> = CDR phase control output.
+                                                                 \<6:0\> = CDR frequency accumulator output. */
+#else
+		uint64_t sds_pcs_rx_cdr_status       : 14;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_status_2_s cn88xx; */
+	/* struct bdk_gserx_lanex_rx_cdr_status_2_s cn88xxp1; */
+} bdk_gserx_lanex_rx_cdr_status_2_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E0904402D8ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_STATUS_2", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_2(...) bdk_gserx_lanex_rx_cdr_status_2_t
+#define bustype_BDK_GSERX_LANEX_RX_CDR_STATUS_2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_RX_CDR_STATUS_2(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_RX_CDR_STATUS_2(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_RX_CDR_STATUS_2(...) "GSERX_LANEX_RX_CDR_STATUS_2"
+
+
+/**
  * RSL - gser#_lane#_rx_cfg_0
  *
  * These registers are for diagnostic use only.
@@ -2000,6 +2038,45 @@ static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_CTRL(unsigned long param1, uns
 #define busnum_BDK_GSERX_LANEX_RX_PRECORR_CTRL(p1,p2) (p1)
 #define arguments_BDK_GSERX_LANEX_RX_PRECORR_CTRL(p1,p2) (p1),(p2),-1,-1
 #define basename_BDK_GSERX_LANEX_RX_PRECORR_CTRL(...) "GSERX_LANEX_RX_PRECORR_CTRL"
+
+
+/**
+ * RSL - gser#_lane#_rx_precorr_val
+ *
+ * These are the RAW PCS per-lane RX precorrelation control registers. These registers are for
+ * diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_rx_precorr_val {
+	uint64_t u;
+	struct bdk_gserx_lanex_rx_precorr_val_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_13_63              : 51;
+		uint64_t sds_pcs_rx_precorr_vld      : 1;  /**< RO/H - RX pre-correlation count is valid. */
+		uint64_t sds_pcs_rx_precorr_cnt      : 12; /**< RO/H - RX pre-correlation count. */
+#else
+		uint64_t sds_pcs_rx_precorr_cnt      : 12;
+		uint64_t sds_pcs_rx_precorr_vld      : 1;
+		uint64_t reserved_13_63              : 51;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_precorr_val_s cn88xx; */
+	/* struct bdk_gserx_lanex_rx_precorr_val_s cn88xxp1; */
+} bdk_gserx_lanex_rx_precorr_val_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E090440078ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_RX_PRECORR_VAL", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_RX_PRECORR_VAL(...) bdk_gserx_lanex_rx_precorr_val_t
+#define bustype_BDK_GSERX_LANEX_RX_PRECORR_VAL(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_RX_PRECORR_VAL(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_RX_PRECORR_VAL(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_RX_PRECORR_VAL(...) "GSERX_LANEX_RX_PRECORR_VAL"
 
 
 /**

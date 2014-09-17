@@ -362,7 +362,7 @@ enum pcc_vendor_e {
  * Structure PCC_DEV_CON_S
  *
  * PCC Device Connection Structure
- * Defines the components of the PCC device connection values enumerated in PCC_DEV_CON_E,
+ * Defines the components of the PCC device connection values enumerated by PCC_DEV_CON_E,
  * using ARI format.
  */
 union pcc_dev_con_s {
@@ -389,7 +389,7 @@ union pcc_dev_con_s {
  * Structure PCC_DEV_IDL_S
  *
  * PCC Device ID Low Structure
- * Defines the components of the PCC device-id low values enumerated in PCC_DEV_IDL_E.
+ * Defines the components of the PCC device-id low values enumerated by PCC_DEV_IDL_E.
  */
 union pcc_dev_idl_s {
 	uint64_t u;
@@ -835,9 +835,9 @@ typedef union bdk_pccpf_xxx_id {
 	uint32_t u;
 	struct bdk_pccpf_xxx_id_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E:GEN. \<7:0\> enumerated with PCC_DEV_IDL_E. INTERNAL: Unit
+		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E:GEN. \<7:0\> enumerated by PCC_DEV_IDL_E. INTERNAL: Unit
                                                                  from PCC's tie__unitid. */
-		uint32_t vendid                      : 16; /**< RO - Cavium's vendor ID. Enumerated in PCC_VENDOR_E::CAVIUM. */
+		uint32_t vendid                      : 16; /**< RO - Cavium's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
 #else
 		uint32_t vendid                      : 16;
 		uint32_t devid                       : 16;
@@ -1585,7 +1585,7 @@ typedef union bdk_pccpf_xxx_subid {
 	uint32_t u;
 	struct bdk_pccpf_xxx_subid_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t ssid                        : 16; /**< RO - Device ID. \<15:8\> enumerated with PCC_PROD_E. \<7:0\> enumerated with PCC_DEV_IDL_E.
+		uint32_t ssid                        : 16; /**< RO - Device ID. \<15:8\> enumerated by PCC_PROD_E. \<7:0\> enumerated by PCC_DEV_IDL_E.
                                                                  INTERNAL: Unit from PCC's tie__prod and tie__unitid. */
 		uint32_t ssvid                       : 16; /**< RO - Subsystem vendor ID. Cavium = 0x177D. */
 #else

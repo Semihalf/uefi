@@ -404,7 +404,7 @@ typedef union bdk_gpio_bit_cfgx {
 		uint64_t reserved_24_63              : 40;
 		uint64_t pin_sel                     : 8;  /**< R/W - Selects which signal is reported to GPIO output, or which signal GPIO input need to
                                                                  connect. Each GPIO pin can be configured either input-only or output-only depending
-                                                                 function selected, as enumerated in GPIO_PIN_SEL_E. For GPIO input selects,
+                                                                 function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
                                                                  the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
 		uint64_t reserved_13_15              : 3;
 		uint64_t tx_od                       : 1;  /**< R/W - GPIO output open-drain conversion. This function is after  PIN_SEL mux

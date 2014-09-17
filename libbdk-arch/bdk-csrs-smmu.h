@@ -1932,7 +1932,7 @@ typedef union bdk_smmux_cbarx {
 
                                                                  CNXXXX ignores the hint. INTERNAL: Requested filed with ARM to make RO. */
 		uint32_t bsu                         : 2;  /**< RO - Barrier sharability upgrade. Not implemented in CNXXXX. */
-		uint32_t ctype                       : 2;  /**< R/W - Register type.   Indicates the context format. Enumerated in SMMU_CTYPE_E. */
+		uint32_t ctype                       : 2;  /**< R/W - Register type.   Indicates the context format. Enumerated by SMMU_CTYPE_E. */
 		uint32_t memattr_cbndx4              : 4;  /**< R/W - Memory attributes, or context bank index \<7:4\>.
 
                                                                  If CTYPE=0 or 2, reserved.
@@ -2264,7 +2264,7 @@ typedef union bdk_smmux_ecc_ctl_0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_21_63              : 43;
 		uint64_t ram_cdis                    : 21; /**< SR/W - RAM ECC correction disable. Each bit corresponds to a different RAM. INTERNAL: Bits
-                                                                 enumerated in SMMU()_ERR_INT[RAM_SBE]. */
+                                                                 enumerated by SMMU()_ERR_INT[RAM_SBE]. */
 #else
 		uint64_t ram_cdis                    : 21;
 		uint64_t reserved_21_63              : 43;
@@ -2298,11 +2298,11 @@ typedef union bdk_smmux_ecc_ctl_1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_flip1                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit \<1\> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated in
+                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
                                                                  SMMU()_ERR_INT[RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_flip0                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit \<0\> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated in
+                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
                                                                  SMMU()_ERR_INT[RAM_SBE]. */
 #else
 		uint64_t ram_flip0                   : 21;
@@ -2338,7 +2338,7 @@ typedef union bdk_smmux_err_ena_w1c {
 	struct bdk_smmux_err_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
-		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
+		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated by [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
                                                                  \<20\> = TCTL.
@@ -2396,7 +2396,7 @@ typedef union bdk_smmux_err_ena_w1s {
 	struct bdk_smmux_err_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
-		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
+		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated by [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
                                                                  \<20\> = TCTL.
@@ -2454,7 +2454,7 @@ typedef union bdk_smmux_err_int {
 	struct bdk_smmux_err_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
-		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
+		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated by [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
                                                                  \<20\> = TCTL.
@@ -2512,7 +2512,7 @@ typedef union bdk_smmux_err_int_w1s {
 	struct bdk_smmux_err_int_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
-		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated in [RAM_SBE]. */
+		uint64_t ram_dbe                     : 21; /**< R/W1C/H - Double-bit error detected in internal RAM. INTERNAL: Bits enumerated by [RAM_SBE]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_sbe                     : 21; /**< R/W1C/H - Single-bit error detected in internal RAM.
                                                                  \<20\> = TCTL.

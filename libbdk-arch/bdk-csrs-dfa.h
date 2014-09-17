@@ -1760,7 +1760,7 @@ typedef union bdk_dfa_pfc1_ctl {
 	struct bdk_dfa_pfc1_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
-		uint64_t evsel                       : 6;  /**< R/W - Performance counter 1 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL]. */
+		uint64_t evsel                       : 6;  /**< R/W - Performance counter 1 event selector.  See events enumerated by DFA_PFC0_CTL[EVSEL]. */
 		uint64_t reserved_6_7                : 2;
 		uint64_t cldte                       : 4;  /**< R/W - Performance counter 1 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
                                                                  HTE), this field is used to select/monitor the cluster's DTE number for all events
@@ -1834,7 +1834,7 @@ typedef union bdk_dfa_pfc2_ctl {
 	struct bdk_dfa_pfc2_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
-		uint64_t evsel                       : 6;  /**< R/W - Performance counter 2 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL]. */
+		uint64_t evsel                       : 6;  /**< R/W - Performance counter 2 event selector.  See events enumerated by DFA_PFC0_CTL[EVSEL]. */
 		uint64_t reserved_6_7                : 2;
 		uint64_t cldte                       : 4;  /**< R/W - Performance counter 2 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
                                                                  HTE), this field is used to select/monitor the cluster's HTE number for all events
@@ -1908,7 +1908,7 @@ typedef union bdk_dfa_pfc3_ctl {
 	struct bdk_dfa_pfc3_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
-		uint64_t evsel                       : 6;  /**< R/W - Performance counter 3 event selector.  See events enumerated in DFA_PFC0_CTL[EVSEL]. */
+		uint64_t evsel                       : 6;  /**< R/W - Performance counter 3 event selector.  See events enumerated by DFA_PFC0_CTL[EVSEL]. */
 		uint64_t reserved_6_7                : 2;
 		uint64_t cldte                       : 4;  /**< R/W - Performance counter 3 cluster HTE selector. When DFA_PFC_GCTL[PMODE] = 0 (per-cluster
                                                                  HTE), this field is used to select/monitor the cluster's HTE number for all events

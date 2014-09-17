@@ -475,7 +475,7 @@ typedef union bdk_l2c_cbcx_iodisocierr {
 		uint64_t iorddisoci                  : 1;  /**< RO/H - Logged information is for a IORDDISOCI error. */
 		uint64_t iowrdisoci                  : 1;  /**< RO/H - Logged information is for a IOWRDISOCI error. */
 		uint64_t reserved_59_61              : 3;
-		uint64_t cmd                         : 7;  /**< RO/H - Encoding of XMC command.  INTERNAL: Enumerated with XMC_CMD_E. */
+		uint64_t cmd                         : 7;  /**< RO/H - Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
 		uint64_t ppvid                       : 6;  /**< RO/H - CMB source PPVID. */
 		uint64_t node                        : 2;  /**< RO/H - Destination node ID. */
 		uint64_t did                         : 8;  /**< RO/H - Destination device ID. */

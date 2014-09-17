@@ -522,7 +522,7 @@ union rom_csib_s {
                                                                  break the trust model.  Later debug must use a debug
                                                                  certificate authenticated in TBL1FW as specified in the
                                                                  ARM Trusted Boot System Architecture (TBSA). */
-		uint64_t crypt                       : 4;  /**< [ 67: 64] Firmware encryption. Enumerated in ROM_CRYPT_E. */
+		uint64_t crypt                       : 4;  /**< [ 67: 64] Firmware encryption. Enumerated by ROM_CRYPT_E. */
 		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CSIB" in ASCII (0x42495343_5f4d5643)
                                                                  to indicate a valid ROM_CSIB_S structure. */
 #else

@@ -3501,8 +3501,11 @@ typedef union bdk_lmcx_ns_ctl {
                                                                  field needs to be cleared to 0 in order to enable data scrambling on
                                                                  non-secure mode. */
 		uint64_t reserved_18_24              : 7;
-		uint64_t adr_offset                  : 18; /**< R/W - Sets the offset to the upper 18 bits of L2C-LMC address when a non-secure mode
-                                                                 transaction occurs. */
+		uint64_t adr_offset                  : 18; /**< R/W - Sets the offset to the non-secure region of the DRAM/L2 address space.
+
+                                                                 In 4 LMC mode, this specifies the address offset \<39:22\> for non-secure transaction.
+
+                                                                 In 2 LMC mode, this specifies the address offset \<38:21\> for non-secure transaction. */
 #else
 		uint64_t adr_offset                  : 18;
 		uint64_t reserved_18_24              : 7;
@@ -3974,8 +3977,9 @@ typedef union bdk_lmcx_reset_ctl {
 
                                                                  DDR3/DDR4 DRAM parts have a RESET\# pin that was not present in DDR2 parts. The DDR3RST CSR
                                                                  field controls the assertion of the new CNXXXX pin that attaches to RESET\#. When DDR3RST
-                                                                 is set, CNXXXX asserts RESET\#. When DDR3RST is clear, CNXXXX deasserts RESET\#.
-                                                                 DDR3RST is set on a cold reset. Warm and soft chip resets do not affect the DDR3RST value.
+                                                                 is set, CNXXXX deasserts RESET\#. When DDR3RST is clear, CNXXXX asserts RESET\#.
+                                                                 DDR3RST is cleared on a cold reset. Warm and soft chip resets do not affect the DDR3RST
+                                                                 value.
                                                                  Outside of cold reset, only software CSR write operations change the DDR3RST value." */
 #else
 		uint64_t ddr3rst                     : 1;

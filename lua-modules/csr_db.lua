@@ -9820,6 +9820,20 @@ local csr_db = {
                 {name = "SDS_PCS_RX_AEQ_OUT", start = 0, stop = 14},
             }
         },
+        GSERX_LANEX_RX_CDR_STATUS_2 = {
+            name = "GSER#_LANE#_RX_CDR_STATUS_2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904402d8,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "SDS_PCS_RX_CDR_STATUS", start = 0, stop = 13},
+            }
+        },
         GSERX_LANEX_RX_CFG_0 = {
             name = "GSER#_LANE#_RX_CFG_0",
             type = "RSL",
@@ -10001,6 +10015,21 @@ local csr_db = {
                 {name = "RX_PRECORR_EN_OVRRD_EN", start = 3, stop = 3},
                 {name = "RX_PRECORR_EN_OVRRD_VAL", start = 2, stop = 2},
                 {name = "PCS_SDS_RX_PRECORR_SCNT_CTRL", start = 0, stop = 1},
+            }
+        },
+        GSERX_LANEX_RX_PRECORR_VAL = {
+            name = "GSER#_LANE#_RX_PRECORR_VAL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e090440078,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_13_63", start = 13, stop = 63},
+                {name = "SDS_PCS_RX_PRECORR_VLD", start = 12, stop = 12},
+                {name = "SDS_PCS_RX_PRECORR_CNT", start = 0, stop = 11},
             }
         },
         GSERX_LANEX_RX_VALBBD_CTRL_0 = {
@@ -45423,6 +45452,20 @@ local csr_db = {
                 {name = "SDS_PCS_RX_AEQ_OUT", start = 0, stop = 14},
             }
         },
+        GSERX_LANEX_RX_CDR_STATUS_2 = {
+            name = "GSER#_LANE#_RX_CDR_STATUS_2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904402d8,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "SDS_PCS_RX_CDR_STATUS", start = 0, stop = 13},
+            }
+        },
         GSERX_LANEX_RX_CFG_0 = {
             name = "GSER#_LANE#_RX_CFG_0",
             type = "RSL",
@@ -45604,6 +45647,21 @@ local csr_db = {
                 {name = "RX_PRECORR_EN_OVRRD_EN", start = 3, stop = 3},
                 {name = "RX_PRECORR_EN_OVRRD_VAL", start = 2, stop = 2},
                 {name = "PCS_SDS_RX_PRECORR_SCNT_CTRL", start = 0, stop = 1},
+            }
+        },
+        GSERX_LANEX_RX_PRECORR_VAL = {
+            name = "GSER#_LANE#_RX_PRECORR_VAL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e090440078,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_13_63", start = 13, stop = 63},
+                {name = "SDS_PCS_RX_PRECORR_VLD", start = 12, stop = 12},
+                {name = "SDS_PCS_RX_PRECORR_CNT", start = 0, stop = 11},
             }
         },
         GSERX_LANEX_RX_VALBBD_CTRL_0 = {

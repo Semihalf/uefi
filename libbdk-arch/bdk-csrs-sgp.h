@@ -519,9 +519,9 @@ typedef union bdk_sgp_txx {
 		uint32_t d1_act                      : 3;  /**< R/W - Drive 1+4*index's activity state. */
 		uint32_t d1_loc                      : 2;  /**< R/W - Drive 1+4*index's locate state. */
 		uint32_t d1_err                      : 3;  /**< R/W - Drive 1+4*index's error state. */
-		uint32_t d0_act                      : 3;  /**< R/W - Drive 0+4*index's activity state, enumerated with SGP_TX_ACT_E. */
-		uint32_t d0_loc                      : 2;  /**< R/W - Drive 0+4*index's locate state, enumerated with SGP_TX_LOC_E. */
-		uint32_t d0_err                      : 3;  /**< R/W - Drive 0+4*index's error state, enumerated with SGP_TX_ERR_E. */
+		uint32_t d0_act                      : 3;  /**< R/W - Drive 0+4*index's activity state, enumerated by SGP_TX_ACT_E. */
+		uint32_t d0_loc                      : 2;  /**< R/W - Drive 0+4*index's locate state, enumerated by SGP_TX_LOC_E. */
+		uint32_t d0_err                      : 3;  /**< R/W - Drive 0+4*index's error state, enumerated by SGP_TX_ERR_E. */
 #else
 		uint32_t d0_err                      : 3;
 		uint32_t d0_loc                      : 2;
