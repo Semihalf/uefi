@@ -13,15 +13,12 @@ then
     BDK_ARCH=`uname -m`
 fi
 
-if [ "${BDK_ARCH}" = "octeon" ]
+if [ "${BDK_ARCH}" = "aarch64" ]
 then
-    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
-elif [ "${BDK_ARCH}" = "octeon2" ]
+    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-thunder
+elif [ "${BDK_ARCH}" = "arm64" ]
 then
-    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
-elif [ "${BDK_ARCH}" = "mips64" ]
-then
-    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-octeon
+    LUA_BIN=${BDK_ROOT}/bin/bdk-lua-thunder
 else
     LUA_BIN=${BDK_ROOT}/bin/bdk-lua-x86
 fi
