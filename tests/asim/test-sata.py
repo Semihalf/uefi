@@ -139,7 +139,7 @@ wait_for("12) Run automated pattern test")
 wait_for("13) Main menu")
 wait_for("(INS)Menu choice []:")
 serial = 1
-for sata in [0,15]:
+for sata in [8,15]:
     assert(os.system("dd if=/dev/zero of=test_disk bs=1M count=1") == 0)
     assert sim.command("control n0.ahci%d connect ide 0 test_disk" % sata)
     send("port %d" % sata)
@@ -150,7 +150,7 @@ for sata in [0,15]:
     wait_for("(INS)Menu choice []:")
     send("id")
     wait_for("SATA%d: Interface in active state" % sata)
-    wait_for("SATA%d: Speed Gen1" % sata)
+    wait_for("SATA%d: Speed Gen3" % sata)
     wait_for("SATA%d: Device presence detected and Phy communication established" % sata)
     wait_for("SATA%d: Unknown signature 0x00000000, assuming a SATA drive" % sata)
     wait_for("SATA%d: Model=\"HARDDISK\", Firmware=\"ASIM\", Serial=\"QM0000%d\", Sectors=2016" % (sata, serial))
