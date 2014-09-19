@@ -38,7 +38,7 @@ Using Xmodem to program flash
 * Boot `bdk-xmodem-load.bin` using bdk-remote.
 +
 ----
- export OCTEON_REMOTE_PROTOCOL=<protocol>
+ export CAVIUM_REMOTE_PROTOCOL=<protocol>
  bdk-remote boot target-bin/bdk-xmodem-load.bin
 ----
 * The output from `bdk-xmodem-load.bin` should be visible in the terminal
@@ -84,7 +84,7 @@ If programming flash using the above steps fails for some reason, it is
 possible to program parallel NOR, MMC, eMMC, and SD using only EJTAG.
 This method is exceedingly slow and should be only used when nothing else
 works.  This would be identical to the PCIe programming steps above,
-except the *OCTEON_REMOTE_PROTOCOL* would be setup for EJTAG.
+except the *CAVIUM_REMOTE_PROTOCOL* would be setup for EJTAG.
 
 NOTE: This method of programming is prohibitively slow.  A normal size
 bootloader takes 1-2 days to load into parallel NOR.  MMC, eMMC, and SD

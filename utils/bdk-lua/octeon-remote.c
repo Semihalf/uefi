@@ -491,7 +491,7 @@ void octeon_remote_perror(int level, const char *format, ...)
  *
  * @param remote_spec
  *               Remote protocol spec to use. If NULL, it will be taken from the
- *               OCTEON_REMOTE_PROTOCOL environment variable.
+ *               CAVIUM_REMOTE_PROTOCOL environment variable.
  *
  * @return Zero on success, negative on failure.
  */
@@ -502,7 +502,7 @@ int octeon_remote_open(const char *remote_spec, int debug)
 
     if (remote_spec == NULL)
     {
-        remote_spec = getenv("OCTEON_REMOTE_PROTOCOL");
+        remote_spec = getenv("CAVIUM_REMOTE_PROTOCOL");
         if (remote_spec == NULL)
             remote_spec = "UNKNOWN";
     }
@@ -512,7 +512,7 @@ int octeon_remote_open(const char *remote_spec, int debug)
         remote_funcs.debug = debug;
     else
     {
-        const char *debugenv = getenv("OCTEON_REMOTE_DEBUG");
+        const char *debugenv = getenv("CAVIUM_REMOTE_DEBUG");
         if (debugenv)
             remote_funcs.debug = atoi(debugenv);
     }
@@ -557,7 +557,7 @@ int octeon_remote_open(const char *remote_spec, int debug)
     else
     {
         result = -1;
-        octeon_remote_debug(-1, "Illegal Octeon remote protocol\n");
+        octeon_remote_debug(-1, "Illegal remote protocol\n");
     }
 
     memset(OCTEON_REMOTE_VALID_COP0, 0, sizeof(OCTEON_REMOTE_VALID_COP0));
@@ -644,8 +644,8 @@ int octeon_remote_open(const char *remote_spec, int debug)
 
     if (result)
     {
-        octeon_remote_debug(0, "    Valid protocols for OCTEON_REMOTE_PROTOCOL are:\n");
-        octeon_remote_debug(0, "        GDB:<name>,<tcp_port> - Use GDB remote protocol to communicate with Octeon.\n");
+        octeon_remote_debug(0, "    Valid protocols for CAVIUM_REMOTE_PROTOCOL are:\n");
+        octeon_remote_debug(0, "        GDB:<name>,<tcp_port> - Use GDB remote protocol to communicate.\n");
     }
     else
     {
@@ -815,7 +815,7 @@ uint32_t octeon_remote_get_model(void)
         uint64_t start_time = timing_get_clock();
         remote_funcs.model = remote_funcs.get_model();
         timing_update(TIME_GET_MODEL, start_time);
-        octeon_remote_debug(1, "Octeon model is 0x%x\n", remote_funcs.model);
+        octeon_remote_debug(1, "Model is 0x%x\n", remote_funcs.model);
     }
     return remote_funcs.model;
 }

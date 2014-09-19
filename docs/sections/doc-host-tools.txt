@@ -58,7 +58,7 @@ include::../captures/bdk-debug-help.capture[]
 
 The script *bdk-remote* provides access to a remote THUNDERX from a host
 PC.  The script requires that the environment variable
-*OCTEON_REMOTE_PROTOCOL* be set to the appropriate value.  Simple
+*CAVIUM_REMOTE_PROTOCOL* be set to the appropriate value.  Simple
 command line access to all THUNDERX registers, CSRs, memory, profiling
 data, and remote booting is supplied.
 

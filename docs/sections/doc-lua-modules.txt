@@ -49,10 +49,10 @@ oremote.open(protocol, debug)::
 |==========================================================================
 
 TIP: The *protocol* can also be set to *nil*.  When *nil*, the protocol
-is read from the environment variable *OCTEON_REMOTE_PROTOCOL*.  Using
+is read from the environment variable *CAVIUM_REMOTE_PROTOCOL*.  Using
 the environment variable to specify the protocol makes it easy for a
 single script to support many protocols.  The parameter *debug* can
-also be specified with *OCTEON_REMOTE_DEBUG*.
+also be specified with *CAVIUM_REMOTE_DEBUG*.
 
 oremote.close()::
  * No return value

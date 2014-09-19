@@ -95,11 +95,11 @@ typedef struct
  * command line utilities should work. Which protocol that is
  * used can be controlled either by and argument to
  * octeon_remote_open() or the environment variable
- * OCTEON_REMOTE_PROTOCOL.
+ * CAVIUM_REMOTE_PROTOCOL.
  */
 typedef struct
 {
-    int debug; /* The current debug level as set by OCTEON_REMOTE_DEBUG */
+    int debug; /* The current debug level as set by CAVIUM_REMOTE_DEBUG */
     int debug_indent; /* The current debug indent level */
     uint32_t model; /* The remote's Octeon model, cached for fast access */
 
@@ -171,7 +171,7 @@ void octeon_remote_debug_call(int is_return, const char *format, ...) __attribut
  *
  * @param remote_spec
  *               Remote protocol spec to use. If NULL, it will be taken from the
- *               OCTEON_REMOTE_PROTOCOL environment variable.
+ *               CAVIUM_REMOTE_PROTOCOL environment variable.
  *
  * @return Zero on success, negative on failure.
  */

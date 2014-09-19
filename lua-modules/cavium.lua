@@ -16,17 +16,17 @@ local status, base = pcall(require, "cavium-internal")
 
 if not status then
     -- Create a connection to the remote system
-    local cnx = os.getenv("OCTEON_REMOTE_CONSOLE")
+    local cnx = os.getenv("CAVIUM_REMOTE_CONSOLE")
     assert(cnx,
 [[
 Missing environment.
 
-The environment variable OCTEON_REMOTE_CONSOLE must be defined.
-OCTEON_REMOTE_CONSOLE should be a serial device (/dev/ttyS0),
+The environment variable CAVIUM_REMOTE_CONSOLE must be defined.
+CAVIUM_REMOTE_CONSOLE should be a serial device (/dev/ttyS0),
 an IPv4 address and port number for TCP/IP (10.0.0.2:23), or the
 special value "remote". A hostname can also be used for IPv4
 address name lookup. The TCP port will default to 23 if omitted.
-The special value of "remote" uses the OCTEON_REMOTE_PROTOCOL to
+The special value of "remote" uses the CAVIUM_REMOTE_PROTOCOL to
 access the remote console.
 ]])
     require("rpc")
