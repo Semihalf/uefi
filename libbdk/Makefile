@@ -41,6 +41,12 @@ $(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) bdk-functions.o 
 	$(AR) r $@ tmp/*
 	rm -rf tmp
 
+#
+# bdk-functions.c is a generated file that contains a mapping of function name
+# to function pointer for all functions starting with bdk_. This is used to
+# automatically add all these functions to the cavium.c Lua module, allowing
+# direct function calling.
+#
 bdk-functions.c: ./create_function_table.py $(objs)
 	./create_function_table.py $@ $(objs)
 
@@ -55,12 +61,6 @@ $(BDK_ROOT)/libbdk/bdk.pch: $(BDK_ROOT)/libbdk/bdk.h
 	$(CC) -o $@ $(BDK_ROOT)/libbdk/bdk.h
 $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 	$(CC) -M -MP -MT $(basename $@).pch $(CPPFLAGS) $< > $@
-
-#
-# Lua to C wrapper functions created by SWIG
-#
-%_wrap.c: %.i
-	swig -Wall -nodefaultctor -nodefaultdtor -lua -o $@ $^
 
 #
 # These are needed to generate the depends files
