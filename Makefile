@@ -48,12 +48,22 @@ suid: all
 run:
 	UART0PORT=2000 UART1PORT=2001 $(ASIM)/asim -e bdk.asim
 
+#
+# Determine the BDK version based on the last change in the version
+# control system. This supports "git svn" and "svn". It will need
+# changes for any other version control.
+#
+# BUILD_REV is a string representing the revision in version control
+# BUILD_DATE is the last change date, formatted as "YYYY MM DD"
+#
 ifeq ($(shell test -d .git;echo $$?),0)
+    # Using git, assume git svn
     BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
     BUILD_REV := $(word 4, $(BUILD_REV))
     BUILD_DATE := $(shell git svn info | grep "Last Changed Date:")
     BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
 else ifeq ($(shell test -d .svn;echo $$?),0)
+    # Using subversion
     BUILD_REV := $(shell svn info | grep "Last Changed Rev:")
     BUILD_REV := $(word 4, $(BUILD_REV))
     MOD := $(shell svnversion | perl -e 'while (<>){s/[0-9]*//;print}')
@@ -61,9 +71,12 @@ else ifeq ($(shell test -d .svn;echo $$?),0)
     BUILD_DATE := $(shell svn info | grep "Last Changed Date:")
     BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
 else
+    # Don't know, use the date as a backup
     BUILD_REV=unknown
-    BUILD_DATE=0000 00 00
+    BUILD_DATE=$(shell date "+%Y %m %d")
 endif
+
+# Build the full BDK version string
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
 FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
 RELEASE_NAME = "octeon3-bdk"
