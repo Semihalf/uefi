@@ -42,13 +42,8 @@ dirs += utils/bdk-lua/libluasocket
 #
 src := $(foreach d,$(dirs),$(BDK_ROOT)/$(d)/*.[c])
 src := $(wildcard $(src))
-src += $(BDK_ROOT)/libbdk-arch/bdk-csr.c
-src += $(BDK_ROOT)/libbdk-arch/bdk-warn.c
 src += $(BDK_ROOT)/libbdk-os/bdk-readline.c
 src += $(BDK_ROOT)/libbdk-lua/bdk-lua.c
-src += $(BDK_ROOT)/libbdk-lua/cavium-mmc.c
-src += $(BDK_ROOT)/libbdk-lua/cavium-model.c
-src += $(BDK_ROOT)/libbdk-lua/cavium-constants.c
 src += $(BDK_ROOT)/libbdk-lua/lbitlib64.c
 src += $(BDK_ROOT)/libbdk-lua/readline.c
 src += $(BDK_ROOT)/libbdk-lua/rpc-support.c
