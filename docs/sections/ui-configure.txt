@@ -25,24 +25,24 @@ chip data.
 == Configure PHY Addresses
 
 RGMII, MII, and SGMII ports on the board should have ethernet PHYs
-connected to OCTEON using SMI/MDIO.  Before these ports can be used,
+connected using SMI/MDIO.  Before these ports can be used,
 the SMI/MDIO address for each PHY needs to be programmed.  Choose the menu option
 for each RGMII, MII, and SGMII port. When prompted, enter the PHY address encoded as follows:
 
 ----
-Address = <SMI/MDIO address> + 256 * <OCTEON SMI/MDIO bus>
+Address = <SMI/MDIO address> + 256 * <SMI/MDIO bus>
 ----
 
 SMI/MDIO address::
 
 This is the address of the PHY as configured by strapping on the board.
 
-OCTEON SMI/MDIO bus::
+SMI/MDIO bus::
 
-This is the number of the SMI/MDIO bus used on OCTEON.
+This is the number of the SMI/MDIO bus used.
 
 TIP: If the PHY addresses are unknown, the scan utility in the
-SMI/MDIO menu can be useful.  It will display all the devices OCTEON
+SMI/MDIO menu can be useful.  It will display all the devices THUNDERX
 can automatically find.
 
 

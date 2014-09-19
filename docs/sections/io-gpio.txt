@@ -1,7 +1,7 @@
 [[GPIO]]
 = GPIO
 
-Many boards use OCTEON GPIOs to control other parts of the board.  The
+Many boards use GPIOs to control other parts of the board.  The
 GPIO menu can be used to manually control the GPIO pins.
 
 .The GPIO Menu

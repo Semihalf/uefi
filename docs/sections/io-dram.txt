@@ -15,7 +15,7 @@ include::../captures/ddr_menu.capture[]
 == Copy an Existing Configuration
 
 Choose one of the menu options which most closely matches the board.
-Make sure to pick a board configuration that has the same OCTEON chip.
+Make sure to pick a board configuration that has the same Cavium chip.
 
 == Set the DDR Clock Frequency
 
@@ -33,14 +33,14 @@ rate is 500Mhz, so enter '500000000'.
 == Enter DIMM SPD Addresses
 
 When designing the board, the DIMM slots must be connected to one of
-OCTEON's TWSI busses to allow for access to the DIMM SPD.  DDR
+THUNDERX's TWSI busses to allow for access to the DIMM SPD.  DDR
 configuration must include the TWSI bus and address used for the
 board.  Choose the menu option 'Set SPD TWSI addresses'.
 
 .Sample SPD Entry
 ----
 DDR interface (0 - 3): (14INS)> 0
-OCTEON TWSI interface number  (0-4): (15INS)> 0
+TWSI interface number  (0-4): (15INS)> 0
 Enter SPD address of 0 to end input.
 
 SPD address for dimm 0: (16INS)> 0x50
@@ -86,12 +86,6 @@ automatically be adjusted to be above the BDK.  This normally causes the
 lower couple of megabytes to not be tested.  Lengths that extend passed
 the end of configured memory are automatically truncated.
 
-TIP: When specifying memory addresses, keep in mind that OCTEON's memory
-is in two disjoint regions.  '0 - 256MB' and '512MB +'.  A board with 4GB
-of memory uses addresses '0x0 - 0x001fffffff' and '0x020000000 -
-0x10fffffff'.  The "length" parameter will automatically span this region.
-You can't specifiy a starting address in the region of the memory hole.
-
 .Set test range from 64MB to 128MB
 
 It is recommended you start testing with a small memory range as a sanity
@@ -111,8 +105,8 @@ board configurations.  In the event that the board needs further
 customization.  DDR configurations can be saved and restored from
 files.  All DDR options may be customized by first saving a
 configuration to a file.  Use either XMODEM or the builtin TFTP server
-to transfer the file off of OCTEON.  After editing the configuration
-file, transfer it back to OCTEON.
+to transfer the file off of THUNDERX.  After editing the configuration
+file, transfer it back to THUNDERX.
 
 CAUTION: The DDR configuration file format may change in future BDKs.
 Be sure to track your specific changes such that they can be applied

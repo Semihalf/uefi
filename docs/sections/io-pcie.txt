@@ -1,10 +1,10 @@
 [[PCIE]]
 = PCI Express (PCIe)
 
-The BDK supports testing OCTEON's PCIe ports in root complex mode.
-Basic bus initialization and enumeration can be performed even before
-DDR3 is working.  The sequence is simply to perform the items in the
-PCIe menu it order.
+The BDK supports testing PCIe ports in root complex mode.  Basic bus
+initialization and enumeration can be performed even before DDR3 is
+working.  The sequence is simply to perform the items in the PCIe menu it
+order.
 
 .Sample PCIe Menu
 ----

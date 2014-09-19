@@ -25,11 +25,11 @@ using the QLM menu options.
 QLM#: Show configuration::
 
 Displays the current configuration mode of the QLM.  The mode was
-determined based on the hardware strapping of the OCTEON chip.
+determined based on the hardware strapping of the chip.
 
 QLM#: Measure clock::
 
-Measures the clock rate of the QLM's reference clock, using OCTEON's
+Measures the clock rate of the QLM's reference clock, using THUNDERX's
 clock as a reference.  Verify that the reported value is correct for
 the QLM configuration.
 
@@ -46,7 +46,7 @@ QLM#: Shallow loopback::
 
 Configure the QLM to repeat all received traffic at the SERDES level.
 This allows signal traces to be verified using an external signal
-generator.  Some OCTEON chips can only loopback a limited number of
+generator.  Some chips can only loopback a limited number of
 lanes at a time.  If this is the case, this menu will show the
 possible combinations.
 

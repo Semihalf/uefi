@@ -4,7 +4,7 @@
 SMI/MDIO busses are used to communicate with Ethernet PHYs.  PHYs
 support one of two protocols, clause 22 and clause 45.  Both of these
 protocols are supported through the BDK menuing interface.  The main
-SMI/MDIO menu selects which of the OCTEON busses to access.
+SMI/MDIO menu selects which of the busses to access.
 
 .Sample SMI/MDIO Main Menu
 ----

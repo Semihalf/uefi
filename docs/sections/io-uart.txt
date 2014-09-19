@@ -15,8 +15,8 @@ to the UARTs:
 
 .UART related lines from *main.lua*
 ----
--- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 0, 115200, true)
--- octeon.c.bdk_set_baudrate(octeon.MASTER_NODE, 1, 115200, true)
+-- cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 0, 115200, true)
+-- cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 1, 115200, true)
 ----
 
 . The "--" at the beginning of the line comments it out. Remove this to enable the line.

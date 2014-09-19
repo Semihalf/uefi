@@ -4,7 +4,7 @@
 The BDK support probing TWSI (I2C) using basic operations.  Testing
 general connectivity is done using an automated device address scan.
 Further details about individual TWSI devices can be probed using
-manual reads and writes.  The first step is to choose an OCTEON TWSI
+manual reads and writes.  The first step is to choose a TWSI
 bus for testing.  This is done in the main TWSI menu.
 
 .Sample TWSI Main Menu
@@ -21,7 +21,7 @@ include::../captures/twsi_sub_menu.capture[]
 
 == Initialize TWSI
 
-Perform one time bus initialization of the OCTEON TWSI controller.
+Perform one time bus initialization of the TWSI controller.
 This needs to be done once before any other transactions are issued.
 
 

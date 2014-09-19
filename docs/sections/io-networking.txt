@@ -3,17 +3,17 @@
 
 == Overview
 
-Many OCTEON hardware ports are designed to transfer packetized data.
+Many THUNDERX hardware ports are designed to transfer packetized data.
 Testing of these types of I/Os normally takes external test equipment,
-such as an IXIA.  The BDK simplifies testing these interfaces by
-supplying a traffic generator already built in.  This traffic
-generator can transmit and receive on all OCTEON interfaces that
-support ethernet style packets.  The simplest method of testing a
-board is to connect one OCTEON ethernet port to another.  The traffic
-generator can then transmit on one port and receive on the other.
-Unlike most BDK menus, the traffic generator supports too many options
-to list in a menu.  The generator uses a command line interface.  The
-following sections detail the formatting of these commands.
+such as an IXIA.  The BDK simplifies testing these interfaces by supplying
+a traffic generator already built in.  This traffic generator can transmit
+and receive on all interfaces that support ethernet style packets.  The
+simplest method of testing a board is to connect one ethernet port to
+another.  The traffic generator can then transmit on one port and receive
+on the other.  Unlike most BDK menus, the traffic generator supports too
+many options to list in a menu.  The generator uses a command line
+interface.  The following sections detail the formatting of these
+commands.
 
 
 == Traffic Generator Port Naming
@@ -32,10 +32,9 @@ support types are SGMII, XAUI, ILK, LOOP, and MGMT.
 
 INTERFACE::
 
-Each type of port has an internal chip interface.  These interfaces
-are number 0-X, where X is the maximum supported for the chip.  The
-exact numbering is dictated by the wiring of OCTEON's I/Os on the
-board.
+Each type of port has an internal chip interface.  These interfaces are
+number 0-X, where X is the maximum supported for the chip.  The exact
+numbering is dictated by the wiring of I/Os on the board.
 
 INDEX::
 
@@ -53,9 +52,9 @@ port range.  Some example port ranges are "SGMII00-SGMII03",
 "XAUI00,XAUI10", and "LOOP00-LOOP03".  When not specified, the port
 range is taken from the range given in the last "default" command.
 
-The exact list of valid ports varies based on the OCTEON chip being
-used and the wiring of the board it is on.  To get a list of all
-possible ports, issue the command *default all*.
+The exact list of valid ports varies based on the chip being used and the
+wiring of the board it is on.  To get a list of all possible ports, issue
+the command *default all*.
 
 
 == Traffic Generator Control Commands
@@ -105,7 +104,7 @@ Defaults to on.
 
 reboot::
 
-Perform a soft reset of OCTEON.
+Perform a soft reset of chip.
 
 reset::
 
@@ -167,8 +166,8 @@ Clear the statistics for the port range.
 l2_stats on | off::
 
 Turn on/off detailed L2 usage and statistics counters.  This option
-displays large numbers of statistics for the OCTEON L2 cache
-controller.  These are normally not useful during board validation.
+displays large numbers of statistics for the L2 cache controller.  These
+are normally not useful during board validation.
 
 rx_backpressure [port range]::
 

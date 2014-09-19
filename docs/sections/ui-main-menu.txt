@@ -49,18 +49,18 @@ Interactive Lua prompt::
 
 This provides direct access to the Lua interpreter running in the BDK.
 This can be used to probe and configure any type of hardware inside or
-connected to OCTEON.  Scripting using Lua is cover in another
+connected on the board.  Scripting using Lua is cover in another
 document.
 
 Traffic Generator::
 
-This menu option starts a simple traffic generator on OCTEON.  It can
-be used to transmit and receive packets on all OCTEON packet
+This menu option starts a simple network traffic generator.  It can
+be used to transmit and receive packets on all packet
 interfaces.  In combination with an external loopback, this can
 quickly verify the interfaces on a board.
 
 Reboot::
 
-Perform a soft reset of OCTEON.  This can be useful for a quick reboot
+Perform a soft reset.  This can be useful for a quick reboot
 without power cycling the entire board.
 
