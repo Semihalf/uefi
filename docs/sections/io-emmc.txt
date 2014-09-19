@@ -60,11 +60,3 @@ NOTE: Booting the image *bdk-xmodem-load.bin* may also be of use.  It
 provides a menu based XMODEM download utility that is quick to boot over
 EJTAG or PCIe.
 
-== Host based eMMC/SD access
-
-The BDK utility *bdk-remote* supports reading and writing eMMC/SD over
-EJTAG or PCIe.
-
-See <<BDK_REMOTE>>
-
-

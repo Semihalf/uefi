@@ -76,10 +76,6 @@ export PATH=${PATH}:${BDK_ROOT}/bin
 For bash, adding these lines to *.bashrc* will make sure the proper
 environment is alway setup.
 
-TIP: If all development is on a PCIe target board, add
-'CAVIUM_REMOTE_PROTOCOL=pci' to the environment.  This will make using
-*bdk-remote* easier.
-
 == Testing the Development System
 
 Here is a checklist of items to quickly check to make sure your development

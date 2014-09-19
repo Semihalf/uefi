@@ -76,10 +76,3 @@ of loading the BDK.
 Burn *target-bin/bdk-full.bin* to the beginning of the NOR flash
 connected to the bootbus chip select 0.
 
-.Booting using *bdk-remote* over PCIe
-[source, sh]
-----
-$ export CAVIUM_REMOTE_PROTOCOL=pci
-$ bdk-remote boot target-bin/bdk-full.bin
-----
-
