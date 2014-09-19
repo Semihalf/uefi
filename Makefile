@@ -79,7 +79,7 @@ endif
 # Build the full BDK version string
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
 FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
-RELEASE_NAME = "octeon3-bdk"
+RELEASE_NAME = "thunderx-bdk"
 RELEASE_DIR = "$(RELEASE_NAME)-$(VERSION)"
 
 .PHONY: version
@@ -107,9 +107,9 @@ release: all docs
 	cp utils/scripts/bdk-record.lua $(RELEASE_DIR)/bin/bdk-record
 	cp utils/scripts/bdk-update-romfs.py $(RELEASE_DIR)/bin/bdk-update-romfs
 	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
-	cp utils/bdk-lua/bdk-lua-octeon $(RELEASE_DIR)/bin/
+	cp utils/bdk-lua/bdk-lua-thunderx $(RELEASE_DIR)/bin/
 	cp utils/bdk-luac/bdk-luac-x86 $(RELEASE_DIR)/bin/
-	cp utils/bdk-luac/bdk-luac-octeon $(RELEASE_DIR)/bin/
+	cp utils/bdk-luac/bdk-luac-thunderx $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	cp bin/bdk-luac $(RELEASE_DIR)/bin/bdk-luac
 	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
