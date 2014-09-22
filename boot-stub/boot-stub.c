@@ -15,6 +15,9 @@
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00800000
 
+/* This macro simplifies referencing DRAM configurations later in the
+   code. It converts a DRAM_NODE* macro into a C function name. If
+   DRAM_NODE0 is X, the function required is dram_get_config_X() */
 #define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
 #define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
 
@@ -141,6 +144,16 @@ out:
     fclose(inf);
 }
 
+/**
+ * Create a BDK style device name to access SPI. This name can then be
+ * passed to standard C functions to open the device.
+ *
+ * @param buffer Buffer to fill with the device name
+ * @param buffer_size
+ *               Length of the buffer
+ * @param boot_method
+ *               Value of the pin strap choosing the boot method
+ */
 static void create_spi_device_name(char *buffer, int buffer_size, int boot_method)
 {
     bdk_node_t node = bdk_numa_local();
