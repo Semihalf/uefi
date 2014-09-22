@@ -90,13 +90,16 @@ set_config(cavium.CONFIG_PHY_IF1_PORT3, 7)
 
 -- End of QLM examples
 
-printf("Configuring QLMs for a sample setup\n");
 local node = cavium.MASTER_NODE
-cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
-cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_XAUI_1X4, 6250, 0)
-cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
-cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
-cavium.c.bdk_qlm_set_mode(node, 5, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
-cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_SATA_4X1, 5000, 0)
-cavium.c.bdk_qlm_set_mode(node, 7, cavium.QLM_MODE_SATA_4X1, 2500, 0)
+if cavium.c.bdk_qlm_get_mode(node, 0) == cavium.QLM_MODE_DISABLED then
+    -- Only apply the sample config if QLM0 isn't already setup
+    printf("Configuring QLMs for a sample setup\n");
+    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
+    cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_XAUI_1X4, 6250, 0)
+    cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+    cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
+    cavium.c.bdk_qlm_set_mode(node, 5, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
+    cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_SATA_4X1, 5000, 0)
+    cavium.c.bdk_qlm_set_mode(node, 7, cavium.QLM_MODE_SATA_4X1, 2500, 0)
+end
 
