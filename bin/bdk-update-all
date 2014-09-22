@@ -16,7 +16,7 @@ then
 fi
 
 #
-# Create the first stage boot image
+# Create the bdk first stage boot image
 # 1) 64KB unused by Thunder
 # 2) 64KB of CVM_CLIB header
 # 3) 192KB of STAGE1 image
@@ -41,4 +41,19 @@ cat ${DIR}/bdk-stage1.bin ${DIR}/bdk-cn88xx.bin > ${DIR}/bdk-boot-emmc-cn88xx.bi
 
 # CN88XX - BDK boot from SPI
 cat ${DIR}/bdk-stage1.bin ${DIR}/bdk-cn88xx.bin > ${DIR}/bdk-boot-spi-cn88xx.bin
+
+#
+# Create the production image
+# 1) 64KB unused by Thunder
+# 2) 64KB of CVM_CLIB header
+# 3) 192KB of boot-stub image (non-trusted)
+# 4) 192KB of boot-stub image (trusted)
+# 5) 8MB-512KB of diagnostics
+# 6) ATF should be after diagnostics
+#
+cat /dev/zero | head -q -c 65536 > ${DIR}/boot-image.bin
+echo -n CVM_CLIB | cat - /dev/zero | head -q -c 65536 >> ${DIR}/boot-image.bin
+cat ${DIR}/boot-stub.bin /dev/zero | head -q -c 196608 >> ${DIR}/boot-image.bin
+cat ${DIR}/boot-stub.bin /dev/zero | head -q -c 196608 >> ${DIR}/boot-image.bin
+cat ${DIR}/bdk-cn88xx.bin /dev/zero | head -q -c 7864320 >> ${DIR}/boot-image.bin
 
