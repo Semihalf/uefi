@@ -7,9 +7,9 @@
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 ebb8800
 /* Name of DRAM config for slave node 1 */
-#define DRAM_NODE1 ebb8800
+//#define DRAM_NODE1 ebb8800
 /* How long to wait for selection of diagnostics */
-#define DIAGS_TIMEOUT 0
+#define DIAGS_TIMEOUT 3
 /* Address of the diagnostics in flash */
 #define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
@@ -316,12 +316,22 @@ int main(void)
     }
 #endif
 
-
     /* Send status to the BMC: Slave DRAM init complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
     /* Initialize the QLMs */
-    //FIXME
+    /* QLM0 = 40G-KR4 */
+    bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_40G_KR4_1X4, 10321, 0);
+    /* QLM1 = 10G-KR */
+    bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_10G_KR_4X1, 10321, 0);
+    /* QLM2 = Gen 3 PCIe x4 */
+    bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X4, 8000, BDK_QLM_MODE_FLAG_GEN3);
+    /* QLM3 = SATA */
+    bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 5000, 0);
+    /* QLM4-5 = Gen 3 PCIe x8 */
+    bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
+    /* QLM6-7 = Gen 3 PCIe x8 */
+    bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
 
     /* Setup SMI/MDIO */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
@@ -356,7 +366,11 @@ int main(void)
         {
             bdk_pcie_global_initialize(n);
             for (int p = 0; p < bdk_pcie_get_num_ports(n); p++)
-                bdk_pcie_rc_initialize(n, p);
+            {
+                /* Only init PCIe that are attached to QLMs */
+                if (bdk_qlm_get(n, BDK_IF_PCIE, p) != -1)
+                    bdk_pcie_rc_initialize(n, p);
+            }
         }
     }
 
@@ -369,7 +383,12 @@ int main(void)
 
     /* Select ATF or diagnostics image */
     int use_atf = 1;
-    //FIXME
+    if (DIAGS_TIMEOUT > 0)
+    {
+        printf("\nPress 'D' within %d seconds to boot diagnostics\n", DIAGS_TIMEOUT);
+        int key = bdk_readline_getkey(DIAGS_TIMEOUT * 1000000);
+        use_atf = !((key == 'd') || (key == 'D'));
+    }
 
     /* Initialize the filesystems be need to load code from SPI or eMMC */
     extern int bdk_fs_mmc_init(void);
@@ -386,17 +405,12 @@ int main(void)
     /* Load the next image */
     /* Transfer control to next image */
     if (use_atf)
-        boot_image(boot_device_name, ATF_ADDRESS);
-    else
-        boot_image(boot_device_name, DIAGS_ADDRESS);
-
-    /* No image loadable */
-    bdk_error("Unable to load image\n");
-    if (use_atf)
     {
+        boot_image(boot_device_name, ATF_ADDRESS);
+        bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
-        boot_image(boot_device_name, DIAGS_ADDRESS);
     }
+    boot_image(boot_device_name, DIAGS_ADDRESS);
 
     bdk_error("Image load failed\n");
 }
