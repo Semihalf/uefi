@@ -15,7 +15,6 @@ all: version
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
 	$(MAKE) -C boot-stub
-	$(BDK_ROOT)/bin/bdk-update-all
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.

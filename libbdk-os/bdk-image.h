@@ -9,10 +9,8 @@
  * @{
  */
 
-#define BDK_IMAGE_BOOT_OFFSET 0x20000   /* 128KB, dictated by hardware */
-#define BDK_IMAGE_BOOT_SIZE 0x30000     /* 192KB, dictated by hardware */
 #define BDK_IMAGE_ALIGN 0x10000         /* Only look for images on 64KB boundaries */
-#define BDK_IMAGE_FIRST_OFFSET (BDK_IMAGE_BOOT_OFFSET + BDK_IMAGE_BOOT_SIZE)
+#define BDK_IMAGE_FIRST_OFFSET 0x80000  /* Top 512KB reserved for boot stubs */
 
 /**
  * Structure present at the beginning of BDK images

@@ -1,30 +1,32 @@
 include $(BDK_ROOT)/libbdk/bdk.mk
 
-DIR=$(BDK_ROOT)/target-bin/original
+DIR=$(BDK_ROOT)/target-bin
 
-TARGETS := bdk-full-no-romfs
-TARGETS += ${DIR}/bdk-full-no-romfs.bin
-TARGETS += bdk-stage1
-TARGETS += ${DIR}/bdk-stage1.bin
+${DIR}/bdk.bin: bdk.bin
+	cp bdk.bin ${DIR}/bdk.bin
 
-.PHONY: all
-all: ${TARGETS}
+stage1.bin: boot-stub.bin
+	${BDK_ROOT}/bin/bdk-update-romfs stage1.bin boot-stub.bin
 
-${DIR}/bdk-full-no-romfs.bin: bdk-full-no-romfs.bin
-	mkdir -p ${DIR}
-	cp bdk-full-no-romfs ${DIR}/
-	cp bdk-full-no-romfs.map ${DIR}/
-	cp bdk-full-no-romfs.bin ${DIR}/
+stage2.bin: diagnostics.bin lua
+	${BDK_ROOT}/bin/bdk-update-romfs stage2.bin diagnostics.bin lua/*
 
-${DIR}/bdk-stage1.bin: bdk-stage1.bin
-	mkdir -p ${DIR}
-	cp bdk-stage1 ${DIR}/
-	cp bdk-stage1.map ${DIR}/
-	cp bdk-stage1.bin ${DIR}/
+bdk.bin: stage1.bin stage2.bin
+	#
+	# 1) 64KB unused by Thunder
+	cat /dev/zero | head -q -c 65536 > bdk.bin
+	# 2) 64KB of CVM_CLIB header
+	echo -n CVM_CLIB | cat - /dev/zero | head -q -c 65536 >> bdk.bin
+	# 3) 192KB of boot-stub image (non-trusted)
+	cat stage1.bin /dev/zero | head -q -c 196608 >> bdk.bin
+	# 4) 192KB of boot-stub image (trusted)
+	cat stage1.bin /dev/zero | head -q -c 196608 >> bdk.bin
+	# 5) 8MB-512KB of diagnostics
+	cat stage2.bin >> bdk.bin
 
-bdk-full-no-romfs: bdk-full-no-romfs.o $(BDK_ROOT)/libbdk/libbdk.a
-bdk-stage1: bdk-stage1.o $(BDK_ROOT)/libbdk/libbdk.a
+diagnostics: diagnostics.o $(BDK_ROOT)/libbdk/libbdk.a
+boot-stub: boot-stub.o $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
-	rm -f *.o *.map *.bin ${TARGETS} ${DIR}/bdk-*
+	rm -f *.o *.map *.bin boot-stub diagnostics ${DIR}/bdk.bin
 
