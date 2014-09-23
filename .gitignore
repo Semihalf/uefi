@@ -22,7 +22,6 @@
 /libbdk/bdk-fs-rom-files.c
 /bdk-boot/bdk-full-no-romfs
 /bdk-boot/bdk-stage1
-/bdk-boot/bdk-xmodem-load
 /boot-stub/boot-stub
 /tests/hw-and-sim/crypto/crypto
 /tests/hw-and-sim/passthrough/passthrough
