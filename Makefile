@@ -14,7 +14,7 @@ all: version
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
-	$(MAKE) -C boot-stub
+	$(MAKE) -C normal-boot
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -28,7 +28,7 @@ clean:
 	$(MAKE) -C libbdk clean
 	$(MAKE) -C utils clean
 	$(MAKE) -C bdk-boot clean
-	$(MAKE) -C boot-stub clean
+	$(MAKE) -C normal-boot clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
 

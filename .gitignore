@@ -22,7 +22,8 @@
 /libbdk/bdk-fs-rom-files.c
 /bdk-boot/boot-stub
 /bdk-boot/diagnostics
-/boot-stub/boot-stub
+/normal-boot/boot-stub
+/normal-boot/diagnostics
 /tests/hw-and-sim/crypto/crypto
 /tests/hw-and-sim/passthrough/passthrough
 /utils/bdk-lua/bdk-lua-*

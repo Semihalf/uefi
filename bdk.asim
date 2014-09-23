@@ -41,15 +41,15 @@ control n0.gpio0 set strap 0x5
 
 # Load SPI image
 control n0.mpi0 connect 0 ${BDK_ROOT}/target-bin/bdk.bin
-#control n0.mpi0 connect 0 ${BDK_ROOT}/target-bin/boot-image.bin
+#control n0.mpi0 connect 0 ${BDK_ROOT}/target-bin/normal.bin
 
 # Load eMMC image
 control n0.emm0 connect ${BDK_ROOT}/target-bin/bdk.bin
-#control n0.emm0 connect ${BDK_ROOT}/target-bin/boot-image.bin
+#control n0.emm0 connect ${BDK_ROOT}/target-bin/normal.bin
 
 # Load the BDK symbols
 symbols ${BDK_ROOT}/bdk-boot/diagnostics
-#symbols ${BDK_ROOT}/boot-stub/boot-stub
+#symbols ${BDK_ROOT}/normal-boot/boot-stub
 
 # Control tracing
 #trace cpu0 step
