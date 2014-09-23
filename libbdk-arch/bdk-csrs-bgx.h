@@ -5212,7 +5212,8 @@ typedef union bdk_bgxx_gmp_pcs_anx_lp_abil {
 	struct bdk_bgxx_gmp_pcs_anx_lp_abil_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t np                          : 1;  /**< RO/H - 0 = Link partner not next page capable.
+		uint64_t np                          : 1;  /**< RO/H - Next page capable:
+                                                                 0 = Link partner not next page capable.
                                                                  1 = Link partner next page capable. */
 		uint64_t ack                         : 1;  /**< RO/H - When set, indicates acknowledgement received. */
 		uint64_t rem_flt                     : 2;  /**< RO/H - Link partner's link status as follows:

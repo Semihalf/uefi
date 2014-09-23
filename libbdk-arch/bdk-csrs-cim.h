@@ -74,29 +74,30 @@ typedef union bdk_cimx_icc_ap0r0_el1 {
 	struct bdk_cimx_icc_ap0r0_el1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t ap                          : 32; /**< R/W - "Operates in conjunction with all other AP0Rn and with CIM()_ICC_BPR0_EL1.
+		uint64_t ap                          : 32; /**< R/W - Operates in conjunction with all other AP0Rn and with CIM()_ICC_BPR0_EL1.
                                                                  Each bit in {AP0R3, ..., AP0R0} corresponds to a priority group as defined by
                                                                  CIM()_ICC_BPR0_EL1.
                                                                  A set bit indicates an active priority group.
 
                                                                  The setting is done on interrupt acknowledge by CPU (CIM()_ICC_IAR0_EL1 read).
 
-                                                                 The resetting is done on EOI write by CPU, regardless of the value of EOImode, i.e.:
+                                                                 The resetting is done on EOI write by CPU, regardless of the value of EOIMODE, i.e.:
 
-                                                                   1. If EOImode==1, EOIR write indicates priority drop causing AP0Rx[y] reset, followed by
+                                                                   1. If EOIMODE==1, EOIR write indicates priority drop causing AP0Rx[y] reset, followed by
                                                                  IST, DIR write and interrupt deactivation.
 
-                                                                   2. If EOImode==0, EOIR write indicates interrupt deactivation causing AP0Rx[y] reset.
+                                                                   2. If EOIMODE==0, EOIR write indicates interrupt deactivation causing AP0Rx[y] reset.
 
                                                                  Usage cases:
-                                                                 Min(ICC_BPR0_EL1)   Max \# group pri bits   Max \# preempt levels  ICC_AP0Rn implem
-                                                                 =================   ====================   ====================  =====================
+                                                                 \<pre\>
+                                                                 Min            Max groups   Max preempt   ICC_AP0Rn
+                                                                 ICC_BPR0_EL1   pri bits     levels        Implemented
+                                                                 ============   ==========   ===========   =====================
                                                                  3                   4                      16                    ICC_AP0R0[15:0]
                                                                  2                   5                      32                    ICC_AP0R0[31:0]
                                                                  1                   6                      64                    {ICC_AP0R1, ICC_AP0R0}
                                                                  0                   7                      128                   {ICC_AP0R3, ICC_AP0R2,
-                                                                                                                                   ICC_AP0R1, ICC_AP0R0}
-                                                                 " */
+                                                                 \</pre\> */
 #else
 		uint64_t ap                          : 32;
 		uint64_t reserved_32_63              : 32;
@@ -144,17 +145,19 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
 
                                                                  The setting is done on interrupt acknowledge by CPU (CIM()_ICC_IAR1_EL1 read).
 
-                                                                 The resetting is done on EOI write by CPU, regardless of the value of EOImode, i.e.:
+                                                                 The resetting is done on EOI write by CPU, regardless of the value of EOIMODE, i.e.:
 
-                                                                   1. If EOImode==1, EOIR write indicates priority drop causing AP1Rx[y] reset, followed by
+                                                                   1. If EOIMODE==1, EOIR write indicates priority drop causing AP1Rx[y] reset, followed by
                                                                  IST, DIR write and interrupt deactivation.
 
-                                                                   2. If EOImode==0, EOIR write indicates interrupt deactivation causing AP1Rx[y] reset.
+                                                                   2. If EOIMODE==0, EOIR write indicates interrupt deactivation causing AP1Rx[y] reset.
 
                                                                  Usage cases ("EL1" omitted for simplicity):
-                                                                                                                                  Non-secure view of
-                                                                 Min(ICC_BPR1_NS)    Max \# group pri bits   Max \# preempt levels  ICC_AP1Rn_NS
-                                                                 =================   ====================   ====================  =====================
+
+                                                                 \<pre\>
+                                                                 Min            Max groups   Max preempt   Non-secure view of
+                                                                 ICC_BPR1_EL1   pri bits     levels        ICC_AP1Rn_NS
+                                                                 ============   ==========   ===========   ============
                                                                  4                   4                      16                    {8'h00,
                                                                                                                                    ICC_AP1R0_NS[15:8]}
                                                                  3                   5                      32                    {16'h0000,
@@ -165,8 +168,10 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
                                                                                                                                    32'h0000_0000,
                                                                                                                                    ICC_AP1R3_NS,
                                                                                                                                    ICC_AP1R2_NS}
+                                                                 \</pre\>
 
-                                                                 In CNXXXX, a system supporting two security states, where GICD_CTLR.DS is zero, non-secure
+                                                                 In CNXXXX, a system supporting two security states, where GICD_(S)CTLR[DS] is zero, non-
+                                                                 secure
                                                                  accesses see a shifted view of priorities." */
 #else
 		uint64_t ap                          : 32;
@@ -216,16 +221,19 @@ typedef union bdk_cimx_icc_ap1r0_el1_s {
 
                                                                  The setting is done on interrupt acknowledge by CPU (CIM()_ICC_IAR1_EL1 read).
 
-                                                                 The resetting is done on EOI write by CPU, regardless of the value of EOImode, i.e.:
+                                                                 The resetting is done on EOI write by CPU, regardless of the value of EOIMODE, i.e.:
 
-                                                                   1. If EOImode==1, EOIR write indicates priority drop causing AP1Rx[y] reset, followed by
+                                                                   1. If EOIMODE==1, EOIR write indicates priority drop causing AP1Rx[y] reset, followed by
                                                                  IST, DIR write and interrupt deactivation.
 
-                                                                   2. If EOImode==0, EOIR write indicates interrupt deactivation causing AP1Rx[y] reset.
+                                                                   2. If EOIMODE==0, EOIR write indicates interrupt deactivation causing AP1Rx[y] reset.
 
                                                                  Usage cases (EL1 omitted for simplicity):
-                                                                 Min(ICC_BPR1_S)     Max \# group pri bits   Max \# preempt levels  ICC_AP1Rn_S implem
-                                                                 =================   ====================   ====================  =====================
+
+                                                                 \<pre\>
+                                                                 Min          Max groups   Max preempt   ICC_AP1Rn_S
+                                                                 ICC_BPR1_S   pri bits     levels        Implemented
+                                                                 ==========   ==========   ===========   =====================
                                                                  3                   4                      16                    ICC_AP1R0_S[15:0]
                                                                  2                   5                      32                    ICC_AP1R0_S[31:0]
                                                                  1                   6                      64                    {ICC_AP1R1_S,
@@ -234,9 +242,10 @@ typedef union bdk_cimx_icc_ap1r0_el1_s {
                                                                                                                                    ICC_AP1R2_S,
                                                                                                                                    ICC_AP1R1_S,
                                                                                                                                    ICC_AP1R0_S}
+                                                                 \</pre\>
 
-                                                                 In CNXXXX, a systems supporting two security states, where GICD_CTLR.DS is zero, non-
-                                                                 secure accesses see a shifted view of priorities." */
+                                                                 In CNXXXX, a systems supporting two security states, where GICD_(S)CTLR[DS] is
+                                                                 zero, non-secure accesses see a shifted view of priorities." */
 #else
 		uint64_t ap                          : 32;
 		uint64_t reserved_32_63              : 32;
@@ -386,23 +395,30 @@ typedef union bdk_cimx_icc_bpr0_el1 {
                                                                  excluded from the group
                                                                  priority field:
 
-                                                                 BP  Group Priority Field       Subpriority Field       Field With Binary Point
-                                                                 ==  =====================      =================       =======================
+                                                                 \<pre\>
+                                                                      Group Priority   Subpriority   Field with
+                                                                 BP   Field            Field         Binary Point
+                                                                 ==   ==============   ===========   ============
                                                                  0   [7:1]                      [0]                     ggggggg.s
                                                                  1   [7:2]                      [1:0]                   gggggg.ss
                                                                  ...
                                                                  6   [7]                        [6:0]                   g.sssssss
                                                                  7   No preemption              [7:0]                   .ssssssss
+                                                                 \</pre\>
 
-                                                                 In CNXXXX, only 5 priority bits implemented:
-                                                                 BP  Group Priority Field       Subpriority Field       Field With Binary Point
-                                                                 ==  =====================      =================       =======================
+                                                                 In CNXXXX, only 5 priority bits are implemented:
+
+                                                                 \<pre\>
+                                                                      Group Priority   Subpriority   Field with
+                                                                 BP   Field            Field         Binary Point
+                                                                 ==   ==============   ===========   ============
                                                                  2   [7:3]                      [2:0]                   ggggg.sss
                                                                  3   [7:4]                      [3:0]                   gggg.ssss
                                                                  4   [7:5]                      [4:0]                   ggg.sssss
                                                                  5   [7:6]                      [5:0]                   gg.ssssss
                                                                  6   [7:7]                      [6:0]                   g.sssssss
                                                                  7   No preemption              [7:0]                   .ssssssss
+                                                                 \</pre\>
 
                                                                  The lowest exception level at which this register may be accessed is governed by the
                                                                  exception level to which FIQ is routed.
@@ -461,30 +477,35 @@ typedef union bdk_cimx_icc_bpr1_el1_ns {
 
                                                                  1. If CIM()_ICC_CTLR_EL3[CBPR_EL1S] is one:
 
-                                                                     o CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
+                                                                 _   CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
                                                                        CIM()_ICC_BPR0_EL1.
 
-                                                                     o CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
+                                                                 _   CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
                                                                        CIM()_ICC_BPR0_EL1.
 
                                                                  2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, non-secure accesses at EL1 or EL2 behave
                                                                  as defined in the table below.
 
+                                                                 \<pre\>
                                                                     SCR_EL3[IRQ] HCR_EL2[HMO]     Description
-                                                                    ============ ============     =====================================================
-                                                                          1            0          Inaccessible to non-secure EL1 / EL2.
+                                                                 ============  ============   ===================================
+                                                                       1             0        Inaccessible to non-secure EL1/EL2.
 
                                                                           1            1          Non-secure EL1 access is virtual.
                                                                                                   Inaccessible to EL2.
 
                                                                           0            1          Non-secure EL1 access is virtual.
                                                                                                   Non-secure EL2 reads return
-                                                                                                  (CIM()_ICC_BPR0_EL1 + 1) saturated to 0x7.
+                                                                                              (CIM()_ICC_BPR0_EL1 + 1)
+                                                                                              saturated to 0x7.
                                                                                                   Non-secure EL2 writes are ignored.
 
                                                                           0            0          Non-secure EL1 / EL2 reads return
-                                                                                                  (CIM()_ICC_BPR0_EL1 + 1) saturated to 0x7.
-                                                                                                  Non-secure EL1 / EL2 writes are ignored.
+                                                                                              (CIM()_ICC_BPR0_EL1 + 1)
+                                                                                              saturated to 0x7.
+                                                                                              Non-secure EL1 / EL2 writes
+                                                                                              are ignored.
+                                                                 \</pre\>
 
                                                                  3. When operating at EL3, this (CIM()_ICC_BPR1_EL1_NS) is returned if
                                                                  SCR_EL3[NS] == 1 and
@@ -533,8 +554,8 @@ typedef union bdk_cimx_icc_bpr1_el1_s {
 	struct bdk_cimx_icc_bpr1_el1_s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
-		uint64_t bp_min                      : 2;  /**< RO/H - Minimum Binary Point Value.
-                                                                 In CNXXXX, this field is always 2 as only 32 priorities are implemented.
+		uint64_t bp_min                      : 2;  /**< RO/H - Minimum binary point value.
+                                                                 In CNXXXX, this field is always 0x2 as only 32 priorities are implemented.
                                                                  Value BP below can be programmed to is BP_MIN..7. */
 		uint64_t bp                          : 3;  /**< R/W - Binary point.
                                                                  See CIM()_ICC_BPR0_EL1.
@@ -551,21 +572,26 @@ typedef union bdk_cimx_icc_bpr1_el1_s {
                                                                  2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, non-secure accesses at EL1 or EL2 behave
                                                                  as defined in the table below
 
+                                                                 \<pre\>
                                                                     SCR_EL3[IRQ] HCR_EL2[HMO]   Description
-                                                                    =========== ===========     ===================================================
-                                                                          1            0        Inaccessible to non-secure EL1 / EL2.
+                                                                 ============  ============   ===================================
+                                                                       1            0         Inaccessible to non-secure EL1/EL2.
 
                                                                           1            1        Non-secure EL1 access is virtual.
                                                                                                 Inaccessible to EL2.
 
                                                                           0            1        Non-secure EL1 access is virtual.
                                                                                                 Non-secure EL2 reads return
-                                                                                                (CIM()_ICC_BPR0_EL1 + 1) saturated to 0x7.
+                                                                                              (CIM()_ICC_BPR0_EL1 + 1)
+                                                                                              saturated to 0x7.
                                                                                                 Non-secure EL2 writes are ignored.
 
                                                                           0            0        Non-secure EL1 / EL2 reads return
-                                                                                                (CIM()_ICC_BPR0_EL1 + 1) saturated to 0x7.
-                                                                                                Non-secure EL1 / EL2 writes are ignored.
+                                                                                              (CIM()_ICC_BPR0_EL1 + 1)
+                                                                                              saturated to 0x7.
+                                                                                              Non-secure EL1 / EL2 writes
+                                                                                              are ignored.
+                                                                 \</pre\>
 
                                                                  3. When operating at EL3, this (CIM()_ICC_BPR1_EL1_S) is returned if
                                                                  SCR_EL3[NS] == 0 and CIM()_ICC_CTLR_EL3[CBPR_EL1{S,NS}] are ignored.
@@ -852,7 +878,7 @@ typedef union bdk_cimx_icc_dir_el1 {
                                                                  A valid write is one that specifies an interrupt that is active, and for which
                                                                  there has been a successful write to CIM()_ICC_EOIR0_EL1 or CIM()_ICC_EOIR1_EL1.
 
-                                                                 If the relevant EOImode bit is 0 then the effect of this register access is ignored
+                                                                 If the relevant EOIMODE bit is 0 then the effect of this register access is ignored
                                                                  and SEI is generated.
 
                                                                  If the interrupt identified in the CIM()_ICC_DIR_EL1 is not active, and is not a
@@ -861,7 +887,7 @@ typedef union bdk_cimx_icc_dir_el1 {
                                                                  for which there has been a valid CIM()_ICC_EOIR0_EL1 or CIM()_ICC_EOIR1_EL1
                                                                  write.
 
-                                                                 If the relevant EOImode bit is 1 and no EOI has been issued for value written to
+                                                                 If the relevant EOIMODE bit is 1 and no EOI has been issued for value written to
                                                                  CIM()_ICC_DIR_EL1 the active priority for the interrupt will remain set (because
                                                                  no EOI was issued). However, the system behavior is unpredictable.
 
@@ -923,22 +949,23 @@ typedef union bdk_cimx_icc_eoir0_el1 {
 
                                                                  Behavior is unpredictable if either:
 
-                                                                   1. The ordering constraints on reads from the CIM()_ICC_IAR0_EL1 and writes
+                                                                 _ 1. The ordering constraints on reads from the CIM()_ICC_IAR0_EL1 and writes
                                                                  to the CIM()_ICC_EOIR0_EL1 are not maintained.
 
-                                                                   2. The value in a write to the CIM()_ICC_EOIR0_EL1 does not match an active
+                                                                 _ 2. The value in a write to the CIM()_ICC_EOIR0_EL1 does not match an active
                                                                  interrupt, or the ID of a spurious interrupt.
 
                                                                  The effect of writing to CIM()_ICC_EOIR0_EL1 with a valid interrupt ID is
                                                                  unpredictable if any of the following apply:
 
-                                                                   1. The value written does not match the last valid interrupt value read from the
+                                                                 _ 1. The value written does not match the last valid interrupt value read from the
                                                                  Interrupt acknowledge register, or the security states in which the read from
                                                                  CIM()_ICC_IAR0_EL1 and writes to the CIM()_ICC_EOIR0_EL1 differ.
 
-                                                                   2. There is no outstanding acknowledged interrupt.
+                                                                 _ 2. There is no outstanding acknowledged interrupt.
 
-                                                                   3. The indicated interrupt has already been subject to an EOI request.
+                                                                 _ 3. The indicated interrupt has already been subject to an EOI request.
+
                                                                  The lowest exception level at which this register may be accessed is governed by the
                                                                  exception level to which FIQ is routed. */
 #else
@@ -1432,7 +1459,7 @@ typedef union bdk_cimx_icc_imp0 {
 		uint64_t reserved_27_63              : 37;
 		uint64_t scratch                     : 26; /**< RO/H - Testing area. */
 		uint64_t ds                          : 1;  /**< RO/H - Disable security.
-                                                                 Local version of GICD_CTLR[DS] maintained by (a limited number of) downstream
+                                                                 Local version of GICD_(S)CTLR[DS] maintained by (a limited number of) downstream
                                                                  writes from redistributor. Specifically, it is permissible to get a downstream write from
                                                                  RDB which sets DS to 1 at some point. However, behavior is architecturally undefined if
                                                                  RDB ever follows that with a DS resetting downstream write. */
@@ -1487,11 +1514,11 @@ typedef union bdk_cimx_icc_pmr_el1 {
                                                                  to a value in
                                                                  the upper half of the priority range then:
 
-                                                                   1. Any non-secure read of the CIM()_ICC_PMR_EL1 returns 0x00, regardless of the
+                                                                 _ 1. Any non-secure read of the CIM()_ICC_PMR_EL1 returns 0x00, regardless of the
                                                                  value held in the
                                                                  register.
 
-                                                                   2. Any non-secure write to the CIM()_ICC_PMR_EL1 is ignored.
+                                                                 _ 2. Any non-secure write to the CIM()_ICC_PMR_EL1 is ignored.
 
                                                                  When determining interrupt preemption, the priority value can be split into two parts,
                                                                  using CIM()_ICC_BPR.
@@ -2341,7 +2368,7 @@ typedef union bdk_cimx_ich_lrx_el2 {
                                                                      to the virtual machine.
 
                                                                  1 = This is a group 1 virtual interrupt, signaled as a virtual IRQ.
-                                                                     CIM()_ICC_IGRPEN1_EL1[EN] (== CIM()_ICH_VMCR_EL2[VENG1]
+                                                                     CIM()_ICC_IGRPEN1_EL1_S/NS[EN] (== CIM()_ICH_VMCR_EL2[VENG1]
                                                                      when accessed in virtual mode) enables the signaling of this interrupt
                                                                      to the virtual machine.
 
@@ -2366,12 +2393,15 @@ typedef union bdk_cimx_ich_lrx_el2 {
                                                                                  1 = A maintenance interrupt is asserted to signal EOI when the interrupt
                                                                                      state is invalid, which typically occurs when the interrupt is
                                                                                      deactivated.
-                                                                     Bits [40:32]. Reserved.
-                                                                     In GICv2, if the Physical ID specified an SGI, behavior was unpredictable. In
+
+                                                                 _ Bits [40:32]. Reserved.
+
+                                                                 _ In GICv2, if the Physical ID specified an SGI, behavior was unpredictable. In
                                                                            GICv3, hardware deactivation of SGIs is fully supported.
-                                                                     A hardware physical identifier is only required in list registers for
-                                                                           interrupts that require an EOI or Deactivate. Hence, only 10 bits of physical
-                                                                           ID are required, regardless of the number specified by
+
+                                                                 _ A hardware physical identifier is only required in list registers for
+                                                                           interrupts that require an EOI or Deactivate. Hence, only 10 bits of
+                                                                           physical ID are required, regardless of the number specified by
                                                                  CIM()_ICC_CTLR_EL1[IDBITS].
 
                                                                  1 = Field indicates the physical interrupt ID that the hypervisor forwards to the
@@ -2520,7 +2550,8 @@ typedef union bdk_cimx_ich_vmcr_el2 {
                                                                  saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
 
                                                                  This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-		uint64_t vfiqen                      : 1;  /**< RO/H - 0 = Signal virtual group 0 with vIRQ.
+		uint64_t vfiqen                      : 1;  /**< RO/H - Virtual group IRQ enable:
+                                                                 0 = Signal virtual group 0 with vIRQ.
                                                                  1 = Signal virtual group 0 with vFIQ.
 
                                                                  In CNXXXX, this bit is always 1 as the non-secure copy of CIM()_ICC_SRE_EL1[SRE]
@@ -2528,7 +2559,7 @@ typedef union bdk_cimx_ich_vmcr_el2 {
 		uint64_t vackctl                     : 1;  /**< RO/H - Legacy bit from GICv2 does not affect hardware operation.
                                                                  In CNXXXX, this bit is always 0 because the non-secure copy of CIM()_ICC_SRE_EL1[SRE]
                                                                  is always one. */
-		uint64_t veng1                       : 1;  /**< R/W/H - Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1[EN]. */
+		uint64_t veng1                       : 1;  /**< R/W/H - Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
 		uint64_t veng0                       : 1;  /**< R/W/H - Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
 #else
 		uint64_t veng0                       : 1;
@@ -2598,7 +2629,8 @@ typedef union bdk_cimx_ich_vtr_el2 {
                                                                  Virtual system errors may still be generated by writing to CIM()_ICH_VSEIR_EL2
                                                                  regardless of the value of this field.
                                                                  In CNXXXX, this bit is always 0 as SEIs are not implemented. */
-		uint64_t a3v                         : 1;  /**< RO/H - 0 = The CPU interface logic does not support non-zero values of affinity 3 in SGI
+		uint64_t a3v                         : 1;  /**< RO/H - Affinity 3 support:
+                                                                 0 = The CPU interface logic does not support non-zero values of affinity 3 in SGI
                                                                  generation system registers.
                                                                  1 = The CPU interface logic supports non-zero values of affinity 3 in SGI generation
                                                                  system registers.

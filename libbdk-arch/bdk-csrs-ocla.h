@@ -530,10 +530,10 @@ typedef union bdk_oclax_fsmx_andx_ix {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t trig                        : 1;  /**< RAZ - Reserved. */
-		uint64_t mcd                         : 3;  /**< R/W - Multichip debug (MCD) 0..2 inputs. */
-		uint64_t match                       : 4;  /**< R/W - Matcher 0..3 input. */
-		uint64_t fsm1_state                  : 4;  /**< R/W - FSM 1 last state. */
-		uint64_t fsm0_state                  : 4;  /**< R/W - FSM 0 last state. */
+		uint64_t mcd                         : 3;  /**< R/W - AND plane control for multichip debug (MCD) 0..2 FSM inputs. */
+		uint64_t match                       : 4;  /**< R/W - AND plane control for matcher 0..3 FSM inputs. */
+		uint64_t fsm1_state                  : 4;  /**< R/W - AND plane control for FSM 1 last state input. */
+		uint64_t fsm0_state                  : 4;  /**< R/W - AND plane control for FSM 0 last state input. */
 #else
 		uint64_t fsm0_state                  : 4;
 		uint64_t fsm1_state                  : 4;

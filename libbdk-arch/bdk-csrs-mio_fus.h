@@ -175,16 +175,19 @@ typedef union bdk_mio_fus_dat2 {
 		uint64_t reserved_29_31              : 3;
 		uint64_t nodfa_cp2                   : 1;  /**< RO - Fuse information - HFA disable (CP2). */
 		uint64_t nomul                       : 1;  /**< RO - Fuse information - VMUL disable. */
-		uint64_t nocrypto                    : 1;  /**< RO - Fuse information - DORM_CRYPTO and NOCRYPTO together select one of four mutually-exclusive
-                                                                 modes:
+		uint64_t nocrypto                    : 1;  /**< RO - Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0 AES/DES/HASH enabled.
+                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1 AES/DES/HASH disabled.
+                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0 Dormant encryption enable.
+                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1 Authentik mode. */
+                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
 		uint64_t trustzone_en                : 1;  /**< RO - Fuse information - TrustZone enable. */
 		uint64_t reserved_24_24              : 1;
 		uint64_t chip_id                     : 8;  /**< RO - Fuse information - chip ID. */

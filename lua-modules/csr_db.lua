@@ -9778,6 +9778,29 @@ local csr_db = {
                 {name = "TX_P2S_RESETN_OVRRD_EN", start = 0, stop = 0},
             }
         },
+        GSERX_LANEX_PWR_CTRL_P2 = {
+            name = "GSER#_LANE#_PWR_CTRL_P2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904600b8,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "P2_RX_RESETN", start = 13, stop = 13},
+                {name = "P2_RX_ALLOW_PLL_PD", start = 12, stop = 12},
+                {name = "P2_RX_PCS_RESET", start = 11, stop = 11},
+                {name = "P2_RX_AGC_EN", start = 10, stop = 10},
+                {name = "P2_RX_DFE_EN", start = 9, stop = 9},
+                {name = "P2_RX_CDR_EN", start = 8, stop = 8},
+                {name = "P2_RX_CDR_COAST", start = 7, stop = 7},
+                {name = "P2_RX_CDR_CLR", start = 6, stop = 6},
+                {name = "P2_RX_SUBBLK_PD", start = 1, stop = 5},
+                {name = "P2_RX_CHPD", start = 0, stop = 0},
+            }
+        },
         GSERX_LANEX_RX_AEQ_OUT_0 = {
             name = "GSER#_LANE#_RX_AEQ_OUT_0",
             type = "RSL",
@@ -45408,6 +45431,29 @@ local csr_db = {
                 {name = "TX_ELEC_IDLE_OVRRD_EN", start = 2, stop = 2},
                 {name = "TX_PD_OVRRD_EN", start = 1, stop = 1},
                 {name = "TX_P2S_RESETN_OVRRD_EN", start = 0, stop = 0},
+            }
+        },
+        GSERX_LANEX_PWR_CTRL_P2 = {
+            name = "GSER#_LANE#_PWR_CTRL_P2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904600b8,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "P2_RX_RESETN", start = 13, stop = 13},
+                {name = "P2_RX_ALLOW_PLL_PD", start = 12, stop = 12},
+                {name = "P2_RX_PCS_RESET", start = 11, stop = 11},
+                {name = "P2_RX_AGC_EN", start = 10, stop = 10},
+                {name = "P2_RX_DFE_EN", start = 9, stop = 9},
+                {name = "P2_RX_CDR_EN", start = 8, stop = 8},
+                {name = "P2_RX_CDR_COAST", start = 7, stop = 7},
+                {name = "P2_RX_CDR_CLR", start = 6, stop = 6},
+                {name = "P2_RX_SUBBLK_PD", start = 1, stop = 5},
+                {name = "P2_RX_CHPD", start = 0, stop = 0},
             }
         },
         GSERX_LANEX_RX_AEQ_OUT_0 = {

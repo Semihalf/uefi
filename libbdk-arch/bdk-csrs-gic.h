@@ -257,7 +257,7 @@ union gits_cmd_mapc_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t v                           : 1;  /**< [191:191] Valid bit.T specifies whether the ITT address and size are valid. When V is
+		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
                                                                  zero, this command un-maps the specified device and translation request from
                                                                  that device will be discarded. */
 		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
@@ -299,7 +299,7 @@ union gits_cmd_mapd_s {
                                                                  translation table. Bits \<7:0\> of the physical address are zero. */
 		uint64_t reserved_128_135            : 8;  /**< [135:128] Reserved. */
 		uint64_t reserved_69_127             : 59; /**< [127: 69] Reserved. */
-		uint64_t size                        : 5;  /**< [ 68: 64] the number of bits of interrupt ID supported for this device, minus one. */
+		uint64_t size                        : 5;  /**< [ 68: 64] Number of bits of interrupt ID supported for this device, minus one. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPD. */
@@ -924,7 +924,9 @@ typedef union bdk_gicd_clrspi_nsr {
 		uint32_t reserved_10_31              : 22;
 		uint32_t spi_id                      : 10; /**< WO - Clear an SPI pending state (write-only). If the SPI is not pending, then the write has no
                                                                  effect.
+
                                                                  If the SPI ID is invalid, then the write has no effect.
+
                                                                  If the register is written using a non-secure access and the value specifies a secure SPI
                                                                  and the value of the corresponding GICD_NSACR() register is less than 0x2 (ie. does not
                                                                  permit non-secure accesses to clear the interrupt pending state), the write has no effect. */
@@ -961,7 +963,9 @@ typedef union bdk_gicd_clrspi_sr {
 		uint32_t reserved_10_31              : 22;
 		uint32_t spi_id                      : 10; /**< SWO - Clear an SPI pending state (write-only). If the SPI is not pending, then the write has no
                                                                  effect.
+
                                                                  If the SPI ID is invalid, then the write has no effect.
+
                                                                  If the register is written using a non-secure access, the write has no effect. */
 #else
 		uint32_t spi_id                      : 10;
@@ -999,8 +1003,10 @@ typedef union bdk_gicd_icactiverx {
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
+
                                                                  Clear-active bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
+
                                                                  A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -1045,7 +1051,7 @@ typedef union bdk_gicd_icenablerx {
                                                                  Writes to the register cannot be considered complete until the effects of the write are
                                                                  visible throughout the affinity hierarchy. To ensure that an enable has been cleared,
                                                                  software must write to this register with bits set to clear the required enables. Software
-                                                                 must then poll GICD_CTLR[RWP] (register writes pending) until it has the value zero. */
+                                                                 must then poll GICD_(S)CTLR[RWP] (register writes pending) until it has the value zero. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1119,8 +1125,10 @@ typedef union bdk_gicd_icpendrx {
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
+
                                                                  Clear-pending bits corresponding to secure interrupts (either group0 or group1) may only
                                                                  be set by secure accesses.
+
                                                                  A clear-pending bit for a secure SPI is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -1273,9 +1281,12 @@ typedef union bdk_gicd_ipriorityrx {
 	struct bdk_gicd_ipriorityrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W - Each byte corresponds to an SPI for SPI IDs in the range 159..32.
+
                                                                  Priority fields corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses, or when GICD_CTLR[DS] is one.
+                                                                 set by secure accesses, or when GICD_(S)CTLR[DS] is one.
+
                                                                  Byte accesses are permitted to these registers.
+
                                                                  A priority field for a secure SPI is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -1361,8 +1372,10 @@ typedef union bdk_gicd_isactiverx {
 		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
+
                                                                  Set-active bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
+
                                                                  A Set-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -1438,8 +1451,10 @@ typedef union bdk_gicd_ispendrx {
 		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
+
                                                                  Set-pending bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
+
                                                                  A set-pending bit for a secure SPI is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -1485,7 +1500,8 @@ typedef union bdk_gicd_nsacrx {
                                                                  corresponding SPI in GICD_ITARGETSR() and GICD_IROUTER().
 
                                                                  This register is RAZ/WI for non-secure accesses.
-                                                                 When GICD_CTLR[DS] is one, this register is RAZ/WI. */
+
+                                                                 When GICD_(S)CTLR[DS] is one, this register is RAZ/WI. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1583,7 +1599,12 @@ typedef union bdk_gicd_pidr2 {
 	struct bdk_gicd_pidr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t archrev                     : 4;  /**< RO - Architectural revision. 0x1 = GICv1; 0x2 = GICV2; 0x3 = GICv3; 0x4 = GICv4; 0x5-0xF = Reserved. */
+		uint32_t archrev                     : 4;  /**< RO - Architectural revision:
+                                                                 0x1 = GICv1.
+                                                                 0x2 = GICV2.
+                                                                 0x3 = GICv3.
+                                                                 0x4 = GICv4.
+                                                                 0x5-0xF = Reserved. */
 		uint32_t usesjepcode                 : 1;  /**< RO - JEDEC assigned. */
 		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
@@ -1793,20 +1814,20 @@ typedef union bdk_gicd_sctlr {
 		uint32_t reserved_7_30               : 24;
 		uint32_t ds                          : 1;  /**< SR/W - Disable security.
                                                                  When set, non-secure accesses are permitted to access and modify registers that control
-                                                                 Group 0 interrupts. Resets to zero.
-
-                                                                 Note if DS becomes one when ARE_S is one, then ARE for the single security state is
+                                                                 Group 0 interrupts.
+                                                                 If DS becomes one when ARE_S is one, then ARE for the single security state is
                                                                  RAO/WI.
 
-                                                                 Note this bit is RAO/WI if the distributor only supports a single security state (see
-                                                                 below).
-
-                                                                 Note when DS is set, all accesses to GICD_CTLR access the single security state view
+                                                                 When DS is set, all accesses to GICD_(S)CTLR access the single security state view
                                                                  (below) and all bits are accessible
 
-                                                                 Note once set, DS may only be clear by a hardware reset. */
+                                                                 This bit is RAO/WI if the distributor only supports a single security state (see
+                                                                 below).
+
+                                                                 Once set, DS may only be clear by a hardware reset. */
 		uint32_t are_ns                      : 1;  /**< SRO - Enable affinity routing for the non-secure state when set.
                                                                  In CNXXXX this bit is always 1 as only affinity routing is supported.
+
                                                                  Note: this bit is RAO/WI when ARE is one for the secure state. */
 		uint32_t are_sns                     : 1;  /**< RO - Enables affinity routing for the non-secure state.
                                                                  This field is fixed as RAO/WI for CNXXXX for both secure and non secure state. */
@@ -1865,7 +1886,9 @@ typedef union bdk_gicd_setspi_nsr {
 		uint32_t reserved_10_31              : 22;
 		uint32_t spi_id                      : 10; /**< WO - Set an SPI to pending (write-only). If the SPI is already pending, then the write has no
                                                                  effect.
+
                                                                  If the SPI ID is invalid, then the write has no effect.
+
                                                                  If the register is written using a non-secure access and the value specifies a secure SPI
                                                                  and the value of the corresponding GICD_NSACR() register is zero (ie. does not permit non-
                                                                  secure accesses to set the interrupt as pending), the write has no effect. */
@@ -1902,7 +1925,9 @@ typedef union bdk_gicd_setspi_sr {
 		uint32_t reserved_10_31              : 22;
 		uint32_t spi_id                      : 10; /**< SWO - Set an SPI to pending (write-only). If the SPI is already pending, then the write has no
                                                                  effect.
+
                                                                  If the SPI ID is invalid, then the write has no effect.
+
                                                                  If the register is written using a non-secure access, the write has no effect. */
 #else
 		uint32_t spi_id                      : 10;
@@ -1986,7 +2011,7 @@ typedef union bdk_gicd_typer {
 		uint32_t lpis                        : 1;  /**< RO - Locality-specific peripheral interrupt supported. */
 		uint32_t mbis                        : 1;  /**< RO - Message based interrupt supported. */
 		uint32_t lspi                        : 5;  /**< RO - The number of lockable SPI interrupts. This is not supported in GICv3 and is RES0. */
-		uint32_t securityextn                : 1;  /**< RO - Security extension supported. When GICD_CTLR[DS] is
+		uint32_t securityextn                : 1;  /**< RO - Security extension supported. When GICD_(S)CTLR[DS] is
                                                                  set, this field is RAZ. */
 		uint32_t reserved_8_9                : 2;
 		uint32_t cpunumber                   : 3;  /**< RO - Reserved. In CNXXXX implementation, not used. */
@@ -2166,7 +2191,7 @@ typedef union bdk_gicrx_clrlpir {
 		uint64_t pid                         : 32; /**< WO - Physical ID of the LPI to be set as not pending. If the LPI is already not pending, the
                                                                  write has no effect.
                                                                  If the LPI with the physical ID is not implemented, the write has no effect.
-                                                                 If GICR_CTLR[ENABLE_LPI]s is zero, the write has no effect. */
+                                                                 If GICR_(S)CTLR[ENABLE_LPI]s is zero, the write has no effect. */
 #else
 		uint64_t pid                         : 32;
 		uint64_t reserved_32_63              : 32;
@@ -2203,8 +2228,10 @@ typedef union bdk_gicrx_icactiver0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
+
                                                                  Clear-active bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
+
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -2243,13 +2270,14 @@ typedef union bdk_gicrx_icenabler0 {
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. Upon reading,
                                                                  if a bit is 0, then the interrupt is not enabled to be forwarded to the CPU interface.
                                                                  Upon reading, if a bit is 1, the SPI is enabled to be forwarded to the CPU interface.
+
                                                                  Clear-enable bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
 
                                                                  Writes to the register cannot be considered complete until the effects of the write are
                                                                  visible throughout the affinity hierarchy. To ensure that an enable has been cleared,
                                                                  software must write to this register with bits set to clear the required enables. Software
-                                                                 must then poll GICR_CTLR[RWP] (register writes pending) until it has the value zero. */
+                                                                 must then poll GICR_(S)CTLR[RWP] (register writes pending) until it has the value zero. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -2367,8 +2395,10 @@ typedef union bdk_gicrx_icpendr0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
+
                                                                  Clear-pending bits corresponding to secure interrupts (either group0 or group1) may only
                                                                  be set by secure accesses.
+
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -2597,9 +2627,12 @@ typedef union bdk_gicrx_ipriorityrx {
 	struct bdk_gicrx_ipriorityrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W - Each byte corresponds to an SGI or PPI for interrupt IDs in the range 31..0.
+
                                                                  Priority fields corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses, or when GICD_CTLR[DS] is one.
+                                                                 set by secure accesses, or when GICD_(S)CTLR[DS] is one.
+
                                                                  Byte accesses are permitted to these registers.
+
                                                                  A priority field for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -2636,8 +2669,10 @@ typedef union bdk_gicrx_isactiver0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
+
                                                                  Set-active bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
+
                                                                  A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -2714,6 +2749,7 @@ typedef union bdk_gicrx_ispendr0 {
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
                                                                  Set-pending bits corresponding to secure interrupts (either group0 or group1) may only be
                                                                  set by secure accesses.
+
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -2750,7 +2786,7 @@ typedef union bdk_gicrx_movallr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t pa                          : 32; /**< WO - Target address \<47:16\>. Base address of the redistributor to which pending LPIs are to be
                                                                  moved.
-                                                                 If GICR_CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
 		uint64_t reserved_0_31               : 32;
 #else
 		uint64_t reserved_0_31               : 32;
@@ -2787,7 +2823,7 @@ typedef union bdk_gicrx_movlpir {
                                                                  be moved. */
 		uint64_t pid                         : 32; /**< WO - Physical LPI ID to be moved to the redistributor at [PA]. If the LPI with this
                                                                  PID is unimplemented, the write has no effect.
-                                                                 If GICR_CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
 #else
 		uint64_t pid                         : 32;
 		uint64_t pa                          : 32;
@@ -2828,7 +2864,8 @@ typedef union bdk_gicrx_nsacr {
                                                                  0x3 = Reserved. Treated as 0x1.
 
                                                                  This register is RAZ/WI for non-secure accesses.
-                                                                 When GICD_CTLR[DS] is one, this register is RAZ/WI. */
+
+                                                                 When GICD_(S)CTLR[DS] is one, this register is RAZ/WI. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -2860,7 +2897,8 @@ typedef union bdk_gicrx_pendbaser {
 	struct bdk_gicrx_pendbaser_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_63_63              : 1;
-		uint64_t pending_table_zero          : 1;  /**< WO - 0 = The coarse-grained map for the LPI pending table is valid.
+		uint64_t pending_table_zero          : 1;  /**< WO - Pending zero:
+                                                                 0 = The coarse-grained map for the LPI pending table is valid.
                                                                  1 = The pending table has been zeroed out. */
 		uint64_t reserved_48_61              : 14;
 		uint64_t pa                          : 32; /**< R/W - Physical address bits \<46:16\> for the LPI pending table. */
@@ -2968,7 +3006,12 @@ typedef union bdk_gicrx_pidr2 {
 	struct bdk_gicrx_pidr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t archrev                     : 4;  /**< RO - Architectural revision. 0x1 = GICv1; 0x2 = GICV2; 0x3 = GICv3; 0x4 = GICv4; 0x5-0xF = Reserved. */
+		uint32_t archrev                     : 4;  /**< RO - Architectural revision:
+                                                                 0x1 = GICv1.
+                                                                 0x2 = GICV2.
+                                                                 0x3 = GICv3.
+                                                                 0x4 = GICv4.
+                                                                 0x5-0xF = Reserved. */
 		uint32_t usesjepcode                 : 1;  /**< RO - JEDEC assigned. */
 		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
@@ -3226,7 +3269,7 @@ typedef union bdk_gicrx_sctlr {
                                                                   Note: this field tracks completion of writes to GICR_ICENABLER() that clear the enable of
                                                                  one or more interrupts. */
 		uint32_t reserved_1_2                : 2;
-		uint32_t enable_lpis                 : 1;  /**< R/W - Enable LPIs. Resets to zero. Common to both security states. When this bit is clear,
+		uint32_t enable_lpis                 : 1;  /**< R/W - Enable LPIs. Common to both security states. When this bit is clear,
                                                                  writes to generate physical LPIs to GICR_SETLPIR will be ignored.
                                                                  When a write changes this bit from zero to one, this bit becomes RAO/WI and the re-
                                                                  distributor must load the pending table from memory to check for any pending interrupts. */
@@ -3304,6 +3347,7 @@ typedef union bdk_gicrx_setdel3tr_el1s {
                                                                  The value written into these registers is not used. There is no interrupt ID for DEL3Ts.
                                                                  Whenever a register in this set is written, the DEL3T signal of the AP being
                                                                  managed by that register is asserted.
+
                                                                  Each register in this set is RAZ/WI for non-secure accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -3339,7 +3383,7 @@ typedef union bdk_gicrx_setlpir {
 		uint64_t pid                         : 32; /**< WO - Physical ID of the LPI to be generated. If the LPI is already pending, the write has no
                                                                  effect.
                                                                  If the LPI with the physical ID is not implemented, the write has no effect.
-                                                                 If GICR_CTLR[ENABLE_LPI] is zero, the write has no effect. */
+                                                                 If GICR_(S)CTLR[ENABLE_LPI] is zero, the write has no effect. */
 #else
 		uint64_t pid                         : 32;
 		uint64_t reserved_32_63              : 32;
@@ -3468,13 +3512,15 @@ typedef union bdk_gicrx_typer {
                                                                  be the logical processor number supported by the redistributor, which is the redistributor
                                                                  ID, ie. the variable a. */
 		uint64_t reserved_6_7                : 2;
-		uint64_t dpgs                        : 1;  /**< RAZ - GICR_CTLR[DPG*] bits are NOT supported. */
+		uint64_t dpgs                        : 1;  /**< RAZ - GICR_(S)CTLR[DPG*] bits are NOT supported. */
 		uint64_t last                        : 1;  /**< RO/H - Last. This bit is only set for the last redistributor in a set of contiguous redistributor
                                                                  register pages. Needs to be determined from fuse signals or SKU. */
-		uint64_t distributed                 : 1;  /**< RO - 0 = Monolithic implementation.
+		uint64_t distributed                 : 1;  /**< RO - Distributed implementation:
+                                                                 0 = Monolithic implementation.
                                                                  1 = Distributed implementation registers supported. */
 		uint64_t reserved_1_2                : 2;
-		uint64_t plpis                       : 1;  /**< RO - 0 = Physical LPIs not supported.
+		uint64_t plpis                       : 1;  /**< RO - Physical LPIs supported:
+                                                                 0 = Physical LPIs not supported.
                                                                  1 = Physical LPIs supported. */
 #else
 		uint64_t plpis                       : 1;
@@ -3568,10 +3614,12 @@ typedef union bdk_gits_baserx {
 	uint64_t u;
 	struct bdk_gits_baserx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t valid                       : 1;  /**< R/W - 0 = No memory has been allocated to the table and if the type field is non-zero, the ITS
+		uint64_t valid                       : 1;  /**< R/W - Valid:
+                                                                 0 = No memory has been allocated to the table and if the type field is non-zero, the ITS
                                                                  discards any writes to the interrupt translation page.
                                                                  1 = Memory has been allocated to the table  by software. */
-		uint64_t indirect                    : 1;  /**< RO - 0 = Direct.   The size field indicates a number of pages used by the ITS to store data
+		uint64_t indirect                    : 1;  /**< RO - Indirect:
+                                                                 0 = Direct.   The size field indicates a number of pages used by the ITS to store data
                                                                  associated with each table entry.
                                                                  1 = Indirect.  The size field indicates a number of pages which contain an array 64-bit
                                                                  pointers to pages that are used to
@@ -3615,8 +3663,10 @@ typedef union bdk_gits_baserx {
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
                                                                  0x3 = Reserved.  Treated as 0x0.
-                                                                 Note: This field is not implemented in T88. */
-		uint64_t pagesize                    : 2;  /**< R/W - 0x0 = 4 KB pages.
+
+                                                                 Ignored in CNXXXX. */
+		uint64_t pagesize                    : 2;  /**< R/W - Page size:
+                                                                 0x0 = 4 KB pages.
                                                                  0x1 = 16 KB pages (not supported, reserved).
                                                                  0x2 = 64 KB pages.
                                                                  0x3 = Reserved. Treated as 64kB pages. */
@@ -3700,7 +3750,8 @@ typedef union bdk_gits_cbaser {
 	uint64_t u;
 	struct bdk_gits_cbaser_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t valid                       : 1;  /**< R/W - 0 = No memory has been allocated to the command queue and the ITS discards any writes to
+		uint64_t valid                       : 1;  /**< R/W - Valid:
+                                                                 0 = No memory has been allocated to the command queue and the ITS discards any writes to
                                                                  the interrupt translation page.
                                                                  1 = Memory has been allocated by software for the command queue. */
 		uint64_t reserved_62_62              : 1;
@@ -3731,6 +3782,7 @@ typedef union bdk_gits_cbaser {
 		uint64_t size                        : 8;  /**< R/W - The number of 4kB pages of physical memory provided for the command queue, minus one.
                                                                  The command queue is a circular buffer and wraps at physical address \<47:0\> + (4096 *
                                                                  (SIZE+1)).
+
                                                                  Note: when GITS_CBASER is written, the value of GITS_CREADR is set to zero. See GIC
                                                                  spec for details on the ITS initialization sequence. */
 #else
@@ -3952,10 +4004,12 @@ typedef union bdk_gits_ctlr {
                                                                      the ITS must also have forwarded any required operations to the re-distributors and
                                                                      received confirmation that they have reached the appropriate re-distributor. */
 		uint32_t reserved_1_30               : 30;
-		uint32_t enabled                     : 1;  /**< R/W - 0 = ITS is disabled. Writes to the interrupt translation space will be ignored and no
+		uint32_t enabled                     : 1;  /**< R/W - Enabled:
+                                                                 0 = ITS is disabled. Writes to the interrupt translation space will be ignored and no
                                                                  further command queue entries will be processed.
                                                                  1 = ITS is enabled. Writes to the interrupt translation space will result in interrupt
                                                                  translations and the command queue will be processed.
+
                                                                  If a write to this register changes enabled from one to zero, the ITS must ensure that any
                                                                  caches containing mapping data must be made
                                                                  consistent with external memory and "QUIESCENT" must read as one until this has been
@@ -4245,7 +4299,12 @@ typedef union bdk_gits_pidr2 {
 	struct bdk_gits_pidr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t archrev                     : 4;  /**< RO - Architectural revision. 0x1 = GICv1; 0x2 = GICV2; 0x3 = GICv3; 0x4 = GICv4; 0x5-0xF = Reserved. */
+		uint32_t archrev                     : 4;  /**< RO - Architectural revision:
+                                                                 0x1 = GICv1.
+                                                                 0x2 = GICV2.
+                                                                 0x3 = GICv3.
+                                                                 0x4 = GICv4.
+                                                                 0x5-0xF = Reserved. */
 		uint32_t usesjepcode                 : 1;  /**< RO - JEDEC assigned. */
 		uint32_t jepid                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
 #else
@@ -4460,9 +4519,11 @@ typedef union bdk_gits_translater {
 	uint32_t u;
 	struct bdk_gits_translater_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t int_id                      : 32; /**< WO/H - Interrupt ID. The ID of interrupt to be translated for the requesting device. Note: the
-                                                                 number of interrupt identifier bits is defined by GITS_TYPER[IDBITS]. Non-zero identifier
-                                                                 bits outside this range are ignored.
+		uint32_t int_id                      : 32; /**< WO/H - Interrupt ID. The ID of interrupt to be translated for the requesting device.
+
+                                                                 Note: the number of interrupt identifier bits is defined by
+                                                                 GITS_TYPER[IDBITS]. Non-zero identifier bits outside this range are ignored.
+
                                                                  Note: 16 bit access to bits \<15:0\> of this register must be supported. When written by a
                                                                  16 bit transaction, bits \<31:16\> are written as zero. This register can not be accessed by
                                                                  CPU. */
@@ -4502,7 +4563,9 @@ typedef union bdk_gits_typer {
                                                                  provisioning of external memory. If this field is non-zero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
-                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back on,
+
+                                                                 INTERNAL: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
 		uint32_t reserved_20_23              : 4;

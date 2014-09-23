@@ -1107,7 +1107,7 @@ union nic_rbdr_entry_s {
  * Structure NIC_RX_HDR_S
  *
  * NIC Receive Header Structure
- * This 64-bit header is optionally prepended by TNS onto packets received by the NIC. NOTE: This
+ * This 64-bit header is optionally prepended by TNS onto packets received by the NIC. This
  * structure is stored with the packet data in big-endian form ([OPAQUE4] is in bytes 16-19,
  * counting the 8-byte timestamp); little-endian software must swap bytes before using this
  * structure.

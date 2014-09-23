@@ -2288,13 +2288,12 @@ typedef union bdk_usbhx_uahc_grxthrcfg {
 
                                                                  This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0xF.
                                                                  This field must be \<= USBMAXRXBURSTSIZE. */
-		uint32_t usbmaxrxburstsize           : 5;  /**< R/W - USB maximum receive-burst size. In host-mode, specifies the maximum bulk IN burst the core
+		uint32_t usbmaxrxburstsize           : 5;  /**< R/W - USB maximum receive-burst size. Specifies the maximum bulk IN burst the core
                                                                  should do. When the system bus is slower than the USB, RX FIFO can overrun during a long
                                                                  burst.
 
                                                                  Program a smaller value to this field to limit the RX burst size that the core can do. It
-                                                                 only applies to SuperSpeed Bulk, Isochronous, and Interrupt IN endpoints in the host mode.
-                                                                 In device mode, specified the NUMP value that will be sent in ERDy for an OUT endpoint.
+                                                                 only applies to SuperSpeed Bulk, Isochronous, and Interrupt IN endpoints.
                                                                  This field is only valid when USBRXPKTCNTSEL = 1. The valid values are from 0x1 to 0x10. */
 		uint32_t reserved_0_18               : 19;
 #else

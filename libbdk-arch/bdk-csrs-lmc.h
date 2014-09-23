@@ -4092,7 +4092,8 @@ typedef union bdk_lmcx_retry_status {
 		uint64_t reserved_45_47              : 3;
 		uint64_t error_sequence              : 5;  /**< RO/H - Sequence number for sequence that was running when error occurred. */
 		uint64_t reserved_33_39              : 7;
-		uint64_t error_type                  : 1;  /**< RO/H - 0 = Error during a sequence run.
+		uint64_t error_type                  : 1;  /**< RO/H - Error type:
+                                                                 0 = Error during a sequence run.
                                                                  1 = Error during normal operation, which means a read or write operation. Effectively this
                                                                  means a command error for a read or write operation, or a CRC error for a write data
                                                                  operation. */

@@ -904,7 +904,8 @@ typedef union bdk_gserx_lanex_misc_cfg_0 {
                                                                  PHY EIE status assertions to determine EIE and assert Raw
                                                                  PCS output pcs_mac_rx_eie_det_sts. */
 		uint64_t eie_det_stl_on_time         : 3;  /**< R/W - EIE detec state machine "on" delay prior to sampling
-                                                                 PHY EIE status. */
+                                                                 PHY EIE status.  Software needs to set this field to 0x4 if
+                                                                 in SATA mode (GSER()_CFG[SATA] is set). */
 		uint64_t eie_det_stl_off_time        : 3;  /**< R/W - EIE detec state machine "off" delay prior to sampling
                                                                  PHY EIE status. */
 		uint64_t tx_bit_order                : 1;  /**< R/W - 0x1: Reverse bit order of parallel data to SerDes TX.
@@ -1314,6 +1315,70 @@ static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long param1, unsigned l
 #define busnum_BDK_GSERX_LANEX_PWR_CTRL(p1,p2) (p1)
 #define arguments_BDK_GSERX_LANEX_PWR_CTRL(p1,p2) (p1),(p2),-1,-1
 #define basename_BDK_GSERX_LANEX_PWR_CTRL(...) "GSERX_LANEX_PWR_CTRL"
+
+
+/**
+ * RSL - gser#_lane#_pwr_ctrl_p2
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_pwr_ctrl_p2 {
+	uint64_t u;
+	struct bdk_gserx_lanex_pwr_ctrl_p2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t p2_rx_resetn                : 1;  /**< R/W - Place the reciever in reset (active low). */
+		uint64_t p2_rx_allow_pll_pd          : 1;  /**< R/W - When asserted, it permits PLL powerdown (PLL is
+                                                                 powered down if all other factors permit). */
+		uint64_t p2_rx_pcs_reset             : 1;  /**< R/W - When asserted, the RX Power state machine puts the Raw PCS
+                                                                 RX logic in reset state to save power. */
+		uint64_t p2_rx_agc_en                : 1;  /**< R/W - AGC enable. */
+		uint64_t p2_rx_dfe_en                : 1;  /**< R/W - DFE enable. */
+		uint64_t p2_rx_cdr_en                : 1;  /**< R/W - CDR enable. */
+		uint64_t p2_rx_cdr_coast             : 1;  /**< R/W - CDR coast; freezes the frequency of the CDR. */
+		uint64_t p2_rx_cdr_clr               : 1;  /**< R/W - CDR clear; clears the frequency register in the CDR. */
+		uint64_t p2_rx_subblk_pd             : 5;  /**< R/W - RX sub-block powerdown to RX:
+                                                                 \<4\> = CTLE.
+                                                                 \<3\> = Reserved.
+                                                                 \<2\> = Lane DLL.
+                                                                 \<1\> = DFE/Samplers.
+                                                                 \<0\> = Termination.
+
+                                                                 Software needs to clear the Termination bit in SATA mode
+                                                                 (when GSER()_CFG[SATA] is set). */
+		uint64_t p2_rx_chpd                  : 1;  /**< R/W - RX lane power down. */
+#else
+		uint64_t p2_rx_chpd                  : 1;
+		uint64_t p2_rx_subblk_pd             : 5;
+		uint64_t p2_rx_cdr_clr               : 1;
+		uint64_t p2_rx_cdr_coast             : 1;
+		uint64_t p2_rx_cdr_en                : 1;
+		uint64_t p2_rx_dfe_en                : 1;
+		uint64_t p2_rx_agc_en                : 1;
+		uint64_t p2_rx_pcs_reset             : 1;
+		uint64_t p2_rx_allow_pll_pd          : 1;
+		uint64_t p2_rx_resetn                : 1;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn88xx; */
+	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn88xxp1; */
+} bdk_gserx_lanex_pwr_ctrl_p2_t;
+
+static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL_P2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL_P2(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E0904600B8ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_PWR_CTRL_P2", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_PWR_CTRL_P2(...) bdk_gserx_lanex_pwr_ctrl_p2_t
+#define bustype_BDK_GSERX_LANEX_PWR_CTRL_P2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_PWR_CTRL_P2(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_PWR_CTRL_P2(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_PWR_CTRL_P2(...) "GSERX_LANEX_PWR_CTRL_P2"
 
 
 /**
@@ -3008,18 +3073,23 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                  0x3 = 1/8 data rate.
 
                                                                  Recommended settings:
-                                                                 _ R_25G_REFCLK100:          0x1
-                                                                 _ R_5G_REFCLK100:           0x0
-                                                                 _ R_8G_REFCLK100:           0x0
-                                                                 _ R_125G_REFCLK15625_KX:    0x2
-                                                                 _ R_3125G_REFCLK15625_XAUI: 0x1
-                                                                 _ R_103125G_REFCLK15625_KR: 0x0
-                                                                 _ R_125G_REFCLK15625_SGMII: 0x2
-                                                                 _ R_5G_REFCLK15625_QSGMII:  0x0
-                                                                 _ R_625G_REFCLK15625_RXAUI: 0x0
-                                                                 _ R_25G_REFCLK125:          0x1
-                                                                 _ R_5G_REFCLK125:           0x0
-                                                                 _ R_8G_REFCLK125:           0x0 */
+                                                                 \<pre\>
+                                                                                             SATA   non-SATA
+                                                                 _ R_25G_REFCLK100:           0x0    0x1
+                                                                 _ R_5G_REFCLK100:            0x0    0x0
+                                                                 _ R_8G_REFCLK100:            0x0    0x0
+                                                                 _ R_125G_REFCLK15625_KX:     NS     0x2
+                                                                 _ R_3125G_REFCLK15625_XAUI:  NS     0x1
+                                                                 _ R_103125G_REFCLK15625_KR:  NS     0x0
+                                                                 _ R_125G_REFCLK15625_SGMII:  NS     0x2
+                                                                 _ R_5G_REFCLK15625_QSGMII:   NS     0x0
+                                                                 _ R_625G_REFCLK15625_RXAUI:  NS     0x0
+                                                                 _ R_25G_REFCLK125:           NS     0x1
+                                                                 _ R_5G_REFCLK125:            NS     0x0
+                                                                 _ R_8G_REFCLK125:            NS     0x0
+                                                                 \</pre\>
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t rx_ldiv                     : 2;  /**< R/W/H - Configures clock divider used to determine the receive rate.
                                                                  0x0 = full data rate
                                                                  0x1 = 1/2 data rate
@@ -3027,18 +3097,23 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                  0x3 = 1/8 data rate
 
                                                                  Recommended settings:
-                                                                 _ R_25G_REFCLK100:          0x1
-                                                                 _ R_5G_REFCLK100:           0x0
-                                                                 _ R_8G_REFCLK100:           0x0
-                                                                 _ R_125G_REFCLK15625_KX:    0x2
-                                                                 _ R_3125G_REFCLK15625_XAUI: 0x1
-                                                                 _ R_103125G_REFCLK15625_KR: 0x0
-                                                                 _ R_125G_REFCLK15625_SGMII: 0x2
-                                                                 _ R_5G_REFCLK15625_QSGMII:  0x0
-                                                                 _ R_625G_REFCLK15625_RXAUI: 0x0
-                                                                 _ R_25G_REFCLK125:          0x1
-                                                                 _ R_5G_REFCLK125:           0x0
-                                                                 _ R_8G_REFCLK125:           0x0 */
+                                                                 \<pre\>
+                                                                                             SATA   non-SATA
+                                                                 _ R_25G_REFCLK100:           0x2    0x1
+                                                                 _ R_5G_REFCLK100:            0x1    0x0
+                                                                 _ R_8G_REFCLK100:            0x1    0x0
+                                                                 _ R_125G_REFCLK15625_KX:     NS     0x2
+                                                                 _ R_3125G_REFCLK15625_XAUI:  NS     0x1
+                                                                 _ R_103125G_REFCLK15625_KR:  NS     0x0
+                                                                 _ R_125G_REFCLK15625_SGMII:  NS     0x2
+                                                                 _ R_5G_REFCLK15625_QSGMII:   NS     0x0
+                                                                 _ R_625G_REFCLK15625_RXAUI:  NS     0x0
+                                                                 _ R_25G_REFCLK125:           NS     0x1
+                                                                 _ R_5G_REFCLK125:            NS     0x0
+                                                                 _ R_8G_REFCLK125:            NS     0x0
+                                                                 \</pre\>
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t srate                       : 3;  /**< R/W - Sample rate, used to generate strobe to effectively divide the clock down to a slower
                                                                  rate.
                                                                  0x0 = Full rate
@@ -3616,36 +3691,47 @@ typedef union bdk_gserx_pll_px_mode_0 {
                                                                  Recommended settings, which are based on the reference clock speed:
 
                                                                  \<pre\>
-                                                                          100MHz 125MHz 156.25MHz
-                                                                 1.25G:    0x1    0x1    0x1
-                                                                 2.5G:     0x4    0x3    0x3
-                                                                 3.125G:   NS     0x1    0x1
-                                                                 5.0G:     0x4    0x3    0x3
-                                                                 6.25G:    NS     0x1    0x1
-                                                                 8.0G:     0x3    0x2    NS
-                                                                 10.3125G: NS     NS     0x1
+                                                                          100Mhz  100MHz   125MHz   156.25MHz
+                                                                          SATA    non-SATA non-SATA non-SATA
+                                                                 1.25G:    NS     0x1      0x1      0x1
+                                                                 2.5G:     0x1    0x4      0x3      0x3
+                                                                 3.125G:   NS     NS       0x1      0x1
+                                                                 5.0G:     0x1    0x4      0x3      0x3
+                                                                 6.25G:    NS     NS       0x1      0x1
+                                                                 8.0G:     0x1    0x3      0x2      NS
+                                                                 10.3125G: NS     NS       NS       0x1
                                                                  \</pre\>
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_rloop                   : 3;  /**< R/W/H - Loop resistor tuning.
                                                                  Recommended settings:
-                                                                 _ 1.25G:    0x3
-                                                                 _ 2.5G:     0x3
-                                                                 _ 3.125G:   0x3
-                                                                 _ 5.0G:     0x3
-                                                                 _ 6.25G:    0x3
-                                                                 _ 8.0G:     0x5
-                                                                 _ 10.3125G: 0x5 */
+                                                                 \<pre\>
+                                                                             SATA    non-SATA
+                                                                 _ 1.25G:     NS      0x3
+                                                                 _ 2.5G:      0x3     0x3
+                                                                 _ 3.125G:    NS      0x3
+                                                                 _ 5.0G:      0x3     0x3
+                                                                 _ 6.25G:     NS      0x3
+                                                                 _ 8.0G:      0x5     0x5
+                                                                 _ 10.3125G:  NS      0x5
+                                                                 \</pre\>
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_pcs_div                 : 9;  /**< R/W/H - The divider that generates PCS_MAC_TX_CLK. The frequency of the clock is (pll_frequency /
                                                                  PLL_PCS_DIV).
                                                                  Recommended settings:
-                                                                 _ 1.25G:    0x28
-                                                                 _ 2.5G:     0x5
-                                                                 _ 3.125G:   0x14
-                                                                 _ 5.0G:     0xA
-                                                                 _ 6.25G:    0xA
-                                                                 _ 8.0G:     0xA
-                                                                 _ 10.3125G: 0xA */
+                                                                 \<pre\>
+                                                                             SATA    PCIE   Other
+                                                                 _ 1.25G:     NS      NS     0x28
+                                                                 _ 2.5G:      0x5     0x5    0x5
+                                                                 _ 3.125G:    NS      NS     0x14
+                                                                 _ 5.0G:      0x5     0x5    0xA
+                                                                 _ 6.25G:     NS      NS     0xA
+                                                                 _ 8.0G:      0x5     0x8    0xA
+                                                                 _ 10.3125G:  NS      NS     0xA
+                                                                 \</pre\>
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
 #else
 		uint64_t pll_pcs_div                 : 9;
 		uint64_t pll_rloop                   : 3;
@@ -3721,20 +3807,23 @@ typedef union bdk_gserx_pll_px_mode_1 {
                                                                  0 = Any rate other than 8 Gbaud.
                                                                  1 = Rate is equal to 8 Gbaud. */
 		uint64_t pll_opr                     : 1;  /**< R/W/H - PLL op range:
-                                                                 0 = Use Ring Oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
-                                                                 1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher. */
+                                                                 0 = Use Ring Oscillator VCO.
+                                                                 Recommended for rates 6.25 Gbaud and lower and for SATA.
+                                                                 1 = Use LC-tank VCO.
+                                                                 Recommended for non-SATA rates 8 Gbaud and higher. */
 		uint64_t pll_div                     : 9;  /**< R/W/H - PLL divider in feedback path which sets the PLL frequency.
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                          100MHz 125MHz 156.25MHz
-                                                                 1.25G:    0x19   0x14    0x10
-                                                                 2.5G:     0x19   0x14    0x10
-                                                                 3.125G:   NS     0x19    0x14
-                                                                 5.0G:     0x19   0x14    0x10
-                                                                 6.25G:    NS     0x19    0x14
-                                                                 8.0G:     0x28   0x20    NS
-                                                                 10.3125G: NS     NS      0x21
+                                                                          100Mhz  100MHz   125MHz   156.25MHz
+                                                                          SATA    non-SATA non-SATA non-SATA
+                                                                 1.25G:    NS      0x19   0x14    0x10
+                                                                 2.5G:     0x18    0x19   0x14    0x10
+                                                                 3.125G:   NS      NS     0x19    0x14
+                                                                 5.0G:     0x18    0x19   0x14    0x10
+                                                                 6.25G:    NS      NS     0x19    0x14
+                                                                 8.0G:     0x18    0x28   0x20    NS
+                                                                 10.3125G: NS      NS     NS      0x21
                                                                  \</pre\>
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
