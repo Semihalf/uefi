@@ -27,6 +27,8 @@ UART0PORT = str(pipe_w)
 UART1PORT = "1"
 os.environ["UART0PORT"] = UART0PORT
 os.environ["UART1PORT"] = UART1PORT
+os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/bdk.bin"
+os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/bdk-boot/diagnostics"
 
 #
 # Load the simulator
@@ -92,9 +94,9 @@ wait_for("(INS)Menu choice:")
 
 send("3")
 wait_for("Looking for images in /dev/mpi/cs0-l,2wire,idle-h,msb,24bit,12")
-wait_for("  1) 0x050000: bdk-cn88xx.bin, version")
+wait_for("  1) 0x080000: stage2.bin, version")
 wait_for("One image found, automatically loading")
-wait_for("    Loading image at 0x50000")
+wait_for("    Loading image at 0x80000")
 wait_for("    Verifying image")
 wait_for("    Jumping to image at")
 wait_for("---")
