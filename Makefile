@@ -47,7 +47,11 @@ suid: all
 
 .PHONY: run
 run:
-	UART0PORT=2000 UART1PORT=2001 $(ASIM)/asim -e bdk.asim
+	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/bdk.bin SYMBOL_IMAGE=$(BDK_ROOT)/bdk-boot/diagnostics $(ASIM)/asim -e bdk.asim
+
+.PHONY: run-normal
+run-normal:
+	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/diagnostics $(ASIM)/asim -e bdk.asim
 
 #
 # Determine the BDK version based on the last change in the version
