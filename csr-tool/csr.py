@@ -28,9 +28,10 @@ def getBitMask(max_number):
 # The basic definition of a CSR. Each one only supports a single chip's version
 #
 class Csr:
-    def __init__(self, group, name, csr_type, description, notes, is_banked, inherits_algorithm):
+    def __init__(self, group, name, bar, csr_type, description, notes, is_banked, inherits_algorithm):
         assert isinstance(group, StringType), type(group)
         assert isinstance(name, ListType), type(name)
+	assert isinstance(bar, StringType), type(bar)
         assert isinstance(csr_type, StringType), type(csr_type)
         assert isinstance(description, ListType), type(description)
         assert isinstance(notes, ListType), type(notes)
@@ -55,6 +56,7 @@ class Csr:
             raise Exception("Having a CSR with more than four indexes isn't allowed: " + str(self.range))
         self.type = csr_type
         self.description = description
+	self.bar = bar
         self.fields = {}
         self.setNotes(notes)
         self.address_info = None
@@ -365,9 +367,10 @@ class Csr:
                 assert False, "Add support for field type %s to mask generation" % field.type
 	if self.inherits_algorithm == "int_w1s" or self.inherits_algorithm == "int_ena_w1s":
 	    temp = self.w1s_mask
-	    self.w1s_mask = self.w1c_mask
+	    self.w1s_mask = self.w1c_mask | self.copy_mask
             self.w1c_mask = temp
 	elif self.inherits_algorithm == "int_ena_w1c":
+	    self.w1c_mask = self.w1c_mask | self.copy_mask
 	    pass   # Not sure what else this algorithm requires, masks don't change
 
 class CsrField:

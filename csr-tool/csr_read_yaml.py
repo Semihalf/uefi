@@ -302,7 +302,8 @@ def build_csr(chip_info, group, register, raw):
     if "attributes" in register:
         if "inherits_algorithm" in register["attributes"]:
 	    inherits_algorithm = register["attributes"]["inherits_algorithm"]
-    csr = Csr(group, name_list, register["bus"], description, [], is_banked, inherits_algorithm)
+    barname = register.get("bar", "PF_BAR0")
+    csr = Csr(group, name_list, barname, register["bus"], description, [], is_banked, inherits_algorithm)
     # Parse this address information
     csr.address_info = parseAddress(register["address"], len(csr.range))
     # Due to a carry over from the old CSRs, some CSRs are special

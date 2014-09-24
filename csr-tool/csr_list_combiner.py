@@ -129,7 +129,7 @@ def combine(chip_infos):
                 description = csr_by_chip[chip].description
                 notes = csr_by_chip[chip].notes
                 break
-        combined_csr = Csr(current.group, [name], current.type, description, notes, current.is_banked, current.inherits_algorithm)
+        combined_csr = Csr(current.group, [name], current.bar, current.type, description, notes, current.is_banked, current.inherits_algorithm)
         combined_csr.range = csr_range
         combined_csr.address_info = current.address_info
 
