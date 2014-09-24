@@ -125,22 +125,6 @@ void __bdk_init_main(int arg, void *arg1)
         environ = calloc(sizeof(*environ), 1);
         if (!environ)
             bdk_error("Failed to allocate environment, setenv will crash\n");
-
-        if (BDK_SHOW_BOOT_BANNERS)
-        {
-            for (int i=0; i<2; i++)
-            {
-                /* Always enable flow control in the simulator. The simulator reports
-                    CTS=0, but it prevents the FIFO being overrun */
-                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_UAAX_FR(i), cts, ==, 1, 1000))
-                    printf("Hardware flow control disabled on UART%d\n", i);
-                else
-                {
-                    bdk_set_baudrate(node, i, BDK_UART_BAUDRATE, 1);
-                    printf("Hardware flow control enabled on UART%d\n", i);
-                }
-            }
-        }
     }
 
     /* Perform initialization that needs to be done once per node */
