@@ -310,6 +310,9 @@ int main(void)
     }
 #endif
 
+    /* Unlock L2 now that DRAM works */
+    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
+
     /* Send status to the BMC: Master DRAM init complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
 
