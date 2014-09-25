@@ -194,7 +194,13 @@ int main(void)
     bdk_gpio_initialize(node, 10, 1, 1);
 
     /* Initialize TWSI interface TBD as a slave */
-    //FIXME
+    if (BMC_TWSI != -1)
+    {
+        BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(bus));
+        sw_twsi.u = 0;
+        sw_twsi.s.slonly = 1; /* Slave only */
+        BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI), sw_twsi.u);
+    }
 
     /* Send status to the BMC: Started boot stub */
     update_bmc_status(BMC_STATUS_BOOT_STUB_STARTING);
