@@ -56,21 +56,36 @@ static void __bdk_init_local_node(void)
         BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
     }
 
+    BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
     bdk_l2c_initialize(node);
+    BDK_TRACE(INIT, "N%d: Initialize random number generator\n", node);
     bdk_rng_enable(node);
 
     if (BDK_IS_REQUIRED(PCIE))
+    {
+        BDK_TRACE(INIT, "N%d: Performing global PCIe initialization\n", node);
         bdk_pcie_global_initialize(node);
+    }
     if (BDK_IS_REQUIRED(QLM))
+    {
+        BDK_TRACE(INIT, "N%d: Performing global QLM initialization\n", node);
         bdk_qlm_init(node);
+    }
     if (BDK_IS_REQUIRED(TWSI))
+    {
+        BDK_TRACE(INIT, "N%d: Initialize TWSI\n", node);
         bdk_twsix_initialize(node);
+    }
     if (bdk_mdio_initialize)
+    {
+        BDK_TRACE(INIT, "N%d: Initialize MDIO\n", node);
         bdk_mdio_initialize(node);
+    }
 
     /* Allow all IO units to access secure memory */
     for (int smmu = 0; smmu < 4; smmu++)
     {
+        BDK_TRACE(INIT, "N%d: Initialize SMMU%d\n", node, smmu);
         for (int id = 0; id < 2048; id++)
             BDK_CSR_WRITE(bdk_numa_local(), BDK_SMMUX_SSDRX(smmu, id), 0);
     }
@@ -110,6 +125,7 @@ void __bdk_init_main(int arg, void *arg1)
     BDK_WMB;
 
     /* Init any system registers that need to be done on every core */
+    BDK_TRACE(INIT, "N%d: Initialize system registers\n", node);
     __bdk_init_sysreg();
 
     /* Perform one time init that must be done on the master node. This
@@ -121,6 +137,7 @@ void __bdk_init_main(int arg, void *arg1)
 
         __bdk_config_init(); /* Some config setting are dynamically updated */
 
+        BDK_TRACE(INIT, "N%d: Setup environment\n", node);
         extern char **environ;
         environ = calloc(sizeof(*environ), 1);
         if (!environ)
