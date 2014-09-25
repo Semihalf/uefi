@@ -46,6 +46,7 @@ __bdk_start:
     #define L2C_WPAR_PP0_OFFSET 0x40000
     mov     x1, L2C_WPAR_PP0_OFFSET
     str     xzr, [x0, x1]
+    ldr     xzr, [x0, x1]       /* Read back to make sure done */
 
     /* Relocate ourself if we aren't running at our link address */
     mov     x0, _start          /* x0 = _start location based on PC */
