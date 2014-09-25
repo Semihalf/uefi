@@ -93,6 +93,7 @@
 #include "bdk-csrs-smi.h"
 #include "bdk-csrs-smmu.h"
 #include "bdk-csrs-tns.h"
+#include "bdk-csrs-tns_sst.h"
 #include "bdk-csrs-trickbox.h"
 #include "bdk-csrs-uaa.h"
 #include "bdk-csrs-usbh.h"
