@@ -55,6 +55,10 @@ class ChipInfo:
     def addBar(self, bar):
         assert isinstance(bar, ChipBar)
         assert not bar.name in self._bars
+        # TNS special case. TNS defines both TNS_PF_BAR2 and TNS_SST_PF_BAR2
+        # that are the same. Ignore TNS_SST_PF_BAR2 as a workaround
+        if bar.name == "TNS_SST_PF_BAR2":
+            return
         for n in self._bars:
             b = self._bars[n]
             assert (bar.start >= b.start + (1 << b.size)) or (bar.start + (1 << bar.size) <= b.start)

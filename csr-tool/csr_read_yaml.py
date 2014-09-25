@@ -285,6 +285,7 @@ def build_csr(chip_info, group, register, raw):
                    "subblock",
                    "tns_fused",
                    "uvm_default_constraint",
+                   "xpliant_name",
                    "xpliant_xml_skip"])
     # Parse the register name, description, and notes
     name_list = parseCsrName(register["name"])

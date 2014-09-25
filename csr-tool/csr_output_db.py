@@ -135,7 +135,7 @@ def write(file, separate_chip_infos):
     #
     # Write the per chip CSR tables
     #
-    null_csr = getCsrTable("{-1, BDK_CSR_TYPE_NCB,0,0,{0,0,0,0},0,{0,0,0,0}}")
+    null_csr = getCsrTable("{-1, 0, 0, BDK_CSR_TYPE_NCB, 0, 0, {0,0,0,0}, {0,0,0,0}}")
     for chip_index in range(len(separate_chip_infos)):
         chip = separate_chip_infos[chip_index].name
         out.write("static const int16_t __bdk_csr_db_%s[] = {\n" % chip)
@@ -149,15 +149,19 @@ def write(file, separate_chip_infos):
                 range_list[i] = getRangeTable(csr.range[i])
                 param_inc[i] = getNumberTable(csr.address_info[i+1])
             name = csr.name.replace("#", "X")
-            csr_str = "{%5d, BDK_CSR_TYPE_%s,%d,%3d,{%2d,%2d,%2d,%2d},%2d,{%2d,%2d,%2d,%2d}}" % (
-                        getStringTable(name), csr.type, csr.getNumBits() / 8, getFieldListTable(csr),
+            csr_str = "{%5d, %4d, %d, BDK_CSR_TYPE_%s,%d,%3d,{%2d,%2d,%2d,%2d},{%2d,%2d,%2d,%2d}}" % (
+                        getStringTable(name), # Name index
+                        getNumberTable(csr.address_info[0]), # Base index
+                        0, # Unused
+                        csr.type, # Type
+                        csr.getNumBits() / 8, # Width in bytes
+                        getFieldListTable(csr), # Field index
                         range_list[0], range_list[1], range_list[2], range_list[3],
-                        getNumberTable(csr.address_info[0]),
                         param_inc[0], param_inc[1], param_inc[2], param_inc[3])
             csr_index = getCsrTable(csr_str)
             out.write("    %d, /* %s */\n" % (csr_index, name))
 
-        out.write("    %d\n" % null_csr)
+        out.write("    %s\n" % null_csr)
         out.write("};\n\n")
     #
     # Write the global CSR table
