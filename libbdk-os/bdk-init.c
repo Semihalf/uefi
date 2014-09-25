@@ -833,9 +833,11 @@ static void setup_node(bdk_node_t node)
  * Call this function to take secondary nodes and cores out of
  * reset and have them start running threads
  *
+ * @param skip_cores If non-zero, cores are not started. Only the nodes are setup
+ *
  * @return Zero on success, negative on failure.
  */
-int bdk_init_nodes(void)
+int bdk_init_nodes(int skip_cores)
 {
     int result = 0;
 
@@ -855,7 +857,8 @@ int bdk_init_nodes(void)
         if (bdk_numa_exists(node))
         {
             setup_node(node);
-            result |= bdk_init_cores(node, 0);
+            if (!skip_cores)
+                result |= bdk_init_cores(node, 0);
         }
     }
     return result;

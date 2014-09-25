@@ -32,7 +32,7 @@ local ALIASES = {
 
 local TrafficGen = {}
 function TrafficGen.new()
-    --cavium.c.bdk_init_nodes(); FIXME
+    --cavium.c.bdk_init_nodes(0); FIXME
     cavium.c.bdk_init_cores(0, 0xf)
     local self = {}
     --

@@ -87,7 +87,7 @@ end
 repeat
     local m = menu.new("DRAM Test Menu")
     m:item("cores", "Bringup Cores for multi-core testing",
-           cavium.c.bdk_init_nodes)
+           cavium.c.bdk_init_nodes, 0)
     if range_repeat == -1 then
         m:item("repeat", "Number of time to repeat the test (Forever)" % range_repeat, set_range_repeat)
     else

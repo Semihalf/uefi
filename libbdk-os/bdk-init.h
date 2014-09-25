@@ -35,9 +35,11 @@ extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
  * Call this function to take secondary nodes and cores out of
  * reset and have them start running threads
  *
+ * @param skip_cores If non-zero, cores are not started. Only the nodes are setup
+ *
  * @return Zero on success, negative on failure.
  */
-extern int bdk_init_nodes(void);
+extern int bdk_init_nodes(int skip_cores);
 
 /**
  * This function is the first function run on all cores once the
