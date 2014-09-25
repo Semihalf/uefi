@@ -318,9 +318,7 @@ int main(void)
 
     /* Setup CCPI such that both nodes can communicate */
     if (MULTI_NODE)
-    {
-        //FIXME
-    }
+        bdk_init_nodes(1);
 
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
