@@ -15,6 +15,9 @@ device io_memory n1.usb0 config 0x300000 0x968000000000
 device io_memory n1.usb1 config 0x300000 0x969000000000
 device io_memory n0.ccpi config 0x1000000 0x87e011000000
 device io_memory n1.ccpi config 0x1000000 0x97e011000000
+device io_memory n0.ocla config 0x1000000 0x87E0A8000000
+device io_memory n1.ocla config 0x1000000 0x97E0A8000000
+
 
 # Make 2nd node remote boot
 control n1.gpio0 set strap 0x8

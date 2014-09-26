@@ -155,12 +155,8 @@ void __bdk_init(uint32_t image_crc)
 	/* FIXME */
 
         /* Initialize the is_simulation flag */
-#if 0 /* FIXME: Implement sim flag */
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
         __bdk_is_simulation = (c.u == 0);
-#else
-        __bdk_is_simulation = 1; // FIXME: Asim doesn't support OCLA
-#endif
 
         BDK_MSR(CNTFRQ_EL0, 400000000);
         bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
