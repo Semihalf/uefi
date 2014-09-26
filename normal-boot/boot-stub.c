@@ -2,18 +2,20 @@
 
 /* Which TWSI interface to use for the BMC, -1 to disable */
 #define BMC_TWSI -1
-/* Control if we even try and do multi-node (0 ro 1) */
+/* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 0
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 ebb8800
 /* Name of DRAM config for slave node 1 */
 //#define DRAM_NODE1 ebb8800
-/* How long to wait for selection of diagnostics */
+/* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
-/* Address of the diagnostics in flash */
+/* Address of the diagnostics in flash (512KB is right after boot stubs) */
 #define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00800000
+/* Enable or disable detailed tracing of the boot stub (0 or 1) */
+#define BDK_TRACE_ENABLE_BOOT_STUB 0
 
 /* This macro simplifies referencing DRAM configurations later in the
    code. It converts a DRAM_NODE* macro into a C function name. If
@@ -191,12 +193,14 @@ int main(void)
     bdk_node_t node = bdk_numa_local();
 
     /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
+    BDK_TRACE(BOOT_STUB, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
 
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
     {
-        BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(bus));
+        BDK_TRACE(BOOT_STUB, "Initializing TWSI%d as a slave\n", BMC_TWSI);
+        BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI));
         sw_twsi.u = 0;
         sw_twsi.s.slonly = 1; /* Slave only */
         BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI), sw_twsi.u);
@@ -205,6 +209,7 @@ int main(void)
     /* Send status to the BMC: Started boot stub */
     update_bmc_status(BMC_STATUS_BOOT_STUB_STARTING);
 
+    BDK_TRACE(BOOT_STUB, "Extracting strapping options\n");
     /* Initialize UART was done earlier in the BDK */
     /* Decode how we booted and display a banner */
     bdk_sys_midr_el1_t midr_el1;
@@ -292,6 +297,7 @@ int main(void)
 
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
+    BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
     extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE0)(void);
     int mbytes = libdram_config(bdk_numa_master(), CONFIG_FUNC_NAME(DRAM_NODE0)(), 0);
     if (mbytes > 0)
@@ -311,6 +317,7 @@ int main(void)
 #endif
 
     /* Unlock L2 now that DRAM works */
+    BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
     bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
 
     /* Send status to the BMC: Master DRAM init complete */
@@ -318,7 +325,10 @@ int main(void)
 
     /* Setup CCPI such that both nodes can communicate */
     if (MULTI_NODE)
+    {
+        BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_init_nodes(1);
+    }
 
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
@@ -327,6 +337,7 @@ int main(void)
 #ifdef DRAM_NODE1
     if (MULTI_NODE)
     {
+        BDK_TRACE(BOOT_STUB, "Initializing DRAM on other node\n");
         extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
         int mbytes = libdram_config(1, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
         if (mbytes > 0)
@@ -340,6 +351,7 @@ int main(void)
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
     /* Initialize the QLMs */
+    BDK_TRACE(BOOT_STUB, "Initializing QLMs\n");
     /* QLM0 = 40G-KR4 */
     bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_40G_KR4_1X4, 10321, 0);
     /* QLM1 = 10G-KR */
@@ -357,7 +369,10 @@ int main(void)
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
         if (bdk_numa_exists(n))
+        {
+            BDK_TRACE(BOOT_STUB, "Initializing MDIO on Node %d\n", n);
             bdk_mdio_initialize(n);
+        }
     }
 
     /* Initialize BGX, ready for driver */
@@ -375,7 +390,10 @@ int main(void)
         if (bdk_numa_exists(n))
         {
             for (int p = 0; p < 2; p++)
+            {
+                BDK_TRACE(BOOT_STUB, "Initializing USB%d on Node %d\n", p, n);
                 bdk_usb_intialize(n, p, 0);
+            }
         }
     }
 
@@ -384,12 +402,16 @@ int main(void)
     {
         if (bdk_numa_exists(n))
         {
+            BDK_TRACE(BOOT_STUB, "Performing global PCIe initialization on Node %d\n", n);
             bdk_pcie_global_initialize(n);
             for (int p = 0; p < bdk_pcie_get_num_ports(n); p++)
             {
                 /* Only init PCIe that are attached to QLMs */
                 if (bdk_qlm_get(n, BDK_IF_PCIE, p) != -1)
+                {
+                    BDK_TRACE(BOOT_STUB, "Initializing PCIe%d on Node %d\n", p, n);
                     bdk_pcie_rc_initialize(n, p);
+                }
             }
         }
     }
@@ -398,7 +420,10 @@ int main(void)
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
         if (bdk_numa_exists(n))
+        {
+            BDK_TRACE(BOOT_STUB, "Initializing TWSI on Node %d\n", n);
             bdk_twsix_initialize(n);
+        }
     }
 
     /* Select ATF or diagnostics image */
@@ -426,10 +451,12 @@ int main(void)
     /* Transfer control to next image */
     if (use_atf)
     {
+        BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
         boot_image(boot_device_name, ATF_ADDRESS);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
     }
+    BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
     boot_image(boot_device_name, DIAGS_ADDRESS);
 
     bdk_error("Image load failed\n");
