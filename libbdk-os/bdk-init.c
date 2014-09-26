@@ -40,7 +40,7 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
             iii. Readback UCTL_CTL to ensure the values take effect.
         c. Deassert the HCLK clock divider reset: UCTL_CTL[H_CLKDIV_RST] = 0. */
     BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
-        c.s.h_clkdiv_sel = 1; /* Run at SCLK / 4 */
+        c.s.h_clkdiv_sel = 3; /* Run at SCLK / 6, matches emulator */
         c.s.h_clk_byp_sel = 0;
         c.s.h_clk_en = 1);
     BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
@@ -74,7 +74,13 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
                 This means BRDI = 1 and BRDF = 0.085.
                 Therefore, fractional part, BRDF = integer((0.085x64)+0.5) = 5
                 Generated baud rate divider = 1+5/64 = 1.078 */
-    uint64_t divisor_x_64 = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (baudrate * 16 * 4 / 64);
+#ifdef HW_EMULATOR
+    #warning Configured for the hardware emulator
+    /* The hardware emulator currently fixes the uart at a fixed rate */
+    uint64_t divisor_x_64 = 64;
+#else
+    uint64_t divisor_x_64 = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (baudrate * 16 * 6 / 64);
+#endif
     BDK_CSR_MODIFY(c, node, BDK_UAAX_IBRD(uart),
         c.s.baud_divint = divisor_x_64 >> 6);
     BDK_CSR_MODIFY(c, node, BDK_UAAX_FBRD(uart),
