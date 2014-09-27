@@ -124,7 +124,7 @@ void __bdk_init(uint32_t image_crc)
     BDK_MSR(s3_0_c11_c0_4, cvmmemctl0_el1.u);
 
 
-    /* Setup chacing with no mmu */
+    /* Setup running with no mmu */
     bdk_sys_sctlr_elx_t sctlr_el3;
     BDK_MRS(SCTLR_EL3, sctlr_el3.u);
     sctlr_el3.s.ee = 0; /* Little endian */
@@ -158,6 +158,7 @@ void __bdk_init(uint32_t image_crc)
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
         __bdk_is_simulation = (c.u == 0);
 
+        /* Disable the core timer */
         BDK_MSR(CNTFRQ_EL0, 400000000);
         bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
         cntps_ctl_el1.u = 0;
