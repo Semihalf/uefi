@@ -6,6 +6,8 @@
 #define MULTI_NODE 0
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 ebb8800
+/* Enable verbose logging from DRAM initialization (0 or 1) */
+#define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
 //#define DRAM_NODE1 ebb8800
 /* How long to wait for selection of diagnostics (seconds) */
@@ -297,6 +299,8 @@ int main(void)
 
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
+    if (DRAM_VERBOSE)
+        setenv("ddr_verbose", "yes", 1);
     BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
     extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE0)(void);
     int mbytes = libdram_config(bdk_numa_master(), CONFIG_FUNC_NAME(DRAM_NODE0)(), 0);
