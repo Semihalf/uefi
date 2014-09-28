@@ -334,6 +334,7 @@ typedef struct
     uint64_t block_addressable_device;
     uint64_t card_is_sd;
     uint64_t relative_address;
+    int64_t init_status;
 } mmc_card_state_t;
 
 #ifdef HW_EMULATOR
@@ -645,6 +646,10 @@ do {                                                                            
  */
 int64_t bdk_mmc_initialize(int chip_sel)
 {
+#ifdef HW_EMULATOR
+    if (card_state[chip_sel].init_status)
+        return card_state[chip_sel].init_status;
+#endif
     bdk_node_t node = bdk_numa_local();
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
@@ -856,6 +861,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
 
     // Return the card size in bytes
     BDK_TRACE(EMMC, "MMC init done\n");
+    card_state[chip_sel].init_status = mmc_capacity;
     return mmc_capacity;
 }
 
