@@ -25,6 +25,7 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_TRACE_ENABLE_DRAM_TEST  0   /* DRAM test code */
 #define BDK_TRACE_ENABLE_INIT       0   /* Early initalization, before main() */
 #define BDK_TRACE_ENABLE_QLM        0   /* QLM related debug */
+#define BDK_TRACE_ENABLE_EMMC       0   /* eMMC related debug */
 
 /**
  * Macro for low level tracing of BDK functions. When enabled,

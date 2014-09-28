@@ -336,8 +336,12 @@ typedef struct
     uint64_t relative_address;
 } mmc_card_state_t;
 
+#ifdef HW_EMULATOR
+#define MSEC 1 /* Emulator doesn't need full delay. Lie about how long a msec is */
+#else
+#define MSEC 1000 /* 1000 usec */
+#endif
 #define ULL unsigned long long
-static const int show_debug = 0;
 static mmc_card_state_t card_state[4];
 
 
@@ -351,29 +355,29 @@ static void print_cmd_status(void)
     BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
     BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
 
-    printf("Command index = %d, command type = %d\n", sts_reg.s.cmd_idx, sts_reg.s.cmd_type);
+    BDK_TRACE(EMMC, "Command index = %d, command type = %d\n", sts_reg.s.cmd_idx, sts_reg.s.cmd_type);
     switch (sts_reg.s.rsp_type)
     {
         case 1:
-            printf("Response type 1, card status = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
+            BDK_TRACE(EMMC, "Response type 1, card status = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
             break;
         case 2:
-            printf("Response type 2, rsp_hi-bits = 0x%016llx, rsp_lo-bits = 0x%016llx\n", (ULL)rsp_hi.u, (ULL)rsp_lo.u);
+            BDK_TRACE(EMMC, "Response type 2, rsp_hi-bits = 0x%016llx, rsp_lo-bits = 0x%016llx\n", (ULL)rsp_hi.u, (ULL)rsp_lo.u);
             break;
         case 3:
-            printf("Response type 3, OCR Register = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
+            BDK_TRACE(EMMC, "Response type 3, OCR Register = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
             break;
         case 4:
-            printf("Response type 4, RCA = 0x%llx, status =0x%llx, reg. addr. = 0x%llx, reg. contents = 0x%llx\n",
+            BDK_TRACE(EMMC, "Response type 4, RCA = 0x%llx, status =0x%llx, reg. addr. = 0x%llx, reg. contents = 0x%llx\n",
                    (ULL)((rsp_lo.u >> 24) & 0xffff), (ULL)((rsp_lo.u >> 23) & 0x1), (ULL)((rsp_lo.u >> 16) & 0x7F), (ULL)((rsp_lo.u >> 8) & 0xFF));
             break;
         case 5:
-            printf("Response type 5, RCA = 0x%llx, status =0x%llx, reg. addr. = 0x%llx\n",
+            BDK_TRACE(EMMC, "Response type 5, RCA = 0x%llx, status =0x%llx, reg. addr. = 0x%llx\n",
                    (ULL)((rsp_lo.u >> 24) & 0xffff), (ULL)((rsp_lo.u >> 23) & 0x1), (ULL)((rsp_lo.u >> 16) & 0x7F));
             break;
 
         default:
-            printf("Unknown response type, rsp_sts. reg. = 0x%llx\n", (ULL)sts_reg.u);
+            BDK_TRACE(EMMC, "Unknown response type, rsp_sts. reg. = 0x%llx\n", (ULL)sts_reg.u);
     }
 }
 
@@ -411,16 +415,16 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
     /* We use loops ever 1ms here instead of a wall time based timeout so
         code isn't needed to keep track of accurate time on both host and
         target */
-    int wait_loops = 1000;
+    BDK_TRACE(EMMC, "Waiting for command completion\n");
+    int wait_loops = 1000000 / MSEC;
     while (sts_reg.s.cmd_done != 1)
     {
         if (--wait_loops <= 0)
         {
-            if (show_debug)
-                printf("No response, timeout.\n");
+            BDK_TRACE(EMMC, "No response, timeout.\n");
             return sts_reg;
         }
-        bdk_wait_usec(1000);
+        bdk_wait_usec(MSEC);
         sts_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
     }
 
@@ -430,43 +434,37 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         if (sts_reg.s.rsp_bad_sts || sts_reg.s.stp_bad_sts)
         {
             BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
-            if (show_debug)
-                printf("Response bad status, cmd response = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
+            BDK_TRACE(EMMC, "Response bad status, cmd response = 0x%08x\n", (uint32_t) ((rsp_lo.u >>8) & 0xFFFFFFFF));
             cmd_error++;
         }
         if (sts_reg.s.rsp_crc_err || sts_reg.s.stp_crc_err)
         {
-            if (show_debug)
-                printf("Response CRC error.\n");
+            BDK_TRACE(EMMC, "Response CRC error.\n");
             cmd_error++;
         }
         if (sts_reg.s.rsp_timeout || sts_reg.s.stp_timeout)
         {
-            if (show_debug)
-                printf("Response timeout error.\n");
+            BDK_TRACE(EMMC, "Response timeout error.\n");
             cmd_error++;
         }
         if (sts_reg.s.blk_crc_err)
         {
-            if (show_debug)
-                printf("Read/write block CRC error.\n");
+            BDK_TRACE(EMMC, "Read/write block CRC error.\n");
             cmd_error++;
         }
         if (sts_reg.s.blk_timeout)
         {
-            if (show_debug)
-                printf("Read/write block timeout error.\n");
+            BDK_TRACE(EMMC, "Read/write block timeout error.\n");
             cmd_error++;
         }
         if (sts_reg.s.dbuf_err)
         {
-            if (show_debug)
-                printf("Dbuf error, no free buffer\n");
+            BDK_TRACE(EMMC, "Dbuf error, no free buffer\n");
             cmd_error++;
         }
         if (cmd_error)
         {
-            if (show_debug)
+            if (BDK_TRACE_ENABLE_EMMC)
                 print_cmd_status();
             return sts_reg;
         }
@@ -477,17 +475,17 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
             (sts_reg.s.cmd_idx != MMC_CMD_SET_DSR) &&
             (sts_reg.s.cmd_idx != MMC_CMD_GO_INACTIVE_STATE))
         {
-            if (show_debug)
+            if (BDK_TRACE_ENABLE_EMMC)
             {
                 cmd_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_CMD);
                 sts_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
                 BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
                 BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
-                printf("No valid response\n");
-                printf("mio_emm_cmd     = 0x%016llx\n", (ULL)cmd_reg.u);
-                printf("mio_emm_rsp_sts = 0x%016llx\n", (ULL)sts_reg.u);
-                printf("mio_emm_rsp_lo  = 0x%016llx\n", (ULL)rsp_lo.u);
-                printf("mio_emm_rsp_hi  = 0x%016llx\n", (ULL)rsp_hi.u);
+                BDK_TRACE(EMMC, "No valid response\n");
+                BDK_TRACE(EMMC, "mio_emm_cmd     = 0x%016llx\n", (ULL)cmd_reg.u);
+                BDK_TRACE(EMMC, "mio_emm_rsp_sts = 0x%016llx\n", (ULL)sts_reg.u);
+                BDK_TRACE(EMMC, "mio_emm_rsp_lo  = 0x%016llx\n", (ULL)rsp_lo.u);
+                BDK_TRACE(EMMC, "mio_emm_rsp_hi  = 0x%016llx\n", (ULL)rsp_hi.u);
             }
             return sts_reg;
         }
@@ -505,11 +503,11 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
  */
 static void print_ocr_reg(ocr_register_t ocr_reg)
 {
-    printf("\nOCR Register fields --\n");
-    printf("Volts 1.70 - 1.95 0x%04x\n", ocr_reg.s.volts_1_7__1_95);
-    printf("Volts 2.0 - 2.6   0x%04x\n", ocr_reg.s.volts_2_0__2_6);
-    printf("Volts 2.7 - 3.6   0x%04x\n", ocr_reg.s.volts_2_7__3_6);
-    printf("Access Mode       0x%04x\n", ocr_reg.s.access_mode);
+    BDK_TRACE(EMMC, "\nOCR Register fields --\n");
+    BDK_TRACE(EMMC, "Volts 1.70 - 1.95 0x%04x\n", ocr_reg.s.volts_1_7__1_95);
+    BDK_TRACE(EMMC, "Volts 2.0 - 2.6   0x%04x\n", ocr_reg.s.volts_2_0__2_6);
+    BDK_TRACE(EMMC, "Volts 2.7 - 3.6   0x%04x\n", ocr_reg.s.volts_2_7__3_6);
+    BDK_TRACE(EMMC, "Access Mode       0x%04x\n", ocr_reg.s.access_mode);
 }
 
 
@@ -527,41 +525,41 @@ static void print_csd_reg(int chip_sel, uint64_t reg_hi, uint64_t reg_lo)
         sd_csd_register_lo_t  sd_csd_reg_lo;
         sd_csd_reg_hi.u = reg_hi;
         sd_csd_reg_lo.u = reg_lo;
-        printf("\nCSD Register fields --\n");
-        printf("csd_structure       = 0x%x\n", sd_csd_reg_hi.s.csd_structure);
-        printf("reserved_120_125    = 0x%x\n", sd_csd_reg_hi.s.reserved_120_125);
-        printf("taac                = 0x%x\n", sd_csd_reg_hi.s.taac);
-        printf("nsac                = 0x%x\n", sd_csd_reg_hi.s.nsac);
-        printf("tran_speed          = 0x%x\n", sd_csd_reg_hi.s.tran_speed);
-        printf("ccc                 = 0x%x\n", sd_csd_reg_hi.s.ccc);
-        printf("read_bl_len         = 0x%x\n", sd_csd_reg_hi.s.read_bl_len);
-        printf("read_bl_partial     = 0x%x\n", sd_csd_reg_hi.s.read_bl_partial);
-        printf("write_blk_misalign  = 0x%x\n", sd_csd_reg_hi.s.write_blk_misalign);
-        printf("read_blk_misalign   = 0x%x\n", sd_csd_reg_hi.s.read_blk_misalign);
-        printf("dsr_imp             = 0x%x\n", sd_csd_reg_hi.s.dsr_imp);
-        printf("reserved_74_75      = 0x%x\n", sd_csd_reg_hi.s.reserved_74_75);
-        printf("c_size              = 0x%x\n", (sd_csd_reg_hi.s.c_size << 2) + sd_csd_reg_lo.s.c_size);
-        printf("vdd_r_curr_min      = 0x%x\n", sd_csd_reg_lo.s.vdd_r_curr_min);
-        printf("vdd_r_curr_max      = 0x%x\n", sd_csd_reg_lo.s.vdd_r_curr_max);
-        printf("vdd_w_curr_min      = 0x%x\n", sd_csd_reg_lo.s.vdd_w_curr_min);
-        printf("vdd_w_curr_max      = 0x%x\n", sd_csd_reg_lo.s.vdd_w_curr_max);
-        printf("c_size_mult         = 0x%x\n", sd_csd_reg_lo.s.c_size_mult);
-        printf("erase_blk_en        = 0x%x\n", sd_csd_reg_lo.s.erase_blk_en);
-        printf("wp_grp_size         = 0x%x\n", sd_csd_reg_lo.s.wp_grp_size);
-        printf("wp_grp_enable       = 0x%x\n", sd_csd_reg_lo.s.wp_grp_enable);
-        printf("reserved_29_30      = 0x%x\n", sd_csd_reg_lo.s.reserved_29_30);
-        printf("r2w_factor          = 0x%x\n", sd_csd_reg_lo.s.r2w_factor);
-        printf("write_bl_len        = 0x%x\n", sd_csd_reg_lo.s.write_bl_len);
-        printf("write_bl_partial    = 0x%x\n", sd_csd_reg_lo.s.write_bl_partial);
-        printf("reserved_16_20      = 0x%x\n", sd_csd_reg_lo.s.reserved_16_20);
-        printf("file_format_grp     = 0x%x\n", sd_csd_reg_lo.s.file_format_grp);
-        printf("copy                = 0x%x\n", sd_csd_reg_lo.s.copy);
-        printf("perm_write_protect  = 0x%x\n", sd_csd_reg_lo.s.perm_write_protect);
-        printf("tmp_write_protect   = 0x%x\n", sd_csd_reg_lo.s.tmp_write_protect);
-        printf("file_format         = 0x%x\n", sd_csd_reg_lo.s.file_format);
-        printf("reserved_8_9        = 0x%x\n", sd_csd_reg_lo.s.reserved_8_9);
-        printf("crc                 = 0x%x\n", sd_csd_reg_lo.s.crc);
-        printf("always_one          = 0x%x\n", sd_csd_reg_lo.s.always_one);
+        BDK_TRACE(EMMC, "\nCSD Register fields --\n");
+        BDK_TRACE(EMMC, "csd_structure       = 0x%x\n", sd_csd_reg_hi.s.csd_structure);
+        BDK_TRACE(EMMC, "reserved_120_125    = 0x%x\n", sd_csd_reg_hi.s.reserved_120_125);
+        BDK_TRACE(EMMC, "taac                = 0x%x\n", sd_csd_reg_hi.s.taac);
+        BDK_TRACE(EMMC, "nsac                = 0x%x\n", sd_csd_reg_hi.s.nsac);
+        BDK_TRACE(EMMC, "tran_speed          = 0x%x\n", sd_csd_reg_hi.s.tran_speed);
+        BDK_TRACE(EMMC, "ccc                 = 0x%x\n", sd_csd_reg_hi.s.ccc);
+        BDK_TRACE(EMMC, "read_bl_len         = 0x%x\n", sd_csd_reg_hi.s.read_bl_len);
+        BDK_TRACE(EMMC, "read_bl_partial     = 0x%x\n", sd_csd_reg_hi.s.read_bl_partial);
+        BDK_TRACE(EMMC, "write_blk_misalign  = 0x%x\n", sd_csd_reg_hi.s.write_blk_misalign);
+        BDK_TRACE(EMMC, "read_blk_misalign   = 0x%x\n", sd_csd_reg_hi.s.read_blk_misalign);
+        BDK_TRACE(EMMC, "dsr_imp             = 0x%x\n", sd_csd_reg_hi.s.dsr_imp);
+        BDK_TRACE(EMMC, "reserved_74_75      = 0x%x\n", sd_csd_reg_hi.s.reserved_74_75);
+        BDK_TRACE(EMMC, "c_size              = 0x%x\n", (sd_csd_reg_hi.s.c_size << 2) + sd_csd_reg_lo.s.c_size);
+        BDK_TRACE(EMMC, "vdd_r_curr_min      = 0x%x\n", sd_csd_reg_lo.s.vdd_r_curr_min);
+        BDK_TRACE(EMMC, "vdd_r_curr_max      = 0x%x\n", sd_csd_reg_lo.s.vdd_r_curr_max);
+        BDK_TRACE(EMMC, "vdd_w_curr_min      = 0x%x\n", sd_csd_reg_lo.s.vdd_w_curr_min);
+        BDK_TRACE(EMMC, "vdd_w_curr_max      = 0x%x\n", sd_csd_reg_lo.s.vdd_w_curr_max);
+        BDK_TRACE(EMMC, "c_size_mult         = 0x%x\n", sd_csd_reg_lo.s.c_size_mult);
+        BDK_TRACE(EMMC, "erase_blk_en        = 0x%x\n", sd_csd_reg_lo.s.erase_blk_en);
+        BDK_TRACE(EMMC, "wp_grp_size         = 0x%x\n", sd_csd_reg_lo.s.wp_grp_size);
+        BDK_TRACE(EMMC, "wp_grp_enable       = 0x%x\n", sd_csd_reg_lo.s.wp_grp_enable);
+        BDK_TRACE(EMMC, "reserved_29_30      = 0x%x\n", sd_csd_reg_lo.s.reserved_29_30);
+        BDK_TRACE(EMMC, "r2w_factor          = 0x%x\n", sd_csd_reg_lo.s.r2w_factor);
+        BDK_TRACE(EMMC, "write_bl_len        = 0x%x\n", sd_csd_reg_lo.s.write_bl_len);
+        BDK_TRACE(EMMC, "write_bl_partial    = 0x%x\n", sd_csd_reg_lo.s.write_bl_partial);
+        BDK_TRACE(EMMC, "reserved_16_20      = 0x%x\n", sd_csd_reg_lo.s.reserved_16_20);
+        BDK_TRACE(EMMC, "file_format_grp     = 0x%x\n", sd_csd_reg_lo.s.file_format_grp);
+        BDK_TRACE(EMMC, "copy                = 0x%x\n", sd_csd_reg_lo.s.copy);
+        BDK_TRACE(EMMC, "perm_write_protect  = 0x%x\n", sd_csd_reg_lo.s.perm_write_protect);
+        BDK_TRACE(EMMC, "tmp_write_protect   = 0x%x\n", sd_csd_reg_lo.s.tmp_write_protect);
+        BDK_TRACE(EMMC, "file_format         = 0x%x\n", sd_csd_reg_lo.s.file_format);
+        BDK_TRACE(EMMC, "reserved_8_9        = 0x%x\n", sd_csd_reg_lo.s.reserved_8_9);
+        BDK_TRACE(EMMC, "crc                 = 0x%x\n", sd_csd_reg_lo.s.crc);
+        BDK_TRACE(EMMC, "always_one          = 0x%x\n", sd_csd_reg_lo.s.always_one);
     }
     else
     {
@@ -569,43 +567,43 @@ static void print_csd_reg(int chip_sel, uint64_t reg_hi, uint64_t reg_lo)
         mmc_csd_register_lo_t mmc_csd_reg_lo;
         mmc_csd_reg_hi.u = reg_hi;
         mmc_csd_reg_lo.u = reg_lo;
-        printf("\nCSD Register fields --\n");
-        printf("csd_structure       = 0x%x\n", mmc_csd_reg_hi.s.csd_structure);
-        printf("spec_vers           = 0x%x\n", mmc_csd_reg_hi.s.spec_vers);
-        printf("reserved_120_121    = 0x%x\n", mmc_csd_reg_hi.s.reserved_120_121);
-        printf("taac                = 0x%x\n", mmc_csd_reg_hi.s.taac);
-        printf("nsac                = 0x%x\n", mmc_csd_reg_hi.s.nsac);
-        printf("tran_speed          = 0x%x\n", mmc_csd_reg_hi.s.tran_speed);
-        printf("ccc                 = 0x%x\n", mmc_csd_reg_hi.s.ccc);
-        printf("read_bl_len         = 0x%x\n", mmc_csd_reg_hi.s.read_bl_len);
-        printf("read_bl_partial     = 0x%x\n", mmc_csd_reg_hi.s.read_bl_partial);
-        printf("write_blk_misalign  = 0x%x\n", mmc_csd_reg_hi.s.write_blk_misalign);
-        printf("read_blk_misalign   = 0x%x\n", mmc_csd_reg_hi.s.read_blk_misalign);
-        printf("dsr_imp             = 0x%x\n", mmc_csd_reg_hi.s.dsr_imp);
-        printf("reserved_74_75      = 0x%x\n", mmc_csd_reg_hi.s.reserved_74_75);
-        printf("c_size              = 0x%x\n", (mmc_csd_reg_hi.s.c_size << 2) + mmc_csd_reg_lo.s.c_size);
-        printf("vdd_r_curr_min      = 0x%x\n", mmc_csd_reg_lo.s.vdd_r_curr_min);
-        printf("vdd_r_curr_max      = 0x%x\n", mmc_csd_reg_lo.s.vdd_r_curr_max);
-        printf("vdd_w_curr_min      = 0x%x\n", mmc_csd_reg_lo.s.vdd_w_curr_min);
-        printf("vdd_w_curr_max      = 0x%x\n", mmc_csd_reg_lo.s.vdd_w_curr_max);
-        printf("c_size_mult         = 0x%x\n", mmc_csd_reg_lo.s.c_size_mult);
-        printf("erase_grp_size      = 0x%x\n", mmc_csd_reg_lo.s.erase_grp_size);
-        printf("erase_grp_mult      = 0x%x\n", mmc_csd_reg_lo.s.erase_grp_mult);
-        printf("wp_grp_size         = 0x%x\n", mmc_csd_reg_lo.s.wp_grp_size);
-        printf("wp_grp_enable       = 0x%x\n", mmc_csd_reg_lo.s.wp_grp_enable);
-        printf("default_ecc         = 0x%x\n", mmc_csd_reg_lo.s.default_ecc);
-        printf("r2w_factor          = 0x%x\n", mmc_csd_reg_lo.s.r2w_factor);
-        printf("write_bl_len        = 0x%x\n", mmc_csd_reg_lo.s.write_bl_len);
-        printf("write_bl_partial    = 0x%x\n", mmc_csd_reg_lo.s.write_bl_partial);
-        printf("reserved_17_20      = 0x%x\n", mmc_csd_reg_lo.s.reserved_17_20);
-        printf("content_prot_app    = 0x%x\n", mmc_csd_reg_lo.s.content_prot_app);
-        printf("file_format_grp     = 0x%x\n", mmc_csd_reg_lo.s.file_format_grp);
-        printf("copy                = 0x%x\n", mmc_csd_reg_lo.s.copy);
-        printf("perm_write_protect  = 0x%x\n", mmc_csd_reg_lo.s.perm_write_protect);
-        printf("tmp_write_protect   = 0x%x\n", mmc_csd_reg_lo.s.tmp_write_protect);
-        printf("file_format         = 0x%x\n", mmc_csd_reg_lo.s.file_format);
-        printf("crc                 = 0x%x\n", mmc_csd_reg_lo.s.crc);
-        printf("always_one          = 0x%x\n", mmc_csd_reg_lo.s.always_one);
+        BDK_TRACE(EMMC, "\nCSD Register fields --\n");
+        BDK_TRACE(EMMC, "csd_structure       = 0x%x\n", mmc_csd_reg_hi.s.csd_structure);
+        BDK_TRACE(EMMC, "spec_vers           = 0x%x\n", mmc_csd_reg_hi.s.spec_vers);
+        BDK_TRACE(EMMC, "reserved_120_121    = 0x%x\n", mmc_csd_reg_hi.s.reserved_120_121);
+        BDK_TRACE(EMMC, "taac                = 0x%x\n", mmc_csd_reg_hi.s.taac);
+        BDK_TRACE(EMMC, "nsac                = 0x%x\n", mmc_csd_reg_hi.s.nsac);
+        BDK_TRACE(EMMC, "tran_speed          = 0x%x\n", mmc_csd_reg_hi.s.tran_speed);
+        BDK_TRACE(EMMC, "ccc                 = 0x%x\n", mmc_csd_reg_hi.s.ccc);
+        BDK_TRACE(EMMC, "read_bl_len         = 0x%x\n", mmc_csd_reg_hi.s.read_bl_len);
+        BDK_TRACE(EMMC, "read_bl_partial     = 0x%x\n", mmc_csd_reg_hi.s.read_bl_partial);
+        BDK_TRACE(EMMC, "write_blk_misalign  = 0x%x\n", mmc_csd_reg_hi.s.write_blk_misalign);
+        BDK_TRACE(EMMC, "read_blk_misalign   = 0x%x\n", mmc_csd_reg_hi.s.read_blk_misalign);
+        BDK_TRACE(EMMC, "dsr_imp             = 0x%x\n", mmc_csd_reg_hi.s.dsr_imp);
+        BDK_TRACE(EMMC, "reserved_74_75      = 0x%x\n", mmc_csd_reg_hi.s.reserved_74_75);
+        BDK_TRACE(EMMC, "c_size              = 0x%x\n", (mmc_csd_reg_hi.s.c_size << 2) + mmc_csd_reg_lo.s.c_size);
+        BDK_TRACE(EMMC, "vdd_r_curr_min      = 0x%x\n", mmc_csd_reg_lo.s.vdd_r_curr_min);
+        BDK_TRACE(EMMC, "vdd_r_curr_max      = 0x%x\n", mmc_csd_reg_lo.s.vdd_r_curr_max);
+        BDK_TRACE(EMMC, "vdd_w_curr_min      = 0x%x\n", mmc_csd_reg_lo.s.vdd_w_curr_min);
+        BDK_TRACE(EMMC, "vdd_w_curr_max      = 0x%x\n", mmc_csd_reg_lo.s.vdd_w_curr_max);
+        BDK_TRACE(EMMC, "c_size_mult         = 0x%x\n", mmc_csd_reg_lo.s.c_size_mult);
+        BDK_TRACE(EMMC, "erase_grp_size      = 0x%x\n", mmc_csd_reg_lo.s.erase_grp_size);
+        BDK_TRACE(EMMC, "erase_grp_mult      = 0x%x\n", mmc_csd_reg_lo.s.erase_grp_mult);
+        BDK_TRACE(EMMC, "wp_grp_size         = 0x%x\n", mmc_csd_reg_lo.s.wp_grp_size);
+        BDK_TRACE(EMMC, "wp_grp_enable       = 0x%x\n", mmc_csd_reg_lo.s.wp_grp_enable);
+        BDK_TRACE(EMMC, "default_ecc         = 0x%x\n", mmc_csd_reg_lo.s.default_ecc);
+        BDK_TRACE(EMMC, "r2w_factor          = 0x%x\n", mmc_csd_reg_lo.s.r2w_factor);
+        BDK_TRACE(EMMC, "write_bl_len        = 0x%x\n", mmc_csd_reg_lo.s.write_bl_len);
+        BDK_TRACE(EMMC, "write_bl_partial    = 0x%x\n", mmc_csd_reg_lo.s.write_bl_partial);
+        BDK_TRACE(EMMC, "reserved_17_20      = 0x%x\n", mmc_csd_reg_lo.s.reserved_17_20);
+        BDK_TRACE(EMMC, "content_prot_app    = 0x%x\n", mmc_csd_reg_lo.s.content_prot_app);
+        BDK_TRACE(EMMC, "file_format_grp     = 0x%x\n", mmc_csd_reg_lo.s.file_format_grp);
+        BDK_TRACE(EMMC, "copy                = 0x%x\n", mmc_csd_reg_lo.s.copy);
+        BDK_TRACE(EMMC, "perm_write_protect  = 0x%x\n", mmc_csd_reg_lo.s.perm_write_protect);
+        BDK_TRACE(EMMC, "tmp_write_protect   = 0x%x\n", mmc_csd_reg_lo.s.tmp_write_protect);
+        BDK_TRACE(EMMC, "file_format         = 0x%x\n", mmc_csd_reg_lo.s.file_format);
+        BDK_TRACE(EMMC, "crc                 = 0x%x\n", mmc_csd_reg_lo.s.crc);
+        BDK_TRACE(EMMC, "always_one          = 0x%x\n", mmc_csd_reg_lo.s.always_one);
     }
 }
 
@@ -653,21 +651,25 @@ int64_t bdk_mmc_initialize(int chip_sel)
 
     // Disable bus 1, casues the clocking to reset to the default
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
-    bdk_wait_usec(200000);
+    BDK_TRACE(EMMC, "Delay 200ms\n");
+    bdk_wait_usec(200 * MSEC);
 
     // Disable buses and reset device using GPIO8
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(8),
                    c.s.tx_oe = 1);
-    bdk_wait_usec(1000);
+    BDK_TRACE(EMMC, "Delay 1ms\n");
+    bdk_wait_usec(MSEC);
 
     BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, 1<<8);
 
-    bdk_wait_usec(200000);
+    BDK_TRACE(EMMC, "Delay 200ms\n");
+    bdk_wait_usec(200 * MSEC);
 
     BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, 1<<8);
 
-    bdk_wait_usec(2000);
+    BDK_TRACE(EMMC, "Delay 2ms\n");
+    bdk_wait_usec(2 * MSEC);
 
     // Enable bus
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
@@ -687,7 +689,8 @@ int64_t bdk_mmc_initialize(int chip_sel)
     emm_switch.s.clk_hi = sclk;
     emm_switch.s.clk_lo = sclk;
     BDK_CSR_WRITE(node, BDK_MIO_EMM_SWITCH, emm_switch.u);
-    bdk_wait_usec(2000);
+    BDK_TRACE(EMMC, "Delay 2ms\n");
+    bdk_wait_usec(2 * MSEC);
 
     // Assume card is eMMC
     card_state[chip_sel].card_is_sd = 0;
@@ -695,7 +698,8 @@ int64_t bdk_mmc_initialize(int chip_sel)
     // Reset the status mask reg., boot will change it
     BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, 0xE4390080);
 
-    bdk_wait_usec(2000);
+    BDK_TRACE(EMMC, "Delay 2ms\n");
+    bdk_wait_usec(2 * MSEC);
 
     // Setup watchdog timer
     wdog_default();
@@ -783,7 +787,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
     }
     // Global to determine if the card is block or byte addressable.
     card_state[chip_sel].block_addressable_device = ocr_reg.s.access_mode;
-    if (show_debug)
+    if (BDK_TRACE_ENABLE_EMMC)
         print_ocr_reg(ocr_reg);
 
     // Get card identification
@@ -842,7 +846,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
         mmc_capacity *= 1<<mmc_csd_reg_hi.s.read_bl_len;
     }
 
-    if (show_debug)
+    if (BDK_TRACE_ENABLE_EMMC)
         print_csd_reg(chip_sel, csd_reg_hi.u, csd_reg_lo.u);
 
     // Select Card
@@ -851,6 +855,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
     MMC_CMD_OR_ERROR(MMC_CMD_SEND_STATUS, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
 
     // Return the card size in bytes
+    BDK_TRACE(EMMC, "MMC init done\n");
     return mmc_capacity;
 }
 
@@ -892,6 +897,7 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
     /* Read until we've read all data */
     while (length > 0)
     {
+        BDK_TRACE(EMMC, "Read 0x%lx\n", address);
         /* Send the read command */
         BDK_CSR_DEFINE(status, BDK_MIO_EMM_RSP_STS);
         status = mmc_cmd(MMC_CMD_READ_SINGLE_BLOCK, (card_state[chip_sel].block_addressable_device) ? address/512 : address, chip_sel, 0, 0, 0, 0);
@@ -909,6 +915,7 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
         buf_idx.s.offset = 0;
         BDK_CSR_WRITE(node, BDK_MIO_EMM_BUF_IDX, buf_idx.u);
 
+        BDK_TRACE(EMMC, "Copy data\n");
         /* Read out the data block and add it to the output buffer */
         for (int i=0; i<512/8; i++)
         {
@@ -919,6 +926,7 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
         /* Increment to the next position and adjust the size left */
         address += 512;
         length -= 512;
+        BDK_TRACE(EMMC, "Read done\n");
     }
     return 0;
 }
