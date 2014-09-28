@@ -417,7 +417,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         code isn't needed to keep track of accurate time on both host and
         target */
     BDK_TRACE(EMMC, "Waiting for command completion\n");
-    int wait_loops = 1000000 / MSEC;
+    int wait_loops = 100000 / MSEC;
     while (sts_reg.s.cmd_done != 1)
     {
         if (--wait_loops <= 0)
