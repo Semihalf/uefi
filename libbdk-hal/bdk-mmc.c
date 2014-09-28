@@ -938,6 +938,9 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
         address += 512;
         length -= 512;
         BDK_TRACE(EMMC, "Read done\n");
+#ifdef HW_EMULATOR
+        putchar('.');
+#endif
     }
     return 0;
 }
