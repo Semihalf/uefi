@@ -8,7 +8,7 @@ ${DIR}/bdk.bin: bdk.bin
 stage1.bin: boot-stub.bin
 	${BDK_ROOT}/bin/bdk-update-romfs stage1.bin boot-stub.bin
 
-stage2.bin: diagnostics.bin lua
+stage2.bin: diagnostics.bin lua/*
 	${BDK_ROOT}/bin/bdk-update-romfs stage2.bin diagnostics.bin lua/*
 
 bdk.bin: stage1.bin stage2.bin
