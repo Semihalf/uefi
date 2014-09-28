@@ -125,7 +125,7 @@ void __bdk_init_main(int arg, void *arg1)
     BDK_WMB;
 
     /* Init any system registers that need to be done on every core */
-    BDK_TRACE(INIT, "N%d: Initialize system registers\n", node);
+    BDK_TRACE(INIT, "N%d: Initialize system registers on Core %d\n", node, bdk_get_core_num());
     __bdk_init_sysreg();
 
     /* Perform one time init that must be done on the master node. This
