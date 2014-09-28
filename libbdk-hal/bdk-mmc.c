@@ -679,9 +679,14 @@ int64_t bdk_mmc_initialize(int chip_sel)
     // Enable bus
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
 
-    // Change the clock to run at 1Mhz
+    // Change the clock
+#ifdef HW_EMULATOR
+    uint64_t CLOCK_HZ = 40000000; /* 40Mhz */
+#else
+    uint64_t CLOCK_HZ = 1000000; /* 1Mhz */
+#endif
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
-    sclk /= 1000000; /* Want 1Mhz */
+    sclk /= CLOCK_HZ;
     sclk /= 2; /* Half is time hi/lo */
     BDK_CSR_INIT(emm_mode, node, BDK_MIO_EMM_MODEX(chip_sel));
     BDK_CSR_DEFINE(emm_switch, BDK_MIO_EMM_SWITCH);
