@@ -266,17 +266,6 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_get_num_cores(node)) - 1;
 
-    /* We may also need to turn power on */
-    uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
-    if (power & coremask)
-    {
-        power &= ~coremask;
-        BDK_TRACE(INIT, "N%d: Changing pwoer state of cores\n", node);
-        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
-        if (!bdk_is_simulation())
-            bdk_wait_usec(1000); /* A delay seems to be needed here */
-    }
-
     uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
     BDK_TRACE(INIT, "N%d: Cores currently in reset: 0x%lx\n", node, reset);
     uint64_t need_reset_off = reset & coremask;
@@ -341,15 +330,6 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
         BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
     }
 
-    /* Check that all cores in reset are also powered off */
-    uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
-    if (~power & reset)
-    {
-        power |= reset;
-        BDK_TRACE(INIT, "N%d: Updating power state for cores in reset\n", node);
-        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
-        BDK_TRACE(INIT, "N%d: Cores in low power state: 0x%lx\n", node, power);
-    }
     return (coremask & ~reset) ? -1 : 0;
 }
 

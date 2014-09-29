@@ -46,15 +46,8 @@ static void __bdk_init_local_node(void)
     if (BDK_SHOW_BOOT_BANNERS)
         printf("N%d: Performing node initialization\n", node);
 
-    /* Check that all cores in reset are also powered off */
-    uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
-    uint64_t power = BDK_CSR_READ(node, BDK_RST_PP_POWER);
-    if (~power & reset)
-    {
-        power |= reset;
-        BDK_TRACE(INIT, "N%d: Updating power state for cores in reset\n", node);
-        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, power);
-    }
+    /* FIXME: Check that all cores default to low power */
+    //BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -1);
 
     BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
     bdk_l2c_initialize(node);
