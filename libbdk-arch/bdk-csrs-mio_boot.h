@@ -101,7 +101,17 @@ typedef union bdk_mio_boot_bist_stat {
 	struct bdk_mio_boot_bist_stat_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
-		uint64_t stat                        : 9;  /**< RO/H - BIST status. */
+		uint64_t stat                        : 9;  /**< RO/H - BIST status.
+                                                                 INTERNAL:
+                                                                   \<0\> = mio.mio_boot.mio_boot_fifo.mem.
+                                                                   \<1\> = mio.mio_boot.mio_boot_rsp.mem.
+                                                                   \<2\> = mio.mio_boot.mio_boot_dma.mem.
+                                                                   \<3\> = mio.mio_nbt.mio_nbt_fifo.mem.
+                                                                   \<4\> = mio.mio_emm.bufs.mem.mem.
+                                                                   \<5\> = mio.mio_nbr.ncbo_crd_fif_mem0.
+                                                                   \<6\> = mio.csr.csr_fifo.
+                                                                   \<7\> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
+                                                                   \<8\> = mio.mio_rsl.mio_pcc.gpi_pcc. */
 #else
 		uint64_t stat                        : 9;
 		uint64_t reserved_9_63               : 55;

@@ -192,8 +192,10 @@ typedef union bdk_pciercx_cfg002 {
 		uint32_t pi                          : 8;  /**< RO/WRSL - Programming interface, writable through PEM()_CFG_WR. However, the application must
                                                                  not change this field. */
 		uint32_t rid                         : 8;  /**< RO/WRSL - Revision ID, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. Possible values:
-                                                                 0x0 = pass 1.0 */
+                                                                 this field.
+                                                                 0x0 = pass 1.0.
+                                                                 0x1 = pass 1.1.
+                                                                 0x8 = pass 2.0. */
 #else
 		uint32_t rid                         : 8;
 		uint32_t pi                          : 8;

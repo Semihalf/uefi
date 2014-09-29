@@ -2252,9 +2252,9 @@ typedef union bdk_nic_pf_ecc0_cdis {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
-                                                                   \<15:9\> = Reserved.
-                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
-                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<15:8\> = Reserved.
+                                                                   \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
+                                                                 mem_128x128.
                                                                    \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
                                                                    \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
@@ -2457,9 +2457,9 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
-                                                                   \<15:9\> = Reserved.
-                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
-                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<15:8\> = Reserved.
+                                                                   \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
+                                                                 mem_128x128.
                                                                    \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
                                                                    \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
@@ -2515,9 +2515,9 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
-                                                                   \<15:9\> = Reserved.
-                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
-                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<15:8\> = Reserved.
+                                                                   \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
+                                                                 mem_128x128.
                                                                    \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
                                                                    \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
@@ -2727,11 +2727,10 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                    \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
                                                                    \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
-                                                                   \<1\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.base_regs.
+                                                                   \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
-                                                                 \<23:17\> = Reserved.
-                                                                 \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
+                                                                 \<23:16\> = Reserved.
                                                                  \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                  \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
                                                                  \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
@@ -2924,11 +2923,10 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                    \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
                                                                    \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
-                                                                   \<1\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.base_regs.
+                                                                   \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
-                                                                 \<23:17\> = Reserved.
-                                                                 \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
+                                                                 \<23:16\> = Reserved.
                                                                  \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                  \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
                                                                  \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
@@ -2982,11 +2980,10 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                    \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
                                                                    \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
-                                                                   \<1\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.base_regs.
+                                                                   \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
-                                                                 \<23:17\> = Reserved.
-                                                                 \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
+                                                                 \<23:16\> = Reserved.
                                                                  \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                  \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
                                                                  \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.

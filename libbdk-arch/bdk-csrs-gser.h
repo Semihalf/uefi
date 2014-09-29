@@ -895,7 +895,7 @@ typedef union bdk_gserx_lanex_misc_cfg_0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t use_pma_polarity            : 1;  /**< R/W - If set, the PMA control is used to define the polarity.
-                                                                 In not set, GSER()_LANE()_RX_CFG_0[CFG_RX_POL_INVERT]
+                                                                 If not set, GSER()_LANE()_RX_CFG_0[CFG_RX_POL_INVERT]
                                                                  is used. */
 		uint64_t cfg_pcs_loopback            : 1;  /**< R/W - Assert for Parallel Loopback Raw PCS TX to Raw PCS RX. */
 		uint64_t pcs_tx_mode_ovrrd_en        : 1;  /**< R/W - Override enable for Raw PCS TX data width. */
@@ -903,15 +903,17 @@ typedef union bdk_gserx_lanex_misc_cfg_0 {
 		uint64_t cfg_eie_det_cnt             : 4;  /**< R/W - EIE detect state machine required number of consecutive
                                                                  PHY EIE status assertions to determine EIE and assert Raw
                                                                  PCS output pcs_mac_rx_eie_det_sts. */
-		uint64_t eie_det_stl_on_time         : 3;  /**< R/W - EIE detec state machine "on" delay prior to sampling
+		uint64_t eie_det_stl_on_time         : 3;  /**< R/W - EIE detect state machine "on" delay prior to sampling
                                                                  PHY EIE status.  Software needs to set this field to 0x4 if
                                                                  in SATA mode (GSER()_CFG[SATA] is set). */
-		uint64_t eie_det_stl_off_time        : 3;  /**< R/W - EIE detec state machine "off" delay prior to sampling
+		uint64_t eie_det_stl_off_time        : 3;  /**< R/W - EIE detect state machine "off" delay prior to sampling
                                                                  PHY EIE status. */
-		uint64_t tx_bit_order                : 1;  /**< R/W - 0x1: Reverse bit order of parallel data to SerDes TX.
-                                                                 0x0: Maintain bit order of parallel data to SerDes TX. */
-		uint64_t rx_bit_order                : 1;  /**< R/W - 0x1: Reverse bit order of parallel data to SerDes RX.
-                                                                 0x0: Maintain bit order of parallel data to SerDes RX. */
+		uint64_t tx_bit_order                : 1;  /**< R/W - Specify transmit bit order.
+                                                                 1 = reverse bit order of parallel data to SerDes TX.
+                                                                 0 = maintain bit order of parallel data to SerDes TX. */
+		uint64_t rx_bit_order                : 1;  /**< R/W - Specify receive bit order:
+                                                                 1 = reverse bit order of parallel data to SerDes RX.
+                                                                 0 = maintain bit order of parallel data to SerDes RX. */
 #else
 		uint64_t rx_bit_order                : 1;
 		uint64_t tx_bit_order                : 1;

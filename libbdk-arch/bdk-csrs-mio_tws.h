@@ -83,8 +83,12 @@ typedef union bdk_mio_twsx_int {
 		uint64_t reserved_12_63              : 52;
 		uint64_t scl                         : 1;  /**< RO/H - SCL signal. */
 		uint64_t sda                         : 1;  /**< RO/H - SDA signal. */
-		uint64_t scl_ovr                     : 1;  /**< R/W - SCL override. */
-		uint64_t sda_ovr                     : 1;  /**< R/W - SDA override. */
+		uint64_t scl_ovr                     : 1;  /**< R/W - SCL testing override:
+                                                                 0 = Normal operation, SCL bus controlled by TWSI core.
+                                                                 1 = Pull SCL low. */
+		uint64_t sda_ovr                     : 1;  /**< R/W - SDA testing override:
+                                                                 0 = Normal operation, SDA bus controlled by TWSI core.
+                                                                 1 = Pull SDA low. */
 		uint64_t reserved_3_7                : 5;
 		uint64_t core_int                    : 1;  /**< RO/H - TWSI core interrupt, whenever IFLG is set. Ignored when the HLC is enabled. */
 		uint64_t ts_int                      : 1;  /**< R/W1C/H - MIO_TWS()_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. */

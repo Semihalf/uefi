@@ -998,7 +998,7 @@ typedef union bdk_lmcx_dbtrain_ctl {
                                                                  DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
 		uint64_t activate                    : 1;  /**< R/W - Enables the activate command during the data buffer training sequence. */
 		uint64_t prank                       : 2;  /**< R/W - Physical Rank bits for Read/Write/Activate operation during the data buffer
-                                                                 training. INTERNAL: FIXME, needs to be 4 bits for the case of DDP DIMM. */
+                                                                 training. */
 		uint64_t lrank                       : 3;  /**< R/W - Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
 		uint64_t row_a                       : 18; /**< R/W - The row address for the Activate command during dbtrain. */
