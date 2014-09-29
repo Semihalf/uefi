@@ -718,7 +718,11 @@ int64_t bdk_mmc_initialize(int chip_sel)
     MMC_CMD_OR_ERROR(MMC_CMD_GO_IDLE_STATE, 0, chip_sel, 0, 0, 0, 0);
 
     // Do a CMD SEND_EXT_CSD (8)
+#ifdef HW_EMULATOR
+    status.u = -1; /* This always fails on the emulator so save boot time */
+#else
     status = mmc_cmd(MMC_CMD_SEND_EXT_CSD, 0x000001AA, chip_sel, 0, 2, 1, 0);
+#endif
     if (status.u == 0x0)
     {
         // We may have an SD card, as it should respond
@@ -759,7 +763,11 @@ int64_t bdk_mmc_initialize(int chip_sel)
         // Send a ACMD 41
         do
         {
+#ifdef HW_EMULATOR
+            status.u = -1; /* This always fails on the emulator so save boot time */
+#else
             status = mmc_cmd(MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
+#endif
             if (status.u == 0x0)
             {
                 status = mmc_cmd(41, 0x40ff8000, chip_sel, 0, 3, 0, 0);
