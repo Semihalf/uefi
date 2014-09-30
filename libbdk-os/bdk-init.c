@@ -23,22 +23,6 @@ int __bdk_is_simulation;
  */
 void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_control)
 {
-#if HW_EMULATOR
-    /* Set UAAX_UCTL_CTL[h_clk_en,h_clkdiv_rst,h_clkdiv_sel=3,uaa_rst,uctl_rst] */
-    BDK_CSR_WRITE(node, BDK_UAAX_UCTL_CTL(uart), 0x53000003);
-    /* Clear UAAX_UCTL_CTL[h_clkdiv_rst] */
-    BDK_CSR_WRITE(node, BDK_UAAX_UCTL_CTL(uart), 0x43000003);
-    /* Clear UAAX_UCTL_CTL[uaa_rst,uctl_rst] */
-    BDK_CSR_WRITE(node, BDK_UAAX_UCTL_CTL(uart), 0x43000000);
-    /* Set UAAX_UCTL_CTL[csclk_en] */
-    BDK_CSR_WRITE(node, BDK_UAAX_UCTL_CTL(uart), 0x43000010);
-    /* Set UAAX_IBRD=1 (integer part of divisor) */
-    BDK_CSR_WRITE(node, BDK_UAAX_IBRD(uart), 0x1);
-    /* Set UAAX_LCR_H[wlen=8bits,fen=1(fifo)] */
-    BDK_CSR_WRITE(node, BDK_UAAX_LCR_H(uart), 0x70);
-    /* Set UAAX_CR[rxe,txe,uarten] */
-    BDK_CSR_WRITE(node, BDK_UAAX_CR(uart), 0x00000301);
-#else
     /* 1.2.1 Initialization Sequence (Power-On/Hard/Cold Reset) */
     /* 1. Wait for IOI reset (srst_n) to deassert. */
     /* 2. Assert all resets:
@@ -72,9 +56,9 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
         c. UCTL_CTL[UAHC_RST] = 0
         d. You will have to wait 10 HCLK cycles before accessing any
             HCLK-only registers. */
-    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.uctl_rst = 1);
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.uctl_rst = 0);
     bdk_wait(100); /* Overkill */
-    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.uaa_rst = 1);
+    BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart), c.s.uaa_rst = 0);
     bdk_wait(100); /* Overkill */
 
     /* 6. Enable conditional SCLK of UCTL by writing UCTL_CTL[CSCLK_EN] = 1. */
@@ -122,7 +106,6 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
         c.s.txe = 1; /* Enable transmit */
         c.s.lbe = 0; /* Disable loopback */
         c.s.uarten = 1); /* Enable uart */
-#endif
 }
 
 void __bdk_init(uint32_t image_crc) __attribute((noreturn));
