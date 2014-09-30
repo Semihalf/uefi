@@ -1613,6 +1613,11 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
+    /* INT_BEAT_GEN must be set for loopback if the QLMs are not clocked. Set
+       it whenever we use internal loopback */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
+        c.s.int_beat_gen = (loopback & BDK_IF_LOOPBACK_INTERNAL));
+
     if (priv->mode == BGX_MODE_SGMII)
     {
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(handle->interface, priv->port),
@@ -1625,11 +1630,8 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
     {
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(handle->interface, priv->port),
             c.s.loopbck = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
-        if (loopback & BDK_IF_LOOPBACK_EXTERNAL)
-        {
-            /* FIXME: What about SPU external loopback? */
-            bdk_error("%s: External loopback not implemented\n", handle->name);
-        }
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_EXT_LOOPBACK(handle->interface, priv->port),
+            c.s.en = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
         xaui_link(handle);
     }
     return 0;
