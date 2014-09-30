@@ -2,7 +2,7 @@
 -- Print out a banner
 print("")
 print("THUNDERX Bringup and Diagnostic Kit")
-print("Copyright (C) 2010-2014 Cavium Networks")
+print("Copyright (C) 2010-2014 Cavium Inc.")
 print("Version ".. require("bdk-version"))
 print("")
 

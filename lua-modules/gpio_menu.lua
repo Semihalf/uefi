@@ -2,7 +2,7 @@
 -- Displays the GUI interface for configuring and accessing GPIO pins.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2013 Cavium Networks
+-- * Copyright (C) 2010-2014 Cavium Inc.
 --
 require("strict")
 require("utils")

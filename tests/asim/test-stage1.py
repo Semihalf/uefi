@@ -149,7 +149,7 @@ wait_for("Switching to main")
 wait_for("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
 
 wait_for("THUNDERX Bringup and Diagnostic Kit")
-wait_for("Copyright (C) 2010-2014 Cavium Networks")
+wait_for("Copyright (C) 2010-2014 Cavium Inc.")
 wait_for("Version")
 
 wait_for("Configuring for the EBB8800")
