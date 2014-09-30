@@ -190,6 +190,7 @@ int bdk_pcie_get_num_ports(bdk_node_t node)
  */
 uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_t mem_type)
 {
+    /* See __bdk_pcie_sli_initialize() for a description about how SLI regions work */
     /* Ports 0-2 goto SLI0, ports 3-5 goto SLI1 */
     int sli = (pcie_port >= 3) ? 1 : 0;
     int sli_group = pcie_port - sli * 3;
@@ -414,17 +415,48 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
         c.s.max_word = 0;     /* Allow 16 words to combine */
         c.s.timer = 50);      /* Wait up to 50 cycles for more data */
 
-    /* There are 256 regions per SLI. We need three regions per PCIe port to
-       sopport IO, normal, and prefetchable memory regions. The 256 regions are
-       shared across PCIe, so we need three groups of these (one group for each
-       PCIe */
+    /* There are 256 regions per SLI. We need four regions per PCIe port to
+       support config, IO, normal, and prefetchable regions. The 256 regions
+       are shared across PCIe, so we need three groups of these (one group
+       for each PCIe). The setup is:
+       SLI bit[7:6]: PCIe port, relative to SLI (SLI0 is PCIe 0-2, SLI1 is PCIe 3-5)
+       SLI bit[5:4]: Region. See bdk_pcie_mem_t enumeration
+       SLI bit[3:0]: Address extension from 32 bits to 36 bits
+       */
     int sli_group = pcie_port - 3 * sli;
-    for (bdk_pcie_mem_t mem_region = BDK_PCIE_MEM_NORMAL; mem_region <= BDK_PCIE_MEM_IO; mem_region++)
+    for (bdk_pcie_mem_t mem_region = BDK_PCIE_MEM_CONFIG; mem_region <= BDK_PCIE_MEM_IO; mem_region++)
     {
         /* Use top two bits for PCIe port, next two bits for memory region */
         int sli_region = sli_group << 6;
         /* Use next two bits for mem region type */
         sli_region |= mem_region << 4;
+        /* Figure out the hardware setting for each region */
+        int ctype = 3;
+        int nmerge = 1;
+        int ordering = 0;
+        switch (mem_region)
+        {
+            case BDK_PCIE_MEM_CONFIG: /* Config space */
+                ctype = 1;      /* Config space */
+                nmerge = 1;     /* No merging allowed */
+                ordering = 0;   /* NO "relaxed ordering" or "no snoop" */
+                break;
+            case BDK_PCIE_MEM_NORMAL: /* Memory, not prefetchable */
+                ctype = 0;      /* Memory space */
+                nmerge = 0;     /* Merging allowed */
+                ordering = 0;   /* NO "relaxed ordering" or "no snoop" */
+                break;
+            case BDK_PCIE_MEM_PREFETCH: /* Memory, prefetchable */
+                ctype = 0;      /* Memory space */
+                nmerge = 0;     /* Merging allowed */
+                ordering = 0;   /* Yes "relaxed ordering" and "no snoop" */
+                break;
+            case BDK_PCIE_MEM_IO: /* IO */
+                ctype = 2;      /* I/O space */
+                nmerge = 1;     /* No merging allowed */
+                ordering = 0;   /* NO "relaxed ordering" or "no snoop" */
+                break;
+        }
         /* Use the lower order bits to work as an address extension, allowing
            each PCIe port to map a total of 36 bits (32bit each region, 16
            regions) */
@@ -437,12 +469,12 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
             address >>= 32;
             address += r;
             BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
-                c.s.ctype = (mem_region == BDK_PCIE_MEM_IO) ? 2 : 0;
+                c.s.ctype = ctype;
                 c.s.zero = 0;
                 c.s.mac = pcie_port;
-                c.s.nmerge = (mem_region == BDK_PCIE_MEM_IO);
-                c.s.wtype = (mem_region == BDK_PCIE_MEM_PREFETCH) ? 3 : 0;
-                c.s.rtype = c.s.wtype;
+                c.s.nmerge = nmerge;
+                c.s.wtype = ordering;
+                c.s.rtype = ordering;
                 c.s.ba = address);
         }
     }
@@ -591,36 +623,37 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
  */
 static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
-    int ecam = 0;
-
     switch (pcie_port)
     {
-        case 0 ... 2:
-            ecam = 1;   /* PCIe RC 0-2 */
-            break;
-        case 3 ... 5:
-            ecam = 3;   /* PCIe RC 3-5 */
-            break;
-        case 100:
-        case 101:
-        case 102:
-        case 103:
-            /* Use fake ports 100+ to directly access the internal ECAMs */
-            ecam = pcie_port - 100;
-            break;
+        case 0 ... 5:
+        {
+            /* Errata (SLI-22555)  2014-10-07  ECAM to off-chip PCI misroutes
+               address. Use the SLI regions instead of ECAMs for config space
+               access */
+            uint64_t address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_CONFIG);
+            address += bus << 24;   /* Bus is bits 31:24 */
+            address += dev << 19;   /* device+func is bits 23:16 */
+            address += fn << 16;
+            address += reg;         /* Offset is bits 11:0 */
+            return address;
+        }
+        case 100 ... 103: /* Use fake ports 100+ to directly access the internal ECAMs */
+        {
+            int ecam = pcie_port - 100;
+            union ecam_cfg_addr_s address;
+            address.u = 0;
+            address.s.io = 1;
+            address.s.node = node;
+            address.s.did = 0x48 + ecam;
+            address.s.setup = 0;
+            address.s.bcst = 0;
+            address.s.bus = bus;
+            address.s.func = dev << 3 | fn;
+            address.s.addr = reg;
+            return address.u;
+        }
     }
-
-    union ecam_cfg_addr_s address;
-    address.u = 0;
-    address.s.io = 1;
-    address.s.node = node;
-    address.s.did = 0x48 + ecam;
-    address.s.setup = 0;
-    address.s.bcst = 0;
-    address.s.bus = bus;
-    address.s.func = dev << 3 | fn;
-    address.s.addr = reg;
-    return address.u;
+    return 0;
 }
 
 

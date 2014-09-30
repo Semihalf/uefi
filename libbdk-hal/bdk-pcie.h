@@ -11,6 +11,7 @@
 
 typedef enum
 {
+    BDK_PCIE_MEM_CONFIG,    /* Config space */
     BDK_PCIE_MEM_NORMAL,    /* Memory, not prefetchable */
     BDK_PCIE_MEM_PREFETCH,  /* Memory, prefetchable */
     BDK_PCIE_MEM_IO,        /* IO */
