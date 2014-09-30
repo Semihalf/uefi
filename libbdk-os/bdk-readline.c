@@ -846,7 +846,7 @@ static uint64_t gettime(void)
 }
 
 
-int bdk_readline_getkey(int timeout_us)
+int bdk_readline_getkey(uint64_t timeout_us)
 {
 #ifdef BDK_BUILD_HOST
     /* Switch to RAW terminal IO */

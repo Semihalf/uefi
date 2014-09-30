@@ -45,7 +45,7 @@ extern const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *ta
  *
  * @return The key, or -1 on timeout
  */
-extern int bdk_readline_getkey(int timeout_us);
+extern int bdk_readline_getkey(uint64_t timeout_us);
 
 /** @} */
 #endif /* __READLINE_H__ */
