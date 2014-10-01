@@ -221,6 +221,9 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     /* Disable all MAC filtering */
     for (int i = 0; i < 32; i++)
         BDK_CSR_WRITE(handle->node, BDK_BGXX_CMR_RX_DMACX_CAM(handle->interface, i), 0);
+    /* Disable MAC steering */
+    for (int i = 0; i < 8; i++)
+        BDK_CSR_WRITE(handle->node, BDK_BGXX_CMR_RX_STEERINGX(handle->interface, i), 0);
     return 0;
 }
 
