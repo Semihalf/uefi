@@ -58,6 +58,76 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
+ * Enumeration MIO_PTP_EXT_SEL_E
+ *
+ * External sources Select Enumeration
+ * Enumerates the different external signal sources for PTP.
+ * Note that CCPI reference clocks cannot be selected.
+ */
+enum mio_ptp_ext_sel_e {
+	MIO_PTP_EXT_SEL_E_GPIO0 = 0x0,
+	MIO_PTP_EXT_SEL_E_GPIO1 = 0x1,
+	MIO_PTP_EXT_SEL_E_GPIO10 = 0xa,
+	MIO_PTP_EXT_SEL_E_GPIO11 = 0xb,
+	MIO_PTP_EXT_SEL_E_GPIO12 = 0xc,
+	MIO_PTP_EXT_SEL_E_GPIO13 = 0xd,
+	MIO_PTP_EXT_SEL_E_GPIO14 = 0xe,
+	MIO_PTP_EXT_SEL_E_GPIO15 = 0xf,
+	MIO_PTP_EXT_SEL_E_GPIO16 = 0x10,
+	MIO_PTP_EXT_SEL_E_GPIO17 = 0x11,
+	MIO_PTP_EXT_SEL_E_GPIO18 = 0x12,
+	MIO_PTP_EXT_SEL_E_GPIO19 = 0x13,
+	MIO_PTP_EXT_SEL_E_GPIO2 = 0x2,
+	MIO_PTP_EXT_SEL_E_GPIO20 = 0x14,
+	MIO_PTP_EXT_SEL_E_GPIO21 = 0x15,
+	MIO_PTP_EXT_SEL_E_GPIO22 = 0x16,
+	MIO_PTP_EXT_SEL_E_GPIO23 = 0x17,
+	MIO_PTP_EXT_SEL_E_GPIO24 = 0x18,
+	MIO_PTP_EXT_SEL_E_GPIO25 = 0x19,
+	MIO_PTP_EXT_SEL_E_GPIO26 = 0x1a,
+	MIO_PTP_EXT_SEL_E_GPIO27 = 0x1b,
+	MIO_PTP_EXT_SEL_E_GPIO28 = 0x1c,
+	MIO_PTP_EXT_SEL_E_GPIO29 = 0x1d,
+	MIO_PTP_EXT_SEL_E_GPIO3 = 0x3,
+	MIO_PTP_EXT_SEL_E_GPIO30 = 0x1e,
+	MIO_PTP_EXT_SEL_E_GPIO31 = 0x1f,
+	MIO_PTP_EXT_SEL_E_GPIO32 = 0x20,
+	MIO_PTP_EXT_SEL_E_GPIO33 = 0x21,
+	MIO_PTP_EXT_SEL_E_GPIO34 = 0x22,
+	MIO_PTP_EXT_SEL_E_GPIO35 = 0x23,
+	MIO_PTP_EXT_SEL_E_GPIO36 = 0x24,
+	MIO_PTP_EXT_SEL_E_GPIO37 = 0x25,
+	MIO_PTP_EXT_SEL_E_GPIO38 = 0x26,
+	MIO_PTP_EXT_SEL_E_GPIO39 = 0x27,
+	MIO_PTP_EXT_SEL_E_GPIO4 = 0x4,
+	MIO_PTP_EXT_SEL_E_GPIO40 = 0x28,
+	MIO_PTP_EXT_SEL_E_GPIO41 = 0x29,
+	MIO_PTP_EXT_SEL_E_GPIO42 = 0x2a,
+	MIO_PTP_EXT_SEL_E_GPIO43 = 0x2b,
+	MIO_PTP_EXT_SEL_E_GPIO44 = 0x2c,
+	MIO_PTP_EXT_SEL_E_GPIO45 = 0x2d,
+	MIO_PTP_EXT_SEL_E_GPIO46 = 0x2e,
+	MIO_PTP_EXT_SEL_E_GPIO47 = 0x2f,
+	MIO_PTP_EXT_SEL_E_GPIO48 = 0x30,
+	MIO_PTP_EXT_SEL_E_GPIO49 = 0x31,
+	MIO_PTP_EXT_SEL_E_GPIO5 = 0x5,
+	MIO_PTP_EXT_SEL_E_GPIO50 = 0x32,
+	MIO_PTP_EXT_SEL_E_GPIO6 = 0x6,
+	MIO_PTP_EXT_SEL_E_GPIO7 = 0x7,
+	MIO_PTP_EXT_SEL_E_GPIO8 = 0x8,
+	MIO_PTP_EXT_SEL_E_GPIO9 = 0x9,
+	MIO_PTP_EXT_SEL_E_QLM_REF0 = 0x38,
+	MIO_PTP_EXT_SEL_E_QLM_REF1 = 0x39,
+	MIO_PTP_EXT_SEL_E_QLM_REF2 = 0x3a,
+	MIO_PTP_EXT_SEL_E_QLM_REF3 = 0x3b,
+	MIO_PTP_EXT_SEL_E_QLM_REF4 = 0x3c,
+	MIO_PTP_EXT_SEL_E_QLM_REF5 = 0x3d,
+	MIO_PTP_EXT_SEL_E_QLM_REF6 = 0x3e,
+	MIO_PTP_EXT_SEL_E_QLM_REF7 = 0x3f,
+	MIO_PTP_EXT_SEL_E_ENUM_LAST = 0x40,
+};
+
+/**
  * Enumeration MIO_PTP_INT_VEC_E
  *
  * PTP MSI-X Vector Enumeration
@@ -239,22 +309,15 @@ typedef union bdk_mio_ptp_clock_cfg {
                                                                  1 = Invert. */
 		uint64_t ckout_en                    : 1;  /**< R/W - Enable PTP clock out. (For output pin selection see GPIO_BIT_CFG.) */
 		uint64_t evcnt_in                    : 6;  /**< R/W - Source for event counter input:
-                                                                 0x00-0x32 = GPIOn, where n is EVCNT_IN\<4:0\>.
-                                                                 0x33-0x37 = Reserved.
-                                                                 0x38-0x3F = QLMn_REF_CLK, where n is EVCNT_IN\<3:0\>.
-                                                                             Note that CCPI reference clocks cannot be selected. */
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
 		uint64_t evcnt_edge                  : 1;  /**< R/W - Event counter input edge: 0 = falling edge, 1 = rising edge */
 		uint64_t evcnt_en                    : 1;  /**< R/W - Enable event counter. */
 		uint64_t tstmp_in                    : 6;  /**< R/W - Source for timestamp input:
-                                                                 0x00-0x32 = GPIOn, where n is TSTMP_IN\<4:0\>.
-                                                                 0x33-0x37 = Reserved.
-                                                                 0x38-0x3F = QLMn_REF_CLK, where n is TSTMP_IN\<3:0\>. */
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
 		uint64_t tstmp_edge                  : 1;  /**< R/W - External timestamp input edge: 0 = falling edge, 1 = rising edge */
 		uint64_t tstmp_en                    : 1;  /**< R/W - Enable external timestamp. */
 		uint64_t ext_clk_in                  : 6;  /**< R/W - Source for external clock when EXT_CLK_EN is set:
-                                                                 0x00-0x32 = GPIOn, where n is EXT_CLK_IN\<4:0\>.
-                                                                 0x33-0x37 = Reserved.
-                                                                 0x38-0x3F = QLMn_REF_CLK, where n is EXT_CLK_IN\<3:0\>. */
+                                                                 Enumerated by MIO_PTP_EXT_SEL_E. */
 		uint64_t ext_clk_en                  : 1;  /**< R/W - Use external clock for PTP clock. */
 		uint64_t ptp_en                      : 1;  /**< R/W - Enable PTP module. */
 #else

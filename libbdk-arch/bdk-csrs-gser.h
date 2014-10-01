@@ -542,6 +542,53 @@ static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long param1)
 
 
 /**
+ * RSL - gser#_glbl_pll_monitor
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_glbl_pll_monitor {
+	uint64_t u;
+	struct bdk_gserx_glbl_pll_monitor_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t sds_pcs_glbl_status         : 6;  /**< RO/H - Spare reserved for future use. Read data should be ignored. */
+		uint64_t sds_pcs_pll_lock            : 1;  /**< RO/H - Status signal from Global indicates that PLL is locked. Not a true "lock" signal.
+                                                                 Used to debug/test the PLL. */
+		uint64_t sds_pcs_clock_ready         : 1;  /**< RO/H - Clock status signal, can be overriden with (I_PLL_CTRL_EN == 1).
+                                                                 0 = Clock not ready.
+                                                                 1 = Clock ready. */
+		uint64_t sds_pcs_pll_calstates       : 5;  /**< RO/H - PLL calibration code. */
+		uint64_t sds_pcs_pll_caldone         : 1;  /**< RO/H - PLL calibration done signal. */
+#else
+		uint64_t sds_pcs_pll_caldone         : 1;
+		uint64_t sds_pcs_pll_calstates       : 5;
+		uint64_t sds_pcs_clock_ready         : 1;
+		uint64_t sds_pcs_pll_lock            : 1;
+		uint64_t sds_pcs_glbl_status         : 6;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} s;
+	/* struct bdk_gserx_glbl_pll_monitor_s cn88xx; */
+	/* struct bdk_gserx_glbl_pll_monitor_s cn88xxp1; */
+} bdk_gserx_glbl_pll_monitor_t;
+
+static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)))
+		return 0x000087E090460100ull + (param1 & 15) * 0x1000000ull;
+	else 		csr_fatal("BDK_GSERX_GLBL_PLL_MONITOR", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_GLBL_PLL_MONITOR(...) bdk_gserx_glbl_pll_monitor_t
+#define bustype_BDK_GSERX_GLBL_PLL_MONITOR(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_GLBL_PLL_MONITOR(p1) (p1)
+#define arguments_BDK_GSERX_GLBL_PLL_MONITOR(p1) (p1),-1,-1,-1
+#define basename_BDK_GSERX_GLBL_PLL_MONITOR(...) "GSERX_GLBL_PLL_MONITOR"
+
+
+/**
  * RSL - gser#_glbl_tad
  *
  * These registers are for diagnostic use only.
@@ -1497,6 +1544,169 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_2(unsigned long param1, unsign
 #define busnum_BDK_GSERX_LANEX_RX_AEQ_OUT_2(p1,p2) (p1)
 #define arguments_BDK_GSERX_LANEX_RX_AEQ_OUT_2(p1,p2) (p1),(p2),-1,-1
 #define basename_BDK_GSERX_LANEX_RX_AEQ_OUT_2(...) "GSERX_LANEX_RX_AEQ_OUT_2"
+
+
+/**
+ * RSL - gser#_lane#_rx_cdr_ctrl_1
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_rx_cdr_ctrl_1 {
+	uint64_t u;
+	struct bdk_gserx_lanex_rx_cdr_ctrl_1_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t cfg_rx_cdr_ctrl_ovrrd_val   : 16; /**< R/W - Set CFG_RX_CDR_CTRL_OVRRD_EN in register
+                                                                 GSER()_LANE()_RX_MISC_OVRRD to override pcs_sds_rx_cdr_ctrl.
+                                                                 \<15:13\> = CDR frequency gain.
+                                                                 \<12\>    = Frequency accumulator manual enable.
+                                                                 \<11:5\>  = Frequency accumulator manual value.
+                                                                 \<4\>     = CDR phase offset override enable.
+                                                                 \<3:0\>   = CDR phase offset override, DLL IQ. */
+#else
+		uint64_t cfg_rx_cdr_ctrl_ovrrd_val   : 16;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_ctrl_1_s cn88xx; */
+	/* struct bdk_gserx_lanex_rx_cdr_ctrl_1_s cn88xxp1; */
+} bdk_gserx_lanex_rx_cdr_ctrl_1_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E090440038ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_CTRL_1", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_1(...) bdk_gserx_lanex_rx_cdr_ctrl_1_t
+#define bustype_BDK_GSERX_LANEX_RX_CDR_CTRL_1(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_RX_CDR_CTRL_1(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_RX_CDR_CTRL_1(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_RX_CDR_CTRL_1(...) "GSERX_LANEX_RX_CDR_CTRL_1"
+
+
+/**
+ * RSL - gser#_lane#_rx_cdr_ctrl_2
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_rx_cdr_ctrl_2 {
+	uint64_t u;
+	struct bdk_gserx_lanex_rx_cdr_ctrl_2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t cfg_rx_cdr_ctrl_ovrrd_val   : 16; /**< R/W - Set CFG_RX_CDR_CTRL_OVRRD_EN in register
+                                                                 GSER()_LANE()_RX_MISC_OVRRD to override pcs_sds_rx_cdr_ctrl.
+                                                                 \<15\>   = Shadow PI phase enable.
+                                                                 \<14:8\> = Shadow PI phase value.
+                                                                 \<7\>    = CDR manual phase enable.
+                                                                 \<6:0\>  = CDR manual phase value. */
+#else
+		uint64_t cfg_rx_cdr_ctrl_ovrrd_val   : 16;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_ctrl_2_s cn88xx; */
+	/* struct bdk_gserx_lanex_rx_cdr_ctrl_2_s cn88xxp1; */
+} bdk_gserx_lanex_rx_cdr_ctrl_2_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E090440040ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_CTRL_2", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_2(...) bdk_gserx_lanex_rx_cdr_ctrl_2_t
+#define bustype_BDK_GSERX_LANEX_RX_CDR_CTRL_2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_RX_CDR_CTRL_2(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_RX_CDR_CTRL_2(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_RX_CDR_CTRL_2(...) "GSERX_LANEX_RX_CDR_CTRL_2"
+
+
+/**
+ * RSL - gser#_lane#_rx_cdr_misc_ctrl_0
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_rx_cdr_misc_ctrl_0 {
+	uint64_t u;
+	struct bdk_gserx_lanex_rx_cdr_misc_ctrl_0_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_8_63               : 56;
+		uint64_t pcs_sds_rx_cdr_misc_ctrl    : 8;  /**< R/W - Per lane RX miscellaneous CDR control:
+                                                                 \<7\> = RT-Eyemon counter enable, will start counting 5.4e9 bits.
+                                                                 \<6\> = RT-Eyemon shadow PI control enable.
+                                                                 \<5:4\> = RT-Eyemon error counter byte selection observable on
+                                                                         SDS_OCS_RX_CDR_STATUS[14:7] in register GSER_LANE_RX_CDR_STATUS_1.
+                                                                 \<3:0\> = LBW adjustment thresholds. */
+#else
+		uint64_t pcs_sds_rx_cdr_misc_ctrl    : 8;
+		uint64_t reserved_8_63               : 56;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_misc_ctrl_0_s cn88xx; */
+	/* struct bdk_gserx_lanex_rx_cdr_misc_ctrl_0_s cn88xxp1; */
+} bdk_gserx_lanex_rx_cdr_misc_ctrl_0_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E090440208ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(...) bdk_gserx_lanex_rx_cdr_misc_ctrl_0_t
+#define bustype_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(...) "GSERX_LANEX_RX_CDR_MISC_CTRL_0"
+
+
+/**
+ * RSL - gser#_lane#_rx_cdr_status_1
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_lanex_rx_cdr_status_1 {
+	uint64_t u;
+	struct bdk_gserx_lanex_rx_cdr_status_1_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_15_63              : 49;
+		uint64_t sds_pcs_rx_cdr_status       : 15; /**< RO/H - Per lane RX CDR status:
+                                                                 \<14:7\> = RT-Eyemon error counter.
+                                                                 \<6:4\>  = LBW adjustment value.
+                                                                 \<3:0\>  = LBW adjustment state. */
+#else
+		uint64_t sds_pcs_rx_cdr_status       : 15;
+		uint64_t reserved_15_63              : 49;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_status_1_s cn88xx; */
+	/* struct bdk_gserx_lanex_rx_cdr_status_1_s cn88xxp1; */
+} bdk_gserx_lanex_rx_cdr_status_1_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E0904402D0ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_STATUS_1", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_1(...) bdk_gserx_lanex_rx_cdr_status_1_t
+#define bustype_BDK_GSERX_LANEX_RX_CDR_STATUS_1(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_RX_CDR_STATUS_1(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_RX_CDR_STATUS_1(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_RX_CDR_STATUS_1(...) "GSERX_LANEX_RX_CDR_STATUS_1"
 
 
 /**
