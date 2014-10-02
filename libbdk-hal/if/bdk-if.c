@@ -418,9 +418,13 @@ static void __bdk_if_link_poll()
     uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
     if (bdk_likely(current_time < next_poll))
         return;
-
+#ifdef HW_EMULATOR
+    int POLLS_PER_SEC = 256;
+#else
+    int POLLS_PER_SEC = 8;
+#endif
     if (bdk_unlikely(poll_rate == 0))
-        poll_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 8;
+        poll_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / POLLS_PER_SEC;
 
     /* Poll the link state */
     next_poll = current_time + poll_rate;
