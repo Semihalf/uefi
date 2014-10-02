@@ -166,8 +166,13 @@ void __bdk_init(uint32_t image_crc)
         cntps_ctl_el1.s.enable = 1;
         BDK_MSR(CNTPS_CTL_EL1, cntps_ctl_el1.u);
 
-        bdk_set_baudrate(node, 0, BDK_UART_BAUDRATE, 0);
-        bdk_set_baudrate(node, 1, BDK_UART_BAUDRATE, 0);
+        /* Only setup the uarts if they haven't been already setup */
+        BDK_CSR_INIT(uctl_ctl0, node, BDK_UAAX_UCTL_CTL(0));
+        if (!uctl_ctl0.s.h_clk_en)
+            bdk_set_baudrate(node, 0, BDK_UART_BAUDRATE, 0);
+        BDK_CSR_INIT(uctl_ctl1, node, BDK_UAAX_UCTL_CTL(1));
+        if (!uctl_ctl1.s.h_clk_en)
+            bdk_set_baudrate(node, 1, BDK_UART_BAUDRATE, 0);
         bdk_fs_set_uart_node(node);
 
         if (BDK_SHOW_BOOT_BANNERS)
