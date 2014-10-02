@@ -386,7 +386,7 @@ int main(void)
     update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
 
     /* Initialize SATA, ready for standard AHCI driver */
-    //FIXME
+    /* This has already been done by bdk_qlm_set_mode() */
 
     /* Initialize USB, ready for standard XHCI driver */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
