@@ -956,6 +956,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int rbdr;
     int rbdr_idx = 0;
+    int cq_idx = 0;
     int do_fill;
 
     /* Allocate a new RBDR for every interface. All ports and channels on
@@ -999,7 +1000,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_CFG(priv->vnic, priv->qos),
         c.s.caching = 1;
         c.s.cq_qs = priv->cq;
-        c.s.cq_idx = 0;
+        c.s.cq_idx = cq_idx;
         c.s.rbdr_cont_qs = rbdr;
         c.s.rbdr_cont_idx = rbdr_idx;
         c.s.rbdr_strt_qs = rbdr;
