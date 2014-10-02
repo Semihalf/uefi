@@ -32,11 +32,11 @@ void __bdk_exception_handler(except_regs_t *exc)
             reg+16, (uint64_t)(exc->fpr[reg+16] >> 64), (uint64_t)exc->fpr[reg+16]);
     }
     printf("\n");
-    uint64_t stack = exc->gpr[31];
+    uint64_t *stack = (uint64_t *)exc->gpr[31];
     for (int i = 0; i < 16; i++)
     {
-        printf("stack[0x%016lx] = 0x%016lx\n", stack, bdk_read64_uint64(stack));
-        stack += 8;
+        printf("stack[0x%016lx] = 0x%016lx\n", stack, *stack);
+        stack++;
     }
     printf(BANNER);
     __bdk_die();
