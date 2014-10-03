@@ -35,7 +35,7 @@ void __bdk_exception_handler(except_regs_t *exc)
     uint64_t *stack = (uint64_t *)exc->gpr[31];
     for (int i = 0; i < 16; i++)
     {
-        printf("stack[0x%016lx] = 0x%016lx\n", stack, *stack);
+        printf("stack[0x%016lx] = 0x%016lx\n", (uint64_t)stack, *stack);
         stack++;
     }
     printf(BANNER);
