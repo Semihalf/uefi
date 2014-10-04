@@ -406,8 +406,6 @@ int main(void)
     {
         if (bdk_numa_exists(n))
         {
-            BDK_TRACE(BOOT_STUB, "Performing global PCIe initialization on Node %d\n", n);
-            bdk_pcie_global_initialize(n);
             for (int p = 0; p < bdk_pcie_get_num_ports(n); p++)
             {
                 /* Only init PCIe that are attached to QLMs */
