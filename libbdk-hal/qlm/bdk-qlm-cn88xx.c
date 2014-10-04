@@ -41,6 +41,9 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 return -1;
             /* Figure out which QLM the BGX connects to */
             int qlm = interface;
+#ifdef HW_EMULATOR
+            return qlm;
+#endif
             /* Make sure the QLM is powered up and out of reset */
             BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
             if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
@@ -54,6 +57,9 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
         }
         case BDK_IF_PCIE: /* PCIe */
         {
+#ifdef HW_EMULATOR
+            return -1;
+#endif
             switch (interface)
             {
                 case 0: /* PEM0 */
@@ -141,6 +147,12 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
+#ifdef HW_EMULATOR
+        if (qlm < 2)
+            return BDK_QLM_MODE_XAUI_1X4;
+        else
+            return BDK_QLM_MODE_DISABLED;
+#endif
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
         if (gserx_cfg.s.pcie)
         {
@@ -540,6 +552,9 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
+#ifdef HW_EMULATOR
+    return -1;
+#endif
     int lane_mode = 0xf;
     int lmac_type = -1;
     int is_pcie = 0;
@@ -911,6 +926,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
  */
 static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
+#ifdef HW_EMULATOR
+    return 3125;
+#endif
     if (qlm < 8)
     {
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
@@ -1043,6 +1061,9 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
+#ifdef HW_EMULATOR
+    return REF_156MHZ;
+#endif
     /* Clear the counter */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 0;
@@ -1544,6 +1565,9 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
+#ifdef HW_EMULATOR
+    return;
+#endif
     /* Apply settings to all QLMs that are out of reset */
     for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
     {
