@@ -248,7 +248,6 @@ end
 -- Prompt the user for a filename. Throw an error if the user aborts input.
 --
 function menu.prompt_filename(prompt, optional_default)
-    -- FIXME: Do tab completion of filenames
     return menu.prompt_string(prompt, optional_default)
 end
 

@@ -326,13 +326,11 @@ function TrafficGen.new()
 
     function self:cmdp_show(port_range, args)
         assert (#args == 0, "No arguments expected")
-        -- FIXME: Do union
         visible_ports = port_range
     end
 
     function self:cmdp_hide(port_range, args)
         assert (#args == 0, "No arguments expected")
-        -- FIXME: Do intersection
         visible_ports = {}
         printf(SCROLL_FULL .. GOTO_BOTTOM)
     end
