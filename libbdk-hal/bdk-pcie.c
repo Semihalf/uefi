@@ -4,6 +4,130 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
+/* The ECAM has a bug where accessing a non-existent device causes an
+   exception. This is a list of all valid devices */
+static uint32_t INTERNAL_DEVICES[] = {
+    PCC_DEV_CON_E_BGX0,
+    PCC_DEV_CON_E_BGX1,
+    PCC_DEV_CON_E_DAP,
+    PCC_DEV_CON_E_DFA,
+    PCC_DEV_CON_E_FUSF,
+    PCC_DEV_CON_E_GIC,
+    PCC_DEV_CON_E_GPIO,
+    PCC_DEV_CON_E_GSER0,
+    PCC_DEV_CON_E_GSER1,
+    PCC_DEV_CON_E_GSER10,
+    PCC_DEV_CON_E_GSER11,
+    PCC_DEV_CON_E_GSER12,
+    PCC_DEV_CON_E_GSER13,
+    PCC_DEV_CON_E_GSER2,
+    PCC_DEV_CON_E_GSER3,
+    PCC_DEV_CON_E_GSER4,
+    PCC_DEV_CON_E_GSER5,
+    PCC_DEV_CON_E_GSER6,
+    PCC_DEV_CON_E_GSER7,
+    PCC_DEV_CON_E_GSER8,
+    PCC_DEV_CON_E_GSER9,
+    PCC_DEV_CON_E_GTI,
+    PCC_DEV_CON_E_IOBN0,
+    PCC_DEV_CON_E_IOBN1,
+    PCC_DEV_CON_E_KEY,
+    PCC_DEV_CON_E_L2C,
+    PCC_DEV_CON_E_L2C_CBC0,
+    PCC_DEV_CON_E_L2C_CBC1,
+    PCC_DEV_CON_E_L2C_CBC2,
+    PCC_DEV_CON_E_L2C_CBC3,
+    PCC_DEV_CON_E_L2C_MCI0,
+    PCC_DEV_CON_E_L2C_MCI1,
+    PCC_DEV_CON_E_L2C_MCI2,
+    PCC_DEV_CON_E_L2C_MCI3,
+    PCC_DEV_CON_E_L2C_TAD0,
+    PCC_DEV_CON_E_L2C_TAD1,
+    PCC_DEV_CON_E_L2C_TAD2,
+    PCC_DEV_CON_E_L2C_TAD3,
+    PCC_DEV_CON_E_L2C_TAD4,
+    PCC_DEV_CON_E_L2C_TAD5,
+    PCC_DEV_CON_E_L2C_TAD6,
+    PCC_DEV_CON_E_L2C_TAD7,
+    PCC_DEV_CON_E_LMC0,
+    PCC_DEV_CON_E_LMC1,
+    PCC_DEV_CON_E_LMC2,
+    PCC_DEV_CON_E_LMC3,
+    PCC_DEV_CON_E_MIO_BOOT,
+    PCC_DEV_CON_E_MIO_EMM,
+    PCC_DEV_CON_E_MIO_FUS,
+    PCC_DEV_CON_E_MIO_PTP,
+    PCC_DEV_CON_E_MIO_TWS0,
+    PCC_DEV_CON_E_MIO_TWS1,
+    PCC_DEV_CON_E_MIO_TWS2,
+    PCC_DEV_CON_E_MIO_TWS3,
+    PCC_DEV_CON_E_MIO_TWS4,
+    PCC_DEV_CON_E_MIO_TWS5,
+    PCC_DEV_CON_E_MPI,
+    PCC_DEV_CON_E_MRML,
+    PCC_DEV_CON_E_NCSI,
+    PCC_DEV_CON_E_NIC,
+    PCC_DEV_CON_E_OCLA0,
+    PCC_DEV_CON_E_OCLA1,
+    PCC_DEV_CON_E_OCLA2,
+    PCC_DEV_CON_E_OCLA3,
+    PCC_DEV_CON_E_OCLA4,
+    PCC_DEV_CON_E_OCX,
+    PCC_DEV_CON_E_PCCBR_DFA,
+    PCC_DEV_CON_E_PCCBR_MRML,
+    PCC_DEV_CON_E_PCCBR_NIC,
+    PCC_DEV_CON_E_PCCBR_RAD,
+    PCC_DEV_CON_E_PCCBR_ZIP,
+    PCC_DEV_CON_E_PCIERC0,
+    PCC_DEV_CON_E_PCIERC1,
+    PCC_DEV_CON_E_PCIERC2,
+    PCC_DEV_CON_E_PCIERC3,
+    PCC_DEV_CON_E_PCIERC4,
+    PCC_DEV_CON_E_PCIERC5,
+    PCC_DEV_CON_E_PEM0,
+    PCC_DEV_CON_E_PEM1,
+    PCC_DEV_CON_E_PEM2,
+    PCC_DEV_CON_E_PEM3,
+    PCC_DEV_CON_E_PEM4,
+    PCC_DEV_CON_E_PEM5,
+    PCC_DEV_CON_E_RAD,
+    PCC_DEV_CON_E_RNM,
+    PCC_DEV_CON_E_RST,
+    PCC_DEV_CON_E_SATA0,
+    PCC_DEV_CON_E_SATA1,
+    PCC_DEV_CON_E_SATA10,
+    PCC_DEV_CON_E_SATA11,
+    PCC_DEV_CON_E_SATA12,
+    PCC_DEV_CON_E_SATA13,
+    PCC_DEV_CON_E_SATA14,
+    PCC_DEV_CON_E_SATA15,
+    PCC_DEV_CON_E_SATA2,
+    PCC_DEV_CON_E_SATA3,
+    PCC_DEV_CON_E_SATA4,
+    PCC_DEV_CON_E_SATA5,
+    PCC_DEV_CON_E_SATA6,
+    PCC_DEV_CON_E_SATA7,
+    PCC_DEV_CON_E_SATA8,
+    PCC_DEV_CON_E_SATA9,
+    PCC_DEV_CON_E_SGP,
+    PCC_DEV_CON_E_SLI0,
+    PCC_DEV_CON_E_SLI1,
+    PCC_DEV_CON_E_SMI,
+    PCC_DEV_CON_E_SMMU0,
+    PCC_DEV_CON_E_SMMU1,
+    PCC_DEV_CON_E_SMMU2,
+    PCC_DEV_CON_E_SMMU3,
+    PCC_DEV_CON_E_TNS,
+    PCC_DEV_CON_E_UAA0,
+    PCC_DEV_CON_E_UAA1,
+    PCC_DEV_CON_E_USBH0,
+    PCC_DEV_CON_E_USBH1,
+    PCC_DEV_CON_E_VRM0,
+    PCC_DEV_CON_E_VRM1,
+    PCC_DEV_CON_E_ZIP,
+    0,
+};
+
 /**
  * This function is called for every Cavium device on the internal ECAMs. Hardware
  * doesn't fully setup the ECAM values for the internal devices, so this code
@@ -12,125 +136,106 @@ BDK_REQUIRE_DEFINE(PCIE);
  *
  * @param node   Which node to setup
  * @param ecam   Which ecam to setup
+ * @param bus    Bus number
  * @param dev    Device number on the ecam
  * @param fn     Sub-function on the ECAM
  */
-static void pcie_internal_init(bdk_node_t node, int ecam, int dev, int fn)
+static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, int fn)
 {
     /* Get the current chip ID and pass. We'll need this to fill in version
        information for the device */
     bdk_sys_midr_el1_t midr_el1;
     BDK_MRS(MIDR_EL1, midr_el1.u);
 
+    /* Enable secure and non-secure access to this device */
+    if ((bus == 0) && (fn == 0))
+    {
+        BDK_TRACE(INIT, "        Enabling ECAM %d, Bus %d, Device %d, Fun %d\n",
+            ecam, bus, dev, fn);
+        BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_SDIS(ecam, dev), 0);
+        BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_NSDIS(ecam, dev), 0);
+        /* Make sure it is done */
+        BDK_CSR_READ(node, BDK_ECAMX_DEVX_NSDIS(ecam, dev));
+    }
+
+    /* As a special case, RSL devices on ECAM 0, bus 1 have different enables */
+    if ((ecam == 0) && (bus == 1))
+    {
+        int dev_fn = (dev << 3) | fn;
+        BDK_TRACE(INIT, "        Enabling RSL ECAM %d, Bus %d, Device %d, Fun %d\n",
+            ecam, bus, dev, fn);
+        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_SDIS(ecam, dev_fn), 0);
+        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_NSDIS(ecam, dev_fn), 0);
+        /* Make sure it is done */
+        BDK_CSR_READ(node, BDK_ECAMX_RSLX_NSDIS(ecam, dev_fn));
+    }
+
     /* PCCPF_XXX_VSEC_SCTL[RID] with the revision of the chip,
        read from fuses */
+    BDK_TRACE(INIT, "        Setting revision\n");
     BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
-    sctl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL);
+    sctl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.s.rid = midr_el1.s.revision;
-    bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
+    bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
     /* PCCPF_XXX_BAR0U, PCCPF_XXX_BAR2U, PCCPF_XXX_SRIOV_BAR0U,
        PCCPF_XXX_SRIOV_BAR2U with the address node number bits, read from
        OCX */
+    BDK_TRACE(INIT, "        BAR0L\n");
     bdk_pccpf_xxx_bar0l_t barl;
-    barl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR0L);
+    barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR0L);
     if (barl.s.typ == 2)
     {
-        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR0U);
+        BDK_TRACE(INIT, "        BAR0U\n");
+        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR0U);
         upper_bits |= node << (44 - 32);
-        bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR0U, upper_bits);
+        bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR0U, upper_bits);
     }
-    barl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR2L);
+    BDK_TRACE(INIT, "        BAR2L\n");
+    barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR2L);
     if (barl.s.typ == 2)
     {
-        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR2U);
+        BDK_TRACE(INIT, "        BARUL\n");
+        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR2U);
         upper_bits |= node << (44 - 32);
-        bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR2U, upper_bits);
+        bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR2U, upper_bits);
     }
-    barl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR4L);
+    BDK_TRACE(INIT, "        BAR4L\n");
+    barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR4L);
     if (barl.s.typ == 2)
     {
-        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR4U);
+        BDK_TRACE(INIT, "        BAR4U\n");
+        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR4U);
         upper_bits |= node << (44 - 32);
-        bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_BAR4U, upper_bits);
+        bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR4U, upper_bits);
     }
 
-    barl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0L);
+    BDK_TRACE(INIT, "        SRIOV BAR0L\n");
+    barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0L);
     if (barl.s.typ == 2)
     {
-        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0U);
+        BDK_TRACE(INIT, "        SRIOV BAR0U\n");
+        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0U);
         upper_bits |= node << (44 - 32);
-        bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0U, upper_bits);
+        bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0U, upper_bits);
     }
-    barl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2L);
+    BDK_TRACE(INIT, "        SRIOV BAR2L\n");
+    barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2L);
     if (barl.s.typ == 2)
     {
-        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2U);
+        BDK_TRACE(INIT, "        SRIOV BAR2U\n");
+        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2U);
         upper_bits |= node << (44 - 32);
-        bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2U, upper_bits);
+        bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2U, upper_bits);
     }
-    barl.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4L);
+    BDK_TRACE(INIT, "        SRIOV BAR4L\n");
+    barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4L);
     if (barl.s.typ == 2)
     {
-        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4U);
+        BDK_TRACE(INIT, "        SRIOV BAR4U\n");
+        uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4U);
         upper_bits |= node << (44 - 32);
-        bdk_pcie_config_write32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4U, upper_bits);
-    }
-
-    /* ECAM(0..3)_DEV(0..31)_SDIS, ECAM(0..3)_DEV(0..31)_NSDIS,
-       ECAM(0..3)_BUS(0..255)_SDIS, ECAM(0..3)_BUS(0..255)_NSDIS,
-       ECAM(0..3)_RSL(0..255)_SDIS, ECAM(0..3)_RSL(0..255)_NSDIS with the
-       PCC functions to be made secure or hidden from the secure or
-       non-secure worlds */
-    /* All secure and non-secure access to everything */
-    if (!bdk_is_simulation())
-    {
-        BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_SDIS(ecam, dev), 0);
-        BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_NSDIS(ecam, dev), 0);
-        for (int bus = 0; bus < 255; bus++)
-        {
-            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_SDIS(ecam, bus), 0);
-            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_NSDIS(ecam, bus), 0);
-            if (ecam == 0)
-            {
-                /* Only ECAM0 has RSL */
-                BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_SDIS(ecam, bus), 0);
-                BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_NSDIS(ecam, bus), 0);
-            }
-        }
-    }
-
-    /* PCCPF_XXX_VSEC_CTL[NXTFN_NS] and PCCPF_XXX_VSEC_SCTL[NXTFN_S] with
-       the first function number and next-function number of each RSL
-       function, as determined by which devices exist and are enabled
-       with ECAM(0..3)_RSL(0..255)_SDIS and ECAM(0..3)_RSL(0..255)_NSDIS */
-
-    /* This only applies to the MRML device. Right now we hard code this
-       device location */
-    if ((ecam == 0) && (dev == 1))
-    {
-        /* We need to connect the ARI devices into a linked list. Loop through
-           all devices on ECAM 0, BUS 1 looking for MRML devices */
-        int mrml_bus = 1;
-        int last_ari = 0; /* ARI is the old PCIe dev and function combined */
-        for (int ari = 0; ari < 256; ari++)
-        {
-            BDK_CSR_DEFINE(pccbr_id, BDK_PCCPF_XXX_ID);
-            pccbr_id.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, ari >> 3, ari & 7, BDK_PCCPF_XXX_ID);
-            if (pccbr_id.s.vendid == PCC_VENDOR_E_CAVIUM)
-            {
-                BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
-                ctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL);
-                ctl.s.nxtfn_ns = ari;
-                bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL, ctl.u);
-
-                BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
-                sctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL);
-                sctl.s.nxtfn_s = ari;
-                bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
-                last_ari = ari;
-            }
-        }
+        bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4U, upper_bits);
     }
 }
 
@@ -145,19 +250,97 @@ static void pcie_internal_init(bdk_node_t node, int ecam, int dev, int fn)
  */
 int bdk_pcie_global_initialize(bdk_node_t node)
 {
+    /* Errata (ECAM-22630) 2014-10-07  ECAM missing PCC functions cause
+       faults */
+
+    /* Disable access to all internal devices on bus 0 of all ECAMs */
+    BDK_TRACE(INIT, "Disabling all internal ECAM devices\n");
     for (int ecam = 0; ecam < 4; ecam++)
     {
-        for (int dev = 0; dev < 32; dev++)
+        for (int device = 0; device < 32; device++)
         {
-            for (int fn = 0; fn < 8; fn++)
-            {
-                BDK_CSR_DEFINE(pccbr_id, BDK_PCCPF_XXX_ID);
-                pccbr_id.u = bdk_pcie_config_read32(node, 100 + ecam, 0, dev, fn, BDK_PCCPF_XXX_ID);
-                if (pccbr_id.s.vendid == PCC_VENDOR_E_CAVIUM)
-                    pcie_internal_init(node, ecam, dev, fn);
-            }
+            //BDK_TRACE(INIT, "    Disabling ECAM %d Device %d\n", ecam, device);
+            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_SDIS(ecam, device), 3);
+            BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_NSDIS(ecam, device), 1);
         }
     }
+    /* Disable access to all RSL devices on ECAM0 */
+    BDK_TRACE(INIT, "Disabling all ECAM 0 RSL devices\n");
+    for (int dev_fn = 0; dev_fn < 256; dev_fn++)
+    {
+        //BDK_TRACE(INIT, "    Disabling RSL Device %d\n", dev_fn);
+        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_SDIS(0, dev_fn), 3);
+        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_NSDIS(0, dev_fn), 1);
+    }
+    /* Enable access to all some busses on the ECAMs.
+       ECAM 0, bus 0-1, disable 2+
+       ECAM 1, bus 0, disable 1+
+       ECAM 2, bus 0, disable 1+
+       ECAM 3, bus 0, disable 1+ */
+    BDK_TRACE(INIT, "Setting enable / disable for ECAM busses\n");
+    for (int ecam = 0; ecam < 4; ecam++)
+    {
+        for (int bus = 0; bus < 256; bus++)
+        {
+            int enable = (bus == 0) || ((ecam == 0) && (bus == 1));
+            //BDK_TRACE(INIT, "    ECAM %d Bus %d: %s\n", ecam, bus, (enable) ? "Enable" : "Disable");
+            int sdis = (enable) ? 0 : 3;
+            int nsdis = (enable) ? 0 : 1;
+            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_SDIS(ecam, bus), sdis);
+            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_NSDIS(ecam, bus), nsdis);
+        }
+    }
+
+    return 0; //FIXME
+
+    /* Go through all the internal devices and enable them specifically. This
+       way non-existent devices stay disabled and we avoid the errata */
+    int loc = 0;
+    BDK_TRACE(INIT, "Enabling internal devices\n");
+    while (INTERNAL_DEVICES[loc])
+    {
+        union pcc_dev_con_s dev = { .u = INTERNAL_DEVICES[loc] };
+        BDK_TRACE(INIT, "    Enabling ECAM %d Bus %d Device %d Func %d\n",
+            dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
+        pcie_internal_init_dev(node, dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
+        loc++;
+    }
+
+    /* At this point it should be safe to enumerate MRML for ARI devices.
+       Search MRML for functions and link them into a chain.
+       PCCPF_XXX_VSEC_CTL[NXTFN_NS] and PCCPF_XXX_VSEC_SCTL[NXTFN_S] with
+       the first function number and next-function number of each RSL
+       function, as determined by which devices exist and are enabled
+       with ECAM(0..3)_RSL(0..255)_SDIS and ECAM(0..3)_RSL(0..255)_NSDIS */
+    int ecam = 0;
+    int mrml_bus = 1;
+    int last_ari = -1; /* ARI is the old PCIe dev and function combined */
+    BDK_TRACE(INIT, "Creating RSL ARI chain\n");
+    for (int ari = 0; ari < 256; ari++)
+    {
+        BDK_CSR_DEFINE(pccbr_id, BDK_PCCPF_XXX_ID);
+        pccbr_id.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, ari >> 3, ari & 7, BDK_PCCPF_XXX_ID);
+        if (pccbr_id.s.vendid == PCC_VENDOR_E_CAVIUM)
+        {
+            if (last_ari != -1)
+            {
+                BDK_TRACE(INIT, "    Found ARI %d, connect to %d\n", ari, last_ari);
+                BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
+                ctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL);
+                ctl.s.nxtfn_ns = ari;
+                bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL, ctl.u);
+
+                BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
+                sctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL);
+                sctl.s.nxtfn_s = ari;
+                bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
+            }
+            else
+                BDK_TRACE(INIT, "    Found first ARI %d\n", ari);
+            last_ari = ari;
+        }
+    }
+    BDK_TRACE(INIT, "PCIe global init complete\n");
     return 0;
 }
 
