@@ -1151,6 +1151,12 @@ static int vnic_setup(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_CFG(flow),
         c.s.cpi_alg = NIC_CPI_ALG_E_NONE;
         c.s.cpi_base = cpi);
+    /* Setup backpressure */
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_BP_CFG(flow),
+        c.s.ena = 1;
+        c.s.bpid = priv->vnic);
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_TX_CFG(flow),
+        c.s.bp_ena = 1);
     /* CPI is the output of the above alogrithm, this is used to lookup the
        VNIC for receive and RSSI */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
