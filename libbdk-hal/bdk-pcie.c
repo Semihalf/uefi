@@ -250,6 +250,9 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
  */
 int bdk_pcie_global_initialize(bdk_node_t node)
 {
+    if (bdk_is_simulation())
+        return 0;
+
     /* Errata (ECAM-22630) 2014-10-07  ECAM missing PCC functions cause
        faults */
 
