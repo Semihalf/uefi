@@ -996,9 +996,10 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
     }
 
     /* Configure our vnic to use the RBDR */
-    /* Connect this RQ to the RBDR */
+    /* Connect this RQ to the RBDR. Both the first and next buffers come from
+       the same RBDR */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_CFG(priv->vnic, priv->qos),
-        c.s.caching = 1;
+        c.s.caching = 1; /* Allocate to L2 */
         c.s.cq_qs = priv->cq;
         c.s.cq_idx = cq_idx;
         c.s.rbdr_cont_qs = rbdr;
@@ -1136,23 +1137,33 @@ static int vnic_setup(bdk_if_handle_t handle)
         c.s.ena = 1;
         c.s.tcp_ena = 0);
     /* Determine the flow channel for the CPI */
+    /* Flow here is a compressed NIC_CHAN_E enum value. Flow is bit[8] and
+       bit[6:0] from NIC_CHAN_E. This works out as:
+       bit 7: BGX interface number(0-1)
+       bit 6:4: BGX port number(0-3)
+       bit 3:0: BGX channel on a port (0-15) */
     int flow = (handle->interface) ? 0x80 : 0x00;
     flow += priv->port * 16;
     flow += priv->channel;
-    int cpi = next_free_cpi++;
-    int rssi = next_free_rssi++;
+    int cpi = next_free_cpi++;  /* Allocate a new Channel Parse Index (CPI) */
+    int rssi = next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
+    /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_CFG(flow),
         c.s.cpi_alg = NIC_CPI_ALG_E_NONE;
         c.s.cpi_base = cpi);
+    /* CPI is the output of the above alogrithm, this is used to lookup the
+       VNIC for receive and RSSI */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
-        c.s.vnic = priv->vnic;
-        c.s.rss_size = 0;
-        c.s.padd = priv->channel;
-        c.s.rssi_base = rssi);
+        c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
+        c.s.rss_size = 0; /* RSS hash is disabled */
+        c.s.padd = priv->channel; /* Used if we have multiple channels per port */
+        c.s.rssi_base = rssi); /* Base RSSI */
+    /* The RSSI is used to determine which Receive Queue (RQ) we use */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_RSSIX_RQ(rssi),
         c.s.rq_qs = rq;
         c.s.rq_idx = rq_idx);
-    /* Set the min and max packet size */
+    /* Set the min and max packet size. PKND comes from BGX. It is always zero
+       for now */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
         c.s.lenerr_en = 0;
         c.s.minlen = 0;
@@ -1171,17 +1182,8 @@ static int vnic_setup(bdk_if_handle_t handle)
     if (vnic_setup_tx_shaping(handle))
         return -1;
 
+    /* We use the received VNIC number to find the interface handle */
     global_handle_table[priv->vnic] = handle;
-
-    if (0)
-    {
-        /* Update my private state copy after all fields are filled in */
-        bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-        printf("%s: channel %d of %d, port %d of %d, vnic(%d,%d), cq=%d, rbdr=%d\n",
-            handle->name, priv->channel, priv->num_channels,
-            priv->port, priv->num_port, priv->vnic, priv->qos,
-            priv->cq, priv->rbdr);
-    }
 
     return 0;
 }
@@ -1653,21 +1655,17 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Read the RX statistics. These do not include the ethernet FCS */
-    BDK_CSR_INIT(rx_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_OCTS));
-    BDK_CSR_INIT(rx_bcast, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_BCAST));
-    BDK_CSR_INIT(rx_mcast, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_MCAST));
-    BDK_CSR_INIT(rx_ucast, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_UCAST));
+    BDK_CSR_INIT(rx_octets, handle->node, BDK_NIC_PF_QSX_RQX_STATX(priv->vnic, priv->qos, NIC_STAT_RQ_E_OCTS));
+    BDK_CSR_INIT(rx_packets, handle->node, BDK_NIC_PF_QSX_RQX_STATX(priv->vnic, priv->qos, NIC_STAT_RQ_E_PKTS));
     BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
     BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
     BDK_CSR_INIT(rx_fcs, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_FCS));
 
     /* Update the RX stats */
-    // FIXME: Adding the rx packets together will make incorrect results on overflow
-    uint64_t rx_packets = rx_bcast.u + rx_mcast.u + rx_ucast.u;
     handle->stats.rx.octets -= handle->stats.rx.packets * 4;
     handle->stats.rx.octets = bdk_update_stat_with_overflow(rx_octets.u,
         handle->stats.rx.octets, 48);
-    handle->stats.rx.packets = bdk_update_stat_with_overflow(rx_packets,
+    handle->stats.rx.packets = bdk_update_stat_with_overflow(rx_packets.u,
         handle->stats.rx.packets, 48);
     handle->stats.rx.octets += handle->stats.rx.packets * 4;
 
