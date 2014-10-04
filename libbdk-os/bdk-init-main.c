@@ -43,8 +43,7 @@ static void __bdk_init_local_node(void)
 {
     bdk_node_t node = bdk_numa_local();
 
-    if (BDK_SHOW_BOOT_BANNERS)
-        printf("N%d: Performing node initialization\n", node);
+    BDK_TRACE(INIT, "N%d: Performing node initialization\n", node);
 
     /* FIXME: Check that all cores default to low power */
     //BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -1);
@@ -86,8 +85,7 @@ static void __bdk_init_local_node(void)
 
     if (BDK_IS_REQUIRED(ERROR_DECODE) && !bdk_is_simulation())
     {
-        if (BDK_SHOW_BOOT_BANNERS)
-            printf("N%d: Enabling error reporting\n", node);
+        BDK_TRACE(INIT, "N%d: Enabling error reporting\n", node);
         bdk_error_enable(node);
         if (bdk_error_check)
         {
@@ -125,8 +123,7 @@ void __bdk_init_main(int arg, void *arg1)
        will not be run on the other nodes */
     if (bdk_is_boot_core())
     {
-        if (BDK_SHOW_BOOT_BANNERS)
-            printf("Performing common initialization\n");
+        BDK_TRACE(INIT, "Performing common initialization\n");
 
         __bdk_config_init(); /* Some config setting are dynamically updated */
 
@@ -147,8 +144,7 @@ void __bdk_init_main(int arg, void *arg1)
     if (bdk_is_boot_core())
     {
         extern int main(int argc, const char *argv);
-        if (BDK_SHOW_BOOT_BANNERS)
-            printf("Switching to main\n");
+        BDK_TRACE(INIT, "Switching to main\n");
         if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
 

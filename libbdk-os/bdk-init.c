@@ -181,7 +181,7 @@ void __bdk_init(uint32_t image_crc)
         /* Only lock L2 if DDR3 isn't initialized */
         if (!__bdk_is_dram_enabled(node) && !bdk_is_simulation())
         {
-            if (BDK_SHOW_BOOT_BANNERS)
+            if (BDK_TRACE_ENABLE_INIT)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);
             bdk_l2c_lock_mem_region(node, bdk_numa_get_address(node, 0), bdk_l2c_get_cache_size_bytes(node));
             /* The above locking will cause L2 to load zeros without DRAM setup.
@@ -218,7 +218,7 @@ void __bdk_init(uint32_t image_crc)
         else
             write(1, BANNER_CRC_WRONG, sizeof(BANNER_CRC_WRONG) - 1);
 
-        if (BDK_SHOW_BOOT_BANNERS)
+        if (BDK_TRACE_ENABLE_INIT)
             write(1, BANNER_3, sizeof(BANNER_3)-1);
         bdk_thread_initialize();
     }

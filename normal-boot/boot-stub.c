@@ -278,9 +278,9 @@ int main(void)
     printf(
         "BDK version: %s\n"
         "\n"
-        "===============\n"
-        "BDK Stage1 Boot\n"
-        "===============\n"
+        "=========================\n"
+        "Cavium THUNDERX Boot Stub\n"
+        "=========================\n"
         "Node:  %d%s\n"
         "Chip:  0x%x Pass %d.%d\n"
         "RCLK:  %lu Mhz\n"
