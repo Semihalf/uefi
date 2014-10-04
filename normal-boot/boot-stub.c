@@ -318,11 +318,11 @@ int main(void)
         else
             bdk_error("Failed DRAM init\n");
     }
-#endif
 
     /* Unlock L2 now that DRAM works */
     BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
     bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
+#endif
 
     /* Send status to the BMC: Master DRAM init complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
