@@ -56,7 +56,11 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
 
     /* Coremask (good cores) to run when 'all' cores are started.
        0x0 is interpreted as all cores being good.*/
+#ifdef HW_EMULATOR
+    AS_INIT(BDK_CONFIG_COREMASK, 0xfull),
+#else
     AS_INIT(BDK_CONFIG_COREMASK, 0x0ull),
+#endif
 };
 #undef AS_INIT
 
