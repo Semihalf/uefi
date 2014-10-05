@@ -445,6 +445,9 @@ static int init_oci(void)
     if (oci_init_done)
         return 0;
     oci_init_done = 1;
+#ifdef HW_EMULATOR
+    return 0; /* Emulator doesn't seem to have CCPI registers */
+#endif
 
     /* Index MAX_LINKS is used for the local node */
     const int LOCAL_NODE = MAX_LINKS;
@@ -783,6 +786,9 @@ static void setup_node(bdk_node_t node)
 {
     if (bdk_is_simulation())
         return; // FIXME: This stuff not modelled in Asim
+#ifdef HW_EMULATOR
+    return 0; /* Emulator doesn't seem to have CCPI registers */
+#endif
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
