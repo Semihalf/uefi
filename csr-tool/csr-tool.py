@@ -11,6 +11,7 @@ import csr_output_header
 import chip_database
 import csr_output_db
 import csr_output_lua
+import bar_combiner
 import enum_combiner
 import struct_combiner
 from chip_info import ChipInfo
@@ -124,6 +125,8 @@ for chip_info in separate_chip_infos:
 
 # Combine all chips into a master CSR list
 combinedInfo = ChipInfo("s", {})
+print "Combining Bars"
+bar_combiner.combine(combinedInfo, separate_chip_infos)
 print "Combining Enums"
 enum_combiner.combine(combinedInfo, separate_chip_infos)
 print "Combining Structs"
