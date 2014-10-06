@@ -927,46 +927,6 @@ union nic_cqe_rx_s {
 	uint64_t u[6];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t rbsz11                      : 16; /**< [383:368] Size of RB 6. */
-		uint64_t rbsz10                      : 16; /**< [367:352] Size of RB 4. */
-		uint64_t rbsz9                       : 16; /**< [351:336] Size of RB 2. */
-		uint64_t rbsz8                       : 16; /**< [335:320] Size of RB 0. Number of bytes written to the first RB, or 0x0 if none written to this RB. */
-		uint64_t rbsz7                       : 16; /**< [319:304] Size of RB 6. */
-		uint64_t rbsz6                       : 16; /**< [303:288] Size of RB 4. */
-		uint64_t rbsz5                       : 16; /**< [287:272] Size of RB 2. */
-		uint64_t rbsz4                       : 16; /**< [271:256] Size of RB 0. Number of bytes written to the first RB, or 0x0 if none written to this RB. */
-		uint64_t rbsz3                       : 16; /**< [255:240] Size of RB 6. */
-		uint64_t rbsz2                       : 16; /**< [239:224] Size of RB 4. */
-		uint64_t rbsz1                       : 16; /**< [223:208] Size of RB 2. */
-		uint64_t rbsz0                       : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
-                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
-                                                                 endian machine a uint16_t array can hit all 12 RBSZs. */
-		uint64_t rss_tag                     : 32; /**< [191:160] Computed RSS tag value. This field is zero when [RSS_ALG] == NIC_RSS_ALG_E::NONE (0) and
-                                                                 NIC_RX_HDR_S[RSS_DIS] was clear. */
-		uint64_t vlan_tci                    : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
-                                                                 clear. INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
-		uint64_t vvptr                       : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
-                                                                 Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
-                                                                 must not rely on this. */
-		uint64_t vsptr                       : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
-                                                                 Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
-                                                                 must not rely on this. */
-		uint64_t len                         : 16; /**< [127:112] The number of bytes in the packet and written to the CQE/RB. Bytes stripped (VLAN etc) if
-                                                                 any are not included. */
-		uint64_t l2ptr                       : 8;  /**< [111:104] Pointer to the first byte of L2 relative to the first byte of packet data written to
-                                                                 memory. Unpredictable when [ERRLEV] \<= RE. */
-		uint64_t l3ptr                       : 8;  /**< [103: 96] Pointer to the first byte of L3 relative to the first byte of packet data written to
-                                                                 memory. Unpredictable when [ERRLEV] \<= L2. */
-		uint64_t l4ptr                       : 8;  /**< [ 95: 88] Pointer to the first byte of L4 relative to the first byte of packet data written to
-                                                                 memory. Unpredictable when [ERRLEV] \<= L3. */
-		uint64_t size_cqd                    : 8;  /**< [ 87: 80] Size of CQ data. Number of packet bytes written to the CQ, either due to
-                                                                 NIC_QS()_RQ_GEN_CFG[CQ_HDR_COPY] or the packet being smaller than
-                                                                 NIC_QS()_RQ_GEN_CFG[CQ_PKT_SIZE]. */
-		uint64_t apad                        : 3;  /**< [ 79: 77] Number of alignment bytes added before data in CQE and RB. */
-		uint64_t reserved_76_76              : 1;  /**< [ 76: 76] Reserved. */
-		uint64_t chan                        : 12; /**< [ 75: 64] Logical channel the packet arrived from, enumerated by NIC_CHAN_E. */
 		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::RX, or NIC_CQE_TYPE_E::RX_SPLT). */
 		uint64_t stdn_fault                  : 1;  /**< [ 59: 59] STDN fault detected during the data writes to memory. */
 		uint64_t reserved_58_58              : 1;  /**< [ 58: 58] Reserved. */
@@ -1001,48 +961,134 @@ union nic_cqe_rx_s {
 		uint64_t errop                       : 8;  /**< [  7:  0] Error opcode. Normally zero, but contains a (non-zero) exception opcode enumerated by
                                                                  NIC_ERROP_E when [ERRLEV] is non-zero. */
 #else
-		uint64_t errop                       : 8;
-		uint64_t errlev                      : 3;
-		uint64_t l2e                         : 1;
-		uint64_t l3ty                        : 4;
-		uint64_t l4ty                        : 4;
-		uint64_t vs_gone                     : 1;
-		uint64_t vs                          : 1;
-		uint64_t vv_gone                     : 1;
-		uint64_t vv                          : 1;
-		uint64_t rb_cnt                      : 4;
-		uint64_t reserved_28_31              : 4;
-		uint64_t rss_alg                     : 4;
-		uint64_t reserved_36_47              : 12;
-		uint64_t rq_idx                      : 3;
-		uint64_t rq_qs                       : 7;
-		uint64_t reserved_58_58              : 1;
-		uint64_t stdn_fault                  : 1;
-		uint64_t cqe_type                    : 4;
-		uint64_t chan                        : 12;
-		uint64_t reserved_76_76              : 1;
-		uint64_t apad                        : 3;
-		uint64_t size_cqd                    : 8;
-		uint64_t l4ptr                       : 8;
-		uint64_t l3ptr                       : 8;
-		uint64_t l2ptr                       : 8;
-		uint64_t len                         : 16;
-		uint64_t vsptr                       : 8;
-		uint64_t vvptr                       : 8;
-		uint64_t vlan_tci                    : 16;
-		uint64_t rss_tag                     : 32;
-		uint64_t rbsz0                       : 16;
-		uint64_t rbsz1                       : 16;
-		uint64_t rbsz2                       : 16;
-		uint64_t rbsz3                       : 16;
-		uint64_t rbsz4                       : 16;
-		uint64_t rbsz5                       : 16;
-		uint64_t rbsz6                       : 16;
-		uint64_t rbsz7                       : 16;
-		uint64_t rbsz8                       : 16;
-		uint64_t rbsz9                       : 16;
-		uint64_t rbsz10                      : 16;
-		uint64_t rbsz11                      : 16;
+		uint64_t errop                       : 8;  /**< [  7:  0] Error opcode. Normally zero, but contains a (non-zero) exception opcode enumerated by
+                                                                 NIC_ERROP_E when [ERRLEV] is non-zero. */
+		uint64_t errlev                      : 3;  /**< [ 10:  8] Error level. Normally zero, but when errors are detected contains the lowest protocol
+                                                                 layer containing an error, and [ERROP] will indicate the precise error reason. Enumerated
+                                                                 with NIC_ERRLEV_E.
+
+                                                                 Note pseudo-code often refers to for example '[ERRLEV] \<= L3', this is a shorthand for
+                                                                 'all errors at L3 and below', that is, [ERRLEV] == (RE or L2 or L3) and [ERROP] !=0, but
+                                                                 is not true when [ERRLEV] == (NONE nor L4) nor when [ERROP] == 0 (no error at all). */
+		uint64_t l2e                         : 1;  /**< [ 11: 11] Layer 2 exists. Indicates that Ethernet layer was parsed. This field is zero when L2 is
+                                                                 not parsed, and unpredictable when [ERRLEV] \<= RE. */
+		uint64_t l3ty                        : 4;  /**< [ 15: 12] Layer 3 type. Indicates the layer 3 header type, enumerated by
+                                                                 NIC_L3TYPE_E. This field is zero unless L3 parsing sets it, and is unpredictable
+                                                                 when [ERRLEV] \<= L3. */
+		uint64_t l4ty                        : 4;  /**< [ 19: 16] Layer 4 type. Indicates the layer 4 header type, enumerated by
+                                                                 NIC_L4TYPE_E. This field is zero unless L4 parsing sets it, and is unpredictable
+                                                                 when [ERRLEV] \<= L4. */
+		uint64_t vs_gone                     : 1;  /**< [ 20: 20] Indicates the second VLAN in network order was stripped from the packet data and written
+                                                                 to [VLAN_TCI]. This field is zero when [VS]=0 or [VV_GONE]=1. */
+		uint64_t vs                          : 1;  /**< [ 21: 21] Indicates a second VLAN was found in the packet. This field is zero when [VV]=0, and
+                                                                 unpredictable when [ERRLEV] \<= L2. */
+		uint64_t vv_gone                     : 1;  /**< [ 22: 22] Indicates the first VLAN in network order was stripped from the packet data and written to
+                                                                 [VLAN_TCI]. This field is zero when [VV]=0 or [VS_GONE]=1. */
+		uint64_t vv                          : 1;  /**< [ 23: 23] Indicates one or more VLANs were found in the packet. Unpredictable when [ERRLEV] \<= L2. */
+		uint64_t rb_cnt                      : 4;  /**< [ 27: 24] Number of RB pointers in the CQ entry. Each entry is a 8 byte structure. */
+		uint64_t reserved_28_31              : 4;  /**< [ 31: 28] Reserved. */
+		uint64_t rss_alg                     : 4;  /**< [ 35: 32] RSS algorithm used. Enumerated by NIC_RSS_ALG_E. */
+		uint64_t reserved_36_47              : 12; /**< [ 47: 36] Reserved. */
+		uint64_t rq_idx                      : 3;  /**< [ 50: 48] Indicates the RQ inside the QS. */
+		uint64_t rq_qs                       : 7;  /**< [ 57: 51] Indicates the RQ's QS. */
+		uint64_t reserved_58_58              : 1;  /**< [ 58: 58] Reserved. */
+		uint64_t stdn_fault                  : 1;  /**< [ 59: 59] STDN fault detected during the data writes to memory. */
+		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::RX, or NIC_CQE_TYPE_E::RX_SPLT). */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t len                         : 16; /**< [127:112] The number of bytes in the packet and written to the CQE/RB. Bytes stripped (VLAN etc) if
+                                                                 any are not included. */
+		uint64_t l2ptr                       : 8;  /**< [111:104] Pointer to the first byte of L2 relative to the first byte of packet data written to
+                                                                 memory. Unpredictable when [ERRLEV] \<= RE. */
+		uint64_t l3ptr                       : 8;  /**< [103: 96] Pointer to the first byte of L3 relative to the first byte of packet data written to
+                                                                 memory. Unpredictable when [ERRLEV] \<= L2. */
+		uint64_t l4ptr                       : 8;  /**< [ 95: 88] Pointer to the first byte of L4 relative to the first byte of packet data written to
+                                                                 memory. Unpredictable when [ERRLEV] \<= L3. */
+		uint64_t size_cqd                    : 8;  /**< [ 87: 80] Size of CQ data. Number of packet bytes written to the CQ, either due to
+                                                                 NIC_QS()_RQ_GEN_CFG[CQ_HDR_COPY] or the packet being smaller than
+                                                                 NIC_QS()_RQ_GEN_CFG[CQ_PKT_SIZE]. */
+		uint64_t apad                        : 3;  /**< [ 79: 77] Number of alignment bytes added before data in CQE and RB. */
+		uint64_t reserved_76_76              : 1;  /**< [ 76: 76] Reserved. */
+		uint64_t chan                        : 12; /**< [ 75: 64] Logical channel the packet arrived from, enumerated by NIC_CHAN_E. */
+#else
+		uint64_t chan                        : 12; /**< [ 75: 64] Logical channel the packet arrived from, enumerated by NIC_CHAN_E. */
+		uint64_t reserved_76_76              : 1;  /**< [ 76: 76] Reserved. */
+		uint64_t apad                        : 3;  /**< [ 79: 77] Number of alignment bytes added before data in CQE and RB. */
+		uint64_t size_cqd                    : 8;  /**< [ 87: 80] Size of CQ data. Number of packet bytes written to the CQ, either due to
+                                                                 NIC_QS()_RQ_GEN_CFG[CQ_HDR_COPY] or the packet being smaller than
+                                                                 NIC_QS()_RQ_GEN_CFG[CQ_PKT_SIZE]. */
+		uint64_t l4ptr                       : 8;  /**< [ 95: 88] Pointer to the first byte of L4 relative to the first byte of packet data written to
+                                                                 memory. Unpredictable when [ERRLEV] \<= L3. */
+		uint64_t l3ptr                       : 8;  /**< [103: 96] Pointer to the first byte of L3 relative to the first byte of packet data written to
+                                                                 memory. Unpredictable when [ERRLEV] \<= L2. */
+		uint64_t l2ptr                       : 8;  /**< [111:104] Pointer to the first byte of L2 relative to the first byte of packet data written to
+                                                                 memory. Unpredictable when [ERRLEV] \<= RE. */
+		uint64_t len                         : 16; /**< [127:112] The number of bytes in the packet and written to the CQE/RB. Bytes stripped (VLAN etc) if
+                                                                 any are not included. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rss_tag                     : 32; /**< [191:160] Computed RSS tag value. This field is zero when [RSS_ALG] == NIC_RSS_ALG_E::NONE (0) and
+                                                                 NIC_RX_HDR_S[RSS_DIS] was clear. */
+		uint64_t vlan_tci                    : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
+                                                                 clear. INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
+		uint64_t vvptr                       : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
+                                                                 Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
+                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 must not rely on this. */
+		uint64_t vsptr                       : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
+                                                                 Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
+                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 must not rely on this. */
+#else
+		uint64_t vsptr                       : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
+                                                                 Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
+                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 must not rely on this. */
+		uint64_t vvptr                       : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
+                                                                 Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
+                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 must not rely on this. */
+		uint64_t vlan_tci                    : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
+                                                                 clear. INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
+		uint64_t rss_tag                     : 32; /**< [191:160] Computed RSS tag value. This field is zero when [RSS_ALG] == NIC_RSS_ALG_E::NONE (0) and
+                                                                 NIC_RX_HDR_S[RSS_DIS] was clear. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rbsz3                       : 16; /**< [255:240] Size of RB 6. */
+		uint64_t rbsz2                       : 16; /**< [239:224] Size of RB 4. */
+		uint64_t rbsz1                       : 16; /**< [223:208] Size of RB 2. */
+		uint64_t rbsz0                       : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
+                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
+                                                                 endian machine a uint16_t array can hit all 12 RBSZs. */
+#else
+		uint64_t rbsz0                       : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
+                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
+                                                                 endian machine a uint16_t array can hit all 12 RBSZs. */
+		uint64_t rbsz1                       : 16; /**< [223:208] Size of RB 2. */
+		uint64_t rbsz2                       : 16; /**< [239:224] Size of RB 4. */
+		uint64_t rbsz3                       : 16; /**< [255:240] Size of RB 6. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rbsz7                       : 16; /**< [319:304] Size of RB 6. */
+		uint64_t rbsz6                       : 16; /**< [303:288] Size of RB 4. */
+		uint64_t rbsz5                       : 16; /**< [287:272] Size of RB 2. */
+		uint64_t rbsz4                       : 16; /**< [271:256] Size of RB 0. Number of bytes written to the first RB, or 0x0 if none written to this RB. */
+#else
+		uint64_t rbsz4                       : 16; /**< [271:256] Size of RB 0. Number of bytes written to the first RB, or 0x0 if none written to this RB. */
+		uint64_t rbsz5                       : 16; /**< [287:272] Size of RB 2. */
+		uint64_t rbsz6                       : 16; /**< [303:288] Size of RB 4. */
+		uint64_t rbsz7                       : 16; /**< [319:304] Size of RB 6. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rbsz11                      : 16; /**< [383:368] Size of RB 6. */
+		uint64_t rbsz10                      : 16; /**< [367:352] Size of RB 4. */
+		uint64_t rbsz9                       : 16; /**< [351:336] Size of RB 2. */
+		uint64_t rbsz8                       : 16; /**< [335:320] Size of RB 0. Number of bytes written to the first RB, or 0x0 if none written to this RB. */
+#else
+		uint64_t rbsz8                       : 16; /**< [335:320] Size of RB 0. Number of bytes written to the first RB, or 0x0 if none written to this RB. */
+		uint64_t rbsz9                       : 16; /**< [351:336] Size of RB 2. */
+		uint64_t rbsz10                      : 16; /**< [367:352] Size of RB 4. */
+		uint64_t rbsz11                      : 16; /**< [383:368] Size of RB 6. */
 #endif
 	} s;
 };
@@ -1057,7 +1103,6 @@ union nic_cqe_send_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t ptp_timestamp               : 64; /**< [127: 64] PTP timestamp value. Valid when [CQE_TYPE]=NIC_CQE_TYPE_E::SEND_PTP. */
 		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::SEND or NIC_CQE_TYPE_E::SEND_PTP). */
 		uint64_t reserved_56_59              : 4;  /**< [ 59: 56] Reserved. */
 		uint64_t sqe_ptr                     : 16; /**< [ 55: 40] SQ entry pointer\<19:4\>. Address bits \<3:0\> are always 0. */
@@ -1068,16 +1113,20 @@ union nic_cqe_send_s {
 		uint64_t reserved_8_15               : 8;  /**< [ 15:  8] Reserved. */
 		uint64_t send_status                 : 8;  /**< [  7:  0] Send completion status enumerated by NIC_CQE_SEND_STATUS_E. */
 #else
-		uint64_t send_status                 : 8;
-		uint64_t reserved_8_15               : 8;
-		uint64_t sq_idx                      : 3;
-		uint64_t sq_qs                       : 7;
-		uint64_t reserved_26_35              : 10;
-		uint64_t reserved_36_39              : 4;
-		uint64_t sqe_ptr                     : 16;
-		uint64_t reserved_56_59              : 4;
-		uint64_t cqe_type                    : 4;
-		uint64_t ptp_timestamp               : 64;
+		uint64_t send_status                 : 8;  /**< [  7:  0] Send completion status enumerated by NIC_CQE_SEND_STATUS_E. */
+		uint64_t reserved_8_15               : 8;  /**< [ 15:  8] Reserved. */
+		uint64_t sq_idx                      : 3;  /**< [ 18: 16] Indicates the send queue's index inside the QS. */
+		uint64_t sq_qs                       : 7;  /**< [ 25: 19] Indicates the send queue's QS. */
+		uint64_t reserved_26_35              : 10; /**< [ 35: 26] Reserved. */
+		uint64_t reserved_36_39              : 4;  /**< [ 39: 36] Reserved, for alignment padding. */
+		uint64_t sqe_ptr                     : 16; /**< [ 55: 40] SQ entry pointer\<19:4\>. Address bits \<3:0\> are always 0. */
+		uint64_t reserved_56_59              : 4;  /**< [ 59: 56] Reserved. */
+		uint64_t cqe_type                    : 4;  /**< [ 63: 60] Completion queue entry type (NIC_CQE_TYPE_E::SEND or NIC_CQE_TYPE_E::SEND_PTP). */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ptp_timestamp               : 64; /**< [127: 64] PTP timestamp value. Valid when [CQE_TYPE]=NIC_CQE_TYPE_E::SEND_PTP. */
+#else
+		uint64_t ptp_timestamp               : 64; /**< [127: 64] PTP timestamp value. Valid when [CQE_TYPE]=NIC_CQE_TYPE_E::SEND_PTP. */
 #endif
 	} s;
 };
@@ -1096,9 +1145,9 @@ union nic_rbdr_entry_s {
 		uint64_t addr                        : 42; /**< [ 48:  7] Starting address of receive data buffer. */
 		uint64_t reserved_0_6                : 7;  /**< [  6:  0] Reserved for cache line alignment. */
 #else
-		uint64_t reserved_0_6                : 7;
-		uint64_t addr                        : 42;
-		uint64_t reserved_49_63              : 15;
+		uint64_t reserved_0_6                : 7;  /**< [  6:  0] Reserved for cache line alignment. */
+		uint64_t addr                        : 42; /**< [ 48:  7] Starting address of receive data buffer. */
+		uint64_t reserved_49_63              : 15; /**< [ 63: 49] Reserved. */
 #endif
 	} s;
 };
@@ -1131,15 +1180,20 @@ union nic_rx_hdr_s {
 		uint64_t reserved_11_12              : 2;  /**< [ 12: 11] Reserved. */
 		uint64_t dest                        : 11; /**< [ 10:  0] Associates a packet to a destination the RQ interface or a VNIC, see [DEST_ALG]. */
 #else
-		uint64_t dest                        : 11;
-		uint64_t reserved_11_12              : 2;
-		uint64_t dest_alg                    : 2;
-		uint64_t nodrop                      : 1;
-		uint64_t tcp_dis                     : 1;
-		uint64_t rss_dis                     : 1;
-		uint64_t sl                          : 6;
-		uint64_t rss_flow                    : 8;
-		uint64_t opaque4                     : 32;
+		uint64_t dest                        : 11; /**< [ 10:  0] Associates a packet to a destination the RQ interface or a VNIC, see [DEST_ALG]. */
+		uint64_t reserved_11_12              : 2;  /**< [ 12: 11] Reserved. */
+		uint64_t dest_alg                    : 2;  /**< [ 14: 13] Specifies algorithm for use of DEST:
+                                                                 0x0 = [DEST] is ignored.
+                                                                 0x1 = [DEST]\<10:0\> specifies the CPI to receive the packet.
+                                                                 0x2 = [DEST]\<9:3\> specifies the QS and [DEST]\<2:0\> the RQ in that QS.
+                                                                 0x3 = Reserved. */
+		uint64_t nodrop                      : 1;  /**< [ 15: 15] Disable RED. */
+		uint64_t tcp_dis                     : 1;  /**< [ 16: 16] Reserved. INTERNAL: Reserved for future use - Disable TCP reassembly. */
+		uint64_t rss_dis                     : 1;  /**< [ 17: 17] Disables NIC RSS algorithms, and forces [RSS_FLOW] into NIC_CQE_RX_S[RSS_TAG]. */
+		uint64_t sl                          : 6;  /**< [ 23: 18] Skip length. Number of 2-byte words parser should skip between the end of the header and
+                                                                 before beginning L2 parsing. */
+		uint64_t rss_flow                    : 8;  /**< [ 31: 24] Flow identifier, for inclusion in RSS calculation. */
+		uint64_t opaque4                     : 32; /**< [ 63: 32] Software defined field, no meaning to hardware. */
 #endif
 	} s;
 };
@@ -1175,10 +1229,6 @@ union nic_send_crc_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum. If [ALG] = CKSUM, then only bits \<15:0\> in big-endian
-                                                                 format are valid. INTERNAL: Pass 2 feature [ALG] = CRC, functional only with IV =
-                                                                 0xffffffff. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send CRC. Enumerated by NIC_SEND_SUBDC_E::CRC. */
 		uint64_t alg                         : 2;  /**< [ 59: 58] CRC algorithm. See NIC_SEND_CRCALG_E. */
 		uint64_t reserved_48_57              : 10; /**< [ 57: 48] Reserved. */
@@ -1191,14 +1241,28 @@ union nic_send_crc_s {
                                                                  [START] through [START]+[SIZE]-1. Note that these covered reconstructed bytes need not be
                                                                  contiguous in L2/DRAM -- they can straddle any number of NIC_SEND_GATHER_S subdescriptors. */
 #else
-		uint64_t size                        : 16;
-		uint64_t start                       : 16;
-		uint64_t insert                      : 16;
-		uint64_t reserved_48_57              : 10;
-		uint64_t alg                         : 2;
-		uint64_t subdc                       : 4;
-		uint64_t iv                          : 32;
-		uint64_t reserved_96_127             : 32;
+		uint64_t size                        : 16; /**< [ 15:  0] Length of checksum region, must not be zero. The region is contiguous in packet bytes
+                                                                 [START] through [START]+[SIZE]-1. Note that these covered reconstructed bytes need not be
+                                                                 contiguous in L2/DRAM -- they can straddle any number of NIC_SEND_GATHER_S subdescriptors. */
+		uint64_t start                       : 16; /**< [ 31: 16] Byte position relative to the first packet byte at which to start the checksum. */
+		uint64_t insert                      : 16; /**< [ 47: 32] Byte position relative to the first packet byte at which to insert the first byte of the
+                                                                 calculated CRC. NIC does not allocate bytes as it inserts the CRC result into the packet,
+                                                                 it overwrites four pre-supplied packet bytes using NIC_SEND_GATHER_S or NIC_SEND_IMM_S.
+                                                                 The insertion point may not be within the start/size region of another NIC_SEND_CRC_S. */
+		uint64_t reserved_48_57              : 10; /**< [ 57: 48] Reserved. */
+		uint64_t alg                         : 2;  /**< [ 59: 58] CRC algorithm. See NIC_SEND_CRCALG_E. */
+		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send CRC. Enumerated by NIC_SEND_SUBDC_E::CRC. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum. If [ALG] = CKSUM, then only bits \<15:0\> in big-endian
+                                                                 format are valid. INTERNAL: Pass 2 feature [ALG] = CRC, functional only with IV =
+                                                                 0xffffffff. */
+#else
+		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum. If [ALG] = CKSUM, then only bits \<15:0\> in big-endian
+                                                                 format are valid. INTERNAL: Pass 2 feature [ALG] = CRC, functional only with IV =
+                                                                 0xffffffff. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
 #endif
 	} s;
 };
@@ -1216,21 +1280,26 @@ union nic_send_gather_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
-		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) of the first byte of packet data
-                                                                 in the buffer. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
 		uint64_t ld_type                     : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
 		uint64_t reserved_16_57              : 42; /**< [ 57: 16] Reserved. */
 		uint64_t size                        : 16; /**< [ 15:  0] Size of segment, in bytes. [SIZE] must be nonzero, else the subdescriptor is ignored. */
 #else
-		uint64_t size                        : 16;
-		uint64_t reserved_16_57              : 42;
-		uint64_t ld_type                     : 2;
-		uint64_t subdc                       : 4;
-		uint64_t addr                        : 49;
-		uint64_t reserved_113_127            : 15;
+		uint64_t size                        : 16; /**< [ 15:  0] Size of segment, in bytes. [SIZE] must be nonzero, else the subdescriptor is ignored. */
+		uint64_t reserved_16_57              : 42; /**< [ 57: 16] Reserved. */
+		uint64_t ld_type                     : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
+                                                                 NIC_SEND_LD_TYPE_E. */
+		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
+		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) of the first byte of packet data
+                                                                 in the buffer. */
+#else
+		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) of the first byte of packet data
+                                                                 in the buffer. */
+		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
 #endif
 	} s;
 };
@@ -1245,29 +1314,6 @@ union nic_send_hdr_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t tso_sdc_cont                : 8;  /**< [127:120] When [TSO] set, TSO subdescriptor count for continuations. Specifies the maximum number of
-                                                                 128-bit subdescriptors, including immediate data, that are needed to send the payloads of
-                                                                 two consecutive packets other than the first two packets. This is used as a hint by
-                                                                 hardware; an incorrect value may result in reduced TSO throughput or increased NCB
-                                                                 bandwidth utilization. */
-		uint64_t tso_sdc_first               : 8;  /**< [119:112] When [TSO] set, TSO subdescriptor count for first packet. Number of 128-bit subdescriptors
-                                                                 following the send header subdescriptor, including immediate data, that are needed to send
-                                                                 the first two packets of the TSO operation. This is used as a hint by hardware; an
-                                                                 incorrect value may result in reduced TSO throughput or increased NCB bandwidth
-                                                                 utilization. */
-		uint64_t tso_l4payptr                : 8;  /**< [111:104] When [TSO] set, layer 4 payload offset. The Layer 4 (TCP) payload for a TSO operation must
-                                                                 start exactly [L4PAYPTR] bytes from the beginning of the packet. */
-		uint64_t tso_flags_last              : 12; /**< [103: 92] When [TSO] set, value of flags in TCP header of last segment if it is not the only
-                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
-                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
-                                                                 segments are taken directly from the header data. */
-		uint64_t tso_flags_first             : 12; /**< [ 91: 80] When [TSO] set, value of flags in TCP header of first segment if it is not the only
-                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
-                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
-                                                                 segments are taken directly from the header data. */
-		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
-		uint64_t tso_max_pay                 : 14; /**< [ 77: 64] When [TSO] set, maximum TCP payload size in bytes per packet. The maximum TCP packet size
-                                                                 is [L4PAYPTR] + [TSO_MAX_PAYSIZE], which must not exceed 9212 bytes. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
                                                                  operation to send one or more packets of a TCP flow, and the [TSO_MAX_PAY] and related
@@ -1343,26 +1389,129 @@ union nic_send_hdr_s {
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
                                                                  is less than the minimum size for the interface. */
 #else
-		uint64_t total                       : 20;
-		uint64_t reserved_20_23              : 4;
-		uint64_t l3ptr                       : 8;
-		uint64_t l4ptr                       : 8;
-		uint64_t reserved_40_44              : 5;
-		uint64_t ckl3                        : 1;
-		uint64_t ckl4                        : 2;
-		uint64_t subdcnt                     : 8;
-		uint64_t tstmp                       : 1;
-		uint64_t ds                          : 1;
-		uint64_t pnc                         : 1;
-		uint64_t tso                         : 1;
-		uint64_t subdc                       : 4;
-		uint64_t tso_max_pay                 : 14;
-		uint64_t reserved_78_79              : 2;
-		uint64_t tso_flags_first             : 12;
-		uint64_t tso_flags_last              : 12;
-		uint64_t tso_l4payptr                : 8;
-		uint64_t tso_sdc_first               : 8;
-		uint64_t tso_sdc_cont                : 8;
+		uint64_t total                       : 20; /**< [ 19:  0] Total Byte Count. Must be greater than 0. If [TSO] is clear, the total number of bytes to
+                                                                 send, including zero pad (if any), and must not exceed 9212 (9216 minus 4 byte FCS).
+
+                                                                 If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [L4PAYPTR].
+                                                                 [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
+                                                                 packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
+                                                                 NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
+                                                                 is less than the minimum size for the interface. */
+		uint64_t reserved_20_23              : 4;  /**< [ 23: 20] Reserved. */
+		uint64_t l3ptr                       : 8;  /**< [ 31: 24] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
+                                                                 checksum and/or L4 checksum. (See [CKL3,CKL4].) The IP packet must be exactly [L3PTR]
+                                                                 bytes from the beginning of the packet. Software might populate this field for forwarded
+                                                                 packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP location
+                                                                 computed by NIC when the packet is parsed. When [L3PTR] is used for any of [CKL3,CKL4]
+                                                                 calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR] can
+                                                                 overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
+                                                                 checksumming. The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 packet. Software might populate this field for forwarded packets from a computation based
+                                                                 off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [CKL4] is nonzero, no L4 header bytes indicated by [L4PTR] can overlap with
+                                                                 any bytes covered by or inserted by NIC_SEND_CRC_S CRCs (but the subsequent L4 payload
+                                                                 bytes can overlap with the NIC_SEND_CRC_S CRC bytes). */
+		uint64_t reserved_40_44              : 5;  /**< [ 44: 40] Reserved. */
+		uint64_t ckl3                        : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
+                                                                 the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
+                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
+                                                                 any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
+                                                                 point to a valid IPv4 header. */
+		uint64_t ckl4                        : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
+                                                                 into the packet, as described in L4 Checksum.
+                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
+                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet.
+                                                                 * When NIC_SEND_CRC_S are present, the bytes covered or inserted by NIC_SEND_CRC_S must
+                                                                 all reside in the L4 payload. Conceptually, NIC processes NIC_SEND_CRC_S before L4
+                                                                 checksums when both are present. */
+		uint64_t subdcnt                     : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
+                                                                 subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
+                                                                 descriptor size is 256 subdescriptors (4KB). */
+		uint64_t tstmp                       : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear and NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+                                                                 is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
+                                                                 packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
+                                                                 to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
+                                                                 relative to NIC_CQE_TYPE_E::SEND CQ entries in the same CQ.
+
+                                                                 If this bit is set along with [PNC], two entries are posted to the CQ. The first CQ entry
+                                                                 is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND when the send descriptor's
+                                                                 operation is done as described above. The second CQ entry is posted with
+                                                                 NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP when the packet's timestamp is
+                                                                 captured or times out.
+
+                                                                 Only one timestamp operation may be outstanding at once for a given Ethernet port.
+                                                                 Ignored when [DS] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+		uint64_t ds                          : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
+                                                                 it will still perform any NIC_SEND_MEM_S operations. */
+		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
+                                                                 NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
+                                                                 error. If clear, no CQE is added on normal completion.
+
+                                                                 Note that a CQE is always added if the send operation terminates with an error after the
+                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
+                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+
+                                                                 NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
+                                                                 fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
+                                                                 subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
+                                                                 the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
+		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
+                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MAX_PAY] and related
+                                                                 TSO_* fields are valid. */
+		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t tso_sdc_cont                : 8;  /**< [127:120] When [TSO] set, TSO subdescriptor count for continuations. Specifies the maximum number of
+                                                                 128-bit subdescriptors, including immediate data, that are needed to send the payloads of
+                                                                 two consecutive packets other than the first two packets. This is used as a hint by
+                                                                 hardware; an incorrect value may result in reduced TSO throughput or increased NCB
+                                                                 bandwidth utilization. */
+		uint64_t tso_sdc_first               : 8;  /**< [119:112] When [TSO] set, TSO subdescriptor count for first packet. Number of 128-bit subdescriptors
+                                                                 following the send header subdescriptor, including immediate data, that are needed to send
+                                                                 the first two packets of the TSO operation. This is used as a hint by hardware; an
+                                                                 incorrect value may result in reduced TSO throughput or increased NCB bandwidth
+                                                                 utilization. */
+		uint64_t tso_l4payptr                : 8;  /**< [111:104] When [TSO] set, layer 4 payload offset. The Layer 4 (TCP) payload for a TSO operation must
+                                                                 start exactly [L4PAYPTR] bytes from the beginning of the packet. */
+		uint64_t tso_flags_last              : 12; /**< [103: 92] When [TSO] set, value of flags in TCP header of last segment if it is not the only
+                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
+                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
+                                                                 segments are taken directly from the header data. */
+		uint64_t tso_flags_first             : 12; /**< [ 91: 80] When [TSO] set, value of flags in TCP header of first segment if it is not the only
+                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
+                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
+                                                                 segments are taken directly from the header data. */
+		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
+		uint64_t tso_max_pay                 : 14; /**< [ 77: 64] When [TSO] set, maximum TCP payload size in bytes per packet. The maximum TCP packet size
+                                                                 is [L4PAYPTR] + [TSO_MAX_PAYSIZE], which must not exceed 9212 bytes. */
+#else
+		uint64_t tso_max_pay                 : 14; /**< [ 77: 64] When [TSO] set, maximum TCP payload size in bytes per packet. The maximum TCP packet size
+                                                                 is [L4PAYPTR] + [TSO_MAX_PAYSIZE], which must not exceed 9212 bytes. */
+		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
+		uint64_t tso_flags_first             : 12; /**< [ 91: 80] When [TSO] set, value of flags in TCP header of first segment if it is not the only
+                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
+                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
+                                                                 segments are taken directly from the header data. */
+		uint64_t tso_flags_last              : 12; /**< [103: 92] When [TSO] set, value of flags in TCP header of last segment if it is not the only
+                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
+                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
+                                                                 segments are taken directly from the header data. */
+		uint64_t tso_l4payptr                : 8;  /**< [111:104] When [TSO] set, layer 4 payload offset. The Layer 4 (TCP) payload for a TSO operation must
+                                                                 start exactly [L4PAYPTR] bytes from the beginning of the packet. */
+		uint64_t tso_sdc_first               : 8;  /**< [119:112] When [TSO] set, TSO subdescriptor count for first packet. Number of 128-bit subdescriptors
+                                                                 following the send header subdescriptor, including immediate data, that are needed to send
+                                                                 the first two packets of the TSO operation. This is used as a hint by hardware; an
+                                                                 incorrect value may result in reduced TSO throughput or increased NCB bandwidth
+                                                                 utilization. */
+		uint64_t tso_sdc_cont                : 8;  /**< [127:120] When [TSO] set, TSO subdescriptor count for continuations. Specifies the maximum number of
+                                                                 128-bit subdescriptors, including immediate data, that are needed to send the payloads of
+                                                                 two consecutive packets other than the first two packets. This is used as a hint by
+                                                                 hardware; an incorrect value may result in reduced TSO throughput or increased NCB
+                                                                 bandwidth utilization. */
 #endif
 	} s;
 };
@@ -1384,7 +1533,6 @@ union nic_send_imm_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< [127: 64] First 8 bytes of immediate data. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Immediate. Enumerated by NIC_SEND_SUBDC_E::IMM. */
 		uint64_t reserved_14_59              : 46; /**< [ 59: 14] Reserved. */
 		uint64_t size                        : 14; /**< [ 13:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
@@ -1393,10 +1541,18 @@ union nic_send_imm_s {
                                                                  later, rounded up to the next 16-byte aligned boundary. The subdescriptor is ignored if
                                                                  size is 0. */
 #else
-		uint64_t size                        : 14;
-		uint64_t reserved_14_59              : 46;
-		uint64_t subdc                       : 4;
-		uint64_t data                        : 64;
+		uint64_t size                        : 14; /**< [ 13:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
+                                                                 first 8 bytes in the [DATA] field. Size must be between 1 and 4072, and the total send
+                                                                 descriptor size cannot exceed 4096 bytes. The next subdescriptor will follow SIZE+8 bytes
+                                                                 later, rounded up to the next 16-byte aligned boundary. The subdescriptor is ignored if
+                                                                 size is 0. */
+		uint64_t reserved_14_59              : 46; /**< [ 59: 14] Reserved. */
+		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Immediate. Enumerated by NIC_SEND_SUBDC_E::IMM. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t data                        : 64; /**< [127: 64] First 8 bytes of immediate data. */
+#else
+		uint64_t data                        : 64; /**< [127: 64] First 8 bytes of immediate data. */
 #endif
 	} s;
 };
@@ -1419,9 +1575,6 @@ union nic_send_mem_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
-		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) to be modified. ADDR must be
-                                                                 naturally aligned to the size specified in DSZ. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated by NIC_SEND_SUBDC_E::MEM. */
 		uint64_t alg                         : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
                                                                  incrementing. Enumerated by NIC_SEND_MEMALG_E. */
@@ -1436,14 +1589,28 @@ union nic_send_mem_s {
                                                                  increment/decrement, therefore a change of +/- one is twice as IOB bandwidth efficient as
                                                                  adding/subtracting other values. */
 #else
-		uint64_t offset                      : 32;
-		uint64_t reserved_32_52              : 21;
-		uint64_t wmem                        : 1;
-		uint64_t dsz                         : 2;
-		uint64_t alg                         : 4;
-		uint64_t subdc                       : 4;
-		uint64_t addr                        : 49;
-		uint64_t reserved_113_127            : 15;
+		uint64_t offset                      : 32; /**< [ 31:  0] Adder offset. Constant value to add or subtract or set. If the count being modified is to
+                                                                 represent the true packet size, then the offset would represent the CRC and pad bytes
+                                                                 appended to the packet. INTERNAL: Note IOB hardware has a special encoding for atomic
+                                                                 increment/decrement, therefore a change of +/- one is twice as IOB bandwidth efficient as
+                                                                 adding/subtracting other values. */
+		uint64_t reserved_32_52              : 21; /**< [ 52: 32] Reserved. */
+		uint64_t wmem                        : 1;  /**< [ 53: 53] When NIC_SEND_HDR_S[PNC] is set, wait for memory operation to be committed before posting
+                                                                 to the CQ. When clear, the memory operation may complete after the CQE is added and
+                                                                 potentially after software has begun servicing the CQE. */
+		uint64_t dsz                         : 2;  /**< [ 55: 54] Memory data size. The size of the word in memory, enumerated by NIC_SEND_MEMDSZ_E. */
+		uint64_t alg                         : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
+                                                                 incrementing. Enumerated by NIC_SEND_MEMALG_E. */
+		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Memory. Enumerated by NIC_SEND_SUBDC_E::MEM. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
+		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) to be modified. ADDR must be
+                                                                 naturally aligned to the size specified in DSZ. */
+#else
+		uint64_t addr                        : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) to be modified. ADDR must be
+                                                                 naturally aligned to the size specified in DSZ. */
+		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. INTERNAL: For 64-bit addresses. */
 #endif
 	} s;
 };
@@ -1453,7 +1620,7 @@ union nic_send_mem_s {
  * NCB - nic_pf_bist0_status
  *
  * This register reports memory BIST status. Each bit corresponds to a different RAM; 0 = pass, 1
- * = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC0_FLIP0.
+ * = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
 typedef union bdk_nic_pf_bist0_status {
 	uint64_t u;
@@ -2374,7 +2541,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc0_dbe_int
  *
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC0_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
 typedef union bdk_nic_pf_ecc0_dbe_int {
 	uint64_t u;
@@ -2637,7 +2804,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc0_sbe_int
  *
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC0_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
 typedef union bdk_nic_pf_ecc0_sbe_int {
 	uint64_t u;
@@ -2726,7 +2893,7 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                    \<5\> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
-                                                                   \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
+                                                                   \<2\> = Reserved.
                                                                    \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
@@ -2837,7 +3004,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc1_dbe_int
  *
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC1_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
  */
 typedef union bdk_nic_pf_ecc1_dbe_int {
 	uint64_t u;
@@ -2922,7 +3089,7 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                    \<5\> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
-                                                                   \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
+                                                                   \<2\> = Reserved.
                                                                    \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
@@ -2979,7 +3146,7 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                    \<5\> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
-                                                                   \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
+                                                                   \<2\> = Reserved.
                                                                    \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
@@ -3090,7 +3257,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc1_sbe_int
  *
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC1_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
  */
 typedef union bdk_nic_pf_ecc1_sbe_int {
 	uint64_t u;
@@ -3284,7 +3451,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc2_dbe_int
  *
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC2_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
  */
 typedef union bdk_nic_pf_ecc2_dbe_int {
 	uint64_t u;
@@ -3533,7 +3700,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc2_sbe_int
  *
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC2_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
  */
 typedef union bdk_nic_pf_ecc2_sbe_int {
 	uint64_t u;
@@ -3736,7 +3903,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc3_dbe_int
  *
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC3_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
  */
 typedef union bdk_nic_pf_ecc3_dbe_int {
 	uint64_t u;
@@ -4011,7 +4178,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC(void)
  * NCB - nic_pf_ecc3_sbe_int
  *
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated in NIC_PF_ECC3_FLIP0.
+ * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
  */
 typedef union bdk_nic_pf_ecc3_sbe_int {
 	uint64_t u;

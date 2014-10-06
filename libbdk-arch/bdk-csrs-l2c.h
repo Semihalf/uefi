@@ -871,7 +871,7 @@ static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void)
 /**
  * RSL - l2c_tad_ctl
  *
- * On T88XX, MAXLFB, EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD LFBs/VABs. Therefore, even
+ * In CNXXXX, MAXLFB, EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD LFBs/VABs. Therefore, even
  * though there are 32 LFBs/VABs in a full TAD, the number applies to both halves.
  * * If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
  * * If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.

@@ -2355,7 +2355,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long param1)
  * header size.
  * Unpredictable behavior will occur if software changes the header size configuration
  * for a port while packets are being received.
- * All fields are enumerated with TNS_RDMA_HDR_SZ_E.
+ * All fields are enumerated by TNS_RDMA_HDR_SZ_E.
  */
 typedef union bdk_tns_rdma_nb_hdr_sz_cfg {
 	uint64_t u;

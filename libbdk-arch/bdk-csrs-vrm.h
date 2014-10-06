@@ -91,13 +91,13 @@ union vrm_tws_twsi_sw_s {
 		uint64_t ia                          : 8;  /**< [ 39: 32] Internal CSR address of registers within external regulator. */
 		uint64_t data                        : 32; /**< [ 31:  0] Data to/from external regulator, includes PEC. */
 #else
-		uint64_t data                        : 32;
-		uint64_t ia                          : 8;
-		uint64_t addr                        : 8;
-		uint64_t size                        : 2;
-		uint64_t r                           : 1;
-		uint64_t v                           : 1;
-		uint64_t reserved_52_63              : 12;
+		uint64_t data                        : 32; /**< [ 31:  0] Data to/from external regulator, includes PEC. */
+		uint64_t ia                          : 8;  /**< [ 39: 32] Internal CSR address of registers within external regulator. */
+		uint64_t addr                        : 8;  /**< [ 47: 40] Slave address. External regulator ID. */
+		uint64_t size                        : 2;  /**< [ 49: 48] Size of payload. */
+		uint64_t r                           : 1;  /**< [ 50: 50] Read. */
+		uint64_t v                           : 1;  /**< [ 51: 51] Valid. */
+		uint64_t reserved_52_63              : 12; /**< [ 63: 52] Reserved */
 #endif
 	} s;
 };

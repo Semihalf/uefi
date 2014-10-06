@@ -88,8 +88,8 @@ union dfa_cq_s {
 		uint64_t reserved_49_63              : 15; /**< [ 63: 49] Reserved. */
 		uint64_t rptr                        : 49; /**< [ 48:  0] RPTR from the completed instruction. */
 #else
-		uint64_t rptr                        : 49;
-		uint64_t reserved_49_63              : 15;
+		uint64_t rptr                        : 49; /**< [ 48:  0] RPTR from the completed instruction. */
+		uint64_t reserved_49_63              : 15; /**< [ 63: 49] Reserved. */
 #endif
 	} s;
 };
@@ -941,17 +941,17 @@ typedef union bdk_dfa_dtcfadr {
 	struct bdk_dfa_dtcfadr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_44_63              : 20;
-		uint64_t ram3fadr                    : 12; /**< RO/H - HFA RAM3 failing address. If DFA_ERR[DC0PERR\<2\>] = 1, this field indicates the failing
+		uint64_t ram3fadr                    : 12; /**< RO/H - HFA RAM3 failing address. If DFA_ERROR[DC0PERR\<2\>] = 1, this field indicates the failing
                                                                  RAM3 address. The failing address is locked down until the DC0PERR\<2\> W1C occurs.
                                                                  If multiple DC0PERR\<0\>=1 errors are detected, the LSB cluster error information is
                                                                  captured. */
 		uint64_t reserved_25_31              : 7;
-		uint64_t ram2fadr                    : 9;  /**< RO/H - HFA RAM2 failing address. If DFA_ERR[DC0PERR\<1\>] = 1, this field indicates the failing
+		uint64_t ram2fadr                    : 9;  /**< RO/H - HFA RAM2 failing address. If DFA_ERROR[DC0PERR\<1\>] = 1, this field indicates the failing
                                                                  RAM2 address. The failing address is locked down until the DC0PERR\<1\> W1C occurs.
                                                                  If multiple DC0PERR\<0\>=1 errors are detected, the LSB cluster error information is
                                                                  captured. */
 		uint64_t reserved_14_15              : 2;
-		uint64_t ram1fadr                    : 14; /**< RO/H - HFA RAM1 failing address. If DFA_ERR[DC0PERR\<0\>] = 1, this field indicates the failing
+		uint64_t ram1fadr                    : 14; /**< RO/H - HFA RAM1 failing address. If DFA_ERROR[DC0PERR\<0\>] = 1, this field indicates the failing
                                                                  RAM1 address. The failing address is locked down until the DC0PERR\<0\> W1C occurs.
                                                                  If multiple DC0PERR\<0\>=1 errors are detected, the LSB cluster error information is
                                                                  captured. */

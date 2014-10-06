@@ -86,17 +86,22 @@ union ecam_cfg_addr_s {
                                                                  support ARI this contains both the device and function number. */
 		uint64_t addr                        : 12; /**< [ 11:  0] Register address within the device. */
 #else
-		uint64_t addr                        : 12;
-		uint64_t func                        : 8;
-		uint64_t bus                         : 8;
-		uint64_t reserved_28_33              : 6;
-		uint64_t bcst                        : 1;
-		uint64_t setup                       : 1;
-		uint64_t did                         : 8;
-		uint64_t node                        : 2;
-		uint64_t reserved_46_46              : 1;
-		uint64_t io                          : 1;
-		uint64_t reserved_48_63              : 16;
+		uint64_t addr                        : 12; /**< [ 11:  0] Register address within the device. */
+		uint64_t func                        : 8;  /**< [ 19: 12] Function number. Note this assumes an ARI device; for external PCI devices that do not
+                                                                 support ARI this contains both the device and function number. */
+		uint64_t bus                         : 8;  /**< [ 27: 20] Bus number. */
+		uint64_t reserved_28_33              : 6;  /**< [ 33: 28] Reserved. */
+		uint64_t bcst                        : 1;  /**< [ 34: 34] Reserved, MBZ. INTERNAL: Reserved for future use - Broadcast. Write to all PCC
+                                                                 blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
+                                                                 set. */
+		uint64_t setup                       : 1;  /**< [ 35: 35] Reserved, MBZ. INTERNAL: Reserved for future use - Setup. Allow certain PCC
+                                                                 configuration registers to be written for boot-time initialization. Treated as 0
+                                                                 unless in secure mode. */
+		uint64_t did                         : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
+		uint64_t node                        : 2;  /**< [ 45: 44] CCPI node number. */
+		uint64_t reserved_46_46              : 1;  /**< [ 46: 46] Reserved. */
+		uint64_t io                          : 1;  /**< [ 47: 47] Indicates I/O space. */
+		uint64_t reserved_48_63              : 16; /**< [ 63: 48] Reserved */
 #endif
 	} s;
 };

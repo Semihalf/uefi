@@ -54,7 +54,7 @@ SYSTEM_REGISTER(CSSELR_EL1, 3,2,0,0,0, 0xf, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CTR_EL0, 3,3,0,0,1, 0x80000000, 0x80000000, 0xfffc00f, 0x85558005, 0x85558005, true)
 SYSTEM_REGISTER(CurrentEL, 3,0,4,2,2, 0x0, 0x0, 0xc, 0xc, 0xc, true)
 SYSTEM_REGISTER(CVMCTL_EL1, 3,0,11,0,0, 0x37ffff03ff, 0x0, 0x0, 0x0, 0x0, true)
-SYSTEM_REGISTER(CVMMEMCTL0_EL1, 3,0,11,0,4, 0x7fffffffffff, 0x0, 0x7c00000000000000, 0x43e0d67c, 0x43e0d67c, true)
+SYSTEM_REGISTER(CVMMEMCTL0_EL1, 3,0,11,0,4, 0x1fffffffffffff, 0x0, 0x7c00000000000000, 0x1f000043e0d67c, 0x1f000043e0d67c, true)
 SYSTEM_REGISTER(CVMMEMCTL1_EL1, 3,0,11,0,5, 0x0, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_POWER_EL1, 3,0,11,0,2, 0xffffffff1fffffff, 0x0, 0x0, 0x2ffff00, 0x2ffff00, true)
 SYSTEM_REGISTER(CVM_BIST0_EL1, 3,0,11,1,0, 0x0, 0x0, 0x7ffff00ff, 0x0, 0x0, true)
@@ -62,7 +62,7 @@ SYSTEM_REGISTER(CVM_BIST1_EL1, 3,0,11,1,1, 0x0, 0x0, 0xffffffffffff, 0xfffffffff
 SYSTEM_REGISTER(CVM_BIST2_EL1, 3,0,11,1,4, 0x0, 0x0, 0x1ff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_BIST3_EL1, 3,0,11,1,5, 0x0, 0x0, 0xffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_ERRICACHE_EL1, 3,0,11,2,0, 0x1fff9, 0x0, 0x0, 0x0, 0x0, true)
-SYSTEM_REGISTER(CVM_ERRMEM_EL1, 3,0,11,2,4, 0x1fffffffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(CVM_ERRMEM_EL1, 3,0,11,2,4, 0xffffffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_EVATTID_EL1, 3,0,11,2,5, 0x3f000f003f, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_ICACHEDATA0_EL1, 3,0,11,3,0, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_ICACHEDATA1_EL1, 3,0,11,3,1, 0x0, 0x0, 0x3, 0x0, 0x0, true)
@@ -1706,7 +1706,9 @@ typedef union
         uint64_t reserved_63 : 1;
         uint64_t node : 2;
         uint64_t stexfailcnt : 3;
-        uint64_t reserved_47_57 : 11;
+        uint64_t reserved_53_57 : 5;
+        uint64_t gsyncto : 5;
+        uint64_t utlbfillbypdis : 1;
         uint64_t tlbiall : 1;
         uint64_t wbfdsbflushall : 1;
         uint64_t wbfdmbflushnext : 1;
@@ -1758,7 +1760,9 @@ typedef union
         uint64_t wbfdmbflushnext : 1;
         uint64_t wbfdsbflushall : 1;
         uint64_t tlbiall : 1;
-        uint64_t reserved_47_57 : 11;
+        uint64_t utlbfillbypdis : 1;
+        uint64_t gsyncto : 5;
+        uint64_t reserved_53_57 : 5;
         uint64_t stexfailcnt : 3;
         uint64_t node : 2;
         uint64_t reserved_63 : 1;
@@ -2073,7 +2077,10 @@ typedef union
     struct
     {
 #if __BYTE_ORDER == __BIG_ENDIAN
-        uint64_t reserved_45_63 : 19;
+        uint64_t reserved_48_63 : 16;
+        uint64_t gsynctonosw : 1;
+        uint64_t gsynctodis : 1;
+        uint64_t gsyncto : 1;
         uint64_t wcumultdis : 1;
         uint64_t wcumult : 1;
         uint64_t mtlbmultdis : 1;
@@ -2153,7 +2160,10 @@ typedef union
         uint64_t mtlbmultdis : 1;
         uint64_t wcumult : 1;
         uint64_t wcumultdis : 1;
-        uint64_t reserved_45_63 : 19;
+        uint64_t gsyncto : 1;
+        uint64_t gsynctodis : 1;
+        uint64_t gsynctonosw : 1;
+        uint64_t reserved_48_63 : 16;
 #endif
     } s;
 #ifdef __cplusplus

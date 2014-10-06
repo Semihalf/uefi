@@ -570,6 +570,7 @@ typedef union bdk_gserx_glbl_pll_monitor {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
+	/* struct bdk_gserx_glbl_pll_monitor_s cn85xx; */
 	/* struct bdk_gserx_glbl_pll_monitor_s cn88xx; */
 	/* struct bdk_gserx_glbl_pll_monitor_s cn88xxp1; */
 } bdk_gserx_glbl_pll_monitor_t;
@@ -577,9 +578,9 @@ typedef union bdk_gserx_glbl_pll_monitor {
 static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)))
+	if (((param1 <= 13)))
 		return 0x000087E090460100ull + (param1 & 15) * 0x1000000ull;
-	else 		csr_fatal("BDK_GSERX_GLBL_PLL_MONITOR", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_GLBL_PLL_MONITOR", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_GLBL_PLL_MONITOR(...) bdk_gserx_glbl_pll_monitor_t
 #define bustype_BDK_GSERX_GLBL_PLL_MONITOR(...) BDK_CSR_TYPE_RSL
@@ -933,8 +934,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long param1, unsig
  * RSL - gser#_lane#_misc_cfg_0
  *
  * These registers are for diagnostic use only.
- * These registers are reset by hardware only during chip cold reset.
- * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ * They are reset by hardware only during chip cold reset.
+ * The values of the fields in these registers do not change during chip warm or soft resets.
  */
 typedef union bdk_gserx_lanex_misc_cfg_0 {
 	uint64_t u;
@@ -1412,6 +1413,7 @@ typedef union bdk_gserx_lanex_pwr_ctrl_p2 {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn85xx; */
 	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn88xx; */
 	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn88xxp1; */
 } bdk_gserx_lanex_pwr_ctrl_p2_t;
@@ -1419,9 +1421,9 @@ typedef union bdk_gserx_lanex_pwr_ctrl_p2 {
 static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL_P2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL_P2(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E0904600B8ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_PWR_CTRL_P2", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_PWR_CTRL_P2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_PWR_CTRL_P2(...) bdk_gserx_lanex_pwr_ctrl_p2_t
 #define bustype_BDK_GSERX_LANEX_PWR_CTRL_P2(...) BDK_CSR_TYPE_RSL
@@ -1570,6 +1572,7 @@ typedef union bdk_gserx_lanex_rx_cdr_ctrl_1 {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_ctrl_1_s cn85xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_ctrl_1_s cn88xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_ctrl_1_s cn88xxp1; */
 } bdk_gserx_lanex_rx_cdr_ctrl_1_t;
@@ -1577,9 +1580,9 @@ typedef union bdk_gserx_lanex_rx_cdr_ctrl_1 {
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E090440038ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_CTRL_1", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_RX_CDR_CTRL_1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_1(...) bdk_gserx_lanex_rx_cdr_ctrl_1_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_CTRL_1(...) BDK_CSR_TYPE_RSL
@@ -1611,6 +1614,7 @@ typedef union bdk_gserx_lanex_rx_cdr_ctrl_2 {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_ctrl_2_s cn85xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_ctrl_2_s cn88xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_ctrl_2_s cn88xxp1; */
 } bdk_gserx_lanex_rx_cdr_ctrl_2_t;
@@ -1618,9 +1622,9 @@ typedef union bdk_gserx_lanex_rx_cdr_ctrl_2 {
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E090440040ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_CTRL_2", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_RX_CDR_CTRL_2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_2(...) bdk_gserx_lanex_rx_cdr_ctrl_2_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_CTRL_2(...) BDK_CSR_TYPE_RSL
@@ -1652,6 +1656,7 @@ typedef union bdk_gserx_lanex_rx_cdr_misc_ctrl_0 {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_misc_ctrl_0_s cn85xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_misc_ctrl_0_s cn88xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_misc_ctrl_0_s cn88xxp1; */
 } bdk_gserx_lanex_rx_cdr_misc_ctrl_0_t;
@@ -1659,9 +1664,9 @@ typedef union bdk_gserx_lanex_rx_cdr_misc_ctrl_0 {
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E090440208ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(...) bdk_gserx_lanex_rx_cdr_misc_ctrl_0_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(...) BDK_CSR_TYPE_RSL
@@ -1691,6 +1696,7 @@ typedef union bdk_gserx_lanex_rx_cdr_status_1 {
 		uint64_t reserved_15_63              : 49;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_status_1_s cn85xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_status_1_s cn88xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_status_1_s cn88xxp1; */
 } bdk_gserx_lanex_rx_cdr_status_1_t;
@@ -1698,9 +1704,9 @@ typedef union bdk_gserx_lanex_rx_cdr_status_1 {
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E0904402D0ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_STATUS_1", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_RX_CDR_STATUS_1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_1(...) bdk_gserx_lanex_rx_cdr_status_1_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_STATUS_1(...) BDK_CSR_TYPE_RSL
@@ -1729,6 +1735,7 @@ typedef union bdk_gserx_lanex_rx_cdr_status_2 {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_rx_cdr_status_2_s cn85xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_status_2_s cn88xx; */
 	/* struct bdk_gserx_lanex_rx_cdr_status_2_s cn88xxp1; */
 } bdk_gserx_lanex_rx_cdr_status_2_t;
@@ -1736,9 +1743,9 @@ typedef union bdk_gserx_lanex_rx_cdr_status_2 {
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E0904402D8ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_RX_CDR_STATUS_2", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_RX_CDR_STATUS_2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_2(...) bdk_gserx_lanex_rx_cdr_status_2_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_STATUS_2(...) BDK_CSR_TYPE_RSL
@@ -2338,6 +2345,7 @@ typedef union bdk_gserx_lanex_rx_precorr_val {
 		uint64_t reserved_13_63              : 51;
 #endif
 	} s;
+	/* struct bdk_gserx_lanex_rx_precorr_val_s cn85xx; */
 	/* struct bdk_gserx_lanex_rx_precorr_val_s cn88xx; */
 	/* struct bdk_gserx_lanex_rx_precorr_val_s cn88xxp1; */
 } bdk_gserx_lanex_rx_precorr_val_t;
@@ -2345,9 +2353,9 @@ typedef union bdk_gserx_lanex_rx_precorr_val {
 static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long param1, unsigned long param2)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((param1 <= 13)) && ((param2 <= 3)))
+	if (((param1 <= 13)) && ((param2 <= 3)))
 		return 0x000087E090440078ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	else 		csr_fatal("BDK_GSERX_LANEX_RX_PRECORR_VAL", 2, param1, param2, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_LANEX_RX_PRECORR_VAL", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_LANEX_RX_PRECORR_VAL(...) bdk_gserx_lanex_rx_precorr_val_t
 #define bustype_BDK_GSERX_LANEX_RX_PRECORR_VAL(...) BDK_CSR_TYPE_RSL

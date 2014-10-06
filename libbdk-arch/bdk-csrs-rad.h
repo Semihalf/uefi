@@ -137,20 +137,63 @@ union rad_cword_s {
 		uint64_t size                        : 24; /**< [ 23:  0] Indicates the size in bytes of all input buffers. When [Q_CMP,P_CMP]=0, also indicates the
                                                                  size of the Q/P output buffers. Must be a multiple of 8B (i.e. \<2:0\> must be zero). */
 #else
-		uint64_t size                        : 24;
-		uint64_t iword                       : 6;
-		uint64_t pout                        : 1;
-		uint64_t qout                        : 1;
-		uint64_t wqe                         : 1;
-		uint64_t p_xor                       : 1;
-		uint64_t q_xor                       : 1;
-		uint64_t p_cmp                       : 1;
-		uint64_t q_cmp                       : 1;
-		uint64_t dn                          : 1;
-		uint64_t stren                       : 1;
-		uint64_t reserved_39_47              : 9;
-		uint64_t ostr                        : 8;
-		uint64_t istr                        : 8;
+		uint64_t size                        : 24; /**< [ 23:  0] Indicates the size in bytes of all input buffers. When [Q_CMP,P_CMP]=0, also indicates the
+                                                                 size of the Q/P output buffers. Must be a multiple of 8B (i.e. \<2:0\> must be zero). */
+		uint64_t iword                       : 6;  /**< [ 29: 24] Number of input buffers used, must be 1 to 32. If one, a copy operation will be performed
+                                                                 (i.e. an XOR with zero.) For copy operations, [Q_XOR] = 0, [P_XOR] = 0, [QOUT] = 1,
+                                                                 [POUT] = 0, [QMULT] = 1, [QEN] = 1, [PEN] = 0, and [Q_CMP] = 0. */
+		uint64_t pout                        : 1;  /**< [ 30: 30] P pipe is used by this instruction. If set, RAD_IWORD_S[PEN] must be set for at least one
+                                                                 RAD_IWORD_S. At least one of [QOUT,POUT] must be set. */
+		uint64_t qout                        : 1;  /**< [ 31: 31] Q pipe is used by this instruction. If set, RAD_IWORD_S[QEN] must be set for at least one
+                                                                 RAD_IWORD_S. At least one of [QOUT,POUT] must be set. */
+		uint64_t wqe                         : 1;  /**< [ 32: 32] Reserved. */
+		uint64_t p_xor                       : 1;  /**< [ 33: 33] Indicates whether the P output buffer bytes are the normal P pipe result or the normal P
+                                                                 pipe result exclusive-OR'ed with the Q pipe result.
+
+                                                                 When [P_XOR]=0 (and [P_CMP] = 0), the P output buffer bytes are the normal P pipe result,
+                                                                 which does not include the Q pipe result in any way.
+
+                                                                 When [P_XOR]=1, the P output buffer bytes are the normal P pipe result exclusive-OR'ed
+                                                                 with the Q pipe result, as if the Q pipe result were another P RAD_IWORD_S for the P pipe.
+
+                                                                 [P_XOR] must not be set unless both [POUT,QOUT] are set, and must not be set when [P_CMP]
+                                                                 is set. */
+		uint64_t q_xor                       : 1;  /**< [ 34: 34] Indicates whether the Q output buffer bytes are the normal Q pipe result or the normal Q
+                                                                 pipe result exclusive-OR'ed with the P pipe result.
+
+                                                                 When [Q_XOR] = 0 (and [Q_CMP]=0), the Q output buffer bytes are the normal Q pipe result,
+                                                                 which does not include the P pipe result in any way.
+
+                                                                 When [Q_XOR] = 1, the Q output buffer bytes are the normal Q pipe result exclusive-OR'ed
+                                                                 with the P pipe result, as if the P pipe result were another Q RAD_IWORD_S for the Q pipe
+                                                                 with QMULT=1.
+
+                                                                 Must not be set unless both [POUT,QOUT] are set, and must not be set when [Q_CMP] is set. */
+		uint64_t p_cmp                       : 1;  /**< [ 35: 35] P pipe mode. Must not be set when [POUT]=0, and must not be set when [P_XOR] is set.
+                                                                 0 = P pipe is in normal mode.
+                                                                 1 = P pipe is in non-zero byte detect mode. The P RAD_OWORD_S[PTR] result is the non-zero
+                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 bytes. */
+		uint64_t q_cmp                       : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
+                                                                 0 = Q pipe is in normal mode.
+                                                                 1 = Q pipe is in non-zero byte detect mode. The Q RAD_OWORD_S[PTR] result is the non-zero
+                                                                 detect result, which indicates the position of the first non-zero byte in the pipe result
+                                                                 bytes. */
+		uint64_t dn                          : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_DONE_CNT. */
+		uint64_t stren                       : 1;  /**< [ 38: 38] Stream override enable.
+                                                                 0 = Use the default SMMU stream identifier of PCC_DEV_CON_E::RAD for all requests.
+                                                                 1 = Use [ISTR] for the low 8-bits of the SMMU stream identifier for RAD_IWORD_S[PTR]
+                                                                 streams, and likewise [OSTR] for RAD_OWORD_S[PTR] streams, and RAD_RESP_S[STR] for
+                                                                 RAD_RESP_S[PTR] streams.  This does not affect the GIC stream ID used for interrupts.
+                                                                 This allows software to accomplish hypervisor-to-guest and guest-to-guest DMAs by using
+                                                                 multiple streams in a transaction.
+
+                                                                 This bit should only be set by a hypervisor, and any hypervisor code should enforce guest
+                                                                 requests have this bit clear. INTERNAL: When RAD is virtualized this will need a per-queue
+                                                                 PF enable. */
+		uint64_t reserved_39_47              : 9;  /**< [ 47: 39] Reserved. */
+		uint64_t ostr                        : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. */
+		uint64_t istr                        : 8;  /**< [ 63: 56] When [STREN] is set, the SMMU stream for RAD_IWORD_S[PTR]. */
 #endif
 	} s;
 };
@@ -189,12 +232,27 @@ union rad_iword_s {
                                                                  eight-byte boundary (i.e. \<2:0\> must be zero). The SMMU stream used may be overridden with
                                                                  RAD_CWORD_S[ISTR]. */
 #else
-		uint64_t ptr                         : 49;
-		uint64_t reserved_49_52              : 4;
-		uint64_t pen                         : 1;
-		uint64_t qen                         : 1;
-		uint64_t nc                          : 1;
-		uint64_t qmult                       : 8;
+		uint64_t ptr                         : 49; /**< [ 48:  0] The starting address of the input buffer in L2/DRAM. Must be naturally aligned on an
+                                                                 eight-byte boundary (i.e. \<2:0\> must be zero). The SMMU stream used may be overridden with
+                                                                 RAD_CWORD_S[ISTR]. */
+		uint64_t reserved_49_52              : 4;  /**< [ 52: 49] Reserved. */
+		uint64_t pen                         : 1;  /**< [ 53: 53] Indicates that this input buffer data should participate in the P pipe result.
+                                                                 The P pipe hardware accumulates each participating input byte by bit-wise exclusive-OR'ing
+                                                                 it.
+                                                                 [PEN] must not be set when RAD_CWORD_S[POUT] is not set.
+                                                                 If RAD_CWORD_S[POUT] is set, [PEN] must be set for at least one RAD_IWORD_S. */
+		uint64_t qen                         : 1;  /**< [ 54: 54] Indicates that this input buffer data should participate in the Q pipe result. The Q pipe
+                                                                 hardware multiplies each participating input byte by RAD_IWORD_S[QMULT] before
+                                                                 accumulating them
+                                                                 by exclusive-OR'ing. Must not be set when RAD_CWORD_S[QOUT] is not set. If
+                                                                 RAD_CWORD_S[QOUT] is set, [QEN] must be set for at least one RAD_IWORD_S. */
+		uint64_t nc                          : 1;  /**< [ 55: 55] When set, indicates that RAD should not allocate L2 cache space for this input buffer data
+                                                                 on L2 cache misses. Setting [NC] may improve performance in some circumstances, as the L2
+                                                                 cache may not be polluted with input buffer data. */
+		uint64_t qmult                       : 8;  /**< [ 63: 56] The Q pipe multiplier for the input buffer. Must must be zero when [QEN] is not set;
+                                                                 [QMULT] must be non-zero when [QEN] is set. When [QMULT] is 1, the multiplication
+                                                                 simplifies to the identity function, and the Q pipe performs the same XOR function as the
+                                                                 P pipe. */
 #endif
 	} s;
 };
@@ -214,8 +272,9 @@ union rad_nzdist_s {
 		uint64_t nzdist                      : 24; /**< [ 23:  0] Location of first pipe result byte that is non-zero. If all pipe result bytes are zero for
                                                                  this instruction, NZDIST = RAD_CWORD_S[SIZE]. */
 #else
-		uint64_t nzdist                      : 24;
-		uint64_t reserved_24_63              : 40;
+		uint64_t nzdist                      : 24; /**< [ 23:  0] Location of first pipe result byte that is non-zero. If all pipe result bytes are zero for
+                                                                 this instruction, NZDIST = RAD_CWORD_S[SIZE]. */
+		uint64_t reserved_24_63              : 40; /**< [ 63: 24] Zero. */
 #endif
 	} s;
 };
@@ -255,11 +314,30 @@ union rad_oword_s {
 
                                                                  [PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
 #else
-		uint64_t p_ptr                       : 49;
-		uint64_t reserved_49_55              : 7;
-		uint64_t nc                          : 1;
-		uint64_t fw                          : 1;
-		uint64_t reserved_58_63              : 6;
+		uint64_t p_ptr                       : 49; /**< [ 48:  0] When RAD_CWORD_S[P_CMP,Q_CMP]=0, [PTR] indicates the starting address of the L2/DRAM
+                                                                 buffer that will receive the P/Q data.  The SMMU stream used may be overridden with
+                                                                 RAD_CWORD_S[OSTR].
+
+                                                                 In the non-compare mode, the output buffer receives
+                                                                 all of the output buffer bytes.
+
+                                                                 When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
+                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+
+                                                                 [PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
+		uint64_t reserved_49_55              : 7;  /**< [ 55: 49] Reserved. */
+		uint64_t nc                          : 1;  /**< [ 56: 56] When set, indicates that RAD should not allocate L2 cache space for the P/Q data on L2
+                                                                 cache misses. [NC] should typically be clear, though setting [NC] can improve performance
+                                                                 in some circumstances, as the L2 cache will not be polluted by P/Q data. The Q
+                                                                 RAD_OWORD_S[NC] must not be set when RAD_CWORD_S[Q_CMP] is set, and the P RAD_OWORD_S[NC]
+                                                                 must not be set when RAD_CWORD_S[P_CMP] is set. */
+		uint64_t fw                          : 1;  /**< [ 57: 57] When set, indicates that RAD can modify any byte in any (128B) cache line touched by
+                                                                 L2/DRAM addresses [PTR] through [PTR]+RAD_CWORD_S[SIZE]. Setting [FW] can improve hardware
+                                                                 performance, as some DRAM loads can be avoided on L2 cache misses. The Q [FW] must not be
+                                                                 set when RAD_CWORD_S[Q_CMP] is set, and the P [FW] must not be set when RAD_CWORD_S[P_CMP]
+                                                                 is set. */
+		uint64_t reserved_58_63              : 6;  /**< [ 63: 58] Reserved. */
 #endif
 	} s;
 };
@@ -274,19 +352,26 @@ union rad_resp_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t istr                        : 8;  /**< [ 63: 56] When RAD_CWORD_S[STREN] is set, the SMMU stream for [PTR]. */
+		uint64_t reserved_0_55               : 56; /**< [ 55:  0] Reserved. */
+#else
+		uint64_t reserved_0_55               : 56; /**< [ 55:  0] Reserved. */
+		uint64_t istr                        : 8;  /**< [ 63: 56] When RAD_CWORD_S[STREN] is set, the SMMU stream for [PTR]. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. */
 		uint64_t ptr                         : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte indicated by
                                                                  [PTR] to zero after completing the instruction. RAD_REG_CTL[STORE_BE] indicates the
                                                                  endianness of [PTR]. [PTR] must be naturally-aligned on an 8B boundary (i.e. \<2:0\> must be
                                                                  zero) when RAD_CWORD_S[WQE] is set. The SMMU stream used may be overridden with
                                                                  [STR]. */
-		uint64_t istr                        : 8;  /**< [ 63: 56] When RAD_CWORD_S[STREN] is set, the SMMU stream for [PTR]. */
-		uint64_t reserved_0_55               : 56; /**< [ 55:  0] Reserved. */
 #else
-		uint64_t reserved_0_55               : 56;
-		uint64_t istr                        : 8;
-		uint64_t ptr                         : 49;
-		uint64_t reserved_113_127            : 15;
+		uint64_t ptr                         : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte indicated by
+                                                                 [PTR] to zero after completing the instruction. RAD_REG_CTL[STORE_BE] indicates the
+                                                                 endianness of [PTR]. [PTR] must be naturally-aligned on an 8B boundary (i.e. \<2:0\> must be
+                                                                 zero) when RAD_CWORD_S[WQE] is set. The SMMU stream used may be overridden with
+                                                                 [STR]. */
+		uint64_t reserved_113_127            : 15; /**< [127:113] Reserved. */
 #endif
 	} s;
 };

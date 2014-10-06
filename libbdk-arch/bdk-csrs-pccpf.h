@@ -377,10 +377,13 @@ union pcc_dev_con_s {
                                                                  For non-ARI devices (when bus is zero), \<7:3\> is the device number, \<2:0\> the function
                                                                  number. */
 #else
-		uint64_t func                        : 8;
-		uint64_t bus                         : 8;
-		uint64_t ecam                        : 2;
-		uint64_t reserved_18_63              : 46;
+		uint64_t func                        : 8;  /**< [  7:  0] For ARI devices (when bus is non-zero), an eight-bit RSL function number.
+
+                                                                 For non-ARI devices (when bus is zero), \<7:3\> is the device number, \<2:0\> the function
+                                                                 number. */
+		uint64_t bus                         : 8;  /**< [ 15:  8] ECAM bus number. */
+		uint64_t ecam                        : 2;  /**< [ 17: 16] ECAM number/NCB bus number. */
+		uint64_t reserved_18_63              : 46; /**< [ 63: 18] Reserved */
 #endif
 	} s;
 };
@@ -400,10 +403,10 @@ union pcc_dev_idl_s {
 		uint64_t sc                          : 8;  /**< [ 15:  8] Subclass code. */
 		uint64_t pi                          : 8;  /**< [  7:  0] Programming interface. */
 #else
-		uint64_t pi                          : 8;
-		uint64_t sc                          : 8;
-		uint64_t bcc                         : 8;
-		uint64_t reserved_24_63              : 40;
+		uint64_t pi                          : 8;  /**< [  7:  0] Programming interface. */
+		uint64_t sc                          : 8;  /**< [ 15:  8] Subclass code. */
+		uint64_t bcc                         : 8;  /**< [ 23: 16] Base class code. */
+		uint64_t reserved_24_63              : 40; /**< [ 63: 24] Reserved */
 #endif
 	} s;
 };

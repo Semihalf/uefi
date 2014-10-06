@@ -124,12 +124,12 @@ union rst_pp_pwr_s {
 		uint64_t pwrdwn                      : 1;  /**< [  1:  1] Core does not require power. */
 		uint64_t rst                         : 1;  /**< [  0:  0] Reset control for the core specified by PPVID. */
 #else
-		uint64_t rst                         : 1;
-		uint64_t pwrdwn                      : 1;
-		uint64_t dbg_rst                     : 1;
-		uint64_t ppvid                       : 6;
-		uint64_t valid                       : 1;
-		uint64_t reserved_10_63              : 54;
+		uint64_t rst                         : 1;  /**< [  0:  0] Reset control for the core specified by PPVID. */
+		uint64_t pwrdwn                      : 1;  /**< [  1:  1] Core does not require power. */
+		uint64_t dbg_rst                     : 1;  /**< [  2:  2] Reset control for the core specified by PPVID. */
+		uint64_t ppvid                       : 6;  /**< [  8:  3] Virtual core number. */
+		uint64_t valid                       : 1;  /**< [  9:  9] Data transmitted on interface is valid */
+		uint64_t reserved_10_63              : 54; /**< [ 63: 10] Reserved */
 #endif
 	} s;
 };

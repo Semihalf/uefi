@@ -97,14 +97,22 @@ union ocla_cap_ctl_s {
                                                                  cycle. */
 		uint64_t cycle                       : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME register. */
 #else
-		uint64_t cycle                       : 32;
-		uint64_t sot0                        : 1;
-		uint64_t sot1                        : 1;
-		uint64_t eot0                        : 1;
-		uint64_t eot1                        : 1;
-		uint64_t sinfo                       : 1;
-		uint64_t ctl                         : 1;
-		uint64_t reserved_38_63              : 26;
+		uint64_t cycle                       : 32; /**< [ 31:  0] Cycle at which this control entry was written, from OCLA()_TIME register. */
+		uint64_t sot0                        : 1;  /**< [ 32: 32] Start transition from no-capture to capture or duplicated data stopped while capturing for
+                                                                 low data. When set, CYCLE indicates the cycle number of the next new low data, minus one
+                                                                 cycle. */
+		uint64_t sot1                        : 1;  /**< [ 33: 33] Start transition from no-capture to capture or duplicated data stopped while capturing for
+                                                                 high data. When set, CYCLE indicates the cycle number of the next new high data, minus one
+                                                                 cycle. */
+		uint64_t eot0                        : 1;  /**< [ 34: 34] End of duplicated capture for low data. When set, CYCLE indicates the cycle at which the
+                                                                 previous entry of low data stopped being replicated. This may be set along with SOT0 to
+                                                                 indicate a repeat followed by new sequence. */
+		uint64_t eot1                        : 1;  /**< [ 35: 35] End of duplicated capture for high data. Symmetric with EOT0 description; see [EOT0]. */
+		uint64_t sinfo                       : 1;  /**< [ 36: 36] Indicates FSM()_STATE()[SINFO_SET] was set for the state that led to the capture state.
+                                                                 This allows the FSM to optionally communicate its current state to observing software;
+                                                                 SINFO is otherwise opaque to reassembling the trace information. */
+		uint64_t ctl                         : 1;  /**< [ 37: 37] Indicates a control word. Always set for control structures. */
+		uint64_t reserved_38_63              : 26; /**< [ 63: 38] Reserved */
 #endif
 	} s;
 };
@@ -125,10 +133,10 @@ union ocla_cap_dat_s {
 		uint64_t hi                          : 1;  /**< [ 36: 36] Set to indicate a sample of high data, clear for a sample of low data. */
 		uint64_t data                        : 36; /**< [ 35:  0] Captured trace data. */
 #else
-		uint64_t data                        : 36;
-		uint64_t hi                          : 1;
-		uint64_t ctl                         : 1;
-		uint64_t reserved_38_63              : 26;
+		uint64_t data                        : 36; /**< [ 35:  0] Captured trace data. */
+		uint64_t hi                          : 1;  /**< [ 36: 36] Set to indicate a sample of high data, clear for a sample of low data. */
+		uint64_t ctl                         : 1;  /**< [ 37: 37] Indicates a control word. Always clear for data structures. */
+		uint64_t reserved_38_63              : 26; /**< [ 63: 38] Reserved */
 #endif
 	} s;
 };
@@ -492,7 +500,9 @@ typedef union bdk_oclax_fifo_wrap {
 	struct bdk_oclax_fifo_wrap_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t wraps                       : 32; /**< R/W/H - Number of times FIFO has wrapped since trigger. Cleared when OCLA()_STATE_INT[TRIG] clear. */
+		uint64_t wraps                       : 32; /**< R/W/H - Number of times FIFO has wrapped since trigger.
+                                                                 Cleared when OCLA()_STATE_INT[TRIG] is clear.
+                                                                 This count has a one cycle lag observing when a trigger event occurs. */
 #else
 		uint64_t wraps                       : 32;
 		uint64_t reserved_32_63              : 32;
@@ -520,7 +530,7 @@ static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long param1)
 /**
  * RSL - ocla#_fsm#_and#_i#
  *
- * Values for PLA-AND plane. AND(0..15) represents the 15 allowed AND terms. I(0..1) for I=0
+ * Values for PLA-AND plane. AND(0..15) represents the 16 allowed AND terms. I(0..1) for I=0
  * indicates the term non-inverted, for I=1 indicates the term inverted. Any AND tree may be
  * disabled by setting the same bit in both _I(0) and _I(1), as '((1) & !(1))' is always false.
  */
@@ -543,21 +553,7 @@ typedef union bdk_oclax_fsmx_andx_ix {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	struct bdk_oclax_fsmx_andx_ix_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_15_63              : 49;
-		uint64_t mcd                         : 3;  /**< R/W - Multichip debug (MCD) 0..2 inputs. */
-		uint64_t match                       : 4;  /**< R/W - Matcher 0..3 input. */
-		uint64_t fsm1_state                  : 4;  /**< R/W - FSM 1 last state. */
-		uint64_t fsm0_state                  : 4;  /**< R/W - FSM 0 last state. */
-#else
-		uint64_t fsm0_state                  : 4;
-		uint64_t fsm1_state                  : 4;
-		uint64_t match                       : 4;
-		uint64_t mcd                         : 3;
-		uint64_t reserved_15_63              : 49;
-#endif
-	} cn85xx;
+	/* struct bdk_oclax_fsmx_andx_ix_s    cn85xx; */
 	/* struct bdk_oclax_fsmx_andx_ix_s    cn88xx; */
 	/* struct bdk_oclax_fsmx_andx_ix_s    cn88xxp1; */
 } bdk_oclax_fsmx_andx_ix_t;
@@ -696,28 +692,7 @@ typedef union bdk_oclax_gen_ctl {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	struct bdk_oclax_gen_ctl_cn85xx {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_4_63               : 60;
-		uint64_t exten                       : 1;  /**< R/W - Enable external triggering.
-                                                                 0 = External triggering ignored.
-                                                                 1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
-                                                                 is high it will cause
-                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
-                                                                 signal to release the trigger (it is not edge sensitive.) */
-		uint64_t den                         : 1;  /**< R/W - Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
-                                                                 counters may increment. When clear, the bus is always zero and internal flops may be clock
-                                                                 gated off to save power. Must be set for normal operation. */
-		uint64_t stt                         : 1;  /**< R/W - Store to DDR directly, bypassing L2 cache. */
-		uint64_t reserved_0_0                : 1;
-#else
-		uint64_t reserved_0_0                : 1;
-		uint64_t stt                         : 1;
-		uint64_t den                         : 1;
-		uint64_t exten                       : 1;
-		uint64_t reserved_4_63               : 60;
-#endif
-	} cn85xx;
+	/* struct bdk_oclax_gen_ctl_s         cn85xx; */
 	/* struct bdk_oclax_gen_ctl_s         cn88xx; */
 	/* struct bdk_oclax_gen_ctl_s         cn88xxp1; */
 } bdk_oclax_gen_ctl_t;

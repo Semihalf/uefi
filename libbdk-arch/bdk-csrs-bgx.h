@@ -165,11 +165,15 @@ union bgx_spu_br_lane_train_status_s {
                                                                  0 = Receiver training.
                                                                  1 = Receiver trained and ready to receive data for the lane. */
 #else
-		uint64_t rx_trained                  : 1;
-		uint64_t frame_lock                  : 1;
-		uint64_t training                    : 1;
-		uint64_t training_failure            : 1;
-		uint64_t reserved_4_63               : 60;
+		uint64_t rx_trained                  : 1;  /**< [  0:  0] Receiver trained status.
+                                                                 0 = Receiver training.
+                                                                 1 = Receiver trained and ready to receive data for the lane. */
+		uint64_t frame_lock                  : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
+		uint64_t training                    : 1;  /**< [  2:  2] Link training state.
+                                                                 0 = Training in progress.
+                                                                 1 = Training has completed. */
+		uint64_t training_failure            : 1;  /**< [  3:  3] Link training failure. */
+		uint64_t reserved_4_63               : 60; /**< [ 63:  4] Reserved */
 #endif
 	} s;
 };
@@ -201,14 +205,21 @@ union bgx_spu_br_train_cup_s {
 		uint64_t pre_cup                     : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
                                                                  BGX_SPU_BR_TRAIN_CUP_E. */
 #else
-		uint64_t pre_cup                     : 2;
-		uint64_t main_cup                    : 2;
-		uint64_t post_cup                    : 2;
-		uint64_t reserved_6_11               : 6;
-		uint64_t init                        : 1;
-		uint64_t preset                      : 1;
-		uint64_t reserved_14_15              : 2;
-		uint64_t reserved_16_63              : 48;
+		uint64_t pre_cup                     : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
+                                                                 BGX_SPU_BR_TRAIN_CUP_E. */
+		uint64_t main_cup                    : 2;  /**< [  3:  2] Main (k = 0) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
+                                                                 BGX_SPU_BR_TRAIN_CUP_E. */
+		uint64_t post_cup                    : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient update. Valid when PRESET = INIT = 0. Enumerated by
+                                                                 BGX_SPU_BR_TRAIN_CUP_E. */
+		uint64_t reserved_6_11               : 6;  /**< [ 11:  6] Reserved. */
+		uint64_t init                        : 1;  /**< [ 12: 12] Initialize. Set to indicate that the TX coefficients should be set to meet the conditions
+                                                                 defined in 802.3-2008 sub-clause 72.6.10.4.2. */
+		uint64_t preset                      : 1;  /**< [ 13: 13] Preset. Set to indicate that all TX coefficients be set to a state where equalization is
+                                                                 turned off, i.e. the precursor (k = -1) and postcursor (k = +1) coefficients should be set
+                                                                 to 0 and the main
+                                                                 (k = 0) coefficient should be set to its maximum value. */
+		uint64_t reserved_14_15              : 2;  /**< [ 15: 14] Reserved. */
+		uint64_t reserved_16_63              : 48; /**< [ 63: 16] Reserved */
 #endif
 	} s;
 };
@@ -235,12 +246,16 @@ union bgx_spu_br_train_rep_s {
 		uint64_t pre_cst                     : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
                                                                  BGX_SPU_BR_TRAIN_CST_E. */
 #else
-		uint64_t pre_cst                     : 2;
-		uint64_t main_cst                    : 2;
-		uint64_t post_cst                    : 2;
-		uint64_t reserved_6_14               : 9;
-		uint64_t rx_ready                    : 1;
-		uint64_t reserved_16_63              : 48;
+		uint64_t pre_cst                     : 2;  /**< [  1:  0] Pre-cursor (k = -1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
+                                                                 BGX_SPU_BR_TRAIN_CST_E. */
+		uint64_t main_cst                    : 2;  /**< [  3:  2] Main (k = 0) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
+                                                                 BGX_SPU_BR_TRAIN_CST_E. */
+		uint64_t post_cst                    : 2;  /**< [  5:  4] Post-cursor (k = +1) coefficient status. Valid when PRESET = INIT = 0. Enumerated by
+                                                                 BGX_SPU_BR_TRAIN_CST_E. */
+		uint64_t reserved_6_14               : 9;  /**< [ 14:  6] Reserved. */
+		uint64_t rx_ready                    : 1;  /**< [ 15: 15] Receiver ready. Set to indicate that the local receiver has determined that training is
+                                                                 complete and is prepared to receive data. */
+		uint64_t reserved_16_63              : 48; /**< [ 63: 16] Reserved */
 #endif
 	} s;
 };
@@ -264,13 +279,13 @@ union bgx_spu_sds_cu_s {
 		uint64_t main_cu                     : 2;  /**< [  3:  2] See BGX_SPU_BR_TRAIN_CUP_S[MAIN_CUP]. */
 		uint64_t pre_cu                      : 2;  /**< [  1:  0] See BGX_SPU_BR_TRAIN_CUP_S[PRE_CUP]. */
 #else
-		uint64_t pre_cu                      : 2;
-		uint64_t main_cu                     : 2;
-		uint64_t post_cu                     : 2;
-		uint64_t initialize                  : 1;
-		uint64_t preset                      : 1;
-		uint64_t rcvr_ready                  : 1;
-		uint64_t reserved_9_63               : 55;
+		uint64_t pre_cu                      : 2;  /**< [  1:  0] See BGX_SPU_BR_TRAIN_CUP_S[PRE_CUP]. */
+		uint64_t main_cu                     : 2;  /**< [  3:  2] See BGX_SPU_BR_TRAIN_CUP_S[MAIN_CUP]. */
+		uint64_t post_cu                     : 2;  /**< [  5:  4] See BGX_SPU_BR_TRAIN_CUP_S[POST_CUP]. */
+		uint64_t initialize                  : 1;  /**< [  6:  6] See BGX_SPU_BR_TRAIN_CUP_S[INIT]. */
+		uint64_t preset                      : 1;  /**< [  7:  7] See BGX_SPU_BR_TRAIN_CUP_S[PRESET]. */
+		uint64_t rcvr_ready                  : 1;  /**< [  8:  8] See BGX_SPU_BR_TRAIN_REP_S[RX_READY]. */
+		uint64_t reserved_9_63               : 55; /**< [ 63:  9] Reserved */
 #endif
 	} s;
 };
@@ -298,13 +313,17 @@ union bgx_spu_sds_skew_status_s {
                                                                  the PTP timestamp of the alignment marker received on the SerDes lane during align/skew
                                                                  detection. */
 #else
-		uint64_t am_timestamp                : 12;
-		uint64_t reserved_12_15              : 4;
-		uint64_t am_lane_id                  : 2;
-		uint64_t reserved_18_19              : 2;
-		uint64_t lane_skew                   : 5;
-		uint64_t reserved_25_31              : 7;
-		uint64_t reserved_32_63              : 32;
+		uint64_t am_timestamp                : 12; /**< [ 11:  0] Alignment marker PTP timestamp. Valid for 40GBASE-R only. Contains the lower 12 bits of
+                                                                 the PTP timestamp of the alignment marker received on the SerDes lane during align/skew
+                                                                 detection. */
+		uint64_t reserved_12_15              : 4;  /**< [ 15: 12] Reserved. */
+		uint64_t am_lane_id                  : 2;  /**< [ 17: 16] Alignment Marker ID. Valid for 40GBASE-R only. This is the PCS lane number of the
+                                                                 alignment marker received on the SerDes lane. */
+		uint64_t reserved_18_19              : 2;  /**< [ 19: 18] Reserved. */
+		uint64_t lane_skew                   : 5;  /**< [ 24: 20] Lane Skew. The SerDes lane's receive skew/delay in number of code-groups (BASE-X) or
+                                                                 blocks (40GBASE-R) relative to the earliest (least delayed) lane of the LMAC/LPCS. */
+		uint64_t reserved_25_31              : 7;  /**< [ 31: 25] Reserved. */
+		uint64_t reserved_32_63              : 32; /**< [ 63: 32] Reserved */
 #endif
 	} s;
 };
@@ -324,10 +343,10 @@ union bgx_spu_sds_sr_s {
 		uint64_t main_status                 : 2;  /**< [  3:  2] See BGX_SPU_BR_TRAIN_REP_S[MAIN_CST]. */
 		uint64_t pre_status                  : 2;  /**< [  1:  0] See BGX_SPU_BR_TRAIN_REP_S[PRE_CST]. */
 #else
-		uint64_t pre_status                  : 2;
-		uint64_t main_status                 : 2;
-		uint64_t post_status                 : 2;
-		uint64_t reserved_6_63               : 58;
+		uint64_t pre_status                  : 2;  /**< [  1:  0] See BGX_SPU_BR_TRAIN_REP_S[PRE_CST]. */
+		uint64_t main_status                 : 2;  /**< [  3:  2] See BGX_SPU_BR_TRAIN_REP_S[MAIN_CST]. */
+		uint64_t post_status                 : 2;  /**< [  5:  4] See BGX_SPU_BR_TRAIN_REP_S[POST_CST]. */
+		uint64_t reserved_6_63               : 58; /**< [ 63:  6] Reserved */
 #endif
 	} s;
 };
@@ -5629,12 +5648,10 @@ static inline uint64_t BDK_BGXX_GMP_PCS_LINKX_TIMER(unsigned long param1, unsign
  * SGMII bit [12] is really a misnomer, it is a decode  of pi_qlm_cfg pins to indicate SGMII or
  * 1000Base-X modes.
  *
- * Repeat note from SGM_AN_ADV register
- * NOTE: The SGMII AN Advertisement Register above will be sent during Auto Negotiation if the
+ * Note: The SGMII AN Advertisement Register above will be sent during Auto Negotiation if the
  * MAC_PHY mode bit in misc_ctl_reg is set (1=PHY mode). If the bit is not set (0=MAC mode), the
  * tx_config_reg[14] becomes ACK bit and [0] is always 1.
  * All other bits in tx_config_reg sent will be 0. The PHY dictates the Auto Negotiation results.
- * SGMII Misc Control Register
  */
 typedef union bdk_bgxx_gmp_pcs_miscx_ctl {
 	uint64_t u;

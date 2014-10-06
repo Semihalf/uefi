@@ -2264,7 +2264,28 @@ typedef union bdk_smmux_ecc_ctl_0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_21_63              : 43;
 		uint64_t ram_cdis                    : 21; /**< SR/W - RAM ECC correction disable. Each bit corresponds to a different RAM. INTERNAL: Bits
-                                                                 enumerated by SMMU()_ERR_INT[RAM_SBE]. */
+                                                                 do not match SMMU()_ERR_INT[RAM_SBE].
+                                                                 \<20\> = WCTL.
+                                                                 \<19\> = TCTL.
+                                                                 \<18\> = XL_MFIFO.
+                                                                 \<17\> = MSIX.
+                                                                 \<16\> = CONTEXT_IDR.
+                                                                 \<15\> = CB_FRSYNRA.
+                                                                 \<14\> = CB_IPAFAR.
+                                                                 \<13\> = CB_FSYNR0.
+                                                                 \<12\> = CB_FAR.
+                                                                 \<11\> = S2CR.
+                                                                 \<10\> = CB_ACTLR.
+                                                                 \<9\>  = CB_TCR2.
+                                                                 \<8\>  = SSDR.
+                                                                 \<7\>  = SCTLR.
+                                                                 \<6\>  = CB_MAIR0.
+                                                                 \<5\>  = CB_MAIR1.
+                                                                 \<4\>  = CBAR.
+                                                                 \<3\>  = CBA2R.
+                                                                 \<2\>  = CB_TTBR0.
+                                                                 \<1\>  = CB_TTBR1.
+                                                                 \<0\>  = CB_TCR. */
 #else
 		uint64_t ram_cdis                    : 21;
 		uint64_t reserved_21_63              : 43;
@@ -2299,11 +2320,11 @@ typedef union bdk_smmux_ecc_ctl_1 {
 		uint64_t reserved_53_63              : 11;
 		uint64_t ram_flip1                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit \<1\> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
-                                                                 SMMU()_ERR_INT[RAM_SBE]. */
+                                                                 SMMU()_ECC_CTL0[RAM_CDIS]. */
 		uint64_t reserved_21_31              : 11;
 		uint64_t ram_flip0                   : 21; /**< SR/W - Flip syndrome bits on write. Flip syndrome bit \<0\> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
-                                                                 SMMU()_ERR_INT[RAM_SBE]. */
+                                                                 SMMU()_ECC_CTL0[RAM_CDIS]. */
 #else
 		uint64_t ram_flip0                   : 21;
 		uint64_t reserved_21_31              : 11;

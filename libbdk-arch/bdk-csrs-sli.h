@@ -96,13 +96,17 @@ union sli_s2m_op_s {
 		uint64_t region                      : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI(0..1)_S2M_REG(0..255)_ACC. */
 		uint64_t addr                        : 32; /**< [ 31:  0] Register address within the device. */
 #else
-		uint64_t addr                        : 32;
-		uint64_t region                      : 8;
-		uint64_t did_hi                      : 4;
-		uint64_t node                        : 2;
-		uint64_t reserved_46_46              : 1;
-		uint64_t io                          : 1;
-		uint64_t reserved_48_63              : 16;
+		uint64_t addr                        : 32; /**< [ 31:  0] Register address within the device. */
+		uint64_t region                      : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI(0..1)_S2M_REG(0..255)_ACC. */
+		uint64_t did_hi                      : 4;  /**< [ 43: 40] SLI device ID high bits.  Specifies which SLI:
+                                                                 0x8 = SLI0.
+                                                                 0x9 = SLI1.
+
+                                                                 else = Reserved. */
+		uint64_t node                        : 2;  /**< [ 45: 44] CCPI node number. */
+		uint64_t reserved_46_46              : 1;  /**< [ 46: 46] Reserved. */
+		uint64_t io                          : 1;  /**< [ 47: 47] Indicates IO space. */
+		uint64_t reserved_48_63              : 16; /**< [ 63: 48] Reserved */
 #endif
 	} s;
 };

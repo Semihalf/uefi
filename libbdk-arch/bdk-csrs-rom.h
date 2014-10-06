@@ -361,45 +361,22 @@ union rom_clib_s {
 	uint64_t u[32];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_1984_2047          : 64; /**< [2047:1984] Reserved. */
-		uint64_t reserved_1920_1983          : 64; /**< [1983:1920] Reserved. */
-		uint64_t reserved_1856_1919          : 64; /**< [1919:1856] Reserved. */
-		uint64_t reserved_1792_1855          : 64; /**< [1855:1792] Reserved. */
-		uint64_t reserved_1728_1791          : 64; /**< [1791:1728] Reserved. */
-		uint64_t reserved_1664_1727          : 64; /**< [1727:1664] Reserved. */
-		uint64_t reserved_1600_1663          : 64; /**< [1663:1600] Reserved. */
-		uint64_t reserved_1536_1599          : 64; /**< [1599:1536] Reserved. */
-		uint64_t reserved_1472_1535          : 64; /**< [1535:1472] Reserved. */
-		uint64_t reserved_1408_1471          : 64; /**< [1471:1408] Reserved. */
-		uint64_t reserved_1344_1407          : 64; /**< [1407:1344] Reserved. */
-		uint64_t reserved_1280_1343          : 64; /**< [1343:1280] Reserved. */
-		uint64_t reserved_1216_1279          : 64; /**< [1279:1216] Reserved. */
-		uint64_t reserved_1152_1215          : 64; /**< [1215:1152] Reserved. */
-		uint64_t reserved_1088_1151          : 64; /**< [1151:1088] Reserved. */
-		uint64_t reserved_1024_1087          : 64; /**< [1087:1024] Reserved. */
-		uint64_t csib_sign7                  : 64; /**< [1023:960] CSIB signature, word 7. */
-		uint64_t csib_sign6                  : 64; /**< [959:896] CSIB signature, word 6. */
-		uint64_t csib_sign5                  : 64; /**< [895:832] CSIB signature, word 5. */
-		uint64_t csib_sign4                  : 64; /**< [831:768] CSIB signature, word 4. */
-		uint64_t csib_sign3                  : 64; /**< [767:704] CSIB signature, word 3. */
-		uint64_t csib_sign2                  : 64; /**< [703:640] CSIB signature, word 2. */
-		uint64_t csib_sign1                  : 64; /**< [639:576] CSIB signature, word 1. */
-		uint64_t csib_sign0                  : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
-                                                                 contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
-                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
-                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little endian
-                                                                 format. */
-		uint64_t reserved_448_511            : 64; /**< [511:448] Reserved. */
-		uint64_t reserved_384_447            : 64; /**< [447:384] Reserved. */
-		uint64_t reserved_320_383            : 64; /**< [383:320] Reserved. */
-		uint64_t reserved_256_319            : 64; /**< [319:256] Reserved. */
-		uint64_t size                        : 64; /**< [255:192] Size. The size of the TBL1FW material in bytes.  Must be 192 KB (0x30000).
-
-                                                                 INTERNAL: Future ROM code may allow this to be mode flexible.
-                                                                 If so, must be in increments of 1 KB.
-                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO\<5\>] is
-                                                                 set, there is only 4 KB of NBL1FW and TBL1FW code, at
-                                                                 addresses 0x20000 - 0x20FFFF and 0x21000 - 0x21FFFF. */
+		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CLIB" in ASCII (0x42494c43_5f4d5643)
+                                                                 to indicate a valid ROM_CLIB_S structure. */
+#else
+		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CLIB" in ASCII (0x42494c43_5f4d5643)
+                                                                 to indicate a valid ROM_CLIB_S structure. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
+                                                                 INTERNAL: Opaque to ROM, until we have a second version. */
+		uint64_t reserved_64_119             : 56; /**< [119: 64] Reserved. */
+#else
+		uint64_t reserved_64_119             : 56; /**< [119: 64] Reserved. */
+		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
+                                                                 INTERNAL: Opaque to ROM, until we have a second version. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t offset                      : 64; /**< [191:128] Offset address. The flash address for first byte of image.
                                                                  Must be 0x20000 for NBL1FW, 0x50000 for TBL1FW.
 
@@ -412,45 +389,184 @@ union rom_clib_s {
                                                                  INTERNAL: Future ROM code may allow this to be more flexible.
                                                                  If so, must be aligned to 1 KB. Must be \>= 1 KB (past the
                                                                  ROM_CLIB_S and ROM_CSIB_S headers). */
-		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
-                                                                 INTERNAL: Opaque to ROM, until we have a second version. */
-		uint64_t reserved_64_119             : 56; /**< [119: 64] Reserved. */
-		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CLIB" in ASCII (0x42494c43_5f4d5643)
-                                                                 to indicate a valid ROM_CLIB_S structure. */
 #else
-		uint64_t magic                       : 64;
-		uint64_t reserved_64_119             : 56;
-		uint64_t ver                         : 8;
-		uint64_t offset                      : 64;
-		uint64_t size                        : 64;
-		uint64_t reserved_256_319            : 64;
-		uint64_t reserved_320_383            : 64;
-		uint64_t reserved_384_447            : 64;
-		uint64_t reserved_448_511            : 64;
-		uint64_t csib_sign0                  : 64;
-		uint64_t csib_sign1                  : 64;
-		uint64_t csib_sign2                  : 64;
-		uint64_t csib_sign3                  : 64;
-		uint64_t csib_sign4                  : 64;
-		uint64_t csib_sign5                  : 64;
-		uint64_t csib_sign6                  : 64;
-		uint64_t csib_sign7                  : 64;
-		uint64_t reserved_1024_1087          : 64;
-		uint64_t reserved_1088_1151          : 64;
-		uint64_t reserved_1152_1215          : 64;
-		uint64_t reserved_1216_1279          : 64;
-		uint64_t reserved_1280_1343          : 64;
-		uint64_t reserved_1344_1407          : 64;
-		uint64_t reserved_1408_1471          : 64;
-		uint64_t reserved_1472_1535          : 64;
-		uint64_t reserved_1536_1599          : 64;
-		uint64_t reserved_1600_1663          : 64;
-		uint64_t reserved_1664_1727          : 64;
-		uint64_t reserved_1728_1791          : 64;
-		uint64_t reserved_1792_1855          : 64;
-		uint64_t reserved_1856_1919          : 64;
-		uint64_t reserved_1920_1983          : 64;
-		uint64_t reserved_1984_2047          : 64;
+		uint64_t offset                      : 64; /**< [191:128] Offset address. The flash address for first byte of image.
+                                                                 Must be 0x20000 for NBL1FW, 0x50000 for TBL1FW.
+
+                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeroes or random data.
+
+                                                                 In TBL1FW, the first 256 bytes of the image should be
+                                                                 random data for cypher security.  The first instruction
+                                                                 executed will be at [OFFSET] + 0x100.
+
+                                                                 INTERNAL: Future ROM code may allow this to be more flexible.
+                                                                 If so, must be aligned to 1 KB. Must be \>= 1 KB (past the
+                                                                 ROM_CLIB_S and ROM_CSIB_S headers). */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t size                        : 64; /**< [255:192] Size. The size of the TBL1FW material in bytes.  Must be 192 KB (0x30000).
+
+                                                                 INTERNAL: Future ROM code may allow this to be mode flexible.
+                                                                 If so, must be in increments of 1 KB.
+                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO\<5\>] is
+                                                                 set, there is only 4 KB of NBL1FW and TBL1FW code, at
+                                                                 addresses 0x20000 - 0x20FFFF and 0x21000 - 0x21FFFF. */
+#else
+		uint64_t size                        : 64; /**< [255:192] Size. The size of the TBL1FW material in bytes.  Must be 192 KB (0x30000).
+
+                                                                 INTERNAL: Future ROM code may allow this to be mode flexible.
+                                                                 If so, must be in increments of 1 KB.
+                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO\<5\>] is
+                                                                 set, there is only 4 KB of NBL1FW and TBL1FW code, at
+                                                                 addresses 0x20000 - 0x20FFFF and 0x21000 - 0x21FFFF. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_256_319            : 64; /**< [319:256] Reserved. */
+#else
+		uint64_t reserved_256_319            : 64; /**< [319:256] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_320_383            : 64; /**< [383:320] Reserved. */
+#else
+		uint64_t reserved_320_383            : 64; /**< [383:320] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_384_447            : 64; /**< [447:384] Reserved. */
+#else
+		uint64_t reserved_384_447            : 64; /**< [447:384] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_448_511            : 64; /**< [511:448] Reserved. */
+#else
+		uint64_t reserved_448_511            : 64; /**< [511:448] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign0                  : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
+                                                                 contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
+                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little endian
+                                                                 format. */
+#else
+		uint64_t csib_sign0                  : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
+                                                                 contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
+                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little endian
+                                                                 format. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign1                  : 64; /**< [639:576] CSIB signature, word 1. */
+#else
+		uint64_t csib_sign1                  : 64; /**< [639:576] CSIB signature, word 1. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign2                  : 64; /**< [703:640] CSIB signature, word 2. */
+#else
+		uint64_t csib_sign2                  : 64; /**< [703:640] CSIB signature, word 2. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign3                  : 64; /**< [767:704] CSIB signature, word 3. */
+#else
+		uint64_t csib_sign3                  : 64; /**< [767:704] CSIB signature, word 3. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign4                  : 64; /**< [831:768] CSIB signature, word 4. */
+#else
+		uint64_t csib_sign4                  : 64; /**< [831:768] CSIB signature, word 4. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign5                  : 64; /**< [895:832] CSIB signature, word 5. */
+#else
+		uint64_t csib_sign5                  : 64; /**< [895:832] CSIB signature, word 5. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign6                  : 64; /**< [959:896] CSIB signature, word 6. */
+#else
+		uint64_t csib_sign6                  : 64; /**< [959:896] CSIB signature, word 6. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t csib_sign7                  : 64; /**< [1023:960] CSIB signature, word 7. */
+#else
+		uint64_t csib_sign7                  : 64; /**< [1023:960] CSIB signature, word 7. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1024_1087          : 64; /**< [1087:1024] Reserved. */
+#else
+		uint64_t reserved_1024_1087          : 64; /**< [1087:1024] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1088_1151          : 64; /**< [1151:1088] Reserved. */
+#else
+		uint64_t reserved_1088_1151          : 64; /**< [1151:1088] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1152_1215          : 64; /**< [1215:1152] Reserved. */
+#else
+		uint64_t reserved_1152_1215          : 64; /**< [1215:1152] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1216_1279          : 64; /**< [1279:1216] Reserved. */
+#else
+		uint64_t reserved_1216_1279          : 64; /**< [1279:1216] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1280_1343          : 64; /**< [1343:1280] Reserved. */
+#else
+		uint64_t reserved_1280_1343          : 64; /**< [1343:1280] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1344_1407          : 64; /**< [1407:1344] Reserved. */
+#else
+		uint64_t reserved_1344_1407          : 64; /**< [1407:1344] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1408_1471          : 64; /**< [1471:1408] Reserved. */
+#else
+		uint64_t reserved_1408_1471          : 64; /**< [1471:1408] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1472_1535          : 64; /**< [1535:1472] Reserved. */
+#else
+		uint64_t reserved_1472_1535          : 64; /**< [1535:1472] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1536_1599          : 64; /**< [1599:1536] Reserved. */
+#else
+		uint64_t reserved_1536_1599          : 64; /**< [1599:1536] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1600_1663          : 64; /**< [1663:1600] Reserved. */
+#else
+		uint64_t reserved_1600_1663          : 64; /**< [1663:1600] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1664_1727          : 64; /**< [1727:1664] Reserved. */
+#else
+		uint64_t reserved_1664_1727          : 64; /**< [1727:1664] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1728_1791          : 64; /**< [1791:1728] Reserved. */
+#else
+		uint64_t reserved_1728_1791          : 64; /**< [1791:1728] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1792_1855          : 64; /**< [1855:1792] Reserved. */
+#else
+		uint64_t reserved_1792_1855          : 64; /**< [1855:1792] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1856_1919          : 64; /**< [1919:1856] Reserved. */
+#else
+		uint64_t reserved_1856_1919          : 64; /**< [1919:1856] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1920_1983          : 64; /**< [1983:1920] Reserved. */
+#else
+		uint64_t reserved_1920_1983          : 64; /**< [1983:1920] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1984_2047          : 64; /**< [2047:1984] Reserved. */
+#else
+		uint64_t reserved_1984_2047          : 64; /**< [2047:1984] Reserved. */
 #endif
 	} s;
 };
@@ -465,44 +581,13 @@ union rom_csib_s {
 	uint64_t u[32];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t nonce3                      : 64; /**< [2047:1984] Nonce, continued. */
-		uint64_t nonce2                      : 64; /**< [1983:1920] Nonce, continued. */
-		uint64_t nonce1                      : 64; /**< [1919:1856] Nonce, continued. */
-		uint64_t nonce0                      : 64; /**< [1855:1792] Nonce, word 0.  Opaque to ROM code, for hash hardening.
-                                                                 The certificate signer assigns this random nonce to the certificate. */
-		uint64_t uuid1                       : 64; /**< [1791:1728] Reserved for software for use as name/UUID, continued. */
-		uint64_t uuid0                       : 64; /**< [1727:1664] Reserved for software for use as name/UUID. Opaque to ROM code. */
-		uint64_t sw9                         : 64; /**< [1663:1600] Reserved for software, continued. */
-		uint64_t sw8                         : 64; /**< [1599:1536] Reserved for software, continued. */
-		uint64_t sw7                         : 64; /**< [1535:1472] Reserved for software, continued. */
-		uint64_t sw6                         : 64; /**< [1471:1408] Reserved for software, continued. */
-		uint64_t sw5                         : 64; /**< [1407:1344] Reserved for software, continued. */
-		uint64_t sw4                         : 64; /**< [1343:1280] Reserved for software, continued. */
-		uint64_t sw3                         : 64; /**< [1279:1216] Reserved for software, continued. */
-		uint64_t sw2                         : 64; /**< [1215:1152] Reserved for software, continued. */
-		uint64_t sw1                         : 64; /**< [1151:1088] Reserved for software, continued. */
-		uint64_t sw0                         : 64; /**< [1087:1024] Reserved for software, word 0. Opaque to ROM code. */
-		uint64_t rotpk7                      : 64; /**< [1023:960] Public key, word 7. */
-		uint64_t rotpk6                      : 64; /**< [959:896] Public key, word 6. */
-		uint64_t rotpk5                      : 64; /**< [895:832] Public key, word 5. */
-		uint64_t rotpk4                      : 64; /**< [831:768] Public key, word 4. */
-		uint64_t rotpk3                      : 64; /**< [767:704] Public key, word 3. */
-		uint64_t rotpk2                      : 64; /**< [703:640] Public key, word 2. */
-		uint64_t rotpk1                      : 64; /**< [639:576] Public key, word 1. */
-		uint64_t rotpk0                      : 64; /**< [575:512] Public key, word 0.
-                                                                 An ECDSA-with-SHA256 signature used to validate this certificate.
-                                                                 ROM boot compares an AES256 hash of ROTPK0..3 with FUSF_ROTPK().
-                                                                 These fields are to be interpreted as a coordinate pair (Qx,Qy)
-                                                                 of 256-bit integers in little endian format. */
-		uint64_t fs3                         : 64; /**< [511:448] TBL1FW image's SHA256 hash, continued. */
-		uint64_t fs2                         : 64; /**< [447:384] TBL1FW image's SHA256 hash, continued. */
-		uint64_t fs1                         : 64; /**< [383:320] TBL1FW image's SHA256 hash, continued. */
-		uint64_t fs0                         : 64; /**< [319:256] TBL1FW image's SHA256 hash.  These fields are to be interpreted
-                                                                 as 32 consecutive bytes of the hash in canonical order.
-                                                                 ROM boot compares this hash to the hash of the loaded image. */
-		uint64_t size                        : 64; /**< [255:192] Size. Indicates the size of the TBL1FW material in bytes.  Must match the value in
-                                                                 ROM_CLIB_S[SIZE]. */
-		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CSIB" in ASCII (0x42495343_5f4d5643)
+                                                                 to indicate a valid ROM_CSIB_S structure. */
+#else
+		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CSIB" in ASCII (0x42495343_5f4d5643)
+                                                                 to indicate a valid ROM_CSIB_S structure. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
                                                                  INTERNAL: Opaque to ROM, until we have a second version. */
 		uint64_t nvcnt                       : 8;  /**< [119:112] Trusted firmware NV counter to avoid replay attacks.
@@ -523,48 +608,193 @@ union rom_csib_s {
                                                                  certificate authenticated in TBL1FW as specified in the
                                                                  ARM Trusted Boot System Architecture (TBSA). */
 		uint64_t crypt                       : 4;  /**< [ 67: 64] Firmware encryption. Enumerated by ROM_CRYPT_E. */
-		uint64_t magic                       : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CSIB" in ASCII (0x42495343_5f4d5643)
-                                                                 to indicate a valid ROM_CSIB_S structure. */
 #else
-		uint64_t magic                       : 64;
-		uint64_t crypt                       : 4;
-		uint64_t siden                       : 1;
-		uint64_t reserved_69_69              : 1;
-		uint64_t bkpt                        : 1;
-		uint64_t expose                      : 1;
-		uint64_t reserved_72_111             : 40;
-		uint64_t nvcnt                       : 8;
-		uint64_t ver                         : 8;
-		uint64_t reserved_128_191            : 64;
-		uint64_t size                        : 64;
-		uint64_t fs0                         : 64;
-		uint64_t fs1                         : 64;
-		uint64_t fs2                         : 64;
-		uint64_t fs3                         : 64;
-		uint64_t rotpk0                      : 64;
-		uint64_t rotpk1                      : 64;
-		uint64_t rotpk2                      : 64;
-		uint64_t rotpk3                      : 64;
-		uint64_t rotpk4                      : 64;
-		uint64_t rotpk5                      : 64;
-		uint64_t rotpk6                      : 64;
-		uint64_t rotpk7                      : 64;
-		uint64_t sw0                         : 64;
-		uint64_t sw1                         : 64;
-		uint64_t sw2                         : 64;
-		uint64_t sw3                         : 64;
-		uint64_t sw4                         : 64;
-		uint64_t sw5                         : 64;
-		uint64_t sw6                         : 64;
-		uint64_t sw7                         : 64;
-		uint64_t sw8                         : 64;
-		uint64_t sw9                         : 64;
-		uint64_t uuid0                       : 64;
-		uint64_t uuid1                       : 64;
-		uint64_t nonce0                      : 64;
-		uint64_t nonce1                      : 64;
-		uint64_t nonce2                      : 64;
-		uint64_t nonce3                      : 64;
+		uint64_t crypt                       : 4;  /**< [ 67: 64] Firmware encryption. Enumerated by ROM_CRYPT_E. */
+		uint64_t siden                       : 1;  /**< [ 68: 68] Enable secure external invasive debug during boot.
+                                                                 This debug mode is intended only for TBL1FW debug and will
+                                                                 break the trust model.  Later debug must use a debug
+                                                                 certificate authenticated in TBL1FW as specified in the
+                                                                 ARM Trusted Boot System Architecture (TBSA). */
+		uint64_t reserved_69_69              : 1;  /**< [ 69: 69] Reserved. */
+		uint64_t bkpt                        : 1;  /**< [ 70: 70] ROM code will breakpoint immediately before executing TBL1FW.
+                                                                 If set, [SIDEN] must be set.
+                                                                 Note breakpoints before this point are not possible due to security reasons. */
+		uint64_t expose                      : 1;  /**< [ 71: 71] Enable HUK/EK exposure to TBL1FW and later.  This would
+                                                                 generally be set for a secure boot.  Non-trusted software
+                                                                 can be booted in a similar manner to if trusted-mode = 0 by clearing
+                                                                 this bit. */
+		uint64_t reserved_72_111             : 40; /**< [111: 72] Reserved. */
+		uint64_t nvcnt                       : 8;  /**< [119:112] Trusted firmware NV counter to avoid replay attacks.
+                                                                 Compared to population_count(FUSF_CTL[ROM_T_CNT]).  Values \> 63 are reserved.
+                                                                 INTERNAL: In TBSA this is the TrustedFirmwareNVCounter. */
+		uint64_t ver                         : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
+                                                                 INTERNAL: Opaque to ROM, until we have a second version. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#else
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t size                        : 64; /**< [255:192] Size. Indicates the size of the TBL1FW material in bytes.  Must match the value in
+                                                                 ROM_CLIB_S[SIZE]. */
+#else
+		uint64_t size                        : 64; /**< [255:192] Size. Indicates the size of the TBL1FW material in bytes.  Must match the value in
+                                                                 ROM_CLIB_S[SIZE]. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t fs0                         : 64; /**< [319:256] TBL1FW image's SHA256 hash.  These fields are to be interpreted
+                                                                 as 32 consecutive bytes of the hash in canonical order.
+                                                                 ROM boot compares this hash to the hash of the loaded image. */
+#else
+		uint64_t fs0                         : 64; /**< [319:256] TBL1FW image's SHA256 hash.  These fields are to be interpreted
+                                                                 as 32 consecutive bytes of the hash in canonical order.
+                                                                 ROM boot compares this hash to the hash of the loaded image. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t fs1                         : 64; /**< [383:320] TBL1FW image's SHA256 hash, continued. */
+#else
+		uint64_t fs1                         : 64; /**< [383:320] TBL1FW image's SHA256 hash, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t fs2                         : 64; /**< [447:384] TBL1FW image's SHA256 hash, continued. */
+#else
+		uint64_t fs2                         : 64; /**< [447:384] TBL1FW image's SHA256 hash, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t fs3                         : 64; /**< [511:448] TBL1FW image's SHA256 hash, continued. */
+#else
+		uint64_t fs3                         : 64; /**< [511:448] TBL1FW image's SHA256 hash, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk0                      : 64; /**< [575:512] Public key, word 0.
+                                                                 An ECDSA-with-SHA256 signature used to validate this certificate.
+                                                                 ROM boot compares an AES256 hash of ROTPK0..3 with FUSF_ROTPK().
+                                                                 These fields are to be interpreted as a coordinate pair (Qx,Qy)
+                                                                 of 256-bit integers in little endian format. */
+#else
+		uint64_t rotpk0                      : 64; /**< [575:512] Public key, word 0.
+                                                                 An ECDSA-with-SHA256 signature used to validate this certificate.
+                                                                 ROM boot compares an AES256 hash of ROTPK0..3 with FUSF_ROTPK().
+                                                                 These fields are to be interpreted as a coordinate pair (Qx,Qy)
+                                                                 of 256-bit integers in little endian format. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk1                      : 64; /**< [639:576] Public key, word 1. */
+#else
+		uint64_t rotpk1                      : 64; /**< [639:576] Public key, word 1. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk2                      : 64; /**< [703:640] Public key, word 2. */
+#else
+		uint64_t rotpk2                      : 64; /**< [703:640] Public key, word 2. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk3                      : 64; /**< [767:704] Public key, word 3. */
+#else
+		uint64_t rotpk3                      : 64; /**< [767:704] Public key, word 3. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk4                      : 64; /**< [831:768] Public key, word 4. */
+#else
+		uint64_t rotpk4                      : 64; /**< [831:768] Public key, word 4. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk5                      : 64; /**< [895:832] Public key, word 5. */
+#else
+		uint64_t rotpk5                      : 64; /**< [895:832] Public key, word 5. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk6                      : 64; /**< [959:896] Public key, word 6. */
+#else
+		uint64_t rotpk6                      : 64; /**< [959:896] Public key, word 6. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rotpk7                      : 64; /**< [1023:960] Public key, word 7. */
+#else
+		uint64_t rotpk7                      : 64; /**< [1023:960] Public key, word 7. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw0                         : 64; /**< [1087:1024] Reserved for software, word 0. Opaque to ROM code. */
+#else
+		uint64_t sw0                         : 64; /**< [1087:1024] Reserved for software, word 0. Opaque to ROM code. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw1                         : 64; /**< [1151:1088] Reserved for software, continued. */
+#else
+		uint64_t sw1                         : 64; /**< [1151:1088] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw2                         : 64; /**< [1215:1152] Reserved for software, continued. */
+#else
+		uint64_t sw2                         : 64; /**< [1215:1152] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw3                         : 64; /**< [1279:1216] Reserved for software, continued. */
+#else
+		uint64_t sw3                         : 64; /**< [1279:1216] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw4                         : 64; /**< [1343:1280] Reserved for software, continued. */
+#else
+		uint64_t sw4                         : 64; /**< [1343:1280] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw5                         : 64; /**< [1407:1344] Reserved for software, continued. */
+#else
+		uint64_t sw5                         : 64; /**< [1407:1344] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw6                         : 64; /**< [1471:1408] Reserved for software, continued. */
+#else
+		uint64_t sw6                         : 64; /**< [1471:1408] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw7                         : 64; /**< [1535:1472] Reserved for software, continued. */
+#else
+		uint64_t sw7                         : 64; /**< [1535:1472] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw8                         : 64; /**< [1599:1536] Reserved for software, continued. */
+#else
+		uint64_t sw8                         : 64; /**< [1599:1536] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t sw9                         : 64; /**< [1663:1600] Reserved for software, continued. */
+#else
+		uint64_t sw9                         : 64; /**< [1663:1600] Reserved for software, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t uuid0                       : 64; /**< [1727:1664] Reserved for software for use as name/UUID. Opaque to ROM code. */
+#else
+		uint64_t uuid0                       : 64; /**< [1727:1664] Reserved for software for use as name/UUID. Opaque to ROM code. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t uuid1                       : 64; /**< [1791:1728] Reserved for software for use as name/UUID, continued. */
+#else
+		uint64_t uuid1                       : 64; /**< [1791:1728] Reserved for software for use as name/UUID, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t nonce0                      : 64; /**< [1855:1792] Nonce, word 0.  Opaque to ROM code, for hash hardening.
+                                                                 The certificate signer assigns this random nonce to the certificate. */
+#else
+		uint64_t nonce0                      : 64; /**< [1855:1792] Nonce, word 0.  Opaque to ROM code, for hash hardening.
+                                                                 The certificate signer assigns this random nonce to the certificate. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t nonce1                      : 64; /**< [1919:1856] Nonce, continued. */
+#else
+		uint64_t nonce1                      : 64; /**< [1919:1856] Nonce, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t nonce2                      : 64; /**< [1983:1920] Nonce, continued. */
+#else
+		uint64_t nonce2                      : 64; /**< [1983:1920] Nonce, continued. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t nonce3                      : 64; /**< [2047:1984] Nonce, continued. */
+#else
+		uint64_t nonce3                      : 64; /**< [2047:1984] Nonce, continued. */
 #endif
 	} s;
 };

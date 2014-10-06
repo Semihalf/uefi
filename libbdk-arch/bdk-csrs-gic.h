@@ -113,21 +113,30 @@ union gits_cmd_clear_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_CLEAR. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t reserved_96_127             : 32;
-		uint64_t reserved_128_191            : 64;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_CLEAR. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#else
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -142,21 +151,30 @@ union gits_cmd_discard_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_DISCARD. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t reserved_96_127             : 32;
-		uint64_t reserved_128_191            : 64;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_DISCARD. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#else
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -171,21 +189,30 @@ union gits_cmd_int_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INT. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t reserved_96_127             : 32;
-		uint64_t reserved_128_191            : 64;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INT. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#else
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -200,19 +227,28 @@ union gits_cmd_invall_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
-		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
-		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INVALL. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_63               : 56;
-		uint64_t reserved_64_127             : 64;
-		uint64_t cid                         : 16;
-		uint64_t reserved_144_191            : 48;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INVALL. */
+		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#else
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
+#else
+		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -227,21 +263,30 @@ union gits_cmd_inv_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INV. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t reserved_96_127             : 32;
-		uint64_t reserved_128_191            : 64;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INV. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#else
+		uint64_t reserved_128_191            : 64; /**< [191:128] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -256,7 +301,18 @@ union gits_cmd_mapc_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPC. */
+#else
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPC. */
+		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#else
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
                                                                  zero, this command un-maps the specified device and translation request from
                                                                  that device will be discarded. */
@@ -264,18 +320,19 @@ union gits_cmd_mapc_s {
 		uint64_t ta                          : 32; /**< [175:144] Target address. Specifies the physical address of the re-distributor to which
                                                                  interrupts for the collection will be forwarded. */
 		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
-		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
-		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPC. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_63               : 56;
-		uint64_t reserved_64_127             : 64;
-		uint64_t cid                         : 16;
-		uint64_t ta                          : 32;
-		uint64_t reserved_176_190            : 15;
-		uint64_t v                           : 1;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
+		uint64_t ta                          : 32; /**< [175:144] Target address. Specifies the physical address of the re-distributor to which
+                                                                 interrupts for the collection will be forwarded. */
+		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
+		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
+                                                                 zero, this command un-maps the specified device and translation request from
+                                                                 that device will be discarded. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -290,7 +347,22 @@ union gits_cmd_mapd_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPD. */
+#else
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPD. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_69_127             : 59; /**< [127: 69] Reserved. */
+		uint64_t size                        : 5;  /**< [ 68: 64] Number of bits of interrupt ID supported for this device, minus one. */
+#else
+		uint64_t size                        : 5;  /**< [ 68: 64] Number of bits of interrupt ID supported for this device, minus one. */
+		uint64_t reserved_69_127             : 59; /**< [127: 69] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is zero,
                                                                  this command un-maps the specified device and translation request from that
                                                                  device will be discarded. */
@@ -298,22 +370,19 @@ union gits_cmd_mapd_s {
 		uint64_t itta                        : 40; /**< [175:136] ITT address specifies bits \<47:8\> of the physical address of the interrupt
                                                                  translation table. Bits \<7:0\> of the physical address are zero. */
 		uint64_t reserved_128_135            : 8;  /**< [135:128] Reserved. */
-		uint64_t reserved_69_127             : 59; /**< [127: 69] Reserved. */
-		uint64_t size                        : 5;  /**< [ 68: 64] Number of bits of interrupt ID supported for this device, minus one. */
-		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
-		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPD. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t size                        : 5;
-		uint64_t reserved_69_127             : 59;
-		uint64_t reserved_128_135            : 8;
-		uint64_t itta                        : 40;
-		uint64_t reserved_176_190            : 15;
-		uint64_t v                           : 1;
-		uint64_t reserved_192_255            : 64;
+		uint64_t reserved_128_135            : 8;  /**< [135:128] Reserved. */
+		uint64_t itta                        : 40; /**< [175:136] ITT address specifies bits \<47:8\> of the physical address of the interrupt
+                                                                 translation table. Bits \<7:0\> of the physical address are zero. */
+		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
+		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is zero,
+                                                                 this command un-maps the specified device and translation request from that
+                                                                 device will be discarded. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -328,24 +397,34 @@ union gits_cmd_mapi_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
-		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
-                                                                 Physical ID is a member. */
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPI. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t reserved_96_127             : 32;
-		uint64_t cid                         : 16;
-		uint64_t reserved_144_191            : 48;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPI. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
+                                                                 Physical ID is a member. */
+#else
+		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
+                                                                 Physical ID is a member. */
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -360,24 +439,34 @@ union gits_cmd_mapvi_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
-		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
-                                                                 Physical ID is a member. */
-		uint64_t phy_id                      : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPVI. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t phy_id                      : 32;
-		uint64_t cid                         : 16;
-		uint64_t reserved_144_191            : 48;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPVI. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t phy_id                      : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Reserved. */
+		uint64_t phy_id                      : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
+                                                                 Physical ID is a member. */
+#else
+		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
+                                                                 Physical ID is a member. */
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -392,25 +481,34 @@ union gits_cmd_movall_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_240_255            : 16; /**< [255:240] Reserved. */
-		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new re-distributor. */
-		uint64_t reserved_192_207            : 16; /**< [207:192] Reserved. */
-		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
-		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old re-distributor. */
-		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
-		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVALL. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_63               : 56;
-		uint64_t reserved_64_127             : 64;
-		uint64_t reserved_128_143            : 16;
-		uint64_t ta1                         : 32;
-		uint64_t reserved_176_191            : 16;
-		uint64_t reserved_192_207            : 16;
-		uint64_t ta2                         : 32;
-		uint64_t reserved_240_255            : 16;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVALL. */
+		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#else
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
+		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old re-distributor. */
+		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
+#else
+		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
+		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old re-distributor. */
+		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_240_255            : 16; /**< [255:240] Reserved. */
+		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new re-distributor. */
+		uint64_t reserved_192_207            : 16; /**< [207:192] Reserved. */
+#else
+		uint64_t reserved_192_207            : 16; /**< [207:192] Reserved. */
+		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new re-distributor. */
+		uint64_t reserved_240_255            : 16; /**< [255:240] Reserved. */
 #endif
 	} s;
 };
@@ -425,23 +523,32 @@ union gits_cmd_movi_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
-		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
-		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVI. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_31               : 24;
-		uint64_t dev_id                      : 32;
-		uint64_t int_id                      : 32;
-		uint64_t reserved_96_127             : 32;
-		uint64_t cid                         : 16;
-		uint64_t reserved_144_191            : 48;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVI. */
+		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
+		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
+#else
+		uint64_t int_id                      : 32; /**< [ 95: 64] Interrupt ID to be translated. */
+		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
+#else
+		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -456,21 +563,30 @@ union gits_cmd_sync_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
-		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
-		uint64_t ta                          : 32; /**< [175:144] Target address of the re-distributor 0. */
-		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
-		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_SYNC. */
 #else
-		uint64_t cmd_type                    : 8;
-		uint64_t reserved_8_63               : 56;
-		uint64_t reserved_64_127             : 64;
-		uint64_t reserved_128_143            : 16;
-		uint64_t ta                          : 32;
-		uint64_t reserved_176_191            : 16;
-		uint64_t reserved_192_255            : 64;
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_SYNC. */
+		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#else
+		uint64_t reserved_64_127             : 64; /**< [127: 64] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
+		uint64_t ta                          : 32; /**< [175:144] Target address of the re-distributor 0. */
+		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
+#else
+		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
+		uint64_t ta                          : 32; /**< [175:144] Target address of the re-distributor 0. */
+		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
+#else
+		uint64_t reserved_192_255            : 64; /**< [255:192] Reserved. */
 #endif
 	} s;
 };
@@ -993,7 +1109,7 @@ static inline uint64_t BDK_GICD_CLRSPI_SR_FUNC(void)
 /**
  * NCB32b - gicd_icactiver#
  *
- * Each bit in GICD_ICACTIVER() provides a clear-active bit for each SPI supported by the GIC.
+ * Each bit in this register provides a clear-active bit for each SPI supported by the GIC.
  * Writing 1 to a clear-active bit clears the active status of the corresponding SPI.
  */
 typedef union bdk_gicd_icactiverx {
@@ -1156,7 +1272,7 @@ static inline uint64_t BDK_GICD_ICPENDRX(unsigned long param1)
 /**
  * NCB32b - gicd_igroupr#
  *
- * The bit in GICD_IGROUPR() for a particular SPI is concatenated with the corresponding bit for
+ * The bit in this register for a particular SPI is concatenated with the corresponding bit for
  * that SPI in GICD_IGRPMODR() to form a 2-bit field that defines the interrupt group (G0S, G1S,
  * G1NS) for that SPI.
  */
@@ -1192,7 +1308,7 @@ static inline uint64_t BDK_GICD_IGROUPRX(unsigned long param1)
 /**
  * NCB32b - gicd_igrpmodr#
  *
- * The bit in GICD_IGRPMODR() for a particular SPI is concatenated with the
+ * The bit in this register for a particular SPI is concatenated with the
  * corresponding bit for that SPI in GICD_IGROUPR() to form a 2-bit field that defines
  * the interrupt group (G0S, G1S, G1NS) for that SPI.
  */
@@ -1273,7 +1389,7 @@ static inline uint64_t BDK_GICD_IIDR_FUNC(void)
 /**
  * NCB32b - gicd_ipriorityr#
  *
- * Each byte in GICD_IPRIORITYR() provides a priority field for each SPI supported by the GIC.
+ * Each byte in this register provides a priority field for each SPI supported by the GIC.
  *
  */
 typedef union bdk_gicd_ipriorityrx {
@@ -1362,7 +1478,7 @@ static inline uint64_t BDK_GICD_IROUTERX(unsigned long param1)
 /**
  * NCB32b - gicd_isactiver#
  *
- * Each bit in GICD_ISACTIVERn provides a set-active bit for each SPI supported by the GIC.
+ * Each bit in this register provides a set-active bit for each SPI supported by the GIC.
  * Writing 1 to a set-active bit sets the status of the corresponding SPI to active.
  */
 typedef union bdk_gicd_isactiverx {
@@ -3606,8 +3722,10 @@ static inline uint64_t BDK_GICRX_WAKER(unsigned long param1)
  * NCB - gits_baser#
  *
  * This set of 64-bit registers specify the base address and size of a number of implementation
- * defined tables required by the ITS:
+ * defined tables required by the ITS.
+ *
  * An implementation can provide up to eight such registers.
+ *
  * Where a register is not implemented, it is RES0.
  */
 typedef union bdk_gits_baserx {
@@ -3948,10 +4066,13 @@ static inline uint64_t BDK_GITS_CIDR3_FUNC(void)
  *
  * Offset in the ITS command queue from GITS_CBASER where the next command will be read by the
  * ITS.
+ *
  * The command queue is considered to be empty when GITS_CWRITER is equal to GITS_CREADR.
+ *
  * The command queue is considered to be full when GITS_CWRITER is equal to (GITS_CREADR minus
  * 32), taking wrapping into account.
- * Note: when GITS_CBASER is written, the value of GITS_CREADR is set to zero
+ *
+ * Note: when GITS_CBASER is written, the value of GITS_CREADR is set to zero.
  */
 typedef union bdk_gits_creadr {
 	uint64_t u;
@@ -4043,9 +4164,12 @@ static inline uint64_t BDK_GITS_CTLR_FUNC(void)
  *
  * Offset in the ITS command queue from GITS_CBASER where the next command will be written by
  * software.
+ *
  * The command queue is considered to be empty when GITS_CWRITER is equal to GITS_CREADR.
+ *
  * The command queue is considered to be full when GITS_CWRITER is equal to (GITS_CREADR minus
  * 32), taking wrapping into account.
+ *
  * Each command in the queue comprises 32 bytes. See section 5.13 for details of the commands
  * supported and the format of each command.
  */

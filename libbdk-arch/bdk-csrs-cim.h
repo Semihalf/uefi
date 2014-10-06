@@ -93,10 +93,10 @@ typedef union bdk_cimx_icc_ap0r0_el1 {
                                                                  Min            Max groups   Max preempt   ICC_AP0Rn
                                                                  ICC_BPR0_EL1   pri bits     levels        Implemented
                                                                  ============   ==========   ===========   =====================
-                                                                 3                   4                      16                    ICC_AP0R0[15:0]
-                                                                 2                   5                      32                    ICC_AP0R0[31:0]
-                                                                 1                   6                      64                    {ICC_AP0R1, ICC_AP0R0}
-                                                                 0                   7                      128                   {ICC_AP0R3, ICC_AP0R2,
+                                                                 3              4             16           ICC_AP0R0[15:0]
+                                                                 2              5             32           ICC_AP0R0[31:0]
+                                                                 1              6             64           {ICC_AP0R1, ICC_AP0R0}
+                                                                 0              7            128           {ICC_AP0R3, ICC_AP0R2,
                                                                  \</pre\> */
 #else
 		uint64_t ap                          : 32;
@@ -158,16 +158,16 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
                                                                  Min            Max groups   Max preempt   Non-secure view of
                                                                  ICC_BPR1_EL1   pri bits     levels        ICC_AP1Rn_NS
                                                                  ============   ==========   ===========   ============
-                                                                 4                   4                      16                    {8'h00,
-                                                                                                                                   ICC_AP1R0_NS[15:8]}
-                                                                 3                   5                      32                    {16'h0000,
-                                                                                                                                   ICC_AP1R0_NS[31:16]}
-                                                                 2                   6                      64                    {32'h0000_0000,
-                                                                                                                                   ICC_AP1R1_NS}
-                                                                 1                   7                      128                   {32'h0000_0000,
-                                                                                                                                   32'h0000_0000,
-                                                                                                                                   ICC_AP1R3_NS,
-                                                                                                                                   ICC_AP1R2_NS}
+                                                                 4              4               16         {8'h00,
+                                                                                                           ICC_AP1R0_NS[15:8]}
+                                                                 3              5               32         {16'h0000,
+                                                                                                           ICC_AP1R0_NS[31:16]}
+                                                                 2              6               64         {32'h0000_0000,
+                                                                                                           ICC_AP1R1_NS}
+                                                                 1              7              128         {32'h0000_0000,
+                                                                                                           32'h0000_0000,
+                                                                                                           ICC_AP1R3_NS,
+                                                                                                           ICC_AP1R2_NS}
                                                                  \</pre\>
 
                                                                  In CNXXXX, a system supporting two security states, where GICD_(S)CTLR[DS] is zero, non-
@@ -234,14 +234,14 @@ typedef union bdk_cimx_icc_ap1r0_el1_s {
                                                                  Min          Max groups   Max preempt   ICC_AP1Rn_S
                                                                  ICC_BPR1_S   pri bits     levels        Implemented
                                                                  ==========   ==========   ===========   =====================
-                                                                 3                   4                      16                    ICC_AP1R0_S[15:0]
-                                                                 2                   5                      32                    ICC_AP1R0_S[31:0]
-                                                                 1                   6                      64                    {ICC_AP1R1_S,
-                                                                                                                                   ICC_AP1R0_S}
-                                                                 0                   7                      128                   {ICC_AP1R3_S,
-                                                                                                                                   ICC_AP1R2_S,
-                                                                                                                                   ICC_AP1R1_S,
-                                                                                                                                   ICC_AP1R0_S}
+                                                                 3            4              16          ICC_AP1R0_S[15:0]
+                                                                 2            5              32          ICC_AP1R0_S[31:0]
+                                                                 1            6              64          {ICC_AP1R1_S,
+                                                                                                          ICC_AP1R0_S}
+                                                                 0            7             128          {ICC_AP1R3_S,
+                                                                                                          ICC_AP1R2_S,
+                                                                                                          ICC_AP1R1_S,
+                                                                                                          ICC_AP1R0_S}
                                                                  \</pre\>
 
                                                                  In CNXXXX, a systems supporting two security states, where GICD_(S)CTLR[DS] is
@@ -399,11 +399,11 @@ typedef union bdk_cimx_icc_bpr0_el1 {
                                                                       Group Priority   Subpriority   Field with
                                                                  BP   Field            Field         Binary Point
                                                                  ==   ==============   ===========   ============
-                                                                 0   [7:1]                      [0]                     ggggggg.s
-                                                                 1   [7:2]                      [1:0]                   gggggg.ss
+                                                                 0    [7:1]            [0]           ggggggg.s
+                                                                 1    [7:2]            [1:0]         gggggg.ss
                                                                  ...
-                                                                 6   [7]                        [6:0]                   g.sssssss
-                                                                 7   No preemption              [7:0]                   .ssssssss
+                                                                 6    [7]              [6:0]         g.sssssss
+                                                                 7    No preemption    [7:0]         .ssssssss
                                                                  \</pre\>
 
                                                                  In CNXXXX, only 5 priority bits are implemented:
@@ -412,12 +412,12 @@ typedef union bdk_cimx_icc_bpr0_el1 {
                                                                       Group Priority   Subpriority   Field with
                                                                  BP   Field            Field         Binary Point
                                                                  ==   ==============   ===========   ============
-                                                                 2   [7:3]                      [2:0]                   ggggg.sss
-                                                                 3   [7:4]                      [3:0]                   gggg.ssss
-                                                                 4   [7:5]                      [4:0]                   ggg.sssss
-                                                                 5   [7:6]                      [5:0]                   gg.ssssss
-                                                                 6   [7:7]                      [6:0]                   g.sssssss
-                                                                 7   No preemption              [7:0]                   .ssssssss
+                                                                 2    [7:3]            [2:0]         ggggg.sss
+                                                                 3    [7:4]            [3:0]         gggg.ssss
+                                                                 4    [7:5]            [4:0]         ggg.sssss
+                                                                 5    [7:6]            [5:0]         gg.ssssss
+                                                                 6    [7:7]            [6:0]         g.sssssss
+                                                                 7    No preemption    [7:0]         .ssssssss
                                                                  \</pre\>
 
                                                                  The lowest exception level at which this register may be accessed is governed by the
@@ -478,29 +478,29 @@ typedef union bdk_cimx_icc_bpr1_el1_ns {
                                                                  1. If CIM()_ICC_CTLR_EL3[CBPR_EL1S] is one:
 
                                                                  _   CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
-                                                                       CIM()_ICC_BPR0_EL1.
+                                                                     CIM()_ICC_BPR0_EL1.
 
                                                                  _   CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
-                                                                       CIM()_ICC_BPR0_EL1.
+                                                                     CIM()_ICC_BPR0_EL1.
 
                                                                  2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, non-secure accesses at EL1 or EL2 behave
                                                                  as defined in the table below.
 
                                                                  \<pre\>
-                                                                    SCR_EL3[IRQ] HCR_EL2[HMO]     Description
+                                                                 SCR_EL3[IRQ]  HCR_EL2[HMO]   Description
                                                                  ============  ============   ===================================
                                                                        1             0        Inaccessible to non-secure EL1/EL2.
 
-                                                                          1            1          Non-secure EL1 access is virtual.
-                                                                                                  Inaccessible to EL2.
+                                                                       1             1        Non-secure EL1 access is virtual.
+                                                                                              Inaccessible to EL2.
 
-                                                                          0            1          Non-secure EL1 access is virtual.
-                                                                                                  Non-secure EL2 reads return
+                                                                       0             1        Non-secure EL1 access is virtual.
+                                                                                              Non-secure EL2 reads return
                                                                                               (CIM()_ICC_BPR0_EL1 + 1)
                                                                                               saturated to 0x7.
-                                                                                                  Non-secure EL2 writes are ignored.
+                                                                                              Non-secure EL2 writes are ignored.
 
-                                                                          0            0          Non-secure EL1 / EL2 reads return
+                                                                       0             0        Non-secure EL1 / EL2 reads return
                                                                                               (CIM()_ICC_BPR0_EL1 + 1)
                                                                                               saturated to 0x7.
                                                                                               Non-secure EL1 / EL2 writes
@@ -573,20 +573,20 @@ typedef union bdk_cimx_icc_bpr1_el1_s {
                                                                  as defined in the table below
 
                                                                  \<pre\>
-                                                                    SCR_EL3[IRQ] HCR_EL2[HMO]   Description
+                                                                 SCR_EL3[IRQ]  HCR_EL2[HMO]   Description
                                                                  ============  ============   ===================================
                                                                        1            0         Inaccessible to non-secure EL1/EL2.
 
-                                                                          1            1        Non-secure EL1 access is virtual.
-                                                                                                Inaccessible to EL2.
+                                                                       1            1         Non-secure EL1 access is virtual.
+                                                                                              Inaccessible to EL2.
 
-                                                                          0            1        Non-secure EL1 access is virtual.
-                                                                                                Non-secure EL2 reads return
+                                                                       0            1         Non-secure EL1 access is virtual.
+                                                                                              Non-secure EL2 reads return
                                                                                               (CIM()_ICC_BPR0_EL1 + 1)
                                                                                               saturated to 0x7.
-                                                                                                Non-secure EL2 writes are ignored.
+                                                                                              Non-secure EL2 writes are ignored.
 
-                                                                          0            0        Non-secure EL1 / EL2 reads return
+                                                                       0            0         Non-secure EL1 / EL2 reads return
                                                                                               (CIM()_ICC_BPR0_EL1 + 1)
                                                                                               saturated to 0x7.
                                                                                               Non-secure EL1 / EL2 writes
@@ -2402,7 +2402,7 @@ typedef union bdk_cimx_ich_lrx_el2 {
                                                                  _ A hardware physical identifier is only required in list registers for
                                                                            interrupts that require an EOI or Deactivate. Hence, only 10 bits of
                                                                            physical ID are required, regardless of the number specified by
-                                                                 CIM()_ICC_CTLR_EL1[IDBITS].
+                                                                           CIM()_ICC_CTLR_EL1[IDBITS].
 
                                                                  1 = Field indicates the physical interrupt ID that the hypervisor forwards to the
                                                                  Distributor. */
