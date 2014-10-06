@@ -787,7 +787,7 @@ static void setup_node(bdk_node_t node)
     if (bdk_is_simulation())
         return; // FIXME: This stuff not modelled in Asim
 #ifdef HW_EMULATOR
-    return 0; /* Emulator doesn't seem to have CCPI registers */
+    return; /* Emulator doesn't seem to have CCPI registers */
 #endif
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
