@@ -92,27 +92,51 @@ def writeStruct(out, struct):
         assert width == 64
         out.write("\tuint64_t u;\n")
     out.write("\tstruct {\n")
-    out.write("#if __BYTE_ORDER == __BIG_ENDIAN\n")
     bit_list = struct.getStartBitList()
-    bit_list.reverse()
-    for bit in bit_list:
-        field = struct.getField(bit)
-        line = ("\t\t" + field.enum_type + " " + field.name).ljust(38) + " : " + str(field.stop_bit-field.start_bit+1) + ";"
-        if field.description:
-            l = line.ljust(45) + "/**< [%3d:%3d] %s */" % (field.stop_bit, field.start_bit, "\n".ljust(66).join(field.description).strip())
-            line = ""
-            for l in l.split("\n"):
-                line += l.rstrip() + "\n";
-        else:
-            line += "\n"
-        out.write(line)
-    out.write("#else\n")
-    bit_list.sort()
-    for bit in bit_list:
-        field = struct.getField(bit)
-        line = ("\t\t" + field.enum_type + " " + field.name).ljust(38) + " : " + str(field.stop_bit-field.start_bit+1) + ";"
-        out.write(line + "\n")
-    out.write("#endif\n")
+    # Go through the structure in 64bit chunks. The order of fields
+    # change for every 64bits due to endianness. The hardware swaps
+    # on 64bit boundaries for endainness, but not larger quatities
+    for word in range(0, width / 64):
+        # Create a list of all fields in this word
+        min_bit = word * 64
+        max_bit = min_bit + 63
+        word_bits = []
+        for bit in bit_list:
+            if (bit >= min_bit) and (bit <= max_bit):
+                word_bits.append(bit)
+        # For big endian, we go through large to small
+        word_bits.reverse()
+        out.write("#if __BYTE_ORDER == __BIG_ENDIAN\n")
+        for bit in word_bits:
+            field = struct.getField(bit)
+            # This code doesn't support the case where fields cross 64 bit
+            # word boundaries. Currently this isn't needed, so assert if
+            # this ever changes
+            assert (field.stop_bit >= min_bit) and (field.stop_bit <= max_bit), "Field crosses word boundary %s.%s[%d:%d]" % (struct.name, field.name, field.start_bit, field.stop_bit)
+            line = ("\t\t" + field.enum_type + " " + field.name).ljust(38) + " : " + str(field.stop_bit-field.start_bit+1) + ";"
+            if field.description:
+                l = line.ljust(45) + "/**< [%3d:%3d] %s */" % (field.stop_bit, field.start_bit, "\n".ljust(66).join(field.description).strip())
+                line = ""
+                for l in l.split("\n"):
+                    line += l.rstrip() + "\n";
+            else:
+                line += "\n"
+            out.write(line)
+        # For little endian, we go through small to large
+        word_bits.reverse()
+        out.write("#else\n")
+        for bit in word_bits:
+            field = struct.getField(bit)
+            line = ("\t\t" + field.enum_type + " " + field.name).ljust(38) + " : " + str(field.stop_bit-field.start_bit+1) + ";"
+            if field.description:
+                l = line.ljust(45) + "/**< [%3d:%3d] %s */" % (field.stop_bit, field.start_bit, "\n".ljust(66).join(field.description).strip())
+                line = ""
+                for l in l.split("\n"):
+                    line += l.rstrip() + "\n";
+            else:
+                line += "\n"
+            out.write(line)
+        out.write("#endif\n")
     out.write("\t} s;\n")
     out.write("};\n")
 
