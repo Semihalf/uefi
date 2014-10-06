@@ -68,7 +68,7 @@ class Csr:
     def addField(self, field):
         assert isinstance(field, CsrField), type(field)
         if field.start_bit in self.fields:
-            raise Exception("Field start bit alread in use")
+            raise Exception("Field start bit already in use")
         self.fields[field.start_bit] = field
 
     def getField(self, name):

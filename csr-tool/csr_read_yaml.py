@@ -325,7 +325,7 @@ def build_csr(chip_info, group, register, raw):
                    "internal",      # Hardware team internal only notes
                    "attributes"])   # Optional attributes (sub tree)
         if "attributes" in field:
-           check_keys("register.field[attributes]", field["attributes"], [
+            check_keys("register.field[attributes]", field["attributes"], [
                       "no_soft_reset",
                       "chip_pass",
                       "dv_uvm_force_compare",
@@ -337,12 +337,17 @@ def build_csr(chip_info, group, register, raw):
                       "pcc_exempt_access",
                       "tns_fused",
                       "uvm_default_constraint"])
-           if "chip_pass" in field["attributes"]:
-               pass_equation = field["attributes"]["chip_pass"]
-               is_this_pass = eval(pass_equation, {}, chip_info.pass_dict)
-               #print pass_equation, is_this_pass
-               if not is_this_pass:
-                   continue
+            if "chip_pass" in field["attributes"]:
+                pass_equation = field["attributes"]["chip_pass"].split(";")
+                is_this_pass = False
+                for eq in pass_equation:
+                    try:
+                        is_this_pass = is_this_pass or eval(eq, {}, chip_info.pass_dict)
+                    except:
+                        pass
+                print pass_equation, is_this_pass
+                if not is_this_pass:
+                    continue
         name = field["name"]
         # Bits is either a single number or a range separated by ".."
         start_bit, stop_bit = parseBitRange(field["bits"])
