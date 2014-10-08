@@ -1006,22 +1006,22 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         c.s.rbdr_cont_idx = rbdr_idx;
         c.s.rbdr_strt_qs = rbdr;
         c.s.rbdr_strt_idx = rbdr_idx);
-    /* Backpressure when either CQ (253/256) or RBDR (2/256) full */
+    /* FIXME: Backpressure when either CQ (2/256) or RBDR (2/256) full */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_BP_CFG(priv->vnic, priv->qos),
-        c.s.rbdr_bp_ena = 1;
-        c.s.cq_bp_ena = 1;
-        c.s.rbdr_bp = 2; /* Zero means no buffers, 256 means lots available */
-        c.s.cq_bp = 253; /* Zero means CQ idle, 256 means full */
+        c.s.rbdr_bp_ena = 0;
+        c.s.cq_bp_ena = 0;
+        c.s.rbdr_bp = 0; /* Zero means no buffers, 256 means lots available */
+        c.s.cq_bp = 0; /* Zero means full, 256 means idle */
         c.s.bpid = priv->vnic);
-    /* RED drop when either CQ (254/256) or RBDR (1/256) full, drop everything at
-       next step */
+    /* FIXME: RED drop when either CQ (1/256) or RBDR (1/256) full, drop
+       everything at next step */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_DROP_CFG(priv->vnic, priv->qos),
-        c.s.rbdr_red = 1;
-        c.s.cq_red = 1;
-        c.s.rbdr_pass = 1; /* Zero means no buffers, 256 means lots available */
+        c.s.rbdr_red = 0;
+        c.s.cq_red = 0;
+        c.s.rbdr_pass = 0; /* Zero means no buffers, 256 means lots available */
         c.s.rbdr_drop = 0;
-        c.s.cq_pass = 254; /* Zero means CQ idle, 256 means full */
-        c.s.cq_drop = 255);
+        c.s.cq_pass = 0; /* Zero means full, 256 means idle */
+        c.s.cq_drop = 0);
 
     priv->rbdr = rbdr;
 
