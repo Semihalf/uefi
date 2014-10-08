@@ -264,7 +264,7 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long param1, unsigned lo
 /**
  * NCB32b - sata#_uahc_gbl_bistafr
  *
- * This register is shared between SATA ports.  Before accessing this
+ * This register is shared between SATA ports. Before accessing this
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
@@ -321,7 +321,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long param1)
 /**
  * NCB32b - sata#_uahc_gbl_bistcr
  *
- * This register is shared between SATA ports.  Before accessing this
+ * This register is shared between SATA ports. Before accessing this
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
@@ -399,7 +399,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long param1)
 /**
  * NCB32b - sata#_uahc_gbl_bistdecr
  *
- * This register is shared between SATA ports.  Before accessing this
+ * This register is shared between SATA ports. Before accessing this
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
@@ -436,7 +436,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long param1)
 /**
  * NCB32b - sata#_uahc_gbl_bistfctr
  *
- * This register is shared between SATA ports.  Before accessing this
+ * This register is shared between SATA ports. Before accessing this
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
@@ -939,7 +939,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long param1)
 /**
  * NCB32b - sata#_uahc_gbl_oobr
  *
- * This register is shared between SATA ports.  Before accessing this
+ * This register is shared between SATA ports. Before accessing this
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *

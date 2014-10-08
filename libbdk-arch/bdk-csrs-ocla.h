@@ -1569,6 +1569,14 @@ typedef union bdk_oclax_time {
 	uint64_t u;
 	struct bdk_oclax_time_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t cycle                       : 64; /**< R/W/H - Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
+#else
+		uint64_t cycle                       : 64;
+#endif
+	} s;
+	struct bdk_oclax_time_cn85xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t cycle                       : 32; /**< R/W/H - Current time as free running counter. Loaded into captured control packets.
                                                                  Unconditionally clocked, independent of OCLA()_SFT_RST. */
@@ -1576,10 +1584,9 @@ typedef union bdk_oclax_time {
 		uint64_t cycle                       : 32;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_oclax_time_s            cn85xx; */
+	} cn85xx;
 	/* struct bdk_oclax_time_s            cn88xx; */
-	/* struct bdk_oclax_time_s            cn88xxp1; */
+	struct bdk_oclax_time_cn85xx          cn88xxp1;
 } bdk_oclax_time_t;
 
 static inline uint64_t BDK_OCLAX_TIME(unsigned long param1) __attribute__ ((pure, always_inline));
