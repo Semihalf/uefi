@@ -149,7 +149,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     {
 #ifdef HW_EMULATOR
         if (qlm < 2)
-            return BDK_QLM_MODE_XAUI_1X4;
+            return BDK_QLM_MODE_XFI_4X1;
         else
             return BDK_QLM_MODE_DISABLED;
 #endif
@@ -927,7 +927,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
 #ifdef HW_EMULATOR
-    return 3125;
+    return 10312;
 #endif
     if (qlm < 8)
     {
