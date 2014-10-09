@@ -1008,8 +1008,8 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         c.s.rbdr_strt_idx = rbdr_idx);
     /* FIXME: Backpressure when either CQ (2/256) or RBDR (2/256) full */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_BP_CFG(priv->vnic, priv->qos),
-        c.s.rbdr_bp_ena = 0;
-        c.s.cq_bp_ena = 0;
+        c.s.rbdr_bp_ena = 1;
+        c.s.cq_bp_ena = 1;
         c.s.rbdr_bp = 0; /* Zero means no buffers, 256 means lots available */
         c.s.cq_bp = 0; /* Zero means full, 256 means idle */
         c.s.bpid = priv->vnic);
