@@ -1117,7 +1117,7 @@ static int vnic_setup(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_BP_CFG(handle->interface),
         c.s.bp_ena = 1;
         c.s.bp_type = 0; /* BGX */
-        c.s.bp_id = priv->vnic);
+        c.s.bp_id = 0x8 + handle->interface); /* 8 for bgx0, 9 for bgx1 */
 
     /* Configure the submit queue (SQ) */
     priv->sq_base = sq_memory;
