@@ -698,8 +698,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     /*
     ** Compute clock rates to the nearest picosecond.
     */
-    ulong tclk_psecs = divide_nint((uint64_t) 1000*1000*1000*1000, ddr_hertz); /* Clock in psecs */
-    ulong eclk_psecs = divide_nint((uint64_t) 1000*1000*1000*1000, cpu_hertz); /* Clock in psecs */
+    uint64_t tclk_psecs = divide_nint((uint64_t) 1000*1000*1000*1000, ddr_hertz); /* Clock in psecs */
+    uint64_t eclk_psecs = divide_nint((uint64_t) 1000*1000*1000*1000, cpu_hertz); /* Clock in psecs */
 
     int row_bits, col_bits, num_banks, num_ranks, dram_width;
     int dimm_count = 0;
@@ -1089,7 +1089,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
        supported speed.  Adjust timing to match the smallest supported
        CAS Latency. */
     if (CL < min_cas_latency) {
-        ulong adjusted_tclk = tAAmin / min_cas_latency;
+        uint64_t adjusted_tclk = tAAmin / min_cas_latency;
         CL = min_cas_latency;
         ddr_print("Slow clock speed. Adjusting timing: tClk = %lu, Adjusted tClk = %lu\n",
                   tclk_psecs, adjusted_tclk);
@@ -1123,9 +1123,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_print("(CLactual * tCKmin) = %d exceeds 20 ns\n", (CL * tCKmin));
     }
 
-    if (tclk_psecs < (ulong)tCKmin)
+    if (tclk_psecs < (uint64_t)tCKmin)
         error_print("WARNING!!!!!!: DDR3 Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin:%ld)!!!!!!!!\n",
-                    tclk_psecs, (ulong)tCKmin);
+                    tclk_psecs, (uint64_t)tCKmin);
 
     twr             = spd_twr  * mtb_psec;
     trcd            = spd_trcd * mtb_psec;
