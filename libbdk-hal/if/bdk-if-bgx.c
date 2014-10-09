@@ -1108,11 +1108,6 @@ static int vnic_setup(bdk_if_handle_t handle)
     int rq = priv->vnic;
     int rq_idx = priv->qos;
 
-    /* Errata: (No number) Pass 1.x has trouble if the CQ ever completely
-       fills. Set the minimum FIFO level higher so this won't happen */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CQM_CFG,
-        c.s.drop_level = 128);
-
     /* Enable global BP state updates */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_BP_CFG,
         c.s.bp_poll_ena = 1;
