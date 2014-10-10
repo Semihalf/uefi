@@ -54,6 +54,10 @@ __bdk_start:
     cmp     x0, x1              /* See if we're running at the right location */
     b.eq    after_relocate      /* Skip relocate if we're already there */
     ldr     w2, [x1, 4]         /* w2 = Image length we need to copy */
+    b       copy_code
+    /* Align on a cache line so the entire code copy is in one cache line.
+        No Icache misses */
+.align 7
 copy_code:
     ldp     q0, q1, [x1], 32    /* Load 32 bytes */
     subs    w2, w2, 32          /* Subtract 32 from length, setting flags */
