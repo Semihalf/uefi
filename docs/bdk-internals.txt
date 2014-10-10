@@ -542,7 +542,7 @@ in SPI or eMMC storage for booting.
 |0002 0000 |192KB |BDK stage 1 boot image. This is 192KB loaded by the Thunder boot rom in non-trusted boot
 |0005 0000 |192KB |BDK stage 1 boot image. This is 192KB loaded by the Thunder boot rom in trusted boot
 |0008 0000 |Varies|BDK main image. Can be chain loaded by the 192KB stage 1 image
-|0080 0000 |Varies|Used for ARM Trusted Firmaware (ATF) and UEFI
+|0040 0000 |Varies|Used for ARM Trusted Firmaware (ATF) and UEFI
 |0100 0000 |-     |End of image search area. This address and everything above it are unused
 |==========================================================================
 
