@@ -1,0 +1,96 @@
+= Overview of Customization Requirements
+
+The BDK package defaults to only using Cavium chip features in a board
+agnostic way.  The BDK should boot on almost any custom board without
+modification.  This allows simple board test to be done using known good
+software, limiting coverage of some features.
+
+
+== Customization
+
+As part of bringing up a new board with the BDK, the following items are
+expected need customization:
+
+* Set BDK so the software configuration defaults are correct
+* Create a DRAM configuration for the board
+* Customize the boot stub that loads ATF, UEFI, or Uboot.
+
+
+== Setting Board Defaults
+
+Properties of the board need to be specified on boot in the BDK through
+the "Software Configuration" menu item.  Once settings are known for a
+board, it can be time saving to have the BDK defaults match these
+settings.  The file *board-TBD.lua* specifies these values. Edit the file
+adding any customization as needed. Comments in the file call out the various
+customizations:
+
+* Configuring PHY addresses for various BGX interfaces
+* Configuring QLMs in Lua code
+* Any other board specific initialization
+
+
+== Create DRAM Configuration
+
+An important part of any board is the DRAM configuration.  The BDK
+supplies a number of sample DRAM configurations under *libdram/configs/*.
+A new DRAM configuration should be create for a board by copying an
+existing configuration and making any required changes.
+
+* Choose a name for the board
++
+The BDK requires every board to have a unique identifier.  This should be
+a valid C identifier made up of the letters *A-Z*, the numbers *0-9*, and
+optional use of the underscore character '_'.  This identifier will be used
+in the code, but not displayed to the user. It is often useful to have this
+identifier match a name or part number silk screened on the board. The rest
+of this documentation will refer to this identifier as *BOARD_NAME*.
+
+* Copy an existing config to "libdram/configs/config-BOARD_NAME.c"
++
+Look through the example board configs under *libdram/configs/* and fine
+one similar to your board.  Copy this to
+"libdram/configs/config-BOARD_NAME.c" and make any needed modifications.
+Be sure to change the *cfg.name* to match the board.  Here *cfg.name* is a
+free form string to be shown to the user.  It may contain spaces and other
+punctuation as needed.
+
+* Tell the BDK about your board's DRAM config
++
+The BDK uses the define *BDK_DRAM_CONFIG* to determine the DRAM
+configuration to use.  This define should be set to *BOARD_NAME* in
+libbdk/bdk.mk.  Uncomment and change the following line:
++
+[source, sh]
+----
+#BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=BOARD_NAME
+----
++
+Optionally you can define BDK_DRAM_CONFIG2, BDK_DRAM_CONFIG3, and
+BDK_DRAM_CONFIG4 as addtional DRAM configuration options.
++
+[source, sh]
+----
+#BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG2=BOARD_NAME2
+#BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG3=BOARD_NAME3
+#BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG4=BOARD_NAME4
+----
+
+
+== Boot Stub Configuration
+
+Once the board has been checked out using the BDK, the tested
+configuration needs to be implemented in the production boot stub.  The
+production boot stub is located in "normal-boot/boot-stub.c".  Following
+the comments in *boot-stub.c*, the configuration tested above should be
+added to the boot stub.  Most setting are controlled by defines at the
+beginning of the file.  Some settings, like QLM modes, must be changed
+directly in *boot-stub.c* code.  Here is a list of some of the changes
+that will be required:
+
+* Change BMC_TWSI to point to the TWSI port used for secure access to the BMC.
+* Change MULTI_NODE to match whether the board supports multiple nodes/ sockets.
+* DRAM_NODE0 should match the BOARD_NAME from above.
+* DRAM_NODE1 will also be needed for multi node setups.
+* QLM setup, search for calls to *bdk_qlm_set_mode()*
+
