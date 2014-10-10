@@ -1677,6 +1677,8 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
     BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
     BDK_CSR_INIT(rx_fcs, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_FCS));
+    BDK_CSR_INIT(rx_ovr, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN));
+    BDK_CSR_INIT(rx_ovr_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS));
 
     /* Update the RX stats */
     handle->stats.rx.octets -= handle->stats.rx.packets * 4;
@@ -1689,9 +1691,9 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     /* Drop and error counters */
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * 4;
     handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
-        rx_red_octets.u, handle->stats.rx.dropped_octets, 48);
+        rx_red_octets.u + rx_ovr_octets.u, handle->stats.rx.dropped_octets, 48);
     handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
-        rx_red.u, handle->stats.rx.dropped_packets, 48);
+        rx_red.u + rx_ovr.u, handle->stats.rx.dropped_packets, 48);
     handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * 4;
     handle->stats.rx.errors = bdk_update_stat_with_overflow(
         rx_fcs.u, handle->stats.rx.errors, 48);
