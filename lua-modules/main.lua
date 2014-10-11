@@ -52,9 +52,7 @@ m:item("sata",  "SATA options",             menu.dofile, "sata")
 m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
-if cavium.trafficgen then
-    m:item("tg",    "Traffic Generator",    do_trafficgen)
-end
+m:item("tg",    "Traffic Generator",        do_trafficgen)
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, 0)
 if cavium.global then
     m:item("quit", "Exit menu")
