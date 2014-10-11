@@ -13,9 +13,10 @@ require("cavium")
 
 -- Set the baudrate. Many messages have already been printed, but we needed
 -- to wait for the cavium module.
--- The first argument is the uart number (0-1)
--- The second argument is the baud rate (9600, 19200, 115200, etc).
--- The third argument is whether flow control is enabled.
+-- The first argument is the node number (0-1)
+-- The second argument is the uart number (0-1)
+-- The third argument is the baud rate (9600, 19200, 115200, etc).
+-- The fourth argument is whether flow control is enabled.
 -- cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 0, 115200, true)
 -- cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 1, 115200, true)
 
