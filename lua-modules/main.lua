@@ -32,9 +32,6 @@ elseif cavium.is_model(cavium.CN85XX) then
     menu.dofile("board-ebb8500")
 end
 
--- Allow the user to do some board specific customization
-utils.run("autorun-board")
-
 local function do_trafficgen()
     local trafficgen = require("trafficgen")
     local tg = trafficgen.new()
