@@ -30,6 +30,7 @@
 #define BDK_MB          asm volatile ("dmb sy"      : : :"memory")
 #define BDK_WMB         asm volatile ("dmb st"      : : :"memory")
 #define BDK_WFE         asm volatile ("wfe"         : : :"memory")
+#define BDK_SEV         asm volatile ("sev"         : : :"memory")
 
 // normal prefetches that use the pref instruction
 #define BDK_PREFETCH_PREFX(type, address, offset) asm volatile ("PRFUM " type ", [%[rbase],%[off]]" : : [rbase] "r" (address), [off] "I" (offset))

@@ -129,6 +129,7 @@ void bdk_thread_yield(void)
         return;
     }
     bdk_spinlock_unlock(&t_node->lock);
+    BDK_SEV;
 }
 
 
@@ -206,6 +207,7 @@ int bdk_thread_create(bdk_node_t node, uint64_t coremask, bdk_thread_func_t func
         t_node->head = thread;
     t_node->tail = thread;
     bdk_spinlock_unlock(&t_node->lock);
+    BDK_SEV;
     return 0;
 }
 
