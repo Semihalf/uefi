@@ -129,7 +129,6 @@ void bdk_thread_yield(void)
         return;
     }
     bdk_spinlock_unlock(&t_node->lock);
-    BDK_SEV;
 }
 
 
@@ -290,6 +289,7 @@ void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
             t_node->tail = old_context;
         }
         bdk_spinlock_unlock(&t_node->lock);
+        BDK_SEV;
     }
 }
 
