@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <malloc.h>
 
 /**
  * This function is not defined by the BDK libraries. It must be

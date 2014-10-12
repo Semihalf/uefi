@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <malloc.h>
 
 /* Which TWSI interface to use for the BMC, -1 to disable */
 #define BMC_TWSI -1
