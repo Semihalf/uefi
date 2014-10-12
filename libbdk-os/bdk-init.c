@@ -150,9 +150,9 @@ void __bdk_init(uint32_t image_crc)
     if (bdk_is_boot_core())
     {
         /* Shut off cores in reset to save power. It is optional, but probably
-            good practice. When taking cores out of reset, it will be necessary
-            to clear the correct bit that was set here */
-	/* FIXME */
+            good practice */
+        // FIXME: Core power control disabled as it causes issues in the emulator
+        //BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -1);
 
         /* Initialize the is_simulation flag */
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));

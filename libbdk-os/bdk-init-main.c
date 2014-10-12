@@ -45,9 +45,6 @@ static void __bdk_init_local_node(void)
 
     BDK_TRACE(INIT, "N%d: Performing node initialization\n", node);
 
-    /* FIXME: Check that all cores default to low power */
-    //BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -1);
-
     BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
     bdk_l2c_initialize(node);
     BDK_TRACE(INIT, "N%d: Initialize random number generator\n", node);
