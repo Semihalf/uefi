@@ -132,4 +132,8 @@ void __bdk_config_init(void)
     int num_packet_buffers = 1024;
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_PACKET_BUFFER_SIZE, 1024);
+
+    /* Asim doesn't scale to 48 cores well. Limit to 4 */
+    if (bdk_is_simulation())
+        bdk_config_set(BDK_CONFIG_COREMASK, 0xf);
 }
