@@ -531,7 +531,7 @@ static int setup_auto_neg(bdk_if_handle_t handle)
        that this referse to auto negotiation for links other than SGMII. SGMII
        takes a different code path */
     int use_auto_neg = (priv->mode == BGX_MODE_10G_KR) || (priv->mode == BGX_MODE_40G_KR);
-    // FIXME: Disabled as it currently doesn't work
+    // FIXME: Auto-neg disabled as it currently doesn't work
     use_auto_neg = 0;
 
     /* Software should do the following to execute Auto-Negotiation when
@@ -1296,8 +1296,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
     BDK_CSR_INIT(gmp_pcs_miscx_ctl, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
     if (gmp_pcs_miscx_ctl.s.mode)
     {
-        /* 1000BASE-X */
-        // FIXME
+        /* FIXME: 1000BASE-X */
     }
     else
     {

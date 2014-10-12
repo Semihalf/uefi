@@ -294,7 +294,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
         }
     }
 
-    return 0; //FIXME
+    return 0; //FIXME: ECAM setup causing exceptions
 
     /* Go through all the internal devices and enable them specifically. This
        way non-existent devices stay disabled and we avoid the errata */

@@ -785,7 +785,7 @@ static int init_oci(void)
 static void setup_node(bdk_node_t node)
 {
     if (bdk_is_simulation())
-        return; // FIXME: This stuff not modelled in Asim
+        return; // FIXME: OCX not modelled in Asim
 #ifdef HW_EMULATOR
     return; /* Emulator doesn't seem to have CCPI registers */
 #endif

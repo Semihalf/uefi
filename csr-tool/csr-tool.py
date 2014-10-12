@@ -131,7 +131,6 @@ print "Combining Enums"
 enum_combiner.combine(combinedInfo, separate_chip_infos)
 print "Combining Structs"
 struct_combiner.combine(combinedInfo, separate_chip_infos)
-#combinedInfo._bars = separate_chip_infos[0]._bars # FIXME
 print "Combining CSRs"
 combined_list = csr_list_combiner.combine(separate_chip_infos)
 

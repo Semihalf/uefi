@@ -380,7 +380,7 @@ int main(void)
     }
 
     /* Initialize BGX, ready for driver */
-    //FIXME
+    /* Nothing needed right now */
 
     /* Send status to the BMC: QLM setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
