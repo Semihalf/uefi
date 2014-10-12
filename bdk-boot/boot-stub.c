@@ -196,7 +196,7 @@ static void boot_image(const char *dev_filename, uint64_t loc)
         goto out;
     }
 
-    image = malloc(header.length);
+    image = memalign(128, header.length);
     if (image == NULL)
     {
         bdk_error("Failed to allocate %d bytes for image\n", header.length);
