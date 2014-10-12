@@ -1552,7 +1552,16 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
     }
 
     if (bdk_likely(packet.if_handle))
+    {
+        /* Do RX stats in software as it is fast and I don't really trust
+           the hardware. The hardware tends to count packets that are received
+           and dropped in some weird way. Hopefully the hardware counters
+           looking for drops can find these. It is important that they
+           aren't counted as good */
+        packet.if_handle->stats.rx.packets++;
+        packet.if_handle->stats.rx.octets += packet.length + 4;
         bdk_if_dispatch_packet(&packet);
+    }
     else
     {
         bdk_error("Unable to determine interface for VNIC %d\n", vnic);
@@ -1671,21 +1680,11 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Read the RX statistics. These do not include the ethernet FCS */
-    BDK_CSR_INIT(rx_octets, handle->node, BDK_NIC_PF_QSX_RQX_STATX(priv->vnic, priv->qos, NIC_STAT_RQ_E_OCTS));
-    BDK_CSR_INIT(rx_packets, handle->node, BDK_NIC_PF_QSX_RQX_STATX(priv->vnic, priv->qos, NIC_STAT_RQ_E_PKTS));
     BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
     BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
     BDK_CSR_INIT(rx_fcs, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_FCS));
     BDK_CSR_INIT(rx_ovr, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN));
     BDK_CSR_INIT(rx_ovr_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS));
-
-    /* Update the RX stats */
-    handle->stats.rx.octets -= handle->stats.rx.packets * 4;
-    handle->stats.rx.octets = bdk_update_stat_with_overflow(rx_octets.u,
-        handle->stats.rx.octets, 48);
-    handle->stats.rx.packets = bdk_update_stat_with_overflow(rx_packets.u,
-        handle->stats.rx.packets, 48);
-    handle->stats.rx.octets += handle->stats.rx.packets * 4;
 
     /* Drop and error counters */
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * 4;
