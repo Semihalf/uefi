@@ -129,7 +129,7 @@ void __bdk_config_init(void)
     bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
 
     /* Set the number of packet buffers */
-    int num_packet_buffers = 1024;
+    int num_packet_buffers = 4096;
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_PACKET_BUFFER_SIZE, 1024);
 
