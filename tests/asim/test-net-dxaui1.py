@@ -141,8 +141,8 @@ wait_for("Port N0.DXAUI1: rx_validation_errors = 0")
 wait_for("(INS)Command>")
 send("default n0.dxaui1")
 wait_for("(INS)Command>")
-send("scan_sizes 100 60 3073")
-for size in xrange(60,3074):
+send("scan_sizes 100 60 3072")
+for size in xrange(60,3073):
     wait_for("Size %d" % size)
 wait_for("(INS)Command>")
 send("quit")
