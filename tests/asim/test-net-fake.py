@@ -154,8 +154,8 @@ wait_for("Port N0.FAKE3: rx_validation_errors = 0")
 wait_for("(INS)Command>")
 send("default n0.fake1")
 wait_for("(INS)Command>")
-send("scan_sizes")
-for size in xrange(60,9213):
+send("scan_sizes 100 60 9212 100")
+for size in xrange(60,9213,100):
     wait_for("Size %d" % size)
 wait_for("(INS)Command>")
 send("quit")
