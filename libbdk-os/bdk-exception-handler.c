@@ -90,48 +90,48 @@ void __bdk_exception_handler(except_regs_t *exc)
     BDK_MRS(ELR_EL3, pc);
     bdk_sys_esr_elx_t esr;
     BDK_MRS(ESR_EL3, esr.u);
-    puts(BANNER);
+    printf(BANNER);
     printf("Node %d, Core %d: Unhandled Exception\n", bdk_numa_local(), bdk_get_core_num());
     printf("ESR EC=0x%02x(%s) ISS=0x%x", esr.s.ec,
         EC_STRING[esr.s.ec] ? EC_STRING[esr.s.ec] : "Unknown",
         esr.s.iss);
     if ((esr.s.ec == 0x24) || (esr.s.ec == 0x25))
     {
-        puts("(");
-        if (esr.s.iss & (1<<24)) puts(" VALID");
-        if (esr.s.iss & (1<<21)) puts(" SIGN_EXTEND");
-        if (esr.s.iss & (1<<15)) puts(" 64BIT");
-        if (esr.s.iss & (1<<14)) puts(" ACQUIRE");
-        if (esr.s.iss & (1<<9)) puts(" EXTERNAL");
-        if (esr.s.iss & (1<<8)) puts(" CACHE");
-        if (esr.s.iss & (1<<7)) puts(" S1PTW");
-        if (esr.s.iss & (1<<6)) puts(" WRITE");
+        printf("(");
+        if (esr.s.iss & (1<<24)) printf(" VALID");
+        if (esr.s.iss & (1<<21)) printf(" SIGN_EXTEND");
+        if (esr.s.iss & (1<<15)) printf(" 64BIT");
+        if (esr.s.iss & (1<<14)) printf(" ACQUIRE");
+        if (esr.s.iss & (1<<9)) printf(" EXTERNAL");
+        if (esr.s.iss & (1<<8)) printf(" CACHE");
+        if (esr.s.iss & (1<<7)) printf(" S1PTW");
+        if (esr.s.iss & (1<<6)) printf(" WRITE");
         if (FCS_STRING[esr.s.iss & 0x3f])
-            puts(FCS_STRING[esr.s.iss & 0x3f]);
-        puts(")");
+            printf(FCS_STRING[esr.s.iss & 0x3f]);
+        printf(")");
     }
-    puts("\n");
-    puts(BANNER);
+    printf("\n");
+    printf(BANNER);
     printf("pc : 0x%016lx    esr: 0x%08x\n", pc, esr.u);
     for (int reg=0; reg<16; reg++)
     {
         printf("x%02d: 0x%016lx    x%02d: 0x%016lx\n",
             reg, exc->gpr[reg], reg+16, exc->gpr[reg+16]);
     }
-    puts("\n");
+    printf("\n");
     for (int reg=0; reg<16; reg++)
     {
         printf("q%02d: 0x%016lx_%016lx  q%02d: 0x%016lx_%016lx\n",
             reg,    (uint64_t)(exc->fpr[reg] >> 64),    (uint64_t)exc->fpr[reg],
             reg+16, (uint64_t)(exc->fpr[reg+16] >> 64), (uint64_t)exc->fpr[reg+16]);
     }
-    puts("\n");
+    printf("\n");
     uint64_t *stack = (uint64_t *)exc->gpr[31];
     for (int i = 0; i < 16; i++)
     {
         printf("stack[0x%016lx] = 0x%016lx\n", (uint64_t)stack, *stack);
         stack++;
     }
-    puts(BANNER);
+    printf(BANNER);
     __bdk_die();
 }
