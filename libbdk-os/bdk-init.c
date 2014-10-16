@@ -224,9 +224,10 @@ void __bdk_init(uint32_t image_crc)
     }
 
     /* Setup an exception stack in case we crash */
-    void *exception_stack = malloc(1024);
+    int EX_STACK_SIZE = 16384;
+    void *exception_stack = malloc(EX_STACK_SIZE);
     extern void __bdk_init_exception_stack(void *ptr);
-    __bdk_init_exception_stack(exception_stack + 1024);
+    __bdk_init_exception_stack(exception_stack + EX_STACK_SIZE);
 
     bdk_atomic_add64(&__bdk_alive_coremask[node], bdk_core_to_mask());
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
