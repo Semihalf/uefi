@@ -68,6 +68,17 @@ bad:
     return NULL;
 }
 
+/**
+ * Read bytes from a MPI/SPI device. This function supports reading from a
+ * SPI EEPROM, a SPI NOR, or a SPI NAND. All three use a common read comamnd
+ * and format.
+ *
+ * @param handle Handle to file state
+ * @param buffer Buffer to fill
+ * @param length Number of bytes to read
+ *
+ * @return Number of bytes read, negative on failure
+ */
 static int mpi_read(__bdk_fs_file_t *handle, void *buffer, int length)
 {
     const int CMD_READ = 0x03;
@@ -100,6 +111,14 @@ static int mpi_read(__bdk_fs_file_t *handle, void *buffer, int length)
     return length;
 }
 
+/**
+ * Wait for the previous MPI/SPI command to complete
+ *
+ * @param node     Note the MPI/SPI bus is on
+ * @param chip_sel Chip select the device is on
+ *
+ * @return Zero on success, negative on timeout
+ */
 static int wait_for_write_complete(bdk_node_t node, int chip_sel)
 {
     const int CMD_READ_STATUS = 0x05;
@@ -121,7 +140,17 @@ static int wait_for_write_complete(bdk_node_t node, int chip_sel)
     return 0;
 }
 
-static int mpi_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+/**
+ * Write to a SPI EEPROM. This code assumes the device can only
+ * be written 64 bytes at a time.
+ *
+ * @param handle Handle to file state
+ * @param buffer Buffer to write to the device
+ * @param length Length of the write in bytes
+ *
+ * @return Number of bytes written, negative on failure
+ */
+static int eeprom_write(__bdk_fs_file_t *handle, const void *buffer, int length)
 {
     const int CMD_WRITE = 0x02;
     const int CMD_WRITE_EN = 0x06;
@@ -155,6 +184,110 @@ static int mpi_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         return -1;
 
     return length;
+}
+
+/**
+ * Write to a SPI NOR.
+ *
+ * @param handle Handle to file state
+ * @param buffer Buffer to write to the device
+ * @param length Length of the write in bytes
+ *
+ * @return Number of bytes written, negative on failure
+ */
+static int nor_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+{
+    /* From datasheet for N25Q128A13ESE40. It is a 16MB NOR flash with
+       256 sectors (64KB each), each sector divided into 4KB subsectors, each
+       divided into 256 byte pages. Smallest erase size is a subsector (4KB).
+       Once erase, a page (256 bytes) must be programemd at a time */
+    //const int SECTOR_SIZE = 65536;
+    const int SUBSECTOR_SIZE = 4096;
+    const int PAGE_SIZE = 256;
+    /* We only use a small subset of the comamnds support by the NOR */
+    const int CMD_WREN  = 0x06; /* Write enable */
+    const int CMD_PP    = 0x02; /* Page program */
+    const int CMD_SSE   = 0x20; /* Subsector erase */
+
+    const bdk_node_t node = bdk_numa_local();
+    const int chip_sel = (long)handle->fs_state & 0xff;
+    const int address_width = (long)handle->fs_state >> 8;
+
+    if (handle->location & (PAGE_SIZE-1))
+    {
+        bdk_error("SPI-NOR: Write location must be on a page boundary\n");
+        return -1;
+    }
+
+    if (wait_for_write_complete(node, chip_sel))
+        return -1;
+
+    uint64_t loc = handle->location;
+    int data_left = length;
+    while (data_left)
+    {
+        /* See if we're at the start of an erase block */
+        if ((loc & (SUBSECTOR_SIZE-1)) == 0)
+        {
+            bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
+            /* We need to erase the next block */
+            bdk_mpi_transfer(node, chip_sel, 0, /* Disable chip select */
+                1 + address_width/8, /* One command byte plus address */
+                (CMD_SSE << address_width) | loc, /* Command and address */
+                0); /* No receive data */
+            if (wait_for_write_complete(node, chip_sel))
+                return -1;
+        }
+
+        bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
+        /* Begin page program */
+        bdk_mpi_transfer(node, chip_sel, 1, /* Keep chip select active */
+            1 + address_width/8, /* One command byte plus address */
+            (CMD_PP << address_width) | loc, /* Command and address */
+            0); /* No receive data */
+
+        /* Write a page at a time */
+        int len = PAGE_SIZE;
+        if (len > data_left)
+            len = data_left;
+        while (len--)
+        {
+            /* The last byte written deassert the chip select */
+            bdk_mpi_transfer(node, chip_sel, (len != 0),
+                1, /* One data byte */
+                *(uint8_t*)buffer, /* Data to write */
+                0); /* No receive data */
+            buffer++;
+            loc++;
+            data_left--;
+        }
+
+        if (wait_for_write_complete(node, chip_sel))
+            return -1;
+    }
+
+    return length;
+}
+
+/**
+ * Write to a MPI/SPI device. This currently only support SPI EEPROM and SPI NOR
+ * flash.
+ *
+ * @param handle Handle to file state
+ * @param buffer Data to write
+ * @param length Length of the data in bytes
+ *
+ * @return Number of bytes written, negative on failure
+ */
+static int mpi_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+{
+    /* This code is very simple and assumes devices using 16 bit addresses
+       are EEPROMs and anything else is NOR */
+    const int address_width = (long)handle->fs_state >> 8;
+    if (address_width == 16)
+        return eeprom_write(handle, buffer, length);
+    else
+        return nor_write(handle, buffer, length);
 }
 
 static const __bdk_fs_ops_t bdk_fs_mpi_ops =
