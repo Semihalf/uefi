@@ -125,7 +125,6 @@ typedef union bdk_ecamx_busx_nsdis {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_ecamx_busx_nsdis_s      cn85xx; */
 	/* struct bdk_ecamx_busx_nsdis_s      cn88xx; */
 	/* struct bdk_ecamx_busx_nsdis_s      cn88xxp1; */
 } bdk_ecamx_busx_nsdis_t;
@@ -164,7 +163,6 @@ typedef union bdk_ecamx_busx_sdis {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_ecamx_busx_sdis_s       cn85xx; */
 	/* struct bdk_ecamx_busx_sdis_s       cn88xx; */
 	/* struct bdk_ecamx_busx_sdis_s       cn88xxp1; */
 } bdk_ecamx_busx_sdis_t;
@@ -200,7 +198,6 @@ typedef union bdk_ecamx_devx_nsdis {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_ecamx_devx_nsdis_s      cn85xx; */
 	/* struct bdk_ecamx_devx_nsdis_s      cn88xx; */
 	/* struct bdk_ecamx_devx_nsdis_s      cn88xxp1; */
 } bdk_ecamx_devx_nsdis_t;
@@ -240,7 +237,6 @@ typedef union bdk_ecamx_devx_sdis {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_ecamx_devx_sdis_s       cn85xx; */
 	/* struct bdk_ecamx_devx_sdis_s       cn88xx; */
 	/* struct bdk_ecamx_devx_sdis_s       cn88xxp1; */
 } bdk_ecamx_devx_sdis_t;
@@ -271,7 +267,6 @@ typedef union bdk_ecamx_nop_of {
 		uint64_t ones                        : 64;
 #endif
 	} s;
-	/* struct bdk_ecamx_nop_of_s          cn85xx; */
 	/* struct bdk_ecamx_nop_of_s          cn88xx; */
 	/* struct bdk_ecamx_nop_of_s          cn88xxp1; */
 } bdk_ecamx_nop_of_t;
@@ -302,7 +297,6 @@ typedef union bdk_ecamx_nop_onf {
 		uint64_t ones                        : 64;
 #endif
 	} s;
-	/* struct bdk_ecamx_nop_onf_s         cn85xx; */
 	/* struct bdk_ecamx_nop_onf_s         cn88xx; */
 	/* struct bdk_ecamx_nop_onf_s         cn88xxp1; */
 } bdk_ecamx_nop_onf_t;
@@ -333,7 +327,6 @@ typedef union bdk_ecamx_nop_zf {
 		uint64_t zeros                       : 64;
 #endif
 	} s;
-	/* struct bdk_ecamx_nop_zf_s          cn85xx; */
 	/* struct bdk_ecamx_nop_zf_s          cn88xx; */
 	/* struct bdk_ecamx_nop_zf_s          cn88xxp1; */
 } bdk_ecamx_nop_zf_t;
@@ -364,7 +357,6 @@ typedef union bdk_ecamx_nop_znf {
 		uint64_t zeros                       : 64;
 #endif
 	} s;
-	/* struct bdk_ecamx_nop_znf_s         cn85xx; */
 	/* struct bdk_ecamx_nop_znf_s         cn88xx; */
 	/* struct bdk_ecamx_nop_znf_s         cn88xxp1; */
 } bdk_ecamx_nop_znf_t;
@@ -403,7 +395,6 @@ typedef union bdk_ecamx_rslx_nsdis {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_ecamx_rslx_nsdis_s      cn85xx; */
 	/* struct bdk_ecamx_rslx_nsdis_s      cn88xx; */
 	/* struct bdk_ecamx_rslx_nsdis_s      cn88xxp1; */
 } bdk_ecamx_rslx_nsdis_t;
@@ -446,7 +437,6 @@ typedef union bdk_ecamx_rslx_sdis {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_ecamx_rslx_sdis_s       cn85xx; */
 	/* struct bdk_ecamx_rslx_sdis_s       cn88xx; */
 	/* struct bdk_ecamx_rslx_sdis_s       cn88xxp1; */
 } bdk_ecamx_rslx_sdis_t;

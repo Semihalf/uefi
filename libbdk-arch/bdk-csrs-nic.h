@@ -1316,7 +1316,7 @@ union nic_send_hdr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
-                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MAX_PAY] and related
+                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MPS] and related
                                                                  TSO_* fields are valid. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
@@ -1383,7 +1383,7 @@ union nic_send_hdr_s {
                                                                  send, including zero pad (if any), and must not exceed 9212 (9216 minus 4 byte FCS).
 
                                                                  If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
-                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [L4PAYPTR].
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
                                                                  packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
@@ -1393,7 +1393,7 @@ union nic_send_hdr_s {
                                                                  send, including zero pad (if any), and must not exceed 9212 (9216 minus 4 byte FCS).
 
                                                                  If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
-                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [L4PAYPTR].
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
                                                                  packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
@@ -1460,58 +1460,26 @@ union nic_send_hdr_s {
                                                                  subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
                                                                  the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
 		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
-                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MAX_PAY] and related
+                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MPS] and related
                                                                  TSO_* fields are valid. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t tso_sdc_cont                : 8;  /**< [127:120] When [TSO] set, TSO subdescriptor count for continuations. Specifies the maximum number of
-                                                                 128-bit subdescriptors, including immediate data, that are needed to send the payloads of
-                                                                 two consecutive packets other than the first two packets. This is used as a hint by
-                                                                 hardware; an incorrect value may result in reduced TSO throughput or increased NCB
-                                                                 bandwidth utilization. */
-		uint64_t tso_sdc_first               : 8;  /**< [119:112] When [TSO] set, TSO subdescriptor count for first packet. Number of 128-bit subdescriptors
-                                                                 following the send header subdescriptor, including immediate data, that are needed to send
-                                                                 the first two packets of the TSO operation. This is used as a hint by hardware; an
-                                                                 incorrect value may result in reduced TSO throughput or increased NCB bandwidth
-                                                                 utilization. */
-		uint64_t tso_l4payptr                : 8;  /**< [111:104] When [TSO] set, layer 4 payload offset. The Layer 4 (TCP) payload for a TSO operation must
-                                                                 start exactly [L4PAYPTR] bytes from the beginning of the packet. */
-		uint64_t tso_flags_last              : 12; /**< [103: 92] When [TSO] set, value of flags in TCP header of last segment if it is not the only
-                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
-                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
-                                                                 segments are taken directly from the header data. */
-		uint64_t tso_flags_first             : 12; /**< [ 91: 80] When [TSO] set, value of flags in TCP header of first segment if it is not the only
-                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
-                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
-                                                                 segments are taken directly from the header data. */
+		uint64_t reserved_88_127             : 40; /**< [127: 88] Reserved. */
+		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
+                                                                 the size of the headers preceding the payload). */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
-		uint64_t tso_max_pay                 : 14; /**< [ 77: 64] When [TSO] set, maximum TCP payload size in bytes per packet. The maximum TCP packet size
-                                                                 is [L4PAYPTR] + [TSO_MAX_PAYSIZE], which must not exceed 9212 bytes. */
+		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
+                                                                 size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which must not exceed 9212
+                                                                 bytes. */
 #else
-		uint64_t tso_max_pay                 : 14; /**< [ 77: 64] When [TSO] set, maximum TCP payload size in bytes per packet. The maximum TCP packet size
-                                                                 is [L4PAYPTR] + [TSO_MAX_PAYSIZE], which must not exceed 9212 bytes. */
+		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
+                                                                 size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which must not exceed 9212
+                                                                 bytes. */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
-		uint64_t tso_flags_first             : 12; /**< [ 91: 80] When [TSO] set, value of flags in TCP header of first segment if it is not the only
-                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
-                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
-                                                                 segments are taken directly from the header data. */
-		uint64_t tso_flags_last              : 12; /**< [103: 92] When [TSO] set, value of flags in TCP header of last segment if it is not the only
-                                                                 segment. If only one segment is transmitted, the logical OR of TSO_FLAGS_FIRST and
-                                                                 TSO_FLAGS_LAST is used. If more than 2 segments are transmitted, the flags for the middle
-                                                                 segments are taken directly from the header data. */
-		uint64_t tso_l4payptr                : 8;  /**< [111:104] When [TSO] set, layer 4 payload offset. The Layer 4 (TCP) payload for a TSO operation must
-                                                                 start exactly [L4PAYPTR] bytes from the beginning of the packet. */
-		uint64_t tso_sdc_first               : 8;  /**< [119:112] When [TSO] set, TSO subdescriptor count for first packet. Number of 128-bit subdescriptors
-                                                                 following the send header subdescriptor, including immediate data, that are needed to send
-                                                                 the first two packets of the TSO operation. This is used as a hint by hardware; an
-                                                                 incorrect value may result in reduced TSO throughput or increased NCB bandwidth
-                                                                 utilization. */
-		uint64_t tso_sdc_cont                : 8;  /**< [127:120] When [TSO] set, TSO subdescriptor count for continuations. Specifies the maximum number of
-                                                                 128-bit subdescriptors, including immediate data, that are needed to send the payloads of
-                                                                 two consecutive packets other than the first two packets. This is used as a hint by
-                                                                 hardware; an incorrect value may result in reduced TSO throughput or increased NCB
-                                                                 bandwidth utilization. */
+		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
+                                                                 the size of the headers preceding the payload). */
+		uint64_t reserved_88_127             : 40; /**< [127: 88] Reserved. */
 #endif
 	} s;
 };
@@ -1637,7 +1605,6 @@ typedef union bdk_nic_pf_bist0_status {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_bist0_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist0_status_s   cn88xx; */
 	/* struct bdk_nic_pf_bist0_status_s   cn88xxp1; */
 } bdk_nic_pf_bist0_status_t;
@@ -1674,7 +1641,6 @@ typedef union bdk_nic_pf_bist1_status {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_bist1_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist1_status_s   cn88xx; */
 	/* struct bdk_nic_pf_bist1_status_s   cn88xxp1; */
 } bdk_nic_pf_bist1_status_t;
@@ -1709,7 +1675,6 @@ typedef union bdk_nic_pf_bist2_status {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_bist2_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist2_status_s   cn88xx; */
 	/* struct bdk_nic_pf_bist2_status_s   cn88xxp1; */
 } bdk_nic_pf_bist2_status_t;
@@ -1746,7 +1711,6 @@ typedef union bdk_nic_pf_bist3_status {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_bist3_status_s   cn85xx; */
 	/* struct bdk_nic_pf_bist3_status_s   cn88xx; */
 	/* struct bdk_nic_pf_bist3_status_s   cn88xxp1; */
 } bdk_nic_pf_bist3_status_t;
@@ -1782,7 +1746,6 @@ typedef union bdk_nic_pf_bp_cfg {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_nic_pf_bp_cfg_s         cn85xx; */
 	/* struct bdk_nic_pf_bp_cfg_s         cn88xx; */
 	/* struct bdk_nic_pf_bp_cfg_s         cn88xxp1; */
 } bdk_nic_pf_bp_cfg_t;
@@ -1819,7 +1782,6 @@ typedef union bdk_nic_pf_cfg {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cfg_s            cn85xx; */
 	/* struct bdk_nic_pf_cfg_s            cn88xx; */
 	/* struct bdk_nic_pf_cfg_s            cn88xxp1; */
 } bdk_nic_pf_cfg_t;
@@ -1872,7 +1834,6 @@ typedef union bdk_nic_pf_chanx_credit {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_chanx_credit_s   cn85xx; */
 	/* struct bdk_nic_pf_chanx_credit_s   cn88xx; */
 	/* struct bdk_nic_pf_chanx_credit_s   cn88xxp1; */
 } bdk_nic_pf_chanx_credit_t;
@@ -1907,7 +1868,6 @@ typedef union bdk_nic_pf_chanx_rx_bp_cfg {
 		uint64_t ena                         : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn88xx; */
 	/* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn88xxp1; */
 } bdk_nic_pf_chanx_rx_bp_cfg_t;
@@ -1944,7 +1904,6 @@ typedef union bdk_nic_pf_chanx_rx_cfg {
 		uint64_t cpi_alg                     : 2;
 #endif
 	} s;
-	/* struct bdk_nic_pf_chanx_rx_cfg_s   cn85xx; */
 	/* struct bdk_nic_pf_chanx_rx_cfg_s   cn88xx; */
 	/* struct bdk_nic_pf_chanx_rx_cfg_s   cn88xxp1; */
 } bdk_nic_pf_chanx_rx_cfg_t;
@@ -1979,7 +1938,6 @@ typedef union bdk_nic_pf_chanx_sw_xoff {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_nic_pf_chanx_sw_xoff_s  cn85xx; */
 	/* struct bdk_nic_pf_chanx_sw_xoff_s  cn88xx; */
 	/* struct bdk_nic_pf_chanx_sw_xoff_s  cn88xxp1; */
 } bdk_nic_pf_chanx_sw_xoff_t;
@@ -2012,7 +1970,6 @@ typedef union bdk_nic_pf_chanx_tx_cfg {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_nic_pf_chanx_tx_cfg_s   cn85xx; */
 	/* struct bdk_nic_pf_chanx_tx_cfg_s   cn88xx; */
 	/* struct bdk_nic_pf_chanx_tx_cfg_s   cn88xxp1; */
 } bdk_nic_pf_chanx_tx_cfg_t;
@@ -2109,7 +2066,6 @@ typedef union bdk_nic_pf_cnm_cfg {
 		uint64_t cnm_byte_rst                : 20;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cnm_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_cnm_cfg_s        cn88xx; */
 	/* struct bdk_nic_pf_cnm_cfg_s        cn88xxp1; */
 } bdk_nic_pf_cnm_cfg_t;
@@ -2151,7 +2107,6 @@ typedef union bdk_nic_pf_cnm_status {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cnm_status_s     cn85xx; */
 	/* struct bdk_nic_pf_cnm_status_s     cn88xx; */
 	/* struct bdk_nic_pf_cnm_status_s     cn88xxp1; */
 } bdk_nic_pf_cnm_status_t;
@@ -2202,7 +2157,6 @@ typedef union bdk_nic_pf_cpix_cfg {
 		uint64_t reserved_31_63              : 33;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cpix_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_cpix_cfg_s       cn88xx; */
 	/* struct bdk_nic_pf_cpix_cfg_s       cn88xxp1; */
 } bdk_nic_pf_cpix_cfg_t;
@@ -2253,7 +2207,6 @@ typedef union bdk_nic_pf_cq_avg_cfg {
 		uint64_t reserved_21_63              : 43;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cq_avg_cfg_s     cn85xx; */
 	/* struct bdk_nic_pf_cq_avg_cfg_s     cn88xx; */
 	/* struct bdk_nic_pf_cq_avg_cfg_s     cn88xxp1; */
 } bdk_nic_pf_cq_avg_cfg_t;
@@ -2287,7 +2240,6 @@ typedef union bdk_nic_pf_cqm_cfg {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cqm_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_cqm_cfg_s        cn88xx; */
 	/* struct bdk_nic_pf_cqm_cfg_s        cn88xxp1; */
 } bdk_nic_pf_cqm_cfg_t;
@@ -2338,7 +2290,6 @@ typedef union bdk_nic_pf_cqm_test {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_cqm_test_s       cn85xx; */
 	/* struct bdk_nic_pf_cqm_test_s       cn88xx; */
 	/* struct bdk_nic_pf_cqm_test_s       cn88xxp1; */
 } bdk_nic_pf_cqm_test_t;
@@ -2389,7 +2340,6 @@ typedef union bdk_nic_pf_csi_test {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_csi_test_s       cn85xx; */
 	/* struct bdk_nic_pf_csi_test_s       cn88xx; */
 	/* struct bdk_nic_pf_csi_test_s       cn88xxp1; */
 } bdk_nic_pf_csi_test_t;
@@ -2447,7 +2397,6 @@ typedef union bdk_nic_pf_ecc0_cdis {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xx; */
 	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc0_cdis_t;
@@ -2483,7 +2432,6 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1c {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_ena_w1c_t;
@@ -2519,7 +2467,6 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1s {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_ena_w1s_t;
@@ -2558,7 +2505,6 @@ typedef union bdk_nic_pf_ecc0_dbe_int {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_int_t;
@@ -2594,7 +2540,6 @@ typedef union bdk_nic_pf_ecc0_dbe_int_w1s {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_dbe_int_w1s_t;
@@ -2652,7 +2597,6 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc0_flip0_t;
@@ -2710,7 +2654,6 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc0_flip1_t;
@@ -2746,7 +2689,6 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1c {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_ena_w1c_t;
@@ -2782,7 +2724,6 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1s {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_ena_w1s_t;
@@ -2821,7 +2762,6 @@ typedef union bdk_nic_pf_ecc0_sbe_int {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_int_t;
@@ -2857,7 +2797,6 @@ typedef union bdk_nic_pf_ecc0_sbe_int_w1s {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc0_sbe_int_w1s_t;
@@ -2914,7 +2853,6 @@ typedef union bdk_nic_pf_ecc1_cdis {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc1_cdis_s      cn88xx; */
 	/* struct bdk_nic_pf_ecc1_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc1_cdis_t;
@@ -2948,7 +2886,6 @@ typedef union bdk_nic_pf_ecc1_dbe_ena_w1c {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_ena_w1c_t;
@@ -2982,7 +2919,6 @@ typedef union bdk_nic_pf_ecc1_dbe_ena_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_ena_w1s_t;
@@ -3019,7 +2955,6 @@ typedef union bdk_nic_pf_ecc1_dbe_int {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_int_t;
@@ -3053,7 +2988,6 @@ typedef union bdk_nic_pf_ecc1_dbe_int_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_dbe_int_w1s_t;
@@ -3110,7 +3044,6 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc1_flip0_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc1_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc1_flip0_t;
@@ -3167,7 +3100,6 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc1_flip1_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc1_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc1_flip1_t;
@@ -3201,7 +3133,6 @@ typedef union bdk_nic_pf_ecc1_sbe_ena_w1c {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_ena_w1c_t;
@@ -3235,7 +3166,6 @@ typedef union bdk_nic_pf_ecc1_sbe_ena_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_ena_w1s_t;
@@ -3272,7 +3202,6 @@ typedef union bdk_nic_pf_ecc1_sbe_int {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_int_t;
@@ -3306,7 +3235,6 @@ typedef union bdk_nic_pf_ecc1_sbe_int_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc1_sbe_int_w1s_t;
@@ -3365,7 +3293,6 @@ typedef union bdk_nic_pf_ecc2_cdis {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc2_cdis_s      cn88xx; */
 	/* struct bdk_nic_pf_ecc2_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc2_cdis_t;
@@ -3397,7 +3324,6 @@ typedef union bdk_nic_pf_ecc2_dbe_ena_w1c {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_ena_w1c_t;
@@ -3429,7 +3355,6 @@ typedef union bdk_nic_pf_ecc2_dbe_ena_w1s {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_ena_w1s_t;
@@ -3464,7 +3389,6 @@ typedef union bdk_nic_pf_ecc2_dbe_int {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_int_t;
@@ -3496,7 +3420,6 @@ typedef union bdk_nic_pf_ecc2_dbe_int_w1s {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_dbe_int_w1s_t;
@@ -3555,7 +3478,6 @@ typedef union bdk_nic_pf_ecc2_flip0 {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc2_flip0_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc2_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc2_flip0_t;
@@ -3614,7 +3536,6 @@ typedef union bdk_nic_pf_ecc2_flip1 {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc2_flip1_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc2_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc2_flip1_t;
@@ -3646,7 +3567,6 @@ typedef union bdk_nic_pf_ecc2_sbe_ena_w1c {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_ena_w1c_t;
@@ -3678,7 +3598,6 @@ typedef union bdk_nic_pf_ecc2_sbe_ena_w1s {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_ena_w1s_t;
@@ -3713,7 +3632,6 @@ typedef union bdk_nic_pf_ecc2_sbe_int {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_int_t;
@@ -3745,7 +3663,6 @@ typedef union bdk_nic_pf_ecc2_sbe_int_w1s {
 		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc2_sbe_int_w1s_t;
@@ -3813,7 +3730,6 @@ typedef union bdk_nic_pf_ecc3_cdis {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_cdis_s      cn85xx; */
 	/* struct bdk_nic_pf_ecc3_cdis_s      cn88xx; */
 	/* struct bdk_nic_pf_ecc3_cdis_s      cn88xxp1; */
 } bdk_nic_pf_ecc3_cdis_t;
@@ -3847,7 +3763,6 @@ typedef union bdk_nic_pf_ecc3_dbe_ena_w1c {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_ena_w1c_t;
@@ -3881,7 +3796,6 @@ typedef union bdk_nic_pf_ecc3_dbe_ena_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_ena_w1s_t;
@@ -3918,7 +3832,6 @@ typedef union bdk_nic_pf_ecc3_dbe_int {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_dbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_int_t;
@@ -3952,7 +3865,6 @@ typedef union bdk_nic_pf_ecc3_dbe_int_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_dbe_int_w1s_t;
@@ -4020,7 +3932,6 @@ typedef union bdk_nic_pf_ecc3_flip0 {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_flip0_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc3_flip0_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc3_flip0_s     cn88xxp1; */
 } bdk_nic_pf_ecc3_flip0_t;
@@ -4088,7 +3999,6 @@ typedef union bdk_nic_pf_ecc3_flip1 {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_flip1_s     cn85xx; */
 	/* struct bdk_nic_pf_ecc3_flip1_s     cn88xx; */
 	/* struct bdk_nic_pf_ecc3_flip1_s     cn88xxp1; */
 } bdk_nic_pf_ecc3_flip1_t;
@@ -4122,7 +4032,6 @@ typedef union bdk_nic_pf_ecc3_sbe_ena_w1c {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn88xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_ena_w1c_t;
@@ -4156,7 +4065,6 @@ typedef union bdk_nic_pf_ecc3_sbe_ena_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_ena_w1s_t;
@@ -4193,7 +4101,6 @@ typedef union bdk_nic_pf_ecc3_sbe_int {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_sbe_int_s   cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_int_s   cn88xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_int_s   cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_int_t;
@@ -4227,7 +4134,6 @@ typedef union bdk_nic_pf_ecc3_sbe_int_w1s {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn85xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn88xx; */
 	/* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn88xxp1; */
 } bdk_nic_pf_ecc3_sbe_int_w1s_t;
@@ -4260,7 +4166,6 @@ typedef union bdk_nic_pf_int_timer_cfg {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_pf_int_timer_cfg_s  cn85xx; */
 	/* struct bdk_nic_pf_int_timer_cfg_s  cn88xx; */
 	/* struct bdk_nic_pf_int_timer_cfg_s  cn88xxp1; */
 } bdk_nic_pf_int_timer_cfg_t;
@@ -4297,7 +4202,6 @@ typedef union bdk_nic_pf_intfx_bp_cfg {
 		uint64_t bp_ena                      : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_intfx_bp_cfg_s   cn85xx; */
 	/* struct bdk_nic_pf_intfx_bp_cfg_s   cn88xx; */
 	/* struct bdk_nic_pf_intfx_bp_cfg_s   cn88xxp1; */
 } bdk_nic_pf_intfx_bp_cfg_t;
@@ -4329,7 +4233,6 @@ typedef union bdk_nic_pf_intfx_bp_disx {
 		uint64_t bp_dis                      : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_intfx_bp_disx_s  cn85xx; */
 	/* struct bdk_nic_pf_intfx_bp_disx_s  cn88xx; */
 	/* struct bdk_nic_pf_intfx_bp_disx_s  cn88xxp1; */
 } bdk_nic_pf_intfx_bp_disx_t;
@@ -4361,7 +4264,6 @@ typedef union bdk_nic_pf_intfx_bp_swx {
 		uint64_t bp_sw                       : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_intfx_bp_swx_s   cn85xx; */
 	/* struct bdk_nic_pf_intfx_bp_swx_s   cn88xx; */
 	/* struct bdk_nic_pf_intfx_bp_swx_s   cn88xxp1; */
 } bdk_nic_pf_intfx_bp_swx_t;
@@ -4433,7 +4335,6 @@ typedef union bdk_nic_pf_intfx_send_cfg {
 		uint64_t reserved_22_63              : 42;
 #endif
 	} s;
-	/* struct bdk_nic_pf_intfx_send_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_intfx_send_cfg_s cn88xx; */
 	/* struct bdk_nic_pf_intfx_send_cfg_s cn88xxp1; */
 } bdk_nic_pf_intfx_send_cfg_t;
@@ -4475,7 +4376,6 @@ typedef union bdk_nic_pf_lmacx_cfg {
 		uint64_t reserved_15_63              : 49;
 #endif
 	} s;
-	/* struct bdk_nic_pf_lmacx_cfg_s      cn85xx; */
 	/* struct bdk_nic_pf_lmacx_cfg_s      cn88xx; */
 	/* struct bdk_nic_pf_lmacx_cfg_s      cn88xxp1; */
 } bdk_nic_pf_lmacx_cfg_t;
@@ -4526,7 +4426,6 @@ typedef union bdk_nic_pf_lmacx_credit {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_lmacx_credit_s   cn85xx; */
 	/* struct bdk_nic_pf_lmacx_credit_s   cn88xx; */
 	/* struct bdk_nic_pf_lmacx_credit_s   cn88xxp1; */
 } bdk_nic_pf_lmacx_credit_t;
@@ -4559,7 +4458,6 @@ typedef union bdk_nic_pf_lmacx_sw_xoff {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_nic_pf_lmacx_sw_xoff_s  cn85xx; */
 	/* struct bdk_nic_pf_lmacx_sw_xoff_s  cn88xx; */
 	/* struct bdk_nic_pf_lmacx_sw_xoff_s  cn88xxp1; */
 } bdk_nic_pf_lmacx_sw_xoff_t;
@@ -4592,7 +4490,6 @@ typedef union bdk_nic_pf_mbox_ena_w1cx {
 		uint64_t mbox                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_mbox_ena_w1cx_s  cn85xx; */
 	/* struct bdk_nic_pf_mbox_ena_w1cx_s  cn88xx; */
 	/* struct bdk_nic_pf_mbox_ena_w1cx_s  cn88xxp1; */
 } bdk_nic_pf_mbox_ena_w1cx_t;
@@ -4625,7 +4522,6 @@ typedef union bdk_nic_pf_mbox_ena_w1sx {
 		uint64_t mbox                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_mbox_ena_w1sx_s  cn85xx; */
 	/* struct bdk_nic_pf_mbox_ena_w1sx_s  cn88xx; */
 	/* struct bdk_nic_pf_mbox_ena_w1sx_s  cn88xxp1; */
 } bdk_nic_pf_mbox_ena_w1sx_t;
@@ -4658,7 +4554,6 @@ typedef union bdk_nic_pf_mbox_intx {
 		uint64_t mbox                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_mbox_intx_s      cn85xx; */
 	/* struct bdk_nic_pf_mbox_intx_s      cn88xx; */
 	/* struct bdk_nic_pf_mbox_intx_s      cn88xxp1; */
 } bdk_nic_pf_mbox_intx_t;
@@ -4691,7 +4586,6 @@ typedef union bdk_nic_pf_mbox_int_w1sx {
 		uint64_t mbox                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_mbox_int_w1sx_s  cn85xx; */
 	/* struct bdk_nic_pf_mbox_int_w1sx_s  cn88xx; */
 	/* struct bdk_nic_pf_mbox_int_w1sx_s  cn88xxp1; */
 } bdk_nic_pf_mbox_int_w1sx_t;
@@ -4727,7 +4621,6 @@ typedef union bdk_nic_pf_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_msix_pbax_s      cn85xx; */
 	/* struct bdk_nic_pf_msix_pbax_s      cn88xx; */
 	/* struct bdk_nic_pf_msix_pbax_s      cn88xxp1; */
 } bdk_nic_pf_msix_pbax_t;
@@ -4774,7 +4667,6 @@ typedef union bdk_nic_pf_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_nic_pf_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_nic_pf_msix_vecx_addr_s cn88xx; */
 	/* struct bdk_nic_pf_msix_vecx_addr_s cn88xxp1; */
 } bdk_nic_pf_msix_vecx_addr_t;
@@ -4814,7 +4706,6 @@ typedef union bdk_nic_pf_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_nic_pf_msix_vecx_ctl_s  cn85xx; */
 	/* struct bdk_nic_pf_msix_vecx_ctl_s  cn88xx; */
 	/* struct bdk_nic_pf_msix_vecx_ctl_s  cn88xxp1; */
 } bdk_nic_pf_msix_vecx_ctl_t;
@@ -4872,7 +4763,6 @@ typedef union bdk_nic_pf_pkindx_cfg {
 		uint64_t reserved_42_63              : 22;
 #endif
 	} s;
-	/* struct bdk_nic_pf_pkindx_cfg_s     cn85xx; */
 	/* struct bdk_nic_pf_pkindx_cfg_s     cn88xx; */
 	/* struct bdk_nic_pf_pkindx_cfg_s     cn88xxp1; */
 } bdk_nic_pf_pkindx_cfg_t;
@@ -4947,7 +4837,6 @@ typedef union bdk_nic_pf_qsx_cfg {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_qsx_cfg_s        cn88xx; */
 	/* struct bdk_nic_pf_qsx_cfg_s        cn88xxp1; */
 } bdk_nic_pf_qsx_cfg_t;
@@ -4993,7 +4882,6 @@ typedef union bdk_nic_pf_qsx_lockx {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_lockx_s      cn85xx; */
 	/* struct bdk_nic_pf_qsx_lockx_s      cn88xx; */
 	/* struct bdk_nic_pf_qsx_lockx_s      cn88xxp1; */
 } bdk_nic_pf_qsx_lockx_t;
@@ -5034,7 +4922,6 @@ typedef union bdk_nic_pf_qsx_rqx_bp_cfg {
 		uint64_t rbdr_bp_ena                 : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn88xx; */
 	/* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_bp_cfg_t;
@@ -5092,7 +4979,6 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 		uint64_t tcp_off                     : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_rqx_cfg_s    cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_cfg_s    cn88xx; */
 	/* struct bdk_nic_pf_qsx_rqx_cfg_s    cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_cfg_t;
@@ -5121,11 +5007,23 @@ typedef union bdk_nic_pf_qsx_rqx_drop_cfg {
 		uint64_t rbdr_red                    : 1;  /**< R/W - Enable RBDR RED drop between PASS and DROP levels. */
 		uint64_t cq_red                      : 1;  /**< R/W - Enable CQ RED drop between PASS and DROP levels. */
 		uint64_t reserved_48_61              : 14;
-		uint64_t rbdr_pass                   : 8;  /**< R/W - Threshold level for RED accepting packets, in units of 1/256th of RBDR level. */
-		uint64_t rbdr_drop                   : 8;  /**< R/W - Threshold level for RED dropping packets, in units of 1/256th of RBDR level. */
+		uint64_t rbdr_pass                   : 8;  /**< R/W - Threshold level for RED accepting packets, in units of 1/256th of RBDR level.
+                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 If the RBDR level is greater \>= to this value then the packet is received.
+                                                                 If the RBDR level is less that this value but \>= the RBDR_DROP value then the packet is in
+                                                                 the RED zone
+                                                                 If the RBDR level is \< the RBDR_DROP level, then the packet is dropped. */
+		uint64_t rbdr_drop                   : 8;  /**< R/W - Threshold level for RED dropping packets, in units of 1/256th of RBDR level. See RBDR_PASS
+                                                                 for more details. */
 		uint64_t reserved_24_31              : 8;
-		uint64_t cq_pass                     : 8;  /**< R/W - Threshold level for RED accepting packets, in units of 1/256th of CQ level. */
-		uint64_t cq_drop                     : 8;  /**< R/W - Threshold level for RED dropping packets, in units of 1/256th of CQ level. */
+		uint64_t cq_pass                     : 8;  /**< R/W - Threshold level for RED accepting packets, in units of 1/256th of CQ level.
+                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 If the CQ level is greater \>= to this value then the packet is received.
+                                                                 If the CQ level is less that this value but \>= the CQ_DROP value then the packet is in the
+                                                                 RED zone
+                                                                 If the CQ level is \< the CQ_DROP level, then the packet is dropped. */
+		uint64_t cq_drop                     : 8;  /**< R/W - Threshold level for RED dropping packets, in units of 1/256th of CQ level. See CQ_PASS for
+                                                                 more details. */
 		uint64_t reserved_0_7                : 8;
 #else
 		uint64_t reserved_0_7                : 8;
@@ -5139,7 +5037,6 @@ typedef union bdk_nic_pf_qsx_rqx_drop_cfg {
 		uint64_t rbdr_red                    : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn88xx; */
 	/* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_drop_cfg_t;
@@ -5175,7 +5072,6 @@ typedef union bdk_nic_pf_qsx_rqx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_rqx_statx_s  cn85xx; */
 	/* struct bdk_nic_pf_qsx_rqx_statx_s  cn88xx; */
 	/* struct bdk_nic_pf_qsx_rqx_statx_s  cn88xxp1; */
 } bdk_nic_pf_qsx_rqx_statx_t;
@@ -5217,7 +5113,6 @@ typedef union bdk_nic_pf_qsx_sqx_cfg {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_sqx_cfg_s    cn85xx; */
 	/* struct bdk_nic_pf_qsx_sqx_cfg_s    cn88xx; */
 	/* struct bdk_nic_pf_qsx_sqx_cfg_s    cn88xxp1; */
 } bdk_nic_pf_qsx_sqx_cfg_t;
@@ -5252,7 +5147,6 @@ typedef union bdk_nic_pf_qsx_sqx_cfg2 {
 		uint64_t reserved_10_63              : 54;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_sqx_cfg2_s   cn85xx; */
 	/* struct bdk_nic_pf_qsx_sqx_cfg2_s   cn88xx; */
 	/* struct bdk_nic_pf_qsx_sqx_cfg2_s   cn88xxp1; */
 } bdk_nic_pf_qsx_sqx_cfg2_t;
@@ -5288,7 +5182,6 @@ typedef union bdk_nic_pf_qsx_sqx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_pf_qsx_sqx_statx_s  cn85xx; */
 	/* struct bdk_nic_pf_qsx_sqx_statx_s  cn88xx; */
 	/* struct bdk_nic_pf_qsx_sqx_statx_s  cn88xxp1; */
 } bdk_nic_pf_qsx_sqx_statx_t;
@@ -5319,7 +5212,6 @@ typedef union bdk_nic_pf_rbdr_bp_statex {
 		uint64_t bp_state                    : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rbdr_bp_statex_s cn85xx; */
 	/* struct bdk_nic_pf_rbdr_bp_statex_s cn88xx; */
 	/* struct bdk_nic_pf_rbdr_bp_statex_s cn88xxp1; */
 } bdk_nic_pf_rbdr_bp_statex_t;
@@ -5371,7 +5263,6 @@ typedef union bdk_nic_pf_rqm_test {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rqm_test_s       cn85xx; */
 	/* struct bdk_nic_pf_rqm_test_s       cn88xx; */
 	/* struct bdk_nic_pf_rqm_test_s       cn88xxp1; */
 } bdk_nic_pf_rqm_test_t;
@@ -5421,7 +5312,6 @@ typedef union bdk_nic_pf_rrm_avg_cfg {
 		uint64_t reserved_21_63              : 43;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rrm_avg_cfg_s    cn85xx; */
 	/* struct bdk_nic_pf_rrm_avg_cfg_s    cn88xx; */
 	/* struct bdk_nic_pf_rrm_avg_cfg_s    cn88xxp1; */
 } bdk_nic_pf_rrm_avg_cfg_t;
@@ -5455,7 +5345,6 @@ typedef union bdk_nic_pf_rrm_cfg {
 		uint64_t reserved_19_63              : 45;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rrm_cfg_s        cn85xx; */
 	/* struct bdk_nic_pf_rrm_cfg_s        cn88xx; */
 	/* struct bdk_nic_pf_rrm_cfg_s        cn88xxp1; */
 } bdk_nic_pf_rrm_cfg_t;
@@ -5506,7 +5395,6 @@ typedef union bdk_nic_pf_rrm_test {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rrm_test_s       cn85xx; */
 	/* struct bdk_nic_pf_rrm_test_s       cn88xx; */
 	/* struct bdk_nic_pf_rrm_test_s       cn88xxp1; */
 } bdk_nic_pf_rrm_test_t;
@@ -5543,7 +5431,6 @@ typedef union bdk_nic_pf_rssix_rq {
 		uint64_t reserved_10_63              : 54;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rssix_rq_s       cn85xx; */
 	/* struct bdk_nic_pf_rssix_rq_s       cn88xx; */
 	/* struct bdk_nic_pf_rssix_rq_s       cn88xxp1; */
 } bdk_nic_pf_rssix_rq_t;
@@ -5585,7 +5472,6 @@ typedef union bdk_nic_pf_rx_etypex {
 		uint64_t reserved_22_63              : 42;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rx_etypex_s      cn85xx; */
 	/* struct bdk_nic_pf_rx_etypex_s      cn88xx; */
 	/* struct bdk_nic_pf_rx_etypex_s      cn88xxp1; */
 } bdk_nic_pf_rx_etypex_t;
@@ -5637,7 +5523,6 @@ typedef union bdk_nic_pf_seb_test {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_seb_test_s       cn85xx; */
 	/* struct bdk_nic_pf_seb_test_s       cn88xx; */
 	/* struct bdk_nic_pf_seb_test_s       cn88xxp1; */
 } bdk_nic_pf_seb_test_t;
@@ -5688,7 +5573,6 @@ typedef union bdk_nic_pf_sqm_test1 {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sqm_test1_s      cn85xx; */
 	/* struct bdk_nic_pf_sqm_test1_s      cn88xx; */
 	/* struct bdk_nic_pf_sqm_test1_s      cn88xxp1; */
 } bdk_nic_pf_sqm_test1_t;
@@ -5739,7 +5623,6 @@ typedef union bdk_nic_pf_sqm_test2 {
 		uint64_t enable                      : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sqm_test2_s      cn85xx; */
 	/* struct bdk_nic_pf_sqm_test2_s      cn88xx; */
 	/* struct bdk_nic_pf_sqm_test2_s      cn88xxp1; */
 } bdk_nic_pf_sqm_test2_t;
@@ -5782,7 +5665,6 @@ typedef union bdk_nic_pf_status {
 		uint64_t reserved_10_63              : 54;
 #endif
 	} s;
-	/* struct bdk_nic_pf_status_s         cn85xx; */
 	/* struct bdk_nic_pf_status_s         cn88xx; */
 	/* struct bdk_nic_pf_status_s         cn88xxp1; */
 } bdk_nic_pf_status_t;
@@ -5816,7 +5698,6 @@ typedef union bdk_nic_pf_sw_sync_rx {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sw_sync_rx_s     cn85xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_s     cn88xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_s     cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_t;
@@ -5852,7 +5733,6 @@ typedef union bdk_nic_pf_sw_sync_rx_cntsx {
 		uint64_t out_cnt                     : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn85xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_cntsx_t;
@@ -5886,7 +5766,6 @@ typedef union bdk_nic_pf_sw_sync_rx_done {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sw_sync_rx_done_s cn85xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_done_s cn88xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_done_s cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_done_t;
@@ -5929,7 +5808,6 @@ typedef union bdk_nic_pf_tcp_timer {
 		uint64_t ena                         : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tcp_timer_s      cn85xx; */
 	/* struct bdk_nic_pf_tcp_timer_s      cn88xx; */
 	/* struct bdk_nic_pf_tcp_timer_s      cn88xxp1; */
 } bdk_nic_pf_tcp_timer_t;
@@ -5962,7 +5840,6 @@ typedef union bdk_nic_pf_tl2x_cfg {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl2x_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_tl2x_cfg_s       cn88xx; */
 	/* struct bdk_nic_pf_tl2x_cfg_s       cn88xxp1; */
 } bdk_nic_pf_tl2x_cfg_t;
@@ -5995,7 +5872,6 @@ typedef union bdk_nic_pf_tl2x_pri {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl2x_pri_s       cn85xx; */
 	/* struct bdk_nic_pf_tl2x_pri_s       cn88xx; */
 	/* struct bdk_nic_pf_tl2x_pri_s       cn88xxp1; */
 } bdk_nic_pf_tl2x_pri_t;
@@ -6028,7 +5904,6 @@ typedef union bdk_nic_pf_tl2x_sh_status {
 		uint64_t reserved_25_63              : 39;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl2x_sh_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl2x_sh_status_s cn88xx; */
 	/* struct bdk_nic_pf_tl2x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl2x_sh_status_t;
@@ -6062,7 +5937,6 @@ typedef union bdk_nic_pf_tl3x_cfg {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_tl3x_cfg_s       cn88xx; */
 	/* struct bdk_nic_pf_tl3x_cfg_s       cn88xxp1; */
 } bdk_nic_pf_tl3x_cfg_t;
@@ -6096,7 +5970,6 @@ typedef union bdk_nic_pf_tl3x_chan {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_chan_s      cn85xx; */
 	/* struct bdk_nic_pf_tl3x_chan_s      cn88xx; */
 	/* struct bdk_nic_pf_tl3x_chan_s      cn88xxp1; */
 } bdk_nic_pf_tl3x_chan_t;
@@ -6153,7 +6026,6 @@ typedef union bdk_nic_pf_tl3x_cnm_rate {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn85xx; */
 	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn88xx; */
 	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn88xxp1; */
 } bdk_nic_pf_tl3x_cnm_rate_t;
@@ -6201,7 +6073,6 @@ typedef union bdk_nic_pf_tl3x_pir {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_pir_s       cn85xx; */
 	/* struct bdk_nic_pf_tl3x_pir_s       cn88xx; */
 	/* struct bdk_nic_pf_tl3x_pir_s       cn88xxp1; */
 } bdk_nic_pf_tl3x_pir_t;
@@ -6239,7 +6110,6 @@ typedef union bdk_nic_pf_tl3x_sh_status {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_sh_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xx; */
 	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl3x_sh_status_t;
@@ -6275,7 +6145,6 @@ typedef union bdk_nic_pf_tl3x_sw_xoff {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_sw_xoff_s   cn85xx; */
 	/* struct bdk_nic_pf_tl3x_sw_xoff_s   cn88xx; */
 	/* struct bdk_nic_pf_tl3x_sw_xoff_s   cn88xxp1; */
 } bdk_nic_pf_tl3x_sw_xoff_t;
@@ -6311,7 +6180,6 @@ typedef union bdk_nic_pf_tl3ax_cfg {
 		uint64_t reserved_5_63               : 59;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3ax_cfg_s      cn85xx; */
 	/* struct bdk_nic_pf_tl3ax_cfg_s      cn88xx; */
 	/* struct bdk_nic_pf_tl3ax_cfg_s      cn88xxp1; */
 } bdk_nic_pf_tl3ax_cfg_t;
@@ -6349,7 +6217,6 @@ typedef union bdk_nic_pf_tl4x_cfg {
 		uint64_t reserved_34_63              : 30;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl4x_cfg_s       cn85xx; */
 	/* struct bdk_nic_pf_tl4x_cfg_s       cn88xx; */
 	/* struct bdk_nic_pf_tl4x_cfg_s       cn88xxp1; */
 } bdk_nic_pf_tl4x_cfg_t;
@@ -6382,7 +6249,6 @@ typedef union bdk_nic_pf_tl4x_sh_status {
 		uint64_t reserved_25_63              : 39;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl4x_sh_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl4x_sh_status_s cn88xx; */
 	/* struct bdk_nic_pf_tl4x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl4x_sh_status_t;
@@ -6415,7 +6281,6 @@ typedef union bdk_nic_pf_tl4x_sw_xoff {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl4x_sw_xoff_s   cn85xx; */
 	/* struct bdk_nic_pf_tl4x_sw_xoff_s   cn88xx; */
 	/* struct bdk_nic_pf_tl4x_sw_xoff_s   cn88xxp1; */
 } bdk_nic_pf_tl4x_sw_xoff_t;
@@ -6451,7 +6316,6 @@ typedef union bdk_nic_pf_tl4ax_cfg {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl4ax_cfg_s      cn85xx; */
 	/* struct bdk_nic_pf_tl4ax_cfg_s      cn88xx; */
 	/* struct bdk_nic_pf_tl4ax_cfg_s      cn88xxp1; */
 } bdk_nic_pf_tl4ax_cfg_t;
@@ -6487,7 +6351,6 @@ typedef union bdk_nic_pf_tl4ax_cnm_rate {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn85xx; */
 	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn88xx; */
 	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn88xxp1; */
 } bdk_nic_pf_tl4ax_cnm_rate_t;
@@ -6552,7 +6415,6 @@ typedef union bdk_nic_pf_tl4ax_cnm_status {
 		uint64_t cnm_time_stage              : 4;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn85xx; */
 	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn88xx; */
 	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn88xxp1; */
 } bdk_nic_pf_tl4ax_cnm_status_t;
@@ -6587,7 +6449,6 @@ typedef union bdk_nic_pf_vfx_mailboxx {
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_vfx_mailboxx_s   cn85xx; */
 	/* struct bdk_nic_pf_vfx_mailboxx_s   cn88xx; */
 	/* struct bdk_nic_pf_vfx_mailboxx_s   cn88xxp1; */
 } bdk_nic_pf_vfx_mailboxx_t;
@@ -6623,7 +6484,6 @@ typedef union bdk_nic_pf_vnicx_rx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_pf_vnicx_rx_statx_s cn85xx; */
 	/* struct bdk_nic_pf_vnicx_rx_statx_s cn88xx; */
 	/* struct bdk_nic_pf_vnicx_rx_statx_s cn88xxp1; */
 } bdk_nic_pf_vnicx_rx_statx_t;
@@ -6659,7 +6519,6 @@ typedef union bdk_nic_pf_vnicx_tx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_pf_vnicx_tx_statx_s cn85xx; */
 	/* struct bdk_nic_pf_vnicx_tx_statx_s cn88xx; */
 	/* struct bdk_nic_pf_vnicx_tx_statx_s cn88xxp1; */
 } bdk_nic_pf_vnicx_tx_statx_t;
@@ -6696,7 +6555,6 @@ typedef union bdk_nic_qsx_cqx_base {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_base_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_base_s      cn88xx; */
 	/* struct bdk_nic_qsx_cqx_base_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_base_t;
@@ -6771,7 +6629,6 @@ typedef union bdk_nic_qsx_cqx_cfg {
 		uint64_t reserved_43_63              : 21;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_cfg_s       cn85xx; */
 	/* struct bdk_nic_qsx_cqx_cfg_s       cn88xx; */
 	/* struct bdk_nic_qsx_cqx_cfg_s       cn88xxp1; */
 } bdk_nic_qsx_cqx_cfg_t;
@@ -6807,7 +6664,6 @@ typedef union bdk_nic_qsx_cqx_cfg2 {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_cfg2_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_cfg2_s      cn88xx; */
 	/* struct bdk_nic_qsx_cqx_cfg2_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_cfg2_t;
@@ -6842,7 +6698,6 @@ typedef union bdk_nic_qsx_cqx_debug {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_debug_s     cn85xx; */
 	/* struct bdk_nic_qsx_cqx_debug_s     cn88xx; */
 	/* struct bdk_nic_qsx_cqx_debug_s     cn88xxp1; */
 } bdk_nic_qsx_cqx_debug_t;
@@ -6881,7 +6736,6 @@ typedef union bdk_nic_qsx_cqx_door {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_door_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_door_s      cn88xx; */
 	/* struct bdk_nic_qsx_cqx_door_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_door_t;
@@ -6918,7 +6772,6 @@ typedef union bdk_nic_qsx_cqx_head {
 		uint64_t reserved_25_63              : 39;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_head_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_head_s      cn88xx; */
 	/* struct bdk_nic_qsx_cqx_head_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_head_t;
@@ -6975,7 +6828,6 @@ typedef union bdk_nic_qsx_cqx_status {
 		uint64_t reserved_27_63              : 37;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_status_s    cn85xx; */
 	/* struct bdk_nic_qsx_cqx_status_s    cn88xx; */
 	/* struct bdk_nic_qsx_cqx_status_s    cn88xxp1; */
 } bdk_nic_qsx_cqx_status_t;
@@ -7026,7 +6878,6 @@ typedef union bdk_nic_qsx_cqx_status2 {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_status2_s   cn85xx; */
 	/* struct bdk_nic_qsx_cqx_status2_s   cn88xx; */
 	/* struct bdk_nic_qsx_cqx_status2_s   cn88xxp1; */
 } bdk_nic_qsx_cqx_status2_t;
@@ -7064,7 +6915,6 @@ typedef union bdk_nic_qsx_cqx_tail {
 		uint64_t reserved_25_63              : 39;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_tail_s      cn85xx; */
 	/* struct bdk_nic_qsx_cqx_tail_s      cn88xx; */
 	/* struct bdk_nic_qsx_cqx_tail_s      cn88xxp1; */
 } bdk_nic_qsx_cqx_tail_t;
@@ -7099,7 +6949,6 @@ typedef union bdk_nic_qsx_cqx_thresh {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_cqx_thresh_s    cn85xx; */
 	/* struct bdk_nic_qsx_cqx_thresh_s    cn88xx; */
 	/* struct bdk_nic_qsx_cqx_thresh_s    cn88xxp1; */
 } bdk_nic_qsx_cqx_thresh_t;
@@ -7138,7 +6987,6 @@ typedef union bdk_nic_qsx_rbdrx_base {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_base_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_base_s    cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_base_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_base_t;
@@ -7212,7 +7060,6 @@ typedef union bdk_nic_qsx_rbdrx_cfg {
 		uint64_t reserved_45_63              : 19;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn88xxp1; */
 } bdk_nic_qsx_rbdrx_cfg_t;
@@ -7253,7 +7100,6 @@ typedef union bdk_nic_qsx_rbdrx_door {
 		uint64_t reserved_19_63              : 45;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_door_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_door_s    cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_door_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_door_t;
@@ -7291,7 +7137,6 @@ typedef union bdk_nic_qsx_rbdrx_head {
 		uint64_t reserved_22_63              : 42;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_head_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_head_s    cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_head_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_head_t;
@@ -7326,7 +7171,6 @@ typedef union bdk_nic_qsx_rbdrx_prefetch_status {
 		uint64_t prefetch_returned_cnt       : 32;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn88xxp1; */
 } bdk_nic_qsx_rbdrx_prefetch_status_t;
@@ -7375,7 +7219,6 @@ typedef union bdk_nic_qsx_rbdrx_status0 {
 		uint64_t fifo_state                  : 2;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_status0_s cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_status0_s cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_status0_s cn88xxp1; */
 } bdk_nic_qsx_rbdrx_status0_t;
@@ -7408,7 +7251,6 @@ typedef union bdk_nic_qsx_rbdrx_status1 {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_status1_s cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_status1_s cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_status1_s cn88xxp1; */
 } bdk_nic_qsx_rbdrx_status1_t;
@@ -7446,7 +7288,6 @@ typedef union bdk_nic_qsx_rbdrx_tail {
 		uint64_t reserved_22_63              : 42;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_tail_s    cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_tail_s    cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_tail_s    cn88xxp1; */
 } bdk_nic_qsx_rbdrx_tail_t;
@@ -7481,7 +7322,6 @@ typedef union bdk_nic_qsx_rbdrx_thresh {
 		uint64_t reserved_19_63              : 45;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_thresh_s  cn85xx; */
 	/* struct bdk_nic_qsx_rbdrx_thresh_s  cn88xx; */
 	/* struct bdk_nic_qsx_rbdrx_thresh_s  cn88xxp1; */
 } bdk_nic_qsx_rbdrx_thresh_t;
@@ -7518,7 +7358,6 @@ typedef union bdk_nic_qsx_rqx_cfg {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rqx_cfg_s       cn85xx; */
 	/* struct bdk_nic_qsx_rqx_cfg_s       cn88xx; */
 	/* struct bdk_nic_qsx_rqx_cfg_s       cn88xxp1; */
 } bdk_nic_qsx_rqx_cfg_t;
@@ -7554,7 +7393,6 @@ typedef union bdk_nic_qsx_rqx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rqx_statx_s     cn85xx; */
 	/* struct bdk_nic_qsx_rqx_statx_s     cn88xx; */
 	/* struct bdk_nic_qsx_rqx_statx_s     cn88xxp1; */
 } bdk_nic_qsx_rqx_statx_t;
@@ -7624,7 +7462,6 @@ typedef union bdk_nic_qsx_rq_gen_cfg {
 		uint64_t reserved_27_63              : 37;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn85xx; */
 	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xx; */
 	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xxp1; */
 } bdk_nic_qsx_rq_gen_cfg_t;
@@ -7663,7 +7500,6 @@ typedef union bdk_nic_qsx_sqx_base {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_base_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_base_s      cn88xx; */
 	/* struct bdk_nic_qsx_sqx_base_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_base_t;
@@ -7741,7 +7577,6 @@ typedef union bdk_nic_qsx_sqx_cfg {
 		uint64_t reserved_20_63              : 44;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_cfg_s       cn85xx; */
 	/* struct bdk_nic_qsx_sqx_cfg_s       cn88xx; */
 	/* struct bdk_nic_qsx_sqx_cfg_s       cn88xxp1; */
 } bdk_nic_qsx_sqx_cfg_t;
@@ -7797,7 +7632,6 @@ typedef union bdk_nic_qsx_sqx_cnm_chg {
 		uint64_t reserved_35_63              : 29;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn85xx; */
 	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn88xx; */
 	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn88xxp1; */
 } bdk_nic_qsx_sqx_cnm_chg_t;
@@ -7836,7 +7670,6 @@ typedef union bdk_nic_qsx_sqx_debug {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_debug_s     cn85xx; */
 	/* struct bdk_nic_qsx_sqx_debug_s     cn88xx; */
 	/* struct bdk_nic_qsx_sqx_debug_s     cn88xxp1; */
 } bdk_nic_qsx_sqx_debug_t;
@@ -7876,7 +7709,6 @@ typedef union bdk_nic_qsx_sqx_door {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_door_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_door_s      cn88xx; */
 	/* struct bdk_nic_qsx_sqx_door_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_door_t;
@@ -7914,7 +7746,6 @@ typedef union bdk_nic_qsx_sqx_head {
 		uint64_t reserved_20_63              : 44;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_head_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_head_s      cn88xx; */
 	/* struct bdk_nic_qsx_sqx_head_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_head_t;
@@ -7950,7 +7781,6 @@ typedef union bdk_nic_qsx_sqx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_statx_s     cn85xx; */
 	/* struct bdk_nic_qsx_sqx_statx_s     cn88xx; */
 	/* struct bdk_nic_qsx_sqx_statx_s     cn88xxp1; */
 } bdk_nic_qsx_sqx_statx_t;
@@ -8009,7 +7839,6 @@ typedef union bdk_nic_qsx_sqx_status {
 		uint64_t reserved_22_63              : 42;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_status_s    cn85xx; */
 	/* struct bdk_nic_qsx_sqx_status_s    cn88xx; */
 	/* struct bdk_nic_qsx_sqx_status_s    cn88xxp1; */
 } bdk_nic_qsx_sqx_status_t;
@@ -8046,7 +7875,6 @@ typedef union bdk_nic_qsx_sqx_tail {
 		uint64_t reserved_20_63              : 44;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_tail_s      cn85xx; */
 	/* struct bdk_nic_qsx_sqx_tail_s      cn88xx; */
 	/* struct bdk_nic_qsx_sqx_tail_s      cn88xxp1; */
 } bdk_nic_qsx_sqx_tail_t;
@@ -8081,7 +7909,6 @@ typedef union bdk_nic_qsx_sqx_thresh {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_sqx_thresh_s    cn85xx; */
 	/* struct bdk_nic_qsx_sqx_thresh_s    cn88xx; */
 	/* struct bdk_nic_qsx_sqx_thresh_s    cn88xxp1; */
 } bdk_nic_qsx_sqx_thresh_t;
@@ -8117,7 +7944,6 @@ typedef union bdk_nic_vfx_cfg {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_cfg_s           cn85xx; */
 	/* struct bdk_nic_vfx_cfg_s           cn88xx; */
 	/* struct bdk_nic_vfx_cfg_s           cn88xxp1; */
 } bdk_nic_vfx_cfg_t;
@@ -8197,7 +8023,6 @@ typedef union bdk_nic_vfx_ena_w1c {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_ena_w1c_s       cn85xx; */
 	/* struct bdk_nic_vfx_ena_w1c_s       cn88xx; */
 	/* struct bdk_nic_vfx_ena_w1c_s       cn88xxp1; */
 } bdk_nic_vfx_ena_w1c_t;
@@ -8277,7 +8102,6 @@ typedef union bdk_nic_vfx_ena_w1s {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_ena_w1s_s       cn85xx; */
 	/* struct bdk_nic_vfx_ena_w1s_s       cn88xx; */
 	/* struct bdk_nic_vfx_ena_w1s_s       cn88xxp1; */
 } bdk_nic_vfx_ena_w1s_t;
@@ -8357,7 +8181,6 @@ typedef union bdk_nic_vfx_int {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_int_s           cn85xx; */
 	/* struct bdk_nic_vfx_int_s           cn88xx; */
 	/* struct bdk_nic_vfx_int_s           cn88xxp1; */
 } bdk_nic_vfx_int_t;
@@ -8437,7 +8260,6 @@ typedef union bdk_nic_vfx_int_w1s {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_int_w1s_s       cn85xx; */
 	/* struct bdk_nic_vfx_int_w1s_s       cn88xx; */
 	/* struct bdk_nic_vfx_int_w1s_s       cn88xxp1; */
 } bdk_nic_vfx_int_w1s_t;
@@ -8472,7 +8294,6 @@ typedef union bdk_nic_vfx_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_msix_pbax_s     cn85xx; */
 	/* struct bdk_nic_vfx_msix_pbax_s     cn88xx; */
 	/* struct bdk_nic_vfx_msix_pbax_s     cn88xxp1; */
 } bdk_nic_vfx_msix_pbax_t;
@@ -8514,7 +8335,6 @@ typedef union bdk_nic_vfx_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_nic_vfx_msix_vecx_addr_s cn88xx; */
 	/* struct bdk_nic_vfx_msix_vecx_addr_s cn88xxp1; */
 } bdk_nic_vfx_msix_vecx_addr_t;
@@ -8554,7 +8374,6 @@ typedef union bdk_nic_vfx_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_msix_vecx_ctl_s cn85xx; */
 	/* struct bdk_nic_vfx_msix_vecx_ctl_s cn88xx; */
 	/* struct bdk_nic_vfx_msix_vecx_ctl_s cn88xxp1; */
 } bdk_nic_vfx_msix_vecx_ctl_t;
@@ -8589,7 +8408,6 @@ typedef union bdk_nic_vfx_pf_mailboxx {
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_pf_mailboxx_s   cn85xx; */
 	/* struct bdk_nic_vfx_pf_mailboxx_s   cn88xx; */
 	/* struct bdk_nic_vfx_pf_mailboxx_s   cn88xxp1; */
 } bdk_nic_vfx_pf_mailboxx_t;
@@ -8644,7 +8462,6 @@ typedef union bdk_nic_vnicx_rss_cfg {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_nic_vnicx_rss_cfg_s     cn85xx; */
 	/* struct bdk_nic_vnicx_rss_cfg_s     cn88xx; */
 	/* struct bdk_nic_vnicx_rss_cfg_s     cn88xxp1; */
 } bdk_nic_vnicx_rss_cfg_t;
@@ -8679,7 +8496,6 @@ typedef union bdk_nic_vnicx_rss_keyx {
 		uint64_t key                         : 64;
 #endif
 	} s;
-	/* struct bdk_nic_vnicx_rss_keyx_s    cn85xx; */
 	/* struct bdk_nic_vnicx_rss_keyx_s    cn88xx; */
 	/* struct bdk_nic_vnicx_rss_keyx_s    cn88xxp1; */
 } bdk_nic_vnicx_rss_keyx_t;
@@ -8715,7 +8531,6 @@ typedef union bdk_nic_vnicx_rx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_vnicx_rx_statx_s    cn85xx; */
 	/* struct bdk_nic_vnicx_rx_statx_s    cn88xx; */
 	/* struct bdk_nic_vnicx_rx_statx_s    cn88xxp1; */
 } bdk_nic_vnicx_rx_statx_t;
@@ -8751,7 +8566,6 @@ typedef union bdk_nic_vnicx_tx_statx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_nic_vnicx_tx_statx_s    cn85xx; */
 	/* struct bdk_nic_vnicx_tx_statx_s    cn88xx; */
 	/* struct bdk_nic_vnicx_tx_statx_s    cn88xxp1; */
 } bdk_nic_vnicx_tx_statx_t;

@@ -106,7 +106,6 @@ typedef union bdk_pemx_bar1_indexx {
 		uint64_t reserved_31_63              : 33;
 #endif
 	} s;
-	/* struct bdk_pemx_bar1_indexx_s      cn85xx; */
 	/* struct bdk_pemx_bar1_indexx_s      cn88xx; */
 	/* struct bdk_pemx_bar1_indexx_s      cn88xxp1; */
 } bdk_pemx_bar1_indexx_t;
@@ -144,7 +143,6 @@ typedef union bdk_pemx_bar2_mask {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_pemx_bar2_mask_s        cn85xx; */
 	/* struct bdk_pemx_bar2_mask_s        cn88xx; */
 	/* struct bdk_pemx_bar2_mask_s        cn88xxp1; */
 } bdk_pemx_bar2_mask_t;
@@ -195,7 +193,6 @@ typedef union bdk_pemx_bar_ctl {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_pemx_bar_ctl_s          cn85xx; */
 	/* struct bdk_pemx_bar_ctl_s          cn88xx; */
 	/* struct bdk_pemx_bar_ctl_s          cn88xxp1; */
 } bdk_pemx_bar_ctl_t;
@@ -281,7 +278,6 @@ typedef union bdk_pemx_bist_status {
 		uint64_t reserved_26_63              : 38;
 #endif
 	} s;
-	/* struct bdk_pemx_bist_status_s      cn85xx; */
 	/* struct bdk_pemx_bist_status_s      cn88xx; */
 	/* struct bdk_pemx_bist_status_s      cn88xxp1; */
 } bdk_pemx_bist_status_t;
@@ -333,7 +329,6 @@ typedef union bdk_pemx_cfg {
 		uint64_t reserved_5_63               : 59;
 #endif
 	} s;
-	/* struct bdk_pemx_cfg_s              cn85xx; */
 	/* struct bdk_pemx_cfg_s              cn88xx; */
 	/* struct bdk_pemx_cfg_s              cn88xxp1; */
 } bdk_pemx_cfg_t;
@@ -372,7 +367,6 @@ typedef union bdk_pemx_cfg_rd {
 		uint64_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_pemx_cfg_rd_s           cn85xx; */
 	/* struct bdk_pemx_cfg_rd_s           cn88xx; */
 	/* struct bdk_pemx_cfg_rd_s           cn88xxp1; */
 } bdk_pemx_cfg_rd_t;
@@ -412,7 +406,6 @@ typedef union bdk_pemx_cfg_wr {
 		uint64_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_pemx_cfg_wr_s           cn85xx; */
 	/* struct bdk_pemx_cfg_wr_s           cn88xx; */
 	/* struct bdk_pemx_cfg_wr_s           cn88xxp1; */
 } bdk_pemx_cfg_wr_t;
@@ -450,7 +443,6 @@ typedef union bdk_pemx_clk_en {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_pemx_clk_en_s           cn85xx; */
 	/* struct bdk_pemx_clk_en_s           cn88xx; */
 	/* struct bdk_pemx_clk_en_s           cn88xxp1; */
 } bdk_pemx_clk_en_t;
@@ -484,7 +476,6 @@ typedef union bdk_pemx_cpl_lut_valid {
 		uint64_t tag                         : 64;
 #endif
 	} s;
-	/* struct bdk_pemx_cpl_lut_valid_s    cn85xx; */
 	/* struct bdk_pemx_cpl_lut_valid_s    cn88xx; */
 	/* struct bdk_pemx_cpl_lut_valid_s    cn88xxp1; */
 } bdk_pemx_cpl_lut_valid_t;
@@ -570,7 +561,6 @@ typedef union bdk_pemx_ctl_status {
 		uint64_t reserved_52_63              : 12;
 #endif
 	} s;
-	/* struct bdk_pemx_ctl_status_s       cn85xx; */
 	/* struct bdk_pemx_ctl_status_s       cn88xx; */
 	/* struct bdk_pemx_ctl_status_s       cn88xxp1; */
 } bdk_pemx_ctl_status_t;
@@ -611,7 +601,6 @@ typedef union bdk_pemx_ctl_status2 {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_pemx_ctl_status2_s      cn85xx; */
 	/* struct bdk_pemx_ctl_status2_s      cn88xx; */
 	/* struct bdk_pemx_ctl_status2_s      cn88xxp1; */
 } bdk_pemx_ctl_status2_t;
@@ -764,7 +753,6 @@ typedef union bdk_pemx_dbg_ena_w1c {
 		uint64_t reserved_57_63              : 7;
 #endif
 	} s;
-	/* struct bdk_pemx_dbg_ena_w1c_s      cn85xx; */
 	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xx; */
 	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xxp1; */
 } bdk_pemx_dbg_ena_w1c_t;
@@ -917,7 +905,6 @@ typedef union bdk_pemx_dbg_ena_w1s {
 		uint64_t reserved_57_63              : 7;
 #endif
 	} s;
-	/* struct bdk_pemx_dbg_ena_w1s_s      cn85xx; */
 	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xx; */
 	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xxp1; */
 } bdk_pemx_dbg_ena_w1s_t;
@@ -1073,7 +1060,6 @@ typedef union bdk_pemx_dbg_info {
 		uint64_t reserved_57_63              : 7;
 #endif
 	} s;
-	/* struct bdk_pemx_dbg_info_s         cn85xx; */
 	/* struct bdk_pemx_dbg_info_s         cn88xx; */
 	/* struct bdk_pemx_dbg_info_s         cn88xxp1; */
 } bdk_pemx_dbg_info_t;
@@ -1226,7 +1212,6 @@ typedef union bdk_pemx_dbg_info_w1s {
 		uint64_t reserved_57_63              : 7;
 #endif
 	} s;
-	/* struct bdk_pemx_dbg_info_w1s_s     cn85xx; */
 	/* struct bdk_pemx_dbg_info_w1s_s     cn88xx; */
 	/* struct bdk_pemx_dbg_info_w1s_s     cn88xxp1; */
 } bdk_pemx_dbg_info_w1s_t;
@@ -1262,7 +1247,6 @@ typedef union bdk_pemx_debug {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_pemx_debug_s            cn85xx; */
 	/* struct bdk_pemx_debug_s            cn88xx; */
 	/* struct bdk_pemx_debug_s            cn88xxp1; */
 } bdk_pemx_debug_t;
@@ -1306,7 +1290,6 @@ typedef union bdk_pemx_diag_status {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_pemx_diag_status_s      cn85xx; */
 	/* struct bdk_pemx_diag_status_s      cn88xx; */
 	/* struct bdk_pemx_diag_status_s      cn88xxp1; */
 } bdk_pemx_diag_status_t;
@@ -1366,7 +1349,6 @@ typedef union bdk_pemx_ecc_ena {
 		uint64_t reserved_35_63              : 29;
 #endif
 	} s;
-	/* struct bdk_pemx_ecc_ena_s          cn85xx; */
 	/* struct bdk_pemx_ecc_ena_s          cn88xx; */
 	/* struct bdk_pemx_ecc_ena_s          cn88xxp1; */
 } bdk_pemx_ecc_ena_t;
@@ -1426,7 +1408,6 @@ typedef union bdk_pemx_ecc_synd_ctrl {
 		uint64_t reserved_38_63              : 26;
 #endif
 	} s;
-	/* struct bdk_pemx_ecc_synd_ctrl_s    cn85xx; */
 	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xx; */
 	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xxp1; */
 } bdk_pemx_ecc_synd_ctrl_t;
@@ -1463,7 +1444,6 @@ typedef union bdk_pemx_inb_read_credits {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_pemx_inb_read_credits_s cn85xx; */
 	/* struct bdk_pemx_inb_read_credits_s cn88xx; */
 	/* struct bdk_pemx_inb_read_credits_s cn88xxp1; */
 } bdk_pemx_inb_read_credits_t;
@@ -1520,7 +1500,6 @@ typedef union bdk_pemx_int_ena_w1c {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_pemx_int_ena_w1c_s      cn85xx; */
 	/* struct bdk_pemx_int_ena_w1c_s      cn88xx; */
 	/* struct bdk_pemx_int_ena_w1c_s      cn88xxp1; */
 } bdk_pemx_int_ena_w1c_t;
@@ -1577,7 +1556,6 @@ typedef union bdk_pemx_int_ena_w1s {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_pemx_int_ena_w1s_s      cn85xx; */
 	/* struct bdk_pemx_int_ena_w1s_s      cn88xx; */
 	/* struct bdk_pemx_int_ena_w1s_s      cn88xxp1; */
 } bdk_pemx_int_ena_w1s_t;
@@ -1637,7 +1615,6 @@ typedef union bdk_pemx_int_sum {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_pemx_int_sum_s          cn85xx; */
 	/* struct bdk_pemx_int_sum_s          cn88xx; */
 	/* struct bdk_pemx_int_sum_s          cn88xxp1; */
 } bdk_pemx_int_sum_t;
@@ -1694,7 +1671,6 @@ typedef union bdk_pemx_int_sum_w1s {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_pemx_int_sum_w1s_s      cn85xx; */
 	/* struct bdk_pemx_int_sum_w1s_s      cn88xx; */
 	/* struct bdk_pemx_int_sum_w1s_s      cn88xxp1; */
 } bdk_pemx_int_sum_w1s_t;
@@ -1729,7 +1705,6 @@ typedef union bdk_pemx_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_pemx_msix_pbax_s        cn85xx; */
 	/* struct bdk_pemx_msix_pbax_s        cn88xx; */
 	/* struct bdk_pemx_msix_pbax_s        cn88xxp1; */
 } bdk_pemx_msix_pbax_t;
@@ -1777,7 +1752,6 @@ typedef union bdk_pemx_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_pemx_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_pemx_msix_vecx_addr_s   cn88xx; */
 	/* struct bdk_pemx_msix_vecx_addr_s   cn88xxp1; */
 } bdk_pemx_msix_vecx_addr_t;
@@ -1817,7 +1791,6 @@ typedef union bdk_pemx_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_pemx_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_pemx_msix_vecx_ctl_s    cn88xx; */
 	/* struct bdk_pemx_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_pemx_msix_vecx_ctl_t;
@@ -1857,7 +1830,6 @@ typedef union bdk_pemx_on {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_pemx_on_s               cn85xx; */
 	/* struct bdk_pemx_on_s               cn88xx; */
 	/* struct bdk_pemx_on_s               cn88xxp1; */
 } bdk_pemx_on_t;
@@ -1893,7 +1865,6 @@ typedef union bdk_pemx_p2n_bar0_start {
 		uint64_t addr                        : 50;
 #endif
 	} s;
-	/* struct bdk_pemx_p2n_bar0_start_s   cn85xx; */
 	/* struct bdk_pemx_p2n_bar0_start_s   cn88xx; */
 	/* struct bdk_pemx_p2n_bar0_start_s   cn88xxp1; */
 } bdk_pemx_p2n_bar0_start_t;
@@ -1929,7 +1900,6 @@ typedef union bdk_pemx_p2n_bar1_start {
 		uint64_t addr                        : 38;
 #endif
 	} s;
-	/* struct bdk_pemx_p2n_bar1_start_s   cn85xx; */
 	/* struct bdk_pemx_p2n_bar1_start_s   cn88xx; */
 	/* struct bdk_pemx_p2n_bar1_start_s   cn88xxp1; */
 } bdk_pemx_p2n_bar1_start_t;
@@ -1966,7 +1936,6 @@ typedef union bdk_pemx_p2n_bar2_start {
 		uint64_t addr                        : 14;
 #endif
 	} s;
-	/* struct bdk_pemx_p2n_bar2_start_s   cn85xx; */
 	/* struct bdk_pemx_p2n_bar2_start_s   cn88xx; */
 	/* struct bdk_pemx_p2n_bar2_start_s   cn88xxp1; */
 } bdk_pemx_p2n_bar2_start_t;
@@ -2013,7 +1982,6 @@ typedef union bdk_pemx_tlp_credits {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_pemx_tlp_credits_s      cn85xx; */
 	/* struct bdk_pemx_tlp_credits_s      cn88xx; */
 	/* struct bdk_pemx_tlp_credits_s      cn88xxp1; */
 } bdk_pemx_tlp_credits_t;

@@ -151,7 +151,6 @@ typedef union bdk_rst_bist_timer {
 		uint64_t reserved_29_63              : 35;
 #endif
 	} s;
-	/* struct bdk_rst_bist_timer_s        cn85xx; */
 	/* struct bdk_rst_bist_timer_s        cn88xx; */
 	/* struct bdk_rst_bist_timer_s        cn88xxp1; */
 } bdk_rst_bist_timer_t;
@@ -269,7 +268,6 @@ typedef union bdk_rst_boot {
 		uint64_t chipkill                    : 1;
 #endif
 	} s;
-	/* struct bdk_rst_boot_s              cn85xx; */
 	/* struct bdk_rst_boot_s              cn88xx; */
 	/* struct bdk_rst_boot_s              cn88xxp1; */
 } bdk_rst_boot_t;
@@ -310,7 +308,6 @@ typedef union bdk_rst_cfg {
 		uint64_t bist_delay                  : 58;
 #endif
 	} s;
-	/* struct bdk_rst_cfg_s               cn85xx; */
 	/* struct bdk_rst_cfg_s               cn88xx; */
 	/* struct bdk_rst_cfg_s               cn88xxp1; */
 } bdk_rst_cfg_t;
@@ -344,7 +341,6 @@ typedef union bdk_rst_ckill {
 		uint64_t reserved_47_63              : 17;
 #endif
 	} s;
-	/* struct bdk_rst_ckill_s             cn85xx; */
 	/* struct bdk_rst_ckill_s             cn88xx; */
 	/* struct bdk_rst_ckill_s             cn88xxp1; */
 } bdk_rst_ckill_t;
@@ -374,7 +370,6 @@ typedef union bdk_rst_cold_datax {
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_rst_cold_datax_s        cn85xx; */
 	/* struct bdk_rst_cold_datax_s        cn88xx; */
 	/* struct bdk_rst_cold_datax_s        cn88xxp1; */
 } bdk_rst_cold_datax_t;
@@ -470,7 +465,6 @@ typedef union bdk_rst_ctlx {
 		uint64_t reserved_10_63              : 54;
 #endif
 	} s;
-	/* struct bdk_rst_ctlx_s              cn85xx; */
 	/* struct bdk_rst_ctlx_s              cn88xx; */
 	/* struct bdk_rst_ctlx_s              cn88xxp1; */
 } bdk_rst_ctlx_t;
@@ -511,7 +505,6 @@ typedef union bdk_rst_dbg_reset {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_rst_dbg_reset_s         cn85xx; */
 	/* struct bdk_rst_dbg_reset_s         cn88xx; */
 	/* struct bdk_rst_dbg_reset_s         cn88xxp1; */
 } bdk_rst_dbg_reset_t;
@@ -551,7 +544,6 @@ typedef union bdk_rst_delay {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_rst_delay_s             cn85xx; */
 	/* struct bdk_rst_delay_s             cn88xx; */
 	/* struct bdk_rst_delay_s             cn88xxp1; */
 } bdk_rst_delay_t;
@@ -589,7 +581,6 @@ typedef union bdk_rst_int {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_rst_int_s               cn85xx; */
 	/* struct bdk_rst_int_s               cn88xx; */
 	/* struct bdk_rst_int_s               cn88xxp1; */
 } bdk_rst_int_t;
@@ -627,7 +618,6 @@ typedef union bdk_rst_int_ena_w1c {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_rst_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_rst_int_ena_w1c_s       cn88xx; */
 	/* struct bdk_rst_int_ena_w1c_s       cn88xxp1; */
 } bdk_rst_int_ena_w1c_t;
@@ -665,7 +655,6 @@ typedef union bdk_rst_int_ena_w1s {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_rst_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_rst_int_ena_w1s_s       cn88xx; */
 	/* struct bdk_rst_int_ena_w1s_s       cn88xxp1; */
 } bdk_rst_int_ena_w1s_t;
@@ -703,7 +692,6 @@ typedef union bdk_rst_int_w1s {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_rst_int_w1s_s           cn85xx; */
 	/* struct bdk_rst_int_w1s_s           cn88xx; */
 	/* struct bdk_rst_int_w1s_s           cn88xxp1; */
 } bdk_rst_int_w1s_t;
@@ -737,7 +725,6 @@ typedef union bdk_rst_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_rst_msix_pbax_s         cn85xx; */
 	/* struct bdk_rst_msix_pbax_s         cn88xx; */
 	/* struct bdk_rst_msix_pbax_s         cn88xxp1; */
 } bdk_rst_msix_pbax_t;
@@ -785,7 +772,6 @@ typedef union bdk_rst_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_rst_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_rst_msix_vecx_addr_s    cn88xx; */
 	/* struct bdk_rst_msix_vecx_addr_s    cn88xxp1; */
 } bdk_rst_msix_vecx_addr_t;
@@ -825,7 +811,6 @@ typedef union bdk_rst_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_rst_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_rst_msix_vecx_ctl_s     cn88xx; */
 	/* struct bdk_rst_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_rst_msix_vecx_ctl_t;
@@ -861,7 +846,6 @@ typedef union bdk_rst_ocx {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_rst_ocx_s               cn85xx; */
 	/* struct bdk_rst_ocx_s               cn88xx; */
 	/* struct bdk_rst_ocx_s               cn88xxp1; */
 } bdk_rst_ocx_t;
@@ -896,7 +880,6 @@ typedef union bdk_rst_out_ctl {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_rst_out_ctl_s           cn85xx; */
 	/* struct bdk_rst_out_ctl_s           cn88xx; */
 	/* struct bdk_rst_out_ctl_s           cn88xxp1; */
 } bdk_rst_out_ctl_t;
@@ -928,7 +911,6 @@ typedef union bdk_rst_power_dbg {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_rst_power_dbg_s         cn85xx; */
 	/* struct bdk_rst_power_dbg_s         cn88xx; */
 	/* struct bdk_rst_power_dbg_s         cn88xxp1; */
 } bdk_rst_power_dbg_t;
@@ -960,7 +942,6 @@ typedef union bdk_rst_pp_available {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_rst_pp_available_s      cn85xx; */
 	/* struct bdk_rst_pp_available_s      cn88xx; */
 	/* struct bdk_rst_pp_available_s      cn88xxp1; */
 } bdk_rst_pp_available_t;
@@ -998,7 +979,6 @@ typedef union bdk_rst_pp_pending {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_rst_pp_pending_s        cn85xx; */
 	/* struct bdk_rst_pp_pending_s        cn88xx; */
 	/* struct bdk_rst_pp_pending_s        cn88xxp1; */
 } bdk_rst_pp_pending_t;
@@ -1034,7 +1014,6 @@ typedef union bdk_rst_pp_power {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_rst_pp_power_s          cn85xx; */
 	/* struct bdk_rst_pp_power_s          cn88xx; */
 	/* struct bdk_rst_pp_power_s          cn88xxp1; */
 } bdk_rst_pp_power_t;
@@ -1070,7 +1049,6 @@ typedef union bdk_rst_pp_power_stat {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_rst_pp_power_stat_s     cn85xx; */
 	/* struct bdk_rst_pp_power_stat_s     cn88xx; */
 	/* struct bdk_rst_pp_power_stat_s     cn88xxp1; */
 } bdk_rst_pp_power_stat_t;
@@ -1113,7 +1091,6 @@ typedef union bdk_rst_pp_reset {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_rst_pp_reset_s          cn85xx; */
 	/* struct bdk_rst_pp_reset_s          cn88xx; */
 	/* struct bdk_rst_pp_reset_s          cn88xxp1; */
 } bdk_rst_pp_reset_t;
@@ -1145,7 +1122,6 @@ typedef union bdk_rst_ref_cntr {
 		uint64_t cnt                         : 64;
 #endif
 	} s;
-	/* struct bdk_rst_ref_cntr_s          cn85xx; */
 	/* struct bdk_rst_ref_cntr_s          cn88xx; */
 	/* struct bdk_rst_ref_cntr_s          cn88xxp1; */
 } bdk_rst_ref_cntr_t;
@@ -1185,7 +1161,6 @@ typedef union bdk_rst_soft_prstx {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_rst_soft_prstx_s        cn85xx; */
 	/* struct bdk_rst_soft_prstx_s        cn88xx; */
 	/* struct bdk_rst_soft_prstx_s        cn88xxp1; */
 } bdk_rst_soft_prstx_t;
@@ -1220,7 +1195,6 @@ typedef union bdk_rst_soft_rst {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_rst_soft_rst_s          cn85xx; */
 	/* struct bdk_rst_soft_rst_s          cn88xx; */
 	/* struct bdk_rst_soft_rst_s          cn88xxp1; */
 } bdk_rst_soft_rst_t;
@@ -1261,7 +1235,6 @@ typedef union bdk_rst_thermal_alert {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_rst_thermal_alert_s     cn85xx; */
 	/* struct bdk_rst_thermal_alert_s     cn88xx; */
 	/* struct bdk_rst_thermal_alert_s     cn88xxp1; */
 } bdk_rst_thermal_alert_t;
@@ -1357,7 +1330,6 @@ typedef union bdk_rst_tns_pll_ctl {
 		uint64_t reserved_29_63              : 35;
 #endif
 	} s;
-	/* struct bdk_rst_tns_pll_ctl_s       cn85xx; */
 	/* struct bdk_rst_tns_pll_ctl_s       cn88xx; */
 	/* struct bdk_rst_tns_pll_ctl_s       cn88xxp1; */
 } bdk_rst_tns_pll_ctl_t;

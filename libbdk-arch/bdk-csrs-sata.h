@@ -153,7 +153,6 @@ typedef union bdk_satax_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_satax_msix_pbax_s       cn85xx; */
 	/* struct bdk_satax_msix_pbax_s       cn88xx; */
 	/* struct bdk_satax_msix_pbax_s       cn88xxp1; */
 } bdk_satax_msix_pbax_t;
@@ -202,7 +201,6 @@ typedef union bdk_satax_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_satax_msix_vecx_addr_s  cn85xx; */
 	/* struct bdk_satax_msix_vecx_addr_s  cn88xx; */
 	/* struct bdk_satax_msix_vecx_addr_s  cn88xxp1; */
 } bdk_satax_msix_vecx_addr_t;
@@ -242,7 +240,6 @@ typedef union bdk_satax_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_satax_msix_vecx_ctl_s   cn85xx; */
 	/* struct bdk_satax_msix_vecx_ctl_s   cn88xx; */
 	/* struct bdk_satax_msix_vecx_ctl_s   cn88xxp1; */
 } bdk_satax_msix_vecx_ctl_t;
@@ -299,7 +296,6 @@ typedef union bdk_satax_uahc_gbl_bistafr {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_bistafr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistafr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_bistafr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistafr_t;
@@ -377,7 +373,6 @@ typedef union bdk_satax_uahc_gbl_bistcr {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_bistcr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistcr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_bistcr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistcr_t;
@@ -414,7 +409,6 @@ typedef union bdk_satax_uahc_gbl_bistdecr {
 		uint32_t dwerr                       : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_bistdecr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistdecr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_bistdecr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistdecr_t;
@@ -451,7 +445,6 @@ typedef union bdk_satax_uahc_gbl_bistfctr {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_bistfctr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistfctr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_bistfctr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistfctr_t;
@@ -489,7 +482,6 @@ typedef union bdk_satax_uahc_gbl_bistsr {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_bistsr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_bistsr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_bistsr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_bistsr_t;
@@ -563,7 +555,6 @@ typedef union bdk_satax_uahc_gbl_cap {
 		uint32_t s64a                        : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_cap_s    cn85xx; */
 	/* struct bdk_satax_uahc_gbl_cap_s    cn88xx; */
 	/* struct bdk_satax_uahc_gbl_cap_s    cn88xxp1; */
 } bdk_satax_uahc_gbl_cap_t;
@@ -609,7 +600,6 @@ typedef union bdk_satax_uahc_gbl_cap2 {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_cap2_s   cn85xx; */
 	/* struct bdk_satax_uahc_gbl_cap2_s   cn88xx; */
 	/* struct bdk_satax_uahc_gbl_cap2_s   cn88xxp1; */
 } bdk_satax_uahc_gbl_cap2_t;
@@ -651,7 +641,6 @@ typedef union bdk_satax_uahc_gbl_ccc_ctl {
 		uint32_t tv                          : 16;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_ccc_ctl_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_ccc_ctl_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_ccc_ctl_s cn88xxp1; */
 } bdk_satax_uahc_gbl_ccc_ctl_t;
@@ -687,7 +676,6 @@ typedef union bdk_satax_uahc_gbl_ccc_ports {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_ccc_ports_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_ccc_ports_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_ccc_ports_s cn88xxp1; */
 } bdk_satax_uahc_gbl_ccc_ports_t;
@@ -727,7 +715,6 @@ typedef union bdk_satax_uahc_gbl_ghc {
 		uint32_t ae                          : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_ghc_s    cn85xx; */
 	/* struct bdk_satax_uahc_gbl_ghc_s    cn88xx; */
 	/* struct bdk_satax_uahc_gbl_ghc_s    cn88xxp1; */
 } bdk_satax_uahc_gbl_ghc_t;
@@ -787,7 +774,6 @@ typedef union bdk_satax_uahc_gbl_gparam1r {
 		uint32_t align_m                     : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_gparam1r_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_gparam1r_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_gparam1r_s cn88xxp1; */
 } bdk_satax_uahc_gbl_gparam1r_t;
@@ -847,7 +833,6 @@ typedef union bdk_satax_uahc_gbl_gparam2r {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_gparam2r_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_gparam2r_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_gparam2r_s cn88xxp1; */
 } bdk_satax_uahc_gbl_gparam2r_t;
@@ -881,7 +866,6 @@ typedef union bdk_satax_uahc_gbl_idr {
 		uint32_t id                          : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_idr_s    cn85xx; */
 	/* struct bdk_satax_uahc_gbl_idr_s    cn88xx; */
 	/* struct bdk_satax_uahc_gbl_idr_s    cn88xxp1; */
 } bdk_satax_uahc_gbl_idr_t;
@@ -917,7 +901,6 @@ typedef union bdk_satax_uahc_gbl_is {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_is_s     cn85xx; */
 	/* struct bdk_satax_uahc_gbl_is_s     cn88xx; */
 	/* struct bdk_satax_uahc_gbl_is_s     cn88xxp1; */
 } bdk_satax_uahc_gbl_is_t;
@@ -962,7 +945,6 @@ typedef union bdk_satax_uahc_gbl_oobr {
 		uint32_t we                          : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_oobr_s   cn85xx; */
 	/* struct bdk_satax_uahc_gbl_oobr_s   cn88xx; */
 	/* struct bdk_satax_uahc_gbl_oobr_s   cn88xxp1; */
 } bdk_satax_uahc_gbl_oobr_t;
@@ -998,7 +980,6 @@ typedef union bdk_satax_uahc_gbl_pi {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_pi_s     cn85xx; */
 	/* struct bdk_satax_uahc_gbl_pi_s     cn88xx; */
 	/* struct bdk_satax_uahc_gbl_pi_s     cn88xxp1; */
 } bdk_satax_uahc_gbl_pi_t;
@@ -1045,7 +1026,6 @@ typedef union bdk_satax_uahc_gbl_pparamr {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_pparamr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_pparamr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_pparamr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_pparamr_t;
@@ -1085,7 +1065,6 @@ typedef union bdk_satax_uahc_gbl_testr {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_testr_s  cn85xx; */
 	/* struct bdk_satax_uahc_gbl_testr_s  cn88xx; */
 	/* struct bdk_satax_uahc_gbl_testr_s  cn88xxp1; */
 } bdk_satax_uahc_gbl_testr_t;
@@ -1121,7 +1100,6 @@ typedef union bdk_satax_uahc_gbl_timer1ms {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_timer1ms_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_timer1ms_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_timer1ms_s cn88xxp1; */
 } bdk_satax_uahc_gbl_timer1ms_t;
@@ -1155,7 +1133,6 @@ typedef union bdk_satax_uahc_gbl_versionr {
 		uint32_t ver                         : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_versionr_s cn85xx; */
 	/* struct bdk_satax_uahc_gbl_versionr_s cn88xx; */
 	/* struct bdk_satax_uahc_gbl_versionr_s cn88xxp1; */
 } bdk_satax_uahc_gbl_versionr_t;
@@ -1191,7 +1168,6 @@ typedef union bdk_satax_uahc_gbl_vs {
 		uint32_t mjr                         : 16;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_gbl_vs_s     cn85xx; */
 	/* struct bdk_satax_uahc_gbl_vs_s     cn88xx; */
 	/* struct bdk_satax_uahc_gbl_vs_s     cn88xxp1; */
 } bdk_satax_uahc_gbl_vs_t;
@@ -1225,7 +1201,6 @@ typedef union bdk_satax_uahc_p0_ci {
 		uint32_t ci                          : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_ci_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_ci_s      cn88xx; */
 	/* struct bdk_satax_uahc_p0_ci_s      cn88xxp1; */
 } bdk_satax_uahc_p0_ci_t;
@@ -1261,7 +1236,6 @@ typedef union bdk_satax_uahc_p0_clb {
 		uint64_t clb                         : 54;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_clb_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_clb_s     cn88xx; */
 	/* struct bdk_satax_uahc_p0_clb_s     cn88xxp1; */
 } bdk_satax_uahc_p0_clb_t;
@@ -1340,7 +1314,6 @@ typedef union bdk_satax_uahc_p0_cmd {
 		uint32_t icc                         : 4;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_cmd_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_cmd_s     cn88xx; */
 	/* struct bdk_satax_uahc_p0_cmd_s     cn88xxp1; */
 } bdk_satax_uahc_p0_cmd_t;
@@ -1380,7 +1353,6 @@ typedef union bdk_satax_uahc_p0_dmacr {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_dmacr_s   cn85xx; */
 	/* struct bdk_satax_uahc_p0_dmacr_s   cn88xx; */
 	/* struct bdk_satax_uahc_p0_dmacr_s   cn88xxp1; */
 } bdk_satax_uahc_p0_dmacr_t;
@@ -1416,7 +1388,6 @@ typedef union bdk_satax_uahc_p0_fb {
 		uint64_t fb                          : 56;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_fb_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_fb_s      cn88xx; */
 	/* struct bdk_satax_uahc_p0_fb_s      cn88xxp1; */
 } bdk_satax_uahc_p0_fb_t;
@@ -1464,7 +1435,6 @@ typedef union bdk_satax_uahc_p0_fbs {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_fbs_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_fbs_s     cn88xx; */
 	/* struct bdk_satax_uahc_p0_fbs_s     cn88xxp1; */
 } bdk_satax_uahc_p0_fbs_t;
@@ -1534,7 +1504,6 @@ typedef union bdk_satax_uahc_p0_ie {
 		uint32_t cpde                        : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_ie_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_ie_s      cn88xx; */
 	/* struct bdk_satax_uahc_p0_ie_s      cn88xxp1; */
 } bdk_satax_uahc_p0_ie_t;
@@ -1604,7 +1573,6 @@ typedef union bdk_satax_uahc_p0_is {
 		uint32_t cpds                        : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_is_s      cn85xx; */
 	/* struct bdk_satax_uahc_p0_is_s      cn88xx; */
 	/* struct bdk_satax_uahc_p0_is_s      cn88xxp1; */
 } bdk_satax_uahc_p0_is_t;
@@ -1638,7 +1606,6 @@ typedef union bdk_satax_uahc_p0_phycr {
 		uint32_t ctrl                        : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_phycr_s   cn85xx; */
 	/* struct bdk_satax_uahc_p0_phycr_s   cn88xx; */
 	/* struct bdk_satax_uahc_p0_phycr_s   cn88xxp1; */
 } bdk_satax_uahc_p0_phycr_t;
@@ -1672,7 +1639,6 @@ typedef union bdk_satax_uahc_p0_physr {
 		uint32_t stat                        : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_physr_s   cn85xx; */
 	/* struct bdk_satax_uahc_p0_physr_s   cn88xx; */
 	/* struct bdk_satax_uahc_p0_physr_s   cn88xxp1; */
 } bdk_satax_uahc_p0_physr_t;
@@ -1706,7 +1672,6 @@ typedef union bdk_satax_uahc_p0_sact {
 		uint32_t ds                          : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_sact_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_sact_s    cn88xx; */
 	/* struct bdk_satax_uahc_p0_sact_s    cn88xxp1; */
 } bdk_satax_uahc_p0_sact_t;
@@ -1750,7 +1715,6 @@ typedef union bdk_satax_uahc_p0_sctl {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_sctl_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_sctl_s    cn88xx; */
 	/* struct bdk_satax_uahc_p0_sctl_s    cn88xxp1; */
 } bdk_satax_uahc_p0_sctl_t;
@@ -1822,7 +1786,6 @@ typedef union bdk_satax_uahc_p0_serr {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_serr_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_serr_s    cn88xx; */
 	/* struct bdk_satax_uahc_p0_serr_s    cn88xxp1; */
 } bdk_satax_uahc_p0_serr_t;
@@ -1856,7 +1819,6 @@ typedef union bdk_satax_uahc_p0_sig {
 		uint32_t sig                         : 32;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_sig_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_sig_s     cn88xx; */
 	/* struct bdk_satax_uahc_p0_sig_s     cn88xxp1; */
 } bdk_satax_uahc_p0_sig_t;
@@ -1892,7 +1854,6 @@ typedef union bdk_satax_uahc_p0_sntf {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_sntf_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_sntf_s    cn88xx; */
 	/* struct bdk_satax_uahc_p0_sntf_s    cn88xxp1; */
 } bdk_satax_uahc_p0_sntf_t;
@@ -1932,7 +1893,6 @@ typedef union bdk_satax_uahc_p0_ssts {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_ssts_s    cn85xx; */
 	/* struct bdk_satax_uahc_p0_ssts_s    cn88xx; */
 	/* struct bdk_satax_uahc_p0_ssts_s    cn88xxp1; */
 } bdk_satax_uahc_p0_ssts_t;
@@ -1970,7 +1930,6 @@ typedef union bdk_satax_uahc_p0_tfd {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_satax_uahc_p0_tfd_s     cn85xx; */
 	/* struct bdk_satax_uahc_p0_tfd_s     cn88xx; */
 	/* struct bdk_satax_uahc_p0_tfd_s     cn88xxp1; */
 } bdk_satax_uahc_p0_tfd_t;
@@ -2036,7 +1995,6 @@ typedef union bdk_satax_uctl_bist_status {
 		uint64_t reserved_42_63              : 22;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_bist_status_s cn85xx; */
 	/* struct bdk_satax_uctl_bist_status_s cn88xx; */
 	/* struct bdk_satax_uctl_bist_status_s cn88xxp1; */
 } bdk_satax_uctl_bist_status_t;
@@ -2148,7 +2106,6 @@ typedef union bdk_satax_uctl_ctl {
 		uint64_t clear_bist                  : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_ctl_s        cn85xx; */
 	/* struct bdk_satax_uctl_ctl_s        cn88xx; */
 	/* struct bdk_satax_uctl_ctl_s        cn88xxp1; */
 } bdk_satax_uctl_ctl_t;
@@ -2225,7 +2182,6 @@ typedef union bdk_satax_uctl_ecc {
 		uint64_t reserved_62_63              : 2;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_ecc_s        cn85xx; */
 	/* struct bdk_satax_uctl_ecc_s        cn88xx; */
 	/* struct bdk_satax_uctl_ecc_s        cn88xxp1; */
 } bdk_satax_uctl_ecc_t;
@@ -2296,7 +2252,6 @@ typedef union bdk_satax_uctl_intena_w1c {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_intena_w1c_s cn85xx; */
 	/* struct bdk_satax_uctl_intena_w1c_s cn88xx; */
 	/* struct bdk_satax_uctl_intena_w1c_s cn88xxp1; */
 } bdk_satax_uctl_intena_w1c_t;
@@ -2367,7 +2322,6 @@ typedef union bdk_satax_uctl_intena_w1s {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_intena_w1s_s cn85xx; */
 	/* struct bdk_satax_uctl_intena_w1s_s cn88xx; */
 	/* struct bdk_satax_uctl_intena_w1s_s cn88xxp1; */
 } bdk_satax_uctl_intena_w1s_t;
@@ -2444,7 +2398,6 @@ typedef union bdk_satax_uctl_intstat {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_intstat_s    cn85xx; */
 	/* struct bdk_satax_uctl_intstat_s    cn88xx; */
 	/* struct bdk_satax_uctl_intstat_s    cn88xxp1; */
 } bdk_satax_uctl_intstat_t;
@@ -2515,7 +2468,6 @@ typedef union bdk_satax_uctl_intstat_w1s {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_intstat_w1s_s cn85xx; */
 	/* struct bdk_satax_uctl_intstat_w1s_s cn88xx; */
 	/* struct bdk_satax_uctl_intstat_w1s_s cn88xxp1; */
 } bdk_satax_uctl_intstat_w1s_t;
@@ -2586,7 +2538,6 @@ typedef union bdk_satax_uctl_shim_cfg {
 		uint64_t xs_ncb_oob_wrn              : 1;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_shim_cfg_s   cn85xx; */
 	/* struct bdk_satax_uctl_shim_cfg_s   cn88xx; */
 	/* struct bdk_satax_uctl_shim_cfg_s   cn88xxp1; */
 } bdk_satax_uctl_shim_cfg_t;
@@ -2623,7 +2574,6 @@ typedef union bdk_satax_uctl_spare0 {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_spare0_s     cn85xx; */
 	/* struct bdk_satax_uctl_spare0_s     cn88xx; */
 	/* struct bdk_satax_uctl_spare0_s     cn88xxp1; */
 } bdk_satax_uctl_spare0_t;
@@ -2660,7 +2610,6 @@ typedef union bdk_satax_uctl_spare1 {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_satax_uctl_spare1_s     cn85xx; */
 	/* struct bdk_satax_uctl_spare1_s     cn88xx; */
 	/* struct bdk_satax_uctl_spare1_s     cn88xxp1; */
 } bdk_satax_uctl_spare1_t;

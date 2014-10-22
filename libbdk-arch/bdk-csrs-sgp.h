@@ -133,7 +133,6 @@ typedef union bdk_sgp_cfg0 {
 		uint32_t drive_cnt                   : 8;
 #endif
 	} s;
-	/* struct bdk_sgp_cfg0_s              cn85xx; */
 	/* struct bdk_sgp_cfg0_s              cn88xx; */
 	/* struct bdk_sgp_cfg0_s              cn88xxp1; */
 } bdk_sgp_cfg0_t;
@@ -201,7 +200,6 @@ typedef union bdk_sgp_cfg1 {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_sgp_cfg1_s              cn85xx; */
 	/* struct bdk_sgp_cfg1_s              cn88xx; */
 	/* struct bdk_sgp_cfg1_s              cn88xxp1; */
 } bdk_sgp_cfg1_t;
@@ -236,7 +234,6 @@ typedef union bdk_sgp_imp_clk {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_sgp_imp_clk_s           cn85xx; */
 	/* struct bdk_sgp_imp_clk_s           cn88xx; */
 	/* struct bdk_sgp_imp_clk_s           cn88xxp1; */
 } bdk_sgp_imp_clk_t;
@@ -279,7 +276,6 @@ typedef union bdk_sgp_imp_ctl {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_sgp_imp_ctl_s           cn85xx; */
 	/* struct bdk_sgp_imp_ctl_s           cn88xx; */
 	/* struct bdk_sgp_imp_ctl_s           cn88xxp1; */
 } bdk_sgp_imp_ctl_t;
@@ -325,7 +321,6 @@ typedef union bdk_sgp_imp_drivex {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_sgp_imp_drivex_s        cn85xx; */
 	/* struct bdk_sgp_imp_drivex_s        cn88xx; */
 	/* struct bdk_sgp_imp_drivex_s        cn88xxp1; */
 } bdk_sgp_imp_drivex_t;
@@ -360,7 +355,6 @@ typedef union bdk_sgp_imp_sec_clk {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_sgp_imp_sec_clk_s       cn85xx; */
 	/* struct bdk_sgp_imp_sec_clk_s       cn88xx; */
 	/* struct bdk_sgp_imp_sec_clk_s       cn88xxp1; */
 } bdk_sgp_imp_sec_clk_t;
@@ -404,7 +398,6 @@ typedef union bdk_sgp_rxx {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_sgp_rxx_s               cn85xx; */
 	/* struct bdk_sgp_rxx_s               cn88xx; */
 	/* struct bdk_sgp_rxx_s               cn88xxp1; */
 } bdk_sgp_rxx_t;
@@ -450,7 +443,6 @@ typedef union bdk_sgp_rx_gpx {
 		uint32_t sdatain3                    : 8;
 #endif
 	} s;
-	/* struct bdk_sgp_rx_gpx_s            cn85xx; */
 	/* struct bdk_sgp_rx_gpx_s            cn88xx; */
 	/* struct bdk_sgp_rx_gpx_s            cn88xxp1; */
 } bdk_sgp_rx_gpx_t;
@@ -485,7 +477,6 @@ typedef union bdk_sgp_rx_gp_cfg {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_sgp_rx_gp_cfg_s         cn85xx; */
 	/* struct bdk_sgp_rx_gp_cfg_s         cn88xx; */
 	/* struct bdk_sgp_rx_gp_cfg_s         cn88xxp1; */
 } bdk_sgp_rx_gp_cfg_t;
@@ -537,7 +528,6 @@ typedef union bdk_sgp_txx {
 		uint32_t d3_act                      : 3;
 #endif
 	} s;
-	/* struct bdk_sgp_txx_s               cn85xx; */
 	/* struct bdk_sgp_txx_s               cn88xx; */
 	/* struct bdk_sgp_txx_s               cn88xxp1; */
 } bdk_sgp_txx_t;
@@ -583,7 +573,6 @@ typedef union bdk_sgp_tx_gpx {
 		uint32_t sdataout3                   : 8;
 #endif
 	} s;
-	/* struct bdk_sgp_tx_gpx_s            cn85xx; */
 	/* struct bdk_sgp_tx_gpx_s            cn88xx; */
 	/* struct bdk_sgp_tx_gpx_s            cn88xxp1; */
 } bdk_sgp_tx_gpx_t;
@@ -623,7 +612,6 @@ typedef union bdk_sgp_tx_gp_cfg {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_sgp_tx_gp_cfg_s         cn85xx; */
 	/* struct bdk_sgp_tx_gp_cfg_s         cn88xx; */
 	/* struct bdk_sgp_tx_gp_cfg_s         cn88xxp1; */
 } bdk_sgp_tx_gp_cfg_t;

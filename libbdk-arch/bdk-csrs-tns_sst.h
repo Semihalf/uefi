@@ -74,7 +74,6 @@ typedef union bdk_tns_sde_cfg_spare_wx {
 		uint32_t field                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cfg_spare_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_cfg_spare_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_cfg_spare_wx_s  cn88xxp1; */
 } bdk_tns_sde_cfg_spare_wx_t;
@@ -114,7 +113,6 @@ typedef union bdk_tns_sde_cnt_bkx_bk_ecc_ctlx {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_t;
@@ -154,7 +152,6 @@ typedef union bdk_tns_sde_cnt_bkx_ctr_ovfl_stax {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_t;
@@ -192,7 +189,6 @@ typedef union bdk_tns_sde_cnt_bkx_ecc_int_en_hix {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_ecc_int_en_hix_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_en_hix_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_en_hix_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_ecc_int_en_hix_t;
@@ -230,7 +226,6 @@ typedef union bdk_tns_sde_cnt_bkx_ecc_int_en_lox {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_ecc_int_en_lox_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_en_lox_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_en_lox_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_ecc_int_en_lox_t;
@@ -268,7 +263,6 @@ typedef union bdk_tns_sde_cnt_bkx_ecc_int_frcx {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_ecc_int_frcx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_frcx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_frcx_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_ecc_int_frcx_t;
@@ -306,7 +300,6 @@ typedef union bdk_tns_sde_cnt_bkx_ecc_int_w1cx {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_ecc_int_w1cx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_w1cx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_ecc_int_w1cx_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_ecc_int_w1cx_t;
@@ -344,7 +337,6 @@ typedef union bdk_tns_sde_cnt_bkx_fif_int_en_hix {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_fif_int_en_hix_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_en_hix_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_en_hix_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_fif_int_en_hix_t;
@@ -382,7 +374,6 @@ typedef union bdk_tns_sde_cnt_bkx_fif_int_en_lox {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_fif_int_en_lox_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_en_lox_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_en_lox_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_fif_int_en_lox_t;
@@ -420,7 +411,6 @@ typedef union bdk_tns_sde_cnt_bkx_fif_int_frcx {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_fif_int_frcx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_frcx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_frcx_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_fif_int_frcx_t;
@@ -458,7 +448,6 @@ typedef union bdk_tns_sde_cnt_bkx_fif_int_w1cx {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_fif_int_w1cx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_w1cx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_fif_int_w1cx_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_fif_int_w1cx_t;
@@ -492,7 +481,6 @@ typedef union bdk_tns_sde_cnt_bkx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_lock_s  cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_lock_s  cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_lock_s  cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_lock_t;
@@ -529,7 +517,6 @@ typedef union bdk_tns_sde_cnt_bkx_memxdx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_memxdx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_memxdx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_memxdx_wx_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_memxdx_wx_t;
@@ -573,7 +560,6 @@ typedef union bdk_tns_sde_cnt_bkx_modex {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_modex_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_modex_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_modex_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_modex_t;
@@ -613,7 +599,6 @@ typedef union bdk_tns_sde_cnt_bkx_mode_polx_w0 {
 		uint32_t unit_time_x0                : 19;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_mode_polx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_mode_polx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_mode_polx_w0_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_mode_polx_w0_t;
@@ -651,7 +636,6 @@ typedef union bdk_tns_sde_cnt_bkx_mode_polx_w1 {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_mode_polx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_mode_polx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_mode_polx_w1_s cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_mode_polx_w1_t;
@@ -685,7 +669,6 @@ typedef union bdk_tns_sde_cnt_bkx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_bkx_spad_s  cn85xx; */
 	/* struct bdk_tns_sde_cnt_bkx_spad_s  cn88xx; */
 	/* struct bdk_tns_sde_cnt_bkx_spad_s  cn88xxp1; */
 } bdk_tns_sde_cnt_bkx_spad_t;
@@ -727,7 +710,6 @@ typedef union bdk_tns_sde_cnt_cinf_bcktx_w0 {
 		uint32_t b_x0                        : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_cinf_bcktx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_cinf_bcktx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_cinf_bcktx_w0_s cn88xxp1; */
 } bdk_tns_sde_cnt_cinf_bcktx_w0_t;
@@ -767,7 +749,6 @@ typedef union bdk_tns_sde_cnt_cinf_bcktx_w1 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_cinf_bcktx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_cinf_bcktx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_cinf_bcktx_w1_s cn88xxp1; */
 } bdk_tns_sde_cnt_cinf_bcktx_w1_t;
@@ -803,7 +784,6 @@ typedef union bdk_tns_sde_cnt_cinf_int_ro {
 		uint32_t ctr_ovfl                    : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_cinf_int_ro_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_cinf_int_ro_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_cinf_int_ro_s cn88xxp1; */
 } bdk_tns_sde_cnt_cinf_int_ro_t;
@@ -848,7 +828,6 @@ typedef union bdk_tns_sde_cnt_cinf_intf_tblx {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_cinf_intf_tblx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_cinf_intf_tblx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_cinf_intf_tblx_s cn88xxp1; */
 } bdk_tns_sde_cnt_cinf_intf_tblx_t;
@@ -882,7 +861,6 @@ typedef union bdk_tns_sde_cnt_cinf_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_cinf_lock_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_cinf_lock_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_cinf_lock_s cn88xxp1; */
 } bdk_tns_sde_cnt_cinf_lock_t;
@@ -915,7 +893,6 @@ typedef union bdk_tns_sde_cnt_cinf_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_cinf_spad_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_cinf_spad_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_cinf_spad_s cn88xxp1; */
 } bdk_tns_sde_cnt_cinf_spad_t;
@@ -952,7 +929,6 @@ typedef union bdk_tns_sde_cnt_crsl_cnt_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_crsl_cnt_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_crsl_cnt_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_crsl_cnt_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_cnt_crsl_cnt_dbg_sel_t;
@@ -985,7 +961,6 @@ typedef union bdk_tns_sde_cnt_crsl_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_crsl_lock_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_crsl_lock_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_crsl_lock_s cn88xxp1; */
 } bdk_tns_sde_cnt_crsl_lock_t;
@@ -1024,7 +999,6 @@ typedef union bdk_tns_sde_cnt_crsl_pol_ecc_ctlx {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_s cn88xxp1; */
 } bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_t;
@@ -1061,7 +1035,6 @@ typedef union bdk_tns_sde_cnt_crsl_pol_prmxdx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_crsl_pol_prmxdx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_crsl_pol_prmxdx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_crsl_pol_prmxdx_wx_s cn88xxp1; */
 } bdk_tns_sde_cnt_crsl_pol_prmxdx_wx_t;
@@ -1095,7 +1068,6 @@ typedef union bdk_tns_sde_cnt_crsl_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_cnt_crsl_spad_s cn85xx; */
 	/* struct bdk_tns_sde_cnt_crsl_spad_s cn88xx; */
 	/* struct bdk_tns_sde_cnt_crsl_spad_s cn88xxp1; */
 } bdk_tns_sde_cnt_crsl_spad_t;
@@ -1132,7 +1104,6 @@ typedef union bdk_tns_sde_hdbf_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_dbg_sel_s  cn85xx; */
 	/* struct bdk_tns_sde_hdbf_dbg_sel_s  cn88xx; */
 	/* struct bdk_tns_sde_hdbf_dbg_sel_s  cn88xxp1; */
 } bdk_tns_sde_hdbf_dbg_sel_t;
@@ -1183,7 +1154,6 @@ typedef union bdk_tns_sde_hdbf_ecc_ctl {
 		uint32_t reserved_17_31              : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_ecc_ctl_s  cn85xx; */
 	/* struct bdk_tns_sde_hdbf_ecc_ctl_s  cn88xx; */
 	/* struct bdk_tns_sde_hdbf_ecc_ctl_s  cn88xxp1; */
 } bdk_tns_sde_hdbf_ecc_ctl_t;
@@ -1229,7 +1199,6 @@ typedef union bdk_tns_sde_hdbf_fl_mon {
 		uint32_t reserved_17_31              : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_fl_mon_s   cn85xx; */
 	/* struct bdk_tns_sde_hdbf_fl_mon_s   cn88xx; */
 	/* struct bdk_tns_sde_hdbf_fl_mon_s   cn88xxp1; */
 } bdk_tns_sde_hdbf_fl_mon_t;
@@ -1264,7 +1233,6 @@ typedef union bdk_tns_sde_hdbf_fl_mon_sta {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_fl_mon_sta_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_fl_mon_sta_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_fl_mon_sta_s cn88xxp1; */
 } bdk_tns_sde_hdbf_fl_mon_sta_t;
@@ -1305,7 +1273,6 @@ typedef union bdk_tns_sde_hdbf_flst_ctl {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_flst_ctl_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_flst_ctl_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_flst_ctl_s cn88xxp1; */
 } bdk_tns_sde_hdbf_flst_ctl_t;
@@ -1340,7 +1307,6 @@ typedef union bdk_tns_sde_hdbf_flst_dbg {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_flst_dbg_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_flst_dbg_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_flst_dbg_s cn88xxp1; */
 } bdk_tns_sde_hdbf_flst_dbg_t;
@@ -1376,7 +1342,6 @@ typedef union bdk_tns_sde_hdbf_free_ct {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_free_ct_s  cn85xx; */
 	/* struct bdk_tns_sde_hdbf_free_ct_s  cn88xx; */
 	/* struct bdk_tns_sde_hdbf_free_ct_s  cn88xxp1; */
 } bdk_tns_sde_hdbf_free_ct_t;
@@ -1436,7 +1401,6 @@ typedef union bdk_tns_sde_hdbf_gen {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_gen_s      cn85xx; */
 	/* struct bdk_tns_sde_hdbf_gen_s      cn88xx; */
 	/* struct bdk_tns_sde_hdbf_gen_s      cn88xxp1; */
 } bdk_tns_sde_hdbf_gen_t;
@@ -1489,7 +1453,6 @@ typedef union bdk_tns_sde_hdbf_int_en_hi {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_hdbf_int_en_hi_t;
@@ -1542,7 +1505,6 @@ typedef union bdk_tns_sde_hdbf_int_en_lo {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_hdbf_int_en_lo_t;
@@ -1595,7 +1557,6 @@ typedef union bdk_tns_sde_hdbf_int_frc {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_int_frc_s  cn85xx; */
 	/* struct bdk_tns_sde_hdbf_int_frc_s  cn88xx; */
 	/* struct bdk_tns_sde_hdbf_int_frc_s  cn88xxp1; */
 } bdk_tns_sde_hdbf_int_frc_t;
@@ -1648,7 +1609,6 @@ typedef union bdk_tns_sde_hdbf_int_w1c {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_int_w1c_s  cn85xx; */
 	/* struct bdk_tns_sde_hdbf_int_w1c_s  cn88xx; */
 	/* struct bdk_tns_sde_hdbf_int_w1c_s  cn88xxp1; */
 } bdk_tns_sde_hdbf_int_w1c_t;
@@ -1681,7 +1641,6 @@ typedef union bdk_tns_sde_hdbf_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_lock_s     cn85xx; */
 	/* struct bdk_tns_sde_hdbf_lock_s     cn88xx; */
 	/* struct bdk_tns_sde_hdbf_lock_s     cn88xxp1; */
 } bdk_tns_sde_hdbf_lock_t;
@@ -1716,7 +1675,6 @@ typedef union bdk_tns_sde_hdbf_memctx_adr {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_memctx_adr_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_memctx_adr_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_memctx_adr_s cn88xxp1; */
 } bdk_tns_sde_hdbf_memctx_adr_t;
@@ -1749,7 +1707,6 @@ typedef union bdk_tns_sde_hdbf_memctx_wx {
 		uint32_t field                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_memctx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_memctx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_memctx_wx_s cn88xxp1; */
 } bdk_tns_sde_hdbf_memctx_wx_t;
@@ -1785,7 +1742,6 @@ typedef union bdk_tns_sde_hdbf_memmain_adr {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_memmain_adr_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_memmain_adr_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_memmain_adr_s cn88xxp1; */
 } bdk_tns_sde_hdbf_memmain_adr_t;
@@ -1818,7 +1774,6 @@ typedef union bdk_tns_sde_hdbf_memmain_wx {
 		uint32_t field                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_memmain_wx_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_memmain_wx_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_memmain_wx_s cn88xxp1; */
 } bdk_tns_sde_hdbf_memmain_wx_t;
@@ -1857,7 +1812,6 @@ typedef union bdk_tns_sde_hdbf_mre_budget {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_mre_budget_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_mre_budget_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_mre_budget_s cn88xxp1; */
 } bdk_tns_sde_hdbf_mre_budget_t;
@@ -1895,7 +1849,6 @@ typedef union bdk_tns_sde_hdbf_parser_budget {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_parser_budget_s cn85xx; */
 	/* struct bdk_tns_sde_hdbf_parser_budget_s cn88xx; */
 	/* struct bdk_tns_sde_hdbf_parser_budget_s cn88xxp1; */
 } bdk_tns_sde_hdbf_parser_budget_t;
@@ -1932,7 +1885,6 @@ typedef union bdk_tns_sde_hdbf_req_cts {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_req_cts_s  cn85xx; */
 	/* struct bdk_tns_sde_hdbf_req_cts_s  cn88xx; */
 	/* struct bdk_tns_sde_hdbf_req_cts_s  cn88xxp1; */
 } bdk_tns_sde_hdbf_req_cts_t;
@@ -1965,7 +1917,6 @@ typedef union bdk_tns_sde_hdbf_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_hdbf_spad_s     cn85xx; */
 	/* struct bdk_tns_sde_hdbf_spad_s     cn88xx; */
 	/* struct bdk_tns_sde_hdbf_spad_s     cn88xxp1; */
 } bdk_tns_sde_hdbf_spad_t;
@@ -2008,7 +1959,6 @@ typedef union bdk_tns_sde_isme_cfg_lm_ldex {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_cfg_lm_ldex_s cn85xx; */
 	/* struct bdk_tns_sde_isme_cfg_lm_ldex_s cn88xx; */
 	/* struct bdk_tns_sde_isme_cfg_lm_ldex_s cn88xxp1; */
 } bdk_tns_sde_isme_cfg_lm_ldex_t;
@@ -2046,7 +1996,6 @@ typedef union bdk_tns_sde_isme_cfg_lm_tile {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_cfg_lm_tile_s cn85xx; */
 	/* struct bdk_tns_sde_isme_cfg_lm_tile_s cn88xx; */
 	/* struct bdk_tns_sde_isme_cfg_lm_tile_s cn88xxp1; */
 } bdk_tns_sde_isme_cfg_lm_tile_t;
@@ -2083,7 +2032,6 @@ typedef union bdk_tns_sde_isme_ecc_ctl_cd {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_ecc_ctl_cd_s cn85xx; */
 	/* struct bdk_tns_sde_isme_ecc_ctl_cd_s cn88xx; */
 	/* struct bdk_tns_sde_isme_ecc_ctl_cd_s cn88xxp1; */
 } bdk_tns_sde_isme_ecc_ctl_cd_t;
@@ -2124,7 +2072,6 @@ typedef union bdk_tns_sde_isme_ecc_ctl_flp {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_ecc_ctl_flp_s cn85xx; */
 	/* struct bdk_tns_sde_isme_ecc_ctl_flp_s cn88xx; */
 	/* struct bdk_tns_sde_isme_ecc_ctl_flp_s cn88xxp1; */
 } bdk_tns_sde_isme_ecc_ctl_flp_t;
@@ -2160,7 +2107,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w0 {
 		uint32_t dataa_and_keya_x0           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w0_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w0_t;
@@ -2194,7 +2140,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w1 {
 		uint32_t dataa_and_keya_x1           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w1_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w1_t;
@@ -2228,7 +2173,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w2 {
 		uint32_t dataa_and_keya_x2           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w2_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w2_t;
@@ -2262,7 +2206,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w3 {
 		uint32_t dataa_and_keya_x3           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w3_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w3_t;
@@ -2296,7 +2239,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w4 {
 		uint32_t dataa_and_keya_x4           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w4_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w4_t;
@@ -2330,7 +2272,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w5 {
 		uint32_t datab_and_keyb_x0           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w5_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w5_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w5_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w5_t;
@@ -2364,7 +2305,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w6 {
 		uint32_t datab_and_keyb_x1           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w6_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w6_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w6_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w6_t;
@@ -2398,7 +2338,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w7 {
 		uint32_t datab_and_keyb_x2           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w7_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w7_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w7_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w7_t;
@@ -2432,7 +2371,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w8 {
 		uint32_t datab_and_keyb_x3           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w8_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w8_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w8_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w8_t;
@@ -2466,7 +2404,6 @@ typedef union bdk_tns_sde_isme_lm_tile_lmemx_w9 {
 		uint32_t datab_and_keyb_x4           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w9_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w9_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_lmemx_w9_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_lmemx_w9_t;
@@ -2503,7 +2440,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w0 {
 		uint32_t dataa_and_keya_x0           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w0_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w0_t;
@@ -2537,7 +2473,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w1 {
 		uint32_t dataa_and_keya_x1           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w1_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w1_t;
@@ -2571,7 +2506,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w2 {
 		uint32_t dataa_and_keya_x2           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w2_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w2_t;
@@ -2605,7 +2539,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w3 {
 		uint32_t dataa_and_keya_x3           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w3_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w3_t;
@@ -2639,7 +2572,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w4 {
 		uint32_t dataa_and_keya_x4           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w4_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w4_t;
@@ -2673,7 +2605,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w5 {
 		uint32_t datab_and_keyb_x0           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w5_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w5_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w5_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w5_t;
@@ -2707,7 +2638,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w6 {
 		uint32_t datab_and_keyb_x1           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w6_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w6_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w6_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w6_t;
@@ -2741,7 +2671,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w7 {
 		uint32_t datab_and_keyb_x2           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w7_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w7_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w7_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w7_t;
@@ -2775,7 +2704,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w8 {
 		uint32_t datab_and_keyb_x3           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w8_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w8_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w8_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w8_t;
@@ -2809,7 +2737,6 @@ typedef union bdk_tns_sde_isme_lm_tile_rmemx_w9 {
 		uint32_t datab_and_keyb_x4           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w9_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w9_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lm_tile_rmemx_w9_s cn88xxp1; */
 } bdk_tns_sde_isme_lm_tile_rmemx_w9_t;
@@ -2843,7 +2770,6 @@ typedef union bdk_tns_sde_isme_lmkl_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_lmkl_lock_s cn85xx; */
 	/* struct bdk_tns_sde_isme_lmkl_lock_s cn88xx; */
 	/* struct bdk_tns_sde_isme_lmkl_lock_s cn88xxp1; */
 } bdk_tns_sde_isme_lmkl_lock_t;
@@ -2880,7 +2806,6 @@ typedef union bdk_tns_sde_isme_rt_cfg_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_cfg_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_cfg_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_cfg_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_cfg_dbg_sel_t;
@@ -2925,7 +2850,6 @@ typedef union bdk_tns_sde_isme_rt_cfg_mtrtx {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_cfg_mtrtx_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_cfg_mtrtx_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_cfg_mtrtx_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_cfg_mtrtx_t;
@@ -2965,7 +2889,6 @@ typedef union bdk_tns_sde_isme_rt_cfg_utrtx {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_cfg_utrtx_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_cfg_utrtx_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_cfg_utrtx_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_cfg_utrtx_t;
@@ -3001,7 +2924,6 @@ typedef union bdk_tns_sde_isme_rt_dbg_cptr {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_dbg_cptr_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_dbg_cptr_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_dbg_cptr_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_dbg_cptr_t;
@@ -3043,7 +2965,6 @@ typedef union bdk_tns_sde_isme_rt_dr_int_en_hi {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_dr_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_dr_int_en_hi_t;
@@ -3085,7 +3006,6 @@ typedef union bdk_tns_sde_isme_rt_dr_int_en_lo {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_dr_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_dr_int_en_lo_t;
@@ -3127,7 +3047,6 @@ typedef union bdk_tns_sde_isme_rt_dr_int_frc {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_dr_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_frc_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_dr_int_frc_t;
@@ -3169,7 +3088,6 @@ typedef union bdk_tns_sde_isme_rt_dr_int_w1c {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_dr_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_dr_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_dr_int_w1c_t;
@@ -3204,7 +3122,6 @@ typedef union bdk_tns_sde_isme_rt_fw_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_fw_mode_s cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_fw_mode_s cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_fw_mode_s cn88xxp1; */
 } bdk_tns_sde_isme_rt_fw_mode_t;
@@ -3237,7 +3154,6 @@ typedef union bdk_tns_sde_isme_rt_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_lock_s  cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_lock_s  cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_lock_s  cn88xxp1; */
 } bdk_tns_sde_isme_rt_lock_t;
@@ -3270,7 +3186,6 @@ typedef union bdk_tns_sde_isme_rt_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_rt_spad_s  cn85xx; */
 	/* struct bdk_tns_sde_isme_rt_spad_s  cn88xx; */
 	/* struct bdk_tns_sde_isme_rt_spad_s  cn88xxp1; */
 } bdk_tns_sde_isme_rt_spad_t;
@@ -3303,7 +3218,6 @@ typedef union bdk_tns_sde_isme_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_spad_s     cn85xx; */
 	/* struct bdk_tns_sde_isme_spad_s     cn88xx; */
 	/* struct bdk_tns_sde_isme_spad_s     cn88xxp1; */
 } bdk_tns_sde_isme_spad_t;
@@ -3353,7 +3267,6 @@ typedef union bdk_tns_sde_isme_tile_int_en_hi {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_tile_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_isme_tile_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_isme_tile_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_isme_tile_int_en_hi_t;
@@ -3403,7 +3316,6 @@ typedef union bdk_tns_sde_isme_tile_int_en_lo {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_tile_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_isme_tile_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_isme_tile_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_isme_tile_int_en_lo_t;
@@ -3453,7 +3365,6 @@ typedef union bdk_tns_sde_isme_tile_int_frc {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_tile_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_isme_tile_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_isme_tile_int_frc_s cn88xxp1; */
 } bdk_tns_sde_isme_tile_int_frc_t;
@@ -3503,7 +3414,6 @@ typedef union bdk_tns_sde_isme_tile_int_w1c {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_isme_tile_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_isme_tile_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_isme_tile_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_isme_tile_int_w1c_t;
@@ -3539,7 +3449,6 @@ typedef union bdk_tns_sde_ldex_acmrh_int_en_hi {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_acmrh_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_acmrh_int_en_hi_t;
@@ -3576,7 +3485,6 @@ typedef union bdk_tns_sde_ldex_acmrh_int_en_lo {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_acmrh_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_acmrh_int_en_lo_t;
@@ -3613,7 +3521,6 @@ typedef union bdk_tns_sde_ldex_acmrh_int_frc {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_acmrh_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_acmrh_int_frc_t;
@@ -3650,7 +3557,6 @@ typedef union bdk_tns_sde_ldex_acmrh_int_w1c {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_acmrh_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_acmrh_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_acmrh_int_w1c_t;
@@ -3686,7 +3592,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_bp_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_bp_mode_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_bp_mode_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_bp_mode_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_bp_mode_t;
@@ -3722,7 +3627,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fmbm_en {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fmbm_en_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fmbm_en_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fmbm_en_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fmbm_en_t;
@@ -3758,7 +3662,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fmbm_idx {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fmbm_idx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fmbm_idx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fmbm_idx_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fmbm_idx_t;
@@ -3794,7 +3697,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fneng {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fneng_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fneng_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fneng_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fneng_t;
@@ -3830,7 +3732,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_cp {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_t;
@@ -3866,7 +3767,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_dp {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_t;
@@ -3902,7 +3802,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_fw {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_t;
@@ -3938,7 +3837,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_tr {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_t;
@@ -3974,7 +3872,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_frcod {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_frcod_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_frcod_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_frcod_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_frcod_t;
@@ -4010,7 +3907,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_lanex {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_lanex_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_lanex_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_lanex_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_lanex_t;
@@ -4046,7 +3942,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_to_cy {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_to_cy_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_to_cy_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_to_cy_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_to_cy_t;
@@ -4082,7 +3977,6 @@ typedef union bdk_tns_sde_ldex_cfg_acm_to_fw_en {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_acm_to_fw_en_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_to_fw_en_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_acm_to_fw_en_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_acm_to_fw_en_t;
@@ -4119,7 +4013,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit0x_w0 {
 		uint32_t se_superkey_inst0_x0        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit0x_w0_t;
@@ -4155,7 +4048,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit0x_w1 {
 		uint32_t se_superkey_inst1_x0        : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit0x_w1_t;
@@ -4191,7 +4083,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit0x_w2 {
 		uint32_t se_superkey_inst2_x0        : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit0x_w2_t;
@@ -4227,7 +4118,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit0x_w3 {
 		uint32_t se_superkey_inst3_x0        : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit0x_w3_t;
@@ -4261,7 +4151,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit0x_w4 {
 		uint32_t se_superkey_inst3_x1        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit0x_w4_t;
@@ -4297,7 +4186,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit0x_w5 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit0x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit0x_w5_t;
@@ -4334,7 +4222,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit1x_w0 {
 		uint32_t se_superkey_inst0_x0        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit1x_w0_t;
@@ -4370,7 +4257,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit1x_w1 {
 		uint32_t se_superkey_inst1_x0        : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit1x_w1_t;
@@ -4406,7 +4292,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit1x_w2 {
 		uint32_t se_superkey_inst2_x0        : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit1x_w2_t;
@@ -4442,7 +4327,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit1x_w3 {
 		uint32_t se_superkey_inst3_x0        : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit1x_w3_t;
@@ -4476,7 +4360,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit1x_w4 {
 		uint32_t se_superkey_inst3_x1        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit1x_w4_t;
@@ -4512,7 +4395,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit1x_w5 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit1x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit1x_w5_t;
@@ -4549,7 +4431,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit2x_w0 {
 		uint32_t se_superkey_inst0_x0        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit2x_w0_t;
@@ -4585,7 +4466,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit2x_w1 {
 		uint32_t se_superkey_inst1_x0        : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit2x_w1_t;
@@ -4621,7 +4501,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit2x_w2 {
 		uint32_t se_superkey_inst2_x0        : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit2x_w2_t;
@@ -4657,7 +4536,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit2x_w3 {
 		uint32_t se_superkey_inst3_x0        : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit2x_w3_t;
@@ -4691,7 +4569,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit2x_w4 {
 		uint32_t se_superkey_inst3_x1        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit2x_w4_t;
@@ -4727,7 +4604,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit2x_w5 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit2x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit2x_w5_t;
@@ -4764,7 +4640,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit3x_w0 {
 		uint32_t se_superkey_inst0_x0        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit3x_w0_t;
@@ -4800,7 +4675,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit3x_w1 {
 		uint32_t se_superkey_inst1_x0        : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit3x_w1_t;
@@ -4836,7 +4710,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit3x_w2 {
 		uint32_t se_superkey_inst2_x0        : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit3x_w2_t;
@@ -4872,7 +4745,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit3x_w3 {
 		uint32_t se_superkey_inst3_x0        : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit3x_w3_t;
@@ -4906,7 +4778,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit3x_w4 {
 		uint32_t se_superkey_inst3_x1        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit3x_w4_t;
@@ -4942,7 +4813,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit3x_w5 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit3x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit3x_w5_t;
@@ -4979,7 +4849,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit4x_w0 {
 		uint32_t se_superkey_inst0_x0        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit4x_w0_t;
@@ -5015,7 +4884,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit4x_w1 {
 		uint32_t se_superkey_inst1_x0        : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit4x_w1_t;
@@ -5051,7 +4919,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit4x_w2 {
 		uint32_t se_superkey_inst2_x0        : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit4x_w2_t;
@@ -5087,7 +4954,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit4x_w3 {
 		uint32_t se_superkey_inst3_x0        : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit4x_w3_t;
@@ -5121,7 +4987,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit4x_w4 {
 		uint32_t se_superkey_inst3_x1        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit4x_w4_t;
@@ -5157,7 +5022,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit4x_w5 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit4x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit4x_w5_t;
@@ -5194,7 +5058,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit5x_w0 {
 		uint32_t se_superkey_inst0_x0        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit5x_w0_t;
@@ -5230,7 +5093,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit5x_w1 {
 		uint32_t se_superkey_inst1_x0        : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit5x_w1_t;
@@ -5266,7 +5128,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit5x_w2 {
 		uint32_t se_superkey_inst2_x0        : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit5x_w2_t;
@@ -5302,7 +5163,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit5x_w3 {
 		uint32_t se_superkey_inst3_x0        : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit5x_w3_t;
@@ -5336,7 +5196,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit5x_w4 {
 		uint32_t se_superkey_inst3_x1        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit5x_w4_t;
@@ -5372,7 +5231,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit5x_w5 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit5x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit5x_w5_t;
@@ -5410,7 +5268,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfit6x {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfit6x_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit6x_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfit6x_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfit6x_t;
@@ -5446,7 +5303,6 @@ typedef union bdk_tns_sde_ldex_cfg_kfits_idx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_kfits_idx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfits_idx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_kfits_idx_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_kfits_idx_t;
@@ -5482,7 +5338,6 @@ typedef union bdk_tns_sde_ldex_cfg_lde_adr {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_lde_adr_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_lde_adr_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_lde_adr_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_lde_adr_t;
@@ -5518,7 +5373,6 @@ typedef union bdk_tns_sde_ldex_cfg_lde_type {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_lde_type_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_lde_type_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_lde_type_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_lde_type_t;
@@ -5556,7 +5410,6 @@ typedef union bdk_tns_sde_ldex_cfg_ldea_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ldea_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ldea_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ldea_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ldea_dbg_sel_t;
@@ -5594,7 +5447,6 @@ typedef union bdk_tns_sde_ldex_cfg_ldeb_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_t;
@@ -5630,7 +5482,6 @@ typedef union bdk_tns_sde_ldex_cfg_max_acm_reqs {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_max_acm_reqs_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_max_acm_reqs_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_max_acm_reqs_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_max_acm_reqs_t;
@@ -5666,7 +5517,6 @@ typedef union bdk_tns_sde_ldex_cfg_max_se_reqs {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_max_se_reqs_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_max_se_reqs_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_max_se_reqs_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_max_se_reqs_t;
@@ -5702,7 +5552,6 @@ typedef union bdk_tns_sde_ldex_cfg_merge_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_merge_mode_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_merge_mode_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_merge_mode_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_merge_mode_t;
@@ -5743,7 +5592,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit0x_w0 {
 		uint32_t token_txq_sel_inst_x0       : 19;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit0x_w0_t;
@@ -5781,7 +5629,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit0x_w1 {
 		uint32_t token_reasoncode_inst_x0    : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit0x_w1_t;
@@ -5817,7 +5664,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit0x_w2 {
 		uint32_t token_ecmpsize_inst_x0      : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit0x_w2_t;
@@ -5853,7 +5699,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit0x_w3 {
 		uint32_t token_egressvif_inst_x0     : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit0x_w3_t;
@@ -5889,7 +5734,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit0x_w4 {
 		uint32_t token_pktcmd_inst_x0        : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit0x_w4_t;
@@ -5925,7 +5769,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit0x_w5 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit0x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit0x_w5_t;
@@ -5968,7 +5811,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit1x_w0 {
 		uint32_t token_ingressvif_inst_x0    : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit1x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit1x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit1x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit1x_w0_t;
@@ -6004,7 +5846,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit1x_w1 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit1x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit1x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit1x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit1x_w1_t;
@@ -6040,7 +5881,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit2x {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit2x_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit2x_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit2x_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit2x_t;
@@ -6079,7 +5919,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit3x_w0 {
 		uint32_t token_dscp_inst_x0          : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit3x_w0_t;
@@ -6117,7 +5956,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit3x_w1 {
 		uint32_t token_pcp_inst_x0           : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit3x_w1_t;
@@ -6155,7 +5993,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit3x_w2 {
 		uint32_t token_dp_inst_x0            : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit3x_w2_t;
@@ -6191,7 +6028,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit3x_w3 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit3x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit3x_w3_t;
@@ -6230,7 +6066,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit4x_w0 {
 		uint32_t token_rewrptr1_inst_x0      : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit4x_w0_t;
@@ -6268,7 +6103,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit4x_w1 {
 		uint32_t token_rewrptr3_inst_x0      : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit4x_w1_t;
@@ -6304,7 +6138,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit4x_w2 {
 		uint32_t token_rewrptr4_inst_x0      : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit4x_w2_t;
@@ -6342,7 +6175,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit4x_w3 {
 		uint32_t token_rewrptr6_inst_x0      : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit4x_w3_t;
@@ -6378,7 +6210,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit4x_w4 {
 		uint32_t token_rewrptr7_inst         : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit4x_w4_t;
@@ -6416,7 +6247,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit4x_w5 {
 		uint32_t reserved_21_31              : 11;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit4x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit4x_w5_t;
@@ -6453,7 +6283,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w0 {
 		uint32_t token_scratchpad_inst0_x0   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w0_t;
@@ -6489,7 +6318,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w1 {
 		uint32_t token_scratchpad_inst1_x0   : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w1_t;
@@ -6525,7 +6353,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w10 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w10_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w10_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w10_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w10_t;
@@ -6559,7 +6386,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w2 {
 		uint32_t token_scratchpad_inst1_x1   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w2_t;
@@ -6595,7 +6421,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w3 {
 		uint32_t token_scratchpad_inst2_x0   : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w3_t;
@@ -6631,7 +6456,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w4 {
 		uint32_t token_scratchpad_inst3_x0   : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w4_t;
@@ -6667,7 +6491,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w5 {
 		uint32_t token_scratchpad_inst4_x0   : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w5_t;
@@ -6703,7 +6526,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w6 {
 		uint32_t token_scratchpad_inst5_x0   : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w6_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w6_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w6_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w6_t;
@@ -6739,7 +6561,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w7 {
 		uint32_t token_scratchpad_inst6_x0   : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w7_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w7_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w7_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w7_t;
@@ -6773,7 +6594,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w8 {
 		uint32_t token_scratchpad_inst6_x1   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w8_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w8_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w8_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w8_t;
@@ -6809,7 +6629,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit5x_w9 {
 		uint32_t token_scratchpad_inst7_x0   : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w9_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w9_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit5x_w9_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit5x_w9_t;
@@ -6846,7 +6665,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit6x_w0 {
 		uint32_t token_layers_inst0_x0       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit6x_w0_t;
@@ -6882,7 +6700,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit6x_w1 {
 		uint32_t token_layers_inst1_x0       : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit6x_w1_t;
@@ -6918,7 +6735,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit6x_w2 {
 		uint32_t token_layers_inst2_x0       : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit6x_w2_t;
@@ -6952,7 +6768,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit6x_w3 {
 		uint32_t token_layers_inst2_x1       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit6x_w3_t;
@@ -6988,7 +6803,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit6x_w4 {
 		uint32_t token_layers_inst3_x0       : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit6x_w4_t;
@@ -7024,7 +6838,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit6x_w5 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit6x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit6x_w5_t;
@@ -7061,7 +6874,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit7x_w0 {
 		uint32_t token_layers_inst0_x0       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit7x_w0_t;
@@ -7097,7 +6909,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit7x_w1 {
 		uint32_t token_layers_inst1_x0       : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit7x_w1_t;
@@ -7133,7 +6944,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit7x_w2 {
 		uint32_t token_layers_inst2_x0       : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit7x_w2_t;
@@ -7167,7 +6977,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit7x_w3 {
 		uint32_t token_layers_inst2_x1       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit7x_w3_t;
@@ -7203,7 +7012,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit7x_w4 {
 		uint32_t token_layers_inst3_x0       : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit7x_w4_t;
@@ -7239,7 +7047,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit7x_w5 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit7x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit7x_w5_t;
@@ -7276,7 +7083,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit8x_w0 {
 		uint32_t acm_req_addr_inst0_x0       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit8x_w0_t;
@@ -7314,7 +7120,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit8x_w1 {
 		uint32_t acm_req_addr_inst1_x0       : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit8x_w1_t;
@@ -7352,7 +7157,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit8x_w2 {
 		uint32_t acm_req_addr_inst2_x0       : 18;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit8x_w2_t;
@@ -7390,7 +7194,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit8x_w3 {
 		uint32_t acm_req_addr_inst3_x0       : 11;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit8x_w3_t;
@@ -7428,7 +7231,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit8x_w4 {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit8x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit8x_w4_t;
@@ -7465,7 +7267,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w0 {
 		uint32_t lm_req_key_inst0_x0         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w0_t;
@@ -7501,7 +7302,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w1 {
 		uint32_t lm_req_key_inst1_x0         : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w1_t;
@@ -7537,7 +7337,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w2 {
 		uint32_t lm_req_key_inst2_x0         : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w2_t;
@@ -7573,7 +7372,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w3 {
 		uint32_t lm_req_key_inst3_x0         : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w3_t;
@@ -7609,7 +7407,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w4 {
 		uint32_t lm_req_key_inst4_x0         : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w4_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w4_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w4_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w4_t;
@@ -7645,7 +7442,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w5 {
 		uint32_t lm_req_key_inst5_x0         : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w5_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w5_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w5_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w5_t;
@@ -7679,7 +7475,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w6 {
 		uint32_t lm_req_key_inst5_x1         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w6_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w6_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w6_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w6_t;
@@ -7715,7 +7510,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w7 {
 		uint32_t lm_req_key_inst6_x0         : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w7_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w7_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w7_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w7_t;
@@ -7751,7 +7545,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w8 {
 		uint32_t lm_req_key_inst7_x0         : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w8_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w8_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w8_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w8_t;
@@ -7789,7 +7582,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofit9x_w9 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w9_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w9_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofit9x_w9_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofit9x_w9_t;
@@ -7825,7 +7617,6 @@ typedef union bdk_tns_sde_ldex_cfg_ofits_idx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ofits_idx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofits_idx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ofits_idx_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ofits_idx_t;
@@ -7861,7 +7652,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dmbm_en {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dmbm_en_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dmbm_en_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dmbm_en_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dmbm_en_t;
@@ -7897,7 +7687,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dmbm_idx {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dmbm_idx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dmbm_idx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dmbm_idx_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dmbm_idx_t;
@@ -7933,7 +7722,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dneng {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dneng_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dneng_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dneng_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dneng_t;
@@ -7969,7 +7757,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_cp {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_t;
@@ -8005,7 +7792,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_dp {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_t;
@@ -8041,7 +7827,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_fw {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_t;
@@ -8077,7 +7862,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_tr {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_t;
@@ -8113,7 +7897,6 @@ typedef union bdk_tns_sde_ldex_cfg_pol_drcod {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_pol_drcod_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_drcod_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_pol_drcod_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_pol_drcod_t;
@@ -8153,7 +7936,6 @@ typedef union bdk_tns_sde_ldex_cfg_prfl_tblx {
 		uint32_t se_cmd3_rslt_lane_bitmap    : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_prfl_tblx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_prfl_tblx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_prfl_tblx_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_prfl_tblx_t;
@@ -8189,7 +7971,6 @@ typedef union bdk_tns_sde_ldex_cfg_se_to_cy {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_se_to_cy_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_se_to_cy_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_se_to_cy_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_se_to_cy_t;
@@ -8225,7 +8006,6 @@ typedef union bdk_tns_sde_ldex_cfg_se_to_fw_en {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_se_to_fw_en_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_se_to_fw_en_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_se_to_fw_en_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_se_to_fw_en_t;
@@ -8261,7 +8041,6 @@ typedef union bdk_tns_sde_ldex_cfg_smp_lanex {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_smp_lanex_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_smp_lanex_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_smp_lanex_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_smp_lanex_t;
@@ -8298,7 +8077,6 @@ typedef union bdk_tns_sde_ldex_cfg_tpl_tblx_w0 {
 		uint32_t metadata                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_tpl_tblx_w0_t;
@@ -8340,7 +8118,6 @@ typedef union bdk_tns_sde_ldex_cfg_tpl_tblx_w1 {
 		uint32_t layer4_offset_x0            : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_tpl_tblx_w1_t;
@@ -8386,7 +8163,6 @@ typedef union bdk_tns_sde_ldex_cfg_tpl_tblx_w2 {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_tpl_tblx_w2_t;
@@ -8422,7 +8198,6 @@ typedef union bdk_tns_sde_ldex_cfg_ttl_fl_neng {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_neng_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_neng_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_neng_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ttl_fl_neng_t;
@@ -8458,7 +8233,6 @@ typedef union bdk_tns_sde_ldex_cfg_ttl_fl_pcmd {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_t;
@@ -8494,7 +8268,6 @@ typedef union bdk_tns_sde_ldex_cfg_ttl_fl_rcod {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_rcod_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_rcod_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_cfg_ttl_fl_rcod_s cn88xxp1; */
 } bdk_tns_sde_ldex_cfg_ttl_fl_rcod_t;
@@ -8544,7 +8317,6 @@ typedef union bdk_tns_sde_ldex_dbg_acmrh_w0 {
 		uint32_t probe_acm_rslt_exp_vec_x0   : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_acmrh_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_acmrh_w0_t;
@@ -8596,7 +8368,6 @@ typedef union bdk_tns_sde_ldex_dbg_acmrh_w1 {
 		uint32_t acm_rslt_ln0_in_drdy        : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_acmrh_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_acmrh_w1_t;
@@ -8662,7 +8433,6 @@ typedef union bdk_tns_sde_ldex_dbg_acmrh_w2 {
 		uint32_t input_buf_usage             : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_acmrh_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_acmrh_w2_t;
@@ -8704,7 +8474,6 @@ typedef union bdk_tns_sde_ldex_dbg_acmrh_w3 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_acmrh_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_acmrh_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_acmrh_w3_t;
@@ -8750,7 +8519,6 @@ typedef union bdk_tns_sde_ldex_dbg_ifif {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ifif_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ifif_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ifif_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ifif_t;
@@ -8790,7 +8558,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfcp_bits_w0 {
 		uint32_t out_logicallayer3_8lsbs     : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfcp_bits_w0_t;
@@ -8832,7 +8599,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfcp_bits_w1 {
 		uint32_t out_lmdata_8lsbs_x0         : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfcp_bits_w1_t;
@@ -8880,7 +8646,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfcp_bits_w2 {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfcp_bits_w2_t;
@@ -8930,7 +8695,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfcp_kfit {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfcp_kfit_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_kfit_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_kfit_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfcp_kfit_t;
@@ -8970,7 +8734,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0 {
 		uint32_t stg1_out_data_8lsbs_x0      : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_t;
@@ -9022,7 +8785,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1 {
 		uint32_t reserved_21_31              : 11;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_t;
@@ -9070,7 +8832,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfdp_core {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfdp_core_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfdp_core_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfdp_core_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfdp_core_t;
@@ -9122,7 +8883,6 @@ typedef union bdk_tns_sde_ldex_dbg_kfdp_ridg {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_kfdp_ridg_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfdp_ridg_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_kfdp_ridg_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_kfdp_ridg_t;
@@ -9170,7 +8930,6 @@ typedef union bdk_tns_sde_ldex_dbg_mgr_info_w0 {
 		uint32_t probe_waiting_time_x0       : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_mgr_info_w0_t;
@@ -9226,7 +8985,6 @@ typedef union bdk_tns_sde_ldex_dbg_mgr_info_w1 {
 		uint32_t se_rslt_lane1_in_sorry      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_mgr_info_w1_t;
@@ -9292,7 +9050,6 @@ typedef union bdk_tns_sde_ldex_dbg_mgr_info_w2 {
 		uint32_t token_buf_usage_x0          : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_mgr_info_w2_t;
@@ -9340,7 +9097,6 @@ typedef union bdk_tns_sde_ldex_dbg_mgr_info_w3 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w3_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w3_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_mgr_info_w3_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_mgr_info_w3_t;
@@ -9386,7 +9142,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_bits_w0 {
 		uint32_t out_subtoken0_valid         : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_bits_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_bits_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_bits_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_bits_w0_t;
@@ -9432,7 +9187,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_bits_w1 {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_bits_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_bits_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_bits_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_bits_w1_t;
@@ -9466,7 +9220,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0 {
 		uint32_t stg4_out_data_x0            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_t;
@@ -9512,7 +9265,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1 {
 		uint32_t stg2_out_data_8lsbs_x0      : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_t;
@@ -9570,7 +9322,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_t;
@@ -9616,7 +9367,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_mxcd {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_mxcd_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mxcd_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_mxcd_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_mxcd_t;
@@ -9660,7 +9410,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_ofit_w0 {
 		uint32_t out_ofit3_exp_inst_8lsbs_x0 : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_t;
@@ -9704,7 +9453,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_ofit_w1 {
 		uint32_t out_ofit8_1st_inst_8lsbs_x0 : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_t;
@@ -9756,7 +9504,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofcp_ofit_w2 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_t;
@@ -9816,7 +9563,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofdp_acmridg {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofdp_acmridg_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofdp_acmridg_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofdp_acmridg_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofdp_acmridg_t;
@@ -9868,7 +9614,6 @@ typedef union bdk_tns_sde_ldex_dbg_ofdp_core {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ofdp_core_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofdp_core_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ofdp_core_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ofdp_core_t;
@@ -9910,7 +9655,6 @@ typedef union bdk_tns_sde_ldex_dbg_tmp_tbl_w0 {
 		uint32_t out_logical_offset3         : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_tmp_tbl_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_tmp_tbl_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_tmp_tbl_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_tmp_tbl_w0_t;
@@ -9960,7 +9704,6 @@ typedef union bdk_tns_sde_ldex_dbg_tmp_tbl_w1 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_tmp_tbl_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_tmp_tbl_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_tmp_tbl_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_tmp_tbl_w1_t;
@@ -10008,7 +9751,6 @@ typedef union bdk_tns_sde_ldex_dbg_ttl_lb_w0 {
 		uint32_t in_ttl                      : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ttl_lb_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ttl_lb_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ttl_lb_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ttl_lb_w0_t;
@@ -10048,7 +9790,6 @@ typedef union bdk_tns_sde_ldex_dbg_ttl_lb_w1 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_dbg_ttl_lb_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ttl_lb_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_dbg_ttl_lb_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_dbg_ttl_lb_w1_t;
@@ -10084,7 +9825,6 @@ typedef union bdk_tns_sde_ldex_kfcp0_bypm_dmux {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp0_bypm_dmux_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_bypm_dmux_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_bypm_dmux_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp0_bypm_dmux_t;
@@ -10118,7 +9858,6 @@ typedef union bdk_tns_sde_ldex_kfcp0_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp0_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp0_ml_dlut_wx_t;
@@ -10158,7 +9897,6 @@ typedef union bdk_tns_sde_ldex_kfcp0_ml_dmux_w0 {
 		uint32_t mux3_sel_x0                 : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp0_ml_dmux_w0_t;
@@ -10198,7 +9936,6 @@ typedef union bdk_tns_sde_ldex_kfcp0_ml_dmux_w1 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp0_ml_dmux_w1_t;
@@ -10234,7 +9971,6 @@ typedef union bdk_tns_sde_ldex_kfcp1_bypm_dmux {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp1_bypm_dmux_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_bypm_dmux_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_bypm_dmux_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp1_bypm_dmux_t;
@@ -10268,7 +10004,6 @@ typedef union bdk_tns_sde_ldex_kfcp1_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_t;
@@ -10312,7 +10047,6 @@ typedef union bdk_tns_sde_ldex_kfcp1_ml_dmux_w0 {
 		uint32_t mux5_sel_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_t;
@@ -10348,7 +10082,6 @@ typedef union bdk_tns_sde_ldex_kfcp1_ml_dmux_w1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_t;
@@ -10382,7 +10115,6 @@ typedef union bdk_tns_sde_ldex_kfcp2_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp2_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp2_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp2_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp2_ml_dlut_wx_t;
@@ -10426,7 +10158,6 @@ typedef union bdk_tns_sde_ldex_kfcp2_ml_dmux_w0 {
 		uint32_t mux5_sel_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp2_ml_dmux_w0_t;
@@ -10462,7 +10193,6 @@ typedef union bdk_tns_sde_ldex_kfcp2_ml_dmux_w1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp2_ml_dmux_w1_t;
@@ -10496,7 +10226,6 @@ typedef union bdk_tns_sde_ldex_kfcp_cloud_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp_cloud_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_cloud_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_cloud_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp_cloud_lock_t;
@@ -10530,7 +10259,6 @@ typedef union bdk_tns_sde_ldex_kfcp_cloud_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp_cloud_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_cloud_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_cloud_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp_cloud_spad_t;
@@ -10581,7 +10309,6 @@ typedef union bdk_tns_sde_ldex_kfcp_int_en_hi {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp_int_en_hi_t;
@@ -10632,7 +10359,6 @@ typedef union bdk_tns_sde_ldex_kfcp_int_en_lo {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp_int_en_lo_t;
@@ -10683,7 +10409,6 @@ typedef union bdk_tns_sde_ldex_kfcp_int_frc {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp_int_frc_t;
@@ -10734,7 +10459,6 @@ typedef union bdk_tns_sde_ldex_kfcp_int_w1c {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfcp_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfcp_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfcp_int_w1c_t;
@@ -10773,7 +10497,6 @@ typedef union bdk_tns_sde_ldex_kfdp_int_en_hi {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfdp_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfdp_int_en_hi_t;
@@ -10812,7 +10535,6 @@ typedef union bdk_tns_sde_ldex_kfdp_int_en_lo {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfdp_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfdp_int_en_lo_t;
@@ -10851,7 +10573,6 @@ typedef union bdk_tns_sde_ldex_kfdp_int_frc {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfdp_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfdp_int_frc_t;
@@ -10890,7 +10611,6 @@ typedef union bdk_tns_sde_ldex_kfdp_int_w1c {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfdp_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfdp_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfdp_int_w1c_t;
@@ -10924,7 +10644,6 @@ typedef union bdk_tns_sde_ldex_kfit_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfit_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfit_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfit_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfit_lock_t;
@@ -10958,7 +10677,6 @@ typedef union bdk_tns_sde_ldex_kfit_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfit_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfit_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfit_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfit_spad_t;
@@ -10994,7 +10712,6 @@ typedef union bdk_tns_sde_ldex_kfm_ecc_ctl_cd {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_cd_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_cd_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_cd_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfm_ecc_ctl_cd_t;
@@ -11030,7 +10747,6 @@ typedef union bdk_tns_sde_ldex_kfm_ecc_ctl_fd {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fd_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fd_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fd_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfm_ecc_ctl_fd_t;
@@ -11066,7 +10782,6 @@ typedef union bdk_tns_sde_ldex_kfm_ecc_ctl_fs {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fs_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fs_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fs_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfm_ecc_ctl_fs_t;
@@ -11102,7 +10817,6 @@ typedef union bdk_tns_sde_ldex_kfmisc_dbg_cptr {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfmisc_dbg_cptr_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfmisc_dbg_cptr_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfmisc_dbg_cptr_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfmisc_dbg_cptr_t;
@@ -11136,7 +10850,6 @@ typedef union bdk_tns_sde_ldex_kfmisc_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfmisc_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfmisc_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfmisc_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfmisc_lock_t;
@@ -11170,7 +10883,6 @@ typedef union bdk_tns_sde_ldex_kfmisc_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_kfmisc_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_kfmisc_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_kfmisc_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_kfmisc_spad_t;
@@ -11210,7 +10922,6 @@ typedef union bdk_tns_sde_ldex_ldea_int_en_hi {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldea_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldea_int_en_hi_t;
@@ -11250,7 +10961,6 @@ typedef union bdk_tns_sde_ldex_ldea_int_en_lo {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldea_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldea_int_en_lo_t;
@@ -11290,7 +11000,6 @@ typedef union bdk_tns_sde_ldex_ldea_int_frc {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldea_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldea_int_frc_t;
@@ -11330,7 +11039,6 @@ typedef union bdk_tns_sde_ldex_ldea_int_w1c {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldea_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldea_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldea_int_w1c_t;
@@ -11369,7 +11077,6 @@ typedef union bdk_tns_sde_ldex_ldeb_int_en_hi {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldeb_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldeb_int_en_hi_t;
@@ -11408,7 +11115,6 @@ typedef union bdk_tns_sde_ldex_ldeb_int_en_lo {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldeb_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldeb_int_en_lo_t;
@@ -11447,7 +11153,6 @@ typedef union bdk_tns_sde_ldex_ldeb_int_frc {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldeb_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldeb_int_frc_t;
@@ -11486,7 +11191,6 @@ typedef union bdk_tns_sde_ldex_ldeb_int_w1c {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ldeb_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ldeb_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_ldeb_int_w1c_t;
@@ -11538,7 +11242,6 @@ typedef union bdk_tns_sde_ldex_mgr_ecc_ctl_cd {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_cd_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_cd_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_cd_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_ecc_ctl_cd_t;
@@ -11590,7 +11293,6 @@ typedef union bdk_tns_sde_ldex_mgr_ecc_ctl_fd {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fd_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fd_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fd_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_ecc_ctl_fd_t;
@@ -11642,7 +11344,6 @@ typedef union bdk_tns_sde_ldex_mgr_ecc_ctl_fs {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fs_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fs_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fs_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_ecc_ctl_fs_t;
@@ -11711,7 +11412,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_en_hi_w0 {
 		uint32_t token_buf_ecc_sb_err_x0     : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_en_hi_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_hi_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_hi_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_en_hi_w0_t;
@@ -11749,7 +11449,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_en_hi_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_en_hi_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_hi_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_hi_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_en_hi_w1_t;
@@ -11818,7 +11517,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_en_lo_w0 {
 		uint32_t token_buf_ecc_sb_err_x0     : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_en_lo_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_lo_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_lo_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_en_lo_w0_t;
@@ -11856,7 +11554,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_en_lo_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_en_lo_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_lo_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_en_lo_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_en_lo_w1_t;
@@ -11925,7 +11622,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_frc_w0 {
 		uint32_t token_buf_ecc_sb_err_x0     : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_frc_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_frc_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_frc_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_frc_w0_t;
@@ -11963,7 +11659,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_frc_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_frc_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_frc_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_frc_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_frc_w1_t;
@@ -12032,7 +11727,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_w1c_w0 {
 		uint32_t token_buf_ecc_sb_err_x0     : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_w1c_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_w1c_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_w1c_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_w1c_w0_t;
@@ -12070,7 +11764,6 @@ typedef union bdk_tns_sde_ldex_mgr_int_w1c_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_int_w1c_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_w1c_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_int_w1c_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_int_w1c_w1_t;
@@ -12106,7 +11799,6 @@ typedef union bdk_tns_sde_ldex_mgr_lde_type {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_lde_type_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_lde_type_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_lde_type_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_lde_type_t;
@@ -12140,7 +11832,6 @@ typedef union bdk_tns_sde_ldex_mgr_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_lock_t;
@@ -12174,7 +11865,6 @@ typedef union bdk_tns_sde_ldex_mgr_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_mgr_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_mgr_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_mgr_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_mgr_spad_t;
@@ -12210,7 +11900,6 @@ typedef union bdk_tns_sde_ldex_ofcp0_bypm_dmux {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp0_bypm_dmux_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_bypm_dmux_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_bypm_dmux_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp0_bypm_dmux_t;
@@ -12244,7 +11933,6 @@ typedef union bdk_tns_sde_ldex_ofcp0_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp0_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp0_ml_dlut_wx_t;
@@ -12284,7 +11972,6 @@ typedef union bdk_tns_sde_ldex_ofcp0_ml_dmux_w0 {
 		uint32_t mux3_sel_x0                 : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp0_ml_dmux_w0_t;
@@ -12324,7 +12011,6 @@ typedef union bdk_tns_sde_ldex_ofcp0_ml_dmux_w1 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp0_ml_dmux_w1_t;
@@ -12360,7 +12046,6 @@ typedef union bdk_tns_sde_ldex_ofcp1_bypm_dmux {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp1_bypm_dmux_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_bypm_dmux_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_bypm_dmux_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp1_bypm_dmux_t;
@@ -12394,7 +12079,6 @@ typedef union bdk_tns_sde_ldex_ofcp1_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_t;
@@ -12438,7 +12122,6 @@ typedef union bdk_tns_sde_ldex_ofcp1_ml_dmux_w0 {
 		uint32_t mux5_sel_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_t;
@@ -12474,7 +12157,6 @@ typedef union bdk_tns_sde_ldex_ofcp1_ml_dmux_w1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_t;
@@ -12510,7 +12192,6 @@ typedef union bdk_tns_sde_ldex_ofcp2_bypm_dmux {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp2_bypm_dmux_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_bypm_dmux_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_bypm_dmux_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp2_bypm_dmux_t;
@@ -12544,7 +12225,6 @@ typedef union bdk_tns_sde_ldex_ofcp2_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp2_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp2_ml_dlut_wx_t;
@@ -12588,7 +12268,6 @@ typedef union bdk_tns_sde_ldex_ofcp2_ml_dmux_w0 {
 		uint32_t mux5_sel_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp2_ml_dmux_w0_t;
@@ -12624,7 +12303,6 @@ typedef union bdk_tns_sde_ldex_ofcp2_ml_dmux_w1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp2_ml_dmux_w1_t;
@@ -12660,7 +12338,6 @@ typedef union bdk_tns_sde_ldex_ofcp3_bypm_dmux {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp3_bypm_dmux_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_bypm_dmux_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_bypm_dmux_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp3_bypm_dmux_t;
@@ -12694,7 +12371,6 @@ typedef union bdk_tns_sde_ldex_ofcp3_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_t;
@@ -12738,7 +12414,6 @@ typedef union bdk_tns_sde_ldex_ofcp3_ml_dmux_w0 {
 		uint32_t mux5_sel_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_t;
@@ -12774,7 +12449,6 @@ typedef union bdk_tns_sde_ldex_ofcp3_ml_dmux_w1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_t;
@@ -12808,7 +12482,6 @@ typedef union bdk_tns_sde_ldex_ofcp4_ml_dlut_wx {
 		uint32_t lut                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp4_ml_dlut_wx_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp4_ml_dlut_wx_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp4_ml_dlut_wx_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp4_ml_dlut_wx_t;
@@ -12852,7 +12525,6 @@ typedef union bdk_tns_sde_ldex_ofcp4_ml_dmux_w0 {
 		uint32_t mux5_sel_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp4_ml_dmux_w0_t;
@@ -12888,7 +12560,6 @@ typedef union bdk_tns_sde_ldex_ofcp4_ml_dmux_w1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp4_ml_dmux_w1_t;
@@ -12922,7 +12593,6 @@ typedef union bdk_tns_sde_ldex_ofcp_cloud_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_cloud_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_cloud_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_cloud_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_cloud_lock_t;
@@ -12956,7 +12626,6 @@ typedef union bdk_tns_sde_ldex_ofcp_cloud_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_cloud_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_cloud_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_cloud_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_cloud_spad_t;
@@ -13021,7 +12690,6 @@ typedef union bdk_tns_sde_ldex_ofcp_int_en_hi {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_int_en_hi_t;
@@ -13086,7 +12754,6 @@ typedef union bdk_tns_sde_ldex_ofcp_int_en_lo {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_int_en_lo_t;
@@ -13151,7 +12818,6 @@ typedef union bdk_tns_sde_ldex_ofcp_int_frc {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_int_frc_t;
@@ -13216,7 +12882,6 @@ typedef union bdk_tns_sde_ldex_ofcp_int_w1c {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_int_w1c_t;
@@ -13256,7 +12921,6 @@ typedef union bdk_tns_sde_ldex_ofcp_mxxr_dyn_w0 {
 		uint32_t muxa_bitmask_x0             : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_w0_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_w0_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_w0_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_mxxr_dyn_w0_t;
@@ -13300,7 +12964,6 @@ typedef union bdk_tns_sde_ldex_ofcp_mxxr_dyn_w1 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_w1_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_w1_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_w1_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofcp_mxxr_dyn_w1_t;
@@ -13341,7 +13004,6 @@ typedef union bdk_tns_sde_ldex_ofdp_int_en_hi {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofdp_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofdp_int_en_hi_t;
@@ -13382,7 +13044,6 @@ typedef union bdk_tns_sde_ldex_ofdp_int_en_lo {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofdp_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofdp_int_en_lo_t;
@@ -13423,7 +13084,6 @@ typedef union bdk_tns_sde_ldex_ofdp_int_frc {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofdp_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofdp_int_frc_t;
@@ -13464,7 +13124,6 @@ typedef union bdk_tns_sde_ldex_ofdp_int_w1c {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofdp_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofdp_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofdp_int_w1c_t;
@@ -13498,7 +13157,6 @@ typedef union bdk_tns_sde_ldex_ofit_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofit_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofit_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofit_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofit_lock_t;
@@ -13532,7 +13190,6 @@ typedef union bdk_tns_sde_ldex_ofit_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofit_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofit_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofit_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofit_spad_t;
@@ -13568,7 +13225,6 @@ typedef union bdk_tns_sde_ldex_ofmisc_dbg_cptr {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofmisc_dbg_cptr_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofmisc_dbg_cptr_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofmisc_dbg_cptr_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofmisc_dbg_cptr_t;
@@ -13602,7 +13258,6 @@ typedef union bdk_tns_sde_ldex_ofmisc_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofmisc_lock_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofmisc_lock_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofmisc_lock_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofmisc_lock_t;
@@ -13636,7 +13291,6 @@ typedef union bdk_tns_sde_ldex_ofmisc_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ofmisc_spad_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ofmisc_spad_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ofmisc_spad_s cn88xxp1; */
 } bdk_tns_sde_ldex_ofmisc_spad_t;
@@ -13681,7 +13335,6 @@ typedef union bdk_tns_sde_ldex_tlom_int_en_hi {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_tlom_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_tlom_int_en_hi_t;
@@ -13726,7 +13379,6 @@ typedef union bdk_tns_sde_ldex_tlom_int_en_lo {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_tlom_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_tlom_int_en_lo_t;
@@ -13771,7 +13423,6 @@ typedef union bdk_tns_sde_ldex_tlom_int_frc {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_tlom_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_tlom_int_frc_t;
@@ -13816,7 +13467,6 @@ typedef union bdk_tns_sde_ldex_tlom_int_w1c {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_tlom_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_tlom_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_tlom_int_w1c_t;
@@ -13855,7 +13505,6 @@ typedef union bdk_tns_sde_ldex_ttl_int_en_hi {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ttl_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_ldex_ttl_int_en_hi_t;
@@ -13894,7 +13543,6 @@ typedef union bdk_tns_sde_ldex_ttl_int_en_lo {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ttl_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_ldex_ttl_int_en_lo_t;
@@ -13933,7 +13581,6 @@ typedef union bdk_tns_sde_ldex_ttl_int_frc {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ttl_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_frc_s cn88xxp1; */
 } bdk_tns_sde_ldex_ttl_int_frc_t;
@@ -13972,7 +13619,6 @@ typedef union bdk_tns_sde_ldex_ttl_int_w1c {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_ldex_ttl_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_ldex_ttl_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_ldex_ttl_int_w1c_t;
@@ -14008,7 +13654,6 @@ typedef union bdk_tns_sde_mreb_arb_out_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_arb_out_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_arb_out_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_arb_out_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_arb_out_ct_t;
@@ -14050,7 +13695,6 @@ typedef union bdk_tns_sde_mreb_arb_out_stepper {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_arb_out_stepper_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_arb_out_stepper_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_arb_out_stepper_s cn88xxp1; */
 } bdk_tns_sde_mreb_arb_out_stepper_t;
@@ -14087,7 +13731,6 @@ typedef union bdk_tns_sde_mreb_arbiter_sta {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_arbiter_sta_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_arbiter_sta_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_arbiter_sta_s cn88xxp1; */
 } bdk_tns_sde_mreb_arbiter_sta_t;
@@ -14122,7 +13765,6 @@ typedef union bdk_tns_sde_mreb_copies_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_copies_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_copies_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_copies_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_copies_ct_t;
@@ -14157,7 +13799,6 @@ typedef union bdk_tns_sde_mreb_drp_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_drp_ct_s   cn85xx; */
 	/* struct bdk_tns_sde_mreb_drp_ct_s   cn88xx; */
 	/* struct bdk_tns_sde_mreb_drp_ct_s   cn88xxp1; */
 } bdk_tns_sde_mreb_drp_ct_t;
@@ -14192,7 +13833,6 @@ typedef union bdk_tns_sde_mreb_feedback_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_feedback_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_feedback_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_feedback_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_feedback_ct_t;
@@ -14239,7 +13879,6 @@ typedef union bdk_tns_sde_mreb_filter_cfg {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_filter_cfg_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_filter_cfg_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_filter_cfg_s cn88xxp1; */
 } bdk_tns_sde_mreb_filter_cfg_t;
@@ -14274,7 +13913,6 @@ typedef union bdk_tns_sde_mreb_hbuf_cyc_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_hbuf_cyc_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_hbuf_cyc_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_hbuf_cyc_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_hbuf_cyc_ct_t;
@@ -14309,7 +13947,6 @@ typedef union bdk_tns_sde_mreb_hbuf_pkt_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_hbuf_pkt_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_hbuf_pkt_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_hbuf_pkt_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_hbuf_pkt_ct_t;
@@ -14345,7 +13982,6 @@ typedef union bdk_tns_sde_mreb_hmem_free_inst {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_hmem_free_inst_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_hmem_free_inst_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_hmem_free_inst_s cn88xxp1; */
 } bdk_tns_sde_mreb_hmem_free_inst_t;
@@ -14378,7 +14014,6 @@ typedef union bdk_tns_sde_mreb_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_lock_s     cn85xx; */
 	/* struct bdk_tns_sde_mreb_lock_s     cn88xx; */
 	/* struct bdk_tns_sde_mreb_lock_s     cn88xxp1; */
 } bdk_tns_sde_mreb_lock_t;
@@ -14413,7 +14048,6 @@ typedef union bdk_tns_sde_mreb_pipegrid_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_pipegrid_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_pipegrid_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_pipegrid_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_pipegrid_ct_t;
@@ -14447,7 +14081,6 @@ typedef union bdk_tns_sde_mreb_rcv_w0 {
 		uint32_t store_1_vld                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_rcv_w0_s   cn85xx; */
 	/* struct bdk_tns_sde_mreb_rcv_w0_s   cn88xx; */
 	/* struct bdk_tns_sde_mreb_rcv_w0_s   cn88xxp1; */
 } bdk_tns_sde_mreb_rcv_w0_t;
@@ -14480,7 +14113,6 @@ typedef union bdk_tns_sde_mreb_rcv_w1 {
 		uint32_t store_0_vld                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_rcv_w1_s   cn85xx; */
 	/* struct bdk_tns_sde_mreb_rcv_w1_s   cn88xx; */
 	/* struct bdk_tns_sde_mreb_rcv_w1_s   cn88xxp1; */
 } bdk_tns_sde_mreb_rcv_w1_t;
@@ -14515,7 +14147,6 @@ typedef union bdk_tns_sde_mreb_req {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_req_s      cn85xx; */
 	/* struct bdk_tns_sde_mreb_req_s      cn88xx; */
 	/* struct bdk_tns_sde_mreb_req_s      cn88xxp1; */
 } bdk_tns_sde_mreb_req_t;
@@ -14550,7 +14181,6 @@ typedef union bdk_tns_sde_mreb_se_req_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_se_req_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_se_req_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_se_req_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_se_req_ct_t;
@@ -14585,7 +14215,6 @@ typedef union bdk_tns_sde_mreb_se_resp0_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_se_resp0_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_se_resp0_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_se_resp0_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_se_resp0_ct_t;
@@ -14620,7 +14249,6 @@ typedef union bdk_tns_sde_mreb_se_resp1_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_se_resp1_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_se_resp1_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_se_resp1_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_se_resp1_ct_t;
@@ -14653,7 +14281,6 @@ typedef union bdk_tns_sde_mreb_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_spad_s     cn85xx; */
 	/* struct bdk_tns_sde_mreb_spad_s     cn88xx; */
 	/* struct bdk_tns_sde_mreb_spad_s     cn88xxp1; */
 } bdk_tns_sde_mreb_spad_t;
@@ -14688,7 +14315,6 @@ typedef union bdk_tns_sde_mreb_sprsd_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_sprsd_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_sprsd_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_sprsd_ct_s cn88xxp1; */
 } bdk_tns_sde_mreb_sprsd_ct_t;
@@ -14723,7 +14349,6 @@ typedef union bdk_tns_sde_mreb_tkn_mem_adr {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_tkn_mem_adr_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_tkn_mem_adr_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_tkn_mem_adr_s cn88xxp1; */
 } bdk_tns_sde_mreb_tkn_mem_adr_t;
@@ -14756,7 +14381,6 @@ typedef union bdk_tns_sde_mreb_tkn_mem_dat_wx {
 		uint32_t token_data                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_tkn_mem_dat_wx_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_tkn_mem_dat_wx_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_tkn_mem_dat_wx_s cn88xxp1; */
 } bdk_tns_sde_mreb_tkn_mem_dat_wx_t;
@@ -14793,7 +14417,6 @@ typedef union bdk_tns_sde_mreb_tkn_mem_ecc_err {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mreb_tkn_mem_ecc_err_s cn85xx; */
 	/* struct bdk_tns_sde_mreb_tkn_mem_ecc_err_s cn88xx; */
 	/* struct bdk_tns_sde_mreb_tkn_mem_ecc_err_s cn88xxp1; */
 } bdk_tns_sde_mreb_tkn_mem_ecc_err_t;
@@ -14830,7 +14453,6 @@ typedef union bdk_tns_sde_mret_arbiter_cfg_w0 {
 		uint32_t wrr_weight2_x0              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_arbiter_cfg_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_arbiter_cfg_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_arbiter_cfg_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_arbiter_cfg_w0_t;
@@ -14870,7 +14492,6 @@ typedef union bdk_tns_sde_mret_arbiter_cfg_w1 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_arbiter_cfg_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_arbiter_cfg_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_arbiter_cfg_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_arbiter_cfg_w1_t;
@@ -14917,7 +14538,6 @@ typedef union bdk_tns_sde_mret_cfg2_w0 {
 		uint32_t token_mem_bank_flip_sb_ecc_x0 : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg2_w0_s  cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg2_w0_s  cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg2_w0_s  cn88xxp1; */
 } bdk_tns_sde_mret_cfg2_w0_t;
@@ -14968,7 +14588,6 @@ typedef union bdk_tns_sde_mret_cfg2_w1 {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg2_w1_s  cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg2_w1_s  cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg2_w1_s  cn88xxp1; */
 } bdk_tns_sde_mret_cfg2_w1_t;
@@ -15003,7 +14622,6 @@ typedef union bdk_tns_sde_mret_cfg_null_ptr {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg_null_ptr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg_null_ptr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg_null_ptr_s cn88xxp1; */
 } bdk_tns_sde_mret_cfg_null_ptr_t;
@@ -15043,7 +14661,6 @@ typedef union bdk_tns_sde_mret_cfg_rcod_w0 {
 		uint32_t ttl_fail_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg_rcod_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg_rcod_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg_rcod_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_cfg_rcod_w0_t;
@@ -15078,7 +14695,6 @@ typedef union bdk_tns_sde_mret_cfg_rcod_w1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg_rcod_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg_rcod_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg_rcod_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_cfg_rcod_w1_t;
@@ -15130,7 +14746,6 @@ typedef union bdk_tns_sde_mret_cfg_w0 {
 		uint32_t pkt_cmd_for_drop            : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg_w0_s   cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg_w0_s   cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg_w0_s   cn88xxp1; */
 } bdk_tns_sde_mret_cfg_w0_t;
@@ -15175,7 +14790,6 @@ typedef union bdk_tns_sde_mret_cfg_w1 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_cfg_w1_s   cn85xx; */
 	/* struct bdk_tns_sde_mret_cfg_w1_s   cn88xx; */
 	/* struct bdk_tns_sde_mret_cfg_w1_s   cn88xxp1; */
 } bdk_tns_sde_mret_cfg_w1_t;
@@ -15211,7 +14825,6 @@ typedef union bdk_tns_sde_mret_ctx_mem_ecc_err {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_ctx_mem_ecc_err_s cn85xx; */
 	/* struct bdk_tns_sde_mret_ctx_mem_ecc_err_s cn88xx; */
 	/* struct bdk_tns_sde_mret_ctx_mem_ecc_err_s cn88xxp1; */
 } bdk_tns_sde_mret_ctx_mem_ecc_err_t;
@@ -15246,7 +14859,6 @@ typedef union bdk_tns_sde_mret_ctxt_mem_adr {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_ctxt_mem_adr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_ctxt_mem_adr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_ctxt_mem_adr_s cn88xxp1; */
 } bdk_tns_sde_mret_ctxt_mem_adr_t;
@@ -15279,7 +14891,6 @@ typedef union bdk_tns_sde_mret_ctxt_mem_dat_wx {
 		uint32_t cntxt_mem_data              : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_ctxt_mem_dat_wx_s cn85xx; */
 	/* struct bdk_tns_sde_mret_ctxt_mem_dat_wx_s cn88xx; */
 	/* struct bdk_tns_sde_mret_ctxt_mem_dat_wx_s cn88xxp1; */
 } bdk_tns_sde_mret_ctxt_mem_dat_wx_t;
@@ -15317,7 +14928,6 @@ typedef union bdk_tns_sde_mret_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_dbg_sel_s  cn85xx; */
 	/* struct bdk_tns_sde_mret_dbg_sel_s  cn88xx; */
 	/* struct bdk_tns_sde_mret_dbg_sel_s  cn88xxp1; */
 } bdk_tns_sde_mret_dbg_sel_t;
@@ -15360,7 +14970,6 @@ typedef union bdk_tns_sde_mret_ecc_ctl_cd {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_ecc_ctl_cd_s cn85xx; */
 	/* struct bdk_tns_sde_mret_ecc_ctl_cd_s cn88xx; */
 	/* struct bdk_tns_sde_mret_ecc_ctl_cd_s cn88xxp1; */
 } bdk_tns_sde_mret_ecc_ctl_cd_t;
@@ -15424,7 +15033,6 @@ typedef union bdk_tns_sde_mret_feature_en {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_feature_en_s cn85xx; */
 	/* struct bdk_tns_sde_mret_feature_en_s cn88xx; */
 	/* struct bdk_tns_sde_mret_feature_en_s cn88xxp1; */
 } bdk_tns_sde_mret_feature_en_t;
@@ -15465,7 +15073,6 @@ typedef union bdk_tns_sde_mret_fl0_fif_ptr {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_fl0_fif_ptr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_fl0_fif_ptr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_fl0_fif_ptr_s cn88xxp1; */
 } bdk_tns_sde_mret_fl0_fif_ptr_t;
@@ -15500,7 +15107,6 @@ typedef union bdk_tns_sde_mret_flst_bk0_adr {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_flst_bk0_adr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_flst_bk0_adr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_flst_bk0_adr_s cn88xxp1; */
 } bdk_tns_sde_mret_flst_bk0_adr_t;
@@ -15535,7 +15141,6 @@ typedef union bdk_tns_sde_mret_flst_bk0_dat {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_flst_bk0_dat_s cn85xx; */
 	/* struct bdk_tns_sde_mret_flst_bk0_dat_s cn88xx; */
 	/* struct bdk_tns_sde_mret_flst_bk0_dat_s cn88xxp1; */
 } bdk_tns_sde_mret_flst_bk0_dat_t;
@@ -15576,7 +15181,6 @@ typedef union bdk_tns_sde_mret_flst_dbg_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_flst_dbg_cfg_s cn85xx; */
 	/* struct bdk_tns_sde_mret_flst_dbg_cfg_s cn88xx; */
 	/* struct bdk_tns_sde_mret_flst_dbg_cfg_s cn88xxp1; */
 } bdk_tns_sde_mret_flst_dbg_cfg_t;
@@ -15613,7 +15217,6 @@ typedef union bdk_tns_sde_mret_flst_sta {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_flst_sta_s cn85xx; */
 	/* struct bdk_tns_sde_mret_flst_sta_s cn88xx; */
 	/* struct bdk_tns_sde_mret_flst_sta_s cn88xxp1; */
 } bdk_tns_sde_mret_flst_sta_t;
@@ -15648,7 +15251,6 @@ typedef union bdk_tns_sde_mret_hdrcyc_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_hdrcyc_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mret_hdrcyc_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mret_hdrcyc_ct_s cn88xxp1; */
 } bdk_tns_sde_mret_hdrcyc_ct_t;
@@ -15685,7 +15287,6 @@ typedef union bdk_tns_sde_mret_hmem_adr {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_hmem_adr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_hmem_adr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_hmem_adr_s cn88xxp1; */
 } bdk_tns_sde_mret_hmem_adr_t;
@@ -15718,7 +15319,6 @@ typedef union bdk_tns_sde_mret_hmem_dat_wx {
 		uint32_t hdr_mem_data                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_hmem_dat_wx_s cn85xx; */
 	/* struct bdk_tns_sde_mret_hmem_dat_wx_s cn88xx; */
 	/* struct bdk_tns_sde_mret_hmem_dat_wx_s cn88xxp1; */
 } bdk_tns_sde_mret_hmem_dat_wx_t;
@@ -15755,7 +15355,6 @@ typedef union bdk_tns_sde_mret_hmem_ecc_err {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_hmem_ecc_err_s cn85xx; */
 	/* struct bdk_tns_sde_mret_hmem_ecc_err_s cn88xx; */
 	/* struct bdk_tns_sde_mret_hmem_ecc_err_s cn88xxp1; */
 } bdk_tns_sde_mret_hmem_ecc_err_t;
@@ -15844,7 +15443,6 @@ typedef union bdk_tns_sde_mret_int_en_hi_w0 {
 		uint32_t token_mem_db_err_x0         : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_en_hi_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_en_hi_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_en_hi_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_int_en_hi_w0_t;
@@ -15903,7 +15501,6 @@ typedef union bdk_tns_sde_mret_int_en_hi_w1 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_en_hi_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_en_hi_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_en_hi_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_int_en_hi_w1_t;
@@ -15992,7 +15589,6 @@ typedef union bdk_tns_sde_mret_int_en_lo_w0 {
 		uint32_t token_mem_db_err_x0         : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_en_lo_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_en_lo_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_en_lo_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_int_en_lo_w0_t;
@@ -16051,7 +15647,6 @@ typedef union bdk_tns_sde_mret_int_en_lo_w1 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_en_lo_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_en_lo_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_en_lo_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_int_en_lo_w1_t;
@@ -16140,7 +15735,6 @@ typedef union bdk_tns_sde_mret_int_frc_w0 {
 		uint32_t token_mem_db_err_x0         : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_frc_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_frc_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_frc_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_int_frc_w0_t;
@@ -16199,7 +15793,6 @@ typedef union bdk_tns_sde_mret_int_frc_w1 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_frc_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_frc_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_frc_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_int_frc_w1_t;
@@ -16288,7 +15881,6 @@ typedef union bdk_tns_sde_mret_int_w1c_w0 {
 		uint32_t token_mem_db_err_x0         : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_w1c_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_w1c_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_w1c_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_int_w1c_w0_t;
@@ -16347,7 +15939,6 @@ typedef union bdk_tns_sde_mret_int_w1c_w1 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_int_w1c_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_int_w1c_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_int_w1c_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_int_w1c_w1_t;
@@ -16380,7 +15971,6 @@ typedef union bdk_tns_sde_mret_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_lock_s     cn85xx; */
 	/* struct bdk_tns_sde_mret_lock_s     cn88xx; */
 	/* struct bdk_tns_sde_mret_lock_s     cn88xxp1; */
 } bdk_tns_sde_mret_lock_t;
@@ -16431,7 +16021,6 @@ typedef union bdk_tns_sde_mret_mdt_req_cfg {
 		uint32_t reserved_21_31              : 11;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_mdt_req_cfg_s cn85xx; */
 	/* struct bdk_tns_sde_mret_mdt_req_cfg_s cn88xx; */
 	/* struct bdk_tns_sde_mret_mdt_req_cfg_s cn88xxp1; */
 } bdk_tns_sde_mret_mdt_req_cfg_t;
@@ -16469,7 +16058,6 @@ typedef union bdk_tns_sde_mret_mdt_resp_cfg {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_mdt_resp_cfg_s cn85xx; */
 	/* struct bdk_tns_sde_mret_mdt_resp_cfg_s cn88xx; */
 	/* struct bdk_tns_sde_mret_mdt_resp_cfg_s cn88xxp1; */
 } bdk_tns_sde_mret_mdt_resp_cfg_t;
@@ -16506,7 +16094,6 @@ typedef union bdk_tns_sde_mret_pg_fif0_adr {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif0_adr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_adr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_adr_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif0_adr_t;
@@ -16541,7 +16128,6 @@ typedef union bdk_tns_sde_mret_pg_fif0_dat {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif0_dat_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_dat_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_dat_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif0_dat_t;
@@ -16582,7 +16168,6 @@ typedef union bdk_tns_sde_mret_pg_fif0_pr0_ptr {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif0_pr0_ptr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr0_ptr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr0_ptr_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif0_pr0_ptr_t;
@@ -16623,7 +16208,6 @@ typedef union bdk_tns_sde_mret_pg_fif0_pr1_ptr {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif0_pr1_ptr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr1_ptr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr1_ptr_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif0_pr1_ptr_t;
@@ -16664,7 +16248,6 @@ typedef union bdk_tns_sde_mret_pg_fif0_pr2_ptr {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif0_pr2_ptr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr2_ptr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr2_ptr_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif0_pr2_ptr_t;
@@ -16705,7 +16288,6 @@ typedef union bdk_tns_sde_mret_pg_fif0_pr3_ptr {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif0_pr3_ptr_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr3_ptr_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif0_pr3_ptr_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif0_pr3_ptr_t;
@@ -16744,7 +16326,6 @@ typedef union bdk_tns_sde_mret_pg_fif_cfg_w0 {
 		uint32_t prio_thr3                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif_cfg_w0_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif_cfg_w0_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif_cfg_w0_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif_cfg_w0_t;
@@ -16779,7 +16360,6 @@ typedef union bdk_tns_sde_mret_pg_fif_cfg_w1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif_cfg_w1_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif_cfg_w1_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif_cfg_w1_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif_cfg_w1_t;
@@ -16844,7 +16424,6 @@ typedef union bdk_tns_sde_mret_pg_fif_dbg_cfg {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_pg_fif_dbg_cfg_s cn85xx; */
 	/* struct bdk_tns_sde_mret_pg_fif_dbg_cfg_s cn88xx; */
 	/* struct bdk_tns_sde_mret_pg_fif_dbg_cfg_s cn88xxp1; */
 } bdk_tns_sde_mret_pg_fif_dbg_cfg_t;
@@ -16877,7 +16456,6 @@ typedef union bdk_tns_sde_mret_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_spad_s     cn85xx; */
 	/* struct bdk_tns_sde_mret_spad_s     cn88xx; */
 	/* struct bdk_tns_sde_mret_spad_s     cn88xxp1; */
 } bdk_tns_sde_mret_spad_t;
@@ -16913,7 +16491,6 @@ typedef union bdk_tns_sde_mret_sta {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_sta_s      cn85xx; */
 	/* struct bdk_tns_sde_mret_sta_s      cn88xx; */
 	/* struct bdk_tns_sde_mret_sta_s      cn88xxp1; */
 } bdk_tns_sde_mret_sta_t;
@@ -16948,7 +16525,6 @@ typedef union bdk_tns_sde_mret_tkn_in_ct {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_mret_tkn_in_ct_s cn85xx; */
 	/* struct bdk_tns_sde_mret_tkn_in_ct_s cn88xx; */
 	/* struct bdk_tns_sde_mret_tkn_in_ct_s cn88xxp1; */
 } bdk_tns_sde_mret_tkn_in_ct_t;
@@ -17001,7 +16577,6 @@ typedef union bdk_tns_sde_parser_int_en_hi_w0 {
 		uint32_t ch0_kpu_tcam_miss_x0        : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_en_hi_w0_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_en_hi_w0_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_en_hi_w0_s cn88xxp1; */
 } bdk_tns_sde_parser_int_en_hi_w0_t;
@@ -17056,7 +16631,6 @@ typedef union bdk_tns_sde_parser_int_en_hi_w1 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_en_hi_w1_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_en_hi_w1_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_en_hi_w1_s cn88xxp1; */
 } bdk_tns_sde_parser_int_en_hi_w1_t;
@@ -17109,7 +16683,6 @@ typedef union bdk_tns_sde_parser_int_en_lo_w0 {
 		uint32_t ch0_kpu_tcam_miss_x0        : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_en_lo_w0_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_en_lo_w0_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_en_lo_w0_s cn88xxp1; */
 } bdk_tns_sde_parser_int_en_lo_w0_t;
@@ -17164,7 +16737,6 @@ typedef union bdk_tns_sde_parser_int_en_lo_w1 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_en_lo_w1_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_en_lo_w1_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_en_lo_w1_s cn88xxp1; */
 } bdk_tns_sde_parser_int_en_lo_w1_t;
@@ -17217,7 +16789,6 @@ typedef union bdk_tns_sde_parser_int_frc_w0 {
 		uint32_t ch0_kpu_tcam_miss_x0        : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_frc_w0_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_frc_w0_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_frc_w0_s cn88xxp1; */
 } bdk_tns_sde_parser_int_frc_w0_t;
@@ -17272,7 +16843,6 @@ typedef union bdk_tns_sde_parser_int_frc_w1 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_frc_w1_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_frc_w1_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_frc_w1_s cn88xxp1; */
 } bdk_tns_sde_parser_int_frc_w1_t;
@@ -17325,7 +16895,6 @@ typedef union bdk_tns_sde_parser_int_w1c_w0 {
 		uint32_t ch0_kpu_tcam_miss_x0        : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_w1c_w0_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_w1c_w0_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_w1c_w0_s cn88xxp1; */
 } bdk_tns_sde_parser_int_w1c_w0_t;
@@ -17380,7 +16949,6 @@ typedef union bdk_tns_sde_parser_int_w1c_w1 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_int_w1c_w1_s cn85xx; */
 	/* struct bdk_tns_sde_parser_int_w1c_w1_s cn88xx; */
 	/* struct bdk_tns_sde_parser_int_w1c_w1_s cn88xxp1; */
 } bdk_tns_sde_parser_int_w1c_w1_t;
@@ -17413,7 +16981,6 @@ typedef union bdk_tns_sde_parser_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_lock_s   cn85xx; */
 	/* struct bdk_tns_sde_parser_lock_s   cn88xx; */
 	/* struct bdk_tns_sde_parser_lock_s   cn88xxp1; */
 } bdk_tns_sde_parser_lock_t;
@@ -17446,7 +17013,6 @@ typedef union bdk_tns_sde_parser_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_parser_spad_s   cn85xx; */
 	/* struct bdk_tns_sde_parser_spad_s   cn88xx; */
 	/* struct bdk_tns_sde_parser_spad_s   cn88xxp1; */
 } bdk_tns_sde_parser_spad_t;
@@ -17483,7 +17049,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_dbg_w0 {
 		uint32_t key_x0                      : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_dbg_w0_t;
@@ -17517,7 +17082,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_dbg_w1 {
 		uint32_t key_x1                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_dbg_w1_t;
@@ -17557,7 +17121,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_dbg_w2 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_dbg_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_dbg_w2_t;
@@ -17597,7 +17160,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_ecc_ctl {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_ecc_ctl_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_ecc_ctl_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_ecc_ctl_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_ecc_ctl_t;
@@ -17648,7 +17210,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_sramx_w0 {
 		uint32_t transitionid_x0             : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_sramx_w0_t;
@@ -17688,7 +17249,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_sramx_w1 {
 		uint32_t metadata1_x0                : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_sramx_w1_t;
@@ -17724,7 +17284,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_sramx_w2 {
 		uint32_t metadata0_x0                : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_sramx_w2_t;
@@ -17764,7 +17323,6 @@ typedef union bdk_tns_sde_pe_kpux_kpu_sramx_w3 {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_kpu_sramx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_kpu_sramx_w3_t;
@@ -17798,7 +17356,6 @@ typedef union bdk_tns_sde_pe_kpux_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_lock_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_lock_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_lock_s  cn88xxp1; */
 } bdk_tns_sde_pe_kpux_lock_t;
@@ -17832,7 +17389,6 @@ typedef union bdk_tns_sde_pe_kpux_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_spad_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_spad_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_spad_s  cn88xxp1; */
 } bdk_tns_sde_pe_kpux_spad_t;
@@ -17871,7 +17427,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_datx_w0 {
 		uint32_t decpoint1                   : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_datx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_datx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_datx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_datx_w0_t;
@@ -17911,7 +17466,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_datx_w1 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_datx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_datx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_datx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_datx_w1_t;
@@ -17948,7 +17502,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w0 {
 		uint32_t vmdata_x0                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w0_t;
@@ -17982,7 +17535,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w1 {
 		uint32_t vmdata_x1                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w1_t;
@@ -18016,7 +17568,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w2 {
 		uint32_t vmdata_x2                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w2_t;
@@ -18050,7 +17601,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w3 {
 		uint32_t vmdata_x3                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w3_t;
@@ -18084,7 +17634,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w4 {
 		uint32_t vmdata_x4                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w4_t;
@@ -18118,7 +17667,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w5 {
 		uint32_t vmdata_x5                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w5_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w5_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w5_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w5_t;
@@ -18156,7 +17704,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w6 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w6_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w6_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w6_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_dmskx_w6_t;
@@ -18195,7 +17742,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_maskx_w0 {
 		uint32_t decpoint1                   : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_maskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_maskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_maskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_maskx_w0_t;
@@ -18235,7 +17781,6 @@ typedef union bdk_tns_sde_pe_kpux_tcam_maskx_w1 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_kpux_tcam_maskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_maskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_kpux_tcam_maskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_kpux_tcam_maskx_w1_t;
@@ -18278,7 +17823,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w0 {
 		uint32_t errnxteng_x0                : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w0_t;
@@ -18321,7 +17865,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w1 {
 		uint32_t ismekey3mask_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w1_t;
@@ -18356,7 +17899,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w2 {
 		uint32_t ismekey2mask_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w2_t;
@@ -18389,7 +17931,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w3 {
 		uint32_t ismekey2mask_x1             : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w3_t;
@@ -18424,7 +17965,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w4 {
 		uint32_t ismekey1mask_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w4_t;
@@ -18457,7 +17997,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w5 {
 		uint32_t ismekey1mask_x1             : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w5_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w5_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w5_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w5_t;
@@ -18492,7 +18031,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w6 {
 		uint32_t ismekey0mask_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w6_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w6_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w6_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w6_t;
@@ -18527,7 +18065,6 @@ typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w7 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w7_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w7_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cmdinfo_w7_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cmdinfo_w7_t;
@@ -18566,7 +18103,6 @@ typedef union bdk_tns_sde_pe_lcmd_cnncmdx_w0 {
 		uint32_t contbytes                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cnncmdx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cnncmdx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cnncmdx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cnncmdx_w0_t;
@@ -18604,7 +18140,6 @@ typedef union bdk_tns_sde_pe_lcmd_cnncmdx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_cnncmdx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cnncmdx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_cnncmdx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_cnncmdx_w1_t;
@@ -18642,7 +18177,6 @@ typedef union bdk_tns_sde_pe_lcmd_ctl_w0 {
 		uint32_t info_mem_spare_x0           : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ctl_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ctl_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ctl_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ctl_w0_t;
@@ -18685,7 +18219,6 @@ typedef union bdk_tns_sde_pe_lcmd_ctl_w1 {
 		uint32_t pindex_fifo_thr_x0          : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ctl_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ctl_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ctl_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ctl_w1_t;
@@ -18722,7 +18255,6 @@ typedef union bdk_tns_sde_pe_lcmd_ctl_w2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ctl_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ctl_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ctl_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ctl_w2_t;
@@ -18761,7 +18293,6 @@ typedef union bdk_tns_sde_pe_lcmd_errorbodyptr {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_errorbodyptr_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_errorbodyptr_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_errorbodyptr_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_errorbodyptr_t;
@@ -18804,7 +18335,6 @@ typedef union bdk_tns_sde_pe_lcmd_ethernetctrlx {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ethernetctrlx_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ethernetctrlx_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ethernetctrlx_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ethernetctrlx_t;
@@ -18856,7 +18386,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashcmdsx_w0 {
 		uint32_t layeroffset1_x0             : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashcmdsx_w0_t;
@@ -18906,7 +18435,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashcmdsx_w1 {
 		uint32_t layeroffset3_x0             : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashcmdsx_w1_t;
@@ -18942,7 +18470,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashcmdsx_w2 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashcmdsx_w2_t;
@@ -18991,7 +18518,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashctrl_w0 {
 		uint32_t seed1_x0                    : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashctrl_w0_t;
@@ -19030,7 +18556,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashctrl_w1 {
 		uint32_t seed4_x0                    : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashctrl_w1_t;
@@ -19069,7 +18594,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashctrl_w2 {
 		uint32_t seed7                       : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashctrl_w2_t;
@@ -19108,7 +18632,6 @@ typedef union bdk_tns_sde_pe_lcmd_hashctrl_w3 {
 		uint32_t seed8_3                     : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hashctrl_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hashctrl_w3_t;
@@ -19141,7 +18664,6 @@ typedef union bdk_tns_sde_pe_lcmd_hmem_dat_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_hmem_dat_wx_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hmem_dat_wx_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_hmem_dat_wx_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_hmem_dat_wx_t;
@@ -19175,7 +18697,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w0 {
 		uint32_t timestamp_x0                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w0_t;
@@ -19208,7 +18729,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w1 {
 		uint32_t timestamp_x1                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w1_t;
@@ -19251,7 +18771,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w10 {
 		uint32_t layerhash5                  : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w10_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w10_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w10_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w10_t;
@@ -19296,7 +18815,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w11 {
 		uint32_t layertype2                  : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w11_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w11_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w11_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w11_t;
@@ -19339,7 +18857,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w12 {
 		uint32_t layerendptr6_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w12_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w12_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w12_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w12_t;
@@ -19380,7 +18897,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w13 {
 		uint32_t layerendptr2_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w13_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w13_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w13_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w13_t;
@@ -19421,7 +18937,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w14 {
 		uint32_t startptr_x0                 : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w14_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w14_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w14_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w14_t;
@@ -19460,7 +18975,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w15 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w15_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w15_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w15_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w15_t;
@@ -19495,7 +19009,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w2 {
 		uint32_t metadata7_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w2_t;
@@ -19530,7 +19043,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w3 {
 		uint32_t metadata6_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w3_t;
@@ -19565,7 +19077,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w4 {
 		uint32_t metadata5_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w4_t;
@@ -19600,7 +19111,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w5 {
 		uint32_t metadata4_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w5_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w5_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w5_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w5_t;
@@ -19635,7 +19145,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w6 {
 		uint32_t metadata3_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w6_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w6_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w6_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w6_t;
@@ -19670,7 +19179,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w7 {
 		uint32_t metadata2_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w7_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w7_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w7_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w7_t;
@@ -19705,7 +19213,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w8 {
 		uint32_t metadata1_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w8_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w8_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w8_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w8_t;
@@ -19740,7 +19247,6 @@ typedef union bdk_tns_sde_pe_lcmd_imem_dat_w9 {
 		uint32_t metadata0_x0                : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w9_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w9_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_imem_dat_w9_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_imem_dat_w9_t;
@@ -19796,7 +19302,6 @@ typedef union bdk_tns_sde_pe_lcmd_ittx_w0 {
 		uint32_t scratchpad_x0               : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ittx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ittx_w0_t;
@@ -19830,7 +19335,6 @@ typedef union bdk_tns_sde_pe_lcmd_ittx_w1 {
 		uint32_t scratchpad_x1               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ittx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ittx_w1_t;
@@ -19866,7 +19370,6 @@ typedef union bdk_tns_sde_pe_lcmd_ittx_w2 {
 		uint32_t mirrorbitmask_x0            : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ittx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ittx_w2_t;
@@ -19902,7 +19405,6 @@ typedef union bdk_tns_sde_pe_lcmd_ittx_w3 {
 		uint32_t ingressvif_x0               : 18;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ittx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ittx_w3_t;
@@ -19950,7 +19452,6 @@ typedef union bdk_tns_sde_pe_lcmd_ittx_w4 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ittx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ittx_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ittx_w4_t;
@@ -19984,7 +19485,6 @@ typedef union bdk_tns_sde_pe_lcmd_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_lock_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_lock_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_lock_s  cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_lock_t;
@@ -20023,7 +19523,6 @@ typedef union bdk_tns_sde_pe_lcmd_lsplitcmdx {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_lsplitcmdx_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_lsplitcmdx_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_lsplitcmdx_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_lsplitcmdx_t;
@@ -20073,7 +19572,6 @@ typedef union bdk_tns_sde_pe_lcmd_ltokencmdx_w0 {
 		uint32_t fieldlen3_x0                : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ltokencmdx_w0_t;
@@ -20119,7 +19617,6 @@ typedef union bdk_tns_sde_pe_lcmd_ltokencmdx_w1 {
 		uint32_t fieldlen6                   : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ltokencmdx_w1_t;
@@ -20158,7 +19655,6 @@ typedef union bdk_tns_sde_pe_lcmd_ltokencmdx_w2 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_ltokencmdx_w2_t;
@@ -20195,7 +19691,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_datx_w0 {
 		uint32_t macda_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_datx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_datx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_datx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_datx_w0_t;
@@ -20235,7 +19730,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_datx_w1 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_datx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_datx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_datx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_datx_w1_t;
@@ -20273,7 +19767,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dbg_w0 {
 		uint32_t key_x0                      : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dbg_w0_t;
@@ -20306,7 +19799,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dbg_w1 {
 		uint32_t key_x1                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dbg_w1_t;
@@ -20349,7 +19841,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dbg_w2 {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dbg_w2_t;
@@ -20385,7 +19876,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w0 {
 		uint32_t vmdata_x0                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_t;
@@ -20419,7 +19909,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w1 {
 		uint32_t vmdata_x1                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_t;
@@ -20453,7 +19942,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w2 {
 		uint32_t vmdata_x2                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_t;
@@ -20487,7 +19975,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w3 {
 		uint32_t vmdata_x3                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_t;
@@ -20523,7 +20010,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w4 {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_t;
@@ -20560,7 +20046,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_maskx_w0 {
 		uint32_t macda_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_maskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_maskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_maskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_maskx_w0_t;
@@ -20600,7 +20085,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_maskx_w1 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_maskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_maskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_maskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_maskx_w1_t;
@@ -20642,7 +20126,6 @@ typedef union bdk_tns_sde_pe_lcmd_m2r_memx {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_m2r_memx_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_memx_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_m2r_memx_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_m2r_memx_t;
@@ -20706,7 +20189,6 @@ typedef union bdk_tns_sde_pe_lcmd_mem_ecc_ctl {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_mem_ecc_ctl_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_mem_ecc_ctl_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_mem_ecc_ctl_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_mem_ecc_ctl_t;
@@ -20752,7 +20234,6 @@ typedef union bdk_tns_sde_pe_lcmd_nengx_w0 {
 		uint32_t egressvif_x0                : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_nengx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_nengx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_nengx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_nengx_w0_t;
@@ -20792,7 +20273,6 @@ typedef union bdk_tns_sde_pe_lcmd_nengx_w1 {
 		uint32_t lm_cmd                      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_nengx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_nengx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_nengx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_nengx_w1_t;
@@ -20828,7 +20308,6 @@ typedef union bdk_tns_sde_pe_lcmd_nengx_w2 {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_nengx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_nengx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_nengx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_nengx_w2_t;
@@ -20864,7 +20343,6 @@ typedef union bdk_tns_sde_pe_lcmd_pindex2portx {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_pindex2portx_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_pindex2portx_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_pindex2portx_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_pindex2portx_t;
@@ -20902,7 +20380,6 @@ typedef union bdk_tns_sde_pe_lcmd_prsr_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_prsr_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_prsr_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_prsr_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_prsr_dbg_sel_t;
@@ -20949,7 +20426,6 @@ typedef union bdk_tns_sde_pe_lcmd_qosx {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_qosx_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_qosx_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_qosx_s  cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_qosx_t;
@@ -20983,7 +20459,6 @@ typedef union bdk_tns_sde_pe_lcmd_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_spad_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_spad_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_spad_s  cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_spad_t;
@@ -21034,7 +20509,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w0 {
 		uint32_t info_mem_spare_x0           : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w0_t;
@@ -21069,7 +20543,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w1 {
 		uint32_t infoll_x0                   : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w1_t;
@@ -21106,7 +20579,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w2 {
 		uint32_t rdinfoheadptr_x0            : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w2_t;
@@ -21149,7 +20621,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w3 {
 		uint32_t infofreecnt_x0              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w3_t;
@@ -21192,7 +20663,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w4 {
 		uint32_t rdtailptr                   : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w4_t;
@@ -21231,7 +20701,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w5 {
 		uint32_t hdr_buff_fifo_cnt_x0        : 1;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w5_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w5_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w5_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w5_t;
@@ -21266,7 +20735,6 @@ typedef union bdk_tns_sde_pe_lcmd_sta_w6 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_sta_w6_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w6_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_sta_w6_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_sta_w6_t;
@@ -21314,7 +20782,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_datx_w0 {
 		uint32_t layertype6_x0               : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_datx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_datx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_datx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_datx_w0_t;
@@ -21354,7 +20821,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_datx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_datx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_datx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_datx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_datx_w1_t;
@@ -21392,7 +20858,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dbg_w0 {
 		uint32_t key_x0                      : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dbg_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dbg_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dbg_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dbg_w0_t;
@@ -21433,7 +20898,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dbg_w1 {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dbg_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dbg_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dbg_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dbg_w1_t;
@@ -21469,7 +20933,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w0 {
 		uint32_t vmdata_x0                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dmskx_w0_t;
@@ -21503,7 +20966,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w1 {
 		uint32_t vmdata_x1                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dmskx_w1_t;
@@ -21537,7 +20999,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w2 {
 		uint32_t vmdata_x2                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dmskx_w2_t;
@@ -21571,7 +21032,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w3 {
 		uint32_t vmdata_x3                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dmskx_w3_t;
@@ -21607,7 +21067,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w4 {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_dmskx_w4_t;
@@ -21656,7 +21115,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_maskx_w0 {
 		uint32_t layertype6_x0               : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_maskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_maskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_maskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_maskx_w0_t;
@@ -21696,7 +21154,6 @@ typedef union bdk_tns_sde_pe_lcmd_tid_maskx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tid_maskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_maskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tid_maskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tid_maskx_w1_t;
@@ -21741,7 +21198,6 @@ typedef union bdk_tns_sde_pe_lcmd_tokencmdsx_w0 {
 		uint32_t inrethm2rloc_x0             : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tokencmdsx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tokencmdsx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tokencmdsx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tokencmdsx_w0_t;
@@ -21777,7 +21233,6 @@ typedef union bdk_tns_sde_pe_lcmd_tokencmdsx_w1 {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_lcmd_tokencmdsx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tokencmdsx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_lcmd_tokencmdsx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_lcmd_tokencmdsx_w1_t;
@@ -21827,7 +21282,6 @@ typedef union bdk_tns_sde_pe_skpu_control {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_control_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_control_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_control_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_control_t;
@@ -21866,7 +21320,6 @@ typedef union bdk_tns_sde_pe_skpu_ecc_ctl {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_ecc_ctl_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_ecc_ctl_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_ecc_ctl_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_ecc_ctl_t;
@@ -21910,7 +21363,6 @@ typedef union bdk_tns_sde_pe_skpu_iktx_w0 {
 		uint32_t decpointoffset8             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_iktx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_iktx_w0_t;
@@ -21954,7 +21406,6 @@ typedef union bdk_tns_sde_pe_skpu_iktx_w1 {
 		uint32_t decpointoffset2_x0          : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_iktx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_iktx_w1_t;
@@ -21996,7 +21447,6 @@ typedef union bdk_tns_sde_pe_skpu_iktx_w2 {
 		uint32_t initialstate                : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_iktx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_iktx_w2_t;
@@ -22036,7 +21486,6 @@ typedef union bdk_tns_sde_pe_skpu_iktx_w3 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_iktx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_iktx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_iktx_w3_t;
@@ -22076,7 +21525,6 @@ typedef union bdk_tns_sde_pe_skpu_ikt_dbg {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_ikt_dbg_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_ikt_dbg_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_ikt_dbg_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_ikt_dbg_t;
@@ -22109,7 +21557,6 @@ typedef union bdk_tns_sde_pe_skpu_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_lock_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_lock_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_lock_s  cn88xxp1; */
 } bdk_tns_sde_pe_skpu_lock_t;
@@ -22146,7 +21593,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w0 {
 		uint32_t key_x0                      : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_dbg_w0_t;
@@ -22179,7 +21625,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w1 {
 		uint32_t key_x1                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_dbg_w1_t;
@@ -22212,7 +21657,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w2 {
 		uint32_t key_x2                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_dbg_w2_t;
@@ -22253,7 +21697,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w3 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_dbg_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_dbg_w3_t;
@@ -22299,7 +21742,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w0 {
 		uint32_t layertype0_x0               : 4;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_sramx_w0_t;
@@ -22347,7 +21789,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w1 {
 		uint32_t metadata2_x0                : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_sramx_w1_t;
@@ -22383,7 +21824,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w2 {
 		uint32_t metadata1_x0                : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_sramx_w2_t;
@@ -22419,7 +21859,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w3 {
 		uint32_t metadata0_x0                : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_sramx_w3_t;
@@ -22455,7 +21894,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w4 {
 		uint32_t state_x0                    : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_sramx_w4_t;
@@ -22493,7 +21931,6 @@ typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w5 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w5_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w5_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_skpu_sramx_w5_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_skpu_sramx_w5_t;
@@ -22527,7 +21964,6 @@ typedef union bdk_tns_sde_pe_skpu_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_spad_s  cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_spad_s  cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_spad_s  cn88xxp1; */
 } bdk_tns_sde_pe_skpu_spad_t;
@@ -22569,7 +22005,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_datx_w0 {
 		uint32_t decpoint8                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_datx_w0_t;
@@ -22609,7 +22044,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_datx_w1 {
 		uint32_t decpoint4                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_datx_w1_t;
@@ -22649,7 +22083,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_datx_w2 {
 		uint32_t decpoint0                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_datx_w2_t;
@@ -22687,7 +22120,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_datx_w3 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_datx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_datx_w3_t;
@@ -22724,7 +22156,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w0 {
 		uint32_t vmdata_x0                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w0_t;
@@ -22758,7 +22189,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w1 {
 		uint32_t vmdata_x1                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w1_t;
@@ -22792,7 +22222,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w2 {
 		uint32_t vmdata_x2                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w2_t;
@@ -22826,7 +22255,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w3 {
 		uint32_t vmdata_x3                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w3_t;
@@ -22860,7 +22288,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w4 {
 		uint32_t vmdata_x4                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w4_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w4_t;
@@ -22894,7 +22321,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w5 {
 		uint32_t vmdata_x5                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w5_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w5_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w5_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w5_t;
@@ -22932,7 +22358,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w6 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w6_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w6_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w6_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_dmskx_w6_t;
@@ -22975,7 +22400,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_maskx_w0 {
 		uint32_t decpoint8                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w0_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_maskx_w0_t;
@@ -23015,7 +22439,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_maskx_w1 {
 		uint32_t decpoint4                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w1_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_maskx_w1_t;
@@ -23055,7 +22478,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_maskx_w2 {
 		uint32_t decpoint0                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w2_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_maskx_w2_t;
@@ -23093,7 +22515,6 @@ typedef union bdk_tns_sde_pe_skpu_tcam_maskx_w3 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_pe_skpu_tcam_maskx_w3_s cn88xxp1; */
 } bdk_tns_sde_pe_skpu_tcam_maskx_w3_t;
@@ -23129,7 +22550,6 @@ typedef union bdk_tns_sde_urw1_afull_thresh {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_afull_thresh_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_afull_thresh_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_afull_thresh_s cn88xxp1; */
 } bdk_tns_sde_urw1_afull_thresh_t;
@@ -23166,7 +22586,6 @@ typedef union bdk_tns_sde_urw1_control {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_control_s  cn85xx; */
 	/* struct bdk_tns_sde_urw1_control_s  cn88xx; */
 	/* struct bdk_tns_sde_urw1_control_s  cn88xxp1; */
 } bdk_tns_sde_urw1_control_t;
@@ -23203,7 +22622,6 @@ typedef union bdk_tns_sde_urw1_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_dbg_sel_s  cn85xx; */
 	/* struct bdk_tns_sde_urw1_dbg_sel_s  cn88xx; */
 	/* struct bdk_tns_sde_urw1_dbg_sel_s  cn88xxp1; */
 } bdk_tns_sde_urw1_dbg_sel_t;
@@ -23238,7 +22656,6 @@ typedef union bdk_tns_sde_urw1_dbg_sta_live {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_dbg_sta_live_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_dbg_sta_live_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_dbg_sta_live_s cn88xxp1; */
 } bdk_tns_sde_urw1_dbg_sta_live_t;
@@ -23279,7 +22696,6 @@ typedef union bdk_tns_sde_urw1_dbg_vlf {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_dbg_vlf_s  cn85xx; */
 	/* struct bdk_tns_sde_urw1_dbg_vlf_s  cn88xx; */
 	/* struct bdk_tns_sde_urw1_dbg_vlf_s  cn88xxp1; */
 } bdk_tns_sde_urw1_dbg_vlf_t;
@@ -23314,7 +22730,6 @@ typedef union bdk_tns_sde_urw1_dyn_dbg_vlf {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_dyn_dbg_vlf_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_dyn_dbg_vlf_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_dyn_dbg_vlf_s cn88xxp1; */
 } bdk_tns_sde_urw1_dyn_dbg_vlf_t;
@@ -23361,7 +22776,6 @@ typedef union bdk_tns_sde_urw1_ecc_ctl_cd {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_ecc_ctl_cd_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_ecc_ctl_cd_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_ecc_ctl_cd_s cn88xxp1; */
 } bdk_tns_sde_urw1_ecc_ctl_cd_t;
@@ -23408,7 +22822,6 @@ typedef union bdk_tns_sde_urw1_ecc_ctl_flp_w0 {
 		uint32_t sb_vlf_fifo_x0              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_ecc_ctl_flp_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_ecc_ctl_flp_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_ecc_ctl_flp_w0_s cn88xxp1; */
 } bdk_tns_sde_urw1_ecc_ctl_flp_w0_t;
@@ -23455,7 +22868,6 @@ typedef union bdk_tns_sde_urw1_ecc_ctl_flp_w1 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_ecc_ctl_flp_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_ecc_ctl_flp_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_ecc_ctl_flp_w1_s cn88xxp1; */
 } bdk_tns_sde_urw1_ecc_ctl_flp_w1_t;
@@ -23491,7 +22903,6 @@ typedef union bdk_tns_sde_urw1_egr_flt_tblx_wx {
 		uint32_t eflt_data                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_egr_flt_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_egr_flt_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_egr_flt_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw1_egr_flt_tblx_wx_t;
@@ -23527,7 +22938,6 @@ typedef union bdk_tns_sde_urw1_evif_tblx_wx {
 		uint32_t evif_response               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_evif_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_evif_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_evif_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw1_evif_tblx_wx_t;
@@ -23561,7 +22971,6 @@ typedef union bdk_tns_sde_urw1_evif_wx {
 		uint32_t range0_3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_evif_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_urw1_evif_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_urw1_evif_wx_s  cn88xxp1; */
 } bdk_tns_sde_urw1_evif_wx_t;
@@ -23597,7 +23006,6 @@ typedef union bdk_tns_sde_urw1_int_en_hi_w0 {
 		uint32_t lkup_db_err_x0              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_en_hi_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_en_hi_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_en_hi_w0_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_en_hi_w0_t;
@@ -23634,7 +23042,6 @@ typedef union bdk_tns_sde_urw1_int_en_hi_w1 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_en_hi_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_en_hi_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_en_hi_w1_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_en_hi_w1_t;
@@ -23669,7 +23076,6 @@ typedef union bdk_tns_sde_urw1_int_en_lo_w0 {
 		uint32_t lkup_db_err_x0              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_en_lo_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_en_lo_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_en_lo_w0_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_en_lo_w0_t;
@@ -23706,7 +23112,6 @@ typedef union bdk_tns_sde_urw1_int_en_lo_w1 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_en_lo_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_en_lo_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_en_lo_w1_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_en_lo_w1_t;
@@ -23741,7 +23146,6 @@ typedef union bdk_tns_sde_urw1_int_frc_w0 {
 		uint32_t lkup_db_err_x0              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_frc_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_frc_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_frc_w0_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_frc_w0_t;
@@ -23778,7 +23182,6 @@ typedef union bdk_tns_sde_urw1_int_frc_w1 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_frc_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_frc_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_frc_w1_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_frc_w1_t;
@@ -23813,7 +23216,6 @@ typedef union bdk_tns_sde_urw1_int_w1c_w0 {
 		uint32_t lkup_db_err_x0              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_w1c_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_w1c_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_w1c_w0_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_w1c_w0_t;
@@ -23850,7 +23252,6 @@ typedef union bdk_tns_sde_urw1_int_w1c_w1 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_int_w1c_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_int_w1c_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_int_w1c_w1_s cn88xxp1; */
 } bdk_tns_sde_urw1_int_w1c_w1_t;
@@ -23886,7 +23287,6 @@ typedef union bdk_tns_sde_urw1_ivif_tblx_wx {
 		uint32_t ivif_response               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_ivif_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_ivif_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_ivif_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw1_ivif_tblx_wx_t;
@@ -23920,7 +23320,6 @@ typedef union bdk_tns_sde_urw1_ivif_wx {
 		uint32_t range0_3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_ivif_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_urw1_ivif_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_urw1_ivif_wx_s  cn88xxp1; */
 } bdk_tns_sde_urw1_ivif_wx_t;
@@ -23954,7 +23353,6 @@ typedef union bdk_tns_sde_urw1_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_lock_s     cn85xx; */
 	/* struct bdk_tns_sde_urw1_lock_s     cn88xx; */
 	/* struct bdk_tns_sde_urw1_lock_s     cn88xxp1; */
 } bdk_tns_sde_urw1_lock_t;
@@ -23989,7 +23387,6 @@ typedef union bdk_tns_sde_urw1_mir_mask {
 		uint32_t ivif                        : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_mir_mask_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_mir_mask_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_mir_mask_s cn88xxp1; */
 } bdk_tns_sde_urw1_mir_mask_t;
@@ -24030,7 +23427,6 @@ typedef union bdk_tns_sde_urw1_rsn_tblx {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_rsn_tblx_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_rsn_tblx_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_rsn_tblx_s cn88xxp1; */
 } bdk_tns_sde_urw1_rsn_tblx_t;
@@ -24072,7 +23468,6 @@ typedef union bdk_tns_sde_urw1_se_resp_tblx_w0 {
 		uint32_t ivif_offset_x0              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_se_resp_tblx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_se_resp_tblx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_se_resp_tblx_w0_s cn88xxp1; */
 } bdk_tns_sde_urw1_se_resp_tblx_w0_t;
@@ -24120,7 +23515,6 @@ typedef union bdk_tns_sde_urw1_se_resp_tblx_w1 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_se_resp_tblx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_se_resp_tblx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_se_resp_tblx_w1_s cn88xxp1; */
 } bdk_tns_sde_urw1_se_resp_tblx_w1_t;
@@ -24154,7 +23548,6 @@ typedef union bdk_tns_sde_urw1_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_spad_s     cn85xx; */
 	/* struct bdk_tns_sde_urw1_spad_s     cn88xx; */
 	/* struct bdk_tns_sde_urw1_spad_s     cn88xxp1; */
 } bdk_tns_sde_urw1_spad_t;
@@ -24190,7 +23583,6 @@ typedef union bdk_tns_sde_urw1_tpid_tblx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_tpid_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_tpid_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_tpid_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw1_tpid_tblx_wx_t;
@@ -24229,7 +23621,6 @@ typedef union bdk_tns_sde_urw1_trt_tblx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw1_trt_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw1_trt_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw1_trt_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw1_trt_tblx_wx_t;
@@ -24267,7 +23658,6 @@ typedef union bdk_tns_sde_urw2a_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_urw2a_dbg_sel_t;
@@ -24300,7 +23690,6 @@ typedef union bdk_tns_sde_urw2a_dbg_sta_live_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_dbg_sta_live_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_dbg_sta_live_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_dbg_sta_live_wx_s cn88xxp1; */
 } bdk_tns_sde_urw2a_dbg_sta_live_wx_t;
@@ -24334,7 +23723,6 @@ typedef union bdk_tns_sde_urw2a_etag_w0 {
 		uint32_t pt_en_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_etag_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w0_s cn88xxp1; */
 } bdk_tns_sde_urw2a_etag_w0_t;
@@ -24367,7 +23755,6 @@ typedef union bdk_tns_sde_urw2a_etag_w1 {
 		uint32_t pt_en_x1                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_etag_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w1_s cn88xxp1; */
 } bdk_tns_sde_urw2a_etag_w1_t;
@@ -24400,7 +23787,6 @@ typedef union bdk_tns_sde_urw2a_etag_w2 {
 		uint32_t pt_en_x2                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_etag_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w2_s cn88xxp1; */
 } bdk_tns_sde_urw2a_etag_w2_t;
@@ -24433,7 +23819,6 @@ typedef union bdk_tns_sde_urw2a_etag_w3 {
 		uint32_t pt_en_x3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_etag_w3_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w3_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w3_s cn88xxp1; */
 } bdk_tns_sde_urw2a_etag_w3_t;
@@ -24470,7 +23855,6 @@ typedef union bdk_tns_sde_urw2a_etag_w4 {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_etag_w4_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w4_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_etag_w4_s cn88xxp1; */
 } bdk_tns_sde_urw2a_etag_w4_t;
@@ -24505,7 +23889,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w0 {
 		uint32_t lpb_pt_en_x0                : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w0_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w0_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w0_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w0_t;
@@ -24538,7 +23921,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w1 {
 		uint32_t lpb_pt_en_x1                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w1_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w1_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w1_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w1_t;
@@ -24571,7 +23953,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w2 {
 		uint32_t lpb_pt_en_x2                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w2_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w2_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w2_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w2_t;
@@ -24604,7 +23985,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w3 {
 		uint32_t lpb_pt_en_x3                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w3_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w3_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w3_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w3_t;
@@ -24639,7 +24019,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w4 {
 		uint32_t cpu_xph_en_x0               : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w4_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w4_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w4_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w4_t;
@@ -24672,7 +24051,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w5 {
 		uint32_t cpu_xph_en_x1               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w5_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w5_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w5_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w5_t;
@@ -24705,7 +24083,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w6 {
 		uint32_t cpu_xph_en_x2               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w6_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w6_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w6_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w6_t;
@@ -24738,7 +24115,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w7 {
 		uint32_t cpu_xph_en_x3               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w7_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w7_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w7_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w7_t;
@@ -24771,7 +24147,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w8 {
 		uint32_t cpu_xph_en_x4               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w8_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w8_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w8_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w8_t;
@@ -24808,7 +24183,6 @@ typedef union bdk_tns_sde_urw2a_hdr_w9 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_hdr_w9_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w9_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2a_hdr_w9_s  cn88xxp1; */
 } bdk_tns_sde_urw2a_hdr_w9_t;
@@ -24844,7 +24218,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w0 {
 		uint32_t bmap                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w0_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w0_t;
@@ -24878,7 +24251,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w1 {
 		uint32_t data_x0                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w1_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w1_t;
@@ -24912,7 +24284,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w2 {
 		uint32_t data_x1                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w2_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w2_t;
@@ -24946,7 +24317,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w3 {
 		uint32_t data_x2                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w3_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w3_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w3_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w3_t;
@@ -24980,7 +24350,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w4 {
 		uint32_t data_x3                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w4_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w4_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w4_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w4_t;
@@ -25014,7 +24383,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w5 {
 		uint32_t data_x4                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w5_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w5_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w5_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w5_t;
@@ -25048,7 +24416,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w6 {
 		uint32_t data_x5                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w6_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w6_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w6_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w6_t;
@@ -25082,7 +24449,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w7 {
 		uint32_t data_x6                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w7_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w7_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w7_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w7_t;
@@ -25116,7 +24482,6 @@ typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w8 {
 		uint32_t data_x7                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w8_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w8_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w8_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_ctd_tblx_w8_t;
@@ -25153,7 +24518,6 @@ typedef union bdk_tns_sde_urw2a_ins_mem_tblx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_ins_mem_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_ins_mem_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_ins_mem_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw2a_ins_mem_tblx_wx_t;
@@ -25187,7 +24551,6 @@ typedef union bdk_tns_sde_urw2a_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_lock_s    cn85xx; */
 	/* struct bdk_tns_sde_urw2a_lock_s    cn88xx; */
 	/* struct bdk_tns_sde_urw2a_lock_s    cn88xxp1; */
 } bdk_tns_sde_urw2a_lock_t;
@@ -25223,7 +24586,6 @@ typedef union bdk_tns_sde_urw2a_rwmem_tblx_wx {
 		uint32_t cmd_data                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_rwmem_tblx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw2a_rwmem_tblx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw2a_rwmem_tblx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw2a_rwmem_tblx_wx_t;
@@ -25257,7 +24619,6 @@ typedef union bdk_tns_sde_urw2a_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2a_spad_s    cn85xx; */
 	/* struct bdk_tns_sde_urw2a_spad_s    cn88xx; */
 	/* struct bdk_tns_sde_urw2a_spad_s    cn88xxp1; */
 } bdk_tns_sde_urw2a_spad_t;
@@ -25298,7 +24659,6 @@ typedef union bdk_tns_sde_urw2b_control {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_control_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_control_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_control_s cn88xxp1; */
 } bdk_tns_sde_urw2b_control_t;
@@ -25334,7 +24694,6 @@ typedef union bdk_tns_sde_urw2b_cpu_rcod_base {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_cpu_rcod_base_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_cpu_rcod_base_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_cpu_rcod_base_s cn88xxp1; */
 } bdk_tns_sde_urw2b_cpu_rcod_base_t;
@@ -25371,7 +24730,6 @@ typedef union bdk_tns_sde_urw2b_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_dbg_sel_s cn88xxp1; */
 } bdk_tns_sde_urw2b_dbg_sel_t;
@@ -25406,7 +24764,6 @@ typedef union bdk_tns_sde_urw2b_dbg_sta_live {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_dbg_sta_live_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_dbg_sta_live_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_dbg_sta_live_s cn88xxp1; */
 } bdk_tns_sde_urw2b_dbg_sta_live_t;
@@ -25439,7 +24796,6 @@ typedef union bdk_tns_sde_urw2b_etag_w0 {
 		uint32_t pt_en_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_etag_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w0_s cn88xxp1; */
 } bdk_tns_sde_urw2b_etag_w0_t;
@@ -25472,7 +24828,6 @@ typedef union bdk_tns_sde_urw2b_etag_w1 {
 		uint32_t pt_en_x1                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_etag_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w1_s cn88xxp1; */
 } bdk_tns_sde_urw2b_etag_w1_t;
@@ -25505,7 +24860,6 @@ typedef union bdk_tns_sde_urw2b_etag_w2 {
 		uint32_t pt_en_x2                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_etag_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w2_s cn88xxp1; */
 } bdk_tns_sde_urw2b_etag_w2_t;
@@ -25538,7 +24892,6 @@ typedef union bdk_tns_sde_urw2b_etag_w3 {
 		uint32_t pt_en_x3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_etag_w3_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w3_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w3_s cn88xxp1; */
 } bdk_tns_sde_urw2b_etag_w3_t;
@@ -25575,7 +24928,6 @@ typedef union bdk_tns_sde_urw2b_etag_w4 {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_etag_w4_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w4_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_etag_w4_s cn88xxp1; */
 } bdk_tns_sde_urw2b_etag_w4_t;
@@ -25610,7 +24962,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w0 {
 		uint32_t lpb_pt_en_x0                : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w0_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w0_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w0_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w0_t;
@@ -25643,7 +24994,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w1 {
 		uint32_t lpb_pt_en_x1                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w1_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w1_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w1_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w1_t;
@@ -25676,7 +25026,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w2 {
 		uint32_t lpb_pt_en_x2                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w2_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w2_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w2_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w2_t;
@@ -25709,7 +25058,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w3 {
 		uint32_t lpb_pt_en_x3                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w3_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w3_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w3_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w3_t;
@@ -25744,7 +25092,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w4 {
 		uint32_t cpu_xph_en_x0               : 7;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w4_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w4_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w4_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w4_t;
@@ -25777,7 +25124,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w5 {
 		uint32_t cpu_xph_en_x1               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w5_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w5_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w5_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w5_t;
@@ -25810,7 +25156,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w6 {
 		uint32_t cpu_xph_en_x2               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w6_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w6_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w6_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w6_t;
@@ -25843,7 +25188,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w7 {
 		uint32_t cpu_xph_en_x3               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w7_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w7_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w7_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w7_t;
@@ -25876,7 +25220,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w8 {
 		uint32_t cpu_xph_en_x4               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w8_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w8_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w8_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w8_t;
@@ -25913,7 +25256,6 @@ typedef union bdk_tns_sde_urw2b_hdr_w9 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_hdr_w9_s  cn85xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w9_s  cn88xx; */
 	/* struct bdk_tns_sde_urw2b_hdr_w9_s  cn88xxp1; */
 } bdk_tns_sde_urw2b_hdr_w9_t;
@@ -25948,7 +25290,6 @@ typedef union bdk_tns_sde_urw2b_int_en_hi {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_int_en_hi_s cn88xxp1; */
 } bdk_tns_sde_urw2b_int_en_hi_t;
@@ -25983,7 +25324,6 @@ typedef union bdk_tns_sde_urw2b_int_en_lo {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_int_en_lo_s cn88xxp1; */
 } bdk_tns_sde_urw2b_int_en_lo_t;
@@ -26018,7 +25358,6 @@ typedef union bdk_tns_sde_urw2b_int_frc {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_int_frc_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_int_frc_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_int_frc_s cn88xxp1; */
 } bdk_tns_sde_urw2b_int_frc_t;
@@ -26053,7 +25392,6 @@ typedef union bdk_tns_sde_urw2b_int_w1c {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_int_w1c_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_int_w1c_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_int_w1c_s cn88xxp1; */
 } bdk_tns_sde_urw2b_int_w1c_t;
@@ -26086,7 +25424,6 @@ typedef union bdk_tns_sde_urw2b_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_lock_s    cn85xx; */
 	/* struct bdk_tns_sde_urw2b_lock_s    cn88xx; */
 	/* struct bdk_tns_sde_urw2b_lock_s    cn88xxp1; */
 } bdk_tns_sde_urw2b_lock_t;
@@ -26121,7 +25458,6 @@ typedef union bdk_tns_sde_urw2b_mir_mask_w0 {
 		uint32_t ivif                        : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mir_mask_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mir_mask_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mir_mask_w0_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mir_mask_w0_t;
@@ -26156,7 +25492,6 @@ typedef union bdk_tns_sde_urw2b_mir_mask_w1 {
 		uint32_t ing                         : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mir_mask_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mir_mask_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mir_mask_w1_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mir_mask_w1_t;
@@ -26193,7 +25528,6 @@ typedef union bdk_tns_sde_urw2b_mre_dcnt_w0 {
 		uint32_t mtu_err_x0                  : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mre_dcnt_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mre_dcnt_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mre_dcnt_w0_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mre_dcnt_w0_t;
@@ -26230,7 +25564,6 @@ typedef union bdk_tns_sde_urw2b_mre_dcnt_w1 {
 		uint32_t ing_mir_x0                  : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mre_dcnt_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mre_dcnt_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mre_dcnt_w1_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mre_dcnt_w1_t;
@@ -26265,7 +25598,6 @@ typedef union bdk_tns_sde_urw2b_mre_dcnt_w2 {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mre_dcnt_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mre_dcnt_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mre_dcnt_w2_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mre_dcnt_w2_t;
@@ -26300,7 +25632,6 @@ typedef union bdk_tns_sde_urw2b_mre_pri_tbl {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mre_pri_tbl_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mre_pri_tbl_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mre_pri_tbl_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mre_pri_tbl_t;
@@ -26345,7 +25676,6 @@ typedef union bdk_tns_sde_urw2b_mreif {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mreif_s   cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mreif_s   cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mreif_s   cn88xxp1; */
 } bdk_tns_sde_urw2b_mreif_t;
@@ -26380,7 +25710,6 @@ typedef union bdk_tns_sde_urw2b_mreptr_w0 {
 		uint32_t cpu_x0                      : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mreptr_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mreptr_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mreptr_w0_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mreptr_w0_t;
@@ -26417,7 +25746,6 @@ typedef union bdk_tns_sde_urw2b_mreptr_w1 {
 		uint32_t ing_x0                      : 10;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mreptr_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mreptr_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mreptr_w1_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mreptr_w1_t;
@@ -26452,7 +25780,6 @@ typedef union bdk_tns_sde_urw2b_mreptr_w2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mreptr_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mreptr_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mreptr_w2_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mreptr_w2_t;
@@ -26485,7 +25812,6 @@ typedef union bdk_tns_sde_urw2b_mtu_prf_tbl_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_mtu_prf_tbl_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_mtu_prf_tbl_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_mtu_prf_tbl_wx_s cn88xxp1; */
 } bdk_tns_sde_urw2b_mtu_prf_tbl_wx_t;
@@ -26519,7 +25845,6 @@ typedef union bdk_tns_sde_urw2b_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_spad_s    cn85xx; */
 	/* struct bdk_tns_sde_urw2b_spad_s    cn88xx; */
 	/* struct bdk_tns_sde_urw2b_spad_s    cn88xxp1; */
 } bdk_tns_sde_urw2b_spad_t;
@@ -26552,7 +25877,6 @@ typedef union bdk_tns_sde_urw2b_tcls_pmap_tbl {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw2b_tcls_pmap_tbl_s cn85xx; */
 	/* struct bdk_tns_sde_urw2b_tcls_pmap_tbl_s cn88xx; */
 	/* struct bdk_tns_sde_urw2b_tcls_pmap_tbl_s cn88xxp1; */
 } bdk_tns_sde_urw2b_tcls_pmap_tbl_t;
@@ -26591,7 +25915,6 @@ typedef union bdk_tns_sde_urw3_cnncmd_tblx_w0 {
 		uint32_t contbytes                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_cnncmd_tblx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_cnncmd_tblx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_cnncmd_tblx_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_cnncmd_tblx_w0_t;
@@ -26629,7 +25952,6 @@ typedef union bdk_tns_sde_urw3_cnncmd_tblx_w1 {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_cnncmd_tblx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_cnncmd_tblx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_cnncmd_tblx_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_cnncmd_tblx_w1_t;
@@ -26671,7 +25993,6 @@ typedef union bdk_tns_sde_urw3_control {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_control_s  cn85xx; */
 	/* struct bdk_tns_sde_urw3_control_s  cn88xx; */
 	/* struct bdk_tns_sde_urw3_control_s  cn88xxp1; */
 } bdk_tns_sde_urw3_control_t;
@@ -26712,7 +26033,6 @@ typedef union bdk_tns_sde_urw3_dbg_lpathf {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dbg_lpathf_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_dbg_lpathf_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_dbg_lpathf_s cn88xxp1; */
 } bdk_tns_sde_urw3_dbg_lpathf_t;
@@ -26749,7 +26069,6 @@ typedef union bdk_tns_sde_urw3_dbg_sel {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dbg_sel_s  cn85xx; */
 	/* struct bdk_tns_sde_urw3_dbg_sel_s  cn88xx; */
 	/* struct bdk_tns_sde_urw3_dbg_sel_s  cn88xxp1; */
 } bdk_tns_sde_urw3_dbg_sel_t;
@@ -26786,7 +26105,6 @@ typedef union bdk_tns_sde_urw3_dbg_sta_live_w0 {
 		uint32_t se_vif_if_data_x0           : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dbg_sta_live_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_dbg_sta_live_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_dbg_sta_live_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_dbg_sta_live_w0_t;
@@ -26821,7 +26139,6 @@ typedef union bdk_tns_sde_urw3_dbg_sta_live_w1 {
 		uint32_t txqif_data                  : 17;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dbg_sta_live_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_dbg_sta_live_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_dbg_sta_live_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_dbg_sta_live_w1_t;
@@ -26862,7 +26179,6 @@ typedef union bdk_tns_sde_urw3_dbg_txq_rpf {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dbg_txq_rpf_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_dbg_txq_rpf_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_dbg_txq_rpf_s cn88xxp1; */
 } bdk_tns_sde_urw3_dbg_txq_rpf_t;
@@ -26897,7 +26213,6 @@ typedef union bdk_tns_sde_urw3_dyn_dbg_lpathf {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dyn_dbg_lpathf_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_dyn_dbg_lpathf_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_dyn_dbg_lpathf_s cn88xxp1; */
 } bdk_tns_sde_urw3_dyn_dbg_lpathf_t;
@@ -26932,7 +26247,6 @@ typedef union bdk_tns_sde_urw3_dyn_dbg_txq_rpf {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_dyn_dbg_txq_rpf_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_dyn_dbg_txq_rpf_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_dyn_dbg_txq_rpf_s cn88xxp1; */
 } bdk_tns_sde_urw3_dyn_dbg_txq_rpf_t;
@@ -26973,7 +26287,6 @@ typedef union bdk_tns_sde_urw3_ecc_ctl_cd {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ecc_ctl_cd_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_cd_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_cd_s cn88xxp1; */
 } bdk_tns_sde_urw3_ecc_ctl_cd_t;
@@ -27010,7 +26323,6 @@ typedef union bdk_tns_sde_urw3_ecc_ctl_flp_w0 {
 		uint32_t db_se_fifo                  : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_ecc_ctl_flp_w0_t;
@@ -27049,7 +26361,6 @@ typedef union bdk_tns_sde_urw3_ecc_ctl_flp_w1 {
 		uint32_t db_lpath_fifo_x0            : 14;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_ecc_ctl_flp_w1_t;
@@ -27086,7 +26397,6 @@ typedef union bdk_tns_sde_urw3_ecc_ctl_flp_w2 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_ecc_ctl_flp_w2_s cn88xxp1; */
 } bdk_tns_sde_urw3_ecc_ctl_flp_w2_t;
@@ -27121,7 +26431,6 @@ typedef union bdk_tns_sde_urw3_etag {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_etag_s     cn85xx; */
 	/* struct bdk_tns_sde_urw3_etag_s     cn88xx; */
 	/* struct bdk_tns_sde_urw3_etag_s     cn88xxp1; */
 } bdk_tns_sde_urw3_etag_t;
@@ -27159,7 +26468,6 @@ typedef union bdk_tns_sde_urw3_evif_mreptr_w0 {
 		uint32_t range_lo_x0                 : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_evif_mreptr_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_evif_mreptr_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_evif_mreptr_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_evif_mreptr_w0_t;
@@ -27194,7 +26502,6 @@ typedef union bdk_tns_sde_urw3_evif_mreptr_w1 {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_evif_mreptr_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_evif_mreptr_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_evif_mreptr_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_evif_mreptr_w1_t;
@@ -27227,7 +26534,6 @@ typedef union bdk_tns_sde_urw3_ins0_wx {
 		uint32_t range0_3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ins0_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_urw3_ins0_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_urw3_ins0_wx_s  cn88xxp1; */
 } bdk_tns_sde_urw3_ins0_wx_t;
@@ -27261,7 +26567,6 @@ typedef union bdk_tns_sde_urw3_ins1_wx {
 		uint32_t range0_3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ins1_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_urw3_ins1_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_urw3_ins1_wx_s  cn88xxp1; */
 } bdk_tns_sde_urw3_ins1_wx_t;
@@ -27295,7 +26600,6 @@ typedef union bdk_tns_sde_urw3_ins2_wx {
 		uint32_t range0_3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ins2_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_urw3_ins2_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_urw3_ins2_wx_s  cn88xxp1; */
 } bdk_tns_sde_urw3_ins2_wx_t;
@@ -27329,7 +26633,6 @@ typedef union bdk_tns_sde_urw3_ins3_wx {
 		uint32_t range0_3                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ins3_wx_s  cn85xx; */
 	/* struct bdk_tns_sde_urw3_ins3_wx_s  cn88xx; */
 	/* struct bdk_tns_sde_urw3_ins3_wx_s  cn88xxp1; */
 } bdk_tns_sde_urw3_ins3_wx_t;
@@ -27365,7 +26668,6 @@ typedef union bdk_tns_sde_urw3_ins_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_ins_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_ins_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_ins_fifx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw3_ins_fifx_wx_t;
@@ -27413,7 +26715,6 @@ typedef union bdk_tns_sde_urw3_int_en_hi_w0 {
 		uint32_t sevif_if_db_err             : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_en_hi_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_en_hi_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_en_hi_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_en_hi_w0_t;
@@ -27448,7 +26749,6 @@ typedef union bdk_tns_sde_urw3_int_en_hi_w1 {
 		uint32_t seins_if_db_err             : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_en_hi_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_en_hi_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_en_hi_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_en_hi_w1_t;
@@ -27487,7 +26787,6 @@ typedef union bdk_tns_sde_urw3_int_en_hi_w2 {
 		uint32_t tkn_modify_db_err           : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_en_hi_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_en_hi_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_en_hi_w2_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_en_hi_w2_t;
@@ -27534,7 +26833,6 @@ typedef union bdk_tns_sde_urw3_int_en_lo_w0 {
 		uint32_t sevif_if_db_err             : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_en_lo_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_en_lo_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_en_lo_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_en_lo_w0_t;
@@ -27569,7 +26867,6 @@ typedef union bdk_tns_sde_urw3_int_en_lo_w1 {
 		uint32_t seins_if_db_err             : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_en_lo_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_en_lo_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_en_lo_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_en_lo_w1_t;
@@ -27608,7 +26905,6 @@ typedef union bdk_tns_sde_urw3_int_en_lo_w2 {
 		uint32_t tkn_modify_db_err           : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_en_lo_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_en_lo_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_en_lo_w2_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_en_lo_w2_t;
@@ -27655,7 +26951,6 @@ typedef union bdk_tns_sde_urw3_int_frc_w0 {
 		uint32_t sevif_if_db_err             : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_frc_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_frc_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_frc_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_frc_w0_t;
@@ -27690,7 +26985,6 @@ typedef union bdk_tns_sde_urw3_int_frc_w1 {
 		uint32_t seins_if_db_err             : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_frc_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_frc_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_frc_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_frc_w1_t;
@@ -27729,7 +27023,6 @@ typedef union bdk_tns_sde_urw3_int_frc_w2 {
 		uint32_t tkn_modify_db_err           : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_frc_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_frc_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_frc_w2_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_frc_w2_t;
@@ -27776,7 +27069,6 @@ typedef union bdk_tns_sde_urw3_int_w1c_w0 {
 		uint32_t sevif_if_db_err             : 8;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_w1c_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_w1c_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_w1c_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_w1c_w0_t;
@@ -27811,7 +27103,6 @@ typedef union bdk_tns_sde_urw3_int_w1c_w1 {
 		uint32_t seins_if_db_err             : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_w1c_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_w1c_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_w1c_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_w1c_w1_t;
@@ -27850,7 +27141,6 @@ typedef union bdk_tns_sde_urw3_int_w1c_w2 {
 		uint32_t tkn_modify_db_err           : 15;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_int_w1c_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_int_w1c_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_int_w1c_w2_s cn88xxp1; */
 } bdk_tns_sde_urw3_int_w1c_w2_t;
@@ -27883,7 +27173,6 @@ typedef union bdk_tns_sde_urw3_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_lock_s     cn85xx; */
 	/* struct bdk_tns_sde_urw3_lock_s     cn88xx; */
 	/* struct bdk_tns_sde_urw3_lock_s     cn88xxp1; */
 } bdk_tns_sde_urw3_lock_t;
@@ -27926,7 +27215,6 @@ typedef union bdk_tns_sde_urw3_max_in_flight {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_max_in_flight_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_max_in_flight_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_max_in_flight_s cn88xxp1; */
 } bdk_tns_sde_urw3_max_in_flight_t;
@@ -27961,7 +27249,6 @@ typedef union bdk_tns_sde_urw3_mir_mask {
 		uint32_t ivif                        : 16;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_mir_mask_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_mir_mask_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_mir_mask_s cn88xxp1; */
 } bdk_tns_sde_urw3_mir_mask_t;
@@ -27994,7 +27281,6 @@ typedef union bdk_tns_sde_urw3_prt_em_wx {
 		uint32_t en                          : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_prt_em_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_prt_em_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_prt_em_wx_s cn88xxp1; */
 } bdk_tns_sde_urw3_prt_em_wx_t;
@@ -28034,7 +27320,6 @@ typedef union bdk_tns_sde_urw3_rr {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_rr_s       cn85xx; */
 	/* struct bdk_tns_sde_urw3_rr_s       cn88xx; */
 	/* struct bdk_tns_sde_urw3_rr_s       cn88xxp1; */
 } bdk_tns_sde_urw3_rr_t;
@@ -28069,7 +27354,6 @@ typedef union bdk_tns_sde_urw3_se_ins_fif {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_se_ins_fif_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_se_ins_fif_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_se_ins_fif_s cn88xxp1; */
 } bdk_tns_sde_urw3_se_ins_fif_t;
@@ -28104,7 +27388,6 @@ typedef union bdk_tns_sde_urw3_se_vif_fif {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_se_vif_fif_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_se_vif_fif_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_se_vif_fif_s cn88xxp1; */
 } bdk_tns_sde_urw3_se_vif_fif_t;
@@ -28159,7 +27442,6 @@ typedef union bdk_tns_sde_urw3_sein_rp_tblx_w0 {
 		uint32_t token_id_0_bit_map_x0       : 2;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w0_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w0_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w0_s cn88xxp1; */
 } bdk_tns_sde_urw3_sein_rp_tblx_w0_t;
@@ -28201,7 +27483,6 @@ typedef union bdk_tns_sde_urw3_sein_rp_tblx_w1 {
 		uint32_t offset1_x0                  : 5;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w1_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w1_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w1_s cn88xxp1; */
 } bdk_tns_sde_urw3_sein_rp_tblx_w1_t;
@@ -28239,7 +27520,6 @@ typedef union bdk_tns_sde_urw3_sein_rp_tblx_w2 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w2_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w2_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_sein_rp_tblx_w2_s cn88xxp1; */
 } bdk_tns_sde_urw3_sein_rp_tblx_w2_t;
@@ -28273,7 +27553,6 @@ typedef union bdk_tns_sde_urw3_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_spad_s     cn85xx; */
 	/* struct bdk_tns_sde_urw3_spad_s     cn88xx; */
 	/* struct bdk_tns_sde_urw3_spad_s     cn88xxp1; */
 } bdk_tns_sde_urw3_spad_t;
@@ -28309,7 +27588,6 @@ typedef union bdk_tns_sde_urw3_tqifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_tqifx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_tqifx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_tqifx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw3_tqifx_wx_t;
@@ -28345,7 +27623,6 @@ typedef union bdk_tns_sde_urw3_vif_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_vif_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_sde_urw3_vif_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_sde_urw3_vif_fifx_wx_s cn88xxp1; */
 } bdk_tns_sde_urw3_vif_fifx_wx_t;
@@ -28385,7 +27662,6 @@ typedef union bdk_tns_sde_urw3_wrr {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_sde_urw3_wrr_s      cn85xx; */
 	/* struct bdk_tns_sde_urw3_wrr_s      cn88xx; */
 	/* struct bdk_tns_sde_urw3_wrr_s      cn88xxp1; */
 } bdk_tns_sde_urw3_wrr_t;
@@ -28432,7 +27708,6 @@ typedef union bdk_tns_se_age_mem_age_int_en_hi {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_int_en_hi_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_int_en_hi_t;
@@ -28479,7 +27754,6 @@ typedef union bdk_tns_se_age_mem_age_int_en_lo {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_int_en_lo_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_int_en_lo_t;
@@ -28526,7 +27800,6 @@ typedef union bdk_tns_se_age_mem_age_int_frc {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_int_frc_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_int_frc_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_int_frc_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_int_frc_t;
@@ -28573,7 +27846,6 @@ typedef union bdk_tns_se_age_mem_age_int_w1c {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_int_w1c_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_int_w1c_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_int_w1c_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_int_w1c_t;
@@ -28607,7 +27879,6 @@ typedef union bdk_tns_se_age_mem_age_sta_w0 {
 		uint32_t row_data_x0                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_sta_w0_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_sta_w0_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_sta_w0_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_sta_w0_t;
@@ -28640,7 +27911,6 @@ typedef union bdk_tns_se_age_mem_age_sta_w1 {
 		uint32_t row_data_x1                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_sta_w1_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_sta_w1_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_sta_w1_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_sta_w1_t;
@@ -28680,7 +27950,6 @@ typedef union bdk_tns_se_age_mem_age_sta_w2 {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_age_sta_w2_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_age_sta_w2_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_age_sta_w2_s cn88xxp1; */
 } bdk_tns_se_age_mem_age_sta_w2_t;
@@ -28717,7 +27986,6 @@ typedef union bdk_tns_se_age_mem_bist_stdn {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_bist_stdn_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_bist_stdn_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_bist_stdn_s cn88xxp1; */
 } bdk_tns_se_age_mem_bist_stdn_t;
@@ -28752,7 +28020,6 @@ typedef union bdk_tns_se_age_mem_dbg_sel {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_age_mem_dbg_sel_t;
@@ -28797,7 +28064,6 @@ typedef union bdk_tns_se_age_mem_ecc_ctl {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_ecc_ctl_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_ecc_ctl_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_ecc_ctl_s cn88xxp1; */
 } bdk_tns_se_age_mem_ecc_ctl_t;
@@ -28830,7 +28096,6 @@ typedef union bdk_tns_se_age_mem_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_lock_s   cn85xx; */
 	/* struct bdk_tns_se_age_mem_lock_s   cn88xx; */
 	/* struct bdk_tns_se_age_mem_lock_s   cn88xxp1; */
 } bdk_tns_se_age_mem_lock_t;
@@ -28868,7 +28133,6 @@ typedef union bdk_tns_se_age_mem_markxdx_wx {
 		uint32_t age_mark                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_markxdx_wx_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_markxdx_wx_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_markxdx_wx_s cn88xxp1; */
 } bdk_tns_se_age_mem_markxdx_wx_t;
@@ -28905,7 +28169,6 @@ typedef union bdk_tns_se_age_mem_maskxdx_wx {
 		uint32_t age_mask                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_maskxdx_wx_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_maskxdx_wx_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_maskxdx_wx_s cn88xxp1; */
 } bdk_tns_se_age_mem_maskxdx_wx_t;
@@ -28941,7 +28204,6 @@ typedef union bdk_tns_se_age_mem_mrk_ecc_logx {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_mrk_ecc_logx_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_mrk_ecc_logx_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_mrk_ecc_logx_s cn88xxp1; */
 } bdk_tns_se_age_mem_mrk_ecc_logx_t;
@@ -28977,7 +28239,6 @@ typedef union bdk_tns_se_age_mem_msk_ecc_logx {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_msk_ecc_logx_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_msk_ecc_logx_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_msk_ecc_logx_s cn88xxp1; */
 } bdk_tns_se_age_mem_msk_ecc_logx_t;
@@ -29011,7 +28272,6 @@ typedef union bdk_tns_se_age_mem_rfrsh_w0 {
 		uint32_t unit_time                   : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_rfrsh_w0_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w0_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w0_s cn88xxp1; */
 } bdk_tns_se_age_mem_rfrsh_w0_t;
@@ -29049,7 +28309,6 @@ typedef union bdk_tns_se_age_mem_rfrsh_w1 {
 		uint32_t trig_cfg_bmp_x0             : 25;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_rfrsh_w1_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w1_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w1_s cn88xxp1; */
 } bdk_tns_se_age_mem_rfrsh_w1_t;
@@ -29082,7 +28341,6 @@ typedef union bdk_tns_se_age_mem_rfrsh_w2 {
 		uint32_t trig_cfg_bmp_x1             : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_rfrsh_w2_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w2_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w2_s cn88xxp1; */
 } bdk_tns_se_age_mem_rfrsh_w2_t;
@@ -29120,7 +28378,6 @@ typedef union bdk_tns_se_age_mem_rfrsh_w3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_rfrsh_w3_s cn85xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w3_s cn88xx; */
 	/* struct bdk_tns_se_age_mem_rfrsh_w3_s cn88xxp1; */
 } bdk_tns_se_age_mem_rfrsh_w3_t;
@@ -29153,7 +28410,6 @@ typedef union bdk_tns_se_age_mem_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_mem_spad_s   cn85xx; */
 	/* struct bdk_tns_se_age_mem_spad_s   cn88xx; */
 	/* struct bdk_tns_se_age_mem_spad_s   cn88xxp1; */
 } bdk_tns_se_age_mem_spad_t;
@@ -29192,7 +28448,6 @@ typedef union bdk_tns_se_age_tblx_cfg_idx {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_tblx_cfg_idx_s cn85xx; */
 	/* struct bdk_tns_se_age_tblx_cfg_idx_s cn88xx; */
 	/* struct bdk_tns_se_age_tblx_cfg_idx_s cn88xxp1; */
 } bdk_tns_se_age_tblx_cfg_idx_t;
@@ -29226,7 +28481,6 @@ typedef union bdk_tns_se_age_tblx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_tblx_lock_s  cn85xx; */
 	/* struct bdk_tns_se_age_tblx_lock_s  cn88xx; */
 	/* struct bdk_tns_se_age_tblx_lock_s  cn88xxp1; */
 } bdk_tns_se_age_tblx_lock_t;
@@ -29260,7 +28514,6 @@ typedef union bdk_tns_se_age_tblx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_tblx_spad_s  cn85xx; */
 	/* struct bdk_tns_se_age_tblx_spad_s  cn88xx; */
 	/* struct bdk_tns_se_age_tblx_spad_s  cn88xxp1; */
 } bdk_tns_se_age_tblx_spad_t;
@@ -29302,7 +28555,6 @@ typedef union bdk_tns_se_age_tblxcx_w0 {
 		uint32_t mem_offset                  : 15;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_tblxcx_w0_s  cn85xx; */
 	/* struct bdk_tns_se_age_tblxcx_w0_s  cn88xx; */
 	/* struct bdk_tns_se_age_tblxcx_w0_s  cn88xxp1; */
 } bdk_tns_se_age_tblxcx_w0_t;
@@ -29341,7 +28593,6 @@ typedef union bdk_tns_se_age_tblxcx_w1 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_se_age_tblxcx_w1_s  cn85xx; */
 	/* struct bdk_tns_se_age_tblxcx_w1_s  cn88xx; */
 	/* struct bdk_tns_se_age_tblxcx_w1_s  cn88xxp1; */
 } bdk_tns_se_age_tblxcx_w1_t;
@@ -29375,7 +28626,6 @@ typedef union bdk_tns_se_cfg_spare_w0 {
 		uint32_t xp_se_spare_x0              : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_cfg_spare_w0_s   cn85xx; */
 	/* struct bdk_tns_se_cfg_spare_w0_s   cn88xx; */
 	/* struct bdk_tns_se_cfg_spare_w0_s   cn88xxp1; */
 } bdk_tns_se_cfg_spare_w0_t;
@@ -29408,7 +28658,6 @@ typedef union bdk_tns_se_cfg_spare_w1 {
 		uint32_t xp_se_spare_x1              : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_cfg_spare_w1_s   cn85xx; */
 	/* struct bdk_tns_se_cfg_spare_w1_s   cn88xx; */
 	/* struct bdk_tns_se_cfg_spare_w1_s   cn88xxp1; */
 } bdk_tns_se_cfg_spare_w1_t;
@@ -29441,7 +28690,6 @@ typedef union bdk_tns_se_direct_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_direct_lock_s    cn85xx; */
 	/* struct bdk_tns_se_direct_lock_s    cn88xx; */
 	/* struct bdk_tns_se_direct_lock_s    cn88xxp1; */
 } bdk_tns_se_direct_lock_t;
@@ -29474,7 +28722,6 @@ typedef union bdk_tns_se_direct_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_direct_spad_s    cn85xx; */
 	/* struct bdk_tns_se_direct_spad_s    cn88xx; */
 	/* struct bdk_tns_se_direct_spad_s    cn88xxp1; */
 } bdk_tns_se_direct_spad_t;
@@ -29520,7 +28767,6 @@ typedef union bdk_tns_se_direct_tbl_directx {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_se_direct_tbl_directx_s cn85xx; */
 	/* struct bdk_tns_se_direct_tbl_directx_s cn88xx; */
 	/* struct bdk_tns_se_direct_tbl_directx_s cn88xxp1; */
 } bdk_tns_se_direct_tbl_directx_t;
@@ -29555,7 +28801,6 @@ typedef union bdk_tns_se_hash_hash_dbg_sel {
 		uint32_t hash_dbg_sel                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_hash_hash_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_hash_hash_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_hash_hash_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_hash_hash_dbg_sel_t;
@@ -29588,7 +28833,6 @@ typedef union bdk_tns_se_hash_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_hash_lock_s      cn85xx; */
 	/* struct bdk_tns_se_hash_lock_s      cn88xx; */
 	/* struct bdk_tns_se_hash_lock_s      cn88xxp1; */
 } bdk_tns_se_hash_lock_t;
@@ -29621,7 +28865,6 @@ typedef union bdk_tns_se_hash_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_hash_spad_s      cn85xx; */
 	/* struct bdk_tns_se_hash_spad_s      cn88xx; */
 	/* struct bdk_tns_se_hash_spad_s      cn88xxp1; */
 } bdk_tns_se_hash_spad_t;
@@ -29675,7 +28918,6 @@ typedef union bdk_tns_se_hash_tbl_hashx_w0 {
 		uint32_t row_blk_start_5_x0          : 4;
 #endif
 	} s;
-	/* struct bdk_tns_se_hash_tbl_hashx_w0_s cn85xx; */
 	/* struct bdk_tns_se_hash_tbl_hashx_w0_s cn88xx; */
 	/* struct bdk_tns_se_hash_tbl_hashx_w0_s cn88xxp1; */
 } bdk_tns_se_hash_tbl_hashx_w0_t;
@@ -29720,7 +28962,6 @@ typedef union bdk_tns_se_hash_tbl_hashx_w1 {
 		uint32_t row_blk_start_0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_se_hash_tbl_hashx_w1_s cn85xx; */
 	/* struct bdk_tns_se_hash_tbl_hashx_w1_s cn88xx; */
 	/* struct bdk_tns_se_hash_tbl_hashx_w1_s cn88xxp1; */
 } bdk_tns_se_hash_tbl_hashx_w1_t;
@@ -29768,7 +29009,6 @@ typedef union bdk_tns_se_hash_tbl_hashx_w2 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_se_hash_tbl_hashx_w2_s cn85xx; */
 	/* struct bdk_tns_se_hash_tbl_hashx_w2_s cn88xx; */
 	/* struct bdk_tns_se_hash_tbl_hashx_w2_s cn88xxp1; */
 } bdk_tns_se_hash_tbl_hashx_w2_t;
@@ -29812,7 +29052,6 @@ typedef union bdk_tns_se_int_ro_w0 {
 		uint32_t tcam_scrb_db2_x0            : 2;
 #endif
 	} s;
-	/* struct bdk_tns_se_int_ro_w0_s      cn85xx; */
 	/* struct bdk_tns_se_int_ro_w0_s      cn88xx; */
 	/* struct bdk_tns_se_int_ro_w0_s      cn88xxp1; */
 } bdk_tns_se_int_ro_w0_t;
@@ -29853,7 +29092,6 @@ typedef union bdk_tns_se_int_ro_w1 {
 		uint32_t sram_pair                   : 8;
 #endif
 	} s;
-	/* struct bdk_tns_se_int_ro_w1_s      cn85xx; */
 	/* struct bdk_tns_se_int_ro_w1_s      cn88xx; */
 	/* struct bdk_tns_se_int_ro_w1_s      cn88xxp1; */
 } bdk_tns_se_int_ro_w1_t;
@@ -29892,7 +29130,6 @@ typedef union bdk_tns_se_int_ro_w2 {
 		uint32_t unused_tmp                  : 29;
 #endif
 	} s;
-	/* struct bdk_tns_se_int_ro_w2_s      cn85xx; */
 	/* struct bdk_tns_se_int_ro_w2_s      cn88xx; */
 	/* struct bdk_tns_se_int_ro_w2_s      cn88xxp1; */
 } bdk_tns_se_int_ro_w2_t;
@@ -29966,7 +29203,6 @@ typedef union bdk_tns_se_lde_srch_cmdx_w0 {
 		uint32_t key_byte_bmp_x0             : 11;
 #endif
 	} s;
-	/* struct bdk_tns_se_lde_srch_cmdx_w0_s cn85xx; */
 	/* struct bdk_tns_se_lde_srch_cmdx_w0_s cn88xx; */
 	/* struct bdk_tns_se_lde_srch_cmdx_w0_s cn88xxp1; */
 } bdk_tns_se_lde_srch_cmdx_w0_t;
@@ -30000,7 +29236,6 @@ typedef union bdk_tns_se_lde_srch_cmdx_w1 {
 		uint32_t key_byte_bmp_x1             : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_lde_srch_cmdx_w1_s cn85xx; */
 	/* struct bdk_tns_se_lde_srch_cmdx_w1_s cn88xx; */
 	/* struct bdk_tns_se_lde_srch_cmdx_w1_s cn88xxp1; */
 } bdk_tns_se_lde_srch_cmdx_w1_t;
@@ -30062,7 +29297,6 @@ typedef union bdk_tns_se_lde_srch_cmdx_w2 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_se_lde_srch_cmdx_w2_s cn85xx; */
 	/* struct bdk_tns_se_lde_srch_cmdx_w2_s cn88xx; */
 	/* struct bdk_tns_se_lde_srch_cmdx_w2_s cn88xxp1; */
 } bdk_tns_se_lde_srch_cmdx_w2_t;
@@ -30096,7 +29330,6 @@ typedef union bdk_tns_se_ldecmd_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldecmd_lock_s    cn85xx; */
 	/* struct bdk_tns_se_ldecmd_lock_s    cn88xx; */
 	/* struct bdk_tns_se_ldecmd_lock_s    cn88xxp1; */
 } bdk_tns_se_ldecmd_lock_t;
@@ -30129,7 +29362,6 @@ typedef union bdk_tns_se_ldecmd_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldecmd_spad_s    cn85xx; */
 	/* struct bdk_tns_se_ldecmd_spad_s    cn88xx; */
 	/* struct bdk_tns_se_ldecmd_spad_s    cn88xxp1; */
 } bdk_tns_se_ldecmd_spad_t;
@@ -30163,7 +29395,6 @@ typedef union bdk_tns_se_ldei_cpu_rsl_lnx_w0 {
 		uint32_t data_x0                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w0_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w0_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w0_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_rsl_lnx_w0_t;
@@ -30197,7 +29428,6 @@ typedef union bdk_tns_se_ldei_cpu_rsl_lnx_w1 {
 		uint32_t data_x1                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w1_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w1_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w1_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_rsl_lnx_w1_t;
@@ -30245,7 +29475,6 @@ typedef union bdk_tns_se_ldei_cpu_rsl_lnx_w2 {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w2_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w2_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_rsl_lnx_w2_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_rsl_lnx_w2_t;
@@ -30284,7 +29513,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w0 {
 		uint32_t key_x0                      : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w0_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w0_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w0_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w0_t;
@@ -30317,7 +29545,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w1 {
 		uint32_t key_x1                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w1_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w1_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w1_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w1_t;
@@ -30350,7 +29577,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w10 {
 		uint32_t key_x10                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w10_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w10_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w10_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w10_t;
@@ -30383,7 +29609,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w11 {
 		uint32_t key_x11                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w11_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w11_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w11_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w11_t;
@@ -30422,7 +29647,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w12 {
 		uint32_t reserved_17_31              : 15;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w12_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w12_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w12_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w12_t;
@@ -30455,7 +29679,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w2 {
 		uint32_t key_x2                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w2_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w2_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w2_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w2_t;
@@ -30488,7 +29711,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w3 {
 		uint32_t key_x3                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w3_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w3_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w3_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w3_t;
@@ -30521,7 +29743,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w4 {
 		uint32_t key_x4                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w4_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w4_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w4_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w4_t;
@@ -30554,7 +29775,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w5 {
 		uint32_t key_x5                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w5_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w5_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w5_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w5_t;
@@ -30587,7 +29807,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w6 {
 		uint32_t key_x6                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w6_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w6_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w6_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w6_t;
@@ -30620,7 +29839,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w7 {
 		uint32_t key_x7                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w7_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w7_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w7_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w7_t;
@@ -30653,7 +29871,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w8 {
 		uint32_t key_x8                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w8_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w8_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w8_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w8_t;
@@ -30686,7 +29903,6 @@ typedef union bdk_tns_se_ldei_cpu_srch_req_w9 {
 		uint32_t key_x9                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_cpu_srch_req_w9_s cn85xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w9_s cn88xx; */
 	/* struct bdk_tns_se_ldei_cpu_srch_req_w9_s cn88xxp1; */
 } bdk_tns_se_ldei_cpu_srch_req_w9_t;
@@ -30720,7 +29936,6 @@ typedef union bdk_tns_se_ldei_dbg_sel {
 		uint32_t ldeif_dbg_sel               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_dbg_sel_s   cn85xx; */
 	/* struct bdk_tns_se_ldei_dbg_sel_s   cn88xx; */
 	/* struct bdk_tns_se_ldei_dbg_sel_s   cn88xxp1; */
 } bdk_tns_se_ldei_dbg_sel_t;
@@ -30760,7 +29975,6 @@ typedef union bdk_tns_se_ldei_hash_bufx {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_hash_bufx_s cn85xx; */
 	/* struct bdk_tns_se_ldei_hash_bufx_s cn88xx; */
 	/* struct bdk_tns_se_ldei_hash_bufx_s cn88xxp1; */
 } bdk_tns_se_ldei_hash_bufx_t;
@@ -30806,7 +30020,6 @@ typedef union bdk_tns_se_ldei_ldeif_dbg {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_ldeif_dbg_s cn85xx; */
 	/* struct bdk_tns_se_ldei_ldeif_dbg_s cn88xx; */
 	/* struct bdk_tns_se_ldei_ldeif_dbg_s cn88xxp1; */
 } bdk_tns_se_ldei_ldeif_dbg_t;
@@ -30839,7 +30052,6 @@ typedef union bdk_tns_se_ldei_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_lock_s      cn85xx; */
 	/* struct bdk_tns_se_ldei_lock_s      cn88xx; */
 	/* struct bdk_tns_se_ldei_lock_s      cn88xxp1; */
 } bdk_tns_se_ldei_lock_t;
@@ -30872,7 +30084,6 @@ typedef union bdk_tns_se_ldei_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_spad_s      cn85xx; */
 	/* struct bdk_tns_se_ldei_spad_s      cn88xx; */
 	/* struct bdk_tns_se_ldei_spad_s      cn88xxp1; */
 } bdk_tns_se_ldei_spad_t;
@@ -30921,7 +30132,6 @@ typedef union bdk_tns_se_ldei_sta_hash_bufx_w0 {
 		uint32_t intf_id_x0                  : 1;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_hash_bufx_w0_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_hash_bufx_w0_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_hash_bufx_w0_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_hash_bufx_w0_t;
@@ -30957,7 +30167,6 @@ typedef union bdk_tns_se_ldei_sta_hash_bufx_w1 {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_hash_bufx_w1_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_hash_bufx_w1_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_hash_bufx_w1_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_hash_bufx_w1_t;
@@ -30995,7 +30204,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w0 {
 		uint32_t key_x0                      : 7;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w0_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w0_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w0_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w0_t;
@@ -31028,7 +30236,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w1 {
 		uint32_t key_x1                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w1_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w1_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w1_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w1_t;
@@ -31061,7 +30268,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w10 {
 		uint32_t key_x10                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w10_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w10_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w10_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w10_t;
@@ -31094,7 +30300,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w11 {
 		uint32_t key_x11                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w11_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w11_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w11_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w11_t;
@@ -31129,7 +30334,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w12 {
 		uint32_t profile_id                  : 7;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w12_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w12_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w12_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w12_t;
@@ -31162,7 +30366,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w2 {
 		uint32_t key_x2                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w2_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w2_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w2_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w2_t;
@@ -31195,7 +30398,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w3 {
 		uint32_t key_x3                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w3_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w3_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w3_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w3_t;
@@ -31228,7 +30430,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w4 {
 		uint32_t key_x4                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w4_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w4_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w4_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w4_t;
@@ -31261,7 +30462,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w5 {
 		uint32_t key_x5                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w5_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w5_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w5_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w5_t;
@@ -31294,7 +30494,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w6 {
 		uint32_t key_x6                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w6_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w6_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w6_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w6_t;
@@ -31327,7 +30526,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w7 {
 		uint32_t key_x7                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w7_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w7_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w7_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w7_t;
@@ -31360,7 +30558,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w8 {
 		uint32_t key_x8                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w8_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w8_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w8_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w8_t;
@@ -31393,7 +30590,6 @@ typedef union bdk_tns_se_ldei_sta_req_dbg_w9 {
 		uint32_t key_x9                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_ldei_sta_req_dbg_w9_s cn85xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w9_s cn88xx; */
 	/* struct bdk_tns_se_ldei_sta_req_dbg_w9_s cn88xxp1; */
 } bdk_tns_se_ldei_sta_req_dbg_w9_t;
@@ -31426,7 +30622,6 @@ typedef union bdk_tns_se_lpm_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_lock_s       cn85xx; */
 	/* struct bdk_tns_se_lpm_lock_s       cn88xx; */
 	/* struct bdk_tns_se_lpm_lock_s       cn88xxp1; */
 } bdk_tns_se_lpm_lock_t;
@@ -31460,7 +30655,6 @@ typedef union bdk_tns_se_lpm_lpm_dbg_sel {
 		uint32_t lpm_dbg_sel                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_lpm_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_lpm_lpm_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_lpm_lpm_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_lpm_lpm_dbg_sel_t;
@@ -31493,7 +30687,6 @@ typedef union bdk_tns_se_lpm_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_spad_s       cn85xx; */
 	/* struct bdk_tns_se_lpm_spad_s       cn88xx; */
 	/* struct bdk_tns_se_lpm_spad_s       cn88xxp1; */
 } bdk_tns_se_lpm_spad_t;
@@ -31528,7 +30721,6 @@ typedef union bdk_tns_se_lpm_tbl_lpmx {
 		uint32_t prefix_bmp                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_lpmx_s   cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_lpmx_s   cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_lpmx_s   cn88xxp1; */
 } bdk_tns_se_lpm_tbl_lpmx_t;
@@ -31575,7 +30767,6 @@ typedef union bdk_tns_se_lpm_tbl_nhx_w0 {
 		uint32_t row_blk_start_2_x0          : 1;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_nhx_w0_s cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhx_w0_s cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhx_w0_s cn88xxp1; */
 } bdk_tns_se_lpm_tbl_nhx_w0_t;
@@ -31622,7 +30813,6 @@ typedef union bdk_tns_se_lpm_tbl_nhx_w1 {
 		uint32_t data_size_x0                : 1;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_nhx_w1_s cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhx_w1_s cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhx_w1_s cn88xxp1; */
 } bdk_tns_se_lpm_tbl_nhx_w1_t;
@@ -31658,7 +30848,6 @@ typedef union bdk_tns_se_lpm_tbl_nhx_w2 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_nhx_w2_s cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhx_w2_s cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhx_w2_s cn88xxp1; */
 } bdk_tns_se_lpm_tbl_nhx_w2_t;
@@ -31702,7 +30891,6 @@ typedef union bdk_tns_se_lpm_tbl_nhix_w0 {
 		uint32_t row_blk_start_2_x0          : 2;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_nhix_w0_s cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhix_w0_s cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhix_w0_s cn88xxp1; */
 } bdk_tns_se_lpm_tbl_nhix_w0_t;
@@ -31749,7 +30937,6 @@ typedef union bdk_tns_se_lpm_tbl_nhix_w1 {
 		uint32_t nhi_size_x0                 : 2;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_nhix_w1_s cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhix_w1_s cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhix_w1_s cn88xxp1; */
 } bdk_tns_se_lpm_tbl_nhix_w1_t;
@@ -31792,7 +30979,6 @@ typedef union bdk_tns_se_lpm_tbl_nhix_w2 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_se_lpm_tbl_nhix_w2_s cn85xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhix_w2_s cn88xx; */
 	/* struct bdk_tns_se_lpm_tbl_nhix_w2_s cn88xxp1; */
 } bdk_tns_se_lpm_tbl_nhix_w2_t;
@@ -31826,7 +31012,6 @@ typedef union bdk_tns_se_prfx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_prfx_lock_s      cn85xx; */
 	/* struct bdk_tns_se_prfx_lock_s      cn88xx; */
 	/* struct bdk_tns_se_prfx_lock_s      cn88xxp1; */
 } bdk_tns_se_prfx_lock_t;
@@ -31859,7 +31044,6 @@ typedef union bdk_tns_se_prfx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_prfx_spad_s      cn85xx; */
 	/* struct bdk_tns_se_prfx_spad_s      cn88xx; */
 	/* struct bdk_tns_se_prfx_spad_s      cn88xxp1; */
 } bdk_tns_se_prfx_spad_t;
@@ -31906,7 +31090,6 @@ typedef union bdk_tns_se_prfx_tbl_prefixx {
 		uint32_t reserved_23_31              : 9;
 #endif
 	} s;
-	/* struct bdk_tns_se_prfx_tbl_prefixx_s cn85xx; */
 	/* struct bdk_tns_se_prfx_tbl_prefixx_s cn88xx; */
 	/* struct bdk_tns_se_prfx_tbl_prefixx_s cn88xxp1; */
 } bdk_tns_se_prfx_tbl_prefixx_t;
@@ -31944,7 +31127,6 @@ typedef union bdk_tns_se_sram_pairx_bist_stdn {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_bist_stdn_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_bist_stdn_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_bist_stdn_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_bist_stdn_t;
@@ -31980,7 +31162,6 @@ typedef union bdk_tns_se_sram_pairx_dbg_sel {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_dbg_sel_t;
@@ -32024,7 +31205,6 @@ typedef union bdk_tns_se_sram_pairx_dhshx_w0 {
 		uint32_t hash_err_cmd_id_0           : 2;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_dhshx_w0_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_dhshx_w0_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_dhshx_w0_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_dhshx_w0_t;
@@ -32070,7 +31250,6 @@ typedef union bdk_tns_se_sram_pairx_dhshx_w1 {
 		uint32_t hash_hang_intf_id_x0        : 3;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_dhshx_w1_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_dhshx_w1_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_dhshx_w1_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_dhshx_w1_t;
@@ -32108,7 +31287,6 @@ typedef union bdk_tns_se_sram_pairx_dhshx_w2 {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_dhshx_w2_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_dhshx_w2_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_dhshx_w2_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_dhshx_w2_t;
@@ -32148,7 +31326,6 @@ typedef union bdk_tns_se_sram_pairx_done {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_done_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_done_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_done_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_done_t;
@@ -32182,7 +31359,6 @@ typedef union bdk_tns_se_sram_pairx_dyn_dbg_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_dyn_dbg_wx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_dyn_dbg_wx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_dyn_dbg_wx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_dyn_dbg_wx_t;
@@ -32224,7 +31400,6 @@ typedef union bdk_tns_se_sram_pairx_ecc_ctlx {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_ecc_ctlx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_ecc_ctlx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_ecc_ctlx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_ecc_ctlx_t;
@@ -32265,7 +31440,6 @@ typedef union bdk_tns_se_sram_pairx_ecc_errx {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_ecc_errx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_ecc_errx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_ecc_errx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_ecc_errx_t;
@@ -32300,7 +31474,6 @@ typedef union bdk_tns_se_sram_pairx_flsh_mm_wx {
 		uint32_t val                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_flsh_mm_wx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_mm_wx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_mm_wx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_flsh_mm_wx_t;
@@ -32334,7 +31507,6 @@ typedef union bdk_tns_se_sram_pairx_flsh_mp_wx {
 		uint32_t val                         : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_flsh_mp_wx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_mp_wx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_mp_wx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_flsh_mp_wx_t;
@@ -32368,7 +31540,6 @@ typedef union bdk_tns_se_sram_pairx_flsh_sm_wx {
 		uint32_t subst_mask                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_flsh_sm_wx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_sm_wx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_sm_wx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_flsh_sm_wx_t;
@@ -32402,7 +31573,6 @@ typedef union bdk_tns_se_sram_pairx_flsh_sp_wx {
 		uint32_t subst_pattern               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_flsh_sp_wx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_sp_wx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_sp_wx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_flsh_sp_wx_t;
@@ -32460,7 +31630,6 @@ typedef union bdk_tns_se_sram_pairx_flsh_w0 {
 		uint32_t prio                        : 1;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_flsh_w0_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_w0_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_w0_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_flsh_w0_t;
@@ -32496,7 +31665,6 @@ typedef union bdk_tns_se_sram_pairx_flsh_w1 {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_flsh_w1_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_w1_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_flsh_w1_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_flsh_w1_t;
@@ -32538,7 +31706,6 @@ typedef union bdk_tns_se_sram_pairx_inf_frc {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_inf_frc_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_inf_frc_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_inf_frc_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_inf_frc_t;
@@ -32589,7 +31756,6 @@ typedef union bdk_tns_se_sram_pairx_int_en_hix {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_int_en_hix_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_int_en_hix_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_int_en_hix_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_int_en_hix_t;
@@ -32640,7 +31806,6 @@ typedef union bdk_tns_se_sram_pairx_int_en_lox {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_int_en_lox_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_int_en_lox_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_int_en_lox_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_int_en_lox_t;
@@ -32691,7 +31856,6 @@ typedef union bdk_tns_se_sram_pairx_int_frcx {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_int_frcx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_int_frcx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_int_frcx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_int_frcx_t;
@@ -32742,7 +31906,6 @@ typedef union bdk_tns_se_sram_pairx_int_w1cx {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_int_w1cx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_int_w1cx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_int_w1cx_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_int_w1cx_t;
@@ -32776,7 +31939,6 @@ typedef union bdk_tns_se_sram_pairx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_lock_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_lock_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_lock_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_lock_t;
@@ -32810,7 +31972,6 @@ typedef union bdk_tns_se_sram_pairx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_spad_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_spad_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_spad_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_spad_t;
@@ -32854,7 +32015,6 @@ typedef union bdk_tns_se_sram_pairx_sram_dbg {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_sram_dbg_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_sram_dbg_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_sram_dbg_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_sram_dbg_t;
@@ -32890,7 +32050,6 @@ typedef union bdk_tns_se_sram_pairx_tile_rst {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairx_tile_rst_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairx_tile_rst_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairx_tile_rst_s cn88xxp1; */
 } bdk_tns_se_sram_pairx_tile_rst_t;
@@ -32926,7 +32085,6 @@ typedef union bdk_tns_se_sram_pairxtilexdx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_sram_pairxtilexdx_wx_s cn85xx; */
 	/* struct bdk_tns_se_sram_pairxtilexdx_wx_s cn88xx; */
 	/* struct bdk_tns_se_sram_pairxtilexdx_wx_s cn88xxp1; */
 } bdk_tns_se_sram_pairxtilexdx_wx_t;
@@ -32962,7 +32120,6 @@ typedef union bdk_tns_se_tcamx_dbg_sel {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_dbg_sel_s  cn85xx; */
 	/* struct bdk_tns_se_tcamx_dbg_sel_s  cn88xx; */
 	/* struct bdk_tns_se_tcamx_dbg_sel_s  cn88xxp1; */
 } bdk_tns_se_tcamx_dbg_sel_t;
@@ -33004,7 +32161,6 @@ typedef union bdk_tns_se_tcamx_ecc_ctl {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_ecc_ctl_s  cn85xx; */
 	/* struct bdk_tns_se_tcamx_ecc_ctl_s  cn88xx; */
 	/* struct bdk_tns_se_tcamx_ecc_ctl_s  cn88xxp1; */
 } bdk_tns_se_tcamx_ecc_ctl_t;
@@ -33040,7 +32196,6 @@ typedef union bdk_tns_se_tcamx_sramx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_sramx_wx_s cn85xx; */
 	/* struct bdk_tns_se_tcamx_sramx_wx_s cn88xx; */
 	/* struct bdk_tns_se_tcamx_sramx_wx_s cn88xxp1; */
 } bdk_tns_se_tcamx_sramx_wx_t;
@@ -33076,7 +32231,6 @@ typedef union bdk_tns_se_tcamx_sram_ecc_log {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_sram_ecc_log_s cn85xx; */
 	/* struct bdk_tns_se_tcamx_sram_ecc_log_s cn88xx; */
 	/* struct bdk_tns_se_tcamx_sram_ecc_log_s cn88xxp1; */
 } bdk_tns_se_tcamx_sram_ecc_log_t;
@@ -33116,7 +32270,6 @@ typedef union bdk_tns_se_tcamx_sram_int_en_hi {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_sram_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_en_hi_s cn88xxp1; */
 } bdk_tns_se_tcamx_sram_int_en_hi_t;
@@ -33156,7 +32309,6 @@ typedef union bdk_tns_se_tcamx_sram_int_en_lo {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_sram_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_en_lo_s cn88xxp1; */
 } bdk_tns_se_tcamx_sram_int_en_lo_t;
@@ -33196,7 +32348,6 @@ typedef union bdk_tns_se_tcamx_sram_int_frc {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_sram_int_frc_s cn85xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_frc_s cn88xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_frc_s cn88xxp1; */
 } bdk_tns_se_tcamx_sram_int_frc_t;
@@ -33236,7 +32387,6 @@ typedef union bdk_tns_se_tcamx_sram_int_w1c {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcamx_sram_int_w1c_s cn85xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_w1c_s cn88xx; */
 	/* struct bdk_tns_se_tcamx_sram_int_w1c_s cn88xxp1; */
 } bdk_tns_se_tcamx_sram_int_w1c_t;
@@ -33278,7 +32428,6 @@ typedef union bdk_tns_se_tcam_dbx_bist_stdn {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_bist_stdn_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_bist_stdn_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_bist_stdn_s cn88xxp1; */
 } bdk_tns_se_tcam_dbx_bist_stdn_t;
@@ -33314,7 +32463,6 @@ typedef union bdk_tns_se_tcam_dbx_clk_en_bmap {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_clk_en_bmap_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_clk_en_bmap_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_clk_en_bmap_s cn88xxp1; */
 } bdk_tns_se_tcam_dbx_clk_en_bmap_t;
@@ -33350,7 +32498,6 @@ typedef union bdk_tns_se_tcam_dbx_db_dbg_sel {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_db_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_db_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_db_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_tcam_dbx_db_dbg_sel_t;
@@ -33384,7 +32531,6 @@ typedef union bdk_tns_se_tcam_dbx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_lock_s  cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_lock_s  cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_lock_s  cn88xxp1; */
 } bdk_tns_se_tcam_dbx_lock_t;
@@ -33418,7 +32564,6 @@ typedef union bdk_tns_se_tcam_dbx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_spad_s  cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_spad_s  cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_spad_s  cn88xxp1; */
 } bdk_tns_se_tcam_dbx_spad_t;
@@ -33452,7 +32597,6 @@ typedef union bdk_tns_se_tcam_dbx_tdb_rvld_wx {
 		uint32_t row_vld                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_tdb_rvld_wx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_tdb_rvld_wx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_tdb_rvld_wx_s cn88xxp1; */
 } bdk_tns_se_tcam_dbx_tdb_rvld_wx_t;
@@ -33488,7 +32632,6 @@ typedef union bdk_tns_se_tcam_dbx_tile_rst {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_tile_rst_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_tile_rst_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_tile_rst_s cn88xxp1; */
 } bdk_tns_se_tcam_dbx_tile_rst_t;
@@ -33529,7 +32672,6 @@ typedef union bdk_tns_se_tcam_dbx_tpool_db {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbx_tpool_db_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbx_tpool_db_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbx_tpool_db_s cn88xxp1; */
 } bdk_tns_se_tcam_dbx_tpool_db_t;
@@ -33566,7 +32708,6 @@ typedef union bdk_tns_se_tcam_dbxcn_vdmxdx_wx {
 		uint32_t cn_vld_data_mask            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_dbxcn_vdmxdx_wx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_dbxcn_vdmxdx_wx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_dbxcn_vdmxdx_wx_s cn88xxp1; */
 } bdk_tns_se_tcam_dbxcn_vdmxdx_wx_t;
@@ -33602,7 +32743,6 @@ typedef union bdk_tns_se_tcam_eng_dbg_sel {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_eng_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_tcam_eng_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_tcam_eng_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_tcam_eng_dbg_sel_t;
@@ -33635,7 +32775,6 @@ typedef union bdk_tns_se_tcam_eng_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_eng_lock_s  cn85xx; */
 	/* struct bdk_tns_se_tcam_eng_lock_s  cn88xx; */
 	/* struct bdk_tns_se_tcam_eng_lock_s  cn88xxp1; */
 } bdk_tns_se_tcam_eng_lock_t;
@@ -33670,7 +32809,6 @@ typedef union bdk_tns_se_tcam_eng_rslt_dbg_sel {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_eng_rslt_dbg_sel_s cn85xx; */
 	/* struct bdk_tns_se_tcam_eng_rslt_dbg_sel_s cn88xx; */
 	/* struct bdk_tns_se_tcam_eng_rslt_dbg_sel_s cn88xxp1; */
 } bdk_tns_se_tcam_eng_rslt_dbg_sel_t;
@@ -33703,7 +32841,6 @@ typedef union bdk_tns_se_tcam_eng_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_eng_spad_s  cn85xx; */
 	/* struct bdk_tns_se_tcam_eng_spad_s  cn88xx; */
 	/* struct bdk_tns_se_tcam_eng_spad_s  cn88xxp1; */
 } bdk_tns_se_tcam_eng_spad_t;
@@ -33738,7 +32875,6 @@ typedef union bdk_tns_se_tcam_eng_tcam_dbbufx {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_eng_tcam_dbbufx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_eng_tcam_dbbufx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_eng_tcam_dbbufx_s cn88xxp1; */
 } bdk_tns_se_tcam_eng_tcam_dbbufx_t;
@@ -33778,7 +32914,6 @@ typedef union bdk_tns_se_tcam_eng_tpool_vcodx {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_eng_tpool_vcodx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_eng_tpool_vcodx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_eng_tpool_vcodx_s cn88xxp1; */
 } bdk_tns_se_tcam_eng_tpool_vcodx_t;
@@ -33814,7 +32949,6 @@ typedef union bdk_tns_se_tcam_scrbx_eccxdx {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_eccxdx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_eccxdx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_eccxdx_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_eccxdx_t;
@@ -33850,7 +32984,6 @@ typedef union bdk_tns_se_tcam_scrbx_ecc_logx {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_ecc_logx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_ecc_logx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_ecc_logx_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_ecc_logx_t;
@@ -33888,7 +33021,6 @@ typedef union bdk_tns_se_tcam_scrbx_int_en_hix {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_int_en_hix_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_en_hix_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_en_hix_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_int_en_hix_t;
@@ -33926,7 +33058,6 @@ typedef union bdk_tns_se_tcam_scrbx_int_en_lox {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_int_en_lox_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_en_lox_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_en_lox_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_int_en_lox_t;
@@ -33964,7 +33095,6 @@ typedef union bdk_tns_se_tcam_scrbx_int_frcx {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_int_frcx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_frcx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_frcx_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_int_frcx_t;
@@ -34002,7 +33132,6 @@ typedef union bdk_tns_se_tcam_scrbx_int_w1cx {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_int_w1cx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_w1cx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_int_w1cx_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_int_w1cx_t;
@@ -34036,7 +33165,6 @@ typedef union bdk_tns_se_tcam_scrbx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_lock_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_lock_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_lock_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_lock_t;
@@ -34094,7 +33222,6 @@ typedef union bdk_tns_se_tcam_scrbx_scrbx {
 		uint32_t scrub_row_intvl             : 10;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_scrbx_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_scrbx_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_scrbx_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_scrbx_t;
@@ -34128,7 +33255,6 @@ typedef union bdk_tns_se_tcam_scrbx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_scrbx_spad_s cn85xx; */
 	/* struct bdk_tns_se_tcam_scrbx_spad_s cn88xx; */
 	/* struct bdk_tns_se_tcam_scrbx_spad_s cn88xxp1; */
 } bdk_tns_se_tcam_scrbx_spad_t;
@@ -34166,7 +33292,6 @@ typedef union bdk_tns_se_tcam_sramx_bist_stdn {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_sramx_bist_stdn_s cn85xx; */
 	/* struct bdk_tns_se_tcam_sramx_bist_stdn_s cn88xx; */
 	/* struct bdk_tns_se_tcam_sramx_bist_stdn_s cn88xxp1; */
 } bdk_tns_se_tcam_sramx_bist_stdn_t;
@@ -34200,7 +33325,6 @@ typedef union bdk_tns_se_tcam_sramx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_sramx_lock_s cn85xx; */
 	/* struct bdk_tns_se_tcam_sramx_lock_s cn88xx; */
 	/* struct bdk_tns_se_tcam_sramx_lock_s cn88xxp1; */
 } bdk_tns_se_tcam_sramx_lock_t;
@@ -34234,7 +33358,6 @@ typedef union bdk_tns_se_tcam_sramx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_sramx_spad_s cn85xx; */
 	/* struct bdk_tns_se_tcam_sramx_spad_s cn88xx; */
 	/* struct bdk_tns_se_tcam_sramx_spad_s cn88xxp1; */
 } bdk_tns_se_tcam_sramx_spad_t;
@@ -34270,7 +33393,6 @@ typedef union bdk_tns_se_tcam_sramx_tcam_rdbuf {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_sramx_tcam_rdbuf_s cn85xx; */
 	/* struct bdk_tns_se_tcam_sramx_tcam_rdbuf_s cn88xx; */
 	/* struct bdk_tns_se_tcam_sramx_tcam_rdbuf_s cn88xxp1; */
 } bdk_tns_se_tcam_sramx_tcam_rdbuf_t;
@@ -34312,7 +33434,6 @@ typedef union bdk_tns_se_tcam_tblx {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_tblx_s      cn85xx; */
 	/* struct bdk_tns_se_tcam_tblx_s      cn88xx; */
 	/* struct bdk_tns_se_tcam_tblx_s      cn88xxp1; */
 } bdk_tns_se_tcam_tblx_t;
@@ -34346,7 +33467,6 @@ typedef union bdk_tns_se_tcam_tbl_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_tbl_lock_s  cn85xx; */
 	/* struct bdk_tns_se_tcam_tbl_lock_s  cn88xx; */
 	/* struct bdk_tns_se_tcam_tbl_lock_s  cn88xxp1; */
 } bdk_tns_se_tcam_tbl_lock_t;
@@ -34379,7 +33499,6 @@ typedef union bdk_tns_se_tcam_tbl_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_tcam_tbl_spad_s  cn85xx; */
 	/* struct bdk_tns_se_tcam_tbl_spad_s  cn88xx; */
 	/* struct bdk_tns_se_tcam_tbl_spad_s  cn88xxp1; */
 } bdk_tns_se_tcam_tbl_spad_t;
@@ -34412,7 +33531,6 @@ typedef union bdk_tns_se_urw_tbl_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urw_tbl_lock_s   cn85xx; */
 	/* struct bdk_tns_se_urw_tbl_lock_s   cn88xx; */
 	/* struct bdk_tns_se_urw_tbl_lock_s   cn88xxp1; */
 } bdk_tns_se_urw_tbl_lock_t;
@@ -34445,7 +33563,6 @@ typedef union bdk_tns_se_urw_tbl_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urw_tbl_spad_s   cn85xx; */
 	/* struct bdk_tns_se_urw_tbl_spad_s   cn88xx; */
 	/* struct bdk_tns_se_urw_tbl_spad_s   cn88xxp1; */
 } bdk_tns_se_urw_tbl_spad_t;
@@ -34492,7 +33609,6 @@ typedef union bdk_tns_se_urw_tbl_urwx {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_se_urw_tbl_urwx_s   cn85xx; */
 	/* struct bdk_tns_se_urw_tbl_urwx_s   cn88xx; */
 	/* struct bdk_tns_se_urw_tbl_urwx_s   cn88xxp1; */
 } bdk_tns_se_urw_tbl_urwx_t;
@@ -34526,7 +33642,6 @@ typedef union bdk_tns_se_urwcmdx_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwcmdx_lock_s   cn85xx; */
 	/* struct bdk_tns_se_urwcmdx_lock_s   cn88xx; */
 	/* struct bdk_tns_se_urwcmdx_lock_s   cn88xxp1; */
 } bdk_tns_se_urwcmdx_lock_t;
@@ -34560,7 +33675,6 @@ typedef union bdk_tns_se_urwcmdx_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwcmdx_spad_s   cn85xx; */
 	/* struct bdk_tns_se_urwcmdx_spad_s   cn88xx; */
 	/* struct bdk_tns_se_urwcmdx_spad_s   cn88xxp1; */
 } bdk_tns_se_urwcmdx_spad_t;
@@ -34626,7 +33740,6 @@ typedef union bdk_tns_se_urwcmdx_srch_cmdx_w0 {
 		uint32_t key_byte_bmp_x0             : 11;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w0_s cn85xx; */
 	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w0_s cn88xx; */
 	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w0_s cn88xxp1; */
 } bdk_tns_se_urwcmdx_srch_cmdx_w0_t;
@@ -34660,7 +33773,6 @@ typedef union bdk_tns_se_urwcmdx_srch_cmdx_w1 {
 		uint32_t key_byte_bmp_x1             : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w1_s cn85xx; */
 	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w1_s cn88xx; */
 	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w1_s cn88xxp1; */
 } bdk_tns_se_urwcmdx_srch_cmdx_w1_t;
@@ -34723,7 +33835,6 @@ typedef union bdk_tns_se_urwcmdx_srch_cmdx_w2 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w2_s cn85xx; */
 	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w2_s cn88xx; */
 	/* struct bdk_tns_se_urwcmdx_srch_cmdx_w2_s cn88xxp1; */
 } bdk_tns_se_urwcmdx_srch_cmdx_w2_t;
@@ -34772,7 +33883,6 @@ typedef union bdk_tns_se_urwif_dbg {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_dbg_s      cn85xx; */
 	/* struct bdk_tns_se_urwif_dbg_s      cn88xx; */
 	/* struct bdk_tns_se_urwif_dbg_s      cn88xxp1; */
 } bdk_tns_se_urwif_dbg_t;
@@ -34806,7 +33916,6 @@ typedef union bdk_tns_se_urwif_dbg_sel {
 		uint32_t urwif_dbg_sel               : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_dbg_sel_s  cn85xx; */
 	/* struct bdk_tns_se_urwif_dbg_sel_s  cn88xx; */
 	/* struct bdk_tns_se_urwif_dbg_sel_s  cn88xxp1; */
 } bdk_tns_se_urwif_dbg_sel_t;
@@ -34839,7 +33948,6 @@ typedef union bdk_tns_se_urwif_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_lock_s     cn85xx; */
 	/* struct bdk_tns_se_urwif_lock_s     cn88xx; */
 	/* struct bdk_tns_se_urwif_lock_s     cn88xxp1; */
 } bdk_tns_se_urwif_lock_t;
@@ -34876,7 +33984,6 @@ typedef union bdk_tns_se_urwif_req_dbg_w0 {
 		uint32_t key_x0                      : 7;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_req_dbg_w0_s cn85xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w0_s cn88xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w0_s cn88xxp1; */
 } bdk_tns_se_urwif_req_dbg_w0_t;
@@ -34909,7 +34016,6 @@ typedef union bdk_tns_se_urwif_req_dbg_w1 {
 		uint32_t key_x1                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_req_dbg_w1_s cn85xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w1_s cn88xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w1_s cn88xxp1; */
 } bdk_tns_se_urwif_req_dbg_w1_t;
@@ -34942,7 +34048,6 @@ typedef union bdk_tns_se_urwif_req_dbg_w2 {
 		uint32_t key_x2                      : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_req_dbg_w2_s cn85xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w2_s cn88xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w2_s cn88xxp1; */
 } bdk_tns_se_urwif_req_dbg_w2_t;
@@ -34977,7 +34082,6 @@ typedef union bdk_tns_se_urwif_req_dbg_w3 {
 		uint32_t profile_id                  : 7;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_req_dbg_w3_s cn85xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w3_s cn88xx; */
 	/* struct bdk_tns_se_urwif_req_dbg_w3_s cn88xxp1; */
 } bdk_tns_se_urwif_req_dbg_w3_t;
@@ -35010,7 +34114,6 @@ typedef union bdk_tns_se_urwif_rslt_dbgx_w0 {
 		uint32_t data_x0                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_rslt_dbgx_w0_s cn85xx; */
 	/* struct bdk_tns_se_urwif_rslt_dbgx_w0_s cn88xx; */
 	/* struct bdk_tns_se_urwif_rslt_dbgx_w0_s cn88xxp1; */
 } bdk_tns_se_urwif_rslt_dbgx_w0_t;
@@ -35044,7 +34147,6 @@ typedef union bdk_tns_se_urwif_rslt_dbgx_w1 {
 		uint32_t data_x1                     : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_rslt_dbgx_w1_s cn85xx; */
 	/* struct bdk_tns_se_urwif_rslt_dbgx_w1_s cn88xx; */
 	/* struct bdk_tns_se_urwif_rslt_dbgx_w1_s cn88xxp1; */
 } bdk_tns_se_urwif_rslt_dbgx_w1_t;
@@ -35084,7 +34186,6 @@ typedef union bdk_tns_se_urwif_rslt_dbgx_w2 {
 		uint32_t req_id                      : 6;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_rslt_dbgx_w2_s cn85xx; */
 	/* struct bdk_tns_se_urwif_rslt_dbgx_w2_s cn88xx; */
 	/* struct bdk_tns_se_urwif_rslt_dbgx_w2_s cn88xxp1; */
 } bdk_tns_se_urwif_rslt_dbgx_w2_t;
@@ -35118,7 +34219,6 @@ typedef union bdk_tns_se_urwif_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_se_urwif_spad_s     cn85xx; */
 	/* struct bdk_tns_se_urwif_spad_s     cn88xx; */
 	/* struct bdk_tns_se_urwif_spad_s     cn88xxp1; */
 } bdk_tns_se_urwif_spad_t;
@@ -35151,7 +34251,6 @@ typedef union bdk_tns_txq_cfg_spare_w0 {
 		uint32_t spare_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cfg_spare_w0_s  cn85xx; */
 	/* struct bdk_tns_txq_cfg_spare_w0_s  cn88xx; */
 	/* struct bdk_tns_txq_cfg_spare_w0_s  cn88xxp1; */
 } bdk_tns_txq_cfg_spare_w0_t;
@@ -35184,7 +34283,6 @@ typedef union bdk_tns_txq_cfg_spare_w1 {
 		uint32_t spare_x1                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cfg_spare_w1_s  cn85xx; */
 	/* struct bdk_tns_txq_cfg_spare_w1_s  cn88xx; */
 	/* struct bdk_tns_txq_cfg_spare_w1_s  cn88xxp1; */
 } bdk_tns_txq_cfg_spare_w1_t;
@@ -35231,7 +34329,6 @@ typedef union bdk_tns_txq_cnt_ct_go_neg_cfg {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_ct_go_neg_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_ct_go_neg_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_ct_go_neg_cfg_s cn88xxp1; */
 } bdk_tns_txq_cnt_ct_go_neg_cfg_t;
@@ -35324,7 +34421,6 @@ typedef union bdk_tns_txq_cnt_ecc_ctl {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_ecc_ctl_s   cn85xx; */
 	/* struct bdk_tns_txq_cnt_ecc_ctl_s   cn88xx; */
 	/* struct bdk_tns_txq_cnt_ecc_ctl_s   cn88xxp1; */
 } bdk_tns_txq_cnt_ecc_ctl_t;
@@ -35359,7 +34455,6 @@ typedef union bdk_tns_txq_cnt_frc_gbl_mcfc_off {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_gbl_mcfc_off_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_gbl_mcfc_off_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_gbl_mcfc_off_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_gbl_mcfc_off_t;
@@ -35394,7 +34489,6 @@ typedef union bdk_tns_txq_cnt_frc_gbl_mcfc_on {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_gbl_mcfc_on_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_gbl_mcfc_on_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_gbl_mcfc_on_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_gbl_mcfc_on_t;
@@ -35429,7 +34523,6 @@ typedef union bdk_tns_txq_cnt_frc_pc_pfc_off {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_pc_pfc_off_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_pc_pfc_off_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_pc_pfc_off_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_pc_pfc_off_t;
@@ -35464,7 +34557,6 @@ typedef union bdk_tns_txq_cnt_frc_pc_pfc_on {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_pc_pfc_on_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_pc_pfc_on_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_pc_pfc_on_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_pc_pfc_on_t;
@@ -35497,7 +34589,6 @@ typedef union bdk_tns_txq_cnt_frc_pfc_off_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_pfc_off_wx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_pfc_off_wx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_pfc_off_wx_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_pfc_off_wx_t;
@@ -35531,7 +34622,6 @@ typedef union bdk_tns_txq_cnt_frc_pfc_on_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_pfc_on_wx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_pfc_on_wx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_pfc_on_wx_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_pfc_on_wx_t;
@@ -35567,7 +34657,6 @@ typedef union bdk_tns_txq_cnt_frc_tc_pfc_off {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_tc_pfc_off_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_tc_pfc_off_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_tc_pfc_off_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_tc_pfc_off_t;
@@ -35602,7 +34691,6 @@ typedef union bdk_tns_txq_cnt_frc_tc_pfc_on {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_frc_tc_pfc_on_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_frc_tc_pfc_on_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_frc_tc_pfc_on_s cn88xxp1; */
 } bdk_tns_txq_cnt_frc_tc_pfc_on_t;
@@ -35643,7 +34731,6 @@ typedef union bdk_tns_txq_cnt_fw_drp_rdclr_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_fw_drp_rdclr_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_fw_drp_rdclr_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_fw_drp_rdclr_cfg_s cn88xxp1; */
 } bdk_tns_txq_cnt_fw_drp_rdclr_cfg_t;
@@ -35678,7 +34765,6 @@ typedef union bdk_tns_txq_cnt_gbl_mc_ct {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_gbl_mc_ct_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_gbl_mc_ct_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_gbl_mc_ct_s cn88xxp1; */
 } bdk_tns_txq_cnt_gbl_mc_ct_t;
@@ -35715,7 +34801,6 @@ typedef union bdk_tns_txq_cnt_gbl_mc_thr {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_gbl_mc_thr_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_gbl_mc_thr_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_gbl_mc_thr_s cn88xxp1; */
 } bdk_tns_txq_cnt_gbl_mc_thr_t;
@@ -35750,7 +34835,6 @@ typedef union bdk_tns_txq_cnt_h1_dlcm_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_dlcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_dlcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_dlcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_dlcm_ecc_log_t;
@@ -35785,7 +34869,6 @@ typedef union bdk_tns_txq_cnt_h1_dpcm_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_dpcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_dpcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_dpcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_dpcm_ecc_log_t;
@@ -35823,7 +34906,6 @@ typedef union bdk_tns_txq_cnt_h1_drp_len_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_drp_len_ctx_w0_t;
@@ -35859,7 +34941,6 @@ typedef union bdk_tns_txq_cnt_h1_drp_len_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_drp_len_ctx_w1_t;
@@ -35898,7 +34979,6 @@ typedef union bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0_t;
@@ -35934,7 +35014,6 @@ typedef union bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1_t;
@@ -35970,7 +35049,6 @@ typedef union bdk_tns_txq_cnt_h1_flcm_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_flcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_flcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_flcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_flcm_ecc_log_t;
@@ -36005,7 +35083,6 @@ typedef union bdk_tns_txq_cnt_h1_fpcm_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_fpcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_fpcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_fpcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_fpcm_ecc_log_t;
@@ -36043,7 +35120,6 @@ typedef union bdk_tns_txq_cnt_h1_fw_len_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_fw_len_ctx_w0_t;
@@ -36079,7 +35155,6 @@ typedef union bdk_tns_txq_cnt_h1_fw_len_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_fw_len_ctx_w1_t;
@@ -36118,7 +35193,6 @@ typedef union bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0_t;
@@ -36154,7 +35228,6 @@ typedef union bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1_t;
@@ -36190,7 +35263,6 @@ typedef union bdk_tns_txq_cnt_h1_len_ctx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_h1_len_ctx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_h1_len_ctx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_h1_len_ctx_s cn88xxp1; */
 } bdk_tns_txq_cnt_h1_len_ctx_t;
@@ -36286,7 +35358,6 @@ typedef union bdk_tns_txq_cnt_int_en_hi_w0 {
 		uint32_t pfc_ct_rollover_err         : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_en_hi_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_en_hi_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_en_hi_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_en_hi_w0_t;
@@ -36326,7 +35397,6 @@ typedef union bdk_tns_txq_cnt_int_en_hi_w1 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_en_hi_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_en_hi_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_en_hi_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_en_hi_w1_t;
@@ -36421,7 +35491,6 @@ typedef union bdk_tns_txq_cnt_int_en_lo_w0 {
 		uint32_t pfc_ct_rollover_err         : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_en_lo_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_en_lo_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_en_lo_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_en_lo_w0_t;
@@ -36461,7 +35530,6 @@ typedef union bdk_tns_txq_cnt_int_en_lo_w1 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_en_lo_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_en_lo_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_en_lo_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_en_lo_w1_t;
@@ -36556,7 +35624,6 @@ typedef union bdk_tns_txq_cnt_int_frc_w0 {
 		uint32_t pfc_ct_rollover_err         : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_frc_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_frc_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_frc_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_frc_w0_t;
@@ -36596,7 +35663,6 @@ typedef union bdk_tns_txq_cnt_int_frc_w1 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_frc_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_frc_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_frc_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_frc_w1_t;
@@ -36691,7 +35757,6 @@ typedef union bdk_tns_txq_cnt_int_w1c_w0 {
 		uint32_t pfc_ct_rollover_err         : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_w1c_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_w1c_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_w1c_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_w1c_w0_t;
@@ -36731,7 +35796,6 @@ typedef union bdk_tns_txq_cnt_int_w1c_w1 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_int_w1c_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_int_w1c_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_int_w1c_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_int_w1c_w1_t;
@@ -36764,7 +35828,6 @@ typedef union bdk_tns_txq_cnt_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_lock_s      cn85xx; */
 	/* struct bdk_tns_txq_cnt_lock_s      cn88xx; */
 	/* struct bdk_tns_txq_cnt_lock_s      cn88xxp1; */
 } bdk_tns_txq_cnt_lock_t;
@@ -36800,7 +35863,6 @@ typedef union bdk_tns_txq_cnt_nic_crd_ov_thr_wx {
 		uint32_t over_threshold              : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_nic_crd_ov_thr_wx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_nic_crd_ov_thr_wx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_nic_crd_ov_thr_wx_s cn88xxp1; */
 } bdk_tns_txq_cnt_nic_crd_ov_thr_wx_t;
@@ -36836,7 +35898,6 @@ typedef union bdk_tns_txq_cnt_onthefly_pkt_ct {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_onthefly_pkt_ct_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_onthefly_pkt_ct_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_onthefly_pkt_ct_s cn88xxp1; */
 } bdk_tns_txq_cnt_onthefly_pkt_ct_t;
@@ -36871,7 +35932,6 @@ typedef union bdk_tns_txq_cnt_pc_cnt_memx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pc_cnt_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pc_cnt_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pc_cnt_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pc_cnt_memx_t;
@@ -36909,7 +35969,6 @@ typedef union bdk_tns_txq_cnt_pc_pfl_memx {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pc_pfl_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pc_pfl_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pc_pfl_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pc_pfl_memx_t;
@@ -36947,7 +36006,6 @@ typedef union bdk_tns_txq_cnt_pfc_cfg {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_cfg_s   cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_cfg_s   cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_cfg_s   cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_cfg_t;
@@ -36982,7 +36040,6 @@ typedef union bdk_tns_txq_cnt_pfc_cnt_memx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_cnt_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_cnt_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_cnt_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_cnt_memx_t;
@@ -37022,7 +36079,6 @@ typedef union bdk_tns_txq_cnt_pfc_hw_init_sta {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_hw_init_sta_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_hw_init_sta_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_hw_init_sta_s cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_hw_init_sta_t;
@@ -37057,7 +36113,6 @@ typedef union bdk_tns_txq_cnt_pfc_pfl_map_memx {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_pfl_map_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_pfl_map_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_pfl_map_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_pfl_map_memx_t;
@@ -37096,7 +36151,6 @@ typedef union bdk_tns_txq_cnt_pfc_pfl_memx {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_pfl_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_pfl_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_pfl_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_pfl_memx_t;
@@ -37132,7 +36186,6 @@ typedef union bdk_tns_txq_cnt_pfc_pt_clus_cfgx {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_pt_clus_cfgx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_pt_clus_cfgx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_pt_clus_cfgx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_pt_clus_cfgx_t;
@@ -37172,7 +36225,6 @@ typedef union bdk_tns_txq_cnt_pfc_rst_cfg {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pfc_rst_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pfc_rst_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pfc_rst_cfg_s cn88xxp1; */
 } bdk_tns_txq_cnt_pfc_rst_cfg_t;
@@ -37210,7 +36262,6 @@ typedef union bdk_tns_txq_cnt_pt_drp_len_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_drp_len_ctx_w0_t;
@@ -37246,7 +36297,6 @@ typedef union bdk_tns_txq_cnt_pt_drp_len_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_drp_len_ctx_w1_t;
@@ -37285,7 +36335,6 @@ typedef union bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0_t;
@@ -37321,7 +36370,6 @@ typedef union bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1_t;
@@ -37360,7 +36408,6 @@ typedef union bdk_tns_txq_cnt_pt_fw_len_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_fw_len_ctx_w0_t;
@@ -37396,7 +36443,6 @@ typedef union bdk_tns_txq_cnt_pt_fw_len_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_fw_len_ctx_w1_t;
@@ -37435,7 +36481,6 @@ typedef union bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0_t;
@@ -37471,7 +36516,6 @@ typedef union bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1_t;
@@ -37507,7 +36551,6 @@ typedef union bdk_tns_txq_cnt_pt_len_ctx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_pt_len_ctx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_pt_len_ctx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_pt_len_ctx_s cn88xxp1; */
 } bdk_tns_txq_cnt_pt_len_ctx_t;
@@ -37543,7 +36586,6 @@ typedef union bdk_tns_txq_cnt_q_alcm_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_alcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_alcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_alcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_alcm_ecc_log_t;
@@ -37578,7 +36620,6 @@ typedef union bdk_tns_txq_cnt_q_avg_len_ctx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_avg_len_ctx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_avg_len_ctx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_avg_len_ctx_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_avg_len_ctx_t;
@@ -37614,7 +36655,6 @@ typedef union bdk_tns_txq_cnt_q_dlcm_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_dlcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_dlcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_dlcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_dlcm_ecc_log_t;
@@ -37649,7 +36689,6 @@ typedef union bdk_tns_txq_cnt_q_dpcm_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_dpcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_dpcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_dpcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_dpcm_ecc_log_t;
@@ -37687,7 +36726,6 @@ typedef union bdk_tns_txq_cnt_q_drp_len_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_drp_len_ctx_w0_t;
@@ -37723,7 +36761,6 @@ typedef union bdk_tns_txq_cnt_q_drp_len_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_drp_len_ctx_w1_t;
@@ -37762,7 +36799,6 @@ typedef union bdk_tns_txq_cnt_q_drp_pkt_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_drp_pkt_ctx_w0_t;
@@ -37798,7 +36834,6 @@ typedef union bdk_tns_txq_cnt_q_drp_pkt_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_drp_pkt_ctx_w1_t;
@@ -37834,7 +36869,6 @@ typedef union bdk_tns_txq_cnt_q_flcm_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_flcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_flcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_flcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_flcm_ecc_log_t;
@@ -37869,7 +36903,6 @@ typedef union bdk_tns_txq_cnt_q_fpcm_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_fpcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_fpcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_fpcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_fpcm_ecc_log_t;
@@ -37907,7 +36940,6 @@ typedef union bdk_tns_txq_cnt_q_fw_len_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_fw_len_ctx_w0_t;
@@ -37943,7 +36975,6 @@ typedef union bdk_tns_txq_cnt_q_fw_len_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_fw_len_ctx_w1_t;
@@ -37982,7 +37013,6 @@ typedef union bdk_tns_txq_cnt_q_fw_pkt_ctx_w0 {
 		uint32_t count_x0                    : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w0_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_fw_pkt_ctx_w0_t;
@@ -38018,7 +37048,6 @@ typedef union bdk_tns_txq_cnt_q_fw_pkt_ctx_w1 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w1_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_fw_pkt_ctx_w1_t;
@@ -38054,7 +37083,6 @@ typedef union bdk_tns_txq_cnt_q_len_ctx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_len_ctx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_len_ctx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_len_ctx_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_len_ctx_t;
@@ -38090,7 +37118,6 @@ typedef union bdk_tns_txq_cnt_q_olcm_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_olcm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_olcm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_olcm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_olcm_ecc_log_t;
@@ -38125,7 +37152,6 @@ typedef union bdk_tns_txq_cnt_q_old_len_ctx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_q_old_len_ctx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_q_old_len_ctx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_q_old_len_ctx_s cn88xxp1; */
 } bdk_tns_txq_cnt_q_old_len_ctx_t;
@@ -38207,7 +37233,6 @@ typedef union bdk_tns_txq_cnt_qac_bist_stdn {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_qac_bist_stdn_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_qac_bist_stdn_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_qac_bist_stdn_s cn88xxp1; */
 } bdk_tns_txq_cnt_qac_bist_stdn_t;
@@ -38242,7 +37267,6 @@ typedef union bdk_tns_txq_cnt_shrd_pkt_lenx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_shrd_pkt_lenx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_shrd_pkt_lenx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_shrd_pkt_lenx_s cn88xxp1; */
 } bdk_tns_txq_cnt_shrd_pkt_lenx_t;
@@ -38278,7 +37302,6 @@ typedef union bdk_tns_txq_cnt_shrd_pkt_len_maxx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_shrd_pkt_len_maxx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_shrd_pkt_len_maxx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_shrd_pkt_len_maxx_s cn88xxp1; */
 } bdk_tns_txq_cnt_shrd_pkt_len_maxx_t;
@@ -38312,7 +37335,6 @@ typedef union bdk_tns_txq_cnt_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_spad_s      cn85xx; */
 	/* struct bdk_tns_txq_cnt_spad_s      cn88xx; */
 	/* struct bdk_tns_txq_cnt_spad_s      cn88xxp1; */
 } bdk_tns_txq_cnt_spad_t;
@@ -38347,7 +37369,6 @@ typedef union bdk_tns_txq_cnt_tc_cnt_memx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tc_cnt_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tc_cnt_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tc_cnt_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_tc_cnt_memx_t;
@@ -38385,7 +37406,6 @@ typedef union bdk_tns_txq_cnt_tc_pfl_memx {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tc_pfl_memx_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tc_pfl_memx_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tc_pfl_memx_s cn88xxp1; */
 } bdk_tns_txq_cnt_tc_pfl_memx_t;
@@ -38421,7 +37441,6 @@ typedef union bdk_tns_txq_cnt_tl_mc_pkt_ct {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_mc_pkt_ct_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_mc_pkt_ct_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_mc_pkt_ct_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_mc_pkt_ct_t;
@@ -38456,7 +37475,6 @@ typedef union bdk_tns_txq_cnt_tl_mc_pkt_len {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_mc_pkt_len_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_mc_pkt_len_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_mc_pkt_len_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_mc_pkt_len_t;
@@ -38491,7 +37509,6 @@ typedef union bdk_tns_txq_cnt_tl_mcpkt_ct_max {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_mcpkt_ct_max_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_mcpkt_ct_max_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_mcpkt_ct_max_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_mcpkt_ct_max_t;
@@ -38526,7 +37543,6 @@ typedef union bdk_tns_txq_cnt_tl_mcpkt_len_max {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_mcpkt_len_max_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_mcpkt_len_max_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_mcpkt_len_max_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_mcpkt_len_max_t;
@@ -38561,7 +37577,6 @@ typedef union bdk_tns_txq_cnt_tl_pkt_ct {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_pkt_ct_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_ct_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_ct_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_pkt_ct_t;
@@ -38596,7 +37611,6 @@ typedef union bdk_tns_txq_cnt_tl_pkt_ct_max {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_pkt_ct_max_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_ct_max_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_ct_max_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_pkt_ct_max_t;
@@ -38631,7 +37645,6 @@ typedef union bdk_tns_txq_cnt_tl_pkt_len {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_pkt_len_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_len_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_len_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_pkt_len_t;
@@ -38666,7 +37679,6 @@ typedef union bdk_tns_txq_cnt_tl_pkt_len_max {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_cnt_tl_pkt_len_max_s cn85xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_len_max_s cn88xx; */
 	/* struct bdk_tns_txq_cnt_tl_pkt_len_max_s cn88xxp1; */
 } bdk_tns_txq_cnt_tl_pkt_len_max_t;
@@ -38731,7 +37743,6 @@ typedef union bdk_tns_txq_dq_bist_stdn {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_bist_stdn_s  cn85xx; */
 	/* struct bdk_tns_txq_dq_bist_stdn_s  cn88xx; */
 	/* struct bdk_tns_txq_dq_bist_stdn_s  cn88xxp1; */
 } bdk_tns_txq_dq_bist_stdn_t;
@@ -38773,7 +37784,6 @@ typedef union bdk_tns_txq_dq_byte_ct_off_w0 {
 		uint32_t port3_bytes_x0              : 5;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_byte_ct_off_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_byte_ct_off_w0_t;
@@ -38814,7 +37824,6 @@ typedef union bdk_tns_txq_dq_byte_ct_off_w1 {
 		uint32_t port7_bytes_x0              : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_byte_ct_off_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_byte_ct_off_w1_t;
@@ -38853,7 +37862,6 @@ typedef union bdk_tns_txq_dq_byte_ct_off_w2 {
 		uint32_t port10_bytes_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_byte_ct_off_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_byte_ct_off_w2_t;
@@ -38894,7 +37902,6 @@ typedef union bdk_tns_txq_dq_byte_ct_off_w3 {
 		uint32_t port14_bytes_x0             : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_byte_ct_off_w3_s cn85xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w3_s cn88xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w3_s cn88xxp1; */
 } bdk_tns_txq_dq_byte_ct_off_w3_t;
@@ -38931,7 +37938,6 @@ typedef union bdk_tns_txq_dq_byte_ct_off_w4 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_byte_ct_off_w4_s cn85xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w4_s cn88xx; */
 	/* struct bdk_tns_txq_dq_byte_ct_off_w4_s cn88xxp1; */
 } bdk_tns_txq_dq_byte_ct_off_w4_t;
@@ -38972,7 +37978,6 @@ typedef union bdk_tns_txq_dq_drtbaf_int_en_hi {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_drtbaf_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_en_hi_s cn88xxp1; */
 } bdk_tns_txq_dq_drtbaf_int_en_hi_t;
@@ -39013,7 +38018,6 @@ typedef union bdk_tns_txq_dq_drtbaf_int_en_lo {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_drtbaf_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_en_lo_s cn88xxp1; */
 } bdk_tns_txq_dq_drtbaf_int_en_lo_t;
@@ -39054,7 +38058,6 @@ typedef union bdk_tns_txq_dq_drtbaf_int_frc {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_drtbaf_int_frc_s cn85xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_frc_s cn88xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_frc_s cn88xxp1; */
 } bdk_tns_txq_dq_drtbaf_int_frc_t;
@@ -39095,7 +38098,6 @@ typedef union bdk_tns_txq_dq_drtbaf_int_w1c {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_drtbaf_int_w1c_s cn85xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_w1c_s cn88xx; */
 	/* struct bdk_tns_txq_dq_drtbaf_int_w1c_s cn88xxp1; */
 } bdk_tns_txq_dq_drtbaf_int_w1c_t;
@@ -39134,7 +38136,6 @@ typedef union bdk_tns_txq_dq_ecc_ctl {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_ecc_ctl_s    cn85xx; */
 	/* struct bdk_tns_txq_dq_ecc_ctl_s    cn88xx; */
 	/* struct bdk_tns_txq_dq_ecc_ctl_s    cn88xxp1; */
 } bdk_tns_txq_dq_ecc_ctl_t;
@@ -39169,7 +38170,6 @@ typedef union bdk_tns_txq_dq_h1s_dwrr_cst_memx {
 		uint32_t count                       : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_dwrr_cst_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_dwrr_cst_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_dwrr_cst_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_dwrr_cst_memx_t;
@@ -39205,7 +38205,6 @@ typedef union bdk_tns_txq_dq_h1s_dwrr_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_dwrr_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_dwrr_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_dwrr_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_dwrr_ecc_log_t;
@@ -39268,7 +38267,6 @@ typedef union bdk_tns_txq_dq_h1s_ecc_ctl {
 		uint32_t reserved_27_31              : 5;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_ecc_ctl_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_ecc_ctl_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_ecc_ctl_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_ecc_ctl_t;
@@ -39303,7 +38301,6 @@ typedef union bdk_tns_txq_dq_h1s_fshp_i2qx {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_fshp_i2qx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_i2qx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_i2qx_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_fshp_i2qx_t;
@@ -39342,7 +38339,6 @@ typedef union bdk_tns_txq_dq_h1s_fshp_memx_w0 {
 		uint32_t bucket_size_x0              : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_fshp_memx_w0_t;
@@ -39385,7 +38381,6 @@ typedef union bdk_tns_txq_dq_h1s_fshp_memx_w1 {
 		uint32_t enable                      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_fshp_memx_w1_t;
@@ -39421,7 +38416,6 @@ typedef union bdk_tns_txq_dq_h1s_fshp_memx_w2 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_fshp_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_fshp_memx_w2_t;
@@ -39483,7 +38477,6 @@ typedef union bdk_tns_txq_dq_h1s_int_en_hi {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_en_hi_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_int_en_hi_t;
@@ -39544,7 +38537,6 @@ typedef union bdk_tns_txq_dq_h1s_int_en_lo {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_en_lo_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_int_en_lo_t;
@@ -39605,7 +38597,6 @@ typedef union bdk_tns_txq_dq_h1s_int_frc {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_int_frc_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_frc_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_frc_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_int_frc_t;
@@ -39666,7 +38657,6 @@ typedef union bdk_tns_txq_dq_h1s_int_w1c {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_int_w1c_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_w1c_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_int_w1c_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_int_w1c_t;
@@ -39699,7 +38689,6 @@ typedef union bdk_tns_txq_dq_h1s_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_lock_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_lock_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_lock_s   cn88xxp1; */
 } bdk_tns_txq_dq_h1s_lock_t;
@@ -39740,7 +38729,6 @@ typedef union bdk_tns_txq_dq_h1s_q_gen_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_q_gen_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_q_gen_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_q_gen_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_q_gen_cfg_t;
@@ -39775,7 +38763,6 @@ typedef union bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_t;
@@ -39822,7 +38809,6 @@ typedef union bdk_tns_txq_dq_h1s_qfshp_adr_map {
 		uint32_t index_7                     : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qfshp_adr_map_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qfshp_adr_map_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qfshp_adr_map_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qfshp_adr_map_t;
@@ -39857,7 +38843,6 @@ typedef union bdk_tns_txq_dq_h1s_qfshp_chk_cfg {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qfshp_chk_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qfshp_chk_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qfshp_chk_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qfshp_chk_cfg_t;
@@ -39896,7 +38881,6 @@ typedef union bdk_tns_txq_dq_h1s_qfshp_map_cfg {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qfshp_map_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qfshp_map_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qfshp_map_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qfshp_map_cfg_t;
@@ -39931,7 +38915,6 @@ typedef union bdk_tns_txq_dq_h1s_qpkt_ct_lmtx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_t;
@@ -39967,7 +38950,6 @@ typedef union bdk_tns_txq_dq_h1s_qpkt_ct_memx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qpkt_ct_memx_t;
@@ -40003,7 +38985,6 @@ typedef union bdk_tns_txq_dq_h1s_qpkt_ct_nzx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_nzx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_nzx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_ct_nzx_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qpkt_ct_nzx_t;
@@ -40051,7 +39032,6 @@ typedef union bdk_tns_txq_dq_h1s_qpkt_fprf_map {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qpkt_fprf_map_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_fprf_map_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qpkt_fprf_map_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qpkt_fprf_map_t;
@@ -40086,7 +39066,6 @@ typedef union bdk_tns_txq_dq_h1s_qshp_mtu_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qshp_mtu_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qshp_mtu_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qshp_mtu_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qshp_mtu_cfg_t;
@@ -40121,7 +39100,6 @@ typedef union bdk_tns_txq_dq_h1s_qsshp_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_qsshp_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_qsshp_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_qsshp_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_qsshp_ecc_log_t;
@@ -40154,7 +39132,6 @@ typedef union bdk_tns_txq_dq_h1s_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_spad_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_spad_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_spad_s   cn88xxp1; */
 } bdk_tns_txq_dq_h1s_spad_t;
@@ -40192,7 +39169,6 @@ typedef union bdk_tns_txq_dq_h1s_sshp_memx_w0 {
 		uint32_t bucket_size_x0              : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_sshp_memx_w0_t;
@@ -40235,7 +39211,6 @@ typedef union bdk_tns_txq_dq_h1s_sshp_memx_w1 {
 		uint32_t enable                      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_sshp_memx_w1_t;
@@ -40271,7 +39246,6 @@ typedef union bdk_tns_txq_dq_h1s_sshp_memx_w2 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_sshp_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_sshp_memx_w2_t;
@@ -40308,7 +39282,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w0 {
 		uint32_t strict_en_x0                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w0_t;
@@ -40342,7 +39315,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w1 {
 		uint32_t strict_en_x1                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w1_t;
@@ -40376,7 +39348,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w10 {
 		uint32_t channel_array_x8            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w10_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w10_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w10_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w10_t;
@@ -40410,7 +39381,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w11 {
 		uint32_t channel_array_x9            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w11_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w11_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w11_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w11_t;
@@ -40444,7 +39414,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w12 {
 		uint32_t channel_array_x10           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w12_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w12_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w12_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w12_t;
@@ -40478,7 +39447,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w13 {
 		uint32_t channel_array_x11           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w13_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w13_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w13_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w13_t;
@@ -40512,7 +39480,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w14 {
 		uint32_t channel_array_x12           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w14_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w14_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w14_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w14_t;
@@ -40546,7 +39513,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w15 {
 		uint32_t channel_array_x13           : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w15_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w15_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w15_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w15_t;
@@ -40581,7 +39547,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w16 {
 		uint32_t tc_array_x0                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w16_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w16_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w16_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w16_t;
@@ -40615,7 +39580,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w17 {
 		uint32_t tc_array_x1                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w17_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w17_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w17_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w17_t;
@@ -40649,7 +39613,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w18 {
 		uint32_t tc_array_x2                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w18_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w18_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w18_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w18_t;
@@ -40683,7 +39646,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w19 {
 		uint32_t tc_array_x3                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w19_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w19_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w19_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w19_t;
@@ -40718,7 +39680,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w2 {
 		uint32_t channel_array_x0            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w2_t;
@@ -40752,7 +39713,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w20 {
 		uint32_t tc_array_x4                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w20_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w20_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w20_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w20_t;
@@ -40786,7 +39746,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w21 {
 		uint32_t tc_array_x5                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w21_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w21_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w21_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w21_t;
@@ -40820,7 +39779,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w22 {
 		uint32_t tc_array_x6                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w22_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w22_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w22_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w22_t;
@@ -40854,7 +39812,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w23 {
 		uint32_t tc_array_x7                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w23_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w23_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w23_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w23_t;
@@ -40888,7 +39845,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w24 {
 		uint32_t dq_en_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w24_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w24_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w24_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w24_t;
@@ -40922,7 +39878,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w25 {
 		uint32_t dq_en_x1                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w25_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w25_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w25_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w25_t;
@@ -40962,7 +39917,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w26 {
 		uint32_t q_group2                    : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w26_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w26_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w26_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w26_t;
@@ -41002,7 +39956,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w27 {
 		uint32_t q_group6                    : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w27_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w27_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w27_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w27_t;
@@ -41040,7 +39993,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w28 {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w28_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w28_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w28_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w28_t;
@@ -41074,7 +40026,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w3 {
 		uint32_t channel_array_x1            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w3_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w3_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w3_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w3_t;
@@ -41108,7 +40059,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w4 {
 		uint32_t channel_array_x2            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w4_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w4_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w4_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w4_t;
@@ -41142,7 +40092,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w5 {
 		uint32_t channel_array_x3            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w5_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w5_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w5_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w5_t;
@@ -41176,7 +40125,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w6 {
 		uint32_t channel_array_x4            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w6_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w6_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w6_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w6_t;
@@ -41210,7 +40158,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w7 {
 		uint32_t channel_array_x5            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w7_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w7_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w7_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w7_t;
@@ -41244,7 +40191,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w8 {
 		uint32_t channel_array_x6            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w8_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w8_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w8_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w8_t;
@@ -41278,7 +40224,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_cstx_w9 {
 		uint32_t channel_array_x7            : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w9_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w9_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_cstx_w9_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_cstx_w9_t;
@@ -41314,7 +40259,6 @@ typedef union bdk_tns_txq_dq_h1s_tm_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_h1s_tm_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_h1s_tm_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_h1s_tm_ecc_log_t;
@@ -41355,7 +40299,6 @@ typedef union bdk_tns_txq_dq_int_ro {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_int_ro_s     cn85xx; */
 	/* struct bdk_tns_txq_dq_int_ro_s     cn88xx; */
 	/* struct bdk_tns_txq_dq_int_ro_s     cn88xxp1; */
 } bdk_tns_txq_dq_int_ro_t;
@@ -41388,7 +40331,6 @@ typedef union bdk_tns_txq_dq_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_lock_s       cn85xx; */
 	/* struct bdk_tns_txq_dq_lock_s       cn88xx; */
 	/* struct bdk_tns_txq_dq_lock_s       cn88xxp1; */
 } bdk_tns_txq_dq_lock_t;
@@ -41423,7 +40365,6 @@ typedef union bdk_tns_txq_dq_pps_dwrr_cst_memx {
 		uint32_t count                       : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_dwrr_cst_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_dwrr_cst_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_dwrr_cst_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_dwrr_cst_memx_t;
@@ -41489,7 +40430,6 @@ typedef union bdk_tns_txq_dq_pps_frc_ptp_mskof {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_frc_ptp_mskof_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_frc_ptp_mskof_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_frc_ptp_mskof_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_frc_ptp_mskof_t;
@@ -41554,7 +40494,6 @@ typedef union bdk_tns_txq_dq_pps_frc_ptp_mskon {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_frc_ptp_mskon_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_frc_ptp_mskon_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_frc_ptp_mskon_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_frc_ptp_mskon_t;
@@ -41591,7 +40530,6 @@ typedef union bdk_tns_txq_dq_pps_fshp_memx_w0 {
 		uint32_t bucket_size_x0              : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_fshp_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_fshp_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_fshp_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_fshp_memx_w0_t;
@@ -41634,7 +40572,6 @@ typedef union bdk_tns_txq_dq_pps_fshp_memx_w1 {
 		uint32_t enable                      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_fshp_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_fshp_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_fshp_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_fshp_memx_w1_t;
@@ -41674,7 +40611,6 @@ typedef union bdk_tns_txq_dq_pps_int_en_hi {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_int_en_hi_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_int_en_hi_t;
@@ -41713,7 +40649,6 @@ typedef union bdk_tns_txq_dq_pps_int_en_lo {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_int_en_lo_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_int_en_lo_t;
@@ -41752,7 +40687,6 @@ typedef union bdk_tns_txq_dq_pps_int_frc {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_int_frc_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_int_frc_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_int_frc_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_int_frc_t;
@@ -41791,7 +40725,6 @@ typedef union bdk_tns_txq_dq_pps_int_w1c {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_int_w1c_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_int_w1c_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_int_w1c_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_int_w1c_t;
@@ -41824,7 +40757,6 @@ typedef union bdk_tns_txq_dq_pps_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_lock_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_lock_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_lock_s   cn88xxp1; */
 } bdk_tns_txq_dq_pps_lock_t;
@@ -41859,7 +40791,6 @@ typedef union bdk_tns_txq_dq_pps_pdwrr_mtu_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_t;
@@ -41895,7 +40826,6 @@ typedef union bdk_tns_txq_dq_pps_port_spd_memx {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_port_spd_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_port_spd_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_port_spd_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_port_spd_memx_t;
@@ -41931,7 +40861,6 @@ typedef union bdk_tns_txq_dq_pps_ppkt_ct_lmtx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ppkt_ct_lmtx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ppkt_ct_lmtx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ppkt_ct_lmtx_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ppkt_ct_lmtx_t;
@@ -41967,7 +40896,6 @@ typedef union bdk_tns_txq_dq_pps_ppkt_ct_memx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ppkt_ct_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ppkt_ct_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ppkt_ct_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ppkt_ct_memx_t;
@@ -42004,7 +40932,6 @@ typedef union bdk_tns_txq_dq_pps_ppkt_ct_nzx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ppkt_ct_nzx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ppkt_ct_nzx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ppkt_ct_nzx_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ppkt_ct_nzx_t;
@@ -42040,7 +40967,6 @@ typedef union bdk_tns_txq_dq_pps_pshp_mtu_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_pshp_mtu_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_pshp_mtu_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_pshp_mtu_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_pshp_mtu_cfg_t;
@@ -42079,7 +41005,6 @@ typedef union bdk_tns_txq_dq_pps_pt_gen_cfg {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_pt_gen_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_pt_gen_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_pt_gen_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_pt_gen_cfg_t;
@@ -42116,7 +41041,6 @@ typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w0 {
 		uint32_t mask_other0_cycles          : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ptp_mskcy_w0_t;
@@ -42151,7 +41075,6 @@ typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w1 {
 		uint32_t mask_100m_cycles            : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ptp_mskcy_w1_t;
@@ -42186,7 +41109,6 @@ typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w2 {
 		uint32_t mask_10g_cycles             : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ptp_mskcy_w2_t;
@@ -42221,7 +41143,6 @@ typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w3 {
 		uint32_t mask_40g_cycles             : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w3_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w3_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_ptp_mskcy_w3_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_ptp_mskcy_w3_t;
@@ -42256,7 +41177,6 @@ typedef union bdk_tns_txq_dq_pps_pus_4_cpu_acs {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_pus_4_cpu_acs_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_pus_4_cpu_acs_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_pus_4_cpu_acs_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_pus_4_cpu_acs_t;
@@ -42289,7 +41209,6 @@ typedef union bdk_tns_txq_dq_pps_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_spad_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_spad_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_spad_s   cn88xxp1; */
 } bdk_tns_txq_dq_pps_spad_t;
@@ -42326,7 +41245,6 @@ typedef union bdk_tns_txq_dq_pps_tm_cfg_dat_w0 {
 		uint32_t strict_en_x0                : 12;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_tm_cfg_dat_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_tm_cfg_dat_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_tm_cfg_dat_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_tm_cfg_dat_w0_t;
@@ -42363,7 +41281,6 @@ typedef union bdk_tns_txq_dq_pps_tm_cfg_dat_w1 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pps_tm_cfg_dat_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pps_tm_cfg_dat_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pps_tm_cfg_dat_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_pps_tm_cfg_dat_w1_t;
@@ -42398,7 +41315,6 @@ typedef union bdk_tns_txq_dq_pts_dwrr_cst_memx {
 		uint32_t count                       : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_dwrr_cst_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_dwrr_cst_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_dwrr_cst_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_dwrr_cst_memx_t;
@@ -42434,7 +41350,6 @@ typedef union bdk_tns_txq_dq_pts_dwrr_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_dwrr_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_dwrr_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_dwrr_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_dwrr_ecc_log_t;
@@ -42479,7 +41394,6 @@ typedef union bdk_tns_txq_dq_pts_ecc_ctl {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_ecc_ctl_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_ecc_ctl_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_ecc_ctl_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_ecc_ctl_t;
@@ -42514,7 +41428,6 @@ typedef union bdk_tns_txq_dq_pts_fshp_i2hx {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_fshp_i2hx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_i2hx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_i2hx_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_fshp_i2hx_t;
@@ -42553,7 +41466,6 @@ typedef union bdk_tns_txq_dq_pts_fshp_memx_w0 {
 		uint32_t bucket_size_x0              : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_fshp_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_fshp_memx_w0_t;
@@ -42596,7 +41508,6 @@ typedef union bdk_tns_txq_dq_pts_fshp_memx_w1 {
 		uint32_t enable                      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_fshp_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_fshp_memx_w1_t;
@@ -42632,7 +41543,6 @@ typedef union bdk_tns_txq_dq_pts_fshp_memx_w2 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_fshp_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_fshp_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_fshp_memx_w2_t;
@@ -42676,7 +41586,6 @@ typedef union bdk_tns_txq_dq_pts_h1_gen_cfg {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_h1_gen_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_h1_gen_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_h1_gen_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_h1_gen_cfg_t;
@@ -42711,7 +41620,6 @@ typedef union bdk_tns_txq_dq_pts_hdwrr_mtu_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_t;
@@ -42756,7 +41664,6 @@ typedef union bdk_tns_txq_dq_pts_hfshp_adr_map {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hfshp_adr_map_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hfshp_adr_map_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hfshp_adr_map_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hfshp_adr_map_t;
@@ -42791,7 +41698,6 @@ typedef union bdk_tns_txq_dq_pts_hfshp_chk_cfg {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hfshp_chk_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hfshp_chk_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hfshp_chk_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hfshp_chk_cfg_t;
@@ -42828,7 +41734,6 @@ typedef union bdk_tns_txq_dq_pts_hfshp_map_cfg {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hfshp_map_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hfshp_map_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hfshp_map_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hfshp_map_cfg_t;
@@ -42863,7 +41768,6 @@ typedef union bdk_tns_txq_dq_pts_hpkt_ct_lmtx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hpkt_ct_lmtx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_ct_lmtx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_ct_lmtx_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hpkt_ct_lmtx_t;
@@ -42899,7 +41803,6 @@ typedef union bdk_tns_txq_dq_pts_hpkt_ct_memx {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hpkt_ct_memx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_ct_memx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_ct_memx_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hpkt_ct_memx_t;
@@ -42935,7 +41838,6 @@ typedef union bdk_tns_txq_dq_pts_hpkt_ct_nzx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hpkt_ct_nzx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_ct_nzx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_ct_nzx_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hpkt_ct_nzx_t;
@@ -42983,7 +41885,6 @@ typedef union bdk_tns_txq_dq_pts_hpkt_fprf_map {
 		uint32_t reserved_21_31              : 11;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hpkt_fprf_map_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_fprf_map_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hpkt_fprf_map_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hpkt_fprf_map_t;
@@ -43018,7 +41919,6 @@ typedef union bdk_tns_txq_dq_pts_hshp_mtu_cfg {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hshp_mtu_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hshp_mtu_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hshp_mtu_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hshp_mtu_cfg_t;
@@ -43053,7 +41953,6 @@ typedef union bdk_tns_txq_dq_pts_hsshp_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_hsshp_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_hsshp_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_hsshp_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_hsshp_ecc_log_t;
@@ -43102,7 +42001,6 @@ typedef union bdk_tns_txq_dq_pts_int_en_hi {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_int_en_hi_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_int_en_hi_t;
@@ -43151,7 +42049,6 @@ typedef union bdk_tns_txq_dq_pts_int_en_lo {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_int_en_lo_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_int_en_lo_t;
@@ -43200,7 +42097,6 @@ typedef union bdk_tns_txq_dq_pts_int_frc {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_int_frc_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_int_frc_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_int_frc_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_int_frc_t;
@@ -43249,7 +42145,6 @@ typedef union bdk_tns_txq_dq_pts_int_w1c {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_int_w1c_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_int_w1c_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_int_w1c_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_int_w1c_t;
@@ -43282,7 +42177,6 @@ typedef union bdk_tns_txq_dq_pts_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_lock_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_lock_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_lock_s   cn88xxp1; */
 } bdk_tns_txq_dq_pts_lock_t;
@@ -43315,7 +42209,6 @@ typedef union bdk_tns_txq_dq_pts_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_spad_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_spad_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_spad_s   cn88xxp1; */
 } bdk_tns_txq_dq_pts_spad_t;
@@ -43353,7 +42246,6 @@ typedef union bdk_tns_txq_dq_pts_sshp_memx_w0 {
 		uint32_t bucket_size_x0              : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_sshp_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_sshp_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_sshp_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_sshp_memx_w0_t;
@@ -43396,7 +42288,6 @@ typedef union bdk_tns_txq_dq_pts_sshp_memx_w1 {
 		uint32_t enable                      : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_sshp_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_sshp_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_sshp_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_sshp_memx_w1_t;
@@ -43432,7 +42323,6 @@ typedef union bdk_tns_txq_dq_pts_sshp_memx_w2 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_sshp_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_sshp_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_sshp_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_sshp_memx_w2_t;
@@ -43469,7 +42359,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w0 {
 		uint32_t strict_en_x0                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w0_t;
@@ -43503,7 +42392,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w1 {
 		uint32_t strict_en_x1                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w1_t;
@@ -43537,7 +42425,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w10 {
 		uint32_t dq_en_x0                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w10_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w10_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w10_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w10_t;
@@ -43571,7 +42458,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w11 {
 		uint32_t dq_en_x1                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w11_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w11_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w11_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w11_t;
@@ -43615,7 +42501,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w12 {
 		uint32_t h1_group4_x0                : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w12_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w12_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w12_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w12_t;
@@ -43657,7 +42542,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w13 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w13_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w13_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w13_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w13_t;
@@ -43691,7 +42575,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w2 {
 		uint32_t tc_array_x0                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w2_t;
@@ -43725,7 +42608,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w3 {
 		uint32_t tc_array_x1                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w3_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w3_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w3_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w3_t;
@@ -43759,7 +42641,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w4 {
 		uint32_t tc_array_x2                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w4_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w4_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w4_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w4_t;
@@ -43793,7 +42674,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w5 {
 		uint32_t tc_array_x3                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w5_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w5_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w5_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w5_t;
@@ -43827,7 +42707,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w6 {
 		uint32_t tc_array_x4                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w6_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w6_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w6_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w6_t;
@@ -43861,7 +42740,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w7 {
 		uint32_t tc_array_x5                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w7_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w7_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w7_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w7_t;
@@ -43895,7 +42773,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w8 {
 		uint32_t tc_array_x6                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w8_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w8_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w8_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w8_t;
@@ -43929,7 +42806,6 @@ typedef union bdk_tns_txq_dq_pts_tm_cfgx_w9 {
 		uint32_t tc_array_x7                 : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w9_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w9_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_cfgx_w9_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_cfgx_w9_t;
@@ -43965,7 +42841,6 @@ typedef union bdk_tns_txq_dq_pts_tm_sttx {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_pts_tm_sttx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_sttx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_pts_tm_sttx_s cn88xxp1; */
 } bdk_tns_txq_dq_pts_tm_sttx_t;
@@ -44007,7 +42882,6 @@ typedef union bdk_tns_txq_dq_qcn_change_w0 {
 		uint32_t rp_x0                       : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_change_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_change_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_change_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_change_w0_t;
@@ -44042,7 +42916,6 @@ typedef union bdk_tns_txq_dq_qcn_change_w1 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_change_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_change_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_change_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_change_w1_t;
@@ -44077,7 +42950,6 @@ typedef union bdk_tns_txq_dq_qcn_ecc_log {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_ecc_log_t;
@@ -44145,7 +43017,6 @@ typedef union bdk_tns_txq_dq_qcn_gbl_cfg_w0 {
 		uint32_t qcn_time_rate_x0            : 27;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_gbl_cfg_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_gbl_cfg_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_gbl_cfg_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_gbl_cfg_w0_t;
@@ -44212,7 +43083,6 @@ typedef union bdk_tns_txq_dq_qcn_gbl_cfg_w1 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_gbl_cfg_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_gbl_cfg_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_gbl_cfg_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_gbl_cfg_w1_t;
@@ -44258,7 +43128,6 @@ typedef union bdk_tns_txq_dq_qcn_memx_w0 {
 		uint32_t ai_rate_x0                  : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_memx_w0_t;
@@ -44298,7 +43167,6 @@ typedef union bdk_tns_txq_dq_qcn_memx_w1 {
 		uint32_t current_rate_x0             : 10;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_memx_w1_t;
@@ -44337,7 +43205,6 @@ typedef union bdk_tns_txq_dq_qcn_memx_w2 {
 		uint32_t byte_cnt_x0                 : 14;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_memx_w2_t;
@@ -44381,7 +43248,6 @@ typedef union bdk_tns_txq_dq_qcn_memx_w3 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_memx_w3_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w3_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_memx_w3_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_memx_w3_t;
@@ -44417,7 +43283,6 @@ typedef union bdk_tns_txq_dq_qcn_qmap_ecc_log {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_qmap_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_qmap_ecc_log_t;
@@ -44469,7 +43334,6 @@ typedef union bdk_tns_txq_dq_qcn_qmap_memx_w0 {
 		uint32_t reaction_point3_x0          : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_qmap_memx_w0_t;
@@ -44515,7 +43379,6 @@ typedef union bdk_tns_txq_dq_qcn_qmap_memx_w1 {
 		uint32_t reaction_point6_x0          : 3;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_qmap_memx_w1_t;
@@ -44555,7 +43418,6 @@ typedef union bdk_tns_txq_dq_qcn_qmap_memx_w2 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_qmap_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_qmap_memx_w2_t;
@@ -44591,7 +43453,6 @@ typedef union bdk_tns_txq_dq_qcn_rng_cfg {
 		uint32_t qcn_byte_rng_seed           : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_rng_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_rng_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_rng_cfg_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_rng_cfg_t;
@@ -44628,7 +43489,6 @@ typedef union bdk_tns_txq_dq_qcn_supd_fifx {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_supd_fifx_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_supd_fifx_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_supd_fifx_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_supd_fifx_t;
@@ -44666,7 +43526,6 @@ typedef union bdk_tns_txq_dq_qcn_time_w0 {
 		uint32_t time_random                 : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_time_w0_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_time_w0_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_time_w0_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_time_w0_t;
@@ -44701,7 +43560,6 @@ typedef union bdk_tns_txq_dq_qcn_time_w1 {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_qcn_time_w1_s cn85xx; */
 	/* struct bdk_tns_txq_dq_qcn_time_w1_s cn88xx; */
 	/* struct bdk_tns_txq_dq_qcn_time_w1_s cn88xxp1; */
 } bdk_tns_txq_dq_qcn_time_w1_t;
@@ -44734,7 +43592,6 @@ typedef union bdk_tns_txq_dq_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_spad_s       cn85xx; */
 	/* struct bdk_tns_txq_dq_spad_s       cn88xx; */
 	/* struct bdk_tns_txq_dq_spad_s       cn88xxp1; */
 } bdk_tns_txq_dq_spad_t;
@@ -44769,7 +43626,6 @@ typedef union bdk_tns_txq_dq_tb_afifx {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_tb_afifx_s   cn85xx; */
 	/* struct bdk_tns_txq_dq_tb_afifx_s   cn88xx; */
 	/* struct bdk_tns_txq_dq_tb_afifx_s   cn88xxp1; */
 } bdk_tns_txq_dq_tb_afifx_t;
@@ -44805,7 +43661,6 @@ typedef union bdk_tns_txq_dq_tb_afif_ecc_log {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_tb_afif_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_dq_tb_afif_ecc_log_t;
@@ -44840,7 +43695,6 @@ typedef union bdk_tns_txq_dq_tb_afif_fc_thr {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_tb_afif_fc_thr_s cn85xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_fc_thr_s cn88xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_fc_thr_s cn88xxp1; */
 } bdk_tns_txq_dq_tb_afif_fc_thr_t;
@@ -44875,7 +43729,6 @@ typedef union bdk_tns_txq_dq_tb_afif_ptr {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_tb_afif_ptr_s cn85xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_ptr_s cn88xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_ptr_s cn88xxp1; */
 } bdk_tns_txq_dq_tb_afif_ptr_t;
@@ -44910,7 +43763,6 @@ typedef union bdk_tns_txq_dq_tb_afif_usage {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_dq_tb_afif_usage_s cn85xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_usage_s cn88xx; */
 	/* struct bdk_tns_txq_dq_tb_afif_usage_s cn88xxp1; */
 } bdk_tns_txq_dq_tb_afif_usage_t;
@@ -44945,7 +43797,6 @@ typedef union bdk_tns_txq_eq_3spd_wsarb_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_3spd_wsarb_mode_s cn85xx; */
 	/* struct bdk_tns_txq_eq_3spd_wsarb_mode_s cn88xx; */
 	/* struct bdk_tns_txq_eq_3spd_wsarb_mode_s cn88xxp1; */
 } bdk_tns_txq_eq_3spd_wsarb_mode_t;
@@ -44984,7 +43835,6 @@ typedef union bdk_tns_txq_eq_3spd_wsarb_wgt {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_3spd_wsarb_wgt_s cn85xx; */
 	/* struct bdk_tns_txq_eq_3spd_wsarb_wgt_s cn88xx; */
 	/* struct bdk_tns_txq_eq_3spd_wsarb_wgt_s cn88xxp1; */
 } bdk_tns_txq_eq_3spd_wsarb_wgt_t;
@@ -45020,7 +43870,6 @@ typedef union bdk_tns_txq_eq_aqm_lfifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_aqm_lfifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_aqm_lfifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_aqm_lfifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_aqm_lfifx_wx_t;
@@ -45056,7 +43905,6 @@ typedef union bdk_tns_txq_eq_aqmq_wsarb_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_aqmq_wsarb_mode_s cn85xx; */
 	/* struct bdk_tns_txq_eq_aqmq_wsarb_mode_s cn88xx; */
 	/* struct bdk_tns_txq_eq_aqmq_wsarb_mode_s cn88xxp1; */
 } bdk_tns_txq_eq_aqmq_wsarb_mode_t;
@@ -45093,7 +43941,6 @@ typedef union bdk_tns_txq_eq_aqmq_wsarb_wgt {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_aqmq_wsarb_wgt_s cn85xx; */
 	/* struct bdk_tns_txq_eq_aqmq_wsarb_wgt_s cn88xx; */
 	/* struct bdk_tns_txq_eq_aqmq_wsarb_wgt_s cn88xxp1; */
 } bdk_tns_txq_eq_aqmq_wsarb_wgt_t;
@@ -45130,7 +43977,6 @@ typedef union bdk_tns_txq_eq_bist_stdn {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_bist_stdn_s  cn85xx; */
 	/* struct bdk_tns_txq_eq_bist_stdn_s  cn88xx; */
 	/* struct bdk_tns_txq_eq_bist_stdn_s  cn88xxp1; */
 } bdk_tns_txq_eq_bist_stdn_t;
@@ -45195,7 +44041,6 @@ typedef union bdk_tns_txq_eq_clr_pt_wait_eop {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_clr_pt_wait_eop_s cn85xx; */
 	/* struct bdk_tns_txq_eq_clr_pt_wait_eop_s cn88xx; */
 	/* struct bdk_tns_txq_eq_clr_pt_wait_eop_s cn88xxp1; */
 } bdk_tns_txq_eq_clr_pt_wait_eop_t;
@@ -45230,7 +44075,6 @@ typedef union bdk_tns_txq_eq_cut_thru_bcnt_cfg {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_cut_thru_bcnt_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_eq_cut_thru_bcnt_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_eq_cut_thru_bcnt_cfg_s cn88xxp1; */
 } bdk_tns_txq_eq_cut_thru_bcnt_cfg_t;
@@ -45265,7 +44109,6 @@ typedef union bdk_tns_txq_eq_cut_thru_npgs_cfg {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_cut_thru_npgs_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_eq_cut_thru_npgs_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_eq_cut_thru_npgs_cfg_s cn88xxp1; */
 } bdk_tns_txq_eq_cut_thru_npgs_cfg_t;
@@ -45310,7 +44153,6 @@ typedef union bdk_tns_txq_eq_dist_fif_usage_w0 {
 		uint32_t uc_drop_fifo_x0             : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_dist_fif_usage_w0_s cn85xx; */
 	/* struct bdk_tns_txq_eq_dist_fif_usage_w0_s cn88xx; */
 	/* struct bdk_tns_txq_eq_dist_fif_usage_w0_s cn88xxp1; */
 } bdk_tns_txq_eq_dist_fif_usage_w0_t;
@@ -45349,7 +44191,6 @@ typedef union bdk_tns_txq_eq_dist_fif_usage_w1 {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_dist_fif_usage_w1_s cn85xx; */
 	/* struct bdk_tns_txq_eq_dist_fif_usage_w1_s cn88xx; */
 	/* struct bdk_tns_txq_eq_dist_fif_usage_w1_s cn88xxp1; */
 } bdk_tns_txq_eq_dist_fif_usage_w1_t;
@@ -45384,7 +44225,6 @@ typedef union bdk_tns_txq_eq_disto_wsarb_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_disto_wsarb_mode_s cn85xx; */
 	/* struct bdk_tns_txq_eq_disto_wsarb_mode_s cn88xx; */
 	/* struct bdk_tns_txq_eq_disto_wsarb_mode_s cn88xxp1; */
 } bdk_tns_txq_eq_disto_wsarb_mode_t;
@@ -45423,7 +44263,6 @@ typedef union bdk_tns_txq_eq_disto_wsarb_wgt {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_disto_wsarb_wgt_s cn85xx; */
 	/* struct bdk_tns_txq_eq_disto_wsarb_wgt_s cn88xx; */
 	/* struct bdk_tns_txq_eq_disto_wsarb_wgt_s cn88xxp1; */
 } bdk_tns_txq_eq_disto_wsarb_wgt_t;
@@ -45456,7 +44295,6 @@ typedef union bdk_tns_txq_eq_dists_em_drp_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_dists_em_drp_ct_s cn85xx; */
 	/* struct bdk_tns_txq_eq_dists_em_drp_ct_s cn88xx; */
 	/* struct bdk_tns_txq_eq_dists_em_drp_ct_s cn88xxp1; */
 } bdk_tns_txq_eq_dists_em_drp_ct_t;
@@ -45489,7 +44327,6 @@ typedef union bdk_tns_txq_eq_dists_mc_drp_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_dists_mc_drp_ct_s cn85xx; */
 	/* struct bdk_tns_txq_eq_dists_mc_drp_ct_s cn88xx; */
 	/* struct bdk_tns_txq_eq_dists_mc_drp_ct_s cn88xxp1; */
 } bdk_tns_txq_eq_dists_mc_drp_ct_t;
@@ -45528,7 +44365,6 @@ typedef union bdk_tns_txq_eq_ecc_ctl {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_ecc_ctl_s    cn85xx; */
 	/* struct bdk_tns_txq_eq_ecc_ctl_s    cn88xx; */
 	/* struct bdk_tns_txq_eq_ecc_ctl_s    cn88xxp1; */
 } bdk_tns_txq_eq_ecc_ctl_t;
@@ -45567,7 +44403,6 @@ typedef union bdk_tns_txq_eq_em_copy_cfg {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_em_copy_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_eq_em_copy_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_eq_em_copy_cfg_s cn88xxp1; */
 } bdk_tns_txq_eq_em_copy_cfg_t;
@@ -45603,7 +44438,6 @@ typedef union bdk_tns_txq_eq_em_fifx_wx {
 		uint32_t em_token                    : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_em_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_em_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_em_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_em_fifx_wx_t;
@@ -45639,7 +44473,6 @@ typedef union bdk_tns_txq_eq_em_fif_fc_thr {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_em_fif_fc_thr_s cn85xx; */
 	/* struct bdk_tns_txq_eq_em_fif_fc_thr_s cn88xx; */
 	/* struct bdk_tns_txq_eq_em_fif_fc_thr_s cn88xxp1; */
 } bdk_tns_txq_eq_em_fif_fc_thr_t;
@@ -45672,7 +44505,6 @@ typedef union bdk_tns_txq_eq_em_pkt_drp_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_em_pkt_drp_ct_s cn85xx; */
 	/* struct bdk_tns_txq_eq_em_pkt_drp_ct_s cn88xx; */
 	/* struct bdk_tns_txq_eq_em_pkt_drp_ct_s cn88xxp1; */
 } bdk_tns_txq_eq_em_pkt_drp_ct_t;
@@ -45707,7 +44539,6 @@ typedef union bdk_tns_txq_eq_emsd_wsarb_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_emsd_wsarb_mode_s cn85xx; */
 	/* struct bdk_tns_txq_eq_emsd_wsarb_mode_s cn88xx; */
 	/* struct bdk_tns_txq_eq_emsd_wsarb_mode_s cn88xxp1; */
 } bdk_tns_txq_eq_emsd_wsarb_mode_t;
@@ -45744,7 +44575,6 @@ typedef union bdk_tns_txq_eq_emsd_wsarb_wgt {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_emsd_wsarb_wgt_s cn85xx; */
 	/* struct bdk_tns_txq_eq_emsd_wsarb_wgt_s cn88xx; */
 	/* struct bdk_tns_txq_eq_emsd_wsarb_wgt_s cn88xxp1; */
 } bdk_tns_txq_eq_emsd_wsarb_wgt_t;
@@ -45779,7 +44609,6 @@ typedef union bdk_tns_txq_eq_eop_memx {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_eop_memx_s   cn85xx; */
 	/* struct bdk_tns_txq_eq_eop_memx_s   cn88xx; */
 	/* struct bdk_tns_txq_eq_eop_memx_s   cn88xxp1; */
 } bdk_tns_txq_eq_eop_memx_t;
@@ -45816,7 +44645,6 @@ typedef union bdk_tns_txq_eq_eqem_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_eqem_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_eqem_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_eqem_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_eqem_fifx_wx_t;
@@ -45858,7 +44686,6 @@ typedef union bdk_tns_txq_eq_fif_usage {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_fif_usage_s  cn85xx; */
 	/* struct bdk_tns_txq_eq_fif_usage_s  cn88xx; */
 	/* struct bdk_tns_txq_eq_fif_usage_s  cn88xxp1; */
 } bdk_tns_txq_eq_fif_usage_t;
@@ -45913,7 +44740,6 @@ typedef union bdk_tns_txq_eq_int_en_hi {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_int_en_hi_s  cn85xx; */
 	/* struct bdk_tns_txq_eq_int_en_hi_s  cn88xx; */
 	/* struct bdk_tns_txq_eq_int_en_hi_s  cn88xxp1; */
 } bdk_tns_txq_eq_int_en_hi_t;
@@ -45968,7 +44794,6 @@ typedef union bdk_tns_txq_eq_int_en_lo {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_int_en_lo_s  cn85xx; */
 	/* struct bdk_tns_txq_eq_int_en_lo_s  cn88xx; */
 	/* struct bdk_tns_txq_eq_int_en_lo_s  cn88xxp1; */
 } bdk_tns_txq_eq_int_en_lo_t;
@@ -46023,7 +44848,6 @@ typedef union bdk_tns_txq_eq_int_frc {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_int_frc_s    cn85xx; */
 	/* struct bdk_tns_txq_eq_int_frc_s    cn88xx; */
 	/* struct bdk_tns_txq_eq_int_frc_s    cn88xxp1; */
 } bdk_tns_txq_eq_int_frc_t;
@@ -46078,7 +44902,6 @@ typedef union bdk_tns_txq_eq_int_w1c {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_int_w1c_s    cn85xx; */
 	/* struct bdk_tns_txq_eq_int_w1c_s    cn88xx; */
 	/* struct bdk_tns_txq_eq_int_w1c_s    cn88xxp1; */
 } bdk_tns_txq_eq_int_w1c_t;
@@ -46111,7 +44934,6 @@ typedef union bdk_tns_txq_eq_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_lock_s       cn85xx; */
 	/* struct bdk_tns_txq_eq_lock_s       cn88xx; */
 	/* struct bdk_tns_txq_eq_lock_s       cn88xxp1; */
 } bdk_tns_txq_eq_lock_t;
@@ -46146,7 +44968,6 @@ typedef union bdk_tns_txq_eq_lp2pp_memx {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_lp2pp_memx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_lp2pp_memx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_lp2pp_memx_s cn88xxp1; */
 } bdk_tns_txq_eq_lp2pp_memx_t;
@@ -46180,7 +45001,6 @@ typedef union bdk_tns_txq_eq_mc2drop_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc2drop_ct_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc2drop_ct_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc2drop_ct_s cn88xxp1; */
 } bdk_tns_txq_eq_mc2drop_ct_t;
@@ -46216,7 +45036,6 @@ typedef union bdk_tns_txq_eq_mc2drop_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc2drop_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc2drop_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc2drop_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_mc2drop_fifx_wx_t;
@@ -46253,7 +45072,6 @@ typedef union bdk_tns_txq_eq_mc_10g_rep_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_10g_rep_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_10g_rep_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_10g_rep_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_10g_rep_fifx_wx_t;
@@ -46289,7 +45107,6 @@ typedef union bdk_tns_txq_eq_mc_10g_spd_map {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_10g_spd_map_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_10g_spd_map_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_10g_spd_map_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_10g_spd_map_t;
@@ -46325,7 +45142,6 @@ typedef union bdk_tns_txq_eq_mc_40g_rep_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_40g_rep_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_40g_rep_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_40g_rep_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_40g_rep_fifx_wx_t;
@@ -46361,7 +45177,6 @@ typedef union bdk_tns_txq_eq_mc_40g_spd_map {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_40g_spd_map_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_40g_spd_map_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_40g_spd_map_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_40g_spd_map_t;
@@ -46397,7 +45212,6 @@ typedef union bdk_tns_txq_eq_mc_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_fifx_wx_t;
@@ -46434,7 +45248,6 @@ typedef union bdk_tns_txq_eq_mc_misc_rep_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_misc_rep_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_misc_rep_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_misc_rep_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_misc_rep_fifx_wx_t;
@@ -46470,7 +45283,6 @@ typedef union bdk_tns_txq_eq_mc_misc_spd_map {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_misc_spd_map_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_misc_spd_map_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_misc_spd_map_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_misc_spd_map_t;
@@ -46505,7 +45317,6 @@ typedef union bdk_tns_txq_eq_mc_src_fif_fc_thr {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_mc_src_fif_fc_thr_s cn85xx; */
 	/* struct bdk_tns_txq_eq_mc_src_fif_fc_thr_s cn88xx; */
 	/* struct bdk_tns_txq_eq_mc_src_fif_fc_thr_s cn88xxp1; */
 } bdk_tns_txq_eq_mc_src_fif_fc_thr_t;
@@ -46540,7 +45351,6 @@ typedef union bdk_tns_txq_eq_pfc_map_ecc_log {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_pfc_map_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_eq_pfc_map_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_eq_pfc_map_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_eq_pfc_map_ecc_log_t;
@@ -46581,7 +45391,6 @@ typedef union bdk_tns_txq_eq_pfc_map_memx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_pfc_map_memx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_pfc_map_memx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_pfc_map_memx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_pfc_map_memx_wx_t;
@@ -46615,7 +45424,6 @@ typedef union bdk_tns_txq_eq_pg_clr_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_pg_clr_ct_s  cn85xx; */
 	/* struct bdk_tns_txq_eq_pg_clr_ct_s  cn88xx; */
 	/* struct bdk_tns_txq_eq_pg_clr_ct_s  cn88xxp1; */
 } bdk_tns_txq_eq_pg_clr_ct_t;
@@ -46650,7 +45458,6 @@ typedef union bdk_tns_txq_eq_pt_spd_memx {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_pt_spd_memx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_pt_spd_memx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_pt_spd_memx_s cn88xxp1; */
 } bdk_tns_txq_eq_pt_spd_memx_t;
@@ -46688,7 +45495,6 @@ typedef union bdk_tns_txq_eq_query_ofifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_query_ofifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_query_ofifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_query_ofifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_query_ofifx_wx_t;
@@ -46726,7 +45532,6 @@ typedef union bdk_tns_txq_eq_query_ofif_maxcrd {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_query_ofif_maxcrd_s cn85xx; */
 	/* struct bdk_tns_txq_eq_query_ofif_maxcrd_s cn88xx; */
 	/* struct bdk_tns_txq_eq_query_ofif_maxcrd_s cn88xxp1; */
 } bdk_tns_txq_eq_query_ofif_maxcrd_t;
@@ -46759,7 +45564,6 @@ typedef union bdk_tns_txq_eq_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_spad_s       cn85xx; */
 	/* struct bdk_tns_txq_eq_spad_s       cn88xx; */
 	/* struct bdk_tns_txq_eq_spad_s       cn88xxp1; */
 } bdk_tns_txq_eq_spad_t;
@@ -46792,7 +45596,6 @@ typedef union bdk_tns_txq_eq_tail_req_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_tail_req_ct_s cn85xx; */
 	/* struct bdk_tns_txq_eq_tail_req_ct_s cn88xx; */
 	/* struct bdk_tns_txq_eq_tail_req_ct_s cn88xxp1; */
 } bdk_tns_txq_eq_tail_req_ct_t;
@@ -46825,7 +45628,6 @@ typedef union bdk_tns_txq_eq_tb_wr_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_tb_wr_ct_s   cn85xx; */
 	/* struct bdk_tns_txq_eq_tb_wr_ct_s   cn88xx; */
 	/* struct bdk_tns_txq_eq_tb_wr_ct_s   cn88xxp1; */
 } bdk_tns_txq_eq_tb_wr_ct_t;
@@ -46861,7 +45663,6 @@ typedef union bdk_tns_txq_eq_token_memx_wx {
 		uint32_t token                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_token_memx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_token_memx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_token_memx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_token_memx_wx_t;
@@ -46898,7 +45699,6 @@ typedef union bdk_tns_txq_eq_uc_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_uc_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_eq_uc_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_eq_uc_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_eq_uc_fifx_wx_t;
@@ -46934,7 +45734,6 @@ typedef union bdk_tns_txq_eq_wr_token_lfif_thr {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_txq_eq_wr_token_lfif_thr_s cn85xx; */
 	/* struct bdk_tns_txq_eq_wr_token_lfif_thr_s cn88xx; */
 	/* struct bdk_tns_txq_eq_wr_token_lfif_thr_s cn88xxp1; */
 } bdk_tns_txq_eq_wr_token_lfif_thr_t;
@@ -46980,7 +45779,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w0 {
 		uint32_t qcn_prob_shift0_x0          : 7;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w0_t;
@@ -47020,7 +45818,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w1 {
 		uint32_t qcn_fb_max_x0               : 15;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w1_t;
@@ -47062,7 +45859,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w2 {
 		uint32_t qcn_eq_param_x0             : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w2_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w2_t;
@@ -47106,7 +45902,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w3 {
 		uint32_t wred_mark_drop_prob_x0      : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w3_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w3_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w3_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w3_t;
@@ -47148,7 +45943,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w4 {
 		uint32_t wred_avg_length_weight_x0   : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w4_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w4_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w4_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w4_t;
@@ -47186,7 +45980,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w5 {
 		uint32_t wred_avg_length_min_th_x0   : 13;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w5_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w5_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w5_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w5_t;
@@ -47226,7 +46019,6 @@ typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w6 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w6_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w6_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_aqm_pfl_memx_w6_s cn88xxp1; */
 } bdk_tns_txq_qmap_aqm_pfl_memx_w6_t;
@@ -47272,7 +46064,6 @@ typedef union bdk_tns_txq_qmap_ecc_ctl {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_ecc_ctl_s  cn85xx; */
 	/* struct bdk_tns_txq_qmap_ecc_ctl_s  cn88xx; */
 	/* struct bdk_tns_txq_qmap_ecc_ctl_s  cn88xxp1; */
 } bdk_tns_txq_qmap_ecc_ctl_t;
@@ -47307,7 +46098,6 @@ typedef union bdk_tns_txq_qmap_en_cfg {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_en_cfg_s   cn85xx; */
 	/* struct bdk_tns_txq_qmap_en_cfg_s   cn88xx; */
 	/* struct bdk_tns_txq_qmap_en_cfg_s   cn88xxp1; */
 } bdk_tns_txq_qmap_en_cfg_t;
@@ -47342,7 +46132,6 @@ typedef union bdk_tns_txq_qmap_eq_cfg_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_eq_cfg_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_eq_cfg_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_eq_cfg_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_qmap_eq_cfg_ecc_log_t;
@@ -47398,7 +46187,6 @@ typedef union bdk_tns_txq_qmap_eq_cfg_memx_w0 {
 		uint32_t h1_x0                       : 1;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_eq_cfg_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_eq_cfg_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_eq_cfg_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_qmap_eq_cfg_memx_w0_t;
@@ -47434,7 +46222,6 @@ typedef union bdk_tns_txq_qmap_eq_cfg_memx_w1 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_eq_cfg_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_eq_cfg_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_eq_cfg_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_qmap_eq_cfg_memx_w1_t;
@@ -47468,7 +46255,6 @@ typedef union bdk_tns_txq_qmap_eq_query_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_eq_query_ct_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_eq_query_ct_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_eq_query_ct_s cn88xxp1; */
 } bdk_tns_txq_qmap_eq_query_ct_t;
@@ -47501,7 +46287,6 @@ typedef union bdk_tns_txq_qmap_eq_reply_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_eq_reply_ct_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_eq_reply_ct_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_eq_reply_ct_s cn88xxp1; */
 } bdk_tns_txq_qmap_eq_reply_ct_t;
@@ -47536,7 +46321,6 @@ typedef union bdk_tns_txq_qmap_h1_full_cfg_memx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_h1_full_cfg_memx_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_h1_full_cfg_memx_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_h1_full_cfg_memx_s cn88xxp1; */
 } bdk_tns_txq_qmap_h1_full_cfg_memx_t;
@@ -47587,7 +46371,6 @@ typedef union bdk_tns_txq_qmap_int_en_hi {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_int_en_hi_s cn88xxp1; */
 } bdk_tns_txq_qmap_int_en_hi_t;
@@ -47637,7 +46420,6 @@ typedef union bdk_tns_txq_qmap_int_en_lo {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_int_en_lo_s cn88xxp1; */
 } bdk_tns_txq_qmap_int_en_lo_t;
@@ -47687,7 +46469,6 @@ typedef union bdk_tns_txq_qmap_int_frc {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_int_frc_s  cn85xx; */
 	/* struct bdk_tns_txq_qmap_int_frc_s  cn88xx; */
 	/* struct bdk_tns_txq_qmap_int_frc_s  cn88xxp1; */
 } bdk_tns_txq_qmap_int_frc_t;
@@ -47737,7 +46518,6 @@ typedef union bdk_tns_txq_qmap_int_w1c {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_int_w1c_s  cn85xx; */
 	/* struct bdk_tns_txq_qmap_int_w1c_s  cn88xx; */
 	/* struct bdk_tns_txq_qmap_int_w1c_s  cn88xxp1; */
 } bdk_tns_txq_qmap_int_w1c_t;
@@ -47770,7 +46550,6 @@ typedef union bdk_tns_txq_qmap_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_lock_s     cn85xx; */
 	/* struct bdk_tns_txq_qmap_lock_s     cn88xx; */
 	/* struct bdk_tns_txq_qmap_lock_s     cn88xxp1; */
 } bdk_tns_txq_qmap_lock_t;
@@ -47805,7 +46584,6 @@ typedef union bdk_tns_txq_qmap_ptf_cfg_memx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_ptf_cfg_memx_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_ptf_cfg_memx_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_ptf_cfg_memx_s cn88xxp1; */
 } bdk_tns_txq_qmap_ptf_cfg_memx_t;
@@ -47841,7 +46619,6 @@ typedef union bdk_tns_txq_qmap_q_full_cfg_memx {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_q_full_cfg_memx_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_q_full_cfg_memx_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_q_full_cfg_memx_s cn88xxp1; */
 } bdk_tns_txq_qmap_q_full_cfg_memx_t;
@@ -47875,7 +46652,6 @@ typedef union bdk_tns_txq_qmap_qcn_cp_rng_w0 {
 		uint32_t seed                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_qcn_cp_rng_w0_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_qcn_cp_rng_w0_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_qcn_cp_rng_w0_s cn88xxp1; */
 } bdk_tns_txq_qmap_qcn_cp_rng_w0_t;
@@ -47910,7 +46686,6 @@ typedef union bdk_tns_txq_qmap_qcn_cp_rng_w1 {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_qcn_cp_rng_w1_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_qcn_cp_rng_w1_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_qcn_cp_rng_w1_s cn88xxp1; */
 } bdk_tns_txq_qmap_qcn_cp_rng_w1_t;
@@ -47943,7 +46718,6 @@ typedef union bdk_tns_txq_qmap_sde_query_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_sde_query_ct_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_sde_query_ct_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_sde_query_ct_s cn88xxp1; */
 } bdk_tns_txq_qmap_sde_query_ct_t;
@@ -47976,7 +46750,6 @@ typedef union bdk_tns_txq_qmap_sde_reply_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_sde_reply_ct_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_sde_reply_ct_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_sde_reply_ct_s cn88xxp1; */
 } bdk_tns_txq_qmap_sde_reply_ct_t;
@@ -48009,7 +46782,6 @@ typedef union bdk_tns_txq_qmap_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_spad_s     cn85xx; */
 	/* struct bdk_tns_txq_qmap_spad_s     cn88xx; */
 	/* struct bdk_tns_txq_qmap_spad_s     cn88xxp1; */
 } bdk_tns_txq_qmap_spad_t;
@@ -48044,7 +46816,6 @@ typedef union bdk_tns_txq_qmap_tbl_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_tbl_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_tbl_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_tbl_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_qmap_tbl_ecc_log_t;
@@ -48087,7 +46858,6 @@ typedef union bdk_tns_txq_qmap_tbl_idx_cfgx_w0 {
 		uint32_t bit5_array_index_x0         : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w0_s cn88xxp1; */
 } bdk_tns_txq_qmap_tbl_idx_cfgx_w0_t;
@@ -48131,7 +46901,6 @@ typedef union bdk_tns_txq_qmap_tbl_idx_cfgx_w1 {
 		uint32_t bit10_array_index_x0        : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w1_s cn88xxp1; */
 } bdk_tns_txq_qmap_tbl_idx_cfgx_w1_t;
@@ -48169,7 +46938,6 @@ typedef union bdk_tns_txq_qmap_tbl_idx_cfgx_w2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w2_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w2_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w2_s cn88xxp1; */
 } bdk_tns_txq_qmap_tbl_idx_cfgx_w2_t;
@@ -48210,7 +46978,6 @@ typedef union bdk_tns_txq_qmap_tbl_memx_w0 {
 		uint32_t q2_x0                       : 10;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_tbl_memx_w0_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_tbl_memx_w0_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_tbl_memx_w0_s cn88xxp1; */
 } bdk_tns_txq_qmap_tbl_memx_w0_t;
@@ -48248,7 +47015,6 @@ typedef union bdk_tns_txq_qmap_tbl_memx_w1 {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_tbl_memx_w1_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_tbl_memx_w1_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_tbl_memx_w1_s cn88xxp1; */
 } bdk_tns_txq_qmap_tbl_memx_w1_t;
@@ -48282,7 +47048,6 @@ typedef union bdk_tns_txq_qmap_wred_rng_cfg_w0 {
 		uint32_t seed                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_wred_rng_cfg_w0_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_wred_rng_cfg_w0_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_wred_rng_cfg_w0_s cn88xxp1; */
 } bdk_tns_txq_qmap_wred_rng_cfg_w0_t;
@@ -48317,7 +47082,6 @@ typedef union bdk_tns_txq_qmap_wred_rng_cfg_w1 {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_wred_rng_cfg_w1_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_wred_rng_cfg_w1_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_wred_rng_cfg_w1_s cn88xxp1; */
 } bdk_tns_txq_qmap_wred_rng_cfg_w1_t;
@@ -48352,7 +47116,6 @@ typedef union bdk_tns_txq_qmap_wsarb_mode {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_wsarb_mode_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_wsarb_mode_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_wsarb_mode_s cn88xxp1; */
 } bdk_tns_txq_qmap_wsarb_mode_t;
@@ -48389,7 +47152,6 @@ typedef union bdk_tns_txq_qmap_wsarb_wgt {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_txq_qmap_wsarb_wgt_s cn85xx; */
 	/* struct bdk_tns_txq_qmap_wsarb_wgt_s cn88xx; */
 	/* struct bdk_tns_txq_qmap_wsarb_wgt_s cn88xxp1; */
 } bdk_tns_txq_qmap_wsarb_wgt_t;
@@ -48422,7 +47184,6 @@ typedef union bdk_tns_txq_spt_qmap_tbl_cfg_wx {
 		uint32_t qmap_tbl_sel                : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_spt_qmap_tbl_cfg_wx_s cn85xx; */
 	/* struct bdk_tns_txq_spt_qmap_tbl_cfg_wx_s cn88xx; */
 	/* struct bdk_tns_txq_spt_qmap_tbl_cfg_wx_s cn88xxp1; */
 } bdk_tns_txq_spt_qmap_tbl_cfg_wx_t;
@@ -48458,7 +47219,6 @@ typedef union bdk_tns_txq_tb0_ecc_log {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb0_ecc_log_s   cn85xx; */
 	/* struct bdk_tns_txq_tb0_ecc_log_s   cn88xx; */
 	/* struct bdk_tns_txq_tb0_ecc_log_s   cn88xxp1; */
 } bdk_tns_txq_tb0_ecc_log_t;
@@ -48493,7 +47253,6 @@ typedef union bdk_tns_txq_tb1_ecc_log {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb1_ecc_log_s   cn85xx; */
 	/* struct bdk_tns_txq_tb1_ecc_log_s   cn88xx; */
 	/* struct bdk_tns_txq_tb1_ecc_log_s   cn88xxp1; */
 } bdk_tns_txq_tb1_ecc_log_t;
@@ -48528,7 +47287,6 @@ typedef union bdk_tns_txq_tb2_ecc_log {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb2_ecc_log_s   cn85xx; */
 	/* struct bdk_tns_txq_tb2_ecc_log_s   cn88xx; */
 	/* struct bdk_tns_txq_tb2_ecc_log_s   cn88xxp1; */
 } bdk_tns_txq_tb2_ecc_log_t;
@@ -48563,7 +47321,6 @@ typedef union bdk_tns_txq_tb3_ecc_log {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb3_ecc_log_s   cn85xx; */
 	/* struct bdk_tns_txq_tb3_ecc_log_s   cn88xx; */
 	/* struct bdk_tns_txq_tb3_ecc_log_s   cn88xxp1; */
 } bdk_tns_txq_tb3_ecc_log_t;
@@ -48614,7 +47371,6 @@ typedef union bdk_tns_txq_tb_ecc_ctl {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_ecc_ctl_s    cn85xx; */
 	/* struct bdk_tns_txq_tb_ecc_ctl_s    cn88xx; */
 	/* struct bdk_tns_txq_tb_ecc_ctl_s    cn88xxp1; */
 } bdk_tns_txq_tb_ecc_ctl_t;
@@ -48673,7 +47429,6 @@ typedef union bdk_tns_txq_tb_int_en_hi {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_int_en_hi_s  cn85xx; */
 	/* struct bdk_tns_txq_tb_int_en_hi_s  cn88xx; */
 	/* struct bdk_tns_txq_tb_int_en_hi_s  cn88xxp1; */
 } bdk_tns_txq_tb_int_en_hi_t;
@@ -48732,7 +47487,6 @@ typedef union bdk_tns_txq_tb_int_en_lo {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_int_en_lo_s  cn85xx; */
 	/* struct bdk_tns_txq_tb_int_en_lo_s  cn88xx; */
 	/* struct bdk_tns_txq_tb_int_en_lo_s  cn88xxp1; */
 } bdk_tns_txq_tb_int_en_lo_t;
@@ -48791,7 +47545,6 @@ typedef union bdk_tns_txq_tb_int_frc {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_int_frc_s    cn85xx; */
 	/* struct bdk_tns_txq_tb_int_frc_s    cn88xx; */
 	/* struct bdk_tns_txq_tb_int_frc_s    cn88xxp1; */
 } bdk_tns_txq_tb_int_frc_t;
@@ -48850,7 +47603,6 @@ typedef union bdk_tns_txq_tb_int_w1c {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_int_w1c_s    cn85xx; */
 	/* struct bdk_tns_txq_tb_int_w1c_s    cn88xx; */
 	/* struct bdk_tns_txq_tb_int_w1c_s    cn88xxp1; */
 } bdk_tns_txq_tb_int_w1c_t;
@@ -48883,7 +47635,6 @@ typedef union bdk_tns_txq_tb_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_lock_s       cn85xx; */
 	/* struct bdk_tns_txq_tb_lock_s       cn88xx; */
 	/* struct bdk_tns_txq_tb_lock_s       cn88xxp1; */
 } bdk_tns_txq_tb_lock_t;
@@ -48919,7 +47670,6 @@ typedef union bdk_tns_txq_tb_memx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_memx_wx_s    cn85xx; */
 	/* struct bdk_tns_txq_tb_memx_wx_s    cn88xx; */
 	/* struct bdk_tns_txq_tb_memx_wx_s    cn88xxp1; */
 } bdk_tns_txq_tb_memx_wx_t;
@@ -48953,7 +47703,6 @@ typedef union bdk_tns_txq_tb_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tb_spad_s       cn85xx; */
 	/* struct bdk_tns_txq_tb_spad_s       cn88xx; */
 	/* struct bdk_tns_txq_tb_spad_s       cn88xxp1; */
 } bdk_tns_txq_tb_spad_t;
@@ -49002,7 +47751,6 @@ typedef union bdk_tns_txq_tbc_bist_stdn {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbc_bist_stdn_s cn85xx; */
 	/* struct bdk_tns_txq_tbc_bist_stdn_s cn88xx; */
 	/* struct bdk_tns_txq_tbc_bist_stdn_s cn88xxp1; */
 } bdk_tns_txq_tbc_bist_stdn_t;
@@ -49053,7 +47801,6 @@ typedef union bdk_tns_txq_tbm_ecc_ctl {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ecc_ctl_s   cn85xx; */
 	/* struct bdk_tns_txq_tbm_ecc_ctl_s   cn88xx; */
 	/* struct bdk_tns_txq_tbm_ecc_ctl_s   cn88xxp1; */
 } bdk_tns_txq_tbm_ecc_ctl_t;
@@ -49088,7 +47835,6 @@ typedef union bdk_tns_txq_tbm_ft_cnt_dat_cfg {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_cnt_dat_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_cnt_dat_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_cnt_dat_cfg_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_cnt_dat_cfg_t;
@@ -49124,7 +47870,6 @@ typedef union bdk_tns_txq_tbm_ft_cnt_init_cfg {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_cnt_init_cfg_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_cnt_init_cfg_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_cnt_init_cfg_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_cnt_init_cfg_t;
@@ -49159,7 +47904,6 @@ typedef union bdk_tns_txq_tbm_ft_cnt_thr {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_cnt_thr_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_cnt_thr_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_cnt_thr_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_cnt_thr_t;
@@ -49195,7 +47939,6 @@ typedef union bdk_tns_txq_tbm_ft_fifx_wx {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_fifx_wx_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_fifx_wx_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_fifx_wx_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_fifx_wx_t;
@@ -49231,7 +47974,6 @@ typedef union bdk_tns_txq_tbm_ft_fif_dbg {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_fif_dbg_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_fif_dbg_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_fif_dbg_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_fif_dbg_t;
@@ -49266,7 +48008,6 @@ typedef union bdk_tns_txq_tbm_ft_fif_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_fif_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_fif_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_fif_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_fif_ecc_log_t;
@@ -49301,7 +48042,6 @@ typedef union bdk_tns_txq_tbm_ft_fif_usage {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_fif_usage_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_fif_usage_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_fif_usage_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_fif_usage_t;
@@ -49336,7 +48076,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_ct {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_ct_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_ct_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_ct_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_ct_t;
@@ -49373,7 +48112,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w0 {
 		uint32_t tb_ptr13_x0                 : 4;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w0_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w0_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w0_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w0_t;
@@ -49410,7 +48148,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w1 {
 		uint32_t tb_ptr11_x0                 : 8;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w1_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w1_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w1_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w1_t;
@@ -49447,7 +48184,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w2 {
 		uint32_t tb_ptr9_x0                  : 12;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w2_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w2_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w2_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w2_t;
@@ -49486,7 +48222,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w3 {
 		uint32_t tb_ptr6_x0                  : 2;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w3_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w3_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w3_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w3_t;
@@ -49523,7 +48258,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w4 {
 		uint32_t tb_ptr4_x0                  : 6;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w4_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w4_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w4_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w4_t;
@@ -49560,7 +48294,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w5 {
 		uint32_t tb_ptr2_x0                  : 10;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w5_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w5_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w5_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w5_t;
@@ -49597,7 +48330,6 @@ typedef union bdk_tns_txq_tbm_ft_prefetch_w6 {
 		uint32_t tb_ptr0                     : 14;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_ft_prefetch_w6_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w6_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_ft_prefetch_w6_s cn88xxp1; */
 } bdk_tns_txq_tbm_ft_prefetch_w6_t;
@@ -49632,7 +48364,6 @@ typedef union bdk_tns_txq_tbm_head_ptr_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_head_ptr_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_head_ptr_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_head_ptr_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_tbm_head_ptr_ecc_log_t;
@@ -49667,7 +48398,6 @@ typedef union bdk_tns_txq_tbm_head_ptr_memx {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_head_ptr_memx_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_head_ptr_memx_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_head_ptr_memx_s cn88xxp1; */
 } bdk_tns_txq_tbm_head_ptr_memx_t;
@@ -49707,7 +48437,6 @@ typedef union bdk_tns_txq_tbm_hw_init_sta {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_hw_init_sta_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_hw_init_sta_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_hw_init_sta_s cn88xxp1; */
 } bdk_tns_txq_tbm_hw_init_sta_t;
@@ -49754,7 +48483,6 @@ typedef union bdk_tns_txq_tbm_int_en_hi {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_int_en_hi_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_int_en_hi_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_int_en_hi_s cn88xxp1; */
 } bdk_tns_txq_tbm_int_en_hi_t;
@@ -49801,7 +48529,6 @@ typedef union bdk_tns_txq_tbm_int_en_lo {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_int_en_lo_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_int_en_lo_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_int_en_lo_s cn88xxp1; */
 } bdk_tns_txq_tbm_int_en_lo_t;
@@ -49848,7 +48575,6 @@ typedef union bdk_tns_txq_tbm_int_frc {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_int_frc_s   cn85xx; */
 	/* struct bdk_tns_txq_tbm_int_frc_s   cn88xx; */
 	/* struct bdk_tns_txq_tbm_int_frc_s   cn88xxp1; */
 } bdk_tns_txq_tbm_int_frc_t;
@@ -49895,7 +48621,6 @@ typedef union bdk_tns_txq_tbm_int_w1c {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_int_w1c_s   cn85xx; */
 	/* struct bdk_tns_txq_tbm_int_w1c_s   cn88xx; */
 	/* struct bdk_tns_txq_tbm_int_w1c_s   cn88xxp1; */
 } bdk_tns_txq_tbm_int_w1c_t;
@@ -49928,7 +48653,6 @@ typedef union bdk_tns_txq_tbm_lock {
 		uint32_t lock                        : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_lock_s      cn85xx; */
 	/* struct bdk_tns_txq_tbm_lock_s      cn88xx; */
 	/* struct bdk_tns_txq_tbm_lock_s      cn88xxp1; */
 } bdk_tns_txq_tbm_lock_t;
@@ -49965,7 +48689,6 @@ typedef union bdk_tns_txq_tbm_rst_cfg {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_rst_cfg_s   cn85xx; */
 	/* struct bdk_tns_txq_tbm_rst_cfg_s   cn88xx; */
 	/* struct bdk_tns_txq_tbm_rst_cfg_s   cn88xxp1; */
 } bdk_tns_txq_tbm_rst_cfg_t;
@@ -49998,7 +48721,6 @@ typedef union bdk_tns_txq_tbm_spad {
 		uint32_t scratchpad                  : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_spad_s      cn85xx; */
 	/* struct bdk_tns_txq_tbm_spad_s      cn88xx; */
 	/* struct bdk_tns_txq_tbm_spad_s      cn88xxp1; */
 } bdk_tns_txq_tbm_spad_t;
@@ -50033,7 +48755,6 @@ typedef union bdk_tns_txq_tbm_tail_ptr_ecc_log {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_tail_ptr_ecc_log_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_tail_ptr_ecc_log_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_tail_ptr_ecc_log_s cn88xxp1; */
 } bdk_tns_txq_tbm_tail_ptr_ecc_log_t;
@@ -50068,7 +48789,6 @@ typedef union bdk_tns_txq_tbm_tail_ptr_memx {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_tail_ptr_memx_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_tail_ptr_memx_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_tail_ptr_memx_s cn88xxp1; */
 } bdk_tns_txq_tbm_tail_ptr_memx_t;
@@ -50102,7 +48822,6 @@ typedef union bdk_tns_txq_tbm_token_alloc_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_token_alloc_ct_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_token_alloc_ct_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_token_alloc_ct_s cn88xxp1; */
 } bdk_tns_txq_tbm_token_alloc_ct_t;
@@ -50135,7 +48854,6 @@ typedef union bdk_tns_txq_tbm_token_free_ct {
 		uint32_t count                       : 32;
 #endif
 	} s;
-	/* struct bdk_tns_txq_tbm_token_free_ct_s cn85xx; */
 	/* struct bdk_tns_txq_tbm_token_free_ct_s cn88xx; */
 	/* struct bdk_tns_txq_tbm_token_free_ct_s cn88xxp1; */
 } bdk_tns_txq_tbm_token_free_ct_t;

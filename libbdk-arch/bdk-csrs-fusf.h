@@ -75,7 +75,6 @@ typedef union bdk_fusf_bnk_datx {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_fusf_bnk_datx_s         cn85xx; */
 	/* struct bdk_fusf_bnk_datx_s         cn88xx; */
 	/* struct bdk_fusf_bnk_datx_s         cn88xxp1; */
 } bdk_fusf_bnk_datx_t;
@@ -170,7 +169,6 @@ typedef union bdk_fusf_ctl {
 		uint64_t rom_t_cnt                   : 32;
 #endif
 	} s;
-	/* struct bdk_fusf_ctl_s              cn85xx; */
 	/* struct bdk_fusf_ctl_s              cn88xx; */
 	/* struct bdk_fusf_ctl_s              cn88xxp1; */
 } bdk_fusf_ctl_t;
@@ -211,7 +209,6 @@ typedef union bdk_fusf_ekx {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_fusf_ekx_s              cn85xx; */
 	/* struct bdk_fusf_ekx_s              cn88xx; */
 	/* struct bdk_fusf_ekx_s              cn88xxp1; */
 } bdk_fusf_ekx_t;
@@ -256,7 +253,6 @@ typedef union bdk_fusf_hukx {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_fusf_hukx_s             cn85xx; */
 	/* struct bdk_fusf_hukx_s             cn88xx; */
 	/* struct bdk_fusf_hukx_s             cn88xxp1; */
 } bdk_fusf_hukx_t;
@@ -283,8 +279,7 @@ typedef union bdk_fusf_prog {
 	struct bdk_fusf_prog_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
-		uint64_t volt_en                     : 1;  /**< SWO - Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin.
-                                                                 Made readable in pass 2. */
+		uint64_t volt_en                     : 1;  /**< SWO - Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
 		uint64_t prog_pin                    : 1;  /**< SRO - Efuse program voltage (EFUS_PROG) is applied.
                                                                  INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
 		uint64_t sft                         : 1;  /**< SR/W/H - When set with [PROG], causes only the local storage to change and will not blow
@@ -308,7 +303,6 @@ typedef union bdk_fusf_prog {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_fusf_prog_s             cn85xx; */
 	/* struct bdk_fusf_prog_s             cn88xx; */
 	/* struct bdk_fusf_prog_s             cn88xxp1; */
 } bdk_fusf_prog_t;
@@ -355,7 +349,6 @@ typedef union bdk_fusf_rcmd {
 		uint64_t reserved_13_63              : 51;
 #endif
 	} s;
-	/* struct bdk_fusf_rcmd_s             cn85xx; */
 	/* struct bdk_fusf_rcmd_s             cn88xx; */
 	/* struct bdk_fusf_rcmd_s             cn88xxp1; */
 } bdk_fusf_rcmd_t;
@@ -398,7 +391,6 @@ typedef union bdk_fusf_rotpkx {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_fusf_rotpkx_s           cn85xx; */
 	/* struct bdk_fusf_rotpkx_s           cn88xx; */
 	/* struct bdk_fusf_rotpkx_s           cn88xxp1; */
 } bdk_fusf_rotpkx_t;
@@ -436,7 +428,6 @@ typedef union bdk_fusf_sskx {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_fusf_sskx_s             cn85xx; */
 	/* struct bdk_fusf_sskx_s             cn88xx; */
 	/* struct bdk_fusf_sskx_s             cn88xxp1; */
 } bdk_fusf_sskx_t;
@@ -478,7 +469,6 @@ typedef union bdk_fusf_swx {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_fusf_swx_s              cn85xx; */
 	/* struct bdk_fusf_swx_s              cn88xx; */
 	/* struct bdk_fusf_swx_s              cn88xxp1; */
 } bdk_fusf_swx_t;
@@ -511,7 +501,6 @@ typedef union bdk_fusf_wadr {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_fusf_wadr_s             cn85xx; */
 	/* struct bdk_fusf_wadr_s             cn88xx; */
 	/* struct bdk_fusf_wadr_s             cn88xxp1; */
 } bdk_fusf_wadr_t;

@@ -812,7 +812,6 @@ typedef union bdk_rom_memx {
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_rom_memx_s              cn85xx; */
 	/* struct bdk_rom_memx_s              cn88xx; */
 	/* struct bdk_rom_memx_s              cn88xxp1; */
 } bdk_rom_memx_t;

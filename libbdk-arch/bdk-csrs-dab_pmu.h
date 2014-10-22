@@ -1167,7 +1167,6 @@ typedef union bdk_pmux_pmauthstatus {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmauthstatus_s     cn85xx; */
 	/* struct bdk_pmux_pmauthstatus_s     cn88xx; */
 	/* struct bdk_pmux_pmauthstatus_s     cn88xxp1; */
 } bdk_pmux_pmauthstatus_t;
@@ -1239,7 +1238,6 @@ typedef union bdk_pmux_pmccfiltr_el0 {
 		uint32_t p                           : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmccfiltr_el0_s    cn85xx; */
 	/* struct bdk_pmux_pmccfiltr_el0_s    cn88xx; */
 	/* struct bdk_pmux_pmccfiltr_el0_s    cn88xxp1; */
 } bdk_pmux_pmccfiltr_el0_t;
@@ -1277,7 +1275,6 @@ typedef union bdk_pmux_pmccntr_el0_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmccntr_el0_hi_s   cn85xx; */
 	/* struct bdk_pmux_pmccntr_el0_hi_s   cn88xx; */
 	/* struct bdk_pmux_pmccntr_el0_hi_s   cn88xxp1; */
 } bdk_pmux_pmccntr_el0_hi_t;
@@ -1315,7 +1312,6 @@ typedef union bdk_pmux_pmccntr_el0_lo {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmccntr_el0_lo_s   cn85xx; */
 	/* struct bdk_pmux_pmccntr_el0_lo_s   cn88xx; */
 	/* struct bdk_pmux_pmccntr_el0_lo_s   cn88xxp1; */
 } bdk_pmux_pmccntr_el0_lo_t;
@@ -1383,7 +1379,6 @@ typedef union bdk_pmux_pmceid0 {
 		uint32_t ce                          : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmceid0_s          cn85xx; */
 	/* struct bdk_pmux_pmceid0_s          cn88xx; */
 	/* struct bdk_pmux_pmceid0_s          cn88xxp1; */
 } bdk_pmux_pmceid0_t;
@@ -1434,7 +1429,6 @@ typedef union bdk_pmux_pmceid1 {
 		uint32_t ce                          : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmceid1_s          cn85xx; */
 	/* struct bdk_pmux_pmceid1_s          cn88xx; */
 	/* struct bdk_pmux_pmceid1_s          cn88xxp1; */
 } bdk_pmux_pmceid1_t;
@@ -1470,7 +1464,6 @@ typedef union bdk_pmux_pmceid2 {
 		uint32_t ce                          : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmceid2_s          cn85xx; */
 	/* struct bdk_pmux_pmceid2_s          cn88xx; */
 	/* struct bdk_pmux_pmceid2_s          cn88xxp1; */
 } bdk_pmux_pmceid2_t;
@@ -1506,7 +1499,6 @@ typedef union bdk_pmux_pmceid3 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmceid3_s          cn85xx; */
 	/* struct bdk_pmux_pmceid3_s          cn88xx; */
 	/* struct bdk_pmux_pmceid3_s          cn88xxp1; */
 } bdk_pmux_pmceid3_t;
@@ -1574,7 +1566,6 @@ typedef union bdk_pmux_pmcfgr {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcfgr_s           cn85xx; */
 	/* struct bdk_pmux_pmcfgr_s           cn88xx; */
 	/* struct bdk_pmux_pmcfgr_s           cn88xxp1; */
 } bdk_pmux_pmcfgr_t;
@@ -1610,7 +1601,6 @@ typedef union bdk_pmux_pmcidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcidr0_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr0_s          cn88xx; */
 	/* struct bdk_pmux_pmcidr0_s          cn88xxp1; */
 } bdk_pmux_pmcidr0_t;
@@ -1648,7 +1638,6 @@ typedef union bdk_pmux_pmcidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcidr1_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr1_s          cn88xx; */
 	/* struct bdk_pmux_pmcidr1_s          cn88xxp1; */
 } bdk_pmux_pmcidr1_t;
@@ -1684,7 +1673,6 @@ typedef union bdk_pmux_pmcidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcidr2_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr2_s          cn88xx; */
 	/* struct bdk_pmux_pmcidr2_s          cn88xxp1; */
 } bdk_pmux_pmcidr2_t;
@@ -1720,7 +1708,6 @@ typedef union bdk_pmux_pmcidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcidr3_s          cn85xx; */
 	/* struct bdk_pmux_pmcidr3_s          cn88xx; */
 	/* struct bdk_pmux_pmcidr3_s          cn88xxp1; */
 } bdk_pmux_pmcidr3_t;
@@ -1768,7 +1755,6 @@ typedef union bdk_pmux_pmcntenclr_el0 {
 		uint32_t c_set                       : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcntenclr_el0_s   cn85xx; */
 	/* struct bdk_pmux_pmcntenclr_el0_s   cn88xx; */
 	/* struct bdk_pmux_pmcntenclr_el0_s   cn88xxp1; */
 } bdk_pmux_pmcntenclr_el0_t;
@@ -1816,7 +1802,6 @@ typedef union bdk_pmux_pmcntenset_el0 {
 		uint32_t c_set                       : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcntenset_el0_s   cn85xx; */
 	/* struct bdk_pmux_pmcntenset_el0_s   cn88xx; */
 	/* struct bdk_pmux_pmcntenset_el0_s   cn88xxp1; */
 } bdk_pmux_pmcntenset_el0_t;
@@ -1914,7 +1899,6 @@ typedef union bdk_pmux_pmcr_el0 {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_pmux_pmcr_el0_s         cn85xx; */
 	/* struct bdk_pmux_pmcr_el0_s         cn88xx; */
 	/* struct bdk_pmux_pmcr_el0_s         cn88xxp1; */
 } bdk_pmux_pmcr_el0_t;
@@ -1953,7 +1937,6 @@ typedef union bdk_pmux_pmdevaff0 {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmdevaff0_s        cn85xx; */
 	/* struct bdk_pmux_pmdevaff0_s        cn88xx; */
 	/* struct bdk_pmux_pmdevaff0_s        cn88xxp1; */
 } bdk_pmux_pmdevaff0_t;
@@ -1992,7 +1975,6 @@ typedef union bdk_pmux_pmdevaff1 {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmdevaff1_s        cn85xx; */
 	/* struct bdk_pmux_pmdevaff1_s        cn88xx; */
 	/* struct bdk_pmux_pmdevaff1_s        cn88xxp1; */
 } bdk_pmux_pmdevaff1_t;
@@ -2045,7 +2027,6 @@ typedef union bdk_pmux_pmdevarch {
 		uint32_t architect                   : 11;
 #endif
 	} s;
-	/* struct bdk_pmux_pmdevarch_s        cn85xx; */
 	/* struct bdk_pmux_pmdevarch_s        cn88xx; */
 	/* struct bdk_pmux_pmdevarch_s        cn88xxp1; */
 } bdk_pmux_pmdevarch_t;
@@ -2083,7 +2064,6 @@ typedef union bdk_pmux_pmdevtype {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmdevtype_s        cn85xx; */
 	/* struct bdk_pmux_pmdevtype_s        cn88xx; */
 	/* struct bdk_pmux_pmdevtype_s        cn88xxp1; */
 } bdk_pmux_pmdevtype_t;
@@ -2121,7 +2101,6 @@ typedef union bdk_pmux_pmevcntrx_el0 {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmevcntrx_el0_s    cn85xx; */
 	/* struct bdk_pmux_pmevcntrx_el0_s    cn88xx; */
 	/* struct bdk_pmux_pmevcntrx_el0_s    cn88xxp1; */
 } bdk_pmux_pmevcntrx_el0_t;
@@ -2216,7 +2195,6 @@ typedef union bdk_pmux_pmevtyperx_el0 {
 		uint32_t p                           : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmevtyperx_el0_s   cn85xx; */
 	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xx; */
 	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xxp1; */
 } bdk_pmux_pmevtyperx_el0_t;
@@ -2268,7 +2246,6 @@ typedef union bdk_pmux_pmintenclr_el1 {
 		uint32_t c_set                       : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmintenclr_el1_s   cn85xx; */
 	/* struct bdk_pmux_pmintenclr_el1_s   cn88xx; */
 	/* struct bdk_pmux_pmintenclr_el1_s   cn88xxp1; */
 } bdk_pmux_pmintenclr_el1_t;
@@ -2320,7 +2297,6 @@ typedef union bdk_pmux_pmintenset_el1 {
 		uint32_t c_set                       : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmintenset_el1_s   cn85xx; */
 	/* struct bdk_pmux_pmintenset_el1_s   cn88xx; */
 	/* struct bdk_pmux_pmintenset_el1_s   cn88xxp1; */
 } bdk_pmux_pmintenset_el1_t;
@@ -2363,7 +2339,6 @@ typedef union bdk_pmux_pmitctrl {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_pmux_pmitctrl_s         cn85xx; */
 	/* struct bdk_pmux_pmitctrl_s         cn88xx; */
 	/* struct bdk_pmux_pmitctrl_s         cn88xxp1; */
 } bdk_pmux_pmitctrl_t;
@@ -2399,7 +2374,6 @@ typedef union bdk_pmux_pmlar {
 		uint32_t key                         : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmlar_s            cn85xx; */
 	/* struct bdk_pmux_pmlar_s            cn88xx; */
 	/* struct bdk_pmux_pmlar_s            cn88xxp1; */
 } bdk_pmux_pmlar_t;
@@ -2453,7 +2427,6 @@ typedef union bdk_pmux_pmlsr {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_pmux_pmlsr_s            cn85xx; */
 	/* struct bdk_pmux_pmlsr_s            cn88xx; */
 	/* struct bdk_pmux_pmlsr_s            cn88xxp1; */
 } bdk_pmux_pmlsr_t;
@@ -2503,7 +2476,6 @@ typedef union bdk_pmux_pmovsclr_el0 {
 		uint32_t c_set                       : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmovsclr_el0_s     cn85xx; */
 	/* struct bdk_pmux_pmovsclr_el0_s     cn88xx; */
 	/* struct bdk_pmux_pmovsclr_el0_s     cn88xxp1; */
 } bdk_pmux_pmovsclr_el0_t;
@@ -2550,7 +2522,6 @@ typedef union bdk_pmux_pmovsset_el0 {
 		uint32_t c_set                       : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmovsset_el0_s     cn85xx; */
 	/* struct bdk_pmux_pmovsset_el0_s     cn88xx; */
 	/* struct bdk_pmux_pmovsset_el0_s     cn88xxp1; */
 } bdk_pmux_pmovsset_el0_t;
@@ -2586,7 +2557,6 @@ typedef union bdk_pmux_pmpidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr0_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr0_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr0_s          cn88xxp1; */
 } bdk_pmux_pmpidr0_t;
@@ -2624,7 +2594,6 @@ typedef union bdk_pmux_pmpidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr1_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr1_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr1_s          cn88xxp1; */
 } bdk_pmux_pmpidr1_t;
@@ -2664,7 +2633,6 @@ typedef union bdk_pmux_pmpidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr2_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr2_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr2_s          cn88xxp1; */
 } bdk_pmux_pmpidr2_t;
@@ -2703,7 +2671,6 @@ typedef union bdk_pmux_pmpidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr3_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr3_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr3_s          cn88xxp1; */
 } bdk_pmux_pmpidr3_t;
@@ -2743,7 +2710,6 @@ typedef union bdk_pmux_pmpidr4 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr4_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr4_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr4_s          cn88xxp1; */
 } bdk_pmux_pmpidr4_t;
@@ -2774,7 +2740,6 @@ typedef union bdk_pmux_pmpidr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr5_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr5_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr5_s          cn88xxp1; */
 } bdk_pmux_pmpidr5_t;
@@ -2805,7 +2770,6 @@ typedef union bdk_pmux_pmpidr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr6_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr6_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr6_s          cn88xxp1; */
 } bdk_pmux_pmpidr6_t;
@@ -2836,7 +2800,6 @@ typedef union bdk_pmux_pmpidr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pmux_pmpidr7_s          cn85xx; */
 	/* struct bdk_pmux_pmpidr7_s          cn88xx; */
 	/* struct bdk_pmux_pmpidr7_s          cn88xxp1; */
 } bdk_pmux_pmpidr7_t;
@@ -2878,7 +2841,6 @@ typedef union bdk_pmux_pmswinc_el0 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_pmux_pmswinc_el0_s      cn85xx; */
 	/* struct bdk_pmux_pmswinc_el0_s      cn88xx; */
 	/* struct bdk_pmux_pmswinc_el0_s      cn88xxp1; */
 } bdk_pmux_pmswinc_el0_t;

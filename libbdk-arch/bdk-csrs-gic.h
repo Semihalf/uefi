@@ -611,7 +611,6 @@ typedef union bdk_gic_bist_statusr {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_gic_bist_statusr_s      cn85xx; */
 	/* struct bdk_gic_bist_statusr_s      cn88xx; */
 	/* struct bdk_gic_bist_statusr_s      cn88xxp1; */
 } bdk_gic_bist_statusr_t;
@@ -675,7 +674,6 @@ typedef union bdk_gic_cfg_ctlr {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_gic_cfg_ctlr_s          cn85xx; */
 	/* struct bdk_gic_cfg_ctlr_s          cn88xx; */
 	/* struct bdk_gic_cfg_ctlr_s          cn88xxp1; */
 } bdk_gic_cfg_ctlr_t;
@@ -722,7 +720,6 @@ typedef union bdk_gic_ecc_ctlr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_gic_ecc_ctlr_s          cn85xx; */
 	/* struct bdk_gic_ecc_ctlr_s          cn88xx; */
 	/* struct bdk_gic_ecc_ctlr_s          cn88xxp1; */
 } bdk_gic_ecc_ctlr_t;
@@ -765,7 +762,6 @@ typedef union bdk_gic_ecc_int_statusr {
 		uint64_t reserved_41_63              : 23;
 #endif
 	} s;
-	/* struct bdk_gic_ecc_int_statusr_s   cn85xx; */
 	/* struct bdk_gic_ecc_int_statusr_s   cn88xx; */
 	/* struct bdk_gic_ecc_int_statusr_s   cn88xxp1; */
 } bdk_gic_ecc_int_statusr_t;
@@ -802,7 +798,6 @@ typedef union bdk_gic_rib_err_adrr {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
-	/* struct bdk_gic_rib_err_adrr_s      cn85xx; */
 	/* struct bdk_gic_rib_err_adrr_s      cn88xx; */
 	/* struct bdk_gic_rib_err_adrr_s      cn88xxp1; */
 } bdk_gic_rib_err_adrr_t;
@@ -851,7 +846,6 @@ typedef union bdk_gic_rib_err_statusr {
 		uint64_t reserved_62_63              : 2;
 #endif
 	} s;
-	/* struct bdk_gic_rib_err_statusr_s   cn85xx; */
 	/* struct bdk_gic_rib_err_statusr_s   cn88xx; */
 	/* struct bdk_gic_rib_err_statusr_s   cn88xxp1; */
 } bdk_gic_rib_err_statusr_t;
@@ -884,7 +878,6 @@ typedef union bdk_gic_scratch {
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_gic_scratch_s           cn85xx; */
 	/* struct bdk_gic_scratch_s           cn88xx; */
 	/* struct bdk_gic_scratch_s           cn88xxp1; */
 } bdk_gic_scratch_t;
@@ -916,7 +909,6 @@ typedef union bdk_gicd_cidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_cidr0_s            cn85xx; */
 	/* struct bdk_gicd_cidr0_s            cn88xx; */
 	/* struct bdk_gicd_cidr0_s            cn88xxp1; */
 } bdk_gicd_cidr0_t;
@@ -948,7 +940,6 @@ typedef union bdk_gicd_cidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_cidr1_s            cn85xx; */
 	/* struct bdk_gicd_cidr1_s            cn88xx; */
 	/* struct bdk_gicd_cidr1_s            cn88xxp1; */
 } bdk_gicd_cidr1_t;
@@ -980,7 +971,6 @@ typedef union bdk_gicd_cidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_cidr2_s            cn85xx; */
 	/* struct bdk_gicd_cidr2_s            cn88xx; */
 	/* struct bdk_gicd_cidr2_s            cn88xxp1; */
 } bdk_gicd_cidr2_t;
@@ -1012,7 +1002,6 @@ typedef union bdk_gicd_cidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_cidr3_s            cn85xx; */
 	/* struct bdk_gicd_cidr3_s            cn88xx; */
 	/* struct bdk_gicd_cidr3_s            cn88xxp1; */
 } bdk_gicd_cidr3_t;
@@ -1051,7 +1040,6 @@ typedef union bdk_gicd_clrspi_nsr {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_gicd_clrspi_nsr_s       cn85xx; */
 	/* struct bdk_gicd_clrspi_nsr_s       cn88xx; */
 	/* struct bdk_gicd_clrspi_nsr_s       cn88xxp1; */
 } bdk_gicd_clrspi_nsr_t;
@@ -1088,7 +1076,6 @@ typedef union bdk_gicd_clrspi_sr {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_gicd_clrspi_sr_s        cn85xx; */
 	/* struct bdk_gicd_clrspi_sr_s        cn88xx; */
 	/* struct bdk_gicd_clrspi_sr_s        cn88xxp1; */
 } bdk_gicd_clrspi_sr_t;
@@ -1128,7 +1115,6 @@ typedef union bdk_gicd_icactiverx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_icactiverx_s       cn85xx; */
 	/* struct bdk_gicd_icactiverx_s       cn88xx; */
 	/* struct bdk_gicd_icactiverx_s       cn88xxp1; */
 } bdk_gicd_icactiverx_t;
@@ -1172,7 +1158,6 @@ typedef union bdk_gicd_icenablerx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_icenablerx_s       cn85xx; */
 	/* struct bdk_gicd_icenablerx_s       cn88xx; */
 	/* struct bdk_gicd_icenablerx_s       cn88xxp1; */
 } bdk_gicd_icenablerx_t;
@@ -1209,7 +1194,6 @@ typedef union bdk_gicd_icfgrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_icfgrx_s           cn85xx; */
 	/* struct bdk_gicd_icfgrx_s           cn88xx; */
 	/* struct bdk_gicd_icfgrx_s           cn88xxp1; */
 } bdk_gicd_icfgrx_t;
@@ -1250,7 +1234,6 @@ typedef union bdk_gicd_icpendrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_icpendrx_s         cn85xx; */
 	/* struct bdk_gicd_icpendrx_s         cn88xx; */
 	/* struct bdk_gicd_icpendrx_s         cn88xxp1; */
 } bdk_gicd_icpendrx_t;
@@ -1286,7 +1269,6 @@ typedef union bdk_gicd_igrouprx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_igrouprx_s         cn85xx; */
 	/* struct bdk_gicd_igrouprx_s         cn88xx; */
 	/* struct bdk_gicd_igrouprx_s         cn88xxp1; */
 } bdk_gicd_igrouprx_t;
@@ -1322,7 +1304,6 @@ typedef union bdk_gicd_igrpmodrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_igrpmodrx_s        cn85xx; */
 	/* struct bdk_gicd_igrpmodrx_s        cn88xx; */
 	/* struct bdk_gicd_igrpmodrx_s        cn88xxp1; */
 } bdk_gicd_igrpmodrx_t;
@@ -1368,7 +1349,6 @@ typedef union bdk_gicd_iidr {
 		uint32_t productid                   : 8;
 #endif
 	} s;
-	/* struct bdk_gicd_iidr_s             cn85xx; */
 	/* struct bdk_gicd_iidr_s             cn88xx; */
 	/* struct bdk_gicd_iidr_s             cn88xxp1; */
 } bdk_gicd_iidr_t;
@@ -1408,7 +1388,6 @@ typedef union bdk_gicd_ipriorityrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_ipriorityrx_s      cn85xx; */
 	/* struct bdk_gicd_ipriorityrx_s      cn88xx; */
 	/* struct bdk_gicd_ipriorityrx_s      cn88xxp1; */
 } bdk_gicd_ipriorityrx_t;
@@ -1456,7 +1435,6 @@ typedef union bdk_gicd_irouterx {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_irouterx_s         cn85xx; */
 	/* struct bdk_gicd_irouterx_s         cn88xx; */
 	/* struct bdk_gicd_irouterx_s         cn88xxp1; */
 } bdk_gicd_irouterx_t;
@@ -1497,7 +1475,6 @@ typedef union bdk_gicd_isactiverx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_isactiverx_s       cn85xx; */
 	/* struct bdk_gicd_isactiverx_s       cn88xx; */
 	/* struct bdk_gicd_isactiverx_s       cn88xxp1; */
 } bdk_gicd_isactiverx_t;
@@ -1535,7 +1512,6 @@ typedef union bdk_gicd_isenablerx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_isenablerx_s       cn85xx; */
 	/* struct bdk_gicd_isenablerx_s       cn88xx; */
 	/* struct bdk_gicd_isenablerx_s       cn88xxp1; */
 } bdk_gicd_isenablerx_t;
@@ -1576,7 +1552,6 @@ typedef union bdk_gicd_ispendrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_ispendrx_s         cn85xx; */
 	/* struct bdk_gicd_ispendrx_s         cn88xx; */
 	/* struct bdk_gicd_ispendrx_s         cn88xxp1; */
 } bdk_gicd_ispendrx_t;
@@ -1622,7 +1597,6 @@ typedef union bdk_gicd_nsacrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_nsacrx_s           cn85xx; */
 	/* struct bdk_gicd_nsacrx_s           cn88xx; */
 	/* struct bdk_gicd_nsacrx_s           cn88xxp1; */
 } bdk_gicd_nsacrx_t;
@@ -1655,7 +1629,6 @@ typedef union bdk_gicd_pidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr0_s            cn85xx; */
 	/* struct bdk_gicd_pidr0_s            cn88xx; */
 	/* struct bdk_gicd_pidr0_s            cn88xxp1; */
 } bdk_gicd_pidr0_t;
@@ -1689,7 +1662,6 @@ typedef union bdk_gicd_pidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr1_s            cn85xx; */
 	/* struct bdk_gicd_pidr1_s            cn88xx; */
 	/* struct bdk_gicd_pidr1_s            cn88xxp1; */
 } bdk_gicd_pidr1_t;
@@ -1730,7 +1702,6 @@ typedef union bdk_gicd_pidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr2_s            cn85xx; */
 	/* struct bdk_gicd_pidr2_s            cn88xx; */
 	/* struct bdk_gicd_pidr2_s            cn88xxp1; */
 } bdk_gicd_pidr2_t;
@@ -1765,7 +1736,6 @@ typedef union bdk_gicd_pidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr3_s            cn85xx; */
 	/* struct bdk_gicd_pidr3_s            cn88xx; */
 	/* struct bdk_gicd_pidr3_s            cn88xxp1; */
 } bdk_gicd_pidr3_t;
@@ -1799,7 +1769,6 @@ typedef union bdk_gicd_pidr4 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr4_s            cn85xx; */
 	/* struct bdk_gicd_pidr4_s            cn88xx; */
 	/* struct bdk_gicd_pidr4_s            cn88xxp1; */
 } bdk_gicd_pidr4_t;
@@ -1829,7 +1798,6 @@ typedef union bdk_gicd_pidr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr5_s            cn85xx; */
 	/* struct bdk_gicd_pidr5_s            cn88xx; */
 	/* struct bdk_gicd_pidr5_s            cn88xxp1; */
 } bdk_gicd_pidr5_t;
@@ -1859,7 +1827,6 @@ typedef union bdk_gicd_pidr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr6_s            cn85xx; */
 	/* struct bdk_gicd_pidr6_s            cn88xx; */
 	/* struct bdk_gicd_pidr6_s            cn88xxp1; */
 } bdk_gicd_pidr6_t;
@@ -1889,7 +1856,6 @@ typedef union bdk_gicd_pidr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gicd_pidr7_s            cn85xx; */
 	/* struct bdk_gicd_pidr7_s            cn88xx; */
 	/* struct bdk_gicd_pidr7_s            cn88xxp1; */
 } bdk_gicd_pidr7_t;
@@ -1974,7 +1940,6 @@ typedef union bdk_gicd_sctlr {
 		uint32_t rwp                         : 1;
 #endif
 	} s;
-	/* struct bdk_gicd_sctlr_s            cn85xx; */
 	/* struct bdk_gicd_sctlr_s            cn88xx; */
 	/* struct bdk_gicd_sctlr_s            cn88xxp1; */
 } bdk_gicd_sctlr_t;
@@ -2013,7 +1978,6 @@ typedef union bdk_gicd_setspi_nsr {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_gicd_setspi_nsr_s       cn85xx; */
 	/* struct bdk_gicd_setspi_nsr_s       cn88xx; */
 	/* struct bdk_gicd_setspi_nsr_s       cn88xxp1; */
 } bdk_gicd_setspi_nsr_t;
@@ -2050,7 +2014,6 @@ typedef union bdk_gicd_setspi_sr {
 		uint32_t reserved_10_31              : 22;
 #endif
 	} s;
-	/* struct bdk_gicd_setspi_sr_s        cn85xx; */
 	/* struct bdk_gicd_setspi_sr_s        cn88xx; */
 	/* struct bdk_gicd_setspi_sr_s        cn88xxp1; */
 } bdk_gicd_setspi_sr_t;
@@ -2092,7 +2055,6 @@ typedef union bdk_gicd_sstatusr {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_gicd_sstatusr_s         cn85xx; */
 	/* struct bdk_gicd_sstatusr_s         cn88xx; */
 	/* struct bdk_gicd_sstatusr_s         cn88xxp1; */
 } bdk_gicd_sstatusr_t;
@@ -2146,7 +2108,6 @@ typedef union bdk_gicd_typer {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_gicd_typer_s            cn85xx; */
 	/* struct bdk_gicd_typer_s            cn88xx; */
 	/* struct bdk_gicd_typer_s            cn88xxp1; */
 } bdk_gicd_typer_t;
@@ -2178,7 +2139,6 @@ typedef union bdk_gicrx_cidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_cidr0_s           cn85xx; */
 	/* struct bdk_gicrx_cidr0_s           cn88xx; */
 	/* struct bdk_gicrx_cidr0_s           cn88xxp1; */
 } bdk_gicrx_cidr0_t;
@@ -2211,7 +2171,6 @@ typedef union bdk_gicrx_cidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_cidr1_s           cn85xx; */
 	/* struct bdk_gicrx_cidr1_s           cn88xx; */
 	/* struct bdk_gicrx_cidr1_s           cn88xxp1; */
 } bdk_gicrx_cidr1_t;
@@ -2244,7 +2203,6 @@ typedef union bdk_gicrx_cidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_cidr2_s           cn85xx; */
 	/* struct bdk_gicrx_cidr2_s           cn88xx; */
 	/* struct bdk_gicrx_cidr2_s           cn88xxp1; */
 } bdk_gicrx_cidr2_t;
@@ -2277,7 +2235,6 @@ typedef union bdk_gicrx_cidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_cidr3_s           cn85xx; */
 	/* struct bdk_gicrx_cidr3_s           cn88xx; */
 	/* struct bdk_gicrx_cidr3_s           cn88xxp1; */
 } bdk_gicrx_cidr3_t;
@@ -2313,7 +2270,6 @@ typedef union bdk_gicrx_clrlpir {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_clrlpir_s         cn85xx; */
 	/* struct bdk_gicrx_clrlpir_s         cn88xx; */
 	/* struct bdk_gicrx_clrlpir_s         cn88xxp1; */
 } bdk_gicrx_clrlpir_t;
@@ -2353,7 +2309,6 @@ typedef union bdk_gicrx_icactiver0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_icactiver0_s      cn85xx; */
 	/* struct bdk_gicrx_icactiver0_s      cn88xx; */
 	/* struct bdk_gicrx_icactiver0_s      cn88xxp1; */
 } bdk_gicrx_icactiver0_t;
@@ -2398,7 +2353,6 @@ typedef union bdk_gicrx_icenabler0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_icenabler0_s      cn85xx; */
 	/* struct bdk_gicrx_icenabler0_s      cn88xx; */
 	/* struct bdk_gicrx_icenabler0_s      cn88xxp1; */
 } bdk_gicrx_icenabler0_t;
@@ -2438,7 +2392,6 @@ typedef union bdk_gicrx_icfgr0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_icfgr0_s          cn85xx; */
 	/* struct bdk_gicrx_icfgr0_s          cn88xx; */
 	/* struct bdk_gicrx_icfgr0_s          cn88xxp1; */
 } bdk_gicrx_icfgr0_t;
@@ -2480,7 +2433,6 @@ typedef union bdk_gicrx_icfgr1 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_icfgr1_s          cn85xx; */
 	/* struct bdk_gicrx_icfgr1_s          cn88xx; */
 	/* struct bdk_gicrx_icfgr1_s          cn88xxp1; */
 } bdk_gicrx_icfgr1_t;
@@ -2520,7 +2472,6 @@ typedef union bdk_gicrx_icpendr0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_icpendr0_s        cn85xx; */
 	/* struct bdk_gicrx_icpendr0_s        cn88xx; */
 	/* struct bdk_gicrx_icpendr0_s        cn88xxp1; */
 } bdk_gicrx_icpendr0_t;
@@ -2557,7 +2508,6 @@ typedef union bdk_gicrx_igroupr0 {
 		uint32_t ppi                         : 16;
 #endif
 	} s;
-	/* struct bdk_gicrx_igroupr0_s        cn85xx; */
 	/* struct bdk_gicrx_igroupr0_s        cn88xx; */
 	/* struct bdk_gicrx_igroupr0_s        cn88xxp1; */
 } bdk_gicrx_igroupr0_t;
@@ -2597,7 +2547,6 @@ typedef union bdk_gicrx_igrpmodr0 {
 		uint32_t ppi                         : 16;
 #endif
 	} s;
-	/* struct bdk_gicrx_igrpmodr0_s       cn85xx; */
 	/* struct bdk_gicrx_igrpmodr0_s       cn88xx; */
 	/* struct bdk_gicrx_igrpmodr0_s       cn88xxp1; */
 } bdk_gicrx_igrpmodr0_t;
@@ -2643,7 +2592,6 @@ typedef union bdk_gicrx_iidr {
 		uint32_t productid                   : 8;
 #endif
 	} s;
-	/* struct bdk_gicrx_iidr_s            cn85xx; */
 	/* struct bdk_gicrx_iidr_s            cn88xx; */
 	/* struct bdk_gicrx_iidr_s            cn88xxp1; */
 } bdk_gicrx_iidr_t;
@@ -2677,7 +2625,6 @@ typedef union bdk_gicrx_invallr {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_gicrx_invallr_s         cn85xx; */
 	/* struct bdk_gicrx_invallr_s         cn88xx; */
 	/* struct bdk_gicrx_invallr_s         cn88xxp1; */
 } bdk_gicrx_invallr_t;
@@ -2713,7 +2660,6 @@ typedef union bdk_gicrx_invlpir {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_invlpir_s         cn85xx; */
 	/* struct bdk_gicrx_invlpir_s         cn88xx; */
 	/* struct bdk_gicrx_invlpir_s         cn88xxp1; */
 } bdk_gicrx_invlpir_t;
@@ -2754,7 +2700,6 @@ typedef union bdk_gicrx_ipriorityrx {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_ipriorityrx_s     cn85xx; */
 	/* struct bdk_gicrx_ipriorityrx_s     cn88xx; */
 	/* struct bdk_gicrx_ipriorityrx_s     cn88xxp1; */
 } bdk_gicrx_ipriorityrx_t;
@@ -2794,7 +2739,6 @@ typedef union bdk_gicrx_isactiver0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_isactiver0_s      cn85xx; */
 	/* struct bdk_gicrx_isactiver0_s      cn88xx; */
 	/* struct bdk_gicrx_isactiver0_s      cn88xxp1; */
 } bdk_gicrx_isactiver0_t;
@@ -2832,7 +2776,6 @@ typedef union bdk_gicrx_isenabler0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_isenabler0_s      cn85xx; */
 	/* struct bdk_gicrx_isenabler0_s      cn88xx; */
 	/* struct bdk_gicrx_isenabler0_s      cn88xxp1; */
 } bdk_gicrx_isenabler0_t;
@@ -2871,7 +2814,6 @@ typedef union bdk_gicrx_ispendr0 {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_ispendr0_s        cn85xx; */
 	/* struct bdk_gicrx_ispendr0_s        cn88xx; */
 	/* struct bdk_gicrx_ispendr0_s        cn88xxp1; */
 } bdk_gicrx_ispendr0_t;
@@ -2909,7 +2851,6 @@ typedef union bdk_gicrx_movallr {
 		uint64_t pa                          : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_movallr_s         cn85xx; */
 	/* struct bdk_gicrx_movallr_s         cn88xx; */
 	/* struct bdk_gicrx_movallr_s         cn88xxp1; */
 } bdk_gicrx_movallr_t;
@@ -2945,7 +2886,6 @@ typedef union bdk_gicrx_movlpir {
 		uint64_t pa                          : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_movlpir_s         cn85xx; */
 	/* struct bdk_gicrx_movlpir_s         cn88xx; */
 	/* struct bdk_gicrx_movlpir_s         cn88xxp1; */
 } bdk_gicrx_movlpir_t;
@@ -2986,7 +2926,6 @@ typedef union bdk_gicrx_nsacr {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_nsacr_s           cn85xx; */
 	/* struct bdk_gicrx_nsacr_s           cn88xx; */
 	/* struct bdk_gicrx_nsacr_s           cn88xxp1; */
 } bdk_gicrx_nsacr_t;
@@ -3027,7 +2966,6 @@ typedef union bdk_gicrx_pendbaser {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_gicrx_pendbaser_s       cn85xx; */
 	/* struct bdk_gicrx_pendbaser_s       cn88xx; */
 	/* struct bdk_gicrx_pendbaser_s       cn88xxp1; */
 } bdk_gicrx_pendbaser_t;
@@ -3060,7 +2998,6 @@ typedef union bdk_gicrx_pidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr0_s           cn85xx; */
 	/* struct bdk_gicrx_pidr0_s           cn88xx; */
 	/* struct bdk_gicrx_pidr0_s           cn88xxp1; */
 } bdk_gicrx_pidr0_t;
@@ -3095,7 +3032,6 @@ typedef union bdk_gicrx_pidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr1_s           cn85xx; */
 	/* struct bdk_gicrx_pidr1_s           cn88xx; */
 	/* struct bdk_gicrx_pidr1_s           cn88xxp1; */
 } bdk_gicrx_pidr1_t;
@@ -3137,7 +3073,6 @@ typedef union bdk_gicrx_pidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr2_s           cn85xx; */
 	/* struct bdk_gicrx_pidr2_s           cn88xx; */
 	/* struct bdk_gicrx_pidr2_s           cn88xxp1; */
 } bdk_gicrx_pidr2_t;
@@ -3173,7 +3108,6 @@ typedef union bdk_gicrx_pidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr3_s           cn85xx; */
 	/* struct bdk_gicrx_pidr3_s           cn88xx; */
 	/* struct bdk_gicrx_pidr3_s           cn88xxp1; */
 } bdk_gicrx_pidr3_t;
@@ -3208,7 +3142,6 @@ typedef union bdk_gicrx_pidr4 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr4_s           cn85xx; */
 	/* struct bdk_gicrx_pidr4_s           cn88xx; */
 	/* struct bdk_gicrx_pidr4_s           cn88xxp1; */
 } bdk_gicrx_pidr4_t;
@@ -3239,7 +3172,6 @@ typedef union bdk_gicrx_pidr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr5_s           cn85xx; */
 	/* struct bdk_gicrx_pidr5_s           cn88xx; */
 	/* struct bdk_gicrx_pidr5_s           cn88xxp1; */
 } bdk_gicrx_pidr5_t;
@@ -3270,7 +3202,6 @@ typedef union bdk_gicrx_pidr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr6_s           cn85xx; */
 	/* struct bdk_gicrx_pidr6_s           cn88xx; */
 	/* struct bdk_gicrx_pidr6_s           cn88xxp1; */
 } bdk_gicrx_pidr6_t;
@@ -3301,7 +3232,6 @@ typedef union bdk_gicrx_pidr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_pidr7_s           cn85xx; */
 	/* struct bdk_gicrx_pidr7_s           cn88xx; */
 	/* struct bdk_gicrx_pidr7_s           cn88xxp1; */
 } bdk_gicrx_pidr7_t;
@@ -3340,7 +3270,6 @@ typedef union bdk_gicrx_propbaser {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_gicrx_propbaser_s       cn85xx; */
 	/* struct bdk_gicrx_propbaser_s       cn88xx; */
 	/* struct bdk_gicrx_propbaser_s       cn88xxp1; */
 } bdk_gicrx_propbaser_t;
@@ -3397,7 +3326,6 @@ typedef union bdk_gicrx_sctlr {
 		uint32_t uwp                         : 1;
 #endif
 	} s;
-	/* struct bdk_gicrx_sctlr_s           cn85xx; */
 	/* struct bdk_gicrx_sctlr_s           cn88xx; */
 	/* struct bdk_gicrx_sctlr_s           cn88xxp1; */
 } bdk_gicrx_sctlr_t;
@@ -3433,7 +3361,6 @@ typedef union bdk_gicrx_seir {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_gicrx_seir_s            cn85xx; */
 	/* struct bdk_gicrx_seir_s            cn88xx; */
 	/* struct bdk_gicrx_seir_s            cn88xxp1; */
 } bdk_gicrx_seir_t;
@@ -3469,7 +3396,6 @@ typedef union bdk_gicrx_setdel3tr_el1s {
 		uint32_t vec                         : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_setdel3tr_el1s_s  cn85xx; */
 	/* struct bdk_gicrx_setdel3tr_el1s_s  cn88xx; */
 	/* struct bdk_gicrx_setdel3tr_el1s_s  cn88xxp1; */
 } bdk_gicrx_setdel3tr_el1s_t;
@@ -3505,7 +3431,6 @@ typedef union bdk_gicrx_setlpir {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_setlpir_s         cn85xx; */
 	/* struct bdk_gicrx_setlpir_s         cn88xx; */
 	/* struct bdk_gicrx_setlpir_s         cn88xxp1; */
 } bdk_gicrx_setlpir_t;
@@ -3548,7 +3473,6 @@ typedef union bdk_gicrx_sstatusr {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_gicrx_sstatusr_s        cn85xx; */
 	/* struct bdk_gicrx_sstatusr_s        cn88xx; */
 	/* struct bdk_gicrx_sstatusr_s        cn88xxp1; */
 } bdk_gicrx_sstatusr_t;
@@ -3590,7 +3514,6 @@ typedef union bdk_gicrx_syncr {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_gicrx_syncr_s           cn85xx; */
 	/* struct bdk_gicrx_syncr_s           cn88xx; */
 	/* struct bdk_gicrx_syncr_s           cn88xxp1; */
 } bdk_gicrx_syncr_t;
@@ -3653,7 +3576,6 @@ typedef union bdk_gicrx_typer {
 		uint64_t a3                          : 8;
 #endif
 	} s;
-	/* struct bdk_gicrx_typer_s           cn85xx; */
 	/* struct bdk_gicrx_typer_s           cn88xx; */
 	/* struct bdk_gicrx_typer_s           cn88xxp1; */
 } bdk_gicrx_typer_t;
@@ -3699,7 +3621,6 @@ typedef union bdk_gicrx_waker {
 		uint32_t quiescent                   : 1;
 #endif
 	} s;
-	/* struct bdk_gicrx_waker_s           cn85xx; */
 	/* struct bdk_gicrx_waker_s           cn88xx; */
 	/* struct bdk_gicrx_waker_s           cn88xxp1; */
 } bdk_gicrx_waker_t;
@@ -3803,7 +3724,6 @@ typedef union bdk_gits_baserx {
 		uint64_t valid                       : 1;
 #endif
 	} s;
-	/* struct bdk_gits_baserx_s           cn85xx; */
 	/* struct bdk_gits_baserx_s           cn88xx; */
 	/* struct bdk_gits_baserx_s           cn88xxp1; */
 } bdk_gits_baserx_t;
@@ -3839,7 +3759,6 @@ typedef union bdk_gits_baserx_rowi {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_gits_baserx_rowi_s      cn85xx; */
 	/* struct bdk_gits_baserx_rowi_s      cn88xx; */
 	/* struct bdk_gits_baserx_rowi_s      cn88xxp1; */
 } bdk_gits_baserx_rowi_t;
@@ -3915,7 +3834,6 @@ typedef union bdk_gits_cbaser {
 		uint64_t valid                       : 1;
 #endif
 	} s;
-	/* struct bdk_gits_cbaser_s           cn85xx; */
 	/* struct bdk_gits_cbaser_s           cn88xx; */
 	/* struct bdk_gits_cbaser_s           cn88xxp1; */
 } bdk_gits_cbaser_t;
@@ -3947,7 +3865,6 @@ typedef union bdk_gits_cidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_cidr0_s            cn85xx; */
 	/* struct bdk_gits_cidr0_s            cn88xx; */
 	/* struct bdk_gits_cidr0_s            cn88xxp1; */
 } bdk_gits_cidr0_t;
@@ -3979,7 +3896,6 @@ typedef union bdk_gits_cidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_cidr1_s            cn85xx; */
 	/* struct bdk_gits_cidr1_s            cn88xx; */
 	/* struct bdk_gits_cidr1_s            cn88xxp1; */
 } bdk_gits_cidr1_t;
@@ -4011,7 +3927,6 @@ typedef union bdk_gits_cidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_cidr2_s            cn85xx; */
 	/* struct bdk_gits_cidr2_s            cn88xx; */
 	/* struct bdk_gits_cidr2_s            cn88xxp1; */
 } bdk_gits_cidr2_t;
@@ -4043,7 +3958,6 @@ typedef union bdk_gits_cidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_cidr3_s            cn85xx; */
 	/* struct bdk_gits_cidr3_s            cn88xx; */
 	/* struct bdk_gits_cidr3_s            cn88xxp1; */
 } bdk_gits_cidr3_t;
@@ -4088,7 +4002,6 @@ typedef union bdk_gits_creadr {
 		uint64_t reserved_20_63              : 44;
 #endif
 	} s;
-	/* struct bdk_gits_creadr_s           cn85xx; */
 	/* struct bdk_gits_creadr_s           cn88xx; */
 	/* struct bdk_gits_creadr_s           cn88xxp1; */
 } bdk_gits_creadr_t;
@@ -4141,7 +4054,6 @@ typedef union bdk_gits_ctlr {
 		uint32_t quiescent                   : 1;
 #endif
 	} s;
-	/* struct bdk_gits_ctlr_s             cn85xx; */
 	/* struct bdk_gits_ctlr_s             cn88xx; */
 	/* struct bdk_gits_ctlr_s             cn88xxp1; */
 } bdk_gits_ctlr_t;
@@ -4187,7 +4099,6 @@ typedef union bdk_gits_cwriter {
 		uint64_t reserved_20_63              : 44;
 #endif
 	} s;
-	/* struct bdk_gits_cwriter_s          cn85xx; */
 	/* struct bdk_gits_cwriter_s          cn88xx; */
 	/* struct bdk_gits_cwriter_s          cn88xxp1; */
 } bdk_gits_cwriter_t;
@@ -4232,7 +4143,6 @@ typedef union bdk_gits_iidr {
 		uint32_t productid                   : 8;
 #endif
 	} s;
-	/* struct bdk_gits_iidr_s             cn85xx; */
 	/* struct bdk_gits_iidr_s             cn88xx; */
 	/* struct bdk_gits_iidr_s             cn88xxp1; */
 } bdk_gits_iidr_t;
@@ -4283,7 +4193,6 @@ typedef union bdk_gits_imp_cseir {
 		uint64_t reserved_52_63              : 12;
 #endif
 	} s;
-	/* struct bdk_gits_imp_cseir_s        cn85xx; */
 	/* struct bdk_gits_imp_cseir_s        cn88xx; */
 	/* struct bdk_gits_imp_cseir_s        cn88xxp1; */
 } bdk_gits_imp_cseir_t;
@@ -4331,7 +4240,6 @@ typedef union bdk_gits_imp_tseir {
 		uint64_t v                           : 1;
 #endif
 	} s;
-	/* struct bdk_gits_imp_tseir_s        cn85xx; */
 	/* struct bdk_gits_imp_tseir_s        cn88xx; */
 	/* struct bdk_gits_imp_tseir_s        cn88xxp1; */
 } bdk_gits_imp_tseir_t;
@@ -4363,7 +4271,6 @@ typedef union bdk_gits_pidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_pidr0_s            cn85xx; */
 	/* struct bdk_gits_pidr0_s            cn88xx; */
 	/* struct bdk_gits_pidr0_s            cn88xxp1; */
 } bdk_gits_pidr0_t;
@@ -4397,7 +4304,6 @@ typedef union bdk_gits_pidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_pidr1_s            cn85xx; */
 	/* struct bdk_gits_pidr1_s            cn88xx; */
 	/* struct bdk_gits_pidr1_s            cn88xxp1; */
 } bdk_gits_pidr1_t;
@@ -4438,7 +4344,6 @@ typedef union bdk_gits_pidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_pidr2_s            cn85xx; */
 	/* struct bdk_gits_pidr2_s            cn88xx; */
 	/* struct bdk_gits_pidr2_s            cn88xxp1; */
 } bdk_gits_pidr2_t;
@@ -4473,7 +4378,6 @@ typedef union bdk_gits_pidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_pidr3_s            cn85xx; */
 	/* struct bdk_gits_pidr3_s            cn88xx; */
 	/* struct bdk_gits_pidr3_s            cn88xxp1; */
 } bdk_gits_pidr3_t;
@@ -4507,7 +4411,6 @@ typedef union bdk_gits_pidr4 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_gits_pidr4_s            cn85xx; */
 	/* struct bdk_gits_pidr4_s            cn88xx; */
 	/* struct bdk_gits_pidr4_s            cn88xxp1; */
 } bdk_gits_pidr4_t;
@@ -4537,7 +4440,6 @@ typedef union bdk_gits_pidr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gits_pidr5_s            cn85xx; */
 	/* struct bdk_gits_pidr5_s            cn88xx; */
 	/* struct bdk_gits_pidr5_s            cn88xxp1; */
 } bdk_gits_pidr5_t;
@@ -4567,7 +4469,6 @@ typedef union bdk_gits_pidr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gits_pidr6_s            cn85xx; */
 	/* struct bdk_gits_pidr6_s            cn88xx; */
 	/* struct bdk_gits_pidr6_s            cn88xxp1; */
 } bdk_gits_pidr6_t;
@@ -4597,7 +4498,6 @@ typedef union bdk_gits_pidr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_gits_pidr7_s            cn85xx; */
 	/* struct bdk_gits_pidr7_s            cn88xx; */
 	/* struct bdk_gits_pidr7_s            cn88xxp1; */
 } bdk_gits_pidr7_t;
@@ -4655,7 +4555,6 @@ typedef union bdk_gits_translater {
 		uint32_t int_id                      : 32;
 #endif
 	} s;
-	/* struct bdk_gits_translater_s       cn85xx; */
 	/* struct bdk_gits_translater_s       cn88xx; */
 	/* struct bdk_gits_translater_s       cn88xxp1; */
 } bdk_gits_translater_t;
@@ -4718,7 +4617,6 @@ typedef union bdk_gits_typer {
 		uint32_t hcc                         : 8;
 #endif
 	} s;
-	/* struct bdk_gits_typer_s            cn85xx; */
 	/* struct bdk_gits_typer_s            cn88xx; */
 	/* struct bdk_gits_typer_s            cn88xxp1; */
 } bdk_gits_typer_t;

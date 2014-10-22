@@ -132,7 +132,6 @@ typedef union bdk_mpi_cfg {
 		uint64_t reserved_29_63              : 35;
 #endif
 	} s;
-	/* struct bdk_mpi_cfg_s               cn85xx; */
 	/* struct bdk_mpi_cfg_s               cn88xx; */
 	/* struct bdk_mpi_cfg_s               cn88xxp1; */
 } bdk_mpi_cfg_t;
@@ -164,7 +163,6 @@ typedef union bdk_mpi_datx {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
-	/* struct bdk_mpi_datx_s              cn85xx; */
 	/* struct bdk_mpi_datx_s              cn88xx; */
 	/* struct bdk_mpi_datx_s              cn88xxp1; */
 } bdk_mpi_datx_t;
@@ -202,7 +200,6 @@ typedef union bdk_mpi_int_ena_w1c {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mpi_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_mpi_int_ena_w1c_s       cn88xx; */
 	/* struct bdk_mpi_int_ena_w1c_s       cn88xxp1; */
 } bdk_mpi_int_ena_w1c_t;
@@ -239,7 +236,6 @@ typedef union bdk_mpi_int_ena_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mpi_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_mpi_int_ena_w1s_s       cn88xx; */
 	/* struct bdk_mpi_int_ena_w1s_s       cn88xxp1; */
 } bdk_mpi_int_ena_w1s_t;
@@ -273,7 +269,6 @@ typedef union bdk_mpi_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_mpi_msix_pbax_s         cn85xx; */
 	/* struct bdk_mpi_msix_pbax_s         cn88xx; */
 	/* struct bdk_mpi_msix_pbax_s         cn88xxp1; */
 } bdk_mpi_msix_pbax_t;
@@ -320,7 +315,6 @@ typedef union bdk_mpi_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mpi_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_mpi_msix_vecx_addr_s    cn88xx; */
 	/* struct bdk_mpi_msix_vecx_addr_s    cn88xxp1; */
 } bdk_mpi_msix_vecx_addr_t;
@@ -360,7 +354,6 @@ typedef union bdk_mpi_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_mpi_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_mpi_msix_vecx_ctl_s     cn88xx; */
 	/* struct bdk_mpi_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_mpi_msix_vecx_ctl_t;
@@ -401,7 +394,6 @@ typedef union bdk_mpi_sts {
 		uint64_t reserved_13_63              : 51;
 #endif
 	} s;
-	/* struct bdk_mpi_sts_s               cn85xx; */
 	/* struct bdk_mpi_sts_s               cn88xx; */
 	/* struct bdk_mpi_sts_s               cn88xxp1; */
 } bdk_mpi_sts_t;
@@ -438,7 +430,6 @@ typedef union bdk_mpi_sts_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mpi_sts_w1s_s           cn85xx; */
 	/* struct bdk_mpi_sts_w1s_s           cn88xx; */
 	/* struct bdk_mpi_sts_w1s_s           cn88xxp1; */
 } bdk_mpi_sts_w1s_t;
@@ -484,7 +475,6 @@ typedef union bdk_mpi_tx {
 		uint64_t reserved_22_63              : 42;
 #endif
 	} s;
-	/* struct bdk_mpi_tx_s                cn85xx; */
 	/* struct bdk_mpi_tx_s                cn88xx; */
 	/* struct bdk_mpi_tx_s                cn88xxp1; */
 } bdk_mpi_tx_t;
@@ -514,7 +504,6 @@ typedef union bdk_mpi_wide_dat {
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_mpi_wide_dat_s          cn85xx; */
 	/* struct bdk_mpi_wide_dat_s          cn88xx; */
 	/* struct bdk_mpi_wide_dat_s          cn88xxp1; */
 } bdk_mpi_wide_dat_t;

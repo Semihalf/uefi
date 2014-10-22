@@ -125,7 +125,6 @@ typedef union bdk_vrmx_alt_fuse {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_vrmx_alt_fuse_s         cn85xx; */
 	/* struct bdk_vrmx_alt_fuse_s         cn88xx; */
 	/* struct bdk_vrmx_alt_fuse_s         cn88xxp1; */
 } bdk_vrmx_alt_fuse_t;
@@ -167,7 +166,6 @@ typedef union bdk_vrmx_device_status {
 		uint64_t reserved_18_63              : 46;
 #endif
 	} s;
-	/* struct bdk_vrmx_device_status_s    cn85xx; */
 	/* struct bdk_vrmx_device_status_s    cn88xx; */
 	/* struct bdk_vrmx_device_status_s    cn88xxp1; */
 } bdk_vrmx_device_status_t;
@@ -205,7 +203,6 @@ typedef union bdk_vrmx_fuse_bypass {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_vrmx_fuse_bypass_s      cn85xx; */
 	/* struct bdk_vrmx_fuse_bypass_s      cn88xx; */
 	/* struct bdk_vrmx_fuse_bypass_s      cn88xxp1; */
 } bdk_vrmx_fuse_bypass_t;
@@ -253,7 +250,6 @@ typedef union bdk_vrmx_misc_info {
 		uint64_t reserved_43_63              : 21;
 #endif
 	} s;
-	/* struct bdk_vrmx_misc_info_s        cn85xx; */
 	/* struct bdk_vrmx_misc_info_s        cn88xx; */
 	/* struct bdk_vrmx_misc_info_s        cn88xxp1; */
 } bdk_vrmx_misc_info_t;
@@ -293,7 +289,6 @@ typedef union bdk_vrmx_telemetry_cmnd {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_vrmx_telemetry_cmnd_s   cn85xx; */
 	/* struct bdk_vrmx_telemetry_cmnd_s   cn88xx; */
 	/* struct bdk_vrmx_telemetry_cmnd_s   cn88xxp1; */
 } bdk_vrmx_telemetry_cmnd_t;
@@ -328,7 +323,6 @@ typedef union bdk_vrmx_telemetry_read {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_vrmx_telemetry_read_s   cn85xx; */
 	/* struct bdk_vrmx_telemetry_read_s   cn88xx; */
 	/* struct bdk_vrmx_telemetry_read_s   cn88xxp1; */
 } bdk_vrmx_telemetry_read_t;
@@ -362,7 +356,6 @@ typedef union bdk_vrmx_trip {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
-	/* struct bdk_vrmx_trip_s             cn85xx; */
 	/* struct bdk_vrmx_trip_s             cn88xx; */
 	/* struct bdk_vrmx_trip_s             cn88xxp1; */
 } bdk_vrmx_trip_t;
@@ -413,7 +406,6 @@ typedef union bdk_vrmx_ts_temp_conv_coeff_fsm {
 		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
-	/* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn85xx; */
 	/* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn88xx; */
 	/* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn88xxp1; */
 } bdk_vrmx_ts_temp_conv_coeff_fsm_t;
@@ -455,7 +447,6 @@ typedef union bdk_vrmx_ts_temp_conv_ctl {
 		uint64_t reserved_13_63              : 51;
 #endif
 	} s;
-	/* struct bdk_vrmx_ts_temp_conv_ctl_s cn85xx; */
 	/* struct bdk_vrmx_ts_temp_conv_ctl_s cn88xx; */
 	/* struct bdk_vrmx_ts_temp_conv_ctl_s cn88xxp1; */
 } bdk_vrmx_ts_temp_conv_ctl_t;
@@ -497,7 +488,6 @@ typedef union bdk_vrmx_ts_temp_conv_result {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_vrmx_ts_temp_conv_result_s cn85xx; */
 	/* struct bdk_vrmx_ts_temp_conv_result_s cn88xx; */
 	/* struct bdk_vrmx_ts_temp_conv_result_s cn88xxp1; */
 } bdk_vrmx_ts_temp_conv_result_t;
@@ -535,7 +525,6 @@ typedef union bdk_vrmx_ts_temp_noff_mc {
 		uint64_t reserved_28_63              : 36;
 #endif
 	} s;
-	/* struct bdk_vrmx_ts_temp_noff_mc_s  cn85xx; */
 	/* struct bdk_vrmx_ts_temp_noff_mc_s  cn88xx; */
 	/* struct bdk_vrmx_ts_temp_noff_mc_s  cn88xxp1; */
 } bdk_vrmx_ts_temp_noff_mc_t;
@@ -612,7 +601,6 @@ typedef union bdk_vrmx_tws_twsi_sw {
 		uint64_t v                           : 1;
 #endif
 	} s;
-	/* struct bdk_vrmx_tws_twsi_sw_s      cn85xx; */
 	/* struct bdk_vrmx_tws_twsi_sw_s      cn88xx; */
 	/* struct bdk_vrmx_tws_twsi_sw_s      cn88xxp1; */
 } bdk_vrmx_tws_twsi_sw_t;

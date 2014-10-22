@@ -81,7 +81,6 @@ typedef union bdk_sysctix_asicctl {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_asicctl_s       cn85xx; */
 	/* struct bdk_sysctix_asicctl_s       cn88xx; */
 	/* struct bdk_sysctix_asicctl_s       cn88xxp1; */
 } bdk_sysctix_asicctl_t;
@@ -122,7 +121,6 @@ typedef union bdk_sysctix_claimclr_el1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_claimclr_el1_s  cn85xx; */
 	/* struct bdk_sysctix_claimclr_el1_s  cn88xx; */
 	/* struct bdk_sysctix_claimclr_el1_s  cn88xxp1; */
 } bdk_sysctix_claimclr_el1_t;
@@ -162,7 +160,6 @@ typedef union bdk_sysctix_claimset_el1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_claimset_el1_s  cn85xx; */
 	/* struct bdk_sysctix_claimset_el1_s  cn88xx; */
 	/* struct bdk_sysctix_claimset_el1_s  cn88xxp1; */
 } bdk_sysctix_claimset_el1_t;
@@ -196,7 +193,6 @@ typedef union bdk_sysctix_ctiappclear {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiappclear_s   cn85xx; */
 	/* struct bdk_sysctix_ctiappclear_s   cn88xx; */
 	/* struct bdk_sysctix_ctiappclear_s   cn88xxp1; */
 } bdk_sysctix_ctiappclear_t;
@@ -239,7 +235,6 @@ typedef union bdk_sysctix_ctiapppulse {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiapppulse_s   cn85xx; */
 	/* struct bdk_sysctix_ctiapppulse_s   cn88xx; */
 	/* struct bdk_sysctix_ctiapppulse_s   cn88xxp1; */
 } bdk_sysctix_ctiapppulse_t;
@@ -273,7 +268,6 @@ typedef union bdk_sysctix_ctiappset {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiappset_s     cn85xx; */
 	/* struct bdk_sysctix_ctiappset_s     cn88xx; */
 	/* struct bdk_sysctix_ctiappset_s     cn88xxp1; */
 } bdk_sysctix_ctiappset_t;
@@ -319,7 +313,6 @@ typedef union bdk_sysctix_ctiauthstatus_el1 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiauthstatus_el1_s cn85xx; */
 	/* struct bdk_sysctix_ctiauthstatus_el1_s cn88xx; */
 	/* struct bdk_sysctix_ctiauthstatus_el1_s cn88xxp1; */
 } bdk_sysctix_ctiauthstatus_el1_t;
@@ -361,7 +354,6 @@ typedef union bdk_sysctix_ctichinstatus {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctichinstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctichinstatus_s cn88xx; */
 	/* struct bdk_sysctix_ctichinstatus_s cn88xxp1; */
 } bdk_sysctix_ctichinstatus_t;
@@ -403,7 +395,6 @@ typedef union bdk_sysctix_ctichoutstatus {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctichoutstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctichoutstatus_s cn88xx; */
 	/* struct bdk_sysctix_ctichoutstatus_s cn88xxp1; */
 } bdk_sysctix_ctichoutstatus_t;
@@ -439,7 +430,6 @@ typedef union bdk_sysctix_cticidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_cticidr0_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr0_s      cn88xx; */
 	/* struct bdk_sysctix_cticidr0_s      cn88xxp1; */
 } bdk_sysctix_cticidr0_t;
@@ -477,7 +467,6 @@ typedef union bdk_sysctix_cticidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_cticidr1_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr1_s      cn88xx; */
 	/* struct bdk_sysctix_cticidr1_s      cn88xxp1; */
 } bdk_sysctix_cticidr1_t;
@@ -513,7 +502,6 @@ typedef union bdk_sysctix_cticidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_cticidr2_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr2_s      cn88xx; */
 	/* struct bdk_sysctix_cticidr2_s      cn88xxp1; */
 } bdk_sysctix_cticidr2_t;
@@ -549,7 +537,6 @@ typedef union bdk_sysctix_cticidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_cticidr3_s      cn85xx; */
 	/* struct bdk_sysctix_cticidr3_s      cn88xx; */
 	/* struct bdk_sysctix_cticidr3_s      cn88xxp1; */
 } bdk_sysctix_cticidr3_t;
@@ -593,7 +580,6 @@ typedef union bdk_sysctix_cticontrol {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_sysctix_cticontrol_s    cn85xx; */
 	/* struct bdk_sysctix_cticontrol_s    cn88xx; */
 	/* struct bdk_sysctix_cticontrol_s    cn88xxp1; */
 } bdk_sysctix_cticontrol_t;
@@ -629,7 +615,6 @@ typedef union bdk_sysctix_ctidevaff0 {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevaff0_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevaff0_s    cn88xx; */
 	/* struct bdk_sysctix_ctidevaff0_s    cn88xxp1; */
 } bdk_sysctix_ctidevaff0_t;
@@ -665,7 +650,6 @@ typedef union bdk_sysctix_ctidevaff1 {
 		uint32_t data                        : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevaff1_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevaff1_s    cn88xx; */
 	/* struct bdk_sysctix_ctidevaff1_s    cn88xxp1; */
 } bdk_sysctix_ctidevaff1_t;
@@ -719,7 +703,6 @@ typedef union bdk_sysctix_ctidevarch {
 		uint32_t architect                   : 11;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevarch_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevarch_s    cn88xx; */
 	/* struct bdk_sysctix_ctidevarch_s    cn88xxp1; */
 } bdk_sysctix_ctidevarch_t;
@@ -794,7 +777,6 @@ typedef union bdk_sysctix_ctidevid {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevid_s      cn85xx; */
 	/* struct bdk_sysctix_ctidevid_s      cn88xx; */
 	/* struct bdk_sysctix_ctidevid_s      cn88xxp1; */
 } bdk_sysctix_ctidevid_t;
@@ -828,7 +810,6 @@ typedef union bdk_sysctix_ctidevid1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevid1_s     cn85xx; */
 	/* struct bdk_sysctix_ctidevid1_s     cn88xx; */
 	/* struct bdk_sysctix_ctidevid1_s     cn88xxp1; */
 } bdk_sysctix_ctidevid1_t;
@@ -862,7 +843,6 @@ typedef union bdk_sysctix_ctidevid2 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevid2_s     cn85xx; */
 	/* struct bdk_sysctix_ctidevid2_s     cn88xx; */
 	/* struct bdk_sysctix_ctidevid2_s     cn88xxp1; */
 } bdk_sysctix_ctidevid2_t;
@@ -900,7 +880,6 @@ typedef union bdk_sysctix_ctidevtype {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctidevtype_s    cn85xx; */
 	/* struct bdk_sysctix_ctidevtype_s    cn88xx; */
 	/* struct bdk_sysctix_ctidevtype_s    cn88xxp1; */
 } bdk_sysctix_ctidevtype_t;
@@ -942,7 +921,6 @@ typedef union bdk_sysctix_ctigate {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctigate_s       cn85xx; */
 	/* struct bdk_sysctix_ctigate_s       cn88xx; */
 	/* struct bdk_sysctix_ctigate_s       cn88xxp1; */
 } bdk_sysctix_ctigate_t;
@@ -988,7 +966,6 @@ typedef union bdk_sysctix_ctiinenx {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiinenx_s      cn85xx; */
 	/* struct bdk_sysctix_ctiinenx_s      cn88xx; */
 	/* struct bdk_sysctix_ctiinenx_s      cn88xxp1; */
 } bdk_sysctix_ctiinenx_t;
@@ -1043,7 +1020,6 @@ typedef union bdk_sysctix_ctiintack {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiintack_s     cn85xx; */
 	/* struct bdk_sysctix_ctiintack_s     cn88xx; */
 	/* struct bdk_sysctix_ctiintack_s     cn88xxp1; */
 } bdk_sysctix_ctiintack_t;
@@ -1086,7 +1062,6 @@ typedef union bdk_sysctix_ctiitctrl {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctiitctrl_s     cn85xx; */
 	/* struct bdk_sysctix_ctiitctrl_s     cn88xx; */
 	/* struct bdk_sysctix_ctiitctrl_s     cn88xxp1; */
 } bdk_sysctix_ctiitctrl_t;
@@ -1122,7 +1097,6 @@ typedef union bdk_sysctix_ctilar {
 		uint32_t key                         : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctilar_s        cn85xx; */
 	/* struct bdk_sysctix_ctilar_s        cn88xx; */
 	/* struct bdk_sysctix_ctilar_s        cn88xxp1; */
 } bdk_sysctix_ctilar_t;
@@ -1175,7 +1149,6 @@ typedef union bdk_sysctix_ctilsr {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctilsr_s        cn85xx; */
 	/* struct bdk_sysctix_ctilsr_s        cn88xx; */
 	/* struct bdk_sysctix_ctilsr_s        cn88xxp1; */
 } bdk_sysctix_ctilsr_t;
@@ -1221,7 +1194,6 @@ typedef union bdk_sysctix_ctioutenx {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctioutenx_s     cn85xx; */
 	/* struct bdk_sysctix_ctioutenx_s     cn88xx; */
 	/* struct bdk_sysctix_ctioutenx_s     cn88xxp1; */
 } bdk_sysctix_ctioutenx_t;
@@ -1257,7 +1229,6 @@ typedef union bdk_sysctix_ctipidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr0_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr0_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr0_s      cn88xxp1; */
 } bdk_sysctix_ctipidr0_t;
@@ -1295,7 +1266,6 @@ typedef union bdk_sysctix_ctipidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr1_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr1_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr1_s      cn88xxp1; */
 } bdk_sysctix_ctipidr1_t;
@@ -1335,7 +1305,6 @@ typedef union bdk_sysctix_ctipidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr2_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr2_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr2_s      cn88xxp1; */
 } bdk_sysctix_ctipidr2_t;
@@ -1374,7 +1343,6 @@ typedef union bdk_sysctix_ctipidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr3_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr3_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr3_s      cn88xxp1; */
 } bdk_sysctix_ctipidr3_t;
@@ -1413,7 +1381,6 @@ typedef union bdk_sysctix_ctipidr4 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr4_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr4_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr4_s      cn88xxp1; */
 } bdk_sysctix_ctipidr4_t;
@@ -1447,7 +1414,6 @@ typedef union bdk_sysctix_ctipidr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr5_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr5_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr5_s      cn88xxp1; */
 } bdk_sysctix_ctipidr5_t;
@@ -1481,7 +1447,6 @@ typedef union bdk_sysctix_ctipidr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr6_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr6_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr6_s      cn88xxp1; */
 } bdk_sysctix_ctipidr6_t;
@@ -1515,7 +1480,6 @@ typedef union bdk_sysctix_ctipidr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctipidr7_s      cn85xx; */
 	/* struct bdk_sysctix_ctipidr7_s      cn88xx; */
 	/* struct bdk_sysctix_ctipidr7_s      cn88xxp1; */
 } bdk_sysctix_ctipidr7_t;
@@ -1558,7 +1522,6 @@ typedef union bdk_sysctix_ctitriginstatus {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctitriginstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctitriginstatus_s cn88xx; */
 	/* struct bdk_sysctix_ctitriginstatus_s cn88xxp1; */
 } bdk_sysctix_ctitriginstatus_t;
@@ -1604,7 +1567,6 @@ typedef union bdk_sysctix_ctitrigoutstatus {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_sysctix_ctitrigoutstatus_s cn85xx; */
 	/* struct bdk_sysctix_ctitrigoutstatus_s cn88xx; */
 	/* struct bdk_sysctix_ctitrigoutstatus_s cn88xxp1; */
 } bdk_sysctix_ctitrigoutstatus_t;

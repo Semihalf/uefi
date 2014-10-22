@@ -105,7 +105,6 @@ typedef union bdk_mio_twsx_int {
 		uint64_t reserved_12_63              : 52;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_int_s          cn85xx; */
 	/* struct bdk_mio_twsx_int_s          cn88xx; */
 	/* struct bdk_mio_twsx_int_s          cn88xxp1; */
 } bdk_mio_twsx_int_t;
@@ -142,7 +141,6 @@ typedef union bdk_mio_twsx_int_ena_w1c {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_int_ena_w1c_s  cn85xx; */
 	/* struct bdk_mio_twsx_int_ena_w1c_s  cn88xx; */
 	/* struct bdk_mio_twsx_int_ena_w1c_s  cn88xxp1; */
 } bdk_mio_twsx_int_ena_w1c_t;
@@ -179,7 +177,6 @@ typedef union bdk_mio_twsx_int_ena_w1s {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_int_ena_w1s_s  cn85xx; */
 	/* struct bdk_mio_twsx_int_ena_w1s_s  cn88xx; */
 	/* struct bdk_mio_twsx_int_ena_w1s_s  cn88xxp1; */
 } bdk_mio_twsx_int_ena_w1s_t;
@@ -216,7 +213,6 @@ typedef union bdk_mio_twsx_int_w1s {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_int_w1s_s      cn85xx; */
 	/* struct bdk_mio_twsx_int_w1s_s      cn88xx; */
 	/* struct bdk_mio_twsx_int_w1s_s      cn88xxp1; */
 } bdk_mio_twsx_int_w1s_t;
@@ -263,7 +259,6 @@ typedef union bdk_mio_twsx_mode {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_mode_s         cn85xx; */
 	/* struct bdk_mio_twsx_mode_s         cn88xx; */
 	/* struct bdk_mio_twsx_mode_s         cn88xxp1; */
 } bdk_mio_twsx_mode_t;
@@ -298,7 +293,6 @@ typedef union bdk_mio_twsx_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_msix_pbax_s    cn85xx; */
 	/* struct bdk_mio_twsx_msix_pbax_s    cn88xx; */
 	/* struct bdk_mio_twsx_msix_pbax_s    cn88xxp1; */
 } bdk_mio_twsx_msix_pbax_t;
@@ -346,7 +340,6 @@ typedef union bdk_mio_twsx_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_mio_twsx_msix_vecx_addr_s cn88xx; */
 	/* struct bdk_mio_twsx_msix_vecx_addr_s cn88xxp1; */
 } bdk_mio_twsx_msix_vecx_addr_t;
@@ -386,7 +379,6 @@ typedef union bdk_mio_twsx_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_msix_vecx_ctl_s cn85xx; */
 	/* struct bdk_mio_twsx_msix_vecx_ctl_s cn88xx; */
 	/* struct bdk_mio_twsx_msix_vecx_ctl_s cn88xxp1; */
 } bdk_mio_twsx_msix_vecx_ctl_t;
@@ -505,7 +497,6 @@ typedef union bdk_mio_twsx_sw_twsi {
 		uint64_t v                           : 1;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_sw_twsi_s      cn85xx; */
 	/* struct bdk_mio_twsx_sw_twsi_s      cn88xx; */
 	/* struct bdk_mio_twsx_sw_twsi_s      cn88xxp1; */
 } bdk_mio_twsx_sw_twsi_t;
@@ -551,7 +542,6 @@ typedef union bdk_mio_twsx_sw_twsi_ext {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_sw_twsi_ext_s  cn85xx; */
 	/* struct bdk_mio_twsx_sw_twsi_ext_s  cn88xx; */
 	/* struct bdk_mio_twsx_sw_twsi_ext_s  cn88xxp1; */
 } bdk_mio_twsx_sw_twsi_ext_t;
@@ -594,7 +584,6 @@ typedef union bdk_mio_twsx_twsi_sw {
 		uint64_t v                           : 2;
 #endif
 	} s;
-	/* struct bdk_mio_twsx_twsi_sw_s      cn85xx; */
 	/* struct bdk_mio_twsx_twsi_sw_s      cn88xx; */
 	/* struct bdk_mio_twsx_twsi_sw_s      cn88xxp1; */
 } bdk_mio_twsx_twsi_sw_t;

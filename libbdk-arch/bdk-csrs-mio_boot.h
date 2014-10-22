@@ -72,7 +72,6 @@ typedef union bdk_mio_boot_ap_jump {
 		uint64_t addr                        : 64;
 #endif
 	} s;
-	/* struct bdk_mio_boot_ap_jump_s      cn85xx; */
 	/* struct bdk_mio_boot_ap_jump_s      cn88xx; */
 	/* struct bdk_mio_boot_ap_jump_s      cn88xxp1; */
 } bdk_mio_boot_ap_jump_t;
@@ -117,7 +116,6 @@ typedef union bdk_mio_boot_bist_stat {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_mio_boot_bist_stat_s    cn85xx; */
 	/* struct bdk_mio_boot_bist_stat_s    cn88xx; */
 	/* struct bdk_mio_boot_bist_stat_s    cn88xxp1; */
 } bdk_mio_boot_bist_stat_t;
@@ -162,7 +160,6 @@ typedef union bdk_mio_boot_pin_defs {
 		uint64_t reserved_6_63               : 58;
 #endif
 	} s;
-	/* struct bdk_mio_boot_pin_defs_s     cn85xx; */
 	/* struct bdk_mio_boot_pin_defs_s     cn88xx; */
 	/* struct bdk_mio_boot_pin_defs_s     cn88xxp1; */
 } bdk_mio_boot_pin_defs_t;
@@ -203,7 +200,6 @@ typedef union bdk_mio_boot_rom_limit {
 		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
-	/* struct bdk_mio_boot_rom_limit_s    cn85xx; */
 	/* struct bdk_mio_boot_rom_limit_s    cn88xx; */
 	/* struct bdk_mio_boot_rom_limit_s    cn88xxp1; */
 } bdk_mio_boot_rom_limit_t;
@@ -242,7 +238,6 @@ typedef union bdk_mio_boot_thr {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_mio_boot_thr_s          cn85xx; */
 	/* struct bdk_mio_boot_thr_s          cn88xx; */
 	/* struct bdk_mio_boot_thr_s          cn88xxp1; */
 } bdk_mio_boot_thr_t;

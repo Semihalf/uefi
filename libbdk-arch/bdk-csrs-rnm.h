@@ -78,7 +78,6 @@ typedef union bdk_rnm_bist_status {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_rnm_bist_status_s       cn85xx; */
 	/* struct bdk_rnm_bist_status_s       cn88xx; */
 	/* struct bdk_rnm_bist_status_s       cn88xxp1; */
 } bdk_rnm_bist_status_t;
@@ -146,7 +145,6 @@ typedef union bdk_rnm_ctl_status {
 		uint64_t reserved_12_63              : 52;
 #endif
 	} s;
-	/* struct bdk_rnm_ctl_status_s        cn85xx; */
 	/* struct bdk_rnm_ctl_status_s        cn88xx; */
 	/* struct bdk_rnm_ctl_status_s        cn88xxp1; */
 } bdk_rnm_ctl_status_t;
@@ -179,7 +177,6 @@ typedef union bdk_rnm_eer_dbg {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_rnm_eer_dbg_s           cn85xx; */
 	/* struct bdk_rnm_eer_dbg_s           cn88xx; */
 	/* struct bdk_rnm_eer_dbg_s           cn88xxp1; */
 } bdk_rnm_eer_dbg_t;
@@ -213,7 +210,6 @@ typedef union bdk_rnm_eer_key {
 		uint64_t key                         : 64;
 #endif
 	} s;
-	/* struct bdk_rnm_eer_key_s           cn85xx; */
 	/* struct bdk_rnm_eer_key_s           cn88xx; */
 	/* struct bdk_rnm_eer_key_s           cn88xxp1; */
 } bdk_rnm_eer_key_t;
@@ -245,7 +241,6 @@ typedef union bdk_rnm_random {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_rnm_random_s            cn85xx; */
 	/* struct bdk_rnm_random_s            cn88xx; */
 	/* struct bdk_rnm_random_s            cn88xxp1; */
 } bdk_rnm_random_t;
@@ -275,7 +270,6 @@ typedef union bdk_rnm_serial_num {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_rnm_serial_num_s        cn85xx; */
 	/* struct bdk_rnm_serial_num_s        cn88xx; */
 	/* struct bdk_rnm_serial_num_s        cn88xxp1; */
 } bdk_rnm_serial_num_t;

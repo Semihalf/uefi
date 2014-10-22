@@ -95,7 +95,6 @@ typedef union bdk_mio_emm_access_wdog {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_mio_emm_access_wdog_s   cn85xx; */
 	/* struct bdk_mio_emm_access_wdog_s   cn88xx; */
 	/* struct bdk_mio_emm_access_wdog_s   cn88xxp1; */
 } bdk_mio_emm_access_wdog_t;
@@ -125,7 +124,6 @@ typedef union bdk_mio_emm_buf_dat {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_mio_emm_buf_dat_s       cn85xx; */
 	/* struct bdk_mio_emm_buf_dat_s       cn88xx; */
 	/* struct bdk_mio_emm_buf_dat_s       cn88xxp1; */
 } bdk_mio_emm_buf_dat_t;
@@ -164,7 +162,6 @@ typedef union bdk_mio_emm_buf_idx {
 		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
-	/* struct bdk_mio_emm_buf_idx_s       cn85xx; */
 	/* struct bdk_mio_emm_buf_idx_s       cn88xx; */
 	/* struct bdk_mio_emm_buf_idx_s       cn88xxp1; */
 } bdk_mio_emm_buf_idx_t;
@@ -210,7 +207,6 @@ typedef union bdk_mio_emm_cfg {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_mio_emm_cfg_s           cn85xx; */
 	/* struct bdk_mio_emm_cfg_s           cn88xx; */
 	/* struct bdk_mio_emm_cfg_s           cn88xxp1; */
 } bdk_mio_emm_cfg_t;
@@ -280,7 +276,6 @@ typedef union bdk_mio_emm_cmd {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_mio_emm_cmd_s           cn85xx; */
 	/* struct bdk_mio_emm_cmd_s           cn88xx; */
 	/* struct bdk_mio_emm_cmd_s           cn88xxp1; */
 } bdk_mio_emm_cmd_t;
@@ -341,7 +336,6 @@ typedef union bdk_mio_emm_dma {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_s           cn85xx; */
 	/* struct bdk_mio_emm_dma_s           cn88xx; */
 	/* struct bdk_mio_emm_dma_s           cn88xxp1; */
 } bdk_mio_emm_dma_t;
@@ -376,7 +370,6 @@ typedef union bdk_mio_emm_dma_adr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_adr_s       cn85xx; */
 	/* struct bdk_mio_emm_dma_adr_s       cn88xx; */
 	/* struct bdk_mio_emm_dma_adr_s       cn88xxp1; */
 } bdk_mio_emm_dma_adr_t;
@@ -428,7 +421,6 @@ typedef union bdk_mio_emm_dma_cfg {
 		uint64_t en                          : 1;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_cfg_s       cn85xx; */
 	/* struct bdk_mio_emm_dma_cfg_s       cn88xx; */
 	/* struct bdk_mio_emm_dma_cfg_s       cn88xxp1; */
 } bdk_mio_emm_dma_cfg_t;
@@ -466,7 +458,6 @@ typedef union bdk_mio_emm_dma_fifo_adr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_fifo_adr_s  cn85xx; */
 	/* struct bdk_mio_emm_dma_fifo_adr_s  cn88xx; */
 	/* struct bdk_mio_emm_dma_fifo_adr_s  cn88xxp1; */
 } bdk_mio_emm_dma_fifo_adr_t;
@@ -515,7 +506,6 @@ typedef union bdk_mio_emm_dma_fifo_cfg {
 		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_fifo_cfg_s  cn85xx; */
 	/* struct bdk_mio_emm_dma_fifo_cfg_s  cn88xx; */
 	/* struct bdk_mio_emm_dma_fifo_cfg_s  cn88xxp1; */
 } bdk_mio_emm_dma_fifo_cfg_t;
@@ -571,7 +561,6 @@ typedef union bdk_mio_emm_dma_fifo_cmd {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_fifo_cmd_s  cn85xx; */
 	/* struct bdk_mio_emm_dma_fifo_cmd_s  cn88xx; */
 	/* struct bdk_mio_emm_dma_fifo_cmd_s  cn88xxp1; */
 } bdk_mio_emm_dma_fifo_cmd_t;
@@ -608,7 +597,6 @@ typedef union bdk_mio_emm_dma_int {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_int_s       cn85xx; */
 	/* struct bdk_mio_emm_dma_int_s       cn88xx; */
 	/* struct bdk_mio_emm_dma_int_s       cn88xxp1; */
 } bdk_mio_emm_dma_int_t;
@@ -642,7 +630,6 @@ typedef union bdk_mio_emm_dma_int_ena_w1c {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_int_ena_w1c_s cn85xx; */
 	/* struct bdk_mio_emm_dma_int_ena_w1c_s cn88xx; */
 	/* struct bdk_mio_emm_dma_int_ena_w1c_s cn88xxp1; */
 } bdk_mio_emm_dma_int_ena_w1c_t;
@@ -676,7 +663,6 @@ typedef union bdk_mio_emm_dma_int_ena_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_int_ena_w1s_s cn85xx; */
 	/* struct bdk_mio_emm_dma_int_ena_w1s_s cn88xx; */
 	/* struct bdk_mio_emm_dma_int_ena_w1s_s cn88xxp1; */
 } bdk_mio_emm_dma_int_ena_w1s_t;
@@ -710,7 +696,6 @@ typedef union bdk_mio_emm_dma_int_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mio_emm_dma_int_w1s_s   cn85xx; */
 	/* struct bdk_mio_emm_dma_int_w1s_s   cn88xx; */
 	/* struct bdk_mio_emm_dma_int_w1s_s   cn88xxp1; */
 } bdk_mio_emm_dma_int_w1s_t;
@@ -754,7 +739,6 @@ typedef union bdk_mio_emm_int {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_mio_emm_int_s           cn85xx; */
 	/* struct bdk_mio_emm_int_s           cn88xx; */
 	/* struct bdk_mio_emm_int_s           cn88xxp1; */
 } bdk_mio_emm_int_t;
@@ -798,7 +782,6 @@ typedef union bdk_mio_emm_int_ena_w1c {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_mio_emm_int_ena_w1c_s   cn85xx; */
 	/* struct bdk_mio_emm_int_ena_w1c_s   cn88xx; */
 	/* struct bdk_mio_emm_int_ena_w1c_s   cn88xxp1; */
 } bdk_mio_emm_int_ena_w1c_t;
@@ -842,7 +825,6 @@ typedef union bdk_mio_emm_int_ena_w1s {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_mio_emm_int_ena_w1s_s   cn85xx; */
 	/* struct bdk_mio_emm_int_ena_w1s_s   cn88xx; */
 	/* struct bdk_mio_emm_int_ena_w1s_s   cn88xxp1; */
 } bdk_mio_emm_int_ena_w1s_t;
@@ -886,7 +868,6 @@ typedef union bdk_mio_emm_int_w1s {
 		uint64_t reserved_7_63               : 57;
 #endif
 	} s;
-	/* struct bdk_mio_emm_int_w1s_s       cn85xx; */
 	/* struct bdk_mio_emm_int_w1s_s       cn88xx; */
 	/* struct bdk_mio_emm_int_w1s_s       cn88xxp1; */
 } bdk_mio_emm_int_w1s_t;
@@ -942,7 +923,6 @@ typedef union bdk_mio_emm_modex {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mio_emm_modex_s         cn85xx; */
 	/* struct bdk_mio_emm_modex_s         cn88xx; */
 	/* struct bdk_mio_emm_modex_s         cn88xxp1; */
 } bdk_mio_emm_modex_t;
@@ -977,7 +957,6 @@ typedef union bdk_mio_emm_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_mio_emm_msix_pbax_s     cn85xx; */
 	/* struct bdk_mio_emm_msix_pbax_s     cn88xx; */
 	/* struct bdk_mio_emm_msix_pbax_s     cn88xxp1; */
 } bdk_mio_emm_msix_pbax_t;
@@ -1025,7 +1004,6 @@ typedef union bdk_mio_emm_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mio_emm_msix_vecx_addr_s cn85xx; */
 	/* struct bdk_mio_emm_msix_vecx_addr_s cn88xx; */
 	/* struct bdk_mio_emm_msix_vecx_addr_s cn88xxp1; */
 } bdk_mio_emm_msix_vecx_addr_t;
@@ -1065,7 +1043,6 @@ typedef union bdk_mio_emm_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_mio_emm_msix_vecx_ctl_s cn85xx; */
 	/* struct bdk_mio_emm_msix_vecx_ctl_s cn88xx; */
 	/* struct bdk_mio_emm_msix_vecx_ctl_s cn88xxp1; */
 } bdk_mio_emm_msix_vecx_ctl_t;
@@ -1099,7 +1076,6 @@ typedef union bdk_mio_emm_rca {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_mio_emm_rca_s           cn85xx; */
 	/* struct bdk_mio_emm_rca_s           cn88xx; */
 	/* struct bdk_mio_emm_rca_s           cn88xxp1; */
 } bdk_mio_emm_rca_t;
@@ -1134,7 +1110,6 @@ typedef union bdk_mio_emm_rsp_hi {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_mio_emm_rsp_hi_s        cn85xx; */
 	/* struct bdk_mio_emm_rsp_hi_s        cn88xx; */
 	/* struct bdk_mio_emm_rsp_hi_s        cn88xxp1; */
 } bdk_mio_emm_rsp_hi_t;
@@ -1204,7 +1179,6 @@ typedef union bdk_mio_emm_rsp_lo {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_mio_emm_rsp_lo_s        cn85xx; */
 	/* struct bdk_mio_emm_rsp_lo_s        cn88xx; */
 	/* struct bdk_mio_emm_rsp_lo_s        cn88xxp1; */
 } bdk_mio_emm_rsp_lo_t;
@@ -1305,7 +1279,6 @@ typedef union bdk_mio_emm_rsp_sts {
 		uint64_t reserved_62_63              : 2;
 #endif
 	} s;
-	/* struct bdk_mio_emm_rsp_sts_s       cn85xx; */
 	/* struct bdk_mio_emm_rsp_sts_s       cn88xx; */
 	/* struct bdk_mio_emm_rsp_sts_s       cn88xxp1; */
 } bdk_mio_emm_rsp_sts_t;
@@ -1341,7 +1314,6 @@ typedef union bdk_mio_emm_sample {
 		uint64_t reserved_26_63              : 38;
 #endif
 	} s;
-	/* struct bdk_mio_emm_sample_s        cn85xx; */
 	/* struct bdk_mio_emm_sample_s        cn88xx; */
 	/* struct bdk_mio_emm_sample_s        cn88xxp1; */
 } bdk_mio_emm_sample_t;
@@ -1374,7 +1346,6 @@ typedef union bdk_mio_emm_sts_mask {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_mio_emm_sts_mask_s      cn85xx; */
 	/* struct bdk_mio_emm_sts_mask_s      cn88xx; */
 	/* struct bdk_mio_emm_sts_mask_s      cn88xxp1; */
 } bdk_mio_emm_sts_mask_t;
@@ -1448,7 +1419,6 @@ typedef union bdk_mio_emm_switch {
 		uint64_t reserved_62_63              : 2;
 #endif
 	} s;
-	/* struct bdk_mio_emm_switch_s        cn85xx; */
 	/* struct bdk_mio_emm_switch_s        cn88xx; */
 	/* struct bdk_mio_emm_switch_s        cn88xxp1; */
 } bdk_mio_emm_switch_t;
@@ -1504,7 +1474,6 @@ typedef union bdk_mio_emm_wdog {
 		uint64_t reserved_26_63              : 38;
 #endif
 	} s;
-	/* struct bdk_mio_emm_wdog_s          cn85xx; */
 	/* struct bdk_mio_emm_wdog_s          cn88xx; */
 	/* struct bdk_mio_emm_wdog_s          cn88xxp1; */
 } bdk_mio_emm_wdog_t;

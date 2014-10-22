@@ -108,7 +108,6 @@ typedef union bdk_smi_x_clk {
 		uint64_t reserved_25_63              : 39;
 #endif
 	} s;
-	/* struct bdk_smi_x_clk_s             cn85xx; */
 	/* struct bdk_smi_x_clk_s             cn88xx; */
 	/* struct bdk_smi_x_clk_s             cn88xxp1; */
 } bdk_smi_x_clk_t;
@@ -162,7 +161,6 @@ typedef union bdk_smi_x_cmd {
 		uint64_t reserved_18_63              : 46;
 #endif
 	} s;
-	/* struct bdk_smi_x_cmd_s             cn85xx; */
 	/* struct bdk_smi_x_cmd_s             cn88xx; */
 	/* struct bdk_smi_x_cmd_s             cn88xxp1; */
 } bdk_smi_x_cmd_t;
@@ -200,7 +198,6 @@ typedef union bdk_smi_x_en {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_smi_x_en_s              cn85xx; */
 	/* struct bdk_smi_x_en_s              cn88xx; */
 	/* struct bdk_smi_x_en_s              cn88xxp1; */
 } bdk_smi_x_en_t;
@@ -240,7 +237,6 @@ typedef union bdk_smi_x_rd_dat {
 		uint64_t reserved_18_63              : 46;
 #endif
 	} s;
-	/* struct bdk_smi_x_rd_dat_s          cn85xx; */
 	/* struct bdk_smi_x_rd_dat_s          cn88xx; */
 	/* struct bdk_smi_x_rd_dat_s          cn88xxp1; */
 } bdk_smi_x_rd_dat_t;
@@ -280,7 +276,6 @@ typedef union bdk_smi_x_wr_dat {
 		uint64_t reserved_18_63              : 46;
 #endif
 	} s;
-	/* struct bdk_smi_x_wr_dat_s          cn85xx; */
 	/* struct bdk_smi_x_wr_dat_s          cn88xx; */
 	/* struct bdk_smi_x_wr_dat_s          cn88xxp1; */
 } bdk_smi_x_wr_dat_t;
@@ -326,7 +321,6 @@ typedef union bdk_smi_drv_ctl {
 		uint64_t reserved_11_63              : 53;
 #endif
 	} s;
-	/* struct bdk_smi_drv_ctl_s           cn85xx; */
 	/* struct bdk_smi_drv_ctl_s           cn88xx; */
 	/* struct bdk_smi_drv_ctl_s           cn88xxp1; */
 } bdk_smi_drv_ctl_t;

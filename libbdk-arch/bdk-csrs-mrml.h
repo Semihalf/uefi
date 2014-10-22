@@ -86,7 +86,6 @@ typedef union bdk_mrml_int_ena_w1c {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mrml_int_ena_w1c_s      cn85xx; */
 	/* struct bdk_mrml_int_ena_w1c_s      cn88xx; */
 	/* struct bdk_mrml_int_ena_w1c_s      cn88xxp1; */
 } bdk_mrml_int_ena_w1c_t;
@@ -120,7 +119,6 @@ typedef union bdk_mrml_int_ena_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mrml_int_ena_w1s_s      cn85xx; */
 	/* struct bdk_mrml_int_ena_w1s_s      cn88xx; */
 	/* struct bdk_mrml_int_ena_w1s_s      cn88xxp1; */
 } bdk_mrml_int_ena_w1s_t;
@@ -153,7 +151,6 @@ typedef union bdk_mrml_int_local_to {
 		uint32_t tovalue                     : 32;
 #endif
 	} s;
-	/* struct bdk_mrml_int_local_to_s     cn85xx; */
 	/* struct bdk_mrml_int_local_to_s     cn88xx; */
 	/* struct bdk_mrml_int_local_to_s     cn88xxp1; */
 } bdk_mrml_int_local_to_t;
@@ -186,7 +183,6 @@ typedef union bdk_mrml_int_ocx_to {
 		uint32_t tovalue                     : 32;
 #endif
 	} s;
-	/* struct bdk_mrml_int_ocx_to_s       cn85xx; */
 	/* struct bdk_mrml_int_ocx_to_s       cn88xx; */
 	/* struct bdk_mrml_int_ocx_to_s       cn88xxp1; */
 } bdk_mrml_int_ocx_to_t;
@@ -223,7 +219,6 @@ typedef union bdk_mrml_int_sum {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mrml_int_sum_s          cn85xx; */
 	/* struct bdk_mrml_int_sum_s          cn88xx; */
 	/* struct bdk_mrml_int_sum_s          cn88xxp1; */
 } bdk_mrml_int_sum_t;
@@ -257,7 +252,6 @@ typedef union bdk_mrml_int_sum_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_mrml_int_sum_w1s_s      cn85xx; */
 	/* struct bdk_mrml_int_sum_w1s_s      cn88xx; */
 	/* struct bdk_mrml_int_sum_w1s_s      cn88xxp1; */
 } bdk_mrml_int_sum_w1s_t;
@@ -291,7 +285,6 @@ typedef union bdk_mrml_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_mrml_msix_pbax_s        cn85xx; */
 	/* struct bdk_mrml_msix_pbax_s        cn88xx; */
 	/* struct bdk_mrml_msix_pbax_s        cn88xxp1; */
 } bdk_mrml_msix_pbax_t;
@@ -338,7 +331,6 @@ typedef union bdk_mrml_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_mrml_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_mrml_msix_vecx_addr_s   cn88xx; */
 	/* struct bdk_mrml_msix_vecx_addr_s   cn88xxp1; */
 } bdk_mrml_msix_vecx_addr_t;
@@ -378,7 +370,6 @@ typedef union bdk_mrml_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_mrml_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_mrml_msix_vecx_ctl_s    cn88xx; */
 	/* struct bdk_mrml_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_mrml_msix_vecx_ctl_t;
@@ -409,7 +400,6 @@ typedef union bdk_mrml_ncbx_sdev {
 		uint64_t sec                         : 64;
 #endif
 	} s;
-	/* struct bdk_mrml_ncbx_sdev_s        cn85xx; */
 	/* struct bdk_mrml_ncbx_sdev_s        cn88xx; */
 	/* struct bdk_mrml_ncbx_sdev_s        cn88xxp1; */
 } bdk_mrml_ncbx_sdev_t;
@@ -445,7 +435,6 @@ typedef union bdk_mrml_rslx_sdev {
 		uint64_t sec                         : 64;
 #endif
 	} s;
-	/* struct bdk_mrml_rslx_sdev_s        cn85xx; */
 	/* struct bdk_mrml_rslx_sdev_s        cn88xx; */
 	/* struct bdk_mrml_rslx_sdev_s        cn88xxp1; */
 } bdk_mrml_rslx_sdev_t;
@@ -476,7 +465,6 @@ typedef union bdk_mrml_scfg {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_mrml_scfg_s             cn85xx; */
 	/* struct bdk_mrml_scfg_s             cn88xx; */
 	/* struct bdk_mrml_scfg_s             cn88xxp1; */
 } bdk_mrml_scfg_t;

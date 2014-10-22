@@ -74,7 +74,6 @@ typedef union bdk_trcx_trcacatr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacatr0_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr0_s        cn88xx; */
 	/* struct bdk_trcx_trcacatr0_s        cn88xxp1; */
 } bdk_trcx_trcacatr0_t;
@@ -108,7 +107,6 @@ typedef union bdk_trcx_trcacatr1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacatr1_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr1_s        cn88xx; */
 	/* struct bdk_trcx_trcacatr1_s        cn88xxp1; */
 } bdk_trcx_trcacatr1_t;
@@ -142,7 +140,6 @@ typedef union bdk_trcx_trcacatr2 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacatr2_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr2_s        cn88xx; */
 	/* struct bdk_trcx_trcacatr2_s        cn88xxp1; */
 } bdk_trcx_trcacatr2_t;
@@ -176,7 +173,6 @@ typedef union bdk_trcx_trcacatr3 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacatr3_s        cn85xx; */
 	/* struct bdk_trcx_trcacatr3_s        cn88xx; */
 	/* struct bdk_trcx_trcacatr3_s        cn88xxp1; */
 } bdk_trcx_trcacatr3_t;
@@ -210,7 +206,6 @@ typedef union bdk_trcx_trcacvr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacvr0_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr0_s         cn88xx; */
 	/* struct bdk_trcx_trcacvr0_s         cn88xxp1; */
 } bdk_trcx_trcacvr0_t;
@@ -244,7 +239,6 @@ typedef union bdk_trcx_trcacvr1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacvr1_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr1_s         cn88xx; */
 	/* struct bdk_trcx_trcacvr1_s         cn88xxp1; */
 } bdk_trcx_trcacvr1_t;
@@ -278,7 +272,6 @@ typedef union bdk_trcx_trcacvr2 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacvr2_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr2_s         cn88xx; */
 	/* struct bdk_trcx_trcacvr2_s         cn88xxp1; */
 } bdk_trcx_trcacvr2_t;
@@ -312,7 +305,6 @@ typedef union bdk_trcx_trcacvr3 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcacvr3_s         cn85xx; */
 	/* struct bdk_trcx_trcacvr3_s         cn88xx; */
 	/* struct bdk_trcx_trcacvr3_s         cn88xxp1; */
 } bdk_trcx_trcacvr3_t;
@@ -354,7 +346,6 @@ typedef union bdk_trcx_trcauthstatus {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	/* struct bdk_trcx_trcauthstatus_s    cn85xx; */
 	/* struct bdk_trcx_trcauthstatus_s    cn88xx; */
 	/* struct bdk_trcx_trcauthstatus_s    cn88xxp1; */
 } bdk_trcx_trcauthstatus_t;
@@ -388,7 +379,6 @@ typedef union bdk_trcx_trcauxctlr {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcauxctlr_s       cn85xx; */
 	/* struct bdk_trcx_trcauxctlr_s       cn88xx; */
 	/* struct bdk_trcx_trcauxctlr_s       cn88xxp1; */
 } bdk_trcx_trcauxctlr_t;
@@ -433,7 +423,6 @@ typedef union bdk_trcx_trcbbctlr {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_trcx_trcbbctlr_s        cn85xx; */
 	/* struct bdk_trcx_trcbbctlr_s        cn88xx; */
 	/* struct bdk_trcx_trcbbctlr_s        cn88xxp1; */
 } bdk_trcx_trcbbctlr_t;
@@ -469,7 +458,6 @@ typedef union bdk_trcx_trcccctlr {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_trcx_trcccctlr_s        cn85xx; */
 	/* struct bdk_trcx_trcccctlr_s        cn88xx; */
 	/* struct bdk_trcx_trcccctlr_s        cn88xxp1; */
 } bdk_trcx_trcccctlr_t;
@@ -503,7 +491,6 @@ typedef union bdk_trcx_trccidcctlr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidcctlr0_s     cn85xx; */
 	/* struct bdk_trcx_trccidcctlr0_s     cn88xx; */
 	/* struct bdk_trcx_trccidcctlr0_s     cn88xxp1; */
 } bdk_trcx_trccidcctlr0_t;
@@ -537,7 +524,6 @@ typedef union bdk_trcx_trccidcctlr1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidcctlr1_s     cn85xx; */
 	/* struct bdk_trcx_trccidcctlr1_s     cn88xx; */
 	/* struct bdk_trcx_trccidcctlr1_s     cn88xxp1; */
 } bdk_trcx_trccidcctlr1_t;
@@ -571,7 +557,6 @@ typedef union bdk_trcx_trccidcvr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidcvr0_s       cn85xx; */
 	/* struct bdk_trcx_trccidcvr0_s       cn88xx; */
 	/* struct bdk_trcx_trccidcvr0_s       cn88xxp1; */
 } bdk_trcx_trccidcvr0_t;
@@ -607,7 +592,6 @@ typedef union bdk_trcx_trccidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidr0_s         cn85xx; */
 	/* struct bdk_trcx_trccidr0_s         cn88xx; */
 	/* struct bdk_trcx_trccidr0_s         cn88xxp1; */
 } bdk_trcx_trccidr0_t;
@@ -645,7 +629,6 @@ typedef union bdk_trcx_trccidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidr1_s         cn85xx; */
 	/* struct bdk_trcx_trccidr1_s         cn88xx; */
 	/* struct bdk_trcx_trccidr1_s         cn88xxp1; */
 } bdk_trcx_trccidr1_t;
@@ -681,7 +664,6 @@ typedef union bdk_trcx_trccidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidr2_s         cn85xx; */
 	/* struct bdk_trcx_trccidr2_s         cn88xx; */
 	/* struct bdk_trcx_trccidr2_s         cn88xxp1; */
 } bdk_trcx_trccidr2_t;
@@ -717,7 +699,6 @@ typedef union bdk_trcx_trccidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trccidr3_s         cn85xx; */
 	/* struct bdk_trcx_trccidr3_s         cn88xx; */
 	/* struct bdk_trcx_trccidr3_s         cn88xxp1; */
 } bdk_trcx_trccidr3_t;
@@ -763,7 +744,6 @@ typedef union bdk_trcx_trccntctlr0 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_trcx_trccntctlr0_s      cn85xx; */
 	/* struct bdk_trcx_trccntctlr0_s      cn88xx; */
 	/* struct bdk_trcx_trccntctlr0_s      cn88xxp1; */
 } bdk_trcx_trccntctlr0_t;
@@ -809,7 +789,6 @@ typedef union bdk_trcx_trccntctlr1 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_trcx_trccntctlr1_s      cn85xx; */
 	/* struct bdk_trcx_trccntctlr1_s      cn88xx; */
 	/* struct bdk_trcx_trccntctlr1_s      cn88xxp1; */
 } bdk_trcx_trccntctlr1_t;
@@ -845,7 +824,6 @@ typedef union bdk_trcx_trccntrldvr0 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trccntrldvr0_s     cn85xx; */
 	/* struct bdk_trcx_trccntrldvr0_s     cn88xx; */
 	/* struct bdk_trcx_trccntrldvr0_s     cn88xxp1; */
 } bdk_trcx_trccntrldvr0_t;
@@ -881,7 +859,6 @@ typedef union bdk_trcx_trccntrldvr1 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trccntrldvr1_s     cn85xx; */
 	/* struct bdk_trcx_trccntrldvr1_s     cn88xx; */
 	/* struct bdk_trcx_trccntrldvr1_s     cn88xxp1; */
 } bdk_trcx_trccntrldvr1_t;
@@ -917,7 +894,6 @@ typedef union bdk_trcx_trccntvr0 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trccntvr0_s        cn85xx; */
 	/* struct bdk_trcx_trccntvr0_s        cn88xx; */
 	/* struct bdk_trcx_trccntvr0_s        cn88xxp1; */
 } bdk_trcx_trccntvr0_t;
@@ -953,7 +929,6 @@ typedef union bdk_trcx_trccntvr1 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trccntvr1_s        cn85xx; */
 	/* struct bdk_trcx_trccntvr1_s        cn88xx; */
 	/* struct bdk_trcx_trccntvr1_s        cn88xxp1; */
 } bdk_trcx_trccntvr1_t;
@@ -1052,7 +1027,6 @@ typedef union bdk_trcx_trcconfigr {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_trcx_trcconfigr_s       cn85xx; */
 	/* struct bdk_trcx_trcconfigr_s       cn88xx; */
 	/* struct bdk_trcx_trcconfigr_s       cn88xxp1; */
 } bdk_trcx_trcconfigr_t;
@@ -1086,7 +1060,6 @@ typedef union bdk_trcx_trcdevaff0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdevaff0_s       cn85xx; */
 	/* struct bdk_trcx_trcdevaff0_s       cn88xx; */
 	/* struct bdk_trcx_trcdevaff0_s       cn88xxp1; */
 } bdk_trcx_trcdevaff0_t;
@@ -1120,7 +1093,6 @@ typedef union bdk_trcx_trcdevaff1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdevaff1_s       cn85xx; */
 	/* struct bdk_trcx_trcdevaff1_s       cn88xx; */
 	/* struct bdk_trcx_trcdevaff1_s       cn88xxp1; */
 } bdk_trcx_trcdevaff1_t;
@@ -1173,7 +1145,6 @@ typedef union bdk_trcx_trcdevarch {
 		uint32_t architect                   : 11;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdevarch_s       cn85xx; */
 	/* struct bdk_trcx_trcdevarch_s       cn88xx; */
 	/* struct bdk_trcx_trcdevarch_s       cn88xxp1; */
 } bdk_trcx_trcdevarch_t;
@@ -1248,7 +1219,6 @@ typedef union bdk_trcx_trcdevid {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdevid_s         cn85xx; */
 	/* struct bdk_trcx_trcdevid_s         cn88xx; */
 	/* struct bdk_trcx_trcdevid_s         cn88xxp1; */
 } bdk_trcx_trcdevid_t;
@@ -1286,7 +1256,6 @@ typedef union bdk_trcx_trcdevtype {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdevtype_s       cn85xx; */
 	/* struct bdk_trcx_trcdevtype_s       cn88xx; */
 	/* struct bdk_trcx_trcdevtype_s       cn88xxp1; */
 } bdk_trcx_trcdevtype_t;
@@ -1320,7 +1289,6 @@ typedef union bdk_trcx_trcdvcmr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdvcmr0_s        cn85xx; */
 	/* struct bdk_trcx_trcdvcmr0_s        cn88xx; */
 	/* struct bdk_trcx_trcdvcmr0_s        cn88xxp1; */
 } bdk_trcx_trcdvcmr0_t;
@@ -1354,7 +1322,6 @@ typedef union bdk_trcx_trcdvcvr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcdvcvr0_s        cn85xx; */
 	/* struct bdk_trcx_trcdvcvr0_s        cn88xx; */
 	/* struct bdk_trcx_trcdvcvr0_s        cn88xxp1; */
 } bdk_trcx_trcdvcvr0_t;
@@ -1394,7 +1361,6 @@ typedef union bdk_trcx_trceventctl0r {
 		uint32_t event3                      : 8;
 #endif
 	} s;
-	/* struct bdk_trcx_trceventctl0r_s    cn85xx; */
 	/* struct bdk_trcx_trceventctl0r_s    cn88xx; */
 	/* struct bdk_trcx_trceventctl0r_s    cn88xxp1; */
 } bdk_trcx_trceventctl0r_t;
@@ -1447,7 +1413,6 @@ typedef union bdk_trcx_trceventctl1r {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_trcx_trceventctl1r_s    cn85xx; */
 	/* struct bdk_trcx_trceventctl1r_s    cn88xx; */
 	/* struct bdk_trcx_trceventctl1r_s    cn88xxp1; */
 } bdk_trcx_trceventctl1r_t;
@@ -1487,7 +1452,6 @@ typedef union bdk_trcx_trcextinselr {
 		uint32_t sel3                        : 8;
 #endif
 	} s;
-	/* struct bdk_trcx_trcextinselr_s     cn85xx; */
 	/* struct bdk_trcx_trcextinselr_s     cn88xx; */
 	/* struct bdk_trcx_trcextinselr_s     cn88xxp1; */
 } bdk_trcx_trcextinselr_t;
@@ -1591,7 +1555,6 @@ typedef union bdk_trcx_trcidr0 {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_trcx_trcidr0_s          cn85xx; */
 	/* struct bdk_trcx_trcidr0_s          cn88xx; */
 	/* struct bdk_trcx_trcidr0_s          cn88xxp1; */
 } bdk_trcx_trcidr0_t;
@@ -1635,7 +1598,6 @@ typedef union bdk_trcx_trcidr1 {
 		uint32_t designer                    : 8;
 #endif
 	} s;
-	/* struct bdk_trcx_trcidr1_s          cn85xx; */
 	/* struct bdk_trcx_trcidr1_s          cn88xx; */
 	/* struct bdk_trcx_trcidr1_s          cn88xxp1; */
 } bdk_trcx_trcidr1_t;
@@ -1681,7 +1643,6 @@ typedef union bdk_trcx_trcidr2 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_trcx_trcidr2_s          cn85xx; */
 	/* struct bdk_trcx_trcidr2_s          cn88xx; */
 	/* struct bdk_trcx_trcidr2_s          cn88xxp1; */
 } bdk_trcx_trcidr2_t;
@@ -1733,7 +1694,6 @@ typedef union bdk_trcx_trcidr3 {
 		uint32_t noovflw                     : 1;
 #endif
 	} s;
-	/* struct bdk_trcx_trcidr3_s          cn85xx; */
 	/* struct bdk_trcx_trcidr3_s          cn88xx; */
 	/* struct bdk_trcx_trcidr3_s          cn88xxp1; */
 } bdk_trcx_trcidr3_t;
@@ -1783,7 +1743,6 @@ typedef union bdk_trcx_trcidr4 {
 		uint32_t numvmidc                    : 4;
 #endif
 	} s;
-	/* struct bdk_trcx_trcidr4_s          cn85xx; */
 	/* struct bdk_trcx_trcidr4_s          cn88xx; */
 	/* struct bdk_trcx_trcidr4_s          cn88xxp1; */
 } bdk_trcx_trcidr4_t;
@@ -1835,7 +1794,6 @@ typedef union bdk_trcx_trcidr5 {
 		uint32_t redfuncntr                  : 1;
 #endif
 	} s;
-	/* struct bdk_trcx_trcidr5_s          cn85xx; */
 	/* struct bdk_trcx_trcidr5_s          cn88xx; */
 	/* struct bdk_trcx_trcidr5_s          cn88xxp1; */
 } bdk_trcx_trcidr5_t;
@@ -1878,7 +1836,6 @@ typedef union bdk_trcx_trcitctrl {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_trcx_trcitctrl_s        cn85xx; */
 	/* struct bdk_trcx_trcitctrl_s        cn88xx; */
 	/* struct bdk_trcx_trcitctrl_s        cn88xxp1; */
 } bdk_trcx_trcitctrl_t;
@@ -1914,7 +1871,6 @@ typedef union bdk_trcx_trclar {
 		uint32_t key                         : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trclar_s           cn85xx; */
 	/* struct bdk_trcx_trclar_s           cn88xx; */
 	/* struct bdk_trcx_trclar_s           cn88xxp1; */
 } bdk_trcx_trclar_t;
@@ -1967,7 +1923,6 @@ typedef union bdk_trcx_trclsr {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_trcx_trclsr_s           cn85xx; */
 	/* struct bdk_trcx_trclsr_s           cn88xx; */
 	/* struct bdk_trcx_trclsr_s           cn88xxp1; */
 } bdk_trcx_trclsr_t;
@@ -2001,7 +1956,6 @@ typedef union bdk_trcx_trcoslar {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcoslar_s         cn85xx; */
 	/* struct bdk_trcx_trcoslar_s         cn88xx; */
 	/* struct bdk_trcx_trcoslar_s         cn88xxp1; */
 } bdk_trcx_trcoslar_t;
@@ -2044,7 +1998,6 @@ typedef union bdk_trcx_trcoslsr {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_trcx_trcoslsr_s         cn85xx; */
 	/* struct bdk_trcx_trcoslsr_s         cn88xx; */
 	/* struct bdk_trcx_trcoslsr_s         cn88xxp1; */
 } bdk_trcx_trcoslsr_t;
@@ -2090,7 +2043,6 @@ typedef union bdk_trcx_trcpdcr {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpdcr_s          cn85xx; */
 	/* struct bdk_trcx_trcpdcr_s          cn88xx; */
 	/* struct bdk_trcx_trcpdcr_s          cn88xxp1; */
 } bdk_trcx_trcpdcr_t;
@@ -2136,7 +2088,6 @@ typedef union bdk_trcx_trcpdsr {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpdsr_s          cn85xx; */
 	/* struct bdk_trcx_trcpdsr_s          cn88xx; */
 	/* struct bdk_trcx_trcpdsr_s          cn88xxp1; */
 } bdk_trcx_trcpdsr_t;
@@ -2172,7 +2123,6 @@ typedef union bdk_trcx_trcpidr0 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr0_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr0_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr0_s         cn88xxp1; */
 } bdk_trcx_trcpidr0_t;
@@ -2210,7 +2160,6 @@ typedef union bdk_trcx_trcpidr1 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr1_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr1_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr1_s         cn88xxp1; */
 } bdk_trcx_trcpidr1_t;
@@ -2250,7 +2199,6 @@ typedef union bdk_trcx_trcpidr2 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr2_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr2_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr2_s         cn88xxp1; */
 } bdk_trcx_trcpidr2_t;
@@ -2289,7 +2237,6 @@ typedef union bdk_trcx_trcpidr3 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr3_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr3_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr3_s         cn88xxp1; */
 } bdk_trcx_trcpidr3_t;
@@ -2328,7 +2275,6 @@ typedef union bdk_trcx_trcpidr4 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr4_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr4_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr4_s         cn88xxp1; */
 } bdk_trcx_trcpidr4_t;
@@ -2362,7 +2308,6 @@ typedef union bdk_trcx_trcpidr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr5_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr5_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr5_s         cn88xxp1; */
 } bdk_trcx_trcpidr5_t;
@@ -2396,7 +2341,6 @@ typedef union bdk_trcx_trcpidr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr6_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr6_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr6_s         cn88xxp1; */
 } bdk_trcx_trcpidr6_t;
@@ -2430,7 +2374,6 @@ typedef union bdk_trcx_trcpidr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcpidr7_s         cn85xx; */
 	/* struct bdk_trcx_trcpidr7_s         cn88xx; */
 	/* struct bdk_trcx_trcpidr7_s         cn88xxp1; */
 } bdk_trcx_trcpidr7_t;
@@ -2469,7 +2412,6 @@ typedef union bdk_trcx_trcprgctlr {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_trcx_trcprgctlr_s       cn85xx; */
 	/* struct bdk_trcx_trcprgctlr_s       cn88xx; */
 	/* struct bdk_trcx_trcprgctlr_s       cn88xxp1; */
 } bdk_trcx_trcprgctlr_t;
@@ -2507,7 +2449,6 @@ typedef union bdk_trcx_trcprocselr {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_trcx_trcprocselr_s      cn85xx; */
 	/* struct bdk_trcx_trcprocselr_s      cn88xx; */
 	/* struct bdk_trcx_trcprocselr_s      cn88xxp1; */
 } bdk_trcx_trcprocselr_t;
@@ -2551,7 +2492,6 @@ typedef union bdk_trcx_trcqctlr {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_trcx_trcqctlr_s         cn85xx; */
 	/* struct bdk_trcx_trcqctlr_s         cn88xx; */
 	/* struct bdk_trcx_trcqctlr_s         cn88xxp1; */
 } bdk_trcx_trcqctlr_t;
@@ -2585,7 +2525,6 @@ typedef union bdk_trcx_trcrsctlr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr0_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr0_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr0_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr0_t;
@@ -2619,7 +2558,6 @@ typedef union bdk_trcx_trcrsctlr1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr1_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr1_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr1_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr1_t;
@@ -2653,7 +2591,6 @@ typedef union bdk_trcx_trcrsctlr2 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr2_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr2_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr2_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr2_t;
@@ -2687,7 +2624,6 @@ typedef union bdk_trcx_trcrsctlr3 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr3_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr3_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr3_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr3_t;
@@ -2721,7 +2657,6 @@ typedef union bdk_trcx_trcrsctlr4 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr4_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr4_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr4_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr4_t;
@@ -2755,7 +2690,6 @@ typedef union bdk_trcx_trcrsctlr5 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr5_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr5_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr5_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr5_t;
@@ -2789,7 +2723,6 @@ typedef union bdk_trcx_trcrsctlr6 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr6_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr6_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr6_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr6_t;
@@ -2823,7 +2756,6 @@ typedef union bdk_trcx_trcrsctlr7 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcrsctlr7_s       cn85xx; */
 	/* struct bdk_trcx_trcrsctlr7_s       cn88xx; */
 	/* struct bdk_trcx_trcrsctlr7_s       cn88xxp1; */
 } bdk_trcx_trcrsctlr7_t;
@@ -2861,7 +2793,6 @@ typedef union bdk_trcx_trcseqevr0 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trcseqevr0_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr0_s       cn88xx; */
 	/* struct bdk_trcx_trcseqevr0_s       cn88xxp1; */
 } bdk_trcx_trcseqevr0_t;
@@ -2899,7 +2830,6 @@ typedef union bdk_trcx_trcseqevr1 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trcseqevr1_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr1_s       cn88xx; */
 	/* struct bdk_trcx_trcseqevr1_s       cn88xxp1; */
 } bdk_trcx_trcseqevr1_t;
@@ -2937,7 +2867,6 @@ typedef union bdk_trcx_trcseqevr2 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trcseqevr2_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr2_s       cn88xx; */
 	/* struct bdk_trcx_trcseqevr2_s       cn88xxp1; */
 } bdk_trcx_trcseqevr2_t;
@@ -2975,7 +2904,6 @@ typedef union bdk_trcx_trcseqevr3 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_trcx_trcseqevr3_s       cn85xx; */
 	/* struct bdk_trcx_trcseqevr3_s       cn88xx; */
 	/* struct bdk_trcx_trcseqevr3_s       cn88xxp1; */
 } bdk_trcx_trcseqevr3_t;
@@ -3011,7 +2939,6 @@ typedef union bdk_trcx_trcseqrstevr {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_trcx_trcseqrstevr_s     cn85xx; */
 	/* struct bdk_trcx_trcseqrstevr_s     cn88xx; */
 	/* struct bdk_trcx_trcseqrstevr_s     cn88xxp1; */
 } bdk_trcx_trcseqrstevr_t;
@@ -3051,7 +2978,6 @@ typedef union bdk_trcx_trcseqstr {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_trcx_trcseqstr_s        cn85xx; */
 	/* struct bdk_trcx_trcseqstr_s        cn88xx; */
 	/* struct bdk_trcx_trcseqstr_s        cn88xxp1; */
 } bdk_trcx_trcseqstr_t;
@@ -3085,7 +3011,6 @@ typedef union bdk_trcx_trcssccr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcssccr0_s        cn85xx; */
 	/* struct bdk_trcx_trcssccr0_s        cn88xx; */
 	/* struct bdk_trcx_trcssccr0_s        cn88xxp1; */
 } bdk_trcx_trcssccr0_t;
@@ -3119,7 +3044,6 @@ typedef union bdk_trcx_trcsscsr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcsscsr0_s        cn85xx; */
 	/* struct bdk_trcx_trcsscsr0_s        cn88xx; */
 	/* struct bdk_trcx_trcsscsr0_s        cn88xxp1; */
 } bdk_trcx_trcsscsr0_t;
@@ -3153,7 +3077,6 @@ typedef union bdk_trcx_trcsspcicr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcsspcicr0_s      cn85xx; */
 	/* struct bdk_trcx_trcsspcicr0_s      cn88xx; */
 	/* struct bdk_trcx_trcsspcicr0_s      cn88xxp1; */
 } bdk_trcx_trcsspcicr0_t;
@@ -3222,7 +3145,6 @@ typedef union bdk_trcx_trcstallctlr {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_trcx_trcstallctlr_s     cn85xx; */
 	/* struct bdk_trcx_trcstallctlr_s     cn88xx; */
 	/* struct bdk_trcx_trcstallctlr_s     cn88xxp1; */
 } bdk_trcx_trcstallctlr_t;
@@ -3264,7 +3186,6 @@ typedef union bdk_trcx_trcstatr {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_trcx_trcstatr_s         cn85xx; */
 	/* struct bdk_trcx_trcstatr_s         cn88xx; */
 	/* struct bdk_trcx_trcstatr_s         cn88xxp1; */
 } bdk_trcx_trcstatr_t;
@@ -3305,7 +3226,6 @@ typedef union bdk_trcx_trcsyncpr {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_trcx_trcsyncpr_s        cn85xx; */
 	/* struct bdk_trcx_trcsyncpr_s        cn88xx; */
 	/* struct bdk_trcx_trcsyncpr_s        cn88xxp1; */
 } bdk_trcx_trcsyncpr_t;
@@ -3341,7 +3261,6 @@ typedef union bdk_trcx_trctraceidr {
 		uint32_t reserved_7_31               : 25;
 #endif
 	} s;
-	/* struct bdk_trcx_trctraceidr_s      cn85xx; */
 	/* struct bdk_trcx_trctraceidr_s      cn88xx; */
 	/* struct bdk_trcx_trctraceidr_s      cn88xxp1; */
 } bdk_trcx_trctraceidr_t;
@@ -3375,7 +3294,6 @@ typedef union bdk_trcx_trctsctlr {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trctsctlr_s        cn85xx; */
 	/* struct bdk_trcx_trctsctlr_s        cn88xx; */
 	/* struct bdk_trcx_trctsctlr_s        cn88xxp1; */
 } bdk_trcx_trctsctlr_t;
@@ -3423,7 +3341,6 @@ typedef union bdk_trcx_trcvdarcctlr {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvdarcctlr_s     cn85xx; */
 	/* struct bdk_trcx_trcvdarcctlr_s     cn88xx; */
 	/* struct bdk_trcx_trcvdarcctlr_s     cn88xxp1; */
 } bdk_trcx_trcvdarcctlr_t;
@@ -3481,7 +3398,6 @@ typedef union bdk_trcx_trcvdctlr {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvdctlr_s        cn85xx; */
 	/* struct bdk_trcx_trcvdctlr_s        cn88xx; */
 	/* struct bdk_trcx_trcvdctlr_s        cn88xxp1; */
 } bdk_trcx_trcvdctlr_t;
@@ -3529,7 +3445,6 @@ typedef union bdk_trcx_trcvdsacctlr {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvdsacctlr_s     cn85xx; */
 	/* struct bdk_trcx_trcvdsacctlr_s     cn88xx; */
 	/* struct bdk_trcx_trcvdsacctlr_s     cn88xxp1; */
 } bdk_trcx_trcvdsacctlr_t;
@@ -3599,7 +3514,6 @@ typedef union bdk_trcx_trcvictlr {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvictlr_s        cn85xx; */
 	/* struct bdk_trcx_trcvictlr_s        cn88xx; */
 	/* struct bdk_trcx_trcvictlr_s        cn88xxp1; */
 } bdk_trcx_trcvictlr_t;
@@ -3647,7 +3561,6 @@ typedef union bdk_trcx_trcviiectlr {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_trcx_trcviiectlr_s      cn85xx; */
 	/* struct bdk_trcx_trcviiectlr_s      cn88xx; */
 	/* struct bdk_trcx_trcviiectlr_s      cn88xxp1; */
 } bdk_trcx_trcviiectlr_t;
@@ -3697,7 +3610,6 @@ typedef union bdk_trcx_trcvipcssctlr {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvipcssctlr_s    cn85xx; */
 	/* struct bdk_trcx_trcvipcssctlr_s    cn88xx; */
 	/* struct bdk_trcx_trcvipcssctlr_s    cn88xxp1; */
 } bdk_trcx_trcvipcssctlr_t;
@@ -3747,7 +3659,6 @@ typedef union bdk_trcx_trcvissctlr {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvissctlr_s      cn85xx; */
 	/* struct bdk_trcx_trcvissctlr_s      cn88xx; */
 	/* struct bdk_trcx_trcvissctlr_s      cn88xxp1; */
 } bdk_trcx_trcvissctlr_t;
@@ -3781,7 +3692,6 @@ typedef union bdk_trcx_trcvmidcctlr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvmidcctlr0_s    cn85xx; */
 	/* struct bdk_trcx_trcvmidcctlr0_s    cn88xx; */
 	/* struct bdk_trcx_trcvmidcctlr0_s    cn88xxp1; */
 } bdk_trcx_trcvmidcctlr0_t;
@@ -3815,7 +3725,6 @@ typedef union bdk_trcx_trcvmidcctlr1 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvmidcctlr1_s    cn85xx; */
 	/* struct bdk_trcx_trcvmidcctlr1_s    cn88xx; */
 	/* struct bdk_trcx_trcvmidcctlr1_s    cn88xxp1; */
 } bdk_trcx_trcvmidcctlr1_t;
@@ -3849,7 +3758,6 @@ typedef union bdk_trcx_trcvmidcvr0 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_trcx_trcvmidcvr0_s      cn85xx; */
 	/* struct bdk_trcx_trcvmidcvr0_s      cn88xx; */
 	/* struct bdk_trcx_trcvmidcvr0_s      cn88xxp1; */
 } bdk_trcx_trcvmidcvr0_t;

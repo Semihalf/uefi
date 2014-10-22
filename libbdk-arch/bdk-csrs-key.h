@@ -89,7 +89,6 @@ typedef union bdk_key_bist_reg {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_key_bist_reg_s          cn85xx; */
 	/* struct bdk_key_bist_reg_s          cn88xx; */
 	/* struct bdk_key_bist_reg_s          cn88xxp1; */
 } bdk_key_bist_reg_t;
@@ -126,7 +125,6 @@ typedef union bdk_key_ctl_status {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_key_ctl_status_s        cn85xx; */
 	/* struct bdk_key_ctl_status_s        cn88xx; */
 	/* struct bdk_key_ctl_status_s        cn88xxp1; */
 } bdk_key_ctl_status_t;
@@ -160,7 +158,6 @@ typedef union bdk_key_int_ena_w1c {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_key_int_ena_w1c_s       cn85xx; */
 	/* struct bdk_key_int_ena_w1c_s       cn88xx; */
 	/* struct bdk_key_int_ena_w1c_s       cn88xxp1; */
 } bdk_key_int_ena_w1c_t;
@@ -194,7 +191,6 @@ typedef union bdk_key_int_ena_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_key_int_ena_w1s_s       cn85xx; */
 	/* struct bdk_key_int_ena_w1s_s       cn88xx; */
 	/* struct bdk_key_int_ena_w1s_s       cn88xxp1; */
 } bdk_key_int_ena_w1s_t;
@@ -231,7 +227,6 @@ typedef union bdk_key_int_sum {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_key_int_sum_s           cn85xx; */
 	/* struct bdk_key_int_sum_s           cn88xx; */
 	/* struct bdk_key_int_sum_s           cn88xxp1; */
 } bdk_key_int_sum_t;
@@ -265,7 +260,6 @@ typedef union bdk_key_int_sum_w1s {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_key_int_sum_w1s_s       cn85xx; */
 	/* struct bdk_key_int_sum_w1s_s       cn88xx; */
 	/* struct bdk_key_int_sum_w1s_s       cn88xxp1; */
 } bdk_key_int_sum_w1s_t;
@@ -297,7 +291,6 @@ typedef union bdk_key_memx {
 		uint64_t kmem                        : 64;
 #endif
 	} s;
-	/* struct bdk_key_memx_s              cn85xx; */
 	/* struct bdk_key_memx_s              cn88xx; */
 	/* struct bdk_key_memx_s              cn88xxp1; */
 } bdk_key_memx_t;
@@ -332,7 +325,6 @@ typedef union bdk_key_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_key_msix_pbax_s         cn85xx; */
 	/* struct bdk_key_msix_pbax_s         cn88xx; */
 	/* struct bdk_key_msix_pbax_s         cn88xxp1; */
 } bdk_key_msix_pbax_t;
@@ -379,7 +371,6 @@ typedef union bdk_key_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_key_msix_vecx_addr_s    cn85xx; */
 	/* struct bdk_key_msix_vecx_addr_s    cn88xx; */
 	/* struct bdk_key_msix_vecx_addr_s    cn88xxp1; */
 } bdk_key_msix_vecx_addr_t;
@@ -419,7 +410,6 @@ typedef union bdk_key_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_key_msix_vecx_ctl_s     cn85xx; */
 	/* struct bdk_key_msix_vecx_ctl_s     cn88xx; */
 	/* struct bdk_key_msix_vecx_ctl_s     cn88xxp1; */
 } bdk_key_msix_vecx_ctl_t;

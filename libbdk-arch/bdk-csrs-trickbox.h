@@ -74,7 +74,6 @@ typedef union bdk_tb_abort_rgn64_hi1 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_hi1_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi1_s    cn88xx; */
 	/* struct bdk_tb_abort_rgn64_hi1_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_hi1_t;
@@ -107,7 +106,6 @@ typedef union bdk_tb_abort_rgn64_hi1_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_hi1_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi1_hi_s cn88xx; */
 	/* struct bdk_tb_abort_rgn64_hi1_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_hi1_hi_t;
@@ -140,7 +138,6 @@ typedef union bdk_tb_abort_rgn64_hi2 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_hi2_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi2_s    cn88xx; */
 	/* struct bdk_tb_abort_rgn64_hi2_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_hi2_t;
@@ -173,7 +170,6 @@ typedef union bdk_tb_abort_rgn64_hi2_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_hi2_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_hi2_hi_s cn88xx; */
 	/* struct bdk_tb_abort_rgn64_hi2_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_hi2_hi_t;
@@ -206,7 +202,6 @@ typedef union bdk_tb_abort_rgn64_lo1 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_lo1_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo1_s    cn88xx; */
 	/* struct bdk_tb_abort_rgn64_lo1_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_lo1_t;
@@ -239,7 +234,6 @@ typedef union bdk_tb_abort_rgn64_lo1_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_lo1_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo1_hi_s cn88xx; */
 	/* struct bdk_tb_abort_rgn64_lo1_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_lo1_hi_t;
@@ -272,7 +266,6 @@ typedef union bdk_tb_abort_rgn64_lo2 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_lo2_s    cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo2_s    cn88xx; */
 	/* struct bdk_tb_abort_rgn64_lo2_s    cn88xxp1; */
 } bdk_tb_abort_rgn64_lo2_t;
@@ -305,7 +298,6 @@ typedef union bdk_tb_abort_rgn64_lo2_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn64_lo2_hi_s cn85xx; */
 	/* struct bdk_tb_abort_rgn64_lo2_hi_s cn88xx; */
 	/* struct bdk_tb_abort_rgn64_lo2_hi_s cn88xxp1; */
 } bdk_tb_abort_rgn64_lo2_hi_t;
@@ -339,7 +331,6 @@ typedef union bdk_tb_abort_rgn_hi1 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn_hi1_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_hi1_s      cn88xx; */
 	/* struct bdk_tb_abort_rgn_hi1_s      cn88xxp1; */
 } bdk_tb_abort_rgn_hi1_t;
@@ -373,7 +364,6 @@ typedef union bdk_tb_abort_rgn_hi2 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn_hi2_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_hi2_s      cn88xx; */
 	/* struct bdk_tb_abort_rgn_hi2_s      cn88xxp1; */
 } bdk_tb_abort_rgn_hi2_t;
@@ -407,7 +397,6 @@ typedef union bdk_tb_abort_rgn_lo1 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn_lo1_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_lo1_s      cn88xx; */
 	/* struct bdk_tb_abort_rgn_lo1_s      cn88xxp1; */
 } bdk_tb_abort_rgn_lo1_t;
@@ -441,7 +430,6 @@ typedef union bdk_tb_abort_rgn_lo2 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_abort_rgn_lo2_s      cn85xx; */
 	/* struct bdk_tb_abort_rgn_lo2_s      cn88xx; */
 	/* struct bdk_tb_abort_rgn_lo2_s      cn88xxp1; */
 } bdk_tb_abort_rgn_lo2_t;
@@ -474,7 +462,6 @@ typedef union bdk_tb_address {
 		uint64_t value                       : 64;
 #endif
 	} s;
-	/* struct bdk_tb_address_s            cn85xx; */
 	/* struct bdk_tb_address_s            cn88xx; */
 	/* struct bdk_tb_address_s            cn88xxp1; */
 } bdk_tb_address_t;
@@ -530,7 +517,6 @@ typedef union bdk_tb_attributes {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_attributes_s         cn85xx; */
 	/* struct bdk_tb_attributes_s         cn88xx; */
 	/* struct bdk_tb_attributes_s         cn88xxp1; */
 } bdk_tb_attributes_t;
@@ -590,7 +576,6 @@ typedef union bdk_tb_axi_abort_ctl {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_tb_axi_abort_ctl_s      cn85xx; */
 	/* struct bdk_tb_axi_abort_ctl_s      cn88xx; */
 	/* struct bdk_tb_axi_abort_ctl_s      cn88xxp1; */
 } bdk_tb_axi_abort_ctl_t;
@@ -625,7 +610,6 @@ typedef union bdk_tb_clear_fiq {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_clear_fiq_s          cn85xx; */
 	/* struct bdk_tb_clear_fiq_s          cn88xx; */
 	/* struct bdk_tb_clear_fiq_s          cn88xxp1; */
 } bdk_tb_clear_fiq_t;
@@ -661,7 +645,6 @@ typedef union bdk_tb_clear_irq {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_clear_irq_s          cn85xx; */
 	/* struct bdk_tb_clear_irq_s          cn88xx; */
 	/* struct bdk_tb_clear_irq_s          cn88xxp1; */
 } bdk_tb_clear_irq_t;
@@ -745,7 +728,6 @@ typedef union bdk_tb_core_generated_irq_pin_value {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tb_core_generated_irq_pin_value_s cn85xx; */
 	/* struct bdk_tb_core_generated_irq_pin_value_s cn88xx; */
 	/* struct bdk_tb_core_generated_irq_pin_value_s cn88xxp1; */
 } bdk_tb_core_generated_irq_pin_value_t;
@@ -781,7 +763,6 @@ typedef union bdk_tb_data {
 		uint64_t value                       : 64;
 #endif
 	} s;
-	/* struct bdk_tb_data_s               cn85xx; */
 	/* struct bdk_tb_data_s               cn88xx; */
 	/* struct bdk_tb_data_s               cn88xxp1; */
 } bdk_tb_data_t;
@@ -836,7 +817,6 @@ typedef union bdk_tb_dbg_control {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_tb_dbg_control_s        cn85xx; */
 	/* struct bdk_tb_dbg_control_s        cn88xx; */
 	/* struct bdk_tb_dbg_control_s        cn88xxp1; */
 } bdk_tb_dbg_control_t;
@@ -869,7 +849,6 @@ typedef union bdk_tb_device_id {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_device_id_s          cn85xx; */
 	/* struct bdk_tb_device_id_s          cn88xx; */
 	/* struct bdk_tb_device_id_s          cn88xxp1; */
 } bdk_tb_device_id_t;
@@ -920,7 +899,6 @@ typedef union bdk_tb_dormant_control {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_tb_dormant_control_s    cn85xx; */
 	/* struct bdk_tb_dormant_control_s    cn88xx; */
 	/* struct bdk_tb_dormant_control_s    cn88xxp1; */
 } bdk_tb_dormant_control_t;
@@ -953,7 +931,6 @@ typedef union bdk_tb_extended_target_cpu {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_extended_target_cpu_s cn85xx; */
 	/* struct bdk_tb_extended_target_cpu_s cn88xx; */
 	/* struct bdk_tb_extended_target_cpu_s cn88xxp1; */
 } bdk_tb_extended_target_cpu_t;
@@ -987,7 +964,6 @@ typedef union bdk_tb_gic_rd_event_status_index {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gic_rd_event_status_index_s cn85xx; */
 	/* struct bdk_tb_gic_rd_event_status_index_s cn88xx; */
 	/* struct bdk_tb_gic_rd_event_status_index_s cn88xxp1; */
 } bdk_tb_gic_rd_event_status_index_t;
@@ -1024,7 +1000,6 @@ typedef union bdk_tb_gic_rd_event_status_value {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tb_gic_rd_event_status_value_s cn85xx; */
 	/* struct bdk_tb_gic_rd_event_status_value_s cn88xx; */
 	/* struct bdk_tb_gic_rd_event_status_value_s cn88xxp1; */
 } bdk_tb_gic_rd_event_status_value_t;
@@ -1057,7 +1032,6 @@ typedef union bdk_tb_gte_api {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_s            cn85xx; */
 	/* struct bdk_tb_gte_api_s            cn88xx; */
 	/* struct bdk_tb_gte_api_s            cn88xxp1; */
 } bdk_tb_gte_api_t;
@@ -1090,7 +1064,6 @@ typedef union bdk_tb_gte_api_param {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_param_s      cn85xx; */
 	/* struct bdk_tb_gte_api_param_s      cn88xx; */
 	/* struct bdk_tb_gte_api_param_s      cn88xxp1; */
 } bdk_tb_gte_api_param_t;
@@ -1123,7 +1096,6 @@ typedef union bdk_tb_gte_api_param_64 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_param_64_s   cn85xx; */
 	/* struct bdk_tb_gte_api_param_64_s   cn88xx; */
 	/* struct bdk_tb_gte_api_param_64_s   cn88xxp1; */
 } bdk_tb_gte_api_param_64_t;
@@ -1156,7 +1128,6 @@ typedef union bdk_tb_gte_api_param_64_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_param_64_hi_s cn85xx; */
 	/* struct bdk_tb_gte_api_param_64_hi_s cn88xx; */
 	/* struct bdk_tb_gte_api_param_64_hi_s cn88xxp1; */
 } bdk_tb_gte_api_param_64_hi_t;
@@ -1189,7 +1160,6 @@ typedef union bdk_tb_gte_api_status {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_status_s     cn85xx; */
 	/* struct bdk_tb_gte_api_status_s     cn88xx; */
 	/* struct bdk_tb_gte_api_status_s     cn88xxp1; */
 } bdk_tb_gte_api_status_t;
@@ -1222,7 +1192,6 @@ typedef union bdk_tb_gte_api_status_64 {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_status_64_s  cn85xx; */
 	/* struct bdk_tb_gte_api_status_64_s  cn88xx; */
 	/* struct bdk_tb_gte_api_status_64_s  cn88xxp1; */
 } bdk_tb_gte_api_status_64_t;
@@ -1255,7 +1224,6 @@ typedef union bdk_tb_gte_api_status_64_hi {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_gte_api_status_64_hi_s cn85xx; */
 	/* struct bdk_tb_gte_api_status_64_hi_s cn88xx; */
 	/* struct bdk_tb_gte_api_status_64_hi_s cn88xxp1; */
 } bdk_tb_gte_api_status_64_hi_t;
@@ -1303,7 +1271,6 @@ typedef union bdk_tb_operate {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_tb_operate_s            cn85xx; */
 	/* struct bdk_tb_operate_s            cn88xx; */
 	/* struct bdk_tb_operate_s            cn88xxp1; */
 } bdk_tb_operate_t;
@@ -1391,7 +1358,6 @@ typedef union bdk_tb_pin_configuration {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_tb_pin_configuration_s  cn85xx; */
 	/* struct bdk_tb_pin_configuration_s  cn88xx; */
 	/* struct bdk_tb_pin_configuration_s  cn88xxp1; */
 } bdk_tb_pin_configuration_t;
@@ -1432,7 +1398,6 @@ typedef union bdk_tb_ppi_group_target_core {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_ppi_group_target_core_s cn85xx; */
 	/* struct bdk_tb_ppi_group_target_core_s cn88xx; */
 	/* struct bdk_tb_ppi_group_target_core_s cn88xxp1; */
 } bdk_tb_ppi_group_target_core_t;
@@ -1473,7 +1438,6 @@ typedef union bdk_tb_ppi_group_value {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_tb_ppi_group_value_s    cn85xx; */
 	/* struct bdk_tb_ppi_group_value_s    cn88xx; */
 	/* struct bdk_tb_ppi_group_value_s    cn88xxp1; */
 } bdk_tb_ppi_group_value_t;
@@ -1509,7 +1473,6 @@ typedef union bdk_tb_ppu0addr {
 		uint32_t address                     : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu0addr_s           cn85xx; */
 	/* struct bdk_tb_ppu0addr_s           cn88xx; */
 	/* struct bdk_tb_ppu0addr_s           cn88xxp1; */
 } bdk_tb_ppu0addr_t;
@@ -1572,7 +1535,6 @@ typedef union bdk_tb_ppu0mask {
 		uint32_t address_mask                : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu0mask_s           cn85xx; */
 	/* struct bdk_tb_ppu0mask_s           cn88xx; */
 	/* struct bdk_tb_ppu0mask_s           cn88xxp1; */
 } bdk_tb_ppu0mask_t;
@@ -1608,7 +1570,6 @@ typedef union bdk_tb_ppu1addr {
 		uint32_t address                     : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu1addr_s           cn85xx; */
 	/* struct bdk_tb_ppu1addr_s           cn88xx; */
 	/* struct bdk_tb_ppu1addr_s           cn88xxp1; */
 } bdk_tb_ppu1addr_t;
@@ -1671,7 +1632,6 @@ typedef union bdk_tb_ppu1mask {
 		uint32_t address_mask                : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu1mask_s           cn85xx; */
 	/* struct bdk_tb_ppu1mask_s           cn88xx; */
 	/* struct bdk_tb_ppu1mask_s           cn88xxp1; */
 } bdk_tb_ppu1mask_t;
@@ -1707,7 +1667,6 @@ typedef union bdk_tb_ppu2addr {
 		uint32_t address                     : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu2addr_s           cn85xx; */
 	/* struct bdk_tb_ppu2addr_s           cn88xx; */
 	/* struct bdk_tb_ppu2addr_s           cn88xxp1; */
 } bdk_tb_ppu2addr_t;
@@ -1770,7 +1729,6 @@ typedef union bdk_tb_ppu2mask {
 		uint32_t address_mask                : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu2mask_s           cn85xx; */
 	/* struct bdk_tb_ppu2mask_s           cn88xx; */
 	/* struct bdk_tb_ppu2mask_s           cn88xxp1; */
 } bdk_tb_ppu2mask_t;
@@ -1806,7 +1764,6 @@ typedef union bdk_tb_ppu3addr {
 		uint32_t address                     : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu3addr_s           cn85xx; */
 	/* struct bdk_tb_ppu3addr_s           cn88xx; */
 	/* struct bdk_tb_ppu3addr_s           cn88xxp1; */
 } bdk_tb_ppu3addr_t;
@@ -1869,7 +1826,6 @@ typedef union bdk_tb_ppu3mask {
 		uint32_t address_mask                : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu3mask_s           cn85xx; */
 	/* struct bdk_tb_ppu3mask_s           cn88xx; */
 	/* struct bdk_tb_ppu3mask_s           cn88xxp1; */
 } bdk_tb_ppu3mask_t;
@@ -1905,7 +1861,6 @@ typedef union bdk_tb_ppu4addr {
 		uint32_t address                     : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu4addr_s           cn85xx; */
 	/* struct bdk_tb_ppu4addr_s           cn88xx; */
 	/* struct bdk_tb_ppu4addr_s           cn88xxp1; */
 } bdk_tb_ppu4addr_t;
@@ -1968,7 +1923,6 @@ typedef union bdk_tb_ppu4mask {
 		uint32_t address_mask                : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu4mask_s           cn85xx; */
 	/* struct bdk_tb_ppu4mask_s           cn88xx; */
 	/* struct bdk_tb_ppu4mask_s           cn88xxp1; */
 } bdk_tb_ppu4mask_t;
@@ -2004,7 +1958,6 @@ typedef union bdk_tb_ppu5addr {
 		uint32_t address                     : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu5addr_s           cn85xx; */
 	/* struct bdk_tb_ppu5addr_s           cn88xx; */
 	/* struct bdk_tb_ppu5addr_s           cn88xxp1; */
 } bdk_tb_ppu5addr_t;
@@ -2067,7 +2020,6 @@ typedef union bdk_tb_ppu5mask {
 		uint32_t address_mask                : 22;
 #endif
 	} s;
-	/* struct bdk_tb_ppu5mask_s           cn85xx; */
 	/* struct bdk_tb_ppu5mask_s           cn88xx; */
 	/* struct bdk_tb_ppu5mask_s           cn88xxp1; */
 } bdk_tb_ppu5mask_t;
@@ -2102,7 +2054,6 @@ typedef union bdk_tb_rei_target_core {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_rei_target_core_s    cn85xx; */
 	/* struct bdk_tb_rei_target_core_s    cn88xx; */
 	/* struct bdk_tb_rei_target_core_s    cn88xxp1; */
 } bdk_tb_rei_target_core_t;
@@ -2138,7 +2089,6 @@ typedef union bdk_tb_rei_value {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tb_rei_value_s          cn85xx; */
 	/* struct bdk_tb_rei_value_s          cn88xx; */
 	/* struct bdk_tb_rei_value_s          cn88xxp1; */
 } bdk_tb_rei_value_t;
@@ -2176,7 +2126,6 @@ typedef union bdk_tb_schedule_fiq {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_schedule_fiq_s       cn85xx; */
 	/* struct bdk_tb_schedule_fiq_s       cn88xx; */
 	/* struct bdk_tb_schedule_fiq_s       cn88xxp1; */
 } bdk_tb_schedule_fiq_t;
@@ -2214,7 +2163,6 @@ typedef union bdk_tb_schedule_irq {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_schedule_irq_s       cn85xx; */
 	/* struct bdk_tb_schedule_irq_s       cn88xx; */
 	/* struct bdk_tb_schedule_irq_s       cn88xxp1; */
 } bdk_tb_schedule_irq_t;
@@ -2253,7 +2201,6 @@ typedef union bdk_tb_schedule_rst {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_schedule_rst_s       cn85xx; */
 	/* struct bdk_tb_schedule_rst_s       cn88xx; */
 	/* struct bdk_tb_schedule_rst_s       cn88xxp1; */
 } bdk_tb_schedule_rst_t;
@@ -2300,7 +2247,6 @@ typedef union bdk_tb_sei_ppi_rei_control {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_tb_sei_ppi_rei_control_s cn85xx; */
 	/* struct bdk_tb_sei_ppi_rei_control_s cn88xx; */
 	/* struct bdk_tb_sei_ppi_rei_control_s cn88xxp1; */
 } bdk_tb_sei_ppi_rei_control_t;
@@ -2335,7 +2281,6 @@ typedef union bdk_tb_sei_target_core {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_sei_target_core_s    cn85xx; */
 	/* struct bdk_tb_sei_target_core_s    cn88xx; */
 	/* struct bdk_tb_sei_target_core_s    cn88xxp1; */
 } bdk_tb_sei_target_core_t;
@@ -2371,7 +2316,6 @@ typedef union bdk_tb_sei_value {
 		uint32_t reserved_1_31               : 31;
 #endif
 	} s;
-	/* struct bdk_tb_sei_value_s          cn85xx; */
 	/* struct bdk_tb_sei_value_s          cn88xx; */
 	/* struct bdk_tb_sei_value_s          cn88xxp1; */
 } bdk_tb_sei_value_t;
@@ -2405,7 +2349,6 @@ typedef union bdk_tb_spi_group_index {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_spi_group_index_s    cn85xx; */
 	/* struct bdk_tb_spi_group_index_s    cn88xx; */
 	/* struct bdk_tb_spi_group_index_s    cn88xxp1; */
 } bdk_tb_spi_group_index_t;
@@ -2452,7 +2395,6 @@ typedef union bdk_tb_spi_group_value {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_spi_group_value_s    cn85xx; */
 	/* struct bdk_tb_spi_group_value_s    cn88xx; */
 	/* struct bdk_tb_spi_group_value_s    cn88xxp1; */
 } bdk_tb_spi_group_value_t;
@@ -2514,7 +2456,6 @@ typedef union bdk_tb_sw_reset_ctl {
 		uint32_t value                       : 32;
 #endif
 	} s;
-	/* struct bdk_tb_sw_reset_ctl_s       cn85xx; */
 	/* struct bdk_tb_sw_reset_ctl_s       cn88xx; */
 	/* struct bdk_tb_sw_reset_ctl_s       cn88xxp1; */
 } bdk_tb_sw_reset_ctl_t;
@@ -2549,7 +2490,6 @@ typedef union bdk_tb_target_cpu {
 		uint32_t mask                        : 32;
 #endif
 	} s;
-	/* struct bdk_tb_target_cpu_s         cn85xx; */
 	/* struct bdk_tb_target_cpu_s         cn88xx; */
 	/* struct bdk_tb_target_cpu_s         cn88xxp1; */
 } bdk_tb_target_cpu_t;
@@ -2588,7 +2528,6 @@ typedef union bdk_tb_tube {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_tb_tube_s               cn85xx; */
 	/* struct bdk_tb_tube_s               cn88xx; */
 	/* struct bdk_tb_tube_s               cn88xxp1; */
 } bdk_tb_tube_t;
@@ -2628,7 +2567,6 @@ typedef union bdk_tb_watchdog {
 		uint32_t breakvalue                  : 32;
 #endif
 	} s;
-	/* struct bdk_tb_watchdog_s           cn85xx; */
 	/* struct bdk_tb_watchdog_s           cn88xx; */
 	/* struct bdk_tb_watchdog_s           cn88xxp1; */
 } bdk_tb_watchdog_t;

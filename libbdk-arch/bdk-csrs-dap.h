@@ -76,7 +76,6 @@ typedef union bdk_dap_hwpoll_cnt {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_dap_hwpoll_cnt_s        cn85xx; */
 	/* struct bdk_dap_hwpoll_cnt_s        cn88xx; */
 	/* struct bdk_dap_hwpoll_cnt_s        cn88xxp1; */
 } bdk_dap_hwpoll_cnt_t;
@@ -147,7 +146,6 @@ typedef union bdk_dap_imp_dar {
 		uint32_t reserved_11_31              : 21;
 #endif
 	} s;
-	/* struct bdk_dap_imp_dar_s           cn85xx; */
 	/* struct bdk_dap_imp_dar_s           cn88xx; */
 	/* struct bdk_dap_imp_dar_s           cn88xxp1; */
 } bdk_dap_imp_dar_t;
@@ -183,7 +181,6 @@ typedef union bdk_dap_owb_to {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_dap_owb_to_s            cn85xx; */
 	/* struct bdk_dap_owb_to_s            cn88xx; */
 	/* struct bdk_dap_owb_to_s            cn88xxp1; */
 } bdk_dap_owb_to_t;
@@ -239,7 +236,6 @@ typedef union bdk_dap_sraaddr {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_dap_sraaddr_s           cn85xx; */
 	/* struct bdk_dap_sraaddr_s           cn88xx; */
 	/* struct bdk_dap_sraaddr_s           cn88xxp1; */
 } bdk_dap_sraaddr_t;
@@ -272,7 +268,6 @@ typedef union bdk_dap_sradata {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_dap_sradata_s           cn85xx; */
 	/* struct bdk_dap_sradata_s           cn88xx; */
 	/* struct bdk_dap_sradata_s           cn88xxp1; */
 } bdk_dap_sradata_t;

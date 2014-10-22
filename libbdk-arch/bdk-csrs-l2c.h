@@ -460,7 +460,6 @@ typedef union bdk_l2c_asc_regionx_attr {
 		uint64_t reserved_2_63               : 62;
 #endif
 	} s;
-	/* struct bdk_l2c_asc_regionx_attr_s  cn85xx; */
 	/* struct bdk_l2c_asc_regionx_attr_s  cn88xx; */
 	/* struct bdk_l2c_asc_regionx_attr_s  cn88xxp1; */
 } bdk_l2c_asc_regionx_attr_t;
@@ -500,7 +499,6 @@ typedef union bdk_l2c_asc_regionx_end {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_l2c_asc_regionx_end_s   cn85xx; */
 	/* struct bdk_l2c_asc_regionx_end_s   cn88xx; */
 	/* struct bdk_l2c_asc_regionx_end_s   cn88xxp1; */
 } bdk_l2c_asc_regionx_end_t;
@@ -536,7 +534,6 @@ typedef union bdk_l2c_asc_regionx_start {
 		uint64_t reserved_40_63              : 24;
 #endif
 	} s;
-	/* struct bdk_l2c_asc_regionx_start_s cn85xx; */
 	/* struct bdk_l2c_asc_regionx_start_s cn88xx; */
 	/* struct bdk_l2c_asc_regionx_start_s cn88xxp1; */
 } bdk_l2c_asc_regionx_start_t;
@@ -605,7 +602,6 @@ typedef union bdk_l2c_ctl {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_l2c_ctl_s               cn85xx; */
 	/* struct bdk_l2c_ctl_s               cn88xx; */
 	/* struct bdk_l2c_ctl_s               cn88xxp1; */
 } bdk_l2c_ctl_t;
@@ -667,7 +663,6 @@ typedef union bdk_l2c_ecc_ctl {
 		uint64_t reserved_12_63              : 52;
 #endif
 	} s;
-	/* struct bdk_l2c_ecc_ctl_s           cn85xx; */
 	/* struct bdk_l2c_ecc_ctl_s           cn88xx; */
 	/* struct bdk_l2c_ecc_ctl_s           cn88xxp1; */
 } bdk_l2c_ecc_ctl_t;
@@ -773,7 +768,6 @@ typedef union bdk_l2c_oci_ctl {
 		uint64_t reserved_30_63              : 34;
 #endif
 	} s;
-	/* struct bdk_l2c_oci_ctl_s           cn85xx; */
 	/* struct bdk_l2c_oci_ctl_s           cn88xx; */
 	/* struct bdk_l2c_oci_ctl_s           cn88xxp1; */
 } bdk_l2c_oci_ctl_t;
@@ -805,7 +799,6 @@ typedef union bdk_l2c_qos_ppx {
 		uint64_t reserved_3_63               : 61;
 #endif
 	} s;
-	/* struct bdk_l2c_qos_ppx_s           cn85xx; */
 	/* struct bdk_l2c_qos_ppx_s           cn88xx; */
 	/* struct bdk_l2c_qos_ppx_s           cn88xxp1; */
 } bdk_l2c_qos_ppx_t;
@@ -850,7 +843,6 @@ typedef union bdk_l2c_qos_wgt {
 		uint64_t wgt7                        : 8;
 #endif
 	} s;
-	/* struct bdk_l2c_qos_wgt_s           cn85xx; */
 	/* struct bdk_l2c_qos_wgt_s           cn88xx; */
 	/* struct bdk_l2c_qos_wgt_s           cn88xxp1; */
 } bdk_l2c_qos_wgt_t;
@@ -916,7 +908,6 @@ typedef union bdk_l2c_tad_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_l2c_tad_ctl_s           cn85xx; */
 	/* struct bdk_l2c_tad_ctl_s           cn88xx; */
 	/* struct bdk_l2c_tad_ctl_s           cn88xxp1; */
 } bdk_l2c_tad_ctl_t;
@@ -949,7 +940,6 @@ typedef union bdk_l2c_wpar_iobx {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_l2c_wpar_iobx_s         cn85xx; */
 	/* struct bdk_l2c_wpar_iobx_s         cn88xx; */
 	/* struct bdk_l2c_wpar_iobx_s         cn88xxp1; */
 } bdk_l2c_wpar_iobx_t;
@@ -983,7 +973,6 @@ typedef union bdk_l2c_wpar_ppx {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_l2c_wpar_ppx_s          cn85xx; */
 	/* struct bdk_l2c_wpar_ppx_s          cn88xx; */
 	/* struct bdk_l2c_wpar_ppx_s          cn88xxp1; */
 } bdk_l2c_wpar_ppx_t;

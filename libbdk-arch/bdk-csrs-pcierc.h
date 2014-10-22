@@ -76,7 +76,6 @@ typedef union bdk_pciercx_cfg000 {
 		uint32_t devid                       : 16;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg000_s        cn85xx; */
 	/* struct bdk_pciercx_cfg000_s        cn88xx; */
 	/* struct bdk_pciercx_cfg000_s        cn88xxp1; */
 } bdk_pciercx_cfg000_t;
@@ -156,7 +155,6 @@ typedef union bdk_pciercx_cfg001 {
 		uint32_t dpe                         : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg001_s        cn85xx; */
 	/* struct bdk_pciercx_cfg001_s        cn88xx; */
 	/* struct bdk_pciercx_cfg001_s        cn88xxp1; */
 } bdk_pciercx_cfg001_t;
@@ -203,7 +201,6 @@ typedef union bdk_pciercx_cfg002 {
 		uint32_t bcc                         : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg002_s        cn85xx; */
 	/* struct bdk_pciercx_cfg002_s        cn88xx; */
 	/* struct bdk_pciercx_cfg002_s        cn88xxp1; */
 } bdk_pciercx_cfg002_t;
@@ -248,7 +245,6 @@ typedef union bdk_pciercx_cfg003 {
 		uint32_t bist                        : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg003_s        cn85xx; */
 	/* struct bdk_pciercx_cfg003_s        cn88xx; */
 	/* struct bdk_pciercx_cfg003_s        cn88xxp1; */
 } bdk_pciercx_cfg003_t;
@@ -282,7 +278,6 @@ typedef union bdk_pciercx_cfg004 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg004_s        cn85xx; */
 	/* struct bdk_pciercx_cfg004_s        cn88xx; */
 	/* struct bdk_pciercx_cfg004_s        cn88xxp1; */
 } bdk_pciercx_cfg004_t;
@@ -316,7 +311,6 @@ typedef union bdk_pciercx_cfg005 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg005_s        cn85xx; */
 	/* struct bdk_pciercx_cfg005_s        cn88xx; */
 	/* struct bdk_pciercx_cfg005_s        cn88xxp1; */
 } bdk_pciercx_cfg005_t;
@@ -360,7 +354,6 @@ typedef union bdk_pciercx_cfg006 {
 		uint32_t slt                         : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg006_s        cn85xx; */
 	/* struct bdk_pciercx_cfg006_s        cn88xx; */
 	/* struct bdk_pciercx_cfg006_s        cn88xxp1; */
 } bdk_pciercx_cfg006_t;
@@ -430,7 +423,6 @@ typedef union bdk_pciercx_cfg007 {
 		uint32_t dpe                         : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg007_s        cn85xx; */
 	/* struct bdk_pciercx_cfg007_s        cn88xx; */
 	/* struct bdk_pciercx_cfg007_s        cn88xxp1; */
 } bdk_pciercx_cfg007_t;
@@ -470,7 +462,6 @@ typedef union bdk_pciercx_cfg008 {
 		uint32_t ml_addr                     : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg008_s        cn85xx; */
 	/* struct bdk_pciercx_cfg008_s        cn88xx; */
 	/* struct bdk_pciercx_cfg008_s        cn88xxp1; */
 } bdk_pciercx_cfg008_t;
@@ -521,7 +512,6 @@ typedef union bdk_pciercx_cfg009 {
 		uint32_t lmem_limit                  : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg009_s        cn85xx; */
 	/* struct bdk_pciercx_cfg009_s        cn88xx; */
 	/* struct bdk_pciercx_cfg009_s        cn88xxp1; */
 } bdk_pciercx_cfg009_t;
@@ -556,7 +546,6 @@ typedef union bdk_pciercx_cfg010 {
 		uint32_t umem_base                   : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg010_s        cn85xx; */
 	/* struct bdk_pciercx_cfg010_s        cn88xx; */
 	/* struct bdk_pciercx_cfg010_s        cn88xxp1; */
 } bdk_pciercx_cfg010_t;
@@ -591,7 +580,6 @@ typedef union bdk_pciercx_cfg011 {
 		uint32_t umem_limit                  : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg011_s        cn85xx; */
 	/* struct bdk_pciercx_cfg011_s        cn88xx; */
 	/* struct bdk_pciercx_cfg011_s        cn88xxp1; */
 } bdk_pciercx_cfg011_t;
@@ -627,7 +615,6 @@ typedef union bdk_pciercx_cfg012 {
 		uint32_t uio_limit                   : 16;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg012_s        cn85xx; */
 	/* struct bdk_pciercx_cfg012_s        cn88xx; */
 	/* struct bdk_pciercx_cfg012_s        cn88xxp1; */
 } bdk_pciercx_cfg012_t;
@@ -664,7 +651,6 @@ typedef union bdk_pciercx_cfg013 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg013_s        cn85xx; */
 	/* struct bdk_pciercx_cfg013_s        cn88xx; */
 	/* struct bdk_pciercx_cfg013_s        cn88xxp1; */
 } bdk_pciercx_cfg013_t;
@@ -698,7 +684,6 @@ typedef union bdk_pciercx_cfg014 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg014_s        cn85xx; */
 	/* struct bdk_pciercx_cfg014_s        cn88xx; */
 	/* struct bdk_pciercx_cfg014_s        cn88xxp1; */
 } bdk_pciercx_cfg014_t;
@@ -766,7 +751,6 @@ typedef union bdk_pciercx_cfg015 {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg015_s        cn85xx; */
 	/* struct bdk_pciercx_cfg015_s        cn88xx; */
 	/* struct bdk_pciercx_cfg015_s        cn88xxp1; */
 } bdk_pciercx_cfg015_t;
@@ -836,7 +820,6 @@ typedef union bdk_pciercx_cfg016 {
 		uint32_t pmes                        : 5;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg016_s        cn85xx; */
 	/* struct bdk_pciercx_cfg016_s        cn88xx; */
 	/* struct bdk_pciercx_cfg016_s        cn88xxp1; */
 } bdk_pciercx_cfg016_t;
@@ -899,7 +882,6 @@ typedef union bdk_pciercx_cfg017 {
 		uint32_t pmdia                       : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg017_s        cn85xx; */
 	/* struct bdk_pciercx_cfg017_s        cn88xx; */
 	/* struct bdk_pciercx_cfg017_s        cn88xxp1; */
 } bdk_pciercx_cfg017_t;
@@ -954,7 +936,6 @@ typedef union bdk_pciercx_cfg020 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg020_s        cn85xx; */
 	/* struct bdk_pciercx_cfg020_s        cn88xx; */
 	/* struct bdk_pciercx_cfg020_s        cn88xxp1; */
 } bdk_pciercx_cfg020_t;
@@ -990,7 +971,6 @@ typedef union bdk_pciercx_cfg021 {
 		uint32_t lmsi                        : 30;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg021_s        cn85xx; */
 	/* struct bdk_pciercx_cfg021_s        cn88xx; */
 	/* struct bdk_pciercx_cfg021_s        cn88xxp1; */
 } bdk_pciercx_cfg021_t;
@@ -1024,7 +1004,6 @@ typedef union bdk_pciercx_cfg022 {
 		uint32_t umsi                        : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg022_s        cn85xx; */
 	/* struct bdk_pciercx_cfg022_s        cn88xx; */
 	/* struct bdk_pciercx_cfg022_s        cn88xxp1; */
 } bdk_pciercx_cfg022_t;
@@ -1061,7 +1040,6 @@ typedef union bdk_pciercx_cfg023 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg023_s        cn85xx; */
 	/* struct bdk_pciercx_cfg023_s        cn88xx; */
 	/* struct bdk_pciercx_cfg023_s        cn88xxp1; */
 } bdk_pciercx_cfg023_t;
@@ -1110,7 +1088,6 @@ typedef union bdk_pciercx_cfg028 {
 		uint32_t reserved_30_31              : 2;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg028_s        cn85xx; */
 	/* struct bdk_pciercx_cfg028_s        cn88xx; */
 	/* struct bdk_pciercx_cfg028_s        cn88xxp1; */
 } bdk_pciercx_cfg028_t;
@@ -1171,7 +1148,6 @@ typedef union bdk_pciercx_cfg029 {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg029_s        cn85xx; */
 	/* struct bdk_pciercx_cfg029_s        cn88xx; */
 	/* struct bdk_pciercx_cfg029_s        cn88xxp1; */
 } bdk_pciercx_cfg029_t;
@@ -1263,7 +1239,6 @@ typedef union bdk_pciercx_cfg030 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg030_s        cn85xx; */
 	/* struct bdk_pciercx_cfg030_s        cn88xx; */
 	/* struct bdk_pciercx_cfg030_s        cn88xxp1; */
 } bdk_pciercx_cfg030_t;
@@ -1345,7 +1320,6 @@ typedef union bdk_pciercx_cfg031 {
 		uint32_t pnum                        : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg031_s        cn85xx; */
 	/* struct bdk_pciercx_cfg031_s        cn88xx; */
 	/* struct bdk_pciercx_cfg031_s        cn88xxp1; */
 } bdk_pciercx_cfg031_t;
@@ -1441,7 +1415,6 @@ typedef union bdk_pciercx_cfg032 {
 		uint32_t lab                         : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg032_s        cn85xx; */
 	/* struct bdk_pciercx_cfg032_s        cn88xx; */
 	/* struct bdk_pciercx_cfg032_s        cn88xxp1; */
 } bdk_pciercx_cfg032_t;
@@ -1507,7 +1480,6 @@ typedef union bdk_pciercx_cfg033 {
 		uint32_t ps_num                      : 13;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg033_s        cn85xx; */
 	/* struct bdk_pciercx_cfg033_s        cn88xx; */
 	/* struct bdk_pciercx_cfg033_s        cn88xxp1; */
 } bdk_pciercx_cfg033_t;
@@ -1583,7 +1555,6 @@ typedef union bdk_pciercx_cfg034 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg034_s        cn85xx; */
 	/* struct bdk_pciercx_cfg034_s        cn88xx; */
 	/* struct bdk_pciercx_cfg034_s        cn88xxp1; */
 } bdk_pciercx_cfg034_t;
@@ -1631,7 +1602,6 @@ typedef union bdk_pciercx_cfg035 {
 		uint32_t reserved_17_31              : 15;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg035_s        cn85xx; */
 	/* struct bdk_pciercx_cfg035_s        cn88xx; */
 	/* struct bdk_pciercx_cfg035_s        cn88xxp1; */
 } bdk_pciercx_cfg035_t;
@@ -1671,7 +1641,6 @@ typedef union bdk_pciercx_cfg036 {
 		uint32_t reserved_18_31              : 14;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg036_s        cn85xx; */
 	/* struct bdk_pciercx_cfg036_s        cn88xx; */
 	/* struct bdk_pciercx_cfg036_s        cn88xxp1; */
 } bdk_pciercx_cfg036_t;
@@ -1740,7 +1709,6 @@ typedef union bdk_pciercx_cfg037 {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg037_s        cn85xx; */
 	/* struct bdk_pciercx_cfg037_s        cn88xx; */
 	/* struct bdk_pciercx_cfg037_s        cn88xxp1; */
 } bdk_pciercx_cfg037_t;
@@ -1807,7 +1775,6 @@ typedef union bdk_pciercx_cfg038 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg038_s        cn85xx; */
 	/* struct bdk_pciercx_cfg038_s        cn88xx; */
 	/* struct bdk_pciercx_cfg038_s        cn88xxp1; */
 } bdk_pciercx_cfg038_t;
@@ -1866,7 +1833,6 @@ typedef union bdk_pciercx_cfg039 {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg039_s        cn85xx; */
 	/* struct bdk_pciercx_cfg039_s        cn88xx; */
 	/* struct bdk_pciercx_cfg039_s        cn88xxp1; */
 } bdk_pciercx_cfg039_t;
@@ -1981,7 +1947,6 @@ typedef union bdk_pciercx_cfg040 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg040_s        cn85xx; */
 	/* struct bdk_pciercx_cfg040_s        cn88xx; */
 	/* struct bdk_pciercx_cfg040_s        cn88xxp1; */
 } bdk_pciercx_cfg040_t;
@@ -2015,7 +1980,6 @@ typedef union bdk_pciercx_cfg041 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg041_s        cn85xx; */
 	/* struct bdk_pciercx_cfg041_s        cn88xx; */
 	/* struct bdk_pciercx_cfg041_s        cn88xxp1; */
 } bdk_pciercx_cfg041_t;
@@ -2049,7 +2013,6 @@ typedef union bdk_pciercx_cfg042 {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg042_s        cn85xx; */
 	/* struct bdk_pciercx_cfg042_s        cn88xx; */
 	/* struct bdk_pciercx_cfg042_s        cn88xxp1; */
 } bdk_pciercx_cfg042_t;
@@ -2097,7 +2060,6 @@ typedef union bdk_pciercx_cfg044 {
 		uint32_t msixen                      : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg044_s        cn85xx; */
 	/* struct bdk_pciercx_cfg044_s        cn88xx; */
 	/* struct bdk_pciercx_cfg044_s        cn88xxp1; */
 } bdk_pciercx_cfg044_t;
@@ -2137,7 +2099,6 @@ typedef union bdk_pciercx_cfg045 {
 		uint32_t msixtoffs                   : 29;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg045_s        cn85xx; */
 	/* struct bdk_pciercx_cfg045_s        cn88xx; */
 	/* struct bdk_pciercx_cfg045_s        cn88xxp1; */
 } bdk_pciercx_cfg045_t;
@@ -2177,7 +2138,6 @@ typedef union bdk_pciercx_cfg046 {
 		uint32_t msixpoffs                   : 29;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg046_s        cn85xx; */
 	/* struct bdk_pciercx_cfg046_s        cn88xx; */
 	/* struct bdk_pciercx_cfg046_s        cn88xxp1; */
 } bdk_pciercx_cfg046_t;
@@ -2218,7 +2178,6 @@ typedef union bdk_pciercx_cfg064 {
 		uint32_t nco                         : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg064_s        cn85xx; */
 	/* struct bdk_pciercx_cfg064_s        cn88xx; */
 	/* struct bdk_pciercx_cfg064_s        cn88xxp1; */
 } bdk_pciercx_cfg064_t;
@@ -2288,7 +2247,6 @@ typedef union bdk_pciercx_cfg065 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg065_s        cn85xx; */
 	/* struct bdk_pciercx_cfg065_s        cn88xx; */
 	/* struct bdk_pciercx_cfg065_s        cn88xxp1; */
 } bdk_pciercx_cfg065_t;
@@ -2358,7 +2316,6 @@ typedef union bdk_pciercx_cfg066 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg066_s        cn85xx; */
 	/* struct bdk_pciercx_cfg066_s        cn88xx; */
 	/* struct bdk_pciercx_cfg066_s        cn88xxp1; */
 } bdk_pciercx_cfg066_t;
@@ -2424,7 +2381,6 @@ typedef union bdk_pciercx_cfg067 {
 		uint32_t reserved_26_31              : 6;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg067_s        cn85xx; */
 	/* struct bdk_pciercx_cfg067_s        cn88xx; */
 	/* struct bdk_pciercx_cfg067_s        cn88xxp1; */
 } bdk_pciercx_cfg067_t;
@@ -2476,7 +2432,6 @@ typedef union bdk_pciercx_cfg068 {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg068_s        cn85xx; */
 	/* struct bdk_pciercx_cfg068_s        cn88xx; */
 	/* struct bdk_pciercx_cfg068_s        cn88xxp1; */
 } bdk_pciercx_cfg068_t;
@@ -2528,7 +2483,6 @@ typedef union bdk_pciercx_cfg069 {
 		uint32_t reserved_15_31              : 17;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg069_s        cn85xx; */
 	/* struct bdk_pciercx_cfg069_s        cn88xx; */
 	/* struct bdk_pciercx_cfg069_s        cn88xxp1; */
 } bdk_pciercx_cfg069_t;
@@ -2576,7 +2530,6 @@ typedef union bdk_pciercx_cfg070 {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg070_s        cn85xx; */
 	/* struct bdk_pciercx_cfg070_s        cn88xx; */
 	/* struct bdk_pciercx_cfg070_s        cn88xxp1; */
 } bdk_pciercx_cfg070_t;
@@ -2610,7 +2563,6 @@ typedef union bdk_pciercx_cfg071 {
 		uint32_t dword1                      : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg071_s        cn85xx; */
 	/* struct bdk_pciercx_cfg071_s        cn88xx; */
 	/* struct bdk_pciercx_cfg071_s        cn88xxp1; */
 } bdk_pciercx_cfg071_t;
@@ -2644,7 +2596,6 @@ typedef union bdk_pciercx_cfg072 {
 		uint32_t dword2                      : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg072_s        cn85xx; */
 	/* struct bdk_pciercx_cfg072_s        cn88xx; */
 	/* struct bdk_pciercx_cfg072_s        cn88xxp1; */
 } bdk_pciercx_cfg072_t;
@@ -2678,7 +2629,6 @@ typedef union bdk_pciercx_cfg073 {
 		uint32_t dword3                      : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg073_s        cn85xx; */
 	/* struct bdk_pciercx_cfg073_s        cn88xx; */
 	/* struct bdk_pciercx_cfg073_s        cn88xxp1; */
 } bdk_pciercx_cfg073_t;
@@ -2712,7 +2662,6 @@ typedef union bdk_pciercx_cfg074 {
 		uint32_t dword4                      : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg074_s        cn85xx; */
 	/* struct bdk_pciercx_cfg074_s        cn88xx; */
 	/* struct bdk_pciercx_cfg074_s        cn88xxp1; */
 } bdk_pciercx_cfg074_t;
@@ -2752,7 +2701,6 @@ typedef union bdk_pciercx_cfg075 {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg075_s        cn85xx; */
 	/* struct bdk_pciercx_cfg075_s        cn88xx; */
 	/* struct bdk_pciercx_cfg075_s        cn88xxp1; */
 } bdk_pciercx_cfg075_t;
@@ -2803,7 +2751,6 @@ typedef union bdk_pciercx_cfg076 {
 		uint32_t aeimn                       : 5;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg076_s        cn85xx; */
 	/* struct bdk_pciercx_cfg076_s        cn88xx; */
 	/* struct bdk_pciercx_cfg076_s        cn88xxp1; */
 } bdk_pciercx_cfg076_t;
@@ -2839,7 +2786,6 @@ typedef union bdk_pciercx_cfg077 {
 		uint32_t efnfsi                      : 16;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg077_s        cn85xx; */
 	/* struct bdk_pciercx_cfg077_s        cn88xx; */
 	/* struct bdk_pciercx_cfg077_s        cn88xxp1; */
 } bdk_pciercx_cfg077_t;
@@ -2880,7 +2826,6 @@ typedef union bdk_pciercx_cfg086 {
 		uint32_t nco                         : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg086_s        cn85xx; */
 	/* struct bdk_pciercx_cfg086_s        cn88xx; */
 	/* struct bdk_pciercx_cfg086_s        cn88xxp1; */
 } bdk_pciercx_cfg086_t;
@@ -2918,7 +2863,6 @@ typedef union bdk_pciercx_cfg087 {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg087_s        cn85xx; */
 	/* struct bdk_pciercx_cfg087_s        cn88xx; */
 	/* struct bdk_pciercx_cfg087_s        cn88xxp1; */
 } bdk_pciercx_cfg087_t;
@@ -2954,7 +2898,6 @@ typedef union bdk_pciercx_cfg088 {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg088_s        cn85xx; */
 	/* struct bdk_pciercx_cfg088_s        cn88xx; */
 	/* struct bdk_pciercx_cfg088_s        cn88xxp1; */
 } bdk_pciercx_cfg088_t;
@@ -3018,7 +2961,6 @@ typedef union bdk_pciercx_cfg089 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg089_s        cn85xx; */
 	/* struct bdk_pciercx_cfg089_s        cn88xx; */
 	/* struct bdk_pciercx_cfg089_s        cn88xxp1; */
 } bdk_pciercx_cfg089_t;
@@ -3082,7 +3024,6 @@ typedef union bdk_pciercx_cfg090 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg090_s        cn85xx; */
 	/* struct bdk_pciercx_cfg090_s        cn88xx; */
 	/* struct bdk_pciercx_cfg090_s        cn88xxp1; */
 } bdk_pciercx_cfg090_t;
@@ -3146,7 +3087,6 @@ typedef union bdk_pciercx_cfg091 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg091_s        cn85xx; */
 	/* struct bdk_pciercx_cfg091_s        cn88xx; */
 	/* struct bdk_pciercx_cfg091_s        cn88xxp1; */
 } bdk_pciercx_cfg091_t;
@@ -3210,7 +3150,6 @@ typedef union bdk_pciercx_cfg092 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg092_s        cn85xx; */
 	/* struct bdk_pciercx_cfg092_s        cn88xx; */
 	/* struct bdk_pciercx_cfg092_s        cn88xxp1; */
 } bdk_pciercx_cfg092_t;
@@ -3253,7 +3192,6 @@ typedef union bdk_pciercx_cfg448 {
 		uint32_t rtl                         : 16;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg448_s        cn85xx; */
 	/* struct bdk_pciercx_cfg448_s        cn88xx; */
 	/* struct bdk_pciercx_cfg448_s        cn88xxp1; */
 } bdk_pciercx_cfg448_t;
@@ -3294,7 +3232,6 @@ typedef union bdk_pciercx_cfg449 {
 		uint32_t omr                         : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg449_s        cn85xx; */
 	/* struct bdk_pciercx_cfg449_s        cn88xx; */
 	/* struct bdk_pciercx_cfg449_s        cn88xxp1; */
 } bdk_pciercx_cfg449_t;
@@ -3381,7 +3318,6 @@ typedef union bdk_pciercx_cfg450 {
 		uint32_t lpec                        : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg450_s        cn85xx; */
 	/* struct bdk_pciercx_cfg450_s        cn88xx; */
 	/* struct bdk_pciercx_cfg450_s        cn88xxp1; */
 } bdk_pciercx_cfg450_t;
@@ -3452,7 +3388,6 @@ typedef union bdk_pciercx_cfg451 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg451_s        cn85xx; */
 	/* struct bdk_pciercx_cfg451_s        cn88xx; */
 	/* struct bdk_pciercx_cfg451_s        cn88xxp1; */
 } bdk_pciercx_cfg451_t;
@@ -3530,7 +3465,6 @@ typedef union bdk_pciercx_cfg452 {
 		uint32_t reserved_22_31              : 10;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg452_s        cn85xx; */
 	/* struct bdk_pciercx_cfg452_s        cn88xx; */
 	/* struct bdk_pciercx_cfg452_s        cn88xxp1; */
 } bdk_pciercx_cfg452_t;
@@ -3575,7 +3509,6 @@ typedef union bdk_pciercx_cfg453 {
 		uint32_t dlld                        : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg453_s        cn85xx; */
 	/* struct bdk_pciercx_cfg453_s        cn88xx; */
 	/* struct bdk_pciercx_cfg453_s        cn88xxp1; */
 } bdk_pciercx_cfg453_t;
@@ -3623,7 +3556,6 @@ typedef union bdk_pciercx_cfg454 {
 		uint32_t reserved_29_31              : 3;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg454_s        cn85xx; */
 	/* struct bdk_pciercx_cfg454_s        cn88xx; */
 	/* struct bdk_pciercx_cfg454_s        cn88xxp1; */
 } bdk_pciercx_cfg454_t;
@@ -3693,7 +3625,7 @@ typedef union bdk_pciercx_cfg455 {
 		uint32_t m_cfg0_filt                 : 1;
 #endif
 	} s;
-	struct bdk_pciercx_cfg455_cn85xx {
+	struct bdk_pciercx_cfg455_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t m_cfg0_filt                 : 1;  /**< R/W - Mask filtering of received configuration requests (RC mode only). */
 		uint32_t m_io_filt                   : 1;  /**< R/W - Mask filtering of received I/O requests (RC mode only). */
@@ -3735,9 +3667,8 @@ typedef union bdk_pciercx_cfg455 {
 		uint32_t m_io_filt                   : 1;
 		uint32_t m_cfg0_filt                 : 1;
 #endif
-	} cn85xx;
-	struct bdk_pciercx_cfg455_cn85xx      cn88xx;
-	struct bdk_pciercx_cfg455_cn85xx      cn88xxp1;
+	} cn88xx;
+	struct bdk_pciercx_cfg455_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg455_t;
 
 static inline uint64_t BDK_PCIERCX_CFG455(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3777,7 +3708,7 @@ typedef union bdk_pciercx_cfg456 {
 		uint32_t reserved_4_31               : 28;
 #endif
 	} s;
-	struct bdk_pciercx_cfg456_cn85xx {
+	struct bdk_pciercx_cfg456_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved31_4                : 28;
 		uint32_t m_handle_flush              : 1;  /**< R/W - Mask core filter to handle flush request. */
@@ -3791,9 +3722,8 @@ typedef union bdk_pciercx_cfg456 {
 		uint32_t m_handle_flush              : 1;
 		uint32_t reserved31_4                : 28;
 #endif
-	} cn85xx;
-	struct bdk_pciercx_cfg456_cn85xx      cn88xx;
-	struct bdk_pciercx_cfg456_cn85xx      cn88xxp1;
+	} cn88xx;
+	struct bdk_pciercx_cfg456_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg456_t;
 
 static inline uint64_t BDK_PCIERCX_CFG456(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3825,7 +3755,6 @@ typedef union bdk_pciercx_cfg458 {
 		uint32_t dbg_info_l32                : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg458_s        cn85xx; */
 	/* struct bdk_pciercx_cfg458_s        cn88xx; */
 	/* struct bdk_pciercx_cfg458_s        cn88xxp1; */
 } bdk_pciercx_cfg458_t;
@@ -3859,7 +3788,6 @@ typedef union bdk_pciercx_cfg459 {
 		uint32_t dbg_info_u32                : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg459_s        cn85xx; */
 	/* struct bdk_pciercx_cfg459_s        cn88xx; */
 	/* struct bdk_pciercx_cfg459_s        cn88xxp1; */
 } bdk_pciercx_cfg459_t;
@@ -3899,7 +3827,6 @@ typedef union bdk_pciercx_cfg460 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg460_s        cn85xx; */
 	/* struct bdk_pciercx_cfg460_s        cn88xx; */
 	/* struct bdk_pciercx_cfg460_s        cn88xxp1; */
 } bdk_pciercx_cfg460_t;
@@ -3939,7 +3866,6 @@ typedef union bdk_pciercx_cfg461 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg461_s        cn85xx; */
 	/* struct bdk_pciercx_cfg461_s        cn88xx; */
 	/* struct bdk_pciercx_cfg461_s        cn88xxp1; */
 } bdk_pciercx_cfg461_t;
@@ -3979,7 +3905,6 @@ typedef union bdk_pciercx_cfg462 {
 		uint32_t reserved_20_31              : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg462_s        cn85xx; */
 	/* struct bdk_pciercx_cfg462_s        cn88xx; */
 	/* struct bdk_pciercx_cfg462_s        cn88xxp1; */
 } bdk_pciercx_cfg462_t;
@@ -4031,7 +3956,7 @@ typedef union bdk_pciercx_cfg463 {
 		uint32_t fcltoe                      : 1;
 #endif
 	} s;
-	struct bdk_pciercx_cfg463_cn85xx {
+	struct bdk_pciercx_cfg463_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t fcltoe                      : 1;  /**< R/W - FC latency timer override enable. When this bit is set, the value in
                                                                  PCIERC()_CFG453[FCLTOV] will override the FC latency timer value that the core
@@ -4055,9 +3980,8 @@ typedef union bdk_pciercx_cfg463 {
 		uint32_t reserved30_29               : 2;
 		uint32_t fcltoe                      : 1;
 #endif
-	} cn85xx;
-	struct bdk_pciercx_cfg463_cn85xx      cn88xx;
-	struct bdk_pciercx_cfg463_cn85xx      cn88xxp1;
+	} cn88xx;
+	struct bdk_pciercx_cfg463_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg463_t;
 
 static inline uint64_t BDK_PCIERCX_CFG463(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4095,7 +4019,6 @@ typedef union bdk_pciercx_cfg464 {
 		uint32_t wrr_vc3                     : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg464_s        cn85xx; */
 	/* struct bdk_pciercx_cfg464_s        cn88xx; */
 	/* struct bdk_pciercx_cfg464_s        cn88xxp1; */
 } bdk_pciercx_cfg464_t;
@@ -4135,7 +4058,6 @@ typedef union bdk_pciercx_cfg465 {
 		uint32_t wrr_vc7                     : 8;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg465_s        cn85xx; */
 	/* struct bdk_pciercx_cfg465_s        cn88xx; */
 	/* struct bdk_pciercx_cfg465_s        cn88xxp1; */
 } bdk_pciercx_cfg465_t;
@@ -4205,7 +4127,7 @@ typedef union bdk_pciercx_cfg466 {
 		uint32_t rx_queue_order              : 1;
 #endif
 	} s;
-	struct bdk_pciercx_cfg466_cn85xx {
+	struct bdk_pciercx_cfg466_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t rx_queue_order              : 1;  /**< R/W - VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
                                                                  used only in the segmented-buffer configuration, writable through PEM()_CFG_WR:
@@ -4247,9 +4169,8 @@ typedef union bdk_pciercx_cfg466 {
 		uint32_t type_ordering               : 1;
 		uint32_t rx_queue_order              : 1;
 #endif
-	} cn85xx;
-	struct bdk_pciercx_cfg466_cn85xx      cn88xx;
-	struct bdk_pciercx_cfg466_cn85xx      cn88xxp1;
+	} cn88xx;
+	struct bdk_pciercx_cfg466_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg466_t;
 
 static inline uint64_t BDK_PCIERCX_CFG466(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4303,7 +4224,7 @@ typedef union bdk_pciercx_cfg467 {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	struct bdk_pciercx_cfg467_cn85xx {
+	struct bdk_pciercx_cfg467_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved31_24               : 8;
 		uint32_t queue_mode                  : 3;  /**< RO/WRSL - VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
@@ -4331,9 +4252,8 @@ typedef union bdk_pciercx_cfg467 {
 		uint32_t queue_mode                  : 3;
 		uint32_t reserved31_24               : 8;
 #endif
-	} cn85xx;
-	struct bdk_pciercx_cfg467_cn85xx      cn88xx;
-	struct bdk_pciercx_cfg467_cn85xx      cn88xxp1;
+	} cn88xx;
+	struct bdk_pciercx_cfg467_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg467_t;
 
 static inline uint64_t BDK_PCIERCX_CFG467(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4388,7 +4308,7 @@ typedef union bdk_pciercx_cfg468 {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	struct bdk_pciercx_cfg468_cn85xx {
+	struct bdk_pciercx_cfg468_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved31_24               : 8;
 		uint32_t queue_mode                  : 3;  /**< RO/WRSL - VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
@@ -4417,9 +4337,8 @@ typedef union bdk_pciercx_cfg468 {
 		uint32_t queue_mode                  : 3;
 		uint32_t reserved31_24               : 8;
 #endif
-	} cn85xx;
-	struct bdk_pciercx_cfg468_cn85xx      cn88xx;
-	struct bdk_pciercx_cfg468_cn85xx      cn88xxp1;
+	} cn88xx;
+	struct bdk_pciercx_cfg468_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg468_t;
 
 static inline uint64_t BDK_PCIERCX_CFG468(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4473,7 +4392,6 @@ typedef union bdk_pciercx_cfg515 {
 		uint32_t reserved_21_31              : 11;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg515_s        cn85xx; */
 	/* struct bdk_pciercx_cfg515_s        cn88xx; */
 	/* struct bdk_pciercx_cfg515_s        cn88xxp1; */
 } bdk_pciercx_cfg515_t;
@@ -4507,7 +4425,6 @@ typedef union bdk_pciercx_cfg516 {
 		uint32_t phy_stat                    : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg516_s        cn85xx; */
 	/* struct bdk_pciercx_cfg516_s        cn88xx; */
 	/* struct bdk_pciercx_cfg516_s        cn88xxp1; */
 } bdk_pciercx_cfg516_t;
@@ -4541,7 +4458,6 @@ typedef union bdk_pciercx_cfg517 {
 		uint32_t phy_ctrl                    : 32;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg517_s        cn85xx; */
 	/* struct bdk_pciercx_cfg517_s        cn88xx; */
 	/* struct bdk_pciercx_cfg517_s        cn88xxp1; */
 } bdk_pciercx_cfg517_t;
@@ -4598,7 +4514,6 @@ typedef union bdk_pciercx_cfg548 {
 		uint32_t reserved_19_31              : 13;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg548_s        cn85xx; */
 	/* struct bdk_pciercx_cfg548_s        cn88xx; */
 	/* struct bdk_pciercx_cfg548_s        cn88xxp1; */
 } bdk_pciercx_cfg548_t;
@@ -4696,7 +4611,6 @@ typedef union bdk_pciercx_cfg554 {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg554_s        cn85xx; */
 	/* struct bdk_pciercx_cfg554_s        cn88xx; */
 	/* struct bdk_pciercx_cfg554_s        cn88xxp1; */
 } bdk_pciercx_cfg554_t;
@@ -4732,7 +4646,6 @@ typedef union bdk_pciercx_cfg558 {
 		uint32_t ple                         : 1;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg558_s        cn85xx; */
 	/* struct bdk_pciercx_cfg558_s        cn88xx; */
 	/* struct bdk_pciercx_cfg558_s        cn88xxp1; */
 } bdk_pciercx_cfg558_t;

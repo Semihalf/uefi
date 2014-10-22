@@ -82,7 +82,6 @@
 #include "bdk-csrs-pccvf.h"
 #include "bdk-csrs-pcierc.h"
 #include "bdk-csrs-pem.h"
-#include "bdk-csrs-psm.h"
 #include "bdk-csrs-rad.h"
 #include "bdk-csrs-rnm.h"
 #include "bdk-csrs-rom.h"

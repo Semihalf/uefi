@@ -441,7 +441,6 @@ typedef union bdk_gpio_bit_cfgx {
 		uint64_t reserved_24_63              : 40;
 #endif
 	} s;
-	/* struct bdk_gpio_bit_cfgx_s         cn85xx; */
 	/* struct bdk_gpio_bit_cfgx_s         cn88xx; */
 	/* struct bdk_gpio_bit_cfgx_s         cn88xxp1; */
 } bdk_gpio_bit_cfgx_t;
@@ -478,7 +477,6 @@ typedef union bdk_gpio_clk_genx {
 		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
-	/* struct bdk_gpio_clk_genx_s         cn85xx; */
 	/* struct bdk_gpio_clk_genx_s         cn88xx; */
 	/* struct bdk_gpio_clk_genx_s         cn88xxp1; */
 } bdk_gpio_clk_genx_t;
@@ -527,7 +525,6 @@ typedef union bdk_gpio_clk_syncex {
 		uint64_t reserved_12_63              : 52;
 #endif
 	} s;
-	/* struct bdk_gpio_clk_syncex_s       cn85xx; */
 	/* struct bdk_gpio_clk_syncex_s       cn88xx; */
 	/* struct bdk_gpio_clk_syncex_s       cn88xxp1; */
 } bdk_gpio_clk_syncex_t;
@@ -570,7 +567,6 @@ typedef union bdk_gpio_comp {
 		uint64_t reserved_11_63              : 53;
 #endif
 	} s;
-	/* struct bdk_gpio_comp_s             cn85xx; */
 	/* struct bdk_gpio_comp_s             cn88xx; */
 	/* struct bdk_gpio_comp_s             cn88xxp1; */
 } bdk_gpio_comp_t;
@@ -613,7 +609,6 @@ typedef union bdk_gpio_intrx {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_gpio_intrx_s            cn85xx; */
 	/* struct bdk_gpio_intrx_s            cn88xx; */
 	/* struct bdk_gpio_intrx_s            cn88xxp1; */
 } bdk_gpio_intrx_t;
@@ -652,7 +647,6 @@ typedef union bdk_gpio_mc_intrx {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_gpio_mc_intrx_s         cn85xx; */
 	/* struct bdk_gpio_mc_intrx_s         cn88xx; */
 	/* struct bdk_gpio_mc_intrx_s         cn88xxp1; */
 } bdk_gpio_mc_intrx_t;
@@ -688,7 +682,6 @@ typedef union bdk_gpio_mc_intrx_ena_w1c {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_gpio_mc_intrx_ena_w1c_s cn85xx; */
 	/* struct bdk_gpio_mc_intrx_ena_w1c_s cn88xx; */
 	/* struct bdk_gpio_mc_intrx_ena_w1c_s cn88xxp1; */
 } bdk_gpio_mc_intrx_ena_w1c_t;
@@ -724,7 +717,6 @@ typedef union bdk_gpio_mc_intrx_ena_w1s {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_gpio_mc_intrx_ena_w1s_s cn85xx; */
 	/* struct bdk_gpio_mc_intrx_ena_w1s_s cn88xx; */
 	/* struct bdk_gpio_mc_intrx_ena_w1s_s cn88xxp1; */
 } bdk_gpio_mc_intrx_ena_w1s_t;
@@ -760,7 +752,6 @@ typedef union bdk_gpio_mc_intrx_w1s {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_gpio_mc_intrx_w1s_s     cn85xx; */
 	/* struct bdk_gpio_mc_intrx_w1s_s     cn88xx; */
 	/* struct bdk_gpio_mc_intrx_w1s_s     cn88xxp1; */
 } bdk_gpio_mc_intrx_w1s_t;
@@ -796,7 +787,6 @@ typedef union bdk_gpio_msix_pbax {
 		uint64_t pend                        : 64;
 #endif
 	} s;
-	/* struct bdk_gpio_msix_pbax_s        cn85xx; */
 	/* struct bdk_gpio_msix_pbax_s        cn88xx; */
 	/* struct bdk_gpio_msix_pbax_s        cn88xxp1; */
 } bdk_gpio_msix_pbax_t;
@@ -843,7 +833,6 @@ typedef union bdk_gpio_msix_vecx_addr {
 		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
-	/* struct bdk_gpio_msix_vecx_addr_s   cn85xx; */
 	/* struct bdk_gpio_msix_vecx_addr_s   cn88xx; */
 	/* struct bdk_gpio_msix_vecx_addr_s   cn88xxp1; */
 } bdk_gpio_msix_vecx_addr_t;
@@ -883,7 +872,6 @@ typedef union bdk_gpio_msix_vecx_ctl {
 		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
-	/* struct bdk_gpio_msix_vecx_ctl_s    cn85xx; */
 	/* struct bdk_gpio_msix_vecx_ctl_s    cn88xx; */
 	/* struct bdk_gpio_msix_vecx_ctl_s    cn88xxp1; */
 } bdk_gpio_msix_vecx_ctl_t;
@@ -921,7 +909,6 @@ typedef union bdk_gpio_multi_cast {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_gpio_multi_cast_s       cn85xx; */
 	/* struct bdk_gpio_multi_cast_s       cn88xx; */
 	/* struct bdk_gpio_multi_cast_s       cn88xxp1; */
 } bdk_gpio_multi_cast_t;
@@ -957,7 +944,6 @@ typedef union bdk_gpio_ocla_exten_trig {
 		uint64_t reserved_1_63               : 63;
 #endif
 	} s;
-	/* struct bdk_gpio_ocla_exten_trig_s  cn85xx; */
 	/* struct bdk_gpio_ocla_exten_trig_s  cn88xx; */
 	/* struct bdk_gpio_ocla_exten_trig_s  cn88xxp1; */
 } bdk_gpio_ocla_exten_trig_t;
@@ -993,7 +979,6 @@ typedef union bdk_gpio_rx_dat {
 		uint64_t reserved_51_63              : 13;
 #endif
 	} s;
-	/* struct bdk_gpio_rx_dat_s           cn85xx; */
 	/* struct bdk_gpio_rx_dat_s           cn88xx; */
 	/* struct bdk_gpio_rx_dat_s           cn88xxp1; */
 } bdk_gpio_rx_dat_t;
@@ -1028,7 +1013,6 @@ typedef union bdk_gpio_strap {
 		uint64_t reserved_51_63              : 13;
 #endif
 	} s;
-	/* struct bdk_gpio_strap_s            cn85xx; */
 	/* struct bdk_gpio_strap_s            cn88xx; */
 	/* struct bdk_gpio_strap_s            cn88xxp1; */
 } bdk_gpio_strap_t;
@@ -1061,7 +1045,6 @@ typedef union bdk_gpio_tx_clr {
 		uint64_t reserved_51_63              : 13;
 #endif
 	} s;
-	/* struct bdk_gpio_tx_clr_s           cn85xx; */
 	/* struct bdk_gpio_tx_clr_s           cn88xx; */
 	/* struct bdk_gpio_tx_clr_s           cn88xxp1; */
 } bdk_gpio_tx_clr_t;
@@ -1094,7 +1077,6 @@ typedef union bdk_gpio_tx_set {
 		uint64_t reserved_51_63              : 13;
 #endif
 	} s;
-	/* struct bdk_gpio_tx_set_s           cn85xx; */
 	/* struct bdk_gpio_tx_set_s           cn88xx; */
 	/* struct bdk_gpio_tx_set_s           cn88xxp1; */
 } bdk_gpio_tx_set_t;

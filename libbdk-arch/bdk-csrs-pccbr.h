@@ -75,7 +75,6 @@ typedef union bdk_pccbr_xxx_ari_cap_hdr {
 		uint32_t nco                         : 12;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_ari_cap_hdr_s cn85xx; */
 	/* struct bdk_pccbr_xxx_ari_cap_hdr_s cn88xx; */
 	/* struct bdk_pccbr_xxx_ari_cap_hdr_s cn88xxp1; */
 } bdk_pccbr_xxx_ari_cap_hdr_t;
@@ -132,7 +131,6 @@ typedef union bdk_pccbr_xxx_bus {
 		uint32_t slt                         : 8;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_bus_s         cn85xx; */
 	/* struct bdk_pccbr_xxx_bus_s         cn88xx; */
 	/* struct bdk_pccbr_xxx_bus_s         cn88xxp1; */
 } bdk_pccbr_xxx_bus_t;
@@ -164,7 +162,6 @@ typedef union bdk_pccbr_xxx_cap_ptr {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_cap_ptr_s     cn85xx; */
 	/* struct bdk_pccbr_xxx_cap_ptr_s     cn88xx; */
 	/* struct bdk_pccbr_xxx_cap_ptr_s     cn88xxp1; */
 } bdk_pccbr_xxx_cap_ptr_t;
@@ -202,7 +199,6 @@ typedef union bdk_pccbr_xxx_clsize {
 		uint32_t bist                        : 8;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_clsize_s      cn85xx; */
 	/* struct bdk_pccbr_xxx_clsize_s      cn88xx; */
 	/* struct bdk_pccbr_xxx_clsize_s      cn88xxp1; */
 } bdk_pccbr_xxx_clsize_t;
@@ -242,7 +238,6 @@ typedef union bdk_pccbr_xxx_cmd {
 		uint32_t reserved_21_31              : 11;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_cmd_s         cn85xx; */
 	/* struct bdk_pccbr_xxx_cmd_s         cn88xx; */
 	/* struct bdk_pccbr_xxx_cmd_s         cn88xxp1; */
 } bdk_pccbr_xxx_cmd_t;
@@ -276,7 +271,6 @@ typedef union bdk_pccbr_xxx_e_cap2 {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_e_cap2_s      cn85xx; */
 	/* struct bdk_pccbr_xxx_e_cap2_s      cn88xx; */
 	/* struct bdk_pccbr_xxx_e_cap2_s      cn88xxp1; */
 } bdk_pccbr_xxx_e_cap2_t;
@@ -314,7 +308,6 @@ typedef union bdk_pccbr_xxx_e_cap_hdr {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_e_cap_hdr_s   cn85xx; */
 	/* struct bdk_pccbr_xxx_e_cap_hdr_s   cn88xx; */
 	/* struct bdk_pccbr_xxx_e_cap_hdr_s   cn88xxp1; */
 } bdk_pccbr_xxx_e_cap_hdr_t;
@@ -346,7 +339,6 @@ typedef union bdk_pccbr_xxx_id {
 		uint32_t devid                       : 16;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_id_s          cn85xx; */
 	/* struct bdk_pccbr_xxx_id_s          cn88xx; */
 	/* struct bdk_pccbr_xxx_id_s          cn88xxp1; */
 } bdk_pccbr_xxx_id_t;
@@ -382,7 +374,6 @@ typedef union bdk_pccbr_xxx_rev {
 		uint32_t bcc                         : 8;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_rev_s         cn85xx; */
 	/* struct bdk_pccbr_xxx_rev_s         cn88xx; */
 	/* struct bdk_pccbr_xxx_rev_s         cn88xxp1; */
 } bdk_pccbr_xxx_rev_t;
@@ -416,7 +407,6 @@ typedef union bdk_pccbr_xxx_vsec_cap_hdr {
 		uint32_t nco                         : 12;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn88xx; */
 	/* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn88xxp1; */
 } bdk_pccbr_xxx_vsec_cap_hdr_t;
@@ -452,7 +442,6 @@ typedef union bdk_pccbr_xxx_vsec_ctl {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_vsec_ctl_s    cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_ctl_s    cn88xx; */
 	/* struct bdk_pccbr_xxx_vsec_ctl_s    cn88xxp1; */
 } bdk_pccbr_xxx_vsec_ctl_t;
@@ -486,7 +475,6 @@ typedef union bdk_pccbr_xxx_vsec_id {
 		uint32_t len                         : 12;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_vsec_id_s     cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_id_s     cn88xx; */
 	/* struct bdk_pccbr_xxx_vsec_id_s     cn88xxp1; */
 } bdk_pccbr_xxx_vsec_id_t;
@@ -520,7 +508,6 @@ typedef union bdk_pccbr_xxx_vsec_sctl {
 		uint32_t reserved_24_31              : 8;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_vsec_sctl_s   cn85xx; */
 	/* struct bdk_pccbr_xxx_vsec_sctl_s   cn88xx; */
 	/* struct bdk_pccbr_xxx_vsec_sctl_s   cn88xxp1; */
 } bdk_pccbr_xxx_vsec_sctl_t;
