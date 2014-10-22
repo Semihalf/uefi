@@ -259,6 +259,7 @@ def build_csr(chip_info, group, register, raw):
                    "dv_force_no_compare",
                    "dv_testbuilder_no_create",
                    "dv_uvm_no_create",
+                   "exempt_easy_decode",
                    "exempt_name_length",
                    "exempt_name_inherits",
                    "exempt_natural_alignment",
