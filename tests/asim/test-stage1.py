@@ -114,7 +114,7 @@ wait_for("4) Main menu")
 wait_for("(INS)Menu choice:")
 
 send("1")
-wait_for("BDK DRAM: 16384 MB, 666 MHz")
+wait_for("BDK DRAM: 8192 MB, 666 MHz")
 wait_for("DRAM Menu")
 wait_for("=========")
 wait_for("1) Initialize DRAM using config \"ebb8800\"")
