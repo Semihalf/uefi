@@ -28,8 +28,6 @@ if package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
 elseif cavium.is_model(cavium.CN88XX) then
     menu.dofile("board-ebb8800")
-elseif cavium.is_model(cavium.CN85XX) then
-    menu.dofile("board-ebb8500")
 end
 
 local function do_trafficgen()
