@@ -2,7 +2,6 @@
 CHIP_TO_MODEL = {
     "cn88xxp1": "CAVIUM_CN88XX_PASS1_X",
     "cn88xx":   "CAVIUM_CN88XX_PASS2_X",
-    "cn85xx":   "CAVIUM_CN85XX_PASS1_X",
 }
 
 # This is filled in when write() is called. It is derived from the chip list
