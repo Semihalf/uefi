@@ -13,6 +13,7 @@ from chip_bar import ChipBar
 from types import *
 
 pp = pprint.PrettyPrinter(indent=4, width=132)
+xpliant_map = {}
 
 #
 # Check that all the keys in "dict" are listed in "keys". Name is text to
@@ -224,6 +225,7 @@ def build_struct(chip_info, group, struct):
 # Build a csr object from its yaml representation
 #
 def build_csr(chip_info, group, register, raw):
+    global xpliant_map
     #pp.pprint(register)
     check_keys("csr", register, [
                "name",          # CSR name (text with range info embedded)
@@ -288,6 +290,7 @@ def build_csr(chip_info, group, register, raw):
                    "uvm_default_constraint",
                    "xpliant_name",
                    "xpliant_xml_skip"])
+
     # Parse the register name, description, and notes
     name_list = parseCsrName(register["name"])
     description = register.get("description", "").split("\n")
@@ -383,6 +386,16 @@ def build_csr(chip_info, group, register, raw):
     if csr.name == "mio_boot_reg_cfg#":
         csr.range[0][0] = 0
     chip_info.addCsr(csr)
+    # Add CSRs to Xpliant name map
+    if ("attributes" in register) and ("xpliant_name" in register["attributes"]):
+        xp_name = register["attributes"]["xpliant_name"]
+        csr_name = csr.getCname()
+        if not chip_info.name in xpliant_map:
+            xpliant_map[chip_info.name] = {}
+        if not xp_name in xpliant_map[chip_info.name]:
+            xpliant_map[chip_info.name][xp_name] = []
+        assert not csr_name in xpliant_map[chip_info.name][xp_name]
+        xpliant_map[chip_info.name][xp_name].append(csr_name)
 
 #
 # Read a single YAML file and add its registers to the supplied csr list
@@ -415,6 +428,31 @@ def read_yaml(chip_info, filename):
             build_csr(chip_info, group, register, raw)
 
 #
+# Write Lua files that map Xpliant long name to CSR short names
+#
+def output_xpliant_maps():
+    global xpliant_map
+    for chip in xpliant_map:
+        out = open("output/tns-map-%s.lua" % chip, "w")
+        out.write('--\n')
+        out.write('-- Map TNS logn names to short CSR names\n')
+        out.write('-- Auto generated, do not edit\n')
+        out.write('--\n')
+        out.write("local tns_map = {\n")
+        long_names = xpliant_map[chip].keys()
+        long_names.sort()
+        for lname in long_names:
+            short_names = xpliant_map[chip][lname]
+            short_names.sort()
+            out.write("    %s = {" % lname)
+            for sname in short_names:
+                out.write("\"%s\"," % sname)
+            out.write("},\n")
+        out.write("}\n")
+        out.write("return tns_map\n\n")
+        out.close()
+
+#
 # Read all the YAML files in a directory and create a complete CSR list
 # for the chip
 #
@@ -429,5 +467,6 @@ def read(chip_name, input_dir, pass_dict):
             read_yaml(chip_info, input_dir + "/" + file)
         except:
             raise
+    output_xpliant_maps()
     return chip_info
 
