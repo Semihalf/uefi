@@ -31,6 +31,12 @@ device io_memory n0.ccpi config 0x1000000 0x87e011000000
 device io_memory n1.ccpi config 0x1000000 0x97e011000000
 device io_memory n0.ocla config 0x1000000 0x87E0A8000000
 device io_memory n1.ocla config 0x1000000 0x97E0A8000000
+device io_memory n0.tns_bar0 config 0x10000 0x842000000000
+device io_memory n0.tns_bar2 config 0x40000000 0x842040000000
+device io_memory n0.tns_bar4 config 0x100000 0x842000f00000
+device io_memory n1.tns_bar0 config 0x10000 0x942000000000
+device io_memory n1.tns_bar2 config 0x40000000 0x942040000000
+device io_memory n1.tns_bar4 config 0x100000 0x942000f00000
 
 
 # Make 2nd node remote boot
