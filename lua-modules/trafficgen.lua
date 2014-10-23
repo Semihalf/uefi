@@ -48,6 +48,7 @@ function TrafficGen.new()
     local l2_stats_table = {}
     local show_l2_stats = false
     local oci_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
+    local status, tns_map = pcall(require, "tns")
 
     --
     -- Public variables
@@ -418,6 +419,24 @@ function TrafficGen.new()
                 end
             end
         end
+
+        -- Add command to map Xpliant long names to TNS names
+        if tns_map then
+            function self:cmd_tns(port_range, args)
+                assert(args[1], "Xpliant long name expected")
+                local long_name = args[1]:upper()
+                local suffix = ""
+                local paren = long_name:find("(", 2, true)
+                if paren then
+                    suffix = long_name:sub(paren)
+                    long_name = long_name:sub(1,paren-1)
+                end
+                assert(tns_map[long_name], "Xpliant long name not found")
+                for _,name in ipairs(tns_map[long_name]) do
+                    cavium.csr.lookup(name .. suffix).display()
+                end
+            end
+        end
     end
 
     function self:cmd_threads(port_range, args)
@@ -663,7 +682,12 @@ function TrafficGen.new()
             if n:sub(1,5) == "cmdp_" then
                 tab[n:sub(6)] = known_ports
             elseif n:sub(1,4) == "cmd_" then
-                tab[#tab+1] = n:sub(5)
+                local cmd = n:sub(5)
+                if cmd == "tns" then
+                    tab[cmd] = tns_map
+                else
+                    tab[#tab+1] = n:sub(5)
+                end
             end
         end
         return tab
