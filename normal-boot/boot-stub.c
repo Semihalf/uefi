@@ -187,6 +187,36 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
 }
 
 /**
+ * Run DRAM tests over a range of memory using multiple cores
+ *
+ * @param start_address
+ *               Start address of range
+ * @param length Length of the range in bytes
+ */
+static void dram_test(uint64_t start_address, uint64_t length)
+{
+    /* Start all cores for multi-core memory test */
+    bdk_init_cores(bdk_numa_local(), 0);
+    printf("DRAM Test: 0x%lx - 0x%lx\n", start_address, start_address + length - 1);
+    int test = 0;
+    while (1)
+    {
+        const char *test_name = bdk_dram_get_test_name(test);
+        if (test_name == NULL)
+            break;
+        printf("Running DRAM Test: %s\n", test_name);
+        int errors = bdk_dram_test(test, start_address, length);
+        if (errors)
+        {
+            bdk_error("DRAM tests errors, stopping\n");
+            return;
+        }
+        test++;
+    }
+    printf("All tests passed\n");
+}
+
+/**
  * Main entry point
  *
  * @return exit code
@@ -323,6 +353,7 @@ int main(void)
     /* Unlock L2 now that DRAM works */
     BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
     bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
+    dram_test(64 << 20, 32 << 20);
 #endif
 
     /* Send status to the BMC: Master DRAM init complete */
