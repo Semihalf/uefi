@@ -353,7 +353,8 @@ int main(void)
     /* Unlock L2 now that DRAM works */
     BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
     bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
-    dram_test(64 << 20, 32 << 20);
+    if (!bdk_is_simulation())
+        dram_test(64 << 20, 32 << 20);
 #endif
 
     /* Send status to the BMC: Master DRAM init complete */
