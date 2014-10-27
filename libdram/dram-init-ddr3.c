@@ -673,6 +673,8 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 		error_print("Timeout waiting for LMC sequence, ignoring: rank_mask=0x%02x, sequence=%d, %s\n",
 			rank_mask, sequence, sequence_str[sequence]);
 	}
+        if (seq_ctl.s.seq_complete == 1)
+            ddr_print("           LMC sequence: Completed.\n");
 }
 
 int init_octeon3_ddr3_interface(bdk_node_t node,
