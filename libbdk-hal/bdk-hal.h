@@ -40,5 +40,6 @@
 #include "bdk-twsi.h"
 #include "bdk-usb.h"
 #include "bdk-access-native.h"
+#include "bdk-tns.h"
 
 #endif
