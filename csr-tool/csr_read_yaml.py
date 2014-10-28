@@ -256,11 +256,13 @@ def build_csr(chip_info, group, register, raw):
         check_keys("register[attributes]", register["attributes"], [
                    "arch_max",
                    "backdoor_mem_path",
+                   "chip_pass",
                    "dv_bist_all_fail_test",
                    "dv_fc_scratch",
                    "dv_force_no_compare",
                    "dv_testbuilder_no_create",
                    "dv_uvm_no_create",
+                   "eco_reserved",
                    "exempt_easy_decode",
                    "exempt_name_length",
                    "exempt_name_inherits",
@@ -290,6 +292,17 @@ def build_csr(chip_info, group, register, raw):
                    "uvm_default_constraint",
                    "xpliant_name",
                    "xpliant_xml_skip"])
+        if "chip_pass" in register["attributes"]:
+            pass_equation = register["attributes"]["chip_pass"].split(";")
+            is_this_pass = False
+            for eq in pass_equation:
+                try:
+                    is_this_pass = is_this_pass or eval(eq, {}, chip_info.pass_dict)
+                except:
+                    pass
+            print pass_equation, is_this_pass
+            if not is_this_pass:
+                return
 
     # Parse the register name, description, and notes
     name_list = parseCsrName(register["name"])
