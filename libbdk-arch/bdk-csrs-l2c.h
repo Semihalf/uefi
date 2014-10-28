@@ -576,6 +576,55 @@ typedef union bdk_l2c_ctl {
                                                                  For optimal performance set to
                                                                  10 * (DDR-clock period/core-clock period) - 1.
                                                                  To disable set to 0. All other values are reserved. */
+		uint64_t reserved_5_5                : 1;
+		uint64_t disgsyncto                  : 1;  /**< R/W - Disable global sync timeout.
+                                                                 INTERNAL: PASS2: Disables the CBC global sync timeout only, so not an OCI timeout. */
+		uint64_t disldwb                     : 1;  /**< R/W - Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
+		uint64_t dissblkdty                  : 1;  /**< R/W - Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
+                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
+                                                                 DISSBLKDTY or operation is undefined.
+                                                                 INTERNAL: PASS2: DISSBLKDTY should reset to 0, once verif supports it. */
+		uint64_t disecc                      : 1;  /**< R/W - Tag and data ECC disable. */
+		uint64_t disidxalias                 : 1;  /**< R/W - Index alias disable. */
+#else
+		uint64_t disidxalias                 : 1;
+		uint64_t disecc                      : 1;
+		uint64_t dissblkdty                  : 1;
+		uint64_t disldwb                     : 1;
+		uint64_t disgsyncto                  : 1;
+		uint64_t reserved_5_5                : 1;
+		uint64_t rdf_cnt                     : 8;
+		uint64_t xmc_arb_mode                : 1;
+		uint64_t rsp_arb_mode                : 1;
+		uint64_t reserved_16_23              : 8;
+		uint64_t discclk                     : 1;
+		uint64_t reserved_25_26              : 2;
+		uint64_t disstgl2i                   : 1;
+		uint64_t reserved_28_28              : 1;
+		uint64_t ocla_qos                    : 3;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_l2c_ctl_s               cn88xx; */
+	struct bdk_l2c_ctl_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t ocla_qos                    : 3;  /**< R/W - QOS level for the transactions from OCLA to L2C. */
+		uint64_t reserved_28_28              : 1;
+		uint64_t disstgl2i                   : 1;  /**< R/W - Disable STGL2Is from changing the tags. */
+		uint64_t reserved_25_26              : 2;
+		uint64_t discclk                     : 1;  /**< R/W - Disable conditional clocking in L2C PNR blocks. */
+		uint64_t reserved_16_23              : 8;
+		uint64_t rsp_arb_mode                : 1;  /**< R/W - Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
+                                                                 1. IOR data.
+                                                                 2. STIN/FILLs.
+                                                                 3. STDN/SCDN/SCFL. */
+		uint64_t xmc_arb_mode                : 1;  /**< R/W - Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
+                                                                 highest priority; QOS 1-7 use normal mode. */
+		uint64_t rdf_cnt                     : 8;  /**< R/W - Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
+                                                                 For optimal performance set to
+                                                                 10 * (DDR-clock period/core-clock period) - 1.
+                                                                 To disable set to 0. All other values are reserved. */
 		uint64_t reserved_4_5                : 2;
 		uint64_t disldwb                     : 1;  /**< R/W - Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
 		uint64_t dissblkdty                  : 1;  /**< R/W - Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
@@ -601,9 +650,7 @@ typedef union bdk_l2c_ctl {
 		uint64_t ocla_qos                    : 3;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_l2c_ctl_s               cn88xx; */
-	/* struct bdk_l2c_ctl_s               cn88xxp1; */
+	} cn88xxp1;
 } bdk_l2c_ctl_t;
 
 #define BDK_L2C_CTL BDK_L2C_CTL_FUNC()

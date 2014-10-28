@@ -1867,12 +1867,12 @@ typedef union bdk_gserx_lanex_rx_cfg_2 {
 
                                                                  \<9:8\>: Reserved.
 
-                                                                 \<7:4\>: Pre-CTL gain
+                                                                 \<7:4\>: Pre-CTLE (continuous time linear equalizer) gain:
                                                                  - 0 = -6dB
                                                                  - 1 = -5dB
                                                                  - 3 = +5dB.
 
-                                                                 \<3:0\>: Post-CTL gain (steps of 0.0875)
+                                                                 \<3:0\>: Post-CTLE gain (steps of 0.0875):
                                                                  - 0x0 = lowest
                                                                  - 0xf = lowest * 2.3125. */
 #else
@@ -2200,6 +2200,48 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
+		uint64_t reserved_1_3                : 3;
+		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used. */
+#else
+		uint64_t cfg_rxeq_eval_restore_en    : 1;
+		uint64_t reserved_1_3                : 3;
+		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
+		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
+		uint64_t reserved_6_6                : 1;
+		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;
+		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;
+		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;
+		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;
+		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xx; */
+	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;  /**< R/W - Override value for RX OOB Clock Enable. */
+		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;  /**< R/W - Override enable for RX OOB Clock Enable. */
+		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;  /**< R/W - Override value for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;  /**< R/W - Override enable for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;  /**< R/W - Not supported. */
+		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;  /**< R/W - Training mode control in override mode. */
+		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;  /**< R/W - Override enable for RX-EQ Eval
+                                                                 When asserted, training mode is controlled by
+                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
+		uint64_t reserved_6_6                : 1;
+		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;  /**< R/W - When asserted, override DLL lock enable
+                                                                 signal from the RX Power State machine with
+                                                                 CFG_RX_DLL_LOCKEN in register
+                                                                 GSER()_LANE()_RX_CFG_1. */
+		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
+                                                                 to cfg_rx_errdet_ctrl in registers
+                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
 		uint64_t reserved_0_3                : 4;
 #else
 		uint64_t reserved_0_3                : 4;
@@ -2215,9 +2257,7 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;
 		uint64_t reserved_14_63              : 50;
 #endif
-	} s;
-	/* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xx; */
-	/* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_gserx_lanex_rx_misc_ovrrd_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2596,17 +2636,17 @@ typedef union bdk_gserx_lanex_rx_vma_status_1 {
 	struct bdk_gserx_lanex_rx_vma_status_1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t sds_pcs_rx_vma_status       : 16; /**< RO/H - \<15:8\>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]
-                                                                 0x0 = Pre-CTL gain, CTLE Peak.
-                                                                 0x1 = CTL pole, SDLL_IQ.
-                                                                 0x2 = Window counter[11:3].
-                                                                 0x3 = Window counter[19:12] (VMA RAW FOM).
+		uint64_t sds_pcs_rx_vma_status       : 16; /**< RO/H - \<15:8\>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]:
+                                                                 0x0 = Window counter[19:12] (VMA RAW FOM).
+                                                                 0x1 = Window counter[11:4].
+                                                                 0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
+                                                                 0x3 = Pre-CTLE gain, CTLE Peak.
 
-                                                                 \<7\>: Training done
+                                                                 \<7\>: Training done.
 
-                                                                 \<6\>: Internal state machine training done
+                                                                 \<6\>: Internal state machine training done.
 
-                                                                 \<5:3\>: Internal state machine Delta
+                                                                 \<5:3\>: Internal state machine delta.
 
                                                                  \<2:0\>: CDR Phase Offset, DLL IQ Training value. */
 #else

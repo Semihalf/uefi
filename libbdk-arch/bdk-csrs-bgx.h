@@ -1670,8 +1670,7 @@ typedef union bdk_bgxx_cmrx_tx_stat10 {
 		uint64_t reserved_48_63              : 16;
 		uint64_t hist4                       : 48; /**< R/W/H - Number of packets sent with an octet count between 256-511. Packet length is the sum of
                                                                  all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
-                                                                 EXTEND cycles.
+                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -1708,8 +1707,7 @@ typedef union bdk_bgxx_cmrx_tx_stat11 {
 		uint64_t reserved_48_63              : 16;
 		uint64_t hist5                       : 48; /**< R/W/H - Number of packets sent with an octet count between 512-1023. Packet length is the sum of
                                                                  all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
-                                                                 EXTEND cycles.
+                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -1746,8 +1744,7 @@ typedef union bdk_bgxx_cmrx_tx_stat12 {
 		uint64_t reserved_48_63              : 16;
 		uint64_t hist6                       : 48; /**< R/W/H - Number of packets sent with an octet count between 1024-1518. Packet length is the sum of
                                                                  all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
-                                                                 EXTEND cycles.
+                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -1784,8 +1781,7 @@ typedef union bdk_bgxx_cmrx_tx_stat13 {
 		uint64_t reserved_48_63              : 16;
 		uint64_t hist7                       : 48; /**< R/W/H - Number of packets sent with an octet count \> 1518. Packet length is the sum of all data
                                                                  transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
-                                                                 PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
-                                                                 cycles.
+                                                                 and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -1820,7 +1816,8 @@ typedef union bdk_bgxx_cmrx_tx_stat14 {
 	struct bdk_bgxx_cmrx_tx_stat14_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t bcst                        : 48; /**< R/W/H - Number of packets sent to broadcast DMAC. Does not include MCST packets.
+		uint64_t bcst                        : 48; /**< R/W/H - Number of packets sent to broadcast DMAC, excluding PAUSE or PFC control packets generated
+                                                                 by BGX. Does not include MCST packets.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap.
 
@@ -1860,7 +1857,8 @@ typedef union bdk_bgxx_cmrx_tx_stat15 {
 	struct bdk_bgxx_cmrx_tx_stat15_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t mcst                        : 48; /**< R/W/H - Number of packets sent to multicast DMAC. Does not include BCST packets.
+		uint64_t mcst                        : 48; /**< R/W/H - Number of packets sent to multicast DMAC, excluding PAUSE or PFC control packets generated
+                                                                 by BGX. Does not include BCST packets.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap.
 
@@ -1935,10 +1933,9 @@ typedef union bdk_bgxx_cmrx_tx_stat17 {
 	struct bdk_bgxx_cmrx_tx_stat17_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t ctl                         : 48; /**< R/W/H - Number of control packets (PAUSE flow control) generated by BGX. It does not include
-                                                                 control packets forwarded or generated by the cores.
-                                                                 CTL counts the number of generated PFC frames and does not track the number of generated
-                                                                 HG2 messages.
+		uint64_t ctl                         : 48; /**< R/W/H - Number of PAUSE or PFC control packets generated by BGX. It does not include control
+                                                                 packets forwarded or generated by the cores. Does not track the number of generated HG2
+                                                                 messages.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2044,11 +2041,12 @@ typedef union bdk_bgxx_cmrx_tx_stat4 {
 	struct bdk_bgxx_cmrx_tx_stat4_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t octs                        : 48; /**< R/W/H - Number of total octets sent on the interface. Does not count octets from frames that were
-                                                                 truncated due to collisions in half-duplex mode.
+		uint64_t octs                        : 48; /**< R/W/H - Number of total octets sent on the interface, excluding PAUSE or PFC control packets
+                                                                 generated by BGX. Does not count octets from frames that were truncated due to collisions
+                                                                 in half-duplex mode.
                                                                  Octet counts are the sum of all data transmitted on the wire including packet data, pad
-                                                                 bytes, FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE
-                                                                 byte or EXTEND cycles.
+                                                                 bytes, FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
+                                                                 cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2083,8 +2081,9 @@ typedef union bdk_bgxx_cmrx_tx_stat5 {
 	struct bdk_bgxx_cmrx_tx_stat5_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t pkts                        : 48; /**< R/W/H - Number of total frames sent on the interface. Does not count octets from frames that were
-                                                                 truncated due to collisions in half-duplex mode.
+		uint64_t pkts                        : 48; /**< R/W/H - Number of total frames sent on the interface, excluding PAUSE or PFC control packets
+                                                                 generated by BGX. Does not count octets from frames that were truncated due to collisions
+                                                                 in half-duplex mode.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2119,10 +2118,10 @@ typedef union bdk_bgxx_cmrx_tx_stat6 {
 	struct bdk_bgxx_cmrx_tx_stat6_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t hist0                       : 48; /**< R/W/H - Number of packets sent with an octet count \< 64. Packet length is the sum of all data
-                                                                 transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
-                                                                 PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
-                                                                 cycles.
+		uint64_t hist0                       : 48; /**< R/W/H - Number of packets sent with an octet count \< 64, excluding PAUSE or PFC control packets
+                                                                 generated by BGX. Packet length is the sum of all data transmitted on the wire for the
+                                                                 given packet including packet data, pad bytes, FCS bytes, and JAM bytes. The octet counts
+                                                                 do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2157,10 +2156,10 @@ typedef union bdk_bgxx_cmrx_tx_stat7 {
 	struct bdk_bgxx_cmrx_tx_stat7_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t hist1                       : 48; /**< R/W/H - Number of packets sent with an octet count of 64. Packet length is the sum of all data
-                                                                 transmitted on the wire for the given packet including packet data, pad bytes, FCS bytes,
-                                                                 PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
-                                                                 cycles.
+		uint64_t hist1                       : 48; /**< R/W/H - Number of packets sent with an octet count of 64, excluding PAUSE or PFC control packets
+                                                                 generated by BGX. Packet length is the sum of all data transmitted on the wire for the
+                                                                 given packet including packet data, pad bytes, FCS bytes, and JAM bytes. The octet counts
+                                                                 do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2197,8 +2196,7 @@ typedef union bdk_bgxx_cmrx_tx_stat8 {
 		uint64_t reserved_48_63              : 16;
 		uint64_t hist2                       : 48; /**< R/W/H - Number of packets sent with an octet count between 65-127. Packet length is the sum of all
                                                                  data transmitted on the wire for the given packet including packet data, pad bytes, FCS
-                                                                 bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND
-                                                                 cycles.
+                                                                 bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2235,8 +2233,7 @@ typedef union bdk_bgxx_cmrx_tx_stat9 {
 		uint64_t reserved_48_63              : 16;
 		uint64_t hist3                       : 48; /**< R/W/H - Number of packets sent with an octet count between 128-255. Packet length is the sum of
                                                                  all data transmitted on the wire for the given packet including packet data, pad bytes,
-                                                                 FCS bytes, PAUSE bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or
-                                                                 EXTEND cycles.
+                                                                 FCS bytes, and JAM bytes. The octet counts do not include PREAMBLE byte or EXTEND cycles.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */

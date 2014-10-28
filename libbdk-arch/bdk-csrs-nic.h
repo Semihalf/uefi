@@ -1502,19 +1502,19 @@ union nic_send_imm_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Immediate. Enumerated by NIC_SEND_SUBDC_E::IMM. */
-		uint64_t reserved_14_59              : 46; /**< [ 59: 14] Reserved. */
-		uint64_t size                        : 14; /**< [ 13:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
+		uint64_t reserved_12_59              : 48; /**< [ 59: 12] Reserved. */
+		uint64_t size                        : 12; /**< [ 11:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
                                                                  first 8 bytes in the [DATA] field. Size must be between 1 and 4072, and the total send
                                                                  descriptor size cannot exceed 4096 bytes. The next subdescriptor will follow SIZE+8 bytes
                                                                  later, rounded up to the next 16-byte aligned boundary. The subdescriptor is ignored if
                                                                  size is 0. */
 #else
-		uint64_t size                        : 14; /**< [ 13:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
+		uint64_t size                        : 12; /**< [ 11:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
                                                                  first 8 bytes in the [DATA] field. Size must be between 1 and 4072, and the total send
                                                                  descriptor size cannot exceed 4096 bytes. The next subdescriptor will follow SIZE+8 bytes
                                                                  later, rounded up to the next 16-byte aligned boundary. The subdescriptor is ignored if
                                                                  size is 0. */
-		uint64_t reserved_14_59              : 46; /**< [ 59: 14] Reserved. */
+		uint64_t reserved_12_59              : 48; /**< [ 59: 12] Reserved. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Immediate. Enumerated by NIC_SEND_SUBDC_E::IMM. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -2097,10 +2097,18 @@ typedef union bdk_nic_pf_cnm_status {
                                                                  INTERNAL: Uses 16, 15, 13, 4 tap LFSR (this choice is important to insure even
                                                                  probabilities) with the formula:
 
-                                                                 rnd_for_use = RND[7:0]; RND_next[15:8] = RND[7:0]; RND_next[7] = ^(RND[15:0] & 0xd008);
-                                                                 RND_next[6] = ^(RND[15:0] & 0x6804); RND_next[5] = ^(RND[15:0] & 0x3402); RND_next[4] =
-                                                                 ^(RND[15:0] & 0x1a01); RND_next[3] = ^(RND[15:0] & 0xdd08); RND_next[2] = ^(RND[15:0] &
-                                                                 0x6e84); RND_next[1] = ^(RND[15:0] & 0x3742); RND_next[0] = ^(RND[15:0] & 0x1ba1); */
+                                                                 \<pre\>
+                                                                 rnd_for_use = RND[7:0];
+                                                                 RND_next[15:8] = RND[7:0];
+                                                                 RND_next[7] = ^(RND[15:0] & 0xd008);
+                                                                 RND_next[6] = ^(RND[15:0] & 0x6804);
+                                                                 RND_next[5] = ^(RND[15:0] & 0x3402);
+                                                                 RND_next[4] = ^(RND[15:0] & 0x1a01);
+                                                                 RND_next[3] = ^(RND[15:0] & 0xdd08);
+                                                                 RND_next[2] = ^(RND[15:0] & 0x6e84);
+                                                                 RND_next[1] = ^(RND[15:0] & 0x3742);
+                                                                 RND_next[0] = ^(RND[15:0] & 0x1ba1);
+                                                                 \</pre\> */
 #else
 		uint64_t cnm_time_rnd                : 16;
 		uint64_t cnm_time                    : 20;
@@ -4735,7 +4743,7 @@ typedef union bdk_nic_pf_pkindx_cfg {
 		uint64_t hdr_sl                      : 5;  /**< R/W - Header skip length. Number of 2-byte words parser should skip between the start of the
                                                                  packet and the NIC_RX_HDR_S (if [RX_HDR] is set) or Ethernet address (if [RX_HDR] is
                                                                  clear). For BGX, should be 0x4 if a timestamp is present; see also
-                                                                 BGXx_SMUx_RX_FRM_CTL[PTP_MODE]. For TNS should be 0x8. */
+                                                                 BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. For TNS should be 0x8. */
 		uint64_t rx_hdr                      : 3;  /**< R/W - Receive header present.
                                                                  0x0 = No NIC_RX_HDR_S is present.
                                                                  0x1 = Reserved.
@@ -4951,8 +4959,9 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 	struct bdk_nic_pf_qsx_rqx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t tcp_off                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
-		uint64_t reserved_29_62              : 34;
-		uint64_t strip_pre_l2                : 1;  /**< R/W - Strip all bytes that come before the SA/DA of the L2 Layer. */
+		uint64_t reserved_30_62              : 33;
+		uint64_t copy_pre_l2                 : 1;  /**< R/W - Reserved. */
+		uint64_t strip_pre_l2                : 1;  /**< R/W - All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
 		uint64_t caching                     : 2;  /**< R/W - Select the style of write to the L2C.
                                                                  0 = writes of RBDR data will not allocate into the L2C.
                                                                  1 = all writes of RBDR data are allocated into the L2C.
@@ -4975,7 +4984,8 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 		uint64_t cq_qs                       : 7;
 		uint64_t caching                     : 2;
 		uint64_t strip_pre_l2                : 1;
-		uint64_t reserved_29_62              : 34;
+		uint64_t copy_pre_l2                 : 1;
+		uint64_t reserved_30_62              : 33;
 		uint64_t tcp_off                     : 1;
 #endif
 	} s;
@@ -8436,7 +8446,7 @@ typedef union bdk_nic_vnicx_rss_cfg {
 		uint64_t reserved_9_63               : 55;
 		uint64_t rss_l4_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L4 TCP/UDP/SCTP RSS layer. */
 		uint64_t rss_l3_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
-		uint64_t rss_roce                    : 1;  /**< R/W - Enable ROCE delivery, potentially resulting.in setting NIC_CQE_RX_S[RSS_ALG] =
+		uint64_t rss_roce                    : 1;  /**< R/W - Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
 		uint64_t rss_l4etc                   : 1;  /**< R/W - Enable L4 extended RSS hashing, including SCTP and GRE, potentially resulting in setting
                                                                  NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::SCTP_IP or GRE_IP. */

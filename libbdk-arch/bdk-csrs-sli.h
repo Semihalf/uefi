@@ -213,7 +213,7 @@ static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long param1, unsigned lon
 /**
  * NCB - sli#_end_merge
  *
- * Writing this CSR will cause a merge to end.
+ * Writing this register will cause a merge to end.
  *
  */
 typedef union bdk_slix_end_merge {
@@ -273,7 +273,7 @@ typedef union bdk_slix_m2s_macx_ctl {
 		uint64_t ptlp_ro                     : 1;  /**< R/W - Relaxed ordering enable for posted TLPS. This permitsthe SLI to use the RO bit sent from
                                                                  the MACs. See WAIT_COM. */
 		uint64_t wind_d                      : 1;  /**< R/W - Window disable. When set, disables access to the window registers from the MAC. */
-		uint64_t bar0_d                      : 1;  /**< R/W - BAR0 disable. When set, disables access from the MAC to SLI BAR0 CSRs. */
+		uint64_t bar0_d                      : 1;  /**< R/W - BAR0 disable. When set, disables access from the MAC to SLI BAR0 registers. */
 		uint64_t ld_cmd                      : 2;  /**< R/W - When SLI issues a load command to the L2C that is to be cached, this field selects the
                                                                  type of load command to use. Un-cached loads will use LDT:
                                                                  0 = LDD.
@@ -860,7 +860,7 @@ static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long param1, unsigned lon
 /**
  * NCB - sli#_s2m_ctl
  *
- * This register contains control functionality of the S2M attached to the SLI. This CSR
+ * This register contains control functionality of the S2M attached to the SLI. This register
  * impacts all MACs attached to the S2M.
  */
 typedef union bdk_slix_s2m_ctl {
@@ -946,7 +946,7 @@ static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long param1, unsigned long
 /**
  * NCB - sli#_s2m_reg#_acc
  *
- * These CSRs contains address index and control bits for access to memory from cores.
+ * These registers contains address index and control bits for access to memory from cores.
  * Indexed using {NCBO DST[3:0], NCBO Address[35:32]}.
  */
 typedef union bdk_slix_s2m_regx_acc {

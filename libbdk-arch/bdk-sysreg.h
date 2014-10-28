@@ -54,7 +54,7 @@ SYSTEM_REGISTER(CSSELR_EL1, 3,2,0,0,0, 0xf, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CTR_EL0, 3,3,0,0,1, 0x80000000, 0x80000000, 0xfffc00f, 0x85558005, 0x85558005, true)
 SYSTEM_REGISTER(CurrentEL, 3,0,4,2,2, 0x0, 0x0, 0xc, 0xc, 0xc, true)
 SYSTEM_REGISTER(CVMCTL_EL1, 3,0,11,0,0, 0x37ffff03ff, 0x0, 0x0, 0x0, 0x0, true)
-SYSTEM_REGISTER(CVMMEMCTL0_EL1, 3,0,11,0,4, 0x1fffffffffffff, 0x0, 0x7c00000000000000, 0x1f000043e0d67c, 0x1f000043e0d67c, true)
+SYSTEM_REGISTER(CVMMEMCTL0_EL1, 3,0,11,0,4, 0x7fffffffffffff, 0x0, 0x7c00000000000000, 0x1f000043e0d67c, 0x1f000043e0d67c, true)
 SYSTEM_REGISTER(CVMMEMCTL1_EL1, 3,0,11,0,5, 0x0, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CVM_POWER_EL1, 3,0,11,0,2, 0xffffffff1fffffff, 0x0, 0x0, 0x2ffff00, 0x2ffff00, true)
 SYSTEM_REGISTER(CVM_BIST0_EL1, 3,0,11,1,0, 0x0, 0x0, 0x7ffff00ff, 0x0, 0x0, true)
@@ -1706,7 +1706,9 @@ typedef union
         uint64_t reserved_63 : 1;
         uint64_t node : 2;
         uint64_t stexfailcnt : 3;
-        uint64_t reserved_53_57 : 5;
+        uint64_t reserved_55_57 : 3;
+        uint64_t tlbinopdis : 1;
+        uint64_t tlbiicflush : 1;
         uint64_t gsyncto : 5;
         uint64_t utlbfillbypdis : 1;
         uint64_t tlbiall : 1;
@@ -1762,7 +1764,9 @@ typedef union
         uint64_t tlbiall : 1;
         uint64_t utlbfillbypdis : 1;
         uint64_t gsyncto : 5;
-        uint64_t reserved_53_57 : 5;
+        uint64_t tlbiicflush : 1;
+        uint64_t tlbinopdis : 1;
+        uint64_t reserved_55_57 : 3;
         uint64_t stexfailcnt : 3;
         uint64_t node : 2;
         uint64_t reserved_63 : 1;

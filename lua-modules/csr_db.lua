@@ -18093,7 +18093,8 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_29_62", start = 29, stop = 62},
+                {name = "RESERVED_30_62", start = 30, stop = 62},
+                {name = "COPY_PRE_L2", start = 29, stop = 29},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -62271,7 +62272,8 @@ local csr_db = {
                 {name = "RESERVED_6_6", start = 6, stop = 6},
                 {name = "CFG_RX_DLL_LOCKEN_OVVRD_EN", start = 5, stop = 5},
                 {name = "CFG_RX_ERRDET_CTRL_OVVRD_EN", start = 4, stop = 4},
-                {name = "RESERVED_0_3", start = 0, stop = 3},
+                {name = "RESERVED_1_3", start = 1, stop = 3},
+                {name = "CFG_RXEQ_EVAL_RESTORE_EN", start = 0, stop = 0},
             }
         },
         GSERX_LANEX_RX_PRECORR_CTRL = {
@@ -65329,7 +65331,8 @@ local csr_db = {
                 {name = "RSP_ARB_MODE", start = 15, stop = 15},
                 {name = "XMC_ARB_MODE", start = 14, stop = 14},
                 {name = "RDF_CNT", start = 6, stop = 13},
-                {name = "RESERVED_4_5", start = 4, stop = 5},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "DISGSYNCTO", start = 4, stop = 4},
                 {name = "DISLDWB", start = 3, stop = 3},
                 {name = "DISSBLKDTY", start = 2, stop = 2},
                 {name = "DISECC", start = 1, stop = 1},
@@ -70272,7 +70275,8 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_29_62", start = 29, stop = 62},
+                {name = "RESERVED_30_62", start = 30, stop = 62},
+                {name = "COPY_PRE_L2", start = 29, stop = 29},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -71598,6 +71602,18 @@ local csr_db = {
                 {name = "WMARK", start = 61, stop = 61},
                 {name = "RESERVED_38_60", start = 38, stop = 60},
                 {name = "ENTRY", start = 0, stop = 37},
+            }
+        },
+        OCLAX_ECO = {
+            name = "OCLA#_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0a83200d0,
+            range1 = {0,4},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         OCLAX_FIFO_DEPTH = {
@@ -103717,6 +103733,18 @@ local csr_db = {
                 {name = "STATUS_IDLE", start = 16, stop = 16},
                 {name = "STATUS_BYTE", start = 8, stop = 15},
                 {name = "STATUS_CML", start = 0, stop = 7},
+            }
+        },
+        VRMX_ECO = {
+            name = "VRM#_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0210000c8,
+            range1 = {0,1},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         VRMX_FUSE_BYPASS = {
