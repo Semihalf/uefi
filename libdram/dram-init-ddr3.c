@@ -897,6 +897,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     wlevel_loops = 1;
 
+    if (bdk_is_simulation())
+        wlevel_loops = 0;
+
     if ((s = lookup_env_parameter("ddr%d_wlevel_loops", ddr_interface_num)) != NULL) {
         wlevel_loops = strtoul(s, NULL, 0);
     }
@@ -2613,6 +2616,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
 
+        if (bdk_is_simulation())
+            rlevel_debug_loops = 0;
+
         if ((s = lookup_env_parameter("ddr%d_rlevel_debug_loops", ddr_interface_num)) != NULL) {
             rlevel_debug_loops = strtoul(s, NULL, 0);
         }
@@ -3250,38 +3256,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             }
 
 
-#if 0
-            /* FIX: Detect when the WD3UN802G13LSD DIMMs are used.
-               They require hard-coded read-leveling settings */
-            if ((board_type == CVMX_BOARD_TYPE_EBB7800)
-                && (read_spd(node, &dimm_config_table[0], 0, 126) == 0xb3)
-                && (read_spd(node, &dimm_config_table[0], 0, 127) == 0x31)) {
-                if ((tclk_psecs > (1500-50)) && (tclk_psecs < (1500+50))) {
-                    static const uint64_t hard_rlevel_settings_1333[] = {
-                        0x004A30C30B2CB28A,
-                        0x004A30C30B2CA28A,
-                        0x004930B2CB28A289,
-                        0x004930B2CA28A249
-                    };
-                    parameter_set |= 1;
-                    lmc_rlevel_rank.u = hard_rlevel_settings_1333[ddr_interface_num];
-                    ddr_print("Using hardcoded read-leveling settings\n");
-                }
+            if (bdk_is_simulation()) {
+                parameter_set |= 1;
 
-                if ((tclk_psecs > (1875-50)) && (tclk_psecs < (1875+50))) {
-                    static const uint64_t hard_rlevel_settings_1066[] = {
-                        0x004828A249249208,
-                        0x004828A249248208,
-                        0x0047289249208207,
-                        0x0047249248208207
-                    };
-                    parameter_set |= 1;
-                    lmc_rlevel_rank.u = hard_rlevel_settings_1066[ddr_interface_num];
-                    ddr_print("Using hardcoded read-leveling settings\n");
-                }
-
+                lmc_rlevel_rank.s.byte8 = 3;
+                lmc_rlevel_rank.s.byte7 = 3;
+                lmc_rlevel_rank.s.byte6 = 3;
+                lmc_rlevel_rank.s.byte5 = 3;
+                lmc_rlevel_rank.s.byte4 = 3;
+                lmc_rlevel_rank.s.byte3 = 3;
+                lmc_rlevel_rank.s.byte2 = 3;
+                lmc_rlevel_rank.s.byte1 = 3;
+                lmc_rlevel_rank.s.byte0 = 3;
             }
-#endif
 
             if (parameter_set) {
                 DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num), lmc_rlevel_rank.u);
@@ -3568,6 +3555,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 continue;
 
             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+
+            if (bdk_is_simulation()) {
+                parameter_set |= 1;
+
+                lmc_wlevel_rank.s.byte8 = 0;
+                lmc_wlevel_rank.s.byte7 = 0;
+                lmc_wlevel_rank.s.byte6 = 0;
+                lmc_wlevel_rank.s.byte5 = 0;
+                lmc_wlevel_rank.s.byte4 = 0;
+                lmc_wlevel_rank.s.byte3 = 0;
+                lmc_wlevel_rank.s.byte2 = 0;
+                lmc_wlevel_rank.s.byte1 = 0;
+                lmc_wlevel_rank.s.byte0 = 0;
+            }
 
             for (i=0; i<9; ++i) {
                 if ((s = lookup_env_parameter("ddr%d_wlevel_rank%d_byte%d", ddr_interface_num, rankx, i)) != NULL) {
