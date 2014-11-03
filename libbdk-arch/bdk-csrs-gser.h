@@ -3156,18 +3156,10 @@ typedef union bdk_gserx_lane_mode {
                                                                  0x2: R_8G_REFCLK100.
                                                                  0x3: R_125G_REFCLK15625_KX (not supported).
                                                                  0x4: R_3125G_REFCLK15625_XAUI.
-
-                                                                 For XAUI applications:
                                                                  0x5: R_103125G_REFCLK15625_KR.
-
-                                                                 For XFI, XLAUI, KR applications:
                                                                  0x6: R_125G_REFCLK15625_SGMII.
-
-                                                                 For SGMII applications:
                                                                  0x7: R_5G_REFCLK15625_QSGMII (not supported).
                                                                  0x8: R_625G_REFCLK15625_RXAUI.
-
-                                                                 For RXAUI, DXAUI applications:
                                                                  0x9: R_25G_REFCLK125.
                                                                  0xA: R_5G_REFCLK125.
                                                                  0xB: R_8G_REFCLK125.

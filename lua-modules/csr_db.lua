@@ -65019,7 +65019,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -65037,7 +65038,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -65055,7 +65057,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -65073,7 +65076,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},

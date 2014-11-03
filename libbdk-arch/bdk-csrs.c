@@ -4738,10 +4738,10 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     917, /* l2c_asc_regionX_start */
     918, /* l2c_cbcX_bist_status */
     919, /* l2c_cbcX_dll */
-    920, /* l2c_cbcX_int_ena_w1c */
-    921, /* l2c_cbcX_int_ena_w1s */
-    922, /* l2c_cbcX_int_w1c */
-    923, /* l2c_cbcX_int_w1s */
+    3774, /* l2c_cbcX_int_ena_w1c */
+    3775, /* l2c_cbcX_int_ena_w1s */
+    3776, /* l2c_cbcX_int_w1c */
+    3777, /* l2c_cbcX_int_w1s */
     924, /* l2c_cbcX_invX_pfc */
     925, /* l2c_cbcX_iocX_pfc */
     926, /* l2c_cbcX_iocerr */
@@ -4758,7 +4758,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     937, /* l2c_cbcX_xmcX_pfc */
     938, /* l2c_cbcX_xmc_cmd */
     939, /* l2c_cbcX_xmdX_pfc */
-    3774, /* l2c_ctl */
+    3778, /* l2c_ctl */
     941, /* l2c_ecc_ctl */
     942, /* l2c_mciX_bist_status */
     943, /* l2c_mciX_err */
@@ -5186,7 +5186,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1365, /* oclaX_const */
     1366, /* oclaX_datX */
     1367, /* oclaX_dat_pop */
-    3775, /* oclaX_eco */
+    3779, /* oclaX_eco */
     1368, /* oclaX_fifo_depth */
     1369, /* oclaX_fifo_limit */
     1370, /* oclaX_fifo_tail */
@@ -5216,7 +5216,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1394, /* oclaX_state_ena_w1s */
     1395, /* oclaX_state_int */
     1396, /* oclaX_state_set */
-    3776, /* oclaX_time */
+    3780, /* oclaX_time */
     1398, /* ocx_com_bist_status */
     1399, /* ocx_com_dual_sort */
     1400, /* ocx_com_int */
@@ -7545,7 +7545,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     3723, /* usbhX_uctl_spare1 */
     3724, /* vrmX_alt_fuse */
     3725, /* vrmX_device_status */
-    3777, /* vrmX_eco */
+    3781, /* vrmX_eco */
     3726, /* vrmX_fuse_bypass */
     3727, /* vrmX_misc_info */
     3728, /* vrmX_telemetry_cmnd */
@@ -11371,10 +11371,14 @@ const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {79880, 3759, 0, BDK_CSR_TYPE_NCB,8,948,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3771 */
     {79886, 3760, 0, BDK_CSR_TYPE_NCB,8,12051,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3772 */
     {12658,  708, 0, BDK_CSR_TYPE_RSL,8,12054,{36, 6, 0, 0},{ 0, 1, 0, 0}}, /* 3773 */
-    {16692,  951, 0, BDK_CSR_TYPE_RSL,8,12068,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3774 */
-    {79916, 3761, 0, BDK_CSR_TYPE_RSL,8,12085,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3775 */
-    {26955, 1410, 0, BDK_CSR_TYPE_RSL,8,12088,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3776 */
-    {79925, 3762, 0, BDK_CSR_TYPE_RSL,8,12085,{ 3, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3777 */
+    {16400,  931, 0, BDK_CSR_TYPE_RSL,8,12068,{ 6, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3774 */
+    {16439,  932, 0, BDK_CSR_TYPE_RSL,8,12068,{ 6, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3775 */
+    {16450,  933, 0, BDK_CSR_TYPE_RSL,8,12068,{ 6, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3776 */
+    {16459,  934, 0, BDK_CSR_TYPE_RSL,8,12068,{ 6, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3777 */
+    {16692,  951, 0, BDK_CSR_TYPE_RSL,8,12078,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3778 */
+    {79920, 3761, 0, BDK_CSR_TYPE_RSL,8,12095,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3779 */
+    {26955, 1410, 0, BDK_CSR_TYPE_RSL,8,12098,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3780 */
+    {79929, 3762, 0, BDK_CSR_TYPE_RSL,8,12095,{ 3, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3781 */
 };
 
 const uint16_t __bdk_csr_db_fieldList[] = {
@@ -13398,9 +13402,10 @@ const uint16_t __bdk_csr_db_fieldList[] = {
     2,7889,213, /* 12048 */
     2,7890,1184, /* 12051 */
     13,7891,1615,1317,1318,347,1319,1320,1321,1322,1323,1324,1325,160, /* 12054 */
-    16,1661,1662,1663,1664,7892,6353,1666,1667,1668,1669,1670,1671,1672,1673,1674,14, /* 12068 */
-    2,7893,14, /* 12085 */
-    1,7894, /* 12088 */
+    9,1624,1625,365,1626,1627,1628,1629,7892,171, /* 12068 */
+    16,1661,1662,1663,1664,7893,6353,1666,1667,1668,1669,1670,1671,1672,1673,1674,14, /* 12078 */
+    2,7894,14, /* 12095 */
+    1,7895, /* 12098 */
 };
 
 const __bdk_csr_db_field_t __bdk_csr_db_field[] = {
@@ -21296,9 +21301,10 @@ const __bdk_csr_db_field_t __bdk_csr_db_field[] = {
     {7904,0,7}, /* 7889 */
     {79893,0,5}, /* 7890 */
     {79897,0,0}, /* 7891 */
-    {79910,4,4}, /* 7892 */
-    {79921,0,31}, /* 7893 */
-    {26961,0,63}, /* 7894 */
+    {79910,8,8}, /* 7892 */
+    {79914,4,4}, /* 7893 */
+    {79925,0,31}, /* 7894 */
+    {26961,0,63}, /* 7895 */
 };
 
 const int __bdk_csr_db_range[] = {
@@ -31811,10 +31817,11 @@ const char __bdk_csr_db_string[] =
     "ZIP_THROTTLE\0\0" /* 159772/2 */
     "LD_INFL\0" /* 159786/2 */
     "CFG_RXEQ_EVAL_RESTORE_EN\0\0" /* 159794/2 */
-    "DISGSYNCTO\0\0" /* 159820/2 */
-    "OCLAX_ECO\0" /* 159832/2 */
-    "ECO_RW\0\0" /* 159842/2 */
-    "VRMX_ECO\0\0" /* 159850/2 */
+    "GSYNCTO\0" /* 159820/2 */
+    "DISGSYNCTO\0\0" /* 159828/2 */
+    "OCLAX_ECO\0" /* 159840/2 */
+    "ECO_RW\0\0" /* 159850/2 */
+    "VRMX_ECO\0\0" /* 159858/2 */
     "";
 
 const uint64_t __bdk_csr_db_number[] = {

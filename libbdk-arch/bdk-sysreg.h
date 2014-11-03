@@ -33,6 +33,9 @@ SYSTEM_REGISTER(CNTHCTL_EL2, 3,4,14,1,0, 0xff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTHP_CTL_EL2, 3,4,14,2,1, 0x3, 0x0, 0x4, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTHP_CVAL_EL2, 3,4,14,2,2, 0xffffffffffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTHP_TVAL_EL2, 3,4,14,2,0, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(CNTHV_TVAL_EL2, 3,4,14,3,0, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(CNTHV_CTL_EL2, 3,4,14,3,1, 0x3, 0x0, 0x4, 0x0, 0x0, true)
+SYSTEM_REGISTER(CNTHV_CVAL_EL2, 3,4,14,3,2, 0xffffffffffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTKCTL_EL1, 3,0,14,1,0, 0x3ff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTPCT_EL0, 3,3,14,0,1, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTPS_CTL_EL1, 3,7,14,2,1, 0x3, 0x0, 0x4, 0x0, 0x0, true)
@@ -47,6 +50,7 @@ SYSTEM_REGISTER(CNTV_CTL_EL0, 3,3,14,3,1, 0x3, 0x0, 0x4, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTV_CVAL_EL0, 3,3,14,3,2, 0xffffffffffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CNTV_TVAL_EL0, 3,3,14,3,0, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CONTEXTIDR_EL1, 3,0,13,0,1, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
+SYSTEM_REGISTER(CONTEXTIDR_EL2, 3,4,13,0,1, 0xffffffff, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CPACR_EL1, 3,0,1,0,2, 0x300000, 0x0, 0x0, 0x0, 0x0, true)
 SYSTEM_REGISTER(CPTR_EL2, 3,4,1,1,2, 0x800037ff, 0x33ff, 0x0, 0x33ff, 0x33ff, true)
 SYSTEM_REGISTER(CPTR_EL3, 3,6,1,1,2, 0x80000400, 0x0, 0x0, 0x0, 0x0, true)
@@ -1016,6 +1020,90 @@ typedef union
 #endif
 
 #ifdef __cplusplus
+union CNTHV_TVAL_EL2_t
+#else
+typedef union
+#endif
+{
+    uint32_t u;
+    struct
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN
+        uint32_t data : 32;
+#else
+        uint32_t data : 32;
+#endif
+    } s;
+#ifdef __cplusplus
+    CNTHV_TVAL_EL2_t() { u = 0; }
+    CNTHV_TVAL_EL2_t(uint32_t data) { u = data; }
+    CNTHV_TVAL_EL2_t &operator=(uint32_t data) { u = data; return *this; }
+#endif
+#ifdef __cplusplus
+};
+#else
+} bdk_sys_cnthv_tval_el2_t;
+#endif
+
+#ifdef __cplusplus
+union CNTHV_CTL_EL2_t
+#else
+typedef union
+#endif
+{
+    uint32_t u;
+    struct
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN
+        uint32_t reserved_3_31 : 29;
+        uint32_t istatus : 1;
+        uint32_t imask : 1;
+        uint32_t enable : 1;
+#else
+        uint32_t enable : 1;
+        uint32_t imask : 1;
+        uint32_t istatus : 1;
+        uint32_t reserved_3_31 : 29;
+#endif
+    } s;
+#ifdef __cplusplus
+    CNTHV_CTL_EL2_t() { u = 0; }
+    CNTHV_CTL_EL2_t(uint32_t data) { u = data; }
+    CNTHV_CTL_EL2_t &operator=(uint32_t data) { u = data; return *this; }
+#endif
+#ifdef __cplusplus
+};
+#else
+} bdk_sys_cnthv_ctl_el2_t;
+#endif
+
+#ifdef __cplusplus
+union CNTHV_CVAL_EL2_t
+#else
+typedef union
+#endif
+{
+    uint64_t u;
+    struct
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN
+        uint64_t data : 64;
+#else
+        uint64_t data : 64;
+#endif
+    } s;
+#ifdef __cplusplus
+    CNTHV_CVAL_EL2_t() { u = 0; }
+    CNTHV_CVAL_EL2_t(uint64_t data) { u = data; }
+    CNTHV_CVAL_EL2_t &operator=(uint64_t data) { u = data; return *this; }
+#endif
+#ifdef __cplusplus
+};
+#else
+} bdk_sys_cnthv_cval_el2_t;
+#endif
+
+#ifdef __cplusplus
 union CNTKCTL_EL1_t
 #else
 typedef union
@@ -1409,6 +1497,32 @@ typedef union
 };
 #else
 } bdk_sys_contextidr_el1_t;
+#endif
+
+#ifdef __cplusplus
+union CONTEXTIDR_EL2_t
+#else
+typedef union
+#endif
+{
+    uint32_t u;
+    struct
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN
+        uint32_t procid : 32;
+#else
+        uint32_t procid : 32;
+#endif
+    } s;
+#ifdef __cplusplus
+    CONTEXTIDR_EL2_t() { u = 0; }
+    CONTEXTIDR_EL2_t(uint32_t data) { u = data; }
+    CONTEXTIDR_EL2_t &operator=(uint32_t data) { u = data; return *this; }
+#endif
+#ifdef __cplusplus
+};
+#else
+} bdk_sys_contextidr_el2_t;
 #endif
 
 #ifdef __cplusplus

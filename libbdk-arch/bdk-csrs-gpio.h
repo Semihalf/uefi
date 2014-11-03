@@ -414,7 +414,8 @@ typedef union bdk_gpio_bit_cfgx {
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
 		uint64_t fil_sel                     : 4;  /**< R/W - Filter select. Global counter bit-select (controls sample rate).
                                                                  Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
-		uint64_t fil_cnt                     : 4;  /**< R/W - Filter count. Specifies the number of consecutive samples to change state.
+		uint64_t fil_cnt                     : 4;  /**< R/W - Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
+                                                                 Zero to disable the filter.
                                                                  Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
 		uint64_t int_type                    : 1;  /**< R/W - Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
                                                                  interrupt, else level interrupt. The GPIO signal used to generate interrupt is after

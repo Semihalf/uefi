@@ -2377,6 +2377,22 @@ typedef union bdk_nic_pf_ecc0_cdis {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
+
+                                                                 Pass 1:
+
+                                                                   \<15:9\> = Reserved.
+                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   \<2:1\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+
+                                                                 Pass 2+:
+
                                                                    \<15:8\> = Reserved.
                                                                    \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
                                                                  mem_128x128.
@@ -2577,6 +2593,22 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
+
+                                                                 Pass 1:
+
+                                                                   \<15:9\> = Reserved.
+                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   \<2:1\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+
+                                                                 Pass 2+:
+
                                                                    \<15:8\> = Reserved.
                                                                    \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
                                                                  mem_128x128.
@@ -2634,6 +2666,22 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
+
+                                                                 Pass 1:
+
+                                                                   \<15:9\> = Reserved.
+                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   \<2:1\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+
+                                                                 Pass 2+:
+
                                                                    \<15:8\> = Reserved.
                                                                    \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
                                                                  mem_128x128.
@@ -2834,6 +2882,21 @@ typedef union bdk_nic_pf_ecc1_cdis {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
+
+                                                                 Pass 1:
+
+                                                                   \<15:10\> = Reserved.
+                                                                   \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
+                                                                 c_rrm_ptrmem.
+                                                                   \<5\> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
+                                                                   \<1\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.base_regs.
+                                                                   \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs.
+
+                                                                 Pass 2+:
+
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -2844,17 +2907,35 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                    \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
-                                                                 \<23:16\> = Reserved.
-                                                                 \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
-                                                                 \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
-                                                                 \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
-                                                                 \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
-                                                                 \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
-                                                                 \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
-                                                                 \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
-                                                                 \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
-                                                                 \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
-                                                                 \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+
+                                                                 Pass 1:
+
+                                                                   \<23:17\> = Reserved.
+                                                                   \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
+                                                                   \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
+
+                                                                 Pass 2+:
+
+                                                                   \<23:16\> = Reserved.
+                                                                   \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -3025,6 +3106,21 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
+
+                                                                 Pass 1:
+
+                                                                   \<15:10\> = Reserved.
+                                                                   \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
+                                                                 c_rrm_ptrmem.
+                                                                   \<5\> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
+                                                                   \<1\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.base_regs.
+                                                                   \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs.
+
+                                                                 Pass 2+:
+
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -3035,17 +3131,35 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                    \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
-                                                                 \<23:16\> = Reserved.
-                                                                 \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
-                                                                 \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
-                                                                 \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
-                                                                 \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
-                                                                 \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
-                                                                 \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
-                                                                 \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
-                                                                 \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
-                                                                 \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
-                                                                 \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+
+                                                                 Pass 1:
+
+                                                                   \<23:17\> = Reserved.
+                                                                   \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
+                                                                   \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
+
+                                                                 Pass 2+:
+
+                                                                   \<23:16\> = Reserved.
+                                                                   \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -3081,6 +3195,21 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
+
+                                                                 Pass 1:
+
+                                                                   \<15:10\> = Reserved.
+                                                                   \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
+                                                                 c_rrm_ptrmem.
+                                                                   \<5\> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   \<4\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   \<3\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   \<2\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.thresh_regs.
+                                                                   \<1\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.base_regs.
+                                                                   \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs.
+
+                                                                 Pass 2+:
+
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -3091,17 +3220,35 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                    \<1\> = Reserved.
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
-                                                                 \<23:16\> = Reserved.
-                                                                 \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
-                                                                 \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
-                                                                 \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
-                                                                 \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
-                                                                 \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
-                                                                 \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
-                                                                 \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
-                                                                 \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
-                                                                 \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
-                                                                 \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+
+                                                                 Pass 1:
+
+                                                                   \<23:17\> = Reserved.
+                                                                   \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
+                                                                   \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
+
+                                                                 Pass 2+:
+
+                                                                   \<23:16\> = Reserved.
+                                                                   \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   \<10\> = nic_l.core.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   \<9\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   \<8\>  = nic_l.core.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   \<7:3\>  = nic_l.core.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   \<2\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   \<1\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -5800,12 +5947,12 @@ typedef union bdk_nic_pf_tcp_timer {
 	uint64_t u;
 	struct bdk_nic_pf_tcp_timer_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t ena                         : 1;  /**< R/W - TCP timer enable. When clear, [HI_COUNTER] and [LO_COUNTER] are forced to 0 and timer
+		uint64_t ena                         : 1;  /**< R/W - TCP timer enable. When clear, [VF_COUNTER] and [DUR_COUNTER] are forced to 0 and timer
                                                                  events will not be posted. */
 		uint64_t reserved_48_62              : 15;
 		uint64_t duration                    : 16; /**< R/W - Duration of the TCP timer as a multiple of 256 coprocessor-clock cycles. */
 		uint64_t reserved_23_31              : 9;
-		uint64_t vf_counter                  : 7;  /**< RO/H - Periodic counter that increments by one whenever [LO_COUNTER] wraps around. Enabled when
+		uint64_t vf_counter                  : 7;  /**< RO/H - Periodic counter that increments by one whenever [DUR_COUNTER] wraps around. Enabled when
                                                                  [ENA] is set. */
 		uint64_t dur_counter                 : 16; /**< RO/H - Periodic counter that wraps around every [DURATION]*256 coprocessor-clock cycles. Enabled
                                                                  when [ENA] is set. */
