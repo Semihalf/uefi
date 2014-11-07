@@ -15,6 +15,7 @@ all: version
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
 	$(MAKE) -C normal-boot
+	$(MAKE) -C screen 
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -29,6 +30,7 @@ clean:
 	$(MAKE) -C utils clean
 	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C normal-boot clean
+	$(MAKE) -C screen clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
 
@@ -52,6 +54,11 @@ run:
 .PHONY: run-normal
 run-normal:
 	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/diagnostics $(ASIM)/asim -e bdk.asim
+
+.PHONY: run-screen
+run-screen:
+	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/screen-standalone.bin SYMBOL_IMAGE=$(BDK_ROOT)/screen/screen $(ASIM)/asim -e bdk.asim
+
 
 #
 # Determine the BDK version based on the last change in the version
