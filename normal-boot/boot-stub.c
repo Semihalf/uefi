@@ -321,8 +321,15 @@ int main(void)
     }
 
     /* Unlock L2 now that DRAM works */
-    BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
-    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node));
+    if (mbytes > 0)
+    {
+        uint64_t l2_size = bdk_l2c_get_cache_size_bytes(node);
+        BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
+        bdk_l2c_unlock_mem_region(node, 0, l2_size);
+        BDK_TRACE(BOOT_STUB, "Zeroing memory\n");
+        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, l2_size)),
+            ((uint64_t)mbytes << 20) - l2_size);
+    }
 #endif
 
     /* Send status to the BMC: Master DRAM init complete */
@@ -346,7 +353,11 @@ int main(void)
         extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
         int mbytes = libdram_config(1, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
         if (mbytes > 0)
-            printf("Node %d: DRAM: %d MB\n", bdk_numa_master(), mbytes);
+        {
+            printf("Node %d: DRAM: %d MB\n", 1, mbytes);
+            bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(1, 0)),
+                ((uint64_t)mbytes << 20));
+        }
         else
             bdk_error("Node %d failed DRAM init\n", bdk_numa_master());
     }
