@@ -91,7 +91,8 @@ set_config(cavium.CONFIG_PHY_IF1_PORT3, 7)
 -- End of QLM examples
 
 local node = cavium.MASTER_NODE
-if cavium.c.bdk_qlm_get_mode(node, 0) == cavium.QLM_MODE_DISABLED then
+if false then
+--if cavium.c.bdk_qlm_get_mode(node, 0) == cavium.QLM_MODE_DISABLED then
     -- Only apply the sample config if QLM0 isn't already setup
     printf("Configuring QLMs for a sample setup\n");
     cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
