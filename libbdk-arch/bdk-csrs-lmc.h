@@ -4249,7 +4249,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long param1, unsigned long
 static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 3)))
-		return 0x000087E088000280ull + (param1 & 3) * 0x1000000ull + (param2 & 3) * 0x8ull;
+		return 0x000087E088000280ull + (param2 & 3) * 0x1000000ull + (param1 & 3) * 0x8ull;
 	csr_fatal("BDK_LMCX_RLEVEL_RANKX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_LMCX_RLEVEL_RANKX(...) bdk_lmcx_rlevel_rankx_t
@@ -5426,7 +5426,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long param1, unsigned long
 static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 3)))
-		return 0x000087E0880002C0ull + (param1 & 3) * 0x1000000ull + (param2 & 3) * 0x8ull;
+		return 0x000087E0880002C0ull + (param2 & 3) * 0x1000000ull + (param1 & 3) * 0x8ull;
 	csr_fatal("BDK_LMCX_WLEVEL_RANKX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_LMCX_WLEVEL_RANKX(...) bdk_lmcx_wlevel_rankx_t
