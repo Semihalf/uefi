@@ -528,13 +528,117 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         (UAHC_* registers). */
     /* Done when a SATA driver is initialized */
 
+    /* 24.1.2.3 SATA Configuration
+    Software must perform the following steps to configure the GSER_WEST
+    for a SATA application. Note that the GSERW steps are on a QLM basis. */
+
+    /* 1. Configure the SATA controller (refer to Chapter 26). */
+    /* This is the code above */
+
+    /* 2. Configure the QLM Reference clock.
+        Set GSER(0..13)_REFCLK_SEL[COM_CLK_SEL] = 1 to source the reference
+            clock from the external clock multiplexer.
+        Configure GSER(0..13)_REFCLK_SEL[USE_COM1]:
+            0 = use QLMC_REF_CLK0_P/N
+            1 = use QLMC_REF_CLK1_P/N */
+    /* Already done */
+
+    /* 3. Configure the QLM for SATA mode: set GSER(0..13)_CFG[SATA] = 1. */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
+        c.s.sata = 1);
+
+    /* 4. Take the PHY out of reset: write GSER(0..13)_PHY_CTL[PHY_RESET] = 0. */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
+        c.s.phy_reset = 0);
+
+    /* 5. Change the P2 termination: clear per lane
+       GSERn_LANE(0..3)_PWR_CTRL_P2[P2_RX_SUBBLK_PD<0>] = 0 (termination) */
+    for (int lane=0; lane<4; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL_P2(qlm, lane),
+            c.s.p2_rx_subblk_pd = 0);
+    }
+
+    /* 6. Modify the electrical IDLE detect on delay: set
+       GSER(0..13)_LANE(0..3)_MISC_CFG_0[EIE_DET_STL_ON_TIME] = 0x4 */
+    for (int lane=0; lane<4; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_MISC_CFG_0(qlm, lane),
+            c.s.eie_det_stl_on_time = 4);
+    }
+
+    /* 7. Modify the PLL and lane-protocol-mode registers to configure the
+       PHY for SATA:
+        Set GSER(0..13)_PLL_P0_MODE_0[PLL_ICP] = 0x1
+        Set GSER(0..13)_PLL_P0_MODE_0[PLL_RLOOP] = 0x3
+        Set GSER(0..13)_PLL_P0_MODE_0[PLL_PCS_DIV] = 0x5
+        Set GSER(0..13)_PLL_P1_MODE_0[PLL_ICP] = 0x1
+        Set GSER(0..13)_PLL_P1_MODE_0[PLL_RLOOP] = 0x3
+        Set GSER(0..13)_PLL_P1_MODE_0[PLL_PCS_DIV] = 0x5
+        Set GSER(0..13)_PLL_P2_MODE_0[PLL_ICP] = 0x1
+        Set GSER(0..13)_PLL_P2_MODE_0[PLL_RLOOP] = 0x3
+        Set GSER(0..13)_PLL_P2_MODE_0[PLL_PCS_DIV] = 0x5
+        Set GSER(0..13)_PLL_P0_MODE_1[PLL_OPR] = 0x0
+        Set GSER(0..13)_PLL_P0_MODE_1[PLL_DIV] = 0x18
+        Set GSER(0..13)_PLL_P1_MODE_1[PLL_OPR] = 0x0
+        Set GSER(0..13)_PLL_P1_MODE_1[PLL_DIV] = 0x18
+        Set GSER(0..13)_PLL_P2_MODE_1[PLL_OPR] = 0x0
+        Set GSER(0..13)_PLL_P2_MODE_1[PLL_DIV] = 0x18
+        Set GSER(0..13)_LANE_P0_MODE_0[TX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P0_MODE_0[RX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P1_MODE_0[TX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P2_MODE_0[TX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x0 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, 0),
+        c.s.pll_icp = 0x1;
+        c.s.pll_rloop = 0x3;
+        c.s.pll_pcs_div = 0x5);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, 1),
+        c.s.pll_icp = 0x1;
+        c.s.pll_rloop = 0x3;
+        c.s.pll_pcs_div = 0x5);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, 2),
+        c.s.pll_icp = 0x1;
+        c.s.pll_rloop = 0x3;
+        c.s.pll_pcs_div = 0x5);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, 0),
+        c.s.pll_opr = 0x0;
+        c.s.pll_div = 0x18);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, 1),
+        c.s.pll_opr = 0x0;
+        c.s.pll_div = 0x18);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, 2),
+        c.s.pll_opr = 0x0;
+        c.s.pll_div = 0x18);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, 0),
+        c.s.tx_ldiv = 0x0;
+        c.s.rx_ldiv = 0x0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, 1),
+        c.s.tx_ldiv = 0x0;
+        c.s.rx_ldiv = 0x0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, 2),
+        c.s.tx_ldiv = 0x0;
+        c.s.rx_ldiv = 0x0);
+
+    /* 8. Clear the appropriate lane resets:
+       GSER(0..13)_SATA_LANE_RST[Ln_RST] = 0, where n is the lane number 0-3. */
+    BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
+
+    /* 9. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
+       has been reconfigured and PLLs are locked. */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+    {
+        bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+        return -1;
+    }
+
     /* Report 1 port per controller */
     for (int p = sata_port; p < sata_port_end; p++)
     {
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_PI(p),
             c.s.pi = 1);
     }
-
     return 0;
 }
 
@@ -775,13 +879,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_SATA_4X1:
-            is_sata = 1;
-            lane_mode = get_lane_mode_for_speed_and_ref_clk("SATA", qlm, ref_clk, baud_mhz);
-            if (lane_mode == -1)
-                return -1;
-            if (qlm_set_sata(node, qlm, mode, baud_mhz, flags))
-                return -1;
-            break;
+            /* SATA initialization is different than BGX. Call its init function
+               and skip the rest of this routine */
+            return qlm_set_sata(node, qlm, mode, baud_mhz, flags);
         case BDK_QLM_MODE_SGMII:
             lmac_type = 0; /* SGMII */
             is_bgx = 1;
