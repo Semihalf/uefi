@@ -669,11 +669,11 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 
 	/* Wait 100ms for sequence to complete */
 	if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_SEQ_CTL(ddr_interface_num),
-		seq_complete, ==, 1, 100000)) {
+		seq_complete, ==, 1, 1000000)) {
 		error_print("Timeout waiting for LMC sequence, ignoring: rank_mask=0x%02x, sequence=%d, %s\n",
 			rank_mask, sequence, sequence_str[sequence]);
 	}
-        if (seq_ctl.s.seq_complete == 1)
+        else
             ddr_print("           LMC sequence: Completed.\n");
 }
 
@@ -2315,7 +2315,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                 /* Wait 100ms for wlevel to complete */
                 if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num),
-                    status, ==, 3, 100000)) {
+                    status, ==, 3, 1000000)) {
                     error_print("ERROR: Timeout waiting for WLEVEL\n");
                 }
                 lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
@@ -2789,7 +2789,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                     /* Wait 100ms for rlevel to complete */
                     if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num),
-                        status, ==, 3, 100000)) {
+                        status, ==, 3, 1000000)) {
                         error_print("ERROR: Timeout waiting for RLEVEL\n");
                     }
                     lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
