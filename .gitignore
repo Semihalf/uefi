@@ -24,6 +24,8 @@
 /bdk-boot/diagnostics
 /normal-boot/boot-stub
 /normal-boot/diagnostics
+/screen/boot-stub
+/screen/screen
 /tests/hw-and-sim/crypto/crypto
 /tests/hw-and-sim/passthrough/passthrough
 /utils/bdk-lua/bdk-lua-*
