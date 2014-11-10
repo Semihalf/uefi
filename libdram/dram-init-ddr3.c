@@ -2619,6 +2619,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if (bdk_is_simulation())
             rlevel_debug_loops = 0;
 
+        rlevel_debug_loops = 0;
+
         if ((s = lookup_env_parameter("ddr%d_rlevel_debug_loops", ddr_interface_num)) != NULL) {
             rlevel_debug_loops = strtoul(s, NULL, 0);
         }
@@ -3247,6 +3249,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                     update_rlevel_rank_struct(&lmc_rlevel_rank, i, value);
                 }
+            }
+
+            {
+                parameter_set |= 1;
+                lmc_rlevel_rank.u = 0x004A30C30B2CB2CA; /* 1333 */
+                //lmc_rlevel_rank.u = 0x00492CA289249208; /* 1066 */
             }
 
             if ((s = lookup_env_parameter_ull("ddr%d_rlevel_rank%d", ddr_interface_num, rankx)) != NULL) {
