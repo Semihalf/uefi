@@ -19,6 +19,7 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t reset : 1;
         uint16_t loopback : 1;
         uint16_t speed_lsb : 1;
@@ -31,6 +32,20 @@ typedef union
         uint16_t speed_msb : 1;
         uint16_t unidirectional_enable : 1;
         uint16_t reserved_0_4 : 5;
+#else
+        uint16_t reserved_0_4 : 5;
+        uint16_t unidirectional_enable : 1;
+        uint16_t speed_msb : 1;
+        uint16_t collision_test : 1;
+        uint16_t duplex : 1;
+        uint16_t restart_autoneg : 1;
+        uint16_t isolate : 1;
+        uint16_t power_down : 1;
+        uint16_t autoneg_enable : 1;
+        uint16_t speed_lsb : 1;
+        uint16_t loopback : 1;
+        uint16_t reset : 1;
+#endif
     } s;
 } bdk_mdio_phy_reg_control_t;
 
@@ -43,6 +58,7 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t capable_100base_t4 : 1;
         uint16_t capable_100base_x_full : 1;
         uint16_t capable_100base_x_half : 1;
@@ -59,7 +75,24 @@ typedef union
         uint16_t link_status : 1;
         uint16_t jabber_detect : 1;
         uint16_t capable_extended_registers : 1;
-
+#else
+        uint16_t capable_extended_registers : 1;
+        uint16_t jabber_detect : 1;
+        uint16_t link_status : 1;
+        uint16_t capable_autoneg : 1;
+        uint16_t remote_fault : 1;
+        uint16_t autoneg_complete : 1;
+        uint16_t capable_mf_preamble_suppression : 1;
+        uint16_t capable_unidirectional : 1;
+        uint16_t capable_extended_status : 1;
+        uint16_t capable_100base_t2_half : 1;
+        uint16_t capable_100base_t2_full : 1;
+        uint16_t capable_10_half : 1;
+        uint16_t capable_10_full : 1;
+        uint16_t capable_100base_x_half : 1;
+        uint16_t capable_100base_x_full : 1;
+        uint16_t capable_100base_t4 : 1;
+#endif
     } s;
 } bdk_mdio_phy_reg_status_t;
 
@@ -85,9 +118,15 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t oui_bits_19_24 : 6;
         uint16_t model : 6;
         uint16_t revision : 4;
+#else
+        uint16_t revision : 4;
+        uint16_t model : 6;
+        uint16_t oui_bits_19_24 : 6;
+#endif
     } s;
 } bdk_mdio_phy_reg_id2_t;
 
@@ -100,6 +139,7 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t next_page : 1;
         uint16_t reserved_14 : 1;
         uint16_t remote_fault : 1;
@@ -112,6 +152,20 @@ typedef union
         uint16_t advert_10base_tx_full : 1;
         uint16_t advert_10base_tx_half : 1;
         uint16_t selector : 5;
+#else
+        uint16_t selector : 5;
+        uint16_t advert_10base_tx_half : 1;
+        uint16_t advert_10base_tx_full : 1;
+        uint16_t advert_100base_tx_half : 1;
+        uint16_t advert_100base_tx_full : 1;
+        uint16_t advert_100base_t4 : 1;
+        uint16_t pause : 1;
+        uint16_t asymmetric_pause : 1;
+        uint16_t reserved_12 : 1;
+        uint16_t remote_fault : 1;
+        uint16_t reserved_14 : 1;
+        uint16_t next_page : 1;
+#endif
     } s;
 } bdk_mdio_phy_reg_autoneg_adver_t;
 
@@ -124,6 +178,7 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t next_page : 1;
         uint16_t ack : 1;
         uint16_t remote_fault : 1;
@@ -136,6 +191,20 @@ typedef union
         uint16_t advert_10base_tx_full : 1;
         uint16_t advert_10base_tx_half : 1;
         uint16_t selector : 5;
+#else
+        uint16_t selector : 5;
+        uint16_t advert_10base_tx_half : 1;
+        uint16_t advert_10base_tx_full : 1;
+        uint16_t advert_100base_tx_half : 1;
+        uint16_t advert_100base_tx_full : 1;
+        uint16_t advert_100base_t4 : 1;
+        uint16_t pause : 1;
+        uint16_t asymmetric_pause : 1;
+        uint16_t reserved_12 : 1;
+        uint16_t remote_fault : 1;
+        uint16_t ack : 1;
+        uint16_t next_page : 1;
+#endif
     } s;
 } bdk_mdio_phy_reg_link_partner_ability_t;
 
@@ -148,13 +217,21 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t reserved_5_15 : 11;
         uint16_t parallel_detection_fault : 1;
         uint16_t link_partner_next_page_capable : 1;
         uint16_t local_next_page_capable : 1;
         uint16_t page_received : 1;
         uint16_t link_partner_autoneg_capable : 1;
-
+#else
+        uint16_t link_partner_autoneg_capable : 1;
+        uint16_t page_received : 1;
+        uint16_t local_next_page_capable : 1;
+        uint16_t link_partner_next_page_capable : 1;
+        uint16_t parallel_detection_fault : 1;
+        uint16_t reserved_5_15 : 11;
+#endif
     } s;
 } bdk_mdio_phy_reg_autoneg_expansion_t;
 
@@ -167,6 +244,7 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t test_mode : 3;
         uint16_t manual_master_slave : 1;
         uint16_t master : 1;
@@ -174,6 +252,15 @@ typedef union
         uint16_t advert_1000base_t_full : 1;
         uint16_t advert_1000base_t_half : 1;
         uint16_t reserved_0_7 : 8;
+#else
+        uint16_t reserved_0_7 : 8;
+        uint16_t advert_1000base_t_half : 1;
+        uint16_t advert_1000base_t_full : 1;
+        uint16_t port_type : 1;
+        uint16_t master : 1;
+        uint16_t manual_master_slave : 1;
+        uint16_t test_mode : 3;
+#endif
     } s;
 } bdk_mdio_phy_reg_control_1000_t;
 
@@ -186,6 +273,7 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t master_slave_fault : 1;
         uint16_t is_master : 1;
         uint16_t local_receiver_ok : 1;
@@ -194,6 +282,16 @@ typedef union
         uint16_t remote_capable_1000base_t_half : 1;
         uint16_t reserved_8_9 : 2;
         uint16_t idle_error_count : 8;
+#else
+        uint16_t idle_error_count : 8;
+        uint16_t reserved_8_9 : 2;
+        uint16_t remote_capable_1000base_t_half : 1;
+        uint16_t remote_capable_1000base_t_full : 1;
+        uint16_t remote_receiver_ok : 1;
+        uint16_t local_receiver_ok : 1;
+        uint16_t is_master : 1;
+        uint16_t master_slave_fault : 1;
+#endif
     } s;
 } bdk_mdio_phy_reg_status_1000_t;
 
@@ -206,11 +304,19 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t capable_1000base_x_full : 1;
         uint16_t capable_1000base_x_half : 1;
         uint16_t capable_1000base_t_full : 1;
         uint16_t capable_1000base_t_half : 1;
         uint16_t reserved_0_11 : 12;
+#else
+        uint16_t reserved_0_11 : 12;
+        uint16_t capable_1000base_t_half : 1;
+        uint16_t capable_1000base_t_full : 1;
+        uint16_t capable_1000base_x_half : 1;
+        uint16_t capable_1000base_x_full : 1;
+#endif
     } s;
 } bdk_mdio_phy_reg_extended_status_t;
 
@@ -224,9 +330,15 @@ typedef union
     uint16_t u16;
     struct
     {
+#if __BYTE_ORDER == __BIG_ENDIAN
         uint16_t function : 2;
         uint16_t reserved_5_13 : 9;
         uint16_t devad : 5;
+#else
+        uint16_t devad : 5;
+        uint16_t reserved_5_13 : 9;
+        uint16_t function : 2;
+#endif
     } s;
 } bdk_mdio_phy_reg_mmd_control_t;
 
