@@ -15,10 +15,10 @@ set_config(cavium.CONFIG_PHY_IF0_PORT1, 1)
 set_config(cavium.CONFIG_PHY_IF0_PORT2, 2)
 set_config(cavium.CONFIG_PHY_IF0_PORT3, 3)
 -- BGX1 (QLM1)
-set_config(cavium.CONFIG_PHY_IF1_PORT0, 4)
-set_config(cavium.CONFIG_PHY_IF1_PORT1, 5)
-set_config(cavium.CONFIG_PHY_IF1_PORT2, 6)
-set_config(cavium.CONFIG_PHY_IF1_PORT3, 7)
+set_config(cavium.CONFIG_PHY_IF1_PORT0, 0x104)
+set_config(cavium.CONFIG_PHY_IF1_PORT1, 0x105)
+set_config(cavium.CONFIG_PHY_IF1_PORT2, 0x106)
+set_config(cavium.CONFIG_PHY_IF1_PORT3, 0x107)
 
 --------------------------------------------------------------
 -- Configuring QLMs in Lua code
