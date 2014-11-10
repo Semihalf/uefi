@@ -586,19 +586,24 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
     }
 
-    /* Almost all supported QLM speeds require a 156.25Mhz clock */
-    int ref_clk = REF_156MHZ;
-    /* Only three speeds support a reference clock other than 156.25Mhz,
-       2.5G, 5G, and 8G */
-    if ((baud_mhz == 2500) || (baud_mhz == 5000) || (baud_mhz == 8000))
+    int measured_ref = bdk_qlm_measure_clock(node, qlm);
+    int ref_clk;
+    if ((measured_ref > REF_100MHZ - REF_100MHZ / 10) && (measured_ref < REF_100MHZ + REF_100MHZ / 10))
     {
-        /* Assume that if someone is using a 125Mhz clock then they used
-           strapping to set the mode */
-        BDK_CSR_INIT(gserx_refclk_sel, node, BDK_GSERX_REFCLK_SEL(qlm));
-        if (gserx_refclk_sel.s.pcie_refclk125)
-            ref_clk = REF_125MHZ;
-        else
-            ref_clk = REF_100MHZ;
+        ref_clk = REF_100MHZ;
+    }
+    else if ((measured_ref > REF_125MHZ - REF_125MHZ / 10) && (measured_ref < REF_125MHZ + REF_125MHZ / 10))
+    {
+        ref_clk = REF_125MHZ;
+    }
+    else if ((measured_ref > REF_156MHZ - REF_156MHZ / 10) && (measured_ref < REF_156MHZ + REF_156MHZ / 10))
+    {
+        ref_clk = REF_156MHZ;
+    }
+    else
+    {
+        ref_clk = measured_ref;
+        bdk_error("QLM%d: Unexpected reference clock speed of %d Mhz\n", qlm, measured_ref / 1000000);
     }
 
     switch (mode)
