@@ -375,7 +375,8 @@ int main(void)
     /* QLM2 = Gen 3 PCIe x4 */
     bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X4, 8000, BDK_QLM_MODE_FLAG_GEN3);
     /* QLM3 = SATA */
-    bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 5000, 0);
+    // FIXME: Disable SATA as it is currently causing problems
+    //bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 5000, 0);
     /* QLM4-5 = Gen 3 PCIe x8 */
     bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
     /* QLM6-7 = Gen 3 PCIe x8 */
