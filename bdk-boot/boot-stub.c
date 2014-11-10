@@ -336,6 +336,7 @@ static void dram_menu()
         if ((option >= 1) && (option <= num_dram_configs))
         {
             /* Configure DRAM */
+            setenv("ddr_verbose", "yes", 1);
             int mbytes = bdk_dram_config(bdk_numa_local(), dram_config[option - 1], 0);
             if (mbytes <= 0)
                 bdk_error("DRAM initialization failed\n");
