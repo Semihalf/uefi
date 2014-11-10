@@ -107,7 +107,10 @@ void __bdk_exception_handler(except_regs_t *exc)
         if (esr.s.iss & (1<<7)) printf(" S1PTW");
         if (esr.s.iss & (1<<6)) printf(" WRITE");
         if (FCS_STRING[esr.s.iss & 0x3f])
+        {
+            printf(" ");
             printf(FCS_STRING[esr.s.iss & 0x3f]);
+        }
         printf(")");
     }
     printf("\n");
