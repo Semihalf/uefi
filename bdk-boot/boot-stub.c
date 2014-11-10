@@ -375,10 +375,12 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
 
     if (boot_method == RST_BOOT_METHOD_E_SPI16)
         address_width = 16;
-    else if (boot_method == RST_BOOT_METHOD_E_SPI24)
-        address_width = 24;
-    else
+    else if (boot_method == RST_BOOT_METHOD_E_SPI32)
         address_width = 32;
+    else
+        address_width = 24;
+    if (freq_mhz == 0)
+        freq_mhz = 10;
 
     snprintf(buffer, buffer_size, "/dev/mpi/cs%d-%c,2wire,idle-%c,%csb,%dbit,%d",
         chip_select,
