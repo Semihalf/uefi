@@ -646,7 +646,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
         /* Use the lower order bits to work as an address extension, allowing
            each PCIe port to map a total of 36 bits (32bit each region, 16
            regions) */
-        for (int r = sli_region; r < 16; r++)
+        for (int r = sli_region; r < sli_region + 16; r++)
         {
             /* Calculate the upper bits to match the core physical address. This
                was the PCIe bus address matches the core physical address. This
