@@ -1876,7 +1876,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int dimm = didx;
         int rc;
 
-        lmc_dimmx_params.u = BDK_CSR_READ(node, BDK_LMCX_DIMMX_PARAMS(dimm, ddr_interface_num));
+        lmc_dimmx_params.u = BDK_CSR_READ(node, BDK_LMCX_DIMMX_PARAMS(ddr_interface_num, dimm));
 
         rc = read_spd(node, &dimm_config_table[didx], 0, 69);
         lmc_dimmx_params.s.rc0         = (rc >> 0) & 0xf;
@@ -1975,7 +1975,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             }
         }
 
-        DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_PARAMS(dimm, ddr_interface_num), lmc_dimmx_params.u);
+        DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_PARAMS(ddr_interface_num, dimm), lmc_dimmx_params.u);
 
         ddr_print("DIMM%d Register Control Words         RC15:RC0 : %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x\n",
                   dimm,
@@ -2295,7 +2295,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 wlevel_ctl.s.rtt_nom   = strtoul(s, NULL, 0);
             }
 
-            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), 0); /* Clear write-level delays */
+            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), 0); /* Clear write-level delays */
 
             wlevel_bitmask_errors = 0; /* Reset error counter */
 
@@ -2316,17 +2316,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 /* Read and write values back in order to update the
                    status field. This insurs that we read the updated
                    values after write-leveling has completed. */
-                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num),
-                               BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num)));
+                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
+                               BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx)));
 
                 perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
 
                 /* Wait 100ms for wlevel to complete */
-                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num),
+                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
                     status, ==, 3, 1000000)) {
                     error_print("ERROR: Timeout waiting for WLEVEL\n");
                 }
-                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
                 wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
                 if (wlevel_bitmask[passx] == 0)
@@ -2369,7 +2369,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                            byte_idx,
                                            roundup_ddr3_wlevel_bitmask(wlevel_bitmask[byte_idx]));
                 }
-                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
+                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
                 ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                           rankx,
                           lmc_wlevel_rank.s.status,
@@ -2793,16 +2793,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     rlevel_rank_errors = 0;
 
                     /* Clear read-level delays */
-                    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num), 0);
+                    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
 
                     perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
 
                     /* Wait 100ms for rlevel to complete */
-                    if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num),
+                    if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
                         status, ==, 3, 1000000)) {
                         error_print("ERROR: Timeout waiting for RLEVEL\n");
                     }
-                    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
+                    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
                     {
                         struct {
@@ -2985,7 +2985,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                                               rlevel_byte[byte_idx].loop_count);
                 }
 
-                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
+                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
                 if ((ddr_interface_bytemask&0xff) == 0xff) {
                 if (ecc_ena) {
@@ -3212,8 +3212,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 if (!ecc_ena){
                     lmc_rlevel_rank.s.byte8 = lmc_rlevel_rank.s.byte0; /* ECC is not used */
                 }
-                DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num), lmc_rlevel_rank.u);
-                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
+                DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
+                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
                 ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
                           rankx,
                           lmc_rlevel_rank.s.status,
@@ -3248,7 +3248,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             if (!(rank_mask & (1 << rankx)))
                 continue;
 
-            lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
+            lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
             for (i=0; i<9; ++i) {
                 if ((s = lookup_env_parameter("ddr%d_rlevel_rank%d_byte%d", ddr_interface_num, rankx, i)) != NULL) {
@@ -3302,8 +3302,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             }
 
             if (parameter_set) {
-                DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num), lmc_rlevel_rank.u);
-                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
+                DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
+                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
                 ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                           rankx,
@@ -3396,7 +3396,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 continue;
 
 
-            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
             if (wlevel_bitmask_errors == 0) {
                 /* Determine address of DRAM to test for software write leveling. */
                 rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
@@ -3420,8 +3420,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     for (delay=get_wlevel_rank_struct(&lmc_wlevel_rank, byte); delay<32; delay+=8) {
                         update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
                         debug_print("Testing byte %d delay %2d\n", byte, delay);
-                        DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
-                        lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+                        DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+                        lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
                         if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
                             debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
@@ -3504,8 +3504,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     for (delay=0; delay<32; delay+=2) {  /* Bottom-UP */
                         update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
                         debug_print("Testing byte %d delay %2d\n", byte, delay);
-                        DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
-                        lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+                        DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+                        lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
                         if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
                             ++passed;
@@ -3530,7 +3530,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     if (passed == 0) {
                         /* Last resort. Use Rlevel settings to estimate
                            Wlevel if software write-leveling fails */
-                        lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(rankx, ddr_interface_num));
+                        lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
                         rlevel_to_wlevel(&lmc_rlevel_rank, &lmc_wlevel_rank, byte);
                     }
                 }
@@ -3556,8 +3556,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
             }
 
-            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
-            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
             ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
                       rankx,
@@ -3585,7 +3585,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             if (!(rank_mask & (1 << rankx)))
                 continue;
 
-            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
             if (bdk_is_simulation()) {
                 parameter_set |= 1;
@@ -3617,8 +3617,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             }
 
             if (parameter_set) {
-                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num), lmc_wlevel_rank.u);
-                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(rankx, ddr_interface_num));
+                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
                 ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                           rankx,
