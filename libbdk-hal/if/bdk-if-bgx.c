@@ -1053,7 +1053,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     int tl2_index = tl1_index * 32;
     tl2_index += priv->port;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_CFG(tl2_index),
-        c.s.rr_quantum = tl2_index * 8);
+        c.s.rr_quantum = 9216 / 4);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_PRI(tl2_index),
         c.s.rr_pri = 0);
 
@@ -1062,7 +1062,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3AX_CFG(tl3_index / 4),
         c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
-        c.s.rr_quantum = tl3_index * 8);
+        c.s.rr_quantum = 9216 / 4);
     int tl_channel = (handle->interface) ? NIC_CHAN_E_BGX1_PORT0_CH0 : NIC_CHAN_E_BGX0_PORT0_CH0;
     tl_channel += (NIC_CHAN_E_BGX0_PORT1_CH0 - NIC_CHAN_E_BGX0_PORT0_CH0) * priv->port;
     tl_channel += priv->channel;
