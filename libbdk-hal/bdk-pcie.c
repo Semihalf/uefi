@@ -253,6 +253,8 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     if (bdk_is_simulation())
         return 0;
 
+    return 0; //FIXME: ECAMs seem to be completely broken
+
     /* Errata (ECAM-22630) 2014-10-07  ECAM missing PCC functions cause
        faults */
 
@@ -293,8 +295,6 @@ int bdk_pcie_global_initialize(bdk_node_t node)
             BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_NSDIS(ecam, bus), nsdis);
         }
     }
-
-    return 0; //FIXME: ECAM setup causing exceptions
 
     /* Go through all the internal devices and enable them specifically. This
        way non-existent devices stay disabled and we avoid the errata */
