@@ -648,16 +648,21 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
            regions) */
         for (int r = sli_region; r < sli_region + 16; r++)
         {
-            /* Calculate the upper bits to match the core physical address. This
-               was the PCIe bus address matches the core physical address. This
-               only works because we assume all devices support 64bit addressing */
-            uint64_t address = bdk_pcie_get_base_address(node, pcie_port, mem_region);
-            address >>= 32;
-            address += r;
+            uint64_t address = 0;
+            /* Address only applies to memory space */
+            if (ctype == 0)
+            {
+                /* Calculate the upper bits to match the core physical address. This
+                   was the PCIe bus address matches the core physical address. This
+                   only works because we assume all devices support 64bit addressing */
+                address = bdk_pcie_get_base_address(node, pcie_port, mem_region);
+                address >>= 32;
+                address += r;
+            }
             BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
                 c.s.ctype = ctype;
                 c.s.zero = 0;
-                c.s.mac = pcie_port;
+                c.s.mac = sli_group;
                 c.s.nmerge = nmerge;
                 c.s.wtype = ordering;
                 c.s.rtype = ordering;
