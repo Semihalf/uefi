@@ -18093,8 +18093,7 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_30_62", start = 30, stop = 62},
-                {name = "COPY_PRE_L2", start = 29, stop = 29},
+                {name = "RESERVED_29_62", start = 29, stop = 62},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -29465,6 +29464,16 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "PPI", start = 0, stop = 15},
+            }
+        },
+        TB_PPI_INTR_CONFIG = {
+            name = "TB_PPI_INTR_CONFIG",
+            type = "NCB32B",
+            width = 4,
+            address = 0x87e013000c2c,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "VALUE", start = 0, stop = 15},
             }
         },
         TB_PPU0ADDR = {
@@ -67996,7 +68005,8 @@ local csr_db = {
             width = 8,
             address = 0x87e003001410,
             fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "GBL_PWR_THROTTLE", start = 48, stop = 55},
                 {name = "FUS118", start = 47, stop = 47},
                 {name = "ROM_INFO", start = 37, stop = 46},
                 {name = "POWER_LIMIT", start = 35, stop = 36},
@@ -70279,8 +70289,7 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_30_62", start = 30, stop = 62},
-                {name = "COPY_PRE_L2", start = 29, stop = 29},
+                {name = "RESERVED_29_62", start = 29, stop = 62},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -81662,6 +81671,16 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "PPI", start = 0, stop = 15},
+            }
+        },
+        TB_PPI_INTR_CONFIG = {
+            name = "TB_PPI_INTR_CONFIG",
+            type = "NCB32B",
+            width = 4,
+            address = 0x87e013000c2c,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "VALUE", start = 0, stop = 15},
             }
         },
         TB_PPU0ADDR = {

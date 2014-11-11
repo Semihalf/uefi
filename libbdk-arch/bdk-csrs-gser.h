@@ -2202,7 +2202,8 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
 		uint64_t reserved_1_3                : 3;
 		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used. */
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
+                                                                 Added in pass 2. */
 #else
 		uint64_t cfg_rxeq_eval_restore_en    : 1;
 		uint64_t reserved_1_3                : 3;

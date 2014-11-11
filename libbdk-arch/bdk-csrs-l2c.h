@@ -578,7 +578,7 @@ typedef union bdk_l2c_ctl {
                                                                  To disable set to 0. All other values are reserved. */
 		uint64_t reserved_5_5                : 1;
 		uint64_t disgsyncto                  : 1;  /**< R/W - Disable global sync timeout.
-                                                                 INTERNAL: PASS2: Disables the CBC global sync timeout only, so not an OCI timeout. */
+                                                                 Added in pass 2. */
 		uint64_t disldwb                     : 1;  /**< R/W - Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
 		uint64_t dissblkdty                  : 1;  /**< R/W - Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
                                                                  sub-blocks when possible. In an CCPI system all nodes must use the same setting of

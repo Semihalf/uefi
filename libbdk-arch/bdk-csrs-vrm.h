@@ -186,6 +186,9 @@ static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long param1)
 
 /**
  * RSL - vrm#_eco
+ *
+ * Added in pass 2.
+ *
  */
 typedef union bdk_vrmx_eco {
 	uint64_t u;
@@ -509,8 +512,8 @@ typedef union bdk_vrmx_ts_temp_conv_result {
 		uint64_t temp_valid                  : 1;  /**< RO/H - When set TEMP_CORRECTED is valid.
                                                                  This bit is pulsed on each conversion, and as such software may not be able to observe the
                                                                  cycle in which TEMP_VALID is set. */
-		uint64_t temp_corrected              : 11; /**< RO/H - Corrected temperature read out from the temp sensor module.
-                                                                 Has valid data after TEMP_VALID transitions. */
+		uint64_t temp_corrected              : 11; /**< RO/H - Corrected temperature read out from the temp sensor module, in degrees C with
+                                                                 two bits of fraction. Unpredictable unless TEMP_VALID is set. */
 #else
 		uint64_t temp_corrected              : 11;
 		uint64_t temp_valid                  : 1;

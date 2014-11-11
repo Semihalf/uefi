@@ -5106,8 +5106,7 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 	struct bdk_nic_pf_qsx_rqx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t tcp_off                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
-		uint64_t reserved_30_62              : 33;
-		uint64_t copy_pre_l2                 : 1;  /**< R/W - Reserved. */
+		uint64_t reserved_29_62              : 34;
 		uint64_t strip_pre_l2                : 1;  /**< R/W - All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
 		uint64_t caching                     : 2;  /**< R/W - Select the style of write to the L2C.
                                                                  0 = writes of RBDR data will not allocate into the L2C.
@@ -5131,8 +5130,7 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 		uint64_t cq_qs                       : 7;
 		uint64_t caching                     : 2;
 		uint64_t strip_pre_l2                : 1;
-		uint64_t copy_pre_l2                 : 1;
-		uint64_t reserved_30_62              : 33;
+		uint64_t reserved_29_62              : 34;
 		uint64_t tcp_off                     : 1;
 #endif
 	} s;
@@ -6884,10 +6882,9 @@ typedef union bdk_nic_qsx_cqx_door {
 	struct bdk_nic_qsx_cqx_door_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t count                       : 16; /**< WO - Number of dequeued entries of 512 bytes. Hardware advances
-                                                                 NIC_QS()_CQ()_TAIL[HEAD_PTR] by this value if the CQ is enabled. A write that
-                                                                 would cause the CQ head pointer to reach or pass the tail pointer is suppressed and sets
-                                                                 NIC_QS()_CQ()_STATUS[CQ_WR_FULL]. */
+		uint64_t count                       : 16; /**< WO - Number of dequeued entries of 512 bytes. Hardware advances NIC_QS()_CQ()_TAIL[HEAD_PTR] by
+                                                                 this value if the CQ is enabled. A write that would cause the CQ head pointer to pass the
+                                                                 tail pointer is suppressed and sets NIC_QS()_CQ()_STATUS[CQ_WR_FULL]. */
 #else
 		uint64_t count                       : 16;
 		uint64_t reserved_16_63              : 48;

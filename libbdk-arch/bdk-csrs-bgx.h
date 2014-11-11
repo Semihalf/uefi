@@ -2484,19 +2484,7 @@ typedef union bdk_bgxx_cmr_global_config {
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-		uint64_t pmux_sds_sel                : 1;  /**< R/W - SerDes/QLM output select. Specifies which QLM output is selected as the BGX input, as
-                                                                 follows:
-
-                                                                 \<pre\>
-                                                                   Block   PMUX_SDS_SEL=0  PMUX_SDS_SEL=1
-                                                                   --------------------------------------
-                                                                   BGX0:   QLM0            QLM2
-                                                                   BGX1:   QLM1            QLM3
-                                                                   BGX2:   QLM4            N/A
-                                                                   BGX3:   QLM5            N/A
-                                                                   BGX4:   QLM6            N/A
-                                                                   BGX5:   QLM7            N/A
-                                                                 \</pre\> */
+		uint64_t pmux_sds_sel                : 1;  /**< R/W - SerDes/QLM output select. Must be 0. */
 #else
 		uint64_t pmux_sds_sel                : 1;
 		uint64_t bgx_clk_enable              : 1;

@@ -1456,6 +1456,41 @@ static inline uint64_t BDK_TB_PPI_GROUP_VALUE_FUNC(void)
 
 
 /**
+ * NCB32b - tb_ppi_intr_config
+ *
+ * Indicates the LEVEL/EDGE triggered configuration of each pin.
+ * 0 = Indicates level configured interrupt.
+ * 1 = Indicates edge configured interrupt.
+ */
+typedef union bdk_tb_ppi_intr_config {
+	uint32_t u;
+	struct bdk_tb_ppi_intr_config_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_16_31              : 16;
+		uint32_t value                       : 16;
+#else
+		uint32_t value                       : 16;
+		uint32_t reserved_16_31              : 16;
+#endif
+	} s;
+	/* struct bdk_tb_ppi_intr_config_s    cn88xx; */
+	/* struct bdk_tb_ppi_intr_config_s    cn88xxp1; */
+} bdk_tb_ppi_intr_config_t;
+
+#define BDK_TB_PPI_INTR_CONFIG BDK_TB_PPI_INTR_CONFIG_FUNC()
+static inline uint64_t BDK_TB_PPI_INTR_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TB_PPI_INTR_CONFIG_FUNC(void)
+{
+	return 0x000087E013000C2Cull;
+}
+#define typedef_BDK_TB_PPI_INTR_CONFIG bdk_tb_ppi_intr_config_t
+#define bustype_BDK_TB_PPI_INTR_CONFIG BDK_CSR_TYPE_NCB32b
+#define busnum_BDK_TB_PPI_INTR_CONFIG 0
+#define arguments_BDK_TB_PPI_INTR_CONFIG -1,-1,-1,-1
+#define basename_BDK_TB_PPI_INTR_CONFIG "TB_PPI_INTR_CONFIG"
+
+
+/**
  * NCB32b - tb_ppu0addr
  *
  * NOTE: Per docs, this is not used for 64bit AVS
