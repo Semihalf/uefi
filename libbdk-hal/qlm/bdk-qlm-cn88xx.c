@@ -404,7 +404,7 @@ static void setup_pem_reset(bdk_node_t node, int pem, int is_endpoint)
 
 static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
-    const int MAX_A_CLK = 400000000; /* Max of 400Mhz */
+    const int MAX_A_CLK = 333000000; /* Max of 333Mhz */
 
     /* SATA hasa fixed mapping for ports on CN88XX */
     int sata_port;
@@ -467,7 +467,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             ii. SATA(0..15)_UCTL_CTL[A_CLK_EN] = 1 to enable the ACLK.
         c.  Deassert the ACLK clock divider reset:
             SATA(0..15)_UCTL_CTL[A_CLKDIV_RST] = 0. */
-    int divisor = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / MAX_A_CLK;
+    int divisor = (bdk_clock_get_rate(node, BDK_CLOCK_SCLK) + MAX_A_CLK - 1) / MAX_A_CLK;
     int a_clkdiv;
     /* This screwy if logic is from the description of
        SATAX_UCTL_CTL[a_clkdiv_sel] in the CSR */
