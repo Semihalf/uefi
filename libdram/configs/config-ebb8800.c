@@ -261,7 +261,7 @@ const dram_config_t *dram_get_config_ebb8800(void)
 
     /* Set the config name and the default frequency */
     cfg.name = "ebb8800";
-    cfg.ddr_clock_hertz = 666000000;
+    cfg.ddr_clock_hertz = 533333333;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)

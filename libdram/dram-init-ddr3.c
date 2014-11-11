@@ -147,8 +147,10 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 
 		/* Measure the max allowed mask range */
 		range=0;
-		while ((MASKRANGE >> range) & 1)
-			++range;
+		while ((MASKRANGE >> range) & 1) {
+                    debug_bitmask_print("MASKRANGE:%x, range:%x\n", MASKRANGE, range);
+                    ++range;
+                }
 
 		/* Use the range to find the largest mask within the bitmask
 		 * data
@@ -157,10 +159,10 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 		for (mask=MASKRANGE; mask>0; mask >>= 1, width-=1) {
                         int match = 0;
 			for (mstart=lastbit-width+1; mstart>=0; --mstart) {
-				/* debug_bitmask_print("bm:%x, mask: %x, width:%2d, mstart:%2d\n",
-				 * 		       bitmask, mask, width,
-				 *		       mstart);
-				 */
+				debug_bitmask_print("bm:%lx, mask: %lx, width:%2d, mstart:%2d\n",
+						       bitmask, mask, width,
+				     	       mstart);
+				
 				if ((bitmask&(mask<<mstart)) == (mask<<mstart)) {
 					match = 1;
 					break;
@@ -173,8 +175,12 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 		/* Shift mask into position incase the mask has contiguous
 		 * trailing bits.
 		 */
-		while ((bitmask >> mstart) & 1)
-			--mstart;
+                debug_bitmask_print("mstart:%d", mstart);
+		while ((bitmask >> mstart) & 1) {
+                    debug_bitmask_print(" %d", mstart);
+                    --mstart;
+                }
+                debug_bitmask_print("\n");
 		++mstart;
 
 		/* Detect if bitmask is too narrow. */
@@ -191,7 +197,9 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 		}
 
 		/* Detect trailing bubble bits. */
-		for (i = mstart + width; (bitmask >> i) != 0; ++i) {
+		for (i = mstart + width; ((bitmask >> i) != 0) && (i < 64); ++i) {
+                    debug_bitmask_print("%d, mstart+width:%u, (bitmask>>i):%0lx\n",
+                                        i, mstart+width, (bitmask>>i));
 			if (((bitmask >> i) & 1) == 0)
 				tbubble += RLEVEL_BITMASK_BUBBLE_BITS_ERROR;
 		}
@@ -212,9 +220,9 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 	*mstartp = mstart;
 	*widthp = width;
 
-	debug_bitmask_print("bm:%05lx mask:%2x, width:%2d, mstart:%2d, fb:%2d, lb:%2d"
+	debug_bitmask_print("bm:%05lx mask:%2lx, width:%2u, mstart:%2d, fb:%2u, lb:%2u"
 			    " (bu:%d, tb:%d, bl:%d, n:%d, t:%d) errors:%3d ",
-			    (unsigned long long) bitmask, mask, width, mstart,
+			    (unsigned long) bitmask, mask, width, mstart,
 			    firstbit, lastbit, bubble, tbubble, blank, narrow,
 			    trailing, errors);
 
@@ -3253,8 +3261,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
             {
                 parameter_set |= 1;
-                lmc_rlevel_rank.u = 0x004A30C30B2CB2CA; /* 1333 */
-                //lmc_rlevel_rank.u = 0x00492CA289249208; /* 1066 */
+
+                /* 1066 */
+                if (ddr_interface_num == 0) {
+                    // Rank(0) Rlevel Rank   0x1, 0x004A2CB28A249208 :    10    11    11    10    10     9     9     8     8 (56)
+                    // Rank(1) Rlevel Rank   0x1, 0x004A2CB28A249248 :    10    11    11    10    10     9     9     9     8 (68)
+                    if (rankx == 0)
+                        lmc_rlevel_rank.u = 0x004A2CB28A249208;
+                    else
+                        lmc_rlevel_rank.u = 0x004A2CB28A249248;
+                } else {
+                    //Rank(0) Rlevel Rank   0x1, 0x00492CB28A249208 :     9    11    11    10    10     9     9     8     8 (58)
+                    //Rank(1) Rlevel Rank   0x1, 0x00492CB28A249208 :     9    11    11    10    10     9     9     8     8 (57)
+                    if (rankx == 0)
+                        lmc_rlevel_rank.u = 0x00492CB28A249208;
+                    else
+                        lmc_rlevel_rank.u = 0x00492CB28A249208;
+                }
             }
 
             if ((s = lookup_env_parameter_ull("ddr%d_rlevel_rank%d", ddr_interface_num, rankx)) != NULL) {
