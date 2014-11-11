@@ -519,10 +519,10 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     }
 
     /* 8.  Configure PHY for SATA. Refer to Section 21.1.2. */
-    /* Done after this function returns */
+    /* Done below, section 24.1.2.3 */
 
     /* 9.  TBD: Poll QLM2_MPLL_STATUS for MPLL lock */
-    /* Done after this function returns */
+    /* FIXME: Not doing this */
 
     /* 10. Initialize UAHC as described in the AHCI specification
         (UAHC_* registers). */
@@ -590,48 +590,35 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x0
         Set GSER(0..13)_LANE_P2_MODE_0[TX_LDIV] = 0x0
         Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x0 */
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, 0),
-        c.s.pll_icp = 0x1;
-        c.s.pll_rloop = 0x3;
-        c.s.pll_pcs_div = 0x5);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, 1),
-        c.s.pll_icp = 0x1;
-        c.s.pll_rloop = 0x3;
-        c.s.pll_pcs_div = 0x5);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, 2),
-        c.s.pll_icp = 0x1;
-        c.s.pll_rloop = 0x3;
-        c.s.pll_pcs_div = 0x5);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, 0),
-        c.s.pll_opr = 0x0;
-        c.s.pll_div = 0x18);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, 1),
-        c.s.pll_opr = 0x0;
-        c.s.pll_div = 0x18);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, 2),
-        c.s.pll_opr = 0x0;
-        c.s.pll_div = 0x18);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, 0),
-        c.s.tx_ldiv = 0x0;
-        c.s.rx_ldiv = 0x0);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, 1),
-        c.s.tx_ldiv = 0x0;
-        c.s.rx_ldiv = 0x0);
-    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, 2),
-        c.s.tx_ldiv = 0x0;
-        c.s.rx_ldiv = 0x0);
+    for (int p=0; p<3; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, p),
+            c.s.pll_icp = 0x1;
+            c.s.pll_rloop = 0x3;
+            c.s.pll_pcs_div = 0x5);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, p),
+            c.s.pll_opr = 0x0;
+            c.s.pll_div = 0x18);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, p),
+            c.s.tx_ldiv = 0x0;
+            c.s.rx_ldiv = 0x0);
+    }
 
-    /* 8. Clear the appropriate lane resets:
-       GSER(0..13)_SATA_LANE_RST[Ln_RST] = 0, where n is the lane number 0-3. */
-    BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
-
-    /* 9. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
+    /* 8. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
        has been reconfigured and PLLs are locked. */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
     {
         bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
         return -1;
     }
+
+    /* 9. Clear the appropriate lane resets:
+       GSER(0..13)_SATA_LANE_RST[Ln_RST] = 0, where n is the lane number 0-3. */
+    BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
+    BDK_CSR_READ(node, BDK_GSERX_SATA_LANE_RST(qlm));
+
+    /* Not sure why this is needed */
+    bdk_wait_usec(100);
 
     /* Report 1 port per controller */
     for (int p = sata_port; p < sata_port_end; p++)
