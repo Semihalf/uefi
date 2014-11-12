@@ -1,8 +1,7 @@
 #include <bdk.h>
 #include "../dram-internal.h"
 
-/* Don't bother with reading SPDs for emulator or initial poweron. */
-#undef USE_INTERNAL_SPD
+#define USE_INTERNAL_SPD 0 /* Change to 1 for compiled in SPDs */
 
 static const uint8_t WD3UN802G13LSD_SPD[] = {
     0x92, 0x11, 0x0b, 0x02, 0x03, 0x19, 0x00, 0x01, 0x03, 0x11, 0x01, 0x08, 0x0c, 0x00, 0x3c, 0x00,
@@ -251,10 +250,6 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 const dram_config_t *dram_get_config_ebb8800(void)
 {
     static dram_config_t cfg;
-#ifdef USE_INTERNAL_SPD
-    int lmc_mask  = 0x3;            /* Two LMCs */
-    int dimm_mask = 0x1;            /* One DIMM */
-#endif
 
     /* Make all fields default to zero */
     memset(&cfg, 0, sizeof(cfg));
@@ -272,31 +267,36 @@ const dram_config_t *dram_get_config_ebb8800(void)
         setup_dram_odt_4rank_configuration(cfg.config[lmc].odt_4rank_config);
     }
 
-#ifdef USE_INTERNAL_SPD
-    for (int lmc = 0; lmc < 4; lmc++)
+    if (USE_INTERNAL_SPD || bdk_is_simulation())
     {
-        if (! (lmc_mask & (1 << lmc))) /* Could use the testbit macro */
-            continue;
-
-        for (int dimm = 0; dimm < 2; dimm++)
+        int lmc_mask  = 0x3;            /* Two LMCs */
+        int dimm_mask = 0x1;            /* One DIMM */
+        for (int lmc = 0; lmc < 4; lmc++)
         {
-            if (! (dimm_mask & (1 << dimm))) /* Could use the testbit macro */
+            if (! (lmc_mask & (1 << lmc))) /* Could use the testbit macro */
                 continue;
 
-            cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = TS512MLK72V8N_SPD;
+            for (int dimm = 0; dimm < 2; dimm++)
+            {
+                if (! (dimm_mask & (1 << dimm))) /* Could use the testbit macro */
+                    continue;
+
+                cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = TS512MLK72V8N_SPD;
+            }
         }
     }
-#else
-    /* Set the SPD addresses as we are reading them from DIMMs */
-    cfg.config[0].dimm_config_table[0].spd_addrs[0] = 0x1050;
-    cfg.config[0].dimm_config_table[1].spd_addrs[0] = 0x1051;
-    cfg.config[1].dimm_config_table[0].spd_addrs[0] = 0x1052;
-    cfg.config[1].dimm_config_table[1].spd_addrs[0] = 0x1053;
-    cfg.config[2].dimm_config_table[0].spd_addrs[0] = 0x1054;
-    cfg.config[2].dimm_config_table[1].spd_addrs[0] = 0x1055;
-    cfg.config[3].dimm_config_table[0].spd_addrs[0] = 0x1056;
-    cfg.config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
-#endif
+    else
+    {
+        /* Set the SPD addresses as we are reading them from DIMMs */
+        cfg.config[0].dimm_config_table[0].spd_addrs[0] = 0x1050;
+        cfg.config[0].dimm_config_table[1].spd_addrs[0] = 0x1051;
+        cfg.config[1].dimm_config_table[0].spd_addrs[0] = 0x1052;
+        cfg.config[1].dimm_config_table[1].spd_addrs[0] = 0x1053;
+        cfg.config[2].dimm_config_table[0].spd_addrs[0] = 0x1054;
+        cfg.config[2].dimm_config_table[1].spd_addrs[0] = 0x1055;
+        cfg.config[3].dimm_config_table[0].spd_addrs[0] = 0x1056;
+        cfg.config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
+    }
 
     return &cfg;
 };
