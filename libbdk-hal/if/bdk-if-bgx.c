@@ -1099,11 +1099,6 @@ static int vnic_setup(bdk_if_handle_t handle)
         return -1;
     }
 
-    if (vnic_setup_cq(handle))
-        return -1;
-    if (vnic_setup_rbdr(handle))
-        return -1;
-
     int sq = priv->vnic;
     int sq_idx = priv->qos;
     int rq = priv->vnic;
@@ -1198,6 +1193,10 @@ static int vnic_setup(bdk_if_handle_t handle)
         c.s.vnic = priv->vnic);
 
     if (vnic_setup_tx_shaping(handle))
+        return -1;
+    if (vnic_setup_cq(handle))
+        return -1;
+    if (vnic_setup_rbdr(handle))
         return -1;
 
     /* We use the received VNIC number to find the interface handle */
