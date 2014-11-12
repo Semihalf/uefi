@@ -377,9 +377,9 @@ int bdk_pcie_get_num_ports(bdk_node_t node)
 uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_t mem_type)
 {
     /* See __bdk_pcie_sli_initialize() for a description about how SLI regions work */
-    /* Ports 0-2 goto SLI0, ports 3-5 goto SLI1 */
-    int sli = (pcie_port >= 3) ? 1 : 0;
-    int sli_group = pcie_port - sli * 3;
+    /* Ports 0-2 goto SLI1, ports 3-5 goto SLI0 */
+    int sli = (pcie_port >= 3) ? 0 : 1; /* Yes, SLI is backwards */
+    int sli_group = (sli) ? pcie_port : pcie_port - 3;
     int region = (sli_group << 6) | (mem_type << 4);
     union sli_s2m_op_s s2m_op;
     s2m_op.u = 0;
@@ -594,7 +594,7 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
  */
 static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
 {
-    int sli = (pcie_port >= 3) ? 1 : 0;
+    int sli = (pcie_port >= 3) ? 0 : 1; /* Yes, SLI is backwards */
 
     /* Setup store merge timer */
     BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_CTL(sli),
@@ -605,11 +605,11 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
        support config, IO, normal, and prefetchable regions. The 256 regions
        are shared across PCIe, so we need three groups of these (one group
        for each PCIe). The setup is:
-       SLI bit[7:6]: PCIe port, relative to SLI (SLI0 is PCIe 0-2, SLI1 is PCIe 3-5)
+       SLI bit[7:6]: PCIe port, relative to SLI (SLI1 is PCIe 0-2, SLI0 is PCIe 3-5)
        SLI bit[5:4]: Region. See bdk_pcie_mem_t enumeration
        SLI bit[3:0]: Address extension from 32 bits to 36 bits
        */
-    int sli_group = pcie_port - 3 * sli;
+    int sli_group = (sli) ? pcie_port : pcie_port - 3;
     for (bdk_pcie_mem_t mem_region = BDK_PCIE_MEM_CONFIG; mem_region <= BDK_PCIE_MEM_IO; mem_region++)
     {
         /* Use top two bits for PCIe port, next two bits for memory region */
