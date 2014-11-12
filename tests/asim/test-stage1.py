@@ -114,7 +114,7 @@ wait_for("4) Main menu")
 wait_for("(INS)Menu choice:")
 
 send("1")
-wait_for("BDK DRAM: 8192 MB, 666 MHz")
+wait_for("BDK DRAM: 8192 MB, 533 MHz")
 wait_for("DRAM Menu")
 wait_for("=========")
 wait_for("1) Initialize DRAM using config \"ebb8800\"")
@@ -145,7 +145,6 @@ wait_for("Copyright (C) 2010-2014 Cavium Inc.")
 wait_for("Version")
 
 wait_for("Configuring for the EBB8800")
-wait_for("Configuring QLMs for a sample setup")
 
 wait_for("=================================")
 wait_for("Main Menu")
