@@ -1076,7 +1076,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4X_CFG(tl4_index),
         c.s.sq_qs = priv->vnic;
         c.s.sq_idx = priv->qos;
-        c.s.rr_quantum = tl4_index * 8);
+        c.s.rr_quantum = 9216 / 4);
 
     /* SQ feeds TL4 */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv->vnic, priv->qos),
