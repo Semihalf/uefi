@@ -366,6 +366,15 @@ int main(void)
     /* Send status to the BMC: Slave DRAM init complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
+    /* Setup reference clocks */
+    /* QLM0-1 use common clock 1 (156.25Mhz). QLM2-7 use common clock 0 (100Mhz) */
+    for (int qlm=0; qlm<8; qlm++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
+            c.s.com_clk_sel = 1;
+            c.s.use_com1 = (qlm < 2) ? 1 : 0);
+    }
+
     /* Initialize the QLMs */
     BDK_TRACE(BOOT_STUB, "Initializing QLMs\n");
     /* QLM0 = 40G-KR4 */
