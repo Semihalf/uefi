@@ -377,19 +377,20 @@ int main(void)
 
     /* Initialize the QLMs */
     BDK_TRACE(BOOT_STUB, "Initializing QLMs\n");
-    /* QLM0 = 40G-KR4 */
-    bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_40G_KR4_1X4, 10321, 0);
-    /* QLM1 = 10G-KR */
+    printf("QLM0: SGMII\n");
+    bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+    printf("QLM1: 10G-KR\n");
     bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_10G_KR_4X1, 10321, 0);
-    /* QLM2 = Gen 3 PCIe x4 */
-    bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X4, 8000, BDK_QLM_MODE_FLAG_GEN3);
-    /* QLM3 = SATA */
-    // FIXME: Disable SATA as it is currently causing problems
-    //bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 5000, 0);
-    /* QLM4-5 = Gen 3 PCIe x8 */
-    bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
-    /* QLM6-7 = Gen 3 PCIe x8 */
-    bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
+    printf("QLM2: SATA\n");
+    bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_SATA_4X1, 8000, 0);
+    printf("QLM3: SATA\n");
+    bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 8000, 0);
+    printf("QLM4-5: PCIe Gen1 x8\n");
+    bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN1);
+    printf("QLM6: SATA\n");
+    bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_SATA_4X1, 8000, 0);
+    printf("QLM7: SATA\n");
+    bdk_qlm_set_mode(node, 7, BDK_QLM_MODE_SATA_4X1, 8000, 0);
 
     /* Setup SMI/MDIO */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)

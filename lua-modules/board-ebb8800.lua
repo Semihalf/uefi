@@ -72,7 +72,7 @@ set_config(cavium.CONFIG_PHY_IF1_PORT3, 0x107)
 -- Choosing QLM modes for SATA (QLMs 2-3, 6-7)
 --------------------------------------------------------------
 -- SATA modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 5000, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 8000, 0)
 
 --------------------------------------------------------------
 -- Choosing QLM modes for PCIe (QLMs 2-7)
