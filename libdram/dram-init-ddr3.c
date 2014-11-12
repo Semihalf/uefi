@@ -2627,8 +2627,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if (bdk_is_simulation())
             rlevel_debug_loops = 0;
 
-        rlevel_debug_loops = 0;
-
         if ((s = lookup_env_parameter("ddr%d_rlevel_debug_loops", ddr_interface_num)) != NULL) {
             rlevel_debug_loops = strtoul(s, NULL, 0);
         }
@@ -2791,6 +2789,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 average_loops = rlevel_avg_loops;
                 while (average_loops--) {
                     rlevel_rank_errors = 0;
+
+                    DRAM_CSR_MODIFY(wlevel_ctl, node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num),
+                                    wlevel_ctl.s.lanemask = ddr_interface_bytemask);
 
                     /* Clear read-level delays */
                     DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
@@ -3256,27 +3257,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     value = strtoul(s, NULL, 0);
 
                     update_rlevel_rank_struct(&lmc_rlevel_rank, i, value);
-                }
-            }
-
-            {
-                parameter_set |= 1;
-
-                /* 1066 */
-                if (ddr_interface_num == 0) {
-                    // Rank(0) Rlevel Rank   0x1, 0x004A2CB28A249208 :    10    11    11    10    10     9     9     8     8 (56)
-                    // Rank(1) Rlevel Rank   0x1, 0x004A2CB28A249248 :    10    11    11    10    10     9     9     9     8 (68)
-                    if (rankx == 0)
-                        lmc_rlevel_rank.u = 0x004A2CB28A249208;
-                    else
-                        lmc_rlevel_rank.u = 0x004A2CB28A249248;
-                } else {
-                    //Rank(0) Rlevel Rank   0x1, 0x00492CB28A249208 :     9    11    11    10    10     9     9     8     8 (58)
-                    //Rank(1) Rlevel Rank   0x1, 0x00492CB28A249208 :     9    11    11    10    10     9     9     8     8 (57)
-                    if (rankx == 0)
-                        lmc_rlevel_rank.u = 0x00492CB28A249208;
-                    else
-                        lmc_rlevel_rank.u = 0x00492CB28A249208;
                 }
             }
 

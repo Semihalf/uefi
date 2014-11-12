@@ -2,7 +2,7 @@
 #include "../dram-internal.h"
 
 /* Don't bother with reading SPDs for emulator or initial poweron. */
-#define USE_INTERNAL_SPD
+#undef USE_INTERNAL_SPD
 
 static const uint8_t WD3UN802G13LSD_SPD[] = {
     0x92, 0x11, 0x0b, 0x02, 0x03, 0x19, 0x00, 0x01, 0x03, 0x11, 0x01, 0x08, 0x0c, 0x00, 0x3c, 0x00,
