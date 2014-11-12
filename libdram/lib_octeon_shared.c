@@ -670,7 +670,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC0_DDR_PLL_CTL values.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
                 c.s.reset_n = 1);
 
             /*
@@ -702,7 +702,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * sequence.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
                 c.s.ddr_div_reset = 1);
 
             /*
@@ -710,7 +710,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC(0..3)_DDR_PLL_CTL[DDR4_MODE] = 0.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
                 c.s.ddr4_mode = 0);
 
             /*
@@ -730,7 +730,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC(0..3)_DDR_PLL_CTL[PHY_DCOK] = 1.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
                 c.s.phy_dcok = 1);
 
             /*
@@ -802,7 +802,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * LMC(0..3)_DDR_PLL_CTL[DDR_DIV_RESET] = 0.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(loop_interface_num),
                 c.s.ddr_div_reset = 0);
 
             /*
@@ -845,7 +845,7 @@ int initialize_ddr_clock(bdk_node_t node,
                 if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
                     continue;
 
-                BDK_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(loop_interface_num),
+                DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(loop_interface_num),
                     c.s.intf_en              = 1);
                 BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
             }
@@ -992,7 +992,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * recalibrating this delay information.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(2),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(2),
                 c.s.dclk90_fwd = 1;
                 c.s.dclk90_recal_dis = 1);
 
@@ -1005,7 +1005,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * recalibrating this delay information.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(3),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(3),
                 c.s.dclk90_fwd = 1;
                 c.s.dclk90_recal_dis = 1);
 
@@ -1083,7 +1083,7 @@ int initialize_ddr_clock(bdk_node_t node,
              * without modifying any other LMC(0..3)_RESET_CTL fields.
              */
 
-            BDK_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
                 c.s.ddr3rst = 1);
             ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
 
