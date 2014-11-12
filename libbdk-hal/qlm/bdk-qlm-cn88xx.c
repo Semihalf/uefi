@@ -492,11 +492,13 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
             c.s.a_clkdiv_rst = 1);
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.a_clk_byp_sel = 0;
             c.s.a_clkdiv_sel = a_clkdiv;
             c.s.a_clk_en = 1);
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
             c.s.a_clkdiv_rst = 0);
     }
+    bdk_wait_usec(1);
 
     /* 6.  Deassert UCTL and UAHC resets:
         a.  SATA(0..15)_UCTL_CTL[SATA_UAHC_RST] = 0
@@ -522,7 +524,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Done below, section 24.1.2.3 */
 
     /* 9.  TBD: Poll QLM2_MPLL_STATUS for MPLL lock */
-    /* FIXME: Not doing this */
+    /* Not needed */
 
     /* 10. Initialize UAHC as described in the AHCI specification
         (UAHC_* registers). */
@@ -585,11 +587,11 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         Set GSER(0..13)_PLL_P2_MODE_1[PLL_OPR] = 0x0
         Set GSER(0..13)_PLL_P2_MODE_1[PLL_DIV] = 0x18
         Set GSER(0..13)_LANE_P0_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P0_MODE_0[RX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P0_MODE_0[RX_LDIV] = 0x2
         Set GSER(0..13)_LANE_P1_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x0
+        Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x1
         Set GSER(0..13)_LANE_P2_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x0 */
+        Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x1 */
     for (int p=0; p<3; p++)
     {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, p),
@@ -600,8 +602,46 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.pll_opr = 0x0;
             c.s.pll_div = 0x18);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, p),
+            c.s.ctle = 0;
+            c.s.pcie = 0;
+            c.s.srate = 0;
             c.s.tx_ldiv = 0x0;
-            c.s.rx_ldiv = 0x0);
+            c.s.rx_ldiv = 2 - p;
+            c.s.tx_mode = 3;
+            c.s.rx_mode = 3);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_1(qlm, p),
+            c.s.vma_fine_cfg_sel = 0;
+            c.s.vma_mm = 1;
+            c.s.cdr_fgain = 10;
+            c.s.ph_acc_adj = 21);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, p),
+            c.s.pll_16p5en = 0;
+            c.s.pll_cpadj = 2;
+            c.s.pll_pcie3en = 0;
+            c.s.pll_opr = 0;
+            c.s.pll_div = 30);
+    }
+
+    for (int s=0; s<2; s++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_SLICEX_RX_SDLL_CTRL(qlm, s),
+            c.s.pcs_sds_oob_clk_ctrl  = 2;
+            c.s.pcs_sds_rx_sdll_tune  = 0;
+            c.s.pcs_sds_rx_sdll_swsel = 0);
+    }
+
+    for (int p=0; p<4; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_MISC_CFG_0(qlm, p),
+            c.s.use_pma_polarity     = 0;
+            c.s.cfg_pcs_loopback     = 0;
+            c.s.pcs_tx_mode_ovrrd_en = 0;
+            c.s.pcs_rx_mode_ovrrd_en = 0;
+            c.s.cfg_eie_det_cnt      = 0;
+            c.s.eie_det_stl_on_time  = 4;
+            c.s.eie_det_stl_off_time = 0;
+            c.s.tx_bit_order         = 1;
+            c.s.rx_bit_order         = 1);
     }
 
     /* 8. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
@@ -617,15 +657,30 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
     BDK_CSR_READ(node, BDK_GSERX_SATA_LANE_RST(qlm));
 
-    /* Not sure why this is needed */
-    bdk_wait_usec(100);
+    /* Poll GSERX_SATA_STATUS for PX_RDY = 1 */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_SATA_STATUS(qlm), p0_rdy, ==, 1, 10000))
+    {
+        bdk_error("QLM%d: Timeout waiting for GSERX_SATA_STATUS[p0_rdy]\n", qlm);
+        return -1;
+    }
 
-    /* Report 1 port per controller */
+    int spd = 3;
     for (int p = sata_port; p < sata_port_end; p++)
     {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
+            c.s.sss = 1;
+            c.s.smps = 1);
+        /* Set speed */
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(p),
+            c.s.spd = spd);
+        /* Report 1 port per controller */
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_PI(p),
             c.s.pi = 1);
+        /* Clear all port errors */
+        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(qlm), -1);
+        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(qlm), -1);
     }
+
     return 0;
 }
 
