@@ -13,6 +13,7 @@ qlm_modes[0] = {
     {"SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
     {"XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
     {"DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
+    {"RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
     {"XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_4X1, 10312, 0},
     {"XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
     {"10G-KR  @ 10 Gbps", cavium.QLM_MODE_10G_KR_4X1, 10312, 0},

@@ -20,6 +20,16 @@ set_config(cavium.CONFIG_PHY_IF1_PORT1, 0x105)
 set_config(cavium.CONFIG_PHY_IF1_PORT2, 0x106)
 set_config(cavium.CONFIG_PHY_IF1_PORT3, 0x107)
 
+-- For RXAUI, We're using a Marvel PHY on the plugin modules. The code below
+-- programs all BGXs to use "Interleaved running disparity", which is required
+-- for these PHYs. This will need to be changed if PHYs are used that expect
+-- "Common running disparity".
+for bgx=0,1 do
+    for i=0,1 do
+        cavium.csr.BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
+    end
+end
+
 --------------------------------------------------------------
 -- Configuring QLMs in Lua code
 --------------------------------------------------------------
@@ -55,6 +65,7 @@ set_config(cavium.CONFIG_PHY_IF1_PORT3, 0x107)
 -- *XAUI modes
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XAUI_1X4, 6250, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_RXAUI_2X2, 6250, 0)
 
 -- XFI modes
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XFI_4X1, 10321, 0)

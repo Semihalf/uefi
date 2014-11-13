@@ -2,7 +2,7 @@
 #include <malloc.h>
 
 /* This file implements interfaces connected to the BGX block introduced
-    for CN78XX. This block combines SGMII, XAUI, DXAUI, RXAUI, XFI, XLAUI,
+    for CN88XX. This block combines SGMII, XAUI, DXAUI, RXAUI, XFI, XLAUI,
     10GBASE-KR, and 40GBASE-KR all into one interface */
 
 #define CQ_ENTRIES_QSIZE 0

@@ -218,6 +218,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             {
                 case 0x0: return BDK_QLM_MODE_SGMII;
                 case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
+                case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
                 case 0x3:
                     /* Use training to determine if we're in 10GBASE-KR or XFI */
                     if (spux_br_pmd_control.s.train_en)
@@ -936,6 +937,13 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lmac_type = 1; /* XAUI */
             is_bgx = 5;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
+            break;
+        case BDK_QLM_MODE_RXAUI_2X2:
+            lmac_type = 2; /* RXAUI */
+            is_bgx = 3;
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
             break;
