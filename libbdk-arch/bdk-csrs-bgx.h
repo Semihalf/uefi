@@ -427,6 +427,7 @@ typedef union bdk_bgxx_cmrx_config {
                                                                    ----------------------------------------------------------
                                                                    0x0        SGMII      SGMII/1000BASE-X             1
                                                                    0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
+                                                                   0x2        RXAUI      Reduced XAUI                 2
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    Other      --         Reserved                     -
@@ -7130,13 +7131,15 @@ typedef union bdk_bgxx_smux_tx_ctl {
                                                                  1 = Local fault. RS layer sends continuous remote fault sequences.
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
                                                                  3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
-		uint64_t reserved_2_3                : 2;
+		uint64_t reserved_3_3                : 1;
+		uint64_t x4a_dis                     : 1;  /**< RAZ - Reserved. */
 		uint64_t uni_en                      : 1;  /**< R/W - Enable unidirectional mode (IEEE Clause 66). */
 		uint64_t dic_en                      : 1;  /**< R/W - Enable the deficit idle counter for IFG averaging. */
 #else
 		uint64_t dic_en                      : 1;
 		uint64_t uni_en                      : 1;
-		uint64_t reserved_2_3                : 2;
+		uint64_t x4a_dis                     : 1;
+		uint64_t reserved_3_3                : 1;
 		uint64_t ls                          : 2;
 		uint64_t ls_byp                      : 1;
 		uint64_t l2p_bp_conv                 : 1;

@@ -2404,7 +2404,8 @@ local csr_db = {
                 {name = "L2P_BP_CONV", start = 7, stop = 7},
                 {name = "LS_BYP", start = 6, stop = 6},
                 {name = "LS", start = 4, stop = 5},
-                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "RESERVED_3_3", start = 3, stop = 3},
+                {name = "X4A_DIS", start = 2, stop = 2},
                 {name = "UNI_EN", start = 1, stop = 1},
                 {name = "DIC_EN", start = 0, stop = 0},
             }
@@ -54593,7 +54594,8 @@ local csr_db = {
                 {name = "L2P_BP_CONV", start = 7, stop = 7},
                 {name = "LS_BYP", start = 6, stop = 6},
                 {name = "LS", start = 4, stop = 5},
-                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "RESERVED_3_3", start = 3, stop = 3},
+                {name = "X4A_DIS", start = 2, stop = 2},
                 {name = "UNI_EN", start = 1, stop = 1},
                 {name = "DIC_EN", start = 0, stop = 0},
             }

@@ -60,8 +60,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 /**
  * Enumeration PCC_DEV_CON_E
  *
- * INTERNAL: PCC Device Connection Enumeration
- *
+ * PCC Device Connection Enumeration
  * Enumerates where the device is connected in the topology. Software must rely on discovery and
  * not use this enumeration as the values will vary by product, and the mnemonics are a super-set
  * of the devices available. The value of the enumeration is formatted as defined by

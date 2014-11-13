@@ -5989,7 +5989,9 @@ typedef union bdk_nic_pf_tl2x_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_24_63              : 40;
 		uint64_t rr_quantum                  : 24; /**< R/W - Round-robin (DWRR) quantum. The weighted deficit round-robin quantum (24-bit unsigned
-                                                                 integer). Must be non-zero when this transmit limiter is used used. */
+                                                                 integer). Specifies the amount of data to transmit in an arbitration round as a multiple
+                                                                 of 4 bytes. Must be non-zero when this transmit limiter is used. Typical value for
+                                                                 equal-weight arbitration is MTU/4 + NIC_PF_LMAC()_CFG[ADJUST]. */
 #else
 		uint64_t rr_quantum                  : 24;
 		uint64_t reserved_24_63              : 40;
@@ -6086,7 +6088,9 @@ typedef union bdk_nic_pf_tl3x_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_24_63              : 40;
 		uint64_t rr_quantum                  : 24; /**< R/W - Round-robin (DWRR) quantum. The weighted deficit round-robin quantum (24-bit unsigned
-                                                                 integer). Must be non-zero when this transmit limiter is used used. */
+                                                                 integer). Specifies the amount of data to transmit in an arbitration round as a multiple
+                                                                 of 4 bytes. Must be non-zero when this transmit limiter is used. Typical value for
+                                                                 equal-weight arbitration is MTU/4 + NIC_PF_LMAC()_CFG[ADJUST]. */
 #else
 		uint64_t rr_quantum                  : 24;
 		uint64_t reserved_24_63              : 40;
@@ -6364,7 +6368,9 @@ typedef union bdk_nic_pf_tl4x_cfg {
 		uint64_t sq_qs                       : 7;  /**< R/W - The SQ's QS that are associated with this TL4. */
 		uint64_t sq_idx                      : 3;  /**< R/W - The SQ's index inside the QS which is associated with this TL4. */
 		uint64_t rr_quantum                  : 24; /**< R/W - Round-robin (DWRR) quantum. The weighted deficit round-robin quantum (24-bit unsigned
-                                                                 integer). Must be non-zero when this transmit limiter is used used. */
+                                                                 integer). Specifies the amount of data to transmit in an arbitration round as a multiple
+                                                                 of 4 bytes. Must be non-zero when this transmit limiter is used. Typical value for
+                                                                 equal-weight arbitration is MTU/4 + NIC_PF_LMAC()_CFG[ADJUST]. */
 #else
 		uint64_t rr_quantum                  : 24;
 		uint64_t sq_idx                      : 3;
@@ -7186,6 +7192,7 @@ typedef union bdk_nic_qsx_rbdrx_cfg {
                                                                  0x5 = 256K entries.
                                                                  0x6 = 512K entries.
                                                                  else = Reserved.
+
                                                                  Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
                                                                  means empty). */
 		uint64_t reserved_25_31              : 7;
@@ -7977,6 +7984,7 @@ typedef union bdk_nic_qsx_sqx_status {
                                                                  * NIC_SEND_HDR_S[SUBDCNT] is 0.
                                                                  * NIC_SEND_HDR_S[TOTAL] is 0.
                                                                  * Memory fault on NIC_SEND_HDR_S read.
+
                                                                  When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
                                                                  the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
                                                                  this bit. */

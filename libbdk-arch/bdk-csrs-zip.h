@@ -1866,9 +1866,7 @@ typedef union bdk_zip_quex_doorbell {
 	struct bdk_zip_quex_doorbell_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
-		uint64_t dbell_cnt                   : 20; /**< R/W/H - Number of instruction queue 64-bit words to add to the ZIP instruction doorbell count.
-                                                                 Must be a multiple of 16. All ZIP instructions are 16 words and require a doorbell count
-                                                                 of multiple of 16. */
+		uint64_t dbell_cnt                   : 20; /**< R/W/H - Number of instructions to add to the ZIP instruction doorbell count. */
 #else
 		uint64_t dbell_cnt                   : 20;
 		uint64_t reserved_20_63              : 44;
