@@ -607,12 +607,12 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.pll_cpadj = 0x2;
             c.s.pll_pcie3en = 0;
             c.s.pll_opr = 0x0;
-            c.s.pll_div = 0x18);
+            c.s.pll_div = 0x1e);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, p),
             c.s.ctle = (p==2) ? 0x3 : 0x0;
             c.s.pcie = 0;
             c.s.tx_ldiv = 0x0;
-            c.s.rx_ldiv = (p==0) ? 2 : 1;
+            c.s.rx_ldiv = 2 - p;
             c.s.srate = 0;
             c.s.tx_mode = 3;
             c.s.rx_mode = 3);
