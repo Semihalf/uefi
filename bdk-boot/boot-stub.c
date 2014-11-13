@@ -307,6 +307,7 @@ static void dram_menu()
     const int MAX_DRAM_CONFIGS = 4;
     int num_dram_configs = 0;
     const char *dram_config[MAX_DRAM_CONFIGS];
+    int ddr_hz = 0;
 
     /* Create a list of all DRAM configs */
     for (int c = 0; c < MAX_DRAM_CONFIGS; c++)
@@ -326,9 +327,10 @@ static void dram_menu()
         {
             printf(" %d) Initialize DRAM using config \"%s\"\n", c + 1, dram_config[c]);
         }
-        printf(" %d) Run a short DRAM test over the range 64MB-128MB\n", num_dram_configs + 1);
-        printf(" %d) Run a full DRAM test over all memory\n", num_dram_configs + 2);
-        printf(" %d) Main menu\n", num_dram_configs + 3);
+        printf(" %d) Configure DRAM clock\n", num_dram_configs + 1);
+        printf(" %d) Run a short DRAM test over the range 64MB-128MB\n", num_dram_configs + 2);
+        printf(" %d) Run a full DRAM test over all memory\n", num_dram_configs + 3);
+        printf(" %d) Main menu\n", num_dram_configs + 4);
 
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         int option = atoi(input);
@@ -336,22 +338,27 @@ static void dram_menu()
         if ((option >= 1) && (option <= num_dram_configs))
         {
             /* Configure DRAM */
-            //setenv("ddr_verbose", "yes", 1);
-            int mbytes = bdk_dram_config(bdk_numa_local(), dram_config[option - 1], 0);
+            int mbytes = bdk_dram_config(bdk_numa_local(), dram_config[option - 1], ddr_hz);
             if (mbytes <= 0)
                 bdk_error("DRAM initialization failed\n");
         }
         else if (option == num_dram_configs + 1)
         {
+            /* Configure DRAM clock frequency */
+            input = bdk_readline("DRAM clock Hz: ", NULL, 0);
+            ddr_hz = atoi(input);
+        }
+        else if (option == num_dram_configs + 2)
+        {
             /* Short DRAM test */
             dram_test(64 << 20, 64 << 20);
         }
-        else if (option == num_dram_configs + 2)
+        else if (option == num_dram_configs + 3)
         {
             /* Full DRAM test */
             dram_test(0, 1ull << 40);
         }
-        else if (option == num_dram_configs + 3)
+        else if (option == num_dram_configs + 4)
         {
             /* Exit menu */
             return;
