@@ -2,15 +2,22 @@
  * Functions for diplaying output in libdram. Internal use only.
  */
 
-static inline int dram_is_verbose()
+typedef enum {
+    OFF               = 0,
+    NORMAL            = 1,
+    TRACE_SEQUENCES   = 2,
+    TRACE_CSR_WRITES  = 3
+} dram_verbosity_t;
+
+static inline int dram_is_verbose(dram_verbosity_t level)
 {
-    extern int dram_verbose_on;
-    return dram_verbose_on;
+    extern dram_verbosity_t dram_verbosity;
+    return (dram_verbosity >= level);
 }
 
 #define ddr_print(format, ...)              \
     do {                                    \
-        if (dram_is_verbose())              \
+        if (dram_is_verbose(NORMAL))             \
             printf(format, ##__VA_ARGS__);  \
     } while (0)
 

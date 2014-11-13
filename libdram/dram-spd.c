@@ -76,7 +76,7 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
 {
     int rv;
 
-    if (dram_is_verbose())
+    if (dram_is_verbose(NORMAL))
         printf("Validating DIMM at address 0x%x\n", twsi_addr);
 
     /* Look up module type to determine if DDR2 or DDR3 */
@@ -100,7 +100,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
     dimm_index = !!dimm_index;  /* Normalize to 0/1 */
     spd_addr = dimm_config->spd_addrs[dimm_index];
 
-    if (dram_is_verbose())
+    if (dram_is_verbose(NORMAL))
         printf("Validating dimm %d, spd ptr: %p\n", dimm_index,
             dimm_config->spd_ptrs[dimm_index]);
     /* Only validate 'real' dimms, assume compiled in values are OK */
@@ -112,19 +112,19 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
         switch (dimm_type)
         {
             case 0x0B:              /* DDR3 */
-                if (dram_is_verbose())
+                if (dram_is_verbose(NORMAL))
                     printf("Validating DIMM %d\n", dimm_index);
                 val0 = read_spd(node, dimm_config, dimm_index, DDR3_SPD_DENSITY_BANKS);
                 val1 = read_spd(node, dimm_config, dimm_index, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
                 if (val0 < 0 && val1 < 0)
                 {
-                    if (dram_is_verbose())
+                    if (dram_is_verbose(NORMAL))
                         printf("Error reading SPD for DIMM %d\n", dimm_index);
                     return 0; /* Failed to read dimm */
                 }
                 if (val0 == 0xff && val1 == 0xff)
                 {
-                    if (dram_is_verbose())
+                    if (dram_is_verbose(NORMAL))
                         printf("Blank or unreadable SPD for DIMM %d\n", dimm_index);
                     return 0; /* Blank SPD or otherwise unreadable device */
                 }
@@ -133,7 +133,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
                 validate_spd_checksum(node, spd_addr, 0);
                 break;
             default:
-                if (dram_is_verbose())
+                if (dram_is_verbose(NORMAL))
                     printf("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
                         dimm_type, dimm_index,
                         dimm_config->spd_addrs[dimm_index]);

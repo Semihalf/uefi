@@ -33,7 +33,7 @@ local function update_verbose_label()
         if value then
             cavium.c.bdk_setenv("ddr_verbose", nil)
         else
-            cavium.c.bdk_setenv("ddr_verbose", "yes")
+            cavium.c.bdk_setenv("ddr_verbose", "1")
         end
         update_verbose_label()
     end)

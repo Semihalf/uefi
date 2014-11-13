@@ -651,6 +651,8 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
             "Offset Training"
 	};
 
+        extern dram_verbosity_t dram_verbosity;
+
 	bdk_lmcx_seq_ctl_t seq_ctl;
 	bdk_lmcx_config_t  lmc_config;
 
@@ -663,8 +665,9 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 	seq_ctl.s.init_start  = 1;
         seq_ctl.s.seq_sel    = sequence;
 
-	ddr_print("Performing LMC sequence: rank_mask=0x%02x, sequence=%d, %s\n",
-              rank_mask, sequence, sequence_str[sequence]);
+        if (dram_verbosity >= TRACE_SEQUENCES)
+            ddr_print("Performing LMC sequence: rank_mask=0x%02x, sequence=%d, %s\n",
+                      rank_mask, sequence, sequence_str[sequence]);
 
 	if ((s = lookup_env_parameter("ddr_trigger_sequence%d", sequence)) != NULL) {
 		int trigger = strtoul(s, NULL, 0);
@@ -682,7 +685,8 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 			rank_mask, sequence, sequence_str[sequence]);
 	}
         else
-            ddr_print("           LMC sequence: Completed.\n");
+            if (dram_verbosity >= TRACE_SEQUENCES)
+                ddr_print("           LMC sequence: Completed.\n");
 }
 
 int init_octeon3_ddr3_interface(bdk_node_t node,
@@ -788,7 +792,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         return (-1);
     }
 
-    if (dram_is_verbose()) {
+    if (dram_is_verbose(NORMAL)) {
         printf("DDR SPD Table:");
         for (didx = 0; didx < DDR_CFG_T_MAX_DIMMS; ++didx) {
             if (dimm_config_table[didx].spd_addrs[0] == 0) break;
@@ -806,7 +810,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     {
         /* Check for lower DIMM socket populated */
         if (validate_dimm(node, &dimm_config_table[didx], 0)) {
-            if (dram_is_verbose())
+            if (dram_is_verbose(NORMAL))
                 report_ddr3_dimm(node, &dimm_config_table[didx], 0, dimm_count);
             ++dimm_count;
         } else { break; }       /* Finished when there is no lower DIMM */
