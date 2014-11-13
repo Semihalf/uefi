@@ -561,7 +561,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     for (int lane=0; lane<4; lane++)
     {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL_P2(qlm, lane),
-            c.s.p2_rx_subblk_pd = 0x1e);
+            c.s.p2_rx_subblk_pd &= 0x1e);
     }
 
     /* 6. Modify the electrical IDLE detect on delay: set
@@ -602,27 +602,24 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.pll_rloop = 0x3;
             c.s.pll_pcs_div = 0x5);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, p),
+            c.s.pll_16p5en = 0x0;
+            c.s.pll_cpadj = 0x2;
+            c.s.pll_pcie3en = 0;
             c.s.pll_opr = 0x0;
             c.s.pll_div = 0x18);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, p),
-            c.s.ctle = 0;
+            c.s.ctle = (p==2) ? 0x3 : 0x0;
             c.s.pcie = 0;
-            c.s.srate = 0;
             c.s.tx_ldiv = 0x0;
-            c.s.rx_ldiv = 2 - p;
+            c.s.rx_ldiv = (p==0) ? 2 : 1;
+            c.s.srate = 0;
             c.s.tx_mode = 3;
             c.s.rx_mode = 3);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_1(qlm, p),
             c.s.vma_fine_cfg_sel = 0;
             c.s.vma_mm = 1;
-            c.s.cdr_fgain = 10;
-            c.s.ph_acc_adj = 21);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, p),
-            c.s.pll_16p5en = 0;
-            c.s.pll_cpadj = 2;
-            c.s.pll_pcie3en = 0;
-            c.s.pll_opr = 0;
-            c.s.pll_div = 30);
+            c.s.cdr_fgain = 0xa;
+            c.s.ph_acc_adj = 0x15);
     }
 
     for (int s=0; s<2; s++)
