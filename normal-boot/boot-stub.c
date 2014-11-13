@@ -8,7 +8,7 @@
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 ebb8800
 /* Enable verbose logging from DRAM initialization (0 or 1) */
-#define DRAM_VERBOSE 1
+#define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
 //#define DRAM_NODE1 ebb8800
 /* How long to wait for selection of diagnostics (seconds) */
