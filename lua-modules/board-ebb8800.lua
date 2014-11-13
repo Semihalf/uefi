@@ -101,6 +101,13 @@ end
 
 -- End of QLM examples
 
+printf("QLM0-1: Using common clock 1 (156.25Mhz)\n")
+printf("QLM2-7: Using common clock 0 (100.00Mhz)\n")
+for qlm=0,7 do
+    cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
+end
+
 local node = cavium.MASTER_NODE
 if false then
 --if cavium.c.bdk_qlm_get_mode(node, 0) == cavium.QLM_MODE_DISABLED then
