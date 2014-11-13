@@ -330,6 +330,8 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
 
     /* Start the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
+        c.s.fre = 1;
+        c.s.sud = 1;
         c.s.st = 1);
     return 0;
 }
@@ -480,6 +482,13 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     {
         if (bdk_sata_initialize(node, controller))
             return -1;
+    }
+
+    const int TIMEOUT = 1000000; /* 1 seconds */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_SSTS(controller), ipm, !=, 0, TIMEOUT))
+    {
+        bdk_error("SATA%d: Response timeout\n", controller);
+        return -1;
     }
 
     /* Read the Serial ATA Status */
