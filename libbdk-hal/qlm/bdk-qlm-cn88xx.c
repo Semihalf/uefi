@@ -1447,7 +1447,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
             case GSER_LMODE_E_R_5G_REFCLK100:
                 pll_mode_0.s.pll_icp = 0x4;
                 pll_mode_0.s.pll_rloop = 0x3;
-                pll_mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_pcs_div = 0x5;
 
                 pll_mode_1.s.pll_16p5en = 0x0;
                 pll_mode_1.s.pll_cpadj = 0x2;
@@ -1471,7 +1471,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
             case GSER_LMODE_E_R_8G_REFCLK100:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x5;
-                pll_mode_0.s.pll_pcs_div = 0xa;
+                pll_mode_0.s.pll_pcs_div = 0x8;
 
                 pll_mode_1.s.pll_16p5en = 0x0;
                 pll_mode_1.s.pll_cpadj = 0x2;
