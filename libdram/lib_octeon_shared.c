@@ -454,6 +454,54 @@ int initialize_ddr_clock(bdk_node_t node,
             int loop_interface_num;
 
             /*
+             * 5.9.3 LMC Interface-Enable Initialization
+             *
+             * LMC interface-enable initialization (Step 3) must be performed after
+             * Step 2 for each chip reset and whenever the DDR clock speed
+             * changes. This step needs to be performed only once, not once per LMC.
+             * Perform the following three substeps for the LMC interface-enable
+             * initialization:
+             *
+             * 1. Without changing any other LMC2_DLL_CTL2 fields (LMC(0..3)_DLL_CTL2
+             * should be at their reset values after Step 1), write
+             * LMC2_DLL_CTL2[INTF_EN] = 1 if four-LMC mode is desired.
+             *
+             * 2. Without changing any other LMC3_DLL_CTL2 fields, write
+             * LMC3_DLL_CTL2[INTF_EN] = 1 if four-LMC mode is desired.
+             *
+             * 3. Read LMC2_DLL_CTL2 and wait for the result.
+             *
+             * The LMC2_DLL_CTL2[INTF_EN] and LMC3_DLL_CTL2[INTF_EN] values should
+             * not be changed by software from this point.
+             *
+             */
+
+            for (loop_interface_num=0; loop_interface_num<4; ++loop_interface_num) {
+                if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
+                    continue;
+
+                dll_ctl2.u = 0;
+
+                dll_ctl2.s.byp_setting          = 0;
+                dll_ctl2.s.byp_sel              = 0;
+                dll_ctl2.s.quad_dll_ena         = 0;
+                dll_ctl2.s.dreset               = 1;
+                dll_ctl2.s.dll_bringup          = 0;
+                dll_ctl2.s.intf_en              = 0;
+
+                DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(loop_interface_num), dll_ctl2.u);
+            }
+
+            for (loop_interface_num = 2; loop_interface_num < 4; ++loop_interface_num) {
+                if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
+                    continue;
+
+                DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(loop_interface_num),
+                    c.s.intf_en              = 1);
+                BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
+            }
+
+            /*
              * 5.9.1 DDR PLL Initialization
              *
              * DDR PLL initialization (Step 1) must be performed for each chip reset
@@ -476,6 +524,7 @@ int initialize_ddr_clock(bdk_node_t node,
 
             ddr_pll_ctl.s.clkf              = 0x30;
             ddr_pll_ctl.s.reset_n           = 0;
+            ddr_pll_ctl.s.clkf_ext          = 0;
             ddr_pll_ctl.s.ddr_ps_en         = 2;
             ddr_pll_ctl.s.ddr_div_reset     = 1;
             ddr_pll_ctl.s.jtg_test_mode     = 0;
@@ -485,20 +534,15 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_pll_ctl.s.pll_fbslip        = 0;
             ddr_pll_ctl.s.ddr4_mode         = 0;
             ddr_pll_ctl.s.phy_dcok          = 0;
+            ddr_pll_ctl.s.dclk_invert       = 1;
+            ddr_pll_ctl.s.dclk_alt_refclk_sel = 0;
+
+            if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
+                ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);
+            }
 
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
 
-
-            dll_ctl2.u = 0;
-
-            dll_ctl2.s.byp_setting          = 0;
-            dll_ctl2.s.byp_sel              = 0;
-            dll_ctl2.s.quad_dll_ena         = 0;
-            dll_ctl2.s.dreset               = 1;
-            dll_ctl2.s.dll_bringup          = 0;
-            dll_ctl2.s.intf_en              = 0;
-
-            DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(0), dll_ctl2.u);
 
             /*
              * 2. If the current DRAM contents are not preserved (see
@@ -816,38 +860,6 @@ int initialize_ddr_clock(bdk_node_t node,
              */
 
             bdk_wait_usec(1);          /* Wait 1 us */
-            }
-
-            /*
-             * 5.9.3 LMC Interface-Enable Initialization
-             *
-             * LMC interface-enable initialization (Step 3) must be performed after
-             * Step 2 for each chip reset and whenever the DDR clock speed
-             * changes. This step needs to be performed only once, not once per LMC.
-             * Perform the following three substeps for the LMC interface-enable
-             * initialization:
-             *
-             * 1. Without changing any other LMC2_DLL_CTL2 fields (LMC(0..3)_DLL_CTL2
-             * should be at their reset values after Step 1), write
-             * LMC2_DLL_CTL2[INTF_EN] = 1 if four-LMC mode is desired.
-             *
-             * 2. Without changing any other LMC3_DLL_CTL2 fields, write
-             * LMC3_DLL_CTL2[INTF_EN] = 1 if four-LMC mode is desired.
-             *
-             * 3. Read LMC2_DLL_CTL2 and wait for the result.
-             *
-             * The LMC2_DLL_CTL2[INTF_EN] and LMC3_DLL_CTL2[INTF_EN] values should
-             * not be changed by software from this point.
-             *
-             */
-
-            for (loop_interface_num=3; loop_interface_num>=0; --loop_interface_num) {
-                if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
-                    continue;
-
-                DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(loop_interface_num),
-                    c.s.intf_en              = 1);
-                BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
             }
 
         } /* Do this once */
