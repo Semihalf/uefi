@@ -683,7 +683,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
 #ifdef HW_EMULATOR
     uint64_t CLOCK_HZ = 40000000; /* 40Mhz */
 #else
-    uint64_t CLOCK_HZ = 1000000; /* 1Mhz */
+    uint64_t CLOCK_HZ = 10000000; /* 10Mhz */
 #endif
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     sclk /= CLOCK_HZ;
