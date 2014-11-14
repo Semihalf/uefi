@@ -73,7 +73,7 @@ static void check_cn88xx(bdk_node_t node)
     for (int index = 0; index < 4; index++)
     {
         BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
-        if (lmcx_dll_ctl2.s.intf_en)
+        if (lmcx_dll_ctl2.s.intf_en && !lmcx_dll_ctl2.s.dreset)
         {
             BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
