@@ -1111,9 +1111,16 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                 case 6: /* Either PEM4 x8 or PEM4 x4 */
                     pem = 4;
                     break;
-                case 7: /* PEM4 x8 */
-                    pem = 4;
+                case 7: /* Either PEM4 x8 or PEm5 x4 */
+                {
+                    /* Can be last 4 lanes of PEM4 */
+                    BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
+                    if (pem4_cfg.s.lanes8)
+                        pem = 4;
+                    else
+                        pem = 5;
                     break;
+                }
                 default:
                     bdk_fatal("QLM%d: In PCIe mode, which shouldn't happen\n", qlm);
             }
