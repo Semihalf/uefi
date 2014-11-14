@@ -7,6 +7,7 @@ local bit64 = require("bit64")
 
 local set_config = cavium.c.bdk_config_set
 local node = 0
+local all_pass = true
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
     print("")
@@ -51,6 +52,8 @@ local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 printf("Using coremask: 0x%x\n", coremask)
 cavium.c.bdk_init_cores(0, coremask)
 
+-- Set up traffic QLMs here, as we want to overlap the link negotiation delay
+-- with other tests.
 cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 1
 cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 1
 cavium.c.bdk_qlm_reset(node, 0)
@@ -61,7 +64,35 @@ cavium.csr.GSERX_REFCLK_SEL(1).USE_COM1 = 1
 cavium.c.bdk_qlm_reset(node, 1)
 cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
 
-local all_pass = true
+
+-- OCI test - confirm all QLMs are up and valid.
+local oci0_status = true
+local oci1_status = true
+local oci2_status = true
+print("test start: oci")
+if ((cavium.csr.OCX_COM_LINKX_CTL(0).UP ~= 1) or
+    (cavium.csr.OCX_COM_LINKX_CTL(0).VALID ~= 1)) then
+    print ("oci0: FAIL")
+    oci0_status = false
+end
+if ((cavium.csr.OCX_COM_LINKX_CTL(1).UP ~= 1) or
+    (cavium.csr.OCX_COM_LINKX_CTL(1).VALID ~= 1)) then
+    print ("oci1: FAIL")
+    oci1_status = false
+end
+if ((cavium.csr.OCX_COM_LINKX_CTL(2).UP ~= 1) or
+    (cavium.csr.OCX_COM_LINKX_CTL(2).VALID ~= 1)) then
+    print ("oci2: FAIL")
+    oci2_status = false
+end
+if (oci0_status and oci1_status and oci2_status) then
+    print ("OCI Test: PASS")
+else
+    all_pass = false
+    print ("OCI Test: FAIL")
+end
+
+
 
 --
 -- Network Traffic Tests
