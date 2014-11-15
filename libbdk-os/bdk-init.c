@@ -773,13 +773,6 @@ static int init_oci(void)
         }
     }
 
-    /* Unlock L2 now that we are multi-node. The master node will have locked
-       addresses for node 0 in L2. These need to be pushed out so that all
-       nodes have correct data. It is very important that this doesn't
-       invalidate the cache */
-    BDK_TRACE(INIT, "Unlocking L2 to insure coherency between nodes\n");
-    bdk_l2c_unlock_mem_region(bdk_numa_master(), bdk_numa_get_address(0, 0), bdk_l2c_get_cache_size_bytes(bdk_numa_master()));
-
     return 0;
 }
 
