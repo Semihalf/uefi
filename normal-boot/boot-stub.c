@@ -378,7 +378,7 @@ int main(void)
     bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_SATA_4X1, 6000, 0);
     printf("QLM3: SATA\n");
     bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-    printf("QLM4-5: PCIe Gen1 x8\n");
+    printf("QLM4-5: PCIe Gen3 x8\n");
     bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
     printf("QLM6: SATA\n");
     bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
