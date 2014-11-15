@@ -103,24 +103,13 @@ end
 
 -- End of QLM examples
 
-printf("QLM0-1: Using common clock 1 (156.25Mhz)\n")
-printf("QLM2-7: Using common clock 0 (100.00Mhz)\n")
-for qlm=0,7 do
-    cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-    cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
-end
-
-local node = cavium.MASTER_NODE
-if false then
---if cavium.c.bdk_qlm_get_mode(node, 0) == cavium.QLM_MODE_DISABLED then
-    -- Only apply the sample config if QLM0 isn't already setup
-    printf("Configuring QLMs for a sample setup\n");
-    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
-    cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_XAUI_1X4, 6250, 0)
-    cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
-    cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
-    cavium.c.bdk_qlm_set_mode(node, 5, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
-    cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_SATA_4X1, 6000, 0)
-    cavium.c.bdk_qlm_set_mode(node, 7, cavium.QLM_MODE_SATA_4X1, 6000, 0)
+if cavium.c.bdk_qlm_get_mode(cavium.MASTER_NODE, 0) == cavium.QLM_MODE_DISABLED then
+    printf("QLM0-1: Using common clock 1 (156.25Mhz)\n")
+    printf("QLM2-7: Using common clock 0 (100.00Mhz)\n")
+    for qlm=0,7 do
+        cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+        cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
+    end
+    cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
 end
 

@@ -370,20 +370,7 @@ int main(void)
 
     /* Initialize the QLMs */
     BDK_TRACE(BOOT_STUB, "Initializing QLMs\n");
-    printf("QLM0: SGMII\n");
-    bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);
-    printf("QLM1: 10G-KR\n");
-    bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_10G_KR_4X1, 10321, 0);
-    printf("QLM2: SATA\n");
-    bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-    printf("QLM3: SATA\n");
-    bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-    printf("QLM4-5: PCIe Gen3 x8\n");
-    bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
-    printf("QLM6: SATA\n");
-    bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-    printf("QLM7: SATA\n");
-    bdk_qlm_set_mode(node, 7, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+    bdk_qlm_auto_config(bdk_numa_local());
 
     /* Setup SMI/MDIO */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
