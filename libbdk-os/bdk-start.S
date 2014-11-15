@@ -1,7 +1,7 @@
 
     .global _start
     .global __bdk_start
-    .global __bdk_remote_console
+    .global __bdk_start_cores
     .global __bdk_initial_stack_start
     .global __bdk_initial_stack_end
 
@@ -116,7 +116,7 @@ crc_done:
     mvn     w0, w0              /* Result must be inverted */
 
     /* w0 contains the image CRC */
-
+__bdk_start_cores:
     /* Initialise the stack */
     adr     x10, __bdk_initial_stack_end
     msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
