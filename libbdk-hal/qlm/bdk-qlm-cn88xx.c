@@ -1497,11 +1497,14 @@ int qlm_auto_config(bdk_node_t node)
         int refclk = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x1a, 1, 1);
         BDK_TRACE(QLM, "MCU lane %d, width %d, mode 0x%x, speed 0x%x, ref 0x%x\n",
             lane, width, mode, speed, refclk);
-        if ((width != 4) && (width != 8))
+        if ((width != 0) && (width != 4) && (width != 8))
         {
             bdk_error("QLM Config: Unexpected interface width (%d) from MCU\n", width);
             return -1;
         }
+        /* MCU reports a width of 0 for unconfigured QLMs */
+        if (width == 0)
+            width = bdk_qlm_get_lanes(node, qlm);
         bdk_qlm_modes_t qlm_mode;
         int qlm_speed = (speed >> 8) * 1000 + (speed & 0xff) * 1000 / 256;
         bdk_qlm_mode_flags_t qlm_flags = 0;
