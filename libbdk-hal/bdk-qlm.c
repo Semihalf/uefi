@@ -262,6 +262,22 @@ int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     return qlm_ops->enable_loop(node, qlm, loop);
 }
 
+/**
+ * Call the board specific method of determining the required QLM configuration
+ * and automatically settign up the QLMs to match. For example, on the EBB8800
+ * this function queries the MCU for the current setup.
+ *
+ * @param node   Node to configure
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_auto_config(bdk_node_t node)
+{
+    if (qlm_ops->auto_config)
+        return qlm_ops->auto_config(node);
+    bdk_error("QLM auto config is not implemented for this setup");
+    return -1;
+}
 
 /**
  * Initialize the QLM layer

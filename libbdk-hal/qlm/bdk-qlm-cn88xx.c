@@ -1436,6 +1436,142 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
     return -1;
 }
 
+/**
+ * Call the board specific method of determining the required QLM configuration
+ * and automatically settign up the QLMs to match. For example, on the EBB8800
+ * this function queries the MCU for the current setup.
+ *
+ * @param node   Node to configure
+ *
+ * @return Zero on success, negative on failure
+ */
+int qlm_auto_config(bdk_node_t node)
+{
+    const int MCU_TWSI_BUS = 0;
+    const int MCU_TWSI_ADDRESS = 0x60;
+    int64_t data;
+
+    /* Check the two magic number bytes the MCU should return */
+    data = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x00, 1, 1);
+    if (data != 0xa5)
+    {
+        printf("QLM Config: MCU not found, skipping auto configuration\n");
+        return -1;
+    }
+    data = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x01, 1, 1);
+    if (data != 0x5a)
+    {
+        bdk_error("QLM Config: MCU magic number incorrect\n");
+        return -1;
+    }
+
+    /* Read the MCU version */
+    int mcu_major = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x02, 1, 1);
+    int mcu_minor = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x03, 1, 1);
+    BDK_TRACE(QLM, "MCU version %d.%d\n", mcu_major, mcu_minor);
+    if ((mcu_major < 2) || ((mcu_major == 2) && (mcu_minor < 30)))
+    {
+        bdk_error("QLM Config: Unexpected MCU version %d.%d\n", mcu_major, mcu_minor);
+        return -1;
+    }
+
+    /* Find out how many lanes the MCU thinks are available */
+    int lanes = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x16, 1, 1);
+    BDK_TRACE(QLM, "MCU says board has %d lanes\n", lanes);
+    if (lanes != 32)
+    {
+        bdk_error("QLM Config: Unexpected number of lanes (%d) from MCU\n", lanes);
+        return -1;
+    }
+
+    int lane = 0;
+    int qlm = 0;
+    while (lane < lanes)
+    {
+        /* Select the lane we are interested in */
+        bdk_twsix_write_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x16, 1, 1, lane);
+        /* Get the mode */
+        int width = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x17, 1, 1);
+        int mode = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x18, 2, 1);
+        int speed = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x19, 2, 1);
+        int refclk = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x1a, 1, 1);
+        BDK_TRACE(QLM, "MCU lane %d, width %d, mode 0x%x, speed 0x%x, ref 0x%x\n",
+            lane, width, mode, speed, refclk);
+        if ((width != 4) && (width != 8))
+        {
+            bdk_error("QLM Config: Unexpected interface width (%d) from MCU\n", width);
+            return -1;
+        }
+        bdk_qlm_modes_t qlm_mode;
+        int qlm_speed = (speed >> 8) * 1000 + (speed & 0xff) * 1000 / 256;
+        bdk_qlm_mode_flags_t qlm_flags = 0;
+        switch (mode)
+        {
+            case 0x0000: /* No Configuration */
+                qlm_mode = BDK_QLM_MODE_DISABLED;
+                break;
+            case 0x0101: /* PCIe Host */
+                qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
+                switch (qlm_speed)
+                {
+                    case 2500:
+                        qlm_flags = BDK_QLM_MODE_FLAG_GEN1;
+                        break;
+                    case 5000:
+                        qlm_flags = BDK_QLM_MODE_FLAG_GEN2;
+                        break;
+                    default:
+                        qlm_flags = BDK_QLM_MODE_FLAG_GEN3;
+                        break;
+                }
+                break;
+            case 0x1000: /* SGMII */
+                qlm_mode = BDK_QLM_MODE_SGMII;
+                break;
+            case 0x2000: /* XAUI */
+                qlm_mode = BDK_QLM_MODE_XAUI_1X4;
+                break;
+            case 0x2100: /* RXAUI */
+                qlm_mode = BDK_QLM_MODE_RXAUI_2X2;
+                break;
+            case 0x2200: /* DXAUI */
+                qlm_mode = BDK_QLM_MODE_XAUI_1X4;
+                break;
+            case 0x4000: /* SATA */
+                qlm_mode = BDK_QLM_MODE_SATA_4X1;
+                break;
+            case 0x5001: /* XFI */
+                qlm_mode = BDK_QLM_MODE_XFI_4X1;
+                break;
+            case 0x5002: /* 10G-KR */
+                qlm_mode = BDK_QLM_MODE_10G_KR_4X1;
+                break;
+            case 0x6001: /* XLAUI */
+                qlm_mode = BDK_QLM_MODE_XLAUI_1X4;
+                break;
+            case 0x6002: /* 40G-KR4 */
+                qlm_mode = BDK_QLM_MODE_40G_KR4_1X4;
+                break;
+            case 0x1100: /* QSGMII */
+            case 0x0102: /* PCIe Endpoint */
+            case 0x3001: /* Interlaken */
+            case 0x3002: /* Interlaken Look-Aside */
+            case 0x7000: /* SRIO */
+            default:
+                bdk_error("QLM Config: Unexpected interface mode (0x%x) from MCU\n", mode);
+                qlm_mode = BDK_QLM_MODE_DISABLED;
+                break;
+        }
+        BDK_TRACE(QLM, "Setting QLM%d mode %d, speed %d, flags 0x%x\n",
+            qlm, qlm_mode, qlm_speed, qlm_flags);
+        if (bdk_qlm_set_mode(node, qlm, qlm_mode, qlm_speed, qlm_flags))
+            return -1;
+        lane += width;
+        qlm += width / 4;
+    }
+    return 0;
+}
+
 static void qlm_init_one(bdk_node_t node, int qlm)
 {
     /* The QLM PLLs are controlled by an array of parameters indexed
@@ -1728,5 +1864,6 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn88xx = {
     .get_prbs_errors = qlm_get_prbs_errors,
     .inject_prbs_error = qlm_inject_prbs_error,
     .enable_loop = qlm_enable_loop,
+    .auto_config = qlm_auto_config,
 };
 
