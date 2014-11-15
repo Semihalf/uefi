@@ -651,7 +651,13 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         return -1;
     }
 
-    int spd = 3;
+    int spd;
+    if (baud_mhz < 3000)
+        spd = 1;
+    else if (baud_mhz < 6000)
+        spd = 2;
+    else
+        spd = 3;
     for (int p = sata_port; p < sata_port_end; p++)
     {
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
@@ -1133,6 +1139,39 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                     return 5000;
                 case 2: /* Gen 3 */
                     return 8000;
+                default:
+                    return 0;
+            }
+        }
+        else if (gserx_cfg.s.sata)
+        {
+            int sata;
+            switch (qlm)
+            {
+                case 2:
+                    sata = 0;
+                    break;
+                case 3:
+                    sata = 4;
+                    break;
+                case 6:
+                    sata = 8;
+                    break;
+                case 7:
+                    sata = 12;
+                    break;
+                default:
+                    return 0;
+            }
+            BDK_CSR_INIT(sctl, node, BDK_SATAX_UAHC_P0_SCTL(sata));
+            switch (sctl.s.spd)
+            {
+                case 1:
+                    return 1500;
+                case 2:
+                    return 3000;
+                case 3:
+                    return 6000;
                 default:
                     return 0;
             }

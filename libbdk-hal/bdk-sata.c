@@ -322,10 +322,8 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     /* Clear all error bits */
     BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(controller), -1);
 
-    /* Allow device, speed, and power detection */
+    /* Allow device detection */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
-        c.s.ipm = 1;
-        c.s.spd = 3;
         c.s.det = 1);
 
     /* Start the port controller */

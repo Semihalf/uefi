@@ -83,7 +83,9 @@ end
 -- Choosing QLM modes for SATA (QLMs 2-3, 6-7)
 --------------------------------------------------------------
 -- SATA modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 8000, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 1500, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 3000, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_SATA_4X1, 6000, 0)
 
 --------------------------------------------------------------
 -- Choosing QLM modes for PCIe (QLMs 2-7)
@@ -118,7 +120,7 @@ if false then
     cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
     cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
     cavium.c.bdk_qlm_set_mode(node, 5, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
-    cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_SATA_4X1, 5000, 0)
-    cavium.c.bdk_qlm_set_mode(node, 7, cavium.QLM_MODE_SATA_4X1, 2500, 0)
+    cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_SATA_4X1, 6000, 0)
+    cavium.c.bdk_qlm_set_mode(node, 7, cavium.QLM_MODE_SATA_4X1, 6000, 0)
 end
 
