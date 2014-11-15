@@ -64,6 +64,23 @@ local function pcie_rc(pem)
         print("test end: PCIe")
 end
 
+local function mmc_test(device)
+    --
+    -- MMC Tests
+    --
+    local mmc_pass = false
+    local capacity = cavium.c.bdk_mmc_initialize(device)
+    if (capacity > 0) then
+        mmc_pass = true
+        printf("MMC%d Init test: PASS\n", device)
+    else
+        printf("MMC%d capacity:%d\n", device, capacity)
+        printf("MMC%d Init test: FAIL\n",device)
+        mmc_pass = false
+    end
+    return mmc_pass
+end
+
 -- Print out a banner
 print("")
 print("BDK version ".. require("bdk-version"))
@@ -133,6 +150,11 @@ else
     print ("OCI Test: FAIL")
 end
 
+
+local mmc_pass = true
+mmc_pass = mmc_test(0)
+mmc_pass = mmc_test(1) and mmc_pass
+all_pass = all_pass and mmc_pass
 
 -- PCIe tests.  All QLMs x8 RC
 
