@@ -1414,77 +1414,11 @@ static void qlm_init_one(bdk_node_t node, int qlm)
         switch (lane_mode)
         {
             case GSER_LMODE_E_R_25G_REFCLK100:
-                pll_mode_0.s.pll_icp = 0x4;
-                pll_mode_0.s.pll_rloop = 0x3;
-                pll_mode_0.s.pll_pcs_div = 0x5;
-
-                pll_mode_1.s.pll_16p5en = 0x0;
-                pll_mode_1.s.pll_cpadj = 0x2;
-                pll_mode_1.s.pll_pcie3en = 0x0;
-                pll_mode_1.s.pll_opr = 0x0;
-                pll_mode_1.s.pll_div = 0x19;
-
-                lane_mode_0.s.ctle = 0x0;
-                lane_mode_0.s.pcie = 0x1;
-                lane_mode_0.s.tx_ldiv = 0x1;
-                lane_mode_0.s.rx_ldiv = 0x1;
-                lane_mode_0.s.srate = 0x0;
-                lane_mode_0.s.tx_mode = 0x3;
-                lane_mode_0.s.rx_mode = 0x3;
-
-                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
-                lane_mode_1.s.vma_mm = 0x1;
-                lane_mode_1.s.cdr_fgain = 0xa;
-                lane_mode_1.s.ph_acc_adj = 0x14;
-                break;
             case GSER_LMODE_E_R_5G_REFCLK100:
-                pll_mode_0.s.pll_icp = 0x4;
-                pll_mode_0.s.pll_rloop = 0x3;
-                pll_mode_0.s.pll_pcs_div = 0x5;
-
-                pll_mode_1.s.pll_16p5en = 0x0;
-                pll_mode_1.s.pll_cpadj = 0x2;
-                pll_mode_1.s.pll_pcie3en = 0x0;
-                pll_mode_1.s.pll_opr = 0x0;
-                pll_mode_1.s.pll_div = 0x19;
-
-                lane_mode_0.s.ctle = 0x0;
-                lane_mode_0.s.pcie = 0x1;
-                lane_mode_0.s.tx_ldiv = 0x0;
-                lane_mode_0.s.rx_ldiv = 0x0;
-                lane_mode_0.s.srate = 0x0;
-                lane_mode_0.s.tx_mode = 0x3;
-                lane_mode_0.s.rx_mode = 0x3;
-
-                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
-                lane_mode_1.s.vma_mm = 0x0;
-                lane_mode_1.s.cdr_fgain = 0xa;
-                lane_mode_1.s.ph_acc_adj = 0x14;
-                break;
             case GSER_LMODE_E_R_8G_REFCLK100:
-                pll_mode_0.s.pll_icp = 0x3;
-                pll_mode_0.s.pll_rloop = 0x5;
-                pll_mode_0.s.pll_pcs_div = 0x8;
-
-                pll_mode_1.s.pll_16p5en = 0x0;
-                pll_mode_1.s.pll_cpadj = 0x2;
-                pll_mode_1.s.pll_pcie3en = 0x1;
-                pll_mode_1.s.pll_opr = 0x1;
-                pll_mode_1.s.pll_div = 0x28;
-
-                lane_mode_0.s.ctle = 0x3;
-                lane_mode_0.s.pcie = 0x0;
-                lane_mode_0.s.tx_ldiv = 0x0;
-                lane_mode_0.s.rx_ldiv = 0x0;
-                lane_mode_0.s.srate = 0x0;
-                lane_mode_0.s.tx_mode = 0x3;
-                lane_mode_0.s.rx_mode = 0x3;
-
-                lane_mode_1.s.vma_fine_cfg_sel = 0x0;
-                lane_mode_1.s.vma_mm = 0x0;
-                lane_mode_1.s.cdr_fgain = 0xb;
-                lane_mode_1.s.ph_acc_adj = 0x23;
-                break;
+                /* These modes are used for PCIe where the defaults are
+                   correct. Skip programming these */
+                continue;
             case GSER_LMODE_E_R_125G_REFCLK15625_KX:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
