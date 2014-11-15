@@ -41,6 +41,29 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
     return ports_pass
 end
 
+
+
+local function pcie_rc(pem)
+    --
+    -- PCIe
+    --
+        print("test start: PCIe")
+        local pcie = require("pcie")
+        local status, rc = pcall(pcie.initialize, 0, pem)
+        if status then
+    --    t
+    --    t
+    --    w
+            rc:scan()
+            rc:enumerate()
+            rc:display()
+            print("PCIe%d init: PASS" % pem)
+        else
+            print("PCIe%d init: FAIL" % pem)
+        end
+        print("test end: PCIe")
+end
+
 -- Print out a banner
 print("")
 print("BDK version ".. require("bdk-version"))
@@ -63,6 +86,24 @@ cavium.csr.GSERX_REFCLK_SEL(1).COM_CLK_SEL = 1
 cavium.csr.GSERX_REFCLK_SEL(1).USE_COM1 = 1
 cavium.c.bdk_qlm_reset(node, 1)
 cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
+
+
+-- Configure all QLMS at Gen 3x8
+cavium.csr.GSERX_REFCLK_SEL(2).COM_CLK_SEL = 1
+cavium.csr.GSERX_REFCLK_SEL(2).USE_COM1 = 0
+cavium.c.bdk_qlm_reset(node, 2)
+cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+
+cavium.csr.GSERX_REFCLK_SEL(4).COM_CLK_SEL = 1
+cavium.csr.GSERX_REFCLK_SEL(4).USE_COM1 = 0
+cavium.c.bdk_qlm_reset(node, 4)
+cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+
+cavium.csr.GSERX_REFCLK_SEL(6).COM_CLK_SEL = 1
+cavium.csr.GSERX_REFCLK_SEL(6).USE_COM1 = 0
+cavium.c.bdk_qlm_reset(node, 6)
+cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+
 
 
 -- OCI test - confirm all QLMs are up and valid.
@@ -92,6 +133,12 @@ else
     print ("OCI Test: FAIL")
 end
 
+
+-- PCIe tests.  All QLMs x8 RC
+
+pcie_rc(0)
+pcie_rc(2)
+pcie_rc(4)
 
 
 --
