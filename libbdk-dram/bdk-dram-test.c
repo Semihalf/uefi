@@ -327,22 +327,10 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
         return -1;
     }
 
-    /* Make sure the start address is higher that the BDK's active range.
-     *
-     * As sbrk() returns a node address, mask off the node portion of
-     * the address to make it a physical offset. Doing this simplifies the
-     * address checks and calculations which only work with physical offsets.
-     */
-    extern caddr_t sbrk(int incr);
-    uint64_t top_of_bdk = (bdk_ptr_to_phys(sbrk(0)) & bdk_build_mask(40));
+    /* Make sure the start address is higher that the BDK's active range */
+    uint64_t top_of_bdk = bdk_dram_get_top_of_bdk();
     if (start_address < top_of_bdk)
-    {
-        /* Give 4MB of extra so the BDK has room to grow while the test runs */
-        start_address = top_of_bdk + (4 << 20);
-        /* Align it on a 64KB boundary */
-        start_address >>= 16;
-        start_address <<= 16;
-    }
+        start_address = top_of_bdk;
 
     int errors = __bdk_dram_run_test(&TEST_INFO[test], start_address, length);
     if (errors)

@@ -44,6 +44,16 @@ extern uint64_t bdk_dram_get_size_mbytes(int node);
  */
 extern const char* bdk_dram_get_config_name(int index);
 
+/**
+ * Return the highest address currently used by the BDK. This address will
+ * be about 4MB above the top of the BDK to make sure small growths between the
+ * call and its use don't cause corruption. Any call to memory allocation can
+ * change this value.
+ *
+ * @return Size of the BDK in bytes
+ */
+extern uint64_t bdk_dram_get_top_of_bdk(void);
+
 extern int __bdk_dram_get_num_lmc();
 
 /** @} */

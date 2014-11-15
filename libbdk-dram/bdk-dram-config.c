@@ -93,8 +93,16 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
         return -1;
     }
 
+    BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
+    uint64_t skip = 0;
+    if ((bdk_node_t)node == bdk_numa_master())
+        skip = bdk_dram_get_top_of_bdk();
+    bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
+        ((uint64_t)mbytes << 20) - skip);
+    BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
+
     /* Clear any DRAM errors set during init */
-    BDK_TRACE(DRAM, "N%d: Clearing L2 errors\n", node);
+    BDK_TRACE(DRAM, "N%d: Clearing LMC errors\n", node);
     int num_lmc = __bdk_dram_get_num_lmc(node);
     for (int lmc = 0; lmc < num_lmc; lmc++)
     {
@@ -123,3 +131,31 @@ const char* bdk_dram_get_config_name(int index)
     else
         return dram_table[index]()->name;
 }
+
+
+/**
+ * Return the highest address currently used by the BDK. This address will
+ * be about 4MB above the top of the BDK to make sure small growths between the
+ * call and its use don't cause corruption. Any call to memory allocation can
+ * change this value.
+ *
+ * @return Size of the BDK in bytes
+ */
+uint64_t bdk_dram_get_top_of_bdk(void)
+{
+    /* Make sure the start address is higher that the BDK's active range.
+     *
+     * As sbrk() returns a node address, mask off the node portion of
+     * the address to make it a physical offset. Doing this simplifies the
+     * address checks and calculations which only work with physical offsets.
+     */
+    extern caddr_t sbrk(int incr);
+    uint64_t top_of_bdk = (bdk_ptr_to_phys(sbrk(0)) & bdk_build_mask(40));
+    /* Give 4MB of extra so the BDK has room to grow */
+    top_of_bdk += 4 << 20;
+    /* Align it on a 64KB boundary */
+    top_of_bdk >>= 16;
+    top_of_bdk <<= 16;
+    return top_of_bdk;
+}
+
