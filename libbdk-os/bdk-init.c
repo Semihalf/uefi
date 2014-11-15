@@ -822,6 +822,15 @@ static void setup_node(bdk_node_t node)
         BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
             c.s.sort = 1);
     }
+
+    /* Enable secure access to all of memory */
+    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_START(0), 0);
+    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_END(0), -1);
+    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_ATTR(0), 2);
+
+    /* Update way partition to allow core 0 to write to L2 */
+    BDK_CSR_WRITE(node, BDK_L2C_WPAR_PPX(0), 0);
+    BDK_CSR_READ(node, BDK_L2C_WPAR_PPX(0));
 }
 
 /**
