@@ -27,10 +27,10 @@
 #define BDK_INSERT(result,input,lsb,width) asm ("BFI %[rt],%[rs]," __BDK_TMP_STR(lsb) "," __BDK_TMP_STR(width) : [rt] "+r" (result) : [rs] "r" (input))
 
 /* other useful stuff */
-#define BDK_MB          asm volatile ("dmb sy"      : : :"memory")
-#define BDK_WMB         asm volatile ("dmb st"      : : :"memory")
-#define BDK_WFE         asm volatile ("wfe"         : : :"memory")
-#define BDK_SEV         asm volatile ("sev"         : : :"memory")
+#define BDK_MB          asm volatile ("dmb sy"      : : :"memory") /* Full memory barrier, like MIPS SYNC */
+#define BDK_WMB         asm volatile ("dmb st"      : : :"memory") /* Write memory barreir, like MIPS SYNCW */
+#define BDK_WFE         asm volatile ("wfe"         : : :"memory") /* Wait for event */
+#define BDK_SEV         asm volatile ("sev"         : : :"memory") /* Send global event */
 
 // normal prefetches that use the pref instruction
 #define BDK_PREFETCH_PREFX(type, address, offset) asm volatile ("PRFUM " type ", [%[rbase],%[off]]" : : [rbase] "r" (address), [off] "I" (offset))
@@ -41,9 +41,9 @@
 #define BDK_SYS_CVMCACHE_WBI_L2 "#0,c11,c1,#2"
 #define BDK_SYS_CVMCACHE_WB_L2 "#0,c11,c1,#3"
 #define BDK_SYS_CVMCACHE_LCK_L2 "#0,c11,c1,#4"
-#define BDK_CACHE_WBI_L2(address) { asm volatile ("sys " BDK_SYS_CVMCACHE_WBI_L2 ", %0" : : "r" (address)); } // Push to memory and invalidate
-#define BDK_CACHE_WB_L2(address) { asm volatile ("sys " BDK_SYS_CVMCACHE_WB_L2 ", %0" : : "r" (address)); } // Push to memory, don't invalidate
-#define BDK_CACHE_LCK_L2(address) { asm volatile ("sys " BDK_SYS_CVMCACHE_LCK_L2 ", %0" : : "r" (address)); } // lock into L2
+#define BDK_CACHE_WBI_L2(address) { asm volatile ("sys " BDK_SYS_CVMCACHE_WBI_L2 ", %0" : : "r" (address)); } // Push to memory, invalidate, and unlock
+#define BDK_CACHE_WB_L2(address) { asm volatile ("sys " BDK_SYS_CVMCACHE_WB_L2 ", %0" : : "r" (address)); } // Push to memory, don't invalidate, don't unlock
+#define BDK_CACHE_LCK_L2(address) { asm volatile ("sys " BDK_SYS_CVMCACHE_LCK_L2 ", %0" : : "r" (address)); } // Lock into L2
 
 #endif	/* __ASSEMBLER__ */
 
