@@ -398,10 +398,7 @@ static uint64_t ocx_pp_read(bdk_node_t node, uint64_t address)
 
         /* Wait for 1ms for read ot complete */
         if (BDK_CSR_WAIT_FOR_FIELD(bdk_numa_local(), BDK_OCX_PP_RD_DATA, data, !=, 0xffffffffffffffffull, 1000))
-        {
-            bdk_error("N%d: Timeout reading CSR from node %d\n", bdk_numa_local(), node);
             return -1;
-        }
         return BDK_CSR_READ(bdk_numa_local(), BDK_OCX_PP_RD_DATA);
     }
 }
@@ -516,10 +513,15 @@ static int init_oci(void)
             /* Read the links state and make sure it doesn't auto recover from
                errors*/
             lnk->u = ocx_pp_read(rid, BDK_OCX_COM_LINKX_CTL(rlink));
+            if (lnk->u == (uint64_t)-1)
+            {
+                BDK_TRACE(INIT, "        Remote link %d: Timeout, skipping\n", rlink);
+                continue;
+            }
             lnk->s.auto_clr = 0;
             ocx_pp_write(rid, BDK_OCX_COM_LINKX_CTL(rlink), lnk->u);
             /* Skip invalid links */
-            if (!lnk->s.valid || !lnk->s.up)
+            if (!lnk->s.valid || !lnk->s.up || lnk->s.drop)
             {
                 BDK_TRACE(INIT, "        Remote link %d: Down, skipping\n", rlink);
                 continue;
