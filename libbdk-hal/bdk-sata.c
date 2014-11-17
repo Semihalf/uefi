@@ -308,6 +308,13 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_FB(controller),
         bdk_ptr_to_phys(fb));
 
+    /* Enable AHCI command queuing */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CCC_CTL(controller),
+        c.s.tv = 0;
+        c.s.en = 1);
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CCC_PORTS(controller),
+        c.s.prt = 1);
+
     /* Enable the FIS and clear any pending errors */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_FBS(controller),
         c.s.dec = 1;
@@ -325,6 +332,9 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     /* Allow device detection */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
         c.s.det = 1);
+
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SACT(controller),
+        c.s.ds = 1);
 
     /* Start the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
