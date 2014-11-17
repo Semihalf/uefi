@@ -482,6 +482,9 @@ static int init_oci(void)
             c.s.fixed = 1);
     }
 
+    /* Reset if any link goes down */
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_RST_OCX, bdk_build_mask(MAX_LINKS));
+
     /* Write a unique value to OCX_TLKX_LNK_DATA for every possible link. This
         allows us to later figure out which link goes where. Also mark all
         link as unrecoverable so its state can't change later */
@@ -683,6 +686,11 @@ static int init_oci(void)
             else
                 BDK_TRACE(INIT, "        Remote link %d: Connects to node ID %d\n", rlink, lk_info[link].ctl[rlink].s.id);
             ocx_pp_write(rid, BDK_OCX_COM_LINKX_CTL(rlink), lk_info[link].ctl[rlink].u);
+            /* Reset if link goes down */
+            bdk_rst_ocx_t rst_ocx;
+            rst_ocx.u = ocx_pp_read(rid, BDK_RST_OCX);
+            rst_ocx.s.rst_link |= 1 << rlink;
+            ocx_pp_write(rid, BDK_RST_OCX, rst_ocx.u);
         }
     }
 
