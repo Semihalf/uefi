@@ -22,7 +22,7 @@ normal.bin: stage1.bin stage2.bin
 	# 4) 192KB of boot-stub image (trusted)
 	cat stage1.bin /dev/zero | head -q -c 196608 >> normal.bin
 	# 5) 4MB-512KB of diagnostics
-	cat stage2.bin /dev/zero | head -q -c 3670016 >> normal.bin
+	cat stage2.bin >> normal.bin
 	# 6) You need to install ATF starting at 4MB
 
 diagnostics: diagnostics.o $(BDK_ROOT)/libbdk/libbdk.a
