@@ -10,7 +10,7 @@
 /* Enable verbose logging from DRAM initialization (0 or 1) */
 #define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
-//#define DRAM_NODE1 ebb8800
+#define DRAM_NODE1 ebb8800
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* Address of the diagnostics in flash (512KB is right after boot stubs) */
@@ -342,17 +342,35 @@ int main(void)
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
+    /* Setup TWSI at 100KHz frequency. TWSI is needed to read DRAM SPDs */
+    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+        {
+            BDK_TRACE(BOOT_STUB, "Initializing TWSI on Node %d\n", n);
+            bdk_twsix_initialize(n);
+        }
+    }
+
     /* Initialize DRAM on the slave node */
 #ifdef DRAM_NODE1
     if (MULTI_NODE)
     {
-        BDK_TRACE(BOOT_STUB, "Initializing DRAM on other node\n");
-        extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
-        int mbytes = libdram_config(1, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
-        if (mbytes > 0)
-            printf("Node %d: DRAM: %d MB\n", 1, mbytes);
+        bdk_node_t other_node = 1;
+        if (bdk_numa_exists(other_node))
+        {
+            BDK_TRACE(BOOT_STUB, "Initializing DRAM on other node\n");
+            extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
+            int mbytes = libdram_config(other_node, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
+            if (mbytes > 0)
+                printf("Node %d: DRAM: %d MB\n", other_node, mbytes);
+            else
+                bdk_error("Node %d failed DRAM init\n", other_node);
+        }
         else
-            bdk_error("Node %d failed DRAM init\n", bdk_numa_master());
+        {
+            printf("Node %d: Not found, skipping DRAM init\n", other_node);
+        }
     }
 #endif
 
@@ -418,16 +436,6 @@ int main(void)
                     bdk_pcie_rc_initialize(n, p);
                 }
             }
-        }
-    }
-
-    /* Setup TWSI at 100KHz frequency */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        if (bdk_numa_exists(n))
-        {
-            BDK_TRACE(BOOT_STUB, "Initializing TWSI on Node %d\n", n);
-            bdk_twsix_initialize(n);
         }
     }
 
