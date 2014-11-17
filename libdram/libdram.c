@@ -41,9 +41,6 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
             interface_mask |= 1 << i;
     }
 
-    /* We need to clear this global if we want this to work more than once.... */
-    extern int global_ddr_clock_initialized;
-    global_ddr_clock_initialized = 0;
     BDK_TRACE(DRAM, "N%d: Calling DRAM init\n", node);
     uint32_t measured_ddr_hertz = 0;
     int mbytes = octeon_ddr_initialize(node,

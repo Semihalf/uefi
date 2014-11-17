@@ -46,8 +46,8 @@
 /* #define DDR_DEBUG */
 
 
-int global_ddr_clock_initialized = 0;
-int global_ddr_memory_preserved  = 0;
+static int global_ddr_clock_initialized = 0;
+static int global_ddr_memory_preserved  = 0;
 
 /*
  *
@@ -206,14 +206,14 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 	return errors;
 }
 
-static void set_ddr_memory_preserved(void)
+static void set_ddr_memory_preserved(bdk_node_t node)
 {
-    global_ddr_memory_preserved |= 0x1;
+    global_ddr_memory_preserved |= 0x1 << node;
 
 }
-static int ddr_memory_preserved(void)
+static int ddr_memory_preserved(bdk_node_t node)
 {
-	return (!!(global_ddr_memory_preserved));
+	return (global_ddr_memory_preserved & (0x1 << node)) != 0;
 }
 
 void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
@@ -226,7 +226,7 @@ void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
 		ddr_init_loops = strtoul(s, NULL, 0);
 
 	while (ddr_init_loops--) {
-		if (ddr_memory_preserved()) {
+		if (ddr_memory_preserved(node)) {
 			/* Contents are being preserved */
                     perform_octeon3_ddr3_sequence(node, rank_mask,
                                           ddr_interface_num, 3); /* self-refresh exit */
@@ -254,16 +254,18 @@ void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
 	}
 }
 
-static void set_ddr_clock_initialized(int ddr_interface, int inited_flag)
+static void set_ddr_clock_initialized(bdk_node_t node, int ddr_interface, int inited_flag)
 {
+	int bit = node * 8 + ddr_interface;
 	if (inited_flag)
-		global_ddr_clock_initialized |= (0x1 << ddr_interface);
+		global_ddr_clock_initialized |= (0x1 << bit);
 	else
-		global_ddr_clock_initialized &= ~(0x1 << ddr_interface);
+		global_ddr_clock_initialized &= ~(0x1 << bit);
 }
-static int ddr_clock_initialized(int ddr_interface)
+static int ddr_clock_initialized(bdk_node_t node, int ddr_interface)
 {
-	return (!!(global_ddr_clock_initialized & (0x1 << ddr_interface)));
+	int bit = node * 8 + ddr_interface;
+	return (!!(global_ddr_clock_initialized & (0x1 << bit)));
 }
 
 
@@ -361,10 +363,10 @@ int initialize_ddr_clock(bdk_node_t node,
 {
     const char *s;
 
-    if (ddr_clock_initialized(ddr_interface_num))
+    if (ddr_clock_initialized(node, ddr_interface_num))
         return 0;
 
-    if (!ddr_clock_initialized(0)) { /* Do this once */
+    if (!ddr_clock_initialized(node, 0)) { /* Do this once */
         int i;
         bdk_lmcx_reset_ctl_t reset_ctl;
         /* Check to see if memory is to be preserved and set global flag */
@@ -374,7 +376,7 @@ int initialize_ddr_clock(bdk_node_t node,
             reset_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(i));
             if (reset_ctl.s.ddr3psv == 1) {
                 ddr_print("LMC%d Preserving memory\n", i);
-                set_ddr_memory_preserved();
+                set_ddr_memory_preserved(node);
 
                 /* Re-initialize flags */
                 reset_ctl.s.ddr3pwarm = 0;
@@ -555,7 +557,7 @@ int initialize_ddr_clock(bdk_node_t node,
              */
 
             for (loop_interface_num = 0;
-                 ( !ddr_memory_preserved()) && loop_interface_num<4;
+                 ( !ddr_memory_preserved(node)) && loop_interface_num<4;
                  ++loop_interface_num) {
                 bdk_lmcx_reset_ctl_t reset_ctl;
 
@@ -1075,7 +1077,7 @@ int initialize_ddr_clock(bdk_node_t node,
          * LMC(0..3)_RESET_CTL fields.
          */
 
-        if ( !ddr_memory_preserved()) {
+        if ( !ddr_memory_preserved(node)) {
             /*
              * 2. Read LMC(0..3)_RESET_CTL and wait for the result.
              */
@@ -1114,7 +1116,7 @@ int initialize_ddr_clock(bdk_node_t node,
         }
     }
 
-    set_ddr_clock_initialized(ddr_interface_num, 1);
+    set_ddr_clock_initialized(node, ddr_interface_num, 1);
     return(0);
 }
 
