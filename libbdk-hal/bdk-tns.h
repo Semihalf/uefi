@@ -15,6 +15,11 @@
 extern int bdk_tns_initialize(bdk_node_t node) BDK_WEAK;
 
 /**
+ * Shutdown the TNS layer
+ */
+extern int bdk_tns_shutdown(bdk_node_t node);
+
+/**
  * Write a block of data to a TNS register
  */
 extern int bdk_tns_write_data(bdk_node_t node, uint32_t address, uint32_t *dataw, int cnt);
