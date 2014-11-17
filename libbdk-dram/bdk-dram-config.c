@@ -97,7 +97,8 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
     uint64_t skip = 0;
     if ((bdk_node_t)node == bdk_numa_master())
         skip = bdk_dram_get_top_of_bdk();
-    bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
+    if (!bdk_is_simulation())
+        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
         ((uint64_t)mbytes << 20) - skip);
     BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
 
