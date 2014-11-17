@@ -49,8 +49,8 @@ __bdk_start:
     ldr     xzr, [x0, x1]       /* Read back to make sure done */
 
     /* Relocate ourself if we aren't running at our link address */
-    mov     x0, _start          /* x0 = _start location based on PC */
-    adr     x1, _start          /* x1 = _start location as an absolute */
+    mov     x0, _start          /* x0 = _start location as an absolute */
+    adr     x1, _start          /* x1 = _start location based on PC */
     cmp     x0, x1              /* See if we're running at the right location */
     b.eq    after_relocate      /* Skip relocate if we're already there */
     ldr     w2, [x1, 4]         /* w2 = Image length we need to copy */
