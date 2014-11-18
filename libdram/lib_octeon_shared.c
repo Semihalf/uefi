@@ -160,7 +160,9 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 				 */
 
 				bdk_write64_uint64(p1, v);
+                                BDK_CACHE_WBI_L2(p1);
 				bdk_write64_uint64(p2, v1);
+                                BDK_CACHE_WBI_L2(p2);
 				++counter;
 			}
 		}
