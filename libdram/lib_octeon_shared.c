@@ -514,8 +514,8 @@ int initialize_ddr_clock(bdk_node_t node,
              *
              * Perform the following eight substeps to initialize the DDR PLL:
              *
-             * 1. If not done already, write all fields in LMC(0..3)_DDR_PLL_CTL and
-             * LMC(0..3)_DLL_CTL2 to their reset values, including:
+             * 1. If not done already, write all fields in LMC(0..1)_DDR_PLL_CTL and
+             * LMC(0..1)_DLL_CTL2 to their reset values, including:
              *
              * .. LMC0_DDR_PLL_CTL[DDR_DIV_RESET] = 1
              * .. LMC0_DLL_CTL2[DRESET] = 1
@@ -539,6 +539,7 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_pll_ctl.s.ddr4_mode         = 0;
             ddr_pll_ctl.s.phy_dcok          = 0;
             ddr_pll_ctl.s.dclk_invert       = 1;
+            ddr_pll_ctl.s.bwadj             = 0x18;
             ddr_pll_ctl.s.dclk_alt_refclk_sel = 0;
 
             if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
@@ -546,6 +547,7 @@ int initialize_ddr_clock(bdk_node_t node,
             }
 
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
+            DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(1), ddr_pll_ctl.u);
 
 
             /*
@@ -597,7 +599,7 @@ int initialize_ddr_clock(bdk_node_t node,
                 uint64_t best_pll_MHz = 0;
                 uint64_t pll_MHz;
                 uint64_t min_pll_MHz = 800;
-                uint64_t max_pll_MHz = 4300;
+                uint64_t max_pll_MHz = 5000;
                 uint64_t error;
                 uint64_t best_error;
                 uint64_t best_calculated_ddr_hertz = 0;
@@ -688,6 +690,13 @@ int initialize_ddr_clock(bdk_node_t node,
                 ddr_pll_ctl.s.clkf = best_clkf;
                 ddr_pll_ctl.s.clkr = best_clkr;
                 ddr_pll_ctl.s.reset_n = 0;
+
+                ddr_pll_ctl.s.bwadj = (best_clkf + 1) / 10;
+                ddr_print("bwadj: %2d\n", ddr_pll_ctl.s.bwadj);
+
+                if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
+                    ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);
+                }
 
                 for (loop_interface_num = 0; loop_interface_num<2; ++loop_interface_num) {
                     if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
