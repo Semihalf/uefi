@@ -36,6 +36,11 @@ local function do_trafficgen()
     return tg:run()
 end
 
+local function do_throttle()
+    local throttle = menu.prompt_number("Throttle level", 0xcc, 0, 0xff)
+    cavium.c.bdk_power_throttle(cavium.MASTER, throttle)
+end
+
 local m = menu.new("Main Menu")
 m:item("qlm",   "SERDES configuration",     menu.dofile, "qlm_menu")
 m:item("config","Software configuration",   menu.dofile, "config_menu")
@@ -52,6 +57,7 @@ m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
 m:item("burn",  "Burn power",               cavium.c.bdk_power_burn, 0)
+m:item("throt", "Set power throttle level", do_throttle)
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, 0)
 if cavium.global then
     m:item("quit", "Exit menu")

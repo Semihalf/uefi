@@ -28,3 +28,21 @@ int bdk_power_burn(bdk_node_t node)
     }
     return 0;
 }
+
+void bdk_power_throttle(bdk_node_t node, int throttle)
+{
+    const int num_cores = bdk_get_num_cores(node);
+    uint64_t running = bdk_get_running_coremask(node);
+    for (int core = 0; core < num_cores; core++)
+    {
+        if (running & (1ull << core))
+        {
+            bdk_sys_cvm_power_el1_t power;
+            power.u = bdk_sysreg_read(node, core, BDK_SYS_CVM_POWER_EL1);
+            power.s.max_setting = throttle;
+            power.s.secret_override = 1;
+            bdk_sysreg_write(node, core, BDK_SYS_CVM_POWER_EL1, power.u);
+        }
+    }
+}
+
