@@ -46,6 +46,7 @@ end
 
 local function run_all_tests()
     local errors = -1
+    local start_time = os.time()
     for test_number=0,100 do
         local name = cavium.c.bdk_dram_get_test_name(test_number);
         if not name then
@@ -56,10 +57,15 @@ local function run_all_tests()
             break
         end
     end
+    local end_time = os.time()
     if errors < 0 then
         error("DRAM test failed to run")
     elseif errors == 0 then
-        print("All tests passed")
+        local total_time = os.difftime(end_time, start_time)
+        local hour = total_time / 3600
+        local min = (total_time % 3600) / 60
+        local sec = (total_time % 3600) % 60
+        printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
     else
         error("Test reported %d errors" % errors)
     end
