@@ -240,7 +240,7 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->rlevel_compute         = 0;
     cfg->ddr2t_udimm            = 0;
     cfg->ddr2t_rdimm            = 1;
-    cfg->maximum_adjacent_rlevel_delay_increment = 2;
+    cfg->maximum_adjacent_rlevel_delay_increment = 1;
     cfg->fprch2                 = 2;
     //cfg->dll_write_offset     = {0};
     //cfg->dll_read_offset      = {0};
