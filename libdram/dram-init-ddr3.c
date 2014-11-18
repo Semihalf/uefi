@@ -3637,12 +3637,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         } else {
             limit_l2_ways(node, bdk_l2c_get_num_assoc(node), 0);
         }
-
-        eptr = getenv("limit_l2_mask");
-        if (eptr) {
-            int mask = strtoul(eptr, NULL, 10);
-            limit_l2_mask(node, mask);
-        }
     }
 
 #ifdef CAVIUM_ONLY
