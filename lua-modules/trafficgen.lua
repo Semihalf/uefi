@@ -47,7 +47,7 @@ function TrafficGen.new()
     local transmit_time = 0
     local l2_stats_table = {}
     local show_l2_stats = false
-    local oci_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
+    local ccpi_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
     local status, tns_map = pcall(require, "tns")
 
     --
@@ -647,6 +647,31 @@ function TrafficGen.new()
             collectgarbage("count"),
             cavium.c.get_sbrk() / 1024,
             ERASE_EOL);
+        -- Show CCPI link load statistics
+        if true then
+            local ccpi_load = {}
+            local ccpi_err = {}
+            for link=1,3 do
+                local data = cavium.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
+                local idle = cavium.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
+                local err = cavium.csr.OCX_TLKX_STAT_ERR_CNT(link-1).read()
+                local total = data + idle + err
+                local old_total = ccpi_stats[link][1] + ccpi_stats[link][2] + ccpi_stats[link][3]
+                local interval = total - old_total
+                if interval > 0 then
+                    ccpi_load[link] = (data - ccpi_stats[link][1]) * 100 / interval
+                    ccpi_err[link] = err -- Show totals instead of interval for now
+                else
+                    ccpi_load[link] = 0
+                    ccpi_err[link] = 0
+                end
+                ccpi_stats[link][1] = data
+                ccpi_stats[link][2] = idle
+                ccpi_stats[link][3] = err
+            end
+            printf("CCPI Link0 %3d%%(%d errors), Link1 %3d%%(%d errors), Link2 %3d%%(%d errors)%s\n",
+                ccpi_load[1], ccpi_err[1], ccpi_load[2], ccpi_err[2], ccpi_load[3], ccpi_err[3], ERASE_EOL);
+        end
         num_rows = num_rows + 1
         if show_l2_stats then
             l2_stats_table = cavium.perf.get_l2(l2_stats_table)
