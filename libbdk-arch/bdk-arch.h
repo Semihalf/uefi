@@ -30,7 +30,7 @@
 #include "bdk-asm.h"
 #endif
 
-#define SYSTEM_REGISTER(name, op0, op1, crn, crm, op2, ...)
+#define SYSTEM_REGISTER(name, op0, op1, crn, crm, op2, ...) static const int BDK_SYS_##name = (((op0&1)<<19) | (op1<<16) | (crn<<12) | (crm<<8) | (op2<<5))>>5;
 #define INCLUDE_SYSTEM_REGISTER_TYPEDEFS 1
 #include "bdk-sysreg.h"
 #undef INCLUDE_SYSTEM_REGISTER_TYPEDEFS
