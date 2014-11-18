@@ -543,13 +543,10 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
        read/write commands.*/
     bdk_wait_usec(1);
 
-    /* 5. Change the P2 termination: clear per lane
-       GSERn_LANE(0..3)_PWR_CTRL_P2[P2_RX_SUBBLK_PD<0>] = 0 (termination) */
-    for (int lane=0; lane<4; lane++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PWR_CTRL_P2(qlm, lane),
-            c.s.p2_rx_subblk_pd &= 0x1e);
-    }
+    /* 5. Change the P2 termination
+       GSERn_RX_PWR_CTRL_P2[P2_RX_SUBBLK_PD<0>] = 0 (termination) */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_PWR_CTRL_P2(qlm),
+        c.s.p2_rx_subblk_pd &= 0x1e);
 
     /* 6. Modify the electrical IDLE detect on delay: set
        GSER(0..13)_LANE(0..3)_MISC_CFG_0[EIE_DET_STL_ON_TIME] = 0x4 */
