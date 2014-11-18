@@ -54,6 +54,8 @@ caddr_t _sbrk(int incr)
         /* Heap starts after the _end symbol and goes until the end of
             the L2 cache */
         uint64_t start_paddr = bdk_fs_romfs_get_end();
+        /* Align beginning of heap on 64KB boundary */
+        start_paddr = (start_paddr + 65535) & -65536;
         next = bdk_phys_to_ptr(start_paddr);
         end = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), l2_size));
     }
