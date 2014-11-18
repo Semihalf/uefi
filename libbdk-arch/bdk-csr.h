@@ -60,6 +60,8 @@ extern int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t val
 extern int bdk_csr_get_name(const char *last_name, char *buffer);
 struct bdk_readline_tab;
 extern struct bdk_readline_tab *__bdk_csr_get_tab_complete() BDK_WEAK;
+extern uint64_t bdk_sysreg_read(int node, int core, int regnum);
+extern void bdk_sysreg_write(int node, int core, int regnum, uint64_t value);
 
 #ifndef BDK_BUILD_HOST
 

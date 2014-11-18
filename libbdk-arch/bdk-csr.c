@@ -152,3 +152,56 @@ void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigne
     }
 }
 
+/**
+ * Read a core system register from a different node or core
+ *
+ * @param node   Node to read from
+ * @param core   Core to read
+ * @param regnum Register to read in MRS encoding
+ *
+ * @return Register value
+ */
+uint64_t bdk_sysreg_read(int node, int core, int regnum)
+{
+    BDK_CSR_INIT(pp_reset, node, BDK_RST_PP_RESET);
+    if (pp_reset.u & (1ull<<core))
+    {
+        bdk_error("Attempt to read system register for core in reset\n");
+        return -1;
+    }
+
+    /* Note this requires DAP_IMP_DAR[caben] = 1 */
+    uint64_t address = 1ull<<47;
+    address |= 0x7Bull << 36;
+    address |= core << 19;
+    address |= regnum << 3;
+    address = bdk_numa_get_address(node, address);
+    return bdk_read64_uint64(address);
+}
+
+/**
+ * Write a system register for a different node or core
+ *
+ * @param node   Node to write too
+ * @param core   Core to write
+ * @param regnum Register to write in MSR encoding
+ * @param value  Value to write
+ */
+void bdk_sysreg_write(int node, int core, int regnum, uint64_t value)
+{
+    BDK_CSR_INIT(pp_reset, node, BDK_RST_PP_RESET);
+    if (pp_reset.u & (1ull<<core))
+    {
+        bdk_error("Attempt to write system register for core in reset\n");
+        return;
+    }
+
+    /* Note this requires DAP_IMP_DAR[caben] = 1 */
+    uint64_t address = 1ull<<47;
+    address |= 0x7Bull << 36;
+    address |= core << 19;
+    address |= regnum << 3;
+    address = bdk_numa_get_address(node, address);
+    bdk_write64_uint64(address, value);
+}
+
