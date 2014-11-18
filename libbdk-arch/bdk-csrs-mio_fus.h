@@ -167,11 +167,13 @@ typedef union bdk_mio_fus_dat2 {
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling.
                                                                  Added in pass 2. */
-		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable. Is actually fus99. */
+		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable.
+                                                                 INTERNAL: fuse[99]. */
 		uint64_t rom_info                    : 10; /**< RO - Fuse information - ROM info. */
 		uint64_t power_limit                 : 2;  /**< RO - Fuse information - Power limit. */
 		uint64_t dorm_crypto                 : 1;  /**< RO - Fuse information - Dormant encryption enable. See NOCRYPTO. */
-		uint64_t fus318                      : 1;  /**< RO - Reserved. */
+		uint64_t fus318                      : 1;  /**< RO - Reserved.
+                                                                 INTERNAL: Tied to 0. */
 		uint64_t raid_en                     : 1;  /**< RO - Fuse information - RAID enabled. */
 		uint64_t reserved_29_31              : 3;
 		uint64_t nodfa_cp2                   : 1;  /**< RO - Fuse information - HFA disable (CP2). */
@@ -226,11 +228,13 @@ typedef union bdk_mio_fus_dat2 {
 	struct bdk_mio_fus_dat2_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable. Is actually fus99. */
+		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable.
+                                                                 INTERNAL: fuse[99]. */
 		uint64_t rom_info                    : 10; /**< RO - Fuse information - ROM info. */
 		uint64_t power_limit                 : 2;  /**< RO - Fuse information - Power limit. */
 		uint64_t dorm_crypto                 : 1;  /**< RO - Fuse information - Dormant encryption enable. See NOCRYPTO. */
-		uint64_t fus318                      : 1;  /**< RO - Reserved. */
+		uint64_t fus318                      : 1;  /**< RO - Reserved.
+                                                                 INTERNAL: Tied to 0. */
 		uint64_t raid_en                     : 1;  /**< RO - Fuse information - RAID enabled. */
 		uint64_t reserved_29_31              : 3;
 		uint64_t nodfa_cp2                   : 1;  /**< RO - Fuse information - HFA disable (CP2). */

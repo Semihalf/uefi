@@ -3648,7 +3648,10 @@ typedef union bdk_lmcx_phy_ctl {
 	uint64_t u;
 	struct bdk_lmcx_phy_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_55_63              : 9;
+		uint64_t reserved_58_63              : 6;
+		uint64_t data_rate_loopback          : 1;  /**< RO - Reserved. */
+		uint64_t dq_shallow_loopback         : 1;  /**< RO - Reserved. */
+		uint64_t dm_disable                  : 1;  /**< RO - Reserved. */
 		uint64_t c1_sel                      : 2;  /**< R/W - 0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -3734,7 +3737,10 @@ typedef union bdk_lmcx_phy_ctl {
 		uint64_t phy_reset                   : 1;
 		uint64_t c0_sel                      : 2;
 		uint64_t c1_sel                      : 2;
-		uint64_t reserved_55_63              : 9;
+		uint64_t dm_disable                  : 1;
+		uint64_t dq_shallow_loopback         : 1;
+		uint64_t data_rate_loopback          : 1;
+		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
 	/* struct bdk_lmcx_phy_ctl_s          cn88xx; */
@@ -4964,7 +4970,8 @@ typedef union bdk_lmcx_timing_params1 {
 	uint64_t u;
 	struct bdk_lmcx_timing_params1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_57_63              : 7;
+		uint64_t reserved_58_63              : 6;
+		uint64_t txp_ext                     : 1;  /**< RO - Reserved. */
 		uint64_t tpdm_full_cycle_ena         : 1;  /**< R/W - When set, this field enables the addition of one-cycle delay to the
                                                                  Write/Read latency calculation. This is to compensate the case when
                                                                  tPDM delay in the RCD of an RDIMM/LRDIMM is greater than one-cycle.
@@ -5136,7 +5143,8 @@ typedef union bdk_lmcx_timing_params1 {
 		uint64_t txpdll                      : 5;
 		uint64_t trfc_dlr                    : 7;
 		uint64_t tpdm_full_cycle_ena         : 1;
-		uint64_t reserved_57_63              : 7;
+		uint64_t txp_ext                     : 1;
+		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
 	/* struct bdk_lmcx_timing_params1_s   cn88xx; */
@@ -5271,7 +5279,8 @@ typedef union bdk_lmcx_wlevel_ctl {
 		uint64_t or_dis                      : 1;  /**< R/W - Disable ORing of bits in a byte lane when computing the write-leveling bitmask. */
 		uint64_t sset                        : 1;  /**< R/W - Run write-leveling on the current setting only. */
 		uint64_t lanemask                    : 9;  /**< R/W - One-shot mask to select byte lane to be leveled by the write-leveling sequence. Used with
-                                                                 *16 parts where the upper and lower byte lanes need to be leveled independently. */
+                                                                 *16 parts where the upper and lower byte lanes need to be leveled independently.
+                                                                 This field is also used for byte lane masking in read-leveling sequence. */
 #else
 		uint64_t lanemask                    : 9;
 		uint64_t sset                        : 1;

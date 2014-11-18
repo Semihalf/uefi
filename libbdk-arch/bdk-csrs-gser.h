@@ -1056,7 +1056,7 @@ typedef union bdk_gserx_lanex_pcs_ctlifc_0 {
                                                                  is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_MODE_OVRRD_EN].
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (not supported).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only).
                                                                  0x3 = 20-bit raw data. */
 		uint64_t cfg_tx_pstate_req_ovrrd_val : 2;  /**< R/W - Override TX pstate request when its override bit
                                                                  is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_EN]. */
@@ -1341,70 +1341,6 @@ static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long param1, unsigned l
 #define busnum_BDK_GSERX_LANEX_PWR_CTRL(p1,p2) (p1)
 #define arguments_BDK_GSERX_LANEX_PWR_CTRL(p1,p2) (p1),(p2),-1,-1
 #define basename_BDK_GSERX_LANEX_PWR_CTRL(...) "GSERX_LANEX_PWR_CTRL"
-
-
-/**
- * RSL - gser#_lane#_pwr_ctrl_p2
- *
- * These registers are for diagnostic use only.
- * These registers are reset by hardware only during chip cold reset.
- * The values of the CSR fields in these registers do not change during chip warm or soft resets.
- */
-typedef union bdk_gserx_lanex_pwr_ctrl_p2 {
-	uint64_t u;
-	struct bdk_gserx_lanex_pwr_ctrl_p2_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_14_63              : 50;
-		uint64_t p2_rx_resetn                : 1;  /**< R/W - Place the reciever in reset (active low). */
-		uint64_t p2_rx_allow_pll_pd          : 1;  /**< R/W - When asserted, it permits PLL powerdown (PLL is
-                                                                 powered down if all other factors permit). */
-		uint64_t p2_rx_pcs_reset             : 1;  /**< R/W - When asserted, the RX Power state machine puts the Raw PCS
-                                                                 RX logic in reset state to save power. */
-		uint64_t p2_rx_agc_en                : 1;  /**< R/W - AGC enable. */
-		uint64_t p2_rx_dfe_en                : 1;  /**< R/W - DFE enable. */
-		uint64_t p2_rx_cdr_en                : 1;  /**< R/W - CDR enable. */
-		uint64_t p2_rx_cdr_coast             : 1;  /**< R/W - CDR coast; freezes the frequency of the CDR. */
-		uint64_t p2_rx_cdr_clr               : 1;  /**< R/W - CDR clear; clears the frequency register in the CDR. */
-		uint64_t p2_rx_subblk_pd             : 5;  /**< R/W - RX sub-block powerdown to RX:
-                                                                 \<4\> = CTLE.
-                                                                 \<3\> = Reserved.
-                                                                 \<2\> = Lane DLL.
-                                                                 \<1\> = DFE/Samplers.
-                                                                 \<0\> = Termination.
-
-                                                                 Software needs to clear the Termination bit in SATA mode
-                                                                 (when GSER()_CFG[SATA] is set). */
-		uint64_t p2_rx_chpd                  : 1;  /**< R/W - RX lane power down. */
-#else
-		uint64_t p2_rx_chpd                  : 1;
-		uint64_t p2_rx_subblk_pd             : 5;
-		uint64_t p2_rx_cdr_clr               : 1;
-		uint64_t p2_rx_cdr_coast             : 1;
-		uint64_t p2_rx_cdr_en                : 1;
-		uint64_t p2_rx_dfe_en                : 1;
-		uint64_t p2_rx_agc_en                : 1;
-		uint64_t p2_rx_pcs_reset             : 1;
-		uint64_t p2_rx_allow_pll_pd          : 1;
-		uint64_t p2_rx_resetn                : 1;
-		uint64_t reserved_14_63              : 50;
-#endif
-	} s;
-	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn88xx; */
-	/* struct bdk_gserx_lanex_pwr_ctrl_p2_s cn88xxp1; */
-} bdk_gserx_lanex_pwr_ctrl_p2_t;
-
-static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL_P2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL_P2(unsigned long param1, unsigned long param2)
-{
-	if (((param1 <= 13)) && ((param2 <= 3)))
-		return 0x000087E0904600B8ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
-	csr_fatal("BDK_GSERX_LANEX_PWR_CTRL_P2", 2, param1, param2, 0, 0); /* No return */
-}
-#define typedef_BDK_GSERX_LANEX_PWR_CTRL_P2(...) bdk_gserx_lanex_pwr_ctrl_p2_t
-#define bustype_BDK_GSERX_LANEX_PWR_CTRL_P2(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_GSERX_LANEX_PWR_CTRL_P2(p1,p2) (p1)
-#define arguments_BDK_GSERX_LANEX_PWR_CTRL_P2(p1,p2) (p1),(p2),-1,-1
-#define basename_BDK_GSERX_LANEX_PWR_CTRL_P2(...) "GSERX_LANEX_PWR_CTRL_P2"
 
 
 /**
@@ -2906,8 +2842,8 @@ typedef union bdk_gserx_lanex_tx_cfg_1 {
 		uint64_t tx_widthsel_ovrd_val        : 2;  /**< R/W - Override value for pcs_sds_widthsel, TX parallel interface width setting.
                                                                  0x0 = 8-bit (not supported).
                                                                  0x1 = 10-bit (not supported).
-                                                                 0x2 = 16-bit (not supported).
-                                                                 0x3 = 20-bit (not supported). */
+                                                                 0x2 = 16-bit (for PCIe Gen3 8Gb only).
+                                                                 0x3 = 20-bit. */
 		uint64_t tx_vboost_en_ovrrd_en       : 1;  /**< R/W - Override enable for pcs_sds_txX_vboost_en, TX  vboost mode enable. */
 		uint64_t tx_turbo_en_ovrrd_en        : 1;  /**< R/W - Override enable for pcs_sds_txX_turbo_en, Turbo mode enable. */
 		uint64_t tx_swing_ovrd_en            : 1;  /**< R/W - Override enable for pcs_sds_txX_swing, TX swing. */
@@ -3294,7 +3230,7 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                                              SATA   non-SATA
                                                                  _ R_25G_REFCLK100:           0x2    0x1
                                                                  _ R_5G_REFCLK100:            0x1    0x0
-                                                                 _ R_8G_REFCLK100:            0x1    0x0
+                                                                 _ R_8G_REFCLK100:            0x0    0x0
                                                                  _ R_125G_REFCLK15625_KX:     NS     0x2
                                                                  _ R_3125G_REFCLK15625_XAUI:  NS     0x1
                                                                  _ R_103125G_REFCLK15625_KR:  NS     0x0
@@ -3320,12 +3256,12 @@ typedef union bdk_gserx_lane_px_mode_0 {
 		uint64_t tx_mode                     : 2;  /**< R/W/H - TX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (not supported).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only).
                                                                  0x3 = 20-bit raw data. */
 		uint64_t rx_mode                     : 2;  /**< R/W/H - RX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (not supported).
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only).
                                                                  0x3 = 20-bit raw data. */
 #else
 		uint64_t rx_mode                     : 2;
@@ -3394,18 +3330,24 @@ typedef union bdk_gserx_lane_px_mode_1 {
                                                                  _ R_8G_REFCLK125:           0xB */
 		uint64_t ph_acc_adj                  : 10; /**< R/W/H - Phase accumulator adjust.
                                                                  Recommended settings:
-                                                                 _ R_25G_REFCLK100:          0x14
-                                                                 _ R_5G_REFCLK100:           0x14
-                                                                 _ R_8G_REFCLK100:           0x23
-                                                                 _ R_125G_REFCLK15625_KX:    0x1E
-                                                                 _ R_3125G_REFCLK15625_XAUI: 0x1E
-                                                                 _ R_103125G_REFCLK15625_KR: 0xF
-                                                                 _ R_125G_REFCLK15625_SGMII: 0x1E
-                                                                 _ R_5G_REFCLK15625_QSGMII:  0x1E
-                                                                 _ R_625G_REFCLK15625_RXAUI: 0x14
-                                                                 _ R_25G_REFCLK125:          0x14
-                                                                 _ R_5G_REFCLK125:           0x14
-                                                                 _ R_8G_REFCLK125:           0x23 */
+                                                                 \<pre\>
+                                                                                             SATA   non-SATA
+                                                                 _ R_25G_REFCLK100:           0x15   0x14
+                                                                 _ R_5G_REFCLK100:            0x15   0x14
+                                                                 _ R_8G_REFCLK100:            0x15   0x23
+                                                                 _ R_125G_REFCLK15625_KX:     NS     0x1E
+                                                                 _ R_3125G_REFCLK15625_XAUI:  NS     0x1E
+                                                                 _ R_103125G_REFCLK15625_KR:  NS     0xF
+                                                                 _ R_125G_REFCLK15625_SGMII:  NS     0x1E
+                                                                 _ R_5G_REFCLK15625_QSGMII:   NS     0x1E
+                                                                 _ R_625G_REFCLK15625_RXAUI:  NS     0x14
+                                                                 _ R_25G_REFCLK125:           NS     0x14
+                                                                 _ R_5G_REFCLK125:            NS     0x14
+                                                                 _ R_8G_REFCLK125:            NS     0x23
+
+                                                                 \</pre\>
+
+                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
 #else
 		uint64_t ph_acc_adj                  : 10;
 		uint64_t cdr_fgain                   : 4;
@@ -3998,11 +3940,11 @@ typedef union bdk_gserx_pll_px_mode_1 {
                                                                           100Mhz  100MHz   125MHz   156.25MHz
                                                                           SATA    non-SATA non-SATA non-SATA
                                                                  1.25G:    NS      0x19   0x14    0x10
-                                                                 2.5G:     0x18    0x19   0x14    0x10
+                                                                 2.5G:     0x1E    0x19   0x14    0x10
                                                                  3.125G:   NS      NS     0x19    0x14
-                                                                 5.0G:     0x18    0x19   0x14    0x10
+                                                                 5.0G:     0x1E    0x19   0x14    0x10
                                                                  6.25G:    NS      NS     0x19    0x14
-                                                                 8.0G:     0x18    0x28   0x20    NS
+                                                                 8.0G:     0x1E    0x28   0x20    NS
                                                                  10.3125G: NS      NS     NS      0x21
                                                                  \</pre\>
 
@@ -4565,6 +4507,70 @@ static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P1(unsigned long param1)
 #define busnum_BDK_GSERX_RX_PWR_CTRL_P1(p1) (p1)
 #define arguments_BDK_GSERX_RX_PWR_CTRL_P1(p1) (p1),-1,-1,-1
 #define basename_BDK_GSERX_RX_PWR_CTRL_P1(...) "GSERX_RX_PWR_CTRL_P1"
+
+
+/**
+ * RSL - gser#_rx_pwr_ctrl_p2
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union bdk_gserx_rx_pwr_ctrl_p2 {
+	uint64_t u;
+	struct bdk_gserx_rx_pwr_ctrl_p2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t p2_rx_resetn                : 1;  /**< R/W - Place the reciever in reset (active low). */
+		uint64_t p2_rx_allow_pll_pd          : 1;  /**< R/W - When asserted, it permits PLL powerdown (PLL is
+                                                                 powered down if all other factors permit). */
+		uint64_t p2_rx_pcs_reset             : 1;  /**< R/W - When asserted, the RX Power state machine puts the Raw PCS
+                                                                 RX logic in reset state to save power. */
+		uint64_t p2_rx_agc_en                : 1;  /**< R/W - AGC enable. */
+		uint64_t p2_rx_dfe_en                : 1;  /**< R/W - DFE enable. */
+		uint64_t p2_rx_cdr_en                : 1;  /**< R/W - CDR enable. */
+		uint64_t p2_rx_cdr_coast             : 1;  /**< R/W - CDR coast; freezes the frequency of the CDR. */
+		uint64_t p2_rx_cdr_clr               : 1;  /**< R/W - CDR clear; clears the frequency register in the CDR. */
+		uint64_t p2_rx_subblk_pd             : 5;  /**< R/W - RX sub-block powerdown to RX:
+                                                                 \<4\> = CTLE.
+                                                                 \<3\> = Reserved.
+                                                                 \<2\> = Lane DLL.
+                                                                 \<1\> = DFE/Samplers.
+                                                                 \<0\> = Termination.
+
+                                                                 Software needs to clear the Termination bit in SATA mode
+                                                                 (when GSER()_CFG[SATA] is set). */
+		uint64_t p2_rx_chpd                  : 1;  /**< R/W - RX lane power down. */
+#else
+		uint64_t p2_rx_chpd                  : 1;
+		uint64_t p2_rx_subblk_pd             : 5;
+		uint64_t p2_rx_cdr_clr               : 1;
+		uint64_t p2_rx_cdr_coast             : 1;
+		uint64_t p2_rx_cdr_en                : 1;
+		uint64_t p2_rx_dfe_en                : 1;
+		uint64_t p2_rx_agc_en                : 1;
+		uint64_t p2_rx_pcs_reset             : 1;
+		uint64_t p2_rx_allow_pll_pd          : 1;
+		uint64_t p2_rx_resetn                : 1;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} s;
+	/* struct bdk_gserx_rx_pwr_ctrl_p2_s  cn88xx; */
+	/* struct bdk_gserx_rx_pwr_ctrl_p2_s  cn88xxp1; */
+} bdk_gserx_rx_pwr_ctrl_p2_t;
+
+static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P2(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P2(unsigned long param1)
+{
+	if (((param1 <= 13)))
+		return 0x000087E0904600B8ull + (param1 & 15) * 0x1000000ull;
+	csr_fatal("BDK_GSERX_RX_PWR_CTRL_P2", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_RX_PWR_CTRL_P2(...) bdk_gserx_rx_pwr_ctrl_p2_t
+#define bustype_BDK_GSERX_RX_PWR_CTRL_P2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_RX_PWR_CTRL_P2(p1) (p1)
+#define arguments_BDK_GSERX_RX_PWR_CTRL_P2(p1) (p1),-1,-1,-1
+#define basename_BDK_GSERX_RX_PWR_CTRL_P2(...) "GSERX_RX_PWR_CTRL_P2"
 
 
 /**
