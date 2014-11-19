@@ -838,6 +838,35 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
                     return 0;
             }
 
+            /* SATA ports should be hidden if they aren't configured at the QLM */
+            int qlm = -1;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA0) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA1) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA2) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA3))
+                qlm = 2;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA4) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA5) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA6) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA7))
+                qlm = 3;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA8) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA9) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA10) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA11))
+                qlm = 6;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA12) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA13) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA14) ||
+                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA15))
+                qlm = 7;
+            if (qlm != -1)
+            {
+                BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
+                if (!cfg.s.sata)
+                    return 0;
+            }
+
             /* Valid ECAM access, build the address */
             union ecam_cfg_addr_s address;
             address.u = 0;
