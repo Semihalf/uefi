@@ -669,8 +669,12 @@ function TrafficGen.new()
                 ccpi_stats[link][2] = idle
                 ccpi_stats[link][3] = err
             end
-            printf("CCPI Link0 %3d%%(%d errors), Link1 %3d%%(%d errors), Link2 %3d%%(%d errors)%s\n",
-                ccpi_load[1], ccpi_err[1], ccpi_load[2], ccpi_err[2], ccpi_load[3], ccpi_err[3], ERASE_EOL);
+            local ccpi_crc_errors = 0
+            for lane=0,23 do
+                ccpi_crc_errors = ccpi_crc_errors + cavium.csr.OCX_LNEX_STAT11(lane).crc32_err_cnt
+            end
+            printf("CCPI Link0 %3d%%(%d errors), Link1 %3d%%(%d errors), Link2 %3d%%(%d errors), Lane CRC errors %d%s\n",
+                ccpi_load[1], ccpi_err[1], ccpi_load[2], ccpi_err[2], ccpi_load[3], ccpi_err[3], ccpi_crc_errors, ERASE_EOL);
         end
         num_rows = num_rows + 1
         if show_l2_stats then
