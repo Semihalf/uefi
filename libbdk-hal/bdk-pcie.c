@@ -128,6 +128,49 @@ static uint32_t INTERNAL_DEVICES[] = {
     0,
 };
 
+
+/**
+ * For some errata workaround we need a check to tell if a ECAM access is to a
+ * valid intenral device. This function decodes a pcc_dev_con_e enumeration and
+ * checks if the supplied arguments match it.
+ *
+ * @param ecam    ECAM to check
+ * @param bus     ECAM bus number
+ * @param dev     Device to check
+ * @param fn      sub function of device
+ * @param dev_con Enumeration to match against
+ *
+ * @return Non zero if the device matches
+ */
+static int is_internal(int ecam, int bus, int dev, int fn, enum pcc_dev_con_e dev_con)
+{
+    union pcc_dev_con_s d = { .u = dev_con };
+    return (d.s.ecam == ecam) && (d.s.bus == bus) && (d.s.func == ((dev<<3)|fn));
+}
+
+/**
+ * This is a companion to the function above to determine if the ECAM device is
+ * any of the valid internal devices.
+ *
+ * @param ecam   ECAM to check
+ * @param bus    ECAM bus number
+ * @param dev    Device to check
+ * @param fn     sub function of device
+ *
+ * @return Non zero if the device matches
+ */
+static int is_any_internal(int ecam, int bus, int dev, int fn)
+{
+    int loc = 0;
+    while (INTERNAL_DEVICES[loc])
+    {
+        if (is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES[loc]))
+            return 1;
+        loc++;
+    }
+    return 0;
+}
+
 /**
  * This function is called for every Cavium device on the internal ECAMs. Hardware
  * doesn't fully setup the ECAM values for the internal devices, so this code
@@ -146,29 +189,6 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
        information for the device */
     bdk_sys_midr_el1_t midr_el1;
     BDK_MRS(MIDR_EL1, midr_el1.u);
-
-    /* Enable secure and non-secure access to this device */
-    if ((bus == 0) && (fn == 0))
-    {
-        BDK_TRACE(INIT, "        Enabling ECAM %d, Bus %d, Device %d, Fun %d\n",
-            ecam, bus, dev, fn);
-        BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_SDIS(ecam, dev), 0);
-        BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_NSDIS(ecam, dev), 0);
-        /* Make sure it is done */
-        BDK_CSR_READ(node, BDK_ECAMX_DEVX_NSDIS(ecam, dev));
-    }
-
-    /* As a special case, RSL devices on ECAM 0, bus 1 have different enables */
-    if ((ecam == 0) && (bus == 1))
-    {
-        int dev_fn = (dev << 3) | fn;
-        BDK_TRACE(INIT, "        Enabling RSL ECAM %d, Bus %d, Device %d, Fun %d\n",
-            ecam, bus, dev, fn);
-        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_SDIS(ecam, dev_fn), 0);
-        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_NSDIS(ecam, dev_fn), 0);
-        /* Make sure it is done */
-        BDK_CSR_READ(node, BDK_ECAMX_RSLX_NSDIS(ecam, dev_fn));
-    }
 
     /* PCCPF_XXX_VSEC_SCTL[RID] with the revision of the chip,
        read from fuses */
@@ -250,54 +270,7 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
  */
 int bdk_pcie_global_initialize(bdk_node_t node)
 {
-    if (bdk_is_simulation())
-        return 0;
-
-    return 0; //FIXME: ECAMs seem to be completely broken
-
-    /* Errata (ECAM-22630) 2014-10-07  ECAM missing PCC functions cause
-       faults */
-
-    /* Disable access to all internal devices on bus 0 of all ECAMs */
-    BDK_TRACE(INIT, "Disabling all internal ECAM devices\n");
-    for (int ecam = 0; ecam < 4; ecam++)
-    {
-        for (int device = 0; device < 32; device++)
-        {
-            //BDK_TRACE(INIT, "    Disabling ECAM %d Device %d\n", ecam, device);
-            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_SDIS(ecam, device), 3);
-            BDK_CSR_WRITE(node, BDK_ECAMX_DEVX_NSDIS(ecam, device), 1);
-        }
-    }
-    /* Disable access to all RSL devices on ECAM0 */
-    BDK_TRACE(INIT, "Disabling all ECAM 0 RSL devices\n");
-    for (int dev_fn = 0; dev_fn < 256; dev_fn++)
-    {
-        //BDK_TRACE(INIT, "    Disabling RSL Device %d\n", dev_fn);
-        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_SDIS(0, dev_fn), 3);
-        BDK_CSR_WRITE(node, BDK_ECAMX_RSLX_NSDIS(0, dev_fn), 1);
-    }
-    /* Enable access to all some busses on the ECAMs.
-       ECAM 0, bus 0-1, disable 2+
-       ECAM 1, bus 0, disable 1+
-       ECAM 2, bus 0, disable 1+
-       ECAM 3, bus 0, disable 1+ */
-    BDK_TRACE(INIT, "Setting enable / disable for ECAM busses\n");
-    for (int ecam = 0; ecam < 4; ecam++)
-    {
-        for (int bus = 0; bus < 256; bus++)
-        {
-            int enable = (bus == 0) || ((ecam == 0) && (bus == 1));
-            //BDK_TRACE(INIT, "    ECAM %d Bus %d: %s\n", ecam, bus, (enable) ? "Enable" : "Disable");
-            int sdis = (enable) ? 0 : 3;
-            int nsdis = (enable) ? 0 : 1;
-            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_SDIS(ecam, bus), sdis);
-            BDK_CSR_WRITE(node, BDK_ECAMX_BUSX_NSDIS(ecam, bus), nsdis);
-        }
-    }
-
-    /* Go through all the internal devices and enable them specifically. This
-       way non-existent devices stay disabled and we avoid the errata */
+    /* Go through all the internal devices and set them up */
     int loc = 0;
     BDK_TRACE(INIT, "Enabling internal devices\n");
     while (INTERNAL_DEVICES[loc])
@@ -309,8 +282,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
         loc++;
     }
 
-    /* At this point it should be safe to enumerate MRML for ARI devices.
-       Search MRML for functions and link them into a chain.
+    /* Search MRML for functions and link them into a chain.
        PCCPF_XXX_VSEC_CTL[NXTFN_NS] and PCCPF_XXX_VSEC_SCTL[NXTFN_S] with
        the first function number and next-function number of each RSL
        function, as determined by which devices exist and are enabled
@@ -321,27 +293,25 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     BDK_TRACE(INIT, "Creating RSL ARI chain\n");
     for (int ari = 0; ari < 256; ari++)
     {
-        BDK_CSR_DEFINE(pccbr_id, BDK_PCCPF_XXX_ID);
-        pccbr_id.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, ari >> 3, ari & 7, BDK_PCCPF_XXX_ID);
-        if (pccbr_id.s.vendid == PCC_VENDOR_E_CAVIUM)
+        /* Only visit existing device */
+        if (is_any_internal(ecam, mrml_bus, ari >> 3, ari & 7))
+            continue;
+        if (last_ari != -1)
         {
-            if (last_ari != -1)
-            {
-                BDK_TRACE(INIT, "    Found ARI %d, connect to %d\n", ari, last_ari);
-                BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
-                ctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL);
-                ctl.s.nxtfn_ns = ari;
-                bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL, ctl.u);
+            BDK_TRACE(INIT, "    Found ARI %d, connect to %d\n", ari, last_ari);
+            BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
+            ctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL);
+            ctl.s.nxtfn_ns = ari;
+            bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL, ctl.u);
 
-                BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
-                sctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL);
-                sctl.s.nxtfn_s = ari;
-                bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
-            }
-            else
-                BDK_TRACE(INIT, "    Found first ARI %d\n", ari);
-            last_ari = ari;
+            BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
+            sctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL);
+            sctl.s.nxtfn_s = ari;
+            bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
         }
+        else
+            BDK_TRACE(INIT, "    Found first ARI %d\n", ari);
+        last_ari = ari;
     }
     BDK_TRACE(INIT, "PCIe global init complete\n");
     return 0;
@@ -799,7 +769,6 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
     return 0;
 }
 
-
 /**
  * @INTERNAL
  * Build a PCIe config space request address for a device
@@ -831,6 +800,45 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
         case 100 ... 103: /* Use fake ports 100+ to directly access the internal ECAMs */
         {
             int ecam = pcie_port - 100;
+
+            /* Errata (ECAM-22630) 2014-10-07  ECAM missing PCC functions cause
+                faults */
+            /* Skip internal devices that don't exists */
+            int loc = 0;
+            int found = 0;
+            while (INTERNAL_DEVICES[loc])
+            {
+                found = is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES[loc]);
+                if (found)
+                    break;
+                loc++;
+            }
+            if (!found)
+                return 0;
+
+            /* The PCIe ports don't work until the PEM is turned on. Check for
+               one of the PCIe ports */
+            int pem = -1;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC0))
+                pem = 0;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC1))
+                pem = 1;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC2))
+                pem = 2;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC3))
+                pem = 3;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC4))
+                pem = 4;
+            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC5))
+                pem = 5;
+            if (pem != -1)
+            {
+                BDK_CSR_INIT(pem_on, node, BDK_PEMX_ON(pem));
+                if (!pem_on.s.pemon || !pem_on.s.pemoor)
+                    return 0;
+            }
+
+            /* Valid ECAM access, build the address */
             union ecam_cfg_addr_s address;
             address.u = 0;
             address.s.io = 1;
