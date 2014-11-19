@@ -1832,10 +1832,15 @@ static void qlm_init(bdk_node_t node)
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
         if (gserx_phy_ctl.s.phy_reset == 0)
         {
-            /* Apply tuning to all QLMs that are up */
-            bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
-            int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
-            qlm_tune(node, qlm, mode, baud_mhz);
+            /* Thunder doesn't reset the GSER completely. Make sure a
+               reference clock is running too */
+            if (bdk_qlm_measure_clock(node, qlm) > 1000000)
+            {
+                /* Apply tuning to all QLMs that are up */
+                bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
+                int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
+                qlm_tune(node, qlm, mode, baud_mhz);
+            }
         }
     }
 
