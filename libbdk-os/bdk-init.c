@@ -453,6 +453,10 @@ static int init_oci(void)
     lk_info_t lk_info[MAX_LINKS + 1];
     memset(lk_info, 0, sizeof(lk_info));
 
+    /* Clear all link error counts */
+    for (int link=0; link<3; link++)
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_TLKX_STAT_ERR_CNT(link), 0);
+
     /* Clear all local OCI error status bits */
     BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_INT, BDK_CSR_READ(bdk_numa_local(), BDK_OCX_COM_INT));
 
