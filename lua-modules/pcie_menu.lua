@@ -17,23 +17,31 @@ local function do_initialize(pcie_port)
     pcie_root[pcie_port] = pcie.initialize(menu.node, pcie_port)
 end
 
+local function prefix(pcie_port)
+    if pcie_port < 100 then
+        return "PCIe" .. pcie_port
+    else
+        return "ECAM" .. (pcie_port-100)
+    end
+end
+
 local function do_scan(pcie_port)
-    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
     pcie_root[pcie_port]:scan()
 end
 
 local function do_enumerate(pcie_port)
-    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
     pcie_root[pcie_port]:enumerate()
 end
 
 local function do_display(pcie_port)
-    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
     pcie_root[pcie_port]:display()
 end
 
 local function do_read(pcie_port)
-    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
     local address = menu.prompt_number("PCIe bus address")
     local length = menu.prompt_number("Number of bytes to read", nil, 1, 65536)
     local f = fileio.open("/dev/pcie/" .. pcie_port, "r", address)
@@ -48,7 +56,7 @@ local function do_read(pcie_port)
 end
 
 local function do_write(pcie_port)
-    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
     local address = menu.prompt_number("PCIe bus address")
     local hex_data = menu.prompt_string("Data to write in hex")
     local data = ""
@@ -64,21 +72,25 @@ local function do_write(pcie_port)
 end
 
 local function do_shutdown(pcie_port)
-    assert(pcie_root[pcie_port], "PCIe" .. pcie_port .. " not initialized")
+    assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
     pcie_root[pcie_port]:shutdown()
     pcie_root[pcie_port] = nil
 end
 
 local function do_port_menu(pcie_port)
-    local m = menu.new("PCIe" .. pcie_port .." Menu")
-    local prefix = "PCIe" .. pcie_port
+    local prefix = prefix(pcie_port)
+    local m = menu.new(prefix .." Menu")
     m:item("init", prefix .. ": Initialize", do_initialize, pcie_port)
     m:item("scan", prefix .. ": Scan for devices", do_scan, pcie_port)
-    m:item("enum", prefix .. ": Enumerate devices", do_enumerate, pcie_port)
+    if pcie_port < 100 then
+        m:item("enum", prefix .. ": Enumerate devices", do_enumerate, pcie_port)
+    end
     m:item("disp", prefix .. ": Display devices", do_display, pcie_port)
-    m:item("read", prefix .. ": Perform a memory read", do_read, pcie_port)
-    m:item("write", prefix .. ": Perform a memory write", do_write, pcie_port)
-    m:item("shut", prefix .. ": Shutdown", do_shutdown, pcie_port)
+    if pcie_port < 100 then
+        m:item("read", prefix .. ": Perform a memory read", do_read, pcie_port)
+        m:item("write", prefix .. ": Perform a memory write", do_write, pcie_port)
+        m:item("shut", prefix .. ": Shutdown", do_shutdown, pcie_port)
+    end
     m:item("quit", "Main menu")
     while (m:show() ~= "quit") do
         -- Spinning on menu
@@ -94,6 +106,10 @@ m:item_node() -- Adds option to choose the node number
 local max_ports = cavium.c.bdk_pcie_get_num_ports(menu.node)
 for pcie_port=0,max_ports-1 do
     m:item("p" .. pcie_port, "PCIe port " .. pcie_port, do_port_menu, pcie_port)
+end
+-- Add entries for accessing the internal ECAMs
+for ecam=0,3 do
+    m:item("e" .. ecam, "Internal ECAM" .. ecam, do_port_menu, ecam + 100)
 end
 
 m:item("quit", "Main menu")

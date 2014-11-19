@@ -96,6 +96,7 @@ local DEVICE_NAME = {
     [0xa030] = "L2C_MCI",
     [0xa031] = "MIO_FUS",
     [0xa032] = "FUSF",
+    [0xa100] = "THUNDERX",
 }
 
 local configr8 = cavium.c.bdk_pcie_config_read8
@@ -478,7 +479,8 @@ local function create_device(root, bus, deviceid, func)
     if newdev.did == 0xffffffff then
         return nil
     end
-    --printf("%d:%d.%d Found %08x\n", newdev.bus, newdev.deviceid, newdev.func, newdev.did)
+    printf("Bus %d Dev %2d.%d Found %04x:%04x\n", newdev.bus, newdev.deviceid, newdev.func,
+           bit64.band(newdev.did, 0xffff), bit64.rshift(newdev.did, 16))
 
     -- Figure out if the device supports multiple functions and/or
     -- if it is a switch
@@ -508,9 +510,13 @@ end
 -- Initialize a PCIe port and return a table of information about it.
 --
 function pcie.initialize(node, pcie_port)
-    -- Initialize the PCIe link
-    if cavium.c.bdk_pcie_rc_initialize(node, pcie_port) ~= 0 then
-        error("bdk_pcie_rc_initialize() failed")
+    -- Initialize the PCIe link. Only do this for real PCIe ports.
+    -- The internal ECAMs are at a fake port of 100+, so skip init
+    -- on those
+    if pcie_port < 100 then
+        if cavium.c.bdk_pcie_rc_initialize(node, pcie_port) ~= 0 then
+            error("bdk_pcie_rc_initialize() failed")
+        end
     end
 
     -- Create the root table for storing information
@@ -528,9 +534,14 @@ function pcie.initialize(node, pcie_port)
         -- Get the top level bus number. The PCIe ports in Thunder
         -- are behind a "bridge" on the ECAM. In an effort not to confuse
         -- people, this enumeration code starts at the bus behind the
-        -- "bridge". This means it will only show the device connected
-        -- to the PCIe port and not the Thunder internal devices.
-        self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).SBNUM
+        -- "bridge".
+        if pcie_port < 100 then
+            -- Programmed by software, read from hardware
+            self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).SBNUM
+        else
+            -- Internal ECAMs all start at 0
+            self.last_bus = 0
+        end
         local bus = self.last_bus
         for dev=0,31 do
             local device = create_device(self, bus, dev, 0)
@@ -559,6 +570,10 @@ function pcie.initialize(node, pcie_port)
     -- Enumerate and assign resources.
     --
     function pcie_root:enumerate()
+        if self.port >= 100 then
+            -- Internal ECAMs have fixed resource, so no enumeration is needed
+            return
+        end
         -- Perform a scan if it hasn't already been done
         if #self.devices == 0 then
             self:scan()
@@ -576,7 +591,11 @@ function pcie.initialize(node, pcie_port)
     -- Display all devices on the bus
     --
     function pcie_root:display()
-        printf("PCIe port %d:\n", self.port)
+        if self.port < 100 then
+            printf("PCIe port %d:\n", self.port)
+        else
+            printf("Internal ECAM%d:\n", self.port)
+        end
         for _,device in ipairs(self.devices) do
             device:display()
         end
