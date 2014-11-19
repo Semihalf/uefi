@@ -267,23 +267,23 @@ static unsigned short ip_fast_csum(char *iph, unsigned int ihl)
         unsigned int csum;
         int carry;
 
-        csum = word[0];
-        csum += word[1];
-        carry = (csum < word[1]);
+        csum = bdk_cpu_to_be32(word[0]);
+        csum += bdk_cpu_to_be32(word[1]);
+        carry = (csum < bdk_cpu_to_be32(word[1]));
         csum += carry;
 
-        csum += word[2];
-        carry = (csum < word[2]);
+        csum += bdk_cpu_to_be32(word[2]);
+        carry = (csum < bdk_cpu_to_be32(word[2]));
         csum += carry;
 
-        csum += word[3];
-        carry = (csum < word[3]);
+        csum += bdk_cpu_to_be32(word[3]);
+        carry = (csum < bdk_cpu_to_be32(word[3]));
         csum += carry;
 
         word += 4;
         do {
-                csum += *word;
-                carry = (csum < *word);
+                csum += bdk_cpu_to_be32(*word);
+                carry = (csum < bdk_cpu_to_be32(*word));
                 csum += carry;
                 word++;
         } while (word != stop);
