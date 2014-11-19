@@ -217,7 +217,6 @@ int bdk_thread_create(bdk_node_t node, uint64_t coremask, bdk_thread_func_t func
 void bdk_thread_destroy(void)
 {
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_local()];
-    static int dead_cores = 0;
     bdk_thread_t *current;
     BDK_MRS(TPIDR_EL3, current);
     if (bdk_unlikely(!current))
@@ -226,14 +225,6 @@ void bdk_thread_destroy(void)
     fflush(NULL);
     bdk_atomic_add64_nosync(&t_node->stat_num_threads, -1);
 
-    int num_cores = 0;
-    for (int node = 0; node<BDK_NUMA_MAX_NODES; node++)
-    {
-        if (bdk_numa_get_running_mask() & (1<<node))
-            num_cores += bdk_get_num_cores(bdk_numa_local());
-    }
-
-    bdk_atomic_add32(&dead_cores, 1);
     while (1)
     {
         if (t_node->head)
@@ -246,7 +237,6 @@ void bdk_thread_destroy(void)
                 will continue without doing anything */
             if (next)
             {
-                bdk_atomic_add32(&dead_cores, -1);
                 __bdk_thread_switch(next, 1);
                 bdk_fatal("bdk_thread_destroy() should never get here\n");
             }
@@ -254,8 +244,6 @@ void bdk_thread_destroy(void)
         }
         if (!bdk_if_dispatch || !bdk_if_dispatch())
             BDK_WFE;
-        if (bdk_atomic_get32(&dead_cores) == num_cores)
-            __bdk_die();
     }
 }
 
