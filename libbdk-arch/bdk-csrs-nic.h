@@ -4640,7 +4640,7 @@ typedef union bdk_nic_pf_mbox_ena_w1cx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t mbox                        : 64; /**< R/W1C/H - One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX\<63:0\>] for VFs 63-0,
                                                                  NIC_PF_MBOX_INT(1)[MBOX\<63:0\>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..127)_PF_MAILBOX(7) register is written. */
+                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
 #else
 		uint64_t mbox                        : 64;
 #endif
@@ -4672,7 +4672,7 @@ typedef union bdk_nic_pf_mbox_ena_w1sx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t mbox                        : 64; /**< R/W1C/H - One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX\<63:0\>] for VFs 63-0,
                                                                  NIC_PF_MBOX_INT(1)[MBOX\<63:0\>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..127)_PF_MAILBOX(7) register is written. */
+                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
 #else
 		uint64_t mbox                        : 64;
 #endif
@@ -4704,7 +4704,7 @@ typedef union bdk_nic_pf_mbox_intx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t mbox                        : 64; /**< R/W1C/H - One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX\<63:0\>] for VFs 63-0,
                                                                  NIC_PF_MBOX_INT(1)[MBOX\<63:0\>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..127)_PF_MAILBOX(7) register is written. */
+                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
 #else
 		uint64_t mbox                        : 64;
 #endif
@@ -4736,7 +4736,7 @@ typedef union bdk_nic_pf_mbox_int_w1sx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t mbox                        : 64; /**< R/W1C/H - One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX\<63:0\>] for VFs 63-0,
                                                                  NIC_PF_MBOX_INT(1)[MBOX\<63:0\>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..127)_PF_MAILBOX(7) register is written. */
+                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
 #else
 		uint64_t mbox                        : 64;
 #endif
@@ -6595,37 +6595,38 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CNM_STATUS(unsigned long param1)
 
 
 /**
- * NCB - nic_pf_vf#_mailbox#
- *
- * PF registers to access 64-byte VF/PF mailbox RAM per VF. Each mailbox register has a
- * corresponding NIC_VF()_PF_MAILBOX() register that allows the associated VF to access
- * the same internal RAM location.
+ * NCB - nic_pf_vf#_mbox#
  */
-typedef union bdk_nic_pf_vfx_mailboxx {
+typedef union bdk_nic_pf_vfx_mboxx {
 	uint64_t u;
-	struct bdk_nic_pf_vfx_mailboxx_s {
+	struct bdk_nic_pf_vfx_mboxx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< R/W/H - Mailbox data. */
+		uint64_t data                        : 64; /**< R/W/H - Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
+                                                                 RAM. Each corresponding VF may access the same storage using
+                                                                 NIC_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
+                                                                 for VF to PF. Writing NIC_PF_VF(0..127)_MBOX(0) (but not
+                                                                 NIC_VF(0..127)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
+                                                                 if appropriately enabled will send an interrupt to the VF. */
 #else
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_pf_vfx_mailboxx_s   cn88xx; */
-	/* struct bdk_nic_pf_vfx_mailboxx_s   cn88xxp1; */
-} bdk_nic_pf_vfx_mailboxx_t;
+	/* struct bdk_nic_pf_vfx_mboxx_s      cn88xx; */
+	/* struct bdk_nic_pf_vfx_mboxx_s      cn88xxp1; */
+} bdk_nic_pf_vfx_mboxx_t;
 
-static inline uint64_t BDK_NIC_PF_VFX_MAILBOXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_VFX_MAILBOXX(unsigned long param1, unsigned long param2)
+static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 127)) && ((param2 <= 7)))
-		return 0x0000843020002000ull + (param1 & 127) * 0x200000ull + (param2 & 7) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_VFX_MAILBOXX", 2, param1, param2, 0, 0); /* No return */
+	if (((param1 <= 127)) && ((param2 <= 1)))
+		return 0x0000843020002030ull + (param1 & 127) * 0x200000ull + (param2 & 1) * 0x8ull;
+	csr_fatal("BDK_NIC_PF_VFX_MBOXX", 2, param1, param2, 0, 0); /* No return */
 }
-#define typedef_BDK_NIC_PF_VFX_MAILBOXX(...) bdk_nic_pf_vfx_mailboxx_t
-#define bustype_BDK_NIC_PF_VFX_MAILBOXX(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_VFX_MAILBOXX(p1,p2) (p1)
-#define arguments_BDK_NIC_PF_VFX_MAILBOXX(p1,p2) (p1),(p2),-1,-1
-#define basename_BDK_NIC_PF_VFX_MAILBOXX(...) "NIC_PF_VFX_MAILBOXX"
+#define typedef_BDK_NIC_PF_VFX_MBOXX(...) bdk_nic_pf_vfx_mboxx_t
+#define bustype_BDK_NIC_PF_VFX_MBOXX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_VFX_MBOXX(p1,p2) (p1)
+#define arguments_BDK_NIC_PF_VFX_MBOXX(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_NIC_PF_VFX_MBOXX(...) "NIC_PF_VFX_MBOXX"
 
 
 /**
@@ -8139,7 +8140,7 @@ typedef union bdk_nic_vfx_ena_w1c {
                                                                  * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
                                                                  NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
-		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF Mailbox interrupt. Set when the NIC_PF_VF(0..127)_MAILBOX(7) register is written. */
+		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
 		uint64_t tcp_timer                   : 1;  /**< R/W1C/H - TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -8218,7 +8219,7 @@ typedef union bdk_nic_vfx_ena_w1s {
                                                                  * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
                                                                  NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
-		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF Mailbox interrupt. Set when the NIC_PF_VF(0..127)_MAILBOX(7) register is written. */
+		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
 		uint64_t tcp_timer                   : 1;  /**< R/W1C/H - TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -8297,7 +8298,7 @@ typedef union bdk_nic_vfx_int {
                                                                  * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
                                                                  NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
-		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF Mailbox interrupt. Set when the NIC_PF_VF(0..127)_MAILBOX(7) register is written. */
+		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
 		uint64_t tcp_timer                   : 1;  /**< R/W1C/H - TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -8376,7 +8377,7 @@ typedef union bdk_nic_vfx_int_w1s {
                                                                  * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
                                                                  NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
-		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF Mailbox interrupt. Set when the NIC_PF_VF(0..127)_MAILBOX(7) register is written. */
+		uint64_t mbox                        : 1;  /**< R/W1C/H - PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
 		uint64_t tcp_timer                   : 1;  /**< R/W1C/H - TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -8555,37 +8556,38 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long param1, unsigned 
 
 
 /**
- * NCB - nic_vf#_pf_mailbox#
- *
- * VF registers to access 64-byte VF/PF mailbox RAM. Each mailbox register has a corresponding
- * NIC_PF_VF()_MAILBOX() register that allows the PF to access the same internal RAM
- * location.
+ * NCB - nic_vf#_pf_mbox#
  */
-typedef union bdk_nic_vfx_pf_mailboxx {
+typedef union bdk_nic_vfx_pf_mboxx {
 	uint64_t u;
-	struct bdk_nic_vfx_pf_mailboxx_s {
+	struct bdk_nic_vfx_pf_mboxx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< R/W/H - Mailbox data. */
+		uint64_t data                        : 64; /**< R/W/H - Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
+                                                                 RAM. The PF may access the same storage using NIC_PF_VF()_MBOX(). MBOX(0) is
+                                                                 typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
+                                                                 NIC_VF(0..127)_PF_MBOX(1) (but not NIC_PF_VF(0..127)_MBOX(1)) will set the
+                                                                 corresponding NIC_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 interrupt to the PF. */
 #else
 		uint64_t data                        : 64;
 #endif
 	} s;
-	/* struct bdk_nic_vfx_pf_mailboxx_s   cn88xx; */
-	/* struct bdk_nic_vfx_pf_mailboxx_s   cn88xxp1; */
-} bdk_nic_vfx_pf_mailboxx_t;
+	/* struct bdk_nic_vfx_pf_mboxx_s      cn88xx; */
+	/* struct bdk_nic_vfx_pf_mboxx_s      cn88xxp1; */
+} bdk_nic_vfx_pf_mboxx_t;
 
-static inline uint64_t BDK_NIC_VFX_PF_MAILBOXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_VFX_PF_MAILBOXX(unsigned long param1, unsigned long param2)
+static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 127)) && ((param2 <= 7)))
-		return 0x00008430A0000100ull + (param1 & 127) * 0x200000ull + (param2 & 7) * 0x8ull;
-	csr_fatal("BDK_NIC_VFX_PF_MAILBOXX", 2, param1, param2, 0, 0); /* No return */
+	if (((param1 <= 127)) && ((param2 <= 1)))
+		return 0x00008430A0000130ull + (param1 & 127) * 0x200000ull + (param2 & 1) * 0x8ull;
+	csr_fatal("BDK_NIC_VFX_PF_MBOXX", 2, param1, param2, 0, 0); /* No return */
 }
-#define typedef_BDK_NIC_VFX_PF_MAILBOXX(...) bdk_nic_vfx_pf_mailboxx_t
-#define bustype_BDK_NIC_VFX_PF_MAILBOXX(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_VFX_PF_MAILBOXX(p1,p2) (p1)
-#define arguments_BDK_NIC_VFX_PF_MAILBOXX(p1,p2) (p1),(p2),-1,-1
-#define basename_BDK_NIC_VFX_PF_MAILBOXX(...) "NIC_VFX_PF_MAILBOXX"
+#define typedef_BDK_NIC_VFX_PF_MBOXX(...) bdk_nic_vfx_pf_mboxx_t
+#define bustype_BDK_NIC_VFX_PF_MBOXX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_VFX_PF_MBOXX(p1,p2) (p1)
+#define arguments_BDK_NIC_VFX_PF_MBOXX(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_NIC_VFX_PF_MBOXX(...) "NIC_VFX_PF_MBOXX"
 
 
 /**

@@ -18590,14 +18590,14 @@ local csr_db = {
                 {name = "CNM_CUR_RATE_MANT", start = 0, stop = 7},
             }
         },
-        NIC_PF_VFX_MAILBOXX = {
-            name = "NIC_PF_VF#_MAILBOX#",
+        NIC_PF_VFX_MBOXX = {
+            name = "NIC_PF_VF#_MBOX#",
             type = "NCB",
             width = 8,
-            address = 0x843020002000,
+            address = 0x843020002030,
             range1 = {0,127},
             range1_inc = 0x200000,
-            range2 = {0,7},
+            range2 = {0,1},
             range2_inc = 0x8,
             fields = {
                 {name = "DATA", start = 0, stop = 63},
@@ -19281,14 +19281,14 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 19},
             }
         },
-        NIC_VFX_PF_MAILBOXX = {
-            name = "NIC_VF#_PF_MAILBOX#",
+        NIC_VFX_PF_MBOXX = {
+            name = "NIC_VF#_PF_MBOX#",
             type = "NCB",
             width = 8,
-            address = 0x8430a0000100,
+            address = 0x8430a0000130,
             range1 = {0,127},
             range1_inc = 0x200000,
-            range2 = {0,7},
+            range2 = {0,1},
             range2_inc = 0x8,
             fields = {
                 {name = "DATA", start = 0, stop = 63},
@@ -70789,14 +70789,14 @@ local csr_db = {
                 {name = "CNM_CUR_RATE_MANT", start = 0, stop = 7},
             }
         },
-        NIC_PF_VFX_MAILBOXX = {
-            name = "NIC_PF_VF#_MAILBOX#",
+        NIC_PF_VFX_MBOXX = {
+            name = "NIC_PF_VF#_MBOX#",
             type = "NCB",
             width = 8,
-            address = 0x843020002000,
+            address = 0x843020002030,
             range1 = {0,127},
             range1_inc = 0x200000,
-            range2 = {0,7},
+            range2 = {0,1},
             range2_inc = 0x8,
             fields = {
                 {name = "DATA", start = 0, stop = 63},
@@ -71480,14 +71480,14 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 19},
             }
         },
-        NIC_VFX_PF_MAILBOXX = {
-            name = "NIC_VF#_PF_MAILBOX#",
+        NIC_VFX_PF_MBOXX = {
+            name = "NIC_VF#_PF_MBOX#",
             type = "NCB",
             width = 8,
-            address = 0x8430a0000100,
+            address = 0x8430a0000130,
             range1 = {0,127},
             range1_inc = 0x200000,
-            range2 = {0,7},
+            range2 = {0,1},
             range2_inc = 0x8,
             fields = {
                 {name = "DATA", start = 0, stop = 63},
