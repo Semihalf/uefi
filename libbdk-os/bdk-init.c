@@ -431,6 +431,31 @@ static void ocx_pp_write(bdk_node_t node, uint64_t address, uint64_t data)
     }
 }
 
+static void clear_oci_error(bdk_node_t node)
+{
+    /* Clear all link error counts */
+    for (int link=0; link<3; link++)
+        BDK_CSR_WRITE(node, BDK_OCX_TLKX_STAT_ERR_CNT(link), 0);
+
+    /* Clear all local OCI error status bits */
+    BDK_CSR_WRITE(node, BDK_OCX_COM_INT, BDK_CSR_READ(node, BDK_OCX_COM_INT));
+
+    /* Clear all local OCI link error status bits */
+    for (int link=0; link<3; link++)
+        BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_INT(link), BDK_CSR_READ(node, BDK_OCX_COM_LINKX_INT(link)));
+
+    /* Enable the OCX lane counters across all lanes. This way they count
+       errors that happen during our init */
+    /* Clear all OCI lane error status bits */
+    for (int lane=0; lane<24; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_CFG(lane),
+            c.s.rx_stat_wrap_dis = 1;
+            c.s.rx_stat_ena = 1);
+        BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(node, BDK_OCX_LNEX_INT(lane)));
+    }
+}
+
 /**
  * Initialize the OCI so all Nodes are ready to be used
  *
@@ -452,24 +477,6 @@ static int init_oci(void)
     const int LOCAL_NODE = MAX_LINKS;
     lk_info_t lk_info[MAX_LINKS + 1];
     memset(lk_info, 0, sizeof(lk_info));
-
-    /* Clear all link error counts */
-    for (int link=0; link<3; link++)
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_TLKX_STAT_ERR_CNT(link), 0);
-
-    /* Clear all local OCI error status bits */
-    BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_COM_INT, BDK_CSR_READ(bdk_numa_local(), BDK_OCX_COM_INT));
-
-    /* Enable the OCX lane counters across all lanes. This way they count
-       errors that happen during our init */
-    /* Clear all OCI lane error status bits */
-    for (int lane=0; lane<24; lane++)
-    {
-        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNEX_CFG(lane),
-            c.s.rx_stat_wrap_dis = 1;
-            c.s.rx_stat_ena = 1);
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(bdk_numa_local(), BDK_OCX_LNEX_INT(lane)));
-    }
 
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
@@ -795,6 +802,7 @@ static void setup_node(bdk_node_t node)
 {
     if (bdk_is_simulation())
         return; // FIXME: OCX not modelled in Asim
+    clear_oci_error(node);
 #ifdef HW_EMULATOR
     return; /* Emulator doesn't seem to have CCPI registers */
 #endif

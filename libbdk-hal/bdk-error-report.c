@@ -4,6 +4,16 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(ERROR_DECODE);
 
+#define CLEAR_CHIP_ERROR(csr, chip, field)  \
+if (c.chip.field) {                         \
+    typedef_##csr w1c;                      \
+    w1c.u = 0;                              \
+    w1c.chip.field = c.chip.field;          \
+    bdk_csr_write(node, bustype_##csr,      \
+        busnum_##csr, sizeof(typedef_##csr),\
+        csr, w1c.u);                        \
+}
+
 #define CHECK_CHIP_ERROR(csr, chip, field)  \
 if (c.chip.field) {                         \
     typedef_##csr w1c;                      \
@@ -81,6 +91,59 @@ static void check_cn88xx(bdk_node_t node)
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+        }
+    }
+
+
+    BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
+    if (l2c_oci_ctl.s.enaoci)
+    {
+        /* Check CCPI errors */
+        BDK_CSR_INIT(c, node, BDK_OCX_COM_INT);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, io_badid);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, mem_badid);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, copr_badid);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_badid);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_tout);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_xmit);
+        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_rsp);
+        if (c.s.rx_lane)
+        {
+            /* Check CCPI link errors */
+            CLEAR_CHIP_ERROR(BDK_OCX_COM_INT, s, rx_lane);
+            for (int lane=0; lane<24; lane++)
+            {
+                BDK_CSR_INIT(c, node, BDK_OCX_LNEX_INT(lane));
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, disp_err);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bad_64b67b);
+                CLEAR_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, stat_cnt_ovfl);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, stat_msg);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, dskew_fifo_ovfl);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, scrm_sync_loss);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, ukwn_cntl_word);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, crc32_err);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bdry_sync_loss);
+                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, serdes_lock_loss);
+            }
+        }
+        /* Check high level link errors */
+        for (int link=0; link<3; link++)
+        {
+            BDK_CSR_INIT(c, node, BDK_OCX_COM_LINKX_INT(link));
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_fail);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_done);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, up);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, stop);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, blk_err);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, reinit);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, lnk_data);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, rxfifo_dbe);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, rxfifo_sbe);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, txfifo_dbe);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, txfifo_sbe);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, replay_dbe);
+            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, replay_sbe);
         }
     }
 }
