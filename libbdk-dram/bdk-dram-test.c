@@ -6,6 +6,7 @@ BDK_REQUIRE_DEFINE(DRAM_TEST);
 
 #define MAX_ERRORS_TO_REPORT 50
 #define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
+#define ENABLE_CCPI_PERCENT 0 /* Show CCPI load after each DRAM test */
 
 typedef struct
 {
@@ -226,6 +227,27 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         }
     }
 #endif
+#if ENABLE_CCPI_PERCENT
+    /* Remember the CCPI link counters for stats after the test */
+    uint64_t start_ccpi_data[BDK_NUMA_MAX_NODES][3];
+    uint64_t start_ccpi_idle[BDK_NUMA_MAX_NODES][3];
+    uint64_t start_ccpi_err[BDK_NUMA_MAX_NODES][3];
+    uint64_t stop_ccpi_data[BDK_NUMA_MAX_NODES][3];
+    uint64_t stop_ccpi_idle[BDK_NUMA_MAX_NODES][3];
+    uint64_t stop_ccpi_err[BDK_NUMA_MAX_NODES][3];
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            for (int link = 0; link < 3; link++)
+            {
+                start_ccpi_data[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_DATA_CNT(link));
+                start_ccpi_idle[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_IDLE_CNT(link));
+                start_ccpi_err[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_ERR_CNT(link));
+            }
+        }
+    }
+#endif
 
     /* Start threads for all the cores */
     int total_count = 0;
@@ -272,6 +294,23 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
             }
         }
     }
+#endif
+#if ENABLE_CCPI_PERCENT
+    /* Get the CCPI link counters */
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            for (int link = 0; link < 3; link++)
+            {
+                stop_ccpi_data[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_DATA_CNT(link));
+                stop_ccpi_idle[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_IDLE_CNT(link));
+                stop_ccpi_err[node][link] = BDK_CSR_READ(node, BDK_OCX_TLKX_STAT_ERR_CNT(link));
+            }
+        }
+    }
+#endif
+#if ENABLE_LMC_PERCENT
     /* Display LMC load */
     for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
@@ -287,6 +326,27 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
                 uint64_t percent_x10 = ops * 1000 / dclk;
                 printf("  Node %d, LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
                     node, i, ops, dclk, percent_x10 / 10, percent_x10 % 10);
+            }
+        }
+    }
+#endif
+#if ENABLE_CCPI_PERCENT
+    /* Display CCPI load */
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            for (int link = 0; link < 3; link++)
+            {
+                uint64_t busy = stop_ccpi_data[node][link] - start_ccpi_data[node][link];
+                busy += stop_ccpi_err[node][link] - start_ccpi_err[node][link];
+                uint64_t total = stop_ccpi_idle[node][link] - start_ccpi_idle[node][link];
+                total += busy;
+                if (total == 0)
+                    continue;
+                uint64_t percent_x10 = busy * 1000 / total;
+                printf("  Node %d, CCPI%d: busy %lu, total %lu, used %lu.%lu%%\n",
+                    node, link, busy, total, percent_x10 / 10, percent_x10 % 10);
             }
         }
     }
