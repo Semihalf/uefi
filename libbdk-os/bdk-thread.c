@@ -242,8 +242,8 @@ void bdk_thread_destroy(void)
             }
             bdk_spinlock_unlock(&t_node->lock);
         }
-        if (!bdk_if_dispatch || !bdk_if_dispatch())
-            BDK_WFE;
+        if (bdk_if_dispatch)
+            bdk_if_dispatch();
     }
 }
 
