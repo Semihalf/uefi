@@ -192,7 +192,15 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         else if (gserx_cfg.s.ila)
             return BDK_QLM_MODE_ILK;
         else if (gserx_cfg.s.sata)
-            return BDK_QLM_MODE_SATA_4X1;
+        {
+            /* Hardcode SATA to QLM mapping for CN88XX */
+            int sata = (qlm > 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
+            BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
+            if (uctl_ctl.s.a_clk_en && !uctl_ctl.s.a_clkdiv_rst)
+                return BDK_QLM_MODE_SATA_4X1;
+            else
+                return BDK_QLM_MODE_DISABLED;
+        }
         else if (gserx_cfg.s.bgx)
         {
             if (qlm >= 2)
@@ -1160,6 +1168,9 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                 default:
                     return 0;
             }
+            BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
+            if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
+                return 0;
             BDK_CSR_INIT(sctl, node, BDK_SATAX_UAHC_P0_SCTL(sata));
             switch (sctl.s.spd)
             {
