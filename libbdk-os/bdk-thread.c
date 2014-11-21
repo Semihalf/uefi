@@ -166,6 +166,8 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
     thread->gpr[29] = 0;                /* x29 = Frame pointer */
     thread->gpr[30] = (uint64_t)__bdk_thread_body; /* x30 = Link register */
     thread->gpr[31] = (uint64_t)thread->stack + stack_size; /* x31 = Stack pointer */
+    if (thread->gpr[31] & 0xf)
+        bdk_fatal("Stack not aligned\n");
     _REENT_INIT_PTR(&thread->lib_state);
     thread->stack_canary = STACK_CANARY;
     thread->next = NULL;
