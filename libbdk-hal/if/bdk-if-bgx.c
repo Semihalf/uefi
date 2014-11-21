@@ -11,6 +11,7 @@
 #define SQ_ENTRIES (1024 << SQ_ENTRIES_QSIZE)
 #define RBDR_ENTRIES_QSIZE 0
 #define RBDR_ENTRIES (8192 << RBDR_ENTRIES_QSIZE)
+#define MAX_MTU 9212
 
 typedef enum
 {
@@ -210,6 +211,14 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
         c.s.lmacs = priv->num_port);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_RX_LMACS(handle->interface),
         c.s.lmacs = priv->num_port);
+
+    /* Program LMAC credits */
+    int bytes_per_port = (48<<10) / priv->num_port;
+    int credit = (bytes_per_port - MAX_MTU) / 16;
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_LMACX_CREDIT(handle->interface * 4 + handle->index),
+        c.s.cc_unit_cnt = credit;
+        c.s.cc_packet_cnt = 0x1ff;
+        c.s.cc_enable = 1);
 
     /* Set the backpressure AND mask. Each interface gets 16 channels in this
        mask. When there is only 1 port, all 64 channels are available but
@@ -1053,7 +1062,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     int tl2_index = tl1_index * 32;
     tl2_index += priv->port;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_CFG(tl2_index),
-        c.s.rr_quantum = 9216 / 4);
+        c.s.rr_quantum = (MAX_MTU+4) / 4);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_PRI(tl2_index),
         c.s.rr_pri = 0);
 
@@ -1062,7 +1071,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3AX_CFG(tl3_index / 4),
         c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
-        c.s.rr_quantum = 9216 / 4);
+        c.s.rr_quantum = (MAX_MTU+4) / 4);
     int tl_channel = (handle->interface) ? NIC_CHAN_E_BGX1_PORT0_CH0 : NIC_CHAN_E_BGX0_PORT0_CH0;
     tl_channel += (NIC_CHAN_E_BGX0_PORT1_CH0 - NIC_CHAN_E_BGX0_PORT0_CH0) * priv->port;
     tl_channel += priv->channel;
@@ -1076,7 +1085,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4X_CFG(tl4_index),
         c.s.sq_qs = priv->vnic;
         c.s.sq_idx = priv->qos;
-        c.s.rr_quantum = 9216 / 4);
+        c.s.rr_quantum = (MAX_MTU+4) / 4);
 
     /* SQ feeds TL4 */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv->vnic, priv->qos),
