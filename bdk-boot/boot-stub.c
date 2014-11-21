@@ -475,7 +475,7 @@ int main(void)
         node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "",
         midr_el1.s.partnum, midr_el1.s.variant + 1, midr_el1.s.revision,
         bdk_l2c_get_cache_size_bytes(node) >> 10,
-        bdk_clock_get_rate(node, BDK_CLOCK_CORE) / 1000000,
+        bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
         boot_method_str, boot_method,
         (vrm_disable) ? "Disabled" : "Enabled",

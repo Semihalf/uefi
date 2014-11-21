@@ -159,13 +159,8 @@ void __bdk_init(uint32_t image_crc)
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
         __bdk_is_simulation = (c.u == 0);
 
-        /* Disable the core timer */
-        BDK_MSR(CNTFRQ_EL0, 400000000);
-        bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
-        cntps_ctl_el1.u = 0;
-        cntps_ctl_el1.s.imask = 1;
-        cntps_ctl_el1.s.enable = 1;
-        BDK_MSR(CNTPS_CTL_EL1, cntps_ctl_el1.u);
+        /* Enable the timer */
+        bdk_clock_setup(node);
 
         /* Only setup the uarts if they haven't been already setup */
         BDK_CSR_INIT(uctl_ctl0, node, BDK_UAAX_UCTL_CTL(0));
@@ -222,6 +217,13 @@ void __bdk_init(uint32_t image_crc)
             write(1, BANNER_3, sizeof(BANNER_3)-1);
         bdk_thread_initialize();
     }
+
+    /* Enable the core timer */
+    bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
+    cntps_ctl_el1.u = 0;
+    cntps_ctl_el1.s.imask = 1;
+    cntps_ctl_el1.s.enable = 1;
+    BDK_MSR(CNTPS_CTL_EL1, cntps_ctl_el1.u);
 
     /* Setup an exception stack in case we crash */
     int EX_STACK_SIZE = 16384;
