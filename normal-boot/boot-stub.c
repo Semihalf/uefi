@@ -4,7 +4,7 @@
 /* Which TWSI interface to use for the BMC, -1 to disable */
 #define BMC_TWSI -1
 /* Control if we even try and do multi-node (0 or 1) */
-#define MULTI_NODE 0
+#define MULTI_NODE 1
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 ebb8800
 /* Enable verbose logging from DRAM initialization (0 or 1) */
