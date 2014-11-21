@@ -45,6 +45,10 @@ static void __bdk_init_local_node(void)
 
     BDK_TRACE(INIT, "N%d: Performing node initialization\n", node);
 
+    /* Errata (RST-23026) CHIP_RESET_OUT_N has wrong polarity and no open-drain */
+    BDK_CSR_MODIFY(c, node, BDK_RST_OUT_CTL,
+        c.s.soft_rst = 1);
+
     /* Allow CAP access from cores so we can read system registers through
        memory mapped addresses. See bdk_sysreg_read() */
     BDK_CSR_MODIFY(c, node, BDK_DAP_IMP_DAR,
