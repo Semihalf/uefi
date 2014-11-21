@@ -26,7 +26,7 @@ static inline bdk_node_t bdk_numa_local(void)
 {
 #ifndef BDK_BUILD_HOST
     int mpidr_el1;
-    BDK_MRS(MPIDR_EL1, mpidr_el1);
+    BDK_MRS_NV(MPIDR_EL1, mpidr_el1);
     int result;
     BDK_EXTRACT(result, mpidr_el1, 16, 8);
     return BDK_NODE_0 + result;

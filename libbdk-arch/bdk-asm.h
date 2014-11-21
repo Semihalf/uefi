@@ -18,6 +18,7 @@
 #define __BDK_TMP_STR2(x) #x
 #define __BDK_VASTR(...) #__VA_ARGS__
 
+#define BDK_MRS_NV(reg, val) asm ("mrs %[rd]," #reg : [rd] "=r" (val))
 #define BDK_MRS(reg, val) asm volatile ("mrs %[rd]," #reg : [rd] "=r" (val))
 #define BDK_MSR(reg, val) asm volatile ("msr " #reg ",%[rd]" : : [rd] "r" (val))
 
