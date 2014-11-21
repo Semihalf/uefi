@@ -827,10 +827,6 @@ static void setup_node(bdk_node_t node)
                     c.s.data_rate = data_rate);
             }
         }
-
-        /* Errata (RST-23026) CHIP_RESET_OUT_N has wrong polarity and no open-drain */
-        BDK_CSR_MODIFY(c, node, BDK_RST_OUT_CTL,
-            c.s.soft_rst = 1);
     }
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
