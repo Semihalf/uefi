@@ -194,7 +194,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         else if (gserx_cfg.s.sata)
         {
             /* Hardcode SATA to QLM mapping for CN88XX */
-            int sata = (qlm > 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
+            int sata = (qlm >= 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
             BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
             if (uctl_ctl.s.a_clk_en && !uctl_ctl.s.a_clkdiv_rst)
                 return BDK_QLM_MODE_SATA_4X1;
