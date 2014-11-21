@@ -96,7 +96,7 @@ static void check_cn88xx(bdk_node_t node)
 
 
     BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
-    if (l2c_oci_ctl.s.enaoci)
+    if (l2c_oci_ctl.s.enaoci > 1)
     {
         /* Check CCPI errors */
         BDK_CSR_INIT(c, node, BDK_OCX_COM_INT);
