@@ -409,13 +409,25 @@ function TrafficGen.new()
 
         -- Command to dump all CSRs with a given prefix
         function self:cmd_dump_csr(port_range, args)
+            assert(args[1], "CSR prefix expected")
             local prefix = args[1]:upper()
-            assert(prefix, "CSR prefix expected")
+            local nozero = args[2]
             local len = #prefix
             printf("Searching CSRs for prefix \"%s\". This is slow...\n", prefix)
             for name in cavium.csr() do
-                if name:sub(1,len) == prefix then
-                    cavium.csr.lookup(name).display()
+                local s = name:sub(1,len)
+                if s == prefix then
+                    local c = cavium.csr.lookup(name)
+                    if nozero then
+                        local v = c.read()
+                        if v ~= 0 then
+                            c.display()
+                        end
+                    else
+                        c.display()
+                    end
+                elseif s > prefix then
+                    return
                 end
             end
         end
