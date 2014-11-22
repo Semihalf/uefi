@@ -223,6 +223,8 @@ void bdk_thread_destroy(void)
     BDK_MRS_NV(TPIDR_EL3, current);
     if (bdk_unlikely(!current))
         bdk_fatal("bdk_thread_destroy() called without thread context\n");
+    if (bdk_unlikely(current->stack_canary != STACK_CANARY))
+        bdk_fatal("bdk_thread_destroy() detected a stack overflow\n");
 
     fflush(NULL);
     bdk_atomic_add64_nosync(&t_node->stat_num_threads, -1);
