@@ -246,8 +246,10 @@ void bdk_thread_destroy(void)
             }
             bdk_spinlock_unlock(&t_node->lock);
         }
-        if (bdk_if_dispatch)
-            bdk_if_dispatch();
+        /* Skip the WFE if we process packets */
+        if (bdk_if_dispatch && bdk_if_dispatch())
+            continue;
+        BDK_WFE;
     }
 }
 
@@ -279,9 +281,9 @@ void __bdk_thread_switch_complete(bdk_thread_t* old_context, int delete_old)
             else
                 t_node->head = old_context;
             t_node->tail = old_context;
+            BDK_SEV;
         }
         bdk_spinlock_unlock(&t_node->lock);
-        BDK_SEV;
     }
 }
 
