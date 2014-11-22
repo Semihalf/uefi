@@ -1,3 +1,18 @@
+#
+# Set BDK_GPIO_BOOT_DEBUG to a GPIO number to get status out of the chip
+# before C code runs and initializes the uart. The code below configures
+# GPIO clock generator 0 to strobe a GPIO at 1Hz at boot. It then doubles
+# this rate at specific locations in this code to help isolate hangs. This
+# is disabled by default (-1)
+#
+# 1 Hz = Entered code, we're out of the boot rom
+# 2 Hz = Completed early CSR setup
+# 4 Hz = Copied code to beginning of L2
+# 8 Hz = Jumped to copied code
+# 16 Hz = Calculated the CRC over the entire copied area
+# 32 Hz = Last assembly, jumping to C code in __bdk_init()
+#
+#define BDK_GPIO_BOOT_DEBUG -1
 
     .global _start
     .global __bdk_start
@@ -28,6 +43,32 @@ _start:
 .org 0x100
 __bdk_start:
     ic      ialluis
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # Read RST_BOOT to fine the SCLK multiplier
+    #define RST_BASE 0x87E006000000
+    #define RST_BOOT_OFFSET 0x1600
+    mov     x0, RST_BASE >> 32
+    lsl     x0, x0, 32
+    mov     x1, (RST_BASE & 0xffffffff)
+    orr     x0, x0, x1
+    ldr     x21, [x0,RST_BOOT_OFFSET]
+    ubfx    x21, x21, 33, 6             /* pnr_mul is bits 38:33 */
+    # Program the GPIO for output based on clock generator 0
+    #define GPIO_BASE 0x803000000000
+    #define GPIO_CFG_OFFSET 0x400       /* GPIO_BIT_CFGX */
+    #define GPIO_CLK_OFFSET 0x040       /* GPIO_CLK_GENX */
+    mov     x20, GPIO_BASE
+    mov     x1, 0x50000                 /* GPIO_PIN_SEL_E_GPIO_CLK0 */
+    orr     x1, x1, 1                   /* output enable */
+    str     x1, [x20, GPIO_CFG_OFFSET + 8 * BDK_GPIO_BOOT_DEBUG]
+    # Program the GPIO clock to tick at 1hz
+    # GPIO_CLK_GENX = (1<<32) / (50Mhz * pnr_mul)
+    mov     x1, 86                      /* (1<<32) / 50000000 */
+    udiv    x1, x1, x21                 /* Divide by pnr_mul */
+    str     x1, [x20, GPIO_CLK_OFFSET]
+    # GPIO should be ticking at 1Hz. At each debug step we shift the clock
+    # gen by 1 the clock, so the GPIO frequency doubles
+#endif
     # Setup L2 to allow secure access to all of the address space
     #define L2C_ASC_REGIONX 0x87E080800000
     #define REGIONX_START   0x1000
@@ -48,6 +89,13 @@ __bdk_start:
     str     xzr, [x0, x1]
     ldr     xzr, [x0, x1]       /* Read back to make sure done */
 
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # Double the GPIO frequency (2Hz)
+    ldr     x0, [x20, GPIO_CLK_OFFSET]
+    lsl     x0, x0, 1
+    str     x0, [x20, GPIO_CLK_OFFSET]
+#endif
+
     /* Relocate ourself if we aren't running at our link address */
     mov     x0, _start          /* x0 = _start location as an absolute */
     adr     x1, _start          /* x1 = _start location based on PC */
@@ -64,11 +112,26 @@ copy_code:
     stp     q0, q1, [x0], 32    /* Store 32 bytes */
     b.gt    copy_code           /* Repeat if length is still positive */
     dmb     sy                  /* Force writes to L2 */
+
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # Double the GPIO frequency (4Hz)
+    ldr     x0, [x20, GPIO_CLK_OFFSET]
+    lsl     x0, x0, 1
+    str     x0, [x20, GPIO_CLK_OFFSET]
+#endif
+
     mov     x0, after_relocate  /* Load the actual location we're suppose to be at */
     br      x0                  /* Branch to relocated code */
 
 after_relocate:
     ic      ialluis             /* Clear the icache now that all code is correct */
+
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # Double the GPIO frequency (8Hz)
+    ldr     x0, [x20, GPIO_CLK_OFFSET]
+    lsl     x0, x0, 1
+    str     x0, [x20, GPIO_CLK_OFFSET]
+#endif
 
     /* Calculate a CRC32 over the image before C corrupts global variables */
     adr     x10, _start         /* x10 = Address we're CRCing */
@@ -115,6 +178,13 @@ crc_skip2:
 crc_done:
     mvn     w0, w0              /* Result must be inverted */
 
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # Double the GPIO frequency (16Hz)
+    ldr     x10, [x20, GPIO_CLK_OFFSET]
+    lsl     x10, x10, 1
+    str     x10, [x20, GPIO_CLK_OFFSET]
+#endif
+
     /* w0 contains the image CRC */
 __bdk_start_cores:
     /* Initialise the stack */
@@ -131,6 +201,14 @@ __bdk_start_cores:
     cbnz    x11, 1b
     stxr    w11, x12, [x10]
     cbnz    w11, 1b
+
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # Double the GPIO frequency (32Hz)
+    ldr     x10, [x20, GPIO_CLK_OFFSET]
+    lsl     x10, x10, 1
+    str     x10, [x20, GPIO_CLK_OFFSET]
+#endif
+
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
