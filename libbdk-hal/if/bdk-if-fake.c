@@ -47,7 +47,7 @@ static int if_probe(bdk_if_handle_t handle)
 static int if_init(bdk_if_handle_t handle)
 {
     priv_t *priv = (priv_t *)handle->priv;
-    memset(priv, 0, sizeof(priv));
+    memset(priv, 0, sizeof(*priv));
     return 0;
 }
 
