@@ -827,6 +827,11 @@ static void setup_node(bdk_node_t node)
                     c.s.data_rate = data_rate);
             }
         }
+
+        /* Errata:(SMMU-22267) SMMU not propagating Global Sync completion */
+        for (int smmu=0; smmu<4; smmu++)
+            BDK_CSR_MODIFY(c, node, BDK_SMMUX_DIAG_CTL(smmu),
+                c.s.force_clks_active = 1);
     }
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
