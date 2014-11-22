@@ -9,11 +9,12 @@
 #define MAX_QUEUE 32
 typedef struct
 {
-    bdk_spinlock_t lock;
-    int next_rx;
-    int tx_free;
+    int32_t next_rx; /* Atomic */
+    int32_t tx_free; /* Atomic */
     bdk_if_packet_t queue[MAX_QUEUE];
 } priv_t;
+
+static void if_receive(int unused, void *hand);
 
 
 static int if_num_interfaces(bdk_node_t node)
@@ -48,6 +49,11 @@ static int if_init(bdk_if_handle_t handle)
 {
     priv_t *priv = (priv_t *)handle->priv;
     memset(priv, 0, sizeof(*priv));
+    if (bdk_thread_create(handle->node, 0, if_receive, 0, handle, 0))
+    {
+        bdk_error("%s: Failed to allocate receive thread\n", handle->name);
+        return -1;
+    }
     return 0;
 }
 
@@ -84,15 +90,14 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
     priv_t *priv = (priv_t *)handle->priv;
 
-    bdk_spinlock_lock(&priv->lock);
-
-    int next_tx_free = priv->tx_free + 1;
+    int32_t tx_free = bdk_atomic_get32(&priv->tx_free);
+    int32_t next_tx_free = tx_free + 1;
     if (next_tx_free >= MAX_QUEUE)
         next_tx_free = 0;
-    if (next_tx_free == priv->next_rx)
+    int32_t rx_loc = bdk_atomic_get32(&priv->next_rx);
+    if (next_tx_free == rx_loc)
     {
         /* Queue is full */
-        bdk_spinlock_unlock(&priv->lock);
         return -1;
     }
 
@@ -101,54 +106,51 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
        queue isn't empty until all packets have been received
        and processed. This means we can use the packet data without
        copying */
-    priv->queue[priv->tx_free].if_handle = handle;
-    priv->queue[priv->tx_free].rx_error = 0;
-    priv->queue[priv->tx_free].length = packet->length;
-    priv->queue[priv->tx_free].segments = packet->segments;
+    priv->queue[tx_free].if_handle = handle;
+    priv->queue[tx_free].rx_error = 0;
+    priv->queue[tx_free].length = packet->length;
+    priv->queue[tx_free].segments = packet->segments;
     for (int s = 0; s < packet->segments; s++)
-        priv->queue[priv->tx_free].packet[s] = packet->packet[s];
+        priv->queue[tx_free].packet[s] = packet->packet[s];
 
     handle->stats.tx.packets++;
-    handle->stats.tx.octets += priv->queue[priv->tx_free].length;
-
+    handle->stats.tx.octets += packet->length;
+    BDK_WMB;
     /* Move to the next free spot */
-    priv->tx_free = next_tx_free;
-
-    bdk_spinlock_unlock(&priv->lock);
+    bdk_atomic_set32(&priv->tx_free, next_tx_free);
     return 0;
 }
 
-static int if_receive(bdk_if_handle_t handle)
+static void if_receive(int unused, void *hand)
 {
+    bdk_if_handle_t handle = hand;
     priv_t *priv = (priv_t *)handle->priv;
+    int rx_loc = bdk_atomic_get32(&priv->next_rx);
 
-    /* Quickly check for empty before taking the lock */
-    if (bdk_likely(priv->next_rx == priv->tx_free))
-        return 0;
-
-    if (bdk_spinlock_trylock(&priv->lock))
-        return 0;
-
-    int count = 0;
-    while (priv->next_rx != priv->tx_free)
+    while (1)
     {
-        bdk_if_packet_t *packet = priv->queue + priv->next_rx;
+        int tx_loc = bdk_atomic_get32(&priv->tx_free);
+        /* check for empty */
+        if (bdk_likely(rx_loc == tx_loc))
+        {
+            bdk_thread_yield();
+            continue;
+        }
+
+        bdk_if_packet_t *packet = priv->queue + rx_loc;
 
         handle->stats.rx.packets++;
         handle->stats.rx.octets += packet->length;
 
         bdk_if_dispatch_packet(packet);
         /* No free needed as TX caller will do it when the queue is empty */
-        count++;
 
         /* Move to the next packet */
-        priv->next_rx++;
-        if (priv->next_rx >= MAX_QUEUE)
-            priv->next_rx = 0;
+        rx_loc++;
+        if (rx_loc >= MAX_QUEUE)
+            rx_loc = 0;
+        bdk_atomic_set32(&priv->next_rx, rx_loc);
     }
-
-    bdk_spinlock_unlock(&priv->lock);
-    return count;
 }
 
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
@@ -162,8 +164,8 @@ static int if_get_queue_depth(bdk_if_handle_t handle)
     priv_t *priv = (priv_t *)handle->priv;
 
     /* Make sure gcc reads the variables once and in the correct order */
-    int next_rx = (volatile int)priv->next_rx;
-    int tx_free = (volatile int)priv->tx_free;
+    int next_rx = bdk_atomic_get32(&priv->next_rx);
+    int tx_free = bdk_atomic_get32(&priv->tx_free);
 
     if (next_rx > tx_free)
         return MAX_QUEUE - next_rx + tx_free;
@@ -194,7 +196,6 @@ const __bdk_if_ops_t __bdk_if_ops_fake = {
     .if_link_get = if_link_get,
     .if_link_set = if_link_set,
     .if_transmit = if_transmit,
-    .if_receive = if_receive,
     .if_loopback = if_loopback,
     .if_get_queue_depth = if_get_queue_depth,
     .if_get_stats = if_get_stats,

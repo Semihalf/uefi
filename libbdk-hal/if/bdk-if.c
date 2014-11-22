@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <malloc.h>
 
+static void __bdk_if_link_poll(int unused1, void *unused2);
+
 extern __bdk_if_global_ops_t __bdk_if_global_ops_cn88xx;
 
 extern const __bdk_if_ops_t __bdk_if_ops_bgx;
@@ -16,7 +18,6 @@ static const __bdk_if_ops_t *__bdk_if_ops[__BDK_IF_LAST] = {
 
 static __bdk_if_port_t *__bdk_if_head;
 static __bdk_if_port_t *__bdk_if_tail;
-static __bdk_if_port_t *__bdk_if_poll_head[BDK_NUMA_MAX_NODES];
 static __bdk_if_global_ops_t __bdk_if_global_ops;
 
 /**
@@ -59,13 +60,6 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     {
         bdk_error("if_init indirect call failed\n");
         goto fail;
-    }
-
-    /* Put interfaces requiring polling in the poll list */
-    if (__bdk_if_ops[handle->iftype]->if_receive)
-    {
-        handle->poll_next = __bdk_if_poll_head[handle->node];
-        __bdk_if_poll_head[handle->node] = handle;
     }
 
     if (__bdk_if_tail)
@@ -142,6 +136,13 @@ static int __bdk_if_init(void)
         if ((1<<node) & bdk_numa_get_running_mask())
             result |= __bdk_if_init_node(node);
     }
+
+    if (bdk_thread_create(bdk_numa_master(), 0, __bdk_if_link_poll, 0, NULL, 0))
+    {
+        bdk_error("bdk-if: Failed to create link poll thread\n");
+        return -1;
+    }
+
     return result;
 }
 
@@ -409,44 +410,23 @@ void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_
     BDK_WMB;
 }
 
-static void __bdk_if_link_poll()
+static void __bdk_if_link_poll(int unused1, void *unused2)
 {
-    static bdk_if_handle_t link_handle = NULL;
-    static uint64_t next_poll = 0;
-    static uint64_t poll_rate = 0;
-
-    uint64_t current_time = bdk_clock_get_count(BDK_CLOCK_CORE);
-    if (bdk_likely(current_time < next_poll))
-        return;
 #ifdef HW_EMULATOR
-    int POLLS_PER_SEC = 256;
+    const int POLLS_PER_SEC = 256;
 #else
-    int POLLS_PER_SEC = 8;
+    const int POLLS_PER_SEC = 8;
 #endif
-    if (bdk_unlikely(poll_rate == 0))
-        poll_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / POLLS_PER_SEC;
+    bdk_if_handle_t link_handle = NULL;
+    uint64_t poll_rate =  1000000 / POLLS_PER_SEC;
 
-    /* Poll the link state */
-    next_poll = current_time + poll_rate;
-    link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
-    if (link_handle)
-        bdk_if_link_autoconf(link_handle);
-}
-
-/**
- * Called by idle threads to handle packet IO
- */
-int bdk_if_dispatch(void)
-{
-    if (!bdk_if_is_configured())
-        return 0;
-    if (bdk_is_boot_core())
-        __bdk_if_link_poll();
-
-    int count = 0;
-    for (bdk_if_handle_t handle = __bdk_if_poll_head[bdk_numa_local()]; handle != NULL; handle = handle->poll_next)
-        count += __bdk_if_ops[handle->iftype]->if_receive(handle);
-    return count;
+    while (1)
+    {
+        link_handle = (link_handle) ? link_handle->next : __bdk_if_head;
+        if (link_handle)
+            bdk_if_link_autoconf(link_handle);
+        bdk_wait_usec(poll_rate);
+    }
 }
 
 /**

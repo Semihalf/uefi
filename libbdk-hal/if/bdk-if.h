@@ -143,7 +143,6 @@ typedef struct
     void (*if_link_set)(bdk_if_handle_t handle, bdk_if_link_t link_info); /* Set link speed and state */
     const bdk_if_stats_t *(*if_get_stats)(bdk_if_handle_t handle); /* Get stats */
     int (*if_transmit)(bdk_if_handle_t handle, const bdk_if_packet_t *packet); /* TX a packet */
-    int (*if_receive)(bdk_if_handle_t handle); /* RX packets. Returns the number of packets processed */
     int (*if_loopback)(bdk_if_handle_t handle, bdk_if_loopback_t loopback); /* Configure loopback for the port */
     int (*if_get_queue_depth)(bdk_if_handle_t handle); /* Get the current TX queue depth */
 } __bdk_if_ops_t;
@@ -156,7 +155,6 @@ typedef struct
 } __bdk_if_global_ops_t;
 
 extern int bdk_if_is_configured(void);
-extern int bdk_if_dispatch(void) BDK_WEAK;
 extern int bdk_if_num_interfaces(bdk_node_t node, bdk_if_t iftype);
 extern int bdk_if_num_ports(bdk_node_t node, bdk_if_t iftype, int interface);
 extern bdk_if_handle_t bdk_if_next_port(bdk_if_handle_t handle);

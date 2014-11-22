@@ -48,11 +48,6 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     return -1;
 }
 
-static int if_receive(bdk_if_handle_t handle)
-{
-    return 0;
-}
-
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
     return -1;
@@ -78,7 +73,6 @@ const __bdk_if_ops_t __bdk_if_ops_pcie = {
     .if_link_get = if_link_get,
     .if_link_set = if_link_set,
     .if_transmit = if_transmit,
-    .if_receive = if_receive,
     .if_loopback = if_loopback,
     .if_get_queue_depth = if_get_queue_depth,
     .if_get_stats = if_get_stats,

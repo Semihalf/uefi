@@ -50,10 +50,11 @@ typedef struct
 
 typedef struct BDK_CACHE_LINE_ALIGNED
 {
-    bdk_spinlock_t lock;
     void *base;
     int loc;
 } vnic_queue_state_t;
+
+static void if_receive(int unused, void *hand);
 
 /* Table used to convert VNIC numbers to interface handles */
 static bdk_if_handle_t global_handle_table[128];
@@ -929,9 +930,6 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
     int rbdr = priv->rbdr;
     int rbdr_idx = 0;
 
-    bdk_spinlock_init(&vnic_rbdr_state[rbdr].lock);
-    bdk_spinlock_lock(&vnic_rbdr_state[rbdr].lock);
-
     BDK_CSR_INIT(rbdr_head, handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx));
     BDK_CSR_INIT(rbdr_tail, handle->node, BDK_NIC_QSX_RBDRX_TAIL(rbdr, rbdr_idx));
 
@@ -956,7 +954,6 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), added);
     vnic_rbdr_state[rbdr].base = rbdr_ptr;
     vnic_rbdr_state[rbdr].loc = loc;
-    bdk_spinlock_unlock(&vnic_rbdr_state[rbdr].lock);
 }
 
 static int vnic_setup_rbdr(bdk_if_handle_t handle)
@@ -1248,7 +1245,20 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(bgx_block, bgx_index),
         c.s.align = !txx_append.s.preamble);
 
-    return vnic_setup(handle);
+    if (vnic_setup(handle))
+        return -1;
+
+    /* Create a receive thread for each interface that handles all ports on
+       that interface */
+    if (handle->index == 0)
+    {
+        if (bdk_thread_create(handle->node, 0, if_receive, 0, handle, 0))
+        {
+            bdk_error("%s: Failed to allocate receive thread\n", handle->name);
+            return -1;
+        }
+    }
+    return 0;
 }
 
 static int if_enable(bdk_if_handle_t handle)
@@ -1588,57 +1598,52 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
  *
  * @return Number of packets received
  */
-static int if_receive(bdk_if_handle_t handle)
+static void if_receive(int unused, void *hand)
 {
-    /* Since all ports on an interface share a CQ, only check the CQ
-       on the first port */
-    if (handle->index)
-        return 0;
+    bdk_if_handle_t handle = hand;
 
     /* Figure out which completion queue we're using */
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int cq = priv->cq;
     int cq_idx = 0;
 
-    if (bdk_spinlock_trylock(&vnic_rbdr_state[priv->rbdr].lock))
-        return 0;
-
-    int count = 0;
-
-    /* Exit immediately if the CQ is empty */
-    BDK_CSR_INIT(cq_status, handle->node, BDK_NIC_QSX_CQX_STATUS(cq, cq_idx));
-    int pending_count = cq_status.s.qcount;
-    if (bdk_likely(!pending_count))
-        goto skip;
-
-    /* Find the current CQ location */
     BDK_CSR_INIT(cq_base, handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx));
-    BDK_CSR_INIT(cq_head, handle->node, BDK_NIC_QSX_CQX_HEAD(cq, cq_idx));
-    int loc = cq_head.s.head_ptr;
     const void *cq_ptr = bdk_phys_to_ptr(cq_base.u);
 
-    /* Loop through all pending CQs */
-    const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
-    while (count < pending_count)
+    /* Find the current CQ location */
+    BDK_CSR_INIT(cq_head, handle->node, BDK_NIC_QSX_CQX_HEAD(cq, cq_idx));
+    int loc = cq_head.s.head_ptr;
+
+    while (1)
     {
-        const union nic_cqe_rx_s *cq_header = cq_next;
-        loc++;
-        loc &= CQ_ENTRIES - 1;
-        cq_next = cq_ptr + loc * 512;
-        BDK_PREFETCH(cq_next, 0);
-        if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
-            if_process_complete_rx(handle, cq_header);
-        else
-            bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
-        count++;
+        /* Exit immediately if the CQ is empty */
+        BDK_CSR_INIT(cq_status, handle->node, BDK_NIC_QSX_CQX_STATUS(cq, cq_idx));
+        int pending_count = cq_status.s.qcount;
+        if (bdk_likely(!pending_count))
+        {
+            bdk_wait_usec(1);
+            continue;
+        }
+
+        /* Loop through all pending CQs */
+        int count = 0;
+        const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
+        while (count < pending_count)
+        {
+            const union nic_cqe_rx_s *cq_header = cq_next;
+            loc++;
+            loc &= CQ_ENTRIES - 1;
+            cq_next = cq_ptr + loc * 512;
+            BDK_PREFETCH(cq_next, 0);
+            if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
+                if_process_complete_rx(handle, cq_header);
+            else
+                bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
+            count++;
+        }
+        /* Free all the CQs that we've processed */
+        BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
     }
-    /* Free all the CQs that we've processed */
-    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
-
-skip:
-    bdk_spinlock_unlock(&vnic_rbdr_state[priv->rbdr].lock);
-
-    return count;
 }
 
 /**
@@ -1736,7 +1741,6 @@ const __bdk_if_ops_t __bdk_if_ops_bgx = {
     .if_link_get = if_link_get,
     .if_link_set = if_link_set,
     .if_transmit = if_transmit,
-    .if_receive = if_receive,
     .if_loopback = if_loopback,
     .if_get_queue_depth = if_get_queue_depth,
     .if_get_stats = if_get_stats,
