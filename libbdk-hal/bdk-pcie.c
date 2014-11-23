@@ -787,9 +787,8 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
     {
         case 0 ... 5:
         {
-            /* Errata (SLI-22555)  2014-10-07  ECAM to off-chip PCI misroutes
-               address. Use the SLI regions instead of ECAMs for config space
-               access */
+            /* Errata (SLI-22555) ECAM to off-chip PCI misroutes address. Use
+               the SLI regions instead of ECAMs for config space access */
             uint64_t address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_CONFIG);
             address += (uint64_t)bus << 24;   /* Bus is bits 31:24 */
             address += dev << 19;   /* device+func is bits 23:16 */
