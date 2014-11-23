@@ -502,6 +502,7 @@ static int init_oci(void)
     BDK_TRACE(INIT, "Loop through local links sending unique values over OCX_TLKX_LNK_DATA\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
+        /* Errata (OCX-22951) OCX AUTO_CLR of DROP fails to work on error */
         /* Don't allow this link to recover if it goes down. Once up links
            should stay up */
         BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link),
