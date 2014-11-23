@@ -723,6 +723,19 @@ static void restart_training(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     BDK_CSR_DEFINE(spux_int, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
+
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Errata (BGX-21957) GSER enhancement to allow auto RX equalization */
+        const int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_BR_RXX_EER(qlm, lane),
+                c.s.rxt_eer = 1;
+                c.s.rxt_esv = 0);
+        }
+    }
+
     /* Clear the training interrupts (W1C) */
     spux_int.u = 0;
     spux_int.s.training_failure = 1;
