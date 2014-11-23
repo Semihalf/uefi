@@ -569,8 +569,9 @@ static int setup_auto_neg(bdk_if_handle_t handle)
         c.s.rf = 0);
 
     /* 3. Set BGX(0..5)_SPU_DBG_CONTROL[AN_ARB_LINK_CHK_EN] = 1. */
+    /* Errata (BGX-22994) BGX SPU always picks the same value for XMTTED_NONCE */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPU_DBG_CONTROL(bgx_block),
-        c.s.an_nonce_match_dis=1; /* Needed for loopback */
+        c.s.an_nonce_match_dis=1; /* Needed for loopback and BGX-22994 */
         c.s.an_arb_link_chk_en = use_auto_neg);
 
     /* 4. Execute the link bring-up sequence in Section 33.6.3. */
