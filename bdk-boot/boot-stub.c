@@ -248,12 +248,23 @@ static void choose_image(const char *dev_filename)
     const int MAX_IMAGES = 4;
     uint64_t image_address[MAX_IMAGES];
     int num_images = list_images(dev_filename, MAX_IMAGES, image_address);
+    BDK_CSR_INIT(lmcx_dll_ctl2, bdk_numa_local(), BDK_LMCX_DLL_CTL2(0));
+
     if (num_images == 0)
     {
         printf("No images found\n");
         return;
     }
 
+    /* If DRAM is enabled, unlock the L2 cache for use by later
+     * applications.  Note this only handles the local node.
+     */
+    if (lmcx_dll_ctl2.s.intf_en)
+    {
+        uint64_t l2_size = bdk_l2c_get_cache_size_bytes(bdk_numa_local());
+        bdk_l2c_unlock_mem_region(bdk_numa_local(), 0, l2_size);
+        BDK_TRACE(BOOT_STUB, "Unlocking L2 before loading image with DRAM enabled.\n");
+    }
     int use_image = 0;
     if (num_images > 1)
     {
