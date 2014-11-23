@@ -1198,6 +1198,7 @@ static int vnic_setup(bdk_if_handle_t handle)
        c.s.tns_nonbypass = 0;
        c.s.block = 0x8 + handle->interface);
 
+    /* Errata (NIC-21858) If NIC_PF_QS()_CFG ENA is set after RRM enabled...RRM breaks */
     /* Do global vnic init */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_CFG(priv->vnic),
         c.s.ena = 1;
