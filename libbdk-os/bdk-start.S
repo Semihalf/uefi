@@ -11,6 +11,7 @@
 # 8 Hz = Jumped to copied code
 # 16 Hz = Calculated the CRC over the entire copied area
 # 32 Hz = Last assembly, jumping to C code in __bdk_init()
+# 64 Hz = Node ID is non-zero
 #
 #define BDK_GPIO_BOOT_DEBUG -1
 
@@ -95,6 +96,11 @@ __bdk_start:
     lsl     x0, x0, 1
     str     x0, [x20, GPIO_CLK_OFFSET]
 #endif
+
+    /* Check that we're running on node 0 */
+    mrs     x0, MPIDR_EL1
+    ubfx    x0, x0, 16, 8
+    cbnz    x0, __bdk_non_zero_node
 
     /* Relocate ourself if we aren't running at our link address */
     mov     x0, _start          /* x0 = _start location as an absolute */
@@ -212,6 +218,22 @@ __bdk_start_cores:
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
+
+__bdk_non_zero_node:
+#if BDK_GPIO_BOOT_DEBUG >= 0
+    # 32x the GPIO frequency (64Hz)
+    ldr     x0, [x20, GPIO_CLK_OFFSET]
+    lsl     x0, x10, 5
+    str     x0, [x20, GPIO_CLK_OFFSET]
+#endif
+    /* We're on a non-zero node, setup a stack and call C. C won't
+        work right as we're not running at our link address */
+    adr     x10, __bdk_initial_stack_end
+    msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
+    msr     SP_EL0, x10         /* Update the stack */
+    msr     SPSel, 0            /* Use the new stack */
+    bl      __bdk_init_non_zero_node
+
 
     .macro exception_stub label
     .global __bdk_exception_\label
