@@ -1024,8 +1024,9 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         c.s.rbdr_bp = 0; /* Zero means no buffers, 256 means lots available */
         c.s.cq_bp = 0; /* Zero means full, 256 means idle */
         c.s.bpid = priv->vnic);
-    /* FIXME: RED drop when either CQ (1/256) or RBDR (1/256) full, drop
-       everything at next step */
+    /* Errata (NIC-21269) Limited NIC receive scenario verification */
+    /* RED drop set with pass=drop, so no statistical dropping */
+    // FIXME: COnfigure and enable RED
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_DROP_CFG(priv->vnic, priv->qos),
         c.s.rbdr_red = 0;
         c.s.cq_red = 0;
