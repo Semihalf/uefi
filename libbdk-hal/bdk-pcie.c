@@ -801,8 +801,7 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
         {
             int ecam = pcie_port - 100;
 
-            /* Errata (ECAM-22630) 2014-10-07  ECAM missing PCC functions cause
-                faults */
+            /* Errata (ECAM-22630) ECAM function accesses can fault */
             /* Skip internal devices that don't exists */
             int loc = 0;
             int found = 0;
