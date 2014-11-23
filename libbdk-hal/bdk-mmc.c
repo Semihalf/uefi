@@ -3,6 +3,10 @@
 // Basic definitions for the eMMC interface
 // Copyright 2014 Cavium,Inc.
 
+#ifndef BDK_MMC_CLOCK_HZ
+#define BDK_MMC_CLOCK_HZ 10000000
+#endif
+
 // Basic Commands
 #define MMC_CMD_GO_IDLE_STATE		0
 #define MMC_CMD_SEND_OP_COND		1
@@ -680,11 +684,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
 
     // Change the clock
-#ifdef HW_EMULATOR
-    uint64_t CLOCK_HZ = 40000000; /* 40Mhz */
-#else
-    uint64_t CLOCK_HZ = 10000000; /* 10Mhz */
-#endif
+    uint64_t CLOCK_HZ = BDK_MMC_CLOCK_HZ;
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     sclk /= CLOCK_HZ;
     sclk /= 2; /* Half is time hi/lo */

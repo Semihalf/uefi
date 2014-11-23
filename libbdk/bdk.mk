@@ -8,7 +8,7 @@ SHELL=/bin/bash
 # Optional compile time flags for the BDK
 #
 #BDK_EXTRA_CPPFLAGS += -DBDK_SHOW_BOOT_BANNERS=0
-#BDK_EXTRA_CPPFLAGS += -DHW_EMULATOR=1
+#BDK_EXTRA_CPPFLAGS += -DHW_EMULATOR=1 -DBDK_MMC_CLOCK_HZ=40000000
 
 #
 # Setup the compiler for the BDK libraries
