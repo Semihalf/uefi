@@ -541,8 +541,12 @@ static int setup_auto_neg(bdk_if_handle_t handle)
        that this referse to auto negotiation for links other than SGMII. SGMII
        takes a different code path */
     int use_auto_neg = (priv->mode == BGX_MODE_10G_KR) || (priv->mode == BGX_MODE_40G_KR);
-    // FIXME: Auto-neg disabled as it currently doesn't work
-    use_auto_neg = 0;
+
+    /* Errata (BGX-21947) 40G-KR Training does not restart on all 4 lanes
+       after auto-negotiation */
+    /* Disable auto-neg for 40G-KR */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (priv->mode == BGX_MODE_40G_KR))
+        use_auto_neg = 0;
 
     /* Software should do the following to execute Auto-Negotiation when
        desired: */
