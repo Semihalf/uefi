@@ -816,8 +816,9 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
             if (!found)
                 return 0;
 
-            /* The PCIe ports don't work until the PEM is turned on. Check for
-               one of the PCIe ports */
+            /* Errata (ECAM-23020) PCIERC transactions fault unless PEM is
+               out of reset. The PCIe ports don't work until the PEM is
+               turned on. Check for one of the PCIe ports */
             int pem = -1;
             if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC0))
                 pem = 0;
