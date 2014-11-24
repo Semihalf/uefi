@@ -138,6 +138,14 @@ void __bdk_init_main(int arg, void *arg1)
         environ = calloc(sizeof(*environ), 1);
         if (!environ)
             bdk_error("Failed to allocate environment, setenv will crash\n");
+
+        BDK_TRACE(INIT, "N%d: Checking if CCPI is up and has other nodes\n", node);
+        BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
+        for (bdk_node_t n = 0; n < BDK_NUMA_MAX_NODES; n++)
+        {
+            if (l2c_oci_ctl.s.enaoci & (1 << n))
+                bdk_numa_set_exists(n);
+        }
     }
 
     /* Perform initialization that needs to be done once per node */
