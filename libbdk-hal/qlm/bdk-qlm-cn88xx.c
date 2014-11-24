@@ -749,6 +749,11 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         ref_clk = REF_156MHZ;
     }
+    else if (mode == BDK_QLM_MODE_DISABLED)
+    {
+        /* Don't care about the ref clock, just make up one */
+        ref_clk = REF_100MHZ;
+    }
     else
     {
         ref_clk = measured_ref;
