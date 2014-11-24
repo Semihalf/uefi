@@ -153,11 +153,18 @@ static uint32_t test_mem_pattern(uint64_t area, uint64_t max_address, uint64_t p
         /* Read the written memory and confirm that it has the expected
          * data pattern.
          */
-        for (uint64_t address = area; address < max_address; address += 8)
+        uint64_t address = area;
+        while (address < max_address)
         {
-            uint64_t data = READ64(address);
-            if (bdk_unlikely(data != pattern))
-                failures += retry_failure(pass, address, data, pattern);
+            if (address + 256 < max_address)
+                BDK_PREFETCH(address + 256, 0);
+            for (int i=0; i<16; i++)
+            {
+                uint64_t data = READ64(address);
+                if (bdk_unlikely(data != pattern))
+                    failures += retry_failure(pass, address, data, pattern);
+                address += 8;
+            }
         }
     }
     return failures;
