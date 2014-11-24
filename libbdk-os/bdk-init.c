@@ -292,35 +292,51 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
  */
 int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
 {
+    extern void __bdk_reset_thread(int arg1, void *arg2);
+
     /* Limit to the cores that exist */
     coremask &= (1ull<<bdk_get_num_cores(node)) - 1;
 
     /* Update which cores are in reset */
     uint64_t reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
     BDK_TRACE(INIT, "N%d: Cores currently in reset: 0x%lx\n", node, reset);
-    BDK_TRACE(INIT, "N%d: Cores to put into reset: 0x%lx\n", node, coremask & ~reset);
+    coremask &= ~reset;
+    BDK_TRACE(INIT, "N%d: Cores to put into reset: 0x%lx\n", node, coremask);
 
-    if (coremask & ~reset)
+    /* Check if everything is already done */
+    if (coremask == 0)
+        return 0;
+
+    int num_cores = bdk_get_num_cores(node);
+    for (int core = 0; core < num_cores; core++)
     {
-        coremask |= reset;
-        BDK_CSR_WRITE(node, BDK_RST_PP_RESET, coremask);
-        /* Clear the cores in the alive mask */
-        __atomic_fetch_and(&__bdk_alive_coremask[node], ~coremask, __ATOMIC_ACQ_REL);
-
-        /* Loop waiting for the cores to enter reset */
-        uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) + bdk_clock_get_count(BDK_CLOCK_CORE);
-        while (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout)
+        uint64_t my_mask = 1ull << core;
+        /* Skip cores not in mask */
+        if ((coremask & my_mask) == 0)
+            continue;
+        BDK_TRACE(INIT, "N%d: Telling core %d to go into reset\n", node, core);
+        if (bdk_thread_create(node, my_mask, __bdk_reset_thread, 0, NULL, 0))
         {
-            reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
-            if (reset == coremask)
-                break;
-            /* Tight spin, no thread schedules */
+            bdk_error("Failed to create thread for putting core in reset");
+            continue;
         }
-
-        BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
+        /* Clear the core in the alive mask */
+        __atomic_fetch_and(&__bdk_alive_coremask[node], ~my_mask, __ATOMIC_ACQ_REL);
     }
 
-    return (coremask & ~reset) ? -1 : 0;
+    BDK_TRACE(INIT, "N%d: Waiting for all reset bits to be set\n", node);
+    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) + bdk_clock_get_count(BDK_CLOCK_CORE);
+    while (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout)
+    {
+        reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
+        if ((reset & coremask) == coremask)
+            break;
+        bdk_thread_yield();
+    }
+
+    BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
+
+    return ((reset & coremask) == coremask) ? 0 : -1;
 }
 
 /**
