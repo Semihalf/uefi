@@ -51,6 +51,12 @@ extern int bdk_init_nodes(int skip_cores);
 extern void __bdk_init_main(int arg, void *arg1);
 
 /**
+ * Perform one time initalization for a node. Called for each
+ * node from the master node.
+ */
+extern void __bdk_init_node(bdk_node_t node);
+
+/**
  * Set the baud rate on a UART
  *
  * @param node     Node to use in a Numa setup. Can be an exact ID or a special

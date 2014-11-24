@@ -41,12 +41,11 @@ static void __bdk_error_poll(int arg, void *arg1)
 }
 
 /**
- * Perfome one time initalization for a node. Called for each node.
+ * Perform one time initalization for a node. Called for each
+ * node from the master node.
  */
-static void __bdk_init_local_node(void)
+void __bdk_init_node(bdk_node_t node)
 {
-    bdk_node_t node = bdk_numa_local();
-
     BDK_TRACE(INIT, "N%d: Performing node initialization\n", node);
 
     /* Allow CAP access from cores so we can read system registers through
@@ -148,15 +147,12 @@ void __bdk_init_main(int arg, void *arg1)
         }
     }
 
-    /* Perform initialization that needs to be done once per node */
-    if (bdk_get_core_num() == 0)
-        __bdk_init_local_node();
-
     /* Core 0 start main as another thread. We create a new thread so that
         the coremask will allow all cores in case the application
         goes multicore later */
     if (bdk_is_boot_core())
     {
+        __bdk_init_node(node);
         extern int main(int argc, const char *argv);
         BDK_TRACE(INIT, "Switching to main\n");
         if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))

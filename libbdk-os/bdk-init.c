@@ -899,6 +899,8 @@ int bdk_init_nodes(int skip_cores)
         if (bdk_numa_exists(node))
         {
             setup_node(node);
+            if (node != bdk_numa_master())
+                __bdk_init_node(node);
             if (!skip_cores)
                 result |= bdk_init_cores(node, 0);
         }

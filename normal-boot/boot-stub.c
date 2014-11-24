@@ -342,16 +342,6 @@ int main(void)
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
-    /* Setup TWSI at 100KHz frequency. TWSI is needed to read DRAM SPDs */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        if (bdk_numa_exists(n))
-        {
-            BDK_TRACE(BOOT_STUB, "Initializing TWSI on Node %d\n", n);
-            bdk_twsix_initialize(n);
-        }
-    }
-
     /* Initialize DRAM on the slave node */
 #ifdef DRAM_NODE1
     if (MULTI_NODE)
@@ -400,16 +390,6 @@ int main(void)
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
             bdk_qlm_auto_config(n);
-        }
-    }
-
-    /* Setup SMI/MDIO */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        if (bdk_numa_exists(n))
-        {
-            BDK_TRACE(BOOT_STUB, "Initializing MDIO on Node %d\n", n);
-            bdk_mdio_initialize(n);
         }
     }
 
