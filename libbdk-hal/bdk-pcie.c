@@ -898,14 +898,14 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
 uint8_t bdk_pcie_config_read8(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
     uint64_t address = __bdk_pcie_build_config_addr(node, pcie_port, bus, dev, fn, reg);
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d: Config Read8(bus=%d, dev=%d, fn=%d, reg=0x%x, internal=0x%lx)\n",
-        pcie_port, bus, dev, fn, reg, address);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d: Config Read8(bus=%d, dev=%d, fn=%d, reg=0x%x, internal=0x%lx)\n",
+        node, pcie_port, bus, dev, fn, reg, address);
     uint8_t result;
     if (address)
         result = bdk_read64_uint8(address);
     else
         result = 0xff;
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d:     Result=0x%02x\n", pcie_port, result);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d:     Result=0x%02x\n", node, pcie_port, result);
     return result;
 }
 
@@ -924,14 +924,14 @@ uint8_t bdk_pcie_config_read8(bdk_node_t node, int pcie_port, int bus, int dev, 
 uint16_t bdk_pcie_config_read16(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
     uint64_t address = __bdk_pcie_build_config_addr(node, pcie_port, bus, dev, fn, reg);
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d: Config Read16(bus=%d, dev=%d, fn=%d, reg=0x%x, internal=0x%lx)\n",
-        pcie_port, bus, dev, fn, reg, address);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d: Config Read16(bus=%d, dev=%d, fn=%d, reg=0x%x, internal=0x%lx)\n",
+        node, pcie_port, bus, dev, fn, reg, address);
     uint16_t result;
     if (address)
         result = bdk_le16_to_cpu(bdk_read64_uint16(address));
     else
         result = 0xffff;
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d:     Result=0x%04x\n", pcie_port, result);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d:     Result=0x%04x\n", node, pcie_port, result);
     return result;
 }
 
@@ -950,14 +950,14 @@ uint16_t bdk_pcie_config_read16(bdk_node_t node, int pcie_port, int bus, int dev
 uint32_t bdk_pcie_config_read32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
     uint64_t address = __bdk_pcie_build_config_addr(node, pcie_port, bus, dev, fn, reg);
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d: Config Read32(bus=%d, dev=%d, fn=%d, reg=0x%x, internal=0x%lx)\n",
-        pcie_port, bus, dev, fn, reg, address);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d: Config Read32(bus=%d, dev=%d, fn=%d, reg=0x%x, internal=0x%lx)\n",
+        node, pcie_port, bus, dev, fn, reg, address);
     uint32_t result;
     if (address)
         result = bdk_le32_to_cpu(bdk_read64_uint32(address));
     else
         result = 0xffffffff;
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d:     Result=0x%08x\n", pcie_port, result);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d:     Result=0x%08x\n", node, pcie_port, result);
     return result;
 }
 
@@ -975,8 +975,8 @@ uint32_t bdk_pcie_config_read32(bdk_node_t node, int pcie_port, int bus, int dev
 void bdk_pcie_config_write8(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint8_t val)
 {
     uint64_t address = __bdk_pcie_build_config_addr(node, pcie_port, bus, dev, fn, reg);
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d: Config Write8(bus=%d, dev=%d, fn=%d, reg=0x%x, val=0x%02x, internal=0x%lx)\n",
-        pcie_port, bus, dev, fn, reg, val, address);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d: Config Write8(bus=%d, dev=%d, fn=%d, reg=0x%x, val=0x%02x, internal=0x%lx)\n",
+        node, pcie_port, bus, dev, fn, reg, val, address);
     if (address)
         bdk_write64_uint8(address, val);
 }
@@ -995,8 +995,8 @@ void bdk_pcie_config_write8(bdk_node_t node, int pcie_port, int bus, int dev, in
 void bdk_pcie_config_write16(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint16_t val)
 {
     uint64_t address = __bdk_pcie_build_config_addr(node, pcie_port, bus, dev, fn, reg);
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d: Config Write16(bus=%d, dev=%d, fn=%d, reg=0x%x, val=0x%04x, internal=0x%lx)\n",
-        pcie_port, bus, dev, fn, reg, val, address);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d: Config Write16(bus=%d, dev=%d, fn=%d, reg=0x%x, val=0x%04x, internal=0x%lx)\n",
+        node, pcie_port, bus, dev, fn, reg, val, address);
     if (address)
         bdk_write64_uint16(address, bdk_cpu_to_le16(val));
 }
@@ -1015,8 +1015,8 @@ void bdk_pcie_config_write16(bdk_node_t node, int pcie_port, int bus, int dev, i
 void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint32_t val)
 {
     uint64_t address = __bdk_pcie_build_config_addr(node, pcie_port, bus, dev, fn, reg);
-    BDK_TRACE(PCIE_CONFIG, "PCIe%d: Config Write32(bus=%d, dev=%d, fn=%d, reg=0x%x, val=0x%08x, internal=0x%lx)\n",
-        pcie_port, bus, dev, fn, reg, val, address);
+    BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d: Config Write32(bus=%d, dev=%d, fn=%d, reg=0x%x, val=0x%08x, internal=0x%lx)\n",
+        node, pcie_port, bus, dev, fn, reg, val, address);
     if (address)
         bdk_write64_uint32(address, bdk_cpu_to_le32(val));
 }
