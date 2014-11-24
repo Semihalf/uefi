@@ -1460,6 +1460,9 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
  */
 int qlm_auto_config(bdk_node_t node)
 {
+#ifdef HW_EMULATOR
+    return 0;
+#endif
     const int MCU_TWSI_BUS = 0;
     const int MCU_TWSI_ADDRESS = 0x60;
     int64_t data;
