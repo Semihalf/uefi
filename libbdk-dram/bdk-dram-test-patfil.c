@@ -518,6 +518,10 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
 
         for (uint64_t j = 0; j < count; j++)
         {
+            if ((address1 & BDK_CACHE_LINE_MASK) == 0)
+                BDK_PREFETCH(address1, BDK_CACHE_LINE_SIZE);
+            if ((address2 & BDK_CACHE_LINE_MASK) == 0)
+                BDK_PREFETCH(address2, BDK_CACHE_LINE_SIZE);
             WRITE64(address1, READ64(address1) ^ pattern);
             WRITE64(address2, READ64(address2) ^ pattern);
             address1 += 8;
@@ -536,6 +540,10 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
         address2 = area + count * sizeof(uint64_t);
         for (uint64_t j = 0; j < count; j++)
         {
+            if ((address1 & BDK_CACHE_LINE_MASK) == 0)
+                BDK_PREFETCH(address1, BDK_CACHE_LINE_SIZE);
+            if ((address2 & BDK_CACHE_LINE_MASK) == 0)
+                BDK_PREFETCH(address2, BDK_CACHE_LINE_SIZE);
             uint64_t d1 = READ64(address1);
             uint64_t d2 = READ64(address2);
             if (bdk_unlikely(d1 != d2))
