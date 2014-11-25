@@ -535,15 +535,20 @@ function pcie.initialize(node, pcie_port)
         -- are behind a "bridge" on the ECAM. In an effort not to confuse
         -- people, this enumeration code starts at the bus behind the
         -- "bridge".
+        local max_device
         if pcie_port < 100 then
-            -- Programmed by software, read from hardware
+            -- Real ports only have one device connect, most likely a PCIe
+            -- bridge. Bus number is programmed by software, read from
+            -- hardware
             self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).SBNUM
+            max_device = 0
         else
-            -- Internal ECAMs all start at 0
+            -- Internal ECAMs all start at 0 and have multiple devices
             self.last_bus = 0
+            max_device = 31
         end
         local bus = self.last_bus
-        for dev=0,31 do
+        for dev=0,max_device do
             local device = create_device(self, bus, dev, 0)
             if device then
                 table.insert(self.devices, device)
