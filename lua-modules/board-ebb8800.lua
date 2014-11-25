@@ -26,7 +26,7 @@ set_config(cavium.CONFIG_PHY_IF1_PORT3, 0x107)
 -- "Common running disparity".
 for bgx=0,1 do
     for i=0,1 do
-        cavium.csr.BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
+        cavium.csr[cavium.MASTER_NODE].BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
     end
 end
 
@@ -106,8 +106,8 @@ end
 printf("QLM0-1: Using common clock 1 (156.25Mhz)\n")
 printf("QLM2-7: Using common clock 0 (100.00Mhz)\n")
 for qlm=0,7 do
-    cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-    cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
+    cavium.csr[cavium.MASTER_NODE].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+    cavium.csr[cavium.MASTER_NODE].GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
 end
 cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
 
