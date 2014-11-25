@@ -1487,18 +1487,22 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
+    /* Errata TBD. The SQ will lockup and stop transmitting if you fill it
+       completely. SQ_SLOP is the amount of SQ space we reserve to make sure this
+       never happens */
+    const int SQ_SLOP = 1;
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Update the SQ available if we're out of space. The NIC should have sent
        packets, making more available. This allows us to only read the STATUS
        CSR when really necessary, normally using the L1 cached value */
-    if (priv->sq_available < packet->segments + 1)
+    if (priv->sq_available < packet->segments + 1 + SQ_SLOP)
     {
         BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
         priv->sq_available = SQ_ENTRIES - sq_status.s.qcount;
     }
     /* Check for space. A packets is a header plus its segments */
-    if (priv->sq_available < packet->segments + 1)
+    if (priv->sq_available < packet->segments + 1 + SQ_SLOP)
         return -1;
 
     /* Build the command */
