@@ -72,14 +72,14 @@ local function do_setup(qlm)
     local index = m:show()
     -- Select the reference clock to use
     if index == "ext" then
-        cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
-        cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
+        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
     elseif index == "c0" then
-        cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-        cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
     else
-        cavium.csr.GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-        cavium.csr.GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
+        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
     end
     -- Reset the QLM after changing the reference clock
     cavium.c.bdk_qlm_reset(menu.node, qlm)
