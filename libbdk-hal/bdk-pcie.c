@@ -4,9 +4,13 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(PCIE);
 
+/* We need to know when global init is complete as the config access
+   needs to only block certain addresses after init */
+static int pcie_global_init_done[BDK_NUMA_MAX_NODES] = {0,};
+
 /* The ECAM has a bug where accessing a non-existent device causes an
    exception. This is a list of all valid devices */
-static uint32_t INTERNAL_DEVICES[] = {
+static const uint32_t INTERNAL_DEVICES[] = {
     PCC_DEV_CON_E_BGX0,
     PCC_DEV_CON_E_BGX1,
     PCC_DEV_CON_E_DAP,
@@ -314,6 +318,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
         last_ari = ari;
     }
     BDK_TRACE(INIT, "PCIe global init complete\n");
+    pcie_global_init_done[node] = 1;
     return 0;
 }
 
@@ -837,33 +842,37 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
                     return 0;
             }
 
-            /* SATA ports should be hidden if they aren't configured at the QLM */
-            int qlm = -1;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA0) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA1) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA2) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA3))
-                qlm = 2;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA4) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA5) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA6) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA7))
-                qlm = 3;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA8) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA9) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA10) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA11))
-                qlm = 6;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA12) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA13) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA14) ||
-                is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA15))
-                qlm = 7;
-            if (qlm != -1)
+            /* Don't check SATA ports during one time init */
+            if (pcie_global_init_done[node])
             {
-                BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
-                if (!cfg.s.sata)
-                    return 0;
+                /* SATA ports should be hidden if they aren't configured at the QLM */
+                int qlm = -1;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA0) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA1) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA2) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA3))
+                    qlm = 2;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA4) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA5) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA6) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA7))
+                    qlm = 3;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA8) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA9) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA10) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA11))
+                    qlm = 6;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA12) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA13) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA14) ||
+                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA15))
+                    qlm = 7;
+                if (qlm != -1)
+                {
+                    BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
+                    if (!cfg.s.sata)
+                        return 0;
+                }
             }
 
             /* Valid ECAM access, build the address */
