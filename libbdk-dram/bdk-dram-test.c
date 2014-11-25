@@ -472,13 +472,14 @@ int __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, i
     int64_t errors = bdk_atomic_fetch_and_add64(&dram_test_thread_errors, 1);
     if (errors < MAX_ERRORS_TO_REPORT)
     {
+        int core = bdk_get_core_num();
         int node, lmc, dimm, rank, bank, row, col;
         extract_address_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
         bdk_error("[0x%016lx] data: 0x%016lx, expected: 0x%016lx, xor: 0x%016lx, burst: %d "
-                  "(N%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x)\n",
+                  "(N%d,Core%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x)\n",
             address, data, correct, data ^ correct, burst,
-            node, lmc, dimm, rank, bank, row, col);
+            node, core, lmc, dimm, rank, bank, row, col);
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
         return errors == MAX_ERRORS_TO_REPORT - 1;
@@ -504,17 +505,18 @@ int __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address
     int64_t errors = bdk_atomic_fetch_and_add64(&dram_test_thread_errors, 1);
     if (errors < MAX_ERRORS_TO_REPORT)
     {
+        int core = bdk_get_core_num();
         int node1, lmc1, dimm1, rank1, bank1, row1, col1;
         extract_address_info(address1, &node1, &lmc1, &dimm1, &rank1, &bank1, &row1, &col1);
         int node2, lmc2, dimm2, rank2, bank2, row2, col2;
         extract_address_info(address2, &node2, &lmc2, &dimm2, &rank2, &bank2, &row2, &col2);
 
         bdk_error("[0x%016lx] data: 0x%016lx, [0x%016lx] expected: 0x%016lx, xor: 0x%016lx, burst: %d\n"
-            "    N%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x, Col 0x%x\n"
-            "    N%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x, Col 0x%x\n",
+            "    N%d,Core%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x\n"
+            "    N%d,Core%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x\n",
             address1, data1, address2, data2, data1 ^ data2, burst,
-            node1, lmc1, dimm1, rank1, bank1, row1, col1,
-            node2, lmc2, dimm2, rank2, bank2, row2, col2);
+            node1, core, lmc1, dimm1, rank1, bank1, row1, col1,
+            node2, core, lmc2, dimm2, rank2, bank2, row2, col2);
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
         return errors == MAX_ERRORS_TO_REPORT - 1;
