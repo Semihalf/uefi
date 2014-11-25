@@ -578,9 +578,9 @@ function pcie.initialize(node, pcie_port)
         if #self.devices == 0 then
             self:scan()
         end
-        local io_address = cavium.c.bdk_pcie_get_base_address(self.port, cavium.PCIE_MEM_IO)
-        local mem_address = cavium.c.bdk_pcie_get_base_address(self.port, cavium.PCIE_MEM_NORMAL)
-        local pmem_address = cavium.c.bdk_pcie_get_base_address(self.port, cavium.PCIE_MEM_PREFETCH)
+        local io_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_IO)
+        local mem_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_NORMAL)
+        local pmem_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_PREFETCH)
         -- Assign resources to all top level devices
         for _,device in ipairs(self.devices) do
             io_address, mem_address = device:enumerate(io_address, mem_address, pmem_address)
