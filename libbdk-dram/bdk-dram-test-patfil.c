@@ -36,7 +36,7 @@ static int retry_failure(int burst, uint64_t address, uint64_t data, uint64_t ex
         if ((data != expected))
         {
             if (data != lastData) {
-                printf("  Reread differs: prev 0x%08lX now 0x%08lX\n", lastData, data);
+                bdk_error("  Reread differs: prev 0x%08lX now 0x%08lX\n", lastData, data);
                 lastData = data;
             }
             refail++;
@@ -45,13 +45,13 @@ static int retry_failure(int burst, uint64_t address, uint64_t data, uint64_t ex
         else
         {
             if (didFail)
-                printf("  ReRead%03u of 0x%08lX passed\n",
+                bdk_error("  ReRead%03u of 0x%08lX passed\n",
                     i, address);
             repass++;
             didFail = 0;
         }
     }
-    printf("  Reread %d times: Passed: %d, Failed %d\n",
+    bdk_error("  Reread %d times: Passed: %d, Failed %d\n",
         RETRY_LIMIT, repass, refail);
     return 1;
 }
@@ -462,11 +462,11 @@ static void retry_xor_failure(int burst, uint64_t address1, uint64_t address2)
         else
         {
             if (!repass)
-                printf("  ReRead%03u passes\n", i);
+                bdk_error("  ReRead%03u passes\n", i);
             repass++;
         }
     }
-    printf("  Reread %d times: Passed: %d, Failed %d\n",
+    bdk_error("  Reread %d times: Passed: %d, Failed %d\n",
         RETRY_LIMIT, repass, refail);
 }
 
