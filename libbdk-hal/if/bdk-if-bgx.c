@@ -899,6 +899,10 @@ static int vnic_setup_cq(bdk_if_handle_t handle)
     int cq;
     int cq_idx = 0;
 
+    /* CN88XX pass 1.x had the drop level reset value too low */
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CQM_CFG,
+        c.s.drop_level = 128);
+
     /* Allocate a new CQ for every interface. All ports and channels on
        the same interface use same CQ */
     if ((handle->index > 0) || (priv->channel > 0))
