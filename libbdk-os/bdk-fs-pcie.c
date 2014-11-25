@@ -32,8 +32,27 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
         bdk_error("PCIe address outside of SLI regions (0x%lx - 0x%lx)\n", min_address, max_address-1);
         return -1;
     }
-    const void *ptr = bdk_phys_to_ptr(handle->location);
-    memcpy(buffer, ptr, length);
+    switch (length)
+    {
+        case 1:
+            *(uint8_t *)buffer = bdk_read64_uint8(handle->location);
+            break;
+        case 2:
+            *(uint16_t *)buffer = bdk_read64_uint16(handle->location);
+            break;
+        case 4:
+            *(uint32_t *)buffer = bdk_read64_uint32(handle->location);
+            break;
+        case 8:
+            *(uint64_t *)buffer = bdk_read64_uint64(handle->location);
+            break;
+        default:
+        {
+            const void *ptr = bdk_phys_to_ptr(handle->location);
+            memcpy(buffer, ptr, length);
+            break;
+        }
+    }
     return length;
 }
 
@@ -50,8 +69,27 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         bdk_error("PCIe address outside of SLI regions (0x%lx - 0x%lx)\n", min_address, max_address-1);
         return -1;
     }
-    void *ptr = bdk_phys_to_ptr(handle->location);
-    memcpy(ptr, buffer, length);
+    switch (length)
+    {
+        case 1:
+            bdk_write64_uint8(handle->location, *(uint8_t*)buffer);
+            break;
+        case 2:
+            bdk_write64_uint16(handle->location, *(uint16_t*)buffer);
+            break;
+        case 4:
+            bdk_write64_uint32(handle->location, *(uint32_t*)buffer);
+            break;
+        case 8:
+            bdk_write64_uint64(handle->location, *(uint64_t*)buffer);
+            break;
+        default:
+        {
+            void *ptr = bdk_phys_to_ptr(handle->location);
+            memcpy(ptr, buffer, length);
+            break;
+        }
+    }
     return length;
 }
 
