@@ -24,11 +24,14 @@ require("cavium")
 --
 -- When there is a general board setup file present in the filesystem, execute
 -- that. Otherwise, execute the board setup based on the chip model.
-if package.searchpath("board-setup", package.path) then
+if utils.isglobal("BOARD_SETUP_DONE") then
+    -- Board setup is already complete, don't do it again
+elseif package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
 elseif cavium.is_model(cavium.CN88XX) then
     menu.dofile("board-ebb8800")
 end
+BOARD_SETUP_DONE = true
 
 local function do_trafficgen()
     local trafficgen = require("trafficgen")
