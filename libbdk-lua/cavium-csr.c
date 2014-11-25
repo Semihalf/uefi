@@ -6,6 +6,8 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(CSR_DB);
 
+static int create_csr_table(lua_State* L, bdk_node_t node);
+
 static uint64_t build_mask(int bits, int left_shift)
 {
     uint64_t mask = ~((~0x0ull) << bits);
@@ -219,8 +221,11 @@ static int cavium_csr_field_newindex(lua_State* L)
  */
 static int cavium_csr_lookup(lua_State* L)
 {
+    /* This function is always called with one
+       upvalue, the node number. It expects one
+       Lua parameter, the name of the CSR */
+    int node = lua_tointeger(L, lua_upvalueindex(1));
     const char *name = luaL_checkstring(L, -1);
-    bdk_node_t node = bdk_numa_local();
 
     if(bdk_csr_get_name(name, NULL))
         luaL_error(L, "Invalid CSR");
@@ -271,8 +276,12 @@ static int cavium_csr_lookup(lua_State* L)
  */
 static int cavium_csr_namecall(lua_State* L)
 {
+    /* This function expects two up values:
+       1) The node number
+       2) The base name of the CSR before the parens */
     char fullname[64];
-    const char *basename = lua_tostring(L, lua_upvalueindex(1));
+    //int node = lua_tointeger(L, lua_upvalueindex(1));
+    const char *basename = lua_tostring(L, lua_upvalueindex(2));
     int num_args = lua_gettop(L);
 
     if(num_args == 4)
@@ -319,14 +328,31 @@ static int cavium_csr_namecall(lua_State* L)
  */
 static int cavium_csr_index(lua_State* L)
 {
+    /* This function is called with one upvalue, the node number of the
+       master. This is used for the default case where you specify
+       csr.NAME */
+    int node = lua_tointeger(L, lua_upvalueindex(1));
+
+    /* If the argument is a number, then the user is specifying the
+       node using the syntax csr[node].NAME */
+    if (lua_isnumber(L, 2))
+    {
+        /* Make sure the node number is valid */
+        node = luaL_checkinteger(L, 2);
+        if ((node < 0) || (node >= BDK_NUMA_MAX_NODES) || !bdk_numa_exists(node))
+            luaL_error(L, "Invalid Node");
+        return create_csr_table(L, node);
+    }
+
     const char *name = luaL_checkstring(L, 2);
 
     if(bdk_csr_get_name(name, NULL))
     {
         /* Can't find CSR, assume it is an indexed function */
-        /* Use our argument as the first upvalue for the function */
-        /* Put the node in as the second upvalue */
-        lua_pushinteger(L, bdk_numa_local());
+        /* Put the node in as the first upvalue */
+        /* Use our argument as the second upvalue for the function */
+        lua_pushinteger(L, node);
+        lua_pushstring(L, name);
         lua_pushcclosure(L, cavium_csr_namecall, 2);
         return 1;
     }
@@ -397,6 +423,25 @@ static int cavium_csr_call(lua_State* L)
     return 2;
 }
 
+static int create_csr_table(lua_State* L, bdk_node_t node)
+{
+    /* Add cavium.csr, magic table access to CSRs */
+    lua_newtable(L); /* csr table */
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, cavium_csr_lookup, 1);
+    lua_setfield(L, -2, "lookup");
+    lua_newtable(L); /* csr metatable */
+    lua_pushinteger(L, node);
+    lua_pushcclosure(L, cavium_csr_index, 1);
+    lua_setfield(L, -2, "__index");
+    lua_pushcfunction(L, cavium_csr_newindex);
+    lua_setfield(L, -2, "__newindex");
+    lua_pushcfunction(L, cavium_csr_call);
+    lua_setfield(L, -2, "__call");
+    lua_setmetatable(L, -2);
+    return 1;
+}
+
 /**
  * Called to register the cavium module
  *
@@ -406,18 +451,8 @@ static int cavium_csr_call(lua_State* L)
  */
 void register_cavium_csr(lua_State* L)
 {
-    /* Add cavium.csr, magic table access to CSRs */
-    lua_newtable(L); /* csr table */
-    lua_pushcfunction(L, cavium_csr_lookup);
-    lua_setfield(L, -2, "lookup");
-    lua_newtable(L); /* csr metatable */
-    lua_pushcfunction(L, cavium_csr_index);
-    lua_setfield(L, -2, "__index");
-    lua_pushcfunction(L, cavium_csr_newindex);
-    lua_setfield(L, -2, "__newindex");
-    lua_pushcfunction(L, cavium_csr_call);
-    lua_setfield(L, -2, "__call");
-    lua_setmetatable(L, -2);
+    bdk_node_t node = bdk_numa_local();
+    create_csr_table(L, node);
     lua_setfield(L, -2, "csr");
 }
 
