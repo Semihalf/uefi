@@ -26,10 +26,10 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
     bdk_node_t node = (long)handle->fs_state >> 8;
 
     uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
-    uint64_t max_address = min_address + bdk_pcie_get_base_size(node, pcie_port, BDK_PCIE_MEM_PREFETCH);
+    uint64_t max_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_IO);
     if ((handle->location < min_address) || (handle->location + length > max_address))
     {
-        bdk_error("PCIe address outside of SLI regions\n");
+        bdk_error("PCIe address outside of SLI regions (0x%lx - 0x%lx)\n", min_address, max_address-1);
         return -1;
     }
     const void *ptr = bdk_phys_to_ptr(handle->location);
@@ -44,10 +44,10 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     bdk_node_t node = (long)handle->fs_state >> 8;
 
     uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
-    uint64_t max_address = min_address + bdk_pcie_get_base_size(node, pcie_port, BDK_PCIE_MEM_PREFETCH);
+    uint64_t max_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_IO);
     if ((handle->location < min_address) || (handle->location + length > max_address))
     {
-        bdk_error("PCIe address outside of SLI regions\n");
+        bdk_error("PCIe address outside of SLI regions (0x%lx - 0x%lx)\n", min_address, max_address-1);
         return -1;
     }
     void *ptr = bdk_phys_to_ptr(handle->location);
