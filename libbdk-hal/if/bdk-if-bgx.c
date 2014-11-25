@@ -1056,8 +1056,9 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
            1/2 of the buffers available minus a few. We expect to only have 2
            RBDR rings */
         int fill_num = (bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 2;
-        if (fill_num > RBDR_ENTRIES)
-            fill_num = RBDR_ENTRIES;
+        /* Note that RBDR must leave one spot empty */
+        if (fill_num > RBDR_ENTRIES - 1)
+            fill_num = RBDR_ENTRIES - 1;
         vnic_fill_receive_buffer(handle, fill_num);
     }
 
@@ -1487,9 +1488,9 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
-    /* Errata TBD. The SQ will lockup and stop transmitting if you fill it
-       completely. SQ_SLOP is the amount of SQ space we reserve to make sure this
-       never happens */
+    /* The SQ can't be filled completely as it reguires at least one free
+       entry so the head and pointer don't look like empty. SQ_SLOP is the
+       amount of SQ space we reserve to make sure of this */
     const int SQ_SLOP = 1;
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
