@@ -540,7 +540,7 @@ function pcie.initialize(node, pcie_port)
             -- Real ports only have one device connect, most likely a PCIe
             -- bridge. Bus number is programmed by software, read from
             -- hardware
-            self.last_bus = cavium.csr.PCIERCX_CFG006(self.port).SBNUM
+            self.last_bus = cavium.csr[self.node].PCIERCX_CFG006(self.port).SBNUM
             max_device = 0
         else
             -- Internal ECAMs all start at 0 and have multiple devices
