@@ -632,7 +632,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
                    only works because we assume all devices support 64bit addressing */
                 address = bdk_pcie_get_base_address(node, pcie_port, mem_region);
                 address >>= 32;
-                address += r;
+                address += r - sli_region;
             }
             BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
                 c.s.ctype = ctype;
