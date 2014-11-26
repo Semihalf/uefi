@@ -479,12 +479,6 @@ static void clear_oci_error(bdk_node_t node)
  */
 static int init_oci(void)
 {
-    static int oci_init_done = 0;
-
-    /* Only allow this code to be run once */
-    if (oci_init_done)
-        return 0;
-    oci_init_done = 1;
 #ifdef HW_EMULATOR
     return 0; /* Emulator doesn't seem to have CCPI registers */
 #endif
@@ -882,26 +876,47 @@ static void setup_node(bdk_node_t node)
 int bdk_init_nodes(int skip_cores)
 {
     int result = 0;
+    int do_oci_init = 0;
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    /* Only init OCI/CCPI on chips that support it */
+    do_oci_init = CAVIUM_IS_MODEL(CAVIUM_CN88XX);
+
+    /* Simulation under Asim is a special case. Multi-node is simulaoted, but
+       not the details of the low level link */
+    if (do_oci_init && bdk_is_simulation())
     {
-        if (bdk_is_simulation())
-        {
-            bdk_numa_set_exists(0);
-            bdk_numa_set_exists(1);
-        }
-        else
-            result |= init_oci();
+        bdk_numa_set_exists(0);
+        bdk_numa_set_exists(1);
+        /* Skip the rest in simulation */
+        do_oci_init = 0;
     }
 
-    for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
+    if (do_oci_init)
     {
-        if (bdk_numa_exists(node))
+        /* Don't run OCI link init if L2C_OCI_CTL shows that it has already
+           been done */
+        BDK_CSR_INIT(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL);
+        if (l2c_oci_ctl.s.enaoci == 0)
         {
-            setup_node(node);
-            if (node != bdk_numa_master())
-                __bdk_init_node(node);
-            if (!skip_cores)
+            result |= init_oci();
+            for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
+            {
+                if (bdk_numa_exists(node))
+                {
+                    setup_node(node);
+                    if (node != bdk_numa_master())
+                        __bdk_init_node(node);
+                }
+            }
+        }
+    }
+
+    /* Start cores on all node unless it was disabled */
+    if (!skip_cores)
+    {
+        for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
+        {
+            if (bdk_numa_exists(node))
                 result |= bdk_init_cores(node, 0);
         }
     }
