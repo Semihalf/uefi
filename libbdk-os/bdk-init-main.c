@@ -84,7 +84,7 @@ void __bdk_init_node(bdk_node_t node)
     {
         BDK_TRACE(INIT, "N%d: Initialize SMMU%d\n", node, smmu);
         for (int id = 0; id < 2048; id++)
-            BDK_CSR_WRITE(bdk_numa_local(), BDK_SMMUX_SSDRX(smmu, id), 0);
+            BDK_CSR_WRITE(node, BDK_SMMUX_SSDRX(smmu, id), 0);
     }
 
 
