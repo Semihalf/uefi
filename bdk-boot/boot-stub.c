@@ -391,9 +391,7 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     int is_msb = !mpi_cfg.s.lsbfirst;
     int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
 
-    if (boot_method == RST_BOOT_METHOD_E_SPI16)
-        address_width = 16;
-    else if (boot_method == RST_BOOT_METHOD_E_SPI32)
+    if (boot_method == RST_BOOT_METHOD_E_SPI32)
         address_width = 32;
     else
         address_width = 24;
@@ -452,9 +450,6 @@ int main(void)
             break;
         case RST_BOOT_METHOD_E_REMOTE:
             boot_method_str = "REMOTE";
-            break;
-        case RST_BOOT_METHOD_E_SPI16:
-            boot_method_str = "SPI16";
             break;
         case RST_BOOT_METHOD_E_SPI24:
             boot_method_str = "SPI24";
