@@ -65,18 +65,8 @@ caddr_t _sbrk(int incr)
     if (dram_mbytes)
     {
         uint64_t dram_top = dram_mbytes << 20;
-        /* More than 256MB gets offset by 256MB due to the bootbus hole */
-        if (dram_top > 0x10000000)
-            dram_top += 0x10000000;
         end = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), dram_top));
     }
-
-    /* Skip 256MB-512MB which is the bootbus. Note that this doesn't affect
-        end, so it needs to be set correctly. If end is less that 256MB, this
-        code will increment past it and fail all allocations */
-    uint64_t paddr = bdk_ptr_to_phys(next) & bdk_build_mask(40);
-    if ((paddr < 0x20000000) && ((paddr + incr) > 0x10000000))
-        next = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), 0x20000000));
 
     caddr_t result = next;
 
