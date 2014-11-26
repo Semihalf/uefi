@@ -1599,13 +1599,19 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
+    int segment_length = 0;
 
     for (int s = 0; s < packet.segments; s++)
     {
         BDK_PREFETCH(bdk_phys_to_ptr(rb_addresses[s]), 0);
         packet.packet[s].u = rb_addresses[s];
         packet.packet[s].s.size = rb_sizes[s];
+        segment_length += rb_sizes[s];
     }
+
+    /* If we ran out of buffer the packet could be truncated */
+    if (segment_length < packet.length)
+        packet.length = segment_length;
 
     if (bdk_likely(packet.if_handle))
     {
