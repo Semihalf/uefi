@@ -1592,6 +1592,8 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
     packet.rx_error = cq_header->s.errlev;
     packet.rx_error <<= 8;
     packet.rx_error |= cq_header->s.errop;
+    if (packet.rx_error)
+        handle->stats.rx.errors++;
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
@@ -1729,7 +1731,6 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     /* Read the RX statistics. These do not include the ethernet FCS */
     BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
     BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
-    BDK_CSR_INIT(rx_fcs, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_FCS));
     BDK_CSR_INIT(rx_ovr, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN));
     BDK_CSR_INIT(rx_ovr_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS));
 
@@ -1740,8 +1741,6 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
         rx_red.u + rx_ovr.u, handle->stats.rx.dropped_packets, 48);
     handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * 4;
-    handle->stats.rx.errors = bdk_update_stat_with_overflow(
-        rx_fcs.u, handle->stats.rx.errors, 48);
 
     /* Read the TX statistics. These don't include the ethernet FCS */
     BDK_CSR_INIT(tx_octets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, NIC_STAT_VNIC_TX_E_TX_OCTS));
