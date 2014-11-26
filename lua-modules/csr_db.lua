@@ -43630,8 +43630,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_DRP_LEN_CTX_W1 = {
@@ -43643,7 +43642,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_DRP_PKT_CTX_W0 = {
@@ -43654,8 +43654,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_DRP_PKT_CTX_W1 = {
@@ -43667,7 +43666,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_FLCM_ECC_LOG = {
@@ -43698,8 +43698,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_FW_LEN_CTX_W1 = {
@@ -43711,7 +43710,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_FW_PKT_CTX_W0 = {
@@ -43722,8 +43722,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_FW_PKT_CTX_W1 = {
@@ -43735,7 +43734,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_LEN_CTX = {
@@ -44105,8 +44105,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_DRP_LEN_CTX_W1 = {
@@ -44118,7 +44117,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_DRP_PKT_CTX_W0 = {
@@ -44129,8 +44129,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_DRP_PKT_CTX_W1 = {
@@ -44142,7 +44141,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_FW_LEN_CTX_W0 = {
@@ -44153,8 +44153,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_FW_LEN_CTX_W1 = {
@@ -44166,7 +44165,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_FW_PKT_CTX_W0 = {
@@ -44177,8 +44177,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_FW_PKT_CTX_W1 = {
@@ -44190,7 +44189,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_LEN_CTX = {
@@ -44255,8 +44255,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_DRP_LEN_CTX_W1 = {
@@ -44268,7 +44267,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_DRP_PKT_CTX_W0 = {
@@ -44279,8 +44279,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_DRP_PKT_CTX_W1 = {
@@ -44292,7 +44291,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_FLCM_ECC_LOG = {
@@ -44323,8 +44323,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_FW_LEN_CTX_W1 = {
@@ -44336,7 +44335,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_FW_PKT_CTX_W0 = {
@@ -44347,8 +44347,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_FW_PKT_CTX_W1 = {
@@ -44360,7 +44359,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_LEN_CTX = {
@@ -95840,8 +95840,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_DRP_LEN_CTX_W1 = {
@@ -95853,7 +95852,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_DRP_PKT_CTX_W0 = {
@@ -95864,8 +95864,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_DRP_PKT_CTX_W1 = {
@@ -95877,7 +95876,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_FLCM_ECC_LOG = {
@@ -95908,8 +95908,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_FW_LEN_CTX_W1 = {
@@ -95921,7 +95920,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_FW_PKT_CTX_W0 = {
@@ -95932,8 +95932,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_H1_FW_PKT_CTX_W1 = {
@@ -95945,7 +95944,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_H1_LEN_CTX = {
@@ -96315,8 +96315,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_DRP_LEN_CTX_W1 = {
@@ -96328,7 +96327,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_DRP_PKT_CTX_W0 = {
@@ -96339,8 +96339,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_DRP_PKT_CTX_W1 = {
@@ -96352,7 +96351,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_FW_LEN_CTX_W0 = {
@@ -96363,8 +96363,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_FW_LEN_CTX_W1 = {
@@ -96376,7 +96375,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_FW_PKT_CTX_W0 = {
@@ -96387,8 +96387,7 @@ local csr_db = {
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_PT_FW_PKT_CTX_W1 = {
@@ -96400,7 +96399,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_PT_LEN_CTX = {
@@ -96465,8 +96465,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_DRP_LEN_CTX_W1 = {
@@ -96478,7 +96477,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_DRP_PKT_CTX_W0 = {
@@ -96489,8 +96489,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_DRP_PKT_CTX_W1 = {
@@ -96502,7 +96501,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_FLCM_ECC_LOG = {
@@ -96533,8 +96533,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_FW_LEN_CTX_W1 = {
@@ -96546,7 +96545,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_FW_PKT_CTX_W0 = {
@@ -96557,8 +96557,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 1, stop = 31},
-                {name = "SATURATE", start = 0, stop = 0},
+                {name = "COUNT_X0", start = 0, stop = 31},
             }
         },
         TNS_TXQ_CNT_Q_FW_PKT_CTX_W1 = {
@@ -96570,7 +96569,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "COUNT_X1", start = 0, stop = 8},
+                {name = "SATURATE", start = 8, stop = 8},
+                {name = "COUNT_X1", start = 0, stop = 7},
             }
         },
         TNS_TXQ_CNT_Q_LEN_CTX = {

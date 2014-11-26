@@ -4314,8 +4314,8 @@ typedef union bdk_nic_pf_int_timer_cfg {
 	struct bdk_nic_pf_int_timer_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_24_63              : 40;
-		uint64_t clk_per_int_tick            : 24; /**< R/W - Number of coprocessor-clock cycles per tick for the CQ interrupt timers in
-                                                                 NIC_QS()_CQ()_STATUS2[GLOBAL_TIME]. */
+		uint64_t clk_per_int_tick            : 24; /**< R/W - Specifies tick period for the CQ interrupt timers in NIC_QS()_CQ()_STATUS2[GLOBAL_TIME].
+                                                                 The number of coprocessor-clock cycles per tick is 16*CLK_PER_INT_TICK. */
 #else
 		uint64_t clk_per_int_tick            : 24;
 		uint64_t reserved_24_63              : 40;

@@ -34899,11 +34899,9 @@ typedef union bdk_tns_txq_cnt_h1_drp_len_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_h1_drp_len_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_h1_drp_len_ctx_w0_s cn88xx; */
@@ -34935,9 +34933,11 @@ typedef union bdk_tns_txq_cnt_h1_drp_len_ctx_w1 {
 	struct bdk_tns_txq_cnt_h1_drp_len_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -34972,11 +34972,9 @@ typedef union bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w0_s cn88xx; */
@@ -35008,9 +35006,11 @@ typedef union bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1 {
 	struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -35113,11 +35113,9 @@ typedef union bdk_tns_txq_cnt_h1_fw_len_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_h1_fw_len_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_h1_fw_len_ctx_w0_s cn88xx; */
@@ -35149,9 +35147,11 @@ typedef union bdk_tns_txq_cnt_h1_fw_len_ctx_w1 {
 	struct bdk_tns_txq_cnt_h1_fw_len_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -35186,11 +35186,9 @@ typedef union bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w0_s cn88xx; */
@@ -35222,9 +35220,11 @@ typedef union bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1 {
 	struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36255,11 +36255,9 @@ typedef union bdk_tns_txq_cnt_pt_drp_len_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_pt_drp_len_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_pt_drp_len_ctx_w0_s cn88xx; */
@@ -36291,9 +36289,11 @@ typedef union bdk_tns_txq_cnt_pt_drp_len_ctx_w1 {
 	struct bdk_tns_txq_cnt_pt_drp_len_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36328,11 +36328,9 @@ typedef union bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w0_s cn88xx; */
@@ -36364,9 +36362,11 @@ typedef union bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1 {
 	struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36401,11 +36401,9 @@ typedef union bdk_tns_txq_cnt_pt_fw_len_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_pt_fw_len_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_pt_fw_len_ctx_w0_s cn88xx; */
@@ -36437,9 +36435,11 @@ typedef union bdk_tns_txq_cnt_pt_fw_len_ctx_w1 {
 	struct bdk_tns_txq_cnt_pt_fw_len_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36474,11 +36474,9 @@ typedef union bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w0_s cn88xx; */
@@ -36510,9 +36508,11 @@ typedef union bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1 {
 	struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36719,11 +36719,9 @@ typedef union bdk_tns_txq_cnt_q_drp_len_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_q_drp_len_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_q_drp_len_ctx_w0_s cn88xx; */
@@ -36755,9 +36753,11 @@ typedef union bdk_tns_txq_cnt_q_drp_len_ctx_w1 {
 	struct bdk_tns_txq_cnt_q_drp_len_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36792,11 +36792,9 @@ typedef union bdk_tns_txq_cnt_q_drp_pkt_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w0_s cn88xx; */
@@ -36828,9 +36826,11 @@ typedef union bdk_tns_txq_cnt_q_drp_pkt_ctx_w1 {
 	struct bdk_tns_txq_cnt_q_drp_pkt_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -36933,11 +36933,9 @@ typedef union bdk_tns_txq_cnt_q_fw_len_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_q_fw_len_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_q_fw_len_ctx_w0_s cn88xx; */
@@ -36969,9 +36967,11 @@ typedef union bdk_tns_txq_cnt_q_fw_len_ctx_w1 {
 	struct bdk_tns_txq_cnt_q_fw_len_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
@@ -37006,11 +37006,9 @@ typedef union bdk_tns_txq_cnt_q_fw_pkt_ctx_w0 {
 	uint32_t u;
 	struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t count_x0                    : 31; /**< R/W - -- */
-		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x0                    : 32; /**< R/W - -- */
 #else
-		uint32_t saturate                    : 1;
-		uint32_t count_x0                    : 31;
+		uint32_t count_x0                    : 32;
 #endif
 	} s;
 	/* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w0_s cn88xx; */
@@ -37042,9 +37040,11 @@ typedef union bdk_tns_txq_cnt_q_fw_pkt_ctx_w1 {
 	struct bdk_tns_txq_cnt_q_fw_pkt_ctx_w1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_9_31               : 23;
-		uint32_t count_x1                    : 9;  /**< R/W - Continuation of field COUNT_X0. */
+		uint32_t saturate                    : 1;  /**< R/W - -- */
+		uint32_t count_x1                    : 8;  /**< R/W - Continuation of field COUNT_X0. */
 #else
-		uint32_t count_x1                    : 9;
+		uint32_t count_x1                    : 8;
+		uint32_t saturate                    : 1;
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
