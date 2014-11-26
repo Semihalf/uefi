@@ -1587,7 +1587,11 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
     packet.length = cq_header->s.len;
     packet.segments = cq_header->s.rb_cnt;
     packet.if_handle = global_handle_table[vnic];
+    /* Combine the errlev and errop into a single 11 bit number. Errop
+       is 8 bits, so errlev will be in the top byte */
     packet.rx_error = cq_header->s.errlev;
+    packet.rx_error <<= 8;
+    packet.rx_error |= cq_header->s.errop;
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
