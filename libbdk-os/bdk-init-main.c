@@ -46,6 +46,9 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_node(bdk_node_t node)
 {
+    /* Enable the timer. Do this first as many things depend on the clock */
+    bdk_clock_setup(node);
+
     BDK_TRACE(INIT, "N%d: Performing node initialization\n", node);
 
     /* Allow CAP access from cores so we can read system registers through
