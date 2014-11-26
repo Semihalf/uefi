@@ -27,7 +27,7 @@ static void *sata_open(const char *name, int flags)
     /* Check that the controller is valid */
     if ((sata < 0) || (sata >= num_sata))
     {
-        bdk_error("SATA: Invalid controller specified (%d)\n", sata);
+        bdk_error("N%d.SATA: Invalid controller specified (%d)\n", node, sata);
         return NULL;
     }
 
@@ -39,7 +39,7 @@ static void *sata_open(const char *name, int flags)
     {
         if (bdk_sata_initialize(node, sata))
         {
-            bdk_error("SATA%d: Initialization failed\n", sata);
+            bdk_error("N%d.SATA%d: Initialization failed\n", node, sata);
             return NULL;
         }
         num_ports = bdk_sata_get_ports(node, sata);
@@ -49,7 +49,7 @@ static void *sata_open(const char *name, int flags)
         SATA */
     if (num_ports == 0)
     {
-        bdk_error("SATA%d: Controller not connected to any ports\n", sata);
+        bdk_error("N%d.SATA%d: Controller not connected to any ports\n", node, sata);
         return NULL;
     }
 
@@ -78,14 +78,14 @@ static int sata_read(__bdk_fs_file_t *handle, void *buffer, int length)
     /* Make sure we're working with complete sectors */
     if ((length & 511) || (handle->location & 511))
     {
-        bdk_error("SATA%d: File IO must be in multiples of 512 bytes\n", sata);
+        bdk_error("N%d.SATA%d: File IO must be in multiples of 512 bytes\n", node, sata);
         return -1;
     }
 
     /* Do the read */
     if (bdk_sata_read(node, sata, 0, handle->location >> 9, length >> 9, buffer))
     {
-        bdk_error("SATA%d: Read error\n", sata);
+        bdk_error("N%d.SATA%d: Read error\n", node, sata);
         return 0;
     }
     else
@@ -110,14 +110,14 @@ static int sata_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     /* Make sure we're working with complete sectors */
     if ((length & 511) || (handle->location & 511))
     {
-        bdk_error("SATA%d: File IO must be in multiples of 512 bytes\n", sata);
+        bdk_error("N%d.SATA%d: File IO must be in multiples of 512 bytes\n", node, sata);
         return -1;
     }
 
     /* Do the write */
     if (bdk_sata_write(node, sata, 0, handle->location >> 9, length >> 9, buffer))
     {
-        bdk_error("SATA%d: Write error\n", sata);
+        bdk_error("N%d.SATA%d: Write error\n", node, sata);
         return 0;
     }
     else

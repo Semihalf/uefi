@@ -290,7 +290,7 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     void *clb = memalign(1024, sizeof(hba_cmd_header_t) * 32);
     if (clb == NULL)
     {
-        bdk_error("SATA%d: Failed to allocate command list\n", controller);
+        bdk_error("N%d.SATA%d: Failed to allocate command list\n", node, controller);
         return -1;
     }
     memset(clb, 0, sizeof(hba_cmd_header_t) * 32);
@@ -301,7 +301,7 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     hba_fis_t *fb = memalign(256, sizeof(hba_fis_t));
     if (fb == NULL)
     {
-        bdk_error("SATA%d: Failed to allocate FIS\n", controller);
+        bdk_error("N%d.SATA%d: Failed to allocate FIS\n", node, controller);
         return -1;
     }
     memset(fb, 0, sizeof(hba_fis_t));
@@ -439,7 +439,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     BDK_CSR_INIT(ci, node, BDK_SATAX_UAHC_P0_CI(controller));
     if (ci.u & (1<<slot))
     {
-        bdk_error("SATA%d: Command slot busy before submit\n", controller);
+        bdk_error("N%d.SATA%d: Command slot busy before submit\n", node, controller);
         return -1;
     }
 
@@ -454,14 +454,14 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     const int TIMEOUT = 5000000; /* 5 seconds */
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_CI(controller), ci & (1<<slot), ==, 0, TIMEOUT))
     {
-        bdk_error("SATA%d: Command timeout\n", controller);
+        bdk_error("N%d.SATA%d: Command timeout\n", node, controller);
         return -1;
     }
 
     /* Wait for completion */
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_IS(controller), dhrs | c.s.pss | c.s.dss, !=, 0, TIMEOUT))
     {
-        bdk_error("SATA%d: Response timeout\n", controller);
+        bdk_error("N%d.SATA%d: Response timeout\n", node, controller);
         return -1;
     }
 
@@ -469,7 +469,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     BDK_CSR_INIT(p_is, node, BDK_SATAX_UAHC_P0_IS(controller));
     if (p_is.s.tfes)
     {
-        bdk_error("SATA%d: Task-file error\n", controller);
+        bdk_error("N%d.SATA%d: Task-file error\n", node, controller);
         return -1;
     }
     return 0;
@@ -495,7 +495,7 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     const int TIMEOUT = 1000000; /* 1 seconds */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_SSTS(controller), ipm, !=, 0, TIMEOUT))
     {
-        bdk_error("SATA%d: Response timeout\n", controller);
+        bdk_error("N%d.SATA%d: Response timeout\n", node, controller);
         return -1;
     }
 
@@ -506,22 +506,22 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     switch (ssts.s.ipm)
     {
         case 0: /* Device not present or communication not established */
-            printf("SATA%d: Device not present or communication not established\n", controller);
+            printf("N%d.SATA%d: Device not present or communication not established\n", node, controller);
             return 0;
         case 1: /* Interface in active state */
-            printf("SATA%d: Interface in active state\n", controller);
+            printf("N%d.SATA%d: Interface in active state\n", node, controller);
             break;
         case 2: /* Interface in Partial power management state */
-            printf("SATA%d: Interface in Partial power management state\n", controller);
+            printf("N%d.SATA%d: Interface in Partial power management state\n", node, controller);
             return 0;
         case 6: /* Interface in Slumber power management state */
-            printf("SATA%d: Interface in Slumber power management state\n", controller);
+            printf("N%d.SATA%d: Interface in Slumber power management state\n", node, controller);
             return 0;
         case 8: /* Interface in DevSleep power management state */
-            printf("SATA%d: Interface in DevSleep power management state\n", controller);
+            printf("N%d.SATA%d: Interface in DevSleep power management state\n", node, controller);
             return 0;
         default:
-            printf("SATA%d: Interface in unknown power state %d\n", controller, ssts.s.ipm);
+            printf("N%d.SATA%d: Interface in unknown power state %d\n", node, controller, ssts.s.ipm);
             return 0;
     }
 
@@ -529,15 +529,15 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     switch (ssts.s.spd)
     {
         case 0: /* Device not present or communication not established */
-            printf("SATA%d: Device not present or communication not established\n", controller);
+            printf("N%d.SATA%d: Device not present or communication not established\n", node, controller);
             return 0;
         case 1:
         case 2:
         case 3:
-            printf("SATA%d: Speed Gen%d\n", controller, ssts.s.spd);
+            printf("N%d.SATA%d: Speed Gen%d\n", node, controller, ssts.s.spd);
             break;
         default:
-            printf("SATA%d: Interface in unknown speed %d\n", controller, ssts.s.spd);
+            printf("N%d.SATA%d: Interface in unknown speed %d\n", node, controller, ssts.s.spd);
             return 0;
     }
 
@@ -545,19 +545,19 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     switch (ssts.s.det)
     {
         case 0: /* No device detected and Phy communication not established */
-            printf("SATA%d: No device detected and Phy communication not established\n", controller);
+            printf("N%d.SATA%d: No device detected and Phy communication not established\n", node, controller);
             return 0;
         case 1: /* Device presence detected but Phy communication not established */
-            printf("SATA%d: Device presence detected but Phy communication not established\n", controller);
+            printf("N%d.SATA%d: Device presence detected but Phy communication not established\n", node, controller);
             return 0;
         case 3: /* Device presence detected and Phy communication established */
-            printf("SATA%d: Device presence detected and Phy communication established\n", controller);
+            printf("N%d.SATA%d: Device presence detected and Phy communication established\n", node, controller);
             break;
         case 4: /* Phy in offline mode as a result of the interface being disabled or running in a BIST loopback mode */
-            printf("SATA%d: Phy in offline mode\n", controller);
+            printf("N%d.SATA%d: Phy in offline mode\n", node, controller);
             return 0;
         default:
-            printf("SATA%d: Device presence in unknown state %d\n", controller, ssts.s.det);
+            printf("N%d.SATA%d: Device presence in unknown state %d\n", node, controller, ssts.s.det);
             return 0;
     }
 
@@ -566,19 +566,19 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     switch (sig.s.sig)
     {
         case 0x00000101: /* SATA_SIG_ATA 0x00000101, SATA drive */
-            printf("SATA%d: SATA drive\n", controller);
+            printf("N%d.SATA%d: SATA drive\n", node, controller);
             break;
         case 0xEB140101: /* SATA_SIG_ATAPI 0xEB140101, SATAPI drive */
-            printf("SATA%d: SATAPI drive, not supported by the BDK\n", controller);
+            printf("N%d.SATA%d: SATAPI drive, not supported by the BDK\n", node, controller);
             return 0;
         case 0xC33C0101: /* SATA_SIG_SEMB 0xC33C0101, Enclosure management bridge */
-            printf("SATA%d: Enclosure management bridge, not supported by the BDK\n", controller);
+            printf("N%d.SATA%d: Enclosure management bridge, not supported by the BDK\n", node, controller);
             return 0;
         case 0x96690101: /* SATA_SIG_PM 0x96690101, Port multiplier */
-            printf("SATA%d: Port multiplier, not supported by the BDK\n", controller);
+            printf("N%d.SATA%d: Port multiplier, not supported by the BDK\n", node, controller);
             return 0;
         default: /* Just assume it is a drive */
-            printf("SATA%d: Unknown signature 0x%08x, assuming a SATA drive\n", controller, sig.u);
+            printf("N%d.SATA%d: Unknown signature 0x%08x, assuming a SATA drive\n", node, controller, sig.u);
             break;
     }
 
@@ -599,8 +599,8 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     char model[40 + 1];
     get_ide_string(model, ptr + 27, 40);
 
-    printf("SATA%d: Model=\"%s\", Firmware=\"%s\", Serial=\"%s\", Sectors=%lu\n",
-        controller, model, firmware, serial, sectors);
+    printf("N%d.SATA%d: Model=\"%s\", Firmware=\"%s\", Serial=\"%s\", Sectors=%lu\n",
+        node, controller, model, firmware, serial, sectors);
 
     /* Return size in bytes */
     return sectors * 512;
