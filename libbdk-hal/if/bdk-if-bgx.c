@@ -1567,7 +1567,9 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet)
 
     for (int s = 0; s < packet->segments; s++)
     {
-        rbdr_ptr[loc] = packet->packet[s].s.address;
+        /* Make sure we strip off any padding added by the hardware in the address */
+        uint64_t address = packet->packet[s].s.address & -BDK_CACHE_LINE_SIZE;
+        rbdr_ptr[loc] = address;
         loc++;
         loc &= RBDR_ENTRIES - 1;
     }
