@@ -991,13 +991,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
             break;
         case BDK_QLM_MODE_DISABLED:
-            /* Power down phy, and keep it in reset */
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
-                c.s.phy_pd = 1;
-                c.s.phy_reset = 1);
             /* Set gser for the interface mode */
             BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
                 c.u = 0);
+            /* Put the PHY in reset */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
+                c.s.phy_reset = 1);
             return 0;
         default:
             bdk_error("Unsupported QLM mode %d\n", mode);
@@ -1274,6 +1273,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 0;
         c.s.clr = 1);
+    bdk_wait_usec(1); /* Give counter a chance to clear */
     if (BDK_CSR_READ(node, BDK_GSERX_REFCLK_EVT_CNTR(qlm)))
         bdk_error("GSER%d: Ref clock counter not zero\n", qlm);
     /* Start counting */
@@ -1287,6 +1287,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 0);
     uint64_t stop = bdk_clock_get_count(BDK_CLOCK_CORE);
+    bdk_wait_usec(1); /* Give counter a chance to stabalize */
 
     /* Calculate the rate */
     uint64_t count = BDK_CSR_READ(node, BDK_GSERX_REFCLK_EVT_CNTR(qlm));
