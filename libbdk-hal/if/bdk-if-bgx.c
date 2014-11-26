@@ -1057,9 +1057,9 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
     if (do_fill)
     {
         /* We probably don't have enough space to completely fill the RBDR. Use
-           1/2 of the buffers available minus a few. We expect to only have 2
-           RBDR rings */
-        int fill_num = (bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 2;
+           1/4 of the buffers available minus a few. We expect to only have 2
+           RBDR rings per node and a max of 2 nodes */
+        int fill_num = (bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 4;
         /* Note that RBDR must leave one spot empty */
         if (fill_num > RBDR_ENTRIES - 1)
             fill_num = RBDR_ENTRIES - 1;
