@@ -952,10 +952,10 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
     int rbdr = priv->rbdr;
     int rbdr_idx = 0;
 
-    BDK_CSR_INIT(rbdr_head, handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx));
+    BDK_CSR_INIT(rbdr_base, handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx));
     BDK_CSR_INIT(rbdr_tail, handle->node, BDK_NIC_QSX_RBDRX_TAIL(rbdr, rbdr_idx));
 
-    uint64_t *rbdr_ptr = bdk_phys_to_ptr(rbdr_head.u);
+    uint64_t *rbdr_ptr = bdk_phys_to_ptr(rbdr_base.u);
     int loc = rbdr_tail.s.tail_ptr;
 
     int added = 0;
