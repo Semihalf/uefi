@@ -353,6 +353,7 @@ def build_csr(chip_info, group, register, raw):
                       "pcc_conditional",
                       "pcc_exempt_access",
                       "tns_fused",
+                      "xpliant_name",
                       "uvm_default_constraint"])
             if "chip_pass" in field["attributes"]:
                 pass_equation = field["attributes"]["chip_pass"].split(";")

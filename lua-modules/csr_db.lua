@@ -30799,15 +30799,13 @@ local csr_db = {
                 {name = "EOP", start = 0, stop = 0},
             }
         },
-        TNS_SDE_CFG_SPARE_WX = {
-            name = "TNS_SDE_CFG_SPARE_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CFG_SPARE = {
+            name = "TNS_SDE_CFG_SPARE",
+            type = "NCB",
+            width = 8,
             address = 0x842060740000,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "FIELD", start = 0, stop = 31},
+                {name = "FIELD", start = 0, stop = 63},
             }
         },
         TNS_SDE_CNT_BKX_BK_ECC_CTLX = {
@@ -31008,35 +31006,22 @@ local csr_db = {
                 {name = "OOO", start = 0, stop = 0},
             }
         },
-        TNS_SDE_CNT_BKX_MODE_POLX_W0 = {
-            name = "TNS_SDE_CNT_BK#_MODE_POL#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CNT_BKX_MODE_POLX = {
+            name = "TNS_SDE_CNT_BK#_MODE_POL#",
+            type = "NCB",
+            width = 8,
             address = 0x842060610010,
             range1 = {0,3},
             range1_inc = 0x20000,
             range2 = {0,3},
             range2_inc = 0x8,
             fields = {
-                {name = "UNIT_TIME_X0", start = 13, stop = 31},
+                {name = "RESERVED_46_63", start = 46, stop = 63},
+                {name = "REFR_EN", start = 45, stop = 45},
+                {name = "UNIT_TIME", start = 13, stop = 44},
                 {name = "REFR_TIME_GRAN_EXPO", start = 9, stop = 12},
                 {name = "UPDT_WEIGHT", start = 1, stop = 8},
                 {name = "BILLING_CTR_EN", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_CNT_BKX_MODE_POLX_W1 = {
-            name = "TNS_SDE_CNT_BK#_MODE_POL#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060610014,
-            range1 = {0,3},
-            range1_inc = 0x20000,
-            range2 = {0,3},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_14_31", start = 14, stop = 31},
-                {name = "REFR_EN", start = 13, stop = 13},
-                {name = "UNIT_TIME_X1", start = 0, stop = 12},
             }
         },
         TNS_SDE_CNT_BKX_SPAD = {
@@ -31050,33 +31035,22 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SDE_CNT_CINF_BCKTX_W0 = {
-            name = "TNS_SDE_CNT_CINF_BCKT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CNT_CINF_BCKTX = {
+            name = "TNS_SDE_CNT_CINF_BCKT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060681020,
             range1 = {0,7},
             range1_inc = 0x8,
             fields = {
-                {name = "B_X0", start = 22, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "EN", start = 54, stop = 54},
+                {name = "A_A", start = 38, stop = 53},
+                {name = "B_B", start = 22, stop = 37},
                 {name = "N", start = 6, stop = 21},
                 {name = "GRAN_EXPO", start = 2, stop = 5},
                 {name = "ADD_ADDR", start = 1, stop = 1},
                 {name = "BKT_USE_ADDR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_CNT_CINF_BCKTX_W1 = {
-            name = "TNS_SDE_CNT_CINF_BCKT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060681024,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "EN", start = 22, stop = 22},
-                {name = "AA", start = 6, stop = 21},
-                {name = "B_X1", start = 0, stop = 5},
             }
         },
         TNS_SDE_CNT_CINF_INT_RO = {
@@ -31158,19 +31132,18 @@ local csr_db = {
                 {name = "FLIP_SB_ECC", start = 0, stop = 0},
             }
         },
-        TNS_SDE_CNT_CRSL_POL_PRMXDX_WX = {
-            name = "TNS_SDE_CNT_CRSL_POL_PRM#D#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CNT_CRSL_POL_PRMXDX = {
+            name = "TNS_SDE_CNT_CRSL_POL_PRM#D#",
+            type = "NCB",
+            width = 8,
             address = 0x842060680000,
             range1 = {0,1},
             range1_inc = 0x330,
             range2 = {0,101},
             range2_inc = 0x8,
-            range3 = {0,1},
-            range3_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "DATA", start = 0, stop = 56},
             }
         },
         TNS_SDE_CNT_CRSL_SPAD = {
@@ -31370,13 +31343,13 @@ local csr_db = {
         },
         TNS_SDE_HDBF_MEMCTX_WX = {
             name = "TNS_SDE_HDBF_MEMCTX_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060780858,
-            range1 = {0,5},
-            range1_inc = 0x4,
+            range1 = {0,2},
+            range1_inc = 0x8,
             fields = {
-                {name = "FIELD", start = 0, stop = 31},
+                {name = "FIELD", start = 0, stop = 63},
             }
         },
         TNS_SDE_HDBF_MEMMAIN_ADR = {
@@ -31493,222 +31466,114 @@ local csr_db = {
         },
         TNS_SDE_ISME_LM_TILE_LMEMX_W0 = {
             name = "TNS_SDE_ISME_LM_TILE_LMEM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060000000,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X0", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LM_TILE_LMEMX_W1 = {
             name = "TNS_SDE_ISME_LM_TILE_LMEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060000004,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W2 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060000008,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X2", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W3 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206000000c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W4 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_LMEMX_W2 = {
+            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060000010,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 32, stop = 63},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W5 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060000014,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W6 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W6",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_LMEMX_W3 = {
+            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W3",
+            type = "NCB",
+            width = 8,
             address = 0x842060000018,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X1", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W7 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206000001c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W8 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W8",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_LMEMX_W4 = {
+            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W4",
+            type = "NCB",
+            width = 8,
             address = 0x842060000020,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W9 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060000024,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LM_TILE_RMEMX_W0 = {
             name = "TNS_SDE_ISME_LM_TILE_RMEM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060040000,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X0", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LM_TILE_RMEMX_W1 = {
             name = "TNS_SDE_ISME_LM_TILE_RMEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060040004,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W2 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060040008,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X2", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W3 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206004000c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W4 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_RMEMX_W2 = {
+            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060040010,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 32, stop = 63},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W5 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060040014,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W6 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W6",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_RMEMX_W3 = {
+            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W3",
+            type = "NCB",
+            width = 8,
             address = 0x842060040018,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X1", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W7 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206004001c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W8 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W8",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_RMEMX_W4 = {
+            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W4",
+            type = "NCB",
+            width = 8,
             address = 0x842060040020,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W9 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060040024,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LMKL_LOCK = {
@@ -32123,494 +31988,260 @@ local csr_db = {
         },
         TNS_SDE_LDEX_CFG_KFIT0X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT0#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206000,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT0X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT0#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT0X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206008,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT0X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020600c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT0X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT0X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT0#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206010,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT0X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206014,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT1X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT1#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206200,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT1X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT1#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206204,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT1X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206208,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT1X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020620c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT1X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT1X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT1#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206210,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT1X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206214,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT2X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT2#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206400,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT2X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT2#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206404,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT2X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206408,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT2X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020640c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT2X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT2X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT2#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206410,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT2X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206414,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT3X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT3#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206600,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT3X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT3#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206604,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT3X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206608,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT3X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020660c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT3X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT3X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT3#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206610,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT3X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206614,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT4X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT4#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206800,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT4X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT4#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206804,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT4X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206808,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT4X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020680c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT4X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT4X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT4#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206810,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT4X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206814,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT5X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT5#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206a00,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT5X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT5#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206a04,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT5X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206a08,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT5X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206a0c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT5X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT5X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT5#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206a10,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT5X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206a14,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT6X = {
@@ -32728,118 +32359,66 @@ local csr_db = {
         },
         TNS_SDE_LDEX_CFG_OFIT0X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT0#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200800,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_TXQ_SEL_INST_X0", start = 13, stop = 31},
+                {name = "TOKEN_REASONCODE_INST", start = 61, stop = 63},
+                {name = "TOKEN_FILTERGRPNUMBER_INST", start = 41, stop = 60},
+                {name = "TOKEN_TXQ_SEL_INST", start = 13, stop = 40},
                 {name = "TOKEN_NEXTENGINE_INST", start = 4, stop = 12},
                 {name = "TOKEN_SLAVELANESEL_INST", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT0X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT0#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200804,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_REASONCODE_INST_X0", start = 29, stop = 31},
-                {name = "TOKEN_FILTERGRPNUMBER_INST", start = 9, stop = 28},
-                {name = "TOKEN_TXQ_SEL_INST_X1", start = 0, stop = 8},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT0X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200808,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_ECMPSIZE_INST_X0", start = 30, stop = 31},
-                {name = "TOKEN_REASONCODE_INST_X1", start = 0, stop = 29},
+                {name = "TOKEN_EGRESSVIF_INST", start = 54, stop = 63},
+                {name = "TOKEN_ECMPSIZE_INST", start = 30, stop = 53},
+                {name = "TOKEN_REASONCODE_INST", start = 0, stop = 29},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT0X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020080c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_EGRESSVIF_INST_X0", start = 22, stop = 31},
-                {name = "TOKEN_ECMPSIZE_INST_X1", start = 0, stop = 21},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT0X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT0X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT0#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060200810,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_PKTCMD_INST_X0", start = 22, stop = 31},
-                {name = "TOKEN_EGRESSVIF_INST_X1", start = 0, stop = 21},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "TOKEN_PKTCMD_INST", start = 22, stop = 35},
+                {name = "TOKEN_EGRESSVIF_INST", start = 0, stop = 21},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT0X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200814,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "TOKEN_PKTCMD_INST_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT1X_W0 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT1#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT1X = {
+            name = "TNS_SDE_LDE#_CFG_OFIT1#",
+            type = "NCB",
+            width = 8,
             address = 0x842060202000,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x8,
             fields = {
-                {name = "TOKEN_INGRESSVIF_INST_X0", start = 20, stop = 31},
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "TOKEN_INGRESSVIF_INST", start = 20, stop = 51},
                 {name = "TOKEN_FIRSTVLDLAYER_INST", start = 4, stop = 19},
                 {name = "TOKEN_HASHSELECT_INST", start = 2, stop = 3},
                 {name = "TOKEN_TT_INST", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT1X_W1 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT1#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060202004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_20_31", start = 20, stop = 31},
-                {name = "TOKEN_INGRESSVIF_INST_X1", start = 0, stop = 19},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT2X = {
@@ -32858,147 +32437,83 @@ local csr_db = {
         },
         TNS_SDE_LDEX_CFG_OFIT3X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT3#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201c00,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x10,
             fields = {
-                {name = "TOKEN_DSCP_INST_X0", start = 17, stop = 31},
+                {name = "TOKEN_PCP_INST", start = 52, stop = 63},
+                {name = "TOKEN_DEI_INST", start = 37, stop = 51},
+                {name = "TOKEN_DSCP_INST", start = 17, stop = 36},
                 {name = "TOKEN_EXP_INST", start = 0, stop = 16},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT3X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT3#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201c04,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x10,
-            fields = {
-                {name = "TOKEN_PCP_INST_X0", start = 20, stop = 31},
-                {name = "TOKEN_DEI_INST", start = 5, stop = 19},
-                {name = "TOKEN_DSCP_INST_X1", start = 0, stop = 4},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT3X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT3#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201c08,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x10,
             fields = {
-                {name = "TOKEN_DP_INST_X0", start = 23, stop = 31},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "TOKEN_DP_INST", start = 23, stop = 38},
                 {name = "TOKEN_TC_INST", start = 5, stop = 22},
-                {name = "TOKEN_PCP_INST_X1", start = 0, stop = 4},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT3X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT3#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201c0c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x10,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "TOKEN_DP_INST_X1", start = 0, stop = 6},
+                {name = "TOKEN_PCP_INST", start = 0, stop = 4},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT4X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT4#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200c00,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_REWRPTR1_INST_X0", start = 20, stop = 31},
+                {name = "TOKEN_REWRPTR3_INST", start = 60, stop = 63},
+                {name = "TOKEN_REWRPTR2_INST", start = 40, stop = 59},
+                {name = "TOKEN_REWRPTR1_INST", start = 20, stop = 39},
                 {name = "TOKEN_REWRPTR0_INST", start = 0, stop = 19},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT4X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT4#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200c04,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_REWRPTR3_INST_X0", start = 28, stop = 31},
-                {name = "TOKEN_REWRPTR2_INST", start = 8, stop = 27},
-                {name = "TOKEN_REWRPTR1_INST_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT4X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200c08,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_REWRPTR4_INST_X0", start = 16, stop = 31},
-                {name = "TOKEN_REWRPTR3_INST_X1", start = 0, stop = 15},
+                {name = "TOKEN_REWRPTR6_INST", start = 56, stop = 63},
+                {name = "TOKEN_REWRPTR5_INST", start = 36, stop = 55},
+                {name = "TOKEN_REWRPTR4_INST", start = 16, stop = 35},
+                {name = "TOKEN_REWRPTR3_INST", start = 0, stop = 15},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT4X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200c0c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_REWRPTR6_INST_X0", start = 24, stop = 31},
-                {name = "TOKEN_REWRPTR5_INST", start = 4, stop = 23},
-                {name = "TOKEN_REWRPTR4_INST_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT4X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT4X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT4#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060200c10,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
+                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "TOKEN_REWRITEPT6ISINS_INST", start = 51, stop = 52},
+                {name = "TOKEN_INSERTPTR22_16_INST", start = 32, stop = 50},
                 {name = "TOKEN_REWRPTR7_INST", start = 12, stop = 31},
-                {name = "TOKEN_REWRPTR6_INST_X1", start = 0, stop = 11},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT4X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200c14,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_21_31", start = 21, stop = 31},
-                {name = "TOKEN_REWRITEPT6ISINS_INST", start = 19, stop = 20},
-                {name = "TOKEN_INSERTPTR22_16_INST", start = 0, stop = 18},
+                {name = "TOKEN_REWRPTR6_INST", start = 0, stop = 11},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W0 = {
@@ -33011,7 +32526,7 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST0_X0", start = 0, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W1 = {
@@ -33024,8 +32539,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST1_X0", start = 30, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST0_X1", start = 0, stop = 29},
+                {name = "TOKEN_SCRATCHPAD_INST1", start = 30, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 29},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W10 = {
@@ -33039,7 +32554,7 @@ local csr_db = {
             range2_inc = 0x2c,
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST7_X1", start = 0, stop = 7},
+                {name = "TOKEN_SCRATCHPAD_INST7", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W2 = {
@@ -33052,7 +32567,7 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST1_X1", start = 0, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W3 = {
@@ -33065,8 +32580,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST2_X0", start = 4, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST1_X2", start = 0, stop = 3},
+                {name = "TOKEN_SCRATCHPAD_INST2", start = 4, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W4 = {
@@ -33079,8 +32594,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST3_X0", start = 10, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST2_X1", start = 0, stop = 9},
+                {name = "TOKEN_SCRATCHPAD_INST3", start = 10, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST2", start = 0, stop = 9},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W5 = {
@@ -33093,8 +32608,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST4_X0", start = 16, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST3_X1", start = 0, stop = 15},
+                {name = "TOKEN_SCRATCHPAD_INST4", start = 16, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST3", start = 0, stop = 15},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W6 = {
@@ -33107,8 +32622,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST5_X0", start = 22, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST4_X1", start = 0, stop = 21},
+                {name = "TOKEN_SCRATCHPAD_INST5", start = 22, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST4", start = 0, stop = 21},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W7 = {
@@ -33121,8 +32636,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST6_X0", start = 28, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST5_X1", start = 0, stop = 27},
+                {name = "TOKEN_SCRATCHPAD_INST6", start = 28, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST5", start = 0, stop = 27},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W8 = {
@@ -33135,7 +32650,7 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST6_X1", start = 0, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W9 = {
@@ -33148,172 +32663,94 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST7_X0", start = 2, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST6_X2", start = 0, stop = 1},
+                {name = "TOKEN_SCRATCHPAD_INST7", start = 2, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 1},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT6X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT6#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201000,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST0_X0", start = 0, stop = 31},
+                {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
+                {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT6X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT6#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST1_X0", start = 12, stop = 31},
-                {name = "TOKEN_LAYERS_INST0_X1", start = 0, stop = 11},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT6X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201008,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST2_X0", start = 24, stop = 31},
-                {name = "TOKEN_LAYERS_INST1_X1", start = 0, stop = 23},
+                {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
+                {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT6X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020100c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST2_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT6X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT6X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT6#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060201010,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST3_X0", start = 4, stop = 31},
-                {name = "TOKEN_LAYERS_INST2_X2", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT6X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201014,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "TOKEN_LAYERS_INST3_X1", start = 0, stop = 15},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
+                {name = "TOKEN_LAYERS_INST2", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT7X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT7#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201400,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST0_X0", start = 0, stop = 31},
+                {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
+                {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT7X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT7#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201404,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST1_X0", start = 12, stop = 31},
-                {name = "TOKEN_LAYERS_INST0_X1", start = 0, stop = 11},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT7X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201408,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST2_X0", start = 24, stop = 31},
-                {name = "TOKEN_LAYERS_INST1_X1", start = 0, stop = 23},
+                {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
+                {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT7X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020140c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST2_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT7X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT7X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT7#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060201410,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST3_X0", start = 4, stop = 31},
-                {name = "TOKEN_LAYERS_INST2_X2", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT7X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201414,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "TOKEN_LAYERS_INST3_X1", start = 0, stop = 15},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
+                {name = "TOKEN_LAYERS_INST2", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W0 = {
@@ -33326,7 +32763,7 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST0_X0", start = 0, stop = 31},
+                {name = "ACM_REQ_ADDR_INST0", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W1 = {
@@ -33339,9 +32776,9 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST1_X0", start = 7, stop = 31},
+                {name = "ACM_REQ_ADDR_INST1", start = 7, stop = 31},
                 {name = "ACM_REQ_CMD_INST0", start = 5, stop = 6},
-                {name = "ACM_REQ_ADDR_INST0_X1", start = 0, stop = 4},
+                {name = "ACM_REQ_ADDR_INST0", start = 0, stop = 4},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W2 = {
@@ -33354,9 +32791,9 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST2_X0", start = 14, stop = 31},
+                {name = "ACM_REQ_ADDR_INST2", start = 14, stop = 31},
                 {name = "ACM_REQ_CMD_INST1", start = 12, stop = 13},
-                {name = "ACM_REQ_ADDR_INST1_X1", start = 0, stop = 11},
+                {name = "ACM_REQ_ADDR_INST1", start = 0, stop = 11},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W3 = {
@@ -33369,9 +32806,9 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST3_X0", start = 21, stop = 31},
+                {name = "ACM_REQ_ADDR_INST3", start = 21, stop = 31},
                 {name = "ACM_REQ_CMD_INST2", start = 19, stop = 20},
-                {name = "ACM_REQ_ADDR_INST2_X1", start = 0, stop = 18},
+                {name = "ACM_REQ_ADDR_INST2", start = 0, stop = 18},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W4 = {
@@ -33386,146 +32823,81 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_28_31", start = 28, stop = 31},
                 {name = "ACM_REQ_CMD_INST3", start = 26, stop = 27},
-                {name = "ACM_REQ_ADDR_INST3_X1", start = 0, stop = 25},
+                {name = "ACM_REQ_ADDR_INST3", start = 0, stop = 25},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT9X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT9#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201800,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST0_X0", start = 0, stop = 31},
+                {name = "LM_REQ_KEY_INST1", start = 38, stop = 63},
+                {name = "LM_REQ_KEY_INST0", start = 0, stop = 37},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT9X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT9#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201804,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST1_X0", start = 6, stop = 31},
-                {name = "LM_REQ_KEY_INST0_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201808,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST2_X0", start = 12, stop = 31},
-                {name = "LM_REQ_KEY_INST1_X1", start = 0, stop = 11},
+                {name = "LM_REQ_KEY_INST3", start = 50, stop = 63},
+                {name = "LM_REQ_KEY_INST2", start = 12, stop = 49},
+                {name = "LM_REQ_KEY_INST1", start = 0, stop = 11},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT9X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020180c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST3_X0", start = 18, stop = 31},
-                {name = "LM_REQ_KEY_INST2_X1", start = 0, stop = 17},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT9X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT9#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060201810,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST4_X0", start = 24, stop = 31},
-                {name = "LM_REQ_KEY_INST3_X1", start = 0, stop = 23},
+                {name = "LM_REQ_KEY_INST5", start = 62, stop = 63},
+                {name = "LM_REQ_KEY_INST4", start = 24, stop = 61},
+                {name = "LM_REQ_KEY_INST3", start = 0, stop = 23},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT9X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201814,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST5_X0", start = 30, stop = 31},
-                {name = "LM_REQ_KEY_INST4_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W6 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W6",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT9X_W3 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT9#_W3",
+            type = "NCB",
+            width = 8,
             address = 0x842060201818,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST5_X1", start = 0, stop = 31},
+                {name = "LM_REQ_KEY_INST6", start = 36, stop = 63},
+                {name = "LM_REQ_KEY_INST5", start = 0, stop = 35},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT9X_W7 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020181c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST6_X0", start = 4, stop = 31},
-                {name = "LM_REQ_KEY_INST5_X2", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W8 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W8",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT9X_W4 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT9#_W4",
+            type = "NCB",
+            width = 8,
             address = 0x842060201820,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST7_X0", start = 10, stop = 31},
-                {name = "LM_REQ_KEY_INST6_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W9 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201824,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "LM_REQ_CMD_INST", start = 16, stop = 17},
-                {name = "LM_REQ_KEY_INST7_X1", start = 0, stop = 15},
+                {name = "RESERVED_50_63", start = 50, stop = 63},
+                {name = "LM_REQ_CMD_INST", start = 48, stop = 49},
+                {name = "LM_REQ_KEY_INST7", start = 10, stop = 47},
+                {name = "LM_REQ_KEY_INST6", start = 0, stop = 9},
             }
         },
         TNS_SDE_LDEX_CFG_OFITS_IDX = {
@@ -33713,7 +33085,7 @@ local csr_db = {
             range2 = {0,255},
             range2_inc = 0xc,
             fields = {
-                {name = "LAYER4_OFFSET_X0", start = 28, stop = 31},
+                {name = "LAYER4_OFFSET", start = 28, stop = 31},
                 {name = "LAYER3_OFFSET", start = 21, stop = 27},
                 {name = "LAYER2_OFFSET", start = 14, stop = 20},
                 {name = "LAYER1_OFFSET", start = 7, stop = 13},
@@ -33736,7 +33108,7 @@ local csr_db = {
                 {name = "LAYER7_OFFSET", start = 17, stop = 23},
                 {name = "LAYER6_OFFSET", start = 10, stop = 16},
                 {name = "LAYER5_OFFSET", start = 3, stop = 9},
-                {name = "LAYER4_OFFSET_X1", start = 0, stop = 2},
+                {name = "LAYER4_OFFSET", start = 0, stop = 2},
             }
         },
         TNS_SDE_LDEX_CFG_TTL_FL_NENG = {
@@ -33783,7 +33155,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "PROBE_ACM_RSLT_EXP_VEC_X0", start = 30, stop = 31},
+                {name = "PROBE_ACM_RSLT_EXP_VECTOR", start = 30, stop = 31},
                 {name = "PROBE_ACM_RSLT_VALID_VECTOR", start = 26, stop = 29},
                 {name = "OUTPUT_ARBITER_REQ_VECTOR", start = 24, stop = 25},
                 {name = "OUTPUT_ARBITER_GRANT_VECTOR", start = 22, stop = 23},
@@ -33811,7 +33183,7 @@ local csr_db = {
                 {name = "PROBE_ACM_REQID", start = 19, stop = 22},
                 {name = "PROBE_WAITING_TIME", start = 3, stop = 18},
                 {name = "PROBE_TIMEOUT", start = 2, stop = 2},
-                {name = "PROBE_ACM_RSLT_EXP_VEC_X1", start = 0, stop = 1},
+                {name = "PROBE_ACM_RSLT_EXP_VECTOR", start = 0, stop = 1},
             }
         },
         TNS_SDE_LDEX_DBG_ACMRH_W2 = {
@@ -33895,7 +33267,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "OUT_LMDATA_8LSBS_X0", start = 25, stop = 31},
+                {name = "OUT_LMDATA_8LSBS", start = 25, stop = 31},
                 {name = "OUT_LMHIT", start = 24, stop = 24},
                 {name = "OUT_NEXTENGINE", start = 16, stop = 23},
                 {name = "OUT_TOKEN_SCRATCHPAD_8LSBS", start = 8, stop = 15},
@@ -33917,7 +33289,7 @@ local csr_db = {
                 {name = "OUT_SRDY", start = 10, stop = 10},
                 {name = "OUT_DRDY", start = 9, stop = 9},
                 {name = "OUT_METADATA_8LSBS", start = 1, stop = 8},
-                {name = "OUT_LMDATA_8LSBS_X1", start = 0, stop = 0},
+                {name = "OUT_LMDATA_8LSBS", start = 0, stop = 0},
             }
         },
         TNS_SDE_LDEX_DBG_KFCP_KFIT = {
@@ -33947,7 +33319,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "STG1_OUT_DATA_8LSBS_X0", start = 30, stop = 31},
+                {name = "STG1_OUT_DATA_8LSBS", start = 30, stop = 31},
                 {name = "STG2_OUT_SRDY", start = 29, stop = 29},
                 {name = "STG2_OUT_DRDY", start = 28, stop = 28},
                 {name = "STG2_OUT_DATA", start = 0, stop = 27},
@@ -33970,7 +33342,7 @@ local csr_db = {
                 {name = "STG0_OUT_DATA_8LSBS", start = 8, stop = 15},
                 {name = "STG1_OUT_SRDY", start = 7, stop = 7},
                 {name = "STG1_OUT_DRDY", start = 6, stop = 6},
-                {name = "STG1_OUT_DATA_8LSBS_X1", start = 0, stop = 5},
+                {name = "STG1_OUT_DATA_8LSBS", start = 0, stop = 5},
             }
         },
         TNS_SDE_LDEX_DBG_KFDP_CORE = {
@@ -34013,13 +33385,24 @@ local csr_db = {
         },
         TNS_SDE_LDEX_DBG_MGR_INFO_W0 = {
             name = "TNS_SDE_LDE#_DBG_MGR_INFO_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060207358,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "PROBE_WAITING_TIME_X0", start = 27, stop = 31},
+                {name = "SE_RSLT_LANE1_IN_SORRY", start = 63, stop = 63},
+                {name = "SE_RSLT_LANE1_IN_HIT", start = 62, stop = 62},
+                {name = "SE_RSLT_LN0_IN_SRDY", start = 61, stop = 61},
+                {name = "SE_RSLT_LN0_IN_DRDY", start = 60, stop = 60},
+                {name = "SE_RSLT_LN0_IN_REQID", start = 54, stop = 59},
+                {name = "SE_RSLT_LN0_IN_DUALID", start = 53, stop = 53},
+                {name = "SE_RSLT_LN0_IN_SORRY", start = 52, stop = 52},
+                {name = "SE_RSLT_LN0_IN_HIT", start = 51, stop = 51},
+                {name = "PROBE_SRDY", start = 50, stop = 50},
+                {name = "PROBE_DRDY", start = 49, stop = 49},
+                {name = "PROBE_SE_REQID", start = 43, stop = 48},
+                {name = "PROBE_WAITING_TIME", start = 27, stop = 42},
                 {name = "PROBE_TIMEOUT", start = 26, stop = 26},
                 {name = "PROBE_SE_RSLT_EXP_VECTOR", start = 18, stop = 25},
                 {name = "PROBE_SE_RSLT_VALID_VECTOR", start = 10, stop = 17},
@@ -34031,35 +33414,20 @@ local csr_db = {
         },
         TNS_SDE_LDEX_DBG_MGR_INFO_W1 = {
             name = "TNS_SDE_LDE#_DBG_MGR_INFO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020735c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "SE_RSLT_LANE1_IN_SORRY", start = 31, stop = 31},
-                {name = "SE_RSLT_LANE1_IN_HIT", start = 30, stop = 30},
-                {name = "SE_RSLT_LN0_IN_SRDY", start = 29, stop = 29},
-                {name = "SE_RSLT_LN0_IN_DRDY", start = 28, stop = 28},
-                {name = "SE_RSLT_LN0_IN_REQID", start = 22, stop = 27},
-                {name = "SE_RSLT_LN0_IN_DUALID", start = 21, stop = 21},
-                {name = "SE_RSLT_LN0_IN_SORRY", start = 20, stop = 20},
-                {name = "SE_RSLT_LN0_IN_HIT", start = 19, stop = 19},
-                {name = "PROBE_SRDY", start = 18, stop = 18},
-                {name = "PROBE_DRDY", start = 17, stop = 17},
-                {name = "PROBE_SE_REQID", start = 11, stop = 16},
-                {name = "PROBE_WAITING_TIME_X1", start = 0, stop = 10},
-            }
-        },
-        TNS_SDE_LDEX_DBG_MGR_INFO_W2 = {
-            name = "TNS_SDE_LDE#_DBG_MGR_INFO_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060207360,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_USAGE_X0", start = 31, stop = 31},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "LOCKED", start = 53, stop = 53},
+                {name = "TOKEN_BUF_IN_SRDY", start = 52, stop = 52},
+                {name = "TOKEN_BUF_IN_DRDY", start = 51, stop = 51},
+                {name = "IN_SE_PROFILEID", start = 48, stop = 50},
+                {name = "IN_SE_CMD_ENVEC", start = 44, stop = 47},
+                {name = "IN_SE_REQID", start = 38, stop = 43},
+                {name = "TOKEN_BUF_USAGE", start = 31, stop = 37},
                 {name = "SE_RSLT_LANE3_IN_SRDY", start = 30, stop = 30},
                 {name = "SE_RSLT_LANE3_IN_DRDY", start = 29, stop = 29},
                 {name = "SE_RSLT_LANE3_IN_REQID", start = 23, stop = 28},
@@ -34078,32 +33446,21 @@ local csr_db = {
                 {name = "SE_RSLT_LANE1_IN_DUALID", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_DBG_MGR_INFO_W3 = {
-            name = "TNS_SDE_LDE#_DBG_MGR_INFO_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207364,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "LOCKED", start = 21, stop = 21},
-                {name = "TOKEN_BUF_IN_SRDY", start = 20, stop = 20},
-                {name = "TOKEN_BUF_IN_DRDY", start = 19, stop = 19},
-                {name = "IN_SE_PROFILEID", start = 16, stop = 18},
-                {name = "IN_SE_CMD_ENVEC", start = 12, stop = 15},
-                {name = "IN_SE_REQID", start = 6, stop = 11},
-                {name = "TOKEN_BUF_USAGE_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_DBG_OFCP_BITS_W0 = {
-            name = "TNS_SDE_LDE#_DBG_OFCP_BITS_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_DBG_OFCP_BITS = {
+            name = "TNS_SDE_LDE#_DBG_OFCP_BITS",
+            type = "NCB",
+            width = 8,
             address = 0x842060207168,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
+                {name = "RESERVED_45_63", start = 45, stop = 63},
+                {name = "LOCKED", start = 44, stop = 44},
+                {name = "IN_SRDY", start = 43, stop = 43},
+                {name = "IN_DRDY", start = 42, stop = 42},
+                {name = "OUT_SRDY", start = 41, stop = 41},
+                {name = "OUT_DRDY", start = 40, stop = 40},
+                {name = "OUT_SUBTOKEN0_8LSBS", start = 32, stop = 39},
                 {name = "OUT_SUBTOKEN0_VALID", start = 31, stop = 31},
                 {name = "OUT_SE_RSLT_8LSBS", start = 23, stop = 30},
                 {name = "OUT_SE_RSLT_HIT_VECTOR", start = 19, stop = 22},
@@ -34111,23 +33468,6 @@ local csr_db = {
                 {name = "OUT_PROFILEID", start = 12, stop = 14},
                 {name = "OUT_CMD_ENVEC", start = 8, stop = 11},
                 {name = "OUT_MUXXOR_BITS", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_DBG_OFCP_BITS_W1 = {
-            name = "TNS_SDE_LDE#_DBG_OFCP_BITS_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020716c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "LOCKED", start = 12, stop = 12},
-                {name = "IN_SRDY", start = 11, stop = 11},
-                {name = "IN_DRDY", start = 10, stop = 10},
-                {name = "OUT_SRDY", start = 9, stop = 9},
-                {name = "OUT_DRDY", start = 8, stop = 8},
-                {name = "OUT_SUBTOKEN0_8LSBS", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MLCD_W0 = {
@@ -34138,7 +33478,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "STG4_OUT_DATA_X0", start = 0, stop = 31},
+                {name = "STG4_OUT_DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MLCD_W1 = {
@@ -34149,13 +33489,13 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "STG2_OUT_DATA_8LSBS_X0", start = 28, stop = 31},
+                {name = "STG2_OUT_DATA_8LSBS", start = 28, stop = 31},
                 {name = "STG3_OUT_SRDY", start = 27, stop = 27},
                 {name = "STG3_OUT_DRDY", start = 26, stop = 26},
                 {name = "STG3_OUT_DATA_8LSBS", start = 18, stop = 25},
                 {name = "STG4_OUT_SRDY", start = 17, stop = 17},
                 {name = "STG4_OUT_DRDY", start = 16, stop = 16},
-                {name = "STG4_OUT_DATA_X1", start = 0, stop = 15},
+                {name = "STG4_OUT_DATA", start = 0, stop = 15},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MLCD_W2 = {
@@ -34178,7 +33518,7 @@ local csr_db = {
                 {name = "STG1_OUT_DATA_8LSBS", start = 6, stop = 13},
                 {name = "STG2_OUT_SRDY", start = 5, stop = 5},
                 {name = "STG2_OUT_DRDY", start = 4, stop = 4},
-                {name = "STG2_OUT_DATA_8LSBS_X1", start = 0, stop = 3},
+                {name = "STG2_OUT_DATA_8LSBS", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MXCD = {
@@ -34206,7 +33546,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "OUT_OFIT3_EXP_INST_8LSBS_X0", start = 25, stop = 31},
+                {name = "OUT_OFIT3_EXP_INST_8LSBS", start = 25, stop = 31},
                 {name = "OUT_OFIT2_MIR_BM_INST_8LSBS", start = 17, stop = 24},
                 {name = "OUT_OFIT1_HASHSEL_INST", start = 15, stop = 16},
                 {name = "OUT_OFIT1_TT_INST", start = 13, stop = 14},
@@ -34222,12 +33562,12 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "OUT_OFIT8_1ST_INST_8LSBS_X0", start = 27, stop = 31},
+                {name = "OUT_OFIT8_1ST_INST_8LSBS", start = 27, stop = 31},
                 {name = "OUT_OFIT6_1ST_INST_8LSBS", start = 19, stop = 26},
                 {name = "OUT_OFIT5_1ST_INST_8LSBS", start = 11, stop = 18},
                 {name = "OUT_OFIT4_REWRPTR6ININS_INST", start = 9, stop = 10},
                 {name = "OUT_OFIT4_REWRPTR0_INST_8LSBS", start = 1, stop = 8},
-                {name = "OUT_OFIT3_EXP_INST_8LSBS_X1", start = 0, stop = 0},
+                {name = "OUT_OFIT3_EXP_INST_8LSBS", start = 0, stop = 0},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_OFIT_W2 = {
@@ -34247,7 +33587,7 @@ local csr_db = {
                 {name = "OUT_OFIT9_LM_CMD_INST", start = 13, stop = 14},
                 {name = "OUT_OFIT9_1ST_INST_8LSBS", start = 5, stop = 12},
                 {name = "OUT_OFIT8_SECOND_INST", start = 3, stop = 4},
-                {name = "OUT_OFIT8_1ST_INST_8LSBS_X1", start = 0, stop = 2},
+                {name = "OUT_OFIT8_1ST_INST_8LSBS", start = 0, stop = 2},
             }
         },
         TNS_SDE_LDEX_DBG_OFDP_ACMRIDG = {
@@ -34294,38 +33634,28 @@ local csr_db = {
                 {name = "OUT_ACM_REQ_LN0_ADDR_8LSBS", start = 0, stop = 7},
             }
         },
-        TNS_SDE_LDEX_DBG_TMP_TBL_W0 = {
-            name = "TNS_SDE_LDE#_DBG_TMP_TBL_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_DBG_TMP_TBL = {
+            name = "TNS_SDE_LDE#_DBG_TMP_TBL",
+            type = "NCB",
+            width = 8,
             address = 0x842060205050,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "LOCKED", start = 53, stop = 53},
+                {name = "IN_SRDY", start = 52, stop = 52},
+                {name = "IN_DRDY", start = 51, stop = 51},
+                {name = "IN_TEMPLATE_ID", start = 43, stop = 50},
+                {name = "IN_TT", start = 42, stop = 42},
+                {name = "OUT_SRDY", start = 41, stop = 41},
+                {name = "OUT_DRDY", start = 40, stop = 40},
+                {name = "OUT_METADATA_8LSBS", start = 32, stop = 39},
                 {name = "OUT_LOGICAL_OFFSET3", start = 25, stop = 31},
                 {name = "OUT_LOGICAL_OFFSET2", start = 18, stop = 24},
                 {name = "OUT_LOGICAL_OFFSET1", start = 11, stop = 17},
                 {name = "OUT_LOGICAL_OFFSET0", start = 4, stop = 10},
                 {name = "OUT_VALID_LAYERS_CNT", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_DBG_TMP_TBL_W1 = {
-            name = "TNS_SDE_LDE#_DBG_TMP_TBL_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060205054,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "LOCKED", start = 21, stop = 21},
-                {name = "IN_SRDY", start = 20, stop = 20},
-                {name = "IN_DRDY", start = 19, stop = 19},
-                {name = "IN_TEMPLATE_ID", start = 11, stop = 18},
-                {name = "IN_TT", start = 10, stop = 10},
-                {name = "OUT_SRDY", start = 9, stop = 9},
-                {name = "OUT_DRDY", start = 8, stop = 8},
-                {name = "OUT_METADATA_8LSBS", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_DBG_TTL_LB_W0 = {
@@ -34372,45 +33702,32 @@ local csr_db = {
                 {name = "MUX_SEL", start = 0, stop = 8},
             }
         },
-        TNS_SDE_LDEX_KFCP0_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_KFCP0_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP0_ML_DLUT = {
+            name = "TNS_SDE_LDE#_KFCP0_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207008,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_KFCP0_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_KFCP0_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP0_ML_DMUX = {
+            name = "TNS_SDE_LDE#_KFCP0_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207000,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX3_SEL_X0", start = 27, stop = 31},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "MUX5_SEL", start = 45, stop = 53},
+                {name = "MUX4_SEL", start = 36, stop = 44},
+                {name = "MUX3_SEL", start = 27, stop = 35},
                 {name = "MUX2_SEL", start = 18, stop = 26},
                 {name = "MUX1_SEL", start = 9, stop = 17},
                 {name = "MUX0_SEL", start = 0, stop = 8},
-            }
-        },
-        TNS_SDE_LDEX_KFCP0_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_KFCP0_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "MUX5_SEL", start = 13, stop = 21},
-                {name = "MUX4_SEL", start = 4, stop = 12},
-                {name = "MUX3_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_KFCP1_BYPM_DMUX = {
@@ -34446,7 +33763,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "MUX5_SEL", start = 30, stop = 31},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
@@ -34463,48 +33780,35 @@ local csr_db = {
             range1_inc = 0x8000,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
+                {name = "MUX5_SEL", start = 0, stop = 3},
             }
         },
-        TNS_SDE_LDEX_KFCP2_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_KFCP2_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP2_ML_DLUT = {
+            name = "TNS_SDE_LDE#_KFCP2_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207030,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_KFCP2_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_KFCP2_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP2_ML_DMUX = {
+            name = "TNS_SDE_LDE#_KFCP2_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207028,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MUX5_SEL", start = 30, stop = 35},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
                 {name = "MUX1_SEL", start = 6, stop = 11},
                 {name = "MUX0_SEL", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_KFCP2_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_KFCP2_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020702c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_KFCP_CLOUD_LOCK = {
@@ -34917,15 +34221,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_EN_HI_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_EN_HI = {
+            name = "TNS_SDE_LDE#_MGR_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x842060207340,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -34945,28 +34251,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_EN_HI_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207344,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_EN_LO_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_EN_LO = {
+            name = "TNS_SDE_LDE#_MGR_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x842060207348,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -34986,28 +34281,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_EN_LO_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020734c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_FRC_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_FRC = {
+            name = "TNS_SDE_LDE#_MGR_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x842060207350,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -35027,28 +34311,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_FRC_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207354,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_W1C_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_W1C = {
+            name = "TNS_SDE_LDE#_MGR_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x842060207338,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -35066,19 +34339,6 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER1_ECC_DB_ERR", start = 2, stop = 2},
                 {name = "SE_RSLT_BUFFER0_ECC_SB_ERR", start = 1, stop = 1},
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_W1C_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020733c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_MGR_LDE_TYPE = {
@@ -35127,45 +34387,32 @@ local csr_db = {
                 {name = "MUX_SEL", start = 0, stop = 8},
             }
         },
-        TNS_SDE_LDEX_OFCP0_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_OFCP0_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP0_ML_DLUT = {
+            name = "TNS_SDE_LDE#_OFCP0_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207110,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_OFCP0_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_OFCP0_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP0_ML_DMUX = {
+            name = "TNS_SDE_LDE#_OFCP0_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207108,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX3_SEL_X0", start = 27, stop = 31},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "MUX5_SEL", start = 45, stop = 53},
+                {name = "MUX4_SEL", start = 36, stop = 44},
+                {name = "MUX3_SEL", start = 27, stop = 35},
                 {name = "MUX2_SEL", start = 18, stop = 26},
                 {name = "MUX1_SEL", start = 9, stop = 17},
                 {name = "MUX0_SEL", start = 0, stop = 8},
-            }
-        },
-        TNS_SDE_LDEX_OFCP0_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_OFCP0_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020710c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "MUX5_SEL", start = 13, stop = 21},
-                {name = "MUX4_SEL", start = 4, stop = 12},
-                {name = "MUX3_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP1_BYPM_DMUX = {
@@ -35201,7 +34448,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "MUX5_SEL", start = 30, stop = 31},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
@@ -35218,7 +34465,7 @@ local csr_db = {
             range1_inc = 0x8000,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
+                {name = "MUX5_SEL", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP2_BYPM_DMUX = {
@@ -35233,45 +34480,32 @@ local csr_db = {
                 {name = "MUX_SEL", start = 0, stop = 5},
             }
         },
-        TNS_SDE_LDEX_OFCP2_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_OFCP2_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP2_ML_DLUT = {
+            name = "TNS_SDE_LDE#_OFCP2_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207138,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_OFCP2_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_OFCP2_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP2_ML_DMUX = {
+            name = "TNS_SDE_LDE#_OFCP2_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207130,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MUX5_SEL", start = 30, stop = 35},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
                 {name = "MUX1_SEL", start = 6, stop = 11},
                 {name = "MUX0_SEL", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_OFCP2_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_OFCP2_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207134,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP3_BYPM_DMUX = {
@@ -35307,7 +34541,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "MUX5_SEL", start = 30, stop = 31},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
@@ -35324,48 +34558,35 @@ local csr_db = {
             range1_inc = 0x8000,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
+                {name = "MUX5_SEL", start = 0, stop = 3},
             }
         },
-        TNS_SDE_LDEX_OFCP4_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_OFCP4_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP4_ML_DLUT = {
+            name = "TNS_SDE_LDE#_OFCP4_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207160,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_OFCP4_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_OFCP4_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP4_ML_DMUX = {
+            name = "TNS_SDE_LDE#_OFCP4_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207158,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MUX5_SEL", start = 30, stop = 35},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
                 {name = "MUX1_SEL", start = 6, stop = 11},
                 {name = "MUX0_SEL", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_OFCP4_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_OFCP4_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020715c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP_CLOUD_LOCK = {
@@ -35494,34 +34715,23 @@ local csr_db = {
                 {name = "STG4_MXLT_LUT_DSY_CHN_CFG_PERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_OFCP_MXXR_DYN_W0 = {
-            name = "TNS_SDE_LDE#_OFCP_MXXR_DYN_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP_MXXR_DYN = {
+            name = "TNS_SDE_LDE#_OFCP_MXXR_DYN",
+            type = "NCB",
+            width = 8,
             address = 0x842060207100,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUXA_BITMASK_X0", start = 27, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "MUXA_SRCID", start = 54, stop = 57},
+                {name = "MUXA_BYTESTARTPOSN", start = 47, stop = 53},
+                {name = "MUXA_SHIFTBY", start = 44, stop = 46},
+                {name = "MUXA_SHIFTDIR", start = 43, stop = 43},
+                {name = "MUXA_BITMASK", start = 27, stop = 42},
                 {name = "MUXB_SRCID", start = 23, stop = 26},
                 {name = "MUXB_BYTESTARTPOSN", start = 16, stop = 22},
                 {name = "MUXB_BITMASK", start = 0, stop = 15},
-            }
-        },
-        TNS_SDE_LDEX_OFCP_MXXR_DYN_W1 = {
-            name = "TNS_SDE_LDE#_OFCP_MXXR_DYN_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207104,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "MUXA_SRCID", start = 22, stop = 25},
-                {name = "MUXA_BYTESTARTPOSN", start = 15, stop = 21},
-                {name = "MUXA_SHIFTBY", start = 12, stop = 14},
-                {name = "MUXA_SHIFTDIR", start = 11, stop = 11},
-                {name = "MUXA_BITMASK_X1", start = 0, stop = 10},
             }
         },
         TNS_SDE_LDEX_OFDP_INT_EN_HI = {
@@ -35875,22 +35085,14 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 15},
             }
         },
-        TNS_SDE_MREB_RCV_W0 = {
-            name = "TNS_SDE_MREB_RCV_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MREB_RCV = {
+            name = "TNS_SDE_MREB_RCV",
+            type = "NCB",
+            width = 8,
             address = 0x8420607804b0,
             fields = {
+                {name = "STORE_0_VLD", start = 32, stop = 63},
                 {name = "STORE_1_VLD", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_MREB_RCV_W1 = {
-            name = "TNS_SDE_MREB_RCV_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607804b4,
-            fields = {
-                {name = "STORE_0_VLD", start = 0, stop = 31},
             }
         },
         TNS_SDE_MREB_REQ = {
@@ -35989,7 +35191,7 @@ local csr_db = {
             width = 4,
             address = 0x842060780034,
             fields = {
-                {name = "WRR_WEIGHT2_X0", start = 24, stop = 31},
+                {name = "WRR_WEIGHT2", start = 24, stop = 31},
                 {name = "WRR_WEIGHT1", start = 12, stop = 23},
                 {name = "WRR_WEIGHT0", start = 0, stop = 11},
             }
@@ -36003,16 +35205,25 @@ local csr_db = {
                 {name = "RESERVED_20_31", start = 20, stop = 31},
                 {name = "WRR_BYPASS", start = 16, stop = 19},
                 {name = "WRR_WEIGHT3", start = 4, stop = 15},
-                {name = "WRR_WEIGHT2_X1", start = 0, stop = 3},
+                {name = "WRR_WEIGHT2", start = 0, stop = 3},
             }
         },
-        TNS_SDE_MRET_CFG2_W0 = {
-            name = "TNS_SDE_MRET_CFG2_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_CFG2 = {
+            name = "TNS_SDE_MRET_CFG2",
+            type = "NCB",
+            width = 8,
             address = 0x842060780020,
             fields = {
-                {name = "TOKEN_MEM_BANK_FLIP_SB_ECC_X0", start = 24, stop = 31},
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "PAGE_FIFO_PRIO3_FLIP_SB_ECC", start = 41, stop = 41},
+                {name = "PAGE_FIFO_PRIO3_FLIP_DB_ECC", start = 40, stop = 40},
+                {name = "PAGE_FIFO_PRIO2_FLIP_SB_ECC", start = 39, stop = 39},
+                {name = "PAGE_FIFO_PRIO2_FLIP_DB_ECC", start = 38, stop = 38},
+                {name = "PAGE_FIFO_PRIO1_FLIP_SB_ECC", start = 37, stop = 37},
+                {name = "PAGE_FIFO_PRIO1_FLIP_DB_ECC", start = 36, stop = 36},
+                {name = "PAGE_FIFO_PRIO0_FLIP_SB_ECC", start = 35, stop = 35},
+                {name = "PAGE_FIFO_PRIO0_FLIP_DB_ECC", start = 34, stop = 34},
+                {name = "TOKEN_MEM_BANK_FLIP_SB_ECC", start = 24, stop = 33},
                 {name = "TOKEN_MEM_BANK_FLIP_DB_ECC", start = 14, stop = 23},
                 {name = "FREELIST_FLIP_SB_ECC", start = 13, stop = 13},
                 {name = "FREELIST_FLIP_DB_ECC", start = 12, stop = 12},
@@ -36020,24 +35231,6 @@ local csr_db = {
                 {name = "HDR_MEM_FLIP_DB_ECC", start = 4, stop = 7},
                 {name = "CNTX_MEM_FLIP_SB_ECC", start = 2, stop = 3},
                 {name = "CNTX_MEM_FLIP_DB_ECC", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_MRET_CFG2_W1 = {
-            name = "TNS_SDE_MRET_CFG2_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060780024,
-            fields = {
-                {name = "RESERVED_10_31", start = 10, stop = 31},
-                {name = "PAGE_FIFO_PRIO3_FLIP_SB_ECC", start = 9, stop = 9},
-                {name = "PAGE_FIFO_PRIO3_FLIP_DB_ECC", start = 8, stop = 8},
-                {name = "PAGE_FIFO_PRIO2_FLIP_SB_ECC", start = 7, stop = 7},
-                {name = "PAGE_FIFO_PRIO2_FLIP_DB_ECC", start = 6, stop = 6},
-                {name = "PAGE_FIFO_PRIO1_FLIP_SB_ECC", start = 5, stop = 5},
-                {name = "PAGE_FIFO_PRIO1_FLIP_DB_ECC", start = 4, stop = 4},
-                {name = "PAGE_FIFO_PRIO0_FLIP_SB_ECC", start = 3, stop = 3},
-                {name = "PAGE_FIFO_PRIO0_FLIP_DB_ECC", start = 2, stop = 2},
-                {name = "TOKEN_MEM_BANK_FLIP_SB_ECC_X1", start = 0, stop = 1},
             }
         },
         TNS_SDE_MRET_CFG_NULL_PTR = {
@@ -36050,26 +35243,17 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 17},
             }
         },
-        TNS_SDE_MRET_CFG_RCOD_W0 = {
-            name = "TNS_SDE_MRET_CFG_RCOD_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_CFG_RCOD = {
+            name = "TNS_SDE_MRET_CFG_RCOD",
+            type = "NCB",
+            width = 8,
             address = 0x842060780018,
             fields = {
-                {name = "TTL_FAIL_X0", start = 30, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "TTL_FAIL", start = 30, stop = 39},
                 {name = "FIRST_LIVE_FAIL", start = 20, stop = 29},
                 {name = "MIRROR_FAIL", start = 10, stop = 19},
                 {name = "FILTER", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_MRET_CFG_RCOD_W1 = {
-            name = "TNS_SDE_MRET_CFG_RCOD_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206078001c,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "TTL_FAIL_X1", start = 0, stop = 7},
             }
         },
         TNS_SDE_MRET_CFG_W0 = {
@@ -36123,13 +35307,13 @@ local csr_db = {
         },
         TNS_SDE_MRET_CTXT_MEM_DAT_WX = {
             name = "TNS_SDE_MRET_CTXT_MEM_DAT_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x8420607800a0,
-            range1 = {0,5},
-            range1_inc = 0x4,
+            range1 = {0,2},
+            range1_inc = 0x8,
             fields = {
-                {name = "CNTXT_MEM_DATA", start = 0, stop = 31},
+                {name = "CNTXT_MEM_DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_MRET_DBG_SEL = {
@@ -36275,13 +35459,26 @@ local csr_db = {
                 {name = "LOG", start = 0, stop = 17},
             }
         },
-        TNS_SDE_MRET_INT_EN_HI_W0 = {
-            name = "TNS_SDE_MRET_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_EN_HI = {
+            name = "TNS_SDE_MRET_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800c0,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -36303,35 +35500,26 @@ local csr_db = {
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_MRET_INT_EN_HI_W1 = {
-            name = "TNS_SDE_MRET_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800c4,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_MRET_INT_EN_LO_W0 = {
-            name = "TNS_SDE_MRET_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_EN_LO = {
+            name = "TNS_SDE_MRET_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800c8,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -36353,35 +35541,26 @@ local csr_db = {
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_MRET_INT_EN_LO_W1 = {
-            name = "TNS_SDE_MRET_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800cc,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_MRET_INT_FRC_W0 = {
-            name = "TNS_SDE_MRET_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_FRC = {
+            name = "TNS_SDE_MRET_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800d0,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -36403,35 +35582,26 @@ local csr_db = {
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_MRET_INT_FRC_W1 = {
-            name = "TNS_SDE_MRET_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800d4,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_MRET_INT_W1C_W0 = {
-            name = "TNS_SDE_MRET_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_W1C = {
+            name = "TNS_SDE_MRET_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800b8,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -36451,28 +35621,6 @@ local csr_db = {
                 {name = "SE_DATA_INCORRECT_INTR", start = 2, stop = 2},
                 {name = "CTX_STORE_RD_TIMEOUT_INTR", start = 1, stop = 1},
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_MRET_INT_W1C_W1 = {
-            name = "TNS_SDE_MRET_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800bc,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
             }
         },
         TNS_SDE_MRET_LOCK = {
@@ -36674,13 +35822,24 @@ local csr_db = {
                 {name = "SPARE_X1", start = 0, stop = 31},
             }
         },
-        TNS_SDE_PARSER_INT_EN_HI_W0 = {
-            name = "TNS_SDE_PARSER_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_EN_HI = {
+            name = "TNS_SDE_PARSER_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x842060740010,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -36693,33 +35852,24 @@ local csr_db = {
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_PARSER_INT_EN_HI_W1 = {
-            name = "TNS_SDE_PARSER_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060740014,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_EN_LO_W0 = {
-            name = "TNS_SDE_PARSER_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_EN_LO = {
+            name = "TNS_SDE_PARSER_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x842060740018,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -36732,33 +35882,24 @@ local csr_db = {
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_PARSER_INT_EN_LO_W1 = {
-            name = "TNS_SDE_PARSER_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206074001c,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_FRC_W0 = {
-            name = "TNS_SDE_PARSER_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_FRC = {
+            name = "TNS_SDE_PARSER_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x842060740020,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -36771,33 +35912,24 @@ local csr_db = {
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_PARSER_INT_FRC_W1 = {
-            name = "TNS_SDE_PARSER_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060740024,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_W1C_W0 = {
-            name = "TNS_SDE_PARSER_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_W1C = {
+            name = "TNS_SDE_PARSER_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x842060740008,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -36808,26 +35940,6 @@ local csr_db = {
                 {name = "TEMPLATEID_MISS", start = 2, stop = 2},
                 {name = "TEMPLATEID_DB_ERR", start = 1, stop = 1},
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_W1C_W1 = {
-            name = "TNS_SDE_PARSER_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206074000c,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
             }
         },
         TNS_SDE_PARSER_LOCK = {
@@ -36856,7 +35968,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             fields = {
-                {name = "KEY_X0", start = 8, stop = 31},
+                {name = "KEY", start = 8, stop = 31},
                 {name = "HIT", start = 7, stop = 7},
                 {name = "ADDR", start = 0, stop = 6},
             }
@@ -36869,7 +35981,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_KPU_DBG_W2 = {
@@ -36902,15 +36014,18 @@ local csr_db = {
         },
         TNS_SDE_PE_KPUX_KPU_SRAMX_W0 = {
             name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060719000,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x10,
             fields = {
-                {name = "TRANSITIONID_X0", start = 31, stop = 31},
+                {name = "METADATA1", start = 47, stop = 63},
+                {name = "LYRPTRADVANCE0", start = 41, stop = 46},
+                {name = "LYRPTRADVANCE1", start = 35, stop = 40},
+                {name = "TRANSITIONID", start = 31, stop = 34},
                 {name = "PUSH2STACK", start = 29, stop = 30},
                 {name = "PARSEDONE", start = 28, stop = 28},
                 {name = "LAYERTYPE0", start = 23, stop = 27},
@@ -36922,48 +36037,19 @@ local csr_db = {
         },
         TNS_SDE_PE_KPUX_KPU_SRAMX_W1 = {
             name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060719004,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x10,
-            fields = {
-                {name = "METADATA1_X0", start = 15, stop = 31},
-                {name = "LYRPTRADVANCE0", start = 9, stop = 14},
-                {name = "LYRPTRADVANCE1", start = 3, stop = 8},
-                {name = "TRANSITIONID_X1", start = 0, stop = 2},
-            }
-        },
-        TNS_SDE_PE_KPUX_KPU_SRAMX_W2 = {
-            name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060719008,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x10,
             fields = {
-                {name = "METADATA0_X0", start = 15, stop = 31},
-                {name = "METADATA1_X1", start = 0, stop = 14},
-            }
-        },
-        TNS_SDE_PE_KPUX_KPU_SRAMX_W3 = {
-            name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071900c,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x10,
-            fields = {
-                {name = "RESERVED_24_31", start = 24, stop = 31},
-                {name = "INNERETH", start = 23, stop = 23},
-                {name = "STATE", start = 15, stop = 22},
-                {name = "METADATA0_X1", start = 0, stop = 14},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "INNERETH", start = 55, stop = 55},
+                {name = "STATE", start = 47, stop = 54},
+                {name = "METADATA0", start = 15, stop = 46},
+                {name = "METADATA1", start = 0, stop = 14},
             }
         },
         TNS_SDE_PE_KPUX_LOCK = {
@@ -36988,34 +36074,22 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SDE_PE_KPUX_TCAM_DATX_W0 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_KPUX_TCAM_DATX = {
+            name = "TNS_SDE_PE_KPU#_TCAM_DAT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060719800,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x8,
             fields = {
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "ROWVALID", start = 56, stop = 56},
+                {name = "CURRENTSTATE", start = 48, stop = 55},
+                {name = "DECPOINT0", start = 32, stop = 47},
                 {name = "DECPOINT1", start = 16, stop = 31},
                 {name = "DECPOINT2", start = 0, stop = 15},
-            }
-        },
-        TNS_SDE_PE_KPUX_TCAM_DATX_W1 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060719804,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_25_31", start = 25, stop = 31},
-                {name = "ROWVALID", start = 24, stop = 24},
-                {name = "CURRENTSTATE", start = 16, stop = 23},
-                {name = "DECPOINT0", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W0 = {
@@ -37028,7 +36102,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W1 = {
@@ -37041,7 +36115,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W2 = {
@@ -37054,7 +36128,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W3 = {
@@ -37067,7 +36141,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W4 = {
@@ -37080,7 +36154,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X4", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W5 = {
@@ -37093,7 +36167,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X5", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W6 = {
@@ -37108,46 +36182,39 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
-                {name = "VMDATA_X6", start = 0, stop = 15},
+                {name = "VMDATA", start = 0, stop = 15},
             }
         },
-        TNS_SDE_PE_KPUX_TCAM_MASKX_W0 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_KPUX_TCAM_MASKX = {
+            name = "TNS_SDE_PE_KPU#_TCAM_MASK#",
+            type = "NCB",
+            width = 8,
             address = 0x842060719c00,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x8,
             fields = {
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "ROWVALID", start = 56, stop = 56},
+                {name = "CURRENTSTATE", start = 48, stop = 55},
+                {name = "DECPOINT0", start = 32, stop = 47},
                 {name = "DECPOINT1", start = 16, stop = 31},
                 {name = "DECPOINT2", start = 0, stop = 15},
             }
         },
-        TNS_SDE_PE_KPUX_TCAM_MASKX_W1 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060719c04,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_25_31", start = 25, stop = 31},
-                {name = "ROWVALID", start = 24, stop = 24},
-                {name = "CURRENTSTATE", start = 16, stop = 23},
-                {name = "DECPOINT0", start = 0, stop = 15},
-            }
-        },
         TNS_SDE_PE_LCMD_CMDINFO_W0 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070add0,
             fields = {
-                {name = "ERRNXTENG_X0", start = 29, stop = 31},
+                {name = "ISMEKEY3MASK", start = 58, stop = 63},
+                {name = "ETAGNXTENGEN", start = 57, stop = 57},
+                {name = "ETAGNXTENG", start = 49, stop = 56},
+                {name = "ERRREASONCODE", start = 39, stop = 48},
+                {name = "ERRPACKETCMD", start = 37, stop = 38},
+                {name = "ERRNXTENG", start = 29, stop = 36},
                 {name = "PKTBC", start = 15, stop = 28},
                 {name = "IPV4LAYERTYPE", start = 10, stop = 14},
                 {name = "IPV6LAYERTYPE", start = 5, stop = 9},
@@ -37156,99 +36223,48 @@ local csr_db = {
         },
         TNS_SDE_PE_LCMD_CMDINFO_W1 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070add4,
+            type = "NCB",
+            width = 8,
+            address = 0x84206070add8,
             fields = {
-                {name = "ISMEKEY3MASK_X0", start = 26, stop = 31},
-                {name = "ETAGNXTENGEN", start = 25, stop = 25},
-                {name = "ETAGNXTENG", start = 17, stop = 24},
-                {name = "ERRREASONCODE", start = 7, stop = 16},
-                {name = "ERRPACKETCMD", start = 5, stop = 6},
-                {name = "ERRNXTENG_X1", start = 0, stop = 4},
+                {name = "ISMEKEY2MASK", start = 26, stop = 63},
+                {name = "ISMEKEY3MASK", start = 0, stop = 25},
             }
         },
         TNS_SDE_PE_LCMD_CMDINFO_W2 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070add8,
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ade0,
             fields = {
-                {name = "ISMEKEY2MASK_X0", start = 26, stop = 31},
-                {name = "ISMEKEY3MASK_X1", start = 0, stop = 25},
+                {name = "ISMEKEY1MASK", start = 26, stop = 63},
+                {name = "ISMEKEY2MASK", start = 0, stop = 25},
             }
         },
         TNS_SDE_PE_LCMD_CMDINFO_W3 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070addc,
-            fields = {
-                {name = "ISMEKEY2MASK_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_CMDINFO_W4 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ade0,
-            fields = {
-                {name = "ISMEKEY1MASK_X0", start = 26, stop = 31},
-                {name = "ISMEKEY2MASK_X2", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_LCMD_CMDINFO_W5 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ade4,
-            fields = {
-                {name = "ISMEKEY1MASK_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_CMDINFO_W6 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W6",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070ade8,
             fields = {
-                {name = "ISMEKEY0MASK_X0", start = 26, stop = 31},
-                {name = "ISMEKEY1MASK_X2", start = 0, stop = 25},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "ISMEKEY0MASK", start = 26, stop = 57},
+                {name = "ISMEKEY1MASK", start = 0, stop = 25},
             }
         },
-        TNS_SDE_PE_LCMD_CMDINFO_W7 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adec,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "ISMEKEY0MASK_X1", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_LCMD_CNNCMDX_W0 = {
-            name = "TNS_SDE_PE_LCMD_CNNCMD#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_CNNCMDX = {
+            name = "TNS_SDE_PE_LCMD_CNNCMD#",
+            type = "NCB",
+            width = 8,
             address = 0x84206070a000,
             range1 = {0,35},
             range1_inc = 0x8,
             fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "LAYERTYPE", start = 36, stop = 40},
+                {name = "LAYERHASH", start = 32, stop = 35},
                 {name = "CONTBYTES", start = 24, stop = 31},
                 {name = "BITVECTOR", start = 0, stop = 23},
-            }
-        },
-        TNS_SDE_PE_LCMD_CNNCMDX_W1 = {
-            name = "TNS_SDE_PE_LCMD_CNNCMD#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070a004,
-            range1 = {0,35},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "LAYERTYPE", start = 4, stop = 8},
-                {name = "LAYERHASH", start = 0, stop = 3},
             }
         },
         TNS_SDE_PE_LCMD_CTL_W0 = {
@@ -37257,7 +36273,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070ad24,
             fields = {
-                {name = "INFO_MEM_SPARE_X0", start = 12, stop = 31},
+                {name = "INFO_MEM_SPARE", start = 12, stop = 31},
                 {name = "INFO_MEM_ADDR", start = 6, stop = 11},
                 {name = "HEADER_MEM_ADDR", start = 0, stop = 5},
             }
@@ -37268,12 +36284,12 @@ local csr_db = {
             width = 4,
             address = 0x84206070ad28,
             fields = {
-                {name = "PINDEX_FIFO_THR_X0", start = 28, stop = 31},
+                {name = "PINDEX_FIFO_THRESHOLD", start = 28, stop = 31},
                 {name = "TOKEN_FIFO_THRESHOLD", start = 23, stop = 27},
                 {name = "HDR_BUFF_FIFO_THRESHOLD", start = 19, stop = 22},
                 {name = "PINDEX", start = 14, stop = 18},
                 {name = "LINKLIST_ENTRY", start = 8, stop = 13},
-                {name = "INFO_MEM_SPARE_X1", start = 0, stop = 7},
+                {name = "INFO_MEM_SPARE", start = 0, stop = 7},
             }
         },
         TNS_SDE_PE_LCMD_CTL_W2 = {
@@ -37284,7 +36300,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "HDR_ADDR_FIFO_THRESHOLD", start = 3, stop = 7},
-                {name = "PINDEX_FIFO_THR_X1", start = 0, stop = 2},
+                {name = "PINDEX_FIFO_THRESHOLD", start = 0, stop = 2},
             }
         },
         TNS_SDE_PE_LCMD_ERRORBODYPTR = {
@@ -37322,7 +36338,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "LAYEROFFSET1_X0", start = 29, stop = 31},
+                {name = "LAYEROFFSET1", start = 29, stop = 31},
                 {name = "FIELDLEN1", start = 26, stop = 28},
                 {name = "HASHMASK1", start = 18, stop = 25},
                 {name = "HASHMASKMSB1", start = 17, stop = 17},
@@ -37340,7 +36356,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "LAYEROFFSET3_X0", start = 31, stop = 31},
+                {name = "LAYEROFFSET3", start = 31, stop = 31},
                 {name = "FIELDLEN3", start = 28, stop = 30},
                 {name = "HASHMASK3", start = 20, stop = 27},
                 {name = "HASHMASKMSB3", start = 19, stop = 19},
@@ -37348,7 +36364,7 @@ local csr_db = {
                 {name = "FIELDLEN2", start = 11, stop = 13},
                 {name = "HASHMASK2", start = 3, stop = 10},
                 {name = "HASHMASKMSB2", start = 2, stop = 2},
-                {name = "LAYEROFFSET1_X1", start = 0, stop = 1},
+                {name = "LAYEROFFSET1", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_HASHCMDSX_W2 = {
@@ -37360,16 +36376,19 @@ local csr_db = {
             range1_inc = 0xc,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "LAYEROFFSET3_X1", start = 0, stop = 3},
+                {name = "LAYEROFFSET3", start = 0, stop = 3},
             }
         },
         TNS_SDE_PE_LCMD_HASHCTRL_W0 = {
             name = "TNS_SDE_PE_LCMD_HASHCTRL_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070adf0,
             fields = {
-                {name = "SEED1_X0", start = 26, stop = 31},
+                {name = "SEED4", start = 56, stop = 63},
+                {name = "SEED3", start = 46, stop = 55},
+                {name = "SEED2", start = 36, stop = 45},
+                {name = "SEED1", start = 26, stop = 35},
                 {name = "SEED0", start = 16, stop = 25},
                 {name = "LAGHASHA", start = 14, stop = 15},
                 {name = "LAGHASHB", start = 12, stop = 13},
@@ -37381,105 +36400,116 @@ local csr_db = {
         },
         TNS_SDE_PE_LCMD_HASHCTRL_W1 = {
             name = "TNS_SDE_PE_LCMD_HASHCTRL_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adf4,
-            fields = {
-                {name = "SEED4_X0", start = 24, stop = 31},
-                {name = "SEED3", start = 14, stop = 23},
-                {name = "SEED2", start = 4, stop = 13},
-                {name = "SEED1_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_PE_LCMD_HASHCTRL_W2 = {
-            name = "TNS_SDE_PE_LCMD_HASHCTRL_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070adf8,
             fields = {
+                {name = "SEED8_3", start = 56, stop = 63},
+                {name = "SEED8_2", start = 48, stop = 55},
+                {name = "SEED8_1", start = 40, stop = 47},
+                {name = "SEED8_0", start = 32, stop = 39},
                 {name = "SEED7", start = 22, stop = 31},
                 {name = "SEED6", start = 12, stop = 21},
                 {name = "SEED5", start = 2, stop = 11},
-                {name = "SEED4_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_HASHCTRL_W3 = {
-            name = "TNS_SDE_PE_LCMD_HASHCTRL_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adfc,
-            fields = {
-                {name = "SEED8_3", start = 24, stop = 31},
-                {name = "SEED8_2", start = 16, stop = 23},
-                {name = "SEED8_1", start = 8, stop = 15},
-                {name = "SEED8_0", start = 0, stop = 7},
+                {name = "SEED4", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_HMEM_DAT_WX = {
             name = "TNS_SDE_PE_LCMD_HMEM_DAT_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070ad30,
-            range1 = {0,15},
-            range1_inc = 0x4,
+            range1 = {0,7},
+            range1_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_PE_LCMD_IMEM_DAT_W0 = {
             name = "TNS_SDE_PE_LCMD_IMEM_DAT_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070ad70,
             fields = {
-                {name = "TIMESTAMP_X0", start = 0, stop = 31},
+                {name = "TIMESTAMP", start = 0, stop = 63},
             }
         },
         TNS_SDE_PE_LCMD_IMEM_DAT_W1 = {
             name = "TNS_SDE_PE_LCMD_IMEM_DAT_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad74,
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad78,
             fields = {
-                {name = "TIMESTAMP_X1", start = 0, stop = 31},
+                {name = "METADATA6", start = 42, stop = 63},
+                {name = "METADATA7", start = 10, stop = 41},
+                {name = "PKT_ID", start = 0, stop = 9},
             }
         },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W10 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W10",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_IMEM_DAT_W2 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W2",
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad80,
+            fields = {
+                {name = "METADATA4", start = 42, stop = 63},
+                {name = "METADATA5", start = 10, stop = 41},
+                {name = "METADATA6", start = 0, stop = 9},
+            }
+        },
+        TNS_SDE_PE_LCMD_IMEM_DAT_W3 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W3",
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad88,
+            fields = {
+                {name = "METADATA2", start = 42, stop = 63},
+                {name = "METADATA3", start = 10, stop = 41},
+                {name = "METADATA4", start = 0, stop = 9},
+            }
+        },
+        TNS_SDE_PE_LCMD_IMEM_DAT_W4 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W4",
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad90,
+            fields = {
+                {name = "METADATA0", start = 42, stop = 63},
+                {name = "METADATA1", start = 10, stop = 41},
+                {name = "METADATA2", start = 0, stop = 9},
+            }
+        },
+        TNS_SDE_PE_LCMD_IMEM_DAT_W5 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W5",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ad98,
             fields = {
+                {name = "LAYERTYPE2", start = 59, stop = 63},
+                {name = "LAYERHASH2", start = 55, stop = 58},
+                {name = "LAYERTYPE3", start = 50, stop = 54},
+                {name = "LAYERHASH3", start = 46, stop = 49},
+                {name = "LAYERTYPE4", start = 41, stop = 45},
+                {name = "LAYERHASH4", start = 37, stop = 40},
+                {name = "LAYERTYPE5", start = 32, stop = 36},
                 {name = "LAYERHASH5", start = 28, stop = 31},
                 {name = "LAYERTYPE6", start = 23, stop = 27},
                 {name = "LAYERHASH6", start = 19, stop = 22},
                 {name = "LAYERTYPE7", start = 14, stop = 18},
                 {name = "LAYERHASH7", start = 10, stop = 13},
-                {name = "METADATA0_X1", start = 0, stop = 9},
+                {name = "METADATA0", start = 0, stop = 9},
             }
         },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W11 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W11",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad9c,
-            fields = {
-                {name = "LAYERTYPE2", start = 27, stop = 31},
-                {name = "LAYERHASH2", start = 23, stop = 26},
-                {name = "LAYERTYPE3", start = 18, stop = 22},
-                {name = "LAYERHASH3", start = 14, stop = 17},
-                {name = "LAYERTYPE4", start = 9, stop = 13},
-                {name = "LAYERHASH4", start = 5, stop = 8},
-                {name = "LAYERTYPE5", start = 0, stop = 4},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W12 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W12",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_IMEM_DAT_W6 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W6",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ada0,
             fields = {
-                {name = "LAYERENDPTR6_X0", start = 26, stop = 31},
+                {name = "LAYERENDPTR2", start = 58, stop = 63},
+                {name = "LAYERENDPTR3", start = 50, stop = 57},
+                {name = "LAYERENDPTR4", start = 42, stop = 49},
+                {name = "LAYERENDPTR5", start = 34, stop = 41},
+                {name = "LAYERENDPTR6", start = 26, stop = 33},
                 {name = "LAYERENDPTR7", start = 18, stop = 25},
                 {name = "LAYERTYPE0", start = 13, stop = 17},
                 {name = "LAYERHASH0", start = 9, stop = 12},
@@ -37487,122 +36517,20 @@ local csr_db = {
                 {name = "LAYERHASH1", start = 0, stop = 3},
             }
         },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W13 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W13",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ada4,
-            fields = {
-                {name = "LAYERENDPTR2_X0", start = 26, stop = 31},
-                {name = "LAYERENDPTR3", start = 18, stop = 25},
-                {name = "LAYERENDPTR4", start = 10, stop = 17},
-                {name = "LAYERENDPTR5", start = 2, stop = 9},
-                {name = "LAYERENDPTR6_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W14 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W14",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_IMEM_DAT_W7 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W7",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ada8,
             fields = {
-                {name = "STARTPTR_X0", start = 26, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "XPHEXISTS", start = 35, stop = 35},
+                {name = "HTS_EXISTS", start = 34, stop = 34},
+                {name = "STARTPTR", start = 26, stop = 33},
                 {name = "PNUM", start = 18, stop = 25},
                 {name = "LAYERENDPTR0", start = 10, stop = 17},
                 {name = "LAYERENDPTR1", start = 2, stop = 9},
-                {name = "LAYERENDPTR2_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W15 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W15",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adac,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "XPHEXISTS", start = 3, stop = 3},
-                {name = "HTS_EXISTS", start = 2, stop = 2},
-                {name = "STARTPTR_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W2 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad78,
-            fields = {
-                {name = "METADATA7_X0", start = 10, stop = 31},
-                {name = "PKT_ID", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W3 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad7c,
-            fields = {
-                {name = "METADATA6_X0", start = 10, stop = 31},
-                {name = "METADATA7_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W4 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad80,
-            fields = {
-                {name = "METADATA5_X0", start = 10, stop = 31},
-                {name = "METADATA6_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W5 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad84,
-            fields = {
-                {name = "METADATA4_X0", start = 10, stop = 31},
-                {name = "METADATA5_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W6 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad88,
-            fields = {
-                {name = "METADATA3_X0", start = 10, stop = 31},
-                {name = "METADATA4_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W7 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad8c,
-            fields = {
-                {name = "METADATA2_X0", start = 10, stop = 31},
-                {name = "METADATA3_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W8 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W8",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad90,
-            fields = {
-                {name = "METADATA1_X0", start = 10, stop = 31},
-                {name = "METADATA2_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W9 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad94,
-            fields = {
-                {name = "METADATA0_X0", start = 10, stop = 31},
-                {name = "METADATA1_X1", start = 0, stop = 9},
+                {name = "LAYERENDPTR2", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W0 = {
@@ -37613,7 +36541,7 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "SCRATCHPAD_X0", start = 30, stop = 31},
+                {name = "SCRATCHPAD", start = 30, stop = 31},
                 {name = "FILTER_GRP_NUM", start = 22, stop = 29},
                 {name = "LAYER2QOSEN", start = 21, stop = 21},
                 {name = "IP2QOSEN", start = 20, stop = 20},
@@ -37634,7 +36562,7 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "SCRATCHPAD_X1", start = 0, stop = 31},
+                {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W2 = {
@@ -37645,8 +36573,8 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "MIRRORBITMASK_X0", start = 30, stop = 31},
-                {name = "SCRATCHPAD_X2", start = 0, stop = 29},
+                {name = "MIRRORBITMASK", start = 30, stop = 31},
+                {name = "SCRATCHPAD", start = 0, stop = 29},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W3 = {
@@ -37657,8 +36585,8 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "INGRESSVIF_X0", start = 14, stop = 31},
-                {name = "MIRRORBITMASK_X1", start = 0, stop = 13},
+                {name = "INGRESSVIF", start = 14, stop = 31},
+                {name = "MIRRORBITMASK", start = 0, stop = 13},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W4 = {
@@ -37676,7 +36604,7 @@ local csr_db = {
                 {name = "MPLSQOSPROFILE", start = 15, stop = 17},
                 {name = "PVID", start = 3, stop = 14},
                 {name = "PVIDMODEALLPKT", start = 2, stop = 2},
-                {name = "INGRESSVIF_X1", start = 0, stop = 1},
+                {name = "INGRESSVIF", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_LOCK = {
@@ -37710,7 +36638,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "FIELDLEN3_X0", start = 30, stop = 31},
+                {name = "FIELDLEN3", start = 30, stop = 31},
                 {name = "LAYEROFFSET2", start = 24, stop = 29},
                 {name = "FIELDLEN2", start = 20, stop = 23},
                 {name = "LAYEROFFSET1", start = 14, stop = 19},
@@ -37733,7 +36661,7 @@ local csr_db = {
                 {name = "LAYEROFFSET4", start = 12, stop = 17},
                 {name = "FIELDLEN4", start = 8, stop = 11},
                 {name = "LAYEROFFSET3", start = 2, stop = 7},
-                {name = "FIELDLEN3_X1", start = 0, stop = 1},
+                {name = "FIELDLEN3", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_LTOKENCMDX_W2 = {
@@ -37749,29 +36677,18 @@ local csr_db = {
                 {name = "LAYEROFFSET6", start = 0, stop = 5},
             }
         },
-        TNS_SDE_PE_LCMD_M2R_DATX_W0 = {
-            name = "TNS_SDE_PE_LCMD_M2R_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_M2R_DATX = {
+            name = "TNS_SDE_PE_LCMD_M2R_DAT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060708000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "MACDA_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_M2R_DATX_W1 = {
-            name = "TNS_SDE_PE_LCMD_M2R_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060708004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "ROWVALID", start = 28, stop = 28},
-                {name = "VLAN", start = 16, stop = 27},
-                {name = "MACDA_X1", start = 0, stop = 15},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "ROWVALID", start = 60, stop = 60},
+                {name = "VLAN", start = 48, stop = 59},
+                {name = "MACDA", start = 0, stop = 47},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DBG_W0 = {
@@ -37780,7 +36697,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070ae08,
             fields = {
-                {name = "KEY_X0", start = 9, stop = 31},
+                {name = "KEY", start = 9, stop = 31},
                 {name = "HIT", start = 8, stop = 8},
                 {name = "ADDR", start = 0, stop = 7},
             }
@@ -37791,7 +36708,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070ae0c,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DBG_W2 = {
@@ -37804,7 +36721,7 @@ local csr_db = {
                 {name = "ENABLE", start = 11, stop = 11},
                 {name = "VALID", start = 10, stop = 10},
                 {name = "PINDEX", start = 5, stop = 9},
-                {name = "KEY_X2", start = 0, stop = 4},
+                {name = "KEY", start = 0, stop = 4},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W0 = {
@@ -37815,7 +36732,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W1 = {
@@ -37826,7 +36743,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W2 = {
@@ -37837,7 +36754,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W3 = {
@@ -37848,7 +36765,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W4 = {
@@ -37863,29 +36780,18 @@ local csr_db = {
                 {name = "VMVALID", start = 0, stop = 1},
             }
         },
-        TNS_SDE_PE_LCMD_M2R_MASKX_W0 = {
-            name = "TNS_SDE_PE_LCMD_M2R_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_M2R_MASKX = {
+            name = "TNS_SDE_PE_LCMD_M2R_MASK#",
+            type = "NCB",
+            width = 8,
             address = 0x842060708800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "MACDA_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_M2R_MASKX_W1 = {
-            name = "TNS_SDE_PE_LCMD_M2R_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060708804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "ROWVALID", start = 28, stop = 28},
-                {name = "VLAN", start = 16, stop = 27},
-                {name = "MACDA_X1", start = 0, stop = 15},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "ROWVALID", start = 60, stop = 60},
+                {name = "VLAN", start = 48, stop = 59},
+                {name = "MACDA", start = 0, stop = 47},
             }
         },
         TNS_SDE_PE_LCMD_M2R_MEMX = {
@@ -37935,7 +36841,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0xc,
             fields = {
-                {name = "EGRESSVIF_X0", start = 29, stop = 31},
+                {name = "EGRESSVIF", start = 29, stop = 31},
                 {name = "REASONCODE", start = 19, stop = 28},
                 {name = "PKTCMD", start = 17, stop = 18},
                 {name = "SLAVELANESELECT", start = 14, stop = 16},
@@ -37954,7 +36860,7 @@ local csr_db = {
                 {name = "LM_CMD", start = 31, stop = 31},
                 {name = "ISMEKEYSEL", start = 29, stop = 30},
                 {name = "ECMPSIZE", start = 17, stop = 28},
-                {name = "EGRESSVIF_X1", start = 0, stop = 16},
+                {name = "EGRESSVIF", start = 0, stop = 16},
             }
         },
         TNS_SDE_PE_LCMD_NENGX_W2 = {
@@ -38024,7 +36930,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070adb0,
             fields = {
-                {name = "INFO_MEM_SPARE_X0", start = 20, stop = 31},
+                {name = "INFO_MEM_SPARE", start = 20, stop = 31},
                 {name = "HDR_BUFF_REQ_SRDY", start = 19, stop = 19},
                 {name = "HDR_BUFF_REQ_DRDY", start = 18, stop = 18},
                 {name = "HDR_BUFF_WR_SRDY", start = 17, stop = 17},
@@ -38042,8 +36948,8 @@ local csr_db = {
             width = 4,
             address = 0x84206070adb4,
             fields = {
-                {name = "INFOLL_X0", start = 16, stop = 31},
-                {name = "INFO_MEM_SPARE_X1", start = 0, stop = 15},
+                {name = "INFOLL", start = 16, stop = 31},
+                {name = "INFO_MEM_SPARE", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_LCMD_STA_W2 = {
@@ -38052,9 +36958,9 @@ local csr_db = {
             width = 4,
             address = 0x84206070adb8,
             fields = {
-                {name = "RDINFOHEADPTR_X0", start = 27, stop = 31},
+                {name = "RDINFOHEADPTR", start = 27, stop = 31},
                 {name = "LINKLIST", start = 21, stop = 26},
-                {name = "INFOLL_X1", start = 0, stop = 20},
+                {name = "INFOLL", start = 0, stop = 20},
             }
         },
         TNS_SDE_PE_LCMD_STA_W3 = {
@@ -38063,12 +36969,12 @@ local csr_db = {
             width = 4,
             address = 0x84206070adbc,
             fields = {
-                {name = "INFOFREECNT_X0", start = 26, stop = 31},
+                {name = "INFOFREECNT", start = 26, stop = 31},
                 {name = "INFOTAILPTR", start = 20, stop = 25},
                 {name = "INFOHEADPTR", start = 14, stop = 19},
                 {name = "RDINFOCNT", start = 7, stop = 13},
                 {name = "RDINFOTAILPTR", start = 1, stop = 6},
-                {name = "RDINFOHEADPTR_X1", start = 0, stop = 0},
+                {name = "RDINFOHEADPTR", start = 0, stop = 0},
             }
         },
         TNS_SDE_PE_LCMD_STA_W4 = {
@@ -38082,7 +36988,7 @@ local csr_db = {
                 {name = "FREETAILPTR", start = 14, stop = 19},
                 {name = "FREEHEADPTR", start = 8, stop = 13},
                 {name = "FREECNT", start = 1, stop = 7},
-                {name = "INFOFREECNT_X1", start = 0, stop = 0},
+                {name = "INFOFREECNT", start = 0, stop = 0},
             }
         },
         TNS_SDE_PE_LCMD_STA_W5 = {
@@ -38091,7 +36997,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070adc4,
             fields = {
-                {name = "HDR_BUFF_FIFO_CNT_X0", start = 31, stop = 31},
+                {name = "HDR_BUFF_FIFO_CNT", start = 31, stop = 31},
                 {name = "Q_EMPTY", start = 14, stop = 30},
                 {name = "PINDEX_CNT", start = 7, stop = 13},
                 {name = "RDCNT", start = 0, stop = 6},
@@ -38104,18 +37010,21 @@ local csr_db = {
             address = 0x84206070adc8,
             fields = {
                 {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "HDR_BUFF_FIFO_CNT_X1", start = 0, stop = 2},
+                {name = "HDR_BUFF_FIFO_CNT", start = 0, stop = 2},
             }
         },
-        TNS_SDE_PE_LCMD_TID_DATX_W0 = {
-            name = "TNS_SDE_PE_LCMD_TID_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TID_DATX = {
+            name = "TNS_SDE_PE_LCMD_TID_DAT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060707000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "LAYERTYPE6_X0", start = 30, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "LAYERTYPE7", start = 35, stop = 39},
+                {name = "LAYERTYPE6", start = 30, stop = 34},
                 {name = "LAYERTYPE5", start = 25, stop = 29},
                 {name = "LAYERTYPE4", start = 20, stop = 24},
                 {name = "LAYERTYPE3", start = 15, stop = 19},
@@ -38124,42 +37033,19 @@ local csr_db = {
                 {name = "LAYERTYPE0", start = 0, stop = 4},
             }
         },
-        TNS_SDE_PE_LCMD_TID_DATX_W1 = {
-            name = "TNS_SDE_PE_LCMD_TID_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060707004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "LAYERTYPE7", start = 3, stop = 7},
-                {name = "LAYERTYPE6_X1", start = 0, stop = 2},
-            }
-        },
-        TNS_SDE_PE_LCMD_TID_DBG_W0 = {
-            name = "TNS_SDE_PE_LCMD_TID_DBG_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TID_DBG = {
+            name = "TNS_SDE_PE_LCMD_TID_DBG",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ae00,
             fields = {
-                {name = "KEY_X0", start = 9, stop = 31},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "ENABLE", start = 55, stop = 55},
+                {name = "VALID", start = 54, stop = 54},
+                {name = "PINDEX", start = 49, stop = 53},
+                {name = "KEY", start = 9, stop = 48},
                 {name = "HIT", start = 8, stop = 8},
                 {name = "ADDR", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_LCMD_TID_DBG_W1 = {
-            name = "TNS_SDE_PE_LCMD_TID_DBG_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ae04,
-            fields = {
-                {name = "RESERVED_24_31", start = 24, stop = 31},
-                {name = "ENABLE", start = 23, stop = 23},
-                {name = "VALID", start = 22, stop = 22},
-                {name = "PINDEX", start = 17, stop = 21},
-                {name = "KEY_X1", start = 0, stop = 16},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W0 = {
@@ -38170,7 +37056,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W1 = {
@@ -38181,7 +37067,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W2 = {
@@ -38192,7 +37078,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W3 = {
@@ -38203,7 +37089,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W4 = {
@@ -38218,15 +37104,18 @@ local csr_db = {
                 {name = "VMVALID", start = 0, stop = 1},
             }
         },
-        TNS_SDE_PE_LCMD_TID_MASKX_W0 = {
-            name = "TNS_SDE_PE_LCMD_TID_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TID_MASKX = {
+            name = "TNS_SDE_PE_LCMD_TID_MASK#",
+            type = "NCB",
+            width = 8,
             address = 0x842060707800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "LAYERTYPE6_X0", start = 30, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "LAYERTYPE7", start = 35, stop = 39},
+                {name = "LAYERTYPE6", start = 30, stop = 34},
                 {name = "LAYERTYPE5", start = 25, stop = 29},
                 {name = "LAYERTYPE4", start = 20, stop = 24},
                 {name = "LAYERTYPE3", start = 15, stop = 19},
@@ -38235,45 +37124,20 @@ local csr_db = {
                 {name = "LAYERTYPE0", start = 0, stop = 4},
             }
         },
-        TNS_SDE_PE_LCMD_TID_MASKX_W1 = {
-            name = "TNS_SDE_PE_LCMD_TID_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060707804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "LAYERTYPE7", start = 3, stop = 7},
-                {name = "LAYERTYPE6_X1", start = 0, stop = 2},
-            }
-        },
-        TNS_SDE_PE_LCMD_TOKENCMDSX_W0 = {
-            name = "TNS_SDE_PE_LCMD_TOKENCMDS#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TOKENCMDSX = {
+            name = "TNS_SDE_PE_LCMD_TOKENCMDS#",
+            type = "NCB",
+            width = 8,
             address = 0x842060709800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "INRETHM2RLOC_X0", start = 27, stop = 31},
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "INRETHM2RLOC", start = 27, stop = 33},
                 {name = "HASHAEN", start = 19, stop = 26},
                 {name = "HASHBEN", start = 11, stop = 18},
                 {name = "FIRSTVLDLAYER", start = 8, stop = 10},
                 {name = "TEMPLATEID", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_LCMD_TOKENCMDSX_W1 = {
-            name = "TNS_SDE_PE_LCMD_TOKENCMDS#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060709804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_2_31", start = 2, stop = 31},
-                {name = "INRETHM2RLOC_X1", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_SKPU_CONTROL = {
@@ -38304,12 +37168,18 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_IKTX_W0 = {
             name = "TNS_SDE_PE_SKPU_IKT#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060710000,
             range1 = {0,136},
             range1_inc = 0x10,
             fields = {
+                {name = "DECPOINTOFFSET2", start = 62, stop = 63},
+                {name = "DECPOINTOFFSET3", start = 56, stop = 61},
+                {name = "DECPOINTOFFSET4", start = 50, stop = 55},
+                {name = "DECPOINTOFFSET5", start = 44, stop = 49},
+                {name = "DECPOINTOFFSET6", start = 38, stop = 43},
+                {name = "DECPOINTOFFSET7", start = 32, stop = 37},
                 {name = "DECPOINTOFFSET8", start = 26, stop = 31},
                 {name = "DECPOINTOFFSET9", start = 20, stop = 25},
                 {name = "DECPOINTOFFSET10", start = 14, stop = 19},
@@ -38319,47 +37189,21 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_IKTX_W1 = {
             name = "TNS_SDE_PE_SKPU_IKT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060710004,
-            range1 = {0,136},
-            range1_inc = 0x10,
-            fields = {
-                {name = "DECPOINTOFFSET2_X0", start = 30, stop = 31},
-                {name = "DECPOINTOFFSET3", start = 24, stop = 29},
-                {name = "DECPOINTOFFSET4", start = 18, stop = 23},
-                {name = "DECPOINTOFFSET5", start = 12, stop = 17},
-                {name = "DECPOINTOFFSET6", start = 6, stop = 11},
-                {name = "DECPOINTOFFSET7", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_PE_SKPU_IKTX_W2 = {
-            name = "TNS_SDE_PE_SKPU_IKT#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060710008,
             range1 = {0,136},
             range1_inc = 0x10,
             fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "XPHEXISTS", start = 35, stop = 35},
+                {name = "HTS_EXISTS", start = 34, stop = 34},
+                {name = "CHNUM", start = 32, stop = 33},
                 {name = "INITIALSTATE", start = 24, stop = 31},
                 {name = "INITIALPKTPTR", start = 16, stop = 23},
                 {name = "DECPOINTOFFSET0", start = 10, stop = 15},
                 {name = "DECPOINTOFFSET1", start = 4, stop = 9},
-                {name = "DECPOINTOFFSET2_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_PE_SKPU_IKTX_W3 = {
-            name = "TNS_SDE_PE_SKPU_IKT#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071000c,
-            range1 = {0,136},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "XPHEXISTS", start = 3, stop = 3},
-                {name = "HTS_EXISTS", start = 2, stop = 2},
-                {name = "CHNUM", start = 0, stop = 1},
+                {name = "DECPOINTOFFSET2", start = 0, stop = 3},
             }
         },
         TNS_SDE_PE_SKPU_IKT_DBG = {
@@ -38389,7 +37233,7 @@ local csr_db = {
             width = 4,
             address = 0x84206071400c,
             fields = {
-                {name = "KEY_X0", start = 8, stop = 31},
+                {name = "KEY", start = 8, stop = 31},
                 {name = "HIT", start = 7, stop = 7},
                 {name = "ADDR", start = 0, stop = 6},
             }
@@ -38400,7 +37244,7 @@ local csr_db = {
             width = 4,
             address = 0x842060714010,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_SKPU_DBG_W2 = {
@@ -38409,7 +37253,7 @@ local csr_db = {
             width = 4,
             address = 0x842060714014,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_SKPU_DBG_W3 = {
@@ -38422,18 +37266,25 @@ local csr_db = {
                 {name = "ENABLE", start = 22, stop = 22},
                 {name = "VALID", start = 21, stop = 21},
                 {name = "PINDEX", start = 16, stop = 20},
-                {name = "KEY_X3", start = 0, stop = 15},
+                {name = "KEY", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_SKPU_SKPU_SRAMX_W0 = {
             name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060712000,
             range1 = {0,127},
             range1_inc = 0x18,
             fields = {
-                {name = "LAYERTYPE0_X0", start = 28, stop = 31},
+                {name = "METADATA2", start = 58, stop = 63},
+                {name = "LYRPTRADVANCE0", start = 52, stop = 57},
+                {name = "LYRPTRADVANCE1", start = 46, stop = 51},
+                {name = "LYRPTRADVANCE2", start = 40, stop = 45},
+                {name = "TRANSITIONID", start = 36, stop = 39},
+                {name = "PUSH2STACK", start = 34, stop = 35},
+                {name = "PARSEDONE", start = 33, stop = 33},
+                {name = "LAYERTYPE0", start = 28, stop = 32},
                 {name = "LAYERTYPE1", start = 23, stop = 27},
                 {name = "LAYERTYPE2", start = 18, stop = 22},
                 {name = "OFFSET0", start = 12, stop = 17},
@@ -38443,69 +37294,29 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_SKPU_SRAMX_W1 = {
             name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060712004,
-            range1 = {0,127},
-            range1_inc = 0x18,
-            fields = {
-                {name = "METADATA2_X0", start = 26, stop = 31},
-                {name = "LYRPTRADVANCE0", start = 20, stop = 25},
-                {name = "LYRPTRADVANCE1", start = 14, stop = 19},
-                {name = "LYRPTRADVANCE2", start = 8, stop = 13},
-                {name = "TRANSITIONID", start = 4, stop = 7},
-                {name = "PUSH2STACK", start = 2, stop = 3},
-                {name = "PARSEDONE", start = 1, stop = 1},
-                {name = "LAYERTYPE0_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W2 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060712008,
             range1 = {0,127},
             range1_inc = 0x18,
             fields = {
-                {name = "METADATA1_X0", start = 26, stop = 31},
-                {name = "METADATA2_X1", start = 0, stop = 25},
+                {name = "METADATA0", start = 58, stop = 63},
+                {name = "METADATA1", start = 26, stop = 57},
+                {name = "METADATA2", start = 0, stop = 25},
             }
         },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W3 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071200c,
-            range1 = {0,127},
-            range1_inc = 0x18,
-            fields = {
-                {name = "METADATA0_X0", start = 26, stop = 31},
-                {name = "METADATA1_X1", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W4 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_SKPU_SKPU_SRAMX_W2 = {
+            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060712010,
             range1 = {0,127},
             range1_inc = 0x18,
             fields = {
-                {name = "STATE_X0", start = 26, stop = 31},
-                {name = "METADATA0_X1", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W5 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060712014,
-            range1 = {0,127},
-            range1_inc = 0x18,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "INNERETH", start = 2, stop = 2},
-                {name = "STATE_X1", start = 0, stop = 1},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "INNERETH", start = 34, stop = 34},
+                {name = "STATE", start = 26, stop = 33},
+                {name = "METADATA0", start = 0, stop = 25},
             }
         },
         TNS_SDE_PE_SKPU_SPAD = {
@@ -38519,12 +37330,16 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_TCAM_DATX_W0 = {
             name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713000,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "DECPOINT4", start = 56, stop = 63},
+                {name = "DECPOINT5", start = 48, stop = 55},
+                {name = "DECPOINT6", start = 40, stop = 47},
+                {name = "DECPOINT7", start = 32, stop = 39},
                 {name = "DECPOINT8", start = 24, stop = 31},
                 {name = "DECPOINT9", start = 16, stop = 23},
                 {name = "DECPOINT10", start = 8, stop = 15},
@@ -38533,43 +37348,19 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_TCAM_DATX_W1 = {
             name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060713004,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "DECPOINT4", start = 24, stop = 31},
-                {name = "DECPOINT5", start = 16, stop = 23},
-                {name = "DECPOINT6", start = 8, stop = 15},
-                {name = "DECPOINT7", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_DATX_W2 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713008,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "CURRENTSTATE", start = 32, stop = 39},
                 {name = "DECPOINT0", start = 24, stop = 31},
                 {name = "DECPOINT1", start = 16, stop = 23},
                 {name = "DECPOINT2", start = 8, stop = 15},
                 {name = "DECPOINT3", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_DATX_W3 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071300c,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "CURRENTSTATE", start = 0, stop = 7},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W0 = {
@@ -38580,7 +37371,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W1 = {
@@ -38591,7 +37382,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W2 = {
@@ -38602,7 +37393,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W3 = {
@@ -38613,7 +37404,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W4 = {
@@ -38624,7 +37415,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X4", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W5 = {
@@ -38635,7 +37426,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X5", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W6 = {
@@ -38648,17 +37439,21 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
-                {name = "VMDATA_X6", start = 0, stop = 15},
+                {name = "VMDATA", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_MASKX_W0 = {
             name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713800,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "DECPOINT4", start = 56, stop = 63},
+                {name = "DECPOINT5", start = 48, stop = 55},
+                {name = "DECPOINT6", start = 40, stop = 47},
+                {name = "DECPOINT7", start = 32, stop = 39},
                 {name = "DECPOINT8", start = 24, stop = 31},
                 {name = "DECPOINT9", start = 16, stop = 23},
                 {name = "DECPOINT10", start = 8, stop = 15},
@@ -38667,43 +37462,19 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_TCAM_MASKX_W1 = {
             name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060713804,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "DECPOINT4", start = 24, stop = 31},
-                {name = "DECPOINT5", start = 16, stop = 23},
-                {name = "DECPOINT6", start = 8, stop = 15},
-                {name = "DECPOINT7", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_MASKX_W2 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713808,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "CURRENTSTATE", start = 32, stop = 39},
                 {name = "DECPOINT0", start = 24, stop = 31},
                 {name = "DECPOINT1", start = 16, stop = 23},
                 {name = "DECPOINT2", start = 8, stop = 15},
                 {name = "DECPOINT3", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_MASKX_W3 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071380c,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "CURRENTSTATE", start = 0, stop = 7},
             }
         },
         TNS_SDE_URW1_AFULL_THRESH = {
@@ -38793,7 +37564,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b0a4,
             fields = {
-                {name = "SB_VLF_FIFO_X0", start = 24, stop = 31},
+                {name = "SB_VLF_FIFO", start = 24, stop = 31},
                 {name = "DB_CPU_RSN_TBL", start = 23, stop = 23},
                 {name = "DB_EFLT_TBL", start = 21, stop = 22},
                 {name = "DB_EVIF_TBL", start = 19, stop = 20},
@@ -38816,7 +37587,7 @@ local csr_db = {
                 {name = "SB_IVIF_TBL", start = 9, stop = 10},
                 {name = "SB_TEMPLATEID_TBL", start = 7, stop = 8},
                 {name = "SB_TRT_TBL", start = 5, stop = 6},
-                {name = "SB_VLF_FIFO_X1", start = 0, stop = 4},
+                {name = "SB_VLF_FIFO", start = 0, stop = 4},
             }
         },
         TNS_SDE_URW1_EGR_FLT_TBLX_WX = {
@@ -38834,15 +37605,15 @@ local csr_db = {
         },
         TNS_SDE_URW1_EVIF_TBLX_WX = {
             name = "TNS_SDE_URW1_EVIF_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060406000,
             range1 = {0,255},
             range1_inc = 0x18,
-            range2 = {0,5},
-            range2_inc = 0x4,
+            range2 = {0,2},
+            range2_inc = 0x8,
             fields = {
-                {name = "EVIF_RESPONSE", start = 0, stop = 31},
+                {name = "EVIF_RESPONSE", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW1_EVIF_WX = {
@@ -38862,7 +37633,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b08c,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -38874,7 +37645,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_INT_EN_LO_W0 = {
@@ -38883,7 +37654,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b094,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -38895,7 +37666,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_INT_FRC_W0 = {
@@ -38904,7 +37675,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b09c,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -38916,7 +37687,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_INT_W1C_W0 = {
@@ -38925,7 +37696,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b084,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -38937,20 +37708,20 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_IVIF_TBLX_WX = {
             name = "TNS_SDE_URW1_IVIF_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060404000,
             range1 = {0,255},
             range1_inc = 0x18,
-            range2 = {0,5},
-            range2_inc = 0x4,
+            range2 = {0,2},
+            range2_inc = 0x8,
             fields = {
-                {name = "IVIF_RESPONSE", start = 0, stop = 31},
+                {name = "IVIF_RESPONSE", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW1_IVIF_WX = {
@@ -38998,34 +37769,23 @@ local csr_db = {
                 {name = "FORMAT", start = 0, stop = 0},
             }
         },
-        TNS_SDE_URW1_SE_RESP_TBLX_W0 = {
-            name = "TNS_SDE_URW1_SE_RESP_TBL#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW1_SE_RESP_TBLX = {
+            name = "TNS_SDE_URW1_SE_RESP_TBL#",
+            type = "NCB",
+            width = 8,
             address = 0x84206040b000,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "IVIF_OFFSET_X0", start = 20, stop = 31},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "TOKEN_ID_0_32BIT_FORMAT", start = 60, stop = 60},
+                {name = "TOKEN_ID_0_BIT_MAP", start = 56, stop = 59},
+                {name = "TOKEN_ID_1_32BIT_FORMAT", start = 55, stop = 55},
+                {name = "TOKEN_ID_1_BIT_MAP", start = 51, stop = 54},
+                {name = "PRFID", start = 44, stop = 50},
+                {name = "CMD_EN", start = 40, stop = 43},
+                {name = "IVIF_OFFSET", start = 20, stop = 39},
                 {name = "EVIF_OFFSET", start = 0, stop = 19},
-            }
-        },
-        TNS_SDE_URW1_SE_RESP_TBLX_W1 = {
-            name = "TNS_SDE_URW1_SE_RESP_TBL#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206040b004,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "TOKEN_ID_0_32BIT_FORMAT", start = 28, stop = 28},
-                {name = "TOKEN_ID_0_BIT_MAP", start = 24, stop = 27},
-                {name = "TOKEN_ID_1_32BIT_FORMAT", start = 23, stop = 23},
-                {name = "TOKEN_ID_1_BIT_MAP", start = 19, stop = 22},
-                {name = "PRFID", start = 12, stop = 18},
-                {name = "CMD_EN", start = 8, stop = 11},
-                {name = "IVIF_OFFSET_X1", start = 0, stop = 7},
             }
         },
         TNS_SDE_URW1_SPAD = {
@@ -39091,7 +37851,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c28,
             fields = {
-                {name = "PT_EN_X0", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W1 = {
@@ -39100,7 +37860,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c2c,
             fields = {
-                {name = "PT_EN_X1", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W2 = {
@@ -39109,7 +37869,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c30,
             fields = {
-                {name = "PT_EN_X2", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W3 = {
@@ -39118,7 +37878,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c34,
             fields = {
-                {name = "PT_EN_X3", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W4 = {
@@ -39129,101 +37889,56 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_10_31", start = 10, stop = 31},
                 {name = "MODIFY_ETAG_EN", start = 9, stop = 9},
-                {name = "PT_EN_X4", start = 0, stop = 8},
+                {name = "PT_EN", start = 0, stop = 8},
             }
         },
         TNS_SDE_URW2A_HDR_W0 = {
             name = "TNS_SDE_URW2A_HDR_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060481c00,
             fields = {
-                {name = "LPB_PT_EN_X0", start = 16, stop = 31},
+                {name = "LPB_PT_EN", start = 16, stop = 63},
                 {name = "ETAG_ETYPE", start = 0, stop = 15},
             }
         },
         TNS_SDE_URW2A_HDR_W1 = {
             name = "TNS_SDE_URW2A_HDR_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c04,
+            type = "NCB",
+            width = 8,
+            address = 0x842060481c08,
             fields = {
-                {name = "LPB_PT_EN_X1", start = 0, stop = 31},
+                {name = "LPB_PT_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_HDR_W2 = {
             name = "TNS_SDE_URW2A_HDR_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c08,
+            type = "NCB",
+            width = 8,
+            address = 0x842060481c10,
             fields = {
-                {name = "LPB_PT_EN_X2", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 25, stop = 63},
+                {name = "LPB_PT_EN", start = 0, stop = 24},
             }
         },
         TNS_SDE_URW2A_HDR_W3 = {
             name = "TNS_SDE_URW2A_HDR_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c0c,
+            type = "NCB",
+            width = 8,
+            address = 0x842060481c18,
             fields = {
-                {name = "LPB_PT_EN_X3", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_HDR_W4 = {
             name = "TNS_SDE_URW2A_HDR_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c10,
-            fields = {
-                {name = "CPU_XPH_EN_X0", start = 25, stop = 31},
-                {name = "LPB_PT_EN_X4", start = 0, stop = 24},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W5 = {
-            name = "TNS_SDE_URW2A_HDR_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c14,
-            fields = {
-                {name = "CPU_XPH_EN_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W6 = {
-            name = "TNS_SDE_URW2A_HDR_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c18,
-            fields = {
-                {name = "CPU_XPH_EN_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W7 = {
-            name = "TNS_SDE_URW2A_HDR_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c1c,
-            fields = {
-                {name = "CPU_XPH_EN_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W8 = {
-            name = "TNS_SDE_URW2A_HDR_W8",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060481c20,
             fields = {
-                {name = "CPU_XPH_EN_X4", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W9 = {
-            name = "TNS_SDE_URW2A_HDR_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c24,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "USE_XPH_TS", start = 2, stop = 2},
-                {name = "CPU_XPH_EN_X5", start = 0, stop = 1},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "USE_XPH_TS", start = 34, stop = 34},
+                {name = "CPU_XPH_EN", start = 0, stop = 33},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W0 = {
@@ -39245,7 +37960,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X0", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W2 = {
@@ -39256,7 +37971,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X1", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W3 = {
@@ -39267,7 +37982,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X2", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W4 = {
@@ -39278,7 +37993,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X3", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W5 = {
@@ -39289,7 +38004,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X4", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W6 = {
@@ -39300,7 +38015,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X5", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W7 = {
@@ -39311,7 +38026,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X6", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W8 = {
@@ -39322,20 +38037,20 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X7", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_MEM_TBLX_WX = {
             name = "TNS_SDE_URW2A_INS_MEM_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060480000,
             range1 = {0,127},
             range1_inc = 0x20,
-            range2 = {0,7},
-            range2_inc = 0x4,
+            range2 = {0,3},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_LOCK = {
@@ -39349,15 +38064,15 @@ local csr_db = {
         },
         TNS_SDE_URW2A_RWMEM_TBLX_WX = {
             name = "TNS_SDE_URW2A_RWMEM_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060481800,
             range1 = {0,63},
             range1_inc = 0x10,
-            range2 = {0,3},
-            range2_inc = 0x4,
+            range2 = {0,1},
+            range2_inc = 0x8,
             fields = {
-                {name = "CMD_DATA", start = 0, stop = 31},
+                {name = "CMD_DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_SPAD = {
@@ -39419,7 +38134,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500038,
             fields = {
-                {name = "PT_EN_X0", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W1 = {
@@ -39428,7 +38143,7 @@ local csr_db = {
             width = 4,
             address = 0x84206050003c,
             fields = {
-                {name = "PT_EN_X1", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W2 = {
@@ -39437,7 +38152,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500040,
             fields = {
-                {name = "PT_EN_X2", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W3 = {
@@ -39446,7 +38161,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500044,
             fields = {
-                {name = "PT_EN_X3", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W4 = {
@@ -39457,101 +38172,56 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_10_31", start = 10, stop = 31},
                 {name = "MODIFY_ETAG_EN", start = 9, stop = 9},
-                {name = "PT_EN_X4", start = 0, stop = 8},
+                {name = "PT_EN", start = 0, stop = 8},
             }
         },
         TNS_SDE_URW2B_HDR_W0 = {
             name = "TNS_SDE_URW2B_HDR_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060500010,
             fields = {
-                {name = "LPB_PT_EN_X0", start = 16, stop = 31},
+                {name = "LPB_PT_EN", start = 16, stop = 63},
                 {name = "ETAG_ETYPE", start = 0, stop = 15},
             }
         },
         TNS_SDE_URW2B_HDR_W1 = {
             name = "TNS_SDE_URW2B_HDR_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500014,
+            type = "NCB",
+            width = 8,
+            address = 0x842060500018,
             fields = {
-                {name = "LPB_PT_EN_X1", start = 0, stop = 31},
+                {name = "LPB_PT_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2B_HDR_W2 = {
             name = "TNS_SDE_URW2B_HDR_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500018,
+            type = "NCB",
+            width = 8,
+            address = 0x842060500020,
             fields = {
-                {name = "LPB_PT_EN_X2", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 25, stop = 63},
+                {name = "LPB_PT_EN", start = 0, stop = 24},
             }
         },
         TNS_SDE_URW2B_HDR_W3 = {
             name = "TNS_SDE_URW2B_HDR_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206050001c,
+            type = "NCB",
+            width = 8,
+            address = 0x842060500028,
             fields = {
-                {name = "LPB_PT_EN_X3", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2B_HDR_W4 = {
             name = "TNS_SDE_URW2B_HDR_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500020,
-            fields = {
-                {name = "CPU_XPH_EN_X0", start = 25, stop = 31},
-                {name = "LPB_PT_EN_X4", start = 0, stop = 24},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W5 = {
-            name = "TNS_SDE_URW2B_HDR_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500024,
-            fields = {
-                {name = "CPU_XPH_EN_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W6 = {
-            name = "TNS_SDE_URW2B_HDR_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500028,
-            fields = {
-                {name = "CPU_XPH_EN_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W7 = {
-            name = "TNS_SDE_URW2B_HDR_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206050002c,
-            fields = {
-                {name = "CPU_XPH_EN_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W8 = {
-            name = "TNS_SDE_URW2B_HDR_W8",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060500030,
             fields = {
-                {name = "CPU_XPH_EN_X4", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W9 = {
-            name = "TNS_SDE_URW2B_HDR_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500034,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "USE_XPH_TS", start = 2, stop = 2},
-                {name = "CPU_XPH_EN_X5", start = 0, stop = 1},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "USE_XPH_TS", start = 34, stop = 34},
+                {name = "CPU_XPH_EN", start = 0, stop = 33},
             }
         },
         TNS_SDE_URW2B_INT_EN_HI = {
@@ -39629,7 +38299,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500084,
             fields = {
-                {name = "MTU_ERR_X0", start = 26, stop = 31},
+                {name = "MTU_ERR", start = 26, stop = 31},
                 {name = "MRE_PTR", start = 13, stop = 25},
                 {name = "QCN_SAMPLE", start = 0, stop = 12},
             }
@@ -39640,9 +38310,9 @@ local csr_db = {
             width = 4,
             address = 0x842060500088,
             fields = {
-                {name = "ING_MIR_X0", start = 20, stop = 31},
+                {name = "ING_MIR", start = 20, stop = 31},
                 {name = "EGR_MIR", start = 7, stop = 19},
-                {name = "MTU_ERR_X1", start = 0, stop = 6},
+                {name = "MTU_ERR", start = 0, stop = 6},
             }
         },
         TNS_SDE_URW2B_MRE_DCNT_W2 = {
@@ -39652,7 +38322,7 @@ local csr_db = {
             address = 0x84206050008c,
             fields = {
                 {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "ING_MIR_X1", start = 0, stop = 0},
+                {name = "ING_MIR", start = 0, stop = 0},
             }
         },
         TNS_SDE_URW2B_MRE_PRI_TBL = {
@@ -39686,7 +38356,7 @@ local csr_db = {
             width = 4,
             address = 0x84206050006c,
             fields = {
-                {name = "CPU_X0", start = 18, stop = 31},
+                {name = "CPU", start = 18, stop = 31},
                 {name = "QCN_SAMPLE", start = 0, stop = 17},
             }
         },
@@ -39696,9 +38366,9 @@ local csr_db = {
             width = 4,
             address = 0x842060500070,
             fields = {
-                {name = "ING_X0", start = 22, stop = 31},
+                {name = "ING", start = 22, stop = 31},
                 {name = "EGR", start = 4, stop = 21},
-                {name = "CPU_X1", start = 0, stop = 3},
+                {name = "CPU", start = 0, stop = 3},
             }
         },
         TNS_SDE_URW2B_MREPTR_W2 = {
@@ -39708,7 +38378,7 @@ local csr_db = {
             address = 0x842060500074,
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "ING_X1", start = 0, stop = 7},
+                {name = "ING", start = 0, stop = 7},
             }
         },
         TNS_SDE_URW2B_MTU_PRF_TBL_WX = {
@@ -39740,29 +38410,19 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_URW3_CNNCMD_TBLX_W0 = {
-            name = "TNS_SDE_URW3_CNNCMD_TBL#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_CNNCMD_TBLX = {
+            name = "TNS_SDE_URW3_CNNCMD_TBL#",
+            type = "NCB",
+            width = 8,
             address = 0x842060580400,
             range1 = {0,35},
             range1_inc = 0x8,
             fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "LAYERTYPE", start = 36, stop = 41},
+                {name = "LAYERHASH", start = 32, stop = 35},
                 {name = "CONTBYTES", start = 24, stop = 31},
                 {name = "BITVECTOR", start = 0, stop = 23},
-            }
-        },
-        TNS_SDE_URW3_CNNCMD_TBLX_W1 = {
-            name = "TNS_SDE_URW3_CNNCMD_TBL#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060580404,
-            range1 = {0,35},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_10_31", start = 10, stop = 31},
-                {name = "LAYERTYPE", start = 4, stop = 9},
-                {name = "LAYERHASH", start = 0, stop = 3},
             }
         },
         TNS_SDE_URW3_CONTROL = {
@@ -39802,25 +38462,16 @@ local csr_db = {
                 {name = "FIELD_B", start = 0, stop = 7},
             }
         },
-        TNS_SDE_URW3_DBG_STA_LIVE_W0 = {
-            name = "TNS_SDE_URW3_DBG_STA_LIVE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_DBG_STA_LIVE = {
+            name = "TNS_SDE_URW3_DBG_STA_LIVE",
+            type = "NCB",
+            width = 8,
             address = 0x8420605808b0,
             fields = {
-                {name = "SE_VIF_IF_DATA_X0", start = 27, stop = 31},
+                {name = "TXQIF_DATA", start = 47, stop = 63},
+                {name = "SE_VIF_IF_DATA", start = 27, stop = 46},
                 {name = "SE_INS_IF_DATA", start = 15, stop = 26},
                 {name = "HIF_DATA", start = 0, stop = 14},
-            }
-        },
-        TNS_SDE_URW3_DBG_STA_LIVE_W1 = {
-            name = "TNS_SDE_URW3_DBG_STA_LIVE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420605808b4,
-            fields = {
-                {name = "TXQIF_DATA", start = 15, stop = 31},
-                {name = "SE_VIF_IF_DATA_X1", start = 0, stop = 14},
             }
         },
         TNS_SDE_URW3_DBG_TXQ_RPF = {
@@ -39886,7 +38537,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580834,
             fields = {
-                {name = "DB_LPATH_FIFO_X0", start = 18, stop = 31},
+                {name = "DB_LPATH_FIFO", start = 18, stop = 31},
                 {name = "SB_RESP_FIFO", start = 17, stop = 17},
                 {name = "DB_RESP_FIFO", start = 16, stop = 16},
                 {name = "SB_SE_FIFO", start = 0, stop = 15},
@@ -39900,7 +38551,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "SB_LPATH_FIFO", start = 1, stop = 15},
-                {name = "DB_LPATH_FIFO_X1", start = 0, stop = 0},
+                {name = "DB_LPATH_FIFO", start = 0, stop = 0},
             }
         },
         TNS_SDE_URW3_ETAG = {
@@ -39919,7 +38570,7 @@ local csr_db = {
             width = 4,
             address = 0x84206058089c,
             fields = {
-                {name = "RANGE_LO_X0", start = 26, stop = 31},
+                {name = "RANGE_LO", start = 26, stop = 31},
                 {name = "RANGE_HI", start = 18, stop = 25},
                 {name = "MRE_MASK", start = 0, stop = 17},
             }
@@ -39931,64 +38582,58 @@ local csr_db = {
             address = 0x8420605808a0,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
-                {name = "RANGE_LO_X1", start = 0, stop = 1},
+                {name = "RANGE_LO", start = 0, stop = 1},
             }
         },
-        TNS_SDE_URW3_INS0_WX = {
-            name = "TNS_SDE_URW3_INS0_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS0 = {
+            name = "TNS_SDE_URW3_INS0",
+            type = "NCB",
+            width = 8,
             address = 0x842060580868,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS1_WX = {
-            name = "TNS_SDE_URW3_INS1_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS1 = {
+            name = "TNS_SDE_URW3_INS1",
+            type = "NCB",
+            width = 8,
             address = 0x842060580870,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS2_WX = {
-            name = "TNS_SDE_URW3_INS2_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS2 = {
+            name = "TNS_SDE_URW3_INS2",
+            type = "NCB",
+            width = 8,
             address = 0x842060580878,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS3_WX = {
-            name = "TNS_SDE_URW3_INS3_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS3 = {
+            name = "TNS_SDE_URW3_INS3",
+            type = "NCB",
+            width = 8,
             address = 0x842060580880,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS_FIFX_WX = {
-            name = "TNS_SDE_URW3_INS_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS_FIFX = {
+            name = "TNS_SDE_URW3_INS_FIF#",
+            type = "NCB",
+            width = 8,
             address = 0x842060580700,
             range1 = {0,31},
             range1_inc = 0x8,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW3_INT_EN_HI_W0 = {
@@ -40227,7 +38872,7 @@ local csr_db = {
             range1 = {0,23},
             range1_inc = 0xc,
             fields = {
-                {name = "TOKEN_ID_0_BIT_MAP_X0", start = 30, stop = 31},
+                {name = "TOKEN_ID_0_BIT_MAP", start = 30, stop = 31},
                 {name = "TOKEN_ID_1_32BIT_FORMAT", start = 29, stop = 29},
                 {name = "TOKEN_ID_1_BIT_MAP", start = 25, stop = 28},
                 {name = "TOKEN_ID_2_32BIT_FORMAT", start = 24, stop = 24},
@@ -40246,11 +38891,11 @@ local csr_db = {
             range1 = {0,23},
             range1_inc = 0xc,
             fields = {
-                {name = "OFFSET1_X0", start = 27, stop = 31},
+                {name = "OFFSET1", start = 27, stop = 31},
                 {name = "OFFSET2", start = 15, stop = 26},
                 {name = "OFFSET3", start = 3, stop = 14},
                 {name = "TOKEN_ID_0_32BIT_FORMAT", start = 2, stop = 2},
-                {name = "TOKEN_ID_0_BIT_MAP_X1", start = 0, stop = 1},
+                {name = "TOKEN_ID_0_BIT_MAP", start = 0, stop = 1},
             }
         },
         TNS_SDE_URW3_SEIN_RP_TBLX_W2 = {
@@ -40263,7 +38908,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "OFFSET0", start = 7, stop = 18},
-                {name = "OFFSET1_X1", start = 0, stop = 6},
+                {name = "OFFSET1", start = 0, stop = 6},
             }
         },
         TNS_SDE_URW3_SPAD = {
@@ -40288,17 +38933,15 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_URW3_VIF_FIFX_WX = {
-            name = "TNS_SDE_URW3_VIF_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_VIF_FIFX = {
+            name = "TNS_SDE_URW3_VIF_FIF#",
+            type = "NCB",
+            width = 8,
             address = 0x842060580600,
             range1 = {0,31},
             range1_inc = 0x8,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW3_WRR = {
@@ -40379,7 +39022,7 @@ local csr_db = {
             width = 4,
             address = 0x842056010020,
             fields = {
-                {name = "ROW_DATA_X0", start = 0, stop = 31},
+                {name = "ROW_DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_AGE_MEM_AGE_STA_W1 = {
@@ -40388,7 +39031,7 @@ local csr_db = {
             width = 4,
             address = 0x842056010024,
             fields = {
-                {name = "ROW_DATA_X1", start = 0, stop = 31},
+                {name = "ROW_DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_AGE_MEM_AGE_STA_W2 = {
@@ -40448,34 +39091,30 @@ local csr_db = {
                 {name = "LOCK", start = 0, stop = 31},
             }
         },
-        TNS_SE_AGE_MEM_MARKXDX_WX = {
-            name = "TNS_SE_AGE_MEM_MARK#D#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_AGE_MEM_MARKXDX = {
+            name = "TNS_SE_AGE_MEM_MARK#D#",
+            type = "NCB",
+            width = 8,
             address = 0x842056000000,
             range1 = {0,1},
             range1_inc = 0x4000,
             range2 = {0,2047},
             range2_inc = 0x8,
-            range3 = {0,1},
-            range3_inc = 0x4,
             fields = {
-                {name = "AGE_MARK", start = 0, stop = 31},
+                {name = "AGE_MARK", start = 0, stop = 63},
             }
         },
-        TNS_SE_AGE_MEM_MASKXDX_WX = {
-            name = "TNS_SE_AGE_MEM_MASK#D#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_AGE_MEM_MASKXDX = {
+            name = "TNS_SE_AGE_MEM_MASK#D#",
+            type = "NCB",
+            width = 8,
             address = 0x842056008000,
             range1 = {0,1},
             range1_inc = 0x4000,
             range2 = {0,2047},
             range2_inc = 0x8,
-            range3 = {0,1},
-            range3_inc = 0x4,
             fields = {
-                {name = "AGE_MASK", start = 0, stop = 31},
+                {name = "AGE_MASK", start = 0, stop = 63},
             }
         },
         TNS_SE_AGE_MEM_MRK_ECC_LOGX = {
@@ -40504,42 +39143,25 @@ local csr_db = {
         },
         TNS_SE_AGE_MEM_RFRSH_W0 = {
             name = "TNS_SE_AGE_MEM_RFRSH_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842056010000,
             fields = {
+                {name = "TRIG_CFG_BMP", start = 39, stop = 63},
+                {name = "EN_PAUSE", start = 38, stop = 38},
+                {name = "FIFO_THD", start = 32, stop = 37},
                 {name = "UNIT_TIME", start = 0, stop = 31},
             }
         },
         TNS_SE_AGE_MEM_RFRSH_W1 = {
             name = "TNS_SE_AGE_MEM_RFRSH_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842056010004,
-            fields = {
-                {name = "TRIG_CFG_BMP_X0", start = 7, stop = 31},
-                {name = "EN_PAUSE", start = 6, stop = 6},
-                {name = "FIFO_THD", start = 0, stop = 5},
-            }
-        },
-        TNS_SE_AGE_MEM_RFRSH_W2 = {
-            name = "TNS_SE_AGE_MEM_RFRSH_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842056010008,
             fields = {
-                {name = "TRIG_CFG_BMP_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SE_AGE_MEM_RFRSH_W3 = {
-            name = "TNS_SE_AGE_MEM_RFRSH_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84205601000c,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "MODE", start = 7, stop = 7},
-                {name = "TRIG_CFG_BMP_X2", start = 0, stop = 6},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "MODE", start = 39, stop = 39},
+                {name = "TRIG_CFG_BMP", start = 0, stop = 38},
             }
         },
         TNS_SE_AGE_MEM_SPAD = {
@@ -40588,53 +39210,32 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SE_AGE_TBLXCX_W0 = {
-            name = "TNS_SE_AGE_TBL#C#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_AGE_TBLXCX = {
+            name = "TNS_SE_AGE_TBL#C#",
+            type = "NCB",
+            width = 8,
             address = 0x842056080150,
             range1 = {0,1},
             range1_inc = 0x1000,
             range2 = {0,31},
             range2_inc = 0x8,
             fields = {
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "MARK_EN", start = 38, stop = 38},
+                {name = "PERIOD_EXPO", start = 32, stop = 37},
                 {name = "MEM_OFFSET", start = 17, stop = 31},
                 {name = "MEM_ROW_INC", start = 2, stop = 16},
                 {name = "MASK_RST_EN", start = 1, stop = 1},
                 {name = "MASK_RST_VAL", start = 0, stop = 0},
             }
         },
-        TNS_SE_AGE_TBLXCX_W1 = {
-            name = "TNS_SE_AGE_TBL#C#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842056080154,
-            range1 = {0,1},
-            range1_inc = 0x1000,
-            range2 = {0,31},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "MARK_EN", start = 6, stop = 6},
-                {name = "PERIOD_EXPO", start = 0, stop = 5},
-            }
-        },
-        TNS_SE_CFG_SPARE_W0 = {
-            name = "TNS_SE_CFG_SPARE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_CFG_SPARE = {
+            name = "TNS_SE_CFG_SPARE",
+            type = "NCB",
+            width = 8,
             address = 0x842052200040,
             fields = {
-                {name = "XP_SE_SPARE_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SE_CFG_SPARE_W1 = {
-            name = "TNS_SE_CFG_SPARE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842052200044,
-            fields = {
-                {name = "XP_SE_SPARE_X1", start = 0, stop = 31},
+                {name = "XP_SE_SPARE", start = 0, stop = 63},
             }
         },
         TNS_SE_DIRECT_LOCK = {
@@ -40705,7 +39306,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "ROW_BLK_START_5_X0", start = 28, stop = 31},
+                {name = "ROW_BLK_START_5", start = 28, stop = 31},
                 {name = "ROW_BLK_START_6", start = 22, stop = 27},
                 {name = "ROW_BLK_START_7", start = 16, stop = 21},
                 {name = "HASH_FUNC_0", start = 14, stop = 15},
@@ -40731,7 +39332,7 @@ local csr_db = {
                 {name = "ROW_BLK_START_2", start = 14, stop = 19},
                 {name = "ROW_BLK_START_3", start = 8, stop = 13},
                 {name = "ROW_BLK_START_4", start = 2, stop = 7},
-                {name = "ROW_BLK_START_5_X1", start = 0, stop = 1},
+                {name = "ROW_BLK_START_5", start = 0, stop = 1},
             }
         },
         TNS_SE_HASH_TBL_HASHX_W2 = {
@@ -40755,7 +39356,7 @@ local csr_db = {
             width = 4,
             address = 0x842052201040,
             fields = {
-                {name = "TCAM_SCRB_DB2_X0", start = 30, stop = 31},
+                {name = "TCAM_SCRB_DB2", start = 30, stop = 31},
                 {name = "TCAM_SCRB_DB3", start = 24, stop = 29},
                 {name = "TCAM_SCRB_DB4", start = 18, stop = 23},
                 {name = "TCAM_SCRB_DB5", start = 12, stop = 17},
@@ -40773,7 +39374,7 @@ local csr_db = {
                 {name = "TSRAM", start = 16, stop = 23},
                 {name = "TCAM_SCRB_DB0", start = 10, stop = 15},
                 {name = "TCAM_SCRB_DB1", start = 4, stop = 9},
-                {name = "TCAM_SCRB_DB2_X1", start = 0, stop = 3},
+                {name = "TCAM_SCRB_DB2", start = 0, stop = 3},
             }
         },
         TNS_SE_INT_RO_W2 = {
@@ -40796,7 +39397,7 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X0", start = 21, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 21, stop = 31},
                 {name = "KEY_SIZE", start = 15, stop = 20},
                 {name = "ECMP_EN", start = 14, stop = 14},
                 {name = "ECMP_HASH_BYTE_START", start = 8, stop = 13},
@@ -40812,7 +39413,7 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X1", start = 0, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 31},
             }
         },
         TNS_SE_LDE_SRCH_CMDX_W2 = {
@@ -40830,7 +39431,7 @@ local csr_db = {
                 {name = "RSLT_QW_INC", start = 7, stop = 10},
                 {name = "REGRETTABLE", start = 6, stop = 6},
                 {name = "AGE_EN", start = 5, stop = 5},
-                {name = "KEY_BYTE_BMP_X2", start = 0, stop = 4},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 4},
             }
         },
         TNS_SE_LDECMD_LOCK = {
@@ -40859,7 +39460,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X0", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_RSL_LNX_W1 = {
@@ -40870,7 +39471,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X1", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_RSL_LNX_W2 = {
@@ -40894,7 +39495,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109038,
             fields = {
-                {name = "KEY_X0", start = 10, stop = 31},
+                {name = "KEY", start = 10, stop = 31},
                 {name = "REQ_ID", start = 4, stop = 9},
                 {name = "CMD_EN", start = 0, stop = 3},
             }
@@ -40905,7 +39506,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610903c,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W10 = {
@@ -40914,7 +39515,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109060,
             fields = {
-                {name = "KEY_X10", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W11 = {
@@ -40923,7 +39524,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109064,
             fields = {
-                {name = "KEY_X11", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W12 = {
@@ -40935,7 +39536,7 @@ local csr_db = {
                 {name = "RESERVED_17_31", start = 17, stop = 31},
                 {name = "VLD", start = 16, stop = 16},
                 {name = "PROFILE_ID", start = 10, stop = 15},
-                {name = "KEY_X12", start = 0, stop = 9},
+                {name = "KEY", start = 0, stop = 9},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W2 = {
@@ -40944,7 +39545,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109040,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W3 = {
@@ -40953,7 +39554,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109044,
             fields = {
-                {name = "KEY_X3", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W4 = {
@@ -40962,7 +39563,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109048,
             fields = {
-                {name = "KEY_X4", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W5 = {
@@ -40971,7 +39572,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610904c,
             fields = {
-                {name = "KEY_X5", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W6 = {
@@ -40980,7 +39581,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109050,
             fields = {
-                {name = "KEY_X6", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W7 = {
@@ -40989,7 +39590,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109054,
             fields = {
-                {name = "KEY_X7", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W8 = {
@@ -40998,7 +39599,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109058,
             fields = {
-                {name = "KEY_X8", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W9 = {
@@ -41007,7 +39608,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610905c,
             fields = {
-                {name = "KEY_X9", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_DBG_SEL = {
@@ -41063,15 +39664,16 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SE_LDEI_STA_HASH_BUFX_W0 = {
-            name = "TNS_SE_LDEI_STA_HASH_BUF#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_LDEI_STA_HASH_BUFX = {
+            name = "TNS_SE_LDEI_STA_HASH_BUF#",
+            type = "NCB",
+            width = 8,
             address = 0x842056109018,
             range1 = {0,3},
             range1_inc = 0x8,
             fields = {
-                {name = "INTF_ID_X0", start = 31, stop = 31},
+                {name = "RESERVED_37_63", start = 37, stop = 63},
+                {name = "INTF_ID", start = 31, stop = 36},
                 {name = "REQ_ID", start = 25, stop = 30},
                 {name = "CMD_ID", start = 23, stop = 24},
                 {name = "RSLT_QW_START", start = 18, stop = 22},
@@ -41082,25 +39684,13 @@ local csr_db = {
                 {name = "USAGE", start = 0, stop = 3},
             }
         },
-        TNS_SE_LDEI_STA_HASH_BUFX_W1 = {
-            name = "TNS_SE_LDEI_STA_HASH_BUF#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84205610901c,
-            range1 = {0,3},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_5_31", start = 5, stop = 31},
-                {name = "INTF_ID_X1", start = 0, stop = 4},
-            }
-        },
         TNS_SE_LDEI_STA_REQ_DBG_W0 = {
             name = "TNS_SE_LDEI_STA_REQ_DBG_W0",
             type = "NCB32B",
             width = 4,
             address = 0x8420561090cc,
             fields = {
-                {name = "KEY_X0", start = 25, stop = 31},
+                {name = "KEY", start = 25, stop = 31},
                 {name = "REQ_ID", start = 19, stop = 24},
                 {name = "UNUSED_TMP", start = 0, stop = 18},
             }
@@ -41111,7 +39701,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090d0,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W10 = {
@@ -41120,7 +39710,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090f4,
             fields = {
-                {name = "KEY_X10", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W11 = {
@@ -41129,7 +39719,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090f8,
             fields = {
-                {name = "KEY_X11", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W12 = {
@@ -41139,7 +39729,7 @@ local csr_db = {
             address = 0x8420561090fc,
             fields = {
                 {name = "PROFILE_ID", start = 25, stop = 31},
-                {name = "KEY_X12", start = 0, stop = 24},
+                {name = "KEY", start = 0, stop = 24},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W2 = {
@@ -41148,7 +39738,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090d4,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W3 = {
@@ -41157,7 +39747,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090d8,
             fields = {
-                {name = "KEY_X3", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W4 = {
@@ -41166,7 +39756,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090dc,
             fields = {
-                {name = "KEY_X4", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W5 = {
@@ -41175,7 +39765,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090e0,
             fields = {
-                {name = "KEY_X5", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W6 = {
@@ -41184,7 +39774,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090e4,
             fields = {
-                {name = "KEY_X6", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W7 = {
@@ -41193,7 +39783,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090e8,
             fields = {
-                {name = "KEY_X7", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W8 = {
@@ -41202,7 +39792,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090ec,
             fields = {
-                {name = "KEY_X8", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W9 = {
@@ -41211,7 +39801,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090f0,
             fields = {
-                {name = "KEY_X9", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LPM_LOCK = {
@@ -41260,7 +39850,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "ROW_BLK_START_2_X0", start = 31, stop = 31},
+                {name = "ROW_BLK_START_2", start = 31, stop = 31},
                 {name = "ROW_BLK_START_3", start = 25, stop = 30},
                 {name = "ROW_BLK_START_4", start = 19, stop = 24},
                 {name = "ROW_BLK_START_5", start = 13, stop = 18},
@@ -41277,12 +39867,12 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_SIZE_X0", start = 31, stop = 31},
+                {name = "DATA_SIZE", start = 31, stop = 31},
                 {name = "POOL_BMP", start = 23, stop = 30},
                 {name = "ROW_BLK_INC", start = 17, stop = 22},
                 {name = "ROW_BLK_START_0", start = 11, stop = 16},
                 {name = "ROW_BLK_START_1", start = 5, stop = 10},
-                {name = "ROW_BLK_START_2_X1", start = 0, stop = 4},
+                {name = "ROW_BLK_START_2", start = 0, stop = 4},
             }
         },
         TNS_SE_LPM_TBL_NHX_W2 = {
@@ -41294,7 +39884,7 @@ local csr_db = {
             range1_inc = 0xc,
             fields = {
                 {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "DATA_SIZE_X1", start = 0, stop = 2},
+                {name = "DATA_SIZE", start = 0, stop = 2},
             }
         },
         TNS_SE_LPM_TBL_NHIX_W0 = {
@@ -41305,7 +39895,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "ROW_BLK_START_2_X0", start = 30, stop = 31},
+                {name = "ROW_BLK_START_2", start = 30, stop = 31},
                 {name = "ROW_BLK_START_3", start = 24, stop = 29},
                 {name = "ROW_BLK_START_4", start = 18, stop = 23},
                 {name = "ROW_BLK_START_5", start = 12, stop = 17},
@@ -41321,12 +39911,12 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "NHI_SIZE_X0", start = 30, stop = 31},
+                {name = "NHI_SIZE", start = 30, stop = 31},
                 {name = "POOL_BMP", start = 22, stop = 29},
                 {name = "ROW_BLK_INC", start = 16, stop = 21},
                 {name = "ROW_BLK_START_0", start = 10, stop = 15},
                 {name = "ROW_BLK_START_1", start = 4, stop = 9},
-                {name = "ROW_BLK_START_2_X1", start = 0, stop = 3},
+                {name = "ROW_BLK_START_2", start = 0, stop = 3},
             }
         },
         TNS_SE_LPM_TBL_NHIX_W2 = {
@@ -41339,7 +39929,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_7_31", start = 7, stop = 31},
                 {name = "PAIR_PER_ENTRY", start = 3, stop = 6},
-                {name = "NHI_SIZE_X1", start = 0, stop = 2},
+                {name = "NHI_SIZE", start = 0, stop = 2},
             }
         },
         TNS_SE_PRFX_LOCK = {
@@ -41429,7 +40019,7 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0xc,
             fields = {
-                {name = "HASH_HANG_INTF_ID_X0", start = 29, stop = 31},
+                {name = "HASH_HANG_INTF_ID", start = 29, stop = 31},
                 {name = "HASH_HANG_REQ_ID", start = 23, stop = 28},
                 {name = "HASH_HANG_CMD_ID", start = 21, stop = 22},
                 {name = "HASH_HANG_TABLE_ID", start = 13, stop = 20},
@@ -41450,7 +40040,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_5_31", start = 5, stop = 31},
                 {name = "DUAL_TILE_HASH_HANG", start = 3, stop = 4},
-                {name = "HASH_HANG_INTF_ID_X1", start = 0, stop = 2},
+                {name = "HASH_HANG_INTF_ID", start = 0, stop = 2},
             }
         },
         TNS_SE_SRAM_PAIRX_DONE = {
@@ -41734,8 +40324,8 @@ local csr_db = {
         },
         TNS_SE_SRAM_PAIRXTILEXDX_WX = {
             name = "TNS_SE_SRAM_PAIR#TILE#D#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842054000000,
             range1 = {0,7},
             range1_inc = 0x400000,
@@ -41743,10 +40333,10 @@ local csr_db = {
             range2_inc = 0x10000,
             range3 = {0,2047},
             range3_inc = 0x20,
-            range4 = {0,7},
-            range4_inc = 0x4,
+            range4 = {0,3},
+            range4_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SE_TCAMX_DBG_SEL = {
@@ -41777,17 +40367,17 @@ local csr_db = {
         },
         TNS_SE_TCAMX_SRAMX_WX = {
             name = "TNS_SE_TCAM#_SRAM#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842050000000,
             range1 = {0,7},
             range1_inc = 0x400000,
             range2 = {0,767},
             range2_inc = 0x20,
-            range3 = {0,7},
-            range3_inc = 0x4,
+            range3 = {0,3},
+            range3_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SE_TCAMX_SRAM_ECC_LOG = {
@@ -42327,7 +40917,7 @@ local csr_db = {
             range2 = {0,63},
             range2_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X0", start = 21, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 21, stop = 31},
                 {name = "KEY_SIZE", start = 15, stop = 20},
                 {name = "ECMP_EN", start = 14, stop = 14},
                 {name = "ECMP_HASH_BYTE_START", start = 8, stop = 13},
@@ -42345,7 +40935,7 @@ local csr_db = {
             range2 = {0,63},
             range2_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X1", start = 0, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 31},
             }
         },
         TNS_SE_URWCMDX_SRCH_CMDX_W2 = {
@@ -42365,7 +40955,7 @@ local csr_db = {
                 {name = "RSLT_QW_INC", start = 7, stop = 10},
                 {name = "REGRETTABLE", start = 6, stop = 6},
                 {name = "AGE_EN", start = 5, stop = 5},
-                {name = "KEY_BYTE_BMP_X2", start = 0, stop = 4},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 4},
             }
         },
         TNS_SE_URWIF_DBG = {
@@ -42405,7 +40995,7 @@ local csr_db = {
             width = 4,
             address = 0x842056100004,
             fields = {
-                {name = "KEY_X0", start = 25, stop = 31},
+                {name = "KEY", start = 25, stop = 31},
                 {name = "REQ_ID", start = 19, stop = 24},
                 {name = "UNUSED_TMP", start = 0, stop = 18},
             }
@@ -42416,7 +41006,7 @@ local csr_db = {
             width = 4,
             address = 0x842056100008,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_REQ_DBG_W2 = {
@@ -42425,7 +41015,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610000c,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_REQ_DBG_W3 = {
@@ -42435,7 +41025,7 @@ local csr_db = {
             address = 0x842056100010,
             fields = {
                 {name = "PROFILE_ID", start = 25, stop = 31},
-                {name = "KEY_X3", start = 0, stop = 24},
+                {name = "KEY", start = 0, stop = 24},
             }
         },
         TNS_SE_URWIF_RSLT_DBGX_W0 = {
@@ -42446,7 +41036,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X0", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_RSLT_DBGX_W1 = {
@@ -42457,7 +41047,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X1", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_RSLT_DBGX_W2 = {
@@ -43413,22 +42003,13 @@ local csr_db = {
                 {name = "PCC_BUSY", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CFG_SPARE_W0 = {
-            name = "TNS_TXQ_CFG_SPARE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CFG_SPARE = {
+            name = "TNS_TXQ_CFG_SPARE",
+            type = "NCB",
+            width = 8,
             address = 0x842070684910,
             fields = {
-                {name = "SPARE_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CFG_SPARE_W1 = {
-            name = "TNS_TXQ_CFG_SPARE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070684914,
-            fields = {
-                {name = "SPARE_X1", start = 0, stop = 31},
+                {name = "RESERVED_0_63", start = 0, stop = 63},
             }
         },
         TNS_TXQ_CNT_CT_GO_NEG_CFG = {
@@ -43622,52 +42203,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 7},
             }
         },
-        TNS_TXQ_CNT_H1_DRP_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_DRP_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_DRP_LEN_CTX = {
+            name = "TNS_TXQ_CNT_H1_DRP_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d7800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_H1_DRP_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_DRP_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d7804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_H1_DRP_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_DRP_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_DRP_PKT_CTX = {
+            name = "TNS_TXQ_CNT_H1_DRP_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d6800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_H1_DRP_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_DRP_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d6804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_H1_FLCM_ECC_LOG = {
@@ -43690,52 +42249,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 7},
             }
         },
-        TNS_TXQ_CNT_H1_FW_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_FW_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_FW_LEN_CTX = {
+            name = "TNS_TXQ_CNT_H1_FW_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d7000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_H1_FW_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_FW_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d7004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_H1_FW_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_FW_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_FW_PKT_CTX = {
+            name = "TNS_TXQ_CNT_H1_FW_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d6000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_H1_FW_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_FW_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d6004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_H1_LEN_CTX = {
@@ -43750,12 +42287,16 @@ local csr_db = {
                 {name = "LENGTH_COUNT", start = 0, stop = 14},
             }
         },
-        TNS_TXQ_CNT_INT_EN_HI_W0 = {
-            name = "TNS_TXQ_CNT_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_EN_HI = {
+            name = "TNS_TXQ_CNT_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c48,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -43790,24 +42331,16 @@ local csr_db = {
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_INT_EN_HI_W1 = {
-            name = "TNS_TXQ_CNT_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c4c,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_EN_LO_W0 = {
-            name = "TNS_TXQ_CNT_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_EN_LO = {
+            name = "TNS_TXQ_CNT_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c50,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -43842,24 +42375,16 @@ local csr_db = {
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_INT_EN_LO_W1 = {
-            name = "TNS_TXQ_CNT_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c54,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_FRC_W0 = {
-            name = "TNS_TXQ_CNT_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_FRC = {
+            name = "TNS_TXQ_CNT_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c58,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -43894,24 +42419,16 @@ local csr_db = {
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_INT_FRC_W1 = {
-            name = "TNS_TXQ_CNT_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c5c,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_W1C_W0 = {
-            name = "TNS_TXQ_CNT_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_W1C = {
+            name = "TNS_TXQ_CNT_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c40,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -43944,18 +42461,6 @@ local csr_db = {
                 {name = "Q_OLD_LEN_SB_ERR", start = 2, stop = 2},
                 {name = "Q_AVG_LEN_DB_ERR", start = 1, stop = 1},
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_W1C_W1 = {
-            name = "TNS_TXQ_CNT_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c44,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
             }
         },
         TNS_TXQ_CNT_LOCK = {
@@ -43969,13 +42474,13 @@ local csr_db = {
         },
         TNS_TXQ_CNT_NIC_CRD_OV_THR_WX = {
             name = "TNS_TXQ_CNT_NIC_CRD_OV_THR_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c90,
-            range1 = {0,7},
-            range1_inc = 0x4,
+            range1 = {0,3},
+            range1_inc = 0x8,
             fields = {
-                {name = "OVER_THRESHOLD", start = 0, stop = 31},
+                {name = "OVER_THRESHOLD", start = 0, stop = 63},
             }
         },
         TNS_TXQ_CNT_ONTHEFLY_PKT_CT = {
@@ -44097,100 +42602,56 @@ local csr_db = {
                 {name = "TC_HW_AUTO_INIT", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_PT_DRP_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_DRP_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_DRP_LEN_CTX = {
+            name = "TNS_TXQ_CNT_PT_DRP_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9a80,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_PT_DRP_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_DRP_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9a84,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_PT_DRP_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_DRP_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_DRP_PKT_CTX = {
+            name = "TNS_TXQ_CNT_PT_DRP_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9980,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_PT_DRP_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_DRP_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9984,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_PT_FW_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_FW_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_FW_LEN_CTX = {
+            name = "TNS_TXQ_CNT_PT_FW_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9a00,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_PT_FW_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_FW_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9a04,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_PT_FW_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_FW_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_FW_PKT_CTX = {
+            name = "TNS_TXQ_CNT_PT_FW_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9900,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_PT_FW_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_FW_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9904,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_PT_LEN_CTX = {
@@ -44247,52 +42708,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_CNT_Q_DRP_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_DRP_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_DRP_LEN_CTX = {
+            name = "TNS_TXQ_CNT_Q_DRP_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706cc000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_Q_DRP_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_DRP_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706cc004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_Q_DRP_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_DRP_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_DRP_PKT_CTX = {
+            name = "TNS_TXQ_CNT_Q_DRP_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706c4000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_Q_DRP_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_DRP_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706c4004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_Q_FLCM_ECC_LOG = {
@@ -44315,52 +42754,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_CNT_Q_FW_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_FW_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_FW_LEN_CTX = {
+            name = "TNS_TXQ_CNT_Q_FW_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706c8000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_Q_FW_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_FW_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706c8004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_Q_FW_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_FW_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_FW_PKT_CTX = {
+            name = "TNS_TXQ_CNT_Q_FW_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706c0000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_Q_FW_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_FW_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706c0004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_Q_LEN_CTX = {
@@ -44599,7 +43016,7 @@ local csr_db = {
             width = 4,
             address = 0x84207048811c,
             fields = {
-                {name = "PORT3_BYTES_X0", start = 27, stop = 31},
+                {name = "PORT3_BYTES", start = 27, stop = 31},
                 {name = "PORT2_BYTES", start = 18, stop = 26},
                 {name = "PORT1_BYTES", start = 9, stop = 17},
                 {name = "PORT0_BYTES", start = 0, stop = 8},
@@ -44611,11 +43028,11 @@ local csr_db = {
             width = 4,
             address = 0x842070488120,
             fields = {
-                {name = "PORT7_BYTES_X0", start = 31, stop = 31},
+                {name = "PORT7_BYTES", start = 31, stop = 31},
                 {name = "PORT6_BYTES", start = 22, stop = 30},
                 {name = "PORT5_BYTES", start = 13, stop = 21},
                 {name = "PORT4_BYTES", start = 4, stop = 12},
-                {name = "PORT3_BYTES_X1", start = 0, stop = 3},
+                {name = "PORT3_BYTES", start = 0, stop = 3},
             }
         },
         TNS_TXQ_DQ_BYTE_CT_OFF_W2 = {
@@ -44624,10 +43041,10 @@ local csr_db = {
             width = 4,
             address = 0x842070488124,
             fields = {
-                {name = "PORT10_BYTES_X0", start = 26, stop = 31},
+                {name = "PORT10_BYTES", start = 26, stop = 31},
                 {name = "PORT9_BYTES", start = 17, stop = 25},
                 {name = "PORT8_BYTES", start = 8, stop = 16},
-                {name = "PORT7_BYTES_X1", start = 0, stop = 7},
+                {name = "PORT7_BYTES", start = 0, stop = 7},
             }
         },
         TNS_TXQ_DQ_BYTE_CT_OFF_W3 = {
@@ -44636,11 +43053,11 @@ local csr_db = {
             width = 4,
             address = 0x842070488128,
             fields = {
-                {name = "PORT14_BYTES_X0", start = 30, stop = 31},
+                {name = "PORT14_BYTES", start = 30, stop = 31},
                 {name = "PORT13_BYTES", start = 21, stop = 29},
                 {name = "PORT12_BYTES", start = 12, stop = 20},
                 {name = "PORT11_BYTES", start = 3, stop = 11},
-                {name = "PORT10_BYTES_X1", start = 0, stop = 2},
+                {name = "PORT10_BYTES", start = 0, stop = 2},
             }
         },
         TNS_TXQ_DQ_BYTE_CT_OFF_W4 = {
@@ -44651,7 +43068,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "PORT15_BYTES", start = 7, stop = 15},
-                {name = "PORT14_BYTES_X1", start = 0, stop = 6},
+                {name = "PORT14_BYTES", start = 0, stop = 6},
             }
         },
         TNS_TXQ_DQ_DRTBAF_INT_EN_HI = {
@@ -44784,7 +43201,7 @@ local csr_db = {
             range1 = {0,159},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -44800,7 +43217,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_H1S_FSHP_MEMX_W2 = {
@@ -45066,7 +43483,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -45082,7 +43499,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_H1S_SSHP_MEMX_W2 = {
@@ -45105,7 +43522,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "STRICT_EN_X0", start = 0, stop = 31},
+                {name = "STRICT_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W1 = {
@@ -45116,7 +43533,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "STRICT_EN_X1", start = 0, stop = 31},
+                {name = "STRICT_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W10 = {
@@ -45127,7 +43544,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X8", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W11 = {
@@ -45138,7 +43555,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X9", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W12 = {
@@ -45149,7 +43566,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X10", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W13 = {
@@ -45160,7 +43577,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X11", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W14 = {
@@ -45171,7 +43588,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X12", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W15 = {
@@ -45182,7 +43599,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X13", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W16 = {
@@ -45193,7 +43610,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X0", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W17 = {
@@ -45204,7 +43621,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X1", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W18 = {
@@ -45215,7 +43632,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X2", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W19 = {
@@ -45226,7 +43643,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X3", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W2 = {
@@ -45237,7 +43654,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X0", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W20 = {
@@ -45248,7 +43665,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X4", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W21 = {
@@ -45259,7 +43676,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X5", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W22 = {
@@ -45270,7 +43687,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X6", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W23 = {
@@ -45281,7 +43698,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X7", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W24 = {
@@ -45292,7 +43709,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "DQ_EN_X0", start = 0, stop = 31},
+                {name = "DQ_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W25 = {
@@ -45303,7 +43720,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "DQ_EN_X1", start = 0, stop = 31},
+                {name = "DQ_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W26 = {
@@ -45355,7 +43772,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X1", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W4 = {
@@ -45366,7 +43783,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X2", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W5 = {
@@ -45377,7 +43794,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X3", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W6 = {
@@ -45388,7 +43805,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X4", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W7 = {
@@ -45399,7 +43816,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X5", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W8 = {
@@ -45410,7 +43827,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X6", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W9 = {
@@ -45421,7 +43838,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X7", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_ECC_LOG = {
@@ -45518,31 +43935,20 @@ local csr_db = {
                 {name = "FORCE_PORT0_ON", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_DQ_PPS_FSHP_MEMX_W0 = {
-            name = "TNS_TXQ_DQ_PPS_FSHP_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PPS_FSHP_MEMX = {
+            name = "TNS_TXQ_DQ_PPS_FSHP_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070489000,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "ENABLE", start = 63, stop = 63},
+                {name = "MAX_BURST_SIZE", start = 55, stop = 62},
+                {name = "TOKENS_TO_ADD", start = 41, stop = 54},
+                {name = "RATE_DIVIDER", start = 33, stop = 40},
+                {name = "BUCKET_SIZE", start = 8, stop = 32},
                 {name = "RATE_COUNT", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_DQ_PPS_FSHP_MEMX_W1 = {
-            name = "TNS_TXQ_DQ_PPS_FSHP_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070489004,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "ENABLE", start = 31, stop = 31},
-                {name = "MAX_BURST_SIZE", start = 23, stop = 30},
-                {name = "TOKENS_TO_ADD", start = 9, stop = 22},
-                {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_PPS_INT_EN_HI = {
@@ -45741,26 +44147,17 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_TXQ_DQ_PPS_TM_CFG_DAT_W0 = {
-            name = "TNS_TXQ_DQ_PPS_TM_CFG_DAT_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PPS_TM_CFG_DAT = {
+            name = "TNS_TXQ_DQ_PPS_TM_CFG_DAT",
+            type = "NCB",
+            width = 8,
             address = 0x8420704891f8,
             fields = {
-                {name = "STRICT_EN_X0", start = 20, stop = 31},
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "DQ_EN", start = 36, stop = 51},
+                {name = "STRICT_EN", start = 20, stop = 35},
                 {name = "PT_VALID", start = 4, stop = 19},
                 {name = "LAST_PORT", start = 0, stop = 3},
-            }
-        },
-        TNS_TXQ_DQ_PPS_TM_CFG_DAT_W1 = {
-            name = "TNS_TXQ_DQ_PPS_TM_CFG_DAT_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420704891fc,
-            fields = {
-                {name = "RESERVED_20_31", start = 20, stop = 31},
-                {name = "DQ_EN", start = 4, stop = 19},
-                {name = "STRICT_EN_X1", start = 0, stop = 3},
             }
         },
         TNS_TXQ_DQ_PTS_DWRR_CST_MEMX = {
@@ -45820,7 +44217,7 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -45836,7 +44233,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_PTS_FSHP_MEMX_W2 = {
@@ -46077,7 +44474,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -46093,7 +44490,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_PTS_SSHP_MEMX_W2 = {
@@ -46110,165 +44507,88 @@ local csr_db = {
         },
         TNS_TXQ_DQ_PTS_TM_CFGX_W0 = {
             name = "TNS_TXQ_DQ_PTS_TM_CFG#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070481000,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "STRICT_EN_X0", start = 0, stop = 31},
+                {name = "STRICT_EN", start = 0, stop = 63},
             }
         },
         TNS_TXQ_DQ_PTS_TM_CFGX_W1 = {
             name = "TNS_TXQ_DQ_PTS_TM_CFG#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481004,
+            type = "NCB",
+            width = 8,
+            address = 0x842070481008,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "STRICT_EN_X1", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 63},
             }
         },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W10 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W10",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PTS_TM_CFGX_W2 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W2",
+            type = "NCB",
+            width = 8,
+            address = 0x842070481010,
+            range1 = {0,15},
+            range1_inc = 0x38,
+            fields = {
+                {name = "TC_ARRAY", start = 0, stop = 63},
+            }
+        },
+        TNS_TXQ_DQ_PTS_TM_CFGX_W3 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W3",
+            type = "NCB",
+            width = 8,
+            address = 0x842070481018,
+            range1 = {0,15},
+            range1_inc = 0x38,
+            fields = {
+                {name = "TC_ARRAY", start = 0, stop = 63},
+            }
+        },
+        TNS_TXQ_DQ_PTS_TM_CFGX_W4 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W4",
+            type = "NCB",
+            width = 8,
+            address = 0x842070481020,
+            range1 = {0,15},
+            range1_inc = 0x38,
+            fields = {
+                {name = "TC_ARRAY", start = 0, stop = 63},
+            }
+        },
+        TNS_TXQ_DQ_PTS_TM_CFGX_W5 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W5",
+            type = "NCB",
+            width = 8,
             address = 0x842070481028,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "DQ_EN_X0", start = 0, stop = 31},
+                {name = "DQ_EN", start = 0, stop = 63},
             }
         },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W11 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W11",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207048102c,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "DQ_EN_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W12 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W12",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PTS_TM_CFGX_W6 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W6",
+            type = "NCB",
+            width = 8,
             address = 0x842070481030,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "H1_GROUP4_X0", start = 28, stop = 31},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "H1_GROUP7", start = 43, stop = 47},
+                {name = "H1_GROUP6", start = 38, stop = 42},
+                {name = "H1_GROUP5", start = 33, stop = 37},
+                {name = "H1_GROUP4", start = 28, stop = 32},
                 {name = "H1_GROUP3", start = 23, stop = 27},
                 {name = "H1_GROUP2", start = 18, stop = 22},
                 {name = "H1_GROUP1", start = 13, stop = 17},
                 {name = "H1_GROUP0", start = 8, stop = 12},
                 {name = "H1_GROUPS_VALID", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W13 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W13",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481034,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "H1_GROUP7", start = 11, stop = 15},
-                {name = "H1_GROUP6", start = 6, stop = 10},
-                {name = "H1_GROUP5", start = 1, stop = 5},
-                {name = "H1_GROUP4_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W2 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481008,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W3 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207048100c,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W4 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481010,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W5 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481014,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W6 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481018,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X4", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W7 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207048101c,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X5", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W8 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W8",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481020,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X6", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W9 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481024,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X7", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_PTS_TM_STTX = {
@@ -46283,27 +44603,18 @@ local csr_db = {
                 {name = "LAST_H1_INDEX", start = 0, stop = 5},
             }
         },
-        TNS_TXQ_DQ_QCN_CHANGE_W0 = {
-            name = "TNS_TXQ_DQ_QCN_CHANGE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_QCN_CHANGE = {
+            name = "TNS_TXQ_DQ_QCN_CHANGE",
+            type = "NCB",
+            width = 8,
             address = 0x84207041c098,
             fields = {
-                {name = "RP_X0", start = 30, stop = 31},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "RP", start = 30, stop = 38},
                 {name = "BYTE_EN", start = 29, stop = 29},
                 {name = "TIMER_EN", start = 28, stop = 28},
                 {name = "TARGET_RATE", start = 14, stop = 27},
                 {name = "CURRENT_RATE", start = 0, stop = 13},
-            }
-        },
-        TNS_TXQ_DQ_QCN_CHANGE_W1 = {
-            name = "TNS_TXQ_DQ_QCN_CHANGE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207041c09c,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "RP_X1", start = 0, stop = 6},
             }
         },
         TNS_TXQ_DQ_QCN_ECC_LOG = {
@@ -46322,7 +44633,7 @@ local csr_db = {
             width = 4,
             address = 0x84207041c084,
             fields = {
-                {name = "QCN_TIME_RATE_X0", start = 5, stop = 31},
+                {name = "QCN_TIME_RATE", start = 5, stop = 31},
                 {name = "QCN_TIME_RAND", start = 0, stop = 4},
             }
         },
@@ -46336,18 +44647,20 @@ local csr_db = {
                 {name = "QCN_THRESH", start = 25, stop = 28},
                 {name = "QCN_BYTE_RESET", start = 6, stop = 24},
                 {name = "QCN_BYTE_RAND", start = 1, stop = 5},
-                {name = "QCN_TIME_RATE_X1", start = 0, stop = 0},
+                {name = "QCN_TIME_RATE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_QCN_MEMX_W0 = {
             name = "TNS_TXQ_DQ_QCN_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070410000,
             range1 = {0,511},
             range1_inc = 0x10,
             fields = {
-                {name = "AI_RATE_X0", start = 26, stop = 31},
+                {name = "CURRENT_RATE", start = 54, stop = 63},
+                {name = "HAI_RATE", start = 40, stop = 53},
+                {name = "AI_RATE", start = 26, stop = 39},
                 {name = "PEAK_RATE", start = 12, stop = 25},
                 {name = "QUEUE", start = 1, stop = 11},
                 {name = "FAST_SHAPER", start = 0, stop = 0},
@@ -46355,44 +44668,20 @@ local csr_db = {
         },
         TNS_TXQ_DQ_QCN_MEMX_W1 = {
             name = "TNS_TXQ_DQ_QCN_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070410004,
-            range1 = {0,511},
-            range1_inc = 0x10,
-            fields = {
-                {name = "CURRENT_RATE_X0", start = 22, stop = 31},
-                {name = "HAI_RATE", start = 8, stop = 21},
-                {name = "AI_RATE_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_DQ_QCN_MEMX_W2 = {
-            name = "TNS_TXQ_DQ_QCN_MEM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070410008,
             range1 = {0,511},
             range1_inc = 0x10,
             fields = {
-                {name = "BYTE_CNT_X0", start = 18, stop = 31},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "TIME_STAGE", start = 44, stop = 47},
+                {name = "BYTE_STAGE", start = 40, stop = 43},
+                {name = "BYTE_UPD_EN", start = 39, stop = 39},
+                {name = "TIMER_UPD_EN", start = 38, stop = 38},
+                {name = "BYTE_CNT", start = 18, stop = 37},
                 {name = "TARGET_RATE", start = 4, stop = 17},
-                {name = "CURRENT_RATE_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_TXQ_DQ_QCN_MEMX_W3 = {
-            name = "TNS_TXQ_DQ_QCN_MEM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207041000c,
-            range1 = {0,511},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "TIME_STAGE", start = 12, stop = 15},
-                {name = "BYTE_STAGE", start = 8, stop = 11},
-                {name = "BYTE_UPD_EN", start = 7, stop = 7},
-                {name = "TIMER_UPD_EN", start = 6, stop = 6},
-                {name = "BYTE_CNT_X1", start = 0, stop = 5},
+                {name = "CURRENT_RATE", start = 0, stop = 3},
             }
         },
         TNS_TXQ_DQ_QCN_QMAP_ECC_LOG = {
@@ -46413,7 +44702,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0xc,
             fields = {
-                {name = "REACTION_POINT3_X0", start = 31, stop = 31},
+                {name = "REACTION_POINT3", start = 31, stop = 31},
                 {name = "ENABLE3", start = 30, stop = 30},
                 {name = "REACTION_POINT2", start = 21, stop = 29},
                 {name = "ENABLE2", start = 20, stop = 20},
@@ -46431,13 +44720,13 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0xc,
             fields = {
-                {name = "REACTION_POINT6_X0", start = 29, stop = 31},
+                {name = "REACTION_POINT6", start = 29, stop = 31},
                 {name = "ENABLE6", start = 28, stop = 28},
                 {name = "REACTION_POINT5", start = 19, stop = 27},
                 {name = "ENABLE5", start = 18, stop = 18},
                 {name = "REACTION_POINT4", start = 9, stop = 17},
                 {name = "ENABLE4", start = 8, stop = 8},
-                {name = "REACTION_POINT3_X1", start = 0, stop = 7},
+                {name = "REACTION_POINT3", start = 0, stop = 7},
             }
         },
         TNS_TXQ_DQ_QCN_QMAP_MEMX_W2 = {
@@ -46451,7 +44740,7 @@ local csr_db = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "REACTION_POINT7", start = 7, stop = 15},
                 {name = "ENABLE7", start = 6, stop = 6},
-                {name = "REACTION_POINT6_X1", start = 0, stop = 5},
+                {name = "REACTION_POINT6", start = 0, stop = 5},
             }
         },
         TNS_TXQ_DQ_QCN_RNG_CFG = {
@@ -46477,24 +44766,16 @@ local csr_db = {
                 {name = "QUEUE", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_DQ_QCN_TIME_W0 = {
-            name = "TNS_TXQ_DQ_QCN_TIME_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_QCN_TIME = {
+            name = "TNS_TXQ_DQ_QCN_TIME",
+            type = "NCB",
+            width = 8,
             address = 0x84207041c090,
             fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "CURRENT_TIME", start = 32, stop = 59},
                 {name = "TIME_RANDOM", start = 16, stop = 31},
                 {name = "BYTE_RANDOM", start = 0, stop = 15},
-            }
-        },
-        TNS_TXQ_DQ_QCN_TIME_W1 = {
-            name = "TNS_TXQ_DQ_QCN_TIME_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207041c094,
-            fields = {
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CURRENT_TIME", start = 0, stop = 27},
             }
         },
         TNS_TXQ_DQ_SPAD = {
@@ -46680,31 +44961,22 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 6},
             }
         },
-        TNS_TXQ_EQ_DIST_FIF_USAGE_W0 = {
-            name = "TNS_TXQ_EQ_DIST_FIF_USAGE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_EQ_DIST_FIF_USAGE = {
+            name = "TNS_TXQ_EQ_DIST_FIF_USAGE",
+            type = "NCB",
+            width = 8,
             address = 0x8420706848b0,
             fields = {
-                {name = "UC_DROP_FIFO_X0", start = 31, stop = 31},
+                {name = "RESERVED_46_63", start = 46, stop = 63},
+                {name = "SOURCE_EM_FIFO", start = 41, stop = 45},
+                {name = "MC_FIFO", start = 36, stop = 40},
+                {name = "UC_DROP_FIFO", start = 31, stop = 35},
                 {name = "MC_40G_FIFO", start = 26, stop = 30},
                 {name = "MC_10G_FIFO", start = 21, stop = 25},
                 {name = "MC_MISC_FIFO", start = 16, stop = 20},
                 {name = "MC2DROP_FIFO", start = 11, stop = 15},
                 {name = "AQM_LAT_FIFO", start = 6, stop = 10},
                 {name = "QUERY_OUT_FIFO", start = 0, stop = 5},
-            }
-        },
-        TNS_TXQ_EQ_DIST_FIF_USAGE_W1 = {
-            name = "TNS_TXQ_EQ_DIST_FIF_USAGE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706848b4,
-            fields = {
-                {name = "RESERVED_14_31", start = 14, stop = 31},
-                {name = "SOURCE_EM_FIFO", start = 9, stop = 13},
-                {name = "MC_FIFO", start = 4, stop = 8},
-                {name = "UC_DROP_FIFO_X1", start = 0, stop = 3},
             }
         },
         TNS_TXQ_EQ_DISTO_WSARB_MODE = {
@@ -46987,15 +45259,15 @@ local csr_db = {
         },
         TNS_TXQ_EQ_MC_10G_REP_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_10G_REP_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682c00,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_10G_SPD_MAP = {
@@ -47010,15 +45282,15 @@ local csr_db = {
         },
         TNS_TXQ_EQ_MC_40G_REP_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_40G_REP_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682800,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_40G_SPD_MAP = {
@@ -47033,28 +45305,28 @@ local csr_db = {
         },
         TNS_TXQ_EQ_MC_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682400,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_MISC_REP_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070683000,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_MISC_SPD_MAP = {
@@ -47087,17 +45359,16 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 9},
             }
         },
-        TNS_TXQ_EQ_PFC_MAP_MEMX_WX = {
-            name = "TNS_TXQ_EQ_PFC_MAP_MEM#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_EQ_PFC_MAP_MEMX = {
+            name = "TNS_TXQ_EQ_PFC_MAP_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070680000,
             range1 = {0,1023},
             range1_inc = 0x8,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "DATA", start = 0, stop = 43},
             }
         },
         TNS_TXQ_EQ_PG_CLR_CT = {
@@ -47173,15 +45444,15 @@ local csr_db = {
         },
         TNS_TXQ_EQ_TOKEN_MEMX_WX = {
             name = "TNS_TXQ_EQ_TOKEN_MEM#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682000,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "TOKEN", start = 0, stop = 31},
+                {name = "TOKEN", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_UC_FIFX_WX = {
@@ -47215,7 +45486,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "QCN_PROB_SHIFT0_X0", start = 25, stop = 31},
+                {name = "QCN_PROB_SHIFT0", start = 25, stop = 31},
                 {name = "QCN_PROB_SHIFT1", start = 17, stop = 24},
                 {name = "QCN_PROB_SHIFT2", start = 9, stop = 16},
                 {name = "QCN_FB_SHIFT_VAL", start = 4, stop = 8},
@@ -47231,10 +45502,10 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "QCN_FB_MAX_X0", start = 17, stop = 31},
+                {name = "QCN_FB_MAX", start = 17, stop = 31},
                 {name = "QCN_FB_MIN_SAMP_PROB", start = 9, stop = 16},
                 {name = "QCN_FB_MAX_SAMP_PROB", start = 1, stop = 8},
-                {name = "QCN_PROB_SHIFT0_X1", start = 0, stop = 0},
+                {name = "QCN_PROB_SHIFT0", start = 0, stop = 0},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W2 = {
@@ -47245,11 +45516,11 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "QCN_EQ_PARAM_X0", start = 26, stop = 31},
+                {name = "QCN_EQ_PARAM", start = 26, stop = 31},
                 {name = "QCN_WEIGHT_SHIFT0", start = 23, stop = 25},
                 {name = "QCN_WEIGHT_SHIFT1", start = 20, stop = 22},
                 {name = "QCN_WEIGHT_SHIFT2", start = 17, stop = 19},
-                {name = "QCN_FB_MAX_X1", start = 0, stop = 16},
+                {name = "QCN_FB_MAX", start = 0, stop = 16},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W3 = {
@@ -47260,12 +45531,12 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "WRED_MARK_DROP_PROB_X0", start = 28, stop = 31},
+                {name = "WRED_MARK_DROP_PROB", start = 28, stop = 31},
                 {name = "DCTCP_MARK_EN", start = 27, stop = 27},
                 {name = "DCTCP_MARK_TH", start = 12, stop = 26},
                 {name = "PHANTOM_Q_EN", start = 11, stop = 11},
                 {name = "QCN_MODE", start = 9, stop = 10},
-                {name = "QCN_EQ_PARAM_X1", start = 0, stop = 8},
+                {name = "QCN_EQ_PARAM", start = 0, stop = 8},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W4 = {
@@ -47276,11 +45547,11 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "WRED_AVG_LENGTH_WEIGHT_X0", start = 28, stop = 31},
+                {name = "WRED_AVG_LENGTH_WEIGHT", start = 28, stop = 31},
                 {name = "WRED_SHIFT0", start = 20, stop = 27},
                 {name = "WRED_SHIFT1", start = 12, stop = 19},
                 {name = "WRED_SHIFT2", start = 4, stop = 11},
-                {name = "WRED_MARK_DROP_PROB_X1", start = 0, stop = 3},
+                {name = "WRED_MARK_DROP_PROB", start = 0, stop = 3},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W5 = {
@@ -47291,9 +45562,9 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "WRED_AVG_LENGTH_MIN_TH_X0", start = 19, stop = 31},
+                {name = "WRED_AVG_LENGTH_MIN_TH", start = 19, stop = 31},
                 {name = "WRED_AVG_LENGTH_MAX_TH", start = 4, stop = 18},
-                {name = "WRED_AVG_LENGTH_WEIGHT_X1", start = 0, stop = 3},
+                {name = "WRED_AVG_LENGTH_WEIGHT", start = 0, stop = 3},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W6 = {
@@ -47307,7 +45578,7 @@ local csr_db = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "LENGTH_MAX_TH", start = 4, stop = 18},
                 {name = "WRED_MODE", start = 2, stop = 3},
-                {name = "WRED_AVG_LENGTH_MIN_TH_X1", start = 0, stop = 1},
+                {name = "WRED_AVG_LENGTH_MIN_TH", start = 0, stop = 1},
             }
         },
         TNS_TXQ_QMAP_ECC_CTL = {
@@ -47345,15 +45616,16 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_QMAP_EQ_CFG_MEMX_W0 = {
-            name = "TNS_TXQ_QMAP_EQ_CFG_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_EQ_CFG_MEMX = {
+            name = "TNS_TXQ_QMAP_EQ_CFG_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070604000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "H1_X0", start = 31, stop = 31},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "H1", start = 31, stop = 38},
                 {name = "P", start = 27, stop = 30},
                 {name = "Q_PFL", start = 20, stop = 26},
                 {name = "H1_PFL", start = 13, stop = 19},
@@ -47364,18 +45636,6 @@ local csr_db = {
                 {name = "Q_EM_EN", start = 2, stop = 2},
                 {name = "H1_EM_EN", start = 1, stop = 1},
                 {name = "P_EM_EN", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_QMAP_EQ_CFG_MEMX_W1 = {
-            name = "TNS_TXQ_QMAP_EQ_CFG_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070604004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "H1_X1", start = 0, stop = 6},
             }
         },
         TNS_TXQ_QMAP_EQ_QUERY_CT = {
@@ -47509,23 +45769,15 @@ local csr_db = {
                 {name = "FULL", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_QMAP_QCN_CP_RNG_W0 = {
-            name = "TNS_TXQ_QMAP_QCN_CP_RNG_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_QCN_CP_RNG = {
+            name = "TNS_TXQ_QMAP_QCN_CP_RNG",
+            type = "NCB",
+            width = 8,
             address = 0x84207060c498,
             fields = {
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "ENABLE", start = 32, stop = 32},
                 {name = "SEED", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_QMAP_QCN_CP_RNG_W1 = {
-            name = "TNS_TXQ_QMAP_QCN_CP_RNG_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207060c49c,
-            fields = {
-                {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "ENABLE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_QMAP_SDE_QUERY_CT = {
@@ -47573,7 +45825,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0xc,
             fields = {
-                {name = "BIT5_ARRAY_INDEX_X0", start = 30, stop = 31},
+                {name = "BIT5_ARRAY_INDEX", start = 30, stop = 31},
                 {name = "BIT4_ARRAY_INDEX", start = 24, stop = 29},
                 {name = "BIT3_ARRAY_INDEX", start = 18, stop = 23},
                 {name = "BIT2_ARRAY_INDEX", start = 12, stop = 17},
@@ -47589,12 +45841,12 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0xc,
             fields = {
-                {name = "BIT10_ARRAY_INDEX_X0", start = 28, stop = 31},
+                {name = "BIT10_ARRAY_INDEX", start = 28, stop = 31},
                 {name = "BIT9_ARRAY_INDEX", start = 22, stop = 27},
                 {name = "BIT8_ARRAY_INDEX", start = 16, stop = 21},
                 {name = "BIT7_ARRAY_INDEX", start = 10, stop = 15},
                 {name = "BIT6_ARRAY_INDEX", start = 4, stop = 9},
-                {name = "BIT5_ARRAY_INDEX_X1", start = 0, stop = 3},
+                {name = "BIT5_ARRAY_INDEX", start = 0, stop = 3},
             }
         },
         TNS_TXQ_QMAP_TBL_IDX_CFGX_W2 = {
@@ -47607,52 +45859,33 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "BIT11_ARRAY_INDEX", start = 2, stop = 7},
-                {name = "BIT10_ARRAY_INDEX_X1", start = 0, stop = 1},
+                {name = "BIT10_ARRAY_INDEX", start = 0, stop = 1},
             }
         },
-        TNS_TXQ_QMAP_TBL_MEMX_W0 = {
-            name = "TNS_TXQ_QMAP_TBL_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_TBL_MEMX = {
+            name = "TNS_TXQ_QMAP_TBL_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070600000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "Q2_X0", start = 22, stop = 31},
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "Q3", start = 33, stop = 43},
+                {name = "Q2", start = 22, stop = 32},
                 {name = "Q1", start = 11, stop = 21},
                 {name = "Q0", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_QMAP_TBL_MEMX_W1 = {
-            name = "TNS_TXQ_QMAP_TBL_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070600004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_12_31", start = 12, stop = 31},
-                {name = "Q3", start = 1, stop = 11},
-                {name = "Q2_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_QMAP_WRED_RNG_CFG_W0 = {
-            name = "TNS_TXQ_QMAP_WRED_RNG_CFG_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_WRED_RNG_CFG = {
+            name = "TNS_TXQ_QMAP_WRED_RNG_CFG",
+            type = "NCB",
+            width = 8,
             address = 0x84207060c4a0,
             fields = {
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "ENABLE", start = 32, stop = 32},
                 {name = "SEED", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_QMAP_WRED_RNG_CFG_W1 = {
-            name = "TNS_TXQ_QMAP_WRED_RNG_CFG_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207060c4a4,
-            fields = {
-                {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "ENABLE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_QMAP_WSARB_MODE = {
@@ -47678,13 +45911,13 @@ local csr_db = {
         },
         TNS_TXQ_SPT_QMAP_TBL_CFG_WX = {
             name = "TNS_TXQ_SPT_QMAP_TBL_CFG_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84207060c440,
-            range1 = {0,7},
-            range1_inc = 0x4,
+            range1 = {0,3},
+            range1_inc = 0x8,
             fields = {
-                {name = "QMAP_TBL_SEL", start = 0, stop = 31},
+                {name = "QMAP_TBL_SEL", start = 0, stop = 63},
             }
         },
         TNS_TXQ_TB0_ECC_LOG = {
@@ -47844,15 +46077,15 @@ local csr_db = {
         },
         TNS_TXQ_TB_MEMX_WX = {
             name = "TNS_TXQ_TB_MEM#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070000000,
             range1 = {0,14335},
             range1_inc = 0x10,
-            range2 = {0,3},
-            range2_inc = 0x4,
+            range2 = {0,1},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_TB_SPAD = {
@@ -47931,15 +46164,15 @@ local csr_db = {
         },
         TNS_TXQ_TBM_FT_FIFX_WX = {
             name = "TNS_TXQ_TBM_FT_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070500000,
             range1 = {0,1791},
             range1_inc = 0x10,
-            range2 = {0,3},
-            range2_inc = 0x4,
+            range2 = {0,1},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_TBM_FT_FIF_DBG = {
@@ -47988,7 +46221,7 @@ local csr_db = {
             width = 4,
             address = 0x84207050c044,
             fields = {
-                {name = "TB_PTR13_X0", start = 28, stop = 31},
+                {name = "TB_PTR13", start = 28, stop = 31},
                 {name = "TB_PTR14", start = 14, stop = 27},
                 {name = "TB_PTR15", start = 0, stop = 13},
             }
@@ -47999,9 +46232,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c048,
             fields = {
-                {name = "TB_PTR11_X0", start = 24, stop = 31},
+                {name = "TB_PTR11", start = 24, stop = 31},
                 {name = "TB_PTR12", start = 10, stop = 23},
-                {name = "TB_PTR13_X1", start = 0, stop = 9},
+                {name = "TB_PTR13", start = 0, stop = 9},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W2 = {
@@ -48010,9 +46243,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c04c,
             fields = {
-                {name = "TB_PTR9_X0", start = 20, stop = 31},
+                {name = "TB_PTR9", start = 20, stop = 31},
                 {name = "TB_PTR10", start = 6, stop = 19},
-                {name = "TB_PTR11_X1", start = 0, stop = 5},
+                {name = "TB_PTR11", start = 0, stop = 5},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W3 = {
@@ -48021,10 +46254,10 @@ local csr_db = {
             width = 4,
             address = 0x84207050c050,
             fields = {
-                {name = "TB_PTR6_X0", start = 30, stop = 31},
+                {name = "TB_PTR6", start = 30, stop = 31},
                 {name = "TB_PTR7", start = 16, stop = 29},
                 {name = "TB_PTR8", start = 2, stop = 15},
-                {name = "TB_PTR9_X1", start = 0, stop = 1},
+                {name = "TB_PTR9", start = 0, stop = 1},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W4 = {
@@ -48033,9 +46266,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c054,
             fields = {
-                {name = "TB_PTR4_X0", start = 26, stop = 31},
+                {name = "TB_PTR4", start = 26, stop = 31},
                 {name = "TB_PTR5", start = 12, stop = 25},
-                {name = "TB_PTR6_X1", start = 0, stop = 11},
+                {name = "TB_PTR6", start = 0, stop = 11},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W5 = {
@@ -48044,9 +46277,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c058,
             fields = {
-                {name = "TB_PTR2_X0", start = 22, stop = 31},
+                {name = "TB_PTR2", start = 22, stop = 31},
                 {name = "TB_PTR3", start = 8, stop = 21},
-                {name = "TB_PTR4_X1", start = 0, stop = 7},
+                {name = "TB_PTR4", start = 0, stop = 7},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W6 = {
@@ -48057,7 +46290,7 @@ local csr_db = {
             fields = {
                 {name = "TB_PTR0", start = 18, stop = 31},
                 {name = "TB_PTR1", start = 4, stop = 17},
-                {name = "TB_PTR2_X1", start = 0, stop = 3},
+                {name = "TB_PTR2", start = 0, stop = 3},
             }
         },
         TNS_TXQ_TBM_HEAD_PTR_ECC_LOG = {
@@ -83009,15 +81242,13 @@ local csr_db = {
                 {name = "EOP", start = 0, stop = 0},
             }
         },
-        TNS_SDE_CFG_SPARE_WX = {
-            name = "TNS_SDE_CFG_SPARE_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CFG_SPARE = {
+            name = "TNS_SDE_CFG_SPARE",
+            type = "NCB",
+            width = 8,
             address = 0x842060740000,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "FIELD", start = 0, stop = 31},
+                {name = "FIELD", start = 0, stop = 63},
             }
         },
         TNS_SDE_CNT_BKX_BK_ECC_CTLX = {
@@ -83218,35 +81449,22 @@ local csr_db = {
                 {name = "OOO", start = 0, stop = 0},
             }
         },
-        TNS_SDE_CNT_BKX_MODE_POLX_W0 = {
-            name = "TNS_SDE_CNT_BK#_MODE_POL#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CNT_BKX_MODE_POLX = {
+            name = "TNS_SDE_CNT_BK#_MODE_POL#",
+            type = "NCB",
+            width = 8,
             address = 0x842060610010,
             range1 = {0,3},
             range1_inc = 0x20000,
             range2 = {0,3},
             range2_inc = 0x8,
             fields = {
-                {name = "UNIT_TIME_X0", start = 13, stop = 31},
+                {name = "RESERVED_46_63", start = 46, stop = 63},
+                {name = "REFR_EN", start = 45, stop = 45},
+                {name = "UNIT_TIME", start = 13, stop = 44},
                 {name = "REFR_TIME_GRAN_EXPO", start = 9, stop = 12},
                 {name = "UPDT_WEIGHT", start = 1, stop = 8},
                 {name = "BILLING_CTR_EN", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_CNT_BKX_MODE_POLX_W1 = {
-            name = "TNS_SDE_CNT_BK#_MODE_POL#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060610014,
-            range1 = {0,3},
-            range1_inc = 0x20000,
-            range2 = {0,3},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_14_31", start = 14, stop = 31},
-                {name = "REFR_EN", start = 13, stop = 13},
-                {name = "UNIT_TIME_X1", start = 0, stop = 12},
             }
         },
         TNS_SDE_CNT_BKX_SPAD = {
@@ -83260,33 +81478,22 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SDE_CNT_CINF_BCKTX_W0 = {
-            name = "TNS_SDE_CNT_CINF_BCKT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CNT_CINF_BCKTX = {
+            name = "TNS_SDE_CNT_CINF_BCKT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060681020,
             range1 = {0,7},
             range1_inc = 0x8,
             fields = {
-                {name = "B_X0", start = 22, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "EN", start = 54, stop = 54},
+                {name = "A_A", start = 38, stop = 53},
+                {name = "B_B", start = 22, stop = 37},
                 {name = "N", start = 6, stop = 21},
                 {name = "GRAN_EXPO", start = 2, stop = 5},
                 {name = "ADD_ADDR", start = 1, stop = 1},
                 {name = "BKT_USE_ADDR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_CNT_CINF_BCKTX_W1 = {
-            name = "TNS_SDE_CNT_CINF_BCKT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060681024,
-            range1 = {0,7},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "EN", start = 22, stop = 22},
-                {name = "AA", start = 6, stop = 21},
-                {name = "B_X1", start = 0, stop = 5},
             }
         },
         TNS_SDE_CNT_CINF_INT_RO = {
@@ -83368,19 +81575,18 @@ local csr_db = {
                 {name = "FLIP_SB_ECC", start = 0, stop = 0},
             }
         },
-        TNS_SDE_CNT_CRSL_POL_PRMXDX_WX = {
-            name = "TNS_SDE_CNT_CRSL_POL_PRM#D#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_CNT_CRSL_POL_PRMXDX = {
+            name = "TNS_SDE_CNT_CRSL_POL_PRM#D#",
+            type = "NCB",
+            width = 8,
             address = 0x842060680000,
             range1 = {0,1},
             range1_inc = 0x330,
             range2 = {0,101},
             range2_inc = 0x8,
-            range3 = {0,1},
-            range3_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "DATA", start = 0, stop = 56},
             }
         },
         TNS_SDE_CNT_CRSL_SPAD = {
@@ -83580,13 +81786,13 @@ local csr_db = {
         },
         TNS_SDE_HDBF_MEMCTX_WX = {
             name = "TNS_SDE_HDBF_MEMCTX_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060780858,
-            range1 = {0,5},
-            range1_inc = 0x4,
+            range1 = {0,2},
+            range1_inc = 0x8,
             fields = {
-                {name = "FIELD", start = 0, stop = 31},
+                {name = "FIELD", start = 0, stop = 63},
             }
         },
         TNS_SDE_HDBF_MEMMAIN_ADR = {
@@ -83703,222 +81909,114 @@ local csr_db = {
         },
         TNS_SDE_ISME_LM_TILE_LMEMX_W0 = {
             name = "TNS_SDE_ISME_LM_TILE_LMEM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060000000,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X0", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LM_TILE_LMEMX_W1 = {
             name = "TNS_SDE_ISME_LM_TILE_LMEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060000004,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W2 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060000008,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X2", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W3 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206000000c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W4 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_LMEMX_W2 = {
+            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060000010,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 32, stop = 63},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W5 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060000014,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W6 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W6",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_LMEMX_W3 = {
+            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W3",
+            type = "NCB",
+            width = 8,
             address = 0x842060000018,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X1", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W7 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206000001c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W8 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W8",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_LMEMX_W4 = {
+            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W4",
+            type = "NCB",
+            width = 8,
             address = 0x842060000020,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_LMEMX_W9 = {
-            name = "TNS_SDE_ISME_LM_TILE_LMEM#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060000024,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LM_TILE_RMEMX_W0 = {
             name = "TNS_SDE_ISME_LM_TILE_RMEM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060040000,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X0", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LM_TILE_RMEMX_W1 = {
             name = "TNS_SDE_ISME_LM_TILE_RMEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060040004,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W2 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060040008,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X2", start = 0, stop = 31},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W3 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206004000c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAA_AND_KEYA_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W4 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_RMEMX_W2 = {
+            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060040010,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAA_AND_KEYA_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 32, stop = 63},
+                {name = "DATAA_AND_KEYA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W5 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060040014,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W6 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W6",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_RMEMX_W3 = {
+            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W3",
+            type = "NCB",
+            width = 8,
             address = 0x842060040018,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X1", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W7 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206004001c,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W8 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W8",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_ISME_LM_TILE_RMEMX_W4 = {
+            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W4",
+            type = "NCB",
+            width = 8,
             address = 0x842060040020,
             range1 = {0,4095},
             range1_inc = 0x28,
             fields = {
-                {name = "DATAB_AND_KEYB_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_ISME_LM_TILE_RMEMX_W9 = {
-            name = "TNS_SDE_ISME_LM_TILE_RMEM#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060040024,
-            range1 = {0,4095},
-            range1_inc = 0x28,
-            fields = {
-                {name = "DATAB_AND_KEYB_X4", start = 0, stop = 31},
+                {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
         },
         TNS_SDE_ISME_LMKL_LOCK = {
@@ -84333,494 +82431,260 @@ local csr_db = {
         },
         TNS_SDE_LDEX_CFG_KFIT0X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT0#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206000,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT0X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT0#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT0X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206008,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT0X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020600c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT0X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT0X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT0#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206010,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT0X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT0#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206014,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT1X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT1#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206200,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT1X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT1#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206204,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT1X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206208,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT1X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020620c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT1X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT1X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT1#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206210,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT1X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT1#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206214,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT2X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT2#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206400,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT2X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT2#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206404,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT2X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206408,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT2X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020640c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT2X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT2X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT2#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206410,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT2X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT2#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206414,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT3X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT3#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206600,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT3X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT3#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206604,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT3X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206608,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT3X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020660c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT3X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT3X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT3#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206610,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT3X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT3#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206614,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT4X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT4#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206800,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT4X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT4#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206804,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT4X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206808,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT4X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020680c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT4X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT4X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT4#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206810,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT4X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT4#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206814,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT5X_W0 = {
             name = "TNS_SDE_LDE#_CFG_KFIT5#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206a00,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST0_X0", start = 0, stop = 31},
+                {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
+                {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT5X_W1 = {
             name = "TNS_SDE_LDE#_CFG_KFIT5#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206a04,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST1_X0", start = 10, stop = 31},
-                {name = "SE_SUPERKEY_INST0_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT5X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060206a08,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST2_X0", start = 20, stop = 31},
-                {name = "SE_SUPERKEY_INST1_X1", start = 0, stop = 19},
+                {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
+                {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
+                {name = "SE_SUPERKEY_INST1", start = 0, stop = 19},
             }
         },
-        TNS_SDE_LDEX_CFG_KFIT5X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206a0c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "SE_SUPERKEY_INST3_X0", start = 30, stop = 31},
-                {name = "SE_SUPERKEY_INST2_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT5X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_KFIT5X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_KFIT5#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060206a10,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x18,
             fields = {
-                {name = "SE_SUPERKEY_INST3_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_KFIT5X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_KFIT5#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060206a14,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "SE_SUPERKEY_INST3_X2", start = 0, stop = 7},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
             }
         },
         TNS_SDE_LDEX_CFG_KFIT6X = {
@@ -84938,118 +82802,66 @@ local csr_db = {
         },
         TNS_SDE_LDEX_CFG_OFIT0X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT0#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200800,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_TXQ_SEL_INST_X0", start = 13, stop = 31},
+                {name = "TOKEN_REASONCODE_INST", start = 61, stop = 63},
+                {name = "TOKEN_FILTERGRPNUMBER_INST", start = 41, stop = 60},
+                {name = "TOKEN_TXQ_SEL_INST", start = 13, stop = 40},
                 {name = "TOKEN_NEXTENGINE_INST", start = 4, stop = 12},
                 {name = "TOKEN_SLAVELANESEL_INST", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT0X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT0#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200804,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_REASONCODE_INST_X0", start = 29, stop = 31},
-                {name = "TOKEN_FILTERGRPNUMBER_INST", start = 9, stop = 28},
-                {name = "TOKEN_TXQ_SEL_INST_X1", start = 0, stop = 8},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT0X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200808,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_ECMPSIZE_INST_X0", start = 30, stop = 31},
-                {name = "TOKEN_REASONCODE_INST_X1", start = 0, stop = 29},
+                {name = "TOKEN_EGRESSVIF_INST", start = 54, stop = 63},
+                {name = "TOKEN_ECMPSIZE_INST", start = 30, stop = 53},
+                {name = "TOKEN_REASONCODE_INST", start = 0, stop = 29},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT0X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020080c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_EGRESSVIF_INST_X0", start = 22, stop = 31},
-                {name = "TOKEN_ECMPSIZE_INST_X1", start = 0, stop = 21},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT0X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT0X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT0#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060200810,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_PKTCMD_INST_X0", start = 22, stop = 31},
-                {name = "TOKEN_EGRESSVIF_INST_X1", start = 0, stop = 21},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "TOKEN_PKTCMD_INST", start = 22, stop = 35},
+                {name = "TOKEN_EGRESSVIF_INST", start = 0, stop = 21},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT0X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT0#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200814,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "TOKEN_PKTCMD_INST_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT1X_W0 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT1#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT1X = {
+            name = "TNS_SDE_LDE#_CFG_OFIT1#",
+            type = "NCB",
+            width = 8,
             address = 0x842060202000,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x8,
             fields = {
-                {name = "TOKEN_INGRESSVIF_INST_X0", start = 20, stop = 31},
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "TOKEN_INGRESSVIF_INST", start = 20, stop = 51},
                 {name = "TOKEN_FIRSTVLDLAYER_INST", start = 4, stop = 19},
                 {name = "TOKEN_HASHSELECT_INST", start = 2, stop = 3},
                 {name = "TOKEN_TT_INST", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT1X_W1 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT1#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060202004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_20_31", start = 20, stop = 31},
-                {name = "TOKEN_INGRESSVIF_INST_X1", start = 0, stop = 19},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT2X = {
@@ -85068,147 +82880,83 @@ local csr_db = {
         },
         TNS_SDE_LDEX_CFG_OFIT3X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT3#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201c00,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x10,
             fields = {
-                {name = "TOKEN_DSCP_INST_X0", start = 17, stop = 31},
+                {name = "TOKEN_PCP_INST", start = 52, stop = 63},
+                {name = "TOKEN_DEI_INST", start = 37, stop = 51},
+                {name = "TOKEN_DSCP_INST", start = 17, stop = 36},
                 {name = "TOKEN_EXP_INST", start = 0, stop = 16},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT3X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT3#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201c04,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x10,
-            fields = {
-                {name = "TOKEN_PCP_INST_X0", start = 20, stop = 31},
-                {name = "TOKEN_DEI_INST", start = 5, stop = 19},
-                {name = "TOKEN_DSCP_INST_X1", start = 0, stop = 4},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT3X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT3#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201c08,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x10,
             fields = {
-                {name = "TOKEN_DP_INST_X0", start = 23, stop = 31},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "TOKEN_DP_INST", start = 23, stop = 38},
                 {name = "TOKEN_TC_INST", start = 5, stop = 22},
-                {name = "TOKEN_PCP_INST_X1", start = 0, stop = 4},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT3X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT3#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201c0c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x10,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "TOKEN_DP_INST_X1", start = 0, stop = 6},
+                {name = "TOKEN_PCP_INST", start = 0, stop = 4},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT4X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT4#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200c00,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_REWRPTR1_INST_X0", start = 20, stop = 31},
+                {name = "TOKEN_REWRPTR3_INST", start = 60, stop = 63},
+                {name = "TOKEN_REWRPTR2_INST", start = 40, stop = 59},
+                {name = "TOKEN_REWRPTR1_INST", start = 20, stop = 39},
                 {name = "TOKEN_REWRPTR0_INST", start = 0, stop = 19},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT4X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT4#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200c04,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_REWRPTR3_INST_X0", start = 28, stop = 31},
-                {name = "TOKEN_REWRPTR2_INST", start = 8, stop = 27},
-                {name = "TOKEN_REWRPTR1_INST_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT4X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060200c08,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_REWRPTR4_INST_X0", start = 16, stop = 31},
-                {name = "TOKEN_REWRPTR3_INST_X1", start = 0, stop = 15},
+                {name = "TOKEN_REWRPTR6_INST", start = 56, stop = 63},
+                {name = "TOKEN_REWRPTR5_INST", start = 36, stop = 55},
+                {name = "TOKEN_REWRPTR4_INST", start = 16, stop = 35},
+                {name = "TOKEN_REWRPTR3_INST", start = 0, stop = 15},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT4X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200c0c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_REWRPTR6_INST_X0", start = 24, stop = 31},
-                {name = "TOKEN_REWRPTR5_INST", start = 4, stop = 23},
-                {name = "TOKEN_REWRPTR4_INST_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT4X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT4X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT4#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060200c10,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
+                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "TOKEN_REWRITEPT6ISINS_INST", start = 51, stop = 52},
+                {name = "TOKEN_INSERTPTR22_16_INST", start = 32, stop = 50},
                 {name = "TOKEN_REWRPTR7_INST", start = 12, stop = 31},
-                {name = "TOKEN_REWRPTR6_INST_X1", start = 0, stop = 11},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT4X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT4#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060200c14,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_21_31", start = 21, stop = 31},
-                {name = "TOKEN_REWRITEPT6ISINS_INST", start = 19, stop = 20},
-                {name = "TOKEN_INSERTPTR22_16_INST", start = 0, stop = 18},
+                {name = "TOKEN_REWRPTR6_INST", start = 0, stop = 11},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W0 = {
@@ -85221,7 +82969,7 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST0_X0", start = 0, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W1 = {
@@ -85234,8 +82982,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST1_X0", start = 30, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST0_X1", start = 0, stop = 29},
+                {name = "TOKEN_SCRATCHPAD_INST1", start = 30, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 29},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W10 = {
@@ -85249,7 +82997,7 @@ local csr_db = {
             range2_inc = 0x2c,
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST7_X1", start = 0, stop = 7},
+                {name = "TOKEN_SCRATCHPAD_INST7", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W2 = {
@@ -85262,7 +83010,7 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST1_X1", start = 0, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W3 = {
@@ -85275,8 +83023,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST2_X0", start = 4, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST1_X2", start = 0, stop = 3},
+                {name = "TOKEN_SCRATCHPAD_INST2", start = 4, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W4 = {
@@ -85289,8 +83037,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST3_X0", start = 10, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST2_X1", start = 0, stop = 9},
+                {name = "TOKEN_SCRATCHPAD_INST3", start = 10, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST2", start = 0, stop = 9},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W5 = {
@@ -85303,8 +83051,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST4_X0", start = 16, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST3_X1", start = 0, stop = 15},
+                {name = "TOKEN_SCRATCHPAD_INST4", start = 16, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST3", start = 0, stop = 15},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W6 = {
@@ -85317,8 +83065,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST5_X0", start = 22, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST4_X1", start = 0, stop = 21},
+                {name = "TOKEN_SCRATCHPAD_INST5", start = 22, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST4", start = 0, stop = 21},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W7 = {
@@ -85331,8 +83079,8 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST6_X0", start = 28, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST5_X1", start = 0, stop = 27},
+                {name = "TOKEN_SCRATCHPAD_INST6", start = 28, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST5", start = 0, stop = 27},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W8 = {
@@ -85345,7 +83093,7 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST6_X1", start = 0, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT5X_W9 = {
@@ -85358,172 +83106,94 @@ local csr_db = {
             range2 = {0,31},
             range2_inc = 0x2c,
             fields = {
-                {name = "TOKEN_SCRATCHPAD_INST7_X0", start = 2, stop = 31},
-                {name = "TOKEN_SCRATCHPAD_INST6_X2", start = 0, stop = 1},
+                {name = "TOKEN_SCRATCHPAD_INST7", start = 2, stop = 31},
+                {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 1},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT6X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT6#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201000,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST0_X0", start = 0, stop = 31},
+                {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
+                {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT6X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT6#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST1_X0", start = 12, stop = 31},
-                {name = "TOKEN_LAYERS_INST0_X1", start = 0, stop = 11},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT6X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201008,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST2_X0", start = 24, stop = 31},
-                {name = "TOKEN_LAYERS_INST1_X1", start = 0, stop = 23},
+                {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
+                {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT6X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020100c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST2_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT6X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT6X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT6#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060201010,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST3_X0", start = 4, stop = 31},
-                {name = "TOKEN_LAYERS_INST2_X2", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT6X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT6#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201014,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "TOKEN_LAYERS_INST3_X1", start = 0, stop = 15},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
+                {name = "TOKEN_LAYERS_INST2", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT7X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT7#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201400,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST0_X0", start = 0, stop = 31},
+                {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
+                {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT7X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT7#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201404,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST1_X0", start = 12, stop = 31},
-                {name = "TOKEN_LAYERS_INST0_X1", start = 0, stop = 11},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT7X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201408,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST2_X0", start = 24, stop = 31},
-                {name = "TOKEN_LAYERS_INST1_X1", start = 0, stop = 23},
+                {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
+                {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT7X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020140c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "TOKEN_LAYERS_INST2_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT7X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT7X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT7#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060201410,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
             range2_inc = 0x18,
             fields = {
-                {name = "TOKEN_LAYERS_INST3_X0", start = 4, stop = 31},
-                {name = "TOKEN_LAYERS_INST2_X2", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT7X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT7#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201414,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,31},
-            range2_inc = 0x18,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "TOKEN_LAYERS_INST3_X1", start = 0, stop = 15},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
+                {name = "TOKEN_LAYERS_INST2", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W0 = {
@@ -85536,7 +83206,7 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST0_X0", start = 0, stop = 31},
+                {name = "ACM_REQ_ADDR_INST0", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W1 = {
@@ -85549,9 +83219,9 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST1_X0", start = 7, stop = 31},
+                {name = "ACM_REQ_ADDR_INST1", start = 7, stop = 31},
                 {name = "ACM_REQ_CMD_INST0", start = 5, stop = 6},
-                {name = "ACM_REQ_ADDR_INST0_X1", start = 0, stop = 4},
+                {name = "ACM_REQ_ADDR_INST0", start = 0, stop = 4},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W2 = {
@@ -85564,9 +83234,9 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST2_X0", start = 14, stop = 31},
+                {name = "ACM_REQ_ADDR_INST2", start = 14, stop = 31},
                 {name = "ACM_REQ_CMD_INST1", start = 12, stop = 13},
-                {name = "ACM_REQ_ADDR_INST1_X1", start = 0, stop = 11},
+                {name = "ACM_REQ_ADDR_INST1", start = 0, stop = 11},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W3 = {
@@ -85579,9 +83249,9 @@ local csr_db = {
             range2 = {0,15},
             range2_inc = 0x14,
             fields = {
-                {name = "ACM_REQ_ADDR_INST3_X0", start = 21, stop = 31},
+                {name = "ACM_REQ_ADDR_INST3", start = 21, stop = 31},
                 {name = "ACM_REQ_CMD_INST2", start = 19, stop = 20},
-                {name = "ACM_REQ_ADDR_INST2_X1", start = 0, stop = 18},
+                {name = "ACM_REQ_ADDR_INST2", start = 0, stop = 18},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT8X_W4 = {
@@ -85596,146 +83266,81 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_28_31", start = 28, stop = 31},
                 {name = "ACM_REQ_CMD_INST3", start = 26, stop = 27},
-                {name = "ACM_REQ_ADDR_INST3_X1", start = 0, stop = 25},
+                {name = "ACM_REQ_ADDR_INST3", start = 0, stop = 25},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT9X_W0 = {
             name = "TNS_SDE_LDE#_CFG_OFIT9#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201800,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST0_X0", start = 0, stop = 31},
+                {name = "LM_REQ_KEY_INST1", start = 38, stop = 63},
+                {name = "LM_REQ_KEY_INST0", start = 0, stop = 37},
             }
         },
         TNS_SDE_LDEX_CFG_OFIT9X_W1 = {
             name = "TNS_SDE_LDE#_CFG_OFIT9#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201804,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST1_X0", start = 6, stop = 31},
-                {name = "LM_REQ_KEY_INST0_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W2 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060201808,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST2_X0", start = 12, stop = 31},
-                {name = "LM_REQ_KEY_INST1_X1", start = 0, stop = 11},
+                {name = "LM_REQ_KEY_INST3", start = 50, stop = 63},
+                {name = "LM_REQ_KEY_INST2", start = 12, stop = 49},
+                {name = "LM_REQ_KEY_INST1", start = 0, stop = 11},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT9X_W3 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020180c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST3_X0", start = 18, stop = 31},
-                {name = "LM_REQ_KEY_INST2_X1", start = 0, stop = 17},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W4 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT9X_W2 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT9#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060201810,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST4_X0", start = 24, stop = 31},
-                {name = "LM_REQ_KEY_INST3_X1", start = 0, stop = 23},
+                {name = "LM_REQ_KEY_INST5", start = 62, stop = 63},
+                {name = "LM_REQ_KEY_INST4", start = 24, stop = 61},
+                {name = "LM_REQ_KEY_INST3", start = 0, stop = 23},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT9X_W5 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201814,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST5_X0", start = 30, stop = 31},
-                {name = "LM_REQ_KEY_INST4_X1", start = 0, stop = 29},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W6 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W6",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT9X_W3 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT9#_W3",
+            type = "NCB",
+            width = 8,
             address = 0x842060201818,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST5_X1", start = 0, stop = 31},
+                {name = "LM_REQ_KEY_INST6", start = 36, stop = 63},
+                {name = "LM_REQ_KEY_INST5", start = 0, stop = 35},
             }
         },
-        TNS_SDE_LDEX_CFG_OFIT9X_W7 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020181c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "LM_REQ_KEY_INST6_X0", start = 4, stop = 31},
-                {name = "LM_REQ_KEY_INST5_X2", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W8 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W8",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_CFG_OFIT9X_W4 = {
+            name = "TNS_SDE_LDE#_CFG_OFIT9#_W4",
+            type = "NCB",
+            width = 8,
             address = 0x842060201820,
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
             range2_inc = 0x28,
             fields = {
-                {name = "LM_REQ_KEY_INST7_X0", start = 10, stop = 31},
-                {name = "LM_REQ_KEY_INST6_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_LDEX_CFG_OFIT9X_W9 = {
-            name = "TNS_SDE_LDE#_CFG_OFIT9#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060201824,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            range2 = {0,15},
-            range2_inc = 0x28,
-            fields = {
-                {name = "RESERVED_18_31", start = 18, stop = 31},
-                {name = "LM_REQ_CMD_INST", start = 16, stop = 17},
-                {name = "LM_REQ_KEY_INST7_X1", start = 0, stop = 15},
+                {name = "RESERVED_50_63", start = 50, stop = 63},
+                {name = "LM_REQ_CMD_INST", start = 48, stop = 49},
+                {name = "LM_REQ_KEY_INST7", start = 10, stop = 47},
+                {name = "LM_REQ_KEY_INST6", start = 0, stop = 9},
             }
         },
         TNS_SDE_LDEX_CFG_OFITS_IDX = {
@@ -85923,7 +83528,7 @@ local csr_db = {
             range2 = {0,255},
             range2_inc = 0xc,
             fields = {
-                {name = "LAYER4_OFFSET_X0", start = 28, stop = 31},
+                {name = "LAYER4_OFFSET", start = 28, stop = 31},
                 {name = "LAYER3_OFFSET", start = 21, stop = 27},
                 {name = "LAYER2_OFFSET", start = 14, stop = 20},
                 {name = "LAYER1_OFFSET", start = 7, stop = 13},
@@ -85946,7 +83551,7 @@ local csr_db = {
                 {name = "LAYER7_OFFSET", start = 17, stop = 23},
                 {name = "LAYER6_OFFSET", start = 10, stop = 16},
                 {name = "LAYER5_OFFSET", start = 3, stop = 9},
-                {name = "LAYER4_OFFSET_X1", start = 0, stop = 2},
+                {name = "LAYER4_OFFSET", start = 0, stop = 2},
             }
         },
         TNS_SDE_LDEX_CFG_TTL_FL_NENG = {
@@ -85993,7 +83598,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "PROBE_ACM_RSLT_EXP_VEC_X0", start = 30, stop = 31},
+                {name = "PROBE_ACM_RSLT_EXP_VECTOR", start = 30, stop = 31},
                 {name = "PROBE_ACM_RSLT_VALID_VECTOR", start = 26, stop = 29},
                 {name = "OUTPUT_ARBITER_REQ_VECTOR", start = 24, stop = 25},
                 {name = "OUTPUT_ARBITER_GRANT_VECTOR", start = 22, stop = 23},
@@ -86021,7 +83626,7 @@ local csr_db = {
                 {name = "PROBE_ACM_REQID", start = 19, stop = 22},
                 {name = "PROBE_WAITING_TIME", start = 3, stop = 18},
                 {name = "PROBE_TIMEOUT", start = 2, stop = 2},
-                {name = "PROBE_ACM_RSLT_EXP_VEC_X1", start = 0, stop = 1},
+                {name = "PROBE_ACM_RSLT_EXP_VECTOR", start = 0, stop = 1},
             }
         },
         TNS_SDE_LDEX_DBG_ACMRH_W2 = {
@@ -86105,7 +83710,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "OUT_LMDATA_8LSBS_X0", start = 25, stop = 31},
+                {name = "OUT_LMDATA_8LSBS", start = 25, stop = 31},
                 {name = "OUT_LMHIT", start = 24, stop = 24},
                 {name = "OUT_NEXTENGINE", start = 16, stop = 23},
                 {name = "OUT_TOKEN_SCRATCHPAD_8LSBS", start = 8, stop = 15},
@@ -86127,7 +83732,7 @@ local csr_db = {
                 {name = "OUT_SRDY", start = 10, stop = 10},
                 {name = "OUT_DRDY", start = 9, stop = 9},
                 {name = "OUT_METADATA_8LSBS", start = 1, stop = 8},
-                {name = "OUT_LMDATA_8LSBS_X1", start = 0, stop = 0},
+                {name = "OUT_LMDATA_8LSBS", start = 0, stop = 0},
             }
         },
         TNS_SDE_LDEX_DBG_KFCP_KFIT = {
@@ -86157,7 +83762,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "STG1_OUT_DATA_8LSBS_X0", start = 30, stop = 31},
+                {name = "STG1_OUT_DATA_8LSBS", start = 30, stop = 31},
                 {name = "STG2_OUT_SRDY", start = 29, stop = 29},
                 {name = "STG2_OUT_DRDY", start = 28, stop = 28},
                 {name = "STG2_OUT_DATA", start = 0, stop = 27},
@@ -86180,7 +83785,7 @@ local csr_db = {
                 {name = "STG0_OUT_DATA_8LSBS", start = 8, stop = 15},
                 {name = "STG1_OUT_SRDY", start = 7, stop = 7},
                 {name = "STG1_OUT_DRDY", start = 6, stop = 6},
-                {name = "STG1_OUT_DATA_8LSBS_X1", start = 0, stop = 5},
+                {name = "STG1_OUT_DATA_8LSBS", start = 0, stop = 5},
             }
         },
         TNS_SDE_LDEX_DBG_KFDP_CORE = {
@@ -86223,13 +83828,24 @@ local csr_db = {
         },
         TNS_SDE_LDEX_DBG_MGR_INFO_W0 = {
             name = "TNS_SDE_LDE#_DBG_MGR_INFO_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060207358,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "PROBE_WAITING_TIME_X0", start = 27, stop = 31},
+                {name = "SE_RSLT_LANE1_IN_SORRY", start = 63, stop = 63},
+                {name = "SE_RSLT_LANE1_IN_HIT", start = 62, stop = 62},
+                {name = "SE_RSLT_LN0_IN_SRDY", start = 61, stop = 61},
+                {name = "SE_RSLT_LN0_IN_DRDY", start = 60, stop = 60},
+                {name = "SE_RSLT_LN0_IN_REQID", start = 54, stop = 59},
+                {name = "SE_RSLT_LN0_IN_DUALID", start = 53, stop = 53},
+                {name = "SE_RSLT_LN0_IN_SORRY", start = 52, stop = 52},
+                {name = "SE_RSLT_LN0_IN_HIT", start = 51, stop = 51},
+                {name = "PROBE_SRDY", start = 50, stop = 50},
+                {name = "PROBE_DRDY", start = 49, stop = 49},
+                {name = "PROBE_SE_REQID", start = 43, stop = 48},
+                {name = "PROBE_WAITING_TIME", start = 27, stop = 42},
                 {name = "PROBE_TIMEOUT", start = 26, stop = 26},
                 {name = "PROBE_SE_RSLT_EXP_VECTOR", start = 18, stop = 25},
                 {name = "PROBE_SE_RSLT_VALID_VECTOR", start = 10, stop = 17},
@@ -86241,35 +83857,20 @@ local csr_db = {
         },
         TNS_SDE_LDEX_DBG_MGR_INFO_W1 = {
             name = "TNS_SDE_LDE#_DBG_MGR_INFO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020735c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "SE_RSLT_LANE1_IN_SORRY", start = 31, stop = 31},
-                {name = "SE_RSLT_LANE1_IN_HIT", start = 30, stop = 30},
-                {name = "SE_RSLT_LN0_IN_SRDY", start = 29, stop = 29},
-                {name = "SE_RSLT_LN0_IN_DRDY", start = 28, stop = 28},
-                {name = "SE_RSLT_LN0_IN_REQID", start = 22, stop = 27},
-                {name = "SE_RSLT_LN0_IN_DUALID", start = 21, stop = 21},
-                {name = "SE_RSLT_LN0_IN_SORRY", start = 20, stop = 20},
-                {name = "SE_RSLT_LN0_IN_HIT", start = 19, stop = 19},
-                {name = "PROBE_SRDY", start = 18, stop = 18},
-                {name = "PROBE_DRDY", start = 17, stop = 17},
-                {name = "PROBE_SE_REQID", start = 11, stop = 16},
-                {name = "PROBE_WAITING_TIME_X1", start = 0, stop = 10},
-            }
-        },
-        TNS_SDE_LDEX_DBG_MGR_INFO_W2 = {
-            name = "TNS_SDE_LDE#_DBG_MGR_INFO_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060207360,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_USAGE_X0", start = 31, stop = 31},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "LOCKED", start = 53, stop = 53},
+                {name = "TOKEN_BUF_IN_SRDY", start = 52, stop = 52},
+                {name = "TOKEN_BUF_IN_DRDY", start = 51, stop = 51},
+                {name = "IN_SE_PROFILEID", start = 48, stop = 50},
+                {name = "IN_SE_CMD_ENVEC", start = 44, stop = 47},
+                {name = "IN_SE_REQID", start = 38, stop = 43},
+                {name = "TOKEN_BUF_USAGE", start = 31, stop = 37},
                 {name = "SE_RSLT_LANE3_IN_SRDY", start = 30, stop = 30},
                 {name = "SE_RSLT_LANE3_IN_DRDY", start = 29, stop = 29},
                 {name = "SE_RSLT_LANE3_IN_REQID", start = 23, stop = 28},
@@ -86288,32 +83889,21 @@ local csr_db = {
                 {name = "SE_RSLT_LANE1_IN_DUALID", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_DBG_MGR_INFO_W3 = {
-            name = "TNS_SDE_LDE#_DBG_MGR_INFO_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207364,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "LOCKED", start = 21, stop = 21},
-                {name = "TOKEN_BUF_IN_SRDY", start = 20, stop = 20},
-                {name = "TOKEN_BUF_IN_DRDY", start = 19, stop = 19},
-                {name = "IN_SE_PROFILEID", start = 16, stop = 18},
-                {name = "IN_SE_CMD_ENVEC", start = 12, stop = 15},
-                {name = "IN_SE_REQID", start = 6, stop = 11},
-                {name = "TOKEN_BUF_USAGE_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_DBG_OFCP_BITS_W0 = {
-            name = "TNS_SDE_LDE#_DBG_OFCP_BITS_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_DBG_OFCP_BITS = {
+            name = "TNS_SDE_LDE#_DBG_OFCP_BITS",
+            type = "NCB",
+            width = 8,
             address = 0x842060207168,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
+                {name = "RESERVED_45_63", start = 45, stop = 63},
+                {name = "LOCKED", start = 44, stop = 44},
+                {name = "IN_SRDY", start = 43, stop = 43},
+                {name = "IN_DRDY", start = 42, stop = 42},
+                {name = "OUT_SRDY", start = 41, stop = 41},
+                {name = "OUT_DRDY", start = 40, stop = 40},
+                {name = "OUT_SUBTOKEN0_8LSBS", start = 32, stop = 39},
                 {name = "OUT_SUBTOKEN0_VALID", start = 31, stop = 31},
                 {name = "OUT_SE_RSLT_8LSBS", start = 23, stop = 30},
                 {name = "OUT_SE_RSLT_HIT_VECTOR", start = 19, stop = 22},
@@ -86321,23 +83911,6 @@ local csr_db = {
                 {name = "OUT_PROFILEID", start = 12, stop = 14},
                 {name = "OUT_CMD_ENVEC", start = 8, stop = 11},
                 {name = "OUT_MUXXOR_BITS", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_DBG_OFCP_BITS_W1 = {
-            name = "TNS_SDE_LDE#_DBG_OFCP_BITS_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020716c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_13_31", start = 13, stop = 31},
-                {name = "LOCKED", start = 12, stop = 12},
-                {name = "IN_SRDY", start = 11, stop = 11},
-                {name = "IN_DRDY", start = 10, stop = 10},
-                {name = "OUT_SRDY", start = 9, stop = 9},
-                {name = "OUT_DRDY", start = 8, stop = 8},
-                {name = "OUT_SUBTOKEN0_8LSBS", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MLCD_W0 = {
@@ -86348,7 +83921,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "STG4_OUT_DATA_X0", start = 0, stop = 31},
+                {name = "STG4_OUT_DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MLCD_W1 = {
@@ -86359,13 +83932,13 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "STG2_OUT_DATA_8LSBS_X0", start = 28, stop = 31},
+                {name = "STG2_OUT_DATA_8LSBS", start = 28, stop = 31},
                 {name = "STG3_OUT_SRDY", start = 27, stop = 27},
                 {name = "STG3_OUT_DRDY", start = 26, stop = 26},
                 {name = "STG3_OUT_DATA_8LSBS", start = 18, stop = 25},
                 {name = "STG4_OUT_SRDY", start = 17, stop = 17},
                 {name = "STG4_OUT_DRDY", start = 16, stop = 16},
-                {name = "STG4_OUT_DATA_X1", start = 0, stop = 15},
+                {name = "STG4_OUT_DATA", start = 0, stop = 15},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MLCD_W2 = {
@@ -86388,7 +83961,7 @@ local csr_db = {
                 {name = "STG1_OUT_DATA_8LSBS", start = 6, stop = 13},
                 {name = "STG2_OUT_SRDY", start = 5, stop = 5},
                 {name = "STG2_OUT_DRDY", start = 4, stop = 4},
-                {name = "STG2_OUT_DATA_8LSBS_X1", start = 0, stop = 3},
+                {name = "STG2_OUT_DATA_8LSBS", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_MXCD = {
@@ -86416,7 +83989,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "OUT_OFIT3_EXP_INST_8LSBS_X0", start = 25, stop = 31},
+                {name = "OUT_OFIT3_EXP_INST_8LSBS", start = 25, stop = 31},
                 {name = "OUT_OFIT2_MIR_BM_INST_8LSBS", start = 17, stop = 24},
                 {name = "OUT_OFIT1_HASHSEL_INST", start = 15, stop = 16},
                 {name = "OUT_OFIT1_TT_INST", start = 13, stop = 14},
@@ -86432,12 +84005,12 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "OUT_OFIT8_1ST_INST_8LSBS_X0", start = 27, stop = 31},
+                {name = "OUT_OFIT8_1ST_INST_8LSBS", start = 27, stop = 31},
                 {name = "OUT_OFIT6_1ST_INST_8LSBS", start = 19, stop = 26},
                 {name = "OUT_OFIT5_1ST_INST_8LSBS", start = 11, stop = 18},
                 {name = "OUT_OFIT4_REWRPTR6ININS_INST", start = 9, stop = 10},
                 {name = "OUT_OFIT4_REWRPTR0_INST_8LSBS", start = 1, stop = 8},
-                {name = "OUT_OFIT3_EXP_INST_8LSBS_X1", start = 0, stop = 0},
+                {name = "OUT_OFIT3_EXP_INST_8LSBS", start = 0, stop = 0},
             }
         },
         TNS_SDE_LDEX_DBG_OFCP_OFIT_W2 = {
@@ -86457,7 +84030,7 @@ local csr_db = {
                 {name = "OUT_OFIT9_LM_CMD_INST", start = 13, stop = 14},
                 {name = "OUT_OFIT9_1ST_INST_8LSBS", start = 5, stop = 12},
                 {name = "OUT_OFIT8_SECOND_INST", start = 3, stop = 4},
-                {name = "OUT_OFIT8_1ST_INST_8LSBS_X1", start = 0, stop = 2},
+                {name = "OUT_OFIT8_1ST_INST_8LSBS", start = 0, stop = 2},
             }
         },
         TNS_SDE_LDEX_DBG_OFDP_ACMRIDG = {
@@ -86504,38 +84077,28 @@ local csr_db = {
                 {name = "OUT_ACM_REQ_LN0_ADDR_8LSBS", start = 0, stop = 7},
             }
         },
-        TNS_SDE_LDEX_DBG_TMP_TBL_W0 = {
-            name = "TNS_SDE_LDE#_DBG_TMP_TBL_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_DBG_TMP_TBL = {
+            name = "TNS_SDE_LDE#_DBG_TMP_TBL",
+            type = "NCB",
+            width = 8,
             address = 0x842060205050,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "LOCKED", start = 53, stop = 53},
+                {name = "IN_SRDY", start = 52, stop = 52},
+                {name = "IN_DRDY", start = 51, stop = 51},
+                {name = "IN_TEMPLATE_ID", start = 43, stop = 50},
+                {name = "IN_TT", start = 42, stop = 42},
+                {name = "OUT_SRDY", start = 41, stop = 41},
+                {name = "OUT_DRDY", start = 40, stop = 40},
+                {name = "OUT_METADATA_8LSBS", start = 32, stop = 39},
                 {name = "OUT_LOGICAL_OFFSET3", start = 25, stop = 31},
                 {name = "OUT_LOGICAL_OFFSET2", start = 18, stop = 24},
                 {name = "OUT_LOGICAL_OFFSET1", start = 11, stop = 17},
                 {name = "OUT_LOGICAL_OFFSET0", start = 4, stop = 10},
                 {name = "OUT_VALID_LAYERS_CNT", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_LDEX_DBG_TMP_TBL_W1 = {
-            name = "TNS_SDE_LDE#_DBG_TMP_TBL_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060205054,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "LOCKED", start = 21, stop = 21},
-                {name = "IN_SRDY", start = 20, stop = 20},
-                {name = "IN_DRDY", start = 19, stop = 19},
-                {name = "IN_TEMPLATE_ID", start = 11, stop = 18},
-                {name = "IN_TT", start = 10, stop = 10},
-                {name = "OUT_SRDY", start = 9, stop = 9},
-                {name = "OUT_DRDY", start = 8, stop = 8},
-                {name = "OUT_METADATA_8LSBS", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_DBG_TTL_LB_W0 = {
@@ -86582,45 +84145,32 @@ local csr_db = {
                 {name = "MUX_SEL", start = 0, stop = 8},
             }
         },
-        TNS_SDE_LDEX_KFCP0_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_KFCP0_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP0_ML_DLUT = {
+            name = "TNS_SDE_LDE#_KFCP0_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207008,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_KFCP0_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_KFCP0_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP0_ML_DMUX = {
+            name = "TNS_SDE_LDE#_KFCP0_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207000,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX3_SEL_X0", start = 27, stop = 31},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "MUX5_SEL", start = 45, stop = 53},
+                {name = "MUX4_SEL", start = 36, stop = 44},
+                {name = "MUX3_SEL", start = 27, stop = 35},
                 {name = "MUX2_SEL", start = 18, stop = 26},
                 {name = "MUX1_SEL", start = 9, stop = 17},
                 {name = "MUX0_SEL", start = 0, stop = 8},
-            }
-        },
-        TNS_SDE_LDEX_KFCP0_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_KFCP0_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207004,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "MUX5_SEL", start = 13, stop = 21},
-                {name = "MUX4_SEL", start = 4, stop = 12},
-                {name = "MUX3_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_KFCP1_BYPM_DMUX = {
@@ -86656,7 +84206,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "MUX5_SEL", start = 30, stop = 31},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
@@ -86673,48 +84223,35 @@ local csr_db = {
             range1_inc = 0x8000,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
+                {name = "MUX5_SEL", start = 0, stop = 3},
             }
         },
-        TNS_SDE_LDEX_KFCP2_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_KFCP2_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP2_ML_DLUT = {
+            name = "TNS_SDE_LDE#_KFCP2_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207030,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_KFCP2_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_KFCP2_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_KFCP2_ML_DMUX = {
+            name = "TNS_SDE_LDE#_KFCP2_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207028,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MUX5_SEL", start = 30, stop = 35},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
                 {name = "MUX1_SEL", start = 6, stop = 11},
                 {name = "MUX0_SEL", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_KFCP2_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_KFCP2_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020702c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_KFCP_CLOUD_LOCK = {
@@ -87127,15 +84664,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_EN_HI_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_EN_HI = {
+            name = "TNS_SDE_LDE#_MGR_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x842060207340,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -87155,28 +84694,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_EN_HI_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207344,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_EN_LO_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_EN_LO = {
+            name = "TNS_SDE_LDE#_MGR_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x842060207348,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -87196,28 +84724,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_EN_LO_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020734c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_FRC_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_FRC = {
+            name = "TNS_SDE_LDE#_MGR_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x842060207350,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -87237,28 +84754,17 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_MGR_INT_FRC_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207354,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_W1C_W0 = {
-            name = "TNS_SDE_LDE#_MGR_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_MGR_INT_W1C = {
+            name = "TNS_SDE_LDE#_MGR_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x842060207338,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "TOKEN_BUF_ECC_SB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "MERGE_TIMEOUT", start = 40, stop = 40},
+                {name = "TOKEN_BUF_ECC_SB_ERR", start = 28, stop = 39},
                 {name = "TOKEN_BUF_ECC_DB_ERR", start = 16, stop = 27},
                 {name = "SE_RSLT_BUFFER7_ECC_SB_ERR", start = 15, stop = 15},
                 {name = "SE_RSLT_BUFFER7_ECC_DB_ERR", start = 14, stop = 14},
@@ -87276,19 +84782,6 @@ local csr_db = {
                 {name = "SE_RSLT_BUFFER1_ECC_DB_ERR", start = 2, stop = 2},
                 {name = "SE_RSLT_BUFFER0_ECC_SB_ERR", start = 1, stop = 1},
                 {name = "SE_RSLT_BUFFER0_ECC_DB_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_LDEX_MGR_INT_W1C_W1 = {
-            name = "TNS_SDE_LDE#_MGR_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020733c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "MERGE_TIMEOUT", start = 8, stop = 8},
-                {name = "TOKEN_BUF_ECC_SB_ERR_X1", start = 0, stop = 7},
             }
         },
         TNS_SDE_LDEX_MGR_LDE_TYPE = {
@@ -87337,45 +84830,32 @@ local csr_db = {
                 {name = "MUX_SEL", start = 0, stop = 8},
             }
         },
-        TNS_SDE_LDEX_OFCP0_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_OFCP0_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP0_ML_DLUT = {
+            name = "TNS_SDE_LDE#_OFCP0_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207110,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_OFCP0_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_OFCP0_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP0_ML_DMUX = {
+            name = "TNS_SDE_LDE#_OFCP0_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207108,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX3_SEL_X0", start = 27, stop = 31},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "MUX5_SEL", start = 45, stop = 53},
+                {name = "MUX4_SEL", start = 36, stop = 44},
+                {name = "MUX3_SEL", start = 27, stop = 35},
                 {name = "MUX2_SEL", start = 18, stop = 26},
                 {name = "MUX1_SEL", start = 9, stop = 17},
                 {name = "MUX0_SEL", start = 0, stop = 8},
-            }
-        },
-        TNS_SDE_LDEX_OFCP0_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_OFCP0_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020710c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_22_31", start = 22, stop = 31},
-                {name = "MUX5_SEL", start = 13, stop = 21},
-                {name = "MUX4_SEL", start = 4, stop = 12},
-                {name = "MUX3_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP1_BYPM_DMUX = {
@@ -87411,7 +84891,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "MUX5_SEL", start = 30, stop = 31},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
@@ -87428,7 +84908,7 @@ local csr_db = {
             range1_inc = 0x8000,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
+                {name = "MUX5_SEL", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP2_BYPM_DMUX = {
@@ -87443,45 +84923,32 @@ local csr_db = {
                 {name = "MUX_SEL", start = 0, stop = 5},
             }
         },
-        TNS_SDE_LDEX_OFCP2_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_OFCP2_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP2_ML_DLUT = {
+            name = "TNS_SDE_LDE#_OFCP2_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207138,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_OFCP2_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_OFCP2_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP2_ML_DMUX = {
+            name = "TNS_SDE_LDE#_OFCP2_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207130,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MUX5_SEL", start = 30, stop = 35},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
                 {name = "MUX1_SEL", start = 6, stop = 11},
                 {name = "MUX0_SEL", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_OFCP2_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_OFCP2_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207134,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP3_BYPM_DMUX = {
@@ -87517,7 +84984,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "MUX5_SEL", start = 30, stop = 31},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
@@ -87534,48 +85001,35 @@ local csr_db = {
             range1_inc = 0x8000,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
+                {name = "MUX5_SEL", start = 0, stop = 3},
             }
         },
-        TNS_SDE_LDEX_OFCP4_ML_DLUT_WX = {
-            name = "TNS_SDE_LDE#_OFCP4_ML_DLUT_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP4_ML_DLUT = {
+            name = "TNS_SDE_LDE#_OFCP4_ML_DLUT",
+            type = "NCB",
+            width = 8,
             address = 0x842060207160,
             range1 = {0,1},
             range1_inc = 0x8000,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "LUT", start = 0, stop = 31},
+                {name = "LUT", start = 0, stop = 63},
             }
         },
-        TNS_SDE_LDEX_OFCP4_ML_DMUX_W0 = {
-            name = "TNS_SDE_LDE#_OFCP4_ML_DMUX_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP4_ML_DMUX = {
+            name = "TNS_SDE_LDE#_OFCP4_ML_DMUX",
+            type = "NCB",
+            width = 8,
             address = 0x842060207158,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUX5_SEL_X0", start = 30, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "MUX5_SEL", start = 30, stop = 35},
                 {name = "MUX4_SEL", start = 24, stop = 29},
                 {name = "MUX3_SEL", start = 18, stop = 23},
                 {name = "MUX2_SEL", start = 12, stop = 17},
                 {name = "MUX1_SEL", start = 6, stop = 11},
                 {name = "MUX0_SEL", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_LDEX_OFCP4_ML_DMUX_W1 = {
-            name = "TNS_SDE_LDE#_OFCP4_ML_DMUX_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206020715c,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "MUX5_SEL_X1", start = 0, stop = 3},
             }
         },
         TNS_SDE_LDEX_OFCP_CLOUD_LOCK = {
@@ -87704,34 +85158,23 @@ local csr_db = {
                 {name = "STG4_MXLT_LUT_DSY_CHN_CFG_PERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_LDEX_OFCP_MXXR_DYN_W0 = {
-            name = "TNS_SDE_LDE#_OFCP_MXXR_DYN_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_LDEX_OFCP_MXXR_DYN = {
+            name = "TNS_SDE_LDE#_OFCP_MXXR_DYN",
+            type = "NCB",
+            width = 8,
             address = 0x842060207100,
             range1 = {0,1},
             range1_inc = 0x8000,
             fields = {
-                {name = "MUXA_BITMASK_X0", start = 27, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "MUXA_SRCID", start = 54, stop = 57},
+                {name = "MUXA_BYTESTARTPOSN", start = 47, stop = 53},
+                {name = "MUXA_SHIFTBY", start = 44, stop = 46},
+                {name = "MUXA_SHIFTDIR", start = 43, stop = 43},
+                {name = "MUXA_BITMASK", start = 27, stop = 42},
                 {name = "MUXB_SRCID", start = 23, stop = 26},
                 {name = "MUXB_BYTESTARTPOSN", start = 16, stop = 22},
                 {name = "MUXB_BITMASK", start = 0, stop = 15},
-            }
-        },
-        TNS_SDE_LDEX_OFCP_MXXR_DYN_W1 = {
-            name = "TNS_SDE_LDE#_OFCP_MXXR_DYN_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060207104,
-            range1 = {0,1},
-            range1_inc = 0x8000,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "MUXA_SRCID", start = 22, stop = 25},
-                {name = "MUXA_BYTESTARTPOSN", start = 15, stop = 21},
-                {name = "MUXA_SHIFTBY", start = 12, stop = 14},
-                {name = "MUXA_SHIFTDIR", start = 11, stop = 11},
-                {name = "MUXA_BITMASK_X1", start = 0, stop = 10},
             }
         },
         TNS_SDE_LDEX_OFDP_INT_EN_HI = {
@@ -88085,22 +85528,14 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 15},
             }
         },
-        TNS_SDE_MREB_RCV_W0 = {
-            name = "TNS_SDE_MREB_RCV_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MREB_RCV = {
+            name = "TNS_SDE_MREB_RCV",
+            type = "NCB",
+            width = 8,
             address = 0x8420607804b0,
             fields = {
+                {name = "STORE_0_VLD", start = 32, stop = 63},
                 {name = "STORE_1_VLD", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_MREB_RCV_W1 = {
-            name = "TNS_SDE_MREB_RCV_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607804b4,
-            fields = {
-                {name = "STORE_0_VLD", start = 0, stop = 31},
             }
         },
         TNS_SDE_MREB_REQ = {
@@ -88199,7 +85634,7 @@ local csr_db = {
             width = 4,
             address = 0x842060780034,
             fields = {
-                {name = "WRR_WEIGHT2_X0", start = 24, stop = 31},
+                {name = "WRR_WEIGHT2", start = 24, stop = 31},
                 {name = "WRR_WEIGHT1", start = 12, stop = 23},
                 {name = "WRR_WEIGHT0", start = 0, stop = 11},
             }
@@ -88213,16 +85648,25 @@ local csr_db = {
                 {name = "RESERVED_20_31", start = 20, stop = 31},
                 {name = "WRR_BYPASS", start = 16, stop = 19},
                 {name = "WRR_WEIGHT3", start = 4, stop = 15},
-                {name = "WRR_WEIGHT2_X1", start = 0, stop = 3},
+                {name = "WRR_WEIGHT2", start = 0, stop = 3},
             }
         },
-        TNS_SDE_MRET_CFG2_W0 = {
-            name = "TNS_SDE_MRET_CFG2_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_CFG2 = {
+            name = "TNS_SDE_MRET_CFG2",
+            type = "NCB",
+            width = 8,
             address = 0x842060780020,
             fields = {
-                {name = "TOKEN_MEM_BANK_FLIP_SB_ECC_X0", start = 24, stop = 31},
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "PAGE_FIFO_PRIO3_FLIP_SB_ECC", start = 41, stop = 41},
+                {name = "PAGE_FIFO_PRIO3_FLIP_DB_ECC", start = 40, stop = 40},
+                {name = "PAGE_FIFO_PRIO2_FLIP_SB_ECC", start = 39, stop = 39},
+                {name = "PAGE_FIFO_PRIO2_FLIP_DB_ECC", start = 38, stop = 38},
+                {name = "PAGE_FIFO_PRIO1_FLIP_SB_ECC", start = 37, stop = 37},
+                {name = "PAGE_FIFO_PRIO1_FLIP_DB_ECC", start = 36, stop = 36},
+                {name = "PAGE_FIFO_PRIO0_FLIP_SB_ECC", start = 35, stop = 35},
+                {name = "PAGE_FIFO_PRIO0_FLIP_DB_ECC", start = 34, stop = 34},
+                {name = "TOKEN_MEM_BANK_FLIP_SB_ECC", start = 24, stop = 33},
                 {name = "TOKEN_MEM_BANK_FLIP_DB_ECC", start = 14, stop = 23},
                 {name = "FREELIST_FLIP_SB_ECC", start = 13, stop = 13},
                 {name = "FREELIST_FLIP_DB_ECC", start = 12, stop = 12},
@@ -88230,24 +85674,6 @@ local csr_db = {
                 {name = "HDR_MEM_FLIP_DB_ECC", start = 4, stop = 7},
                 {name = "CNTX_MEM_FLIP_SB_ECC", start = 2, stop = 3},
                 {name = "CNTX_MEM_FLIP_DB_ECC", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_MRET_CFG2_W1 = {
-            name = "TNS_SDE_MRET_CFG2_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060780024,
-            fields = {
-                {name = "RESERVED_10_31", start = 10, stop = 31},
-                {name = "PAGE_FIFO_PRIO3_FLIP_SB_ECC", start = 9, stop = 9},
-                {name = "PAGE_FIFO_PRIO3_FLIP_DB_ECC", start = 8, stop = 8},
-                {name = "PAGE_FIFO_PRIO2_FLIP_SB_ECC", start = 7, stop = 7},
-                {name = "PAGE_FIFO_PRIO2_FLIP_DB_ECC", start = 6, stop = 6},
-                {name = "PAGE_FIFO_PRIO1_FLIP_SB_ECC", start = 5, stop = 5},
-                {name = "PAGE_FIFO_PRIO1_FLIP_DB_ECC", start = 4, stop = 4},
-                {name = "PAGE_FIFO_PRIO0_FLIP_SB_ECC", start = 3, stop = 3},
-                {name = "PAGE_FIFO_PRIO0_FLIP_DB_ECC", start = 2, stop = 2},
-                {name = "TOKEN_MEM_BANK_FLIP_SB_ECC_X1", start = 0, stop = 1},
             }
         },
         TNS_SDE_MRET_CFG_NULL_PTR = {
@@ -88260,26 +85686,17 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 17},
             }
         },
-        TNS_SDE_MRET_CFG_RCOD_W0 = {
-            name = "TNS_SDE_MRET_CFG_RCOD_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_CFG_RCOD = {
+            name = "TNS_SDE_MRET_CFG_RCOD",
+            type = "NCB",
+            width = 8,
             address = 0x842060780018,
             fields = {
-                {name = "TTL_FAIL_X0", start = 30, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "TTL_FAIL", start = 30, stop = 39},
                 {name = "FIRST_LIVE_FAIL", start = 20, stop = 29},
                 {name = "MIRROR_FAIL", start = 10, stop = 19},
                 {name = "FILTER", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_MRET_CFG_RCOD_W1 = {
-            name = "TNS_SDE_MRET_CFG_RCOD_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206078001c,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "TTL_FAIL_X1", start = 0, stop = 7},
             }
         },
         TNS_SDE_MRET_CFG_W0 = {
@@ -88333,13 +85750,13 @@ local csr_db = {
         },
         TNS_SDE_MRET_CTXT_MEM_DAT_WX = {
             name = "TNS_SDE_MRET_CTXT_MEM_DAT_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x8420607800a0,
-            range1 = {0,5},
-            range1_inc = 0x4,
+            range1 = {0,2},
+            range1_inc = 0x8,
             fields = {
-                {name = "CNTXT_MEM_DATA", start = 0, stop = 31},
+                {name = "CNTXT_MEM_DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_MRET_DBG_SEL = {
@@ -88485,13 +85902,26 @@ local csr_db = {
                 {name = "LOG", start = 0, stop = 17},
             }
         },
-        TNS_SDE_MRET_INT_EN_HI_W0 = {
-            name = "TNS_SDE_MRET_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_EN_HI = {
+            name = "TNS_SDE_MRET_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800c0,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -88513,35 +85943,26 @@ local csr_db = {
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_MRET_INT_EN_HI_W1 = {
-            name = "TNS_SDE_MRET_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800c4,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_MRET_INT_EN_LO_W0 = {
-            name = "TNS_SDE_MRET_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_EN_LO = {
+            name = "TNS_SDE_MRET_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800c8,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -88563,35 +85984,26 @@ local csr_db = {
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_MRET_INT_EN_LO_W1 = {
-            name = "TNS_SDE_MRET_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800cc,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_MRET_INT_FRC_W0 = {
-            name = "TNS_SDE_MRET_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_FRC = {
+            name = "TNS_SDE_MRET_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800d0,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -88613,35 +86025,26 @@ local csr_db = {
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_MRET_INT_FRC_W1 = {
-            name = "TNS_SDE_MRET_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800d4,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_MRET_INT_W1C_W0 = {
-            name = "TNS_SDE_MRET_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_MRET_INT_W1C = {
+            name = "TNS_SDE_MRET_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x8420607800b8,
             fields = {
-                {name = "TOKEN_MEM_DB_ERR_X0", start = 28, stop = 31},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 57, stop = 57},
+                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 56, stop = 56},
+                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 55, stop = 55},
+                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 54, stop = 54},
+                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 53, stop = 53},
+                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 52, stop = 52},
+                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 51, stop = 51},
+                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 50, stop = 50},
+                {name = "CNTX_MEM_DB_ERR", start = 48, stop = 49},
+                {name = "CNTX_MEM_SB_ERR", start = 46, stop = 47},
+                {name = "HDR_MEM_DB_ERR", start = 42, stop = 45},
+                {name = "HDR_MEM_SB_ERR", start = 38, stop = 41},
+                {name = "TOKEN_MEM_DB_ERR", start = 28, stop = 37},
                 {name = "TOKEN_MEM_SB_ERR", start = 18, stop = 27},
                 {name = "FREELIST_FIFO_UNDR", start = 17, stop = 17},
                 {name = "PAGE_FIFO_OVFL", start = 16, stop = 16},
@@ -88661,28 +86064,6 @@ local csr_db = {
                 {name = "SE_DATA_INCORRECT_INTR", start = 2, stop = 2},
                 {name = "CTX_STORE_RD_TIMEOUT_INTR", start = 1, stop = 1},
                 {name = "ARBITER_TOKEN_FIFO_OVFL_INTR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_MRET_INT_W1C_W1 = {
-            name = "TNS_SDE_MRET_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420607800bc,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "PAGE_FIFO0_PRIO3_DB_ERR", start = 25, stop = 25},
-                {name = "PAGE_FIFO0_PRIO3_SB_ERR", start = 24, stop = 24},
-                {name = "PAGE_FIFO0_PRIO2_DB_ERR", start = 23, stop = 23},
-                {name = "PAGE_FIFO0_PRIO2_SB_ERR", start = 22, stop = 22},
-                {name = "PAGE_FIFO0_PRIO1_DB_ERR", start = 21, stop = 21},
-                {name = "PAGE_FIFO0_PRIO1_SB_ERR", start = 20, stop = 20},
-                {name = "PAGE_FIFO0_PRIO0_DB_ERR", start = 19, stop = 19},
-                {name = "PAGE_FIFO0_PRIO0_SB_ERR", start = 18, stop = 18},
-                {name = "CNTX_MEM_DB_ERR", start = 16, stop = 17},
-                {name = "CNTX_MEM_SB_ERR", start = 14, stop = 15},
-                {name = "HDR_MEM_DB_ERR", start = 10, stop = 13},
-                {name = "HDR_MEM_SB_ERR", start = 6, stop = 9},
-                {name = "TOKEN_MEM_DB_ERR_X1", start = 0, stop = 5},
             }
         },
         TNS_SDE_MRET_LOCK = {
@@ -88884,13 +86265,24 @@ local csr_db = {
                 {name = "SPARE_X1", start = 0, stop = 31},
             }
         },
-        TNS_SDE_PARSER_INT_EN_HI_W0 = {
-            name = "TNS_SDE_PARSER_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_EN_HI = {
+            name = "TNS_SDE_PARSER_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x842060740010,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -88903,33 +86295,24 @@ local csr_db = {
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_PARSER_INT_EN_HI_W1 = {
-            name = "TNS_SDE_PARSER_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060740014,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_EN_LO_W0 = {
-            name = "TNS_SDE_PARSER_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_EN_LO = {
+            name = "TNS_SDE_PARSER_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x842060740018,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -88942,33 +86325,24 @@ local csr_db = {
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_PARSER_INT_EN_LO_W1 = {
-            name = "TNS_SDE_PARSER_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206074001c,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_FRC_W0 = {
-            name = "TNS_SDE_PARSER_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_FRC = {
+            name = "TNS_SDE_PARSER_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x842060740020,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -88981,33 +86355,24 @@ local csr_db = {
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_SDE_PARSER_INT_FRC_W1 = {
-            name = "TNS_SDE_PARSER_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060740024,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_W1C_W0 = {
-            name = "TNS_SDE_PARSER_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PARSER_INT_W1C = {
+            name = "TNS_SDE_PARSER_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x842060740008,
             fields = {
-                {name = "CH0_KPU_TCAM_MISS_X0", start = 28, stop = 31},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INFO_MEM_DB_ERR", start = 51, stop = 54},
+                {name = "INFO_MEM_SB_ERR", start = 47, stop = 50},
+                {name = "HEADER_MEM_DB_ERR", start = 43, stop = 46},
+                {name = "HEADER_MEM_SB_ERR", start = 39, stop = 42},
+                {name = "TOKENCMD_MEM_DB_ERR", start = 38, stop = 38},
+                {name = "TOKENCMD_MEM_SB_ERR", start = 37, stop = 37},
+                {name = "QOS_MEM_DB_ERR", start = 36, stop = 36},
+                {name = "QOS_MEM_SB_ERR", start = 35, stop = 35},
+                {name = "NEXTENGINE_MEM_DB_ERR", start = 34, stop = 34},
+                {name = "NEXTENGINE_MEM_SB_ERR", start = 33, stop = 33},
+                {name = "CH0_KPU_TCAM_MISS", start = 28, stop = 32},
                 {name = "CH0_KPU_TCAM_DB_ERR", start = 23, stop = 27},
                 {name = "CH0_KPU_TCAM_SB_ERR", start = 18, stop = 22},
                 {name = "CH0_KPU_SRAM_DB_ERR", start = 12, stop = 17},
@@ -89018,26 +86383,6 @@ local csr_db = {
                 {name = "TEMPLATEID_MISS", start = 2, stop = 2},
                 {name = "TEMPLATEID_DB_ERR", start = 1, stop = 1},
                 {name = "TEMPLATEID_SB_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PARSER_INT_W1C_W1 = {
-            name = "TNS_SDE_PARSER_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206074000c,
-            fields = {
-                {name = "RESERVED_23_31", start = 23, stop = 31},
-                {name = "INFO_MEM_DB_ERR", start = 19, stop = 22},
-                {name = "INFO_MEM_SB_ERR", start = 15, stop = 18},
-                {name = "HEADER_MEM_DB_ERR", start = 11, stop = 14},
-                {name = "HEADER_MEM_SB_ERR", start = 7, stop = 10},
-                {name = "TOKENCMD_MEM_DB_ERR", start = 6, stop = 6},
-                {name = "TOKENCMD_MEM_SB_ERR", start = 5, stop = 5},
-                {name = "QOS_MEM_DB_ERR", start = 4, stop = 4},
-                {name = "QOS_MEM_SB_ERR", start = 3, stop = 3},
-                {name = "NEXTENGINE_MEM_DB_ERR", start = 2, stop = 2},
-                {name = "NEXTENGINE_MEM_SB_ERR", start = 1, stop = 1},
-                {name = "CH0_KPU_TCAM_MISS_X1", start = 0, stop = 0},
             }
         },
         TNS_SDE_PARSER_LOCK = {
@@ -89066,7 +86411,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             fields = {
-                {name = "KEY_X0", start = 8, stop = 31},
+                {name = "KEY", start = 8, stop = 31},
                 {name = "HIT", start = 7, stop = 7},
                 {name = "ADDR", start = 0, stop = 6},
             }
@@ -89079,7 +86424,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_KPU_DBG_W2 = {
@@ -89112,15 +86457,18 @@ local csr_db = {
         },
         TNS_SDE_PE_KPUX_KPU_SRAMX_W0 = {
             name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060719000,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x10,
             fields = {
-                {name = "TRANSITIONID_X0", start = 31, stop = 31},
+                {name = "METADATA1", start = 47, stop = 63},
+                {name = "LYRPTRADVANCE0", start = 41, stop = 46},
+                {name = "LYRPTRADVANCE1", start = 35, stop = 40},
+                {name = "TRANSITIONID", start = 31, stop = 34},
                 {name = "PUSH2STACK", start = 29, stop = 30},
                 {name = "PARSEDONE", start = 28, stop = 28},
                 {name = "LAYERTYPE0", start = 23, stop = 27},
@@ -89132,48 +86480,19 @@ local csr_db = {
         },
         TNS_SDE_PE_KPUX_KPU_SRAMX_W1 = {
             name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060719004,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x10,
-            fields = {
-                {name = "METADATA1_X0", start = 15, stop = 31},
-                {name = "LYRPTRADVANCE0", start = 9, stop = 14},
-                {name = "LYRPTRADVANCE1", start = 3, stop = 8},
-                {name = "TRANSITIONID_X1", start = 0, stop = 2},
-            }
-        },
-        TNS_SDE_PE_KPUX_KPU_SRAMX_W2 = {
-            name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060719008,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x10,
             fields = {
-                {name = "METADATA0_X0", start = 15, stop = 31},
-                {name = "METADATA1_X1", start = 0, stop = 14},
-            }
-        },
-        TNS_SDE_PE_KPUX_KPU_SRAMX_W3 = {
-            name = "TNS_SDE_PE_KPU#_KPU_SRAM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071900c,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x10,
-            fields = {
-                {name = "RESERVED_24_31", start = 24, stop = 31},
-                {name = "INNERETH", start = 23, stop = 23},
-                {name = "STATE", start = 15, stop = 22},
-                {name = "METADATA0_X1", start = 0, stop = 14},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "INNERETH", start = 55, stop = 55},
+                {name = "STATE", start = 47, stop = 54},
+                {name = "METADATA0", start = 15, stop = 46},
+                {name = "METADATA1", start = 0, stop = 14},
             }
         },
         TNS_SDE_PE_KPUX_LOCK = {
@@ -89198,34 +86517,22 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SDE_PE_KPUX_TCAM_DATX_W0 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_KPUX_TCAM_DATX = {
+            name = "TNS_SDE_PE_KPU#_TCAM_DAT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060719800,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x8,
             fields = {
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "ROWVALID", start = 56, stop = 56},
+                {name = "CURRENTSTATE", start = 48, stop = 55},
+                {name = "DECPOINT0", start = 32, stop = 47},
                 {name = "DECPOINT1", start = 16, stop = 31},
                 {name = "DECPOINT2", start = 0, stop = 15},
-            }
-        },
-        TNS_SDE_PE_KPUX_TCAM_DATX_W1 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060719804,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_25_31", start = 25, stop = 31},
-                {name = "ROWVALID", start = 24, stop = 24},
-                {name = "CURRENTSTATE", start = 16, stop = 23},
-                {name = "DECPOINT0", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W0 = {
@@ -89238,7 +86545,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W1 = {
@@ -89251,7 +86558,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W2 = {
@@ -89264,7 +86571,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W3 = {
@@ -89277,7 +86584,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W4 = {
@@ -89290,7 +86597,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X4", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W5 = {
@@ -89303,7 +86610,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X5", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_KPUX_TCAM_DMSKX_W6 = {
@@ -89318,46 +86625,39 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
-                {name = "VMDATA_X6", start = 0, stop = 15},
+                {name = "VMDATA", start = 0, stop = 15},
             }
         },
-        TNS_SDE_PE_KPUX_TCAM_MASKX_W0 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_KPUX_TCAM_MASKX = {
+            name = "TNS_SDE_PE_KPU#_TCAM_MASK#",
+            type = "NCB",
+            width = 8,
             address = 0x842060719c00,
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
             range2_inc = 0x8,
             fields = {
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "ROWVALID", start = 56, stop = 56},
+                {name = "CURRENTSTATE", start = 48, stop = 55},
+                {name = "DECPOINT0", start = 32, stop = 47},
                 {name = "DECPOINT1", start = 16, stop = 31},
                 {name = "DECPOINT2", start = 0, stop = 15},
             }
         },
-        TNS_SDE_PE_KPUX_TCAM_MASKX_W1 = {
-            name = "TNS_SDE_PE_KPU#_TCAM_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060719c04,
-            range1 = {0,3},
-            range1_inc = 0x4000,
-            range2 = {0,127},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_25_31", start = 25, stop = 31},
-                {name = "ROWVALID", start = 24, stop = 24},
-                {name = "CURRENTSTATE", start = 16, stop = 23},
-                {name = "DECPOINT0", start = 0, stop = 15},
-            }
-        },
         TNS_SDE_PE_LCMD_CMDINFO_W0 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070add0,
             fields = {
-                {name = "ERRNXTENG_X0", start = 29, stop = 31},
+                {name = "ISMEKEY3MASK", start = 58, stop = 63},
+                {name = "ETAGNXTENGEN", start = 57, stop = 57},
+                {name = "ETAGNXTENG", start = 49, stop = 56},
+                {name = "ERRREASONCODE", start = 39, stop = 48},
+                {name = "ERRPACKETCMD", start = 37, stop = 38},
+                {name = "ERRNXTENG", start = 29, stop = 36},
                 {name = "PKTBC", start = 15, stop = 28},
                 {name = "IPV4LAYERTYPE", start = 10, stop = 14},
                 {name = "IPV6LAYERTYPE", start = 5, stop = 9},
@@ -89366,99 +86666,48 @@ local csr_db = {
         },
         TNS_SDE_PE_LCMD_CMDINFO_W1 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070add4,
+            type = "NCB",
+            width = 8,
+            address = 0x84206070add8,
             fields = {
-                {name = "ISMEKEY3MASK_X0", start = 26, stop = 31},
-                {name = "ETAGNXTENGEN", start = 25, stop = 25},
-                {name = "ETAGNXTENG", start = 17, stop = 24},
-                {name = "ERRREASONCODE", start = 7, stop = 16},
-                {name = "ERRPACKETCMD", start = 5, stop = 6},
-                {name = "ERRNXTENG_X1", start = 0, stop = 4},
+                {name = "ISMEKEY2MASK", start = 26, stop = 63},
+                {name = "ISMEKEY3MASK", start = 0, stop = 25},
             }
         },
         TNS_SDE_PE_LCMD_CMDINFO_W2 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070add8,
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ade0,
             fields = {
-                {name = "ISMEKEY2MASK_X0", start = 26, stop = 31},
-                {name = "ISMEKEY3MASK_X1", start = 0, stop = 25},
+                {name = "ISMEKEY1MASK", start = 26, stop = 63},
+                {name = "ISMEKEY2MASK", start = 0, stop = 25},
             }
         },
         TNS_SDE_PE_LCMD_CMDINFO_W3 = {
             name = "TNS_SDE_PE_LCMD_CMDINFO_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070addc,
-            fields = {
-                {name = "ISMEKEY2MASK_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_CMDINFO_W4 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ade0,
-            fields = {
-                {name = "ISMEKEY1MASK_X0", start = 26, stop = 31},
-                {name = "ISMEKEY2MASK_X2", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_LCMD_CMDINFO_W5 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ade4,
-            fields = {
-                {name = "ISMEKEY1MASK_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_CMDINFO_W6 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W6",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070ade8,
             fields = {
-                {name = "ISMEKEY0MASK_X0", start = 26, stop = 31},
-                {name = "ISMEKEY1MASK_X2", start = 0, stop = 25},
+                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "ISMEKEY0MASK", start = 26, stop = 57},
+                {name = "ISMEKEY1MASK", start = 0, stop = 25},
             }
         },
-        TNS_SDE_PE_LCMD_CMDINFO_W7 = {
-            name = "TNS_SDE_PE_LCMD_CMDINFO_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adec,
-            fields = {
-                {name = "RESERVED_26_31", start = 26, stop = 31},
-                {name = "ISMEKEY0MASK_X1", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_LCMD_CNNCMDX_W0 = {
-            name = "TNS_SDE_PE_LCMD_CNNCMD#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_CNNCMDX = {
+            name = "TNS_SDE_PE_LCMD_CNNCMD#",
+            type = "NCB",
+            width = 8,
             address = 0x84206070a000,
             range1 = {0,35},
             range1_inc = 0x8,
             fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "LAYERTYPE", start = 36, stop = 40},
+                {name = "LAYERHASH", start = 32, stop = 35},
                 {name = "CONTBYTES", start = 24, stop = 31},
                 {name = "BITVECTOR", start = 0, stop = 23},
-            }
-        },
-        TNS_SDE_PE_LCMD_CNNCMDX_W1 = {
-            name = "TNS_SDE_PE_LCMD_CNNCMD#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070a004,
-            range1 = {0,35},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "LAYERTYPE", start = 4, stop = 8},
-                {name = "LAYERHASH", start = 0, stop = 3},
             }
         },
         TNS_SDE_PE_LCMD_CTL_W0 = {
@@ -89467,7 +86716,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070ad24,
             fields = {
-                {name = "INFO_MEM_SPARE_X0", start = 12, stop = 31},
+                {name = "INFO_MEM_SPARE", start = 12, stop = 31},
                 {name = "INFO_MEM_ADDR", start = 6, stop = 11},
                 {name = "HEADER_MEM_ADDR", start = 0, stop = 5},
             }
@@ -89478,12 +86727,12 @@ local csr_db = {
             width = 4,
             address = 0x84206070ad28,
             fields = {
-                {name = "PINDEX_FIFO_THR_X0", start = 28, stop = 31},
+                {name = "PINDEX_FIFO_THRESHOLD", start = 28, stop = 31},
                 {name = "TOKEN_FIFO_THRESHOLD", start = 23, stop = 27},
                 {name = "HDR_BUFF_FIFO_THRESHOLD", start = 19, stop = 22},
                 {name = "PINDEX", start = 14, stop = 18},
                 {name = "LINKLIST_ENTRY", start = 8, stop = 13},
-                {name = "INFO_MEM_SPARE_X1", start = 0, stop = 7},
+                {name = "INFO_MEM_SPARE", start = 0, stop = 7},
             }
         },
         TNS_SDE_PE_LCMD_CTL_W2 = {
@@ -89494,7 +86743,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "HDR_ADDR_FIFO_THRESHOLD", start = 3, stop = 7},
-                {name = "PINDEX_FIFO_THR_X1", start = 0, stop = 2},
+                {name = "PINDEX_FIFO_THRESHOLD", start = 0, stop = 2},
             }
         },
         TNS_SDE_PE_LCMD_ERRORBODYPTR = {
@@ -89532,7 +86781,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "LAYEROFFSET1_X0", start = 29, stop = 31},
+                {name = "LAYEROFFSET1", start = 29, stop = 31},
                 {name = "FIELDLEN1", start = 26, stop = 28},
                 {name = "HASHMASK1", start = 18, stop = 25},
                 {name = "HASHMASKMSB1", start = 17, stop = 17},
@@ -89550,7 +86799,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "LAYEROFFSET3_X0", start = 31, stop = 31},
+                {name = "LAYEROFFSET3", start = 31, stop = 31},
                 {name = "FIELDLEN3", start = 28, stop = 30},
                 {name = "HASHMASK3", start = 20, stop = 27},
                 {name = "HASHMASKMSB3", start = 19, stop = 19},
@@ -89558,7 +86807,7 @@ local csr_db = {
                 {name = "FIELDLEN2", start = 11, stop = 13},
                 {name = "HASHMASK2", start = 3, stop = 10},
                 {name = "HASHMASKMSB2", start = 2, stop = 2},
-                {name = "LAYEROFFSET1_X1", start = 0, stop = 1},
+                {name = "LAYEROFFSET1", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_HASHCMDSX_W2 = {
@@ -89570,16 +86819,19 @@ local csr_db = {
             range1_inc = 0xc,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "LAYEROFFSET3_X1", start = 0, stop = 3},
+                {name = "LAYEROFFSET3", start = 0, stop = 3},
             }
         },
         TNS_SDE_PE_LCMD_HASHCTRL_W0 = {
             name = "TNS_SDE_PE_LCMD_HASHCTRL_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070adf0,
             fields = {
-                {name = "SEED1_X0", start = 26, stop = 31},
+                {name = "SEED4", start = 56, stop = 63},
+                {name = "SEED3", start = 46, stop = 55},
+                {name = "SEED2", start = 36, stop = 45},
+                {name = "SEED1", start = 26, stop = 35},
                 {name = "SEED0", start = 16, stop = 25},
                 {name = "LAGHASHA", start = 14, stop = 15},
                 {name = "LAGHASHB", start = 12, stop = 13},
@@ -89591,105 +86843,116 @@ local csr_db = {
         },
         TNS_SDE_PE_LCMD_HASHCTRL_W1 = {
             name = "TNS_SDE_PE_LCMD_HASHCTRL_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adf4,
-            fields = {
-                {name = "SEED4_X0", start = 24, stop = 31},
-                {name = "SEED3", start = 14, stop = 23},
-                {name = "SEED2", start = 4, stop = 13},
-                {name = "SEED1_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_PE_LCMD_HASHCTRL_W2 = {
-            name = "TNS_SDE_PE_LCMD_HASHCTRL_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070adf8,
             fields = {
+                {name = "SEED8_3", start = 56, stop = 63},
+                {name = "SEED8_2", start = 48, stop = 55},
+                {name = "SEED8_1", start = 40, stop = 47},
+                {name = "SEED8_0", start = 32, stop = 39},
                 {name = "SEED7", start = 22, stop = 31},
                 {name = "SEED6", start = 12, stop = 21},
                 {name = "SEED5", start = 2, stop = 11},
-                {name = "SEED4_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_HASHCTRL_W3 = {
-            name = "TNS_SDE_PE_LCMD_HASHCTRL_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adfc,
-            fields = {
-                {name = "SEED8_3", start = 24, stop = 31},
-                {name = "SEED8_2", start = 16, stop = 23},
-                {name = "SEED8_1", start = 8, stop = 15},
-                {name = "SEED8_0", start = 0, stop = 7},
+                {name = "SEED4", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_HMEM_DAT_WX = {
             name = "TNS_SDE_PE_LCMD_HMEM_DAT_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070ad30,
-            range1 = {0,15},
-            range1_inc = 0x4,
+            range1 = {0,7},
+            range1_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_PE_LCMD_IMEM_DAT_W0 = {
             name = "TNS_SDE_PE_LCMD_IMEM_DAT_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84206070ad70,
             fields = {
-                {name = "TIMESTAMP_X0", start = 0, stop = 31},
+                {name = "TIMESTAMP", start = 0, stop = 63},
             }
         },
         TNS_SDE_PE_LCMD_IMEM_DAT_W1 = {
             name = "TNS_SDE_PE_LCMD_IMEM_DAT_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad74,
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad78,
             fields = {
-                {name = "TIMESTAMP_X1", start = 0, stop = 31},
+                {name = "METADATA6", start = 42, stop = 63},
+                {name = "METADATA7", start = 10, stop = 41},
+                {name = "PKT_ID", start = 0, stop = 9},
             }
         },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W10 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W10",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_IMEM_DAT_W2 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W2",
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad80,
+            fields = {
+                {name = "METADATA4", start = 42, stop = 63},
+                {name = "METADATA5", start = 10, stop = 41},
+                {name = "METADATA6", start = 0, stop = 9},
+            }
+        },
+        TNS_SDE_PE_LCMD_IMEM_DAT_W3 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W3",
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad88,
+            fields = {
+                {name = "METADATA2", start = 42, stop = 63},
+                {name = "METADATA3", start = 10, stop = 41},
+                {name = "METADATA4", start = 0, stop = 9},
+            }
+        },
+        TNS_SDE_PE_LCMD_IMEM_DAT_W4 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W4",
+            type = "NCB",
+            width = 8,
+            address = 0x84206070ad90,
+            fields = {
+                {name = "METADATA0", start = 42, stop = 63},
+                {name = "METADATA1", start = 10, stop = 41},
+                {name = "METADATA2", start = 0, stop = 9},
+            }
+        },
+        TNS_SDE_PE_LCMD_IMEM_DAT_W5 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W5",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ad98,
             fields = {
+                {name = "LAYERTYPE2", start = 59, stop = 63},
+                {name = "LAYERHASH2", start = 55, stop = 58},
+                {name = "LAYERTYPE3", start = 50, stop = 54},
+                {name = "LAYERHASH3", start = 46, stop = 49},
+                {name = "LAYERTYPE4", start = 41, stop = 45},
+                {name = "LAYERHASH4", start = 37, stop = 40},
+                {name = "LAYERTYPE5", start = 32, stop = 36},
                 {name = "LAYERHASH5", start = 28, stop = 31},
                 {name = "LAYERTYPE6", start = 23, stop = 27},
                 {name = "LAYERHASH6", start = 19, stop = 22},
                 {name = "LAYERTYPE7", start = 14, stop = 18},
                 {name = "LAYERHASH7", start = 10, stop = 13},
-                {name = "METADATA0_X1", start = 0, stop = 9},
+                {name = "METADATA0", start = 0, stop = 9},
             }
         },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W11 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W11",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad9c,
-            fields = {
-                {name = "LAYERTYPE2", start = 27, stop = 31},
-                {name = "LAYERHASH2", start = 23, stop = 26},
-                {name = "LAYERTYPE3", start = 18, stop = 22},
-                {name = "LAYERHASH3", start = 14, stop = 17},
-                {name = "LAYERTYPE4", start = 9, stop = 13},
-                {name = "LAYERHASH4", start = 5, stop = 8},
-                {name = "LAYERTYPE5", start = 0, stop = 4},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W12 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W12",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_IMEM_DAT_W6 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W6",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ada0,
             fields = {
-                {name = "LAYERENDPTR6_X0", start = 26, stop = 31},
+                {name = "LAYERENDPTR2", start = 58, stop = 63},
+                {name = "LAYERENDPTR3", start = 50, stop = 57},
+                {name = "LAYERENDPTR4", start = 42, stop = 49},
+                {name = "LAYERENDPTR5", start = 34, stop = 41},
+                {name = "LAYERENDPTR6", start = 26, stop = 33},
                 {name = "LAYERENDPTR7", start = 18, stop = 25},
                 {name = "LAYERTYPE0", start = 13, stop = 17},
                 {name = "LAYERHASH0", start = 9, stop = 12},
@@ -89697,122 +86960,20 @@ local csr_db = {
                 {name = "LAYERHASH1", start = 0, stop = 3},
             }
         },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W13 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W13",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ada4,
-            fields = {
-                {name = "LAYERENDPTR2_X0", start = 26, stop = 31},
-                {name = "LAYERENDPTR3", start = 18, stop = 25},
-                {name = "LAYERENDPTR4", start = 10, stop = 17},
-                {name = "LAYERENDPTR5", start = 2, stop = 9},
-                {name = "LAYERENDPTR6_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W14 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W14",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_IMEM_DAT_W7 = {
+            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W7",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ada8,
             fields = {
-                {name = "STARTPTR_X0", start = 26, stop = 31},
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "XPHEXISTS", start = 35, stop = 35},
+                {name = "HTS_EXISTS", start = 34, stop = 34},
+                {name = "STARTPTR", start = 26, stop = 33},
                 {name = "PNUM", start = 18, stop = 25},
                 {name = "LAYERENDPTR0", start = 10, stop = 17},
                 {name = "LAYERENDPTR1", start = 2, stop = 9},
-                {name = "LAYERENDPTR2_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W15 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W15",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070adac,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "XPHEXISTS", start = 3, stop = 3},
-                {name = "HTS_EXISTS", start = 2, stop = 2},
-                {name = "STARTPTR_X1", start = 0, stop = 1},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W2 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad78,
-            fields = {
-                {name = "METADATA7_X0", start = 10, stop = 31},
-                {name = "PKT_ID", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W3 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad7c,
-            fields = {
-                {name = "METADATA6_X0", start = 10, stop = 31},
-                {name = "METADATA7_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W4 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad80,
-            fields = {
-                {name = "METADATA5_X0", start = 10, stop = 31},
-                {name = "METADATA6_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W5 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad84,
-            fields = {
-                {name = "METADATA4_X0", start = 10, stop = 31},
-                {name = "METADATA5_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W6 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad88,
-            fields = {
-                {name = "METADATA3_X0", start = 10, stop = 31},
-                {name = "METADATA4_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W7 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad8c,
-            fields = {
-                {name = "METADATA2_X0", start = 10, stop = 31},
-                {name = "METADATA3_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W8 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W8",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad90,
-            fields = {
-                {name = "METADATA1_X0", start = 10, stop = 31},
-                {name = "METADATA2_X1", start = 0, stop = 9},
-            }
-        },
-        TNS_SDE_PE_LCMD_IMEM_DAT_W9 = {
-            name = "TNS_SDE_PE_LCMD_IMEM_DAT_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ad94,
-            fields = {
-                {name = "METADATA0_X0", start = 10, stop = 31},
-                {name = "METADATA1_X1", start = 0, stop = 9},
+                {name = "LAYERENDPTR2", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W0 = {
@@ -89823,7 +86984,7 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "SCRATCHPAD_X0", start = 30, stop = 31},
+                {name = "SCRATCHPAD", start = 30, stop = 31},
                 {name = "FILTER_GRP_NUM", start = 22, stop = 29},
                 {name = "LAYER2QOSEN", start = 21, stop = 21},
                 {name = "IP2QOSEN", start = 20, stop = 20},
@@ -89844,7 +87005,7 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "SCRATCHPAD_X1", start = 0, stop = 31},
+                {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W2 = {
@@ -89855,8 +87016,8 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "MIRRORBITMASK_X0", start = 30, stop = 31},
-                {name = "SCRATCHPAD_X2", start = 0, stop = 29},
+                {name = "MIRRORBITMASK", start = 30, stop = 31},
+                {name = "SCRATCHPAD", start = 0, stop = 29},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W3 = {
@@ -89867,8 +87028,8 @@ local csr_db = {
             range1 = {0,136},
             range1_inc = 0x14,
             fields = {
-                {name = "INGRESSVIF_X0", start = 14, stop = 31},
-                {name = "MIRRORBITMASK_X1", start = 0, stop = 13},
+                {name = "INGRESSVIF", start = 14, stop = 31},
+                {name = "MIRRORBITMASK", start = 0, stop = 13},
             }
         },
         TNS_SDE_PE_LCMD_ITTX_W4 = {
@@ -89886,7 +87047,7 @@ local csr_db = {
                 {name = "MPLSQOSPROFILE", start = 15, stop = 17},
                 {name = "PVID", start = 3, stop = 14},
                 {name = "PVIDMODEALLPKT", start = 2, stop = 2},
-                {name = "INGRESSVIF_X1", start = 0, stop = 1},
+                {name = "INGRESSVIF", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_LOCK = {
@@ -89920,7 +87081,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "FIELDLEN3_X0", start = 30, stop = 31},
+                {name = "FIELDLEN3", start = 30, stop = 31},
                 {name = "LAYEROFFSET2", start = 24, stop = 29},
                 {name = "FIELDLEN2", start = 20, stop = 23},
                 {name = "LAYEROFFSET1", start = 14, stop = 19},
@@ -89943,7 +87104,7 @@ local csr_db = {
                 {name = "LAYEROFFSET4", start = 12, stop = 17},
                 {name = "FIELDLEN4", start = 8, stop = 11},
                 {name = "LAYEROFFSET3", start = 2, stop = 7},
-                {name = "FIELDLEN3_X1", start = 0, stop = 1},
+                {name = "FIELDLEN3", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_LCMD_LTOKENCMDX_W2 = {
@@ -89959,29 +87120,18 @@ local csr_db = {
                 {name = "LAYEROFFSET6", start = 0, stop = 5},
             }
         },
-        TNS_SDE_PE_LCMD_M2R_DATX_W0 = {
-            name = "TNS_SDE_PE_LCMD_M2R_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_M2R_DATX = {
+            name = "TNS_SDE_PE_LCMD_M2R_DAT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060708000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "MACDA_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_M2R_DATX_W1 = {
-            name = "TNS_SDE_PE_LCMD_M2R_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060708004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "ROWVALID", start = 28, stop = 28},
-                {name = "VLAN", start = 16, stop = 27},
-                {name = "MACDA_X1", start = 0, stop = 15},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "ROWVALID", start = 60, stop = 60},
+                {name = "VLAN", start = 48, stop = 59},
+                {name = "MACDA", start = 0, stop = 47},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DBG_W0 = {
@@ -89990,7 +87140,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070ae08,
             fields = {
-                {name = "KEY_X0", start = 9, stop = 31},
+                {name = "KEY", start = 9, stop = 31},
                 {name = "HIT", start = 8, stop = 8},
                 {name = "ADDR", start = 0, stop = 7},
             }
@@ -90001,7 +87151,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070ae0c,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DBG_W2 = {
@@ -90014,7 +87164,7 @@ local csr_db = {
                 {name = "ENABLE", start = 11, stop = 11},
                 {name = "VALID", start = 10, stop = 10},
                 {name = "PINDEX", start = 5, stop = 9},
-                {name = "KEY_X2", start = 0, stop = 4},
+                {name = "KEY", start = 0, stop = 4},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W0 = {
@@ -90025,7 +87175,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W1 = {
@@ -90036,7 +87186,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W2 = {
@@ -90047,7 +87197,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W3 = {
@@ -90058,7 +87208,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_M2R_DMSKX_W4 = {
@@ -90073,29 +87223,18 @@ local csr_db = {
                 {name = "VMVALID", start = 0, stop = 1},
             }
         },
-        TNS_SDE_PE_LCMD_M2R_MASKX_W0 = {
-            name = "TNS_SDE_PE_LCMD_M2R_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_M2R_MASKX = {
+            name = "TNS_SDE_PE_LCMD_M2R_MASK#",
+            type = "NCB",
+            width = 8,
             address = 0x842060708800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "MACDA_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_PE_LCMD_M2R_MASKX_W1 = {
-            name = "TNS_SDE_PE_LCMD_M2R_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060708804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "ROWVALID", start = 28, stop = 28},
-                {name = "VLAN", start = 16, stop = 27},
-                {name = "MACDA_X1", start = 0, stop = 15},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "ROWVALID", start = 60, stop = 60},
+                {name = "VLAN", start = 48, stop = 59},
+                {name = "MACDA", start = 0, stop = 47},
             }
         },
         TNS_SDE_PE_LCMD_M2R_MEMX = {
@@ -90145,7 +87284,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0xc,
             fields = {
-                {name = "EGRESSVIF_X0", start = 29, stop = 31},
+                {name = "EGRESSVIF", start = 29, stop = 31},
                 {name = "REASONCODE", start = 19, stop = 28},
                 {name = "PKTCMD", start = 17, stop = 18},
                 {name = "SLAVELANESELECT", start = 14, stop = 16},
@@ -90164,7 +87303,7 @@ local csr_db = {
                 {name = "LM_CMD", start = 31, stop = 31},
                 {name = "ISMEKEYSEL", start = 29, stop = 30},
                 {name = "ECMPSIZE", start = 17, stop = 28},
-                {name = "EGRESSVIF_X1", start = 0, stop = 16},
+                {name = "EGRESSVIF", start = 0, stop = 16},
             }
         },
         TNS_SDE_PE_LCMD_NENGX_W2 = {
@@ -90234,7 +87373,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070adb0,
             fields = {
-                {name = "INFO_MEM_SPARE_X0", start = 20, stop = 31},
+                {name = "INFO_MEM_SPARE", start = 20, stop = 31},
                 {name = "HDR_BUFF_REQ_SRDY", start = 19, stop = 19},
                 {name = "HDR_BUFF_REQ_DRDY", start = 18, stop = 18},
                 {name = "HDR_BUFF_WR_SRDY", start = 17, stop = 17},
@@ -90252,8 +87391,8 @@ local csr_db = {
             width = 4,
             address = 0x84206070adb4,
             fields = {
-                {name = "INFOLL_X0", start = 16, stop = 31},
-                {name = "INFO_MEM_SPARE_X1", start = 0, stop = 15},
+                {name = "INFOLL", start = 16, stop = 31},
+                {name = "INFO_MEM_SPARE", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_LCMD_STA_W2 = {
@@ -90262,9 +87401,9 @@ local csr_db = {
             width = 4,
             address = 0x84206070adb8,
             fields = {
-                {name = "RDINFOHEADPTR_X0", start = 27, stop = 31},
+                {name = "RDINFOHEADPTR", start = 27, stop = 31},
                 {name = "LINKLIST", start = 21, stop = 26},
-                {name = "INFOLL_X1", start = 0, stop = 20},
+                {name = "INFOLL", start = 0, stop = 20},
             }
         },
         TNS_SDE_PE_LCMD_STA_W3 = {
@@ -90273,12 +87412,12 @@ local csr_db = {
             width = 4,
             address = 0x84206070adbc,
             fields = {
-                {name = "INFOFREECNT_X0", start = 26, stop = 31},
+                {name = "INFOFREECNT", start = 26, stop = 31},
                 {name = "INFOTAILPTR", start = 20, stop = 25},
                 {name = "INFOHEADPTR", start = 14, stop = 19},
                 {name = "RDINFOCNT", start = 7, stop = 13},
                 {name = "RDINFOTAILPTR", start = 1, stop = 6},
-                {name = "RDINFOHEADPTR_X1", start = 0, stop = 0},
+                {name = "RDINFOHEADPTR", start = 0, stop = 0},
             }
         },
         TNS_SDE_PE_LCMD_STA_W4 = {
@@ -90292,7 +87431,7 @@ local csr_db = {
                 {name = "FREETAILPTR", start = 14, stop = 19},
                 {name = "FREEHEADPTR", start = 8, stop = 13},
                 {name = "FREECNT", start = 1, stop = 7},
-                {name = "INFOFREECNT_X1", start = 0, stop = 0},
+                {name = "INFOFREECNT", start = 0, stop = 0},
             }
         },
         TNS_SDE_PE_LCMD_STA_W5 = {
@@ -90301,7 +87440,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070adc4,
             fields = {
-                {name = "HDR_BUFF_FIFO_CNT_X0", start = 31, stop = 31},
+                {name = "HDR_BUFF_FIFO_CNT", start = 31, stop = 31},
                 {name = "Q_EMPTY", start = 14, stop = 30},
                 {name = "PINDEX_CNT", start = 7, stop = 13},
                 {name = "RDCNT", start = 0, stop = 6},
@@ -90314,18 +87453,21 @@ local csr_db = {
             address = 0x84206070adc8,
             fields = {
                 {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "HDR_BUFF_FIFO_CNT_X1", start = 0, stop = 2},
+                {name = "HDR_BUFF_FIFO_CNT", start = 0, stop = 2},
             }
         },
-        TNS_SDE_PE_LCMD_TID_DATX_W0 = {
-            name = "TNS_SDE_PE_LCMD_TID_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TID_DATX = {
+            name = "TNS_SDE_PE_LCMD_TID_DAT#",
+            type = "NCB",
+            width = 8,
             address = 0x842060707000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "LAYERTYPE6_X0", start = 30, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "LAYERTYPE7", start = 35, stop = 39},
+                {name = "LAYERTYPE6", start = 30, stop = 34},
                 {name = "LAYERTYPE5", start = 25, stop = 29},
                 {name = "LAYERTYPE4", start = 20, stop = 24},
                 {name = "LAYERTYPE3", start = 15, stop = 19},
@@ -90334,42 +87476,19 @@ local csr_db = {
                 {name = "LAYERTYPE0", start = 0, stop = 4},
             }
         },
-        TNS_SDE_PE_LCMD_TID_DATX_W1 = {
-            name = "TNS_SDE_PE_LCMD_TID_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060707004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "LAYERTYPE7", start = 3, stop = 7},
-                {name = "LAYERTYPE6_X1", start = 0, stop = 2},
-            }
-        },
-        TNS_SDE_PE_LCMD_TID_DBG_W0 = {
-            name = "TNS_SDE_PE_LCMD_TID_DBG_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TID_DBG = {
+            name = "TNS_SDE_PE_LCMD_TID_DBG",
+            type = "NCB",
+            width = 8,
             address = 0x84206070ae00,
             fields = {
-                {name = "KEY_X0", start = 9, stop = 31},
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "ENABLE", start = 55, stop = 55},
+                {name = "VALID", start = 54, stop = 54},
+                {name = "PINDEX", start = 49, stop = 53},
+                {name = "KEY", start = 9, stop = 48},
                 {name = "HIT", start = 8, stop = 8},
                 {name = "ADDR", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_LCMD_TID_DBG_W1 = {
-            name = "TNS_SDE_PE_LCMD_TID_DBG_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206070ae04,
-            fields = {
-                {name = "RESERVED_24_31", start = 24, stop = 31},
-                {name = "ENABLE", start = 23, stop = 23},
-                {name = "VALID", start = 22, stop = 22},
-                {name = "PINDEX", start = 17, stop = 21},
-                {name = "KEY_X1", start = 0, stop = 16},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W0 = {
@@ -90380,7 +87499,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W1 = {
@@ -90391,7 +87510,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W2 = {
@@ -90402,7 +87521,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W3 = {
@@ -90413,7 +87532,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x14,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_LCMD_TID_DMSKX_W4 = {
@@ -90428,15 +87547,18 @@ local csr_db = {
                 {name = "VMVALID", start = 0, stop = 1},
             }
         },
-        TNS_SDE_PE_LCMD_TID_MASKX_W0 = {
-            name = "TNS_SDE_PE_LCMD_TID_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TID_MASKX = {
+            name = "TNS_SDE_PE_LCMD_TID_MASK#",
+            type = "NCB",
+            width = 8,
             address = 0x842060707800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "LAYERTYPE6_X0", start = 30, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "LAYERTYPE7", start = 35, stop = 39},
+                {name = "LAYERTYPE6", start = 30, stop = 34},
                 {name = "LAYERTYPE5", start = 25, stop = 29},
                 {name = "LAYERTYPE4", start = 20, stop = 24},
                 {name = "LAYERTYPE3", start = 15, stop = 19},
@@ -90445,45 +87567,20 @@ local csr_db = {
                 {name = "LAYERTYPE0", start = 0, stop = 4},
             }
         },
-        TNS_SDE_PE_LCMD_TID_MASKX_W1 = {
-            name = "TNS_SDE_PE_LCMD_TID_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060707804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "LAYERTYPE7", start = 3, stop = 7},
-                {name = "LAYERTYPE6_X1", start = 0, stop = 2},
-            }
-        },
-        TNS_SDE_PE_LCMD_TOKENCMDSX_W0 = {
-            name = "TNS_SDE_PE_LCMD_TOKENCMDS#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_LCMD_TOKENCMDSX = {
+            name = "TNS_SDE_PE_LCMD_TOKENCMDS#",
+            type = "NCB",
+            width = 8,
             address = 0x842060709800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "INRETHM2RLOC_X0", start = 27, stop = 31},
+                {name = "RESERVED_34_63", start = 34, stop = 63},
+                {name = "INRETHM2RLOC", start = 27, stop = 33},
                 {name = "HASHAEN", start = 19, stop = 26},
                 {name = "HASHBEN", start = 11, stop = 18},
                 {name = "FIRSTVLDLAYER", start = 8, stop = 10},
                 {name = "TEMPLATEID", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_LCMD_TOKENCMDSX_W1 = {
-            name = "TNS_SDE_PE_LCMD_TOKENCMDS#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060709804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_2_31", start = 2, stop = 31},
-                {name = "INRETHM2RLOC_X1", start = 0, stop = 1},
             }
         },
         TNS_SDE_PE_SKPU_CONTROL = {
@@ -90514,12 +87611,18 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_IKTX_W0 = {
             name = "TNS_SDE_PE_SKPU_IKT#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060710000,
             range1 = {0,136},
             range1_inc = 0x10,
             fields = {
+                {name = "DECPOINTOFFSET2", start = 62, stop = 63},
+                {name = "DECPOINTOFFSET3", start = 56, stop = 61},
+                {name = "DECPOINTOFFSET4", start = 50, stop = 55},
+                {name = "DECPOINTOFFSET5", start = 44, stop = 49},
+                {name = "DECPOINTOFFSET6", start = 38, stop = 43},
+                {name = "DECPOINTOFFSET7", start = 32, stop = 37},
                 {name = "DECPOINTOFFSET8", start = 26, stop = 31},
                 {name = "DECPOINTOFFSET9", start = 20, stop = 25},
                 {name = "DECPOINTOFFSET10", start = 14, stop = 19},
@@ -90529,47 +87632,21 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_IKTX_W1 = {
             name = "TNS_SDE_PE_SKPU_IKT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060710004,
-            range1 = {0,136},
-            range1_inc = 0x10,
-            fields = {
-                {name = "DECPOINTOFFSET2_X0", start = 30, stop = 31},
-                {name = "DECPOINTOFFSET3", start = 24, stop = 29},
-                {name = "DECPOINTOFFSET4", start = 18, stop = 23},
-                {name = "DECPOINTOFFSET5", start = 12, stop = 17},
-                {name = "DECPOINTOFFSET6", start = 6, stop = 11},
-                {name = "DECPOINTOFFSET7", start = 0, stop = 5},
-            }
-        },
-        TNS_SDE_PE_SKPU_IKTX_W2 = {
-            name = "TNS_SDE_PE_SKPU_IKT#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060710008,
             range1 = {0,136},
             range1_inc = 0x10,
             fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "XPHEXISTS", start = 35, stop = 35},
+                {name = "HTS_EXISTS", start = 34, stop = 34},
+                {name = "CHNUM", start = 32, stop = 33},
                 {name = "INITIALSTATE", start = 24, stop = 31},
                 {name = "INITIALPKTPTR", start = 16, stop = 23},
                 {name = "DECPOINTOFFSET0", start = 10, stop = 15},
                 {name = "DECPOINTOFFSET1", start = 4, stop = 9},
-                {name = "DECPOINTOFFSET2_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_SDE_PE_SKPU_IKTX_W3 = {
-            name = "TNS_SDE_PE_SKPU_IKT#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071000c,
-            range1 = {0,136},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_4_31", start = 4, stop = 31},
-                {name = "XPHEXISTS", start = 3, stop = 3},
-                {name = "HTS_EXISTS", start = 2, stop = 2},
-                {name = "CHNUM", start = 0, stop = 1},
+                {name = "DECPOINTOFFSET2", start = 0, stop = 3},
             }
         },
         TNS_SDE_PE_SKPU_IKT_DBG = {
@@ -90599,7 +87676,7 @@ local csr_db = {
             width = 4,
             address = 0x84206071400c,
             fields = {
-                {name = "KEY_X0", start = 8, stop = 31},
+                {name = "KEY", start = 8, stop = 31},
                 {name = "HIT", start = 7, stop = 7},
                 {name = "ADDR", start = 0, stop = 6},
             }
@@ -90610,7 +87687,7 @@ local csr_db = {
             width = 4,
             address = 0x842060714010,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_SKPU_DBG_W2 = {
@@ -90619,7 +87696,7 @@ local csr_db = {
             width = 4,
             address = 0x842060714014,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_SKPU_DBG_W3 = {
@@ -90632,18 +87709,25 @@ local csr_db = {
                 {name = "ENABLE", start = 22, stop = 22},
                 {name = "VALID", start = 21, stop = 21},
                 {name = "PINDEX", start = 16, stop = 20},
-                {name = "KEY_X3", start = 0, stop = 15},
+                {name = "KEY", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_SKPU_SKPU_SRAMX_W0 = {
             name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060712000,
             range1 = {0,127},
             range1_inc = 0x18,
             fields = {
-                {name = "LAYERTYPE0_X0", start = 28, stop = 31},
+                {name = "METADATA2", start = 58, stop = 63},
+                {name = "LYRPTRADVANCE0", start = 52, stop = 57},
+                {name = "LYRPTRADVANCE1", start = 46, stop = 51},
+                {name = "LYRPTRADVANCE2", start = 40, stop = 45},
+                {name = "TRANSITIONID", start = 36, stop = 39},
+                {name = "PUSH2STACK", start = 34, stop = 35},
+                {name = "PARSEDONE", start = 33, stop = 33},
+                {name = "LAYERTYPE0", start = 28, stop = 32},
                 {name = "LAYERTYPE1", start = 23, stop = 27},
                 {name = "LAYERTYPE2", start = 18, stop = 22},
                 {name = "OFFSET0", start = 12, stop = 17},
@@ -90653,69 +87737,29 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_SKPU_SRAMX_W1 = {
             name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060712004,
-            range1 = {0,127},
-            range1_inc = 0x18,
-            fields = {
-                {name = "METADATA2_X0", start = 26, stop = 31},
-                {name = "LYRPTRADVANCE0", start = 20, stop = 25},
-                {name = "LYRPTRADVANCE1", start = 14, stop = 19},
-                {name = "LYRPTRADVANCE2", start = 8, stop = 13},
-                {name = "TRANSITIONID", start = 4, stop = 7},
-                {name = "PUSH2STACK", start = 2, stop = 3},
-                {name = "PARSEDONE", start = 1, stop = 1},
-                {name = "LAYERTYPE0_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W2 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060712008,
             range1 = {0,127},
             range1_inc = 0x18,
             fields = {
-                {name = "METADATA1_X0", start = 26, stop = 31},
-                {name = "METADATA2_X1", start = 0, stop = 25},
+                {name = "METADATA0", start = 58, stop = 63},
+                {name = "METADATA1", start = 26, stop = 57},
+                {name = "METADATA2", start = 0, stop = 25},
             }
         },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W3 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071200c,
-            range1 = {0,127},
-            range1_inc = 0x18,
-            fields = {
-                {name = "METADATA0_X0", start = 26, stop = 31},
-                {name = "METADATA1_X1", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W4 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W4",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_PE_SKPU_SKPU_SRAMX_W2 = {
+            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W2",
+            type = "NCB",
+            width = 8,
             address = 0x842060712010,
             range1 = {0,127},
             range1_inc = 0x18,
             fields = {
-                {name = "STATE_X0", start = 26, stop = 31},
-                {name = "METADATA0_X1", start = 0, stop = 25},
-            }
-        },
-        TNS_SDE_PE_SKPU_SKPU_SRAMX_W5 = {
-            name = "TNS_SDE_PE_SKPU_SKPU_SRAM#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060712014,
-            range1 = {0,127},
-            range1_inc = 0x18,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "INNERETH", start = 2, stop = 2},
-                {name = "STATE_X1", start = 0, stop = 1},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "INNERETH", start = 34, stop = 34},
+                {name = "STATE", start = 26, stop = 33},
+                {name = "METADATA0", start = 0, stop = 25},
             }
         },
         TNS_SDE_PE_SKPU_SPAD = {
@@ -90729,12 +87773,16 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_TCAM_DATX_W0 = {
             name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713000,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "DECPOINT4", start = 56, stop = 63},
+                {name = "DECPOINT5", start = 48, stop = 55},
+                {name = "DECPOINT6", start = 40, stop = 47},
+                {name = "DECPOINT7", start = 32, stop = 39},
                 {name = "DECPOINT8", start = 24, stop = 31},
                 {name = "DECPOINT9", start = 16, stop = 23},
                 {name = "DECPOINT10", start = 8, stop = 15},
@@ -90743,43 +87791,19 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_TCAM_DATX_W1 = {
             name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060713004,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "DECPOINT4", start = 24, stop = 31},
-                {name = "DECPOINT5", start = 16, stop = 23},
-                {name = "DECPOINT6", start = 8, stop = 15},
-                {name = "DECPOINT7", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_DATX_W2 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713008,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "CURRENTSTATE", start = 32, stop = 39},
                 {name = "DECPOINT0", start = 24, stop = 31},
                 {name = "DECPOINT1", start = 16, stop = 23},
                 {name = "DECPOINT2", start = 8, stop = 15},
                 {name = "DECPOINT3", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_DATX_W3 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_DAT#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071300c,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "CURRENTSTATE", start = 0, stop = 7},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W0 = {
@@ -90790,7 +87814,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X0", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W1 = {
@@ -90801,7 +87825,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X1", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W2 = {
@@ -90812,7 +87836,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X2", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W3 = {
@@ -90823,7 +87847,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X3", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W4 = {
@@ -90834,7 +87858,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X4", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W5 = {
@@ -90845,7 +87869,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "VMDATA_X5", start = 0, stop = 31},
+                {name = "VMDATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_DMSKX_W6 = {
@@ -90858,17 +87882,21 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
-                {name = "VMDATA_X6", start = 0, stop = 15},
+                {name = "VMDATA", start = 0, stop = 15},
             }
         },
         TNS_SDE_PE_SKPU_TCAM_MASKX_W0 = {
             name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713800,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "DECPOINT4", start = 56, stop = 63},
+                {name = "DECPOINT5", start = 48, stop = 55},
+                {name = "DECPOINT6", start = 40, stop = 47},
+                {name = "DECPOINT7", start = 32, stop = 39},
                 {name = "DECPOINT8", start = 24, stop = 31},
                 {name = "DECPOINT9", start = 16, stop = 23},
                 {name = "DECPOINT10", start = 8, stop = 15},
@@ -90877,43 +87905,19 @@ local csr_db = {
         },
         TNS_SDE_PE_SKPU_TCAM_MASKX_W1 = {
             name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060713804,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "DECPOINT4", start = 24, stop = 31},
-                {name = "DECPOINT5", start = 16, stop = 23},
-                {name = "DECPOINT6", start = 8, stop = 15},
-                {name = "DECPOINT7", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_MASKX_W2 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060713808,
             range1 = {0,127},
             range1_inc = 0x10,
             fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "ROWVALID", start = 40, stop = 40},
+                {name = "CURRENTSTATE", start = 32, stop = 39},
                 {name = "DECPOINT0", start = 24, stop = 31},
                 {name = "DECPOINT1", start = 16, stop = 23},
                 {name = "DECPOINT2", start = 8, stop = 15},
                 {name = "DECPOINT3", start = 0, stop = 7},
-            }
-        },
-        TNS_SDE_PE_SKPU_TCAM_MASKX_W3 = {
-            name = "TNS_SDE_PE_SKPU_TCAM_MASK#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206071380c,
-            range1 = {0,127},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "ROWVALID", start = 8, stop = 8},
-                {name = "CURRENTSTATE", start = 0, stop = 7},
             }
         },
         TNS_SDE_URW1_AFULL_THRESH = {
@@ -91003,7 +88007,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b0a4,
             fields = {
-                {name = "SB_VLF_FIFO_X0", start = 24, stop = 31},
+                {name = "SB_VLF_FIFO", start = 24, stop = 31},
                 {name = "DB_CPU_RSN_TBL", start = 23, stop = 23},
                 {name = "DB_EFLT_TBL", start = 21, stop = 22},
                 {name = "DB_EVIF_TBL", start = 19, stop = 20},
@@ -91026,7 +88030,7 @@ local csr_db = {
                 {name = "SB_IVIF_TBL", start = 9, stop = 10},
                 {name = "SB_TEMPLATEID_TBL", start = 7, stop = 8},
                 {name = "SB_TRT_TBL", start = 5, stop = 6},
-                {name = "SB_VLF_FIFO_X1", start = 0, stop = 4},
+                {name = "SB_VLF_FIFO", start = 0, stop = 4},
             }
         },
         TNS_SDE_URW1_EGR_FLT_TBLX_WX = {
@@ -91044,15 +88048,15 @@ local csr_db = {
         },
         TNS_SDE_URW1_EVIF_TBLX_WX = {
             name = "TNS_SDE_URW1_EVIF_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060406000,
             range1 = {0,255},
             range1_inc = 0x18,
-            range2 = {0,5},
-            range2_inc = 0x4,
+            range2 = {0,2},
+            range2_inc = 0x8,
             fields = {
-                {name = "EVIF_RESPONSE", start = 0, stop = 31},
+                {name = "EVIF_RESPONSE", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW1_EVIF_WX = {
@@ -91072,7 +88076,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b08c,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -91084,7 +88088,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_INT_EN_LO_W0 = {
@@ -91093,7 +88097,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b094,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -91105,7 +88109,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_INT_FRC_W0 = {
@@ -91114,7 +88118,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b09c,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -91126,7 +88130,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_INT_W1C_W0 = {
@@ -91135,7 +88139,7 @@ local csr_db = {
             width = 4,
             address = 0x84206040b084,
             fields = {
-                {name = "LKUP_DB_ERR_X0", start = 25, stop = 31},
+                {name = "LKUP_DB_ERR", start = 25, stop = 31},
                 {name = "LKUP_SB_ERR", start = 0, stop = 24},
             }
         },
@@ -91147,20 +88151,20 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "REWRITE_PTR_EXCEED8", start = 18, stop = 18},
-                {name = "LKUP_DB_ERR_X1", start = 0, stop = 17},
+                {name = "LKUP_DB_ERR", start = 0, stop = 17},
             }
         },
         TNS_SDE_URW1_IVIF_TBLX_WX = {
             name = "TNS_SDE_URW1_IVIF_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060404000,
             range1 = {0,255},
             range1_inc = 0x18,
-            range2 = {0,5},
-            range2_inc = 0x4,
+            range2 = {0,2},
+            range2_inc = 0x8,
             fields = {
-                {name = "IVIF_RESPONSE", start = 0, stop = 31},
+                {name = "IVIF_RESPONSE", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW1_IVIF_WX = {
@@ -91208,34 +88212,23 @@ local csr_db = {
                 {name = "FORMAT", start = 0, stop = 0},
             }
         },
-        TNS_SDE_URW1_SE_RESP_TBLX_W0 = {
-            name = "TNS_SDE_URW1_SE_RESP_TBL#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW1_SE_RESP_TBLX = {
+            name = "TNS_SDE_URW1_SE_RESP_TBL#",
+            type = "NCB",
+            width = 8,
             address = 0x84206040b000,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "IVIF_OFFSET_X0", start = 20, stop = 31},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "TOKEN_ID_0_32BIT_FORMAT", start = 60, stop = 60},
+                {name = "TOKEN_ID_0_BIT_MAP", start = 56, stop = 59},
+                {name = "TOKEN_ID_1_32BIT_FORMAT", start = 55, stop = 55},
+                {name = "TOKEN_ID_1_BIT_MAP", start = 51, stop = 54},
+                {name = "PRFID", start = 44, stop = 50},
+                {name = "CMD_EN", start = 40, stop = 43},
+                {name = "IVIF_OFFSET", start = 20, stop = 39},
                 {name = "EVIF_OFFSET", start = 0, stop = 19},
-            }
-        },
-        TNS_SDE_URW1_SE_RESP_TBLX_W1 = {
-            name = "TNS_SDE_URW1_SE_RESP_TBL#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206040b004,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
-                {name = "TOKEN_ID_0_32BIT_FORMAT", start = 28, stop = 28},
-                {name = "TOKEN_ID_0_BIT_MAP", start = 24, stop = 27},
-                {name = "TOKEN_ID_1_32BIT_FORMAT", start = 23, stop = 23},
-                {name = "TOKEN_ID_1_BIT_MAP", start = 19, stop = 22},
-                {name = "PRFID", start = 12, stop = 18},
-                {name = "CMD_EN", start = 8, stop = 11},
-                {name = "IVIF_OFFSET_X1", start = 0, stop = 7},
             }
         },
         TNS_SDE_URW1_SPAD = {
@@ -91301,7 +88294,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c28,
             fields = {
-                {name = "PT_EN_X0", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W1 = {
@@ -91310,7 +88303,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c2c,
             fields = {
-                {name = "PT_EN_X1", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W2 = {
@@ -91319,7 +88312,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c30,
             fields = {
-                {name = "PT_EN_X2", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W3 = {
@@ -91328,7 +88321,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481c34,
             fields = {
-                {name = "PT_EN_X3", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_ETAG_W4 = {
@@ -91339,101 +88332,56 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_10_31", start = 10, stop = 31},
                 {name = "MODIFY_ETAG_EN", start = 9, stop = 9},
-                {name = "PT_EN_X4", start = 0, stop = 8},
+                {name = "PT_EN", start = 0, stop = 8},
             }
         },
         TNS_SDE_URW2A_HDR_W0 = {
             name = "TNS_SDE_URW2A_HDR_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060481c00,
             fields = {
-                {name = "LPB_PT_EN_X0", start = 16, stop = 31},
+                {name = "LPB_PT_EN", start = 16, stop = 63},
                 {name = "ETAG_ETYPE", start = 0, stop = 15},
             }
         },
         TNS_SDE_URW2A_HDR_W1 = {
             name = "TNS_SDE_URW2A_HDR_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c04,
+            type = "NCB",
+            width = 8,
+            address = 0x842060481c08,
             fields = {
-                {name = "LPB_PT_EN_X1", start = 0, stop = 31},
+                {name = "LPB_PT_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_HDR_W2 = {
             name = "TNS_SDE_URW2A_HDR_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c08,
+            type = "NCB",
+            width = 8,
+            address = 0x842060481c10,
             fields = {
-                {name = "LPB_PT_EN_X2", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 25, stop = 63},
+                {name = "LPB_PT_EN", start = 0, stop = 24},
             }
         },
         TNS_SDE_URW2A_HDR_W3 = {
             name = "TNS_SDE_URW2A_HDR_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c0c,
+            type = "NCB",
+            width = 8,
+            address = 0x842060481c18,
             fields = {
-                {name = "LPB_PT_EN_X3", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_HDR_W4 = {
             name = "TNS_SDE_URW2A_HDR_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c10,
-            fields = {
-                {name = "CPU_XPH_EN_X0", start = 25, stop = 31},
-                {name = "LPB_PT_EN_X4", start = 0, stop = 24},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W5 = {
-            name = "TNS_SDE_URW2A_HDR_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c14,
-            fields = {
-                {name = "CPU_XPH_EN_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W6 = {
-            name = "TNS_SDE_URW2A_HDR_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c18,
-            fields = {
-                {name = "CPU_XPH_EN_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W7 = {
-            name = "TNS_SDE_URW2A_HDR_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c1c,
-            fields = {
-                {name = "CPU_XPH_EN_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W8 = {
-            name = "TNS_SDE_URW2A_HDR_W8",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060481c20,
             fields = {
-                {name = "CPU_XPH_EN_X4", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2A_HDR_W9 = {
-            name = "TNS_SDE_URW2A_HDR_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060481c24,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "USE_XPH_TS", start = 2, stop = 2},
-                {name = "CPU_XPH_EN_X5", start = 0, stop = 1},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "USE_XPH_TS", start = 34, stop = 34},
+                {name = "CPU_XPH_EN", start = 0, stop = 33},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W0 = {
@@ -91455,7 +88403,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X0", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W2 = {
@@ -91466,7 +88414,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X1", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W3 = {
@@ -91477,7 +88425,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X2", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W4 = {
@@ -91488,7 +88436,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X3", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W5 = {
@@ -91499,7 +88447,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X4", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W6 = {
@@ -91510,7 +88458,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X5", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W7 = {
@@ -91521,7 +88469,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X6", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_CTD_TBLX_W8 = {
@@ -91532,20 +88480,20 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0x24,
             fields = {
-                {name = "DATA_X7", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2A_INS_MEM_TBLX_WX = {
             name = "TNS_SDE_URW2A_INS_MEM_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060480000,
             range1 = {0,127},
             range1_inc = 0x20,
-            range2 = {0,7},
-            range2_inc = 0x4,
+            range2 = {0,3},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_LOCK = {
@@ -91559,15 +88507,15 @@ local csr_db = {
         },
         TNS_SDE_URW2A_RWMEM_TBLX_WX = {
             name = "TNS_SDE_URW2A_RWMEM_TBL#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060481800,
             range1 = {0,63},
             range1_inc = 0x10,
-            range2 = {0,3},
-            range2_inc = 0x4,
+            range2 = {0,1},
+            range2_inc = 0x8,
             fields = {
-                {name = "CMD_DATA", start = 0, stop = 31},
+                {name = "CMD_DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2A_SPAD = {
@@ -91629,7 +88577,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500038,
             fields = {
-                {name = "PT_EN_X0", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W1 = {
@@ -91638,7 +88586,7 @@ local csr_db = {
             width = 4,
             address = 0x84206050003c,
             fields = {
-                {name = "PT_EN_X1", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W2 = {
@@ -91647,7 +88595,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500040,
             fields = {
-                {name = "PT_EN_X2", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W3 = {
@@ -91656,7 +88604,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500044,
             fields = {
-                {name = "PT_EN_X3", start = 0, stop = 31},
+                {name = "PT_EN", start = 0, stop = 31},
             }
         },
         TNS_SDE_URW2B_ETAG_W4 = {
@@ -91667,101 +88615,56 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_10_31", start = 10, stop = 31},
                 {name = "MODIFY_ETAG_EN", start = 9, stop = 9},
-                {name = "PT_EN_X4", start = 0, stop = 8},
+                {name = "PT_EN", start = 0, stop = 8},
             }
         },
         TNS_SDE_URW2B_HDR_W0 = {
             name = "TNS_SDE_URW2B_HDR_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060500010,
             fields = {
-                {name = "LPB_PT_EN_X0", start = 16, stop = 31},
+                {name = "LPB_PT_EN", start = 16, stop = 63},
                 {name = "ETAG_ETYPE", start = 0, stop = 15},
             }
         },
         TNS_SDE_URW2B_HDR_W1 = {
             name = "TNS_SDE_URW2B_HDR_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500014,
+            type = "NCB",
+            width = 8,
+            address = 0x842060500018,
             fields = {
-                {name = "LPB_PT_EN_X1", start = 0, stop = 31},
+                {name = "LPB_PT_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2B_HDR_W2 = {
             name = "TNS_SDE_URW2B_HDR_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500018,
+            type = "NCB",
+            width = 8,
+            address = 0x842060500020,
             fields = {
-                {name = "LPB_PT_EN_X2", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 25, stop = 63},
+                {name = "LPB_PT_EN", start = 0, stop = 24},
             }
         },
         TNS_SDE_URW2B_HDR_W3 = {
             name = "TNS_SDE_URW2B_HDR_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206050001c,
+            type = "NCB",
+            width = 8,
+            address = 0x842060500028,
             fields = {
-                {name = "LPB_PT_EN_X3", start = 0, stop = 31},
+                {name = "CPU_XPH_EN", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW2B_HDR_W4 = {
             name = "TNS_SDE_URW2B_HDR_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500020,
-            fields = {
-                {name = "CPU_XPH_EN_X0", start = 25, stop = 31},
-                {name = "LPB_PT_EN_X4", start = 0, stop = 24},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W5 = {
-            name = "TNS_SDE_URW2B_HDR_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500024,
-            fields = {
-                {name = "CPU_XPH_EN_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W6 = {
-            name = "TNS_SDE_URW2B_HDR_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500028,
-            fields = {
-                {name = "CPU_XPH_EN_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W7 = {
-            name = "TNS_SDE_URW2B_HDR_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84206050002c,
-            fields = {
-                {name = "CPU_XPH_EN_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W8 = {
-            name = "TNS_SDE_URW2B_HDR_W8",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842060500030,
             fields = {
-                {name = "CPU_XPH_EN_X4", start = 0, stop = 31},
-            }
-        },
-        TNS_SDE_URW2B_HDR_W9 = {
-            name = "TNS_SDE_URW2B_HDR_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060500034,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "USE_XPH_TS", start = 2, stop = 2},
-                {name = "CPU_XPH_EN_X5", start = 0, stop = 1},
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "USE_XPH_TS", start = 34, stop = 34},
+                {name = "CPU_XPH_EN", start = 0, stop = 33},
             }
         },
         TNS_SDE_URW2B_INT_EN_HI = {
@@ -91839,7 +88742,7 @@ local csr_db = {
             width = 4,
             address = 0x842060500084,
             fields = {
-                {name = "MTU_ERR_X0", start = 26, stop = 31},
+                {name = "MTU_ERR", start = 26, stop = 31},
                 {name = "MRE_PTR", start = 13, stop = 25},
                 {name = "QCN_SAMPLE", start = 0, stop = 12},
             }
@@ -91850,9 +88753,9 @@ local csr_db = {
             width = 4,
             address = 0x842060500088,
             fields = {
-                {name = "ING_MIR_X0", start = 20, stop = 31},
+                {name = "ING_MIR", start = 20, stop = 31},
                 {name = "EGR_MIR", start = 7, stop = 19},
-                {name = "MTU_ERR_X1", start = 0, stop = 6},
+                {name = "MTU_ERR", start = 0, stop = 6},
             }
         },
         TNS_SDE_URW2B_MRE_DCNT_W2 = {
@@ -91862,7 +88765,7 @@ local csr_db = {
             address = 0x84206050008c,
             fields = {
                 {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "ING_MIR_X1", start = 0, stop = 0},
+                {name = "ING_MIR", start = 0, stop = 0},
             }
         },
         TNS_SDE_URW2B_MRE_PRI_TBL = {
@@ -91896,7 +88799,7 @@ local csr_db = {
             width = 4,
             address = 0x84206050006c,
             fields = {
-                {name = "CPU_X0", start = 18, stop = 31},
+                {name = "CPU", start = 18, stop = 31},
                 {name = "QCN_SAMPLE", start = 0, stop = 17},
             }
         },
@@ -91906,9 +88809,9 @@ local csr_db = {
             width = 4,
             address = 0x842060500070,
             fields = {
-                {name = "ING_X0", start = 22, stop = 31},
+                {name = "ING", start = 22, stop = 31},
                 {name = "EGR", start = 4, stop = 21},
-                {name = "CPU_X1", start = 0, stop = 3},
+                {name = "CPU", start = 0, stop = 3},
             }
         },
         TNS_SDE_URW2B_MREPTR_W2 = {
@@ -91918,7 +88821,7 @@ local csr_db = {
             address = 0x842060500074,
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "ING_X1", start = 0, stop = 7},
+                {name = "ING", start = 0, stop = 7},
             }
         },
         TNS_SDE_URW2B_MTU_PRF_TBL_WX = {
@@ -91950,29 +88853,19 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_URW3_CNNCMD_TBLX_W0 = {
-            name = "TNS_SDE_URW3_CNNCMD_TBL#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_CNNCMD_TBLX = {
+            name = "TNS_SDE_URW3_CNNCMD_TBL#",
+            type = "NCB",
+            width = 8,
             address = 0x842060580400,
             range1 = {0,35},
             range1_inc = 0x8,
             fields = {
+                {name = "RESERVED_42_63", start = 42, stop = 63},
+                {name = "LAYERTYPE", start = 36, stop = 41},
+                {name = "LAYERHASH", start = 32, stop = 35},
                 {name = "CONTBYTES", start = 24, stop = 31},
                 {name = "BITVECTOR", start = 0, stop = 23},
-            }
-        },
-        TNS_SDE_URW3_CNNCMD_TBLX_W1 = {
-            name = "TNS_SDE_URW3_CNNCMD_TBL#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842060580404,
-            range1 = {0,35},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_10_31", start = 10, stop = 31},
-                {name = "LAYERTYPE", start = 4, stop = 9},
-                {name = "LAYERHASH", start = 0, stop = 3},
             }
         },
         TNS_SDE_URW3_CONTROL = {
@@ -92012,25 +88905,16 @@ local csr_db = {
                 {name = "FIELD_B", start = 0, stop = 7},
             }
         },
-        TNS_SDE_URW3_DBG_STA_LIVE_W0 = {
-            name = "TNS_SDE_URW3_DBG_STA_LIVE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_DBG_STA_LIVE = {
+            name = "TNS_SDE_URW3_DBG_STA_LIVE",
+            type = "NCB",
+            width = 8,
             address = 0x8420605808b0,
             fields = {
-                {name = "SE_VIF_IF_DATA_X0", start = 27, stop = 31},
+                {name = "TXQIF_DATA", start = 47, stop = 63},
+                {name = "SE_VIF_IF_DATA", start = 27, stop = 46},
                 {name = "SE_INS_IF_DATA", start = 15, stop = 26},
                 {name = "HIF_DATA", start = 0, stop = 14},
-            }
-        },
-        TNS_SDE_URW3_DBG_STA_LIVE_W1 = {
-            name = "TNS_SDE_URW3_DBG_STA_LIVE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420605808b4,
-            fields = {
-                {name = "TXQIF_DATA", start = 15, stop = 31},
-                {name = "SE_VIF_IF_DATA_X1", start = 0, stop = 14},
             }
         },
         TNS_SDE_URW3_DBG_TXQ_RPF = {
@@ -92096,7 +88980,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580834,
             fields = {
-                {name = "DB_LPATH_FIFO_X0", start = 18, stop = 31},
+                {name = "DB_LPATH_FIFO", start = 18, stop = 31},
                 {name = "SB_RESP_FIFO", start = 17, stop = 17},
                 {name = "DB_RESP_FIFO", start = 16, stop = 16},
                 {name = "SB_SE_FIFO", start = 0, stop = 15},
@@ -92110,7 +88994,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "SB_LPATH_FIFO", start = 1, stop = 15},
-                {name = "DB_LPATH_FIFO_X1", start = 0, stop = 0},
+                {name = "DB_LPATH_FIFO", start = 0, stop = 0},
             }
         },
         TNS_SDE_URW3_ETAG = {
@@ -92129,7 +89013,7 @@ local csr_db = {
             width = 4,
             address = 0x84206058089c,
             fields = {
-                {name = "RANGE_LO_X0", start = 26, stop = 31},
+                {name = "RANGE_LO", start = 26, stop = 31},
                 {name = "RANGE_HI", start = 18, stop = 25},
                 {name = "MRE_MASK", start = 0, stop = 17},
             }
@@ -92141,64 +89025,58 @@ local csr_db = {
             address = 0x8420605808a0,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
-                {name = "RANGE_LO_X1", start = 0, stop = 1},
+                {name = "RANGE_LO", start = 0, stop = 1},
             }
         },
-        TNS_SDE_URW3_INS0_WX = {
-            name = "TNS_SDE_URW3_INS0_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS0 = {
+            name = "TNS_SDE_URW3_INS0",
+            type = "NCB",
+            width = 8,
             address = 0x842060580868,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS1_WX = {
-            name = "TNS_SDE_URW3_INS1_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS1 = {
+            name = "TNS_SDE_URW3_INS1",
+            type = "NCB",
+            width = 8,
             address = 0x842060580870,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS2_WX = {
-            name = "TNS_SDE_URW3_INS2_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS2 = {
+            name = "TNS_SDE_URW3_INS2",
+            type = "NCB",
+            width = 8,
             address = 0x842060580878,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS3_WX = {
-            name = "TNS_SDE_URW3_INS3_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS3 = {
+            name = "TNS_SDE_URW3_INS3",
+            type = "NCB",
+            width = 8,
             address = 0x842060580880,
-            range1 = {0,1},
-            range1_inc = 0x4,
             fields = {
-                {name = "RANGE0_3", start = 0, stop = 31},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "RANGE0_3", start = 0, stop = 39},
             }
         },
-        TNS_SDE_URW3_INS_FIFX_WX = {
-            name = "TNS_SDE_URW3_INS_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_INS_FIFX = {
+            name = "TNS_SDE_URW3_INS_FIF#",
+            type = "NCB",
+            width = 8,
             address = 0x842060580700,
             range1 = {0,31},
             range1_inc = 0x8,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW3_INT_EN_HI_W0 = {
@@ -92437,7 +89315,7 @@ local csr_db = {
             range1 = {0,23},
             range1_inc = 0xc,
             fields = {
-                {name = "TOKEN_ID_0_BIT_MAP_X0", start = 30, stop = 31},
+                {name = "TOKEN_ID_0_BIT_MAP", start = 30, stop = 31},
                 {name = "TOKEN_ID_1_32BIT_FORMAT", start = 29, stop = 29},
                 {name = "TOKEN_ID_1_BIT_MAP", start = 25, stop = 28},
                 {name = "TOKEN_ID_2_32BIT_FORMAT", start = 24, stop = 24},
@@ -92456,11 +89334,11 @@ local csr_db = {
             range1 = {0,23},
             range1_inc = 0xc,
             fields = {
-                {name = "OFFSET1_X0", start = 27, stop = 31},
+                {name = "OFFSET1", start = 27, stop = 31},
                 {name = "OFFSET2", start = 15, stop = 26},
                 {name = "OFFSET3", start = 3, stop = 14},
                 {name = "TOKEN_ID_0_32BIT_FORMAT", start = 2, stop = 2},
-                {name = "TOKEN_ID_0_BIT_MAP_X1", start = 0, stop = 1},
+                {name = "TOKEN_ID_0_BIT_MAP", start = 0, stop = 1},
             }
         },
         TNS_SDE_URW3_SEIN_RP_TBLX_W2 = {
@@ -92473,7 +89351,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "OFFSET0", start = 7, stop = 18},
-                {name = "OFFSET1_X1", start = 0, stop = 6},
+                {name = "OFFSET1", start = 0, stop = 6},
             }
         },
         TNS_SDE_URW3_SPAD = {
@@ -92498,17 +89376,15 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 31},
             }
         },
-        TNS_SDE_URW3_VIF_FIFX_WX = {
-            name = "TNS_SDE_URW3_VIF_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SDE_URW3_VIF_FIFX = {
+            name = "TNS_SDE_URW3_VIF_FIF#",
+            type = "NCB",
+            width = 8,
             address = 0x842060580600,
             range1 = {0,31},
             range1_inc = 0x8,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SDE_URW3_WRR = {
@@ -92589,7 +89465,7 @@ local csr_db = {
             width = 4,
             address = 0x842056010020,
             fields = {
-                {name = "ROW_DATA_X0", start = 0, stop = 31},
+                {name = "ROW_DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_AGE_MEM_AGE_STA_W1 = {
@@ -92598,7 +89474,7 @@ local csr_db = {
             width = 4,
             address = 0x842056010024,
             fields = {
-                {name = "ROW_DATA_X1", start = 0, stop = 31},
+                {name = "ROW_DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_AGE_MEM_AGE_STA_W2 = {
@@ -92658,34 +89534,30 @@ local csr_db = {
                 {name = "LOCK", start = 0, stop = 31},
             }
         },
-        TNS_SE_AGE_MEM_MARKXDX_WX = {
-            name = "TNS_SE_AGE_MEM_MARK#D#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_AGE_MEM_MARKXDX = {
+            name = "TNS_SE_AGE_MEM_MARK#D#",
+            type = "NCB",
+            width = 8,
             address = 0x842056000000,
             range1 = {0,1},
             range1_inc = 0x4000,
             range2 = {0,2047},
             range2_inc = 0x8,
-            range3 = {0,1},
-            range3_inc = 0x4,
             fields = {
-                {name = "AGE_MARK", start = 0, stop = 31},
+                {name = "AGE_MARK", start = 0, stop = 63},
             }
         },
-        TNS_SE_AGE_MEM_MASKXDX_WX = {
-            name = "TNS_SE_AGE_MEM_MASK#D#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_AGE_MEM_MASKXDX = {
+            name = "TNS_SE_AGE_MEM_MASK#D#",
+            type = "NCB",
+            width = 8,
             address = 0x842056008000,
             range1 = {0,1},
             range1_inc = 0x4000,
             range2 = {0,2047},
             range2_inc = 0x8,
-            range3 = {0,1},
-            range3_inc = 0x4,
             fields = {
-                {name = "AGE_MASK", start = 0, stop = 31},
+                {name = "AGE_MASK", start = 0, stop = 63},
             }
         },
         TNS_SE_AGE_MEM_MRK_ECC_LOGX = {
@@ -92714,42 +89586,25 @@ local csr_db = {
         },
         TNS_SE_AGE_MEM_RFRSH_W0 = {
             name = "TNS_SE_AGE_MEM_RFRSH_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842056010000,
             fields = {
+                {name = "TRIG_CFG_BMP", start = 39, stop = 63},
+                {name = "EN_PAUSE", start = 38, stop = 38},
+                {name = "FIFO_THD", start = 32, stop = 37},
                 {name = "UNIT_TIME", start = 0, stop = 31},
             }
         },
         TNS_SE_AGE_MEM_RFRSH_W1 = {
             name = "TNS_SE_AGE_MEM_RFRSH_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842056010004,
-            fields = {
-                {name = "TRIG_CFG_BMP_X0", start = 7, stop = 31},
-                {name = "EN_PAUSE", start = 6, stop = 6},
-                {name = "FIFO_THD", start = 0, stop = 5},
-            }
-        },
-        TNS_SE_AGE_MEM_RFRSH_W2 = {
-            name = "TNS_SE_AGE_MEM_RFRSH_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842056010008,
             fields = {
-                {name = "TRIG_CFG_BMP_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_SE_AGE_MEM_RFRSH_W3 = {
-            name = "TNS_SE_AGE_MEM_RFRSH_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84205601000c,
-            fields = {
-                {name = "RESERVED_8_31", start = 8, stop = 31},
-                {name = "MODE", start = 7, stop = 7},
-                {name = "TRIG_CFG_BMP_X2", start = 0, stop = 6},
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "MODE", start = 39, stop = 39},
+                {name = "TRIG_CFG_BMP", start = 0, stop = 38},
             }
         },
         TNS_SE_AGE_MEM_SPAD = {
@@ -92798,53 +89653,32 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SE_AGE_TBLXCX_W0 = {
-            name = "TNS_SE_AGE_TBL#C#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_AGE_TBLXCX = {
+            name = "TNS_SE_AGE_TBL#C#",
+            type = "NCB",
+            width = 8,
             address = 0x842056080150,
             range1 = {0,1},
             range1_inc = 0x1000,
             range2 = {0,31},
             range2_inc = 0x8,
             fields = {
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "MARK_EN", start = 38, stop = 38},
+                {name = "PERIOD_EXPO", start = 32, stop = 37},
                 {name = "MEM_OFFSET", start = 17, stop = 31},
                 {name = "MEM_ROW_INC", start = 2, stop = 16},
                 {name = "MASK_RST_EN", start = 1, stop = 1},
                 {name = "MASK_RST_VAL", start = 0, stop = 0},
             }
         },
-        TNS_SE_AGE_TBLXCX_W1 = {
-            name = "TNS_SE_AGE_TBL#C#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842056080154,
-            range1 = {0,1},
-            range1_inc = 0x1000,
-            range2 = {0,31},
-            range2_inc = 0x8,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "MARK_EN", start = 6, stop = 6},
-                {name = "PERIOD_EXPO", start = 0, stop = 5},
-            }
-        },
-        TNS_SE_CFG_SPARE_W0 = {
-            name = "TNS_SE_CFG_SPARE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_CFG_SPARE = {
+            name = "TNS_SE_CFG_SPARE",
+            type = "NCB",
+            width = 8,
             address = 0x842052200040,
             fields = {
-                {name = "XP_SE_SPARE_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_SE_CFG_SPARE_W1 = {
-            name = "TNS_SE_CFG_SPARE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842052200044,
-            fields = {
-                {name = "XP_SE_SPARE_X1", start = 0, stop = 31},
+                {name = "XP_SE_SPARE", start = 0, stop = 63},
             }
         },
         TNS_SE_DIRECT_LOCK = {
@@ -92915,7 +89749,7 @@ local csr_db = {
             range1 = {0,31},
             range1_inc = 0xc,
             fields = {
-                {name = "ROW_BLK_START_5_X0", start = 28, stop = 31},
+                {name = "ROW_BLK_START_5", start = 28, stop = 31},
                 {name = "ROW_BLK_START_6", start = 22, stop = 27},
                 {name = "ROW_BLK_START_7", start = 16, stop = 21},
                 {name = "HASH_FUNC_0", start = 14, stop = 15},
@@ -92941,7 +89775,7 @@ local csr_db = {
                 {name = "ROW_BLK_START_2", start = 14, stop = 19},
                 {name = "ROW_BLK_START_3", start = 8, stop = 13},
                 {name = "ROW_BLK_START_4", start = 2, stop = 7},
-                {name = "ROW_BLK_START_5_X1", start = 0, stop = 1},
+                {name = "ROW_BLK_START_5", start = 0, stop = 1},
             }
         },
         TNS_SE_HASH_TBL_HASHX_W2 = {
@@ -92965,7 +89799,7 @@ local csr_db = {
             width = 4,
             address = 0x842052201040,
             fields = {
-                {name = "TCAM_SCRB_DB2_X0", start = 30, stop = 31},
+                {name = "TCAM_SCRB_DB2", start = 30, stop = 31},
                 {name = "TCAM_SCRB_DB3", start = 24, stop = 29},
                 {name = "TCAM_SCRB_DB4", start = 18, stop = 23},
                 {name = "TCAM_SCRB_DB5", start = 12, stop = 17},
@@ -92983,7 +89817,7 @@ local csr_db = {
                 {name = "TSRAM", start = 16, stop = 23},
                 {name = "TCAM_SCRB_DB0", start = 10, stop = 15},
                 {name = "TCAM_SCRB_DB1", start = 4, stop = 9},
-                {name = "TCAM_SCRB_DB2_X1", start = 0, stop = 3},
+                {name = "TCAM_SCRB_DB2", start = 0, stop = 3},
             }
         },
         TNS_SE_INT_RO_W2 = {
@@ -93006,7 +89840,7 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X0", start = 21, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 21, stop = 31},
                 {name = "KEY_SIZE", start = 15, stop = 20},
                 {name = "ECMP_EN", start = 14, stop = 14},
                 {name = "ECMP_HASH_BYTE_START", start = 8, stop = 13},
@@ -93022,7 +89856,7 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X1", start = 0, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 31},
             }
         },
         TNS_SE_LDE_SRCH_CMDX_W2 = {
@@ -93040,7 +89874,7 @@ local csr_db = {
                 {name = "RSLT_QW_INC", start = 7, stop = 10},
                 {name = "REGRETTABLE", start = 6, stop = 6},
                 {name = "AGE_EN", start = 5, stop = 5},
-                {name = "KEY_BYTE_BMP_X2", start = 0, stop = 4},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 4},
             }
         },
         TNS_SE_LDECMD_LOCK = {
@@ -93069,7 +89903,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X0", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_RSL_LNX_W1 = {
@@ -93080,7 +89914,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X1", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_RSL_LNX_W2 = {
@@ -93104,7 +89938,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109038,
             fields = {
-                {name = "KEY_X0", start = 10, stop = 31},
+                {name = "KEY", start = 10, stop = 31},
                 {name = "REQ_ID", start = 4, stop = 9},
                 {name = "CMD_EN", start = 0, stop = 3},
             }
@@ -93115,7 +89949,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610903c,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W10 = {
@@ -93124,7 +89958,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109060,
             fields = {
-                {name = "KEY_X10", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W11 = {
@@ -93133,7 +89967,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109064,
             fields = {
-                {name = "KEY_X11", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W12 = {
@@ -93145,7 +89979,7 @@ local csr_db = {
                 {name = "RESERVED_17_31", start = 17, stop = 31},
                 {name = "VLD", start = 16, stop = 16},
                 {name = "PROFILE_ID", start = 10, stop = 15},
-                {name = "KEY_X12", start = 0, stop = 9},
+                {name = "KEY", start = 0, stop = 9},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W2 = {
@@ -93154,7 +89988,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109040,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W3 = {
@@ -93163,7 +89997,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109044,
             fields = {
-                {name = "KEY_X3", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W4 = {
@@ -93172,7 +90006,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109048,
             fields = {
-                {name = "KEY_X4", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W5 = {
@@ -93181,7 +90015,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610904c,
             fields = {
-                {name = "KEY_X5", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W6 = {
@@ -93190,7 +90024,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109050,
             fields = {
-                {name = "KEY_X6", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W7 = {
@@ -93199,7 +90033,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109054,
             fields = {
-                {name = "KEY_X7", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W8 = {
@@ -93208,7 +90042,7 @@ local csr_db = {
             width = 4,
             address = 0x842056109058,
             fields = {
-                {name = "KEY_X8", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_CPU_SRCH_REQ_W9 = {
@@ -93217,7 +90051,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610905c,
             fields = {
-                {name = "KEY_X9", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_DBG_SEL = {
@@ -93273,15 +90107,16 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_SE_LDEI_STA_HASH_BUFX_W0 = {
-            name = "TNS_SE_LDEI_STA_HASH_BUF#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_SE_LDEI_STA_HASH_BUFX = {
+            name = "TNS_SE_LDEI_STA_HASH_BUF#",
+            type = "NCB",
+            width = 8,
             address = 0x842056109018,
             range1 = {0,3},
             range1_inc = 0x8,
             fields = {
-                {name = "INTF_ID_X0", start = 31, stop = 31},
+                {name = "RESERVED_37_63", start = 37, stop = 63},
+                {name = "INTF_ID", start = 31, stop = 36},
                 {name = "REQ_ID", start = 25, stop = 30},
                 {name = "CMD_ID", start = 23, stop = 24},
                 {name = "RSLT_QW_START", start = 18, stop = 22},
@@ -93292,25 +90127,13 @@ local csr_db = {
                 {name = "USAGE", start = 0, stop = 3},
             }
         },
-        TNS_SE_LDEI_STA_HASH_BUFX_W1 = {
-            name = "TNS_SE_LDEI_STA_HASH_BUF#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84205610901c,
-            range1 = {0,3},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_5_31", start = 5, stop = 31},
-                {name = "INTF_ID_X1", start = 0, stop = 4},
-            }
-        },
         TNS_SE_LDEI_STA_REQ_DBG_W0 = {
             name = "TNS_SE_LDEI_STA_REQ_DBG_W0",
             type = "NCB32B",
             width = 4,
             address = 0x8420561090cc,
             fields = {
-                {name = "KEY_X0", start = 25, stop = 31},
+                {name = "KEY", start = 25, stop = 31},
                 {name = "REQ_ID", start = 19, stop = 24},
                 {name = "UNUSED_TMP", start = 0, stop = 18},
             }
@@ -93321,7 +90144,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090d0,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W10 = {
@@ -93330,7 +90153,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090f4,
             fields = {
-                {name = "KEY_X10", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W11 = {
@@ -93339,7 +90162,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090f8,
             fields = {
-                {name = "KEY_X11", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W12 = {
@@ -93349,7 +90172,7 @@ local csr_db = {
             address = 0x8420561090fc,
             fields = {
                 {name = "PROFILE_ID", start = 25, stop = 31},
-                {name = "KEY_X12", start = 0, stop = 24},
+                {name = "KEY", start = 0, stop = 24},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W2 = {
@@ -93358,7 +90181,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090d4,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W3 = {
@@ -93367,7 +90190,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090d8,
             fields = {
-                {name = "KEY_X3", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W4 = {
@@ -93376,7 +90199,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090dc,
             fields = {
-                {name = "KEY_X4", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W5 = {
@@ -93385,7 +90208,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090e0,
             fields = {
-                {name = "KEY_X5", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W6 = {
@@ -93394,7 +90217,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090e4,
             fields = {
-                {name = "KEY_X6", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W7 = {
@@ -93403,7 +90226,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090e8,
             fields = {
-                {name = "KEY_X7", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W8 = {
@@ -93412,7 +90235,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090ec,
             fields = {
-                {name = "KEY_X8", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LDEI_STA_REQ_DBG_W9 = {
@@ -93421,7 +90244,7 @@ local csr_db = {
             width = 4,
             address = 0x8420561090f0,
             fields = {
-                {name = "KEY_X9", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_LPM_LOCK = {
@@ -93470,7 +90293,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "ROW_BLK_START_2_X0", start = 31, stop = 31},
+                {name = "ROW_BLK_START_2", start = 31, stop = 31},
                 {name = "ROW_BLK_START_3", start = 25, stop = 30},
                 {name = "ROW_BLK_START_4", start = 19, stop = 24},
                 {name = "ROW_BLK_START_5", start = 13, stop = 18},
@@ -93487,12 +90310,12 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_SIZE_X0", start = 31, stop = 31},
+                {name = "DATA_SIZE", start = 31, stop = 31},
                 {name = "POOL_BMP", start = 23, stop = 30},
                 {name = "ROW_BLK_INC", start = 17, stop = 22},
                 {name = "ROW_BLK_START_0", start = 11, stop = 16},
                 {name = "ROW_BLK_START_1", start = 5, stop = 10},
-                {name = "ROW_BLK_START_2_X1", start = 0, stop = 4},
+                {name = "ROW_BLK_START_2", start = 0, stop = 4},
             }
         },
         TNS_SE_LPM_TBL_NHX_W2 = {
@@ -93504,7 +90327,7 @@ local csr_db = {
             range1_inc = 0xc,
             fields = {
                 {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "DATA_SIZE_X1", start = 0, stop = 2},
+                {name = "DATA_SIZE", start = 0, stop = 2},
             }
         },
         TNS_SE_LPM_TBL_NHIX_W0 = {
@@ -93515,7 +90338,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "ROW_BLK_START_2_X0", start = 30, stop = 31},
+                {name = "ROW_BLK_START_2", start = 30, stop = 31},
                 {name = "ROW_BLK_START_3", start = 24, stop = 29},
                 {name = "ROW_BLK_START_4", start = 18, stop = 23},
                 {name = "ROW_BLK_START_5", start = 12, stop = 17},
@@ -93531,12 +90354,12 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "NHI_SIZE_X0", start = 30, stop = 31},
+                {name = "NHI_SIZE", start = 30, stop = 31},
                 {name = "POOL_BMP", start = 22, stop = 29},
                 {name = "ROW_BLK_INC", start = 16, stop = 21},
                 {name = "ROW_BLK_START_0", start = 10, stop = 15},
                 {name = "ROW_BLK_START_1", start = 4, stop = 9},
-                {name = "ROW_BLK_START_2_X1", start = 0, stop = 3},
+                {name = "ROW_BLK_START_2", start = 0, stop = 3},
             }
         },
         TNS_SE_LPM_TBL_NHIX_W2 = {
@@ -93549,7 +90372,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_7_31", start = 7, stop = 31},
                 {name = "PAIR_PER_ENTRY", start = 3, stop = 6},
-                {name = "NHI_SIZE_X1", start = 0, stop = 2},
+                {name = "NHI_SIZE", start = 0, stop = 2},
             }
         },
         TNS_SE_PRFX_LOCK = {
@@ -93639,7 +90462,7 @@ local csr_db = {
             range2 = {0,1},
             range2_inc = 0xc,
             fields = {
-                {name = "HASH_HANG_INTF_ID_X0", start = 29, stop = 31},
+                {name = "HASH_HANG_INTF_ID", start = 29, stop = 31},
                 {name = "HASH_HANG_REQ_ID", start = 23, stop = 28},
                 {name = "HASH_HANG_CMD_ID", start = 21, stop = 22},
                 {name = "HASH_HANG_TABLE_ID", start = 13, stop = 20},
@@ -93660,7 +90483,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_5_31", start = 5, stop = 31},
                 {name = "DUAL_TILE_HASH_HANG", start = 3, stop = 4},
-                {name = "HASH_HANG_INTF_ID_X1", start = 0, stop = 2},
+                {name = "HASH_HANG_INTF_ID", start = 0, stop = 2},
             }
         },
         TNS_SE_SRAM_PAIRX_DONE = {
@@ -93944,8 +90767,8 @@ local csr_db = {
         },
         TNS_SE_SRAM_PAIRXTILEXDX_WX = {
             name = "TNS_SE_SRAM_PAIR#TILE#D#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842054000000,
             range1 = {0,7},
             range1_inc = 0x400000,
@@ -93953,10 +90776,10 @@ local csr_db = {
             range2_inc = 0x10000,
             range3 = {0,2047},
             range3_inc = 0x20,
-            range4 = {0,7},
-            range4_inc = 0x4,
+            range4 = {0,3},
+            range4_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SE_TCAMX_DBG_SEL = {
@@ -93987,17 +90810,17 @@ local csr_db = {
         },
         TNS_SE_TCAMX_SRAMX_WX = {
             name = "TNS_SE_TCAM#_SRAM#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842050000000,
             range1 = {0,7},
             range1_inc = 0x400000,
             range2 = {0,767},
             range2_inc = 0x20,
-            range3 = {0,7},
-            range3_inc = 0x4,
+            range3 = {0,3},
+            range3_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_SE_TCAMX_SRAM_ECC_LOG = {
@@ -94537,7 +91360,7 @@ local csr_db = {
             range2 = {0,63},
             range2_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X0", start = 21, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 21, stop = 31},
                 {name = "KEY_SIZE", start = 15, stop = 20},
                 {name = "ECMP_EN", start = 14, stop = 14},
                 {name = "ECMP_HASH_BYTE_START", start = 8, stop = 13},
@@ -94555,7 +91378,7 @@ local csr_db = {
             range2 = {0,63},
             range2_inc = 0xc,
             fields = {
-                {name = "KEY_BYTE_BMP_X1", start = 0, stop = 31},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 31},
             }
         },
         TNS_SE_URWCMDX_SRCH_CMDX_W2 = {
@@ -94575,7 +91398,7 @@ local csr_db = {
                 {name = "RSLT_QW_INC", start = 7, stop = 10},
                 {name = "REGRETTABLE", start = 6, stop = 6},
                 {name = "AGE_EN", start = 5, stop = 5},
-                {name = "KEY_BYTE_BMP_X2", start = 0, stop = 4},
+                {name = "KEY_BYTE_BMP", start = 0, stop = 4},
             }
         },
         TNS_SE_URWIF_DBG = {
@@ -94615,7 +91438,7 @@ local csr_db = {
             width = 4,
             address = 0x842056100004,
             fields = {
-                {name = "KEY_X0", start = 25, stop = 31},
+                {name = "KEY", start = 25, stop = 31},
                 {name = "REQ_ID", start = 19, stop = 24},
                 {name = "UNUSED_TMP", start = 0, stop = 18},
             }
@@ -94626,7 +91449,7 @@ local csr_db = {
             width = 4,
             address = 0x842056100008,
             fields = {
-                {name = "KEY_X1", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_REQ_DBG_W2 = {
@@ -94635,7 +91458,7 @@ local csr_db = {
             width = 4,
             address = 0x84205610000c,
             fields = {
-                {name = "KEY_X2", start = 0, stop = 31},
+                {name = "KEY", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_REQ_DBG_W3 = {
@@ -94645,7 +91468,7 @@ local csr_db = {
             address = 0x842056100010,
             fields = {
                 {name = "PROFILE_ID", start = 25, stop = 31},
-                {name = "KEY_X3", start = 0, stop = 24},
+                {name = "KEY", start = 0, stop = 24},
             }
         },
         TNS_SE_URWIF_RSLT_DBGX_W0 = {
@@ -94656,7 +91479,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X0", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_RSLT_DBGX_W1 = {
@@ -94667,7 +91490,7 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0xc,
             fields = {
-                {name = "DATA_X1", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         TNS_SE_URWIF_RSLT_DBGX_W2 = {
@@ -95623,22 +92446,13 @@ local csr_db = {
                 {name = "PCC_BUSY", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CFG_SPARE_W0 = {
-            name = "TNS_TXQ_CFG_SPARE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CFG_SPARE = {
+            name = "TNS_TXQ_CFG_SPARE",
+            type = "NCB",
+            width = 8,
             address = 0x842070684910,
             fields = {
-                {name = "SPARE_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CFG_SPARE_W1 = {
-            name = "TNS_TXQ_CFG_SPARE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070684914,
-            fields = {
-                {name = "SPARE_X1", start = 0, stop = 31},
+                {name = "RESERVED_0_63", start = 0, stop = 63},
             }
         },
         TNS_TXQ_CNT_CT_GO_NEG_CFG = {
@@ -95832,52 +92646,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 7},
             }
         },
-        TNS_TXQ_CNT_H1_DRP_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_DRP_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_DRP_LEN_CTX = {
+            name = "TNS_TXQ_CNT_H1_DRP_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d7800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_H1_DRP_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_DRP_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d7804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_H1_DRP_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_DRP_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_DRP_PKT_CTX = {
+            name = "TNS_TXQ_CNT_H1_DRP_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d6800,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_H1_DRP_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_DRP_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d6804,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_H1_FLCM_ECC_LOG = {
@@ -95900,52 +92692,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 7},
             }
         },
-        TNS_TXQ_CNT_H1_FW_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_FW_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_FW_LEN_CTX = {
+            name = "TNS_TXQ_CNT_H1_FW_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d7000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_H1_FW_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_FW_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d7004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_H1_FW_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_H1_FW_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_H1_FW_PKT_CTX = {
+            name = "TNS_TXQ_CNT_H1_FW_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d6000,
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_H1_FW_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_H1_FW_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d6004,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_H1_LEN_CTX = {
@@ -95960,12 +92730,16 @@ local csr_db = {
                 {name = "LENGTH_COUNT", start = 0, stop = 14},
             }
         },
-        TNS_TXQ_CNT_INT_EN_HI_W0 = {
-            name = "TNS_TXQ_CNT_INT_EN_HI_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_EN_HI = {
+            name = "TNS_TXQ_CNT_INT_EN_HI",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c48,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -96000,24 +92774,16 @@ local csr_db = {
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_INT_EN_HI_W1 = {
-            name = "TNS_TXQ_CNT_INT_EN_HI_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c4c,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_EN_LO_W0 = {
-            name = "TNS_TXQ_CNT_INT_EN_LO_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_EN_LO = {
+            name = "TNS_TXQ_CNT_INT_EN_LO",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c50,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -96052,24 +92818,16 @@ local csr_db = {
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_INT_EN_LO_W1 = {
-            name = "TNS_TXQ_CNT_INT_EN_LO_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c54,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_FRC_W0 = {
-            name = "TNS_TXQ_CNT_INT_FRC_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_FRC = {
+            name = "TNS_TXQ_CNT_INT_FRC",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c58,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -96104,24 +92862,16 @@ local csr_db = {
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_INT_FRC_W1 = {
-            name = "TNS_TXQ_CNT_INT_FRC_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c5c,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_W1C_W0 = {
-            name = "TNS_TXQ_CNT_INT_W1C_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_INT_W1C = {
+            name = "TNS_TXQ_CNT_INT_W1C",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c40,
             fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "NIC_CRD_OVER_THR_ERR", start = 34, stop = 34},
+                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 33, stop = 33},
+                {name = "TC_CT_ROLLOVER_ERR", start = 32, stop = 32},
                 {name = "PFC_CT_ROLLOVER_ERR", start = 31, stop = 31},
                 {name = "Q_LENGTH_CT_ROLLOVER_ERR", start = 30, stop = 30},
                 {name = "H1_LENGTH_CT_ROLLOVER_ERR", start = 29, stop = 29},
@@ -96154,18 +92904,6 @@ local csr_db = {
                 {name = "Q_OLD_LEN_SB_ERR", start = 2, stop = 2},
                 {name = "Q_AVG_LEN_DB_ERR", start = 1, stop = 1},
                 {name = "Q_AVG_LEN_SB_ERR", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_CNT_INT_W1C_W1 = {
-            name = "TNS_TXQ_CNT_INT_W1C_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9c44,
-            fields = {
-                {name = "RESERVED_3_31", start = 3, stop = 31},
-                {name = "NIC_CRD_OVER_THR_ERR", start = 2, stop = 2},
-                {name = "CLUSTER_CT_ROLLOVER_ERR", start = 1, stop = 1},
-                {name = "TC_CT_ROLLOVER_ERR", start = 0, stop = 0},
             }
         },
         TNS_TXQ_CNT_LOCK = {
@@ -96179,13 +92917,13 @@ local csr_db = {
         },
         TNS_TXQ_CNT_NIC_CRD_OV_THR_WX = {
             name = "TNS_TXQ_CNT_NIC_CRD_OV_THR_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9c90,
-            range1 = {0,7},
-            range1_inc = 0x4,
+            range1 = {0,3},
+            range1_inc = 0x8,
             fields = {
-                {name = "OVER_THRESHOLD", start = 0, stop = 31},
+                {name = "OVER_THRESHOLD", start = 0, stop = 63},
             }
         },
         TNS_TXQ_CNT_ONTHEFLY_PKT_CT = {
@@ -96307,100 +93045,56 @@ local csr_db = {
                 {name = "TC_HW_AUTO_INIT", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_CNT_PT_DRP_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_DRP_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_DRP_LEN_CTX = {
+            name = "TNS_TXQ_CNT_PT_DRP_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9a80,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_PT_DRP_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_DRP_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9a84,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_PT_DRP_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_DRP_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_DRP_PKT_CTX = {
+            name = "TNS_TXQ_CNT_PT_DRP_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9980,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_PT_DRP_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_DRP_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9984,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_PT_FW_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_FW_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_FW_LEN_CTX = {
+            name = "TNS_TXQ_CNT_PT_FW_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9a00,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_PT_FW_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_FW_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9a04,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_PT_FW_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_PT_FW_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_PT_FW_PKT_CTX = {
+            name = "TNS_TXQ_CNT_PT_FW_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706d9900,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_PT_FW_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_PT_FW_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706d9904,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_PT_LEN_CTX = {
@@ -96457,52 +93151,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_CNT_Q_DRP_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_DRP_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_DRP_LEN_CTX = {
+            name = "TNS_TXQ_CNT_Q_DRP_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706cc000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_Q_DRP_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_DRP_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706cc004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_Q_DRP_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_DRP_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_DRP_PKT_CTX = {
+            name = "TNS_TXQ_CNT_Q_DRP_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706c4000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_Q_DRP_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_DRP_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706c4004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_Q_FLCM_ECC_LOG = {
@@ -96525,52 +93197,30 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_CNT_Q_FW_LEN_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_FW_LEN_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_FW_LEN_CTX = {
+            name = "TNS_TXQ_CNT_Q_FW_LEN_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706c8000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
-        TNS_TXQ_CNT_Q_FW_LEN_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_FW_LEN_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706c8004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_CNT_Q_FW_PKT_CTX_W0 = {
-            name = "TNS_TXQ_CNT_Q_FW_PKT_CT#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_CNT_Q_FW_PKT_CTX = {
+            name = "TNS_TXQ_CNT_Q_FW_PKT_CT#",
+            type = "NCB",
+            width = 8,
             address = 0x8420706c0000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "COUNT_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_CNT_Q_FW_PKT_CTX_W1 = {
-            name = "TNS_TXQ_CNT_Q_FW_PKT_CT#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706c0004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_9_31", start = 9, stop = 31},
-                {name = "SATURATE", start = 8, stop = 8},
-                {name = "COUNT_X1", start = 0, stop = 7},
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "SATURATE", start = 40, stop = 40},
+                {name = "COUNT", start = 0, stop = 39},
             }
         },
         TNS_TXQ_CNT_Q_LEN_CTX = {
@@ -96809,7 +93459,7 @@ local csr_db = {
             width = 4,
             address = 0x84207048811c,
             fields = {
-                {name = "PORT3_BYTES_X0", start = 27, stop = 31},
+                {name = "PORT3_BYTES", start = 27, stop = 31},
                 {name = "PORT2_BYTES", start = 18, stop = 26},
                 {name = "PORT1_BYTES", start = 9, stop = 17},
                 {name = "PORT0_BYTES", start = 0, stop = 8},
@@ -96821,11 +93471,11 @@ local csr_db = {
             width = 4,
             address = 0x842070488120,
             fields = {
-                {name = "PORT7_BYTES_X0", start = 31, stop = 31},
+                {name = "PORT7_BYTES", start = 31, stop = 31},
                 {name = "PORT6_BYTES", start = 22, stop = 30},
                 {name = "PORT5_BYTES", start = 13, stop = 21},
                 {name = "PORT4_BYTES", start = 4, stop = 12},
-                {name = "PORT3_BYTES_X1", start = 0, stop = 3},
+                {name = "PORT3_BYTES", start = 0, stop = 3},
             }
         },
         TNS_TXQ_DQ_BYTE_CT_OFF_W2 = {
@@ -96834,10 +93484,10 @@ local csr_db = {
             width = 4,
             address = 0x842070488124,
             fields = {
-                {name = "PORT10_BYTES_X0", start = 26, stop = 31},
+                {name = "PORT10_BYTES", start = 26, stop = 31},
                 {name = "PORT9_BYTES", start = 17, stop = 25},
                 {name = "PORT8_BYTES", start = 8, stop = 16},
-                {name = "PORT7_BYTES_X1", start = 0, stop = 7},
+                {name = "PORT7_BYTES", start = 0, stop = 7},
             }
         },
         TNS_TXQ_DQ_BYTE_CT_OFF_W3 = {
@@ -96846,11 +93496,11 @@ local csr_db = {
             width = 4,
             address = 0x842070488128,
             fields = {
-                {name = "PORT14_BYTES_X0", start = 30, stop = 31},
+                {name = "PORT14_BYTES", start = 30, stop = 31},
                 {name = "PORT13_BYTES", start = 21, stop = 29},
                 {name = "PORT12_BYTES", start = 12, stop = 20},
                 {name = "PORT11_BYTES", start = 3, stop = 11},
-                {name = "PORT10_BYTES_X1", start = 0, stop = 2},
+                {name = "PORT10_BYTES", start = 0, stop = 2},
             }
         },
         TNS_TXQ_DQ_BYTE_CT_OFF_W4 = {
@@ -96861,7 +93511,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "PORT15_BYTES", start = 7, stop = 15},
-                {name = "PORT14_BYTES_X1", start = 0, stop = 6},
+                {name = "PORT14_BYTES", start = 0, stop = 6},
             }
         },
         TNS_TXQ_DQ_DRTBAF_INT_EN_HI = {
@@ -96994,7 +93644,7 @@ local csr_db = {
             range1 = {0,159},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -97010,7 +93660,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_H1S_FSHP_MEMX_W2 = {
@@ -97276,7 +93926,7 @@ local csr_db = {
             range1 = {0,2047},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -97292,7 +93942,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_H1S_SSHP_MEMX_W2 = {
@@ -97315,7 +93965,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "STRICT_EN_X0", start = 0, stop = 31},
+                {name = "STRICT_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W1 = {
@@ -97326,7 +93976,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "STRICT_EN_X1", start = 0, stop = 31},
+                {name = "STRICT_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W10 = {
@@ -97337,7 +93987,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X8", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W11 = {
@@ -97348,7 +93998,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X9", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W12 = {
@@ -97359,7 +94009,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X10", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W13 = {
@@ -97370,7 +94020,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X11", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W14 = {
@@ -97381,7 +94031,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X12", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W15 = {
@@ -97392,7 +94042,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X13", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W16 = {
@@ -97403,7 +94053,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X0", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W17 = {
@@ -97414,7 +94064,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X1", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W18 = {
@@ -97425,7 +94075,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X2", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W19 = {
@@ -97436,7 +94086,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X3", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W2 = {
@@ -97447,7 +94097,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X0", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W20 = {
@@ -97458,7 +94108,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X4", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W21 = {
@@ -97469,7 +94119,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X5", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W22 = {
@@ -97480,7 +94130,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X6", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W23 = {
@@ -97491,7 +94141,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "TC_ARRAY_X7", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W24 = {
@@ -97502,7 +94152,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "DQ_EN_X0", start = 0, stop = 31},
+                {name = "DQ_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W25 = {
@@ -97513,7 +94163,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "DQ_EN_X1", start = 0, stop = 31},
+                {name = "DQ_EN", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W26 = {
@@ -97565,7 +94215,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X1", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W4 = {
@@ -97576,7 +94226,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X2", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W5 = {
@@ -97587,7 +94237,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X3", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W6 = {
@@ -97598,7 +94248,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X4", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W7 = {
@@ -97609,7 +94259,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X5", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W8 = {
@@ -97620,7 +94270,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X6", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_CSTX_W9 = {
@@ -97631,7 +94281,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x74,
             fields = {
-                {name = "CHANNEL_ARRAY_X7", start = 0, stop = 31},
+                {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_H1S_TM_ECC_LOG = {
@@ -97728,31 +94378,20 @@ local csr_db = {
                 {name = "FORCE_PORT0_ON", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_DQ_PPS_FSHP_MEMX_W0 = {
-            name = "TNS_TXQ_DQ_PPS_FSHP_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PPS_FSHP_MEMX = {
+            name = "TNS_TXQ_DQ_PPS_FSHP_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070489000,
             range1 = {0,15},
             range1_inc = 0x8,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "ENABLE", start = 63, stop = 63},
+                {name = "MAX_BURST_SIZE", start = 55, stop = 62},
+                {name = "TOKENS_TO_ADD", start = 41, stop = 54},
+                {name = "RATE_DIVIDER", start = 33, stop = 40},
+                {name = "BUCKET_SIZE", start = 8, stop = 32},
                 {name = "RATE_COUNT", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_DQ_PPS_FSHP_MEMX_W1 = {
-            name = "TNS_TXQ_DQ_PPS_FSHP_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070489004,
-            range1 = {0,15},
-            range1_inc = 0x8,
-            fields = {
-                {name = "ENABLE", start = 31, stop = 31},
-                {name = "MAX_BURST_SIZE", start = 23, stop = 30},
-                {name = "TOKENS_TO_ADD", start = 9, stop = 22},
-                {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_PPS_INT_EN_HI = {
@@ -97951,26 +94590,17 @@ local csr_db = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
         },
-        TNS_TXQ_DQ_PPS_TM_CFG_DAT_W0 = {
-            name = "TNS_TXQ_DQ_PPS_TM_CFG_DAT_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PPS_TM_CFG_DAT = {
+            name = "TNS_TXQ_DQ_PPS_TM_CFG_DAT",
+            type = "NCB",
+            width = 8,
             address = 0x8420704891f8,
             fields = {
-                {name = "STRICT_EN_X0", start = 20, stop = 31},
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "DQ_EN", start = 36, stop = 51},
+                {name = "STRICT_EN", start = 20, stop = 35},
                 {name = "PT_VALID", start = 4, stop = 19},
                 {name = "LAST_PORT", start = 0, stop = 3},
-            }
-        },
-        TNS_TXQ_DQ_PPS_TM_CFG_DAT_W1 = {
-            name = "TNS_TXQ_DQ_PPS_TM_CFG_DAT_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420704891fc,
-            fields = {
-                {name = "RESERVED_20_31", start = 20, stop = 31},
-                {name = "DQ_EN", start = 4, stop = 19},
-                {name = "STRICT_EN_X1", start = 0, stop = 3},
             }
         },
         TNS_TXQ_DQ_PTS_DWRR_CST_MEMX = {
@@ -98030,7 +94660,7 @@ local csr_db = {
             range1 = {0,63},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -98046,7 +94676,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_PTS_FSHP_MEMX_W2 = {
@@ -98287,7 +94917,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0xc,
             fields = {
-                {name = "BUCKET_SIZE_X0", start = 8, stop = 31},
+                {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
             }
         },
@@ -98303,7 +94933,7 @@ local csr_db = {
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
                 {name = "TOKENS_TO_ADD", start = 9, stop = 22},
                 {name = "RATE_DIVIDER", start = 1, stop = 8},
-                {name = "BUCKET_SIZE_X1", start = 0, stop = 0},
+                {name = "BUCKET_SIZE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_PTS_SSHP_MEMX_W2 = {
@@ -98320,165 +94950,88 @@ local csr_db = {
         },
         TNS_TXQ_DQ_PTS_TM_CFGX_W0 = {
             name = "TNS_TXQ_DQ_PTS_TM_CFG#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070481000,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "STRICT_EN_X0", start = 0, stop = 31},
+                {name = "STRICT_EN", start = 0, stop = 63},
             }
         },
         TNS_TXQ_DQ_PTS_TM_CFGX_W1 = {
             name = "TNS_TXQ_DQ_PTS_TM_CFG#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481004,
+            type = "NCB",
+            width = 8,
+            address = 0x842070481008,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "STRICT_EN_X1", start = 0, stop = 31},
+                {name = "TC_ARRAY", start = 0, stop = 63},
             }
         },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W10 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W10",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PTS_TM_CFGX_W2 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W2",
+            type = "NCB",
+            width = 8,
+            address = 0x842070481010,
+            range1 = {0,15},
+            range1_inc = 0x38,
+            fields = {
+                {name = "TC_ARRAY", start = 0, stop = 63},
+            }
+        },
+        TNS_TXQ_DQ_PTS_TM_CFGX_W3 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W3",
+            type = "NCB",
+            width = 8,
+            address = 0x842070481018,
+            range1 = {0,15},
+            range1_inc = 0x38,
+            fields = {
+                {name = "TC_ARRAY", start = 0, stop = 63},
+            }
+        },
+        TNS_TXQ_DQ_PTS_TM_CFGX_W4 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W4",
+            type = "NCB",
+            width = 8,
+            address = 0x842070481020,
+            range1 = {0,15},
+            range1_inc = 0x38,
+            fields = {
+                {name = "TC_ARRAY", start = 0, stop = 63},
+            }
+        },
+        TNS_TXQ_DQ_PTS_TM_CFGX_W5 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W5",
+            type = "NCB",
+            width = 8,
             address = 0x842070481028,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "DQ_EN_X0", start = 0, stop = 31},
+                {name = "DQ_EN", start = 0, stop = 63},
             }
         },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W11 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W11",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207048102c,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "DQ_EN_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W12 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W12",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_PTS_TM_CFGX_W6 = {
+            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W6",
+            type = "NCB",
+            width = 8,
             address = 0x842070481030,
             range1 = {0,15},
             range1_inc = 0x38,
             fields = {
-                {name = "H1_GROUP4_X0", start = 28, stop = 31},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "H1_GROUP7", start = 43, stop = 47},
+                {name = "H1_GROUP6", start = 38, stop = 42},
+                {name = "H1_GROUP5", start = 33, stop = 37},
+                {name = "H1_GROUP4", start = 28, stop = 32},
                 {name = "H1_GROUP3", start = 23, stop = 27},
                 {name = "H1_GROUP2", start = 18, stop = 22},
                 {name = "H1_GROUP1", start = 13, stop = 17},
                 {name = "H1_GROUP0", start = 8, stop = 12},
                 {name = "H1_GROUPS_VALID", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W13 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W13",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481034,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "H1_GROUP7", start = 11, stop = 15},
-                {name = "H1_GROUP6", start = 6, stop = 10},
-                {name = "H1_GROUP5", start = 1, stop = 5},
-                {name = "H1_GROUP4_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W2 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W2",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481008,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X0", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W3 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207048100c,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X1", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W4 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W4",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481010,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X2", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W5 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W5",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481014,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X3", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W6 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W6",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481018,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X4", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W7 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W7",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207048101c,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X5", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W8 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W8",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481020,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X6", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_DQ_PTS_TM_CFGX_W9 = {
-            name = "TNS_TXQ_DQ_PTS_TM_CFG#_W9",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070481024,
-            range1 = {0,15},
-            range1_inc = 0x38,
-            fields = {
-                {name = "TC_ARRAY_X7", start = 0, stop = 31},
             }
         },
         TNS_TXQ_DQ_PTS_TM_STTX = {
@@ -98493,27 +95046,18 @@ local csr_db = {
                 {name = "LAST_H1_INDEX", start = 0, stop = 5},
             }
         },
-        TNS_TXQ_DQ_QCN_CHANGE_W0 = {
-            name = "TNS_TXQ_DQ_QCN_CHANGE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_QCN_CHANGE = {
+            name = "TNS_TXQ_DQ_QCN_CHANGE",
+            type = "NCB",
+            width = 8,
             address = 0x84207041c098,
             fields = {
-                {name = "RP_X0", start = 30, stop = 31},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "RP", start = 30, stop = 38},
                 {name = "BYTE_EN", start = 29, stop = 29},
                 {name = "TIMER_EN", start = 28, stop = 28},
                 {name = "TARGET_RATE", start = 14, stop = 27},
                 {name = "CURRENT_RATE", start = 0, stop = 13},
-            }
-        },
-        TNS_TXQ_DQ_QCN_CHANGE_W1 = {
-            name = "TNS_TXQ_DQ_QCN_CHANGE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207041c09c,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "RP_X1", start = 0, stop = 6},
             }
         },
         TNS_TXQ_DQ_QCN_ECC_LOG = {
@@ -98532,7 +95076,7 @@ local csr_db = {
             width = 4,
             address = 0x84207041c084,
             fields = {
-                {name = "QCN_TIME_RATE_X0", start = 5, stop = 31},
+                {name = "QCN_TIME_RATE", start = 5, stop = 31},
                 {name = "QCN_TIME_RAND", start = 0, stop = 4},
             }
         },
@@ -98546,18 +95090,20 @@ local csr_db = {
                 {name = "QCN_THRESH", start = 25, stop = 28},
                 {name = "QCN_BYTE_RESET", start = 6, stop = 24},
                 {name = "QCN_BYTE_RAND", start = 1, stop = 5},
-                {name = "QCN_TIME_RATE_X1", start = 0, stop = 0},
+                {name = "QCN_TIME_RATE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_DQ_QCN_MEMX_W0 = {
             name = "TNS_TXQ_DQ_QCN_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070410000,
             range1 = {0,511},
             range1_inc = 0x10,
             fields = {
-                {name = "AI_RATE_X0", start = 26, stop = 31},
+                {name = "CURRENT_RATE", start = 54, stop = 63},
+                {name = "HAI_RATE", start = 40, stop = 53},
+                {name = "AI_RATE", start = 26, stop = 39},
                 {name = "PEAK_RATE", start = 12, stop = 25},
                 {name = "QUEUE", start = 1, stop = 11},
                 {name = "FAST_SHAPER", start = 0, stop = 0},
@@ -98565,44 +95111,20 @@ local csr_db = {
         },
         TNS_TXQ_DQ_QCN_MEMX_W1 = {
             name = "TNS_TXQ_DQ_QCN_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070410004,
-            range1 = {0,511},
-            range1_inc = 0x10,
-            fields = {
-                {name = "CURRENT_RATE_X0", start = 22, stop = 31},
-                {name = "HAI_RATE", start = 8, stop = 21},
-                {name = "AI_RATE_X1", start = 0, stop = 7},
-            }
-        },
-        TNS_TXQ_DQ_QCN_MEMX_W2 = {
-            name = "TNS_TXQ_DQ_QCN_MEM#_W2",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070410008,
             range1 = {0,511},
             range1_inc = 0x10,
             fields = {
-                {name = "BYTE_CNT_X0", start = 18, stop = 31},
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "TIME_STAGE", start = 44, stop = 47},
+                {name = "BYTE_STAGE", start = 40, stop = 43},
+                {name = "BYTE_UPD_EN", start = 39, stop = 39},
+                {name = "TIMER_UPD_EN", start = 38, stop = 38},
+                {name = "BYTE_CNT", start = 18, stop = 37},
                 {name = "TARGET_RATE", start = 4, stop = 17},
-                {name = "CURRENT_RATE_X1", start = 0, stop = 3},
-            }
-        },
-        TNS_TXQ_DQ_QCN_MEMX_W3 = {
-            name = "TNS_TXQ_DQ_QCN_MEM#_W3",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207041000c,
-            range1 = {0,511},
-            range1_inc = 0x10,
-            fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
-                {name = "TIME_STAGE", start = 12, stop = 15},
-                {name = "BYTE_STAGE", start = 8, stop = 11},
-                {name = "BYTE_UPD_EN", start = 7, stop = 7},
-                {name = "TIMER_UPD_EN", start = 6, stop = 6},
-                {name = "BYTE_CNT_X1", start = 0, stop = 5},
+                {name = "CURRENT_RATE", start = 0, stop = 3},
             }
         },
         TNS_TXQ_DQ_QCN_QMAP_ECC_LOG = {
@@ -98623,7 +95145,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0xc,
             fields = {
-                {name = "REACTION_POINT3_X0", start = 31, stop = 31},
+                {name = "REACTION_POINT3", start = 31, stop = 31},
                 {name = "ENABLE3", start = 30, stop = 30},
                 {name = "REACTION_POINT2", start = 21, stop = 29},
                 {name = "ENABLE2", start = 20, stop = 20},
@@ -98641,13 +95163,13 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0xc,
             fields = {
-                {name = "REACTION_POINT6_X0", start = 29, stop = 31},
+                {name = "REACTION_POINT6", start = 29, stop = 31},
                 {name = "ENABLE6", start = 28, stop = 28},
                 {name = "REACTION_POINT5", start = 19, stop = 27},
                 {name = "ENABLE5", start = 18, stop = 18},
                 {name = "REACTION_POINT4", start = 9, stop = 17},
                 {name = "ENABLE4", start = 8, stop = 8},
-                {name = "REACTION_POINT3_X1", start = 0, stop = 7},
+                {name = "REACTION_POINT3", start = 0, stop = 7},
             }
         },
         TNS_TXQ_DQ_QCN_QMAP_MEMX_W2 = {
@@ -98661,7 +95183,7 @@ local csr_db = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "REACTION_POINT7", start = 7, stop = 15},
                 {name = "ENABLE7", start = 6, stop = 6},
-                {name = "REACTION_POINT6_X1", start = 0, stop = 5},
+                {name = "REACTION_POINT6", start = 0, stop = 5},
             }
         },
         TNS_TXQ_DQ_QCN_RNG_CFG = {
@@ -98687,24 +95209,16 @@ local csr_db = {
                 {name = "QUEUE", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_DQ_QCN_TIME_W0 = {
-            name = "TNS_TXQ_DQ_QCN_TIME_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_DQ_QCN_TIME = {
+            name = "TNS_TXQ_DQ_QCN_TIME",
+            type = "NCB",
+            width = 8,
             address = 0x84207041c090,
             fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "CURRENT_TIME", start = 32, stop = 59},
                 {name = "TIME_RANDOM", start = 16, stop = 31},
                 {name = "BYTE_RANDOM", start = 0, stop = 15},
-            }
-        },
-        TNS_TXQ_DQ_QCN_TIME_W1 = {
-            name = "TNS_TXQ_DQ_QCN_TIME_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207041c094,
-            fields = {
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CURRENT_TIME", start = 0, stop = 27},
             }
         },
         TNS_TXQ_DQ_SPAD = {
@@ -98890,31 +95404,22 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 6},
             }
         },
-        TNS_TXQ_EQ_DIST_FIF_USAGE_W0 = {
-            name = "TNS_TXQ_EQ_DIST_FIF_USAGE_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_EQ_DIST_FIF_USAGE = {
+            name = "TNS_TXQ_EQ_DIST_FIF_USAGE",
+            type = "NCB",
+            width = 8,
             address = 0x8420706848b0,
             fields = {
-                {name = "UC_DROP_FIFO_X0", start = 31, stop = 31},
+                {name = "RESERVED_46_63", start = 46, stop = 63},
+                {name = "SOURCE_EM_FIFO", start = 41, stop = 45},
+                {name = "MC_FIFO", start = 36, stop = 40},
+                {name = "UC_DROP_FIFO", start = 31, stop = 35},
                 {name = "MC_40G_FIFO", start = 26, stop = 30},
                 {name = "MC_10G_FIFO", start = 21, stop = 25},
                 {name = "MC_MISC_FIFO", start = 16, stop = 20},
                 {name = "MC2DROP_FIFO", start = 11, stop = 15},
                 {name = "AQM_LAT_FIFO", start = 6, stop = 10},
                 {name = "QUERY_OUT_FIFO", start = 0, stop = 5},
-            }
-        },
-        TNS_TXQ_EQ_DIST_FIF_USAGE_W1 = {
-            name = "TNS_TXQ_EQ_DIST_FIF_USAGE_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x8420706848b4,
-            fields = {
-                {name = "RESERVED_14_31", start = 14, stop = 31},
-                {name = "SOURCE_EM_FIFO", start = 9, stop = 13},
-                {name = "MC_FIFO", start = 4, stop = 8},
-                {name = "UC_DROP_FIFO_X1", start = 0, stop = 3},
             }
         },
         TNS_TXQ_EQ_DISTO_WSARB_MODE = {
@@ -99197,15 +95702,15 @@ local csr_db = {
         },
         TNS_TXQ_EQ_MC_10G_REP_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_10G_REP_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682c00,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_10G_SPD_MAP = {
@@ -99220,15 +95725,15 @@ local csr_db = {
         },
         TNS_TXQ_EQ_MC_40G_REP_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_40G_REP_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682800,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_40G_SPD_MAP = {
@@ -99243,28 +95748,28 @@ local csr_db = {
         },
         TNS_TXQ_EQ_MC_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682400,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX = {
             name = "TNS_TXQ_EQ_MC_MISC_REP_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070683000,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_MC_MISC_SPD_MAP = {
@@ -99297,17 +95802,16 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 9},
             }
         },
-        TNS_TXQ_EQ_PFC_MAP_MEMX_WX = {
-            name = "TNS_TXQ_EQ_PFC_MAP_MEM#_W#",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_EQ_PFC_MAP_MEMX = {
+            name = "TNS_TXQ_EQ_PFC_MAP_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070680000,
             range1 = {0,1023},
             range1_inc = 0x8,
-            range2 = {0,1},
-            range2_inc = 0x4,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "DATA", start = 0, stop = 43},
             }
         },
         TNS_TXQ_EQ_PG_CLR_CT = {
@@ -99383,15 +95887,15 @@ local csr_db = {
         },
         TNS_TXQ_EQ_TOKEN_MEMX_WX = {
             name = "TNS_TXQ_EQ_TOKEN_MEM#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070682000,
             range1 = {0,15},
             range1_inc = 0x38,
-            range2 = {0,13},
-            range2_inc = 0x4,
+            range2 = {0,6},
+            range2_inc = 0x8,
             fields = {
-                {name = "TOKEN", start = 0, stop = 31},
+                {name = "TOKEN", start = 0, stop = 63},
             }
         },
         TNS_TXQ_EQ_UC_FIFX_WX = {
@@ -99425,7 +95929,7 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "QCN_PROB_SHIFT0_X0", start = 25, stop = 31},
+                {name = "QCN_PROB_SHIFT0", start = 25, stop = 31},
                 {name = "QCN_PROB_SHIFT1", start = 17, stop = 24},
                 {name = "QCN_PROB_SHIFT2", start = 9, stop = 16},
                 {name = "QCN_FB_SHIFT_VAL", start = 4, stop = 8},
@@ -99441,10 +95945,10 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "QCN_FB_MAX_X0", start = 17, stop = 31},
+                {name = "QCN_FB_MAX", start = 17, stop = 31},
                 {name = "QCN_FB_MIN_SAMP_PROB", start = 9, stop = 16},
                 {name = "QCN_FB_MAX_SAMP_PROB", start = 1, stop = 8},
-                {name = "QCN_PROB_SHIFT0_X1", start = 0, stop = 0},
+                {name = "QCN_PROB_SHIFT0", start = 0, stop = 0},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W2 = {
@@ -99455,11 +95959,11 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "QCN_EQ_PARAM_X0", start = 26, stop = 31},
+                {name = "QCN_EQ_PARAM", start = 26, stop = 31},
                 {name = "QCN_WEIGHT_SHIFT0", start = 23, stop = 25},
                 {name = "QCN_WEIGHT_SHIFT1", start = 20, stop = 22},
                 {name = "QCN_WEIGHT_SHIFT2", start = 17, stop = 19},
-                {name = "QCN_FB_MAX_X1", start = 0, stop = 16},
+                {name = "QCN_FB_MAX", start = 0, stop = 16},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W3 = {
@@ -99470,12 +95974,12 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "WRED_MARK_DROP_PROB_X0", start = 28, stop = 31},
+                {name = "WRED_MARK_DROP_PROB", start = 28, stop = 31},
                 {name = "DCTCP_MARK_EN", start = 27, stop = 27},
                 {name = "DCTCP_MARK_TH", start = 12, stop = 26},
                 {name = "PHANTOM_Q_EN", start = 11, stop = 11},
                 {name = "QCN_MODE", start = 9, stop = 10},
-                {name = "QCN_EQ_PARAM_X1", start = 0, stop = 8},
+                {name = "QCN_EQ_PARAM", start = 0, stop = 8},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W4 = {
@@ -99486,11 +95990,11 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "WRED_AVG_LENGTH_WEIGHT_X0", start = 28, stop = 31},
+                {name = "WRED_AVG_LENGTH_WEIGHT", start = 28, stop = 31},
                 {name = "WRED_SHIFT0", start = 20, stop = 27},
                 {name = "WRED_SHIFT1", start = 12, stop = 19},
                 {name = "WRED_SHIFT2", start = 4, stop = 11},
-                {name = "WRED_MARK_DROP_PROB_X1", start = 0, stop = 3},
+                {name = "WRED_MARK_DROP_PROB", start = 0, stop = 3},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W5 = {
@@ -99501,9 +96005,9 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x1c,
             fields = {
-                {name = "WRED_AVG_LENGTH_MIN_TH_X0", start = 19, stop = 31},
+                {name = "WRED_AVG_LENGTH_MIN_TH", start = 19, stop = 31},
                 {name = "WRED_AVG_LENGTH_MAX_TH", start = 4, stop = 18},
-                {name = "WRED_AVG_LENGTH_WEIGHT_X1", start = 0, stop = 3},
+                {name = "WRED_AVG_LENGTH_WEIGHT", start = 0, stop = 3},
             }
         },
         TNS_TXQ_QMAP_AQM_PFL_MEMX_W6 = {
@@ -99517,7 +96021,7 @@ local csr_db = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "LENGTH_MAX_TH", start = 4, stop = 18},
                 {name = "WRED_MODE", start = 2, stop = 3},
-                {name = "WRED_AVG_LENGTH_MIN_TH_X1", start = 0, stop = 1},
+                {name = "WRED_AVG_LENGTH_MIN_TH", start = 0, stop = 1},
             }
         },
         TNS_TXQ_QMAP_ECC_CTL = {
@@ -99555,15 +96059,16 @@ local csr_db = {
                 {name = "ECC_ERR_ADDR", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_QMAP_EQ_CFG_MEMX_W0 = {
-            name = "TNS_TXQ_QMAP_EQ_CFG_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_EQ_CFG_MEMX = {
+            name = "TNS_TXQ_QMAP_EQ_CFG_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070604000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "H1_X0", start = 31, stop = 31},
+                {name = "RESERVED_39_63", start = 39, stop = 63},
+                {name = "H1", start = 31, stop = 38},
                 {name = "P", start = 27, stop = 30},
                 {name = "Q_PFL", start = 20, stop = 26},
                 {name = "H1_PFL", start = 13, stop = 19},
@@ -99574,18 +96079,6 @@ local csr_db = {
                 {name = "Q_EM_EN", start = 2, stop = 2},
                 {name = "H1_EM_EN", start = 1, stop = 1},
                 {name = "P_EM_EN", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_QMAP_EQ_CFG_MEMX_W1 = {
-            name = "TNS_TXQ_QMAP_EQ_CFG_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070604004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_7_31", start = 7, stop = 31},
-                {name = "H1_X1", start = 0, stop = 6},
             }
         },
         TNS_TXQ_QMAP_EQ_QUERY_CT = {
@@ -99719,23 +96212,15 @@ local csr_db = {
                 {name = "FULL", start = 0, stop = 0},
             }
         },
-        TNS_TXQ_QMAP_QCN_CP_RNG_W0 = {
-            name = "TNS_TXQ_QMAP_QCN_CP_RNG_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_QCN_CP_RNG = {
+            name = "TNS_TXQ_QMAP_QCN_CP_RNG",
+            type = "NCB",
+            width = 8,
             address = 0x84207060c498,
             fields = {
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "ENABLE", start = 32, stop = 32},
                 {name = "SEED", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_QMAP_QCN_CP_RNG_W1 = {
-            name = "TNS_TXQ_QMAP_QCN_CP_RNG_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207060c49c,
-            fields = {
-                {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "ENABLE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_QMAP_SDE_QUERY_CT = {
@@ -99783,7 +96268,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0xc,
             fields = {
-                {name = "BIT5_ARRAY_INDEX_X0", start = 30, stop = 31},
+                {name = "BIT5_ARRAY_INDEX", start = 30, stop = 31},
                 {name = "BIT4_ARRAY_INDEX", start = 24, stop = 29},
                 {name = "BIT3_ARRAY_INDEX", start = 18, stop = 23},
                 {name = "BIT2_ARRAY_INDEX", start = 12, stop = 17},
@@ -99799,12 +96284,12 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0xc,
             fields = {
-                {name = "BIT10_ARRAY_INDEX_X0", start = 28, stop = 31},
+                {name = "BIT10_ARRAY_INDEX", start = 28, stop = 31},
                 {name = "BIT9_ARRAY_INDEX", start = 22, stop = 27},
                 {name = "BIT8_ARRAY_INDEX", start = 16, stop = 21},
                 {name = "BIT7_ARRAY_INDEX", start = 10, stop = 15},
                 {name = "BIT6_ARRAY_INDEX", start = 4, stop = 9},
-                {name = "BIT5_ARRAY_INDEX_X1", start = 0, stop = 3},
+                {name = "BIT5_ARRAY_INDEX", start = 0, stop = 3},
             }
         },
         TNS_TXQ_QMAP_TBL_IDX_CFGX_W2 = {
@@ -99817,52 +96302,33 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "BIT11_ARRAY_INDEX", start = 2, stop = 7},
-                {name = "BIT10_ARRAY_INDEX_X1", start = 0, stop = 1},
+                {name = "BIT10_ARRAY_INDEX", start = 0, stop = 1},
             }
         },
-        TNS_TXQ_QMAP_TBL_MEMX_W0 = {
-            name = "TNS_TXQ_QMAP_TBL_MEM#_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_TBL_MEMX = {
+            name = "TNS_TXQ_QMAP_TBL_MEM#",
+            type = "NCB",
+            width = 8,
             address = 0x842070600000,
             range1 = {0,2047},
             range1_inc = 0x8,
             fields = {
-                {name = "Q2_X0", start = 22, stop = 31},
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "Q3", start = 33, stop = 43},
+                {name = "Q2", start = 22, stop = 32},
                 {name = "Q1", start = 11, stop = 21},
                 {name = "Q0", start = 0, stop = 10},
             }
         },
-        TNS_TXQ_QMAP_TBL_MEMX_W1 = {
-            name = "TNS_TXQ_QMAP_TBL_MEM#_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x842070600004,
-            range1 = {0,2047},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_12_31", start = 12, stop = 31},
-                {name = "Q3", start = 1, stop = 11},
-                {name = "Q2_X1", start = 0, stop = 0},
-            }
-        },
-        TNS_TXQ_QMAP_WRED_RNG_CFG_W0 = {
-            name = "TNS_TXQ_QMAP_WRED_RNG_CFG_W0",
-            type = "NCB32B",
-            width = 4,
+        TNS_TXQ_QMAP_WRED_RNG_CFG = {
+            name = "TNS_TXQ_QMAP_WRED_RNG_CFG",
+            type = "NCB",
+            width = 8,
             address = 0x84207060c4a0,
             fields = {
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "ENABLE", start = 32, stop = 32},
                 {name = "SEED", start = 0, stop = 31},
-            }
-        },
-        TNS_TXQ_QMAP_WRED_RNG_CFG_W1 = {
-            name = "TNS_TXQ_QMAP_WRED_RNG_CFG_W1",
-            type = "NCB32B",
-            width = 4,
-            address = 0x84207060c4a4,
-            fields = {
-                {name = "RESERVED_1_31", start = 1, stop = 31},
-                {name = "ENABLE", start = 0, stop = 0},
             }
         },
         TNS_TXQ_QMAP_WSARB_MODE = {
@@ -99888,13 +96354,13 @@ local csr_db = {
         },
         TNS_TXQ_SPT_QMAP_TBL_CFG_WX = {
             name = "TNS_TXQ_SPT_QMAP_TBL_CFG_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x84207060c440,
-            range1 = {0,7},
-            range1_inc = 0x4,
+            range1 = {0,3},
+            range1_inc = 0x8,
             fields = {
-                {name = "QMAP_TBL_SEL", start = 0, stop = 31},
+                {name = "QMAP_TBL_SEL", start = 0, stop = 63},
             }
         },
         TNS_TXQ_TB0_ECC_LOG = {
@@ -100054,15 +96520,15 @@ local csr_db = {
         },
         TNS_TXQ_TB_MEMX_WX = {
             name = "TNS_TXQ_TB_MEM#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070000000,
             range1 = {0,14335},
             range1_inc = 0x10,
-            range2 = {0,3},
-            range2_inc = 0x4,
+            range2 = {0,1},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_TB_SPAD = {
@@ -100141,15 +96607,15 @@ local csr_db = {
         },
         TNS_TXQ_TBM_FT_FIFX_WX = {
             name = "TNS_TXQ_TBM_FT_FIF#_W#",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x842070500000,
             range1 = {0,1791},
             range1_inc = 0x10,
-            range2 = {0,3},
-            range2_inc = 0x4,
+            range2 = {0,1},
+            range2_inc = 0x8,
             fields = {
-                {name = "DATA", start = 0, stop = 31},
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         TNS_TXQ_TBM_FT_FIF_DBG = {
@@ -100198,7 +96664,7 @@ local csr_db = {
             width = 4,
             address = 0x84207050c044,
             fields = {
-                {name = "TB_PTR13_X0", start = 28, stop = 31},
+                {name = "TB_PTR13", start = 28, stop = 31},
                 {name = "TB_PTR14", start = 14, stop = 27},
                 {name = "TB_PTR15", start = 0, stop = 13},
             }
@@ -100209,9 +96675,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c048,
             fields = {
-                {name = "TB_PTR11_X0", start = 24, stop = 31},
+                {name = "TB_PTR11", start = 24, stop = 31},
                 {name = "TB_PTR12", start = 10, stop = 23},
-                {name = "TB_PTR13_X1", start = 0, stop = 9},
+                {name = "TB_PTR13", start = 0, stop = 9},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W2 = {
@@ -100220,9 +96686,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c04c,
             fields = {
-                {name = "TB_PTR9_X0", start = 20, stop = 31},
+                {name = "TB_PTR9", start = 20, stop = 31},
                 {name = "TB_PTR10", start = 6, stop = 19},
-                {name = "TB_PTR11_X1", start = 0, stop = 5},
+                {name = "TB_PTR11", start = 0, stop = 5},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W3 = {
@@ -100231,10 +96697,10 @@ local csr_db = {
             width = 4,
             address = 0x84207050c050,
             fields = {
-                {name = "TB_PTR6_X0", start = 30, stop = 31},
+                {name = "TB_PTR6", start = 30, stop = 31},
                 {name = "TB_PTR7", start = 16, stop = 29},
                 {name = "TB_PTR8", start = 2, stop = 15},
-                {name = "TB_PTR9_X1", start = 0, stop = 1},
+                {name = "TB_PTR9", start = 0, stop = 1},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W4 = {
@@ -100243,9 +96709,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c054,
             fields = {
-                {name = "TB_PTR4_X0", start = 26, stop = 31},
+                {name = "TB_PTR4", start = 26, stop = 31},
                 {name = "TB_PTR5", start = 12, stop = 25},
-                {name = "TB_PTR6_X1", start = 0, stop = 11},
+                {name = "TB_PTR6", start = 0, stop = 11},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W5 = {
@@ -100254,9 +96720,9 @@ local csr_db = {
             width = 4,
             address = 0x84207050c058,
             fields = {
-                {name = "TB_PTR2_X0", start = 22, stop = 31},
+                {name = "TB_PTR2", start = 22, stop = 31},
                 {name = "TB_PTR3", start = 8, stop = 21},
-                {name = "TB_PTR4_X1", start = 0, stop = 7},
+                {name = "TB_PTR4", start = 0, stop = 7},
             }
         },
         TNS_TXQ_TBM_FT_PREFETCH_W6 = {
@@ -100267,7 +96733,7 @@ local csr_db = {
             fields = {
                 {name = "TB_PTR0", start = 18, stop = 31},
                 {name = "TB_PTR1", start = 4, stop = 17},
-                {name = "TB_PTR2_X1", start = 0, stop = 3},
+                {name = "TB_PTR2", start = 0, stop = 3},
             }
         },
         TNS_TXQ_TBM_HEAD_PTR_ECC_LOG = {
