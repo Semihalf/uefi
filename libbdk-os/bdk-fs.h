@@ -27,11 +27,9 @@ typedef struct bdk_fs_ops_s
     int (*close)(__bdk_fs_file_t *handle);
     int (*read)(__bdk_fs_file_t *handle, void *buffer, int length);
     int (*write)(__bdk_fs_file_t *handle, const void *buffer, int length);
-    uint64_t (*mmap)(const char *name, int flags);
 } __bdk_fs_ops_t;
 
 int bdk_fs_register(const char *prefix, const __bdk_fs_ops_t *ops);
-uint64_t bdk_mmap(const char *name, int flags);
 int bdk_jump_address(uint64_t paddress);
 int __bdk_fs_check_break(void);
 void bdk_fs_set_uart_node(bdk_node_t node);

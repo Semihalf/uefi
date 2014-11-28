@@ -361,30 +361,6 @@ int _fstat(int handle, struct stat *st)
 
 
 /**
- * Memory map a file and return its physical address
- *
- * @param name   File to memory map
- * @param flags  Flags, similar to open()
- *
- * @return Physical address or -1 on failure
- */
-uint64_t bdk_mmap(const char *name, int flags)
-{
-    int mount = get_mount(name);
-    if ((mount != -1) && mount_points[mount].ops->mmap)
-    {
-        name += strlen(mount_points[mount].prefix);
-        return mount_points[mount].ops->mmap(name, flags);
-    }
-    else
-    {
-        errno = EBADF;
-        return -1;
-    }
-}
-
-
-/**
  * Jump the PC to a physical address. No checking is performed.
  *
  * @param paddress Physical address to jump to

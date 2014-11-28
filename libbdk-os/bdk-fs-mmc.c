@@ -80,7 +80,6 @@ static const __bdk_fs_ops_t bdk_fs_mmc_ops =
     .close = NULL,
     .read = mmc_read,
     .write = mmc_write,
-    .mmap = NULL,
 };
 
 int bdk_fs_mmc_init(void)

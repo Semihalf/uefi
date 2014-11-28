@@ -298,7 +298,6 @@ static const __bdk_fs_ops_t bdk_fs_mpi_ops =
     .close = NULL,
     .read = mpi_read,
     .write = mpi_write,
-    .mmap = NULL,
 };
 
 int bdk_fs_mpi_init(void)

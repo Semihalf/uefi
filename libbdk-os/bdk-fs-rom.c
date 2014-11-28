@@ -66,18 +66,6 @@ static int rom_read(__bdk_fs_file_t *handle, void *buffer, int length)
     return count;
 }
 
-uint64_t rom_mmap(const char *name, int flags)
-{
-    const void *fptr = find_file(name);
-    if (!fptr)
-        return -1;
-
-    uint16_t fname_length = *(const uint16_t*)(fptr+6);
-    const char *fname_ptr = fptr+12;
-    const char *fdata_ptr = fname_ptr + fname_length;
-    return bdk_ptr_to_phys((char*)fdata_ptr);
-}
-
 static const __bdk_fs_ops_t bdk_fs_rom_ops =
 {
     .stat = NULL,
@@ -86,7 +74,6 @@ static const __bdk_fs_ops_t bdk_fs_rom_ops =
     .close = NULL,
     .read = rom_read,
     .write = NULL,
-    .mmap = rom_mmap,
 };
 
 int bdk_fs_rom_init(void)
