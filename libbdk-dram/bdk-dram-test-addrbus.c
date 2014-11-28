@@ -4,173 +4,66 @@
 #define READ64(address) __bdk_dram_read64(address)
 #define WRITE64(address, data) __bdk_dram_write64(address, data)
 
-/*----------------*/
-/*  search_alias  */
-/*----------------*/
-static int search_alias(uint64_t base, uint64_t p1, uint64_t max_address)
-{
-    int result;
-    uint64_t p3;
-    uint64_t offset;
-
-    result = 0;
-    offset = 0x80LL;
-
-    while (1)
-    {
-        p3 = base | offset;
-
-        if ((p3 != p1) && (READ64(p3) == 0xAAAAAAAAAAAAAAAALL))
-        {
-            result = 1;
-        }
-
-        offset = offset << 1;
-        if (((base | offset) > max_address) ||
-            (offset & p3))
-        {
-            return result;
-        }
-    }
-    return result;
-}
-
-/*-----------------*/
-/*  test_addr_bus  */
-/*-----------------*/
+/**
+ * Address bus test. This test writes a single value to each power of two in the
+ * area, looking for false aliases that would be created by address lines being
+ * shorted or tied together.
+ *
+ * @param area
+ * @param max_address
+ * @param bursts
+ *
+ * @return
+ */
 int __bdk_dram_test_mem_address_bus(uint64_t area, uint64_t max_address, int bursts)
 {
     int failures = 0;
 
-    /* Find the closest Power of Two address within 'area'. This is the
-     * starting address for the scan. If there is no such address, start
-     * with the 'area' and count up.
-     */
-    uint64_t address = 0x80LL;
-    while (address < area)
-    {
-        address <<= 1;
-    }
+    /* Clear our work area. Checking for aliases later could get false
+       positives if it matched stale data */
+    void *ptr = (area) ? bdk_phys_to_ptr(area) : NULL;
+    bdk_zero_memory(ptr, max_address - area + 1);
+    __bdk_dram_flush_to_mem_range(area, max_address);
 
-    if (address > max_address)
-    {
-        /* Next power of two address falls outside the address range.*/
-        address = area;
-    }
+    /* Each time we write, we'll write this pattern or its inverse. Swap
+       on each write */
+    uint64_t pattern = 0x0fedcba987654321;
 
-    for (int burst = 0; burst < bursts; burst++)
+    /* Walk through the region incrementing our offset by a power of two. The
+       first few writes will be tothe same cache line (offset 0x8, 0x10, 0x20,
+       and 0x40. Offset 0x80 and beyond will be to different cache lines */
+    uint64_t offset = 0x8;
+    while (area + offset < max_address)
     {
-        /* Fill the memory at selected locations with a checkerboard
-         * pattern.
-         *
-         * Force the data pattern out by writing to both a primary and
-         * evicting address. A write to the evicting address causes the
-         * L2C to write out the primary address.
-         */
-        uint64_t base = address;
-        uint64_t start = base;
-
-        while (1)
+        uint64_t address = area + offset;
+        /* Write one location */
+        WRITE64(address, pattern);
+        __bdk_dram_flush_to_mem(address);
+        /* Read all of the area to make sure no other location was written */
+        uint64_t a = area;
+        while (a < max_address)
         {
-            uint64_t offset = 0x80LL;
-
-            while (1)
+            if (a + 256 < max_address)
+                BDK_PREFETCH(a + 256, 0);
+            for (int i=0; i<16; i++)
             {
-                address = base | offset;
-
-                WRITE64(address, 0x5555555555555555LL);
-                __bdk_dram_flush_to_mem(address);
-
-                offset = offset << 1;
-                if (((base | offset) > max_address) ||
-                    (offset & address))
-                {
-                    base = address;
-                    break;
-                }
-            }
-
-            if (address & 0x80LL)
-                break;
-        }
-
-        /* Compare with expected: Look at each memory location written
-             * in the preceding step. Report any mismatches as failures.
-             * This catches stuck HIGH address bits.
-             */
-        address = start;
-        base = address;
-
-        while (1)
-        {
-            uint64_t offset = 0x80LL;
-
-            while (1)
-            {
-                address = base | offset;
-
-                if (READ64(address) != 0x5555555555555555LL)
+                uint64_t data = READ64(a);
+                uint64_t correct = (a == address) ? pattern : 0;
+                if (data != correct)
                 {
                     failures++;
+                    __bdk_dram_report_error(a, data, correct, 0);
                 }
-
-                offset = offset << 1;
-                if (((base | offset) > max_address) ||
-                    (offset & address))
-                {
-                    base = address;
-                    break;
-                }
+                a += 8;
             }
-
-            if (address & 0x80LL)
-                break;
         }
-
-        /* Check for address aliasing */
-        address = start;
-        base = address;
-
-        while (1)
-        {
-            uint64_t offset = 0x80LL;
-
-            while (1)
-            {
-                address = base | offset;
-
-                /* Write the inverse pattern to the target address. All
-                         * other address should have the normal pattern.
-                         */
-                WRITE64(address, 0xAAAAAAAAAAAAAAAALL);
-                __bdk_dram_flush_to_mem(address);
-
-                /* Scan across all test addresses looking for a match
-                 * against the inverse pattern. If there is a match and it
-                 * is not at the target address, the target address write
-                 * failed and the pattern went to an aliased address.
-                 */
-                if (search_alias(start, address, max_address))
-                {
-                    failures++;
-                }
-
-                /* Reset the target address to the normal pattern. */
-                WRITE64(address, 0x5555555555555555LL);
-                __bdk_dram_flush_to_mem(address);
-
-                offset = offset << 1;
-                if (((base | offset) > max_address) ||
-                    (offset & address))
-                {
-                    base = address;
-                    break;
-                }
-            }
-
-            if (address & 0x80LL)
-                break;
-        }
+        /* Write zero back so the region is all zero again */
+        WRITE64(address, 0);
+        /* Flush everything so we can detect mistaken writes */
+        __bdk_dram_flush_to_mem_range(area, max_address);
+        /* Invert the pattern so more stuff wiggles */
+        pattern = ~pattern;
+        offset <<= 1;
     }
 
     return failures;
