@@ -36,7 +36,7 @@ static void dbg_printf(const char *format, ...)
 #if 0 /* XMODEM debug to 2nd uart */
     static FILE *debug = NULL;
     if (debug == NULL)
-        debug = fopen("/device/n0.uart1", "w");
+        debug = fopen("/dev/n0.uart1", "w");
     va_list args;
     va_start(args, format);
     vfprintf(debug, format, args);
@@ -434,7 +434,7 @@ static void *xmodem_open(const char *name, int flags)
     xmodem_state_t *state = calloc(1, sizeof(xmodem_state_t));
     if (state)
     {
-        state->fd = open("/device/n0.uart0", O_RDWR | O_NOCTTY);
+        state->fd = open("/dev/n0.uart0", O_RDWR | O_NOCTTY);
         state->packetno = 1;
         state->is_write = ((flags&3) == O_WRONLY);
     }

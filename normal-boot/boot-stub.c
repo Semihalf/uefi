@@ -175,7 +175,7 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     else
         address_width = 32;
 
-    snprintf(buffer, buffer_size, "/device/n0.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+    snprintf(buffer, buffer_size, "/dev/n0.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
         chip_select,
         (active_high) ? 'h' : 'l',
         idle_mode,
@@ -243,11 +243,11 @@ int main(void)
             break;
         case RST_BOOT_METHOD_E_EMMC_LS:
             boot_method_str = "EMMC_LS";
-            strcpy(boot_device_name, "/device/n0.mmc0");
+            strcpy(boot_device_name, "/dev/n0.mmc0");
             break;
         case RST_BOOT_METHOD_E_EMMC_SS:
             boot_method_str = "EMMC_SS";
-            strcpy(boot_device_name, "/device/n0.mmc0");
+            strcpy(boot_device_name, "/dev/n0.mmc0");
             break;
         case RST_BOOT_METHOD_E_PCIE0:
             boot_method_str = "PCIE0";

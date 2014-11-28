@@ -24,7 +24,7 @@ extern void *bdk_fs_dev_uart1;
 
 static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
     {"/console", &bdk_fs_console_ops},
-    {"/device/", &bdk_fs_dev_ops},
+    {"/dev/", &bdk_fs_dev_ops},
     {NULL, NULL}
 };
 
@@ -36,8 +36,8 @@ static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
     [0] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
     [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
     [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
-    [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = "/device/n0.uart0" },
-    [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = "/device/n0.uart1" },
+    [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = "/dev/n0.uart0" },
+    [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = "/dev/n0.uart1" },
 };
 #undef errno
 extern int errno;

@@ -189,7 +189,7 @@ end
 -- @param index Which device on the node to get
 -- @return Device filename
 function utils.devfile(dev_name, index)
-    return "/device/n%d.%s%d" % {menu.node, dev_name, index}
+    return "/dev/n%d.%s%d" % {menu.node, dev_name, index}
 end
 
 return utils
