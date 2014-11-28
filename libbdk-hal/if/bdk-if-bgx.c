@@ -1034,12 +1034,15 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         c.s.rbdr_cont_idx = rbdr_idx;
         c.s.rbdr_strt_qs = rbdr;
         c.s.rbdr_strt_idx = rbdr_idx);
-    /* FIXME: Backpressure when either CQ (2/256) or RBDR (2/256) full */
+    /* NIC_PF_CQM_CFG is configure to drop everything if the CQ has 128 or
+       less entries available. Start backpressure when we have 256 or less */
+    int cq_bp = 256;
+    int rbdr_bp = 256;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_BP_CFG(priv->vnic, priv->qos),
         c.s.rbdr_bp_ena = 1;
         c.s.cq_bp_ena = 1;
-        c.s.rbdr_bp = 0; /* Zero means no buffers, 256 means lots available */
-        c.s.cq_bp = 0; /* Zero means full, 256 means idle */
+        c.s.rbdr_bp = rbdr_bp * 256 / RBDR_ENTRIES; /* Zero means no buffers, 256 means lots available */
+        c.s.cq_bp = cq_bp * 256 / CQ_ENTRIES; /* Zero means full, 256 means idle */
         c.s.bpid = priv->vnic);
     /* Errata (NIC-21269) Limited NIC receive scenario verification */
     /* RED drop set with pass=drop, so no statistical dropping */
