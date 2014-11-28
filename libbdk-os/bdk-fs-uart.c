@@ -1,21 +1,10 @@
 #include <bdk.h>
 
-static void *uart_open(const char *name, int flags)
-{
-    long id = atoi(name);
-    if ((id < 0) || (id >= 2))
-        return NULL;
-    /* Return the uart number plus one as our internal state */
-    long state = id + 1;
-    state += bdk_numa_local() << 8;
-    return (void*)state;
-}
-
-static int uart_read(__bdk_fs_file_t *handle, void *buffer, int length)
+static int uart_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
     int count = 0;
-    int id = ((long)handle->fs_state - 1) & 0xff;
-    bdk_node_t node = (long)handle->fs_state >> 8;
+    int id = handle->dev_index;
+    bdk_node_t node = handle->dev_node;
 
     BDK_CSR_INIT(fr, node, BDK_UAAX_FR(id));
     while (!fr.s.rxfe && length)
@@ -60,11 +49,11 @@ static void uart_write_byte(bdk_node_t node, int id, uint8_t byte)
     }
 }
 
-static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int uart_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     int l = length;
-    int id = ((long)handle->fs_state - 1) & 0xff;
-    bdk_node_t node = (long)handle->fs_state >> 8;
+    int id = handle->dev_index;
+    bdk_node_t node = handle->dev_node;
     const char *p = buffer;
 
     while (l--)
@@ -72,11 +61,9 @@ static int uart_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     return length;
 }
 
-const __bdk_fs_ops_t bdk_fs_uart_ops =
+const __bdk_fs_dev_ops_t bdk_fs_uart_ops =
 {
-    .stat = NULL,
-    .unlink = NULL,
-    .open = uart_open,
+    .open = NULL,
     .close = NULL,
     .read = uart_read,
     .write = uart_write,

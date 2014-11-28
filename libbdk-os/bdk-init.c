@@ -168,7 +168,6 @@ void __bdk_init(uint32_t image_crc)
         BDK_CSR_INIT(uctl_ctl1, node, BDK_UAAX_UCTL_CTL(1));
         if (!uctl_ctl1.s.h_clk_en)
             bdk_set_baudrate(node, 1, BDK_UART_BAUDRATE, 0);
-        bdk_fs_set_uart_node(node);
 
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_1, sizeof(BANNER_1)-1);

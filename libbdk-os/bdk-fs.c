@@ -18,11 +18,12 @@ typedef struct
 } bdk_fs_mount_t;
 
 extern const __bdk_fs_ops_t bdk_fs_console_ops;
-extern const __bdk_fs_ops_t bdk_fs_uart_ops;
 extern const __bdk_fs_ops_t bdk_fs_dev_ops;
+extern void *bdk_fs_dev_uart0;
+extern void *bdk_fs_dev_uart1;
+
 static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
     {"/console", &bdk_fs_console_ops},
-    {"/dev/uart/", &bdk_fs_uart_ops},
     {"/device/", &bdk_fs_dev_ops},
     {NULL, NULL}
 };
@@ -32,11 +33,11 @@ static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
  * connected to uart 0. They can be closed later if needed.
  */
 static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
-    [0] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
-    [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
-    [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops },
-    [3] = { .fs_state = (void*)1, .ops = &bdk_fs_uart_ops },
-    [4] = { .fs_state = (void*)2, .ops = &bdk_fs_uart_ops },
+    [0] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
+    [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
+    [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
+    [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = "/device/n0.uart0" },
+    [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = "/device/n0.uart1" },
 };
 #undef errno
 extern int errno;
@@ -380,26 +381,5 @@ int bdk_jump_address(uint64_t paddress)
     }
     asm volatile ("br %0\n" : : "r" (ptr) : "memory");
     return 0; // Not reached
-}
-
-/**
- * Used to override the default node 0 for uart output. Called early
- * in init to make uart output go to the local node.
- *
- * @param node   Node to use. Must be a physical node number.
- */
-void bdk_fs_set_uart_node(bdk_node_t node)
-{
-    /* Change uart0 */
-    long state = (long)file_handle[3].fs_state;
-    state &= 0xff;
-    state |= node << 8;
-    file_handle[3].fs_state = (void*)state;
-
-    /* Change uart1 */
-    state = (long)file_handle[4].fs_state;
-    state &= 0xff;
-    state |= node << 8;
-    file_handle[4].fs_state = (void*)state;
 }
 

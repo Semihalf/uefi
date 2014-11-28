@@ -14,9 +14,28 @@ typedef struct dev_fs
     int dev_index;
 } dev_fs_t;
 
-/* Linked list of all device */
-static dev_fs_t *dev_head = NULL;
-static dev_fs_t *dev_tail = NULL;
+extern const __bdk_fs_dev_ops_t bdk_fs_uart_ops;
+
+/* The uarts are treated special. These need to work very early, so statically
+   add them to the device list. Do uart1 first as uart0 must point to it */
+dev_fs_t bdk_fs_dev_uart1 = {
+    .next = NULL,
+    .ops = &bdk_fs_uart_ops,
+    .dev_name = "uart1",
+    .dev_index = 1,
+};
+
+/* Allocate uart0 pointing to uart1 */
+dev_fs_t bdk_fs_dev_uart0 = {
+    .next = &bdk_fs_dev_uart1,
+    .ops = &bdk_fs_uart_ops,
+    .dev_name = "uart0",
+    .dev_index = 0,
+};
+
+/* Linked list of all device. Uart0 is the head and uart1 is the tail */
+static dev_fs_t *dev_head = &bdk_fs_dev_uart0;
+static dev_fs_t *dev_tail = &bdk_fs_dev_uart1;
 
 /**
  * Register a hardware device for use as a IO file. Devices are treated differently
