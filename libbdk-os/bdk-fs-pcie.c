@@ -5,25 +5,10 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(FS_PCIE);
 
-static void *pcie_open(const char *name, int flags)
+static int pcie_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
-    bdk_node_t node = bdk_numa_local();
-    long pcie_port = atoi(name);
-    int num_pcie = bdk_pcie_get_num_ports(node);
-
-    if ((pcie_port < 0) || (pcie_port >= num_pcie))
-        return NULL;
-
-    long state = pcie_port + 1;
-    state += node << 8;
-    return (void*)state;
-}
-
-
-static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
-{
-    int pcie_port = ((long)handle->fs_state - 1) & 0xff;
-    bdk_node_t node = (long)handle->fs_state >> 8;
+    int pcie_port = handle->dev_index;
+    bdk_node_t node = handle->dev_node;
 
     uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
     uint64_t max_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_IO);
@@ -57,10 +42,10 @@ static int pcie_read(__bdk_fs_file_t *handle, void *buffer, int length)
 }
 
 
-static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int pcie_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
-    int pcie_port = ((long)handle->fs_state - 1) & 0xff;
-    bdk_node_t node = (long)handle->fs_state >> 8;
+    int pcie_port = handle->dev_index;
+    bdk_node_t node = handle->dev_node;
 
     uint64_t min_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
     uint64_t max_address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_IO);
@@ -93,11 +78,9 @@ static int pcie_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     return length;
 }
 
-static const __bdk_fs_ops_t bdk_fs_pcie_ops =
+static const __bdk_fs_dev_ops_t bdk_fs_dev_pcie_ops =
 {
-    .stat = NULL,
-    .unlink = NULL,
-    .open = pcie_open,
+    .open = NULL,
     .close = NULL,
     .read = pcie_read,
     .write = pcie_write,
@@ -105,5 +88,11 @@ static const __bdk_fs_ops_t bdk_fs_pcie_ops =
 
 int bdk_fs_pcie_init(void)
 {
-    return bdk_fs_register("/dev/pcie/", &bdk_fs_pcie_ops);
+    int num_pcie = bdk_pcie_get_num_ports(bdk_numa_master());
+    for (int p = 0; p < num_pcie; p++)
+    {
+        if (bdk_fs_register_dev("pcie", p, &bdk_fs_dev_pcie_ops))
+            return -1;
+    }
+    return 0;
 }
