@@ -369,8 +369,8 @@ int bdk_sata_shutdown(bdk_node_t node, int controller)
  */
 int bdk_sata_get_ports(bdk_node_t node, int controller)
 {
-    BDK_CSR_INIT(cap, node, BDK_SATAX_UAHC_GBL_CAP(controller));
-    return cap.s.np + 1;
+    BDK_CSR_INIT(ctl, node, BDK_SATAX_UAHC_GBL_CCC_CTL(controller));
+    return (ctl.s.en) ? 1 : 0;
 }
 
 /**

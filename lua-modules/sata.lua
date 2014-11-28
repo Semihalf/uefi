@@ -24,7 +24,7 @@ end
 -- open a file at that location. This function consolidates this
 --
 local function get_file_data(file_mode)
-    local filename = "/dev/sata/" .. tostring(sata)
+    local filename = utils.devfile("sata", sata)
     local offset = menu.prompt_number("Starting sector")
     local length = menu.prompt_number("Number of sectors", 1)
 
@@ -59,7 +59,7 @@ local function read_pattern(pattern)
 end
 
 local function run_auto()
-    local filename = "/dev/sata/" .. tostring(sata)
+    local filename = utils.devfile("sata", sata)
     local handle = assert(cavium.devopen(filename, "r+"))
     local sector = 0
     for length=1,128 do
@@ -95,7 +95,7 @@ while (option ~= "quit") do
     m:item("hex", "Hex display", function()
         local offset = menu.prompt_number("Starting sector")
         local length = menu.prompt_number("Number of sectors", 1)
-        local filename = "/dev/sata/" .. tostring(sata)
+        local filename = utils.devfile("sata", sata)
         fileio.hexdump(filename, offset * 512, length * 512)
     end)
 

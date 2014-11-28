@@ -11,25 +11,15 @@ BDK_REQUIRE_DEFINE(FS_SATA);
  * chunks, aligned on 512 byte boundaries. SATA read / writes complete sectors
  * at a time.
  *
- * @param name   The sata name will be the controller number. The "/dev/sata/" prefix has
- *               already been removed.
+ * @param handle Device handle
  * @param flags  Standard open flags
  *
- * @return NULL on failure, otherwise an opaque pointer passed back in for read/write calls.
+ * @return Zero on success, negative on failure
  */
-static void *sata_open(const char *name, int flags)
+static int sata_open(__bdk_fs_dev_t *handle, int flags)
 {
-    /* Assume we're accessing a SATA on the same node we're running */
-    bdk_node_t node = bdk_numa_local();
-    int sata = atoi(name);
-    int num_sata = bdk_sata_get_controllers(node);
-
-    /* Check that the controller is valid */
-    if ((sata < 0) || (sata >= num_sata))
-    {
-        bdk_error("N%d.SATA: Invalid controller specified (%d)\n", node, sata);
-        return NULL;
-    }
+    bdk_node_t node = handle->dev_node;
+    int sata = handle->dev_index;
 
     /* Determine how many SATA ports are connected to the controller */
     int num_ports = bdk_sata_get_ports(node, sata);
@@ -40,7 +30,7 @@ static void *sata_open(const char *name, int flags)
         if (bdk_sata_initialize(node, sata))
         {
             bdk_error("N%d.SATA%d: Initialization failed\n", node, sata);
-            return NULL;
+            return -1;
         }
         num_ports = bdk_sata_get_ports(node, sata);
     }
@@ -50,14 +40,10 @@ static void *sata_open(const char *name, int flags)
     if (num_ports == 0)
     {
         bdk_error("N%d.SATA%d: Controller not connected to any ports\n", node, sata);
-        return NULL;
+        return -1;
     }
 
-    /* The opaque pointer is a combination of the SATA controller and node. It
-       must be non-zero, hence the +1 */
-    long state = sata + 1;
-    state += node << 8;
-    return (void*)state;
+    return 0;
 }
 
 /**
@@ -69,11 +55,11 @@ static void *sata_open(const char *name, int flags)
  *
  * @return Number of bytes read, or negative on error
  */
-static int sata_read(__bdk_fs_file_t *handle, void *buffer, int length)
+static int sata_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
     /* Extract the controller and node */
-    int sata = ((long)handle->fs_state - 1) & 0xff;
-    bdk_node_t node = (long)handle->fs_state >> 8;
+    int sata = handle->dev_index;
+    bdk_node_t node = handle->dev_node;
 
     /* Make sure we're working with complete sectors */
     if ((length & 511) || (handle->location & 511))
@@ -101,11 +87,11 @@ static int sata_read(__bdk_fs_file_t *handle, void *buffer, int length)
  *
  * @return Number of bytes written, or negative on error
  */
-static int sata_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int sata_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     /* Extract the controller and node */
-    int sata = ((long)handle->fs_state - 1) & 0xff;
-    bdk_node_t node = (long)handle->fs_state >> 8;
+    int sata = handle->dev_index;
+    bdk_node_t node = handle->dev_node;
 
     /* Make sure we're working with complete sectors */
     if ((length & 511) || (handle->location & 511))
@@ -124,10 +110,8 @@ static int sata_write(__bdk_fs_file_t *handle, const void *buffer, int length)
         return length;
 }
 
-static const __bdk_fs_ops_t bdk_fs_sata_ops =
+static const __bdk_fs_dev_ops_t bdk_fs_sata_ops =
 {
-    .stat = NULL,
-    .unlink = NULL,
     .open = sata_open,
     .close = NULL,
     .read = sata_read,
@@ -136,5 +120,11 @@ static const __bdk_fs_ops_t bdk_fs_sata_ops =
 
 int bdk_fs_sata_init(void)
 {
-    return bdk_fs_register("/dev/sata/", &bdk_fs_sata_ops);
+    int num_sata = bdk_sata_get_controllers(bdk_numa_master());
+    for (int sata = 0; sata < num_sata; sata++)
+    {
+        if (bdk_fs_register_dev("sata", sata, &bdk_fs_sata_ops))
+            return -1;
+    }
+    return 0;
 }
