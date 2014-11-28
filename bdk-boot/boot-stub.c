@@ -29,7 +29,7 @@ static bdk_spinlock_t write_lock;
 static void write_thread(int unused, void *handle)
 {
     FILE *outf = (FILE*)handle;
-    while (write_needed)
+    while (write_needed || write_count)
     {
         /* Wait for data */
         if (!write_count)
