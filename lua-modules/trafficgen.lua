@@ -588,6 +588,60 @@ function TrafficGen.new()
         end
     end
 
+    function self:cmdp_perf_test(port_range, args)
+        local USEC = 1000000
+        -- These are the packet sizes we're try
+        local PACKET_SIZES = {60, 128, 256, 512, 1024, 2048, 4096, 8192, 9212}
+        -- Results will be stored here, index by packet size
+        local results_tx_mbps = {}
+        local results_rx_mbps = {}
+        -- Stop all traffic before starting the test
+        cavium.trafficgen.stop(known_ports)
+        printf("Turning validation off\n")
+        for _,port in ipairs(known_ports) do
+            cavium.trafficgen.set_config(port, {validate = false})
+        end
+        printf("Starting performance test\n")
+        local new_config = {
+            output_count = 0,
+            output_rate_is_mbps = true,
+            output_rate = 40000}
+        for _,size in ipairs(PACKET_SIZES) do
+            new_config.size = size;
+            for _,port in ipairs(port_range) do
+                cavium.trafficgen.set_config(port, new_config)
+            end
+            -- Do the TX
+            cavium.trafficgen.start(port_range)
+            -- Let the traffic stabalize before starting measurement
+            cavium.c.bdk_wait_usec(1 * USEC)
+            -- Update stats, signalling measurement start
+            do_update(true)
+            -- Duration the measurement is over
+            cavium.c.bdk_wait_usec(3 * USEC)
+            -- Stop the measurement
+            local stats = do_update(false)
+            -- Stop the traffic
+            cavium.trafficgen.stop(port_range)
+            -- Calculate the receive rate
+            local tx_mbps = 0
+            local rx_mbps = 0
+            for port,stat in pairs(stats) do
+                tx_mbps = tx_mbps + stat.tx_bits
+                rx_mbps = rx_mbps + stat.rx_bits
+            end
+            tx_mbps = (tx_mbps + 500000) / 1000000
+            rx_mbps = (rx_mbps + 500000) / 1000000
+            results_tx_mbps[size] = tx_mbps
+            results_rx_mbps[size] = rx_mbps
+            printf("Size %4d: TX %5d Mbps, RX %5d Mbps\n", size, tx_mbps, rx_mbps)
+        end
+        printf("Perf test complete, turning validation on\n")
+        for _,port in ipairs(known_ports) do
+            cavium.trafficgen.set_config(port, {validate = true})
+        end
+    end
+
     -- Short aliases for common commands
     self.cmdp_count = self.cmdp_output_count
     -- This command is kept around for backwards compatibility
