@@ -19,9 +19,11 @@ typedef struct
 
 extern const __bdk_fs_ops_t bdk_fs_console_ops;
 extern const __bdk_fs_ops_t bdk_fs_uart_ops;
+extern const __bdk_fs_ops_t bdk_fs_dev_ops;
 static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
     {"/dev/console", &bdk_fs_console_ops},
     {"/dev/uart/", &bdk_fs_uart_ops},
+    {"/device/", &bdk_fs_dev_ops},
     {NULL, NULL}
 };
 
