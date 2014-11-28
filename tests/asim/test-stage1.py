@@ -97,7 +97,7 @@ wait_for("=========")
 wait_for("(INS)Menu choice:")
 
 send("2")
-wait_for("Looking for images in /dev/mmc/0")
+wait_for("Looking for images in /device/n0.mmc0")
 wait_for("No images found")
 
 wait_for("Boot Menu")

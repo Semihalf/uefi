@@ -353,9 +353,8 @@ static mmc_card_state_t card_state[4];
 /**
  * print_cmd_status
  */
-static void print_cmd_status(void)
+static void print_cmd_status(bdk_node_t node)
 {
-    bdk_node_t node = bdk_numa_local();
     BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
     BDK_CSR_INIT(rsp_lo, node, BDK_MIO_EMM_RSP_LO);
     BDK_CSR_INIT(rsp_hi, node, BDK_MIO_EMM_RSP_HI);
@@ -400,9 +399,8 @@ static void print_cmd_status(void)
  *
  * @return
  */
-static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid, uint64_t dbuf, uint64_t rtype_xor, uint64_t ctype_xor, uint64_t offset)
+static bdk_mio_emm_rsp_sts_t mmc_cmd(bdk_node_t node, uint64_t cmd, uint64_t arg, uint64_t busid, uint64_t dbuf, uint64_t rtype_xor, uint64_t ctype_xor, uint64_t offset)
 {
-    bdk_node_t node = bdk_numa_local();
     BDK_CSR_DEFINE(cmd_reg, BDK_MIO_EMM_CMD);
     cmd_reg.u = 0;
     cmd_reg.s.bus_id = busid;
@@ -470,7 +468,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(uint64_t cmd, uint64_t arg, uint64_t busid,
         if (cmd_error)
         {
             if (BDK_TRACE_ENABLE_EMMC)
-                print_cmd_status();
+                print_cmd_status(node);
             return sts_reg;
         }
     }
@@ -616,9 +614,8 @@ static void print_csd_reg(int chip_sel, uint64_t reg_hi, uint64_t reg_lo)
 /**
  * Setup the eMMC controller watchdog to 100ms
  */
-static void wdog_default()
+static void wdog_default(bdk_node_t node)
 {
-    bdk_node_t node = bdk_numa_local();
     BDK_CSR_INIT(rst_boot, node, BDK_RST_BOOT);
     BDK_CSR_INIT(mode_reg, node, BDK_MIO_EMM_MODEX(0));
     uint64_t sclk = 50000000ull * rst_boot.s.pnr_mul;
@@ -630,9 +627,9 @@ static void wdog_default()
 /**
  * Macro to make it easier to submit a command and fail on bad status
  */
-#define MMC_CMD_OR_ERROR(cmd, arg, busid, dbuf, rtype_xor, ctype_xor, offset)   \
+#define MMC_CMD_OR_ERROR(node, cmd, arg, busid, dbuf, rtype_xor, ctype_xor, offset)   \
 do {                                                                            \
-    bdk_mio_emm_rsp_sts_t status = mmc_cmd(cmd, arg, busid, dbuf, rtype_xor, ctype_xor, offset); \
+    bdk_mio_emm_rsp_sts_t status = mmc_cmd(node, cmd, arg, busid, dbuf, rtype_xor, ctype_xor, offset); \
     if(status.u) {                                                            \
         bdk_error("MMC: Command " #cmd " failed\n");                            \
         return 0 ;                                                              \
@@ -644,17 +641,17 @@ do {                                                                            
  * Initialize a MMC for read/write
  *
  * @author creese (10/14/2013)
+ * @param node     Node to access
  * @param chip_sel Chip select to use
  *
  * @return Size of the SD card, zero on failure
  */
-int64_t bdk_mmc_initialize(int chip_sel)
+int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
 {
 #ifdef HW_EMULATOR
     if (card_state[chip_sel].init_status)
         return card_state[chip_sel].init_status;
 #endif
-    bdk_node_t node = bdk_numa_local();
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
 
@@ -712,16 +709,16 @@ int64_t bdk_mmc_initialize(int chip_sel)
     bdk_wait_usec(2 * MSEC);
 
     // Setup watchdog timer
-    wdog_default();
+    wdog_default(node);
 
     //Reset the device
-    MMC_CMD_OR_ERROR(MMC_CMD_GO_IDLE_STATE, 0, chip_sel, 0, 0, 0, 0);
+    MMC_CMD_OR_ERROR(node, MMC_CMD_GO_IDLE_STATE, 0, chip_sel, 0, 0, 0, 0);
 
     // Do a CMD SEND_EXT_CSD (8)
 #ifdef HW_EMULATOR
     status.u = -1; /* This always fails on the emulator so save boot time */
 #else
-    status = mmc_cmd(MMC_CMD_SEND_EXT_CSD, 0x000001AA, chip_sel, 0, 2, 1, 0);
+    status = mmc_cmd(node, MMC_CMD_SEND_EXT_CSD, 0x000001AA, chip_sel, 0, 2, 1, 0);
 #endif
     if (status.u == 0x0)
     {
@@ -735,10 +732,10 @@ int64_t bdk_mmc_initialize(int chip_sel)
         // Send a ACMD 41
         do
         {
-            status = mmc_cmd(MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
+            status = mmc_cmd(node, MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
             if (status.u == 0x0)
             {
-                status = mmc_cmd(41, 0x40ff8000, chip_sel, 0, 3, 0, 0);
+                status = mmc_cmd(node, 41, 0x40ff8000, chip_sel, 0, 3, 0, 0);
                 if (status.u)
                 {
                     bdk_error("MMC: Failed to recognize card\n");
@@ -766,11 +763,11 @@ int64_t bdk_mmc_initialize(int chip_sel)
 #ifdef HW_EMULATOR
             status.u = -1; /* This always fails on the emulator so save boot time */
 #else
-            status = mmc_cmd(MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
+            status = mmc_cmd(node, MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
 #endif
             if (status.u == 0x0)
             {
-                status = mmc_cmd(41, 0x40ff8000, chip_sel, 0, 3, 0, 0);
+                status = mmc_cmd(node, 41, 0x40ff8000, chip_sel, 0, 3, 0, 0);
                 if (status.u)
                 {
                     // Have an SD card, version less than 2.0
@@ -798,7 +795,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
             //Select the initial operating conditions
             do
             {
-                MMC_CMD_OR_ERROR(MMC_CMD_SEND_OP_COND, 0x40ff8000, chip_sel, 0, 0, 0, 0);
+                MMC_CMD_OR_ERROR(node, MMC_CMD_SEND_OP_COND, 0x40ff8000, chip_sel, 0, 0, 0, 0);
                 ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
             } while (ocr_reg.s.done_bit == 0x0);
         }
@@ -809,7 +806,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
         print_ocr_reg(ocr_reg);
 
     // Get card identification
-    MMC_CMD_OR_ERROR(MMC_CMD_ALL_SEND_CID, 0, chip_sel, 0, 0, 0, 0);
+    MMC_CMD_OR_ERROR(node, MMC_CMD_ALL_SEND_CID, 0, chip_sel, 0, 0, 0, 0);
 
     if (card_state[chip_sel].card_is_sd)
     {
@@ -818,7 +815,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
         // Need to chane the mio_EMM_STS_MASK register so we don't get a response status error
         BDK_CSR_INIT(sts_mask, node, BDK_MIO_EMM_STS_MASK);
         BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, 0xE000);
-        status = mmc_cmd(MMC_CMD_SET_RELATIVE_ADDR, 0, chip_sel, 0, 0, 0, 0);
+        status = mmc_cmd(node, MMC_CMD_SET_RELATIVE_ADDR, 0, chip_sel, 0, 0, 0, 0);
         BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, sts_mask.u);
         if (status.u)
         {
@@ -831,13 +828,13 @@ int64_t bdk_mmc_initialize(int chip_sel)
     {
         // For MMC, set card relative address
         card_state[chip_sel].relative_address = 1; //Default for MMC cards
-        MMC_CMD_OR_ERROR(MMC_CMD_SET_RELATIVE_ADDR, card_state[chip_sel].relative_address << 16, chip_sel, 0, 0, 0, 0);
+        MMC_CMD_OR_ERROR(node, MMC_CMD_SET_RELATIVE_ADDR, card_state[chip_sel].relative_address << 16, chip_sel, 0, 0, 0, 0);
     }
 
     BDK_CSR_WRITE(node, BDK_MIO_EMM_RCA, card_state[chip_sel].relative_address);
 
     // Get CSD Register
-    MMC_CMD_OR_ERROR(MMC_CMD_SEND_CSD, card_state[chip_sel].relative_address << 16, chip_sel, 0, 0, 0, 0);
+    MMC_CMD_OR_ERROR(node, MMC_CMD_SEND_CSD, card_state[chip_sel].relative_address << 16, chip_sel, 0, 0, 0, 0);
     mmc_csd_register_lo_t csd_reg_lo;
     csd_reg_lo.u = (BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO));
     mmc_csd_register_hi_t csd_reg_hi;
@@ -868,9 +865,9 @@ int64_t bdk_mmc_initialize(int chip_sel)
         print_csd_reg(chip_sel, csd_reg_hi.u, csd_reg_lo.u);
 
     // Select Card
-    MMC_CMD_OR_ERROR(MMC_CMD_SELECT_CARD, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
+    MMC_CMD_OR_ERROR(node, MMC_CMD_SELECT_CARD, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
     // Send Card Status
-    MMC_CMD_OR_ERROR(MMC_CMD_SEND_STATUS, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
+    MMC_CMD_OR_ERROR(node, MMC_CMD_SEND_STATUS, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
 
     // Return the card size in bytes
     BDK_TRACE(EMMC, "MMC init done\n");
@@ -882,6 +879,7 @@ int64_t bdk_mmc_initialize(int chip_sel)
  * Read blocks from a MMC card
  *
  * @author creese (10/14/2013)
+ * @param node     Node to access
  * @param chip_sel Chip select to use
  * @param address  Offset into the card in bytes. Must be a multiple of 512
  * @param buffer   Buffer to read into
@@ -889,9 +887,8 @@ int64_t bdk_mmc_initialize(int chip_sel)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
+int bdk_mmc_read(bdk_node_t node, int chip_sel, uint64_t address, void *buffer, int length)
 {
-    bdk_node_t node = bdk_numa_local();
     if (address > (1ull << 40))
     {
         bdk_error("MMC read address too large\n");
@@ -919,7 +916,7 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
         BDK_TRACE(EMMC, "Read 0x%lx\n", address);
         /* Send the read command */
         BDK_CSR_DEFINE(status, BDK_MIO_EMM_RSP_STS);
-        status = mmc_cmd(MMC_CMD_READ_SINGLE_BLOCK, (card_state[chip_sel].block_addressable_device) ? address/512 : address, chip_sel, 0, 0, 0, 0);
+        status = mmc_cmd(node, MMC_CMD_READ_SINGLE_BLOCK, (card_state[chip_sel].block_addressable_device) ? address/512 : address, chip_sel, 0, 0, 0, 0);
         if (status.u)
         {
             bdk_error("MMC: Read single block failed\n");
@@ -957,6 +954,7 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
  * Write blocks to a MMC card
  *
  * @author creese (10/14/2013)
+ * @param node     Node to access
  * @param chip_sel Chip select to use
  * @param address  Offset into the card in bytes. Must be a multiple of 512
  * @param buffer   Buffer to write
@@ -964,9 +962,8 @@ int bdk_mmc_read(int chip_sel, uint64_t address, void *buffer, int length)
  *
  * @return Zero on success, negative on failure
  */
-int bdk_mmc_write(int chip_sel, uint64_t address, const void *buffer, int length)
+int bdk_mmc_write(bdk_node_t node, int chip_sel, uint64_t address, const void *buffer, int length)
 {
-    bdk_node_t node = bdk_numa_local();
     if (address > (1ull << 40))
     {
         bdk_error("MMC write address too large\n");
@@ -1008,7 +1005,7 @@ int bdk_mmc_write(int chip_sel, uint64_t address, const void *buffer, int length
 
         /* Write single block */
         BDK_CSR_DEFINE(status, BDK_MIO_EMM_RSP_STS);
-        status = mmc_cmd(MMC_CMD_WRITE_BLOCK, (card_state[chip_sel].block_addressable_device) ? address/512 : address, chip_sel, 0, 0, 0, 0);
+        status = mmc_cmd(node, MMC_CMD_WRITE_BLOCK, (card_state[chip_sel].block_addressable_device) ? address/512 : address, chip_sel, 0, 0, 0, 0);
         if (status.u)
         {
             bdk_error("MMC: Write single block failed\n");

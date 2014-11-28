@@ -530,7 +530,7 @@ int main(void)
             }
             case 2: /* eMMC / SD */
             {
-                choose_image("/dev/mmc/0");
+                choose_image("/device/n0.mmc0");
                 break;
             }
             case 3: /* SPI */
@@ -556,7 +556,7 @@ int main(void)
                 if (option == 5)
                     create_spi_device_name(name, sizeof(name), boot_method);
                 else
-                    strcpy(name, "/dev/mmc/0");
+                    strcpy(name, "/device/n0.mmc0");
                 do_upload(name, offset);
                 break;
             }

@@ -243,11 +243,11 @@ int main(void)
             break;
         case RST_BOOT_METHOD_E_EMMC_LS:
             boot_method_str = "EMMC_LS";
-            strcpy(boot_device_name, "/dev/mmc/0");
+            strcpy(boot_device_name, "/device/n0.mmc0");
             break;
         case RST_BOOT_METHOD_E_EMMC_SS:
             boot_method_str = "EMMC_SS";
-            strcpy(boot_device_name, "/dev/mmc/0");
+            strcpy(boot_device_name, "/device/n0.mmc0");
             break;
         case RST_BOOT_METHOD_E_PCIE0:
             boot_method_str = "PCIE0";
