@@ -1,34 +1,28 @@
 #include <bdk.h>
 #include <fcntl.h>
 
-static void *mem_open(const char *name, int flags)
+static int mem_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
-    return (void*)1;
-}
-
-
-static int mem_read(__bdk_fs_file_t *handle, void *buffer, int length)
-{
+    uint64_t address = bdk_numa_get_address(handle->dev_node, handle->location);
     /* Check location to avoid warning from bdk_phys_to_ptr */
-    const void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : NULL;
+    const void *ptr = (address) ? bdk_phys_to_ptr(address) : NULL;
     memcpy(buffer, ptr, length);
     return length;
 }
 
 
-static int mem_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int mem_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
+    uint64_t address = bdk_numa_get_address(handle->dev_node, handle->location);
     /* Check location to avoid warning from bdk_phys_to_ptr */
-    void *ptr = (handle->location) ? bdk_phys_to_ptr(handle->location) : NULL;
+    void *ptr = (address) ? bdk_phys_to_ptr(address) : NULL;
     memcpy(ptr, buffer, length);
     return length;
 }
 
-static const __bdk_fs_ops_t bdk_fs_mem_ops =
+static const __bdk_fs_dev_ops_t bdk_fs_mem_ops =
 {
-    .stat = NULL,
-    .unlink = NULL,
-    .open = mem_open,
+    .open = NULL,
     .close = NULL,
     .read = mem_read,
     .write = mem_write,
@@ -36,5 +30,5 @@ static const __bdk_fs_ops_t bdk_fs_mem_ops =
 
 int bdk_fs_mem_init(void)
 {
-    return bdk_fs_register("/dev/mem", &bdk_fs_mem_ops);
+    return bdk_fs_register_dev("mem", 0, &bdk_fs_mem_ops);
 }
