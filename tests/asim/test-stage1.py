@@ -129,7 +129,7 @@ wait_for("=========")
 wait_for("(INS)Menu choice:")
 
 send("3")
-wait_for("Looking for images in /dev/mpi/cs0-l,2wire,idle-h,msb,24bit,12")
+wait_for("Looking for images in /device/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12")
 wait_for("  1) 0x080000: stage2.bin, version")
 wait_for("One image found, automatically loading")
 wait_for("    Loading image at 0x80000")

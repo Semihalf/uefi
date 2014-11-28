@@ -2,8 +2,8 @@
 #include <fcntl.h>
 
 /* MPI/SPI filenames are of the format:
-   /dev/mpi/cs0-[hl],[12]wire,idle-[rhl],[ml]sb,##bit,<freq>
-    - cs0 = Chip select to use [0-3]
+   n0.mpi0/cs-[hl],[12]wire,idle-[rhl],[ml]sb,##bit,<freq>
+    - mpi0 = Chip select to use [0-3]
     - [hl] = Chip select is active High or Low
     - [12] = Use 1 wire half duplex or 2 wire full duplex
     - [rhl] = Should the clock continue to Run when idle, go High, or go Low
@@ -12,10 +12,10 @@
     - <freq> = Clock frequency in Mhz
    */
 
-static void *mpi_open(const char *name, int flags)
+static int mpi_open(__bdk_fs_dev_t *handle, int flags)
 {
     const int CMD_WRITE_STATUS = 0x01;
-    const bdk_node_t node = bdk_numa_local();
+    int node;
     int chip_sel;
     char chip_hl;
     char wire;
@@ -23,11 +23,13 @@ static void *mpi_open(const char *name, int flags)
     char endian;
     int address_width;
     int freq;
-    int count = sscanf(name, "cs%d-%c,%cwire,idle-%c,%csb,%dbit,%d",
-        &chip_sel, &chip_hl, &wire, &idle, &endian, &address_width, &freq);
-    if (count != 7)
+    int count = sscanf(handle->filename, "n%d.mpi%d/cs-%c,%cwire,idle-%c,%csb,%dbit,%d",
+        &node, &chip_sel, &chip_hl, &wire, &idle, &endian, &address_width, &freq);
+    if (count != 8)
         goto bad;
-    if ((chip_sel < 0) || (chip_sel > 3))
+    if (node != (int)handle->dev_node)
+        goto bad;
+    if (chip_sel != handle->dev_index)
         goto bad;
     if ((chip_hl != 'h') && (chip_hl != 'l'))
         goto bad;
@@ -54,18 +56,28 @@ static void *mpi_open(const char *name, int flags)
     if (endian == 'l')
         mpi_flags |= BDK_MPI_FLAGS_LSB_FIRST;
 
-    if (bdk_mpi_initialize(bdk_numa_local(), freq * 1000000, mpi_flags))
-        return NULL;
+    if (bdk_mpi_initialize(node, freq * 1000000, mpi_flags))
+        return -1;
 
     /* Write zero to status register to disable write protection */
     if ((flags&3) != O_RDONLY)
         bdk_mpi_transfer(node, chip_sel, 0, 2, CMD_WRITE_STATUS, 0);
 
-    return (void*)((long)chip_sel | (address_width << 8));
+    return 0;
 
 bad:
-    bdk_error("Illegal filename: %s\n", name);
-    return NULL;
+    bdk_error("Illegal filename: %s\n", handle->filename);
+    return -1;
+}
+
+static int get_address_width(const char *name)
+{
+    if (strstr(name, ",24bit,"))
+        return 24;
+    else if (strstr(name, ",32bit,"))
+        return 32;
+    else
+        return 16;
 }
 
 /**
@@ -79,12 +91,12 @@ bad:
  *
  * @return Number of bytes read, negative on failure
  */
-static int mpi_read(__bdk_fs_file_t *handle, void *buffer, int length)
+static int mpi_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
     const int CMD_READ = 0x03;
-    const bdk_node_t node = bdk_numa_local();
-    const int chip_sel = (long)handle->fs_state & 0xff;
-    const int address_width = (long)handle->fs_state >> 8;
+    const bdk_node_t node = handle->dev_node;
+    const int chip_sel = handle->dev_index;
+    const int address_width = get_address_width(handle->filename);
 
     uint64_t tx_data;
 
@@ -150,13 +162,13 @@ static int wait_for_write_complete(bdk_node_t node, int chip_sel)
  *
  * @return Number of bytes written, negative on failure
  */
-static int eeprom_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int eeprom_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     const int CMD_WRITE = 0x02;
     const int CMD_WRITE_EN = 0x06;
-    const bdk_node_t node = bdk_numa_local();
-    const int chip_sel = (long)handle->fs_state & 0xff;
-    const int address_width = (long)handle->fs_state >> 8;
+    const bdk_node_t node = handle->dev_node;
+    const int chip_sel = handle->dev_index;
+    const int address_width = get_address_width(handle->filename);
 
     uint64_t loc = handle->location;
     int need_new_write = 1;
@@ -195,7 +207,7 @@ static int eeprom_write(__bdk_fs_file_t *handle, const void *buffer, int length)
  *
  * @return Number of bytes written, negative on failure
  */
-static int nor_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     /* From datasheet for N25Q128A13ESE40. It is a 16MB NOR flash with
        256 sectors (64KB each), each sector divided into 4KB subsectors, each
@@ -209,9 +221,9 @@ static int nor_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     const int CMD_PP    = 0x02; /* Page program */
     const int CMD_SSE   = 0x20; /* Subsector erase */
 
-    const bdk_node_t node = bdk_numa_local();
-    const int chip_sel = (long)handle->fs_state & 0xff;
-    const int address_width = (long)handle->fs_state >> 8;
+    const bdk_node_t node = handle->dev_node;
+    const int chip_sel = handle->dev_index;
+    const int address_width = get_address_width(handle->filename);
 
     if (handle->location & (PAGE_SIZE-1))
     {
@@ -279,21 +291,19 @@ static int nor_write(__bdk_fs_file_t *handle, const void *buffer, int length)
  *
  * @return Number of bytes written, negative on failure
  */
-static int mpi_write(__bdk_fs_file_t *handle, const void *buffer, int length)
+static int mpi_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     /* This code is very simple and assumes devices using 16 bit addresses
        are EEPROMs and anything else is NOR */
-    const int address_width = (long)handle->fs_state >> 8;
+    const int address_width = get_address_width(handle->filename);
     if (address_width == 16)
         return eeprom_write(handle, buffer, length);
     else
         return nor_write(handle, buffer, length);
 }
 
-static const __bdk_fs_ops_t bdk_fs_mpi_ops =
+static const __bdk_fs_dev_ops_t bdk_fs_mpi_ops =
 {
-    .stat = NULL,
-    .unlink = NULL,
     .open = mpi_open,
     .close = NULL,
     .read = mpi_read,
@@ -302,5 +312,10 @@ static const __bdk_fs_ops_t bdk_fs_mpi_ops =
 
 int bdk_fs_mpi_init(void)
 {
-    return bdk_fs_register("/dev/mpi/", &bdk_fs_mpi_ops);
+    for (int cs = 0; cs < 4; cs++)
+    {
+        if (bdk_fs_register_dev("mpi", cs, &bdk_fs_mpi_ops))
+            return -1;
+    }
+    return 0;
 }

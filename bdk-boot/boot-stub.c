@@ -398,7 +398,7 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     if (freq_mhz == 0)
         freq_mhz = 10;
 
-    snprintf(buffer, buffer_size, "/dev/mpi/cs%d-%c,2wire,idle-%c,%csb,%dbit,%d",
+    snprintf(buffer, buffer_size, "/device/n0.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
         chip_select,
         (active_high) ? 'h' : 'l',
         idle_mode,

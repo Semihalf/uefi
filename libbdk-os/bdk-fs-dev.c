@@ -116,7 +116,21 @@ static int dev_get_node(const char *name)
 static dev_fs_t *dev_find(const char *name)
 {
     const char *name_no_node = name + 3;
+    char tmp[32];
     dev_fs_t *dev = dev_head;
+
+    /* Truncate name at next / as MPI uses sub names */
+    const char *sub_name = strchr(name_no_node, '/');
+    if (sub_name)
+    {
+        unsigned int length = sub_name - name_no_node;
+        if (length >= sizeof(tmp))
+            length = sizeof(tmp)-1;
+        memcpy(tmp, name_no_node, length);
+        tmp[length] = 0;
+        name_no_node = tmp;
+    }
+
     while (dev)
     {
         if (strcmp(name_no_node, dev->dev_name) == 0)

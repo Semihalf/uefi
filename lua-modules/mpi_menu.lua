@@ -94,8 +94,8 @@ end
 
 local function mpi_device()
     -- MPI/SPI filenames are of the format:
-    -- /dev/mpi/cs0-[hl],[12]wire,idle-[rhl]-[ml]sb-##bit-<freq>
-    -- cs0 = Chip select to use [0-3]
+    -- /device/n0.mpi0/cs-[hl],[12]wire,idle-[rhl]-[ml]sb-##bit-<freq>
+    -- mpi0 = Chip select to use [0-3]
     -- [hl] = Chip select is active High or Low
     -- [12] = Use 1 wire half duplex or 2 wire full duplex
     -- [rhl] = Should the clock continue to Run when idle, go High, or go Low
@@ -149,8 +149,9 @@ local function mpi_device()
                    freq = menu.prompt_number("Frequency in Mhz", freq, 1, 50)
                end)
 
-        local filename = "/dev/mpi/cs%d-%s,%dwire,idle-%s,%ssb,%dbit,%d" %
-            {chip_sel,
+        local filename = "/device/n%d.mpi%d/cs-%s,%dwire,idle-%s,%ssb,%dbit,%d" %
+            {menu.node,
+             chip_sel,
              chip_hi and "h" or "l",
              wire, idle,
              msb and "m" or "l",
