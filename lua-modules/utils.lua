@@ -183,4 +183,13 @@ function utils.run(filename, ...)
     end
 end
 
+---
+-- Function to simplify creating an device filename for the current work node.
+-- @param dev_name Device base name
+-- @param index Which device on the node to get
+-- @return Device filename
+function utils.devfile(dev_name, index)
+    return "/device/n%d.%s%d" % {menu.node, dev_name, index}
+end
+
 return utils
