@@ -213,13 +213,17 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
        256 sectors (64KB each), each sector divided into 4KB subsectors, each
        divided into 256 byte pages. Smallest erase size is a subsector (4KB).
        Once erase, a page (256 bytes) must be programemd at a time */
-    //const int SECTOR_SIZE = 65536;
+    const int SECTOR_SIZE = 65536;
     const int SUBSECTOR_SIZE = 4096;
     const int PAGE_SIZE = 256;
     /* We only use a small subset of the comamnds support by the NOR */
     const int CMD_WREN  = 0x06; /* Write enable */
     const int CMD_PP    = 0x02; /* Page program */
     const int CMD_SSE   = 0x20; /* Subsector erase */
+    const int CMD_SE    = 0xd8; /* Sector erase */
+    const int USE_SECTOR_ERASE = 1;
+    const int ERASE_CMD = (USE_SECTOR_ERASE) ? CMD_SE : CMD_SSE;
+    const int ERASE_SIZE = (USE_SECTOR_ERASE) ? SECTOR_SIZE : SUBSECTOR_SIZE;
 
     const bdk_node_t node = handle->dev_node;
     const int chip_sel = handle->dev_index;
@@ -239,13 +243,13 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     while (data_left)
     {
         /* See if we're at the start of an erase block */
-        if ((loc & (SUBSECTOR_SIZE-1)) == 0)
+        if ((loc & (ERASE_SIZE-1)) == 0)
         {
             bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
             /* We need to erase the next block */
             bdk_mpi_transfer(node, chip_sel, 0, /* Disable chip select */
                 1 + address_width/8, /* One command byte plus address */
-                (CMD_SSE << address_width) | loc, /* Command and address */
+                (ERASE_CMD << address_width) | loc, /* Command and address */
                 0); /* No receive data */
             if (wait_for_write_complete(node, chip_sel))
                 return -1;
