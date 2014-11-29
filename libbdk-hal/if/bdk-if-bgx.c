@@ -1597,8 +1597,6 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
     packet.rx_error = cq_header->s.errlev;
     packet.rx_error <<= 8;
     packet.rx_error |= cq_header->s.errop;
-    if (packet.rx_error)
-        handle->stats.rx.errors++;
 
     const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
     const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
@@ -1625,6 +1623,8 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
            aren't counted as good */
         packet.if_handle->stats.rx.packets++;
         packet.if_handle->stats.rx.octets += packet.length + 4;
+        if (packet.rx_error)
+            packet.if_handle->stats.rx.errors++;
         bdk_if_dispatch_packet(&packet);
     }
     else
