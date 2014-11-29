@@ -447,23 +447,22 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         c.s.subbnum = bus + 63);
 
     /* Memory-mapped I/O BAR (PCIERCn_CFG008) */
-    /* Most applications should disable the memory-mapped I/O BAR by */
-    /* setting PCIERCn_CFG008[ML_ADDR] < PCIERCn_CFG008[MB_ADDR] */
+    uint64_t mem_base = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
+    uint64_t mem_limit = mem_base + bdk_pcie_get_base_size(node, pcie_port, BDK_PCIE_MEM_NORMAL) - 1;
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG008(pcie_port),
-        c.s.mb_addr = 0x100;
-        c.s.ml_addr = 0);
+        c.s.mb_addr = mem_base >> 16;
+        c.s.ml_addr = mem_limit >> 16);
 
     /* Prefetchable BAR (PCIERCn_CFG009,PCIERCn_CFG010,PCIERCn_CFG011) */
-    /* Most applications should disable the prefetchable BAR by setting */
-    /* PCIERCn_CFG011[UMEM_LIMIT],PCIERCn_CFG009[LMEM_LIMIT] < */
-    /* PCIERCn_CFG010[UMEM_BASE],PCIERCn_CFG009[LMEM_BASE] */
+    uint64_t prefetch_base = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_PREFETCH);
+    uint64_t prefetch_limit = prefetch_base + bdk_pcie_get_base_size(node, pcie_port, BDK_PCIE_MEM_PREFETCH) - 1;
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG009(pcie_port),
-        c.s.lmem_base = 0x100;
-        c.s.lmem_limit = 0);
+        c.s.lmem_base = prefetch_base >> 16;
+        c.s.lmem_limit = prefetch_limit >> 16);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG010(pcie_port),
-        c.s.umem_base = 0x100);
+        c.s.umem_base = prefetch_base >> 32);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG011(pcie_port),
-        c.s.umem_limit = 0);
+        c.s.umem_limit = prefetch_limit >> 32);
 
     /* System Error Interrupt Enables (PCIERCn_CFG035[SECEE,SEFEE,SENFEE]) */
     /* PME Interrupt Enables (PCIERCn_CFG035[PMEIE]) */

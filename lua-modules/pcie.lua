@@ -422,11 +422,11 @@ local function create_device(root, bus, deviceid, func)
                 bit64.band(self:read8(PCICONFIG_IO_BASE), -16),
                 self:read16(PCICONFIG_IO_LIMIT_UPPER),
                 bit64.bor(self:read8(PCICONFIG_IO_LIMIT), 0xf))
-            printf("%s    Memory Base:%02x0000 Limit:%02xffff\n",
+            printf("%s    Memory Base:%04x0000 Limit:%04xffff\n",
                 indent,
                 bit64.band(self:read16(PCICONFIG_MEMORY_BASE), -16),
                 bit64.bor(self:read16(PCICONFIG_MEMORY_LIMIT), 0xf))
-            printf("%s    Prefetchable Memory Base:%04x%02x0000 Limit:%04x%02xffff\n",
+            printf("%s    Prefetchable Memory Base:%08x%04x0000 Limit:%08x%04xffff\n",
                 indent,
                 self:read32(PCICONFIG_PREF_BASE_UPPER),
                 bit64.band(self:read16(PCICONFIG_PREF_BASE), -16),
