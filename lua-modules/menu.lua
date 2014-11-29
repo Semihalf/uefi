@@ -44,7 +44,7 @@ end
 ----
 -- Called when the user calls m:item_node().
 -- Adds a menu option to change menu.node if multiple nodes are available.
--- If multiple nodes aren't available, sets menu.node to cavium.MASTER. The
+-- If multiple nodes aren't available, sets menu.node to cavium.MASTER_NODE. The
 -- menu 'key' is "node", so a quick way to change nodes is to type "node X"
 -- at the menu prompt.
 -- @function menu:item_node

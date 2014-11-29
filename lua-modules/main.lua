@@ -41,7 +41,7 @@ end
 
 local function do_throttle()
     local throttle = menu.prompt_number("Throttle level", 0xcc, 0, 0xff)
-    cavium.c.bdk_power_throttle(cavium.MASTER, throttle)
+    cavium.c.bdk_power_throttle(menu.node, throttle)
 end
 
 local m = menu.new("Main Menu")
@@ -59,9 +59,9 @@ m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
-m:item("burn",  "Burn power",               cavium.c.bdk_power_burn, 0)
+m:item("burn",  "Burn power",               cavium.c.bdk_power_burn, menu.node)
 m:item("throt", "Set power throttle level", do_throttle)
-m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, 0)
+m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, cavium.MASTER_NODE)
 if cavium.global then
     m:item("quit", "Exit menu")
 end
