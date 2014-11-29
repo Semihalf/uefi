@@ -490,17 +490,26 @@ local function create_device(root, bus, deviceid, func)
     if newdev.isbridge then
         -- Device is a bridge/switch. Assign bus numbers so we can
         -- scan for subordinate devices
-        newdev:write8(PCICONFIG_PRIMARY_BUS, newdev.bus)
-        root.last_bus = root.last_bus + 1
-        newdev.busnum = root.last_bus
-        newdev:write8(PCICONFIG_SECONDARY_BUS, newdev.busnum)
-        -- Set to max value as we don't know how many busses are there
-        newdev:write8(PCICONFIG_SUBORIDINATE_BUS, 0xff)
+        if newdev:read8(PCICONFIG_SECONDARY_BUS) == 0 then
+            newdev:write8(PCICONFIG_PRIMARY_BUS, newdev.bus)
+            root.last_bus = root.last_bus + 1
+            newdev.busnum = root.last_bus
+            newdev:write8(PCICONFIG_SECONDARY_BUS, newdev.busnum)
+            -- Set to max value as we don't know how many busses are there
+            newdev:write8(PCICONFIG_SUBORIDINATE_BUS, 0xff)
+        else
+            root.last_bus = newdev:read8(PCICONFIG_SECONDARY_BUS)
+            newdev.busnum = root.last_bus
+        end
         -- Scan for children
         newdev:scan()
         -- Update the last bus number now that we know how many busses
         -- were there
-        newdev:write8(PCICONFIG_SUBORIDINATE_BUS, root.last_bus)
+        if newdev:read8(PCICONFIG_SUBORIDINATE_BUS) == 0xff then
+            newdev:write8(PCICONFIG_SUBORIDINATE_BUS, root.last_bus)
+        else
+            root.last_bus = newdev:read8(PCICONFIG_SUBORIDINATE_BUS)
+        end
     end
     -- Return the device
     return newdev
