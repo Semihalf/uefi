@@ -10,59 +10,73 @@ static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
 static const int CYCLE_SHIFT = 12;
 
+/**
+ * Statistics for the port. Exposed to Lua
+ */
 typedef struct
 {
-    uint64_t    tx_packets;
-    uint64_t    tx_octets;
-    uint64_t    tx_packets_total;
-    uint64_t    tx_octets_total;
-    uint64_t    tx_bits;
+    uint64_t    tx_packets;                 /* TX as packets/sec */
+    uint64_t    tx_octets;                  /* TX as octests/sec (includes FCS) */
+    uint64_t    tx_packets_total;           /* TX total packets */
+    uint64_t    tx_octets_total;            /* TX total octets (includes FCS) */
+    uint64_t    tx_bits;                    /* TX as bits/sec (includes preamble, IFG, and FCS) */
 
-    uint64_t    rx_packets;
-    uint64_t    rx_octets;
-    uint64_t    rx_packets_total;
-    uint64_t    rx_octets_total;
-    uint64_t    rx_dropped_octets;
-    uint64_t    rx_dropped_packets;
-    uint64_t    rx_errors;
-    uint64_t    rx_bits;
-    uint64_t    rx_backpressure;
-    uint64_t    rx_validation_errors;
+    uint64_t    rx_packets;                 /* RX as packets/sec */
+    uint64_t    rx_octets;                  /* RX as octets/sec (includes FCS) */
+    uint64_t    rx_packets_total;           /* RX total packets */
+    uint64_t    rx_octets_total;            /* RX total octets (includes FCS) */
+    uint64_t    rx_dropped_octets;          /* RX total dropped octets (includes FCS) */
+    uint64_t    rx_dropped_packets;         /* RX total dropped packets */
+    uint64_t    rx_errors;                  /* RX packets with some sort of error signalled by HW */
+    uint64_t    rx_bits;                    /* RX as bits/sec (includes preamble, IFG, and FCS) */
+    uint64_t    rx_backpressure;            /* Increments whenever we receive backpressure. Number is meaningless otherwise */
+    uint64_t    rx_validation_errors;       /* RX packets with an incorrect CRC32 at the end */
 } trafficgen_port_stats_t;
 
+/**
+ * Setup information for the port. Exposed to Lua
+ */
 typedef struct
 {
-    int                     output_rate;
-    bool                    output_rate_is_mbps;
-    bool                    output_enable;
-    int                     size;
-    uint64_t                output_count;
-    uint64_t                src_mac;    /* MACs are stored so a printf in hex will show them */
+    int                     output_rate;    /* The TX output rate in packets/s or Mbps */
+    bool                    output_rate_is_mbps; /* True if output_rate is Mbps */
+    bool                    output_enable;  /* True if TX is enabled */
+    int                     size;           /* TX packet size without FCS */
+    uint64_t                output_count;   /* TX output count, or zero for infinite */
+    uint64_t                src_mac;        /* MACs are stored so a printf in hex will show them */
     uint64_t                dest_mac;
-    uint32_t                src_ip;
+    uint32_t                src_ip;         /* IPv4 addresses */
     uint32_t                dest_ip;
-    uint32_t                ip_tos;
-    uint16_t                src_port;
+    uint32_t                ip_tos;         /* IPv4 TOS */
+    uint16_t                src_port;       /* UDP port numbers */
     uint16_t                dest_port;
-    bool                    do_checksum;
-    bool                    display_packet;
-    bool                    validate;
+    bool                    do_checksum;    /* Calculate USB payload checksum. FIXME: Not implemented */
+    bool                    display_packet; /* Display RX and TX packets */
+    bool                    validate;       /* Add and check a CRC32 at the end of each packet */
 } trafficgen_port_setup_t;
 
+/**
+ * This is structure contains the two struct above, everything that is exposed
+ * to Lua.
+ */
 typedef struct
 {
     trafficgen_port_setup_t setup;
     trafficgen_port_stats_t stats;
 } trafficgen_port_info_t;
 
+/**
+ * Per port internal structure, not exposed to Lua
+ */
 typedef struct tg_port
 {
-    bdk_if_handle_t handle;
-    bdk_if_stats_t clear_stats;
-    bdk_if_stats_t delta_stats;
-    uint64_t last_update;
-    trafficgen_port_info_t pinfo;
-    struct tg_port *next;
+    bdk_if_handle_t         handle;         /* Raw handle to the bdk-if device */
+    bdk_if_stats_t          clear_stats;    /* HW counters are never zeroed. This is what we use as zero */
+    bdk_if_stats_t          delta_stats;    /* These are the stats snapshot at the last update time */
+    uint64_t                last_update;    /* Time of the last stats calculation */
+    int                     tx_running;     /* Non-zero if this port has a running TX thread */
+    trafficgen_port_info_t  pinfo;          /* Data exposed to Lua */
+    struct tg_port *        next;           /* Ports are kept in a linked list */
 } tg_port_t;
 
 static tg_port_t *tg_port_head;
@@ -523,11 +537,8 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     packet.if_handle = tg_port->handle;
     if (build_packet(tg_port, &packet))
-    {
-        port_tx->output_enable = 0;
-        BDK_WMB;
-        return;
-    }
+        goto out;
+
     if (bdk_unlikely(tg_port->pinfo.setup.display_packet))
     {
         printf("Transmit packet:\n");
@@ -556,8 +567,9 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
         bdk_if_free(&packet);
     else
         bdk_error("%s: Transmit packet not freed as output queue still active\n", tg_port->handle->name);
-
+out:
     port_tx->output_enable = 0;
+    tg_port->tx_running = 0;
     BDK_WMB;
 }
 
@@ -810,7 +822,11 @@ static int do_start(tg_port_t *tg_port)
 {
     if (tg_port->pinfo.setup.output_enable == 0)
     {
+        /* Spin waiting for any old transmitters to stop */
+        while (tg_port->tx_running)
+            bdk_thread_yield();
         tg_port->pinfo.setup.output_enable = 1;
+        tg_port->tx_running = 1;
         BDK_WMB;
         bdk_thread_create(tg_port->handle->node, 0, (bdk_thread_func_t)packet_transmitter, 0, tg_port, 0);
     }
