@@ -196,6 +196,7 @@ local function do_prbs(mode)
                     cavium.c.bdk_qlm_get_prbs_errors(menu.node, qlm_num, lane, true)
                 end
             end
+            start_time = os.time()
         end
     until key == '\r'
 end
