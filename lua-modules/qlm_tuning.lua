@@ -96,7 +96,7 @@ local function do_prbs(mode)
     -- Display PRBS status on the console
     local function display_status(run_time)
         printf("\n\n");
-        printf("Time: %d seconds (Press return to exit, 'E' to inject an error)\n", run_time)
+        printf("Time: %d seconds (Press return to exit, 'E' to inject an error, 'C' to clear errors)\n", run_time)
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
                 return (lane == 0) and ("--- QLM " .. qlm) or "----------"
@@ -105,7 +105,7 @@ local function do_prbs(mode)
                 return "Lane " .. lane
             end)
             output_line(qlm_base, "Errors", function(qlm, lane)
-                local v = cavium.c.bdk_qlm_get_prbs_errors(menu.node, qlm, lane)
+                local v = cavium.c.bdk_qlm_get_prbs_errors(menu.node, qlm, lane, false)
                 if v == -1 then
                     return "No Lock"
                 else
@@ -122,7 +122,7 @@ local function do_prbs(mode)
             end)
             output_line(qlm_base, "Error Rate", function(qlm, lane)
                 local qlm_speed = cavium.c.bdk_qlm_get_gbaud_mhz(menu.node, qlm)
-                local v = cavium.c.bdk_qlm_get_prbs_errors(menu.node, qlm, lane)
+                local v = cavium.c.bdk_qlm_get_prbs_errors(menu.node, qlm, lane, false)
                 if (v == -1) or (run_time == 0) then
                     return "-"
                 else
@@ -185,6 +185,15 @@ local function do_prbs(mode)
                 local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
                 for lane=0, num_lanes-1 do
                     cavium.c.bdk_qlm_inject_prbs_error(menu.node, qlm_num, lane)
+                end
+            end
+        end
+        if (key == 'c') or (key == 'C') then
+            print("Clearing error counts")
+            for _,qlm_num in ipairs(qlm_list) do
+                local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
+                for lane=0, num_lanes-1 do
+                    cavium.c.bdk_qlm_get_prbs_errors(menu.node, qlm_num, lane, true)
                 end
             end
         end

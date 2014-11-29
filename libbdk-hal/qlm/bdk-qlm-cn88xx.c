@@ -1409,10 +1409,11 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
  * @param node   Node to use in numa setup
  * @param qlm    QLM to use
  * @param lane   Which lane
+ * @param clear  Clear counter after return the current value
  *
  * @return Number of errors
  */
-static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
+static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane, int clear)
 {
     /* Restart synchronization */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
@@ -1424,7 +1425,10 @@ static uint64_t qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
     if (rx.s.lbert_err_ovbit14)
         errors <<= 7;
     prbs_errors[qlm][lane] += errors;
-    return prbs_errors[qlm][lane];
+    uint64_t result = prbs_errors[qlm][lane];
+    if (clear)
+        prbs_errors[qlm][lane] = 0;
+    return result;
 }
 
 /**

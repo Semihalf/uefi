@@ -228,12 +228,13 @@ int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t 
  * @param node   Node to use in numa setup
  * @param qlm    QLM to use
  * @param lane   Which lane
+ * @param clear  Clear the counter after returning its value
  *
  * @return Number of errors
  */
-uint64_t bdk_qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane)
+uint64_t bdk_qlm_get_prbs_errors(bdk_node_t node, int qlm, int lane, int clear)
 {
-    return qlm_ops->get_prbs_errors(node, qlm, lane);
+    return qlm_ops->get_prbs_errors(node, qlm, lane, clear);
 }
 
 /**
