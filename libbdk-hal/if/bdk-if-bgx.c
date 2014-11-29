@@ -1563,7 +1563,6 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet)
     bdk_if_handle_t handle = packet->if_handle;
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int rbdr = priv->rbdr;
-    int rbdr_idx = 0;
 
     uint64_t *rbdr_ptr = vnic_rbdr_state[rbdr].base;
     int loc = vnic_rbdr_state[rbdr].loc;
@@ -1576,15 +1575,18 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet)
         loc++;
         loc &= RBDR_ENTRIES - 1;
     }
-    BDK_WMB;
-    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), packet->segments);
     vnic_rbdr_state[rbdr].loc = loc;
 }
 
 /**
  * Process a CQ receive entry
+ *
+ * @param handle
+ * @param cq_header
+ *
+ * @return Returns the amount the RBDR doorbell needs to increment
  */
-static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_rx_s *cq_header)
+static int if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_rx_s *cq_header)
 {
     int vnic = cq_header->s.rq_qs;
 
@@ -1634,6 +1636,7 @@ static void if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_r
     }
 
     if_free_to_rbdr(&packet);
+    return packet.segments;
 }
 
 /**
@@ -1672,6 +1675,7 @@ static void if_receive(int unused, void *hand)
         }
 
         /* Loop through all pending CQs */
+        int rbdr_doorbell = 0;
         int count = 0;
         const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
         while (count < pending_count)
@@ -1682,11 +1686,15 @@ static void if_receive(int unused, void *hand)
             cq_next = cq_ptr + loc * 512;
             BDK_PREFETCH(cq_next, 0);
             if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
-                if_process_complete_rx(handle, cq_header);
+                rbdr_doorbell += if_process_complete_rx(handle, cq_header);
             else
                 bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
             count++;
         }
+        /* Ring the RBDR doorbell for all packets */
+        BDK_WMB;
+        int rbdr_idx = 0;
+        BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(priv->rbdr, rbdr_idx), rbdr_doorbell);
         /* Free all the CQs that we've processed */
         BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
     }
