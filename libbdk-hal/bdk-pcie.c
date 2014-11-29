@@ -737,7 +737,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Disable BAR1 */
     BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR1_START(pcie_port), -1);
     /* Set BAR2 to cover all memory starting at address 0 */
-    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR2_START(pcie_port), -1);
+    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR2_START(pcie_port), 0);
     /* Setup BAR attributes */
     BDK_CSR_MODIFY(c, node, BDK_PEMX_BAR_CTL(pcie_port),
         c.s.bar1_siz = 1; /* 64MB BAR1 (not used) */
