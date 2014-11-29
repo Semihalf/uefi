@@ -53,7 +53,6 @@ typedef struct
 {
     trafficgen_port_setup_t setup;
     trafficgen_port_stats_t stats;
-    void *priv;
 } trafficgen_port_info_t;
 
 typedef struct tg_port
@@ -93,7 +92,6 @@ static void tg_init(void)
         if (tg_port)
         {
             tg_port->handle = handle;
-            tg_port->pinfo.priv = tg_port;
             tg_port->next = NULL;
             if (tg_port_tail)
                 tg_port_tail->next = tg_port;
