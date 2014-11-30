@@ -25,6 +25,15 @@ typedef enum
     BGX_MODE_40G_KR,/* 4 lanes, 10.3125 Gbaud */
 } bgx_mode_t;
 
+/**
+ * SQ state that changes is stored independently to avoid cache thrashing
+ */
+typedef struct BDK_CACHE_LINE_ALIGNED
+{
+    int         sq_loc;         /* Location where the next send should go */
+    int         sq_available;   /* Amount of space left in the queue (fuzzy) */
+} bgx_priv_sq_t;
+
 typedef struct
 {
     /* BGX related config */
@@ -44,8 +53,7 @@ typedef struct
 
     /* Cached data from SQ for faster transmit */
     void *      sq_base;        /* Pointer to the begining of the SQ in memory */
-    int         sq_loc;         /* Location where the next send should go */
-    int         sq_available;   /* Amount of space left in the queue (fuzzy) */
+    bgx_priv_sq_t sq_state;     /* SQ state that changes is stored independently to avoid cache thrashing */
 } bgx_priv_t;
 
 typedef struct BDK_CACHE_LINE_ALIGNED
@@ -1124,6 +1132,8 @@ static int vnic_setup(bdk_if_handle_t handle)
     static int next_free_rssi = 0;
 
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    /* Make sure SQ dynamic data is in a different cache line */
+    static_assert((offsetof(bgx_priv_t, sq_state) & BDK_CACHE_LINE_MASK) == 0);
 
     void *sq_memory = memalign(128, 16 * SQ_ENTRIES);
     if (!sq_memory)
@@ -1150,8 +1160,8 @@ static int vnic_setup(bdk_if_handle_t handle)
 
     /* Configure the submit queue (SQ) */
     priv->sq_base = sq_memory;
-    priv->sq_loc = 0;
-    priv->sq_available = SQ_ENTRIES;
+    priv->sq_state.sq_loc = 0;
+    priv->sq_state.sq_available = SQ_ENTRIES;
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_BASE(sq, sq_idx),
         bdk_ptr_to_phys(sq_memory));
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_SQX_CFG(sq, sq_idx),
@@ -1504,18 +1514,18 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     /* Update the SQ available if we're out of space. The NIC should have sent
        packets, making more available. This allows us to only read the STATUS
        CSR when really necessary, normally using the L1 cached value */
-    if (priv->sq_available < packet->segments + 1 + SQ_SLOP)
+    if (priv->sq_state.sq_available < packet->segments + 1 + SQ_SLOP)
     {
         BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
-        priv->sq_available = SQ_ENTRIES - sq_status.s.qcount;
+        priv->sq_state.sq_available = SQ_ENTRIES - sq_status.s.qcount;
     }
     /* Check for space. A packets is a header plus its segments */
-    if (priv->sq_available < packet->segments + 1 + SQ_SLOP)
+    if (priv->sq_state.sq_available < packet->segments + 1 + SQ_SLOP)
         return -1;
 
     /* Build the command */
     void *sq_ptr = priv->sq_base;
-    int loc = priv->sq_loc;
+    int loc = priv->sq_state.sq_loc;
     union nic_send_hdr_s send_hdr;
     send_hdr.u[0] = 0;
     send_hdr.u[1] = 0;
@@ -1546,8 +1556,8 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         packet->segments + 1);
 
     /* Update our cached state */
-    priv->sq_available -= packet->segments + 1;
-    priv->sq_loc = loc;
+    priv->sq_state.sq_available -= packet->segments + 1;
+    priv->sq_state.sq_loc = loc;
 
     return 0;
 }
