@@ -833,15 +833,22 @@ static int xaui_link(bdk_if_handle_t handle)
             }
         }
 
-        /* Clear rcvflt bit (latching high) and read it back */
-        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index),
-            c.s.rcvflt = 1);
+        /* Clear rcvflt bit if it is high (it latchs high) and read it back */
         BDK_CSR_INIT(spux_status2, handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
+        if (spux_status2.s.rcvflt)
+        {
+            BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index), spux_status2.u);
+            spux_status2.u = BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_STATUS2(bgx_block, bgx_index));
+        }
         if (spux_status2.s.rcvflt)
         {
             BDK_TRACE(BGX, "%s: Receive fault, need to retry\n", handle->name);
             if (priv->use_training)
-                restart_training(handle);
+            {
+                BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
+                if (!spux_int.s.training_done)
+                    restart_training(handle);
+            }
             return -1;
         }
         /* Wait for MAC RX to be ready */
