@@ -646,10 +646,7 @@ static int xaui_init(bdk_if_handle_t handle)
 
     /* 3b. Write BGX(0..5)_SPU(0..3)_CONTROL1[LO_PWR] = 1 and
        BGX(0..5)_SPU(0..3)_MISC_CONTROL[RX_PACKET_DIS] = 1. */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
-        c.s.lo_pwr = 1);
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
-        c.s.rx_packet_dis = 1);
+    /* Duplicate step */
 
     /* 3c. Initialize the selected SerDes lane(s) in the QLM. See Section
        28.1.2.2 in the GSER chapter. */
@@ -701,8 +698,7 @@ static int xaui_init(bdk_if_handle_t handle)
         and BGX(0..5)_SPU(0..3)_MISC_CONTROL[TXPLRT,RXPLRT]. */
 
     /* 4c. Write BGX(0..5)_SPU(0..3)_CONTROL1[LO_PWR] = 0. */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index),
-        c.s.lo_pwr = 0);
+    /* Duplicate step */
 
     /* 4d. Select Deficit Idle Count mode and unidirectional enable/disable
        via BGX(0..5)_SMU(0..3)_TX_CTL[DIC_EN,UNI_EN]. */
