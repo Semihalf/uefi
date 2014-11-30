@@ -159,6 +159,7 @@ void __bdk_init(uint32_t image_crc)
         __bdk_is_simulation = (c.u == 0);
 
         /* Enable the timer */
+        BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */
         bdk_clock_setup(node);
 
         /* Only setup the uarts if they haven't been already setup */
@@ -217,6 +218,7 @@ void __bdk_init(uint32_t image_crc)
     }
 
     /* Enable the core timer */
+    BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */
     bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
     cntps_ctl_el1.u = 0;
     cntps_ctl_el1.s.imask = 1;
