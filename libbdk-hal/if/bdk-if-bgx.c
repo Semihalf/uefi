@@ -58,7 +58,6 @@ static void if_receive(int unused, void *hand);
 
 /* Table used to convert VNIC numbers to interface handles */
 static bdk_if_handle_t global_handle_table[128];
-static vnic_queue_state_t vnic_rbdr_state[4];
 
 /**
  * Create the private structure needed by BGX
@@ -977,8 +976,6 @@ static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
     }
     BDK_WMB;
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), added);
-    vnic_rbdr_state[rbdr].base = rbdr_ptr;
-    vnic_rbdr_state[rbdr].loc = loc;
 }
 
 static int vnic_setup_rbdr(bdk_if_handle_t handle)
@@ -1561,14 +1558,10 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
  * @param priv   Determines which RBDR is used
  * @param packet Packet to put in RBDR
  */
-static void if_free_to_rbdr(bdk_if_packet_t *packet)
+static void if_free_to_rbdr(bdk_if_packet_t *packet, vnic_queue_state_t *vnic_rbdr_state)
 {
-    bdk_if_handle_t handle = packet->if_handle;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    int rbdr = priv->rbdr;
-
-    uint64_t *rbdr_ptr = vnic_rbdr_state[rbdr].base;
-    int loc = vnic_rbdr_state[rbdr].loc;
+    uint64_t *rbdr_ptr = vnic_rbdr_state->base;
+    int loc = vnic_rbdr_state->loc;
 
     for (int s = 0; s < packet->segments; s++)
     {
@@ -1578,7 +1571,7 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet)
         loc++;
         loc &= RBDR_ENTRIES - 1;
     }
-    vnic_rbdr_state[rbdr].loc = loc;
+    vnic_rbdr_state->loc = loc;
 }
 
 /**
@@ -1589,7 +1582,7 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet)
  *
  * @return Returns the amount the RBDR doorbell needs to increment
  */
-static int if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_rx_s *cq_header)
+static int if_process_complete_rx(bdk_if_handle_t handle, vnic_queue_state_t *vnic_rbdr_state, const union nic_cqe_rx_s *cq_header)
 {
     int vnic = cq_header->s.rq_qs;
 
@@ -1638,7 +1631,7 @@ static int if_process_complete_rx(bdk_if_handle_t handle, const union nic_cqe_rx
         packet.if_handle = handle;
     }
 
-    if_free_to_rbdr(&packet);
+    if_free_to_rbdr(&packet, vnic_rbdr_state);
     return packet.segments;
 }
 
@@ -1666,6 +1659,14 @@ static void if_receive(int unused, void *hand)
     BDK_CSR_INIT(cq_head, handle->node, BDK_NIC_QSX_CQX_HEAD(cq, cq_idx));
     int loc = cq_head.s.head_ptr;
 
+    /* Store the RBDR data locally to avoid contention */
+    int rbdr_idx = 0;
+    BDK_CSR_INIT(rbdr_base, handle->node, BDK_NIC_QSX_RBDRX_BASE(priv->rbdr, rbdr_idx));
+    BDK_CSR_INIT(rbdr_tail, handle->node, BDK_NIC_QSX_RBDRX_TAIL(priv->rbdr, rbdr_idx));
+    vnic_queue_state_t vnic_rbdr_state;
+    vnic_rbdr_state.base = bdk_phys_to_ptr(rbdr_base.u);
+    vnic_rbdr_state.loc = rbdr_tail.s.tail_ptr;
+
     while (1)
     {
         /* Exit immediately if the CQ is empty */
@@ -1689,14 +1690,13 @@ static void if_receive(int unused, void *hand)
             cq_next = cq_ptr + loc * 512;
             BDK_PREFETCH(cq_next, 0);
             if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
-                rbdr_doorbell += if_process_complete_rx(handle, cq_header);
+                rbdr_doorbell += if_process_complete_rx(handle, &vnic_rbdr_state, cq_header);
             else
                 bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
             count++;
         }
         /* Ring the RBDR doorbell for all packets */
         BDK_WMB;
-        int rbdr_idx = 0;
         BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(priv->rbdr, rbdr_idx), rbdr_doorbell);
         /* Free all the CQs that we've processed */
         BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
