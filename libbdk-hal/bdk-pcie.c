@@ -196,7 +196,7 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
 
     /* PCCPF_XXX_VSEC_SCTL[RID] with the revision of the chip,
        read from fuses */
-    BDK_TRACE(INIT, "        Setting revision\n");
+    BDK_TRACE(INIT_ECAM, "        Setting revision\n");
     BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.s.rid = midr_el1.s.revision;
@@ -205,58 +205,58 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
     /* PCCPF_XXX_BAR0U, PCCPF_XXX_BAR2U, PCCPF_XXX_SRIOV_BAR0U,
        PCCPF_XXX_SRIOV_BAR2U with the address node number bits, read from
        OCX */
-    BDK_TRACE(INIT, "        BAR0L\n");
+    BDK_TRACE(INIT_ECAM, "        BAR0L\n");
     bdk_pccpf_xxx_bar0l_t barl;
     barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR0L);
     if (barl.s.typ == 2)
     {
-        BDK_TRACE(INIT, "        BAR0U\n");
+        BDK_TRACE(INIT_ECAM, "        BAR0U\n");
         uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR0U);
         upper_bits |= node << (44 - 32);
         bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR0U, upper_bits);
     }
-    BDK_TRACE(INIT, "        BAR2L\n");
+    BDK_TRACE(INIT_ECAM, "        BAR2L\n");
     barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR2L);
     if (barl.s.typ == 2)
     {
-        BDK_TRACE(INIT, "        BARUL\n");
+        BDK_TRACE(INIT_ECAM, "        BARUL\n");
         uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR2U);
         upper_bits |= node << (44 - 32);
         bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR2U, upper_bits);
     }
-    BDK_TRACE(INIT, "        BAR4L\n");
+    BDK_TRACE(INIT_ECAM, "        BAR4L\n");
     barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR4L);
     if (barl.s.typ == 2)
     {
-        BDK_TRACE(INIT, "        BAR4U\n");
+        BDK_TRACE(INIT_ECAM, "        BAR4U\n");
         uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR4U);
         upper_bits |= node << (44 - 32);
         bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_BAR4U, upper_bits);
     }
 
-    BDK_TRACE(INIT, "        SRIOV BAR0L\n");
+    BDK_TRACE(INIT_ECAM, "        SRIOV BAR0L\n");
     barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0L);
     if (barl.s.typ == 2)
     {
-        BDK_TRACE(INIT, "        SRIOV BAR0U\n");
+        BDK_TRACE(INIT_ECAM, "        SRIOV BAR0U\n");
         uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0U);
         upper_bits |= node << (44 - 32);
         bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR0U, upper_bits);
     }
-    BDK_TRACE(INIT, "        SRIOV BAR2L\n");
+    BDK_TRACE(INIT_ECAM, "        SRIOV BAR2L\n");
     barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2L);
     if (barl.s.typ == 2)
     {
-        BDK_TRACE(INIT, "        SRIOV BAR2U\n");
+        BDK_TRACE(INIT_ECAM, "        SRIOV BAR2U\n");
         uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2U);
         upper_bits |= node << (44 - 32);
         bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR2U, upper_bits);
     }
-    BDK_TRACE(INIT, "        SRIOV BAR4L\n");
+    BDK_TRACE(INIT_ECAM, "        SRIOV BAR4L\n");
     barl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4L);
     if (barl.s.typ == 2)
     {
-        BDK_TRACE(INIT, "        SRIOV BAR4U\n");
+        BDK_TRACE(INIT_ECAM, "        SRIOV BAR4U\n");
         uint32_t upper_bits = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4U);
         upper_bits |= node << (44 - 32);
         bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_SRIOV_BAR4U, upper_bits);
@@ -276,11 +276,11 @@ int bdk_pcie_global_initialize(bdk_node_t node)
 {
     /* Go through all the internal devices and set them up */
     int loc = 0;
-    BDK_TRACE(INIT, "Enabling internal devices\n");
+    BDK_TRACE(INIT_ECAM, "Enabling internal devices\n");
     while (INTERNAL_DEVICES[loc])
     {
         union pcc_dev_con_s dev = { .u = INTERNAL_DEVICES[loc] };
-        BDK_TRACE(INIT, "    Enabling ECAM %d Bus %d Device %d Func %d\n",
+        BDK_TRACE(INIT_ECAM, "    Enabling ECAM %d Bus %d Device %d Func %d\n",
             dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
         pcie_internal_init_dev(node, dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
         loc++;
@@ -294,7 +294,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     int ecam = 0;
     int mrml_bus = 1;
     int last_ari = -1; /* ARI is the old PCIe dev and function combined */
-    BDK_TRACE(INIT, "Creating RSL ARI chain\n");
+    BDK_TRACE(INIT_ECAM, "Creating RSL ARI chain\n");
     for (int ari = 0; ari < 256; ari++)
     {
         /* Only visit existing device */
@@ -302,7 +302,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
             continue;
         if (last_ari != -1)
         {
-            BDK_TRACE(INIT, "    Found ARI %d, connect to %d\n", ari, last_ari);
+            BDK_TRACE(INIT_ECAM, "    Found ARI %d, connect to %d\n", ari, last_ari);
             BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
             ctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL);
             ctl.s.nxtfn_ns = ari;
@@ -314,10 +314,10 @@ int bdk_pcie_global_initialize(bdk_node_t node)
             bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
         }
         else
-            BDK_TRACE(INIT, "    Found first ARI %d\n", ari);
+            BDK_TRACE(INIT_ECAM, "    Found first ARI %d\n", ari);
         last_ari = ari;
     }
-    BDK_TRACE(INIT, "PCIe global init complete\n");
+    BDK_TRACE(INIT_ECAM, "PCIe global init complete\n");
     pcie_global_init_done[node] = 1;
     return 0;
 }
