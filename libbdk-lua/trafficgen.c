@@ -334,17 +334,7 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     int total_length = tg_port->pinfo.setup.size;
 
     /* Allcoate a packet for transmit */
-    int alloc_status = bdk_if_alloc(packet, total_length);
-    /* Allocation may fail as lots of cores start transmitting at the same
-       time, retry failures a few times before giving up */
-    int alloc_retry = 3;
-    while (alloc_status && alloc_retry)
-    {
-        bdk_wait_usec(1);
-        alloc_status = bdk_if_alloc(packet, total_length);
-        alloc_retry--;
-    }
-    if (alloc_status)
+    if (bdk_if_alloc(packet, total_length))
     {
         bdk_error("%s: Failed to allocate TX packet\n", bdk_if_name(tg_port->handle));
         return -1;
