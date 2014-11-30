@@ -151,7 +151,7 @@ static int if_num_ports(bdk_node_t node, int interface)
  */
 static int bgx_setup_one_time(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Strip FCS */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_GLOBAL_CONFIG(handle->interface),
@@ -534,7 +534,7 @@ static int setup_auto_neg(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* 10GBASE-KR and 40GBASE-KR4 optionally support auto negotiation. Note
        that this referse to auto negotiation for links other than SGMII. SGMII
@@ -600,7 +600,7 @@ static int xaui_init(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* NOTE: This code was moved first, out of order compared to the HRM
        because the RESET causes all SPU registers to loose their value */
@@ -760,7 +760,7 @@ static int xaui_link(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     const int TIMEOUT = 100; /* 100us */
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Disable packet reception */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
@@ -950,7 +950,7 @@ static int vnic_setup_cq(bdk_if_handle_t handle)
 static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
 {
     const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int rbdr = priv->rbdr;
     int rbdr_idx = 0;
 
@@ -1243,7 +1243,7 @@ static int if_init(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     if (bgx_setup_one_time(handle))
         return -1;
 
@@ -1291,7 +1291,7 @@ static int if_init(bdk_if_handle_t handle)
 
 static int if_enable(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
         c.s.enable = 1;
         c.s.data_pkt_tx_en = 1;
@@ -1301,7 +1301,7 @@ static int if_enable(bdk_if_handle_t handle)
 
 static int if_disable(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
         c.s.enable = 0;
         c.s.data_pkt_tx_en = 0;
@@ -1411,7 +1411,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
  */
 static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     bdk_if_link_t result;
@@ -1461,7 +1461,7 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     bdk_if_link_t result;
     result.u64 = 0;
 
@@ -1474,7 +1474,7 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 
 static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     if (priv->mode == BGX_MODE_SGMII)
     {
         int status = sgmii_link(handle);
@@ -1648,7 +1648,7 @@ static void if_receive(int unused, void *hand)
     bdk_if_handle_t handle = hand;
 
     /* Figure out which completion queue we're using */
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int cq = priv->cq;
     int cq_idx = 0;
 
@@ -1713,7 +1713,7 @@ static void if_receive(int unused, void *hand)
  */
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* INT_BEAT_GEN must be set for loopback if the QLMs are not clocked. Set
        it whenever we use internal loopback */
@@ -1748,7 +1748,7 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
  */
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Read the RX statistics. These do not include the ethernet FCS */
     BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
@@ -1779,7 +1779,7 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 
 static int if_get_queue_depth(bdk_if_handle_t handle)
 {
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
     return sq_status.s.qcount;
 }
