@@ -142,7 +142,7 @@ for sata in [8,15]:
     wait_for("SATA%d: Interface in active state" % sata)
     wait_for("SATA%d: Speed Gen3" % sata)
     wait_for("SATA%d: Device presence detected and Phy communication established" % sata)
-    wait_for("SATA%d: Unknown signature 0x00000000, assuming a SATA drive" % sata)
+    wait_for("SATA%d: SATA drive" % sata)
     wait_for("SATA%d: Model=\"HARDDISK\", Firmware=\"ASIM\", Serial=\"QM0000%d\", Sectors=2016" % (sata, serial))
     serial += 1
     wait_for("=================================")

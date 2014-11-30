@@ -1473,6 +1473,19 @@ int qlm_auto_config(bdk_node_t node)
 #ifdef HW_EMULATOR
     return 0;
 #endif
+    if (bdk_is_simulation())
+    {
+        printf("QLM Config: Configuring QLMs for a sample setup\n");
+        bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+        bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XAUI_1X4, 6250, 0);
+        bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
+        bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X4, 5000, BDK_QLM_MODE_FLAG_GEN2);
+        bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_PCIE_1X4, 2500, BDK_QLM_MODE_FLAG_GEN1);
+        bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+        bdk_qlm_set_mode(node, 7, BDK_QLM_MODE_SATA_4X1, 3000, 0);
+        return 0;
+    }
+
     const int MCU_TWSI_BUS = 0;
     const int MCU_TWSI_ADDRESS = 0x60;
     int64_t data;
