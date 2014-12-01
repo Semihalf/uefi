@@ -823,7 +823,7 @@ static void setup_node(bdk_node_t node)
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
         /* Errata: (OCX-22153) OCX data rate issues with slower rclks */
-        uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_CORE);
+        uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
         for (int link = 0; link < 3; link++)
         {
             uint64_t gbaud = bdk_qlm_get_gbaud_mhz(node, 8 + link * 2);

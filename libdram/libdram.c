@@ -44,7 +44,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     BDK_TRACE(DRAM, "N%d: Calling DRAM init\n", node);
     uint32_t measured_ddr_hertz = 0;
     int mbytes = octeon_ddr_initialize(node,
-        bdk_clock_get_rate(node, BDK_CLOCK_CORE),
+        bdk_clock_get_rate(node, BDK_CLOCK_RCLK),
         ddr_clock_hertz,
         bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF),
         interface_mask,
