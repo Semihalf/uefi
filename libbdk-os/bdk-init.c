@@ -474,6 +474,29 @@ static void clear_oci_error(bdk_node_t node)
 }
 
 /**
+ * Report the OCI/CCPI lane status for all lanes
+ *
+ * @param node   Node to report for
+ */
+static int oci_report_lane(bdk_node_t node)
+{
+    int num_good = 0;
+    printf("N%d.CCPI Lanes([] is good):", node);
+    for (int lane=0; lane<24; lane++)
+    {
+        BDK_CSR_INIT(lne_status, node, BDK_OCX_LNEX_STATUS(lane));
+        int good = lne_status.s.rx_bdry_sync && lne_status.s.rx_scrm_sync;
+        num_good += good;
+        if (good)
+            printf("[%d]", lane);
+        else
+            printf(" %d", lane);
+    }
+    printf("\n");
+    return num_good;
+}
+
+/**
  * Initialize the OCI so all Nodes are ready to be used
  *
  * @return Zero on success, negative on failure.
@@ -483,6 +506,17 @@ static int init_oci(void)
 #ifdef HW_EMULATOR
     return 0; /* Emulator doesn't seem to have CCPI registers */
 #endif
+
+    /* Don't bringup CCPI if there are no valid lanes */
+    int good_lanes = oci_report_lane(bdk_numa_master());
+    if (good_lanes == 0)
+        return 0;
+    /* Don't bringup CCPI if there are less than 8 lanes */
+    if (good_lanes < 8)
+    {
+        printf("N%d.CCPI Less than 8 good lanes, not initializing multi-node\n", bdk_numa_master());
+        return 0;
+    }
 
     /* Index MAX_LINKS is used for the local node */
     const int LOCAL_NODE = MAX_LINKS;
@@ -819,6 +853,9 @@ static void setup_node(bdk_node_t node)
 #endif
 
     clear_oci_error(node);
+    /* Lanes for master were reported before CCPI was brought up */
+    if (node != bdk_numa_master())
+        oci_report_lane(node);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
