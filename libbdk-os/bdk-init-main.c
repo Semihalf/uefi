@@ -46,6 +46,17 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_node(bdk_node_t node)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    {
+        /* Disable the CCPI lane timers as early as possible. This will make
+           the hardware wait forever for CCPI lane to come up */
+        for (int i = 0; i<6; i++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(i),
+                c.s.timer_dis = 1);
+        }
+    }
+
     /* Enable the timer. Do this first as many things depend on the clock */
     bdk_clock_setup(node);
 
