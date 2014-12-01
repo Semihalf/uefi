@@ -52,6 +52,7 @@ typedef enum
 void __bdk_require_depends(void)
 {
     BDK_REQUIRE(QLM);
+    BDK_REQUIRE(MDIO);
     BDK_REQUIRE(PCIE);
     BDK_REQUIRE(GPIO);
     BDK_REQUIRE(RNG);

@@ -87,7 +87,7 @@ void __bdk_init_node(bdk_node_t node)
         BDK_TRACE(INIT, "N%d: Initialize TWSI\n", node);
         bdk_twsix_initialize(node);
     }
-    if (bdk_mdio_initialize)
+    if (BDK_IS_REQUIRED(MDIO))
     {
         BDK_TRACE(INIT, "N%d: Initialize MDIO\n", node);
         bdk_mdio_initialize(node);

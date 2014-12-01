@@ -15,6 +15,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(GPIO);
     BDK_REQUIRE(RNG);
     BDK_REQUIRE(KEY_MEMORY);
+    BDK_REQUIRE(MDIO);
     BDK_REQUIRE(MPI);
     BDK_REQUIRE(DRAM_CONFIG);
     BDK_REQUIRE(DRAM_TEST);
