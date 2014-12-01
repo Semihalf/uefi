@@ -1409,7 +1409,11 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
         }
         else /* MAC Mode */
         {
-            result = __bdk_if_phy_get(bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index));
+            /* Force the PHY address to be for the same node the interface is on */
+            int phy = bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index);
+            if (phy < BDK_IF_PHY_FIXED_1GB)
+                phy |= handle->node << 24;
+            result = __bdk_if_phy_get(phy);
         }
     }
     return result;
