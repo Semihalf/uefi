@@ -90,6 +90,8 @@ void __bdk_exception_handler(except_regs_t *exc)
     BDK_MRS(ELR_EL3, pc);
     bdk_sys_esr_elx_t esr;
     BDK_MRS(ESR_EL3, esr.u);
+    bdk_sys_far_elx_t far;
+    BDK_MRS(FAR_EL3, far.u);
     printf(BANNER);
     printf("Node %d, Core %d: Unhandled Exception\n", bdk_numa_local(), bdk_get_core_num());
     printf("ESR EC=0x%02x(%s) ISS=0x%x", esr.s.ec,
@@ -116,6 +118,7 @@ void __bdk_exception_handler(except_regs_t *exc)
     printf("\n");
     printf(BANNER);
     printf("pc : 0x%016lx    esr: 0x%08x\n", pc, esr.u);
+    printf("far: 0x%016lx\n", far.u);
     for (int reg=0; reg<16; reg++)
     {
         printf("x%02d: 0x%016lx    x%02d: 0x%016lx\n",
