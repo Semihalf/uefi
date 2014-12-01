@@ -814,10 +814,11 @@ static void setup_node(bdk_node_t node)
 {
     if (bdk_is_simulation())
         return; // FIXME: OCX not modelled in Asim
-    clear_oci_error(node);
 #ifdef HW_EMULATOR
     return; /* Emulator doesn't seem to have CCPI registers */
 #endif
+
+    clear_oci_error(node);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
