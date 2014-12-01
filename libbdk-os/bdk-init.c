@@ -847,10 +847,6 @@ static void setup_node(bdk_node_t node)
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
-        /* Clear all OCI lane error status bits */
-        for (int lane=0; lane<24; lane++)
-            BDK_CSR_WRITE(node, BDK_OCX_LNEX_INT(lane), BDK_CSR_READ(node, BDK_OCX_LNEX_INT(lane)));
-
         /* Split across two links as HW currently only support 2 node */
         BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
             c.s.sort = 1);
