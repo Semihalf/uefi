@@ -546,11 +546,11 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port), c.s.lnk_enb = 1);
 
     /* Wait for the link to come up and link training to be complete */
-    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_TIME);
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
     while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1))
     {
-        if (bdk_clock_get_count(BDK_CLOCK_CORE) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE))
+        if (bdk_clock_get_count(BDK_CLOCK_TIME) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME))
             return -1;
         bdk_wait_usec(1000);
         pciercx_cfg032.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));

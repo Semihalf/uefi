@@ -27,7 +27,7 @@ uint64_t __bdk_clock_get_count_slow(bdk_clock_t clock)
     uint64_t ref_cntr = BDK_CSR_READ(node, BDK_RST_REF_CNTR);
     switch(clock)
     {
-        case BDK_CLOCK_CORE:
+        case BDK_CLOCK_TIME:
             return 0; /* Handled in fast path */
         case BDK_CLOCK_MAIN_REF:
             return ref_cntr;
@@ -54,7 +54,7 @@ uint64_t __bdk_clock_get_rate_slow(bdk_node_t node, bdk_clock_t clock)
     BDK_CSR_INIT(mio_rst_boot, node, BDK_RST_BOOT);
     switch (clock)
     {
-        case BDK_CLOCK_CORE:
+        case BDK_CLOCK_TIME:
             return BDK_GTI_RATE; /* Programed as part of setup */
         case BDK_CLOCK_MAIN_REF:
             return REF_CLOCK;

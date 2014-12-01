@@ -8,11 +8,11 @@
  */
 void bdk_wait_usec(uint64_t usec)
 {
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + usec * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + usec * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;
     do
     {
         bdk_thread_yield();
-    } while (bdk_clock_get_count(BDK_CLOCK_CORE) < done);
+    } while (bdk_clock_get_count(BDK_CLOCK_TIME) < done);
 }
 
 /**
@@ -22,9 +22,9 @@ void bdk_wait_usec(uint64_t usec)
  */
 void bdk_wait(uint64_t cycles)
 {
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + cycles;
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + cycles;
 
-    while (bdk_clock_get_count(BDK_CLOCK_CORE) < done)
+    while (bdk_clock_get_count(BDK_CLOCK_TIME) < done)
     {
         /* Spin */
     }

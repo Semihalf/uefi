@@ -15,7 +15,7 @@
  * Enumeration of different Clocks.
  */
 typedef enum{
-    BDK_CLOCK_CORE,     /**< Clock for telling time with fast access. Uses GTI in core */
+    BDK_CLOCK_TIME,     /**< Clock for telling time with fast access. Uses GTI in core */
     BDK_CLOCK_MAIN_REF, /**< Main reference clock */
     BDK_CLOCK_RCLK,     /**< Clock used by cores, coherent bus and L2 cache. */
     BDK_CLOCK_SCLK,     /**< Clock used by IO blocks. */
@@ -36,7 +36,7 @@ static inline uint64_t bdk_clock_get_count(bdk_clock_t clock) __attribute__ ((al
 static inline uint64_t bdk_clock_get_count(bdk_clock_t clock)
 {
     extern uint64_t __bdk_clock_get_count_slow(bdk_clock_t clock);
-    if (clock == BDK_CLOCK_CORE)
+    if (clock == BDK_CLOCK_TIME)
     {
         uint64_t clk;
         BDK_MRS(CNTPCT_EL0, clk);
@@ -57,7 +57,7 @@ static inline uint64_t bdk_clock_get_rate(bdk_node_t node, bdk_clock_t clock) __
 static inline uint64_t bdk_clock_get_rate(bdk_node_t node, bdk_clock_t clock)
 {
     extern uint64_t __bdk_clock_get_rate_slow(bdk_node_t node, bdk_clock_t clock) __attribute__ ((pure));
-    if (clock == BDK_CLOCK_CORE)
+    if (clock == BDK_CLOCK_TIME)
         return BDK_GTI_RATE; /* Programed as part of setup */
     else
         return __bdk_clock_get_rate_slow(node, clock);

@@ -90,8 +90,8 @@ int _wait(int *status)
 
 int _gettimeofday(struct timeval *tv, void *tz)
 {
-    uint64_t rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
-    uint64_t count = bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
+    uint64_t count = bdk_clock_get_count(BDK_CLOCK_TIME);
     tv->tv_sec = count / rate;
     tv->tv_usec = (count / (rate / 1000000)) % 1000000;
     return 0;

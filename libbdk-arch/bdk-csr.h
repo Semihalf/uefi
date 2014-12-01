@@ -211,8 +211,8 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
 #define BDK_CSR_WAIT_FOR_FIELD(node, csr, field, op, value, timeout_usec) \
     ({int result;                                                       \
     do {                                                                \
-        uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)timeout_usec * \
-                        bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;   \
+        uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + (uint64_t)timeout_usec * \
+                        bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;   \
         typedef_##csr c;                                                \
         while (1)                                                       \
         {                                                               \
@@ -220,7 +220,7 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
             if ((c.s.field) op (value)) {                               \
                 result = 0;                                             \
                 break;                                                  \
-            } else if (bdk_clock_get_count(BDK_CLOCK_CORE) > done) {    \
+            } else if (bdk_clock_get_count(BDK_CLOCK_TIME) > done) {    \
                 result = -1;                                            \
                 break;                                                  \
             } else                                                      \

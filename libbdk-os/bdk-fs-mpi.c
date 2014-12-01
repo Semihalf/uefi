@@ -135,13 +135,13 @@ static int wait_for_write_complete(bdk_node_t node, int chip_sel)
 {
     const int CMD_READ_STATUS = 0x05;
     uint8_t status;
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_CORE) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
     do
     {
         status = bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_READ_STATUS, 1);
         if (status & 1)
         {
-            if (bdk_clock_get_count(BDK_CLOCK_CORE) > timeout)
+            if (bdk_clock_get_count(BDK_CLOCK_TIME) > timeout)
             {
                 bdk_error("MPI-fs timeout waiting for WIP to clear (0x%02x)\n", status);
                 return -1;

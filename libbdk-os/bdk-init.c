@@ -267,8 +267,8 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     }
 
     BDK_TRACE(INIT, "N%d: Wait up to 1s for the cores to boot\n", node);
-    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) + bdk_clock_get_count(BDK_CLOCK_CORE);
-    while ((bdk_clock_get_count(BDK_CLOCK_CORE) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
+    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) + bdk_clock_get_count(BDK_CLOCK_TIME);
+    while ((bdk_clock_get_count(BDK_CLOCK_TIME) < timeout) && ((bdk_atomic_get64(&__bdk_alive_coremask[node]) & coremask) != coremask))
     {
         /* Tight spin, no thread schedules */
     }
@@ -326,8 +326,8 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
     }
 
     BDK_TRACE(INIT, "N%d: Waiting for all reset bits to be set\n", node);
-    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) + bdk_clock_get_count(BDK_CLOCK_CORE);
-    while (bdk_clock_get_count(BDK_CLOCK_CORE) < timeout)
+    uint64_t timeout = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) + bdk_clock_get_count(BDK_CLOCK_TIME);
+    while (bdk_clock_get_count(BDK_CLOCK_TIME) < timeout)
     {
         reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
         if ((reset & coremask) == coremask)

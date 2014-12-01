@@ -19,8 +19,8 @@ static int l2_perf(lua_State* L)
     /* This is the time of the last update for each counter */
     static uint64_t last_update_bus[MAX_L2_PFC];
 
-    uint64_t clock_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
-    uint64_t current_cycle = bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t clock_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
+    uint64_t current_cycle = bdk_clock_get_count(BDK_CLOCK_TIME);
 
     /* All results will be in a table with fields for each TAD */
     if (lua_istable(L, 1))

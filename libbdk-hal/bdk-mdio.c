@@ -77,13 +77,13 @@ static void __bdk_mdio_set_clause22_mode(bdk_node_t node, int bus_id)
 static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(bdk_node_t node, int bus_id)
 {
     bdk_smi_x_rd_dat_t smi_rd;
-    uint64_t done = bdk_clock_get_count(BDK_CLOCK_CORE) + (uint64_t)BDK_MDIO_TIMEOUT *
-                       bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) / 1000000;
+    uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + (uint64_t)BDK_MDIO_TIMEOUT *
+                       bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;
     do
     {
         bdk_wait(1000);
         smi_rd.u = BDK_CSR_READ(node, BDK_SMI_X_RD_DAT(bus_id));
-    } while (smi_rd.s.pending && (bdk_clock_get_count(BDK_CLOCK_CORE) < done));
+    } while (smi_rd.s.pending && (bdk_clock_get_count(BDK_CLOCK_TIME) < done));
     return smi_rd;
 }
 

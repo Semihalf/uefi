@@ -48,7 +48,7 @@ static void dbg_printf(const char *format, ...)
 
 static int _inbyte(xmodem_state_t *state, unsigned short timeout) // msec timeout
 {
-    uint64_t expires = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE) * timeout / 1000 + bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t expires = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * timeout / 1000 + bdk_clock_get_count(BDK_CLOCK_TIME);
     int len;
     char c;
 
@@ -57,7 +57,7 @@ static int _inbyte(xmodem_state_t *state, unsigned short timeout) // msec timeou
         /* Use direct read so that the readline logic in stdin doesn't
             get invoked */
         len = read(state->fd, &c, 1);
-        if ((len != 1) && (bdk_clock_get_count(BDK_CLOCK_CORE) > expires))
+        if ((len != 1) && (bdk_clock_get_count(BDK_CLOCK_TIME) > expires))
             return -1;
     } while (len != 1);
     //dbg_printf("IN <= 0x%02x\n", 0xff & c);

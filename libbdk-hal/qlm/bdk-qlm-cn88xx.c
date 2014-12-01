@@ -1277,7 +1277,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     if (BDK_CSR_READ(node, BDK_GSERX_REFCLK_EVT_CNTR(qlm)))
         bdk_error("GSER%d: Ref clock counter not zero\n", qlm);
     /* Start counting */
-    uint64_t start = bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t start = bdk_clock_get_count(BDK_CLOCK_TIME);
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 1;
         c.s.clr = 0);
@@ -1286,12 +1286,12 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
     /* Stop counting */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 0);
-    uint64_t stop = bdk_clock_get_count(BDK_CLOCK_CORE);
+    uint64_t stop = bdk_clock_get_count(BDK_CLOCK_TIME);
     bdk_wait_usec(1); /* Give counter a chance to stabalize */
 
     /* Calculate the rate */
     uint64_t count = BDK_CSR_READ(node, BDK_GSERX_REFCLK_EVT_CNTR(qlm));
-    count *= bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_CORE);
+    count *= bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
     count /= stop - start;
     return count;
 }
