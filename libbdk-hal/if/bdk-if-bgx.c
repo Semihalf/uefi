@@ -227,6 +227,9 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
         c.s.cc_unit_cnt = credit;
         c.s.cc_packet_cnt = 0x1ff;
         c.s.cc_enable = 1);
+    /* Pad packets to 60 bytes, 15 32bit words (before FCS) */
+    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_LMACX_CFG(handle->interface * 4 + handle->index),
+        c.s.min_pkt_size = 15);
 
     /* Set the backpressure AND mask. Each interface gets 16 channels in this
        mask. When there is only 1 port, all 64 channels are available but
