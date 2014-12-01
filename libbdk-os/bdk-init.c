@@ -484,8 +484,9 @@ static int oci_report_lane(bdk_node_t node)
     printf("N%d.CCPI Lanes([] is good):", node);
     for (int lane=0; lane<24; lane++)
     {
-        BDK_CSR_INIT(lne_status, node, BDK_OCX_LNEX_STATUS(lane));
-        int good = lne_status.s.rx_bdry_sync && lne_status.s.rx_scrm_sync;
+        int ocx_qlm = lane / 4;
+        BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(ocx_qlm));
+        int good = (ocx_qlmx_cfg.s.ser_lane_ready & (1 << (lane & 3))) != 0;
         num_good += good;
         if (good)
             printf("[%d]", lane);
