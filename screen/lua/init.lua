@@ -69,7 +69,7 @@ local function mmc_test(device)
     -- MMC Tests
     --
     local mmc_pass = false
-    local capacity = cavium.c.bdk_mmc_initialize(device)
+    local capacity = cavium.c.bdk_mmc_initialize(node, device)
     if (capacity > 0) then
         mmc_pass = true
         printf("MMC%d Init test: PASS\n", device)
