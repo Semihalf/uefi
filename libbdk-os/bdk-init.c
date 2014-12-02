@@ -478,22 +478,27 @@ static void clear_oci_error(bdk_node_t node)
  *
  * @param node   Node to report for
  */
-static int oci_report_lane(bdk_node_t node)
+static int oci_report_lane(bdk_node_t node, int show_message)
 {
     int num_good = 0;
-    printf("N%d.CCPI Lanes([] is good):", node);
+    if (show_message)
+        printf("N%d.CCPI Lanes([] is good):", node);
     for (int lane=0; lane<24; lane++)
     {
         int ocx_qlm = lane / 4;
         BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(ocx_qlm));
         int good = (ocx_qlmx_cfg.s.ser_lane_ready & (1 << (lane & 3))) != 0;
         num_good += good;
-        if (good)
-            printf("[%d]", lane);
-        else
-            printf(" %d", lane);
+        if (show_message)
+        {
+            if (good)
+                printf("[%d]", lane);
+            else
+                printf(" %d", lane);
+        }
     }
-    printf("\n");
+    if (show_message)
+        printf("\n");
     return num_good;
 }
 
@@ -509,10 +514,38 @@ static int init_oci(void)
 #endif
 
     /* Don't bringup CCPI if there are no valid lanes */
-    int good_lanes = oci_report_lane(bdk_numa_master());
+    int good_lanes = oci_report_lane(bdk_numa_master(), 0);
     if (good_lanes == 0)
         return 0;
-    /* Don't bringup CCPI if there are less than 8 lanes */
+    if (good_lanes < 24)
+    {
+        /* Clear any SERDES bad bits */
+        for (int ocx_qlm=0; ocx_qlm<6; ocx_qlm++)
+        {
+            BDK_CSR_INIT(ocx_qlmx_cfg, bdk_numa_master(), BDK_OCX_QLMX_CFG(ocx_qlm));
+            if (ocx_qlmx_cfg.s.ser_lane_ready != 0xf)
+            {
+                /* Clear bad */
+                ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
+                ocx_qlmx_cfg.s.ser_lane_bad = 0;
+                BDK_CSR_WRITE(bdk_numa_master(), BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
+            }
+        }
+
+        /* Wait for a short time for links to become good */
+        printf("N%d.CCPI Waiting for lanes to link up (max 10 sec)\n", bdk_numa_master());
+
+        uint64_t timeout = bdk_clock_get_rate(bdk_numa_master(), BDK_CLOCK_TIME) * 10 + bdk_clock_get_count(BDK_CLOCK_TIME);
+        while (bdk_clock_get_count(BDK_CLOCK_TIME) < timeout)
+        {
+            bdk_wait_usec(10000);
+            good_lanes = oci_report_lane(bdk_numa_master(), 0);
+            if (good_lanes == 24)
+                break;
+        }
+    }
+
+    good_lanes = oci_report_lane(bdk_numa_master(), 1);
     if (good_lanes < 8)
     {
         printf("N%d.CCPI Less than 8 good lanes, not initializing multi-node\n", bdk_numa_master());
@@ -856,7 +889,7 @@ static void setup_node(bdk_node_t node)
     clear_oci_error(node);
     /* Lanes for master were reported before CCPI was brought up */
     if (node != bdk_numa_master())
-        oci_report_lane(node);
+        oci_report_lane(node, 1);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
