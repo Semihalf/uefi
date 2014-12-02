@@ -680,8 +680,8 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_PI(p),
             c.s.pi = 1);
         /* Clear all port errors */
-        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(qlm), -1);
-        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(qlm), -1);
+        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(p), -1);
+        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(p), -1);
     }
 
     return 0;
