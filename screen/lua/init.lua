@@ -81,6 +81,24 @@ local function mmc_test(device)
     return mmc_pass
 end
 
+local function check_ccpi(link)
+    --
+    -- MMC Tests
+    --
+    local ccpi_pass = true
+    if ((cavium.csr.OCX_COM_LINKX_CTL(link).UP ~= 1) or
+        (cavium.csr.OCX_COM_LINKX_CTL(link).VALID ~= 1)) then
+        print ("oci0: FAIL (link status)")
+        ccpi_pass = false
+    end
+    if ((cavium.csr.OCX_QLMX_CFG(2 * link + 0).SER_LANE_READY ~= 15) or
+        (cavium.csr.OCX_QLMX_CFG(2 * link + 1).SER_LANE_READY ~= 15)) then
+        print ("oci0: FAIL (missing lanes)")
+        ccpi_pass = false
+    end
+    return ccpi_pass
+end
+
 -- Print out a banner
 print("")
 print("BDK version ".. require("bdk-version"))
@@ -124,26 +142,8 @@ cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MO
 
 
 -- OCI test - confirm all QLMs are up and valid.
-local oci0_status = true
-local oci1_status = true
-local oci2_status = true
-print("test start: oci")
-if ((cavium.csr.OCX_COM_LINKX_CTL(0).UP ~= 1) or
-    (cavium.csr.OCX_COM_LINKX_CTL(0).VALID ~= 1)) then
-    print ("oci0: FAIL")
-    oci0_status = false
-end
-if ((cavium.csr.OCX_COM_LINKX_CTL(1).UP ~= 1) or
-    (cavium.csr.OCX_COM_LINKX_CTL(1).VALID ~= 1)) then
-    print ("oci1: FAIL")
-    oci1_status = false
-end
-if ((cavium.csr.OCX_COM_LINKX_CTL(2).UP ~= 1) or
-    (cavium.csr.OCX_COM_LINKX_CTL(2).VALID ~= 1)) then
-    print ("oci2: FAIL")
-    oci2_status = false
-end
-if (oci0_status and oci1_status and oci2_status) then
+
+if (check_ccpi(0) and check_ccpi(1) and check_ccpi(2)) then
     print ("OCI Test: PASS")
 else
     all_pass = false
