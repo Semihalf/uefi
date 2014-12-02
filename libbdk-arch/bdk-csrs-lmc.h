@@ -4841,8 +4841,8 @@ typedef union bdk_lmcx_timing_params0 {
 	uint64_t u;
 	struct bdk_lmcx_timing_params0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_53_63              : 11;
-		uint64_t tbcw                        : 5;  /**< R/W - Indicates tBCW constraints. Set this field as follows:
+		uint64_t reserved_54_63              : 10;
+		uint64_t tbcw                        : 6;  /**< R/W - Indicates tBCW constraints. Set this field as follows:
                                                                  _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
 
                                                                  where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
@@ -4941,8 +4941,8 @@ typedef union bdk_lmcx_timing_params0 {
 		uint64_t tzqinit                     : 4;
 		uint64_t trp                         : 5;
 		uint64_t tcksre                      : 4;
-		uint64_t tbcw                        : 5;
-		uint64_t reserved_53_63              : 11;
+		uint64_t tbcw                        : 6;
+		uint64_t reserved_54_63              : 10;
 #endif
 	} s;
 	/* struct bdk_lmcx_timing_params0_s   cn88xx; */

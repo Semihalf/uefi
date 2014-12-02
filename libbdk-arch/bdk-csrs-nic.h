@@ -61,8 +61,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * Enumeration NIC_CHAN_E
  *
  * NIC Channel Number Enumeration
- * Enumerates the values of
- * NIC_CQE_RX_S[CHAN].
+ * Enumerates the values of NIC_CQE_RX_S[CHAN].
  */
 enum nic_chan_e {
 	NIC_CHAN_E_BGX0_PORT0_CH0 = 0x800,
@@ -598,6 +597,20 @@ enum nic_etype_alg_e {
 	NIC_ETYPE_ALG_E_VLAN = 0x3,
 	NIC_ETYPE_ALG_E_VLAN_STRIP = 0x4,
 	NIC_ETYPE_ALG_E_ENUM_LAST = 0x5,
+};
+
+/**
+ * Enumeration NIC_INTF_BLOCK_E
+ *
+ * NIC Interface Block ID Enumeration
+ * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
+ */
+enum nic_intf_block_e {
+	NIC_INTF_BLOCK_E_BGX0_BLOCK = 0x8,
+	NIC_INTF_BLOCK_E_BGX1_BLOCK = 0x9,
+	NIC_INTF_BLOCK_E_TNS_PORT0_BLOCK = 0x6,
+	NIC_INTF_BLOCK_E_TNS_PORT1_BLOCK = 0x7,
+	NIC_INTF_BLOCK_E_ENUM_LAST = 0xa,
 };
 
 /**
@@ -1316,8 +1329,8 @@ union nic_send_hdr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
-                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MPS] and related
-                                                                 TSO_* fields are valid. */
+                                                                 operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
+                                                                 valid. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
                                                                  error. If clear, no CQE is added on normal completion.
@@ -1384,6 +1397,7 @@ union nic_send_hdr_s {
 
                                                                  If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
                                                                  L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
+
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
                                                                  packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
@@ -1394,6 +1408,7 @@ union nic_send_hdr_s {
 
                                                                  If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
                                                                  L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
+
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
                                                                  packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
@@ -1460,25 +1475,27 @@ union nic_send_hdr_s {
                                                                  subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
                                                                  the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
 		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
-                                                                 operation to send one or more packets of a TCP flow, and the [TSO_MPS] and related
-                                                                 TSO_* fields are valid. */
+                                                                 operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
+                                                                 valid. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_88_127             : 40; /**< [127: 88] Reserved. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
-                                                                 the size of the headers preceding the payload). */
+                                                                 the size of the headers preceding the payload). Must be less than [TOTAL], else the send
+                                                                 descriptor is treated as non-TSO. */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which must not exceed 9212
-                                                                 bytes. */
+                                                                 bytes. Must be non-zero, else the send descriptor is treated as non-TSO. */
 #else
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which must not exceed 9212
-                                                                 bytes. */
+                                                                 bytes. Must be non-zero, else the send descriptor is treated as non-TSO. */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
-                                                                 the size of the headers preceding the payload). */
+                                                                 the size of the headers preceding the payload). Must be less than [TOTAL], else the send
+                                                                 descriptor is treated as non-TSO. */
 		uint64_t reserved_88_127             : 40; /**< [127: 88] Reserved. */
 #endif
 	} s;
@@ -1818,7 +1835,17 @@ typedef union bdk_nic_pf_chanx_credit {
                                                                  signed value that decrements towards zero as credits are used. Packets are not allowed to
                                                                  flow when the count is less than zero. As such, the most significant bit should normally
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1. */
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be \< (12288 - 9212)/16 =
+                                                                 192. */
 		uint64_t cc_packet_cnt               : 10; /**< R/W/H - Channel-credit packet count. This value, plus 1, represents the maximum outstanding
                                                                  aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
                                                                  value that decrements towards zero as credits are used. Packets are not allowed to flow
@@ -4340,6 +4367,9 @@ static inline uint64_t BDK_NIC_PF_INT_TIMER_CFG_FUNC(void)
 
 /**
  * NCB - nic_pf_intf#_bp_cfg
+ *
+ * Configures backpressure on the NIC TNS receive interface.
+ *
  */
 typedef union bdk_nic_pf_intfx_bp_cfg {
 	uint64_t u;
@@ -4349,7 +4379,11 @@ typedef union bdk_nic_pf_intfx_bp_cfg {
 		uint64_t reserved_5_62               : 58;
 		uint64_t bp_type                     : 1;  /**< R/W - This bit is used to mark a BP channel as a BGX Backpressure Slot or a TNS Backpressure
                                                                  slot. 0=BGX, 1=TNS. */
-		uint64_t bp_id                       : 4;  /**< R/W - This value holds the Backpressure ID for the X2P BP Interface. */
+		uint64_t bp_id                       : 4;  /**< R/W - Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E. Must
+                                                                 set to NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
+                                                                 NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
+                                                                 register.
+                                                                 INTERNAL: Specifies upper 4 bits of X2P channel ID. */
 #else
 		uint64_t bp_id                       : 4;
 		uint64_t bp_type                     : 1;
@@ -4440,7 +4474,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long param1, unsigned lo
 /**
  * NCB - nic_pf_intf#_send_cfg
  *
- * Configures the NIC TNS interface.
+ * Configures the NIC TNS send interface.
  *
  */
 typedef union bdk_nic_pf_intfx_send_cfg {
@@ -4474,9 +4508,11 @@ typedef union bdk_nic_pf_intfx_send_cfg {
 		uint64_t tns_credit_size             : 2;  /**< R/W - Send channel credit size when the TNS interface is not bypassed. Used only when
                                                                  [TNS_NONBYPASS] is set, and must be set to a value consistent with the header extraction
                                                                  size in TNS. Enumerated by NIC_TNS_CREDIT_SIZE_E. */
-		uint64_t block                       : 4;  /**< R/W - Block identifier of the NIC TNS interface. For TNS interface 0, must set to 0x8 if TNS is
-                                                                 bypassed, 0x6 otherwise. For TNS interface 1, must set to 0x9 if TNS is bypassed, 0x7
-                                                                 otherwise. INTERNAL: Specifies upper 4 bits of P2X channel ID. */
+		uint64_t block                       : 4;  /**< R/W - Block ID for the NIC send interface. Enumerated by NIC_INTF_BLOCK_E. Must set to
+                                                                 NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
+                                                                 NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
+                                                                 register.
+                                                                 INTERNAL: Specifies upper 4 bits of P2X channel ID. */
 #else
 		uint64_t block                       : 4;
 		uint64_t tns_credit_size             : 2;
@@ -4565,7 +4601,17 @@ typedef union bdk_nic_pf_lmacx_credit {
                                                                  signed value that decrements towards zero as credits are used. Packets are not allowed to
                                                                  flow when the count is less than zero. As such, the most significant bit should normally
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1. */
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be \< (12288 - 9212)/16 =
+                                                                 192. */
 		uint64_t cc_packet_cnt               : 10; /**< R/W/H - Channel-credit packet count. This value, plus 1, represents the maximum outstanding
                                                                  aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
                                                                  value that decrements towards zero as credits are used. Packets are not allowed to flow

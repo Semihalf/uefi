@@ -787,6 +787,56 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long param1)
 
 
 /**
+ * RSL - l2c_tad#_rtg_err
+ *
+ * This register records error information for all RTG SBE/DBE errors.
+ * The priority of errors (lowest to highest) is SBE, DBE. An error locks the SYN, WAY,
+ * and L2IDX fields for equal or lower priority errors until cleared by software.
+ * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+ * L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
+ * Added in pass 2.
+ */
+typedef union bdk_l2c_tadx_rtg_err {
+	uint64_t u;
+	struct bdk_l2c_tadx_rtg_err_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t rtgdbe                      : 1;  /**< RO/H - Information refers to a double-bit RTG ECC error. */
+		uint64_t rtgsbe                      : 1;  /**< RO/H - Information refers to a single-bit RTG ECC error. */
+		uint64_t reserved_39_61              : 23;
+		uint64_t syn                         : 7;  /**< RO/H - Syndrome for the single-bit error. */
+		uint64_t reserved_24_31              : 8;
+		uint64_t way                         : 4;  /**< RO/H - Way of the L2 block containing the error. */
+		uint64_t l2idx                       : 13; /**< RO/H - Index of the L2 block containing the error. */
+		uint64_t reserved_0_6                : 7;
+#else
+		uint64_t reserved_0_6                : 7;
+		uint64_t l2idx                       : 13;
+		uint64_t way                         : 4;
+		uint64_t reserved_24_31              : 8;
+		uint64_t syn                         : 7;
+		uint64_t reserved_39_61              : 23;
+		uint64_t rtgsbe                      : 1;
+		uint64_t rtgdbe                      : 1;
+#endif
+	} s;
+	/* struct bdk_l2c_tadx_rtg_err_s      cn88xx; */
+} bdk_l2c_tadx_rtg_err_t;
+
+static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087E050060300ull + (param1 & 7) * 0x1000000ull;
+	else 		csr_fatal("BDK_L2C_TADX_RTG_ERR", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_L2C_TADX_RTG_ERR(...) bdk_l2c_tadx_rtg_err_t
+#define bustype_BDK_L2C_TADX_RTG_ERR(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_L2C_TADX_RTG_ERR(p1) (p1)
+#define arguments_BDK_L2C_TADX_RTG_ERR(p1) (p1),-1,-1,-1
+#define basename_BDK_L2C_TADX_RTG_ERR(...) "L2C_TADX_RTG_ERR"
+
+
+/**
  * RSL - l2c_tad#_stat
  *
  * This register holds information about the instantaneous state of the TAD

@@ -15166,8 +15166,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_53_63", start = 53, stop = 63},
-                {name = "TBCW", start = 48, stop = 52},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "TBCW", start = 48, stop = 53},
                 {name = "TCKSRE", start = 44, stop = 47},
                 {name = "TRP", start = 39, stop = 43},
                 {name = "TZQINIT", start = 35, stop = 38},
@@ -63752,7 +63752,8 @@ local csr_db = {
             width = 8,
             address = 0x87e080800020,
             fields = {
-                {name = "RESERVED_30_63", start = 30, stop = 63},
+                {name = "RESERVED_31_63", start = 31, stop = 63},
+                {name = "NCPEND", start = 30, stop = 30},
                 {name = "LOCK_LOCAL_CAS", start = 29, stop = 29},
                 {name = "LOCK_LOCAL_STC", start = 28, stop = 28},
                 {name = "LOCK_LOCAL_PP", start = 27, stop = 27},
@@ -64038,6 +64039,24 @@ local csr_db = {
                 {name = "CNT2SEL", start = 16, stop = 23},
                 {name = "CNT1SEL", start = 8, stop = 15},
                 {name = "CNT0SEL", start = 0, stop = 7},
+            }
+        },
+        L2C_TADX_RTG_ERR = {
+            name = "L2C_TAD#_RTG_ERR",
+            type = "RSL",
+            width = 8,
+            address = 0x87e050060300,
+            range1 = {0,7},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RTGDBE", start = 63, stop = 63},
+                {name = "RTGSBE", start = 62, stop = 62},
+                {name = "RESERVED_39_61", start = 39, stop = 61},
+                {name = "SYN", start = 32, stop = 38},
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "WAY", start = 20, stop = 23},
+                {name = "L2IDX", start = 7, stop = 19},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         L2C_TADX_STAT = {
@@ -65597,8 +65616,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_53_63", start = 53, stop = 63},
-                {name = "TBCW", start = 48, stop = 52},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "TBCW", start = 48, stop = 53},
                 {name = "TCKSRE", start = 44, stop = 47},
                 {name = "TRP", start = 39, stop = 43},
                 {name = "TZQINIT", start = 35, stop = 38},
