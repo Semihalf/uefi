@@ -256,7 +256,7 @@ const dram_config_t *dram_get_config_crb_1s(void)
 
     /* Set the config name and the default frequency */
     cfg.name = "cn88xx-crb-1s";
-    cfg.ddr_clock_hertz = 533333333;
+    cfg.ddr_clock_hertz = 933333333;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)
