@@ -24,6 +24,8 @@
 /bdk-boot/diagnostics
 /normal-boot/boot-stub
 /normal-boot/diagnostics
+/normal-boot-crb-1s/boot-stub
+/normal-boot-crb-1s/diagnostics
 /screen/boot-stub
 /screen/screen
 /tests/hw-and-sim/crypto/crypto
