@@ -6,7 +6,7 @@
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 0
 /* Name of DRAM config for master node 0 */
-#define DRAM_NODE0 ebb8800
+#define DRAM_NODE0 crb_1s
 /* Enable verbose logging from DRAM initialization (0 or 1) */
 #define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
