@@ -88,8 +88,19 @@ end
 
 local function mpi_write(filename)
     local source = menu.prompt_filename("Enter source filename")
-    local offset = menu.prompt_number("Starting offset")
+    local offset = menu.prompt_number("Starting offset", 0)
     fileio.copy(source, nil, filename, offset)
+end
+
+local function mpi_xmodem(filename)
+    local offset = menu.prompt_number("Starting offset", 0)
+    local baudrate = menu.prompt_number("Baudrate", 115200)
+    printf("Changing baudrate to %d, no flow control\n", baudrate)
+    cavium.c.bdk_wait_usec(500000);
+    cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 0, baudrate, 0)
+    cavium.c.bdk_wait_usec(500000);
+    printf("\nBaudrate is now %d\n", baudrate)
+    fileio.copy("/xmodem", nil, filename, offset)
 end
 
 local function mpi_device()
@@ -159,6 +170,7 @@ local function mpi_device()
              freq}
         m:item("read", "View device contents", mpi_view, filename)
         m:item("write", "Write to device", mpi_write, filename)
+        m:item("xmodem", "Upload to device using Xmodem", mpi_xmodem, filename)
         m:item("quit", "Main menu")
     until m:show() == "quit"
 end
