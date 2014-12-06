@@ -1,0 +1,193 @@
+require("strict")
+require("menu")
+require("utils")
+require("cavium")
+require("trafficgen")
+local bit64 = require("bit64")
+
+local node = cavium.MASTER_NODE
+
+local function check_ref_clock(qlm, expected_rate_hz)
+    local measured = cavium.c.bdk_qlm_measure_clock(node, qlm)
+    local range = expected_rate_hz / 1000 -- With 0.1%
+    local min_hz = expected_rate_hz - range
+    local max_hz = expected_rate_hz + range
+    local good = (measured >= min_hz) and (measured <= max_hz)
+    if good then
+        printf("Ref clock QLM%d: PASS\n", qlm)
+    else
+        printf("Ref clock QLM%d: FAIL (%d Hz, expected %d Hz\n", qlm, measured, expected_rate_hz)
+    end
+    return good
+end
+
+local function check_pcie_rc(pem)
+    local pcie = require("pcie")
+    local status, rc = pcall(pcie.initialize, 0, pem)
+    if status then
+        rc:scan()
+        rc:enumerate()
+        --rc:display()
+        print("PCIe%d: PASS" % pem)
+        return true
+    else
+        print("PCIe%d: FAIL (No link)" % pem)
+        return false
+    end
+end
+
+local function check_sata(sata)
+    local size = cavium.c.bdk_sata_identify(node, sata, 0)
+    local good = (size > 0)
+    if good then
+        printf("SATA%d: PASS\n", sata)
+    else
+        printf("SATA%d: FAIL (Identify failed)\n", sata)
+    end
+    return good
+end
+
+
+local function tg_run(tg, ports, size, count, rate, to_secs)
+    tg:command("default %s" % ports)
+    tg:command("clear all")
+    tg:command("size %d" % size)
+    tg:command("count %d" % count)
+    tg:command("tx_percent %d" % rate)
+    tg:command("start")
+    cavium.c.bdk_wait_usec(to_secs * 1000000)
+    local stats = tg:get_stats()
+    local ports_pass = true
+    for port,stat in pairs(stats) do
+        local pass = true
+        pass = pass and (stat.tx_packets_total == count)
+        pass = pass and (stat.rx_packets_total == count)
+        pass = pass and (stat.tx_octets_total == stat.rx_octets_total)
+        pass = pass and (stat.rx_errors == 0)
+        pass = pass and (stat.rx_validation_errors == 0)
+        if not pass then
+            pprint("FAIL", port, stat)
+        end
+        ports_pass = ports_pass and pass
+    end
+    if ports_pass then
+        printf("Test %s, size %d, count %d: PASS\n", ports, size, count)
+    else
+        printf("Test %s, size %d, count %d: FAIL\n", ports, size, count)
+    end
+    return ports_pass
+end
+
+local function check_dram()
+    local good = true
+    local expected_mbytes = 32768
+
+    local dram_mbytes = cavium.c.bdk_dram_get_size_mbytes(node)
+    good = (dram_mbytes == expected_mbytes)
+    if good then
+        printf("DRAM Size: PASS\n")
+    else
+        printf("DRAM Size: FAIL (%d MB, expect %d MB)\n", dram_mbytes, expected_mbytes)
+    end
+
+    -- Run "Random XOR (32 Burst)", test 4, on 64-128MB
+    local err_count = cavium.c.bdk_dram_test(4, 0x4000000, 0x4000000)
+    good = (err_count == 0) and good
+    if good then
+        printf("DRAM Test 64MB-128MB: PASS\n")
+    else
+        printf("DRAM Test 64MB-128MB: FAIL\n")
+    end
+    return good
+end
+
+local function board_test()
+    printf("\n")
+    printf("Board test: CN88XX-CRB-1S\n")
+    printf("BDK version: %s\n", require("bdk-version"))
+
+    local all_pass = true
+
+    --
+    -- Go multicore
+    --
+    local status = cavium.c.bdk_init_cores(node, 0)
+    if (status == 0) then
+        printf("Mult-core: PASS\n")
+    else
+        printf("Mult-core: FAIL\n")
+    end
+    all_pass = all_pass and (status == 0)
+
+    --
+    -- Measure reference clocks
+    --
+    all_pass = check_ref_clock(0, 156250000) and all_pass
+    all_pass = check_ref_clock(1, 156250000) and all_pass
+    all_pass = check_ref_clock(2, 100000000) and all_pass
+    all_pass = check_ref_clock(3, 100000000) and all_pass
+    all_pass = check_ref_clock(4, 100000000) and all_pass
+    all_pass = check_ref_clock(5, 100000000) and all_pass
+    all_pass = check_ref_clock(6, 100000000) and all_pass
+    all_pass = check_ref_clock(7, 100000000) and all_pass
+
+    --
+    -- PCIe tests
+    --
+    all_pass = check_pcie_rc(0) and all_pass -- Internal to BMC
+    all_pass = check_pcie_rc(2) and all_pass -- x16 slot
+    all_pass = check_pcie_rc(4) and all_pass -- x8 slot
+
+    --
+    -- SATA tests
+    --
+    all_pass = check_sata(4) and all_pass -- QLM3, SATA port 0
+    all_pass = check_sata(5) and all_pass -- QLM3, SATA port 1
+    all_pass = check_sata(6) and all_pass -- QLM3, SATA port 2
+    all_pass = check_sata(7) and all_pass -- QLM3, SATA port 3
+
+    --
+    -- Put networking in PHY internal loopback
+    --
+
+    --
+    -- Network Traffic Tests
+    --
+    local tg_pass = true
+    local trafficgen = require("trafficgen")
+    local tg = trafficgen.new()
+    cavium.c.bdk_wait_usec(3 * 1000000) -- wait for links to come up.
+    -- Do 100k packets, 60 bytes each, 50% of gigabit, timeout 5 secs
+    all_pass = tg_run(tg, "XLAUI0", 60, 100000, 50, 5) and all_pass
+    -- Do 100k packets, 1499 bytes each, 50% of gigabit, timeout 7 secs
+    all_pass = tg_run(tg, "XLAUI0", 1499, 100000, 50, 7) and all_pass
+    -- Do 100k packets, 9212 bytes each, 50% of gigabit, timeout 12 secs
+    all_pass = tg_run(tg, "XLAUI0", 9212, 10000, 10, 12) and all_pass
+    -- Do 100k packets, 60 bytes each, 50% of gigabit, timeout 5 secs
+    all_pass = tg_run(tg, "XFI1.0-XFI1.1", 60, 100000, 50, 5) and all_pass
+    -- Do 100k packets, 1499 bytes each, 50% of gigabit, timeout 7 secs
+    all_pass = tg_run(tg, "XFI1.0-XFI1.1", 1499, 100000, 50, 7) and all_pass
+    -- Do 100k packets, 9212 bytes each, 50% of gigabit, timeout 12 secs
+    all_pass = tg_run(tg, "XFI1.0-XFI1.1", 9212, 10000, 10, 12) and all_pass
+
+    --
+    -- DRAM
+    --
+    all_pass = check_dram() and all_pass
+
+    --
+    -- Summary
+    --
+    print("")
+    if all_pass then
+        print("All tested summary: PASS")
+    else
+        print("All tested summary: FAIL")
+    end
+    print("")
+end
+
+return board_test
+
+
+
