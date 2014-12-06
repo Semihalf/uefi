@@ -407,7 +407,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     cmd_header += slot;
 
     /* Build a command table with the command to execute */
-    hba_cmd_tbl_t cmd_table;
+    hba_cmd_tbl_t cmd_table BDK_CACHE_LINE_ALIGNED;
     memset(&cmd_table, 0, sizeof(hba_cmd_tbl_t));
     /* Where the data is */
     cmd_table.prdt_entry[0].dba = bdk_ptr_to_phys(buffer);
