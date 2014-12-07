@@ -139,7 +139,7 @@ void __bdk_init(uint32_t image_crc)
     bdk_node_t node = bdk_numa_local();
     bdk_numa_set_running(node);
 
-    static const char BANNER_1[] = "Cavium THUNDERX\n";
+    static const char BANNER_1[] = "\n\n\nCavium THUNDERX\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_CRC_RIGHT[] = "PASS: CRC32 verification\n";
     static const char BANNER_CRC_WRONG[] = "FAIL: CRC32 verification\n";
