@@ -90,10 +90,20 @@ local function check_dram()
         printf("DRAM Size: FAIL (%d MB, expect %d MB)\n", dram_mbytes, expected_mbytes)
     end
 
-    -- Run "Random XOR (32 Burst)", test 4, on 64-128MB
-    local err_count = cavium.c.bdk_dram_test(4, 0x4000000, 0x4000000)
+    -- Run all tests, on 64-128MB
+    local err_count = -1
+    for test_number=0,100 do
+        local name = cavium.c.bdk_dram_get_test_name(test_number);
+        if not name then
+            break
+        end
+        err_count = cavium.c.bdk_dram_test(test_number, 0x4000000, 0x4000000)
+        if err_count ~= 0 then
+            break
+        end
+    end
     good = (err_count == 0) and good
-    if good then
+    if err_count == 0 then
         printf("DRAM Test 64MB-128MB: PASS\n")
     else
         printf("DRAM Test 64MB-128MB: FAIL\n")
@@ -130,6 +140,11 @@ local function board_test()
     all_pass = check_ref_clock(5, 100000000) and all_pass
     all_pass = check_ref_clock(6, 100000000) and all_pass
     all_pass = check_ref_clock(7, 100000000) and all_pass
+
+    --
+    -- DRAM
+    --
+    all_pass = check_dram() and all_pass
 
     --
     -- PCIe tests
@@ -169,11 +184,6 @@ local function board_test()
     all_pass = tg_run(tg, "XFI1.0-XFI1.1", 1499, 100000, 50, 7) and all_pass
     -- Do 100k packets, 9212 bytes each, 50% of gigabit, timeout 12 secs
     all_pass = tg_run(tg, "XFI1.0-XFI1.1", 9212, 10000, 10, 12) and all_pass
-
-    --
-    -- DRAM
-    --
-    all_pass = check_dram() and all_pass
 
     --
     -- Summary
