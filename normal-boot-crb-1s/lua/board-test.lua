@@ -49,7 +49,11 @@ end
 
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
-    tg:command("default %s" % ports)
+    local test_ports = tg:command("default %s" % ports)
+    if test_ports == nil then
+        printf("Test %s, size %d, count %d: FAIL (No ports)\n", ports, size, count)
+        return false
+    end
     tg:command("clear all")
     tg:command("size %d" % size)
     tg:command("count %d" % count)
@@ -58,7 +62,9 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
     cavium.c.bdk_wait_usec(to_secs * 1000000)
     local stats = tg:get_stats()
     local ports_pass = true
+    local num_ports = 0
     for port,stat in pairs(stats) do
+        num_ports = num_ports + 1
         local pass = true
         pass = pass and (stat.tx_packets_total == count)
         pass = pass and (stat.rx_packets_total == count)
@@ -69,6 +75,10 @@ local function tg_run(tg, ports, size, count, rate, to_secs)
             pprint("FAIL", port, stat)
         end
         ports_pass = ports_pass and pass
+    end
+    if num_ports ~= #test_ports then
+        printf("Test %s, size %d, count %d: FAIL (Stats missing ports)\n", ports, size, count)
+        return false
     end
     if ports_pass then
         printf("Test %s, size %d, count %d: PASS\n", ports, size, count)

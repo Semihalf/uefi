@@ -300,6 +300,7 @@ function TrafficGen.new()
             printf(" %s", port)
         end
         printf("\n")
+        return default_ports
     end
 
     -- Quit the main run() loop
