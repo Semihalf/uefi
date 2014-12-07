@@ -124,7 +124,7 @@ static void dram_test_thread(int arg, void *arg1)
     start_address = bdk_numa_get_address(node, start_address);
     end_address = bdk_numa_get_address(node, end_address);
     /* Test the region */
-    BDK_TRACE(DRAM_TEST, "  Node %d, core %d, Testing [0x%016lx:0x%016lx]\n",
+    BDK_TRACE(DRAM_TEST, "  Node %d, core %d, Testing [0x%011lx:0x%011lx]\n",
         node, bdk_get_core_num() & 127, start_address, end_address - 1);
     test_info->test_func(start_address, end_address, bursts);
 
@@ -161,12 +161,12 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Make sure the amount is sane */
     if (max_address > (1ull << 40))
         max_address = 1ull << 40;
-    BDK_TRACE(DRAM_TEST, "DRAM max address: 0x%016lx\n", max_address-1);
+    BDK_TRACE(DRAM_TEST, "DRAM max address: 0x%011lx\n", max_address-1);
 
     /* Make sure the start address is lower than the top of memory */
     if (start_address >= max_address)
     {
-        bdk_error("Start address is larger than the amount of memory: 0x%016lx versus 0x%016lx\n",
+        bdk_error("Start address is larger than the amount of memory: 0x%011lx versus 0x%011lx\n",
 	          start_address, max_address);
         return -1;
     }
@@ -191,23 +191,9 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         max_cores += bdk_get_num_running_cores(bdk_numa_local());
     BDK_TRACE(DRAM_TEST, "Using %d cores for memory tests\n", max_cores);
 
-    printf("Starting Test \"%s\" for [0x%016lx:0x%016lx]\n",
+    printf("Starting Test \"%s\" for [0x%011lx:0x%011lx]\n",
         test_info->name, start_address, end_address - 1);
 
-    /* WARNING: This code assumes the same memory range is being tested on
-       all nodes. The same number of cores are used on each node to test
-       its local memory */
-
-    /* Divide memory evenly between the cores. Round the size up so that
-       all memory is covered. The last core may have slightly less memory to
-       test */
-    uint64_t size = (length + (max_cores - 1)) / max_cores;
-    size += 127;
-    size &= -128;
-    dram_test_thread_start = start_address;
-    dram_test_thread_end = end_address;
-    dram_test_thread_size = size;
-    BDK_WMB;
 #if ENABLE_LMC_PERCENT
     /* Remember the LMC perf counters for stats after the test */
     uint64_t start_dram_dclk[BDK_NUMA_MAX_NODES][4];
@@ -249,37 +235,70 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     }
 #endif
 
-    /* Start threads for all the cores */
-    int total_count = 0;
-    bdk_atomic_set64(&dram_test_thread_done, 0);
-    bdk_atomic_set64(&dram_test_thread_errors, 0);
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    /* WARNING: This code assumes the same memory range is being tested on
+       all nodes. The same number of cores are used on each node to test
+       its local memory */
+    uint64_t work_address = start_address;
+    while (work_address < end_address)
     {
-        if (bdk_numa_exists(node))
+        /* Check at most MAX_CHUNK_SIZE across each iteration. We only report
+           progress between chunks, so keep them reasonably small */
+        const uint64_t MAX_CHUNK_SIZE = 1ull << 28; /* 256MB */
+        uint64_t size = end_address - work_address;
+        if (size > MAX_CHUNK_SIZE)
+            size = MAX_CHUNK_SIZE;
+
+        /* Divide memory evenly between the cores. Round the size up so that
+           all memory is covered. The last core may have slightly less memory to
+           test */
+        uint64_t thread_size = (size + (max_cores - 1)) / max_cores;
+        thread_size += 127;
+        thread_size &= -128;
+        dram_test_thread_start = work_address;
+        dram_test_thread_end = work_address + size;
+        dram_test_thread_size = thread_size;
+        BDK_WMB;
+
+        /* Report progress percentage */
+        int percent_x10 = (work_address - start_address) * 1000 / (end_address - start_address);
+        printf("  %3d.%d%% complete, testing [0x%011lx:0x%011lx]\r",
+            percent_x10 / 10, percent_x10 % 10,  work_address, work_address + size - 1);
+        fflush(stdout);
+        work_address += size;
+
+        /* Start threads for all the cores */
+        int total_count = 0;
+        bdk_atomic_set64(&dram_test_thread_done, 0);
+        bdk_atomic_set64(&dram_test_thread_errors, 0);
+        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
         {
-            const int num_cores = bdk_get_num_cores(node);
-            int per_node = 0;
-            for (int core = 0; core < num_cores; core++)
+            if (bdk_numa_exists(node))
             {
-                if (per_node >= max_cores)
-                    break;
-                BDK_TRACE(DRAM_TEST, "Starting thread %d on node %d for memory test\n", per_node, node);
-                if (bdk_thread_create(node, 0, dram_test_thread, per_node, (void *)test_info, 0))
+                const int num_cores = bdk_get_num_cores(node);
+                int per_node = 0;
+                for (int core = 0; core < num_cores; core++)
                 {
-                    bdk_error("Failed to create thread %d for memory test on node %d\n", per_node, node);
-                }
-                else
-                {
-                    per_node++;
-                    total_count++;
+                    if (per_node >= max_cores)
+                        break;
+                    BDK_TRACE(DRAM_TEST, "Starting thread %d on node %d for memory test\n", per_node, node);
+                    if (bdk_thread_create(node, 0, dram_test_thread, per_node, (void *)test_info, 0))
+                    {
+                        bdk_error("Failed to create thread %d for memory test on node %d\n", per_node, node);
+                    }
+                    else
+                    {
+                        per_node++;
+                        total_count++;
+                    }
                 }
             }
         }
+
+        /* Wait for threads to finish */
+        while (bdk_atomic_get64(&dram_test_thread_done) < total_count)
+            bdk_thread_yield();
     }
 
-    /* Wait for threads to finish */
-    while (bdk_atomic_get64(&dram_test_thread_done) < total_count)
-        bdk_thread_yield();
 #if ENABLE_LMC_PERCENT
     /* Get the DRAM perf counters */
     for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
@@ -476,7 +495,7 @@ int __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, i
         int node, lmc, dimm, rank, bank, row, col;
         extract_address_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
-        bdk_error("[0x%016lx] data: 0x%016lx, expected: 0x%016lx, xor: 0x%016lx, burst: %d "
+        bdk_error("[0x%011lx] data: 0x%016lx, expected: 0x%016lx, xor: 0x%016lx, burst: %d "
                   "(N%d,Core%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x)\n",
             address, data, correct, data ^ correct, burst,
             node, core, lmc, dimm, rank, bank, row, col);
@@ -511,7 +530,7 @@ int __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address
         int node2, lmc2, dimm2, rank2, bank2, row2, col2;
         extract_address_info(address2, &node2, &lmc2, &dimm2, &rank2, &bank2, &row2, &col2);
 
-        bdk_error("[0x%016lx] data: 0x%016lx, [0x%016lx] expected: 0x%016lx, xor: 0x%016lx, burst: %d\n"
+        bdk_error("[0x%011lx] data: 0x%016lx, [0x%016lx] expected: 0x%016lx, xor: 0x%016lx, burst: %d\n"
             "    N%d,Core%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x\n"
             "    N%d,Core%d,LMC%d,DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x\n",
             address1, data1, address2, data2, data1 ^ data2, burst,
