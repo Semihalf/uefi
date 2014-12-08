@@ -152,8 +152,8 @@ typedef union bdk_mio_emm_buf_idx {
 		uint64_t inc                         : 1;  /**< R/W - Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
                                                                  last offset of the last data buffer. */
 		uint64_t reserved_7_15               : 9;
-		uint64_t buf_num                     : 1;  /**< R/W - Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
-		uint64_t offset                      : 6;  /**< R/W - Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
+		uint64_t buf_num                     : 1;  /**< R/W/H - Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
+		uint64_t offset                      : 6;  /**< R/W/H - Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
 #else
 		uint64_t offset                      : 6;
 		uint64_t buf_num                     : 1;
@@ -357,7 +357,8 @@ static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void)
  * RSL - mio_emm_dma_adr
  *
  * This register sets the address for eMMC/SD flash transfers to/from memory. Sixty-four-bit
- * operations must be used to access this register.
+ * operations must be used to access this register.  This register is updated by the dma
+ * hardware and can be reloaded by the values placed in the MIO_EMM_DMA_FIFO_ADR.
  */
 typedef union bdk_mio_emm_dma_adr {
 	uint64_t u;
@@ -391,20 +392,21 @@ static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void)
  * RSL - mio_emm_dma_cfg
  *
  * This register controls the internal DMA engine used with the eMMC/SD flash controller. Sixty-
- * four-bit operations must be used to access this register.
+ * four-bit operations must be used to access this register.  This register is updated by the
+ * hardware dma engine and can also be reloaded by writes to the MIO_EMM_DMA_FIFO_CMD register.
  */
 typedef union bdk_mio_emm_dma_cfg {
 	uint64_t u;
 	struct bdk_mio_emm_dma_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t en                          : 1;  /**< R/W/H - DMA engine enable. */
-		uint64_t rw                          : 1;  /**< R/W - DMA engine R/W bit: 0 = read, 1 = write. */
-		uint64_t clr                         : 1;  /**< R/W - DMA engine abort. When set to 1, DMA is aborted and EN is cleared on completion. */
+		uint64_t rw                          : 1;  /**< R/W/H - DMA engine R/W bit: 0 = read, 1 = write. */
+		uint64_t clr                         : 1;  /**< R/W/H - DMA engine abort. When set to 1, DMA is aborted and EN is cleared on completion. */
 		uint64_t reserved_60_60              : 1;
-		uint64_t swap32                      : 1;  /**< R/W - DMA engine 32-bit swap. */
-		uint64_t swap16                      : 1;  /**< R/W - DMA engine enable 16-bit swap. */
-		uint64_t swap8                       : 1;  /**< R/W - DMA engine enable 8-bit swap. */
-		uint64_t endian                      : 1;  /**< R/W - DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+		uint64_t swap32                      : 1;  /**< R/W/H - DMA engine 32-bit swap. */
+		uint64_t swap16                      : 1;  /**< R/W/H - DMA engine enable 16-bit swap. */
+		uint64_t swap8                       : 1;  /**< R/W/H - DMA engine enable 8-bit swap. */
+		uint64_t endian                      : 1;  /**< R/W/H - DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
 		uint64_t size                        : 20; /**< R/W/H - DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
                                                                  example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
 		uint64_t reserved_0_35               : 36;
@@ -723,9 +725,9 @@ typedef union bdk_mio_emm_int {
 		uint64_t reserved_7_63               : 57;
 		uint64_t switch_err                  : 1;  /**< R/W1C/H - Switch operation encountered an error. */
 		uint64_t switch_done                 : 1;  /**< R/W1C/H - Switch operation completed successfully. */
-		uint64_t dma_err                     : 1;  /**< R/W1C/H - DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
+		uint64_t dma_err                     : 1;  /**< R/W1C/H - External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
 		uint64_t cmd_err                     : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
-		uint64_t dma_done                    : 1;  /**< R/W1C/H - DMA transfer completed successfully. */
+		uint64_t dma_done                    : 1;  /**< R/W1C/H - External DMA transfer completed successfully. */
 		uint64_t cmd_done                    : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD completed successfully. */
 		uint64_t buf_done                    : 1;  /**< R/W1C/H - The next 512B block transfer of a multiblock transfer has completed. */
 #else
@@ -766,9 +768,9 @@ typedef union bdk_mio_emm_int_ena_w1c {
 		uint64_t reserved_7_63               : 57;
 		uint64_t switch_err                  : 1;  /**< R/W1C/H - Switch operation encountered an error. */
 		uint64_t switch_done                 : 1;  /**< R/W1C/H - Switch operation completed successfully. */
-		uint64_t dma_err                     : 1;  /**< R/W1C/H - DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
+		uint64_t dma_err                     : 1;  /**< R/W1C/H - External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
 		uint64_t cmd_err                     : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
-		uint64_t dma_done                    : 1;  /**< R/W1C/H - DMA transfer completed successfully. */
+		uint64_t dma_done                    : 1;  /**< R/W1C/H - External DMA transfer completed successfully. */
 		uint64_t cmd_done                    : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD completed successfully. */
 		uint64_t buf_done                    : 1;  /**< R/W1C/H - The next 512B block transfer of a multiblock transfer has completed. */
 #else
@@ -809,9 +811,9 @@ typedef union bdk_mio_emm_int_ena_w1s {
 		uint64_t reserved_7_63               : 57;
 		uint64_t switch_err                  : 1;  /**< R/W1C/H - Switch operation encountered an error. */
 		uint64_t switch_done                 : 1;  /**< R/W1C/H - Switch operation completed successfully. */
-		uint64_t dma_err                     : 1;  /**< R/W1C/H - DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
+		uint64_t dma_err                     : 1;  /**< R/W1C/H - External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
 		uint64_t cmd_err                     : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
-		uint64_t dma_done                    : 1;  /**< R/W1C/H - DMA transfer completed successfully. */
+		uint64_t dma_done                    : 1;  /**< R/W1C/H - External DMA transfer completed successfully. */
 		uint64_t cmd_done                    : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD completed successfully. */
 		uint64_t buf_done                    : 1;  /**< R/W1C/H - The next 512B block transfer of a multiblock transfer has completed. */
 #else
@@ -852,9 +854,9 @@ typedef union bdk_mio_emm_int_w1s {
 		uint64_t reserved_7_63               : 57;
 		uint64_t switch_err                  : 1;  /**< R/W1C/H - Switch operation encountered an error. */
 		uint64_t switch_done                 : 1;  /**< R/W1C/H - Switch operation completed successfully. */
-		uint64_t dma_err                     : 1;  /**< R/W1C/H - DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
+		uint64_t dma_err                     : 1;  /**< R/W1C/H - External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
 		uint64_t cmd_err                     : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
-		uint64_t dma_done                    : 1;  /**< R/W1C/H - DMA transfer completed successfully. */
+		uint64_t dma_done                    : 1;  /**< R/W1C/H - External DMA transfer completed successfully. */
 		uint64_t cmd_done                    : 1;  /**< R/W1C/H - Operation specified by MIO_EMM_CMD completed successfully. */
 		uint64_t buf_done                    : 1;  /**< R/W1C/H - The next 512B block transfer of a multiblock transfer has completed. */
 #else

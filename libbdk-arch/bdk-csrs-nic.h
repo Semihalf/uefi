@@ -630,10 +630,9 @@ enum nic_ipproto_e {
 	NIC_IPPROTO_E_IP6 = 0x29,
 	NIC_IPPROTO_E_IPCOMP = 0x6c,
 	NIC_IPPROTO_E_ROUTING = 0x2b,
-	NIC_IPPROTO_E_SCTP = 0x84,
 	NIC_IPPROTO_E_TCP = 0x6,
 	NIC_IPPROTO_E_UDP = 0x11,
-	NIC_IPPROTO_E_ENUM_LAST = 0x85,
+	NIC_IPPROTO_E_ENUM_LAST = 0x6d,
 };
 
 /**
@@ -723,10 +722,9 @@ enum nic_rss_alg_e {
  */
 enum nic_send_ckl4_e {
 	NIC_SEND_CKL4_E_NONE = 0x0,
-	NIC_SEND_CKL4_E_SCTP = 0x3,
 	NIC_SEND_CKL4_E_TCP = 0x2,
 	NIC_SEND_CKL4_E_UDP = 0x1,
-	NIC_SEND_CKL4_E_ENUM_LAST = 0x4,
+	NIC_SEND_CKL4_E_ENUM_LAST = 0x3,
 };
 
 /**
@@ -1233,7 +1231,7 @@ union nic_rx_hdr_s {
  * packet in this case.
  *
  * If NIC_SEND_HDR_S[CKL4] is nonzero, the bytes covered or inserted by each individual
- * NIC_SEND_CRC_S CRC must entirely reside within the L4 payload. The L4 (TCP/UDP/SCTP) header
+ * NIC_SEND_CRC_S CRC must entirely reside within the L4 payload. The L4 (TCP/UDP) header
  * starts at byte NIC_SEND_HDR_S[L4PTR] in the packet in this case, and the L4 payload follows
  * the L4 header. In this case, the NIC will appear to calculate the L4 checksum last, after it
  * has completed all NIC_SEND_CRC_S CRCs.
@@ -1363,7 +1361,7 @@ union nic_send_hdr_s {
                                                                  subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
                                                                  descriptor size is 256 subdescriptors (4KB). */
 		uint64_t ckl4                        : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
-                                                                 * NIC hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP checksum for the packet and inserts it
                                                                  into the packet, as described in L4 Checksum.
                                                                  * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
                                                                  of the immediately proceeding and adjacent L3 header.
@@ -1377,7 +1375,7 @@ union nic_send_hdr_s {
                                                                  any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
                                                                  point to a valid IPv4 header. */
 		uint64_t reserved_40_44              : 5;  /**< [ 44: 40] Reserved. */
-		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
+		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
                                                                  checksumming. The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
                                                                  off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
@@ -1421,7 +1419,7 @@ union nic_send_hdr_s {
                                                                  computed by NIC when the packet is parsed. When [L3PTR] is used for any of [CKL3,CKL4]
                                                                  calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR] can
                                                                  overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
-		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
+		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
                                                                  checksumming. The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
                                                                  off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
@@ -1435,7 +1433,7 @@ union nic_send_hdr_s {
                                                                  any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
                                                                  point to a valid IPv4 header. */
 		uint64_t ckl4                        : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
-                                                                 * NIC hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP checksum for the packet and inserts it
                                                                  into the packet, as described in L4 Checksum.
                                                                  * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
                                                                  of the immediately proceeding and adjacent L3 header.
@@ -2016,150 +2014,6 @@ static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long param1)
 
 
 /**
- * NCB - nic_pf_cnm_cfg
- */
-typedef union bdk_nic_pf_cnm_cfg {
-	uint64_t u;
-	struct bdk_nic_pf_cnm_cfg_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t cnm_byte_rst                : 20; /**< R/W - Number of bytes in a CNM byte stage. Represents 802.1Qau rpgByteReset (150000 bytes typical). */
-		uint64_t cnm_byte_rand               : 4;  /**< R/W - CNM random byte count shift. If non-zero, NIC_PF_CNM_STATUS[CNM_BYTE_RND\<7\>] will indicate
-                                                                 add/not-subtract. NIC_PF_CNM_STATUS[CNM_BYTE_RND\<6:0\>] will be shifted by this amount and
-                                                                 added/subtracted from qcn_byte_reset for the next round's time base.  Set to represent the
-                                                                 closest power of 2 that results in less than 15% of cnm_byte_rate being randomized:
-
-                                                                 0x0 = Randomization disabled.
-                                                                 0x1 = Byte[0] is randomized.
-                                                                 0x2 = Byte[1:0] is randomized.
-                                                                 0x3 = Byte[2:0] is randomized.
-                                                                 0x4 = Byte[3:0] is randomized.
-                                                                 0x5 = Byte[4:0] is randomized.
-                                                                 0x6 = Byte[5:0] is randomized.
-                                                                 0x7 = Byte[6:0] is randomized.
-                                                                 0x8 = Byte[7:0] is randomized.
-                                                                 0x9 = Byte[8:1] is randomized (there are only 8 bits of randomness).
-                                                                 0xa = Byte[9:2] is randomized.
-                                                                 0xb = Byte[10:3] is randomized.
-                                                                 0xc = Byte[11:4] is randomized.
-                                                                 0xd = Byte[12:5] is randomized.
-                                                                 0xe = Byte[13:6] is randomized.
-                                                                 0xf = Byte[14:7] is randomized.
-                                                                 0x10 = Byte[15:8] is randomized.
-                                                                 0x11 = Byte[16:9] is randomized.
-                                                                 0x12 = Byte[17:10] is randomized.
-                                                                 0x13 = Byte[18:11] is randomized.
-                                                                 0x14-0x15 = Reserved. */
-		uint64_t cnm_thresh                  : 4;  /**< R/W - Number of CNM stages after which to trigger recovery. Represents 802.1Qau rpgThreshold. */
-		uint64_t cnm_time_rate               : 20; /**< R/W - Number of [TICK_RATE] ticks between each CNM timer. Should be set to represent 802.1Qau
-                                                                 rpgTimeReset (15ms typical) divided by the number of TL4s (1024). Zero disables the timer. */
-		uint64_t cnm_time_rand               : 4;  /**< R/W - CNM random time shift. If non-zero, NIC_PF_CNM_STATUS[CNM_TIME_RND\<7\>] will indicate
-                                                                 add/not-subtract.
-                                                                 NIC_PF_CNM_STATUS[CNM_TIME_RND\<6:0\>] will be shifted by this amount and
-                                                                 added/subtracted from [CNM_TICK_RATE] for the next round's time base. The randomization
-                                                                 saturates; the time base will never subtract down to zero, nor wrap around zero. Must be
-                                                                 set to represent the closest power-of-two which results in less than 15% of
-                                                                 [CNM_TIME_RATE] being randomized.
-                                                                 0x0 = Randomization disabled.
-                                                                 0x1 = Time[0] is randomized.
-                                                                 0x2 = Time[1:0] is randomized.
-                                                                 0x3 = Time[2:0] is randomized.
-                                                                 0x4 = Time[3:0] is randomized.
-                                                                 0x5 = Time[4:0] is randomized.
-                                                                 0x6 = Time[5:0] is randomized.
-                                                                 0x7 = Time[6:0] is randomized.
-                                                                 0x8 = Time[7:0] is randomized.
-                                                                 0x9 = Time[8:1] is randomized (there are only 8 bits of randomness).
-                                                                 0xa = Time[9:2] is randomized.
-                                                                 0xb = Time[10:3] is randomized.
-                                                                 0xc = Time[11:4] is randomized.
-                                                                 0xd = Time[12:5] is randomized.
-                                                                 0xe = Time[13:6] is randomized.
-                                                                 0xf = Time[14:7] is randomized.
-                                                                 0x10 = Time[15:8] is randomized.
-                                                                 0x11 = Time[16:9] is randomized.
-                                                                 0x12 = Time[17:10] is randomized.
-                                                                 0x13 = Time[18:11] is randomized.
-                                                                 0x14-0x15 = Reserved. */
-		uint64_t reserved_10_11              : 2;
-		uint64_t tick_rate                   : 10; /**< R/W - Number of coprocessor clocks between replenishing TL3/TL4 shaper tokens. Zero disables the
-                                                                 timer, must be non-zero if NIC transmit is to be used. */
-#else
-		uint64_t tick_rate                   : 10;
-		uint64_t reserved_10_11              : 2;
-		uint64_t cnm_time_rand               : 4;
-		uint64_t cnm_time_rate               : 20;
-		uint64_t cnm_thresh                  : 4;
-		uint64_t cnm_byte_rand               : 4;
-		uint64_t cnm_byte_rst                : 20;
-#endif
-	} s;
-	/* struct bdk_nic_pf_cnm_cfg_s        cn88xx; */
-	/* struct bdk_nic_pf_cnm_cfg_s        cn88xxp1; */
-} bdk_nic_pf_cnm_cfg_t;
-
-#define BDK_NIC_PF_CNM_CFG BDK_NIC_PF_CNM_CFG_FUNC()
-static inline uint64_t BDK_NIC_PF_CNM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_CNM_CFG_FUNC(void)
-{
-	return 0x00008430000000A8ull;
-}
-#define typedef_BDK_NIC_PF_CNM_CFG bdk_nic_pf_cnm_cfg_t
-#define bustype_BDK_NIC_PF_CNM_CFG BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_CNM_CFG 0
-#define arguments_BDK_NIC_PF_CNM_CFG -1,-1,-1,-1
-#define basename_BDK_NIC_PF_CNM_CFG "NIC_PF_CNM_CFG"
-
-
-/**
- * NCB - nic_pf_cnm_status
- */
-typedef union bdk_nic_pf_cnm_status {
-	uint64_t u;
-	struct bdk_nic_pf_cnm_status_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_36_63              : 28;
-		uint64_t cnm_time                    : 20; /**< R/W/H - Current CNM time, counting up to NIC_PF_CNM_CFG[CNM_TIME_RATE]. */
-		uint64_t cnm_time_rnd                : 16; /**< R/W/H - Current random value for CNM time randomization, with low 8 bits indicating time
-                                                                 multiplier. Changes on each new timer round. For diagnostic use only, must not be zero.
-                                                                 INTERNAL: Uses 16, 15, 13, 4 tap LFSR (this choice is important to insure even
-                                                                 probabilities) with the formula:
-
-                                                                 \<pre\>
-                                                                 rnd_for_use = RND[7:0];
-                                                                 RND_next[15:8] = RND[7:0];
-                                                                 RND_next[7] = ^(RND[15:0] & 0xd008);
-                                                                 RND_next[6] = ^(RND[15:0] & 0x6804);
-                                                                 RND_next[5] = ^(RND[15:0] & 0x3402);
-                                                                 RND_next[4] = ^(RND[15:0] & 0x1a01);
-                                                                 RND_next[3] = ^(RND[15:0] & 0xdd08);
-                                                                 RND_next[2] = ^(RND[15:0] & 0x6e84);
-                                                                 RND_next[1] = ^(RND[15:0] & 0x3742);
-                                                                 RND_next[0] = ^(RND[15:0] & 0x1ba1);
-                                                                 \</pre\> */
-#else
-		uint64_t cnm_time_rnd                : 16;
-		uint64_t cnm_time                    : 20;
-		uint64_t reserved_36_63              : 28;
-#endif
-	} s;
-	/* struct bdk_nic_pf_cnm_status_s     cn88xx; */
-	/* struct bdk_nic_pf_cnm_status_s     cn88xxp1; */
-} bdk_nic_pf_cnm_status_t;
-
-#define BDK_NIC_PF_CNM_STATUS BDK_NIC_PF_CNM_STATUS_FUNC()
-static inline uint64_t BDK_NIC_PF_CNM_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_CNM_STATUS_FUNC(void)
-{
-	return 0x00008430000000B0ull;
-}
-#define typedef_BDK_NIC_PF_CNM_STATUS bdk_nic_pf_cnm_status_t
-#define bustype_BDK_NIC_PF_CNM_STATUS BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_CNM_STATUS 0
-#define arguments_BDK_NIC_PF_CNM_STATUS -1,-1,-1,-1
-#define basename_BDK_NIC_PF_CNM_STATUS "NIC_PF_CNM_STATUS"
-
-
-/**
  * NCB - nic_pf_cpi#_cfg
  */
 typedef union bdk_nic_pf_cpix_cfg {
@@ -2406,7 +2260,6 @@ typedef union bdk_nic_pf_ecc0_cdis {
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
 
                                                                  Pass 1:
-
                                                                    \<15:9\> = Reserved.
                                                                    \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
@@ -2419,7 +2272,6 @@ typedef union bdk_nic_pf_ecc0_cdis {
                                                                    \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
 
                                                                  Pass 2+:
-
                                                                    \<15:8\> = Reserved.
                                                                    \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
                                                                  mem_128x128.
@@ -2622,7 +2474,6 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
 
                                                                  Pass 1:
-
                                                                    \<15:9\> = Reserved.
                                                                    \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
@@ -2635,7 +2486,6 @@ typedef union bdk_nic_pf_ecc0_flip0 {
                                                                    \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
 
                                                                  Pass 2+:
-
                                                                    \<15:8\> = Reserved.
                                                                    \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
                                                                  mem_128x128.
@@ -2695,7 +2545,6 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
 
                                                                  Pass 1:
-
                                                                    \<15:9\> = Reserved.
                                                                    \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
@@ -2708,7 +2557,6 @@ typedef union bdk_nic_pf_ecc0_flip1 {
                                                                    \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
 
                                                                  Pass 2+:
-
                                                                    \<15:8\> = Reserved.
                                                                    \<7\>  = nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
                                                                  mem_128x128.
@@ -2911,7 +2759,6 @@ typedef union bdk_nic_pf_ecc1_cdis {
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
 
                                                                  Pass 1:
-
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -2923,7 +2770,6 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs.
 
                                                                  Pass 2+:
-
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -2936,7 +2782,6 @@ typedef union bdk_nic_pf_ecc1_cdis {
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
 
                                                                  Pass 1:
-
                                                                    \<23:17\> = Reserved.
                                                                    \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -2951,7 +2796,6 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                    \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
 
                                                                  Pass 2+:
-
                                                                    \<23:16\> = Reserved.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
@@ -3135,7 +2979,6 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
 
                                                                  Pass 1:
-
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -3147,7 +2990,6 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs.
 
                                                                  Pass 2+:
-
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -3160,7 +3002,6 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
 
                                                                  Pass 1:
-
                                                                    \<23:17\> = Reserved.
                                                                    \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -3175,7 +3016,6 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                    \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
 
                                                                  Pass 2+:
-
                                                                    \<23:16\> = Reserved.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
@@ -3224,7 +3064,6 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 		uint64_t blk1                        : 16; /**< R/W - Group 1 Block 1 memories. INTERNAL: RRM memories:
 
                                                                  Pass 1:
-
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -3236,7 +3075,6 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                    \<0\> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs.
 
                                                                  Pass 2+:
-
                                                                    \<15:10\> = Reserved.
                                                                    \<9:6\> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
                                                                  c_rrm_ptrmem.
@@ -3249,7 +3087,6 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 		uint64_t blk0                        : 24; /**< R/W - Group 1 Block 0 memories. INTERNAL: RQM memories:
 
                                                                  Pass 1:
-
                                                                    \<23:17\> = Reserved.
                                                                    \<16\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
@@ -3264,7 +3101,6 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                    \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
 
                                                                  Pass 2+:
-
                                                                    \<23:16\> = Reserved.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
@@ -3887,25 +3723,44 @@ typedef union bdk_nic_pf_ecc3_cdis {
                                                                  \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                  \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
-                                                                 \<23:18\> = Reserved
-                                                                 \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                 \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                 \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                 \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                 \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
-                                                                 \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
-                                                                 \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
-                                                                 \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
-                                                                 \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
-                                                                 \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                 \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                 \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                 \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                 \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                 \<3\>  = nic_u2.sps.tl3.mem.pirmem.
-                                                                 \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                 \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                 \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
+
+                                                                 Pass 1:
+                                                                   \<23:18\> = Reserved
+                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                   \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
+                                                                   \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
+                                                                   \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
+                                                                   \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
+                                                                   \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
+                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                   \<3\>  = nic_u2.sps.tl3.mem.pirmem.
+                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem.
+
+                                                                 Pass 2+:
+                                                                   \<23:18\> = Reserved
+                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                   \<13:9\> = Reserved
+                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                   \<3\>  = Reserved
+                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -4089,25 +3944,44 @@ typedef union bdk_nic_pf_ecc3_flip0 {
                                                                  \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                  \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
-                                                                 \<23:18\> = Reserved
-                                                                 \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                 \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                 \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                 \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                 \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
-                                                                 \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
-                                                                 \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
-                                                                 \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
-                                                                 \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
-                                                                 \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                 \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                 \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                 \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                 \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                 \<3\>  = nic_u2.sps.tl3.mem.pirmem.
-                                                                 \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                 \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                 \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
+
+                                                                 Pass 1:
+                                                                   \<23:18\> = Reserved
+                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                   \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
+                                                                   \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
+                                                                   \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
+                                                                   \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
+                                                                   \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
+                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                   \<3\>  = nic_u2.sps.tl3.mem.pirmem.
+                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem.
+
+                                                                 Pass 2+:
+                                                                   \<23:18\> = Reserved
+                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                   \<13:9\> = Reserved
+                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                   \<3\>  = Reserved
+                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -4156,25 +4030,44 @@ typedef union bdk_nic_pf_ecc3_flip1 {
                                                                  \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                  \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
-                                                                 \<23:18\> = Reserved
-                                                                 \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                 \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                 \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                 \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                 \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
-                                                                 \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
-                                                                 \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
-                                                                 \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
-                                                                 \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
-                                                                 \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                 \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                 \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                 \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                 \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                 \<3\>  = nic_u2.sps.tl3.mem.pirmem.
-                                                                 \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                 \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                 \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
+
+                                                                 Pass 1:
+                                                                   \<23:18\> = Reserved
+                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                   \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
+                                                                   \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
+                                                                   \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
+                                                                   \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
+                                                                   \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
+                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                   \<3\>  = nic_u2.sps.tl3.mem.pirmem.
+                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem.
+
+                                                                 Pass 2+:
+                                                                   \<23:18\> = Reserved
+                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                   \<13:9\> = Reserved
+                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                   \<3\>  = Reserved
+                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -6194,109 +6087,6 @@ static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long param1)
 
 
 /**
- * NCB - nic_pf_tl3#_cnm_rate
- */
-typedef union bdk_nic_pf_tl3x_cnm_rate {
-	uint64_t u;
-	struct bdk_nic_pf_tl3x_cnm_rate_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_33_63              : 31;
-		uint64_t cnm_aggr_en                 : 1;  /**< R/W - When set, the shaper is shared between all the TL4s within the same aggregation group. */
-		uint64_t reserved_28_31              : 4;
-		uint64_t cnm_ai_rate_exp             : 4;  /**< R/W - CNM_AI_RATE exponent. The CNM_AI_RATE is specified as 1.[CNM_AI_RATE_MANT] \<\<
-                                                                 [CNM_AI_RATE_EXP].
-                                                                 CNM active increase rate to use for TL4s attached to this TL3. Corresponds to 802.1Qau
-                                                                 rpgAiRate parameter, converted to a fraction of the peak rate for this TL3 and expressed */
-		uint64_t cnm_ai_rate_mant            : 8;  /**< R/W - CNM_AI_RATE mantissa. The CNM_AI_RATE is specified as 1.[CNM_AI_RATE_MANT] \<\<
-                                                                 [CNM_AI_RATE_EXP].
-                                                                 CNM active increase rate to use for TL4s attached to this TL3. Corresponds to 802.1Qau
-                                                                 rpgAiRate parameter, converted to a fraction of the peak rate for this TL3 and expressed */
-		uint64_t reserved_12_15              : 4;
-		uint64_t cnm_hai_rate_exp            : 4;  /**< R/W - CNM_HAI_RATE exponent. The CNM_HAI_RATE is specified as 1.[CNM_HAI_RATE_MANT] \<\<
-                                                                 [CNM_HAI_RATE_EXP].
-                                                                 CNM hyper-active increase rate to use for TL4s attached to this TL3. Corresponds to
-                                                                 802.1Qau rpgHaiRate parameter. */
-		uint64_t cnm_hai_rate_mant           : 8;  /**< R/W - CNM_HAI_RATE mantissa. The CNM_HAI_RATE is specified as 1.[CNM_HAI_RATE_MANT] \<\<
-                                                                 [CNM_HAI_RATE_EXP].
-                                                                 CNM hyper-active increase rate to use for TL4s attached to this TL3. Corresponds to
-                                                                 802.1Qau rpgHaiRate parameter. */
-#else
-		uint64_t cnm_hai_rate_mant           : 8;
-		uint64_t cnm_hai_rate_exp            : 4;
-		uint64_t reserved_12_15              : 4;
-		uint64_t cnm_ai_rate_mant            : 8;
-		uint64_t cnm_ai_rate_exp             : 4;
-		uint64_t reserved_28_31              : 4;
-		uint64_t cnm_aggr_en                 : 1;
-		uint64_t reserved_33_63              : 31;
-#endif
-	} s;
-	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn88xx; */
-	/* struct bdk_nic_pf_tl3x_cnm_rate_s  cn88xxp1; */
-} bdk_nic_pf_tl3x_cnm_rate_t;
-
-static inline uint64_t BDK_NIC_PF_TL3X_CNM_RATE(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_TL3X_CNM_RATE(unsigned long param1)
-{
-	if (((param1 <= 255)))
-		return 0x0000843000680000ull + (param1 & 255) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_TL3X_CNM_RATE", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_NIC_PF_TL3X_CNM_RATE(...) bdk_nic_pf_tl3x_cnm_rate_t
-#define bustype_BDK_NIC_PF_TL3X_CNM_RATE(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_TL3X_CNM_RATE(p1) (p1)
-#define arguments_BDK_NIC_PF_TL3X_CNM_RATE(p1) (p1),-1,-1,-1
-#define basename_BDK_NIC_PF_TL3X_CNM_RATE(...) "NIC_PF_TL3X_CNM_RATE"
-
-
-/**
- * NCB - nic_pf_tl3#_pir
- */
-typedef union bdk_nic_pf_tl3x_pir {
-	uint64_t u;
-	struct bdk_nic_pf_tl3x_pir_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_40_63              : 24;
-		uint64_t burst_exp                   : 4;  /**< R/W - Burst exponent. The burst limit is specified as 1.[BURST_MANT] \<\< [BURST_EXP]. */
-		uint64_t burst_mant                  : 8;  /**< R/W - Burst mantissa. The burst limit is specified as 1.[BURST_MANT] \<\< [BURST_EXP]. */
-		uint64_t reserved_17_27              : 11;
-		uint64_t rate_div                    : 4;  /**< R/W - Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
-                                                                 specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 The rate count = (1 \<\< [RATE_DIV]). The supported range for [RATE_DIV] is 0 to 11.
-                                                                 Programmed values greater than 11 are treated as 11. */
-		uint64_t rate_exp                    : 4;  /**< R/W - Rate exponent. The rate is specified as 1.[RATE_MANT] \<\< [RATE_EXP]. */
-		uint64_t rate_mant                   : 8;  /**< R/W - Rate mantissa. The rate is specified as 1.[RATE_MANT] \<\< [RATE_EXP]. */
-		uint64_t pir_ena                     : 1;  /**< R/W - Enable. Enables PIR shaping. */
-#else
-		uint64_t pir_ena                     : 1;
-		uint64_t rate_mant                   : 8;
-		uint64_t rate_exp                    : 4;
-		uint64_t rate_div                    : 4;
-		uint64_t reserved_17_27              : 11;
-		uint64_t burst_mant                  : 8;
-		uint64_t burst_exp                   : 4;
-		uint64_t reserved_40_63              : 24;
-#endif
-	} s;
-	/* struct bdk_nic_pf_tl3x_pir_s       cn88xx; */
-	/* struct bdk_nic_pf_tl3x_pir_s       cn88xxp1; */
-} bdk_nic_pf_tl3x_pir_t;
-
-static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long param1)
-{
-	if (((param1 <= 255)))
-		return 0x0000843000640000ull + (param1 & 255) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_TL3X_PIR", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_NIC_PF_TL3X_PIR(...) bdk_nic_pf_tl3x_pir_t
-#define bustype_BDK_NIC_PF_TL3X_PIR(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_TL3X_PIR(p1) (p1)
-#define arguments_BDK_NIC_PF_TL3X_PIR(p1) (p1),-1,-1,-1
-#define basename_BDK_NIC_PF_TL3X_PIR(...) "NIC_PF_TL3X_PIR"
-
-
-/**
  * NCB - nic_pf_tl3#_sh_status
  */
 typedef union bdk_nic_pf_tl3x_sh_status {
@@ -6304,9 +6094,8 @@ typedef union bdk_nic_pf_tl3x_sh_status {
 	struct bdk_nic_pf_tl3x_sh_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_63_63              : 1;
-		uint64_t pir_count                   : 12; /**< R/W/H - Peak information rate tick count. This keeps track of the time-wheel turn for replenishing
-                                                                 the PIR accumulator. */
-		uint64_t pir_accum                   : 26; /**< R/W/H - Peak information rate accumulator. Debug access to the live PIR accumulator. */
+		uint64_t pir_count                   : 12; /**< R/W/H - Reserved. */
+		uint64_t pir_accum                   : 26; /**< R/W/H - Reserved. */
 		uint64_t rr_count                    : 25; /**< R/W/H - Round-robin (DWRR) deficit counter. A 25-bit signed integer count. For diagnostic use. */
 #else
 		uint64_t rr_count                    : 25;
@@ -6315,7 +6104,15 @@ typedef union bdk_nic_pf_tl3x_sh_status {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xx; */
+	struct bdk_nic_pf_tl3x_sh_status_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_25_63              : 39;
+		uint64_t rr_count                    : 25; /**< R/W/H - Round-robin (DWRR) deficit counter. A 25-bit signed integer count. For diagnostic use. */
+#else
+		uint64_t rr_count                    : 25;
+		uint64_t reserved_25_63              : 39;
+#endif
+	} cn88xx;
 	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl3x_sh_status_t;
 
@@ -6539,105 +6336,6 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long param1)
 #define busnum_BDK_NIC_PF_TL4AX_CFG(p1) (p1)
 #define arguments_BDK_NIC_PF_TL4AX_CFG(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_TL4AX_CFG(...) "NIC_PF_TL4AX_CFG"
-
-
-/**
- * NCB - nic_pf_tl4a#_cnm_rate
- */
-typedef union bdk_nic_pf_tl4ax_cnm_rate {
-	uint64_t u;
-	struct bdk_nic_pf_tl4ax_cnm_rate_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_4_63               : 60;
-		uint64_t rate_div                    : 4;  /**< R/W - Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
-                                                                 specifying the number of time-wheel turns required before the accumulator is increased.
-                                                                 The rate count = (1 \<\< [RATE_DIV]). The supported range for [RATE_DIV] is 0 to 11.
-                                                                 Programmed values greater than 11 are treated as 11. */
-#else
-		uint64_t rate_div                    : 4;
-		uint64_t reserved_4_63               : 60;
-#endif
-	} s;
-	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn88xx; */
-	/* struct bdk_nic_pf_tl4ax_cnm_rate_s cn88xxp1; */
-} bdk_nic_pf_tl4ax_cnm_rate_t;
-
-static inline uint64_t BDK_NIC_PF_TL4AX_CNM_RATE(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_TL4AX_CNM_RATE(unsigned long param1)
-{
-	if (((param1 <= 1023)))
-		return 0x0000843000880000ull + (param1 & 1023) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_TL4AX_CNM_RATE", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_NIC_PF_TL4AX_CNM_RATE(...) bdk_nic_pf_tl4ax_cnm_rate_t
-#define bustype_BDK_NIC_PF_TL4AX_CNM_RATE(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_TL4AX_CNM_RATE(p1) (p1)
-#define arguments_BDK_NIC_PF_TL4AX_CNM_RATE(p1) (p1),-1,-1,-1
-#define basename_BDK_NIC_PF_TL4AX_CNM_RATE(...) "NIC_PF_TL4AX_CNM_RATE"
-
-
-/**
- * NCB - nic_pf_tl4a#_cnm_status
- */
-typedef union bdk_nic_pf_tl4ax_cnm_status {
-	uint64_t u;
-	struct bdk_nic_pf_tl4ax_cnm_status_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t cnm_time_stage              : 4;  /**< R/W/H - CNM time stage. Corresponds to 802.1Qau rpTimeStage. */
-		uint64_t cnm_byte_stage              : 4;  /**< R/W/H - CNM time stage. Corresponds to 802.1Qau rpByteStage. */
-		uint64_t cnm_active                  : 3;  /**< R/W/H - CNM active:
-                                                                 0x0 = CNM disabled, rate limiting disabled.
-                                                                 0x1-0x3 = Reserved.
-                                                                 0x4 = CNM rate limiting enabled, hardware time and byte updates disabled.
-                                                                 0x5 = CNM rate limiting enabled, hardware time updates disabled, byte updates enabled.
-                                                                 0x6 = CNM rate limiting enabled, hardware time updates enabled, byte updates disabled.
-                                                                 0x7 = CNM rate limiting enabled, hardware time updates enabled, byte updates enabled. */
-		uint64_t reserved_52_52              : 1;
-		uint64_t cnm_byte_cnt                : 20; /**< R/W/H - Number of bytes remaining in stage, as a signed integer. Corresponds to 802.1Qau rpByteCount. */
-		uint64_t reserved_28_31              : 4;
-		uint64_t cnm_tgt_rate_exp            : 4;  /**< R/W/H - CNM_TGT_RATE exponent. The CNM_TGT_RATE is specified as 1.[CNM_TGT_RATE_MANT] \<\<
-                                                                 [CNM_TGT_RATE_EXP].
-                                                                 Target CNM limiter rate. Corresponds to 802.1Qau rpTargetRate */
-		uint64_t cnm_tgt_rate_mant           : 8;  /**< R/W/H - CNM_TGT_RATE mantissa. The CNM_TGT_RATE is specified as 1.[CNM_TGT_RATE_MANT] \<\<
-                                                                 [CNM_TGT_RATE_EXP].
-                                                                 Target CNM limiter rate. Corresponds to 802.1Qau rpTargetRate */
-		uint64_t reserved_12_15              : 4;
-		uint64_t cnm_cur_rate_exp            : 4;  /**< R/W/H - CNM_CUR_RATE exponent. The CNM_CUR_RATE is specified as 1.[CNM_CUR_RATE_MANT] \<\<
-                                                                 [CNM_CUR_RATE_EXP].
-                                                                 Current CNM limiter rate. Corresponds to 802.1Qau rpCurrentRate, */
-		uint64_t cnm_cur_rate_mant           : 8;  /**< R/W/H - CNM_CUR_RATE mantissa. The CNM_CUR_RATE is specified as 1.[CNM_CUR_RATE_MANT] \<\<
-                                                                 [CNM_CUR_RATE_EXP].
-                                                                 Current CNM limiter rate. Corresponds to 802.1Qau rpCurrentRate */
-#else
-		uint64_t cnm_cur_rate_mant           : 8;
-		uint64_t cnm_cur_rate_exp            : 4;
-		uint64_t reserved_12_15              : 4;
-		uint64_t cnm_tgt_rate_mant           : 8;
-		uint64_t cnm_tgt_rate_exp            : 4;
-		uint64_t reserved_28_31              : 4;
-		uint64_t cnm_byte_cnt                : 20;
-		uint64_t reserved_52_52              : 1;
-		uint64_t cnm_active                  : 3;
-		uint64_t cnm_byte_stage              : 4;
-		uint64_t cnm_time_stage              : 4;
-#endif
-	} s;
-	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn88xx; */
-	/* struct bdk_nic_pf_tl4ax_cnm_status_s cn88xxp1; */
-} bdk_nic_pf_tl4ax_cnm_status_t;
-
-static inline uint64_t BDK_NIC_PF_TL4AX_CNM_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_TL4AX_CNM_STATUS(unsigned long param1)
-{
-	if (((param1 <= 1023)))
-		return 0x00008430008A0000ull + (param1 & 1023) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_TL4AX_CNM_STATUS", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_NIC_PF_TL4AX_CNM_STATUS(...) bdk_nic_pf_tl4ax_cnm_status_t
-#define bustype_BDK_NIC_PF_TL4AX_CNM_STATUS(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_TL4AX_CNM_STATUS(p1) (p1)
-#define arguments_BDK_NIC_PF_TL4AX_CNM_STATUS(p1) (p1),-1,-1,-1
-#define basename_BDK_NIC_PF_TL4AX_CNM_STATUS(...) "NIC_PF_TL4AX_CNM_STATUS"
 
 
 /**
@@ -6936,8 +6634,9 @@ typedef union bdk_nic_qsx_cqx_door {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t count                       : 16; /**< WO - Number of dequeued entries of 512 bytes. Hardware advances NIC_QS()_CQ()_TAIL[HEAD_PTR] by
-                                                                 this value if the CQ is enabled. A write that would cause the CQ head pointer to pass the
-                                                                 tail pointer is suppressed and sets NIC_QS()_CQ()_STATUS[CQ_WR_FULL]. */
+                                                                 this value if the CQ is enabled. A write that would underflow the CQ (i.e. cause the CQ
+                                                                 head pointer to pass the tail pointer) is suppressed and sets
+                                                                 NIC_QS()_CQ()_STATUS[CQ_WR_FULL]. */
 #else
 		uint64_t count                       : 16;
 		uint64_t reserved_16_63              : 48;
@@ -7297,11 +6996,12 @@ typedef union bdk_nic_qsx_rbdrx_door {
 	struct bdk_nic_qsx_rbdrx_door_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_19_63              : 45;
-		uint64_t count                       : 19; /**< WO - Number of enqueued entries of 8 bytes. Hardware advances
-                                                                 NIC_QS()_RBDR()_TAIL[TAIL_PTR] by this value if the RBDR is enabled. A write
-                                                                 that
-                                                                 would cause the RBDR tail pointer to reach or pass the head pointer is suppressed and
-                                                                 treated as an error; hardware stops servicing the RBDR and sets
+		uint64_t count                       : 19; /**< WO - Number of enqueued entries of 8 bytes. Hardware advances NIC_QS()_RBDR()_TAIL[TAIL_PTR] by
+                                                                 this value if the RBDR is enabled.
+
+                                                                 The usable size of the ring is the size specified by NIC_QS()_RBDR()_CFG[QSIZE] minus 1.
+                                                                 As such, a doorbell write that would make the ring go full or overflow is suppressed and
+                                                                 treated as a doorbell error. Hardware stops the RBDR on a doorbell error and sets
                                                                  NIC_QS()_RBDR()_STATUS0[FIFO_STATE] = 0x3 (FAIL). */
 #else
 		uint64_t count                       : 19;
@@ -7634,8 +7334,8 @@ typedef union bdk_nic_qsx_rq_gen_cfg {
                                                                  3 = Reserved. */
 		uint64_t len_l4                      : 1;  /**< R/W - Check length of L4. */
 		uint64_t len_l3                      : 1;  /**< R/W - Check length of IPv4/IPv6. */
-		uint64_t csum_sctp                   : 1;  /**< R/W - Compute checksum on SCTP packets */
-		uint64_t csum_l4                     : 1;  /**< R/W - Compute checksum on TCP/UDP packets, excluding SCTP. */
+		uint64_t csum_sctp                   : 1;  /**< R/W - Reserved. */
+		uint64_t csum_l4                     : 1;  /**< R/W - Compute checksum on TCP/UDP packets. */
 		uint64_t ip6_udp_opt                 : 1;  /**< R/W - IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
                                                                  patterns. IPv6 outlaws this and the spec says to always check UDP checksum.
                                                                  0 = Spec compliant, do not allow optional code.
@@ -7670,7 +7370,52 @@ typedef union bdk_nic_qsx_rq_gen_cfg {
 		uint64_t reserved_27_63              : 37;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xx; */
+	struct bdk_nic_qsx_rq_gen_cfg_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_27_63              : 37;
+		uint64_t vlan_strip                  : 2;  /**< R/W - Controls the stripping of any VLAN tags:
+                                                                 0 = No strip.
+                                                                 1 = Strip first VLAN if exists (NIC_CQE_RX_S[VV] set).
+                                                                 2 = Strip second VLAN if exists (NIC_CQE_RX_S[VS] set).
+                                                                 3 = Reserved. */
+		uint64_t len_l4                      : 1;  /**< R/W - Check length of L4. */
+		uint64_t len_l3                      : 1;  /**< R/W - Check length of IPv4/IPv6. */
+		uint64_t reserved_22_22              : 1;
+		uint64_t csum_l4                     : 1;  /**< R/W - Compute checksum on TCP/UDP packets. */
+		uint64_t ip6_udp_opt                 : 1;  /**< R/W - IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
+                                                                 patterns. IPv6 outlaws this and the spec says to always check UDP checksum.
+                                                                 0 = Spec compliant, do not allow optional code.
+                                                                 1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
+		uint64_t splt_hdr_ena                : 1;  /**< R/W - When set, any packet with a valid header stack down to the end of the L4 layer has its
+                                                                 header split into a separate RBDR buffer. */
+		uint64_t cq_hdr_copy                 : 1;  /**< R/W - If set, the header is copied into the CQE as well as existing in the packet buffer. The
+                                                                 hardware will copy all defined headers. */
+		uint64_t max_tcp_reass               : 2;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+                                                                 0x0 = 64Kbytes.
+                                                                 0x1 = 256Kbytes.
+                                                                 0x2-0x3 = Reserved. */
+		uint64_t cq_pkt_size                 : 8;  /**< R/W - Packet size in bytes. If a packet (including the TNS_HEADER field) is smaller than this
+                                                                 value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
+                                                                 bytes is 249, to allow for up to 7 byte alignment pad. */
+		uint64_t later_skip                  : 4;  /**< R/W - Number of eight-byte words that are skipped at the beginning of other than the first RB
+                                                                 for a packet. */
+		uint64_t first_skip                  : 4;  /**< R/W - Number of eight-byte words that are skipped at the beginning of the first RB for a packet. */
+#else
+		uint64_t first_skip                  : 4;
+		uint64_t later_skip                  : 4;
+		uint64_t cq_pkt_size                 : 8;
+		uint64_t max_tcp_reass               : 2;
+		uint64_t cq_hdr_copy                 : 1;
+		uint64_t splt_hdr_ena                : 1;
+		uint64_t ip6_udp_opt                 : 1;
+		uint64_t csum_l4                     : 1;
+		uint64_t reserved_22_22              : 1;
+		uint64_t len_l3                      : 1;
+		uint64_t len_l4                      : 1;
+		uint64_t vlan_strip                  : 2;
+		uint64_t reserved_27_63              : 37;
+#endif
+	} cn88xx;
 	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xxp1; */
 } bdk_nic_qsx_rq_gen_cfg_t;
 
@@ -7804,61 +7549,6 @@ static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long param1, unsigned long p
 
 
 /**
- * NCB - nic_qs#_sq#_cnm_chg
- *
- * This register is written by software when a CNM packet arrives. NIC hardware converts the SQ
- * to a TL4A index using NIC_PF_QS()_SQ()_CFG[TL4] and NIC_PF_TL4()_CFG[TL4A].
- */
-typedef union bdk_nic_qsx_sqx_cnm_chg {
-	uint64_t u;
-	struct bdk_nic_qsx_sqx_cnm_chg_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_35_63              : 29;
-		uint64_t cnm_active_chg              : 3;  /**< WO - New value for NIC_PF_TL4A()_CNM_STATUS[CNM_ACTIVE]. */
-		uint64_t reserved_28_31              : 4;
-		uint64_t cnm_tgt_chg_exp             : 4;  /**< WO - CNM_TGT_CHG exponent. The CNM_TGT_CHG is specified as 1.[CNM_TGT_CHG_MANT] \<\<
-                                                                 [CNM_TGT_CHG_EXP].
-                                                                 If non-zero, update NIC_PF_TL4A()_CNM_STATUS[CNM_TGT_RATE] with the written value. */
-		uint64_t cnm_tgt_chg_mant            : 8;  /**< WO - CNM_TGT_CHG mantissa. The CNM_TGT_CHG is specified as 1.[CNM_TGT_CHG_MANT] \<\<
-                                                                 [CNM_TGT_CHG_EXP].
-                                                                 If non-zero, update NIC_PF_TL4A()_CNM_STATUS[CNM_TGT_RATE] with the written value. */
-		uint64_t reserved_12_15              : 4;
-		uint64_t cnm_cur_chg_exp             : 4;  /**< WO - CNM_CUR_CHG exponent. The CNM_CUR_CHG is specified as 1.[CNM_CUR_CHG_MANT] \<\<
-                                                                 [CNM_CUR_CHG_EXP].
-                                                                 If non-zero, update NIC_PF_TL4A()_CNM_STATUS[CNM_CUR_RATE] with the written value. */
-		uint64_t cnm_cur_chg_mant            : 8;  /**< WO - CNM_CUR_CHG mantissa. The CNM_CUR_CHG is specified as 1.[CNM_CUR_CHG_MANT] \<\<
-                                                                 [CNM_CUR_CHG_EXP].
-                                                                 If non-zero, update NIC_PF_TL4A()_CNM_STATUS[CNM_CUR_RATE] with the written value. */
-#else
-		uint64_t cnm_cur_chg_mant            : 8;
-		uint64_t cnm_cur_chg_exp             : 4;
-		uint64_t reserved_12_15              : 4;
-		uint64_t cnm_tgt_chg_mant            : 8;
-		uint64_t cnm_tgt_chg_exp             : 4;
-		uint64_t reserved_28_31              : 4;
-		uint64_t cnm_active_chg              : 3;
-		uint64_t reserved_35_63              : 29;
-#endif
-	} s;
-	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn88xx; */
-	/* struct bdk_nic_qsx_sqx_cnm_chg_s   cn88xxp1; */
-} bdk_nic_qsx_sqx_cnm_chg_t;
-
-static inline uint64_t BDK_NIC_QSX_SQX_CNM_CHG(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_QSX_SQX_CNM_CHG(unsigned long param1, unsigned long param2)
-{
-	if (((param1 <= 127)) && ((param2 <= 7)))
-		return 0x00008430A0010860ull + (param1 & 127) * 0x200000ull + (param2 & 7) * 0x40000ull;
-	csr_fatal("BDK_NIC_QSX_SQX_CNM_CHG", 2, param1, param2, 0, 0); /* No return */
-}
-#define typedef_BDK_NIC_QSX_SQX_CNM_CHG(...) bdk_nic_qsx_sqx_cnm_chg_t
-#define bustype_BDK_NIC_QSX_SQX_CNM_CHG(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_QSX_SQX_CNM_CHG(p1,p2) (p1)
-#define arguments_BDK_NIC_QSX_SQX_CNM_CHG(p1,p2) (p1),(p2),-1,-1
-#define basename_BDK_NIC_QSX_SQX_CNM_CHG(...) "NIC_QSX_SQX_CNM_CHG"
-
-
-/**
  * NCB - nic_qs#_sq#_debug
  */
 typedef union bdk_nic_qsx_sqx_debug {
@@ -7908,9 +7598,11 @@ typedef union bdk_nic_qsx_sqx_door {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t count                       : 16; /**< WO - Number of enqueued entries (subdescriptors) of 16 bytes. Hardware advances
-                                                                 NIC_QS()_SQ()_TAIL[TAIL_PTR] by this value if the SQ is enabled. A write that
-                                                                 would cause the SQ tail pointer to reach or pass the head pointer is suppressed and
-                                                                 treated as an error; hardware stops servicing the SQ and sets
+                                                                 NIC_QS()_SQ()_TAIL[TAIL_PTR] by this value if the SQ is enabled.
+
+                                                                 The usable size of the ring is the size specified by NIC_QS()_SQ()_CFG[QSIZE] minus 1. As
+                                                                 such, a doorbell write that would make the ring go full or overflow is suppressed and
+                                                                 treated as a doorbell error. Hardware stops the SQ on a doorbell error and sets
                                                                  NIC_QS()_SQ()_STATUS[STOPPED] when done. */
 #else
 		uint64_t count                       : 16;
@@ -8644,12 +8336,12 @@ typedef union bdk_nic_vnicx_rss_cfg {
 	struct bdk_nic_vnicx_rss_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
-		uint64_t rss_l4_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L4 TCP/UDP/SCTP RSS layer. */
+		uint64_t rss_l4_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
 		uint64_t rss_l3_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
 		uint64_t rss_roce                    : 1;  /**< R/W - Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
-		uint64_t rss_l4etc                   : 1;  /**< R/W - Enable L4 extended RSS hashing, including SCTP and GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::SCTP_IP or GRE_IP. */
+		uint64_t rss_l4etc                   : 1;  /**< R/W - Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
 		uint64_t rss_udp                     : 1;  /**< R/W - Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
 		uint64_t rss_syn_dis                 : 1;  /**< R/W - Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */

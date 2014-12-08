@@ -15813,7 +15813,9 @@ local csr_db = {
             width = 8,
             address = 0x87e003001410,
             fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "RESERVED_59_63", start = 59, stop = 63},
+                {name = "RUN_PLATFORM", start = 56, stop = 58},
+                {name = "RESERVED_48_55", start = 48, stop = 55},
                 {name = "FUS118", start = 47, stop = 47},
                 {name = "ROM_INFO", start = 37, stop = 46},
                 {name = "POWER_LIMIT", start = 35, stop = 36},
@@ -17245,32 +17247,6 @@ local csr_db = {
                 {name = "BP_ENA", start = 0, stop = 0},
             }
         },
-        NIC_PF_CNM_CFG = {
-            name = "NIC_PF_CNM_CFG",
-            type = "NCB",
-            width = 8,
-            address = 0x8430000000a8,
-            fields = {
-                {name = "CNM_BYTE_RST", start = 44, stop = 63},
-                {name = "CNM_BYTE_RAND", start = 40, stop = 43},
-                {name = "CNM_THRESH", start = 36, stop = 39},
-                {name = "CNM_TIME_RATE", start = 16, stop = 35},
-                {name = "CNM_TIME_RAND", start = 12, stop = 15},
-                {name = "RESERVED_10_11", start = 10, stop = 11},
-                {name = "TICK_RATE", start = 0, stop = 9},
-            }
-        },
-        NIC_PF_CNM_STATUS = {
-            name = "NIC_PF_CNM_STATUS",
-            type = "NCB",
-            width = 8,
-            address = 0x8430000000b0,
-            fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "CNM_TIME", start = 16, stop = 35},
-                {name = "CNM_TIME_RND", start = 0, stop = 15},
-            }
-        },
         NIC_PF_CPIX_CFG = {
             name = "NIC_PF_CPI#_CFG",
             type = "NCB",
@@ -18432,42 +18408,6 @@ local csr_db = {
                 {name = "CHAN", start = 0, stop = 6},
             }
         },
-        NIC_PF_TL3X_CNM_RATE = {
-            name = "NIC_PF_TL3#_CNM_RATE",
-            type = "NCB",
-            width = 8,
-            address = 0x843000680000,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_33_63", start = 33, stop = 63},
-                {name = "CNM_AGGR_EN", start = 32, stop = 32},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CNM_AI_RATE_EXP", start = 24, stop = 27},
-                {name = "CNM_AI_RATE_MANT", start = 16, stop = 23},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CNM_HAI_RATE_EXP", start = 8, stop = 11},
-                {name = "CNM_HAI_RATE_MANT", start = 0, stop = 7},
-            }
-        },
-        NIC_PF_TL3X_PIR = {
-            name = "NIC_PF_TL3#_PIR",
-            type = "NCB",
-            width = 8,
-            address = 0x843000640000,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
-                {name = "BURST_EXP", start = 36, stop = 39},
-                {name = "BURST_MANT", start = 28, stop = 35},
-                {name = "RESERVED_17_27", start = 17, stop = 27},
-                {name = "RATE_DIV", start = 13, stop = 16},
-                {name = "RATE_EXP", start = 9, stop = 12},
-                {name = "RATE_MANT", start = 1, stop = 8},
-                {name = "PIR_ENA", start = 0, stop = 0},
-            }
-        },
         NIC_PF_TL3X_SH_STATUS = {
             name = "NIC_PF_TL3#_SH_STATUS",
             type = "NCB",
@@ -18555,39 +18495,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_7_63", start = 7, stop = 63},
                 {name = "TL4A", start = 0, stop = 6},
-            }
-        },
-        NIC_PF_TL4AX_CNM_RATE = {
-            name = "NIC_PF_TL4A#_CNM_RATE",
-            type = "NCB",
-            width = 8,
-            address = 0x843000880000,
-            range1 = {0,1023},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "RATE_DIV", start = 0, stop = 3},
-            }
-        },
-        NIC_PF_TL4AX_CNM_STATUS = {
-            name = "NIC_PF_TL4A#_CNM_STATUS",
-            type = "NCB",
-            width = 8,
-            address = 0x8430008a0000,
-            range1 = {0,1023},
-            range1_inc = 0x8,
-            fields = {
-                {name = "CNM_TIME_STAGE", start = 60, stop = 63},
-                {name = "CNM_BYTE_STAGE", start = 56, stop = 59},
-                {name = "CNM_ACTIVE", start = 53, stop = 55},
-                {name = "RESERVED_52_52", start = 52, stop = 52},
-                {name = "CNM_BYTE_CNT", start = 32, stop = 51},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CNM_TGT_RATE_EXP", start = 24, stop = 27},
-                {name = "CNM_TGT_RATE_MANT", start = 16, stop = 23},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CNM_CUR_RATE_EXP", start = 8, stop = 11},
-                {name = "CNM_CUR_RATE_MANT", start = 0, stop = 7},
             }
         },
         NIC_PF_VFX_MBOXX = {
@@ -19019,26 +18926,6 @@ local csr_db = {
                 {name = "QSIZE", start = 8, stop = 10},
                 {name = "RESERVED_3_7", start = 3, stop = 7},
                 {name = "TSTMP_BGX_INTF", start = 0, stop = 2},
-            }
-        },
-        NIC_QSX_SQX_CNM_CHG = {
-            name = "NIC_QS#_SQ#_CNM_CHG",
-            type = "NCB",
-            width = 8,
-            address = 0x8430a0010860,
-            range1 = {0,127},
-            range1_inc = 0x200000,
-            range2 = {0,7},
-            range2_inc = 0x40000,
-            fields = {
-                {name = "RESERVED_35_63", start = 35, stop = 63},
-                {name = "CNM_ACTIVE_CHG", start = 32, stop = 34},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CNM_TGT_CHG_EXP", start = 24, stop = 27},
-                {name = "CNM_TGT_CHG_MANT", start = 16, stop = 23},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CNM_CUR_CHG_EXP", start = 8, stop = 11},
-                {name = "CNM_CUR_CHG_MANT", start = 0, stop = 7},
             }
         },
         NIC_QSX_SQX_DEBUG = {
@@ -66263,7 +66150,8 @@ local csr_db = {
             width = 8,
             address = 0x87e003001410,
             fields = {
-                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "RESERVED_59_63", start = 59, stop = 63},
+                {name = "RUN_PLATFORM", start = 56, stop = 58},
                 {name = "GBL_PWR_THROTTLE", start = 48, stop = 55},
                 {name = "FUS118", start = 47, stop = 47},
                 {name = "ROM_INFO", start = 37, stop = 46},
@@ -67696,32 +67584,6 @@ local csr_db = {
                 {name = "BP_ENA", start = 0, stop = 0},
             }
         },
-        NIC_PF_CNM_CFG = {
-            name = "NIC_PF_CNM_CFG",
-            type = "NCB",
-            width = 8,
-            address = 0x8430000000a8,
-            fields = {
-                {name = "CNM_BYTE_RST", start = 44, stop = 63},
-                {name = "CNM_BYTE_RAND", start = 40, stop = 43},
-                {name = "CNM_THRESH", start = 36, stop = 39},
-                {name = "CNM_TIME_RATE", start = 16, stop = 35},
-                {name = "CNM_TIME_RAND", start = 12, stop = 15},
-                {name = "RESERVED_10_11", start = 10, stop = 11},
-                {name = "TICK_RATE", start = 0, stop = 9},
-            }
-        },
-        NIC_PF_CNM_STATUS = {
-            name = "NIC_PF_CNM_STATUS",
-            type = "NCB",
-            width = 8,
-            address = 0x8430000000b0,
-            fields = {
-                {name = "RESERVED_36_63", start = 36, stop = 63},
-                {name = "CNM_TIME", start = 16, stop = 35},
-                {name = "CNM_TIME_RND", start = 0, stop = 15},
-            }
-        },
         NIC_PF_CPIX_CFG = {
             name = "NIC_PF_CPI#_CFG",
             type = "NCB",
@@ -68883,42 +68745,6 @@ local csr_db = {
                 {name = "CHAN", start = 0, stop = 6},
             }
         },
-        NIC_PF_TL3X_CNM_RATE = {
-            name = "NIC_PF_TL3#_CNM_RATE",
-            type = "NCB",
-            width = 8,
-            address = 0x843000680000,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_33_63", start = 33, stop = 63},
-                {name = "CNM_AGGR_EN", start = 32, stop = 32},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CNM_AI_RATE_EXP", start = 24, stop = 27},
-                {name = "CNM_AI_RATE_MANT", start = 16, stop = 23},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CNM_HAI_RATE_EXP", start = 8, stop = 11},
-                {name = "CNM_HAI_RATE_MANT", start = 0, stop = 7},
-            }
-        },
-        NIC_PF_TL3X_PIR = {
-            name = "NIC_PF_TL3#_PIR",
-            type = "NCB",
-            width = 8,
-            address = 0x843000640000,
-            range1 = {0,255},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_40_63", start = 40, stop = 63},
-                {name = "BURST_EXP", start = 36, stop = 39},
-                {name = "BURST_MANT", start = 28, stop = 35},
-                {name = "RESERVED_17_27", start = 17, stop = 27},
-                {name = "RATE_DIV", start = 13, stop = 16},
-                {name = "RATE_EXP", start = 9, stop = 12},
-                {name = "RATE_MANT", start = 1, stop = 8},
-                {name = "PIR_ENA", start = 0, stop = 0},
-            }
-        },
         NIC_PF_TL3X_SH_STATUS = {
             name = "NIC_PF_TL3#_SH_STATUS",
             type = "NCB",
@@ -68927,9 +68753,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_63_63", start = 63, stop = 63},
-                {name = "PIR_COUNT", start = 51, stop = 62},
-                {name = "PIR_ACCUM", start = 25, stop = 50},
+                {name = "RESERVED_25_63", start = 25, stop = 63},
                 {name = "RR_COUNT", start = 0, stop = 24},
             }
         },
@@ -69006,39 +68830,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_7_63", start = 7, stop = 63},
                 {name = "TL4A", start = 0, stop = 6},
-            }
-        },
-        NIC_PF_TL4AX_CNM_RATE = {
-            name = "NIC_PF_TL4A#_CNM_RATE",
-            type = "NCB",
-            width = 8,
-            address = 0x843000880000,
-            range1 = {0,1023},
-            range1_inc = 0x8,
-            fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
-                {name = "RATE_DIV", start = 0, stop = 3},
-            }
-        },
-        NIC_PF_TL4AX_CNM_STATUS = {
-            name = "NIC_PF_TL4A#_CNM_STATUS",
-            type = "NCB",
-            width = 8,
-            address = 0x8430008a0000,
-            range1 = {0,1023},
-            range1_inc = 0x8,
-            fields = {
-                {name = "CNM_TIME_STAGE", start = 60, stop = 63},
-                {name = "CNM_BYTE_STAGE", start = 56, stop = 59},
-                {name = "CNM_ACTIVE", start = 53, stop = 55},
-                {name = "RESERVED_52_52", start = 52, stop = 52},
-                {name = "CNM_BYTE_CNT", start = 32, stop = 51},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CNM_TGT_RATE_EXP", start = 24, stop = 27},
-                {name = "CNM_TGT_RATE_MANT", start = 16, stop = 23},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CNM_CUR_RATE_EXP", start = 8, stop = 11},
-                {name = "CNM_CUR_RATE_MANT", start = 0, stop = 7},
             }
         },
         NIC_PF_VFX_MBOXX = {
@@ -69425,7 +69216,7 @@ local csr_db = {
                 {name = "VLAN_STRIP", start = 25, stop = 26},
                 {name = "LEN_L4", start = 24, stop = 24},
                 {name = "LEN_L3", start = 23, stop = 23},
-                {name = "CSUM_SCTP", start = 22, stop = 22},
+                {name = "RESERVED_22_22", start = 22, stop = 22},
                 {name = "CSUM_L4", start = 21, stop = 21},
                 {name = "IP6_UDP_OPT", start = 20, stop = 20},
                 {name = "SPLT_HDR_ENA", start = 19, stop = 19},
@@ -69470,26 +69261,6 @@ local csr_db = {
                 {name = "QSIZE", start = 8, stop = 10},
                 {name = "RESERVED_3_7", start = 3, stop = 7},
                 {name = "TSTMP_BGX_INTF", start = 0, stop = 2},
-            }
-        },
-        NIC_QSX_SQX_CNM_CHG = {
-            name = "NIC_QS#_SQ#_CNM_CHG",
-            type = "NCB",
-            width = 8,
-            address = 0x8430a0010860,
-            range1 = {0,127},
-            range1_inc = 0x200000,
-            range2 = {0,7},
-            range2_inc = 0x40000,
-            fields = {
-                {name = "RESERVED_35_63", start = 35, stop = 63},
-                {name = "CNM_ACTIVE_CHG", start = 32, stop = 34},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "CNM_TGT_CHG_EXP", start = 24, stop = 27},
-                {name = "CNM_TGT_CHG_MANT", start = 16, stop = 23},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "CNM_CUR_CHG_EXP", start = 8, stop = 11},
-                {name = "CNM_CUR_CHG_MANT", start = 0, stop = 7},
             }
         },
         NIC_QSX_SQX_DEBUG = {

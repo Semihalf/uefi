@@ -162,7 +162,14 @@ typedef union bdk_mio_fus_dat2 {
 	uint64_t u;
 	struct bdk_mio_fus_dat2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_56_63              : 8;
+		uint64_t reserved_59_63              : 5;
+		uint64_t run_platform                : 3;  /**< RO - Fuses to indicate the run platform. Not to be blown in actual hardware.
+                                                                 Provides software a means of determining the platform at run time.
+                                                                 0x0 = Hardware.
+                                                                 0x1 = Emulator.
+                                                                 0x2 = RTL simulator.
+                                                                 0x3 = ASIM.
+                                                                 0x4-0x7 = reserved. */
 		uint64_t gbl_pwr_throttle            : 8;  /**< RO - Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling.
@@ -221,13 +228,22 @@ typedef union bdk_mio_fus_dat2 {
 		uint64_t rom_info                    : 10;
 		uint64_t fus118                      : 1;
 		uint64_t gbl_pwr_throttle            : 8;
-		uint64_t reserved_56_63              : 8;
+		uint64_t run_platform                : 3;
+		uint64_t reserved_59_63              : 5;
 #endif
 	} s;
 	/* struct bdk_mio_fus_dat2_s          cn88xx; */
 	struct bdk_mio_fus_dat2_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
+		uint64_t reserved_59_63              : 5;
+		uint64_t run_platform                : 3;  /**< RO - Fuses to indicate the run platform. Not to be blown in actual hardware.
+                                                                 Provides software a means of determining the platform at run time.
+                                                                 0x0 = Hardware.
+                                                                 0x1 = Emulator.
+                                                                 0x2 = RTL simulator.
+                                                                 0x3 = ASIM.
+                                                                 0x4-0x7 = reserved. */
+		uint64_t reserved_48_55              : 8;
 		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable.
                                                                  INTERNAL: fuse[99]. */
 		uint64_t rom_info                    : 10; /**< RO - Fuse information - ROM info. */
@@ -281,7 +297,9 @@ typedef union bdk_mio_fus_dat2 {
 		uint64_t power_limit                 : 2;
 		uint64_t rom_info                    : 10;
 		uint64_t fus118                      : 1;
-		uint64_t reserved_48_63              : 16;
+		uint64_t reserved_48_55              : 8;
+		uint64_t run_platform                : 3;
+		uint64_t reserved_59_63              : 5;
 #endif
 	} cn88xxp1;
 } bdk_mio_fus_dat2_t;
