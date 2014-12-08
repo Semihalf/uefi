@@ -434,6 +434,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     else if (ecc_single || ecc_double)
     {
         printf("Test \"%s\": FAIL due to ECC errors\n", name);
+        errors += ecc_single + ecc_double;
     }
     else
         BDK_TRACE(DRAM_TEST, "Test \"%s\": PASS\n", name);
