@@ -415,9 +415,26 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     if (start_address < top_of_bdk)
         start_address = top_of_bdk;
 
+    /* Clear ECC error counters before starting the test */
+    bdk_atomic_set64(&__bdk_dram_ecc_single_bit_errors, 0);
+    bdk_atomic_set64(&__bdk_dram_ecc_double_bit_errors, 0);
+
     int errors = __bdk_dram_run_test(&TEST_INFO[test], start_address, length);
+
+    /* Check ECC error counters ater the test */
+    int64_t ecc_single = bdk_atomic_get64(&__bdk_dram_ecc_single_bit_errors);
+    int64_t ecc_double = bdk_atomic_get64(&__bdk_dram_ecc_double_bit_errors);
+    if (ecc_single || ecc_double)
+    {
+        printf("Test \"%s\": ECC errors, %ld corrected, %ld uncorrected\n",
+            name, ecc_single, ecc_double);
+    }
     if (errors)
         printf("Test \"%s\": FAIL\n", name);
+    else if (ecc_single || ecc_double)
+    {
+        printf("Test \"%s\": FAIL due to ECC errors\n", name);
+    }
     else
         BDK_TRACE(DRAM_TEST, "Test \"%s\": PASS\n", name);
     return errors;
