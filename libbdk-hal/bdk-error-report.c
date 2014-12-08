@@ -86,6 +86,9 @@ static void check_cn88xx(bdk_node_t node)
         if (lmcx_dll_ctl2.s.intf_en && !lmcx_dll_ctl2.s.dreset)
         {
             BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_ded_err);
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_sec_err);
+            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ddr_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
