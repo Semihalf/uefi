@@ -5,6 +5,8 @@
    ther verbosity level. Use that function instead of it directly */
 dram_verbosity_t dram_verbosity;
 
+static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
+
 /**
  * This the main DRAM init function. Users of libdram should call this function,
  * avoiding the other internal function. As a rule, functions starting with
@@ -42,18 +44,30 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     }
 
     BDK_TRACE(DRAM, "N%d: Calling DRAM init\n", node);
-    uint32_t measured_ddr_hertz = 0;
+    measured_ddr_hertz[node] = 0;
     int mbytes = octeon_ddr_initialize(node,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK),
         ddr_clock_hertz,
         bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF),
         interface_mask,
         ddr_config,
-        &measured_ddr_hertz,
+        &measured_ddr_hertz[node],
         0,
         0,
         0);
-    BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n", node, mbytes, measured_ddr_hertz);
+    BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n", node, mbytes, measured_ddr_hertz[node]);
     return mbytes;
+}
+
+/**
+ * Get the measured DRAM frequency after a call to libdram_config
+ *
+ * @param node   Node to get frequency for
+ *
+ * @return Frequency in Hz
+ */
+uint32_t libdram_get_freq(int node)
+{
+    return measured_ddr_hertz[node];
 }
 

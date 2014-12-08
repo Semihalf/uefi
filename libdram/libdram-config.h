@@ -228,5 +228,6 @@ typedef struct {
 } dram_config_t;
 
 extern int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override);
+extern uint32_t libdram_get_freq(int node);
 
 #endif  /* __LIBDRAM_CONFIG_H__ */

@@ -302,10 +302,12 @@ int main(void)
     int mbytes = libdram_config(bdk_numa_master(), CONFIG_FUNC_NAME(DRAM_NODE0)(), 0);
     if (mbytes > 0)
     {
+        uint32_t freq = libdram_get_freq(bdk_numa_master());
+        freq = (freq + 500000) / 1000000;
         if (MULTI_NODE)
-            printf("Node %d: DRAM: %d MB\n", bdk_numa_master(), mbytes);
+            printf("Node %d: DRAM: %d MB, %u MHz\n", bdk_numa_master(), mbytes, freq);
         else
-            printf("DRAM:  %d MB\n", mbytes);
+            printf("DRAM:  %d MB, %u MHz\n", mbytes, freq);
     }
     else
     {
@@ -348,7 +350,11 @@ int main(void)
             extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
             int mbytes = libdram_config(other_node, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
             if (mbytes > 0)
-                printf("Node %d: DRAM: %d MB\n", other_node, mbytes);
+            {
+                uint32_t freq = libdram_get_freq(other_node);
+                freq = (freq + 500000) / 1000000;
+                printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
+            }
             else
                 bdk_error("Node %d failed DRAM init\n", other_node);
         }
