@@ -15,3 +15,6 @@ set_config(cavium.CONFIG_PHY_IF0_PORT0, 0x101)
 set_config(cavium.CONFIG_PHY_IF1_PORT0, 0x100)
 set_config(cavium.CONFIG_PHY_IF1_PORT1, 0x100)
 
+-- Report boot OK to BMC
+cavium.csr.MIO_TWSX_SW_TWSI(5).data = 0x80
+cavium.csr.MIO_TWSX_SW_TWSI(5).v = 1
