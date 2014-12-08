@@ -710,7 +710,7 @@ function TrafficGen.new()
         end
         local COL_SEP = ZEROHI .. "|" .. NORMAL
         -- Create a row reporting Lua mem, and C mem
-        printf("Lua mem%5dKB, C mem%5dKB%s\n",
+        printf("Lua mem %dKB, C mem %dKB%s\n",
             collectgarbage("count"),
             cavium.c.get_sbrk() / 1024,
             ERASE_EOL);

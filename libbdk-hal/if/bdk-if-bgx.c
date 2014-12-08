@@ -50,6 +50,7 @@ typedef struct
     int         qos;            /* NIC QoS level (0-7). We only use zero */
     int         cq;             /* Which complete queue to use. The second index is always zero */
     int         rbdr;           /* Which receive descriptor to use. The second index is always zero */
+    int         shares_cq;      /* This device shares a CQ/RBDR with another port */
 
     /* Cached data from SQ for faster transmit */
     void *      sq_base;        /* Pointer to the begining of the SQ in memory */
@@ -266,6 +267,11 @@ static int if_probe(bdk_if_handle_t handle)
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     create_priv(handle->node, handle->interface, handle->index, priv);
     priv->vnic = next_free_vnic++;
+    /* Share CQ/RBDR for ports/channels on the same interface unless DRAM is
+       setup. Sharing saves lots of memory at the cost of performance */
+    priv->shares_cq = (handle->index > 0) || (priv->channel > 0);
+    if (__bdk_is_dram_enabled(handle->node))
+        priv->shares_cq = 0;
 
     /* Change name to be something that might be meaningful to the user */
     const char *name_format = "UNKNOWN";
@@ -916,9 +922,7 @@ static int vnic_setup_cq(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CQM_CFG,
         c.s.drop_level = 128);
 
-    /* Allocate a new CQ for every interface. All ports and channels on
-       the same interface use same CQ */
-    if ((handle->index > 0) || (priv->channel > 0))
+    if (priv->shares_cq)
     {
         /* These are allocated linearly. We know that the first port was
            the last guy to allcoate a CQ */
@@ -998,9 +1002,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
     int cq_idx = 0;
     int do_fill;
 
-    /* Allocate a new RBDR for every interface. All ports and channels on
-       the same interface use same RBDR */
-    if ((handle->index > 0) || (priv->channel > 0))
+    if (priv->shares_cq)
     {
         /* These are allocated linearly. We know that the first port was
            the last guy to allcoate a CQ */
@@ -1133,6 +1135,27 @@ static int vnic_setup(bdk_if_handle_t handle)
 {
     static int next_free_cpi = 0;
     static int next_free_rssi = 0;
+
+    /* VNIC setup requirements
+       The code in this file makes the following assumptions:
+       1) One RBDR for each CQ. No locking is done on RBDR
+       2) A CQ can be shared across multiple ports, saving space as the
+            cost of performance.
+       3) One SQ per physical port, no locking on TX
+       4) One RQ per physical port, many RQ may share RBDR/CQ
+
+        Current setup without DRAM:
+        1) One RBDR allocated per BGX block. RBDR = (priv->rbdr, 0)
+        2) One CQ allocated per BGX block. CQ = (priv->cq, 0)
+        3) One SQ allcoated per BGX port/channel. SQ = (priv->vnic, priv->qos)
+        4) One RQ allcoated per BGX port/channel. RQ = (priv->vnic, priv->qos)
+
+        Current setup with DRAM:
+        1) One RBDR allocated per BGX port/channel. RBDR = (priv->rbdr, 0)
+        2) One CQ allocated per BGX port/channel. CQ = (priv->cq, 0)
+        3) One SQ allcoated per BGX port/channel. SQ = (priv->vnic, priv->qos)
+        4) One RQ allcoated per BGX port/channel. RQ = (priv->vnic, priv->qos)
+       */
 
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     /* Make sure SQ dynamic data is in a different cache line */
@@ -1291,9 +1314,8 @@ static int if_init(bdk_if_handle_t handle)
     if (vnic_setup(handle))
         return -1;
 
-    /* Create a receive thread for each interface that handles all ports on
-       that interface */
-    if (handle->index == 0)
+    /* Create a receive thread if this handle has its own CQ/RBDR */
+    if (!priv->shares_cq)
     {
         if (bdk_thread_create(handle->node, 0, if_receive, 0, handle, 0))
         {
