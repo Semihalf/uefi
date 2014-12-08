@@ -34,6 +34,10 @@ static const dram_test_info_t TEST_INFO[] = {
     { NULL,                     NULL,                               0,      0}
 };
 
+/* These variables count the number of ECC errors. They should only be accessed atomically */
+int64_t __bdk_dram_ecc_single_bit_errors;
+int64_t __bdk_dram_ecc_double_bit_errors;
+
 static int64_t dram_test_thread_done;
 static int64_t dram_test_thread_errors;
 static uint64_t dram_test_thread_start;

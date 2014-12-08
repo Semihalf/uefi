@@ -91,9 +91,27 @@ static void check_cn88xx(bdk_node_t node)
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ddr_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_ded_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, dlcram_sec_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
-            CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+            //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+            //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
+            /* A double bit error overwrites single info, so only
+               report single bit errors if there hasn't been a
+               double bit error */
+            if (c.s.ded_err || c.s.sec_err)
+            {
+                BDK_CSR_INIT(fadr, node, BDK_LMCX_FADR(index));
+                BDK_CSR_INIT(ecc_synd, node, BDK_LMCX_ECC_SYND(index));
+                CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
+                CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
+                if (c.s.sec_err)
+                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors, 1);
+                if (c.s.ded_err)
+                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors, 1);
+                bdk_error("N%d.LMC%d: ECC %s bit error (DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x, ECC_SYND 0x%016lx)\n",
+                    node, index, (c.s.ded_err) ? "double" : "single",
+                    fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
+                    fadr.s.frow, fadr.s.fcol, ecc_synd.u);
+            }
         }
     }
 
