@@ -1266,13 +1266,15 @@ static int if_init(bdk_if_handle_t handle)
         xaui_init(handle);
     }
 
+    /* Disabled on thunder per HW recommendation */
+#if 0
     /* Set BGX to buffer half its FIFO before starting transmit. This reduces
        the chances that we have a TX under run due to memory contention */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(bgx_block, bgx_index),
         c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(bgx_block, bgx_index),
         c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
-
+#endif
     /* Configure to allow max sized frames */
     const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
     int max_size = buffer_size * 12; /* 12 is from nic_cqe_rx_s */
